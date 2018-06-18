@@ -914,10 +914,15 @@ function updateMenuMission()
     end
     mission_list = items
 end
-
+local missionXCoord = nil
+local missionYCoord = nil
+local missionZCoord = nil
 RegisterNetEvent('mechanic:MissionAccept')
 AddEventHandler('mechanic:MissionAccept', function (mission)
-    currentMissions = mission
+    currentMissions = mission 
+    missionXCoord = mission.pos[1]
+    missionYCoord = mission.pos[2]
+    missionZCoord = mission.pos[3]
     SetNewWaypoint(mission.pos[1], mission.pos[2])
     currentBlip = AddBlipForCoord(mission.pos[1], mission.pos[2], mission.pos[3])
     SetBlipSprite(currentBlip, 446)
@@ -933,8 +938,9 @@ end)
 Citizen.CreateThread(function()
     while true do
         Citizen.Wait(0)
-        if(GetDistanceBetweenCoords(coords.x, coords.y, coords.z, currentMissions.pos[1], currentMissions.pos[2], currentMissions.pos[3], true) < 20 ) then
+        if(GetDistanceBetweenCoords(coords.x, coords.y, coords.z, missionXCoord, missionYCoord, missionZCoord, true) < 20 ) then
             TriggerEvent('mechanic:finish_mission')
+            break
         end
     end
 end)
