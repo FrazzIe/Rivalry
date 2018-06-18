@@ -880,7 +880,7 @@ AddEventHandler("mechanic:finish_mission", function()
     TriggerServerEvent('mechanic:FinishMission', currentMissions.id)
     currentMissions = nil
     TriggerEvent("core:getuser", source, function(user)
-        if (lastPayment = 0) then
+        if (lastPayment == 0) then
             user.addWallet(1000)
             lastPayment = 1
         end
@@ -933,7 +933,7 @@ end)
 Citizen.CreateThread(function()
     while true do
         Citizen.Wait(0)
-        if(GetDistanceBetweenCoords(coords.x, coords.y, coords.z, currentMission.pos[1], currentMission.pos[2], currentMission.pos[3], true) < 20 ) then
+        if(GetDistanceBetweenCoords(coords.x, coords.y, coords.z, currentMissions.pos[1], currentMissions.pos[2], currentMissions.pos[3], true) < 20 ) then
             TriggerEvent('mechanic:finish_mission')
         end
     end
