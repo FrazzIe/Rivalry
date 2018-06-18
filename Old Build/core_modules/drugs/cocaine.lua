@@ -253,17 +253,18 @@ Citizen.CreateThread(function()
 										DecorSetBool(ped, "soldTo", true)
 										if willNPCbuy() then
 											local dict = "mp_common"
-											RequestAnimDict(dict)
-											while not HasAnimDictLoaded(dict) do
-												Citizen.Wait(100)
-											end
+											RequestModel("prop_meth_bag_01")
+										while not HasModelLoaded("prop_meth_bag_01") do
+											Citizen.Wait(250)
+										end
+										AddAnimDictionary(dict)
 											SetEntityHeading(ped, GetEntityHeading(PlayerPedId())-180)
 											object = CreateObject(GetHashKey("prop_meth_bag_01"), 0.01, 0, 0, 1, 0, 0)
 											AttachEntityToEntity(object, PlayerPedId(), GetPedBoneIndex(GetPlayerPed(-1), 64096), 0.0, 0.0, 0.020, 90.0, -10.0, -130.0 ,true, true, false, true, 1, true)
 											TaskPlayAnim(PlayerPedId(), dict,"givetake1_a", 100.0, 200.0, 0.3, 16, 0.2, 0, 0, 0)
 	                    					TaskPlayAnim(ped, dict,"givetake1_b", 100.0, 200.0, 0.3, 16, 0.2, 0, 0, 0)
 	                    					Citizen.Wait(500)
-	                    					DeleteObject(object)
+	                    					DestroyObject(object)
 											local amount = GetRandomIntInRange(1, 8)
 											if GetItemQuantity(Cocaine.Items.Cocaine) >= amount then
 												removeQty(Cocaine.Items.Cocaine, amount)
