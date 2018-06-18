@@ -22,6 +22,7 @@ local mechanic_showHelp = false
 local mechanic_call_accept = 0
 local mechanic_nbMechanicInService = 0
 local mechanic_nbMechanicDispo = 0
+local lastPayment = 0
 
 function getMechanicIsInService()
     return inService
@@ -878,9 +879,19 @@ end)
 AddEventHandler("mechanic:finish_mission", function()
     TriggerServerEvent('mechanic:FinishMission', currentMissions.id)
     currentMissions = nil
+    TriggerEvent("core:getuser", source, function(user)
+        if (lastPayment = 0) then
+            user.addWallet(1000)
+            lastPayment = 1
+        end
+    end)
     if currentBlip ~= nil then
         RemoveBlip(currentBlip)
     end
+    Citizen.CreateThread(function()
+        Citizen.Wait(180000)
+        lastPayment = 0
+    end)    
 end)
 
 function updateMenuMission() 
@@ -908,7 +919,7 @@ RegisterNetEvent('mechanic:MissionAccept')
 AddEventHandler('mechanic:MissionAccept', function (mission)
     currentMissions = mission
     SetNewWaypoint(mission.pos[1], mission.pos[2])
-    currentBlip= AddBlipForCoord(mission.pos[1], mission.pos[2], mission.pos[3])
+    currentBlip = AddBlipForCoord(mission.pos[1], mission.pos[2], mission.pos[3])
     SetBlipSprite(currentBlip, 446)
     SetBlipColour(currentBlip, 5)
     SetBlipAsShortRange(currentBlip, true)
@@ -917,9 +928,16 @@ AddEventHandler('mechanic:MissionAccept', function (mission)
     AddTextComponentString(TEXT.Blip)
     EndTextCommandSetBlipName(currentBlip)
     SetBlipAsMissionCreatorBlip(currentBlip, true)
-
 end)
 
+Citizen.CreateThread(function()
+    while true do
+        Citizen.Wait(0)
+        if(GetDistanceBetweenCoords(coords.x, coords.y, coords.z, currentMission.pos[1], currentMission.pos[2], currentMission.pos[3], true) < 20 ) then
+            TriggerEvent('mechanic:finish_mission')
+        end
+    end
+end)
 
 RegisterNetEvent('mechanic:MissionCancel')
 AddEventHandler('mechanic:MissionCancel', function ()
