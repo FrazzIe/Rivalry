@@ -122,7 +122,7 @@ AddEventHandler("trigger:animation", function()
 	 TaskStartScenarioInPlace(PlayerPedId(), "WORLD_HUMAN_STAND_MOBILE", 8.0, -1 , -1 , 0, false, true, true)
      Wait(7000)
      ClearPedTasks(PlayerPedId())
-)
+end)
 
 ten_thirteen_pressed = false
 AddEventHandler("dispatch:ten-thirteen", function(_source)
