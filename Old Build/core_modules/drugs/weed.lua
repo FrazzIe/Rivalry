@@ -330,8 +330,12 @@ Citizen.CreateThread(function()
 										DecorSetBool(ped, "soldTo", true)
 										if willNPCbuy() then
 											SetEntityHeading(ped, GetEntityHeading(PlayerPedId())-180)
+											object = CreateObject(GetHashKey("prop_meth_bag_01"), 0.01, 0, 0, 1, 1, 0)
+											AttachEntityToEntity(object, PlayerPedId(), GetPedBoneIndex(GetPlayerPed(-1), 64096), 0.0, 0.0, 0.020, 90.0, -10.0, -130.0 ,true, true, false, true, 1, true)
 											TaskPlayAnim(PlayerPedId(),"mp_common","givetake1_a", 100.0, 200.0, 0.3, 16, 0.2, 0, 0, 0)
 	                    					TaskPlayAnim(ped,"mp_common","givetake1_b", 100.0, 200.0, 0.3, 16, 0.2, 0, 0, 0)
+	                    					Citizen.Wait(500)
+	                    					DeleteEntity(object)
 											local amount = GetRandomIntInRange(1, 8)
 											if GetItemQuantity(joint_id) >= amount then
 												removeQty(joint_id, amount)

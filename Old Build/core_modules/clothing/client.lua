@@ -198,7 +198,7 @@ function accessories(title)
         end
         componentScroller = 0
         subComponentScroller = GetPedDrawableVariation(PlayerPedId(), componentScroller)
-        textureScroller = GetPedTextureVariation(PlayerPedId(), componentScroller)
+        textureScroller = GetPedPropTextureVariation(PlayerPedId(), componentScroller)
         Menu.addOption("clothing_accessories", function()
             if(Menu.ScrollBarString(componentTable, componentScroller, function(cb) Citizen.Trace(cb) componentScroller = cb end)) then
                 subComponentScroller = GetPedPropIndex(PlayerPedId(), componentScroller)

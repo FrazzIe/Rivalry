@@ -553,7 +553,11 @@ local function armour()
         Citizen.Wait(200)
         if GetPedArmour(PlayerPedId()) < 50 then
             SetPedArmour(PlayerPedId(), 100)
+            TaskPlayAnim(PlayerPedId(), "switch@franklin@getting_ready", "002334_02_fras_v2_11_getting_dressed_exit", 4.0, -4, -1, 1, 0, false, false, false)
+            Citizen.Wait(500)
             SetPedComponentVariation(PlayerPedId(), 9, 1, 1, 0)
+            Citizen.Wait(1700)
+            ClearPedTasks(PlayerPedId())
             exports.pNotify:SendNotification({text = "Body armour equipped!",type = "error",queue = "left",timeout = 3000,layout = "centerRight"}) 
             TriggerEvent("inventory:open")
         else
