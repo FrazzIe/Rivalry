@@ -27,7 +27,9 @@ inventories = {}
 --=INVENTORY====================================================================================================================--
 local drunk = false                                                                                                             --
 local armour_anim_dict = "switch@franklin@getting_ready"
+local put_in_car_dict = "mp_common"
 
+AddAnimDictionary(put_in_car_dict)
 AddAnimDictionary(armour_anim_dict)
 --==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--
 --==============================================================================================================================--
@@ -212,6 +214,7 @@ AddEventHandler("inventory:vehicle_withdraw", function(data)
             exports.ui:reset()
             exports.ui:open("vehicle_inventory")
             TriggerServerEvent("inventory:vehicle_withdraw", math.floor(amount), data)
+            TaskPlayAnim(PlayerPedId(), put_in_car_dict, "givetake2_a", 100.0, 200.0, 0.3, 16, 0.2, 0, 0, 0)
         else
             TriggerEvent("inventory:vehicle_open")
         end
@@ -242,6 +245,7 @@ AddEventHandler("inventory:vehicle_deposited", function(data)
             exports.ui:reset()
             exports.ui:open("vehicle_inventory")
             TriggerServerEvent("inventory:vehicle_deposit", math.floor(amount), data.plate, data.item)
+            TaskPlayAnim(PlayerPedId(), put_in_car_dict, "givetake1_a", 100.0, 200.0, 0.3, 16, 0.2, 0, 0, 0)
         else
             TriggerEvent("inventory:vehicle_open")
         end
