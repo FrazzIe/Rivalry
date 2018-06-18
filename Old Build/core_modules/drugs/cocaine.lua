@@ -264,7 +264,7 @@ Citizen.CreateThread(function()
 
 											local methbag = CreateObject(methbag_model, 0.01, 0, 0, 1, 0, 0)
 
-											AttachEntityToEntity(object, PlayerPedId(), GetPedBoneIndex(PlayerPedId(), 64096), 0.0, 0.0, 0.020, 90.0, -10.0, -130.0 ,true, true, false, true, 1, true)
+											AttachEntityToEntity(methbag, PlayerPedId(), GetPedBoneIndex(PlayerPedId(), 64096), 0.0, 0.0, 0.020, 90.0, -10.0, -130.0 ,true, true, false, true, 1, true)
 
 											TaskPlayAnim(PlayerPedId(), "mp_common", "givetake1_a", 100.0, 200.0, 0.3, 16, 0.2, 0, 0, 0)
 
@@ -272,7 +272,7 @@ Citizen.CreateThread(function()
 
 	                    					Citizen.Wait(500)
 
-	                    					DestroyObject(object)
+	                    					DestroyObject(methbag)
 
 											local amount = GetRandomIntInRange(1, 8)
 											
