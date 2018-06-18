@@ -252,20 +252,30 @@ Citizen.CreateThread(function()
 										Cocaine.Cooldown = 10
 										DecorSetBool(ped, "soldTo", true)
 										if willNPCbuy() then
-											local dict = "mp_common"
-											RequestModel("prop_meth_bag_01")
-										while not HasModelLoaded("prop_meth_bag_01") do
-											Citizen.Wait(250)
-										end
-										AddAnimDictionary(dict)
-											SetEntityHeading(ped, GetEntityHeading(PlayerPedId())-180)
-											object = CreateObject(GetHashKey("prop_meth_bag_01"), 0.01, 0, 0, 1, 0, 0)
-											AttachEntityToEntity(object, PlayerPedId(), GetPedBoneIndex(GetPlayerPed(-1), 64096), 0.0, 0.0, 0.020, 90.0, -10.0, -130.0 ,true, true, false, true, 1, true)
-											TaskPlayAnim(PlayerPedId(), dict,"givetake1_a", 100.0, 200.0, 0.3, 16, 0.2, 0, 0, 0)
-	                    					TaskPlayAnim(ped, dict,"givetake1_b", 100.0, 200.0, 0.3, 16, 0.2, 0, 0, 0)
+											local methbag_model = GetHashKey("prop_meth_bag_01")
+
+											RequestModel(methbag_model)
+
+											while not HasModelLoaded(methbag_model) do
+												Citizen.Wait(250)
+											end
+
+											SetEntityHeading(ped, GetEntityHeading(PlayerPedId()) - 180)
+
+											local methbag = CreateObject(methbag_model, 0.01, 0, 0, 1, 0, 0)
+
+											AttachEntityToEntity(object, PlayerPedId(), GetPedBoneIndex(PlayerPedId(), 64096), 0.0, 0.0, 0.020, 90.0, -10.0, -130.0 ,true, true, false, true, 1, true)
+
+											TaskPlayAnim(PlayerPedId(), "mp_common", "givetake1_a", 100.0, 200.0, 0.3, 16, 0.2, 0, 0, 0)
+
+	                    					TaskPlayAnim(ped, "mp_common", "givetake1_b", 100.0, 200.0, 0.3, 16, 0.2, 0, 0, 0)
+
 	                    					Citizen.Wait(500)
+
 	                    					DestroyObject(object)
+
 											local amount = GetRandomIntInRange(1, 8)
+											
 											if GetItemQuantity(Cocaine.Items.Cocaine) >= amount then
 												removeQty(Cocaine.Items.Cocaine, amount)
 												local pay = GetRandomIntInRange(Cocaine.Pay.Min, Cocaine.Pay.Max+1) * amount
