@@ -1659,7 +1659,656 @@ PlayerCustomisation.Reference = {
 				},
 			},
 		},
-		Hat = {},
+		Hat = {
+			Male = {
+				{
+					Name = "Off", 
+					Value = {
+						Drawable = 0,
+						Texture = 0,
+					}
+				},
+				{
+					Name = "Black Winter Hat", 
+					Value = {
+						Drawable = 0,
+						Texture = 0,
+					}
+				},
+				{
+					Name = "Rasta Winter Hat", 
+					Value = {
+						Drawable = 0,
+						Texture = 0,
+					}
+				},
+				{
+					Name = "Maroon Winter Hat", 
+					Value = {
+						Drawable = 0,
+						Texture = 0,
+					}
+				},
+				{
+					Name = "Black LS Fitted Cap", 
+					Value = {
+						Drawable = 0,
+						Texture = 0,
+					}
+				},
+				{
+					Name = "Gray LS Fitted Cap", 
+					Value = {
+						Drawable = 0,
+						Texture = 0,
+					}
+				},
+				{
+					Name = "Black Saggy Beanie", 
+					Value = {
+						Drawable = 0,
+						Texture = 0,
+					}
+				},
+				{
+					Name = "Blue Saggy Beanie", 
+					Value = {
+						Drawable = 0,
+						Texture = 0,
+					}
+				},
+				{
+					Name = "Red Saggy Beanie", 
+					Value = {
+						Drawable = 0,
+						Texture = 0,
+					}
+				},
+				{
+					Name = "Green Army Cap", 
+					Value = {
+						Drawable = 0,
+						Texture = 0,
+					}
+				},
+				{
+					Name = "Woodland Army Cap", 
+					Value = {
+						Drawable = 0,
+						Texture = 0,
+					}
+				},
+				{
+					Name = "Ranch Brown Army Cap", 
+					Value = {
+						Drawable = 0,
+						Texture = 0,
+					}
+				},
+				{
+					Name = "White Flat Cap", 
+					Value = {
+						Drawable = 0,
+						Texture = 0,
+					}
+				},
+				{
+					Name = "Black Flat Cap", 
+					Value = {
+						Drawable = 0,
+						Texture = 0,
+					}
+				},
+				{
+					Name = "Brown Flat Cap", 
+					Value = {
+						Drawable = 0,
+						Texture = 0,
+					}
+				},
+				{
+					Name = "Fruntalot Green Cap", 
+					Value = {
+						Drawable = 0,
+						Texture = 0,
+					}
+				},
+				{
+					Name = "Stank Purple Cap", 
+					Value = {
+						Drawable = 0,
+						Texture = 0,
+					}
+				},
+				{
+					Name = "Fruntalot Green Cap", 
+					Value = {
+						Drawable = 0,
+						Texture = 0,
+					}
+				},
+				{
+					Name = "Stank Purple Cap", 
+					Value = {
+						Drawable = 0,
+						Texture = 0,
+					}
+				},
+				{
+					Name = "Black Fedora", 
+					Value = {
+						Drawable = 0,
+						Texture = 0,
+					}
+				},
+				{
+					Name = "White Fedora", 
+					Value = {
+						Drawable = 0,
+						Texture = 0,
+					}
+				},
+				{
+					Name = "Red Fedora", 
+					Value = {
+						Drawable = 0,
+						Texture = 0,
+					}
+				},
+				{
+					Name = "Black Cowboy Hat", 
+					Value = {
+						Drawable = 0,
+						Texture = 0,
+					}
+				},
+				{
+					Name = "Brown Cowboy Hat", 
+					Value = {
+						Drawable = 0,
+						Texture = 0,
+					}
+				},
+				{
+					Name = "Chocolate Cowboy Hat", 
+					Value = {
+						Drawable = 0,
+						Texture = 0,
+					}
+				},
+				{
+					Name = "White Paisley Bandana", 
+					Value = {
+						Drawable = 0,
+						Texture = 0,
+					}
+				},
+				{
+					Name = "Black Paisley Bandana", 
+					Value = {
+						Drawable = 0,
+						Texture = 0,
+					}
+				},
+				{
+					Name = "Camo Bandana", 
+					Value = {
+						Drawable = 0,
+						Texture = 0,
+					}
+				},
+				{
+					Name = "Beat Off White Headphones", 
+					Value = {
+						Drawable = 0,
+						Texture = 0,
+					}
+				},
+				{
+					Name = "Beat Off Black Headphones", 
+					Value = {
+						Drawable = 0,
+						Texture = 0,
+					}
+				},
+				{
+					Name = "Beat Off Red Headphones", 
+					Value = {
+						Drawable = 0,
+						Texture = 0,
+					}
+				},
+				{
+					Name = "Red Canvas Hat", 
+					Value = {
+						Drawable = 0,
+						Texture = 0,
+					}
+				},
+				{
+					Name = "Floral Canvas Hat", 
+					Value = {
+						Drawable = 0,
+						Texture = 0,
+					}
+				},
+				{
+					Name = "Woodland Canvas Hat", 
+					Value = {
+						Drawable = 0,
+						Texture = 0,
+					}
+				},
+				{
+					Name = "Tan Pork Pie", 
+					Value = {
+						Drawable = 0,
+						Texture = 0,
+					}
+				},
+				{
+					Name = "Ushero Purple Pork Pie", 
+					Value = {
+						Drawable = 0,
+						Texture = 0,
+					}
+				},
+				{
+					Name = "Black Pork Pie", 
+					Value = {
+						Drawable = 0,
+						Texture = 0,
+					}
+				},
+				{
+					Name = "Black Bowler Hat", 
+					Value = {
+						Drawable = 0,
+						Texture = 0,
+					}
+				},
+				{
+					Name = "Vintage Bowler Hat", 
+					Value = {
+						Drawable = 0,
+						Texture = 0,
+					}
+				},
+				{
+					Name = "Ash Bowler Hat", 
+					Value = {
+						Drawable = 0,
+						Texture = 0,
+					}
+				},
+				{
+					Name = "Black Top Hat", 
+					Value = {
+						Drawable = 0,
+						Texture = 0,
+					}
+				},
+				{
+					Name = "Vintage Top Hat", 
+					Value = {
+						Drawable = 0,
+						Texture = 0,
+					}
+				},
+				{
+					Name = "Ash Top Hat", 
+					Value = {
+						Drawable = 0,
+						Texture = 0,
+					}
+				},
+				{
+					Name = "Cream Trilby", 
+					Value = {
+						Drawable = 0,
+						Texture = 0,
+					}
+				},
+				{
+					Name = "Black & Red Trilby", 
+					Value = {
+						Drawable = 0,
+						Texture = 0,
+					}
+				},
+				{
+					Name = "Blue Trilby", 
+					Value = {
+						Drawable = 0,
+						Texture = 0,
+					}
+				},				
+			},
+			Female = {
+				{
+					Name = "", 
+					Value = {
+						Drawable = 0,
+						Texture = 0,
+					}
+				},
+				{
+					Name = "", 
+					Value = {
+						Drawable = 0,
+						Texture = 0,
+					}
+				},
+				{
+					Name = "", 
+					Value = {
+						Drawable = 0,
+						Texture = 0,
+					}
+				},
+				{
+					Name = "", 
+					Value = {
+						Drawable = 0,
+						Texture = 0,
+					}
+				},
+				{
+					Name = "", 
+					Value = {
+						Drawable = 0,
+						Texture = 0,
+					}
+				},
+				{
+					Name = "", 
+					Value = {
+						Drawable = 0,
+						Texture = 0,
+					}
+				},
+				{
+					Name = "", 
+					Value = {
+						Drawable = 0,
+						Texture = 0,
+					}
+				},
+				{
+					Name = "", 
+					Value = {
+						Drawable = 0,
+						Texture = 0,
+					}
+				},
+				{
+					Name = "", 
+					Value = {
+						Drawable = 0,
+						Texture = 0,
+					}
+				},
+				{
+					Name = "", 
+					Value = {
+						Drawable = 0,
+						Texture = 0,
+					}
+				},
+				{
+					Name = "", 
+					Value = {
+						Drawable = 0,
+						Texture = 0,
+					}
+				},
+				{
+					Name = "", 
+					Value = {
+						Drawable = 0,
+						Texture = 0,
+					}
+				},
+				{
+					Name = "", 
+					Value = {
+						Drawable = 0,
+						Texture = 0,
+					}
+				},
+				{
+					Name = "", 
+					Value = {
+						Drawable = 0,
+						Texture = 0,
+					}
+				},
+				{
+					Name = "", 
+					Value = {
+						Drawable = 0,
+						Texture = 0,
+					}
+				},
+				{
+					Name = "", 
+					Value = {
+						Drawable = 0,
+						Texture = 0,
+					}
+				},
+				{
+					Name = "", 
+					Value = {
+						Drawable = 0,
+						Texture = 0,
+					}
+				},
+				{
+					Name = "", 
+					Value = {
+						Drawable = 0,
+						Texture = 0,
+					}
+				},
+				{
+					Name = "", 
+					Value = {
+						Drawable = 0,
+						Texture = 0,
+					}
+				},
+				{
+					Name = "", 
+					Value = {
+						Drawable = 0,
+						Texture = 0,
+					}
+				},	
+				{
+					Name = "", 
+					Value = {
+						Drawable = 0,
+						Texture = 0,
+					}
+				},
+				{
+					Name = "", 
+					Value = {
+						Drawable = 0,
+						Texture = 0,
+					}
+				},
+				{
+					Name = "", 
+					Value = {
+						Drawable = 0,
+						Texture = 0,
+					}
+				},
+				{
+					Name = "", 
+					Value = {
+						Drawable = 0,
+						Texture = 0,
+					}
+				},
+				{
+					Name = "", 
+					Value = {
+						Drawable = 0,
+						Texture = 0,
+					}
+				},
+				{
+					Name = "", 
+					Value = {
+						Drawable = 0,
+						Texture = 0,
+					}
+				},
+				{
+					Name = "", 
+					Value = {
+						Drawable = 0,
+						Texture = 0,
+					}
+				},
+				{
+					Name = "", 
+					Value = {
+						Drawable = 0,
+						Texture = 0,
+					}
+				},
+				{
+					Name = "", 
+					Value = {
+						Drawable = 0,
+						Texture = 0,
+					}
+				},
+				{
+					Name = "", 
+					Value = {
+						Drawable = 0,
+						Texture = 0,
+					}
+				},	
+				{
+					Name = "", 
+					Value = {
+						Drawable = 0,
+						Texture = 0,
+					}
+				},
+				{
+					Name = "", 
+					Value = {
+						Drawable = 0,
+						Texture = 0,
+					}
+				},
+				{
+					Name = "", 
+					Value = {
+						Drawable = 0,
+						Texture = 0,
+					}
+				},
+				{
+					Name = "", 
+					Value = {
+						Drawable = 0,
+						Texture = 0,
+					}
+				},
+				{
+					Name = "", 
+					Value = {
+						Drawable = 0,
+						Texture = 0,
+					}
+				},
+				{
+					Name = "", 
+					Value = {
+						Drawable = 0,
+						Texture = 0,
+					}
+				},
+				{
+					Name = "", 
+					Value = {
+						Drawable = 0,
+						Texture = 0,
+					}
+				},
+				{
+					Name = "", 
+					Value = {
+						Drawable = 0,
+						Texture = 0,
+					}
+				},
+				{
+					Name = "", 
+					Value = {
+						Drawable = 0,
+						Texture = 0,
+					}
+				},
+				{
+					Name = "", 
+					Value = {
+						Drawable = 0,
+						Texture = 0,
+					}
+				},
+				{
+					Name = "", 
+					Value = {
+						Drawable = 0,
+						Texture = 0,
+					}
+				},
+				{
+					Name = "", 
+					Value = {
+						Drawable = 0,
+						Texture = 0,
+					}
+				},
+				{
+					Name = "", 
+					Value = {
+						Drawable = 0,
+						Texture = 0,
+					}
+				},
+				{
+					Name = "", 
+					Value = {
+						Drawable = 0,
+						Texture = 0,
+					}
+				},
+				{
+					Name = "", 
+					Value = {
+						Drawable = 0,
+						Texture = 0,
+					}
+				},
+				{
+					Name = "", 
+					Value = {
+						Drawable = 0,
+						Texture = 0,
+					}
+				},
+			},
+		},
 		Glasses = {},
 	},
 	Tattoos = {},
