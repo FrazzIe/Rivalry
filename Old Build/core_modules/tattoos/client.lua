@@ -383,7 +383,7 @@ Pool:MouseControlsEnabled(false)
 function ApplyTattoos()
     ClearPedDecorations(Player.Ped)
     for Tattoo, Collection in pairs(Tattoos.Active) do
-        SetPedDecoration(Player.Ped, Collection, Tattoo)
+        SetPedDecoration(Player.Ped, GetHashKey(Collection), GetHashKey(Tattoo))
     end
 end
 
@@ -403,33 +403,50 @@ end
 
 function SetupTattooMenuItems(Model)
     TattooMenu:Clear()
-    if Model == GetEntityModel("mp_m_freemode_01") or Model == GetEntityModel("mp_f_freemode_01") then
+    if Model == GetHashKey("mp_m_freemode_01") or Model == GetHashKey("mp_f_freemode_01") then
         SwitchClothes(Model)
 
-        local ItemCategoryList = NativeUI.CreateListItem("Collection", Tattoos.Collection, 1, "")
-        local ItemTattooSlider = NativeUI.CreateSliderItem("Tattoos", Tattoos.List[1], 1, "")
-
+        local ItemCategoryList = NativeUI.CreateListItem("Collection", Tattoos.Collections, 1, "")
+        local ItemTattooSlider = NativeUI.CreateSliderItem("Tattoos", Tattoos.List[1], 1, "Press enter to add/remove tattoos")
+        local ItemRemoveTattoos = NativeUI.CreateItem("Remove All", "Remove every single tattoo.")
         ItemCategoryList.OnListChanged = function(ParentMenu, ListItem, Index)
-            ItemTattooList.Items = Tattoos.List[Index]
-            ItemTattooList:Index(1)
+            ItemTattooSlider.Items = Tattoos.List[Index]
+            ItemTattooSlider:Index(1)
         end
-        ItemTattooSlider.OnSliderSelected = function(ParentMenu, ListItem, Index)
-            local ActiveItem = ListItem:IndexToItem(Index)
+
+        ItemTattooSlider.OnSliderSelected = function(ParentMenu, SliderItem, Index)
+            local ActiveItem = SliderItem:IndexToItem(Index)
             if Tattoos.Active[ActiveItem] then
                 Tattoos.Active[ActiveItem] = nil
                 Notify("Tattoo removed", 3000)
             else
-                Tattoos.Active[ActiveItem] = ItemCategoryList:IndexToItem(ItemCategoryList:Index())
+                Tattoos.Active[ActiveItem] = ItemCategoryList:IndexToItem(ItemCategoryList:Index()).Value
                 Notify("Tattoo added", 3000)
             end
 
             ApplyTattoos()
         end
 
-        TattoMenu:AddItem(ItemCategoryList)
-        TattoMenu:AddItem(ItemTattoSlider)
+        ItemTattooSlider.OnSliderChanged = function(ParentMenu, SliderItem, Index)
+            local ActiveItem = SliderItem:IndexToItem(Index)
+
+            ApplyTattoos()
+            if not Tattoos.Active[ActiveItem] then
+                SetPedDecoration(Player.Ped, GetHashKey(ItemCategoryList:IndexToItem(ItemCategoryList:Index()).Value), GetHashKey(ActiveItem))
+            end
+        end
+
+        ItemRemoveTattoos.Activated = function(ParentMenu, SelectedItem)
+            Tattoos.Active = {}
+            
+            ApplyTattoos()
+        end
+
+        TattooMenu:AddItem(ItemCategoryList)
+        TattooMenu:AddItem(ItemTattooSlider)
+        TattooMenu:AddItem(ItemRemoveTattoos)
     else
-        TattoMenu:AddItem(NativeUI.CreateItem("Your model doesn't support Tattoos", "Your model doesn't support Tattoos"))
+        TattooMenu:AddItem(NativeUI.CreateItem("Your model doesn't support Tattoos", "Your model doesn't support Tattoos"))
     end
     Pool:RefreshIndex()
     TattooMenu:Visible(true)
@@ -437,7 +454,7 @@ end
 
 TattooMenu.OnMenuClosed = function(Menu)
     local Model = GetEntityModel(Player.Ped)
-    if Model == GetEntityModel("mp_m_freemode_01") or Model == GetEntityModel("mp_f_freemode_01") then
+    if Model == GetHashKey("mp_m_freemode_01") or Model == GetHashKey("mp_f_freemode_01") then
         TriggerServerEvent("clothes:spawn")
         TriggerServerEvent("Tattoos.Save", Tattoos.Active)
     end
