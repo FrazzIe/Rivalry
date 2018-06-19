@@ -1,143 +1,479 @@
-local componentScroller = 0
-local subComponentScroller = 0
-local subComponentScrollerMax = 0
-local tattootable = {}
+local Pool = NativeUI.CreatePool()
+local TattooMenu = NativeUI.CreateMenu("Tattoo Shop", "", 1300, 300)
+local Tattoos = {
+    Active = {},
+    Locations = {
+        [1] = {
+            Blip = {
+                Name = "Tattoo Store", 
+                Sprite = 75, 
+                Colour = 0,
+            },
+            Marker = {
+                x = 1322.645,
+                y = -1651.976,
+                z = 52.275,
+            },
+        },
+        [2] = {
+            Blip = {
+                Name = "Tattoo Store", 
+                Sprite = 75, 
+                Colour = 0,
+            },
+            Marker = {
+                x = -1153.676, 
+                y = -1425.68, 
+                z = 4.954
+            },
+        },
+        [3] = {
+            Blip = {
+                Name = "Tattoo Store", 
+                Sprite = 75, 
+                Colour = 0,
+            },
+            Marker = {
+                x = 322.139,
+                y = 180.467, 
+                z = 103.587
+            },
+        },
+        [4] = {
+            Blip = {
+                Name = "Tattoo Store", 
+                Sprite = 75, 
+                Colour = 0,
+            },
+            Marker = {
+                x = -3170.071, 
+                y = 1075.059, 
+                z = 20.829
+            },
+        },
+        [5] = {
+            Blip = {
+                Name = "Tattoo Store", 
+                Sprite = 75, 
+                Colour = 0,
+            },
+            Marker = {
+                x = 1864.633, 
+                y = 3747.738, 
+                z = 33.032
+            },
+        },
+        [6] = {
+            Blip = {
+                Name = "Tattoo Store", 
+                Sprite = 75, 
+                Colour = 0,
+            },
+            Marker = {
+                x = -293.713, 
+                y = 6200.04, 
+                z = 31.487
+            },
+        },
+    },
+    Collections = {
+        [1] = {Name = "Business", Value = "mpbusiness_overlays"},
+        [2] = {Name = "Hipster", Value = "mphipster_overlays"},
+        [3] = {Name = "Biker", Value = "mpbiker_overlays"},
+        [4] = {Name = "Air", Value = "mpairraces_overlays"},
+        [5] = {Name = "Beach", Value = "mpbeach_overlays"},
+        [6] = {Name = "Christmas", Value = "mpchristmas2_overlays"},
+        [7] = {Name = "Gunrunning", Value = "mpgunrunning_overlays"},
+        [8] = {Name = "Import", Value = "mpimportexport_overlays"},
+        [9] = {Name = "Lowrider", Value = "mplowrider_overlays"},
+        [10] = {Name = "Lowrider 2", Value = "mplowrider2_overlays"},
+    },
+    List = {
+        [1] = {
+            "MP_Buis_M_Neck_000",
+            "MP_Buis_M_Neck_001",
+            "MP_Buis_M_Neck_002",
+            "MP_Buis_M_Neck_003",
+            "MP_Buis_M_LeftArm_000",
+            "MP_Buis_M_LeftArm_001",
+            "MP_Buis_M_RightArm_000",
+            "MP_Buis_M_RightArm_001",
+            "MP_Buis_M_Stomach_000",
+            "MP_Buis_M_Chest_000",
+            "MP_Buis_M_Chest_001",
+            "MP_Buis_M_Back_000",
+            "MP_Buis_F_Chest_000",
+            "MP_Buis_F_Chest_001",
+            "MP_Buis_F_Chest_002",
+            "MP_Buis_F_Stom_000",
+            "MP_Buis_F_Stom_001",
+            "MP_Buis_F_Stom_002",
+            "MP_Buis_F_Back_000",
+            "MP_Buis_F_Back_001",
+            "MP_Buis_F_Neck_000",
+            "MP_Buis_F_Neck_001",
+            "MP_Buis_F_RArm_000",
+            "MP_Buis_F_LArm_000",
+            "MP_Buis_F_LLeg_000",
+            "MP_Buis_F_RLeg_000",
+        },
+        [2] = {
+            "FM_Hip_M_Tat_000",
+            "FM_Hip_M_Tat_001",
+            "FM_Hip_M_Tat_002",
+            "FM_Hip_M_Tat_003",
+            "FM_Hip_M_Tat_004",
+            "FM_Hip_M_Tat_005",
+            "FM_Hip_M_Tat_006",
+            "FM_Hip_M_Tat_007",
+            "FM_Hip_M_Tat_008",
+            "FM_Hip_M_Tat_009",
+            "FM_Hip_M_Tat_010",
+            "FM_Hip_M_Tat_011",
+            "FM_Hip_M_Tat_012",
+            "FM_Hip_M_Tat_013",
+            "FM_Hip_M_Tat_014",
+            "FM_Hip_M_Tat_015",
+            "FM_Hip_M_Tat_016",
+            "FM_Hip_M_Tat_017",
+            "FM_Hip_M_Tat_018",
+            "FM_Hip_M_Tat_019",
+            "FM_Hip_M_Tat_020",
+            "FM_Hip_M_Tat_021",
+            "FM_Hip_M_Tat_022",
+            "FM_Hip_M_Tat_023",
+            "FM_Hip_M_Tat_024",
+            "FM_Hip_M_Tat_025",
+            "FM_Hip_M_Tat_026",
+            "FM_Hip_M_Tat_027",
+            "FM_Hip_M_Tat_028",
+            "FM_Hip_M_Tat_029",
+            "FM_Hip_M_Tat_030",
+            "FM_Hip_M_Tat_031",
+            "FM_Hip_M_Tat_032",
+            "FM_Hip_M_Tat_033",
+            "FM_Hip_M_Tat_034",
+            "FM_Hip_M_Tat_035",
+            "FM_Hip_M_Tat_036",
+            "FM_Hip_M_Tat_037",
+            "FM_Hip_M_Tat_038",
+            "FM_Hip_M_Tat_039",
+            "FM_Hip_M_Tat_040",
+            "FM_Hip_M_Tat_041",
+            "FM_Hip_M_Tat_042",
+            "FM_Hip_M_Tat_043",
+            "FM_Hip_M_Tat_044",
+            "FM_Hip_M_Tat_045",
+            "FM_Hip_M_Tat_046",
+            "FM_Hip_M_Tat_047",
+            "FM_Hip_M_Tat_048",
+        },
+        [3] = {
+            "MP_MP_Biker_Tat_000_M",
+            "MP_MP_Biker_Tat_001_M",
+            "MP_MP_Biker_Tat_002_M",
+            "MP_MP_Biker_Tat_003_M",
+            "MP_MP_Biker_Tat_004_M",
+            "MP_MP_Biker_Tat_005_M",
+            "MP_MP_Biker_Tat_006_M",
+            "MP_MP_Biker_Tat_007_M",
+            "MP_MP_Biker_Tat_008_M",
+            "MP_MP_Biker_Tat_009_M",
+            "MP_MP_Biker_Tat_010_M",
+            "MP_MP_Biker_Tat_011_M",
+            "MP_MP_Biker_Tat_012_M",
+            "MP_MP_Biker_Tat_013_M",
+            "MP_MP_Biker_Tat_014_M",
+            "MP_MP_Biker_Tat_015_M",
+            "MP_MP_Biker_Tat_016_M",
+            "MP_MP_Biker_Tat_017_M",
+            "MP_MP_Biker_Tat_018_M",
+            "MP_MP_Biker_Tat_019_M",
+            "MP_MP_Biker_Tat_020_M",
+            "MP_MP_Biker_Tat_021_M",
+            "MP_MP_Biker_Tat_022_M",
+            "MP_MP_Biker_Tat_023_M",
+            "MP_MP_Biker_Tat_024_M",
+            "MP_MP_Biker_Tat_025_M",
+            "MP_MP_Biker_Tat_026_M",
+            "MP_MP_Biker_Tat_027_M",
+            "MP_MP_Biker_Tat_028_M",
+            "MP_MP_Biker_Tat_029_M",
+            "MP_MP_Biker_Tat_030_M",
+            "MP_MP_Biker_Tat_031_M",
+            "MP_MP_Biker_Tat_032_M",
+            "MP_MP_Biker_Tat_033_M",
+            "MP_MP_Biker_Tat_034_M",
+            "MP_MP_Biker_Tat_035_M",
+            "MP_MP_Biker_Tat_036_M",
+            "MP_MP_Biker_Tat_037_M",
+            "MP_MP_Biker_Tat_038_M",
+            "MP_MP_Biker_Tat_039_M",
+            "MP_MP_Biker_Tat_040_M",
+            "MP_MP_Biker_Tat_041_M",
+            "MP_MP_Biker_Tat_042_M",
+            "MP_MP_Biker_Tat_043_M",
+            "MP_MP_Biker_Tat_044_M",
+            "MP_MP_Biker_Tat_045_M",
+            "MP_MP_Biker_Tat_046_M",
+            "MP_MP_Biker_Tat_047_M",
+            "MP_MP_Biker_Tat_048_M",
+            "MP_MP_Biker_Tat_049_M",
+            "MP_MP_Biker_Tat_050_M",
+            "MP_MP_Biker_Tat_051_M",
+            "MP_MP_Biker_Tat_052_M",
+            "MP_MP_Biker_Tat_053_M",
+            "MP_MP_Biker_Tat_054_M",
+            "MP_MP_Biker_Tat_055_M",
+            "MP_MP_Biker_Tat_056_M",
+            "MP_MP_Biker_Tat_057_M",
+            "MP_MP_Biker_Tat_058_M",
+            "MP_MP_Biker_Tat_059_M",
+            "MP_MP_Biker_Tat_060_M",
+        },
+        [4] = {
+            "MP_Airraces_Tattoo_000_M",
+            "MP_Airraces_Tattoo_001_M",
+            "MP_Airraces_Tattoo_002_M",
+            "MP_Airraces_Tattoo_003_M",
+            "MP_Airraces_Tattoo_004_M",
+            "MP_Airraces_Tattoo_005_M",
+            "MP_Airraces_Tattoo_006_M",
+            "MP_Airraces_Tattoo_007_M",
+        },
+        [5] = {
+            "MP_Bea_M_Back_000",
+            "MP_Bea_M_Chest_000",
+            "MP_Bea_M_Chest_001",
+            "MP_Bea_M_Head_000",
+            "MP_Bea_M_Head_001",
+            "MP_Bea_M_Head_002",
+            "MP_Bea_M_Lleg_000",
+            "MP_Bea_M_Rleg_000",
+            "MP_Bea_M_RArm_000",
+            "MP_Bea_M_Head_000",
+            "MP_Bea_M_LArm_000",
+            "MP_Bea_M_LArm_001",
+            "MP_Bea_M_Neck_000",
+            "MP_Bea_M_Neck_001",
+            "MP_Bea_M_RArm_001",
+            "MP_Bea_M_Stom_000",
+            "MP_Bea_M_Stom_001",
+        },
+        [6] = {
+            "MP_Xmas2_M_Tat_000",
+            "MP_Xmas2_M_Tat_001",
+            "MP_Xmas2_M_Tat_003",
+            "MP_Xmas2_M_Tat_004",
+            "MP_Xmas2_M_Tat_005",
+            "MP_Xmas2_M_Tat_006",
+            "MP_Xmas2_M_Tat_007",
+            "MP_Xmas2_M_Tat_008",
+            "MP_Xmas2_M_Tat_009",
+            "MP_Xmas2_M_Tat_010",
+            "MP_Xmas2_M_Tat_011",
+            "MP_Xmas2_M_Tat_012",
+            "MP_Xmas2_M_Tat_013",
+            "MP_Xmas2_M_Tat_014",
+            "MP_Xmas2_M_Tat_015",
+            "MP_Xmas2_M_Tat_016",
+            "MP_Xmas2_M_Tat_017",
+            "MP_Xmas2_M_Tat_018",
+            "MP_Xmas2_M_Tat_019",
+            "MP_Xmas2_M_Tat_022",
+            "MP_Xmas2_M_Tat_023",
+            "MP_Xmas2_M_Tat_024",
+            "MP_Xmas2_M_Tat_025",
+            "MP_Xmas2_M_Tat_026",
+            "MP_Xmas2_M_Tat_027",
+            "MP_Xmas2_M_Tat_028",
+            "MP_Xmas2_M_Tat_029",
+        },
+        [7] = {
+            "MP_Gunrunning_Tattoo_000_M",
+            "MP_Gunrunning_Tattoo_001_M",
+            "MP_Gunrunning_Tattoo_002_M",
+            "MP_Gunrunning_Tattoo_003_M",
+            "MP_Gunrunning_Tattoo_004_M",
+            "MP_Gunrunning_Tattoo_005_M",
+            "MP_Gunrunning_Tattoo_006_M",
+            "MP_Gunrunning_Tattoo_007_M",
+            "MP_Gunrunning_Tattoo_008_M",
+            "MP_Gunrunning_Tattoo_009_M",
+            "MP_Gunrunning_Tattoo_010_M",
+            "MP_Gunrunning_Tattoo_011_M",
+            "MP_Gunrunning_Tattoo_012_M",
+            "MP_Gunrunning_Tattoo_013_M",
+            "MP_Gunrunning_Tattoo_014_M",
+            "MP_Gunrunning_Tattoo_015_M",
+            "MP_Gunrunning_Tattoo_016_M",
+            "MP_Gunrunning_Tattoo_017_M",
+            "MP_Gunrunning_Tattoo_018_M",
+            "MP_Gunrunning_Tattoo_019_M",
+            "MP_Gunrunning_Tattoo_020_M",
+            "MP_Gunrunning_Tattoo_021_M",
+            "MP_Gunrunning_Tattoo_022_M",
+            "MP_Gunrunning_Tattoo_023_M",
+            "MP_Gunrunning_Tattoo_024_M",
+            "MP_Gunrunning_Tattoo_025_M",
+            "MP_Gunrunning_Tattoo_026_M",
+            "MP_Gunrunning_Tattoo_027_M",
+            "MP_Gunrunning_Tattoo_028_M",
+            "MP_Gunrunning_Tattoo_029_M",
+            "MP_Gunrunning_Tattoo_030_M",
+        },
+        [8] = {
+            "MP_MP_ImportExport_Tat_000_M",
+            "MP_MP_ImportExport_Tat_001_M",
+            "MP_MP_ImportExport_Tat_002_M",
+            "MP_MP_ImportExport_Tat_003_M",
+            "MP_MP_ImportExport_Tat_004_M",
+            "MP_MP_ImportExport_Tat_005_M",
+            "MP_MP_ImportExport_Tat_006_M",
+            "MP_MP_ImportExport_Tat_007_M",
+            "MP_MP_ImportExport_Tat_008_M",
+            "MP_MP_ImportExport_Tat_009_M",
+            "MP_MP_ImportExport_Tat_010_M",
+            "MP_MP_ImportExport_Tat_011_M",
+        },
+        [9] = {
+            "MP_LR_Tat_001_M",
+            "MP_LR_Tat_002_M",
+            "MP_LR_Tat_004_M",
+            "MP_LR_Tat_005_M",
+            "MP_LR_Tat_007_M",
+            "MP_LR_Tat_009_M",
+            "MP_LR_Tat_010_M",
+            "MP_LR_Tat_013_M",
+            "MP_LR_Tat_014_M",
+            "MP_LR_Tat_015_M",
+            "MP_LR_Tat_017_M",
+            "MP_LR_Tat_020_M",
+            "MP_LR_Tat_021_M",
+            "MP_LR_Tat_023_M",
+            "MP_LR_Tat_026_M",
+            "MP_LR_Tat_027_M",
+            "MP_LR_Tat_033_M",
+        },
+        [10] = {
+            "MP_LR_Tat_000_M",
+            "MP_LR_Tat_003_M",
+            "MP_LR_Tat_006_M",
+            "MP_LR_Tat_008_M",
+            "MP_LR_Tat_011_M",
+            "MP_LR_Tat_012_M",
+            "MP_LR_Tat_016_M",
+            "MP_LR_Tat_018_M",
+            "MP_LR_Tat_019_M",
+            "MP_LR_Tat_022_M",
+            "MP_LR_Tat_028_M",
+            "MP_LR_Tat_029_M",
+            "MP_LR_Tat_030_M",
+            "MP_LR_Tat_031_M",
+            "MP_LR_Tat_032_M",
+            "MP_LR_Tat_035_M",
+        },
+    },
+}
 
-function reapplyTattoos(ped)
-    local ped = ped
-    ClearPedDecorations(ped)
-    for k, v in pairs(tattootable) do
-        ApplyPedOverlay(ped, v.typet, v.drawt)
+Pool:Add(TattooMenu)
+Pool:ControlDisablingEnabled(false)
+Pool:MouseControlsEnabled(false)
+
+function ApplyTattoos()
+    ClearPedDecorations(Player.Ped)
+    for Tattoo, Collection in pairs(Tattoos.Active) do
+        SetPedDecoration(Player.Ped, Collection, Tattoo)
     end
 end
 
-
-function OpenTattoos()
-    Menu.SetupMenu("tattoos_main","Tattoos")
-    Menu.Switch(nil, "tattoos_main")
-    for k,v in pairs(menut_options) do
-        Menu.addOption("tattoos_main", function()
-            if(Menu.Option(v.name))then
-                 v.f(v.name,v.param)
-            end
-        end)
-    end
-end
-
-function customise(title)
-    Menu.SetupMenu("tattoo_customise", "title")
-    Menu.Switch("tattoos_main", "tattoo_customise")
-    if GetEntityModel(PlayerPedId()) == GetHashKey("mp_m_freemode_01") or GetEntityModel(PlayerPedId()) == GetHashKey("mp_f_freemode_01") then
-        if(GetEntityModel(PlayerPedId())== GetHashKey("mp_m_freemode_01"))then
-        SetPedComponentVariation(GetPlayerPed(-1), 8, 15,0, 2)
-        SetPedComponentVariation(GetPlayerPed(-1), 3, 15,0, 2)
-        SetPedComponentVariation(GetPlayerPed(-1), 11, 91,0, 2)
-        SetPedComponentVariation(GetPlayerPed(-1), 4, 14,0, 2)
+function SwitchClothes(Model)
+    if Model == GetHashKey("mp_m_freemode_01") then
+        SetPedComponentVariation(Player.Ped, 8, 15, 0, 2)
+        SetPedComponentVariation(Player.Ped, 3, 15, 0, 2)
+        SetPedComponentVariation(Player.Ped, 11, 91, 0, 2)
+        SetPedComponentVariation(Player.Ped, 4, 14, 0, 2)
     else
-        SetPedComponentVariation(GetPlayerPed(-1), 8, 34,0, 2)
-        SetPedComponentVariation(GetPlayerPed(-1), 3, 15,0, 2)
-        SetPedComponentVariation(GetPlayerPed(-1), 11, 101,1, 2)
-        SetPedComponentVariation(GetPlayerPed(-1), 4, 16,0, 2)
-    end
-        componentScroller = 0
-        Menu.addOption("tattoo_customise", function()
-            if(Menu.ScrollBarString({"TattooSelection","Buisness", "Hipster", "Biker", "Air Races", "Beach", "Christmas", "Gun Running", "Imports", "Low Rider2", "Low Rider"}, componentScroller, function(cb) Citizen.Trace(cb) componentScroller = cb end)) then
-                if(componentScroller == 1) then
-                    subComponentScrollerMax = 26
-                elseif(componentScroller == 2) then
-                    subComponentScrollerMax =  50                           
-                elseif(componentScroller == 3) then
-                    subComponentScrollerMax = 61
-                elseif(componentScroller == 4) then
-                    subComponentScrollerMax = 9
-                elseif(componentScroller == 5) then
-                    subComponentScrollerMax = 17
-                elseif(componentScroller == 6) then
-                    subComponentScrollerMax = 27
-                elseif(componentScroller == 7) then
-                    subComponentScrollerMax = 30
-                elseif(componentScroller == 8) then
-                    subComponentScrollerMax = 12
-                elseif(componentScroller == 9) then
-                    subComponentScrollerMax = 16
-                elseif (componentScroller == 10) then
-                    subComponentScrollerMax = 17
-                end
-                subComponentScroller = 0
-            end
-        end)
-        Menu.addOption("tattoo_customise", function()
-            if(Menu.ScrollBarInt("Tattoo", subComponentScroller, subComponentScrollerMax, function(cb) Citizen.Trace(cb) subComponentScroller = cb end)) then
-            ClearPedDecorations(PlayerPedId())
-            reapplyTattoos(PlayerPedId())
-                if(subComponentScroller <= subComponentScrollerMax and subComponentScroller >= 1 and componentScroller ~= 0) then
-                    ApplyPedOverlay(PlayerPedId(), GetHashKey(tattoosCategories[componentScroller].value), GetHashKey(tattoosList[tattoosCategories[componentScroller].value][subComponentScroller].nameHash) )
-                    Citizen.CreateThread(function()
-                        while true do
-                        Citizen.Wait(0)
-                            if IsControlJustPressed(1, 55) then -- INPUT_CELLPHONE_DOWN
-                                local tattoostables = {
-                                typet = GetHashKey(tattoosCategories[componentScroller].value),
-                                drawt = GetHashKey(tattoosList[tattoosCategories[componentScroller].value][subComponentScroller].nameHash)
-                                }
-                                table.insert(tattootable, tattoostables)
-                            end
-                        end
-                    end)
-                end
-            end
-        end)
+        SetPedComponentVariation(Player.Ped, 8, 34, 0, 2)
+        SetPedComponentVariation(Player.Ped, 3, 15, 0, 2)
+        SetPedComponentVariation(Player.Ped, 11, 101, 1, 2)
+        SetPedComponentVariation(Player.Ped, 4, 16, 0, 2)
     end
 end
 
-function save()
-    player_data.new = "false"
-    for i = 0, 10 do
-        player_data.tattoostype[i] = componentScroller
-    end
-    for i = 0, subComponentScrollerMax do
-        player_data.tattoos[i] = subComponentScoller
-    end
+function SetupTattooMenuItems(Model)
+    TattooMenu:Clear()
+    if Model == GetEntityModel("mp_m_freemode_01") or Model == GetEntityModel("mp_f_freemode_01") then
+        SwitchClothes(Model)
 
-    TriggerServerEvent("tattoos:save", player_data)
-    TriggerServerEvent("core:model_loaded")
-end
+        local ItemCategoryList = NativeUI.CreateListItem("Collection", Tattoos.Collection, 1, "")
+        local ItemTattooSlider = NativeUI.CreateSliderItem("Tattoos", Tattoos.List[1], 1, "")
 
-AddEventHandler("tattoos:setComponents", function()
-    if GetEntityModel(PlayerPedId()) == GetHashKey("mp_m_freemode_01") or GetEntityModel(PlayerPedId()) == GetHashKey("mp_f_freemode_01") then
-        for i = 0, 9 do
-            for k = 0, subComponentScrollerMax do
-                ApplyPedOverlay(PlayerPedId(), GetHashKey(player_data.tattoostype[i+1]), GetHashKey(player_data_tattoos[k+1]))
-            end
+        ItemCategoryList.OnListChanged = function(ParentMenu, ListItem, Index)
+            ItemTattooList.Items = Tattoos.List[Index]
+            ItemTattooList:Index(1)
         end
-        TriggerServerEvent("core:model_loaded")
+        ItemTattooSlider.OnSliderSelected = function(ParentMenu, ListItem, Index)
+            local ActiveItem = ListItem:IndexToItem(Index)
+            if Tattoos.Active[ActiveItem] then
+                Tattoos.Active[ActiveItem] = nil
+                Notify("Tattoo removed", 3000)
+            else
+                Tattoos.Active[ActiveItem] = ItemCategoryList:IndexToItem(ItemCategoryList:Index())
+                Notify("Tattoo added", 3000)
+            end
+
+            ApplyTattoos()
+        end
+
+        TattoMenu:AddItem(ItemCategoryList)
+        TattoMenu:AddItem(ItemTattoSlider)
     else
-        TriggerServerEvent("core:model_loaded")
+        TattoMenu:AddItem(NativeUI.CreateItem("Your model doesn't support Tattoos", "Your model doesn't support Tattoos"))
+    end
+    Pool:RefreshIndex()
+    TattooMenu:Visible(true)
+end
+
+TattooMenu.OnMenuClosed = function(Menu)
+    local Model = GetEntityModel(Player.Ped)
+    if Model == GetEntityModel("mp_m_freemode_01") or Model == GetEntityModel("mp_f_freemode_01") then
+        TriggerServerEvent("clothes:spawn")
+        TriggerServerEvent("Tattoos.Save", Tattoos.Active)
+    end
+end
+
+Citizen.CreateThread(function()
+    for Index = 1, #Tattoos.Locations do
+        CreateBlip(Locations[Index].Blip.Name, Locations[Index].Blip.Sprite, Locations[Index].Blip.Colour, Locations[Index].Marker.x, Locations[Index].Marker.y, Locations[Index].Marker.z)
     end
 end)
 
-RegisterNetEvent("tattoos:spawn")
-AddEventHandler("tattoos:spawn", function(data)
-    player_data = data
-    local model = player_data.model
-    if IsModelInCdimage(model) and IsModelValid(model) then
-        RequestModel(model)
-        while not HasModelLoaded(model) do
-            Citizen.Wait(0)
-        end
-        SetPlayerModel(PlayerId(), model)
-        if model ~= "mp_f_freemode_01" and model ~= "mp_m_freemode_01" then 
-            SetPedRandomComponentVariation(PlayerPedId(), true)
-        else
-            SetPedComponentVariation(PlayerPedId(), 11, 0, 240, 0)
-            SetPedComponentVariation(PlayerPedId(), 8, 0, 240, 0)
-            SetPedComponentVariation(PlayerPedId(), 11, 6, 1, 0)
-        end
-        SetModelAsNoLongerNeeded(model)
-        if player_data.new == "false" then
-            TriggerEvent("tattoos:setComponents")
-        else
-            TriggerServerEvent("core:model_loaded")
+Citizen.CreateThread(function()
+    while true do
+        Citizen.Wait(0)
+        Pool:ProcessMenus()
+        if Player.Ready then
+            for Index = 1, #Tattoos.Locations do
+                if Vdist(Player.Coordinates.x, Player.Coordinates.y, Player.Coordinates.z, Tattoos.Locations[Index].Marker.x, Tattoos.Locations[Index].Marker.y, Tattoos.Locations[Index].Marker.z) < 20 then
+                    RenderMarker(25, Tattoos.Locations[Index].Marker.x, Tattoos.Locations[Index].Marker.y, Tattoos.Locations[Index].Marker.z, 1.0, 1.0, 1.5, 255, 255, 0, 255)
+                    if Vdist(Player.Coordinates.x, Player.Coordinates.y, Player.Coordinates.z, Tattoos.Locations[Index].Marker.x, Tattoos.Locations[Index].Marker.y, Tattoos.Locations[Index].Marker.z) < 1 then
+                        DisplayHelpText("Press ~INPUT_CONTEXT~ to open the tattoo parlour!")
+                        if IsControlJustPressed(1, 51) then
+                            if TattooMenu:Visible() then
+                                TattooMenu:Visible(false)
+                            else
+                                SetupTattooMenuItems(GetEntityModel(Player.Ped))
+                            end
+                        end
+                    end
+                end
+            end
         end
     end
+end)
+
+RegisterNetEvent("Tattoos.Load")
+AddEventHandler("Tattoos.Load", function(Tats)
+    Tattoos.Active = Tats
 end)
