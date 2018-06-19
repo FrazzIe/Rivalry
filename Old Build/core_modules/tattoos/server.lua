@@ -18,6 +18,20 @@ AddEventHandler("Tattoos.Initialise", function(source, identifier, character_id,
 	end)
 end)
 
+RegisterServerEvent("Tattoos.Save")
+AddEventHandler("Tattoos.Save", function(Tats)
+	local source = source
+	TriggerEvent("core:getuser", source, function(user)
+		if user ~= nil then
+			user_tattoos[source] = Tats
+			exports["GHMattiMySQL"]:QueryAsync("UPDATE tattoos SET tattoos=@tattoos WHERE character_id=@character_id", {
+				["@character_id"] = user.get("characterID"),
+				["@tattoos"] = json.encode(Tats)
+			})
+		end
+	end)
+end)
+
 AddEventHandler("playerDropped", function(reason)
     local source = source
     if user_tattoos[source] ~= nil then
