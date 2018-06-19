@@ -5,6 +5,7 @@ local tattootable = {}
 
 function reapplyTattoos(ped)
     local ped = ped
+    ClearPedDecorations(ped)
     for k, v in pairs(tattootable) do
         ApplyPedOverlay(ped, v.typet, v.drawt)
     end
