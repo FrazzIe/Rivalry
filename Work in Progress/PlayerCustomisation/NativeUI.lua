@@ -3313,6 +3313,14 @@ function MenuPool:DisableInstructionalButtons(bool)
     end
 end
 
+function MenuPool:MouseControlsEnabled(bool)
+    if bool ~= nil then
+        for _, Menu in pairs(self.Menus) do
+            Menu.Settings.MouseControlsEnabled = tobool(bool)
+        end
+    end
+end
+
 function MenuPool:RefreshIndex()
     for _, Menu in pairs(self.Menus) do
         Menu:RefreshIndex()
