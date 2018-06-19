@@ -84,14 +84,14 @@ function drawMarker(_type, _x, _y, _z, _scale_x, _scale_y, _scale_z, _r, _g, _b,
 end
 
 function addBlip(item)
-	item.blip = AddBlipForCoord(item.x, item.y, item.z)
-	SetBlipSprite(item.blip, item.sprite)
-	SetBlipColour(item.blip, item.colour)
-	SetBlipAsShortRange(item.blip, true)
+    item.blip = AddBlipForCoord(item.x, item.y, item.z)
+    SetBlipSprite(item.blip, item.sprite)
+    SetBlipColour(item.blip, item.colour)
+    SetBlipAsShortRange(item.blip, true)
     SetBlipScale(item.blip, 0.6)
-	BeginTextCommandSetBlipName("STRING")
-	AddTextComponentString(item.name)
-	EndTextCommandSetBlipName(item.blip)
+    BeginTextCommandSetBlipName("STRING")
+    AddTextComponentString(item.name)
+    EndTextCommandSetBlipName(item.blip)
 end
 
 function GetClosestPlayer()
@@ -182,29 +182,33 @@ function Draw3DText(x,y,z, text, _size) -- some useful function, use it if you w
 end
 
 Citizen.CreateThread(function()
-	for i = 1, 12 do
-		Citizen.InvokeNative(0xDC0F817884CDD856, i, false)
-	end
-    for _, item in pairs(extrablips) do
-    	addBlip(item)
+    for i = 1, 12 do
+        Citizen.InvokeNative(0xDC0F817884CDD856, i, false)
     end
-	while true do
-		Citizen.Wait(0)
+    for _, item in pairs(extrablips) do
+        addBlip(item)
+    end
+    while true do
+        Citizen.Wait(0)
         SetPedDensityMultiplierThisFrame(0.9999999)
         SetVehicleDensityMultiplierThisFrame(0.06)
-		if not IsEntityDead(GetPlayerPed(-1)) then
-			if garage_menu then
-	            clothing_menu = false
-	            Menu.DisplayCurMenu()
-	        elseif clothing_menu then
-	            garage_menu = false
-	            Menu.DisplayCurMenu()
-	        end
-	    else
+        if not IsEntityDead(GetPlayerPed(-1)) then
+            if garage_menu then
+                clothing_menu = false
+                Menu.DisplayCurMenu()
+            elseif clothing_menu then
+                garage_menu = false
+                Menu.DisplayCurMenu()
+            elseif tattoo_menu then 
+                garage_menu = false
+                Menu.DisplayCurMenu()
+            end
+        else
             garage_menu = false
             clothing_menu = false
-	    end
-	end
+            tattoo_menu = false
+        end
+    end
 end)
 
 function SetInstructionalButtons(buttons, layout) --Layout: 0 - Horizontal, 1 - vertical

@@ -659,6 +659,8 @@ function Menu.updateSelection()
             elseif clothing_menu then
             	clothing_menu = false
             	save()
+            elseif tattoo_menu then
+            	tattoo_menu = false
             elseif tow_menu then
             	tow_menu = false
             end
