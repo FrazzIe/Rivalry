@@ -74,7 +74,7 @@ function customise(title)
                     Citizen.CreateThread(function()
                         while true do
                         Citizen.Wait(0)
-                            if IsControlJustReleased(1, 55) then -- INPUT_CELLPHONE_DOWN
+                            if IsControlJustPressed(1, 55) then -- INPUT_CELLPHONE_DOWN
                                 local tattoostables = {
                                 typet = GetHashKey(tattoosCategories[componentScroller].value),
                                 drawt = GetHashKey(tattoosList[tattoosCategories[componentScroller].value][subComponentScroller].nameHash)
