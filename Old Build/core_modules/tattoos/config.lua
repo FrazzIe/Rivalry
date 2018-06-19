@@ -1,4 +1,4 @@
-menu_options = {
+menut_options = {
     {name = "Customise", f = customise, param = nil},
 }
 

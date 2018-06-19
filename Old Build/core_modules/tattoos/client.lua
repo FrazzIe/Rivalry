@@ -15,7 +15,7 @@ end
 function OpenTattoos()
     Menu.SetupMenu("tattoos_main","Tattoos")
     Menu.Switch(nil, "tattoos_main")
-    for k,v in pairs(menu_options) do
+    for k,v in pairs(menut_options) do
         Menu.addOption("tattoos_main", function()
             if(Menu.Option(v.name))then
                  v.f(v.name,v.param)
