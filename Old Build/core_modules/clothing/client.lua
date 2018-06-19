@@ -357,6 +357,9 @@ AddEventHandler("clothes:setComponents", function()
         for i = 0, 7 do
             SetPedPropIndex(PlayerPedId(), i, player_data.props.drawables[i+1], player_data.props.textures[i+1], false)
         end
+
+        ApplyTattoos()
+        
         for i = 0, 12 do
             SetPedHeadOverlay(PlayerPedId(), i, player_data.overlays.drawables[i+1], player_data.overlays.opacity[i+1])
             SetPedHeadOverlayColor(PlayerPedId(), i, player_data.overlays.colours[i+1].colourType, player_data.overlays.colours[i+1].colour, player_data.overlays.colours[i+1].colour)
