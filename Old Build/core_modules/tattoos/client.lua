@@ -445,7 +445,7 @@ end
 
 Citizen.CreateThread(function()
     for Index = 1, #Tattoos.Locations do
-        CreateBlip(Locations[Index].Blip.Name, Locations[Index].Blip.Sprite, Locations[Index].Blip.Colour, Locations[Index].Marker.x, Locations[Index].Marker.y, Locations[Index].Marker.z)
+        CreateBlip(Tattoos.Locations[Index].Blip.Name, Tattoos.Locations[Index].Blip.Sprite, Tattoos.Locations[Index].Blip.Colour, Tattoos.Locations[Index].Marker.x, Tattoos.Locations[Index].Marker.y, Tattoos.Locations[Index].Marker.z)
     end
 end)
 
