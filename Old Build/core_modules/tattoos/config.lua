@@ -342,16 +342,16 @@ tattoosList = {
 }
 
 tattoosCategories = { -- more to come
-    {value = "mpbusiness_overlays"},
-    {value = "mphipster_overlays"},
-    {value = "mpbiker_overlays"},
-    {value = "mpairraces_overlays"},
-    {value = "mpbeach_overlays"},
-    {value = "mpchristmas2_overlays"},
-    {value = "mpgunrunning_overlays"},
-    {value = "mpimportexport_overlays"},
-    {value = "mplowrider2_overlays"},
-    {value = "mplowrider_overlays"}
+    [0] = {value = "mpbusiness_overlays"},
+    [1] = {value = "mphipster_overlays"},
+    [2] = {value = "mpbiker_overlays"},
+    [3] = {value = "mpairraces_overlays"},
+    [4] = {value = "mpbeach_overlays"},
+    [5] = {value = "mpchristmas2_overlays"},
+    [6] = {value = "mpgunrunning_overlays"},
+    [7] = {value = "mpimportexport_overlays"},
+    [8] = {value = "mplowrider2_overlays"},
+    [9] = {value = "mplowrider_overlays"}
 }
 
 local tattoo_shops = {

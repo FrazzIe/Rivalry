@@ -15,8 +15,8 @@ function OpenTattoos()
 end
 
 function customise(title)
-    Menu.SetupMenu("tattoo_customise", title)
-    Menu.Switch("tattoo_main", "tattoo_customise")
+    Menu.SetupMenu("tattoo_customise", "title")
+    Menu.Switch("tattoos_main", "tattoo_customise")
     if GetEntityModel(PlayerPedId()) == GetHashKey("mp_m_freemode_01") or GetEntityModel(PlayerPedId()) == GetHashKey("mp_f_freemode_01") then
         if(GetEntityModel(PlayerPedId())== GetHashKey("mp_m_freemode_01"))then
         SetPedComponentVariation(GetPlayerPed(-1), 8, 15,0, 2)
@@ -29,17 +29,17 @@ function customise(title)
         SetPedComponentVariation(GetPlayerPed(-1), 11, 101,1, 2)
         SetPedComponentVariation(GetPlayerPed(-1), 4, 16,0, 2)
     end
-        componentScroller = 1
+        componentScroller = 0
         Menu.addOption("tattoo_customise", function()
             if(Menu.ScrollBarString({"Buisness", "Hipster", "Biker", "Air Races", "Beach", "Christmas", "Gun Running", "Imports", "Low Rider2", "Low Rider"}, componentScroller, function(cb) Citizen.Trace(cb) componentScroller = cb end)) then
-                if(componentScroller == 1) then
-                    subComponentScrollerMax = 15
+                if(componentScroller == 0) then
+                    subComponentScrollerMax = 26
                 elseif(componentScroller == 1) then
-                    subComponentScrollerMax =  49                           
+                    subComponentScrollerMax =  50                           
                 elseif(componentScroller == 2) then
                     subComponentScrollerMax = 61
                 elseif(componentScroller == 3) then
-                    subComponentScrollerMax = 8
+                    subComponentScrollerMax = 9
                 elseif(componentScroller == 4) then
                     subComponentScrollerMax = 17
                 elseif(componentScroller == 5) then
@@ -57,11 +57,15 @@ function customise(title)
             end
         end)
         Menu.addOption("tattoo_customise", function()
-            if(Menu.ScrollBarInt("Tattoo", componentScroller, subComponentScrollerMax, function(cb) Citizen.Trace(cb) subComponentScroller = cb end)) then
-                ApplyPedOverlay(PlayerPedId(), GetHashKey(tattoosCategories[componentScroller].value), GetHashKey(tattoosList[tattoosCategories[componentScroller].value][subComponentScroller].nameHash) )
-                    if(IsControlJustPressed(1, 11))then
-                        ClearPedDecorations(PlayerPedId())
+            if(Menu.ScrollBarInt("Tattoo", subComponentScroller, subComponentScrollerMax, function(cb) Citizen.Trace(cb) subComponentScroller = cb end)) then
+            ClearPedDecorations(PlayerPedId())
+                if(subComponentScroller <= subComponentScrollerMax and subComponentScroller >= 1) then
+                    ApplyPedOverlay(PlayerPedId(), GetHashKey(tattoosCategories[componentScroller].value), GetHashKey(tattoosList[tattoosCategories[componentScroller].value][subComponentScroller].nameHash) )
+                    previousSub = subComponentScroller
+                    if(IsControlJustReleased(1, 51))then
+                        ApplyPedOverlay(PlayerPedId(), GetHashKey(tattoosCategories[componentScroller].value), GetHashKey(tattoosList[tattoosCategories[componentScroller].value][subComponentScroller].nameHash) )
                     end
+                end
             end
         end)
     end
