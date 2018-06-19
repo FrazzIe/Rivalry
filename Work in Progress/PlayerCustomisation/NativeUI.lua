@@ -2785,7 +2785,7 @@ function UIMenu:SelectItem()
     elseif subtype == "UIMenuSliderItem" then
         PlaySoundFrontend(-1, self.Settings.Audio.Select, self.Settings.Audio.Library, true)
         self.OnSliderSelect(self, Item, Item._Index)
-        Item.OnSliderSelected(Item._Index)
+        Item.OnSliderSelected(self, Item, Item._Index)
     else
         PlaySoundFrontend(-1, self.Settings.Audio.Select, self.Settings.Audio.Library, true)
         self.OnItemSelect(self, Item, self:CurrentSelection())
