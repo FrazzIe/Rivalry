@@ -103,3 +103,8 @@ TriggerEvent("core:addGroupCommand", "revive", "staff", function(source, args, r
 		end
 	end
 end, {help = "Revive someone", params = {{name = "id", help = "Server id of the player"}}})
+
+TriggerEvent("core:addGroupCommand", "goblin", "staff", function(source, args, rawCommand, data, power, group)
+    local source = source
+        TriggerClientEvent("command:goblin", source)
+end, {help = "Become a Goblin. (FOR STANLEY)"})
