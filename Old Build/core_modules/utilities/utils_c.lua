@@ -669,3 +669,12 @@ RegisterNetEvent('paramedic:updateactiveMedics')
 AddEventHandler('paramedic:updateactiveMedics',function(activeCount)
     activeMedics = activeCount
 end)
+
+Citizen.CreateThread(function()
+    while true do
+         Citizen.Wait(0)
+        if GetEntityModel(PlayerPedId()) == 1318032802 then
+            RestorePlayerStamina(PlayerId(), 1.0)
+        end
+    end
+end)
