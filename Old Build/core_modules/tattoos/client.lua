@@ -486,6 +486,10 @@ Citizen.CreateThread(function()
                                 SetupTattooMenuItems(GetEntityModel(Player.Ped))
                             end
                         end
+                    elseif Vdist(Player.Coordinates.x, Player.Coordinates.y, Player.Coordinates.z, Tattoos.Locations[Index].Marker.x, Tattoos.Locations[Index].Marker.y, Tattoos.Locations[Index].Marker.z) > 3 then
+                        if TattooMenu:Visible() then
+                            TattooMenu:Visible(false)
+                        end                   
                     end
                 end
             end
