@@ -367,6 +367,7 @@ AddEventHandler("core:selectCharacter", function(data)
                 TriggerClientEvent("core:sync", -1, Characters, CharacterNames, Users, UPower, UGroup)
                 TriggerEvent("core:sync", Characters, CharacterNames, Users, UPower, UGroup)
 
+                TriggerEvent("Tattoos.Initialise", source, identifier, tonumber(data.character_id))
                 TriggerEvent("police:initialise", source, identifier, tonumber(data.character_id))
                 TriggerEvent("paramedic:initialise", source, identifier, tonumber(data.character_id))
                 TriggerEvent("DOJ:Initialise", source, identifier, tonumber(data.character_id))
