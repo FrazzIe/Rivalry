@@ -1,3 +1,10 @@
+  RegisterServerEvent('mechanic:PayPlayer')
+  AddEventHandler('mechanic:PayPlayer', function()
+            TriggerEvent("core:getuser", source, function(user)
+                user.addWallet(3000)
+            end)
+  end)
+
 function closures_mechanic_server()
     local listMissions = {}
     local listPersonnelActive = {}

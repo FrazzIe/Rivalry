@@ -1,3 +1,10 @@
+  RegisterServerEvent('taxi:PayPlayer')
+  AddEventHandler('taxi:PayPlayer', function()
+            TriggerEvent("core:getuser", source, function(user)
+                user.addWallet(3000)
+            end)
+  end)
+
 function closures_taxi_server()
     local listMissions = {}
     local listPersonnelActive = {}
@@ -169,7 +176,7 @@ function closures_taxi_server()
         listPersonnelActive[source] = false
     end
 
-	function getNbPerosnnelActive()
+    function getNbPerosnnelActive()
         local dispo = 0
         for _, v in pairs(listPersonnelActive) do 
             if v ~= nil then

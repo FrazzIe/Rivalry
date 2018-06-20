@@ -15,6 +15,16 @@ local taxi_Bliptaxi = {}
 local taxi_call_accept = 0
 local taxi_nbtaxiInService = 0
 local taxi_nbtaxiDispo = 0
+local lastPayment = 0
+local missionXCoord = 0
+local missionYCoord = 0
+local missionZCoord = 0
+local previousMissionX = 0
+local previousMissionY = 0
+local previousMissionZ = 0
+local whoCalledX = 0
+local whoCalledY = 0
+local whoCalledZ = 0
 
 isTaxi = false
 
@@ -154,7 +164,7 @@ function spawnVehicle(coords, type)
     -- DecorSetInt(myVehiculeEntity, 'VehicleDepa', 1)
     -- SetVehicleNumberPlateText(myVehiculeEntity, "Depa001")
     -- local ObjectId = NetworkGetNetworkIdFromEntity(myVehiculeEntity)
-	-- SetNetworkIdExistsOnAllMachines(ObjectId, true)
+    -- SetNetworkIdExistsOnAllMachines(ObjectId, true)
 end
 
 
@@ -239,19 +249,19 @@ end)
 
 --
 --
-RegisterNetEvent('taxi:drawMarker')	
+RegisterNetEvent('taxi:drawMarker') 
 AddEventHandler('taxi:drawMarker', function (boolean)
-	isTaxi = boolean
+    isTaxi = boolean
     if isTaxi then
         showBliptaxi()
     else
         removeBliptaxi()
     end
 end)
-RegisterNetEvent('taxi:drawBlips')	
+RegisterNetEvent('taxi:drawBlips')  
 AddEventHandler('taxi:drawBlips', function ()
 end)
-RegisterNetEvent('taxi:marker')	
+RegisterNetEvent('taxi:marker') 
 AddEventHandler('taxi:marker', function ()
 end)
 
@@ -268,7 +278,7 @@ end)
 --====================================================================================
 
 function notifIcon(icon, type, sender, title, text)
-	Citizen.CreateThread(function()
+    Citizen.CreateThread(function()
         Wait(1)
         SetNotificationTextEntry("STRING");
         if TEXT[text] ~= nil then
@@ -277,7 +287,7 @@ function notifIcon(icon, type, sender, title, text)
         AddTextComponentString(text);
         SetNotificationMessage(icon, icon, true, type, sender, title, text);
         DrawNotification(false, true);
-	end)
+    end)
 end
 
 RegisterNetEvent("taxi:PersonnelMessage")
@@ -292,21 +302,11 @@ AddEventHandler("taxi:ClientMessage",function(message)
     notifIcon("CHAR_BLANK_ENTRY", 1, "Taxi", false, message)
 end)
 
-
---=== restart depanneur
 AddEventHandler("taxi:accept_mission", function(data)
     TriggerServerEvent('taxi:AcceptMission', data.id)
 end)
 
-AddEventHandler("taxi:finish_mission", function()
-    TriggerServerEvent('taxi:FinishMission', currentMissions.id)
-    currentMissions = nil
-    if currentBlip ~= nil then
-        RemoveBlip(currentBlip)
-    end
-end)
-
-function updateMenuMission() 
+function updateMenuMission()
     local items = {}
     for _,m in pairs(listMissions) do 
         -- Citizen.Trace('item mission')
@@ -334,6 +334,9 @@ end
 RegisterNetEvent('taxi:MissionAccept')
 AddEventHandler('taxi:MissionAccept', function (mission)
     currentMissions = mission
+    missionXCoord = mission.pos[1]
+    missionYCoord = mission.pos[2]
+    missionZCoord = mission.pos[3]
     SetNewWaypoint(mission.pos[1], mission.pos[2])
     currentBlip= AddBlipForCoord(mission.pos[1], mission.pos[2], mission.pos[3])
     SetBlipSprite(currentBlip, 309)
@@ -342,11 +345,53 @@ AddEventHandler('taxi:MissionAccept', function (mission)
     --SetBlipFlashes(currentBlip,1)
     BeginTextCommandSetBlipName("STRING")
     AddTextComponentString(TEXT.Blip)
-	EndTextCommandSetBlipName(currentBlip)
+      EndTextCommandSetBlipName(currentBlip)
     SetBlipAsMissionCreatorBlip(currentBlip, true)
+  end)
 
+
+local distance = 0
+local distanceP = 0
+local checkDistance = 0 
+
+Citizen.CreateThread(function()
+    while true do
+      Citizen.Wait(0)
+        local coords = GetEntityCoords(PlayerPedId())
+        distance = Vdist(coords.x, coords.y, coords.z, missionXCoord, missionYCoord, missionZCoord)
+        distanceP = Vdist(missionXCoord, missionYCoord, missionZCoord, previousMissionX, previousMissionY, previousMissionZ)
+        checkDistance = Vdist(coords.x, coords.y, coords.z, whoCalledX, whoCalledY, whoCalledZ)
+        if(distance < 20 and distanceP > 50 and checkDistance > 50) then
+            TriggerEvent('taxi:finish_mission')
+                previousMissionX = missionXCoord
+            previousMissionY = missionYCoord
+            previousMissionZ = missionZCoord
+            RemoveBlip(currentBlip)
+        end
+    end
 end)
 
+Citizen.CreateThread(function()
+        while true do
+      Citizen.Wait(180000)
+        previousMissionX = 0
+        previousMissionY = 0
+        previousMissionZ = 0
+    end
+end)
+
+AddEventHandler("taxi:finish_mission", function()
+    TriggerServerEvent('taxi:FinishMission', currentMissions.id)
+    local distanceP = Vdist(missionXCoord, missionYCoord, missionZCoord, previousMissionX, previousMissionY, previousMissionZ)
+    currentMissions = nil
+    if(distanceP > 50  and checkDistance > 50 )then
+            TriggerServerEvent('taxi:PayPlayer')
+        RemoveBlip(currentBlip)
+    end
+    if currentBlip ~= nil then
+        RemoveBlip(currentBlip)
+    end
+end)
 
 RegisterNetEvent('taxi:MissionCancel')
 AddEventHandler('taxi:MissionCancel', function ()
@@ -384,6 +429,9 @@ function callService(type)
     local myPed = GetPlayerPed(-1)
     local myCoord = GetEntityCoords(myPed)
     TriggerServerEvent('taxi:Call', myCoord.x, myCoord.y, myCoord.z, type)
+    whoCalledX = myCoord.x
+    whoCalledY = myCoord.y
+    whoCalledZ = myCoord.z
 end
 
 function toogleHelperLine()
@@ -423,7 +471,7 @@ end)
 
 
 function openTextInput(title, defaultText, maxlength)
-	DisplayOnscreenKeyboard(1, "FMMC_MPM_NA", "", defaultText or "", "", "", "", maxlength or 180)
+    DisplayOnscreenKeyboard(1, "FMMC_MPM_NA", "", defaultText or "", "", "", "", maxlength or 180)
     while (UpdateOnscreenKeyboard() == 0) do
         DisableAllControlActions(0);
         Wait(0);
@@ -431,7 +479,7 @@ function openTextInput(title, defaultText, maxlength)
     if (GetOnscreenKeyboardResult()) then
         return GetOnscreenKeyboardResult()
     end
-	return nil
+    return nil
 end
 
 
