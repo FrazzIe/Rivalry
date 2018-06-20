@@ -1,5 +1,5 @@
 local Pool = NativeUI.CreatePool()
-local TattooMenu = NativeUI.CreateMenu("Tattoo Shop", "", 1300, 300)
+local TattooMenu = NativeUI.CreateMenu("Tattoo Parlour", "", 1300, 300)
 local Tattoos = {
     Active = {},
     Locations = {
