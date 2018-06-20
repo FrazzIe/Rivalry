@@ -172,7 +172,7 @@ function accessories(title)
             end
         end)
         Menu.addOption("clothing_accessories", function()
-            if(Menu.ScrollBarInt("Textures", textureScroller, GetNumberOfPedTextureVariations(PlayerPedId(), componentScroller, subComponentScroller), function(cb) Citizen.Trace(cb) textureScroller = cb end)) then
+            if(Menu.ScrollBarInt("Textures", textureScroller, GetNumberOfPedPropTextureVariations(PlayerPedId(), componentScroller, subComponentScroller), function(cb) Citizen.Trace(cb) textureScroller = cb end)) then
                 SetPedPropIndex(PlayerPedId(), componentScroller, subComponentScroller, textureScroller, false)
             end
         end)
@@ -219,7 +219,7 @@ function accessories(title)
             end
         end)
         Menu.addOption("clothing_accessories", function()
-            if(Menu.ScrollBarInt("Textures", textureScroller, GetNumberOfPedTextureVariations(PlayerPedId(), componentScroller, subComponentScroller), function(cb) Citizen.Trace(cb) textureScroller = cb end)) then
+            if(Menu.ScrollBarInt("Textures", textureScroller, GetNumberOfPedPropTextureVariations(PlayerPedId(), componentScroller, subComponentScroller), function(cb) Citizen.Trace(cb) textureScroller = cb end)) then
                 SetPedPropIndex(PlayerPedId(), componentScroller, subComponentScroller, textureScroller, false)
             end
         end)
@@ -362,6 +362,9 @@ AddEventHandler("paramedic:setComponents", function()
         for i = 0, 7 do
             SetPedPropIndex(PlayerPedId(), i, player_data.props.drawables[i+1], player_data.props.textures[i+1], false)
         end
+
+        exports["core_modules"]:ApplyTattoos(PlayerPedId())
+
         for i = 0, 12 do
             SetPedHeadOverlay(PlayerPedId(), i, player_data.overlays.drawables[i+1], player_data.overlays.opacity[i+1])
             SetPedHeadOverlayColor(PlayerPedId(), i, player_data.overlays.colours[i+1].colourType, player_data.overlays.colours[i+1].colour, player_data.overlays.colours[i+1].colour)
