@@ -194,3 +194,6 @@ export 'IsInJail'
 export 'IsInZone'
 
 export 'ApplyTattoos'
+
+export 'SetParamedic'
+export 'SetPolice'
