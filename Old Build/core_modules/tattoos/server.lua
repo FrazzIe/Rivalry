@@ -5,7 +5,7 @@ AddEventHandler("Tattoos.Initialise", function(source, identifier, character_id,
 		["@character_id"] = character_id,
 	}, function(_tattoos)
 		if _tattoos[1] == nil then
-			exports["GHMattiMySQL"]:QueryAsync("INSERT INTO tattoos (`character_id`, `tattoos`, `tattoos_police`, `tattoos_paramedic`) VALUES (@character_id,@tattoos,@police_tattoos,@paramedic_tattoo)", {
+			exports["GHMattiMySQL"]:QueryAsync("INSERT INTO tattoos (`character_id`, `tattoos`, `tattoos_police`, `tattoos_paramedic`) VALUES (@character_id,@tattoos,@police_tattoos,@paramedic_tattoos)", {
 				["@character_id"] = character_id,
 				["@tattoos"] = json.encode({}),
 				["@police_tattoos"] = json.encode({}),
