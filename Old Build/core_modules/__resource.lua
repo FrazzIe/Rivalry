@@ -40,6 +40,9 @@ server_script 'admin/server.lua'
 --Anticheat
 client_script 'anticheat/client.lua'
 server_script 'anticheat/server.lua'
+--Tattoos
+client_script 'tattoos/client.lua'
+server_script 'tattoos/server.lua'
 --Clothing
 client_script 'clothing/client.lua'
 client_script 'clothing/config.lua'
