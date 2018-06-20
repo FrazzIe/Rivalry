@@ -89,7 +89,7 @@ Chat.Command("dispatch", function(source, args, rawCommand)
 	        end
 	    end
 	else
-		Chat.Message(source, "^*Dispatch:^r ", "^3^*^~You do not have permission to use this command.", 0, 255, 0, true, "policedispatch")
+		Chat.Message(source, "^*Dispatch:^r ", "^3^*^_You do not have permission to use this command.", 0, 255, 0, true, "policedispatch")
 	end
 end, false, {Help = "Respond back towards a call.", Params = {{name = "id", help = "The caller ID"}, {name = "message", help = "Message to send to the caller"}}})
 
