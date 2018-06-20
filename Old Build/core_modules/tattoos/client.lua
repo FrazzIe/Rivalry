@@ -380,20 +380,23 @@ Pool:Add(TattooMenu)
 Pool:ControlDisablingEnabled(false)
 Pool:MouseControlsEnabled(false)
 
-function ApplyTattoos()
-    ClearPedDecorations(Player.Ped)
+function ApplyTattoos(Ped)
+    ClearPedDecorations(Ped)
     for Tattoo, Collection in pairs(Tattoos.Active) do
-        SetPedDecoration(Player.Ped, GetHashKey(Collection), GetHashKey(Tattoo))
+        SetPedDecoration(Ped, GetHashKey(Collection), GetHashKey(Tattoo))
     end
 end
 
 function SwitchClothes(Model)
+    ClearAllPedProps(Player.Ped)
     if Model == GetHashKey("mp_m_freemode_01") then
+        SetPedComponentVariation(Player.Ped, 1, 0, 0, 2)
         SetPedComponentVariation(Player.Ped, 8, 15, 0, 2)
         SetPedComponentVariation(Player.Ped, 3, 15, 0, 2)
         SetPedComponentVariation(Player.Ped, 11, 91, 0, 2)
         SetPedComponentVariation(Player.Ped, 4, 14, 0, 2)
     else
+        SetPedComponentVariation(Player.Ped, 1, 0, 0, 2)
         SetPedComponentVariation(Player.Ped, 8, 34, 0, 2)
         SetPedComponentVariation(Player.Ped, 3, 15, 0, 2)
         SetPedComponentVariation(Player.Ped, 11, 101, 1, 2)
@@ -418,19 +421,19 @@ function SetupTattooMenuItems(Model)
             local ActiveItem = SliderItem:IndexToItem(Index)
             if Tattoos.Active[ActiveItem] then
                 Tattoos.Active[ActiveItem] = nil
-                Notify("Tattoo removed", 3000)
+                exports.pNotify:SendNotification({text = "Tattoo removed!", type = "error", timeout = 3000, layout = "bottomRight", queue = "left"})
             else
                 Tattoos.Active[ActiveItem] = ItemCategoryList:IndexToItem(ItemCategoryList:Index()).Value
-                Notify("Tattoo added", 3000)
+                exports.pNotify:SendNotification({text = "Tattoo applied!", type = "error", timeout = 3000, layout = "bottomRight", queue = "left"})
             end
 
-            ApplyTattoos()
+            ApplyTattoos(Player.Ped)
         end
 
         ItemTattooSlider.OnSliderChanged = function(ParentMenu, SliderItem, Index)
             local ActiveItem = SliderItem:IndexToItem(Index)
 
-            ApplyTattoos()
+            ApplyTattoos(Player.Ped)
             if not Tattoos.Active[ActiveItem] then
                 SetPedDecoration(Player.Ped, GetHashKey(ItemCategoryList:IndexToItem(ItemCategoryList:Index()).Value), GetHashKey(ActiveItem))
             end
@@ -439,7 +442,7 @@ function SetupTattooMenuItems(Model)
         ItemRemoveTattoos.Activated = function(ParentMenu, SelectedItem)
             Tattoos.Active = {}
             
-            ApplyTattoos()
+            ApplyTattoos(Player.Ped)
         end
 
         TattooMenu:AddItem(ItemCategoryList)
@@ -473,8 +476,8 @@ Citizen.CreateThread(function()
         if Player.Ready then
             for Index = 1, #Tattoos.Locations do
                 if Vdist(Player.Coordinates.x, Player.Coordinates.y, Player.Coordinates.z, Tattoos.Locations[Index].Marker.x, Tattoos.Locations[Index].Marker.y, Tattoos.Locations[Index].Marker.z) < 20 then
-                    RenderMarker(25, Tattoos.Locations[Index].Marker.x, Tattoos.Locations[Index].Marker.y, Tattoos.Locations[Index].Marker.z, 1.0, 1.0, 1.5, 255, 255, 0, 255)
-                    if Vdist(Player.Coordinates.x, Player.Coordinates.y, Player.Coordinates.z, Tattoos.Locations[Index].Marker.x, Tattoos.Locations[Index].Marker.y, Tattoos.Locations[Index].Marker.z) < 1 then
+                    RenderMarker(25, Tattoos.Locations[Index].Marker.x, Tattoos.Locations[Index].Marker.y, Tattoos.Locations[Index].Marker.z, 3.0, 3.0, 3.5, 255, 255, 0, 255)
+                    if Vdist(Player.Coordinates.x, Player.Coordinates.y, Player.Coordinates.z, Tattoos.Locations[Index].Marker.x, Tattoos.Locations[Index].Marker.y, Tattoos.Locations[Index].Marker.z) < 3 then
                         DisplayHelpText("Press ~INPUT_CONTEXT~ to open the tattoo parlour!")
                         if IsControlJustPressed(1, 51) then
                             if TattooMenu:Visible() then
