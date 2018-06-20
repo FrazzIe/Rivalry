@@ -67,6 +67,8 @@ itemlist = {
     [45] = {name = "Yams", item_id = 45, canuse = 2, illegal = false},
     [46] = {name = "Hotwire kit", item_id = 46, canuse = 8, illegal = true},
     [47] = {name = "Dirty Cocaine", item_id = 47, canuse = 0, illegal = true},
+    [48] = {name = "Donut Taco", item_id = 48, canuse = 2, illegal = false},
+    [49] = {name = "Taco", item_id = 49, canuse = 2, illegal = false},
 }
 
 user_max = 100

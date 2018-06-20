@@ -25,6 +25,8 @@ Store = {
         {Name = "Donut", Id = 42, Cost = 5, Max = 100},
         {Name = "Pizza slice", Id = 43, Cost = 8, Max = 100},
         {Name = "Yams", Id = 45, Cost = 10, Max = 100},
+        {Name = "Donut Taco", Id = 48, Cost = 8, Max = 100},
+        {Name = "Taco", Id = 49, Cost = 8, Max = 100},
     }},
     {Category = "Drink", Items = {
         {Name = "Water", Id = 6, Cost = 4, Max = 100},
