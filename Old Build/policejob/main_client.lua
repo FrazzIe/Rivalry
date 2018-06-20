@@ -38,6 +38,7 @@ AddEventHandler("police:set", function(_data, _iscop, first)
 	isCop = _iscop
 	if not isCop and isInService then
 		isInService = false
+		exports["core_modules"]:SetPolice(isCop, isInService)
 		TriggerServerEvent("jobcenter:jobs", 1)
 		TriggerServerEvent("police:setService", isInService)
 		BlipRemoval()
@@ -51,15 +52,18 @@ AddEventHandler("police:set", function(_data, _iscop, first)
 	elseif not isCop and not isInService then
 		if not first then
 			TriggerServerEvent("jobcenter:jobs", 1)
+			exports["core_modules"]:SetPolice(isCop, isInService)
 		end
 	elseif isCop then
 		TriggerServerEvent("jobcenter:jobs", 2)
+		exports["core_modules"]:SetPolice(isCop, isInService)
 	end
 end)
 
 AddEventHandler("paramedic:dead", function()
 	if isCop and isInService then
 		isInService = false
+		exports["core_modules"]:SetPolice(isCop, isInService)
 		TriggerServerEvent("jobcenter:jobs", 1)
 		TriggerServerEvent("police:setService", isInService)
 		TriggerServerEvent("clothes:spawn")
@@ -96,6 +100,7 @@ Citizen.CreateThread(function()
 				end
 				if IsControlJustReleased(1, 38)  then
 					isInService = not isInService
+					exports["core_modules"]:SetPolice(isCop, isInService)
 					TriggerServerEvent("police:setService", isInService)
 					
 					if(isInService) then

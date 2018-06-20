@@ -39,6 +39,7 @@ AddEventHandler('paramedic:set', function(_data, _isparamedic, first)
 	isParamedic = _isparamedic
 	if not isParamedic and isInService then
 		isInService = false
+		exports["core_modules"]:SetParamedic(isParamedic, isInService)
 		TriggerServerEvent("jobcenter:jobs", 1)
 		TriggerServerEvent("paramedic:setService", isInService)
 		RemoveParamedicBlips()
@@ -50,9 +51,11 @@ AddEventHandler('paramedic:set', function(_data, _isparamedic, first)
 		end
 	elseif not isParamedic and not isInService then
 		if not first then
+			exports["core_modules"]:SetParamedic(isParamedic, isInService)
 			TriggerServerEvent("jobcenter:jobs", 1)
 		end
 	elseif isParamedic then
+		exports["core_modules"]:SetParamedic(isParamedic, isInService)
 		TriggerServerEvent("jobcenter:jobs", 15)
 	end
 end)
@@ -85,6 +88,7 @@ Citizen.CreateThread(function()
 				end
 				if IsControlJustReleased(1, 38)  then
 					isInService = not isInService
+					exports["core_modules"]:SetParamedic(isParamedic, isInService)
 					TriggerServerEvent("paramedic:setService", isInService)
 					
 					if isInService then
@@ -105,6 +109,7 @@ end)
 
 AddEventHandler("paramedic:dead", function()
 	if isParamedic and isInService then
+		exports["core_modules"]:SetParamedic(isParamedic, isInService)
 		isInService = false
 		TriggerServerEvent("jobcenter:jobs", 1)
 		TriggerServerEvent("paramedic:setService", isInService)
