@@ -50,10 +50,12 @@ Chat.Command("311", function(source, args, rawCommand)
 	local Message = table.concat(args, " ")
 	if Message ~= "" then
 		for id, dept in pairs(emergency_users) do
-			if dept ~= nil then
-				Chat.Message(id, "311 - ^5[^3"..source.."^5]^r", Message, 255, 255, 0, true, "policethreeoneone")
-				TriggerClientEvent("dispatch:311", id, source, Message)
-				TriggerClientEvent("trigger:animation", source)
+			if id ~= source then
+				if dept ~= nil then
+					Chat.Message(id, "311 - ^5[^3"..source.."^5]^r", Message, 255, 255, 0, true, "policethreeoneone")
+					TriggerClientEvent("dispatch:311", id, source, Message)
+					TriggerClientEvent("trigger:animation", source)
+				end
 			end
 		end
 		Chat.Message(source, "311 - ^5[^3"..source.."^5]^r", Message, 255, 255, 0, true, "policethreeoneone")
@@ -65,9 +67,11 @@ Chat.Command("911", function(source, args, rawCommand)
 	local Message = table.concat(args, " ")
 	if Message ~= "" then
 		for id, dept in pairs(emergency_users) do
-			if dept ~= nil then
-				Chat.Message(id, "911 - ^5[^3"..source.."^5]^r", Message, 255, 0, 0, true, "policenineoneone")
-				TriggerClientEvent("dispatch:911", id, source, Message)
+			if id ~= source then
+				if dept ~= nil then
+					Chat.Message(id, "911 - ^5[^3"..source.."^5]^r", Message, 255, 0, 0, true, "policenineoneone")
+					TriggerClientEvent("dispatch:911", id, source, Message)
+				end
 			end
 		end
 		Chat.Message(source, "911 - ^5[^3"..source.."^5]^r", Message, 255, 0, 0, true, "policenineoneone")
