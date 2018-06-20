@@ -1,3 +1,18 @@
+IsPolice = false
+IsParamedic = false
+IsOnDutyPolice = false
+IsOnDutyParamedic = false
+
+function SetPolice(_IsPolice, _IsOnDuty)
+    IsPolice = _IsPolice
+    IsOnDutyPolice = _IsOnDuty
+end
+
+function SetParamedic(_IsParamedic, _IsOnDuty)
+    IsParamedic = _IsParamedic
+    IsOnDutyParamedic = _IsOnDuty
+end
+
 local animals = {
     ["1462895032"] = true,
     ["-1788665315"] = true,
