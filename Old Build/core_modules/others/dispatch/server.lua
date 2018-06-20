@@ -49,43 +49,47 @@ Chat.Command("311", function(source, args, rawCommand)
 	if Message ~= "" then
 		for id, dept in pairs(emergency_users) do
 			if dept ~= nil then
-				Chat.Message(id, "311 - ["..source.."]", Message, 0, 200, 0, true, "policethreeoneone")
+				Chat.Message(id, "311 - ^5[^3"..source.."^5]^r", Message, 255, 255, 0, true, "policethreeoneone")
 				TriggerClientEvent("dispatch:311", id, source, Message)
 				TriggerClientEvent("trigger:animation", source)
 			end
 		end
-		Chat.Message(source, "311 - ["..source.."]", Message, 0, 200, 0, true, "policethreeoneone")
+		Chat.Message(source, "311 - ^5[^3"..source.."^5]^r", Message, 255, 255, 0, true, "policethreeoneone")
 		TriggerClientEvent("trigger:animation", source)
 	end
-end, false, {Help = "Call for assistance(Non-Emergency)", Params = {"message"}})
+end, false, {Help = "Call for assistance(Non-Emergency)", Params = {{name = "message", help = "Message to send to the emergency services"}}})
 
 Chat.Command("911", function(source, args, rawCommand)
 	local Message = table.concat(args, " ")
 	if Message ~= "" then
 		for id, dept in pairs(emergency_users) do
 			if dept ~= nil then
-				Chat.Message(id, "911 - ["..source.."]", Message, 0, 200, 0, true, "policenineoneone")
+				Chat.Message(id, "911 - ^5[^3"..source.."^5]^r", Message, 255, 0, 0, true, "policenineoneone")
 				TriggerClientEvent("dispatch:911", id, source, Message)
 			end
 		end
-		Chat.Message(source, "911 - ["..source.."]", Message, 0, 200, 0, true, "policenineoneone")
+		Chat.Message(source, "911 - ^5[^3"..source.."^5]^r", Message, 255, 0, 0, true, "policenineoneone")
 		TriggerClientEvent("trigger:animation", source)
 	end
-end, false, {Help = "Call for assistance(Emergency)", Params = {"message"}})
+end, false, {Help = "Call for assistance(Emergency)", Params = {{name = "message", help = "Message to send to the emergency services"}}})
 
 Chat.Command("dispatch", function(source, args, rawCommand)
-	if args[2] then
-		local Target, Message = args[1], table.concat(args, " ", 2)
-		if GetPlayerName(Target) ~= nil then
-        	Chat.Message(Target, "Dispatch: ", Message, 0, 200, 0, true, "dispatch")
-			for id, dept in pairs(emergency_users) do
-				Chat.Message(id, "Dispatch: ", "Sent \""..Message.."\" to caller "..Target..".", 0, 200, 0, true, "policedispatch")
-			end
-        else
-        	Chat.Message(source, "Dispatch: ", "Unable to reach caller "..Target, 0, 200, 0, true, "policedispatch")
-        end
-    end
-end, false, {Help = "Respond back towards a call.", Params = {"id", "message"}})
+	if emergency_users[source] then
+		if args[2] then
+			local Target, Message = args[1], table.concat(args, " ", 2)
+			if GetPlayerName(Target) ~= nil then
+	        	Chat.Message(Target, "^*Dispatch: ^r", Message, 0, 255, 0, true, "policedispatch")
+				for id, dept in pairs(emergency_users) do
+					Chat.Message(id, "^*Dispatch:^r ", "Sent \"^3"..Message.."^r\" to caller ^2"..Target.."^r.", 0, 255, 0, true, "policedispatch")
+				end
+	        else
+	        	Chat.Message(source, "^*Dispatch:^r ", "Unable to reach caller ^2"..Target.."^r.", 0, 255, 0, true, "policedispatch")
+	        end
+	    end
+	else
+		Chat.Message(source, "^*Dispatch:^r ", "^3^*^~You do not have permission to use this command.", 0, 255, 0, true, "policedispatch")
+	end
+end, false, {Help = "Respond back towards a call.", Params = {{name = "id", help = "The caller ID"}, {name = "message", help = "Message to send to the caller"}}})
 
 RegisterServerEvent("dispatch:ten-thirteen")
 AddEventHandler("dispatch:ten-thirteen", function(street_name)
