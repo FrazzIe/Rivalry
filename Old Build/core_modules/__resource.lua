@@ -192,3 +192,5 @@ export 'setAttribute'
 export 'IsInJail'
 
 export 'IsInZone'
+
+export 'ApplyTattoos'
