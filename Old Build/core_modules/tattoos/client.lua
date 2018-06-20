@@ -380,9 +380,21 @@ Pool:Add(TattooMenu)
 Pool:ControlDisablingEnabled(false)
 Pool:MouseControlsEnabled(false)
 
+function GetModelType()
+    if IsOnDutyPolice then
+        return "police"
+    elseif IsOnDutyParamedic then
+        return "paramedic"
+    else
+        return "default"
+    end
+end
+
 function ApplyTattoos(Ped)
+    local ModelType = GetModelType()
+
     ClearPedDecorations(Ped)
-    for Tattoo, Collection in pairs(Tattoos.Active) do
+    for Tattoo, Collection in pairs(Tattoos.Active[ModelType]) do
         SetPedDecoration(Ped, GetHashKey(Collection), GetHashKey(Tattoo))
     end
 end
@@ -404,26 +416,6 @@ function SwitchClothes(Model)
     end
 end
 
-function GetModelType(event)
-    if event then
-        if exports.policejob:getIsInService() then
-            return "police:load_clothing"
-        elseif exports.emsjob:getIsInService() then
-            return "paramedic:load_clothing"
-        else
-            return "clothes:spawn"
-        end
-    else
-        if exports.policejob:getIsInService() then
-            return "police"
-        elseif exports.emsjob:getIsInService() then
-            return "paramedic"
-        else
-            return "default"
-        end
-    end
-end
-
 function SetupTattooMenuItems(Model)
     TattooMenu:Clear()
     if Model == GetHashKey("mp_m_freemode_01") or Model == GetHashKey("mp_f_freemode_01") then
@@ -439,11 +431,13 @@ function SetupTattooMenuItems(Model)
 
         ItemTattooSlider.OnSliderSelected = function(ParentMenu, SliderItem, Index)
             local ActiveItem = SliderItem:IndexToItem(Index)
-            if Tattoos.Active[GetModelType()][ActiveItem] then
-                Tattoos.Active[GetModelType()][ActiveItem] = nil
+            local ModelType = GetModelType()
+
+            if Tattoos.Active[ModelType][ActiveItem] then
+                Tattoos.Active[ModelType][ActiveItem] = nil
                 exports.pNotify:SendNotification({text = "Tattoo removed!", type = "error", timeout = 3000, layout = "bottomRight", queue = "left"})
             else
-                Tattoos.Active[GetModelType()][ActiveItem] = ItemCategoryList:IndexToItem(ItemCategoryList:Index()).Value
+                Tattoos.Active[ModelType][ActiveItem] = ItemCategoryList:IndexToItem(ItemCategoryList:Index()).Value
                 exports.pNotify:SendNotification({text = "Tattoo applied!", type = "error", timeout = 3000, layout = "bottomRight", queue = "left"})
             end
 
@@ -452,9 +446,11 @@ function SetupTattooMenuItems(Model)
 
         ItemTattooSlider.OnSliderChanged = function(ParentMenu, SliderItem, Index)
             local ActiveItem = SliderItem:IndexToItem(Index)
+            local ModelType = GetModelType()
 
             ApplyTattoos(Player.Ped)
-            if not Tattoos.Active[GetModelType()][ActiveItem] then
+
+            if not Tattoos.Active[ModelType][ActiveItem] then
                 SetPedDecoration(Player.Ped, GetHashKey(ItemCategoryList:IndexToItem(ItemCategoryList:Index()).Value), GetHashKey(ActiveItem))
             end
         end
@@ -478,8 +474,9 @@ end
 TattooMenu.OnMenuClosed = function(Menu)
     local Model = GetEntityModel(Player.Ped)
     if Model == GetHashKey("mp_m_freemode_01") or Model == GetHashKey("mp_f_freemode_01") then
-        TriggerServerEvent(GetModelType(true))
-        TriggerServerEvent("Tattoos.Save", Tattoos.Active[GetModelType()], GetModelType())
+        local ModelType = GetModelType()
+        TriggerServerEvent((IsOnDutyPolice and "police:load_clothing" or (IsOnDutyParamedic and "paramedic:load_clothing" or "clothes:spawn")))
+        TriggerServerEvent("Tattoos.Save", Tattoos.Active[ModelType], ModelType)
     end
 end
 
@@ -517,7 +514,6 @@ Citizen.CreateThread(function()
     end
 end)
 
-exports.emsjob:getIsInService()
 RegisterNetEvent("Tattoos.Load")
 AddEventHandler("Tattoos.Load", function(Tats)
     Tattoos.Active = Tats
