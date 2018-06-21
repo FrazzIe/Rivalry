@@ -1909,7 +1909,7 @@ end
 function UIMenuColourPanel:UpdateSelection()
     local CurrentSelection = self:CurrentSelection()
     self:UpdateParent(CurrentSelection)
-    print(CurrentSelection)
+
     self.SelectedRectangle:Position(15 + (44.5 * ((CurrentSelection - self.Data.Pagination.Min) - 1)) + self.ParentItem:Offset().X, self.SelectedRectangle.Y)
     for Index = 1, 9 do
         self.Bar[Index]:Colour(table.unpack(self.Data.Items[self.Data.Pagination.Min + Index]))
@@ -1981,7 +1981,6 @@ function UIMenuColourPanel:Functions()
     for Index = 1, #self.Bar do
         if IsMouseInBounds(self.Bar[Index].X + SafeZone.X, self.Bar[Index].Y + SafeZone.Y, self.Bar[Index].Width, self.Bar[Index].Height) then
             if IsDisabledControlJustPressed(0, 24) then
-                print("CS = "..self.Data.Pagination.Min.." + "..Index.." - 1".." // "..(self.Data.Pagination.Min + Index - 1))
                 self:CurrentSelection(self.Data.Pagination.Min + Index - 1)
             end
         end
