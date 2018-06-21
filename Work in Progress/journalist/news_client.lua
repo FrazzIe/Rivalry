@@ -92,21 +92,6 @@ end)
 =================================================================================================================================================================================================================================================
 =================================================================================================================================================================================================================================================
 --]]
-local timestamp = " "
-local editor_t = " "
-local header_t = " "
-local body_t = " "
-local header2_t = " "
-local body2_t= " "
-RegisterNetEvent('news:load-news')
-AddEventHandler('news:load-news', function(time, editor_name, header, body, header2, body2)
-	timestamp = time
-	editor_t = editor_name
-	header_t = header
-	body_t = body
-	header2_t = header2
-	body2_t = body2
-end)
 
 RegisterNetEvent('news:new-news')
 AddEventHandler('news:new-news', function(entry)
@@ -118,59 +103,23 @@ AddEventHandler('news:new-news', function(entry)
 	end
 end)
 
-function drawPaper()
-    local lines = {
-        { text = '~o~Los Santos Newspaper', isTitle = true, isCenter = true},
-        { text =  '~g~By: '..editor_t..' published on '..timestamp , isCenter = false, addY = 0.04},
-        { text = '~r~'..header_t, isCenter = true, addY = 0.04},
-        { text = '  '..body_t, addY = 0.4},
-        { text = '~r~'..header2_t, size = 0.4, addY = 0.04 },
-      	{ text = '  '..body2_t, addY = 0.4},
-    }
-    DrawRect(0.5, 0.5, 0.48, 0.9, 0,0,0, 225)
-    local y = 0.06 - 0.025
-    local defaultAddY = 0.025
-    local addY = 0.025
-    for _, line in pairs(lines) do 
-        y = y + addY
-        local caddY = defaultAddY
-        local x = 0.275
-        local defaultSize = 0.32
-        local defaultFont = 8
-        if line.isTitle == true then
-            defaultFont = 1
-            defaultSize = 0.8
-            caddY = 0.06
-        end
-        SetTextFont(line.font or defaultFont)
-        SetTextScale(0.0,line.size or defaultSize)
-        SetTextCentre(line.isCenter == true)
-        if line.isCenter == true then
-            x = 0.5
-        end
-        SetTextDropShadow(0, 0, 0, 0, 0)
-        SetTextEdge(0, 0, 0, 0, 0)
-        SetTextColour(255, 255, 255, 255)
-        SetTextEntry("STRING")
-        AddTextComponentString(line.text)
-        DrawText(x, y)
-        addY = line.addY or caddY
-    end
-end
-
 Chat.Command("newspaper", function(source, args, rawCommand)
-	TriggerServerEvent("news:load-news")
-	Citizen.CreateThread(function()
-		while true do
-			Citizen.Wait(0)
-			if showPaper == true then
-            	drawPaper()
-        	end
-	        if IsControlJustPressed(0, KEY_CLOSE) then
-	            showPaper = false
-	         end
-        end
-     end)
+	showPaper = true
+	loadNewsUp()
+		Citizen.CreateThread(function()
+			while true do
+				Citizen.Wait(0)
+				if showPaper == true then
+					drawPaper()
+	        	end
+		        if IsControlJustPressed(1, 177) then
+		            showPaper = false
+		        end
+		        if IsControlJustPressed(1, 174) then
+		        	pageSelection = pageSelection + 1
+		        end
+	        end
+	     end)
 end, false, {Help = "Open the Newspaper",  Params = {}})
 
 RegisterNetEvent('news:remove-news')
@@ -181,7 +130,3 @@ AddEventHandler('news:remove-news', function(id)
 		end
 	end
 end)
---[[
-=================================================================================================================================================================================================================================================
-=================================================================================================================================================================================================================================================
---]]
