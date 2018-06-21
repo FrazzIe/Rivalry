@@ -1672,8 +1672,8 @@ end
 
 function UIMenuGridPanel:CirclePosition(X, Y)
     if tonumber(X) and tonumber(Y) then
-        self.Circle.X = self.Grid.X + (self.Grid.Width * ((X >= 0.0 and X <= 1.0) and X or 0.0)) - (self.Circle.Width/2)
-        self.Circle.Y = self.Grid.Y + (self.Grid.Height * ((Y >= 0.0 and Y <= 1.0) and Y or 0.0)) - (self.Circle.Height/2)
+        self.Circle.X = (self.Grid.X + 20) + ((self.Grid.Width - 40) * ((X >= 0.0 and X <= 1.0) and X or 0.0)) - (self.Circle.Width/2)
+        self.Circle.Y = (self.Grid.Y + 20) + ((self.Grid.Height - 40) * ((Y >= 0.0 and Y <= 1.0) and Y or 0.0)) - (self.Circle.Height/2)
     else
         return math.round((self.Circle.X - (self.Grid.X + 20) + (self.Circle.Width/2))/(self.Grid.Width - 40), 2), math.round((self.Circle.Y - (self.Grid.Y + 20) + (self.Circle.Height/2))/(self.Grid.Height - 40), 2)
     end
