@@ -698,7 +698,7 @@ local ApparelMenu = SetupApparelMenu(CharacterCreatorMenu)
 local SaveOption = SetupSaveOption(CharacterCreatorMenu)
 local ModelMenu = SetupModelMenu(CharacterCreatorMenu)
 
-CharacterCreatorMenu.OnListChange = function(ParentMenu, ListItem, NewIndex) 
+CharacterCreatorMenu.OnListSelect = function(ParentMenu, SelectedList, NewIndex) 
 	if SelectedList == GenderOption then
 		local Item = SelectedList:IndexToItem(NewIndex)
 		if Item == "Hybrid" then
@@ -713,6 +713,18 @@ CharacterCreatorMenu.OnListChange = function(ParentMenu, ListItem, NewIndex)
 
 			AppearanceMenu.Items[1].Items = PlayerCustomisation.Reference.Appearance.Hairstyles[PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender]
 			ApparelMenu.Items[2].Items = PlayerCustomisation.Reference.Apparel.Outfits[PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender][ApparelMenu.Items[1]:Index()]
+
+			FeaturesMenu.Items[1].Panels[1]:CirclePosition(PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].FacialFeature[8], PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].FacialFeature[7])
+			FeaturesMenu.Items[2].Panels[1]:CirclePosition(PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].FacialFeature[12] + 1.0, 0.5)
+			FeaturesMenu.Items[3].Panels[1]:CirclePosition(PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].FacialFeature[1], PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].FacialFeature[2])
+			FeaturesMenu.Items[4].Panels[1]:CirclePosition(PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].FacialFeature[3] + 1.0, PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].FacialFeature[4])
+			FeaturesMenu.Items[5].Panels[1]:CirclePosition(PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].FacialFeature[6] + 1.0, PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].FacialFeature[5])
+			FeaturesMenu.Items[6].Panels[1]:CirclePosition(PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].FacialFeature[10], PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].FacialFeature[9])
+			FeaturesMenu.Items[7].Panels[1]:CirclePosition(PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].FacialFeature[11] + 1.0, 0.5)
+			FeaturesMenu.Items[8].Panels[1]:CirclePosition(PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].FacialFeature[13] + 1.0, 0.5)
+			FeaturesMenu.Items[9].Panels[1]:CirclePosition(PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].FacialFeature[14], PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].FacialFeature[15])
+			FeaturesMenu.Items[10].Panels[1]:CirclePosition(PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].FacialFeature[17], PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].FacialFeature[16])
+			FeaturesMenu.Items[11].Panels[1]:CirclePosition(PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].FacialFeature[18] + 1.0, PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].FacialFeature[19])
 
 			for Index = 2, #ParentMenu.Items do
 				ParentMenu.Items[Index]:Enabled(true)
