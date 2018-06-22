@@ -11,15 +11,20 @@
 
     Copy, re-release, re-distribute it without my written permission.
 --]]
+local database = {}
 AddEventHandler("jail:initialise", function(source, time)
     local source = source
     if tonumber(time) > 0 then
         TriggerClientEvent("jail:jail", source , tonumber(time))
+        local data = {
+            player = GetPlayerName(source)
+        }
+        table.insert(database, data)
     end
 end)
 
 RegisterServerEvent('allPlayers')
-AddEventHandler('allPlayers', function()
+AddEventHandler('allPlayers', function(source)
     local players = GetPlayers()
     TriggerClientEvent('allPlayersCB', players)
 end)
@@ -36,6 +41,10 @@ TriggerEvent("core:addGroupCommand", "jail", "emergency", function(source, args,
                         TriggerClientEvent("pNotify:SendNotification", tonumber(args[1]), {text = "Your weapons have been confiscated!",type = "error", queue = "left",timeout = 10000,layout = "bottomCenter"})
                         TriggerClientEvent("jail:jail", tonumber(args[1]) , tonumber(args[2]))
                         target.set("jail_time", tonumber(args[2]))
+                        local players = {
+                            player = tonumber(args[1]),
+                        }
+                        table.insert(database, players)
                     end)
                 else
                     TriggerClientEvent('chatMessage', source, 'SYSTEM', {255, 0, 0}, "Usage : /jail [ID] [TIME] [REASON]") 
@@ -63,3 +72,21 @@ TriggerEvent("core:addGroupCommand", "unjail", "emergency", function(source, arg
         end
     end
 end,{help = "unjail a shitlord", params = {{name = "id", help = "The id of the shitlord"}}})
+
+RegisterNetEvent('saveJailedPlayers')
+AddEventHandler('saveJailedPlayers', function(source)
+    local players = {
+        player = source
+    }
+    table.insert(database, players)
+end)
+
+RegisterNetEvent('releasePrisoners')
+AddEventHandler('releasePrisoners', function()
+    for k, v in ipairs(database) do
+        TriggerEvent("core:getuser", v.player, function(target)
+            TriggerClientEvent("jail:unjail", v.player)
+            target.set("jail_time", 0)
+        end)
+    end
+end)
