@@ -1171,9 +1171,9 @@ end
 function UIMenuListItem:ItemToIndex(Item)
     for i = 1, #self.Items do
         if type(Item) == type(self.Items[i]) and Item == self.Items[i] then
-            return self.Items[i]
+            return i
         elseif type(self.Items[i]) == "table" and (type(Item) == type(self.Items[i].Name) or type(Item) == type(self.Items[i].Value)) and (Item == self.Items[i].Name or Item == self.Items[i].Value) then
-            return self.Items[i]
+            return i
         end
     end
 end
@@ -1383,7 +1383,7 @@ end
 function UIMenuSliderItem:ItemToIndex(Item)
     for i = 1, #self.Items do
         if type(Item) == type(self.Items[i]) and Item == self.Items[i] then
-            return self.Items[i]
+            return i
         end
     end
 end
@@ -1739,14 +1739,18 @@ function UIMenuGridPanel:Functions()
                         local CursorX, CursorY = math.round(GetControlNormal(0, 239) * 1920) - SafeZone.X - (self.Circle.Width/2), math.round(GetControlNormal(0, 240) * 1080) - SafeZone.Y - (self.Circle.Height/2)
 
                         self.Circle:Position(((CursorX > (self.Grid.X + 10 + self.Grid.Width - 40)) and (self.Grid.X + 10 + self.Grid.Width - 40) or ((CursorX < (self.Grid.X + 20 - (self.Circle.Width/2))) and (self.Grid.X + 20 - (self.Circle.Width/2)) or CursorX)), ((CursorY > (self.Grid.Y + 10 + self.Grid.Height - 40)) and (self.Grid.Y + 10 + self.Grid.Height - 40) or ((CursorY < (self.Grid.Y + 20 - (self.Circle.Height/2))) and (self.Grid.Y + 20 - (self.Circle.Height/2)) or CursorY)))
-
-                        local ResultX, ResultY = math.round((self.Circle.X - (self.Grid.X + 20) + (self.Circle.Width/2))/(self.Grid.Width - 40), 2), math.round((self.Circle.Y - (self.Grid.Y + 20) + (self.Circle.Height/2))/(self.Grid.Height - 40), 2)
-
-                        self:UpdateParent(((ResultX >= 0.0 and ResultX <= 1.0) and ResultX or ((ResultX <= 0) and 0.0) or 1.0), ((ResultY >= 0.0 and ResultY <= 1.0) and ResultY or ((ResultY <= 0) and 0.0) or 1.0))
                     end
                     StopSound(self.Audio.Id)
                     ReleaseSoundId(self.Audio.Id)
                     self.Pressed = false
+                end)
+                Citizen.CreateThread(function()
+                    while IsDisabledControlPressed(0, 24) and IsMouseInBounds(self.Grid.X + 20 + SafeZone.X, self.Grid.Y + 20 + SafeZone.Y, self.Grid.Width - 40, self.Grid.Height - 40) do
+                        Citizen.Wait(75)
+                        local ResultX, ResultY = math.round((self.Circle.X - (self.Grid.X + 20) + (self.Circle.Width/2))/(self.Grid.Width - 40), 2), math.round((self.Circle.Y - (self.Grid.Y + 20) + (self.Circle.Height/2))/(self.Grid.Height - 40), 2)
+
+                        self:UpdateParent(((ResultX >= 0.0 and ResultX <= 1.0) and ResultX or ((ResultX <= 0) and 0.0) or 1.0), ((ResultY >= 0.0 and ResultY <= 1.0) and ResultY or ((ResultY <= 0) and 0.0) or 1.0))
+                    end
                 end)
             end
         end
@@ -1855,11 +1859,11 @@ function UIMenuColourPanel:CurrentSelection(value)
         self.Data.Index = 1000000 - (1000000 % #self.Data.Items) + tonumber(value)
 
         if self:CurrentSelection() > self.Data.Pagination.Max then
-            self.Data.Pagination.Min = self:CurrentSelection() - self.Data.Pagination.Total
+            self.Data.Pagination.Min = self:CurrentSelection() - (self.Data.Pagination.Total + 1)
             self.Data.Pagination.Max = self:CurrentSelection()
         elseif self:CurrentSelection() < self.Data.Pagination.Min then
-            self.Data.Pagination.Min = self:CurrentSelection()
-            self.Data.Pagination.Max = self:CurrentSelection() + self.Data.Pagination.Total
+            self.Data.Pagination.Min = self:CurrentSelection() - 1
+            self.Data.Pagination.Max = self:CurrentSelection() + (self.Data.Pagination.Total + 1)
         end 
 
         self:UpdateSelection()
@@ -1905,6 +1909,7 @@ end
 function UIMenuColourPanel:UpdateSelection()
     local CurrentSelection = self:CurrentSelection()
     self:UpdateParent(CurrentSelection)
+
     self.SelectedRectangle:Position(15 + (44.5 * ((CurrentSelection - self.Data.Pagination.Min) - 1)) + self.ParentItem:Offset().X, self.SelectedRectangle.Y)
     for Index = 1, 9 do
         self.Bar[Index]:Colour(table.unpack(self.Data.Items[self.Data.Pagination.Min + Index]))
@@ -2055,6 +2060,13 @@ function UIMenuPercentagePanel:Position(Y) -- required
     end
 end
 
+function UIMenuPercentagePanel:Percentage(Value)
+    if tonumber(Value) then
+        local Percent = ((Value < 0.0) and 0.0) or ((Value > 1.0) and 1.0 or Value)
+        self.ActiveBar:Size(self.BackgroundBar.Width * Percent, self.ActiveBar.Height)
+    end
+end
+
 function UIMenuPercentagePanel:UpdateParent(Percentage)
     local _, ParentType = self.ParentItem()
     if ParentType == "UIMenuListItem" then
@@ -2098,11 +2110,17 @@ function UIMenuPercentagePanel:Functions()
                         Citizen.Wait(0)
                         local Progress = (math.round(GetControlNormal(0, 239) * 1920) - SafeZone.X) - self.ActiveBar.X
                         self.ActiveBar:Size(((Progress >= 0 and Progress <= 413) and Progress or ((Progress < 0) and 0 or 413)), self.ActiveBar.Height)
-                        self:UpdateParent(math.round(((Progress >= 0 and Progress <= 413) and Progress or ((Progress < 0) and 0 or 413))/self.BackgroundBar.Width, 2))
                     end
                     StopSound(self.Audio.Id)
                     ReleaseSoundId(self.Audio.Id)
                     self.Pressed = false
+                end)
+                Citizen.CreateThread(function()
+                    while IsDisabledControlPressed(0, 24) and IsMouseInBounds(self.BackgroundBar.X + SafeZone.X, self.BackgroundBar.Y - 4 + SafeZone.Y, self.BackgroundBar.Width, self.BackgroundBar.Height + 8) do
+                        Citizen.Wait(75)
+                        local Progress = (math.round(GetControlNormal(0, 239) * 1920) - SafeZone.X) - self.ActiveBar.X
+                        self:UpdateParent(math.round(((Progress >= 0 and Progress <= 413) and Progress or ((Progress < 0) and 0 or 413))/self.BackgroundBar.Width, 2))
+                    end
                 end)
             end
         end
