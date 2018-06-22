@@ -22,7 +22,7 @@ PlayerCustomisation.PlayerData = {
 				Colours = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
 			},
 			FacialFeature = {0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5},
-			HeadBlend = {21, 19, 0.5, 0.5},
+			HeadBlend = {21, 19, 0.0, 0.0},
 			HairColour = {0, 0},
 			EyeColour = 0,
 			Highlights = false,
@@ -44,7 +44,7 @@ PlayerCustomisation.PlayerData = {
 				Colours = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
 			},
 			FacialFeature = {0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5},
-			HeadBlend = {21, 19, 0.5, 0.5},
+			HeadBlend = {21, 19, 0.0, 0.0},
 			HairColour = {0, 0},
 			EyeColour = 0,
 			Highlights = false,
@@ -71,7 +71,7 @@ PlayerCustomisation.Locations = {
 }
 
 PlayerCustomisation.Reference = {
-	RangeTable = {-1.0, -0.9, -0.8, -0.7, -0.6, -0.5, -0.4, -0.3, -0.2, -0.1, 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0},
+	RangeTable = {-1.0, -0.9, -0.8, -0.7, -0.6, -0.5, -0.4, -0.3, -0.2, -0.1, 0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0},
 	Colours = {
 		Hair = {
 			[1] = {44, 41, 35},
@@ -1664,8 +1664,8 @@ PlayerCustomisation.Reference = {
 				{
 					Name = "Off", 
 					Value = {
-						Drawable = 0,
-						Texture = 0,
+						Drawable = -1,
+						Texture = -1,
 					}
 				},
 				{
@@ -1988,8 +1988,8 @@ PlayerCustomisation.Reference = {
 				{
 					Name = "Off", 
 					Value = {
-						Drawable = 0,
-						Texture = 0,
+						Drawable = -1,
+						Texture = -1,
 					}
 				},
 				{
@@ -2909,4 +2909,22 @@ end
 
 for Index = 0, GetNumHeadOverlayValues(5) - 1 do
 	table.insert(PlayerCustomisation.Reference.Appearance.Blush, {Name = GetLabelText("CC_BLUSH_"..Index), Value = Index})
+end
+
+function GetFaceIndex(Key, Face)
+	for Index = 1, #PlayerCustomisation.Reference.Heritage[Key] do
+		if PlayerCustomisation.Reference.Heritage[Key][Index].Value.Face == Face then
+			return Index
+		end
+	end
+	return nil
+end
+
+function GetPortraitFromFace(Key, Face)
+	for Index = 1, #PlayerCustomisation.Reference.Heritage[Key] do
+		if PlayerCustomisation.Reference.Heritage[Key][Index].Value.Face == Face then
+			return PlayerCustomisation.Reference.Heritage[Key][Index].Value.Portrait
+		end
+	end
+	return nil
 end

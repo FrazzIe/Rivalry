@@ -79,7 +79,7 @@ function UpdateModel(Skin)
 end
 
 function SetupGenderOption(ParentMenu)
-	local ItemGenderList = NativeUI.CreateListItem("Sex", {{Name = "Male", Value = "mp_m_freemode_01"}, {Name = "Female", Value = "mp_f_freemode_01"}, "Hybrid"}, 1, "Select the gender of your Charcter.")
+	local ItemGenderList = NativeUI.CreateListItem("Sex", {{Name = "Male", Value = "mp_m_freemode_01"}, {Name = "Female", Value = "mp_f_freemode_01"}, "Hybrid"}, 1, "Select the gender of your Character.")
 
 	ParentMenu:AddItem(ItemGenderList)
 
@@ -614,7 +614,7 @@ function SetupApparelMenu(ParentMenu)
 	local Menu = Pool:AddSubMenu(ParentMenu, "Apparel", "Select to to change your Apparel.", true)
 	local ItemStyleList = NativeUI.CreateListItem("Style", PlayerCustomisation.Reference.Apparel.Styles, 1, "Make changes your Apparel.")
 	local ItemOutfitList = NativeUI.CreateListItem("Outfit", PlayerCustomisation.Reference.Apparel.Outfits[PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender][1], 1, "Make changes your Apparel.")
-	local ItemHatList = NativeUI.CreateListItem("Hat", PlayerCustomisation.Reference.Apparel.Hat, 1, "Make changes your Apparel.")
+	local ItemHatList = NativeUI.CreateListItem("Hat", PlayerCustomisation.Reference.Apparel.Hat[PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender], 1, "Make changes your Apparel.")
 	local ItemGlassesList = NativeUI.CreateListItem("Glasses", PlayerCustomisation.Reference.Apparel.Glasses, 1, "Make changes your Apparel.")
 
 	ItemStyleList.OnListChanged = function(ParentMenu, ListItem, NewIndex)
@@ -643,14 +643,24 @@ function SetupApparelMenu(ParentMenu)
 	ItemHatList.OnListChanged = function(ParentMenu, ListItem, Index)
 		local ActiveItem = ListItem:IndexToItem(Index)
 
-		PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Props.Drawable[1] = ActiveItem.Value
+		if ActiveItem.Name == "Off" then
+			ClearPedProp(PlayerPedId(), 0)
+		end
+
+		PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Props.Drawable[1] = ActiveItem.Value.Drawable
+		PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Props.Texture[1] = ActiveItem.Value.Texture
 
 		UpdatePlayer()
 	end
 	ItemGlassesList.OnListChanged = function(ParentMenu, ListItem, Index)
 		local ActiveItem = ListItem:IndexToItem(Index)
 
-		PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Props.Drawable[2] = ActiveItem.Value
+		if ActiveItem.Name == "Off" then
+			ClearPedProp(PlayerPedId(), 1)
+		end
+
+		PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Props.Drawable[2] = ActiveItem.Value.Drawable
+		PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Props.Texture[2] = ActiveItem.Value.Texture
 
 		UpdatePlayer()
 	end
@@ -713,6 +723,13 @@ CharacterCreatorMenu.OnListSelect = function(ParentMenu, SelectedList, NewIndex)
 
 			AppearanceMenu.Items[1].Items = PlayerCustomisation.Reference.Appearance.Hairstyles[PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender]
 			ApparelMenu.Items[2].Items = PlayerCustomisation.Reference.Apparel.Outfits[PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender][ApparelMenu.Items[1]:Index()]
+			ApparelMenu.Items[3].Items = PlayerCustomisation.Reference.Apparel.Hat[PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender]
+
+			HeritageMenu.Windows[1]:Index(GetPortraitFromFace("Female", PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].HeadBlend[1]), GetPortraitFromFace("Male", PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].HeadBlend[2]))
+			HeritageMenu.Items[1]:Index(GetFaceIndex("Female", PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].HeadBlend[1]))
+			HeritageMenu.Items[2]:Index(GetFaceIndex("Male", PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].HeadBlend[2]))
+			HeritageMenu.Items[3]:Index(HeritageMenu.Items[3]:ItemToIndex(PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].HeadBlend[3]))
+			HeritageMenu.Items[4]:Index(HeritageMenu.Items[4]:ItemToIndex(PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].HeadBlend[4]))
 
 			FeaturesMenu.Items[1].Panels[1]:CirclePosition(PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].FacialFeature[8], PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].FacialFeature[7])
 			FeaturesMenu.Items[2].Panels[1]:CirclePosition(1.0 - PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].FacialFeature[12], 0.5)
