@@ -16,11 +16,11 @@ local Config = {}
     ["steam:110000107ea851e"] = 992, -- Chiito
     ["steam:110000106443c23"] = 991, -- Augustus Williams
     ["steam:11000010012c897"] = 990, -- Ryan Toronto
-    ["steam:110000104c5b700"] = 989, -- DarkLaiX
-    ["steam:110000111703144"] = 988, -- Ziggy    
-    ["steam:110000111c7701f"] = 987, -- Chaz
-    ["steam:11000010048d646"] = 986, -- Tsury
-    ["steam:11000010bf7bb73"] = 985, -- AfriicanSnowball
+    ["steam:11000010bf7bb73"] = 989, -- AfriicanSnowball
+    ["steam:110000104c5b700"] = 988, -- DarkLaiX
+    ["steam:110000111703144"] = 987, -- Ziggy    
+    ["steam:110000111c7701f"] = 986, -- Chaz
+    ["steam:11000010048d646"] = 985, -- Tsury
     ["steam:110000101d67662"] = 984, -- Incsypops
 --[People Frazzle Likes]--
     ["steam:11000010e0f809e"] = 800, -- FateProphecy
@@ -44,6 +44,9 @@ local Config = {}
     ["steam:110000100050d9d"] = 686, -- Bubbles
     ["steam:110000103aa0066"] = 685, -- Kitty
     ["steam:1100001005d8ef9"] = 684, -- M_tt
+    ["steam:11000010af28db3"] = 683, -- Blocky
+    ["steam:110000101d2c301"] = 682, -- AbdulHD
+    ["steam:11000010536f0ff"] = 681, -- Mr Chang
  
 --[PD, EMS, DOJ]--
     ["steam:1100001333cd89d"] = 600, -- Mike Auburn (Judge)
@@ -53,7 +56,7 @@ local Config = {}
     ["steam:110000115c8520b"] = 596, -- Jinia (PD Command)
     ["steam:11000010b420b88"] = 595, -- Jordan (PD Command)
     ["steam:1100001096a1e6f"] = 594, -- Zim Pontes (EMS Command)  
-    ["steam:1100001087ceba9"] = 593, -- Kari Clayton (EMS Command)
+    ["steam:11000011457b97e"] = 593, -- Jay Stylz (EMS Command)
     ["steam:11000010d8cbf9e"] = 592, -- Skylar White (EMS Command)
     ["steam:11000010036d96d"] = 591, -- Chris Miller (PD)
     ["steam:110000105cd1af0"] = 590, -- Piperslame (PD)
@@ -70,9 +73,12 @@ local Config = {}
     ["steam:110000103d70c3f"] = 579, -- Jet Blue (State Attorney)
     ["steam:11000010e519899"] = 578, -- Skitzzo (Evie Baasch | Lawyer)
 --[Extras]--
-	["steam:110000100BF705A"] = 469, -- Schwank (Zach) 
+    ["steam:110000102436e33"] = 470, -- Lizzy Koopa
+    ["steam:110000100BF705A"] = 469, -- Schwank (Zach) 
     ["steam:110000106e0c14b"] = 400, -- Ructar
     ["steam:1100001199d626f"] = 398, -- Amera (Miinion)
+    ["steam:11000010271b1e0"] = 397, -- Marcel Bean
+    ["steam:11000010cd211a1"] = 396, -- Horsecawk
 --[Gangs]--
     ["steam:110000109e66f64"] = 200, -- Tony Valentino
     ["steam:1100001182c6a74"] = 199, -- Mellow (Lost MC)
