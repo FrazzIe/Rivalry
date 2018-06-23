@@ -2928,3 +2928,39 @@ function GetPortraitFromFace(Key, Face)
 	end
 	return nil
 end
+
+function GetOutfitIndex()
+	for Index = 1, #PlayerCustomisation.Reference.Apparel.Outfits[PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender] do
+		for Outfit = 1, #PlayerCustomisation.Reference.Apparel.Outfits[PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender][Index] do
+			local Count = 0
+			for ClothingIndex = 4, 12 do
+				if PlayerCustomisation.Reference.Apparel.Outfits[PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender][Index][Outfit].Value.Drawable[ClothingIndex] == PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Clothing.Drawable[ClothingIndex] and PlayerCustomisation.Reference.Apparel.Outfits[PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender][Index][Outfit].Value.Texture[ClothingIndex] == PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Clothing.Texture[ClothingIndex] then
+					Count = Count + 1
+				end
+			end
+
+			if Count == 9 then
+				return Index, Outfit
+			end
+		end
+	end
+	return nil, nil
+end
+
+function GetHatIndex()
+	for Index = 1, #PlayerCustomisation.Reference.Apparel.Hat[PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender] do
+		if PlayerCustomisation.Reference.Apparel.Hat[PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender][Index].Value.Drawable == PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Props.Drawable[1] and PlayerCustomisation.Reference.Apparel.Hat[PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender][Index].Value.Texture == PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Props.Texture[1] then
+			return Index
+		end
+	end
+	return nil
+end
+
+function GetGlassesIndex()
+	for Index = 1, #PlayerCustomisation.Reference.Apparel.Glasses[PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender] do
+		if PlayerCustomisation.Reference.Apparel.Glasses[PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender][Index].Value.Drawable == PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Props.Drawable[2] and PlayerCustomisation.Reference.Apparel.Glasses[PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender][Index].Value.Texture == PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Props.Texture[2] then
+			return Index
+		end
+	end
+	return nil
+end

@@ -710,6 +710,7 @@ local ModelMenu = SetupModelMenu(CharacterCreatorMenu)
 
 CharacterCreatorMenu.OnListSelect = function(ParentMenu, SelectedList, NewIndex) 
 	if SelectedList == GenderOption then
+		SelectedList:Enabled(false)
 		local Item = SelectedList:IndexToItem(NewIndex)
 		if Item == "Hybrid" then
 			for Index = 2, #ParentMenu.Items do
@@ -722,7 +723,6 @@ CharacterCreatorMenu.OnListSelect = function(ParentMenu, SelectedList, NewIndex)
 			UpdateModel(Item.Value)
 
 			AppearanceMenu.Items[1].Items = PlayerCustomisation.Reference.Appearance.Hairstyles[PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender]
-			ApparelMenu.Items[2].Items = PlayerCustomisation.Reference.Apparel.Outfits[PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender][ApparelMenu.Items[1]:Index()]
 			ApparelMenu.Items[3].Items = PlayerCustomisation.Reference.Apparel.Hat[PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender]
 
 			HeritageMenu.Windows[1]:Index(GetPortraitFromFace("Female", PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].HeadBlend[1]), GetPortraitFromFace("Male", PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].HeadBlend[2]))
@@ -778,11 +778,20 @@ CharacterCreatorMenu.OnListSelect = function(ParentMenu, SelectedList, NewIndex)
 				AppearanceMenu.Items[1].Panels[2]:Enabled(false)
 			end
 
+			local StyleIndex, OutfitIndex = GetOutfitIndex()
+
+			ApparelMenu.Items[2].Items = PlayerCustomisation.Reference.Apparel.Outfits[PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender][StyleIndex]
+			ApparelMenu.Items[1]:Index(StyleIndex)
+			ApparelMenu.Items[2]:Index(OutfitIndex)
+			ApparelMenu.Items[3]:Index(GetHatIndex())
+			--ApparelMenu.Items[4]:Index(GetGlassesIndex())
+
 			for Index = 2, #ParentMenu.Items do
 				ParentMenu.Items[Index]:Enabled(true)
 				ParentMenu.Items[Index]:SetRightBadge(BadgeStyle.None)
 			end
 		end
+		SelectedList:Enabled(true)
 	end
 end
 
