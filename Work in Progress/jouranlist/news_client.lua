@@ -57,6 +57,10 @@ RegisterNUICallback('close', function(data, cb)
 	closeGui()
 end)
 
+RegisterNUICallback('loadEdit', function(data, cb)
+	SendNUIMessage({openSection = "loadEdit", list = editor})
+end)
+
 RegisterNetEvent('customNotification')
 AddEventHandler('customNotification', function(msg)
 	TriggerEvent("pNotify:SendNotification", { theme = "gta2", text = "".. msg .. "", layout = "centerRight", type = "info", timeout = 6000, animation = {open = "gta_effects_open", close = "gta_effects_close"} } )
@@ -67,18 +71,20 @@ RegisterNUICallback('loadnews', function(data, cb)
   if (#news == 0) then
 	TriggerServerEvent('news:load-news', true)
   else
-	SendNUIMessage({openSection = "newspaper", list = page})
+	SendNUIMessage({openSection = "new-page", list = page})
   end
   cb('ok')
 end)
 
-RegisterNUICallback('newsDelete', function(data, cb)
-	if canDelete(rank) then
-		TriggerServerEvent('news:remove-news', data.id)
-	else
-		TriggerEvent("customNotification", "You do not have permission to do this!")
+RegisterNUICallback('newsRead', function(data, cb)
+	if (#news == 0) then
+		TriggerServerEvent('news:load-news', true)
+    else
+		SendNUIMessage({openSection = "newsRead", time = data.timestamp, editor_name = data.editor_name, header = data.header, body = data.body, header2 = data.header2, body2 = data.body2})
 	end
+	cb('ok')
 end)
+
 
 RegisterNUICallback('submit', function(data, cb)
 	if(data.editor_name ~= nil and data.time ~= nil and data.header ~= nil and data.body ~= nil and data.header2 ~= nil and data.body2 ~= nil) then
@@ -130,3 +136,18 @@ AddEventHandler('news:remove-news', function(id)
 		end
 	end
 end)
+--[[
+=================================================================================================================================================================================================================================================
+=================================================================================================================================================================================================================================================
+--]]
+
+function loadNewsUp()
+	TriggerServerEvent('news:load-news')
+end
+
+function drawPaper()
+	RegisterNetEvent('news:load-news')
+	AddEventHandler('news:LoadFuckingNews', function(time, editor_name, header, body, header2, body2)
+		
+    end)
+end

@@ -4,14 +4,13 @@ $(document).ready(function(){  // Mouse Controls
 
   // Partial Functions
   function closeMain() {
-    $(".news-container").css("display", "none");
+    $(".home").css("display", "none");
   }
   function openMain() {
-    $(".news-container").css("display", "block");
+    $(".home").css("display", "block");
   }
   function closeAll() {
     $(".body").css("display", "none");
-    $(".news-container").css("display", "none");
     $(".home").css("display", "none");
     // Clear input boxes
     $("#newnews-form #editor").val('');
@@ -27,12 +26,32 @@ $(document).ready(function(){  // Mouse Controls
   function closeContainer() {
     $(".main-container").css("display", "none");
   }
-  function opennews() {
+  function openNews() {
     $(".news-container").css("display", "block");
   }
-  function closenews() {
-    $(".news-container".css("display", "none"));
-    $(".full-screen".css("display", "none"));
+
+  function openEditor(timestamp, editor_name, header, body, header2, body2) {
+    $(".news-container").css("display", "block");
+    $("#time").val(timestamp);
+    $("#editor_name").val(editor_name);
+    $("#header").val(header);
+    $("#body").val(body);
+    $("#header2").val(header2);
+    $("#body2").val(body2);
+  }
+
+  function viewNewspaper(timestamp, editor_name, header, body, header2, body2) {
+    $(".main-container").css("display", "block");
+    $("#time").html(timestamp);
+    $("#editor_name").html(editor_name);
+    $("#header").hmtl(header);
+    $("#body").html(body);
+    $("#header2").html(header2);
+    $("#body2").html(body2);
+  }
+
+  function openNewsCreator() {
+    $(".news-container").css("display", "block");
   }
 
   function addnews(items) {
@@ -45,7 +64,7 @@ $(document).ready(function(){  // Mouse Controls
       })
     }
   }
-  function addnews(item) {
+  function addnew(item) {
     var dateVal ="/Date(" + (item.time * 1000) + ")/"; var date = new Date( parseFloat( dateVal.substr(6 ))); let time = (date.getMonth() + 1) + "/" +    date.getDate() + "/" + date.getFullYear() + " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds()
     $('#news').append('<tr id="news-' + item.id + '"><td>' + time + '</td><td>' + item.editor_name + '</td><td>' + item.header + '</td><td width="50%"><textarea rows="3" placeholder="" class="sans" disabled="true">' + '</textarea></td></tr>')
     $("#news-" + item.id + "").click(function(){
@@ -70,6 +89,14 @@ $(document).ready(function(){  // Mouse Controls
       closeContainer();
       closeMain();
     }
+    if(item.openSection === "loadEdit") {
+      closeAll();
+      openNews();
+    }
+    if(item.openSection === "newsRead") {
+      closeAll();
+      viewNewspaper(item.timestamp, item.editor_name, item.header, item.body, item.header, item.body2);
+    }
   });
 
   // On 'Esc' call close method
@@ -81,6 +108,14 @@ $(document).ready(function(){  // Mouse Controls
 
   $(".btnClose").click(function(){
   	  $.post('http://core_modules/close', JSON.stringify({}));
+  });
+
+  $(".btnNews").click(function(){
+      $.post('http://core_modules/loadEdit', JSON.stringify({}));
+  });
+
+  $(".btnPage").click(function(){
+      $.post('http://core_modules/newsRead', JSON.stringify({}));
   });
 
   // Handle Form Submits
