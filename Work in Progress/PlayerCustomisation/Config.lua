@@ -2309,7 +2309,698 @@ PlayerCustomisation.Reference = {
 				},
 			},
 		},
-		Glasses = {},
+		Glasses = {
+			Male = {
+				{
+					Name = "Off", 
+					Value = {
+						Drawable = -1,
+						Texture = -1,
+					}
+				},
+				{
+					Name = "Black Wraparounds", 
+					Value = {
+						Drawable = 16,
+						Texture = 6,
+					}
+				},
+				{
+					Name = "Broker Purple Wraparounds", 
+					Value = {
+						Drawable = 16,
+						Texture = 1,
+					}
+				},
+				{
+					Name = "Broker Lime Wraparounds", 
+					Value = {
+						Drawable = 16,
+						Texture = 5,
+					}
+				},
+				{
+					Name = "Black Winter Shades", 
+					Value = {
+						Drawable = 2,
+						Texture = 0,
+					}
+				},
+				{
+					Name = "White Silver Shades", 
+					Value = {
+						Drawable = 2,
+						Texture = 6,
+					}
+				},
+				{
+					Name = "Green Polarized Shades", 
+					Value = {
+						Drawable = 2,
+						Texture = 7,
+					}
+				},
+				{
+					Name = "State Janitor Frames", 
+					Value = {
+						Drawable = 3,
+						Texture = 0,
+					}
+				},
+				{
+					Name = "Ash Janitor Frames", 
+					Value = {
+						Drawable = 3,
+						Texture = 3,
+					}
+				},
+				{
+					Name = "Tan Janitor Frames", 
+					Value = {
+						Drawable = 3,
+						Texture = 4,
+					}
+				},
+				{
+					Name = "Enema Gray Glasses", 
+					Value = {
+						Drawable = 4,
+						Texture = 1,
+					}
+				},
+				{
+					Name = "Enema Black Glasses", 
+					Value = {
+						Drawable = 4,
+						Texture = 2,
+					}
+				},
+				{
+					Name = "Enema Tortoiseshell Glasses", 
+					Value = {
+						Drawable = 4,
+						Texture = 3,
+					}
+				},
+				{
+					Name = "Gold Aviators", 
+					Value = {
+						Drawable = 5,
+						Texture = 0,
+					}
+				},
+				{
+					Name = "Steel Aviators", 
+					Value = {
+						Drawable = 5,
+						Texture = 1,
+					}
+				},
+				{
+					Name = "Steel Aviators, Blue Tint", 
+					Value = {
+						Drawable = 5,
+						Texture = 6,
+					}
+				},
+				{
+					Name = "Black Casuals", 
+					Value = {
+						Drawable = 7,
+						Texture = 0,
+					}
+				},
+				{
+					Name = "Tortoiseshell Casuals", 
+					Value = {
+						Drawable = 7,
+						Texture = 2,
+					}
+				},
+				{
+					Name = "Blood Casuals", 
+					Value = {
+						Drawable = 7,
+						Texture = 7,
+					}
+				},
+				{
+					Name = "Brown Eyewear", 
+					Value = {
+						Drawable = 8,
+						Texture = 0,
+					}
+				},
+				{
+					Name = "Coffee Cop Frames", 
+					Value = {
+						Drawable = 8,
+						Texture = 2,
+					}
+				},
+				{
+					Name = "Charcoal Cop Frames", 
+					Value = {
+						Drawable = 8,
+						Texture = 1,
+					}
+				},
+				{
+					Name = "Hawaiian Snow Black", 
+					Value = {
+						Drawable = 9,
+						Texture = 0,
+					}
+				},
+				{
+					Name = "Hawaiian Snow White", 
+					Value = {
+						Drawable = 9,
+						Texture = 2,
+					}
+				},
+				{
+					Name = "Hawaiian Snow Tortoiseshell", 
+					Value = {
+						Drawable = 9,
+						Texture = 6,
+					}
+				},
+				{
+					Name = "Gold Bull Emic", 
+					Value = {
+						Drawable = 10,
+						Texture = 0,
+					}
+				},
+				{
+					Name = "Gray Bull Emic", 
+					Value = {
+						Drawable = 10,
+						Texture = 1,
+					}
+				},
+				{
+					Name = "White Bull Emic", 
+					Value = {
+						Drawable = 10,
+						Texture = 2,
+					}
+				},
+				{
+					Name = "Gray Elvis", 
+					Value = {
+						Drawable = 12,
+						Texture = 1,
+					}
+				},
+				{
+					Name = "Slate Elvis", 
+					Value = {
+						Drawable = 12,
+						Texture = 2,
+					}
+				},
+				{
+					Name = "Copper Elvis", 
+					Value = {
+						Drawable = 12,
+						Texture = 7,
+					}
+				},
+				{
+					Name = "Broker Black Hipsters", 
+					Value = {
+						Drawable = 13,
+						Texture = 0,
+					}
+				},
+				{
+					Name = "Choco Polarized Hipsters", 
+					Value = {
+						Drawable = 13,
+						Texture = 2,
+					}
+				},
+				{
+					Name = "Gold Polarized Hipsters", 
+					Value = {
+						Drawable = 13,
+						Texture = 6,
+					}
+				},
+				{
+					Name = "Yellow Guns", 
+					Value = {
+						Drawable = 15,
+						Texture = 0,
+					}
+				},
+				{
+					Name = "White Guns", 
+					Value = {
+						Drawable = 15,
+						Texture = 1,
+					}
+				},
+				{
+					Name = "Pink Guns", 
+					Value = {
+						Drawable = 15,
+						Texture = 7,
+					}
+				},
+				{
+					Name = "Silver Refined", 
+					Value = {
+						Drawable = 17,
+						Texture = 0,
+					}
+				},
+				{
+					Name = "Brown Refined", 
+					Value = {
+						Drawable = 17,
+						Texture = 2,
+					}
+				},
+				{
+					Name = "Black Refined", 
+					Value = {
+						Drawable = 17,
+						Texture = 7,
+					}
+				},
+				{
+					Name = "Gold Superior", 
+					Value = {
+						Drawable = 18,
+						Texture = 0,
+					}
+				},
+				{
+					Name = "Steel Superior", 
+					Value = {
+						Drawable = 18,
+						Texture = 1,
+					}
+				},
+				{
+					Name = "Black Superior", 
+					Value = {
+						Drawable = 18,
+						Texture = 2,
+					}
+				},
+				{
+					Name = "Black & Gold Trends", 
+					Value = {
+						Drawable = 19,
+						Texture = 0,
+					}
+				},
+				{
+					Name = "Silver Dipped Trends", 
+					Value = {
+						Drawable = 19,
+						Texture = 2,
+					}
+				},
+				{
+					Name = "White & Gold Trends", 
+					Value = {
+						Drawable = 19,
+						Texture = 7,
+					}
+				},
+				{
+					Name = "Sunset Docks", 
+					Value = {
+						Drawable = 20,
+						Texture = 0,
+					}
+				},
+				{
+					Name = "Crimson Docks", 
+					Value = {
+						Drawable = 20,
+						Texture = 6,
+					}
+				},
+				{
+					Name = "Yellow Docks", 
+					Value = {
+						Drawable = 20,
+						Texture = 7,
+					}
+				},
+			},
+			Female = {
+				{
+					Name = "Off", 
+					Value = {
+						Drawable = -1,
+						Texture = -1,
+					}
+				},
+				{
+					Name = "Two-Tone Sports Shades", 
+					Value = {
+						Drawable = 0,
+						Texture = 1,
+					}
+				},
+				{
+					Name = "Blue Sports Shades", 
+					Value = {
+						Drawable = 0,
+						Texture = 3,
+					}
+				},
+				{
+					Name = "Beige Sports Shades", 
+					Value = {
+						Drawable = 0,
+						Texture = 7,
+					}
+				},
+				{
+					Name = "Copper Marbles", 
+					Value = {
+						Drawable = 1,
+						Texture = 0,
+					}
+				},
+				{
+					Name = "Black Marbles", 
+					Value = {
+						Drawable = 1,
+						Texture = 2,
+					}
+				},
+				{
+					Name = "Teal Marbles", 
+					Value = {
+						Drawable = 1,
+						Texture = 4,
+					}
+				},
+				{
+					Name = "Marble Mademoiselles", 
+					Value = {
+						Drawable = 2,
+						Texture = 0,
+					}
+				},
+				{
+					Name = "Orange Tint Mademoiselles", 
+					Value = {
+						Drawable = 2,
+						Texture = 2,
+					}
+				},
+				{
+					Name = "Black Mademoiselles", 
+					Value = {
+						Drawable = 2,
+						Texture = 5,
+					}
+				},
+				{
+					Name = "Zebra Shields", 
+					Value = {
+						Drawable = 3,
+						Texture = 0,
+					}
+				},
+				{
+					Name = "Flame Shields", 
+					Value = {
+						Drawable = 3,
+						Texture = 2,
+					}
+				},
+				{
+					Name = "Sun Shields", 
+					Value = {
+						Drawable = 3,
+						Texture = 4,
+					}
+				},
+				{
+					Name = "Marble Retro", 
+					Value = {
+						Drawable = 4,
+						Texture = 1,
+					}
+				},
+				{
+					Name = "Black Retro", 
+					Value = {
+						Drawable = 4,
+						Texture = 5,
+					}
+				},
+				{
+					Name = "Red Retro", 
+					Value = {
+						Drawable = 4,
+						Texture = 7,
+					}
+				},
+				{
+					Name = "Purple Tint Bugs", 
+					Value = {
+						Drawable = 6,
+						Texture = 0,
+					}
+				},
+				{
+					Name = "DS Brown Bugs", 
+					Value = {
+						Drawable = 16,
+						Texture = 0,
+					}
+				},
+				{
+					Name = "DS Pink Bugs", 
+					Value = {
+						Drawable = 16,
+						Texture = 5,
+					}
+				},
+				{
+					Name = "Champagne Figure 8s", 
+					Value = {
+						Drawable = 7,
+						Texture = 0,
+					}
+				},
+				{
+					Name = "Amethyst Figure 8s", 
+					Value = {
+						Drawable = 7,
+						Texture = 3,
+					}
+				},
+				{
+					Name = "White Figure 8s", 
+					Value = {
+						Drawable = 7,
+						Texture = 5,
+					}
+				},
+				{
+					Name = "Orange Tint Squared", 
+					Value = {
+						Drawable = 8,
+						Texture = 0,
+					}
+				},
+				{
+					Name = "Tan Squared", 
+					Value = {
+						Drawable = 17,
+						Texture = 4,
+					}
+				},
+				{
+					Name = "White Squared", 
+					Value = {
+						Drawable = 17,
+						Texture = 6,
+					}
+				},
+				{
+					Name = "Line Tint Shooters", 
+					Value = {
+						Drawable = 9,
+						Texture = 0,
+					}
+				},
+				{
+					Name = "Blue Shooters", 
+					Value = {
+						Drawable = 9,
+						Texture = 2,
+					}
+				},
+				{
+					Name = "Tropic Shooters", 
+					Value = {
+						Drawable = 9,
+						Texture = 3,
+					}
+				},
+				{
+					Name = "Black Sports", 
+					Value = {
+						Drawable = 10,
+						Texture = 1,
+					}
+				},
+				{
+					Name = "Blue Pattern Sports", 
+					Value = {
+						Drawable = 10,
+						Texture = 6,
+					}
+				},
+				{
+					Name = "Pink Pattern Sports", 
+					Value = {
+						Drawable = 10,
+						Texture = 7,
+					}
+				},
+				{
+					Name = "Pewter Aviators", 
+					Value = {
+						Drawable = 11,
+						Texture = 0,
+					}
+				},
+				{
+					Name = "Steel Aviators", 
+					Value = {
+						Drawable = 11,
+						Texture = 1,
+					}
+				},
+				{
+					Name = "Bronze Aviators", 
+					Value = {
+						Drawable = 11,
+						Texture = 2,
+					}
+				},
+				{
+					Name = "Black Cat Eyes", 
+					Value = {
+						Drawable = 14,
+						Texture = 0,
+					}
+				},
+				{
+					Name = "Brown Marble Cat Eyes", 
+					Value = {
+						Drawable = 14,
+						Texture = 1,
+					}
+				},
+				{
+					Name = "Red Cat Eyes", 
+					Value = {
+						Drawable = 14,
+						Texture = 4,
+					}
+				},
+				{
+					Name = "Steel Slim Glasses", 
+					Value = {
+						Drawable = 18,
+						Texture = 0,
+					}
+				},
+				{
+					Name = "Gold Slim Glasses", 
+					Value = {
+						Drawable = 18,
+						Texture = 2,
+					}
+				},
+				{
+					Name = "Black Slim Glasses", 
+					Value = {
+						Drawable = 18,
+						Texture = 3,
+					}
+				},
+				{
+					Name = "Black Plastic Frames", 
+					Value = {
+						Drawable = 19,
+						Texture = 0,
+					}
+				},
+				{
+					Name = "Marbled Plastic Frames", 
+					Value = {
+						Drawable = 19,
+						Texture = 3,
+					}
+				},
+				{
+					Name = "Vixen Plastic Frames", 
+					Value = {
+						Drawable = 19,
+						Texture = 5,
+					}
+				},
+				{
+					Name = "Black Retro Classics", 
+					Value = {
+						Drawable = 20,
+						Texture = 0,
+					}
+				},
+				{
+					Name = "Red Marble Retro Classics", 
+					Value = {
+						Drawable = 20,
+						Texture = 2,
+					}
+				},
+				{
+					Name = "Baby Blue Retro Classics", 
+					Value = {
+						Drawable = 20,
+						Texture = 5,
+					}
+				},
+				{
+					Name = "Black Hipsters", 
+					Value = {
+						Drawable = 21,
+						Texture = 0,
+					}
+				},
+				{
+					Name = "Dipped Hipsters", 
+					Value = {
+						Drawable = 21,
+						Texture = 3,
+					}
+				},
+				{
+					Name = "Brown Hipsters", 
+					Value = {
+						Drawable = 21,
+						Texture = 7,
+					}
+				},
+			},
+		},
 	},
 	Tattoos = {},
 	Models = {
