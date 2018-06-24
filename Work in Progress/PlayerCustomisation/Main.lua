@@ -1,5 +1,12 @@
 local Pool = NativeUI.CreatePool()
 local CharacterCreatorMenu = NativeUI.CreateMenu("Character Creator", "", 45, 45)
+local BarberMenu = NativeUI.CreateMenu("", "CATEGORIES", 0, 0)
+
+function RenderMarker(Type, X, Y, Z, SX, SY, SZ, R, G, B, A, BobUpAndDown)
+	if tonumber(X) and tonumber(Y) and tonumber(Z) then
+		DrawMarker(Type, X, Y, Z - 0.9, 0, 0, 0, 0, 0, 0, SX or 0, SY or 0, SZ or 0, R or 255, G or 255, B or 255, A or 255, BobUpAndDown or false, 0, 2, 0, 0, 0, 0)
+	end
+end
 
 function GetOverlayColourType(Overlay)
 	if Overlay == 1 or Overlay == 2 or Overlay == 10 then
@@ -745,14 +752,14 @@ CharacterCreatorMenu.OnListSelect = function(ParentMenu, SelectedList, NewIndex)
 			FeaturesMenu.Items[11].Panels[1]:CirclePosition(1.0 - PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].FacialFeature[18], PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].FacialFeature[19])
 
 			AppearanceMenu.Items[1]:Index(AppearanceMenu.Items[1]:ItemToIndex(PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Clothing.Drawable[3]))
-			AppearanceMenu.Items[1].Panels[1]:CurrentSelection(PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].HairColour[1])
-			AppearanceMenu.Items[1].Panels[2]:CurrentSelection(PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].HairColour[2])
+			AppearanceMenu.Items[1].Panels[1]:CurrentSelection(PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].HairColour[1], true)
+			AppearanceMenu.Items[1].Panels[2]:CurrentSelection(PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].HairColour[2], true)
 			AppearanceMenu.Items[2]:Index(AppearanceMenu.Items[2]:ItemToIndex(PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Drawable[3]))
 			AppearanceMenu.Items[2].Panels[1]:Percentage(PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Opacity[3])
-			AppearanceMenu.Items[2].Panels[2]:CurrentSelection(PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Colours[3])
+			AppearanceMenu.Items[2].Panels[2]:CurrentSelection(PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Colours[3], true)
 			AppearanceMenu.Items[3]:Index(AppearanceMenu.Items[3]:ItemToIndex(PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Drawable[2]))
 			AppearanceMenu.Items[3].Panels[1]:Percentage(PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Opacity[2])
-			AppearanceMenu.Items[3].Panels[2]:CurrentSelection(PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Colours[2])
+			AppearanceMenu.Items[3].Panels[2]:CurrentSelection(PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Colours[2], true)
 			AppearanceMenu.Items[4]:Index(AppearanceMenu.Items[4]:ItemToIndex(PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Drawable[1]))
 			AppearanceMenu.Items[4].Panels[1]:Percentage(PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Opacity[1])
 			AppearanceMenu.Items[5]:Index(AppearanceMenu.Items[5]:ItemToIndex(PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Drawable[4]))
@@ -768,10 +775,10 @@ CharacterCreatorMenu.OnListSelect = function(ParentMenu, SelectedList, NewIndex)
 			AppearanceMenu.Items[10].Panels[1]:Percentage(PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Opacity[5])
 			AppearanceMenu.Items[11]:Index(AppearanceMenu.Items[11]:ItemToIndex(PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Drawable[6]))
 			AppearanceMenu.Items[11].Panels[1]:Percentage(PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Opacity[6])
-			AppearanceMenu.Items[11].Panels[2]:CurrentSelection(PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Colours[6])
+			AppearanceMenu.Items[11].Panels[2]:CurrentSelection(PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Colours[6], true)
 			AppearanceMenu.Items[12]:Index(AppearanceMenu.Items[12]:ItemToIndex(PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Drawable[9]))
 			AppearanceMenu.Items[12].Panels[1]:Percentage(PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Opacity[9])
-			AppearanceMenu.Items[12].Panels[2]:CurrentSelection(PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Colours[9])
+			AppearanceMenu.Items[12].Panels[2]:CurrentSelection(PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Colours[9], true)
 
 			if PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Highlights then
 				AppearanceMenu.Items[1].Panels[2]:Enabled(true)
@@ -799,6 +806,7 @@ end
 Pool:Add(CharacterCreatorMenu)
 Pool:Add(ModelMenu)
 Pool:TotalItemsPerPage(8)
+Pool:Add(BarberMenu)
 Pool:RefreshIndex()
 
 CharacterCreatorMenu:Visible(true)
@@ -807,5 +815,108 @@ Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(0)
 		Pool:ProcessMenus()
+	end
+end)
+
+function SetupHairstylesMenu(ParentMenu)
+	local Menu = Pool:AddSubMenu(ParentMenu, "Hairstyles", "", true)
+	for Index = 1, #PlayerCustomisation.Reference.Appearance.Hairstyles[PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender] do
+		local HairstyleItem = NativeUI.CreateItem(PlayerCustomisation.Reference.Appearance.Hairstyles[PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender][Index].Name, "")
+		local HairstyleColourPanel = NativeUI.CreateColourPanel("Colour", PlayerCustomisation.Reference.Colours.Hair)
+		local HairstyleHighlightPanel = NativeUI.CreateColourPanel("Highlight", PlayerCustomisation.Reference.Colours.Hair)
+		HairstyleItem:AddPanel(HairstyleColourPanel)
+		HairstyleItem:AddPanel(HairstyleHighlightPanel)
+		HairstyleItem.Activated = function(ParentMenu, SelectedItem)
+			PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Clothing.Drawable[3] = PlayerCustomisation.Reference.Appearance.Hairstyles[PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender][Index].Value
+			
+			UpdatePlayer()
+		end
+		HairstyleItem.ActivatedPanel = function(ParentMenu, SelectedItem, Panel, PanelValue)
+			if Panel == HairstyleColourPanel then
+				PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].HairColour[1] = PanelValue - 1
+
+				for ItemIndex = 1, #ParentMenu.Items do
+					ParentMenu.Items[ItemIndex].Panels[1]:CurrentSelection(PanelValue - 1, true)
+				end
+			elseif Panel == HairstyleHighlightPanel then
+				PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].HairColour[2] = PanelValue - 1
+
+				for ItemIndex = 1, #ParentMenu.Items do
+					ParentMenu.Items[ItemIndex].Panels[2]:CurrentSelection(PanelValue - 1, true)
+				end
+			end
+
+			UpdatePlayer()
+		end
+		Menu:AddItem(HairstyleItem)
+	end
+	return Menu
+end
+
+function SetupBeardsMenu(ParentMenu)
+	local Menu = Pool:AddSubMenu(ParentMenu, "Beards", "", true)
+	return Menu
+end
+
+function SetupEyebrowsMenu(ParentMenu)
+	local Menu = Pool:AddSubMenu(ParentMenu, "Eyebrows", "", true)
+	return Menu
+end
+
+function SetupChestMenu(ParentMenu)
+	local Menu = Pool:AddSubMenu(ParentMenu, "Chest", "", true)
+	return Menu
+end
+
+function SetupContactsMenu(ParentMenu)
+	local Menu = Pool:AddSubMenu(ParentMenu, "Contacts", "", true)
+	return Menu
+end
+
+function SetupFacePaintsMenu(ParentMenu)
+	local Menu = Pool:AddSubMenu(ParentMenu, "Face Paints", "", true)
+	return Menu
+end
+
+function SetupMakeupMenu(ParentMenu)
+	local Menu = Pool:AddSubMenu(ParentMenu, "Makeup", "", true)
+	return Menu
+end
+
+local HairstyleMenu = SetupHairstylesMenu(BarberMenu)
+Citizen.CreateThread(function()
+	local Player = {
+		Coordinates = GetEntityCoords(PlayerPedId(), false)
+	}
+	while true do
+		Citizen.Wait(0)
+		Player.Coordinates = GetEntityCoords(PlayerPedId(), false)
+		for Index = 1, #PlayerCustomisation.Locations.Barbers do
+			if Vdist2(Player.Coordinates.x, Player.Coordinates.y, Player.Coordinates.z, PlayerCustomisation.Locations.Barbers[Index].Marker.x, PlayerCustomisation.Locations.Barbers[Index].Marker.y, PlayerCustomisation.Locations.Barbers[Index].Marker.z) < 20 then
+				RenderMarker(25, PlayerCustomisation.Locations.Barbers[Index].Marker.x, PlayerCustomisation.Locations.Barbers[Index].Marker.y, PlayerCustomisation.Locations.Barbers[Index].Marker.z, 2.0, 2.0, 2.5, 255, 255, 0, 255)
+				if Vdist2(Player.Coordinates.x, Player.Coordinates.y, Player.Coordinates.z, PlayerCustomisation.Locations.Barbers[Index].Marker.x, PlayerCustomisation.Locations.Barbers[Index].Marker.y, PlayerCustomisation.Locations.Barbers[Index].Marker.z) < 2 then
+					if IsControlJustPressed(1, 51) then
+						if not BarberMenu:Visible() then
+							if PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender == "Hybrid" then
+								for Index = 1, #BarberMenu.Items do
+									BarberMenu.Items[Index]:Enabled(false)
+									BarberMenu.Items[Index]:SetRightBadge(BadgeStyle.Lock)
+								end
+							else
+								for Index = 1, #BarberMenu.Items do
+									BarberMenu.Items[Index]:Enabled(true)
+									BarberMenu.Items[Index]:SetRightBadge(BadgeStyle.None)
+								end
+							end
+							BarberMenu.Logo.TxtDictionary = PlayerCustomisation.Locations.Barbers[Index].Banner
+							BarberMenu.Logo.TxtName = PlayerCustomisation.Locations.Barbers[Index].Banner
+							BarberMenu:Visible(true)
+						else
+							BarberMenu:Visible(false)
+						end
+					end
+				end
+			end
+		end
 	end
 end)

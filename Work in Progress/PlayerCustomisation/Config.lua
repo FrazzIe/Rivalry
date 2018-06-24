@@ -66,7 +66,21 @@ PlayerCustomisation.PlayerData = {
 
 PlayerCustomisation.Locations = {
 	Clothing = {},
-	Barbers = {},
+	Barbers = {
+        [1] = {
+            Blip = {
+                Name = "Tattoo Store", 
+                Sprite = 75, 
+                Colour = 0,
+            },
+            Marker = {
+                x = 1322.645,
+                y = -1651.976,
+                z = 52.275,
+            },
+            Banner = "shopui_title_barber",
+        },
+	},
 	Tattoos = {},
 }
 
