@@ -1306,9 +1306,9 @@ end
 
 function UIMenuSliderItem:Position(Y)
     if tonumber(Y) then
-        self.Background:Position(250 + self.Base._Offset.X, Y + 158.5 + self.Base._Offset.Y)
-        self.Slider:Position(250 + self.Base._Offset.X, Y + 158.5 + self.Base._Offset.Y)
-        self.Divider:Position(323.5 + self.Base._Offset.X, Y + 153 + self.Base._Offset.Y)
+        self.Background:Position(250 + self.Base._Offset.X + self.Base.ParentMenu.WidthOffset, Y + 158.5 + self.Base._Offset.Y)
+        self.Slider:Position(250 + self.Base._Offset.X + self.Base.ParentMenu.WidthOffset, Y + 158.5 + self.Base._Offset.Y)
+        self.Divider:Position(323.5 + self.Base._Offset.X + self.Base.ParentMenu.WidthOffset, Y + 153 + self.Base._Offset.Y)
         self.LeftArrow:Position(235 + self.Base._Offset.X + self.Base.ParentMenu.WidthOffset, 155.5 + Y + self.Base._Offset.Y)
         self.RightArrow:Position(400 + self.Base._Offset.X + self.Base.ParentMenu.WidthOffset, 155.5 + Y + self.Base._Offset.Y)
         self.Base:Position(Y)
@@ -1429,7 +1429,7 @@ function UIMenuSliderItem:Draw()
     
     local Offset = ((self.Background.Width - self.Slider.Width)/(#self.Items - 1)) * (self._Index-1)
 
-    self.Slider:Position(250 + self.Base._Offset.X + Offset, self.Slider.Y)
+    self.Slider:Position(250 + self.Base._Offset.X + Offset + self.Base.ParentMenu.WidthOffset, self.Slider.Y)
 
     if self:Selected() then
         self.LeftArrow:Draw()
@@ -1456,6 +1456,7 @@ function UIMenuColouredItem.New(Text, Description, MainColour, HighlightColour)
         Rectangle = UIResRectangle.New(0, 0, 431, 38, MainColour.R, MainColour.G, MainColour.B, MainColour.A),
         MainColour = MainColour,
         HighlightColour = HighlightColour,
+        Activated = function(menu, item) end,
     }
     _UIMenuColouredItem.Base.SelectedSprite:Colour(HighlightColour.R, HighlightColour.G, HighlightColour.B, HighlightColour.A)
     return setmetatable(_UIMenuColouredItem, UIMenuColouredItem)
@@ -1606,8 +1607,8 @@ end
 function UIMenuHeritageWindow:Position(Y) -- required
     if tonumber(Y) then
         self.Background:Position(self._Offset.X, 144 + Y + self._Offset.Y)
-        self.MumSprite:Position(self._Offset.X + 25, 144 + Y + self._Offset.Y)
-        self.DadSprite:Position(self._Offset.X + 195, 144 + Y + self._Offset.Y)
+        self.MumSprite:Position(self._Offset.X + (self.ParentMenu.WidthOffset/2) + 25, 144 + Y + self._Offset.Y)
+        self.DadSprite:Position(self._Offset.X + (self.ParentMenu.WidthOffset/2) + 195, 144 + Y + self._Offset.Y)
     end
 end
 
@@ -1625,6 +1626,7 @@ function UIMenuHeritageWindow:Index(Mum, Dad)
 end
 
 function UIMenuHeritageWindow:Draw() -- required
+    self.Background:Size(431 + self.ParentMenu.WidthOffset, 228)
     self.Background:Draw()
     self.DadSprite:Draw()
     self.MumSprite:Draw()

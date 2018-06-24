@@ -26,6 +26,16 @@ local removeScroller = 0
 local opacityScroller = 0
 local colourScroller = 0
 
+function GetOverlayColourType(Overlay)
+    if Overlay == 1 or Overlay == 2 or Overlay == 10 then
+        return 1
+    elseif Overlay == 5 or Overlay == 8 then
+        return 2
+    else
+        return 0
+    end
+end
+
 function OpenClothes()
     Menu.SetupMenu("clothing_main","Clothing")
     Menu.Switch(nil, "clothing_main")
@@ -59,14 +69,14 @@ function customise(title)
         textureScroller = GetPedTextureVariation(PlayerPedId(), componentScroller)
         paletteScroller = GetPedPaletteVariation(PlayerPedId(), componentScroller)
         Menu.addOption("clothing_customise", function()
-            if(Menu.ScrollBarString({"Head","Mask","Hair","Arms","Pants","Parachutes","Shoes","Necklace & Ties","Undershirt","Body Armour","Decals","Shirts"}, componentScroller, function(cb) Citizen.Trace(cb) componentScroller = cb end)) then
+            if(Menu.ScrollBarString({"Head","Mask","Hair","Arms","Pants","Parachutes","Shoes","Necklace & Ties","Undershirt","Body Armour","Decals","Shirts"}, componentScroller, function(cb) componentScroller = cb end)) then
                 subComponentScroller = GetPedDrawableVariation(PlayerPedId(), componentScroller)
                 textureScroller = GetPedTextureVariation(PlayerPedId(), componentScroller)
                 paletteScroller = GetPedPaletteVariation(PlayerPedId(), componentScroller)
             end
         end)
         Menu.addOption("clothing_customise", function()
-            if(Menu.ScrollBarInt("Components", subComponentScroller, GetNumberOfPedDrawableVariations(PlayerPedId(), componentScroller), function(cb) Citizen.Trace(cb) subComponentScroller = cb end)) then
+            if(Menu.ScrollBarInt("Components", subComponentScroller, GetNumberOfPedDrawableVariations(PlayerPedId(), componentScroller), function(cb) subComponentScroller = cb end)) then
                 if componentScroller == 0 then
                     SetPedHeadBlendData(PlayerPedId(), subComponentScroller, subComponentScroller, 0, subComponentScroller, subComponentScroller, 0, 0.5, 0.5, 0.0, false)
                 end
@@ -79,7 +89,7 @@ function customise(title)
         Menu.addOption("clothing_customise", function()
             local textureMax = 0
             if componentScroller == 2 then textureMax = GetNumHairColors() else textureMax = GetNumberOfPedTextureVariations(PlayerPedId(), componentScroller, subComponentScroller) end
-            if(Menu.ScrollBarInt("Textures", textureScroller, textureMax, function(cb) Citizen.Trace(cb) textureScroller = cb end)) then
+            if(Menu.ScrollBarInt("Textures", textureScroller, textureMax, function(cb) textureScroller = cb end)) then
                 if componentScroller == 2 then
                     SetPedComponentVariation(PlayerPedId(), componentScroller, subComponentScroller, 0, 1)
                     SetPedHairColor(PlayerPedId(), textureScroller, textureScroller)
@@ -90,7 +100,7 @@ function customise(title)
             end
         end)
         Menu.addOption("clothing_customise", function()
-            if(Menu.ScrollBarInt("Colour Palette", paletteScroller, 2, function(cb) Citizen.Trace(cb) paletteScroller = cb end)) then
+            if(Menu.ScrollBarInt("Colour Palette", paletteScroller, 2, function(cb) paletteScroller = cb end)) then
                 SetPedComponentVariation(PlayerPedId(), componentScroller, subComponentScroller, textureScroller, paletteScroller)
             end
         end)
@@ -119,14 +129,14 @@ function customise(title)
                     componentTable[i+1] = "Empty slot"
                 end
             end
-            if(Menu.ScrollBarString(componentTable, componentScroller, function(cb) Citizen.Trace(cb) componentScroller = cb end)) then
+            if(Menu.ScrollBarString(componentTable, componentScroller, function(cb) componentScroller = cb end)) then
                 subComponentScroller = GetPedDrawableVariation(PlayerPedId(), componentScroller)
                 textureScroller = GetPedTextureVariation(PlayerPedId(), componentScroller)
                 paletteScroller = GetPedPaletteVariation(PlayerPedId(), componentScroller)
             end
         end)
         Menu.addOption("clothing_customise", function()
-            if(Menu.ScrollBarInt("Components", subComponentScroller, GetNumberOfPedDrawableVariations(PlayerPedId(), componentScroller), function(cb) Citizen.Trace(cb) subComponentScroller = cb end)) then
+            if(Menu.ScrollBarInt("Components", subComponentScroller, GetNumberOfPedDrawableVariations(PlayerPedId(), componentScroller), function(cb) subComponentScroller = cb end)) then
                 SetPedComponentVariation(PlayerPedId(), componentScroller, 0, 240, 0)
                 SetPedComponentVariation(PlayerPedId(), componentScroller, subComponentScroller, textureScroller, paletteScroller)
                 textureScroller = 0
@@ -134,13 +144,13 @@ function customise(title)
             end
         end)
         Menu.addOption("clothing_customise", function()
-            if(Menu.ScrollBarInt("Textures", textureScroller, GetNumberOfPedTextureVariations(PlayerPedId(), componentScroller, subComponentScroller), function(cb) Citizen.Trace(cb) textureScroller = cb end)) then
+            if(Menu.ScrollBarInt("Textures", textureScroller, GetNumberOfPedTextureVariations(PlayerPedId(), componentScroller, subComponentScroller), function(cb) textureScroller = cb end)) then
                 if componentScroller == 2 then player_data.clothing.textures[3] = textureScroller end
                 SetPedComponentVariation(PlayerPedId(), componentScroller, subComponentScroller, textureScroller, paletteScroller)
             end
         end)
         Menu.addOption("clothing_customise", function()
-            if(Menu.ScrollBarInt("Colour Palette", paletteScroller, 2, function(cb) Citizen.Trace(cb) paletteScroller = cb end)) then
+            if(Menu.ScrollBarInt("Colour Palette", paletteScroller, 2, function(cb) paletteScroller = cb end)) then
                 SetPedComponentVariation(PlayerPedId(), componentScroller, subComponentScroller, textureScroller, paletteScroller)
             end
         end)
@@ -160,25 +170,25 @@ function accessories(title)
         subComponentScroller = GetPedPropIndex(PlayerPedId(), componentScroller)
         textureScroller = GetPedPropTextureIndex(PlayerPedId(), componentScroller)
         Menu.addOption("clothing_accessories", function()
-            if(Menu.ScrollBarString({"Hats/Helmets","Glasses","Earrings","Empty slot","Empty slot","Empty slot","Left Wrist","Right Wrist"}, componentScroller, function(cb) Citizen.Trace(cb) componentScroller = cb end)) then
+            if(Menu.ScrollBarString({"Hats/Helmets","Glasses","Earrings","Empty slot","Empty slot","Empty slot","Left Wrist","Right Wrist"}, componentScroller, function(cb) componentScroller = cb end)) then
                 subComponentScroller = GetPedPropIndex(PlayerPedId(), componentScroller)
                 textureScroller = GetPedPropTextureIndex(PlayerPedId(), componentScroller)
             end
         end)
         Menu.addOption("clothing_accessories", function()
-            if(Menu.ScrollBarInt("Components", subComponentScroller, GetNumberOfPedPropDrawableVariations(PlayerPedId(), componentScroller), function(cb) Citizen.Trace(cb) subComponentScroller = cb end)) then
+            if(Menu.ScrollBarInt("Components", subComponentScroller, GetNumberOfPedPropDrawableVariations(PlayerPedId(), componentScroller), function(cb) subComponentScroller = cb end)) then
                 SetPedPropIndex(PlayerPedId(), componentScroller, 0, 240, 0)
                 SetPedPropIndex(PlayerPedId(), componentScroller, subComponentScroller, textureScroller, false)
                 textureScroller = 0
             end
         end)
         Menu.addOption("clothing_accessories", function()
-            if(Menu.ScrollBarInt("Textures", textureScroller, GetNumberOfPedPropTextureVariations(PlayerPedId(), componentScroller, subComponentScroller), function(cb) Citizen.Trace(cb) textureScroller = cb end)) then
+            if(Menu.ScrollBarInt("Textures", textureScroller, GetNumberOfPedPropTextureVariations(PlayerPedId(), componentScroller, subComponentScroller), function(cb) textureScroller = cb end)) then
                 SetPedPropIndex(PlayerPedId(), componentScroller, subComponentScroller, textureScroller, false)
             end
         end)
         Menu.addOption("clothing_accessories", function()
-            if(Menu.ScrollBarStringSelect({"Remove helmets","Remove glasses","Remove earrings","Remove left wrist","Remove right wrist"}, removeScroller, function(cb) Citizen.Trace(cb) removeScroller = cb end)) then
+            if(Menu.ScrollBarStringSelect({"Remove helmets","Remove glasses","Remove earrings","Remove left wrist","Remove right wrist"}, removeScroller, function(cb) removeScroller = cb end)) then
                 if removeScroller ~= 3 and removeScroller ~= 4 then
                     ClearPedProp(PlayerPedId(), tonumber(removeScroller))
                 elseif removeScroller == 3 then
@@ -207,25 +217,25 @@ function accessories(title)
         subComponentScroller = GetPedDrawableVariation(PlayerPedId(), componentScroller)
         textureScroller = GetPedTextureVariation(PlayerPedId(), componentScroller)
         Menu.addOption("clothing_accessories", function()
-            if(Menu.ScrollBarString(componentTable, componentScroller, function(cb) Citizen.Trace(cb) componentScroller = cb end)) then
+            if(Menu.ScrollBarString(componentTable, componentScroller, function(cb) componentScroller = cb end)) then
                 subComponentScroller = GetPedPropIndex(PlayerPedId(), componentScroller)
                 textureScroller = GetPedPropTextureIndex(PlayerPedId(), componentScroller)
             end
         end)
         Menu.addOption("clothing_accessories", function()
-            if(Menu.ScrollBarInt("Components", subComponentScroller, GetNumberOfPedPropDrawableVariations(PlayerPedId(), componentScroller), function(cb) Citizen.Trace(cb) subComponentScroller = cb end)) then
+            if(Menu.ScrollBarInt("Components", subComponentScroller, GetNumberOfPedPropDrawableVariations(PlayerPedId(), componentScroller), function(cb) subComponentScroller = cb end)) then
                 SetPedPropIndex(PlayerPedId(), componentScroller, 0, 240, 0)
                 SetPedPropIndex(PlayerPedId(), componentScroller, subComponentScroller, textureScroller, false)
                 textureScroller = 0
             end
         end)
         Menu.addOption("clothing_accessories", function()
-            if(Menu.ScrollBarInt("Textures", textureScroller, GetNumberOfPropPedTextureVariations(PlayerPedId(), componentScroller, subComponentScroller), function(cb) Citizen.Trace(cb) textureScroller = cb end)) then
+            if(Menu.ScrollBarInt("Textures", textureScroller, GetNumberOfPropPedTextureVariations(PlayerPedId(), componentScroller, subComponentScroller), function(cb) textureScroller = cb end)) then
                 SetPedPropIndex(PlayerPedId(), componentScroller, subComponentScroller, textureScroller, false)
             end
         end)
         Menu.addOption("clothing_accessories", function()
-            if(Menu.ScrollBarStringSelect({"Remove helmets","Remove glasses","Remove earrings","Remove left wrist","Remove right wrist"}, removeScroller, function(cb) Citizen.Trace(cb) removeScroller = cb end)) then
+            if(Menu.ScrollBarStringSelect({"Remove helmets","Remove glasses","Remove earrings","Remove left wrist","Remove right wrist"}, removeScroller, function(cb) removeScroller = cb end)) then
                 if removeScroller ~= 3 and removeScroller ~= 4 then
                     ClearPedProp(PlayerPedId(), tonumber(removeScroller))
                 elseif removeScroller == 3 then
@@ -250,26 +260,25 @@ function overlays(title)
         componentScroller = 0
         subComponentScroller = GetPedHeadOverlayValue(PlayerPedId(), componentScroller)
         Menu.addOption("clothing_overlays", function()
-            if(Menu.ScrollBarString({"Blemishes","Facial Hair","Eyebrows","Ageing","Makeup","Blush","Complexion","Sun Damage","Lipstick","Moles/Freckles","Chest hair","Body blemishes","Add Body blemishes"}, componentScroller, function(cb) Citizen.Trace(cb) componentScroller = cb end)) then
+            if(Menu.ScrollBarString({"Blemishes","Facial Hair","Eyebrows","Ageing","Makeup","Blush","Complexion","Sun Damage","Lipstick","Moles/Freckles","Chest hair","Body blemishes","Add Body blemishes"}, componentScroller, function(cb) componentScroller = cb end)) then
                 subComponentScroller = GetPedHeadOverlayValue(PlayerPedId(), componentScroller)
             end
         end)
         Menu.addOption("clothing_overlays", function()
-            if(Menu.ScrollBarInt("Components", subComponentScroller, GetNumHeadOverlayValues(PlayerPedId(), componentScroller), function(cb) Citizen.Trace(cb) subComponentScroller = cb end)) then
-                SetPedHeadOverlay(PlayerPedId(), componentScroller, subComponentScroller, 1.0)
-                opacityScroller = 1.0
+            if(Menu.ScrollBarInt("Components", subComponentScroller, GetNumHeadOverlayValues(componentScroller)-1, function(cb) subComponentScroller = cb end)) then
+                SetPedHeadOverlay(PlayerPedId(), componentScroller, subComponentScroller, player_data.overlays.opacity[componentScroller+1] or 1.0)
+                opacityScroller = player_data.overlays.opacity[componentScroller+1] or 1.0
             end
         end)
         Menu.addOption("clothing_overlays", function()
-            if(Menu.ScrollBarInt("Opacity", opacityScroller, 10, function(cb) Citizen.Trace(cb) opacityScroller = cb end)) then
+            if(Menu.ScrollBarInt("Opacity", opacityScroller, 10, function(cb) opacityScroller = cb end)) then
                 SetPedHeadOverlay(PlayerPedId(), componentScroller, subComponentScroller, tonumber(opacityScroller/10))
                 player_data.overlays.opacity[componentScroller+1] = tonumber(opacityScroller/10)
             end
         end)
         Menu.addOption("clothing_overlays", function()
-            if(Menu.ScrollBarInt("Colours", colourScroller, 63, function(cb) Citizen.Trace(cb) colourScroller = cb end)) then
-                local colourType = 0
-                if componentScroller == 1 or componentScroller == 2 or componentScroller == 10 then colourType = 1 elseif componentScroller == 5 or componentScroller == 8 then colourType = 2 else colourType = 0 end
+            if(Menu.ScrollBarInt("Colours", colourScroller, 63, function(cb) colourScroller = cb end)) then
+                local colourType = GetOverlayColourType(componentScroller)
                 SetPedHeadOverlayColor(PlayerPedId(), componentScroller, colourType, colourScroller, colourScroller)
                 player_data.overlays.colours[componentScroller+1] = {colourType = colourType, colour = colourScroller}
             end
