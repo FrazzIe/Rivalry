@@ -796,13 +796,15 @@ function UIMenuItem.New(Text, Description)
         _Enabled = true,
         _Offset = {X = 0, Y = 0},
         ParentMenu = nil,
-        Activated = function(menu, item) end
+        Panels = {},
+        Activated = function(menu, item, panels) end,
+        ActivatedPanel = function(menu, item, panel, panelvalue) end,
     }
     return setmetatable(_UIMenuItem, UIMenuItem)
 end
 
 function UIMenuItem:SetParentMenu(Menu)
-    if Menu() == "UIMenu" then
+    if Menu ~= nil and Menu() == "UIMenu" then
         self.ParentMenu = Menu
     else
         return self.ParentMenu
@@ -897,6 +899,41 @@ function UIMenuItem:Text(Text)
     else
         return self.Text:Text()
     end
+end
+
+function UIMenuItem:AddPanel(Panel)
+    if Panel() == "UIMenuPanel" then
+        table.insert(self.Panels, Panel)
+        Panel:SetParentItem(self)
+    end
+end
+
+function UIMenuItem:RemovePanelAt(Index)
+    if tonumber(Index) then
+        if self.Panels[Index] then
+            table.remove(self.Panels, tonumber(Index))
+        end
+    end
+end
+
+function UIMenuItem:FindPanelIndex(Panel)
+    if Panel() == "UIMenuPanel" then
+        for Index = 1, #self.Panels do
+            if self.Panels[Index] == Panel then
+                return Index
+            end
+        end
+    end
+    return nil
+end
+
+function UIMenuItem:FindPanelItem()
+    for Index = #self.Items, 1, -1 do
+        if self.Items[Index].Panel then
+            return Index
+        end
+    end
+    return nil
 end
 
 function UIMenuItem:Draw()
@@ -1637,6 +1674,10 @@ end
     Panels
 --]]
 
+UIMenuGridPanel = setmetatable({}, UIMenuGridPanel)
+UIMenuGridPanel.__index = UIMenuGridPanel
+UIMenuGridPanel.__call = function() return "UIMenuPanel", "UIMenuGridPanel" end
+
 function UIMenuGridPanel.New(TopText, LeftText, RightText, BottomText)
     _UIMenuGridPanel = {
         Data = {
@@ -1654,7 +1695,6 @@ function UIMenuGridPanel.New(TopText, LeftText, RightText, BottomText)
             Bottom = UIResText.New(BottomText or "Bottom", 0, 0, 0.35, 255, 255, 255, 255, 0, "Centre"),
         },
     }
-
     return setmetatable(_UIMenuGridPanel, UIMenuGridPanel)
 end
 
@@ -1686,6 +1726,7 @@ end
 function UIMenuGridPanel:Position(Y) -- required
     if tonumber(Y) then
         local ParentOffsetX, ParentOffsetWidth = self.ParentItem:Offset().X, self.ParentItem:SetParentMenu().WidthOffset
+        
         self.Background:Position(ParentOffsetX, Y)
         self.Grid:Position(ParentOffsetX + 115.5 + (ParentOffsetWidth/2), 37.5 + Y)
         self.Text.Top:Position(ParentOffsetX + 215.5 + (ParentOffsetWidth/2), 5 + Y)
@@ -1702,6 +1743,7 @@ end
 
 function UIMenuGridPanel:UpdateParent(X, Y)
     local _, ParentType = self.ParentItem()
+    self.Data.Value = {X = X, Y = Y}
     if ParentType == "UIMenuListItem" then
         local PanelItemIndex = self.ParentItem:FindPanelItem()
         if PanelItemIndex then
@@ -1722,6 +1764,8 @@ function UIMenuGridPanel:UpdateParent(X, Y)
             self.ParentItem.Base.ParentMenu.OnListChange(self.ParentItem.Base.ParentMenu, self.ParentItem, self.ParentItem._Index)
             self.ParentItem.OnListChanged(self.ParentItem.Base.ParentMenu, self.ParentItem, self.ParentItem._Index)     
         end
+    elseif ParentType == "UIMenuItem" then
+        self.ParentItem.ActivatedPanel(self.ParentItem.ParentMenu, self.ParentItem, self, {X = X, Y = Y})
     end
 end
 
@@ -1797,6 +1841,7 @@ function UIMenuColourPanel.New(Title, Colours)
             Items = Colours,
             Title = Title or "Title",
             Enabled = true,
+            Value = 1,
         },
         Background = Sprite.New("commonmenu", "gradient_bgd", 0, 0, 431, 112),
         Bar = {},
@@ -1854,7 +1899,7 @@ function UIMenuColourPanel:Position(Y) -- required
     end
 end
 
-function UIMenuColourPanel:CurrentSelection(value)
+function UIMenuColourPanel:CurrentSelection(value, PreventUpdate)
     if tonumber(value) then
         if #self.Data.Items == 0 then
             self.Data.Index = 0
@@ -1868,9 +1913,9 @@ function UIMenuColourPanel:CurrentSelection(value)
         elseif self:CurrentSelection() < self.Data.Pagination.Min then
             self.Data.Pagination.Min = self:CurrentSelection() - 1
             self.Data.Pagination.Max = self:CurrentSelection() + (self.Data.Pagination.Total + 1)
-        end 
+        end
 
-        self:UpdateSelection()
+        self:UpdateSelection(PreventUpdate)
     else
         if #self.Data.Items == 0 then
             return 1
@@ -1906,14 +1951,16 @@ function UIMenuColourPanel:UpdateParent(Colour)
             self.ParentItem.Base.ParentMenu.OnListChange(self.ParentItem.Base.ParentMenu, self.ParentItem, self.ParentItem._Index)
             self.ParentItem.OnListChanged(self.ParentItem.Base.ParentMenu, self.ParentItem, self.ParentItem._Index)     
         end
+    elseif ParentType == "UIMenuItem" then
+        self.ParentItem.ActivatedPanel(self.ParentItem.ParentMenu, self.ParentItem, self, Colour)
     end
 end
 
-
-function UIMenuColourPanel:UpdateSelection()
+function UIMenuColourPanel:UpdateSelection(PreventUpdate)
     local CurrentSelection = self:CurrentSelection()
-    self:UpdateParent(CurrentSelection)
-
+    if not PreventUpdate then
+        self:UpdateParent(CurrentSelection)
+    end
     self.SelectedRectangle:Position(15 + (44.5 * ((CurrentSelection - self.Data.Pagination.Min) - 1)) + self.ParentItem:Offset().X, self.SelectedRectangle.Y)
     for Index = 1, 9 do
         self.Bar[Index]:Colour(table.unpack(self.Data.Items[self.Data.Pagination.Min + Index]))
@@ -2067,7 +2114,11 @@ end
 function UIMenuPercentagePanel:Percentage(Value)
     if tonumber(Value) then
         local Percent = ((Value < 0.0) and 0.0) or ((Value > 1.0) and 1.0 or Value)
+        self.Data.Value = Percent
         self.ActiveBar:Size(self.BackgroundBar.Width * Percent, self.ActiveBar.Height)
+    else
+        local Progress = (math.round(GetControlNormal(0, 239) * 1920) - SafeZone.X) - self.ActiveBar.X
+        return math.round(((Progress >= 0 and Progress <= 413) and Progress or ((Progress < 0) and 0 or 413))/self.BackgroundBar.Width, 2)
     end
 end
 
@@ -2093,6 +2144,8 @@ function UIMenuPercentagePanel:UpdateParent(Percentage)
             self.ParentItem.Base.ParentMenu.OnListChange(self.ParentItem.Base.ParentMenu, self.ParentItem, self.ParentItem._Index)
             self.ParentItem.OnListChanged(self.ParentItem.Base.ParentMenu, self.ParentItem, self.ParentItem._Index)     
         end
+    elseif ParentType == "UIMenuItem" then
+        self.ParentItem.ActivatedPanel(self.ParentItem.ParentMenu, self.ParentItem, self, Percentage)
     end
 end
 
@@ -2130,7 +2183,6 @@ function UIMenuPercentagePanel:Functions()
         end
     end
 end
-
 
 function UIMenuPercentagePanel:Draw() -- required
     if self.Data.Enabled then
@@ -3063,7 +3115,7 @@ function UIMenu:ProcessMouse()
                         elseif not Item:Enabled() and Item:Selected() then
                             PlaySoundFrontend(-1, self.Settings.Audio.Error, self.Settings.Audio.Library, true)
                         end
-                        Citizen.Wait(100)
+                        Citizen.Wait(175)
                         while IsDisabledControlPressed(0, 24) and IsMouseInBounds(_X, _Y, _Width, _Height) do
                             if Item:Selected() and Item:Enabled() then
                                 if SubType == "UIMenuListItem" then
@@ -3090,7 +3142,7 @@ function UIMenu:ProcessMouse()
                             elseif not Item:Enabled() and Item:Selected() then
                                 PlaySoundFrontend(-1, self.Settings.Audio.Error, self.Settings.Audio.Library, true)
                             end
-                            Citizen.Wait(100)                       
+                            Citizen.Wait(125)                       
                         end
                         self.Controls.MousePressed = false
                     end)
@@ -3118,14 +3170,14 @@ function UIMenu:ProcessMouse()
                     else
                         self:GoUp()
                     end
-                    Citizen.Wait(100)
+                    Citizen.Wait(175)
                     while IsDisabledControlPressed(0, 24) and IsMouseInBounds(_ExtraX, _ExtraY, 431 + self.WidthOffset, 18) do
                         if #self.Items > self.Pagination.Total + 1 then
                             self:GoUpOverflow()
                         else
                             self:GoUp()
                         end
-                        Citizen.Wait(100)
+                        Citizen.Wait(125)
                     end
                     self.Controls.MousePressed = false              
                 end)
@@ -3147,14 +3199,14 @@ function UIMenu:ProcessMouse()
                     else
                         self:GoDown()
                     end
-                    Citizen.Wait(100)
+                    Citizen.Wait(175)
                     while IsDisabledControlPressed(0, 24) and IsMouseInBounds(_ExtraX, _ExtraY + 18, 431 + self.WidthOffset, 18) do
                         if #self.Items > self.Pagination.Total + 1 then
                             self:GoDownOverflow()
                         else
                             self:GoDown()
                         end
-                        Citizen.Wait(100)
+                        Citizen.Wait(125)
                     end
                     self.Controls.MousePressed = false              
                 end)
@@ -3470,13 +3522,13 @@ function NativeUI.CreatePercentagePanel(MinText, MaxText)
 end
 
 function NativeUI.CreateSprite(TxtDictionary, TxtName, X, Y, Width, Height, Heading, R, G, B, A)
-    return UI.Sprite.New(TxtDictionary, TxtName, X, Y, Width, Height, Heading, R, G, B, A)
+    return Sprite.New(TxtDictionary, TxtName, X, Y, Width, Height, Heading, R, G, B, A)
 end
 
 function NativeUI.CreateRectangle(X, Y, Width, Height, R, G, B, A)
-    return UI.Rectangle.New(X, Y, Width, Height, R, G, B, A)
+    return UIResRectangle.New(X, Y, Width, Height, R, G, B, A)
 end
 
 function NativeUI.CreateText(Text, X, Y, Scale, R, G, B, A, Font, Alignment, DropShadow, Outline, WordWrap)
-    return UI.Text.New(Text, X, Y, Scale, R, G, B, A, Font, Alignment, DropShadow, Outline, WordWrap)
+    return UIResText.New(Text, X, Y, Scale, R, G, B, A, Font, Alignment, DropShadow, Outline, WordWrap)
 end
