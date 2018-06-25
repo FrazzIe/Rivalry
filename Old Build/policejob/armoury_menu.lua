@@ -21,6 +21,7 @@ local armoury = {
 
 guns = {
     {name = "Pistol", model = "WEAPON_PISTOL"},
+    {name = "Pistol Mark 2", model = "WEAPON_PISTOL_MK2"},
     {name = "Knife", model = "WEAPON_KNIFE"},
     {name = "Flare", model = "WEAPON_FLARE"},
     {name = "Stun Gun", model = "WEAPON_STUNGUN"},
@@ -30,6 +31,7 @@ guns = {
     {name = "Combat Pistol", model = "WEAPON_COMBATPISTOL"},
 	{name = "Combat PDW", model = "WEAPON_COMBATPDW"},
     {name = "Fire Extinguisher", model = "WEAPON_FIREEXTINGUISHER"},
+    {name = "Trooper Only Revolver", model = "WEAPON_REVOLVER"},
 }
 
 local options = {"Equip", "Remove"}

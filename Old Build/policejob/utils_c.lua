@@ -322,6 +322,7 @@ Attachments = {
     ["WEAPON_DIGISCANNER"] = {},
     ["WEAPON_REMOTESNIPER"] = {},
 
+    ["WEAPON_PISTOL_MK2"] = {},
 }
 
 function AddAttachment(Weapon, Attachment, Hash)
@@ -417,6 +418,9 @@ AddAttachment("WEAPON_HEAVYSHOTGUN", "Grip", 202788691)
 AddAttachment("WEAPON_GRENADELAUNCHER", "Scope", 2855028148)
 AddAttachment("WEAPON_GRENADELAUNCHER", "Flashlight", 2076495324)
 AddAttachment("WEAPON_GRENADELAUNCHER", "Grip", 202788691)
+
+AddAttachment("WEAPON_PISTOL_MK2", "Hollow Point", GetHashKey("COMPONENT_PISTOL_MK2_CLIP_HOLLOWPOINT"))
+AddAttachment("WEAPON_PISTOL_MK2", "Extended Clip", GetHashKey("COMPONENT_PISTOL_MK2_CLIP_02"))
 
 Weaponhashes = {
     ["2578778090"] = "WEAPON_KNIFE",
