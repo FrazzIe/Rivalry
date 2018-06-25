@@ -27,6 +27,7 @@ local Config = {}
     ["steam:11000010bb2d89e"] = 799, -- Tyler
     ["steam:1100001066dbf26"] = 798, -- KenshinRP
     ["steam:1100001047e1d3d"] = 797, -- Hank
+    ["steam:1100001341a1664"] = 796, -- Lamar
 --[Streamers]--
     ["steam:11000010bd74dbb"] = 700, -- Andy Milonakis
     ["steam:11000010a89612b"] = 699, -- Zombie_Barricades
