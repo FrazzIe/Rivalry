@@ -169,6 +169,7 @@ function accessories(title)
         componentScroller = 0
         subComponentScroller = GetPedPropIndex(PlayerPedId(), componentScroller)
         textureScroller = GetPedPropTextureIndex(PlayerPedId(), componentScroller)
+        removeScroller = 0
         Menu.addOption("clothing_accessories", function()
             if(Menu.ScrollBarString({"Hats/Helmets","Glasses","Earrings","Empty slot","Empty slot","Empty slot","Left Wrist","Right Wrist"}, componentScroller, function(cb) componentScroller = cb end)) then
                 subComponentScroller = GetPedPropIndex(PlayerPedId(), componentScroller)
@@ -216,6 +217,7 @@ function accessories(title)
         componentScroller = 0
         subComponentScroller = GetPedDrawableVariation(PlayerPedId(), componentScroller)
         textureScroller = GetPedTextureVariation(PlayerPedId(), componentScroller)
+        removeScroller = 0
         Menu.addOption("clothing_accessories", function()
             if(Menu.ScrollBarString(componentTable, componentScroller, function(cb) componentScroller = cb end)) then
                 subComponentScroller = GetPedPropIndex(PlayerPedId(), componentScroller)
@@ -230,7 +232,7 @@ function accessories(title)
             end
         end)
         Menu.addOption("clothing_accessories", function()
-            if(Menu.ScrollBarInt("Textures", textureScroller, GetNumberOfPropPedTextureVariations(PlayerPedId(), componentScroller, subComponentScroller), function(cb) textureScroller = cb end)) then
+            if(Menu.ScrollBarInt("Textures", textureScroller, GetNumberOfPedPropTextureVariations(PlayerPedId(), componentScroller, subComponentScroller) or 0, function(cb) textureScroller = cb end)) then
                 SetPedPropIndex(PlayerPedId(), componentScroller, subComponentScroller, textureScroller, false)
             end
         end)
@@ -258,6 +260,7 @@ function overlays(title)
     Menu.Switch("clothing_main", "clothing_overlays")
     if GetEntityModel(PlayerPedId()) == GetHashKey("mp_m_freemode_01") or GetEntityModel(PlayerPedId()) == GetHashKey("mp_f_freemode_01") then
         componentScroller = 0
+        removeScroller = 0
         subComponentScroller = GetPedHeadOverlayValue(PlayerPedId(), componentScroller)
         Menu.addOption("clothing_overlays", function()
             if(Menu.ScrollBarString({"Blemishes","Facial Hair","Eyebrows","Ageing","Makeup","Blush","Complexion","Sun Damage","Lipstick","Moles/Freckles","Chest hair","Body blemishes","Add Body blemishes"}, componentScroller, function(cb) componentScroller = cb end)) then
@@ -267,6 +270,7 @@ function overlays(title)
         Menu.addOption("clothing_overlays", function()
             if(Menu.ScrollBarInt("Components", subComponentScroller, GetNumHeadOverlayValues(componentScroller)-1, function(cb) subComponentScroller = cb end)) then
                 SetPedHeadOverlay(PlayerPedId(), componentScroller, subComponentScroller, player_data.overlays.opacity[componentScroller+1] or 1.0)
+                player_data.overlays.drawables[componentScroller+1] = subComponentScroller
                 opacityScroller = player_data.overlays.opacity[componentScroller+1] or 1.0
             end
         end)
@@ -281,6 +285,12 @@ function overlays(title)
                 local colourType = GetOverlayColourType(componentScroller)
                 SetPedHeadOverlayColor(PlayerPedId(), componentScroller, colourType, colourScroller, colourScroller)
                 player_data.overlays.colours[componentScroller+1] = {colourType = colourType, colour = colourScroller}
+            end
+        end)
+        Menu.addOption("clothing_overlays", function()
+            if(Menu.ScrollBarStringSelect({"Reset Blemishes","Reset Facial Hair","Reset Eyebrows","Reset Ageing","Reset Makeup","Reset Blush","Reset Complexion","Reset Sun Damage","Reset Lipstick","Reset Moles/Freckles","Reset Chest hair","Reset Body blemishes","Reset Body blemishes 2"}, removeScroller, function(cb) removeScroller = cb end)) then
+                SetPedHeadOverlay(PlayerPedId(), removeScroller, 255, player_data.overlays.opacity[componentScroller+1] or 1.0)
+                player_data.overlays.drawables[removeScroller+1] = 255
             end
         end)
     else
@@ -322,6 +332,7 @@ AddEventHandler("police:changemodel", function(skin)
             SetPedComponentVariation(PlayerPedId(), 11, 0, 240, 0)
             SetPedComponentVariation(PlayerPedId(), 8, 0, 240, 0)
             SetPedComponentVariation(PlayerPedId(), 11, 6, 1, 0)
+            SetPedHeadBlendData(PlayerPedId(), player_data.clothing.drawables[1] or 0, player_data.clothing.drawables[1] or 0, 0, player_data.clothing.drawables[1] or 0, player_data.clothing.drawables[1] or 0, 0, 0.5, 0.5, 0.0, false)
         end
         SetModelAsNoLongerNeeded(model)
     else
@@ -344,6 +355,7 @@ AddEventHandler("police:load_clothing", function(data)
             SetPedComponentVariation(PlayerPedId(), 11, 0, 240, 0)
             SetPedComponentVariation(PlayerPedId(), 8, 0, 240, 0)
             SetPedComponentVariation(PlayerPedId(), 11, 6, 1, 0)
+            SetPedHeadBlendData(PlayerPedId(), player_data.clothing.drawables[1] or 0, player_data.clothing.drawables[1] or 0, 0, player_data.clothing.drawables[1] or 0, player_data.clothing.drawables[1] or 0, 0, 0.5, 0.5, 0.0, false)
         end
         SetModelAsNoLongerNeeded(model)
         if player_data.new == "false" then
@@ -356,26 +368,26 @@ end)
 
 AddEventHandler("police:setComponents", function()
     if GetEntityModel(PlayerPedId()) == GetHashKey("mp_m_freemode_01") or GetEntityModel(PlayerPedId()) == GetHashKey("mp_f_freemode_01") then
-        for i = 0, 11 do
-            if i == 0 then
-                SetPedHeadBlendData(PlayerPedId(), player_data.clothing.drawables[i+1], player_data.clothing.drawables[i+1], 0, player_data.clothing.drawables[i+1], player_data.clothing.drawables[i+1], 0, 0.5, 0.5, 0.0, false)
-            elseif i == 2 then
-                SetPedComponentVariation(PlayerPedId(), i, player_data.clothing.drawables[i+1], 0, 1)
-                SetPedHairColor(PlayerPedId(), player_data.clothing.textures[i+1], player_data.clothing.textures[i+1])
-            else
-                SetPedComponentVariation(PlayerPedId(), i, player_data.clothing.drawables[i+1], player_data.clothing.textures[i+1], player_data.clothing.palette[i+1])
-            end
-        end
-        for i = 0, 7 do
-            SetPedPropIndex(PlayerPedId(), i, player_data.props.drawables[i+1], player_data.props.textures[i+1], false)
-        end
-
-        exports["core_modules"]:ApplyTattoos(PlayerPedId())
+        SetPedHeadBlendData(PlayerPedId(), player_data.clothing.drawables[1], player_data.clothing.drawables[1], 0, player_data.clothing.drawables[1], player_data.clothing.drawables[1], 0, 0.5, 0.5, 0.0, false)
 
         for i = 0, 12 do
             SetPedHeadOverlay(PlayerPedId(), i, player_data.overlays.drawables[i+1], player_data.overlays.opacity[i+1])
-            SetPedHeadOverlayColor(PlayerPedId(), i, player_data.overlays.colours[i+1].colourType, player_data.overlays.colours[i+1].colour, player_data.overlays.colours[i+1].colour)
+            SetPedHeadOverlayColor(PlayerPedId(), i, GetOverlayColourType(i), player_data.overlays.colours[i+1].colour, player_data.overlays.colours[i+1].colour)
         end
+
+        SetPedComponentVariation(PlayerPedId(), 2, player_data.clothing.drawables[3], 0, 1)
+        SetPedHairColor(PlayerPedId(), player_data.clothing.textures[3], player_data.clothing.textures[3])
+        
+        for i = 3, 11 do
+            SetPedComponentVariation(PlayerPedId(), i, player_data.clothing.drawables[i+1], player_data.clothing.textures[i+1], player_data.clothing.palette[i+1])
+        end
+
+        for i = 0, 7 do
+            SetPedPropIndex(PlayerPedId(), i, player_data.props.drawables[i+1], player_data.props.textures[i+1], true)
+        end
+
+        exports["core_modules"]:ApplyTattoos(PlayerPedId())
+        
         TriggerServerEvent("police:model_loaded", isInService)
     else
         for i = 0, 11 do

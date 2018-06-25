@@ -47,7 +47,7 @@ player_data  = {
         textures = {},
     },
     overlays = {
-        drawables = {},
+        drawables = {255,255,255,255,255,255,255,255,255,255,255,255,255},
         opacity = {1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0},
         colours = {
             {colourType = 0, colour = 0},
