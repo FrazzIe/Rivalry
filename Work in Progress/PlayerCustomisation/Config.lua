@@ -3669,3 +3669,12 @@ function GetGlassesIndex()
 	end
 	return nil
 end
+
+function GetHairIndex()
+	for Index = 1, #PlayerCustomisation.Reference.Appearance.Hairstyles[PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender] do
+		if PlayerCustomisation.Reference.Appearance.Hairstyles[PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender][Index].Value == PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Clothing.Drawable[3] then
+			return Index
+		end
+	end
+	return nil
+end

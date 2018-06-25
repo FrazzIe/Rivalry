@@ -1,6 +1,7 @@
 local Pool = NativeUI.CreatePool()
 local CharacterCreatorMenu = NativeUI.CreateMenu("Character Creator", "", 45, 45)
 local BarberMenu = NativeUI.CreateMenu("", "CATEGORIES", 0, 0)
+local BarberMenuLogo = NativeUI.CreateSprite("", "")
 
 function RenderMarker(Type, X, Y, Z, SX, SY, SZ, R, G, B, A, BobUpAndDown)
 	if tonumber(X) and tonumber(Y) and tonumber(Z) then
@@ -780,11 +781,7 @@ CharacterCreatorMenu.OnListSelect = function(ParentMenu, SelectedList, NewIndex)
 			AppearanceMenu.Items[12].Panels[1]:Percentage(PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Opacity[9])
 			AppearanceMenu.Items[12].Panels[2]:CurrentSelection(PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Colours[9], true)
 
-			if PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Highlights then
-				AppearanceMenu.Items[1].Panels[2]:Enabled(true)
-			else
-				AppearanceMenu.Items[1].Panels[2]:Enabled(false)
-			end
+			AppearanceMenu.Items[1].Panels[2]:Enabled(PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Highlights)
 
 			local StyleIndex, OutfitIndex = GetOutfitIndex()
 
@@ -830,6 +827,12 @@ function SetupHairstylesMenu(ParentMenu)
 			PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Clothing.Drawable[3] = PlayerCustomisation.Reference.Appearance.Hairstyles[PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender][Index].Value
 			
 			UpdatePlayer()
+
+			for ItemIndex = 1, #ParentMenu.Items do
+				ParentMenu.Items[ItemIndex]:SetRightBadge(BadgeStyle.None)
+			end
+
+			SelectedItem:SetRightBadge(BadgeStyle.Barber)
 		end
 		HairstyleItem.ActivatedPanel = function(ParentMenu, SelectedItem, Panel, PanelValue)
 			if Panel == HairstyleColourPanel then
@@ -850,6 +853,33 @@ function SetupHairstylesMenu(ParentMenu)
 		end
 		Menu:AddItem(HairstyleItem)
 	end
+
+	Menu.OnIndexChange = function(ParentMenu, NewIndex)
+		SetPedComponentVariation(PlayerPedId(), 2, PlayerCustomisation.Reference.Appearance.Hairstyles[PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender][NewIndex].Value, 0, 1)
+	end
+	Menu.OnMenuClosed = function(ParentMenu)
+		UpdatePlayer()
+	end
+
+	Menu:AddInstructionButton({GetControlInstructionalButton(0, 22, 0), "Toggle Highlights"})
+
+	Citizen.CreateThread(function()
+		while true do
+			Citizen.Wait(0)
+			if IsDisabledControlJustPressed(0, 22) then
+				if Menu:Visible() then
+					PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Highlights = not PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Highlights
+					
+					for Index = 1, #Menu.Items do
+						Menu.Items[Index].Panels[2]:Enabled(PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Highlights)
+					end
+
+					UpdatePlayer()
+				end
+			end
+		end
+	end)
+
 	return Menu
 end
 
@@ -884,6 +914,7 @@ function SetupMakeupMenu(ParentMenu)
 end
 
 local HairstyleMenu = SetupHairstylesMenu(BarberMenu)
+Pool:RefreshIndex()
 Citizen.CreateThread(function()
 	local Player = {
 		Coordinates = GetEntityCoords(PlayerPedId(), false)
@@ -907,9 +938,21 @@ Citizen.CreateThread(function()
 									BarberMenu.Items[Index]:Enabled(true)
 									BarberMenu.Items[Index]:SetRightBadge(BadgeStyle.None)
 								end
+
+								for Index = 1, #HairstyleMenu.Items do
+									HairstyleMenu.Items[Index]:Text(PlayerCustomisation.Reference.Appearance.Hairstyles[PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender][Index].Name)
+									HairstyleMenu.Items[Index]:SetRightBadge(BadgeStyle.None)
+									HairstyleMenu.Items[Index].Panels[1]:CurrentSelection(PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].HairColour[1])
+									HairstyleMenu.Items[Index].Panels[2]:CurrentSelection(PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].HairColour[1])
+									HairstyleMenu.Items[Index].Panels[2]:Enabled(PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Highlights)
+								end
+
+								HairstyleMenu.Items[GetHairIndex()]:SetRightBadge(BadgeStyle.Barber)
 							end
-							BarberMenu.Logo.TxtDictionary = PlayerCustomisation.Locations.Barbers[Index].Banner
-							BarberMenu.Logo.TxtName = PlayerCustomisation.Locations.Barbers[Index].Banner
+
+							BarberMenuLogo.TxtDictionary = PlayerCustomisation.Locations.Barbers[Index].Banner
+							BarberMenuLogo.TxtName = PlayerCustomisation.Locations.Barbers[Index].Banner
+							BarberMenu:SetBannerSprite(BarberMenuLogo, true)
 							BarberMenu:Visible(true)
 						else
 							BarberMenu:Visible(false)
