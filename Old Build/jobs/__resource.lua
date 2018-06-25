@@ -49,6 +49,7 @@ client_script {
 	'gopostal/cl_delivery.lua',
 	'garbage/garbage-client.lua',
 	'pool/pool-client.lua',
+	'trucking/cl_delivery.lua',
 }
 
 server_script {
@@ -67,6 +68,7 @@ server_script {
 	'gopostal/sv_delivery.lua',
 	'garbage/garbage-server.lua',
 	'pool/pool-server.lua',
+	'trucking/sv_delivery.lua',
 }
 
 export 'getMechanicIsInService'

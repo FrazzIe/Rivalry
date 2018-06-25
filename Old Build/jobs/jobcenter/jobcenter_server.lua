@@ -11,6 +11,7 @@ jobList = {
 	{name="mechanic", id=16},
 	{name="taxi", id=17},
 	{name="Secret Service", id=18},
+	{name="Trucker", id=24},
 }
 
 RegisterServerEvent('jobcenter:initialise')
