@@ -31,7 +31,7 @@ guns = {
     {name = "Combat Pistol", model = "WEAPON_COMBATPISTOL"},
 	{name = "Combat PDW", model = "WEAPON_COMBATPDW"},
     {name = "Fire Extinguisher", model = "WEAPON_FIREEXTINGUISHER"},
-    {name = "Trooper Only Revolver", model = "WEAPON_REVOLVER"},
+    {name = "Trooper Only Revolver", model = "WEAPON_REVOLVER_MK2"},
 }
 
 local options = {"Equip", "Remove"}
@@ -76,13 +76,24 @@ Citizen.CreateThread(function()
                                 local hasWeapon, currentWeapon = GetCurrentPedWeapon(PlayerPedId(), 1)
                                 if currentWeapon ~= nil then
                                     if IsPedArmed(PlayerPedId(), 7) then
-                                        if Weaponhashes[tostring(currentWeapon)] then
-                                            if Attachments[Weaponhashes[tostring(currentWeapon)]] then
-                                                for k,v in pairs(Attachments[Weaponhashes[tostring(currentWeapon)]]) do
-                                                    GiveWeaponComponentToPed(PlayerPedId(), GetHashKey(Weaponhashes[tostring(currentWeapon)]), tonumber(v.Hash))
+                                        local HashWeapon = Weaponhashes[tostring(currentWeapon)]
+                                        if HashWeapon then
+                                            if Attachments[HashWeapon] then
+                                                for k,v in pairs(Attachments[HashWeapon]) do
+                                                    if not tonumber(v.Hash) then
+                                                        GiveWeaponComponentToPed(PlayerPedId(), GetHashKey(HashWeapon), GetHashKey(v.Hash))
+                                                    else
+                                                        GiveWeaponComponentToPed(PlayerPedId(), GetHashKey(HashWeapon), tonumber(v.Hash))
+                                                    end
                                                 end
                                             end
-                                            SetPedWeaponTintIndex(PlayerPedId(), GetHashKey(Weaponhashes[tostring(currentWeapon)]), 5)
+                                            if string.sub(HashWeapon, string.len(HashWeapon)-2, string.len(HashWeapon)) == "MK2" then
+                                                SetPedWeaponTintIndex(PlayerPedId(), GetHashKey(HashWeapon), 10)
+                                            else
+                                                SetPedWeaponTintIndex(PlayerPedId(), GetHashKey(HashWeapon), 5)
+                                            end
+                                            local ammotype = GetPedAmmoTypeFromWeapon(PlayerPedId(), GetHashKey(HashWeapon))
+                                            SetPedAmmoByType(PlayerPedId(), ammotype, 250)
                                         end
                                     end
                                 end

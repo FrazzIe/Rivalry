@@ -323,6 +323,7 @@ Attachments = {
     ["WEAPON_REMOTESNIPER"] = {},
 
     ["WEAPON_PISTOL_MK2"] = {},
+    ["WEAPON_REVOLVER_MK2"] = {},
 }
 
 function AddAttachment(Weapon, Attachment, Hash)
@@ -357,6 +358,7 @@ AddAttachment("WEAPON_ASSAULTSMG", "Flashlight", 2076495324)
 AddAttachment("WEAPON_COMBATPDW", "Scope", 2855028148)
 AddAttachment("WEAPON_COMBATPDW", "Flashlight", 2076495324)
 AddAttachment("WEAPON_COMBATPDW", "Grip", 202788691)
+AddAttachment("WEAPON_COMBATPDW", "Extended Clip", "COMPONENT_COMBATPDW_CLIP_02")
 
 AddAttachment("WEAPON_MG", "Scope", 1006677997)
 
@@ -383,7 +385,6 @@ AddAttachment("WEAPON_SPECIALCARBINE", "Grip", 202788691)
 AddAttachment("WEAPON_BULLPUPRIFLE", "Scope", 2855028148)
 AddAttachment("WEAPON_BULLPUPRIFLE", "Flashlight", 2076495324)
 AddAttachment("WEAPON_BULLPUPRIFLE", "Grip", 202788691)
-
 
 AddAttachment("WEAPON_SNIPERRIFLE", "Advanced Scope", 3159677559)
 
@@ -419,10 +420,17 @@ AddAttachment("WEAPON_GRENADELAUNCHER", "Scope", 2855028148)
 AddAttachment("WEAPON_GRENADELAUNCHER", "Flashlight", 2076495324)
 AddAttachment("WEAPON_GRENADELAUNCHER", "Grip", 202788691)
 
-AddAttachment("WEAPON_PISTOL_MK2", "Hollow Point", GetHashKey("COMPONENT_PISTOL_MK2_CLIP_HOLLOWPOINT"))
-AddAttachment("WEAPON_PISTOL_MK2", "Extended Clip", GetHashKey("COMPONENT_PISTOL_MK2_CLIP_02"))
+AddAttachment("WEAPON_PISTOL_MK2", "Compensator", "COMPONENT_AT_PI_COMP")
+AddAttachment("WEAPON_PISTOL_MK2", "Hollow Point", "COMPONENT_PISTOL_MK2_CLIP_HOLLOWPOINT")
+AddAttachment("WEAPON_PISTOL_MK2", "Camo 101", "COMPONENT_PISTOL_MK2_CAMO_09_SLIDE") 
+AddAttachment("WEAPON_PISTOL_MK2", "Camo 102", "COMPONENT_PISTOL_MK2_CAMO_09")
+
+AddAttachment("WEAPON_REVOLVER_MK2", "Full Metal Jacket", "COMPONENT_REVOLVER_MK2_CLIP_FMJ")
+AddAttachment("WEAPON_REVOLVER_MK2", "Holographic", "COMPONENT_AT_SIGHTS")
+AddAttachment("WEAPON_REVOLVER_MK2", "Camo 09", "COMPONENT_REVOLVER_MK2_CAMO_09")
 
 Weaponhashes = {
+    ["3415619887"] = "WEAPON_REVOLVER_MK2",
     ["2578778090"] = "WEAPON_KNIFE",
     ["1317494643"] = "WEAPON_HAMMER",
     ["2508868239"] = "WEAPON_BAT",
@@ -493,4 +501,5 @@ Weaponhashes = {
     ["600439132"] = "WEAPON_BALL",
     ["126349499"] = "WEAPON_SNOWBALL",
     ["1233104067"] = "WEAPON_FLARE",
+    ["3219281620"] = "WEAPON_PISTOL_MK2",
 }
