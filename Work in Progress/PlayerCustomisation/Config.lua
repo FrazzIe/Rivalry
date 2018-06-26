@@ -3678,3 +3678,12 @@ function GetHairIndex()
 	end
 	return nil
 end
+
+function GetBeardIndex()
+	for Index = 1, #PlayerCustomisation.Reference.Appearance.Beards do
+		if PlayerCustomisation.Reference.Appearance.Beards[Index].Value == PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Drawable[2] then
+			return Index
+		end
+	end
+	return nil
+end

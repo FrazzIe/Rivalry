@@ -885,6 +885,57 @@ end
 
 function SetupBeardsMenu(ParentMenu)
 	local Menu = Pool:AddSubMenu(ParentMenu, "Beards", "", true)
+	for Index = 1, #PlayerCustomisation.Reference.Appearance.Beards do
+		local BeardItem = NativeUI.CreateItem(PlayerCustomisation.Reference.Appearance.Beards[Index].Name, "")
+		local BeardPercentagePanel = NativeUI.CreatePercentagePanel()
+		local BeardColourPanel = NativeUI.CreateColourPanel("Colour", PlayerCustomisation.Reference.Colours.Hair)
+
+		BeardItem:AddPanel(BeardPercentagePanel)
+		BeardItem:AddPanel(BeardColourPanel)
+		BeardItem.Activated = function(ParentMenu, SelectedItem)
+
+			PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Drawable[2] = PlayerCustomisation.Reference.Appearance.Beards[Index].Value or 255
+			
+			UpdatePlayer()
+
+			local PanelsEnabled = (Index ~= 1)
+
+			for ItemIndex = 1, #ParentMenu.Items do
+				ParentMenu.Items[ItemIndex]:SetRightBadge(BadgeStyle.None)
+				ParentMenu.Items[ItemIndex].Panels[1]:Enabled(PanelsEnabled)
+				ParentMenu.Items[ItemIndex].Panels[2]:Enabled(PanelsEnabled)
+			end
+
+			SelectedItem:SetRightBadge(BadgeStyle.Barber)
+		end
+		BeardItem.ActivatedPanel = function(ParentMenu, SelectedItem, Panel, PanelValue)
+			if Panel == BeardPercentagePanel then
+				PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Opacity[2] = PanelValue or 1.0
+
+				for ItemIndex = 1, #ParentMenu.Items do
+					ParentMenu.Items[ItemIndex].Panels[1]:Percentage(PanelValue)
+				end
+			elseif Panel == BeardColourPanel then
+				PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Colours[2] = PanelValue - 1
+
+				for ItemIndex = 1, #ParentMenu.Items do
+					ParentMenu.Items[ItemIndex].Panels[2]:CurrentSelection(PanelValue - 1, true)
+				end
+			end
+
+			UpdatePlayer()
+		end
+
+		Menu:AddItem(BeardItem)
+	end
+
+	Menu.OnIndexChange = function(ParentMenu, NewIndex)
+		SetPedHeadOverlay(PlayerPedId(), 1, NewIndex, PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Opacity[2])
+		SetPedHeadOverlayColor(PlayerPedId(), 1, GetOverlayColourType(1), PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Colours[2], PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Colours[2])
+	end
+	Menu.OnMenuClosed = function(ParentMenu)
+		UpdatePlayer()
+	end
 	return Menu
 end
 
@@ -914,6 +965,50 @@ function SetupMakeupMenu(ParentMenu)
 end
 
 local HairstyleMenu = SetupHairstylesMenu(BarberMenu)
+local BeardMenu = SetupBeardsMenu(BarberMenu)
+
+function OpenBarberMenu(LocationIndex)
+	if PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender == "Hybrid" then
+		for Index = 1, #BarberMenu.Items do
+			BarberMenu.Items[Index]:Enabled(false)
+			BarberMenu.Items[Index]:SetRightBadge(BadgeStyle.Lock)
+		end
+	else
+		for Index = 1, #BarberMenu.Items do
+			BarberMenu.Items[Index]:Enabled(true)
+			BarberMenu.Items[Index]:SetRightBadge(BadgeStyle.None)
+		end
+
+		for Index = 1, #HairstyleMenu.Items do
+			HairstyleMenu.Items[Index]:Text(PlayerCustomisation.Reference.Appearance.Hairstyles[PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender][Index].Name)
+			HairstyleMenu.Items[Index]:SetRightBadge(BadgeStyle.None)
+			HairstyleMenu.Items[Index].Panels[1]:CurrentSelection(PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].HairColour[1], true)
+			HairstyleMenu.Items[Index].Panels[2]:CurrentSelection(PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].HairColour[1], true)
+			HairstyleMenu.Items[Index].Panels[2]:Enabled(PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Highlights)
+		end
+
+		HairstyleMenu.Items[GetHairIndex()]:SetRightBadge(BadgeStyle.Barber)
+
+		local BeardIndex = GetBeardIndex() or 1
+		local BreardPanelsEnabled = (BeardIndex ~= 1)
+
+		for Index = 1, #BeardMenu.Items do
+			BeardMenu.Items[Index]:SetRightBadge(BadgeStyle.None)
+			BeardMenu.Items[Index].Panels[1]:Percentage(PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Opacity[2])
+			BeardMenu.Items[Index].Panels[2]:CurrentSelection(PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Colours[2], true)
+			BeardMenu.Items[Index].Panels[1]:Enabled(BreardPanelsEnabled)
+			BeardMenu.Items[Index].Panels[2]:Enabled(BreardPanelsEnabled)
+		end
+
+		BeardMenu.Items[BeardIndex]:SetRightBadge(BadgeStyle.Barber)
+	end
+
+	BarberMenuLogo.TxtDictionary = PlayerCustomisation.Locations.Barbers[LocationIndex].Banner
+	BarberMenuLogo.TxtName = PlayerCustomisation.Locations.Barbers[LocationIndex].Banner
+	BarberMenu:SetBannerSprite(BarberMenuLogo, true)
+	BarberMenu:Visible(true)
+end
+
 Pool:RefreshIndex()
 Citizen.CreateThread(function()
 	local Player = {
@@ -928,32 +1023,7 @@ Citizen.CreateThread(function()
 				if Vdist2(Player.Coordinates.x, Player.Coordinates.y, Player.Coordinates.z, PlayerCustomisation.Locations.Barbers[Index].Marker.x, PlayerCustomisation.Locations.Barbers[Index].Marker.y, PlayerCustomisation.Locations.Barbers[Index].Marker.z) < 2 then
 					if IsControlJustPressed(1, 51) then
 						if not BarberMenu:Visible() then
-							if PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender == "Hybrid" then
-								for Index = 1, #BarberMenu.Items do
-									BarberMenu.Items[Index]:Enabled(false)
-									BarberMenu.Items[Index]:SetRightBadge(BadgeStyle.Lock)
-								end
-							else
-								for Index = 1, #BarberMenu.Items do
-									BarberMenu.Items[Index]:Enabled(true)
-									BarberMenu.Items[Index]:SetRightBadge(BadgeStyle.None)
-								end
-
-								for Index = 1, #HairstyleMenu.Items do
-									HairstyleMenu.Items[Index]:Text(PlayerCustomisation.Reference.Appearance.Hairstyles[PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender][Index].Name)
-									HairstyleMenu.Items[Index]:SetRightBadge(BadgeStyle.None)
-									HairstyleMenu.Items[Index].Panels[1]:CurrentSelection(PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].HairColour[1])
-									HairstyleMenu.Items[Index].Panels[2]:CurrentSelection(PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].HairColour[1])
-									HairstyleMenu.Items[Index].Panels[2]:Enabled(PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Highlights)
-								end
-
-								HairstyleMenu.Items[GetHairIndex()]:SetRightBadge(BadgeStyle.Barber)
-							end
-
-							BarberMenuLogo.TxtDictionary = PlayerCustomisation.Locations.Barbers[Index].Banner
-							BarberMenuLogo.TxtName = PlayerCustomisation.Locations.Barbers[Index].Banner
-							BarberMenu:SetBannerSprite(BarberMenuLogo, true)
-							BarberMenu:Visible(true)
+							OpenBarberMenu(Index)
 						else
 							BarberMenu:Visible(false)
 						end
