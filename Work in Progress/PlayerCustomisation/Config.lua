@@ -1,5 +1,6 @@
 PlayerCustomisation = {}
 
+PlayerCustomisation.Pool = NativeUI.CreatePool()
 
 PlayerCustomisation.PlayerData = {
 	Type = "Default",
@@ -598,7 +599,9 @@ PlayerCustomisation.Reference = {
 		Lipstick = {
 			{Name = "None", Value = 255},
 		},
-		Chest = {},
+		Chest = {
+			{Name = "Shaved", Value = 255},
+		},
 	},
 	Apparel = {
 		Styles  = {
@@ -3592,8 +3595,8 @@ for Index = 0, GetNumHeadOverlayValues(2) - 1 do
 	table.insert(PlayerCustomisation.Reference.Appearance.Eyebrows, {Name = GetLabelText("CC_EYEBRW_"..Index), Value = Index})
 end
 
-for Index = 0, GetNumHeadOverlayValues(10) - 1 do
-	table.insert(PlayerCustomisation.Reference.Appearance.Chest, {Name = GetLabelText("CC_BODY_1_"..Index), Value = Index})
+for Index = 1, GetNumHeadOverlayValues(10) do
+	table.insert(PlayerCustomisation.Reference.Appearance.Chest, {Name = GetLabelText("CC_BODY_1_"..Index), Value = Index - 1})
 end
 
 for Index = 0, 31 do
@@ -3614,76 +3617,4 @@ end
 
 for Index = 0, GetNumHeadOverlayValues(5) - 1 do
 	table.insert(PlayerCustomisation.Reference.Appearance.Blush, {Name = GetLabelText("CC_BLUSH_"..Index), Value = Index})
-end
-
-function GetFaceIndex(Key, Face)
-	for Index = 1, #PlayerCustomisation.Reference.Heritage[Key] do
-		if PlayerCustomisation.Reference.Heritage[Key][Index].Value.Face == Face then
-			return Index
-		end
-	end
-	return nil
-end
-
-function GetPortraitFromFace(Key, Face)
-	for Index = 1, #PlayerCustomisation.Reference.Heritage[Key] do
-		if PlayerCustomisation.Reference.Heritage[Key][Index].Value.Face == Face then
-			return PlayerCustomisation.Reference.Heritage[Key][Index].Value.Portrait
-		end
-	end
-	return nil
-end
-
-function GetOutfitIndex()
-	for Index = 1, #PlayerCustomisation.Reference.Apparel.Outfits[PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender] do
-		for Outfit = 1, #PlayerCustomisation.Reference.Apparel.Outfits[PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender][Index] do
-			local Count = 0
-			for ClothingIndex = 4, 12 do
-				if PlayerCustomisation.Reference.Apparel.Outfits[PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender][Index][Outfit].Value.Drawable[ClothingIndex] == PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Clothing.Drawable[ClothingIndex] and PlayerCustomisation.Reference.Apparel.Outfits[PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender][Index][Outfit].Value.Texture[ClothingIndex] == PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Clothing.Texture[ClothingIndex] then
-					Count = Count + 1
-				end
-			end
-
-			if Count == 9 then
-				return Index, Outfit
-			end
-		end
-	end
-	return nil, nil
-end
-
-function GetHatIndex()
-	for Index = 1, #PlayerCustomisation.Reference.Apparel.Hat[PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender] do
-		if PlayerCustomisation.Reference.Apparel.Hat[PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender][Index].Value.Drawable == PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Props.Drawable[1] and PlayerCustomisation.Reference.Apparel.Hat[PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender][Index].Value.Texture == PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Props.Texture[1] then
-			return Index
-		end
-	end
-	return nil
-end
-
-function GetGlassesIndex()
-	for Index = 1, #PlayerCustomisation.Reference.Apparel.Glasses[PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender] do
-		if PlayerCustomisation.Reference.Apparel.Glasses[PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender][Index].Value.Drawable == PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Props.Drawable[2] and PlayerCustomisation.Reference.Apparel.Glasses[PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender][Index].Value.Texture == PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Props.Texture[2] then
-			return Index
-		end
-	end
-	return nil
-end
-
-function GetHairIndex()
-	for Index = 1, #PlayerCustomisation.Reference.Appearance.Hairstyles[PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender] do
-		if PlayerCustomisation.Reference.Appearance.Hairstyles[PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender][Index].Value == PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Clothing.Drawable[3] then
-			return Index
-		end
-	end
-	return nil
-end
-
-function GetBeardIndex()
-	for Index = 1, #PlayerCustomisation.Reference.Appearance.Beards do
-		if PlayerCustomisation.Reference.Appearance.Beards[Index].Value == PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Drawable[2] then
-			return Index
-		end
-	end
-	return nil
 end
