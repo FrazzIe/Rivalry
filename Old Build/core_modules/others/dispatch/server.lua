@@ -55,7 +55,7 @@ end)
 Chat.Command("311", function(source, args, rawCommand)
 	local Message = table.concat(args, " ")
 	TriggerClientEvent('phonecheck', source)
-	if hasphonebool == true then
+	if hasphone == true then
 		if Message ~= "" then
 			for id, dept in pairs(emergency_users) do
 				if id ~= source then
@@ -77,7 +77,7 @@ end, false, {Help = "Call for assistance(Non-Emergency)", Params = {{name = "mes
 Chat.Command("911", function(source, args, rawCommand)
 	local Message = table.concat(args, " ")
 	TriggerClientEvent('phonecheck', source)
-	if hasphonebool == true then
+	if hasphone == true then
 		if Message ~= "" then
 			for id, dept in pairs(emergency_users) do
 				if id ~= source then
