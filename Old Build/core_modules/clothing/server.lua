@@ -51,6 +51,18 @@ AddEventHandler("clothes:initialise",function(source, identifier, character_id, 
     end)
 end)
 
+RegisterServerEvent('clothes:payment')
+AddEventHandler('clothes:payment', function()
+	local source = source
+	TriggerEvent("core:getuser", source, function(user)
+		if(user.get("wallet") > 300) then
+			user.removeWallet(300)
+		else
+			user.removeBank(300)
+		end
+	end)
+end)
+
 RegisterServerEvent("clothes:spawn")
 AddEventHandler("clothes:spawn",function()
 	local source = source

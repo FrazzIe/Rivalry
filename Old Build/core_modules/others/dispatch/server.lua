@@ -46,36 +46,52 @@ AddEventHandler("core:switch", function(source)
 	end
 end)
 
+hasphone = false
+RegisterServerEvent('phone:has_phone')
+AddEventHandler("phone:has_phone", function(source, hasphonebool)
+		hasphone = hasphonebool
+end)
+
 Chat.Command("311", function(source, args, rawCommand)
 	local Message = table.concat(args, " ")
-	if Message ~= "" then
-		for id, dept in pairs(emergency_users) do
-			if id ~= source then
-				if dept ~= nil then
-					Chat.Message(id, "311 - ^5[^3"..source.."^5]^r", Message, 255, 255, 0, true, "policethreeoneone")
-					TriggerClientEvent("dispatch:311", id, source, Message)
-					TriggerClientEvent("trigger:animation", source)
+	TriggerClientEvent('phonecheck', source)
+	if hasphonebool == true then
+		if Message ~= "" then
+			for id, dept in pairs(emergency_users) do
+				if id ~= source then
+					if dept ~= nil then
+						Chat.Message(id, "311 - ^5[^3"..source.."^5]^r", Message, 255, 255, 0, true, "policethreeoneone")
+						TriggerClientEvent("dispatch:311", id, source, Message)
+						TriggerClientEvent("trigger:animation", source)
+					end
 				end
 			end
+			Chat.Message(source, "311 - ^5[^3"..source.."^5]^r", Message, 255, 255, 0, true, "policethreeoneone")
 		end
-		Chat.Message(source, "311 - ^5[^3"..source.."^5]^r", Message, 255, 255, 0, true, "policethreeoneone")
-		TriggerClientEvent("trigger:animation", source)
+			TriggerClientEvent("trigger:animation", source)
+	else
+		Chat.Message(source, "You dont have a phone right? How can you call emergency services", 255, 255, 255, true)
 	end
 end, false, {Help = "Call for assistance(Non-Emergency)", Params = {{name = "message", help = "Message to send to the emergency services"}}})
 
 Chat.Command("911", function(source, args, rawCommand)
 	local Message = table.concat(args, " ")
-	if Message ~= "" then
-		for id, dept in pairs(emergency_users) do
-			if id ~= source then
-				if dept ~= nil then
-					Chat.Message(id, "911 - ^5[^3"..source.."^5]^r", Message, 255, 0, 0, true, "policenineoneone")
-					TriggerClientEvent("dispatch:911", id, source, Message)
+	TriggerClientEvent('phonecheck', source)
+	if hasphonebool == true then
+		if Message ~= "" then
+			for id, dept in pairs(emergency_users) do
+				if id ~= source then
+					if dept ~= nil then
+						Chat.Message(id, "911 - ^5[^3"..source.."^5]^r", Message, 255, 0, 0, true, "policenineoneone")
+						TriggerClientEvent("dispatch:911", id, source, Message)
+					end
 				end
 			end
+			Chat.Message(source, "911 - ^5[^3"..source.."^5]^r", Message, 255, 0, 0, true, "policenineoneone")
+			TriggerClientEvent("trigger:animation", source)
 		end
-		Chat.Message(source, "911 - ^5[^3"..source.."^5]^r", Message, 255, 0, 0, true, "policenineoneone")
-		TriggerClientEvent("trigger:animation", source)
+	else
+		Chat.Message(source, "You dont have a phone right? How can you call emergency services", 255, 255, 255, true)
 	end
 end, false, {Help = "Call for assistance(Emergency)", Params = {{name = "message", help = "Message to send to the emergency services"}}})
 

@@ -499,7 +499,7 @@ Citizen.CreateThread(function()
         local pos = GetEntityCoords(GetPlayerPed(-1), true)
         for k,v in ipairs(emplacement_garage) do
             if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 15.0)then
-                DrawMarker(1, v.x, v.y, v.z - 1, 0, 0, 0, 0, 0, 0, 3.5001, 3.5001, 0.5001, 177, 0, 0,255, 0, 0, 0,0)
+                DrawMarker(25, v.x, v.y, v.z - 1, 0, 0, 0, 0, 0, 0, 3.5001, 3.5001, 0.5001, 177, 0, 0,255, 0, 0, 0,0)
                 if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 3.5)then
                     if (incircle == false) then
                         DisplayHelpText("Press ~INPUT_CONTEXT~ to open the garage!")
@@ -520,7 +520,7 @@ Citizen.CreateThread(function()
         end
         for k,v in ipairs(emplacement_insurance) do
             if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 15.0)then
-                DrawMarker(1, v.x, v.y, v.z - 1, 0, 0, 0, 0, 0, 0, 1.5001, 1.5001, 0.7555, 1555, 90, 10,150, 0, 0, 0,0)
+                DrawMarker(25, v.x, v.y, v.z - 1, 0, 0, 0, 0, 0, 0, 1.5001, 1.5001, 0.7555, 1555, 90, 10,150, 0, 0, 0,0)
                 if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 1.0)then
                     if (incircle == false) then
                         DisplayHelpText("Press ~INPUT_CONTEXT~ to buy an insurance!")
@@ -539,7 +539,7 @@ Citizen.CreateThread(function()
         end
         for k,v in ipairs(emplacement_claim) do
             if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 15.0)then
-                DrawMarker(1, v.x, v.y, v.z - 1, 0, 0, 0, 0, 0, 0, 1.5001, 1.5001, 0.7555, 1555, 90, 10,150, 0, 0, 0,0)
+                DrawMarker(25, v.x, v.y, v.z - 1, 0, 0, 0, 0, 0, 0, 1.5001, 1.5001, 0.7555, 1555, 90, 10,150, 0, 0, 0,0)
                 if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 1.0)then
                     if (incircle == false) then
                         DisplayHelpText("Press ~INPUT_CONTEXT~ to claim insurance for $5000!")
@@ -558,7 +558,7 @@ Citizen.CreateThread(function()
         end
         for k,v in ipairs(emplacement_garage_options) do
             if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 15.0)then
-                DrawMarker(1, v.x, v.y, v.z - 1, 0, 0, 0, 0, 0, 0, 3.5001, 3.5001, 0.7555, 1555, 90, 10,150, 0, 0, 0,0)
+                DrawMarker(25, v.x, v.y, v.z - 1, 0, 0, 0, 0, 0, 0, 3.5001, 3.5001, 0.7555, 1555, 90, 10,150, 0, 0, 0,0)
                 if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 3.0)then
                     if (incircle == false) then
                         DisplayHelpText("Press ~INPUT_CONTEXT~ to modify your garages!")
@@ -577,7 +577,7 @@ Citizen.CreateThread(function()
         end
         for k,v in ipairs(emplacement_selling) do
             if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 15.0)then
-                DrawMarker(1, v.x, v.y, v.z - 1, 0, 0, 0, 0, 0, 0, 3.5001, 3.5001, 0.5001, 177, 0, 0,255, 0, 0, 0,0)
+                DrawMarker(25, v.x, v.y, v.z - 1, 0, 0, 0, 0, 0, 0, 3.5001, 3.5001, 0.5001, 177, 0, 0,255, 0, 0, 0,0)
                 if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 3.0)then
                     if (incircle == false) then
                         DisplayHelpText("Press ~INPUT_CONTEXT~ to sell your car for half the purchase price!")
@@ -893,6 +893,7 @@ function StoreVehicle()
     Citizen.CreateThread(function()
         Citizen.Wait(0)
         local veh = GetClosestVehicle(currentgarage.x, currentgarage.y, currentgarage.z, 3.000, 0, 70)
+    if GetVehicleEngineHealth(veh) >= 600 then
         if DoesEntityExist(veh) then
             for i = 1, #out do
                 if out[i] == veh then
@@ -1111,6 +1112,9 @@ function StoreVehicle()
             exports.pNotify:SendNotification({text = "No veh!", type = "success", queue = "left", timeout = 3000, layout = "centerRight"})
             garage_menu = false
         end
+    else
+        exports.pNotify:SendNotification({text = "Vehicle is too damaged, we won't store a car looking like that!", type = "sucess", queue = "left", timeout = 3000, layout = "centerRight"})
+    end
     end)
 end
 

@@ -176,13 +176,16 @@ Citizen.CreateThread(function()
 		end
 	end
 end)
-
+local hasphonebool = false
 --[[ Main Menu ]]--
 AddEventHandler("interaction:main", function()
 	exports.ui:reset()
 	exports.ui:open()
+		if(GetItemQuantity(200) >= 1) then
+			hasphonebool = true
+		end
 	if IsEntityDead(PlayerPedId()) then
-		if exports.policejob:getIsCop() then if exports.policejob:getIsInService() then if not ten_thirteen_pressed then exports.ui:addOption("10-13", [[TriggerEvent("dispatch:ten-thirteen")]]) end end end
+		if exports.policejob:getIsCop() then if exports.policejob:getIsInService() then if hasphonebool == true then if not ten_thirteen_pressed then exports.ui:addOption("10-13", [[TriggerEvent("dispatch:ten-thirteen")]]) end end end end
 		if exports.emsjob:getIsParamedic() then if exports.emsjob:getIsInService() then if not ten_thirteen_pressed then exports.ui:addOption("10-13", [[TriggerEvent("dispatch:ten-thirteen")]]) end end end
 		exports.ui:addOption("Life Alert", "phone:lifealert","phone")		
 	else

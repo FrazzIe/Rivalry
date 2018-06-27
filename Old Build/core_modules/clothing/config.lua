@@ -94,7 +94,7 @@ Citizen.CreateThread(function()
         local pos = GetEntityCoords(GetPlayerPed(-1), true)
         for k,v in ipairs(clothing_shops) do
             if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 15.0)then
-                DrawMarker(1, v.x, v.y, v.z - 1, 0, 0, 0, 0, 0, 0, 3.0001, 3.0001, 0.5001, 1555, 0, 0,165, 0, 0, 0,0)
+                DrawMarker(25, v.x, v.y, v.z - 1, 0, 0, 0, 0, 0, 0, 3.0001, 3.0001, 0.5001, 1555, 0, 0,165, 0, 0, 0,0)
                 if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 2.0)then
                     if (incircle == false) then
                         DisplayHelpText("Press ~INPUT_CONTEXT~ to customise your character.")
@@ -114,6 +114,7 @@ Citizen.CreateThread(function()
                         menuYOptionAdd = 0.21 ------------------ Default: 0.142  ------ Move buttons up and down
                         clothing_menu = not clothing_menu
                         OpenClothes()
+                        TriggerServerEvent('clothes:payment')
                     end
                 elseif(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) > 3.0)then
                     incircle = false

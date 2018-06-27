@@ -90,6 +90,13 @@ local zones = {
 	['ZQ_UAR'] = {label = "Davis Quartz", gunshots = 80, vehicle = 80, drugs = 50, property_lock = 80},
 }
 
+RegisterNetEvent('phonecheck')
+AddEventHandler('phonecheck', function()
+	if(GetItemQuantity(200) >= 1) then
+		TriggerServerEvent('phone:has_phone', true)
+	end
+end)
+
 local weapons_whitelist = {
 	["WEAPON_BALL"]	= 1,
 	["WEAPON_PETROLCAN"] = 1,
