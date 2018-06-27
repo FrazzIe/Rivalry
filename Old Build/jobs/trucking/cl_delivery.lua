@@ -16,8 +16,10 @@ local area = 0
 local onjob = false
 local spawned_car = nil
 local spawned_car2 = nil
+local distance = 0
 
 local destination = {
+--Restraunts
 { x = 147.07858276367, y = -1462.3930664063, z = 29.141599655151, money = 250, trailer = 'Trailers2'},
 { x = 188.80735778809, y = -1459.5190429688, z = 29.141622543335, money = 250, trailer = 'Trailers2'},
 { x = -167.63006591797, y = -1436.1223144531, z = 31.247339248657, money = 250, trailer = 'Trailers2'},
@@ -26,6 +28,7 @@ local destination = {
 { x = 96.789001464844, y = 279.65631103516, z = 109.9340133667, money = 250, trailer = 'Trailers2'},
 { x = 184.93792724609, y = -218.31448364258, z = 53.872371673584, money = 250, trailer = 'Trailers2'},
 { x = 1192.1411132813, y = -402.35092163086, z = 67.829292297363, money = 250, trailer = 'Trailers2'},
+--24/7's
 { x = 1965.705078125, y = 3757.5270996094, z = 32.237976074219, money = 400, trailer = 'Trailers3'},
 { x = 1377.5512695313, y = 3604.0078125, z = 34.891986846924, money = 400, trailer = 'Trailers3'},
 { x = 560.25280761719, y = 2678.92578125, z = 42.121398925781, money = 400, trailer = 'Trailers3'},
@@ -46,6 +49,7 @@ local destination = {
 { x = 367.07543945313, y = 335.7829284668, z = 103.38278961182, money = 400, trailer = 'Trailers3'},
 { x = 2662.6447753906, y = 3259.5646972656, z = 55.240520477295, money = 400, trailer = 'Trailers3'},
 { x = -2963.1079101563, y = 400.93740844727, z = 15.069319725037, money = 400, trailer = 'Trailers3'},
+-- Wood Deliverys
 { x = 431.04672241211, y = 6467.4189453125, z = 28.768754959106, money = 500, trailer = 'TrailerLogs'},
 { x = -1989.7738037109, y = 550.68121337891, z = 110.16765594482, money = 500, trailer = 'TrailerLogs'},
 { x = -892.94616699219, y = 412.08633422852, z = 85.836479187012, money = 500, trailer = 'TrailerLogs'},
@@ -70,6 +74,7 @@ local destination = {
 { x = -3172.0493164063, y = 1300.1324462891, z = 14.727311134338, money = 500, trailer = 'TrailerLogs'},
 { x = -3053.8308105469, y = 441.86306762695, z = 6.3617038726807, money = 500, trailer = 'TrailerLogs'},
 { x = -510.33810424805, y = 5240.7973632813, z = 80.304084777832, money = 500, trailer = 'TrailerLogs'},
+-- Gas Stations
 { x = 631.4739, y = 282.8075, z = 103.2208, money = 600, trailer = 'Tanker'},
 { x = 1153.5305175781, y = -331.64242553711, z = 68.8681640625, money = 600, trailer = 'Tanker'},
 { x = 826.01831054688, y = -1049.0705566406, z = 27.753950119019, money = 600, trailer = 'Tanker'},
@@ -98,6 +103,7 @@ local destination = {
 { x = 1716.0020751953, y = 6418.0874023438, z = 33.209869384766, money = 600, trailer = 'Tanker'},
 { x = 197.29220581055, y = 6616.333984375, z = 31.755296707153, money = 600, trailer = 'Tanker'},
 { x = -95.194450378418, y = 6394.876953125, z = 31.452095031738, money = 600, trailer = 'Tanker'},
+-- Car Deliverys
 { x = -15.986042976379, y = -1085.6513671875, z = 26.672069549561, money = 750, trailer = 'TR4'},
 { x = -895.73071289063, y = -2334.0769042969, z = 6.7090282440186, money = 750, trailer = 'TR4'},
 }
@@ -144,7 +150,7 @@ Citizen.CreateThread(function()
 				if IsVehicleModel(GetVehiclePedIsIn(GetPlayerPed(-1), true), GetHashKey("phantom"))  then
 					drawTxt('Press ~g~H~s~ to deliver your ~b~ package', 2, 1, 0.5, 0.8, 0.6, 255, 255, 255, 255)
 					if (IsControlJustReleased(1, 74)) then
-						deliverysuccess()
+						deliverysuccess(distance)
 					end
 				end
 			end
@@ -198,7 +204,8 @@ end
 function startjob()
 	DrawMissionText("Drive to the marked ~g~destination~w~.", 10000)
 	onjob = true
-		l = math.random(1,82)
+		l = GetRandomIntInRange(1, 82)
+		distance = GetDistanceBetweenCoords(GetEntityCoords(GetPlayerPed(-1)), destination[l].x,destination[l].y,destination[l].z, true)
 		deliveryblip = (AddBlipForCoord(destination[l].x,destination[l].y,destination[l].z))
 		SetBlipSprite(deliveryblip, 479)
 		SetNewWaypoint(destination[l].x,destination[l].y)
@@ -273,8 +280,9 @@ function SpawnTruck()
 		Citizen.InvokeNative(0xB736A491E64A32CF, Citizen.PointerValueIntInitialized(spawned_car))
 end
 
-function deliverysuccess()
-TriggerServerEvent('trucking:success',destination[l].money)
+function deliverysuccess(distance)
+local dtraveled = distance
+TriggerServerEvent('trucking:success', dtraveled)
 	if visits == 1 then --change 3 to however many runs you want a person to be able to make before having to return to the depot
 		RemoveBlip(deliveryblip)
 		onjob = false
