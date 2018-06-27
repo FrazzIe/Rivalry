@@ -92,9 +92,8 @@ local zones = {
 
 RegisterNetEvent('phonecheck')
 AddEventHandler('phonecheck', function()
-	if(GetItemQuantity(200) >= 1) then
-		TriggerServerEvent('phone:has_phone', true)
-	end
+	local bool = exports["phone"]:PlayerHasPhone()
+	TriggerServerEvent('phone:has_phone', bool)
 end)
 
 local weapons_whitelist = {
