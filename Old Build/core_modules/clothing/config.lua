@@ -114,7 +114,6 @@ Citizen.CreateThread(function()
                         menuYOptionAdd = 0.21 ------------------ Default: 0.142  ------ Move buttons up and down
                         clothing_menu = not clothing_menu
                         OpenClothes()
-                        TriggerServerEvent('clothes:payment')
                     end
                 elseif(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) > 3.0)then
                     incircle = false
