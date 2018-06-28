@@ -153,6 +153,54 @@ AddEventHandler("playerSpawned", function()
             Chat.Message("INFO", "You must be on duty use this command!", 255, 0, 0, true)
         end
     end, false, {Help = "Toggle ten codes",  Params = {}})
+
+    Chat.Command("hood", function(source, args, fullCommand)
+        local pos = GetEntityCoords(PlayerPedId(), false)
+        local entityWorld = GetOffsetFromEntityInWorldCoords(PlayerPedId(), 0.0, 20.0, 0.0)
+        local rayHandle = CastRayPointToPoint(pos.x, pos.y, pos.z, entityWorld.x, entityWorld.y, entityWorld.z, 10, PlayerPedId(), 0)
+        local _, _, _, _, vehicleHandle = GetRaycastResult(rayHandle)
+            
+        if vehicleHandle ~= nil and vehicleHandle ~= 0 then
+            local isopen = GetVehicleDoorAngleRatio(vehicleHandle, 4)
+            local distanceToVeh = GetDistanceBetweenCoords(GetEntityCoords(PlayerPedId()), GetEntityCoords(vehicleHandle), 1)
+
+            if distanceToVeh <= 3.5 and DoesEntityExist(vehicleHandle) then
+                if isopen == 0 then
+                    SetVehicleDoorOpen(vehicleHandle, 4, 0, 0)
+                else
+                    SetVehicleDoorShut(vehicleHandle, 4, 0)
+                end
+            else
+                Notify("You must be near your vehicle to do that!")
+            end
+        else
+            Notify("No vehicle in range!")
+        end
+    end, false, {Help = "Open/Close your hood!", Params = {}})
+
+    Chat.Command("trunk", function(source, args, fullCommand)
+        local pos = GetEntityCoords(PlayerPedId(), false)
+        local entityWorld = GetOffsetFromEntityInWorldCoords(PlayerPedId(), 0.0, 20.0, 0.0)
+        local rayHandle = CastRayPointToPoint(pos.x, pos.y, pos.z, entityWorld.x, entityWorld.y, entityWorld.z, 10, PlayerPedId(), 0)
+        local _, _, _, _, vehicleHandle = GetRaycastResult(rayHandle)
+            
+        if vehicleHandle ~= nil and vehicleHandle ~= 0 then
+            local isopen = GetVehicleDoorAngleRatio(vehicleHandle,5)
+            local distanceToVeh = GetDistanceBetweenCoords(GetEntityCoords(PlayerPedId()), GetEntityCoords(vehicleHandle), 1)
+                    
+            if distanceToVeh <= 3.5 and DoesEntityExist(vehicleHandle) then
+                if isopen == 0 then
+                    SetVehicleDoorOpen(vehicleHandle, 5, 0, 0)
+                else
+                    SetVehicleDoorShut(vehicleHandle, 5, 0)
+                end
+            else
+                Notify("You must be near your vehicle to do that!")
+            end
+        else
+            Notify("No vehicle in range!")
+        end
+    end, false, {Help = "Open/Close your trunk!", Params = {}})
 end)
 
 Citizen.CreateThread(function()
