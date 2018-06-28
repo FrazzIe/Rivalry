@@ -1,7 +1,7 @@
 local Config = {}
 ----------------------------------------------------------------------------------------------------------------------
 -- Priority list can be any identifier. (hex steamid, steamid32, ip) Integer = power over other priorities
-  Config.Priority = {
+Config.Priority = {
 --[Management]--
     ["steam:110000117ace560"] = 9001, -- Frazzle
     ["steam:1100001057052a0"] = 9000, -- Frazzle
@@ -24,22 +24,17 @@ local Config = {}
     ["steam:110000101d67662"] = 984, -- Incsypops
 --[People Frazzle Likes]--
     ["steam:11000010e0f809e"] = 800, -- FateProphecy
-    ["steam:11000010bb2d89e"] = 799, -- Tyler
-    ["steam:1100001066dbf26"] = 798, -- KenshinRP
-    ["steam:1100001047e1d3d"] = 797, -- Hank
-    ["steam:1100001341a1664"] = 796, -- Lamar
+    ["steam:1100001066dbf26"] = 799, -- KenshinRP
+    ["steam:1100001047e1d3d"] = 798, -- Hank
+    ["steam:1100001341a1664"] = 797, -- Lamar
 --[Streamers]--
     ["steam:11000010bd74dbb"] = 700, -- Andy Milonakis
-    ["steam:11000010a89612b"] = 699, -- Zombie_Barricades
     ["steam:110000104a8dd05"] = 698, -- JayceTheMimeLord
-    ["steam:11000010390c424"] = 697, -- SimplyJulian
     ["steam:110000109da40b2"] = 696, -- GeeFamous92
     ["steam:11000010a2bcf7e"] = 695, -- Ming
     ["steam:110000107200988"] = 694, -- Pandagirl91 (Mings GF)
     ["steam:110000115115a30"] = 693, -- RastaRafikii
     ["steam:110000101dcfaa6"] = 692, -- FortyOne
-    ["steam:11000010cb9b652"] = 691, -- Jazzzy
-    ["steam:1100001084373a4"] = 689, -- Merkery
     ["steam:11000010216be28"] = 688, -- TheChief
     ["steam:110000106f284b8"] = 687, -- Cookie
     ["steam:110000100050d9d"] = 686, -- Bubbles
@@ -47,43 +42,36 @@ local Config = {}
     ["steam:1100001005d8ef9"] = 684, -- M_tt
     ["steam:11000010af28db3"] = 683, -- Blocky
     ["steam:110000101d2c301"] = 682, -- AbdulHD
-    ["steam:11000010536f0ff"] = 681, -- Mr Chang
+    ["steam:110000100a775e1"] = 681, -- Kyle
+    ["steam:11000010536f0ff"] = 680, -- Mr Chang
+    ["steam:1100001012bb9c2"] = 679, -- Jobless Garrett
  
 --[PD, EMS, DOJ]--
-    ["steam:1100001333cd89d"] = 600, -- Mike Auburn (Judge)
-    ["steam:11000010298765a"] = 599, -- Darrel Kincaid (PD Command)
     ["steam:11000010371b8ed"] = 598, -- hyphe (Gill Dunley | PD Command)
     ["steam:11000011102bde4"] = 597, -- Kenn (Kenny Moon | PD Command)
     ["steam:110000115c8520b"] = 596, -- Jinia (PD Command)
     ["steam:11000010b420b88"] = 595, -- Jordan (PD Command)
     ["steam:1100001096a1e6f"] = 594, -- Zim Pontes (EMS Command)  
     ["steam:11000011457b97e"] = 593, -- Jay Stylz (EMS Command)
-    ["steam:11000010d8cbf9e"] = 592, -- Skylar White (EMS Command)
-    ["steam:11000010036d96d"] = 591, -- Chris Miller (PD)
-    ["steam:110000105cd1af0"] = 590, -- Piperslame (PD)
+    ["steam:1100001087ceba9"] = 592, -- Kari Clayton (EMS Command)
+    ["steam:11000010036d96d"] = 591, -- Chris Miller (PD Command)
+    ["steam:1100001047aafc5"] = 590, -- Frank Moretti (PD Serg)
     ["steam:1100001000a7d12"] = 589, -- Marco Sandborn (PD)
     ["steam:110000114e5c4ee"] = 588, -- Poppy Winslow (PD)
     ["steam:11000010a27e61c"] = 587, -- Julio Chan (PD)
-    ["steam:1100001018c4a4e"] = 586, -- Mitch Wheatkings (PD)
-    ["steam:1100001057d1570"] = 585, -- Frost Valor (PD)
+    ["steam:110000102b0ccd6"] = 586, -- Ralph Wiggam (PD)
     ["steam:11000010512aeff"] = 584, -- Julian Popescu (PD)
-    ["steam:1100001132686b1"] = 583, -- LadyLeknin (EMS)
-    ["steam:110000102d4d1e7"] = 582, -- Sammy_Sama (Lydia Zephyr | EMS)
-    ["steam:1100001032aa2a1"] = 581, -- Austin James (EMS)
-    ["steam:110000104cc9138"] = 580, -- Chris Pearson (EMS)
-    ["steam:110000103d70c3f"] = 579, -- Jet Blue (State Attorney)
-    ["steam:11000010e519899"] = 578, -- Skitzzo (Evie Baasch | Lawyer)
+    ["steam:11000010bb2d89e"] = 583, -- Tyler
+    ["steam:1100001132686b1"] = 582, -- LadyLeknin (EMS)
+    ["steam:110000102d4d1e7"] = 581, -- Sammy_Sama (Lydia Zephyr | EMS)
+    ["steam:1100001199d626f"] = 580, -- Amera (Miinion)
+    ["steam:1100001032aa2a1"] = 579, -- Austin James (EMS)
+    ["steam:110000104cc9138"] = 578, -- Chris Pearson (EMS)
+    ["steam:110000103d70c3f"] = 577, -- Jet Blue (State Attorney)
 --[Extras]--
     ["steam:110000102436e33"] = 470, -- Lizzy Koopa
-    ["steam:110000100BF705A"] = 469, -- Schwank (Zach) 
+    ["steam:110000100BF705A"] = 469, -- Schwank (Zach)
     ["steam:110000106e0c14b"] = 400, -- Ructar
-    ["steam:1100001199d626f"] = 398, -- Amera (Miinion)
-    ["steam:11000010271b1e0"] = 397, -- Marcel Bean
-    ["steam:11000010cd211a1"] = 396, -- Horsecawk
---[Gangs]--
-    ["steam:110000109e66f64"] = 200, -- Tony Valentino
-    ["steam:1100001182c6a74"] = 199, -- Mellow (Lost MC)
-    ["steam:11000010d334d5d"] = 198, -- Epic (Lost MC)
 }
 
 Config.RequireSteam = true
