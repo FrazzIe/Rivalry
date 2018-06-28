@@ -11,15 +11,6 @@
 
     Copy, re-release, re-distribute it without my written permission.
 --]]
-RegisterServerEvent('server:checkLicense')
-AddEventHandler('server:checkLicense', function()
-    local source = source
-    TriggerEvent('core:getuser', source, function(user)
-        if user.get("drivers_license") == "true" then
-            TriggerClientEvent('client:checkLicense', source, "true")
-        end
-    end)
-end)
 insurance = {
     ["blista"] = 5500,
     ["brioso"] = 6000,
