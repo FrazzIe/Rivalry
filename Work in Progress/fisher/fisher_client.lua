@@ -23,6 +23,20 @@
 	local soldBarracuda = 0
 	local soldTuna = 0
 	local soldYellowtail = 0
+	local StartFishing_KEY = 51 -- E
+	local Caught_KEY = 201 -- ENTER
+	local SuccessLimit = 0.09 -- Maxim 0.1 (high value, low success chances)
+	local AnimationSpeed = 0.0015
+	local ShowChatMSG = true -- or false
+	local IsFishing = false
+	local CFish = false
+	local BarAnimation = 0
+	local Faketimer = 0
+	local RunCodeOnly1Time = true
+	local PosX = 0.5
+	local PosY = 0.1
+	local TimerAnimation = 0.1
+
 	local tableOfFish = {
 		["Snook"] = {name = "Snook", sold = 0, price = 50},
 		["Pompano"] = {name = "Pompano", sold = 0, price = 50},
@@ -149,9 +163,61 @@ end)
 					SetTextEntry_2("STRING")
 					AddTextComponentString("Press ~g~E~s~ to cast your fishing rod")
 					DrawSubtitleTimed(2000, 1)
-					if IsControlJustPressed(1, 51) then
-						TriggerServerEvent('Fisher:serverRequest', "GetPoisson")
-						Citizen.Wait(inRangeTime)
+					if IsControlJustPressed(1, StartFishing_KEY) then
+						IsFishing = true
+						RunCodeOnly1Time = true
+						BarAnimation = 0
+						FishRod = AttachEntityToPed('prop_fishing_rod_01',60309, 0,0,0, 0,0,0)
+					end
+					while IsFishing do
+						local time = 4*3000
+						TaskStandStill(GetPed(), time+7000)
+						PlayAnim(GetPed(),'amb@world_human_stand_fishing@base','base',4,3000)
+						Citizen.Wait(time)
+						CFish = true
+						IsFishing = false
+					end
+					while CFish do
+						Citizen.Wait(1)
+						FishGUI(true)
+						if RunCodeOnly1Time then
+							Faketimer = 1
+							PlayAnim(GetPed(),'amb@world_human_stand_fishing@idle_a','idle_c',1,0) -- 10sec
+							RunCodeOnly1Time = false
+							DetachEntity(FishRod, true, true)
+							DeleteEntity(FishRod)
+							DeleteObject(FishRod)
+						end
+						if TimerAnimation <= 0 then
+							CFish = false
+							TimerAnimation = 0.1
+							StopAnimTask(GetPed(), 'amb@world_human_stand_fishing@idle_a','idle_c',2.0)
+							Citizen.Wait(200)
+							DetachEntity(FishRod, true, true)
+							DeleteEntity(FishRod)
+							DeleteObject(FishRod)
+						end
+						if IsControlJustPressed(1, Caught_KEY) then
+							if BarAnimation >= SuccessLimit then
+								CFish = false
+								TimerAnimation = 0.1
+								StopAnimTask(GetPed(), 'amb@world_human_stand_fishing@idle_a','idle_c',2.0)
+								Citizen.Wait(200)
+								DetachEntity(FishRod, true, true)
+								DeleteEntity(FishRod)
+								DeleteObject(FishRod)
+								TriggerServerEvent('Fisher:serverRequest', "GetPoisson")
+							else
+								CFish = false
+								TimerAnimation = 0.1
+								StopAnimTask(GetPed(), 'amb@world_human_stand_fishing@idle_a','idle_c',2.0)
+								TriggerEvent('chatMessage', "The fish slipped away! You need to be more focused!")
+								Citizen.Wait(200)
+								DetachEntity(FishRod, true, true)
+								DeleteEntity(FishRod)
+								DeleteObject(FishRod)
+							end
+						end
 					end
 				end
 
@@ -159,10 +225,64 @@ end)
 					SetTextEntry_2("STRING")
 					AddTextComponentString("Press ~g~E~s~ to cast your fishing rod")
 					DrawSubtitleTimed(2000, 1)
-					if IsControlJustPressed(1, 51) then
-						TriggerServerEvent('Fisher:serverRequest', "GetPoissonDeep")
-						Citizen.Wait(inRangeTimeD)
+					if IsControlJustPressed(1, StartFishing_KEY) then
+						IsFishing = true
+						RunCodeOnly1Time = true
+						BarAnimation = 0
+						FishRod = AttachEntityToPed('prop_fishing_rod_01',60309, 0,0,0, 0,0,0)
 					end
+					while IsFishing do
+						local time = 4*3000
+						TaskStandStill(GetPed(), time+7000)
+						PlayAnim(GetPed(),'amb@world_human_stand_fishing@base','base',4,3000)
+						Citizen.Wait(time)
+						CFish = true
+						IsFishing = false
+					end
+					while CFish do
+						Citizen.Wait(1)
+						FishGUI(true)
+						if RunCodeOnly1Time then
+							Faketimer = 1
+							PlayAnim(GetPed(),'amb@world_human_stand_fishing@idle_a','idle_c',1,0) -- 10sec
+							RunCodeOnly1Time = false
+							DetachEntity(FishRod, true, true)
+							DeleteEntity(FishRod)
+							DeleteObject(FishRod)
+						end
+						if TimerAnimation <= 0 then
+							CFish = false
+							TimerAnimation = 0.1
+							StopAnimTask(GetPed(), 'amb@world_human_stand_fishing@idle_a','idle_c',2.0)
+							Citizen.Wait(200)
+							DetachEntity(FishRod, true, true)
+							DeleteEntity(FishRod)
+							DeleteObject(FishRod)
+							
+						end
+						if IsControlJustPressed(1, Caught_KEY) then
+							if BarAnimation >= SuccessLimit then
+								CFish = false
+								TimerAnimation = 0.1
+								StopAnimTask(GetPed(), 'amb@world_human_stand_fishing@idle_a','idle_c',2.0)
+								Citizen.Wait(200)
+								DetachEntity(FishRod, true, true)
+								DeleteEntity(FishRod)
+								DeleteObject(FishRod)
+								TriggerServerEvent('Fisher:serverRequest', "GetPoissonDeep")								
+							else
+								CFish = false
+								TimerAnimation = 0.1
+								StopAnimTask(GetPed(), 'amb@world_human_stand_fishing@idle_a','idle_c',2.0)
+								Citizen.Wait(200)
+								TriggerEvent('chatMessage', "The fish slipped away! You need to be more focused!")
+								DetachEntity(FishRod, true, true)
+								DeleteEntity(FishRod)
+								DeleteObject(FishRod)
+							end
+						end
+					end
+					TriggerServerEvent('Fisher:serverRequest', "GetPoisson")
 				end
 
 				if isInServiceFisher and GetDistanceBetweenCoords(GetEntityCoords(GetPlayerPed(-1)), Fisher_blips["Fish Shop"].x,Fisher_blips["Fish Shop"].y,Fisher_blips["Fish Shop"].z, true) <= Fisher_blips["Fish Shop"].distanceBetweenCoords then
@@ -356,9 +476,7 @@ end
 		end
 		TriggerEvent('inventory:addQty',fish, 5)
 		ClearPrints()
-		SetTextEntry_2("STRING")
-		AddTextComponentString("~g~You caught a "..name.."!")
-		DrawSubtitleTimed(4500, 1)
+		TriggerEvent('chatMessage', "You caught a "..name.."!")
 	end)
 
 	RegisterNetEvent('Fisher:drawGetPoissonDeep')
@@ -394,9 +512,7 @@ end
 		end
 		TriggerEvent('inventory:addQty',fish, 2)
 		ClearPrints()
-		SetTextEntry_2("STRING")
-		AddTextComponentString("~g~You caught a "..name.."!")
-		DrawSubtitleTimed(4500, 1)
+		TriggerEvent('chatMessage', "You caught a "..name.."!")
 	end)
 
 	local beingSold = 1
@@ -493,4 +609,75 @@ function fluxiateMarket()
 		end
 	end
 	TriggerServerEvent('fluxiateMarket', tableOfFish)
+end
+
+Citizen.CreateThread(function() -- Thread for  timer
+	while true do 
+		Citizen.Wait(1000)
+		Faketimer = Faketimer + 1 
+	end 
+end)
+
+-- F  U  N  C  T  I  O  N  S 
+function GetCar() return GetVehiclePedIsIn(GetPlayerPed(-1),false) end
+function GetPed() return GetPlayerPed(-1) end
+function text(x,y,scale,text)
+    SetTextFont(0)
+    SetTextProportional(0)
+    SetTextScale(scale, scale)
+    SetTextColour(255,255,255,255)
+    SetTextDropShadow(0,0,0,0,255)
+    SetTextEdge(2, 0, 0, 0, 255)
+    SetTextEntry("STRING")
+    AddTextComponentString(text)
+    DrawText(x, y)
+end
+function FishGUI(bool)
+	if not bool then return end
+	DrawRect(PosX,PosY+0.005,TimerAnimation,0.005,255,255,0,255)
+	DrawRect(PosX,PosY,0.1,0.01,0,0,0,255)
+	TimerAnimation = TimerAnimation - 0.0001025
+	if BarAnimation >= SuccessLimit then
+		DrawRect(PosX,PosY,BarAnimation,0.01,102,255,102,150)
+	else
+		DrawRect(PosX,PosY,BarAnimation,0.01,255,51,51,150)
+	end
+	if BarAnimation <= 0 then
+		up = true
+	end
+	if BarAnimation >= PosY then
+		up = false
+	end
+	if not up then
+		BarAnimation = BarAnimation - AnimationSpeed
+	else
+		BarAnimation = BarAnimation + AnimationSpeed
+	end
+end
+function PlayAnim(ped,base,sub,nr,time) 
+	Citizen.CreateThread(function() 
+		RequestAnimDict(base) 
+		while not HasAnimDictLoaded(base) do 
+			Citizen.Wait(1) 
+		end
+		if IsEntityPlayingAnim(ped, base, sub, 3) then
+			ClearPedSecondaryTask(ped) 
+		else 
+			for i = 1,nr do 
+				TaskPlayAnim(ped, base, sub, 8.0, -8, -1, 16, 0, 0, 0, 0) 
+				Citizen.Wait(time) 
+			end 
+		end 
+	end) 
+end
+function AttachEntityToPed(prop,bone_ID,x,y,z,RotX,RotY,RotZ)
+	BoneID = GetPedBoneIndex(GetPed(), bone_ID)
+	obj = CreateObject(GetHashKey(prop),  1729.73,  6403.90,  34.56,  true,  true,  true)
+	vX,vY,vZ = table.unpack(GetEntityCoords(GetPed()))
+	xRot, yRot, zRot = table.unpack(GetEntityRotation(GetPed(),2))
+	AttachEntityToEntity(obj,  GetPed(),  BoneID, x,y,z, RotX,RotY,RotZ,  false, false, false, false, 2, true)
+	return obj
+end
+function Chat(text)
+	TriggerEvent("chatMessage", 'SYSTEM', { 255,255,0}, text)
 end
