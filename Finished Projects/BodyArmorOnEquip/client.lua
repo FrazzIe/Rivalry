@@ -1,0 +1,7 @@
+TaskPlayAnim(PlayerPedId(), "switch@franklin@getting_ready", "002334_02_fras_v2_11_getting_dressed_exit", 4.0, -4, -1, 1, 0, false, false, false)
+Citizen.Wait(500)
+SetPedComponentVariation(PlayerPedId(), 9, 1, 1, 1)
+Citizen.Wait(2000)
+ClearPedTasks(PlayerPedId())
+Citizen.Wait(1700)
+ClearPedTasks(PlayerPedId())
