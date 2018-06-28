@@ -591,33 +591,37 @@ Citizen.CreateThread(function()
         local pos = GetEntityCoords(GetPlayerPed(-1), true)
         for k,v in ipairs(emplacement_vehicleshop) do
             if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 15.0)then
-                DrawMarker(1, v.x, v.y, v.z - 1, 0, 0, 0, 0, 0, 0, 1.5001, 1.5001, 0.5001, 177, 0, 0,255, 0, 0, 0,0)
+                DrawMarker(25, v.x, v.y, v.z - 1, 0, 0, 0, 0, 0, 0, 1.5001, 1.5001, 0.5001, 177, 0, 0,255, 0, 0, 0,0)
                 if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 1.0)then
                     DisplayHelpText("Press ~INPUT_CONTEXT~ to buy a vehicle!")
                     if IsControlJustReleased(1, 51) then -- INPUT_CELLPHONE_DOWN
-                        currentMarker = {v.x,v.y,v.z}
-                        currentShop = v.inside
-                        currentExit = v.exit
-                        openCarshop()
-                        if not WarMenu.IsMenuOpened("Vehicleshop") then
-                            if not WarMenu.DoesMenuExist("Vehicleshop") then
-                                WarMenu.CreateMenu("Vehicleshop", "Vehicle shop")
-                                WarMenu.SetSpriteTitle("Vehicleshop", "shopui_title_ie_modgarage")
-                                WarMenu.SetSubTitle("Vehicleshop", "CATEGORIES")
-                                WarMenu.SetMenuX("Vehicleshop", 0.6)
-                                WarMenu.SetMenuY("Vehicleshop", 0.15)
-                                for k,v in pairs(cars) do
-                                    WarMenu.CreateSubMenu(v.title, "Vehicleshop", v.title.." SECTION")
-                                    for i,j in pairs(v.vehicles) do
-                                        WarMenu.CreateSubMenu(j.name, v.title, j.name)
+                        if tobool(drivers_license) then
+                            currentMarker = {v.x,v.y,v.z}
+                            currentShop = v.inside
+                            currentExit = v.exit
+                            openCarshop()
+                            if not WarMenu.IsMenuOpened("Vehicleshop") then
+                                if not WarMenu.DoesMenuExist("Vehicleshop") then
+                                    WarMenu.CreateMenu("Vehicleshop", "Vehicle shop")
+                                    WarMenu.SetSpriteTitle("Vehicleshop", "shopui_title_ie_modgarage")
+                                    WarMenu.SetSubTitle("Vehicleshop", "CATEGORIES")
+                                    WarMenu.SetMenuX("Vehicleshop", 0.6)
+                                    WarMenu.SetMenuY("Vehicleshop", 0.15)
+                                    for k,v in pairs(cars) do
+                                        WarMenu.CreateSubMenu(v.title, "Vehicleshop", v.title.." SECTION")
+                                        for i,j in pairs(v.vehicles) do
+                                            WarMenu.CreateSubMenu(j.name, v.title, j.name)
+                                        end
                                     end
+                                    WarMenu.OpenMenu("Vehicleshop")
+                                else
+                                    WarMenu.OpenMenu("Vehicleshop")
                                 end
-                                WarMenu.OpenMenu("Vehicleshop")
                             else
-                                WarMenu.OpenMenu("Vehicleshop")
+                                WarMenu.CloseMenu("Vehicleshop")
                             end
                         else
-                            WarMenu.CloseMenu("Vehicleshop")
+                            Notify("Get out of here! I'm not selling you a vehicle without a drivers license!")
                         end
                     end
                 end
