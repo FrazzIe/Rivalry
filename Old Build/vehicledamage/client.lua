@@ -167,43 +167,20 @@ end
 
 
 RegisterNetEvent('iens:repair')
-AddEventHandler('iens:repair', function()
-	if isPedDrivingAVehicle() then
+AddEventHandler('iens:repair', function(vehicleHandle)
 		local ped = GetPlayerPed(-1)
-		vehicle = GetVehiclePedIsIn(ped, false)
-		if IsNearMechanic() then
-			SetVehicleUndriveable(vehicle,false)
-			SetVehicleFixed(vehicle)
-			healthBodyLast=1000.0
-			healthEngineLast=1000.0
-			healthPetrolTankLast=1000.0
-			SetVehicleEngineOn(vehicle, true, false )
-			notification("~g~The mechanic repaired your car!")
-			return
-		end
+		vehicle = vehicleHandle
 		if GetVehicleEngineHealth(vehicle) < cfg.cascadingFailureThreshold + 5 then
-			if GetVehicleOilLevel(vehicle) > 0 then
 				SetVehicleUndriveable(vehicle,false)
 				SetVehicleEngineHealth(vehicle, cfg.cascadingFailureThreshold + 5)
 				SetVehiclePetrolTankHealth(vehicle, 750.0)
 				healthEngineLast=cfg.cascadingFailureThreshold +5
 				healthPetrolTankLast=750.0
-					SetVehicleEngineOn(vehicle, true, false )
-				SetVehicleOilLevel(vehicle,(GetVehicleOilLevel(vehicle)/3)-0.5)
-				notification("~g~" .. repairCfg.fixMessages[fixMessagePos] .. ", now get to a mechanic!")
+				SetVehicleEngineOn(vehicle, true, false )
+				notification("~g~".."You have just repaired the cars engine, but it isn't in a good condition. Now get to a mechanic!")
 				fixMessagePos = fixMessagePos + 1
 				if fixMessagePos > repairCfg.fixMessageCount then fixMessagePos = 1 end
-			else
-				notification("~r~Your vehicle was too badly damaged. Unable to repair!")
-			end
-		else
-			notification("~y~" .. repairCfg.noFixMessages[noFixMessagePos] )
-			noFixMessagePos = noFixMessagePos + 1
-			if noFixMessagePos > repairCfg.noFixMessageCount then noFixMessagePos = 1 end
 		end
-	else
-		notification("~y~You must be in a vehicle to be able to repair it")
-	end
 end)
 
 RegisterNetEvent('iens:notAllowed')
