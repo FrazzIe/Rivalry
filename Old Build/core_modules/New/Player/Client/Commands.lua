@@ -252,3 +252,45 @@ Citizen.CreateThread(function()
         end
     end
 end)
+
+Chat.Command("hood", function(source, args, fullCommand)
+        local pos = GetEntityCoords(PlayerPedId(), false)
+        local entityWorld = GetOffsetFromEntityInWorldCoords(PlayerPedId(), 0.0, 20.0, 0.0)
+        local rayHandle = CastRayPointToPoint(pos.x, pos.y, pos.z, entityWorld.x, entityWorld.y, entityWorld.z, 10, PlayerPedId(), 0)
+        local _, _, _, _, vehicleHandle = GetRaycastResult(rayHandle)
+            
+        local isopen = GetVehicleDoorAngleRatio(vehicleHandle,4)
+        local distanceToVeh = GetDistanceBetweenCoords(GetEntityCoords(PlayerPedId()), GetEntityCoords(vehicleHandle), 1)
+            
+        if distanceToVeh <= 3.5 and DoesEntityExist(vehicleHandle) then
+            if (isopen == 0) then
+                SetVehicleDoorOpen(vehicleHandle,4,0,0)
+            else
+                SetVehicleDoorShut(vehicleHandle,4,0)
+            end
+        else
+           exports.pNotify:SendNotification({text = "You need to be near your car!", type = "error", queue = "left", timeout = 3000, layout = "centerRight"})
+        end
+    end, false, {Help = "Open/Close your hood!", Params = {}})
+
+Chat.Command("trunk", function(source, args, fullCommand)
+        local pos = GetEntityCoords(PlayerPedId(), false)
+        local entityWorld = GetOffsetFromEntityInWorldCoords(PlayerPedId(), 0.0, 20.0, 0.0)
+        local rayHandle = CastRayPointToPoint(pos.x, pos.y, pos.z, entityWorld.x, entityWorld.y, entityWorld.z, 10, PlayerPedId(), 0)
+        local _, _, _, _, vehicleHandle = GetRaycastResult(rayHandle)
+            
+        local isopen = GetVehicleDoorAngleRatio(vehicleHandle,5)
+        local distanceToVeh = GetDistanceBetweenCoords(GetEntityCoords(PlayerPedId()), GetEntityCoords(vehicleHandle), 1)
+            
+        if distanceToVeh <= 3.5 and DoesEntityExist(vehicleHandle) then
+            if (isopen == 0) then
+                SetVehicleDoorOpen(vehicleHandle,5,0,0)
+            else
+                SetVehicleDoorShut(vehicleHandle,5,0)
+            end
+        else
+            exports.pNotify:SendNotification({text = "You need to be near your car!", type = "error", queue = "left", timeout = 3000, layout = "centerRight"})
+        end
+    end, false, {Help = "Open/Close your trunk!", Params = {}})
+
+end)
