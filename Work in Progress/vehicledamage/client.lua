@@ -171,20 +171,15 @@ AddEventHandler('iens:repair', function(vehicleHandle)
 		local ped = GetPlayerPed(-1)
 		vehicle = vehicleHandle
 		if GetVehicleEngineHealth(vehicle) < cfg.cascadingFailureThreshold + 5 then
-			if GetVehicleOilLevel(vehicle) > 0 then
 				SetVehicleUndriveable(vehicle,false)
 				SetVehicleEngineHealth(vehicle, cfg.cascadingFailureThreshold + 5)
 				SetVehiclePetrolTankHealth(vehicle, 750.0)
 				healthEngineLast=cfg.cascadingFailureThreshold +5
 				healthPetrolTankLast=750.0
 				SetVehicleEngineOn(vehicle, true, false )
-				SetVehicleOilLevel(vehicle,(GetVehicleOilLevel(vehicle)/3)-0.5)
 				notification("~g~".."You have just repaired the cars engine, but it isn't in a good condition. Now get to a mechanic!")
 				fixMessagePos = fixMessagePos + 1
 				if fixMessagePos > repairCfg.fixMessageCount then fixMessagePos = 1 end
-			else
-				notification("~r~Your vehicle was too badly damaged. Unable to repair!")
-			end
 		end
 end)
 
