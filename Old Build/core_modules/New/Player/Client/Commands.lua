@@ -3,6 +3,7 @@ local HatDrawable, HatTexture = nil, nil
 local GlassesDrawable, GlassesTexture = nil, nil
 local MaskDrawable, MaskTexture, MaskPalette = nil, nil, nil
 local GlovesDrawable, GlovesTexture, GlovesPalette = nil, nil, nil
+local DisplayTenCodes = false
 local Animations = {
     Hat = {
         On = {
@@ -140,7 +141,66 @@ AddEventHandler("playerSpawned", function()
             TaskPlayAnim(GetPlayerPed(-1), Animations.Gloves.Dictionary, Animations.Gloves.On, 8.0, 8.0, -1, 50, 0, false, false, false)
             Citizen.Wait(1300)
             SetPedComponentVariation(Player.Ped, 3, GlovesDrawable, GlovesTexture, GlovesPalette)
-                ClearPedTasks(Player.Ped)
+            ClearPedTasks(Player.Ped)
         end
     end, false, {Help = "Put on/Take off your gloves!", Params = {}})
+
+    Chat.Command("codes", function(source, args, rawCommand)
+        if exports.policejob:getIsInService() then
+            DisplayTenCodes = not DisplayTenCodes
+        else
+            DisplayTenCodes = false
+            Chat.Message("INFO", "You must be on duty use this command!", 255, 0, 0, true)
+        end
+    end, false, {Help = "Toggle ten codes",  Params = {}})
+end)
+
+Citizen.CreateThread(function()
+    local PoliceTenCodes = {
+        {Text = " - 10-2 | Signal Good", Scale = 0.3, Font = 6, R = 255, G = 255, B = 255, A = 255},
+        {Text = " - 10-4 | Acknowledge", Scale = 0.3, Font = 6, R = 255, G = 255, B = 255, A = 255},
+        {Text = " - 10-6 | Busy", Scale = 0.3, Font = 6, R = 255, G = 255, B = 255, A = 255},
+        {Text = " - 10-7 | Out of Service", Scale = 0.3, Font = 6, R = 255, G = 255, B = 255, A = 255},
+        {Text = " - 10-8 | In Service", Scale = 0.3, Font = 6, R = 255, G = 255, B = 255, A = 255},
+        {Text = " - 10-9 | Repeat", Scale = 0.3, Font = 6, R = 255, G = 255, B = 255, A = 255},
+        {Text = " - 10-13 | Officer Down", Scale = 0.3, Font = 6, R = 255, G = 255, B = 255, A = 255},
+        {Text = " - 10-15 | Drug Call", Scale = 0.3, Font = 6, R = 255, G = 255, B = 255, A = 255},
+        {Text = " - 10-19 | Returning to", Scale = 0.3, Font = 6, R = 255, G = 255, B = 255, A = 255},
+        {Text = " - 10-20 | Disregard", Scale = 0.3, Font = 6, R = 255, G = 255, B = 255, A = 255},
+        {Text = " - 10-23 | Arrived at scene", Scale = 0.3, Font = 6, R = 255, G = 255, B = 255, A = 255},
+        {Text = " - 10-28 | Registration Check", Scale = 0.3, Font = 6, R = 255, G = 255, B = 255, A = 255},
+        {Text = " - 10-29 | Background Check", Scale = 0.3, Font = 6, R = 255, G = 255, B = 255, A = 255},
+        {Text = " - 10-30 | Misuse of radio", Scale = 0.3, Font = 6, R = 255, G = 255, B = 255, A = 255},
+        {Text = " - 10-31 | Crime in progress", Scale = 0.3, Font = 6, R = 255, G = 255, B = 255, A = 255},
+        {Text = " - 10-32 | Shots fired", Scale = 0.3, Font = 6, R = 255, G = 255, B = 255, A = 255},
+        {Text = " - 10-33 | Emergency", Scale = 0.3, Font = 6, R = 255, G = 255, B = 255, A = 255},
+        {Text = " - 10-38 | Stopping Vehicle", Scale = 0.3, Font = 6, R = 255, G = 255, B = 255, A = 255},
+        {Text = " - 10-41 | Starting tour of duty", Scale = 0.3, Font = 6, R = 255, G = 255, B = 255, A = 255},
+        {Text = " - 10-42 | Ending tour of duty", Scale = 0.3, Font = 6, R = 255, G = 255, B = 255, A = 255},
+        {Text = " - 10-52 | Ambulance needed", Scale = 0.3, Font = 6, R = 255, G = 255, B = 255, A = 255},
+        {Text = " - 10-76 | En route", Scale = 0.3, Font = 6, R = 255, G = 255, B = 255, A = 255},
+        {Text = " - 10-78 | Need Assistance", Scale = 0.3, Font = 6, R = 255, G = 255, B = 255, A = 255},
+        {Text = " - 10-80 | Chase in progress", Scale = 0.3, Font = 6, R = 255, G = 255, B = 255, A = 255},
+        {Text = " - 10-90 | Robbery", Scale = 0.3, Font = 6, R = 255, G = 255, B = 255, A = 255},
+        {Text = " - 10-95 | Suspect in custody", Scale = 0.3, Font = 6, R = 255, G = 255, B = 255, A = 255},
+    }
+    local X, Y = 0, 0.25
+    while true do
+        Citizen.Wait(0)
+        if DisplayTenCodes then
+            ScreenDrawPositionBegin(76, 84)
+            ScreenDrawPositionRatio(0, 0, 0, 0)
+            for Index = 1, #PoliceTenCodes do
+                SetTextFont(PoliceTenCodes[Index].Font or 6)
+                SetTextScale(0.0, PoliceTenCodes[Index].Scale or 0.3)
+                SetTextDropShadow(0, 0, 0, 0, 0)
+                SetTextEdge(0, 0, 0, 0, 0)
+                SetTextColour(PoliceTenCodes[Index].R or 255, PoliceTenCodes[Index].G or 255, PoliceTenCodes[Index].B or 255, PoliceTenCodes[Index].A or 255)
+                BeginTextCommandDisplayText("STRING")
+                AddTextComponentSubstringPlayerName(PoliceTenCodes[Index].Text or "")
+                EndTextCommandDisplayText(X, Y + (0.015 * (Index - 1)))
+            end
+            ScreenDrawPositionEnd()
+        end
+    end
 end)
