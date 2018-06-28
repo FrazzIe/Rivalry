@@ -492,12 +492,13 @@ local function RepairVehicle(id)
         local entityWorld = GetOffsetFromEntityInWorldCoords(GetPlayerPed(-1), 0.0, 20.0, 0.0)
         local rayHandle = CastRayPointToPoint(pos.x, pos.y, pos.z, entityWorld.x, entityWorld.y, entityWorld.z, 10, PlayerPedId(), 0)
         local _, _, _, _, vehicleHandle = GetRaycastResult(rayHandle)
-
-        if DoesEntityExist(vehicleHandle) then
+        if DoesEntityExist(vehicleHandle) and IsVehicleDoorFullyOpen(vehicleHandle, 4) then
             local ped = PlayerPedId()
-            TaskStartScenarioInPlace(ped, "world_human_vehicle_mechanic", 0, false)
+            TaskPlayAnim(PlayerPedId(),"mini@repair","fixing_a_player", 8.0, 0.0, -1, 1, 0, 0, 0, 0)  
             Citizen.Wait(20000)
-            SetVehicleFixed(vehicleHandle)
+            TriggerEvent('iens:repair', vehicleHandle)
+            ClearPedTasks(ped)
+            ClearPedTasksImmediately(ped)
             TriggerEvent("inventory:open")
         else
             addQty(tonumber(id),1)

@@ -29,7 +29,8 @@ local slotprice = 1000                                                          
 local garageposition = 1                                                                                                        --                                                                                               
 local vehiclebool = false                                                                                                       --
 local insurancebool = false                                                                                                     --
-garage_menu = false                                                                                                             --
+garage_menu = false       
+drivers_license = "false"                                                                                                  --
 --==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--
 --==============================================================================================================================--
 --                                                         Configuration                                                        --
@@ -506,6 +507,7 @@ Citizen.CreateThread(function()
                     end
                     incircle = true
                     if IsControlJustReleased(1, 51) and IsPedInAnyVehicle(GetPlayerPed(-1), true) == false then
+                        TriggerServerEvent('server:checkLicense')
                         GUI.maxVisOptions = 10; titleTextSize = {0.85, 0.65}; titleRectSize = {0.16, 0.085}; optionTextSize = {0.5, 0.5}; optionRectSize = {0.16, 0.035}; menuX = 0.75; menuXOption = 0.075; menuXOtherOption = 0.055; menuYModify = 0.3000; menuYOptionDiv = 8.56; menuYOptionAdd = 0.36
                         currentgarage = emplacement_garage[k]
                         garageposition = 1
@@ -546,6 +548,7 @@ Citizen.CreateThread(function()
                     end
                     incircle = true
                     if IsControlJustReleased(1, 51) and IsPedInAnyVehicle(GetPlayerPed(-1), true) == false then -- INPUT_CELLPHONE_DOWN
+                        TriggerServerEvent('server:checkLicense')                        
                         GUI.maxVisOptions = 10; titleTextSize = {0.85, 0.65}; titleRectSize = {0.16, 0.085}; optionTextSize = {0.5, 0.5}; optionRectSize = {0.16, 0.035}; menuX = 0.75; menuXOption = 0.075; menuXOtherOption = 0.055; menuYModify = 0.3000; menuYOptionDiv = 8.56; menuYOptionAdd = 0.36
                         garage_menu = not garage_menu
                         claimMenu()
@@ -754,41 +757,45 @@ function claimMenu()
                 Menu.addOption("claim_menu", function()
                     if(Menu.Bool(tostring(user_vehicles[i].name), vehiclebool, "~g~Claim", "~g~Claim",function(cb)   vehiclebool = cb end))then
                         Citizen.CreateThread(function()
-                            local instance = user_vehicles[i].instance
-                            Citizen.Trace("CURRENT instance == "..instance)
-                            local count = math.random(1,5)
-                            for b = 1, #claimspots do
-                                if b == count then
-                                    replacementgarage.x = claimspots[count].x
-                                    replacementgarage.y = claimspots[count].y
-                                    replacementgarage.z = claimspots[count].z
-                                    replacementgarage.heading = 0.0
+                            if drivers_license == "true" then 
+                                local instance = user_vehicles[i].instance
+                                Citizen.Trace("CURRENT instance == "..instance)
+                                local count = math.random(1,5)
+                                for b = 1, #claimspots do
+                                    if b == count then
+                                        replacementgarage.x = claimspots[count].x
+                                        replacementgarage.y = claimspots[count].y
+                                        replacementgarage.z = claimspots[count].z
+                                        replacementgarage.heading = 0.0
+                                    end
                                 end
-                            end
-                            local isAreaCrowded = GetClosestVehicle(replacementgarage.x, replacementgarage.y, replacementgarage.z, 3.000, 0, 70)
-                            if DoesEntityExist(isAreaCrowded) then
-                                exports.pNotify:SendNotification({text = "Try again, the spawn location is occupied!", type = "error", queue = "left", timeout = 3000, layout = "centerRight"})
-                            else
-                                local found_instance = false
-                                for a = 1, #out do
-                                    if out[a] == instance then
-	   		                TriggerServerEvent("garage:pay_impound") else
-                                        found_instance = true
-                                        table.remove(out, a)
-                                        SpawnReplacement(user_vehicles[i], i)                                
+                                local isAreaCrowded = GetClosestVehicle(replacementgarage.x, replacementgarage.y, replacementgarage.z, 3.000, 0, 70)
+                                if DoesEntityExist(isAreaCrowded) then
+                                    exports.pNotify:SendNotification({text = "Try again, the spawn location is occupied!", type = "error", queue = "left", timeout = 3000, layout = "centerRight"})
+                                else
+                                    local found_instance = false
+                                    for a = 1, #out do
+                                        if out[a] == instance then
+                                TriggerServerEvent("garage:pay_impound") else
+                                            found_instance = true
+                                            table.remove(out, a)
+                                            SpawnReplacement(user_vehicles[i], i)                                
+                                            if DoesEntityExist(instance) then
+                                                DestroyCar(instance)
+                                                break
+                                            end
+                                        end
+                                    end
+                                    if not found_instance then
+                                        SpawnReplacement(user_vehicles[i], i)
+                             TriggerServerEvent("garage:pay_impound") 
                                         if DoesEntityExist(instance) then
                                             DestroyCar(instance)
-                                            break
                                         end
                                     end
                                 end
-                                if not found_instance then
-                                    SpawnReplacement(user_vehicles[i], i)
-	   		             TriggerServerEvent("garage:pay_impound") 
-                                    if DoesEntityExist(instance) then
-                                        DestroyCar(instance)
-                                    end
-                                end
+                            else
+                                exports.pNotify:SendNotification({text = "You do not have a valid drivers license", type = "success", queue = "left", timeout = 3000, layout = "centerRight"})
                             end
                         end)
                     end
@@ -893,7 +900,7 @@ function StoreVehicle()
     Citizen.CreateThread(function()
         Citizen.Wait(0)
         local veh = GetClosestVehicle(currentgarage.x, currentgarage.y, currentgarage.z, 3.000, 0, 70)
-    if GetVehicleEngineHealth(veh) >= 600 then
+    if GetVehicleEngineHealth(veh) >= 900 then
         if DoesEntityExist(veh) then
             for i = 1, #out do
                 if out[i] == veh then
@@ -1026,15 +1033,15 @@ function StoreVehicle()
                         }
 
                         for i = 0, 8 do
-                        	data["mod"..i] = GetVehicleMod(veh, i)
+                            data["mod"..i] = GetVehicleMod(veh, i)
                         end
 
                         for i = 10, 16 do
-                        	data["mod"..i] = GetVehicleMod(veh, i)
+                            data["mod"..i] = GetVehicleMod(veh, i)
                         end
 
                         for i = 23, 46 do
-                        	data["mod"..i] = GetVehicleMod(veh, i)
+                            data["mod"..i] = GetVehicleMod(veh, i)
                         end
 
                         data["mod48"] = GetVehicleMod(veh, 48)
@@ -1125,127 +1132,137 @@ function SpawnVehicle(data, index)
         if DoesEntityExist(isAreaCrowded) then
             exports.pNotify:SendNotification({text = "The area is crowded", type = "error", queue = "left", timeout = 3000, layout = "centerRight"})
         else
-            local model = GetHashKey(data.model)
-            RequestModel(model)
-            while not HasModelLoaded(model) do
-                Citizen.Wait(0)
+            if drivers_license == "true" then 
+                local model = GetHashKey(data.model)
+                RequestModel(model)
+                while not HasModelLoaded(model) do
+                    Citizen.Wait(0)
+                end
+                local veh = CreateVehicle(model, currentgarage.x, currentgarage.y, currentgarage.z, currentgarage.heading, true, false)
+                while not DoesEntityExist(veh) do
+                    Citizen.Wait(0)
+                end
+                table.insert(out, veh)
+                SetVehicleOnGroundProperly(veh)
+                SetVehicleHasBeenOwnedByPlayer(veh,true)
+                local id = NetworkGetNetworkIdFromEntity(veh)
+                NetworkRegisterEntityAsNetworked(veh)
+                SetNetworkIdCanMigrate(id, true)
+                SetNetworkIdExistsOnAllMachines(id, true)
+
+                SetVehicleColours(veh, data.primary_colour, data.secondary_colour)
+                SetVehicleExtraColours(veh, tonumber(data.primary_colour), tonumber(data.wheel_colour))
+                SetVehicleNumberPlateTextIndex(veh, data.plate_colour)
+                SetVehicleNumberPlateText(veh, data.plate)
+                SetVehicleNeonLightsColour(veh, tonumber(data.neon_colour[1]), tonumber(data.neon_colour[2]), tonumber(data.neon_colour[3]))
+                SetVehicleTyreSmokeColor(veh, tonumber(data.smoke_colour[1]), tonumber(data.smoke_colour[2]), tonumber(data.smoke_colour[3]))
+                SetVehicleModKit(veh, 0)
+
+                for i = 0, 8 do
+                    SetVehicleMod(veh, i, tonumber(data["mod"..i]))
+                end
+
+                for i = 10, 16 do
+                    SetVehicleMod(veh, i, tonumber(data["mod"..i]))
+                end
+
+                for i = 23, 46 do
+                    SetVehicleMod(veh, i, tonumber(data["mod"..i]))
+                end
+
+                SetVehicleMod(veh, 48, tonumber(data.mod48))
+
+                if data.turbo == "on" then
+                    ToggleVehicleMod(veh, 18, true)
+                else
+                    ToggleVehicleMod(veh, 18, false)
+                end
+
+                if data.tyre_smoke == "on" then
+                    ToggleVehicleMod(veh, 20, true)
+                else
+                    ToggleVehicleMod(veh, 20, false)
+                end
+
+                if data.xenon_lights == "on" then
+                    ToggleVehicleMod(veh, 22, true)
+                else
+                    ToggleVehicleMod(veh, 22, false)
+                end
+
+                SetVehicleWheelType(veh, tonumber(data.wheeltype))
+                SetVehicleMod(veh, 23, tonumber(data.mod23))
+                SetVehicleMod(veh, 24, tonumber(data.mod24))
+
+                if data.custom_wheels == "on" then
+                    SetVehicleMod(veh, 23, GetVehicleMod(veh, 23), true)
+                end
+
+                if data.custom_wheels2 == "on" then
+                    SetVehicleMod(veh, 24, GetVehicleMod(veh, 24), true)
+                end
+
+                if data.neon0 == "on" then
+                    SetVehicleNeonLightEnabled(veh, 0, true)
+                else
+                    SetVehicleNeonLightEnabled(veh, 0, false)
+                end
+
+                if data.neon1 == "on" then
+                    SetVehicleNeonLightEnabled(veh, 1, true)
+                else
+                    SetVehicleNeonLightEnabled(veh, 1, false)
+                end
+
+                if data.neon2 == "on" then
+                    SetVehicleNeonLightEnabled(veh, 2, true)
+                else
+                    SetVehicleNeonLightEnabled(veh, 2, false)
+                end
+
+                if data.neon3 == "on" then
+                    SetVehicleNeonLightEnabled(veh, 3, true)
+                else
+                    SetVehicleNeonLightEnabled(veh, 3, false)
+                end
+
+                if data.bulletproof_wheels == "on" then
+                    SetVehicleTyresCanBurst(veh, false)
+                else
+                    SetVehicleTyresCanBurst(veh, true)
+                end
+
+                SetVehicleWindowTint(veh, tonumber(data.tint_colour))
+
+                --SetVehicleEngineHealth(veh, tonumber(data.engine_health))
+                --SetVehiclePetrolTankHealth(veh, tonumber(data.petrol_health))
+                --SetEntityHealth(veh, tonumber(data.vehicle_health))
+                --SetVehicleBodyHealth(veh, tonumber(data.body_health))
+
+                TaskWarpPedIntoVehicle(GetPlayerPed(-1),veh,-1)
+
+                SetModelAsNoLongerNeeded(model)
+                
+                SetEntityInvincible(veh, false)
+
+                user_vehicles[index].state = "~r~Missing"
+                user_vehicles[index].instance = veh
+
+                data.state = "~r~Missing"
+                data.instance = veh
+                TriggerServerEvent("garage:out", data)
+            else 
+                exports.pNotify:SendNotification({text = "You do not have a valid drivers license", type = "success", queue = "left", timeout = 3000, layout = "centerRight"})
+                garage_menu = false
             end
-            local veh = CreateVehicle(model, currentgarage.x, currentgarage.y, currentgarage.z, currentgarage.heading, true, false)
-            while not DoesEntityExist(veh) do
-                Citizen.Wait(0)
-            end
-            table.insert(out, veh)
-            SetVehicleOnGroundProperly(veh)
-            SetVehicleHasBeenOwnedByPlayer(veh,true)
-            local id = NetworkGetNetworkIdFromEntity(veh)
-            NetworkRegisterEntityAsNetworked(veh)
-            SetNetworkIdCanMigrate(id, true)
-            SetNetworkIdExistsOnAllMachines(id, true)
-
-            SetVehicleColours(veh, data.primary_colour, data.secondary_colour)
-            SetVehicleExtraColours(veh, tonumber(data.primary_colour), tonumber(data.wheel_colour))
-            SetVehicleNumberPlateTextIndex(veh, data.plate_colour)
-            SetVehicleNumberPlateText(veh, data.plate)
-            SetVehicleNeonLightsColour(veh, tonumber(data.neon_colour[1]), tonumber(data.neon_colour[2]), tonumber(data.neon_colour[3]))
-            SetVehicleTyreSmokeColor(veh, tonumber(data.smoke_colour[1]), tonumber(data.smoke_colour[2]), tonumber(data.smoke_colour[3]))
-            SetVehicleModKit(veh, 0)
-
-            for i = 0, 8 do
-                SetVehicleMod(veh, i, tonumber(data["mod"..i]))
-            end
-
-            for i = 10, 16 do
-                SetVehicleMod(veh, i, tonumber(data["mod"..i]))
-            end
-
-            for i = 23, 46 do
-                SetVehicleMod(veh, i, tonumber(data["mod"..i]))
-            end
-
-            SetVehicleMod(veh, 48, tonumber(data.mod48))
-
-            if data.turbo == "on" then
-                ToggleVehicleMod(veh, 18, true)
-            else
-                ToggleVehicleMod(veh, 18, false)
-            end
-
-            if data.tyre_smoke == "on" then
-                ToggleVehicleMod(veh, 20, true)
-            else
-                ToggleVehicleMod(veh, 20, false)
-            end
-
-            if data.xenon_lights == "on" then
-                ToggleVehicleMod(veh, 22, true)
-            else
-                ToggleVehicleMod(veh, 22, false)
-            end
-
-            SetVehicleWheelType(veh, tonumber(data.wheeltype))
-            SetVehicleMod(veh, 23, tonumber(data.mod23))
-            SetVehicleMod(veh, 24, tonumber(data.mod24))
-
-            if data.custom_wheels == "on" then
-                SetVehicleMod(veh, 23, GetVehicleMod(veh, 23), true)
-            end
-
-            if data.custom_wheels2 == "on" then
-                SetVehicleMod(veh, 24, GetVehicleMod(veh, 24), true)
-            end
-
-            if data.neon0 == "on" then
-                SetVehicleNeonLightEnabled(veh, 0, true)
-            else
-                SetVehicleNeonLightEnabled(veh, 0, false)
-            end
-
-            if data.neon1 == "on" then
-                SetVehicleNeonLightEnabled(veh, 1, true)
-            else
-                SetVehicleNeonLightEnabled(veh, 1, false)
-            end
-
-            if data.neon2 == "on" then
-                SetVehicleNeonLightEnabled(veh, 2, true)
-            else
-                SetVehicleNeonLightEnabled(veh, 2, false)
-            end
-
-            if data.neon3 == "on" then
-                SetVehicleNeonLightEnabled(veh, 3, true)
-            else
-                SetVehicleNeonLightEnabled(veh, 3, false)
-            end
-
-            if data.bulletproof_wheels == "on" then
-                SetVehicleTyresCanBurst(veh, false)
-            else
-                SetVehicleTyresCanBurst(veh, true)
-            end
-
-            SetVehicleWindowTint(veh, tonumber(data.tint_colour))
-
-            --SetVehicleEngineHealth(veh, tonumber(data.engine_health))
-            --SetVehiclePetrolTankHealth(veh, tonumber(data.petrol_health))
-            --SetEntityHealth(veh, tonumber(data.vehicle_health))
-            --SetVehicleBodyHealth(veh, tonumber(data.body_health))
-
-            TaskWarpPedIntoVehicle(GetPlayerPed(-1),veh,-1)
-
-            SetModelAsNoLongerNeeded(model)
-            
-            SetEntityInvincible(veh, false)
-
-            user_vehicles[index].state = "~r~Missing"
-            user_vehicles[index].instance = veh
-
-            data.state = "~r~Missing"
-            data.instance = veh
-            TriggerServerEvent("garage:out", data)
         end
     end)
 end
+
+RegisterNetEvent('client:checkLicense')
+AddEventHandler('client:checkLicense', function(licensed)
+    drivers_license = licensed
+end)
 
 function SpawnReplacement(data, index)
     garage_menu = false
