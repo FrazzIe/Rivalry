@@ -12,11 +12,13 @@ AddEventHandler('trucking:checkjob', function()
 end)
 
 RegisterServerEvent('trucking:success')
-AddEventHandler('trucking:success', function(price)
-	local source = source
-	TriggerEvent('core:getuser', source, function(user)
-		user.addWallet(tonumber(price))
-	end)
+AddEventHandler('trucking:success', function(amount)
+    TriggerEvent('core:getuser', source, function(user)
+        local jobtotal = amount
+        if jobtotal > 4 then jobtotal = 150 end
+        total = math.random(50,math.floor(jobtotal))
+        user.addWallet(total*8)
+    end)
 end)
 
 RegisterServerEvent('trucking:fail')
