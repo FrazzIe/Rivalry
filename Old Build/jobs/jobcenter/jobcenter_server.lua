@@ -27,6 +27,9 @@ AddEventHandler('jobcenter:initialise', function(source, currentJob)
     if currentJob.id == 22 then
         --TriggerClientEvent("tow:status", source, true)
     end
+
+	TriggerClientEvent("trucker:set", source, (currentJob.id == 24))
+
 	TriggerClientEvent("jobcenter:updateJob", source, currentJob.name)
 end)
 
@@ -62,6 +65,8 @@ AddEventHandler('jobcenter:jobs', function(id)
           TriggerClientEvent("garbage:changedjob", source)
         end
 
+        TriggerClientEvent("trucker:set", source, (id == 24))
+
 		TriggerClientEvent("jobcenter:updateJob", source, data.name)
 
 		for _, item in pairs(jobList) do
@@ -84,90 +89,6 @@ AddEventHandler("core:switch", function(source)
 			end
 		end
     end)
-end)
-
-TriggerEvent('es:addGroupCommand', 'mecadd', "admin", function(source, args, user)
-	local source = tonumber(source)
-     if(not args[2]) then
-		TriggerClientEvent('chatMessage', source, 'GOVERNMENT', {255, 0, 0}, "Usage : /mecadd [ID]")	
-	else
-		if(GetPlayerName(tonumber(args[2])) ~= nil)then
-			local player = tonumber(args[2])
-			TriggerEvent("core:getuser", player, function(target)
-				TriggerClientEvent('chatMessage', source, 'GOVERNMENT', {255, 0, 0}, "Roger that !")
-				TriggerClientEvent("es_freeroam:notify", player, "CHAR_ANDREAS", 1, "Government", false, "Congrats, you're now a Mechanic !~w~.")
-				TriggerClientEvent('jobcenter:getmyjob',player,16)
-			end)
-		else
-			TriggerClientEvent('chatMessage', source, 'GOVERNMENT', {255, 0, 0}, "No player with this ID !")
-		end
-	end
-end, function(source, args, user) 
-	local source = tonumber(source)
-	TriggerClientEvent('chatMessage', source, 'GOVERNMENT', {255, 0, 0}, "You haven't the permission to do that !")
-end)
-
-TriggerEvent('es:addGroupCommand', 'mecrem', "admin", function(source, args, user) 
-	local source = tonumber(source)
-     if(not args[2]) then
-		TriggerClientEvent('chatMessage', source, 'GOVERNMENT', {255, 0, 0}, "Usage : /mecrem [ID]")	
-	else
-		if(GetPlayerName(tonumber(args[2])) ~= nil)then
-			local player = tonumber(args[2])
-			TriggerEvent("core:getuser", player, function(target)
-				TriggerClientEvent("es_freeroam:notify", player, "CHAR_ANDREAS", 1, "Government", false, "You're no longer a Mechanic !~w~.")
-				TriggerClientEvent('chatMessage', source, 'GOVERNMENT', {255, 0, 0}, "Roger that !")
-				TriggerClientEvent('jobcenter:getmyjob',player,1)
-			end)
-		else
-			TriggerClientEvent('chatMessage', source, 'GOVERNMENT', {255, 0, 0}, "No player with this ID !")
-		end
-	end
-end, function(source, args, user) 
-	local source = tonumber(source)
-	TriggerClientEvent('chatMessage', source, 'GOVERNMENT', {255, 0, 0}, "You haven't the permission to do that !")
-end)
-
-TriggerEvent('es:addGroupCommand', 'taxadd', "admin", function(source, args, user)
-	local source = tonumber(source)
-     if(not args[2]) then
-		TriggerClientEvent('chatMessage', source, 'GOVERNMENT', {255, 0, 0}, "Usage : /taxadd [ID]")	
-	else
-		if(GetPlayerName(tonumber(args[2])) ~= nil)then
-			local player = tonumber(args[2])
-			TriggerEvent("core:getuser", player, function(target)
-				TriggerClientEvent('chatMessage', source, 'GOVERNMENT', {255, 0, 0}, "Roger that !")
-				TriggerClientEvent("es_freeroam:notify", player, "CHAR_ANDREAS", 1, "Government", false, "Congrats, you're now a Taxi !~w~.")
-				TriggerClientEvent('jobcenter:getmyjob',player,17)
-			end)
-		else
-			TriggerClientEvent('chatMessage', source, 'GOVERNMENT', {255, 0, 0}, "No player with this ID !")
-		end
-	end
-end, function(source, args, user) 
-	local source = tonumber(source)
-	TriggerClientEvent('chatMessage', source, 'GOVERNMENT', {255, 0, 0}, "You haven't the permission to do that !")
-end)
-
-TriggerEvent('es:addGroupCommand', 'taxrem', "admin", function(source, args, user) 
-	local source = tonumber(source)
-     if(not args[2]) then
-		TriggerClientEvent('chatMessage', source, 'GOVERNMENT', {255, 0, 0}, "Usage : /taxrem [ID]")	
-	else
-		if(GetPlayerName(tonumber(args[2])) ~= nil)then
-			local player = tonumber(args[2])
-			TriggerEvent("core:getuser", player, function(target)
-				TriggerClientEvent("es_freeroam:notify", player, "CHAR_ANDREAS", 1, "Government", false, "You're no longer a Taxi !~w~.")
-				TriggerClientEvent('chatMessage', source, 'GOVERNMENT', {255, 0, 0}, "Roger that !")
-				TriggerClientEvent('jobcenter:getmyjob',player,1)
-			end)
-		else
-			TriggerClientEvent('chatMessage', source, 'GOVERNMENT', {255, 0, 0}, "No player with this ID !")
-		end
-	end
-end, function(source, args, user) 
-	local source = tonumber(source)
-	TriggerClientEvent('chatMessage', source, 'GOVERNMENT', {255, 0, 0}, "You haven't the permission to do that !")
 end)
 
 RegisterServerEvent('mission:completed')

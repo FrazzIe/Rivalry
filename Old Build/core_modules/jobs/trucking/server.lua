@@ -1,10 +1,10 @@
 local trucker_rent = 500
-local trucker_trailers = {
-    [1] = 6000,
-    [2] = 6300,
-    [3] = 2000,
-    [4] = 1700,
-    [5] = 2000,
+local trucker_tiers = {
+    [1] = 250,
+    [2] = 400,
+    [3] = 500,
+    [4] = 600,
+    [5] = 750,
 }
 
 RegisterServerEvent("trucker:rent")
@@ -24,9 +24,9 @@ AddEventHandler("trucker:rent", function()
 end)
 
 RegisterServerEvent("trucker:complete")
-AddEventHandler("trucker:complete", function(trucker_job)
+AddEventHandler("trucker:complete", function(tier)
 	TriggerEvent("core:getuser", source, function(user)
-		user.addWallet(trucker_trailers[trucker_job])
-		Notify("You have been paid $"..trucker_trailers[trucker_job].." for completing the delivery!", 3000, source)
+		user.addWallet(trucker_tiers[tier])
+		Notify("You have been paid $"..trucker_tiers[tier].." for completing the delivery!", 3000, source)
 	end)
 end)

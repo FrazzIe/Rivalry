@@ -39,6 +39,14 @@ end
 
 isMechanic = false
 
+RegisterNetEvent("Mechanic:Set")
+AddEventHandler("Mechanic:Set", function(_Data, _Mechanic, first)
+    isMechanic = _Mechanic
+    if not isMechanic then
+        isService = false
+    end
+end)
+
 local TEXT = {
     PrendreService = '~INPUT_PICKUP~ Take your Mechanics service',
     QuitterService = '~INPUT_PICKUP~ Leaving Mechanics service',

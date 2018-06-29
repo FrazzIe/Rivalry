@@ -39,4 +39,5 @@ local function canTargetRank(user, target, callback)
 	end
 end
 
+addRank("boss", "")
 addRank("worker", "")

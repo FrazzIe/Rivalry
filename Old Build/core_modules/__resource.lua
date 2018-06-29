@@ -62,13 +62,18 @@ server_script 'jail/server.lua'
 
 --Jobs
 
---client_script 'jobs/trucking/client.lua'
---server_script 'jobs/trucking/server.lua'
+client_script 'jobs/trucking/client.lua'
+server_script 'jobs/trucking/server.lua'
 
 client_script 'jobs/doj/client.lua'
 client_script 'jobs/doj/shared.lua'
 server_script 'jobs/doj/server.lua'
 server_script 'jobs/doj/shared.lua'
+
+client_script 'jobs/mechanic/client.lua'
+client_script 'jobs/mechanic/shared.lua'
+server_script 'jobs/mechanic/server.lua'
+server_script 'jobs/mechanic/shared.lua'
 --[[
 client_script 'jobs/towing/client.lua'
 server_script 'jobs/towing/server.lua'

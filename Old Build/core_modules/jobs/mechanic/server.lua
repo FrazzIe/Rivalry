@@ -1,4 +1,4 @@
-4Mechanic = {}
+Mechanic = {}
 Mechanic.Players = {}
 
 AddEventHandler("Mechanic:Initialise", function(source, identifier, character_id)
@@ -142,3 +142,13 @@ TriggerEvent("core:addGroupCommand", "mechanicdemote", "admin", function(source,
 		end
 	end
 end, {help = "Demote from Whitelisted Mechanic", params = {{name = "id", help = "The id of the player"},{name = "rank", help = "Worker | Boss"}}})
+
+RegisterServerEvent('mechanic:PayPlayer')
+AddEventHandler('mechanic:PayPlayer', function()
+	local source = source
+  	if Mechanic.Players[source] then
+        TriggerEvent("core:getuser", source, function(user)
+            user.addWallet(3000)
+        end)
+    end
+end)
