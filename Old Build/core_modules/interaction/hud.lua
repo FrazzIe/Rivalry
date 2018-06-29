@@ -335,6 +335,8 @@ AddEventHandler("interaction:help", function()
             local controls = {
                 "~b~Basic Controls",
                 "~w~Toggle lock: ~y~L",
+                "~w~Toggle seatbelt: ~y~B",
+                "~w~Set cruise control: ~y~M",
                 "~w~Toggle engine: ~y~Scroll up",
                 "~w~Indicators: ~y~left/right arrow", 
                 "~w~Windows: ~y~up/down arrow",
@@ -358,11 +360,14 @@ AddEventHandler("interaction:help", function()
                 "~w~Maximum of 3 weapons on your person at all times",
                 "~w~Low hunger/thirst will kill you",
                 "~w~100 slots is the inventory limit per person and per vehicle",
-                "~w~The switch character range is 75 metres, if someone comes close it will cancel",
+                "~w~The switch character range is 75 meters, if someone comes close it will cancel",
                 "~w~Models are saved automatically",
                 "~w~Progress saves every 15 minutes and when you leave",
                 "~w~You must purchase a weapons license from an LSPD Officer",
+                "~w~Your phone can be stolen/destroyed and you will have to buy a new one from the store",
                 "~w~Phone stuck on screen? Press F8 and type frozen and re-open the phone",
+                "~w~/e will bring up a menu where you can do an emote or change your walk style",
+                "~w~You can do /roll to roll a die, or /draw to draw a random playing card",
             }
 
             local add_y_c = 0.0
