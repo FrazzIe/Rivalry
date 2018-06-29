@@ -26,7 +26,11 @@ end)
 RegisterServerEvent("trucker:complete")
 AddEventHandler("trucker:complete", function(tier)
 	TriggerEvent("core:getuser", source, function(user)
-		user.addWallet(trucker_tiers[tier])
+		local jobtotal = trucker_tiers[tier]
+        if jobtotal > 4 then jobtotal = 150 end
+        total = math.random(50,math.floor(jobtotal))
+        user.addWallet(total*8)
+    end)
 		Notify("You have been paid $"..trucker_tiers[tier].." for completing the delivery!", 3000, source)
 	end)
 end)
