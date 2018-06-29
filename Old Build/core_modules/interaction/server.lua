@@ -274,7 +274,7 @@ AddEventHandler("interaction:take_phone", function(target)
     local source = source
     if handcuffs[target] then
         if handcuffs[target].cuffed and handcuffs[target].keyholder == source then
-            TriggerClientEvent("phone:set", target, false)
+            TriggerEvent("phone:set", target, false)
             Notify("You destroyed "..GetIdentity(target).."'s phone!", 3000, source)
             Notify(GetIdentity(source).." destroyed your phone!", 3000, target)
         else

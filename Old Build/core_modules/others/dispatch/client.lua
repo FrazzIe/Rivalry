@@ -90,12 +90,6 @@ local zones = {
 	['ZQ_UAR'] = {label = "Davis Quartz", gunshots = 80, vehicle = 80, drugs = 50, property_lock = 80},
 }
 
-RegisterNetEvent('phonecheck')
-AddEventHandler('phonecheck', function()
-	local bool = exports["phone"]:PlayerHasPhone()
-	TriggerServerEvent('phone:has_phone', bool)
-end)
-
 local weapons_whitelist = {
 	["WEAPON_BALL"]	= 1,
 	["WEAPON_PETROLCAN"] = 1,
