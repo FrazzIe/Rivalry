@@ -65,42 +65,50 @@
 			end
 		end)
 	end)
-	
-	
 		
 RegisterServerEvent('Fisher:setService')
 AddEventHandler('Fisher:setService', function (inService)
 	TriggerEvent('core:getuser', source , function (Player)
 		Player.setSessionVar('FisherInService', inService)
 	end)
+	TriggerEvent('fish:initialise')
 end)
 
 RegisterServerEvent('fluxiateMarket')
 AddEventHandler('fluxiateMarket', function(table)
     local source = source;
-    local fish = exports['GHMattiMySQL']:QueryResult("INSERT INTO fish_market (`snooksold`,`snookprice`,`pompanosold`,`pompanoprice`,`snappersold`,`snapperprice`,`redfishsold`,`redfishprice`,`basssold`,`bassprice`,`mackerelsold`,`mackerelprice`,`herringsold`,`herringprice`,`salmonsold`,`salmonprice`,`barracudasold`,`barracudaprice`,`tunasold`,`tunaprice`,`yellowtailsold`,`yellowtailprice`) VALUES (@snooksold, @snookprice, @pompanosold, @pompanoprice, @snappersold, @snapperprice, @redfishsold, @redfishprice, @basssold, @bassprice, @mackerelsold, @mackerelprice, @herringsold, @herringprice, @salmonsold, @salmonprice, @barracudasold, @barracudaprice, @tunasold, @tunaprice, @yellowtailsold, @yellowtailprice); SELECT * FROM fish_market WHERE 1", { 
+    local fish = exports['GHMattiMySQL']:QueryResult("UPDATE fish_market SET snooksold=@snooksold, pompanosold=@pompanosold, snappersold=@snappersold, redfishsold=@redfishsold, basssold=@basssold, mackerelsold=@mackerelsold, herringsold=@herringsold, salmonsold=@salmonsold, barracudasold=@barracudasold, tunasold=@tunasold, yellowtailsold=@yellowtailsold WHERE (id = 1)", {
         ['@snooksold'] = table["Snook"].sold,
-        ['@snookprice'] = table["Snook"].price,
         ['@pompanosold'] = table["Pompano"].sold,
-        ['@pompanoprice'] = table["Pompano"].price,
         ['@snappersold'] = table["Snapper"].sold,
-        ['@snapperprice'] = table["Snapper"].price,
         ['@redfishsold'] = table["Redfish"].sold,
-        ['@redfishprice'] = table["Redfish"].price,
         ['@basssold'] = table["Bass"].sold,
-        ['@bassprice'] = table["Bass"].price,
         ['@mackerelsold'] = table["Mackerel"].sold,
-        ['@mackerelprice'] = table["Mackerel"].price,
         ['@herringsold'] = table["Herring"].sold,
-        ['@herringprice'] = table["Herring"].price,
         ['@salmonsold'] = table["Salmon"].sold,
-        ['@salmonprice'] = table["Salmon"].price,
         ['@barracudasold'] = table["Barracuda"].sold,
-        ['@barracudaprice'] = table["Barracuda"].price,
         ['@tunasold'] = table["Tuna"].sold,
-        ['@tunaprice'] = table["Tuna"].price,
         ['@yellowtailsold'] = table["Yellowtail"].sold,
-        ['@yellowtailprice'] = table["Yellowtail"].price,     
+        TriggerEvent('fish:initialise')
     })
-    TriggerClientEvent('sendUpdatedMarket', fish)
+end)
+
+fish_inventory = {}
+
+RegisterServerEvent("fish:initialise")
+AddEventHandler("fish:initialise",function(source, identifier)
+    local source = tonumber(source)
+    exports["GHMattiMySQL"]:QueryResult("SELECT * from fish_market WHERE id=1", function(fish)
+        if fish[1] == nil then
+        	 for k,v in ipairs(fish) do
+                fish_inventory = { snooksold = v.snooksold, pompanosold = v.pompanosold, snappersold = v.snappersold, redfishsold = v.redfishsold, basssold = v.basssold, mackerelsold = v.mackerelsold, herringsold = v.herringsold, salmonsold = v.salmonsold, barracudasold = v.barracudasold, tunasold = v.tunasold, yellowtailsold = v.yellowtailsold }
+            end
+            TriggerClientEvent("fish:sync", fish_inventory)
+        else
+            for k,v in ipairs(fish) do
+                fish_inventory = { snooksold = v.snooksold, pompanosold = v.pompanosold, snappersold = v.snappersold, redfishsold = v.redfishsold, basssold = v.basssold, mackerelsold = v.mackerelsold, herringsold = v.herringsold, salmonsold = v.salmonsold, barracudasold = v.barracudasold, tunasold = v.tunasold, yellowtailsold = v.yellowtailsold }
+            end
+        end
+        TriggerClientEvent("fish:sync", fish_inventory)
+    end)
 end)

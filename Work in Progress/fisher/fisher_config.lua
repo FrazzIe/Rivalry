@@ -7,13 +7,18 @@ Fisher_car = {
 	z=0.473495811223984
 }
 
---{3792.85620117188, 4472.23828125,  5.20042514801025, 110.595985412598}
-
 Fisher_car2 = {
 	id=22,
-	x=3792.85620117188, 
-	y=4472.23828125,
-	z=5.20042514801025
+	x = -3437.2834472656,
+	y = 975.42712402344,
+	z = 6.8466835021973
+}
+
+Fisher_car1 = {
+	id=22,
+	x = -316.99444580078,
+	y = 6681.0234375,
+	z = 3.1810750961304
 }
 
 Fisher_pay = {
@@ -24,14 +29,57 @@ Fisher_pay = {
 Fisher_blips = {
 	["Entreprise"] = {
 		id=17,
-		x=3804.07275390625,
-		y=4476.6298828125,
-		z=4.9926872253418,
+		x = -255.3987121582,
+		y = 6146.6376953125,
+		z = 31.525266647339,
 		distanceBetweenCoords=2.5,
 		distanceMarker=2.5,
 		defaultTime=10,
 		name="Fisherman"
 	},
+	["Entreprise2"] = {
+		id=17,
+		x = -261.94592285156,
+		y = -970.62872314453,
+		z = 31.21996307373,
+		distanceBetweenCoords=2.5,
+		distanceMarker=2.5,
+		defaultTime=10,
+		name="Fisherman"
+	},
+	["Point of Sale"] = {
+		id=371,
+		x = -1833.9466552734,
+		y = -1174.2725830078,
+		z = 14.304770469666,
+		distanceBetweenCoords=10,
+		distanceMarker=15,
+		defaultTime=5000,
+		name="Sell fish"
+	},
+	["Point of Sale 2"] = {
+		id=371,
+		x = 1695.7716064453,
+		y = 4785.1059570313,
+		z = 42.006546020508,
+		distanceBetweenCoords=10,
+		distanceMarker=15,
+		defaultTime=5000,
+		name="Sell fish"
+	},
+	["Point of Sale 3"] = {
+		id=371,
+		x = 95.625076293945,
+		y = 6363.8999023438,
+		z = 31.375881195068,
+		distanceBetweenCoords=10,
+		distanceMarker=15,
+		defaultTime=5000,
+		name="Sell fish"
+	},
+}
+
+Garages = {
 	["Garage"] = {
 		id=18,
 		x=3865.51171875,
@@ -42,111 +90,121 @@ Fisher_blips = {
 		defaultTime=10,
 		name="Boat Yard"
 	},
-	["Fish Shop"] = {
-		id=20,
-		x=1301.46472167969,
-		y=4319.66650390625,
-		z=37.1105293273926,
-		distanceBetweenCoords=10,
+	["Garage2"] = {
+		id=18,
+		x = -284.56878662109,
+		y = 6627.732421875,
+		z = 7.2201852798462,
+		distanceBetweenCoords=15,
 		distanceMarker=15,
-		defaultTime=5000,
-		name="Fish factory"
+		defaultTime=10,
+		name="Boat Yard"
 	},
-	["Point of Sale"] = {
-		id=21,
-		x=-2196.14,
-		y=4267.99,
-		z=48.0065,
-		distanceBetweenCoords=10,
+	["Garage3"] = {
+		id=18,
+		x = -3428.3881835938,
+		y = 976.40924072266,
+		z = 8.3466844558716,
+		distanceBetweenCoords=15,
 		distanceMarker=15,
-		defaultTime=5000,
-		name="Sell fish"
-	},
-	["Deep Sea Zone"] = {
-		id=404,
-		x = 4155.1572265625, 
-		y = 4766.2548828125, 
-		z = 0.13745714724064,
-		distanceBetweenCoords=10,
-		distanceMarker=15,
-		defaultTime=5000,
-		name="Deep Sea Fish"
-	},
-	["Deep Sea Zone"] = {
-		id=404,
-		x = 4155.1572265625, 
-		y = 4766.2548828125, 
-		z = 0.13745714724064,
-		distanceBetweenCoords=10,
-		distanceMarker=15,
-		defaultTime=5000,
-		name="Deep Sea Fish"
-	},
+		defaultTime=10,
+		name="Boat Yard"
+	},	
 }
 
 Piers = {
 	[1] = {
-		id=22,
-		x = -1855.3083496094, 
-		y = -1246.1899414063,
-		z = 8.615777015686,
+		id=316,
+		x = -3428.0222167969,
+		y = 967.11779785156,
+		z = 8.3466835021973,
 		distanceBetweenCoords=3.5,
 		distanceMarker=3.5,
 		defaultTime=10000,
-		name="Pier Fishing"
+		name="Pier Fishing and Boat Rental"
 	},
 	[2] = {
-		id=23,
-		x = -279.33352661133, 
-		y = 6636.9775390625, 
-		z = 7.5514945983887,
+		id=316,
+		x = -279.17889404297,
+		y = 6637.1352539063,
+		z = 7.5514869689941,
 		distanceBetweenCoords=3.5,
 		distanceMarker=3.5,
 		defaultTime=10000,
-		name="Fishing docks"
+		name="Pier Fishing and Boat Rental"
 	},
 	[3] = {
-		id=24,
-		x = -3428.34375, 
-		y = 967.8837890625, 
-		z = 8.3466930389404,
+		id=316,
+		x = 711.97161865234,
+		y = 4100.2075195313,
+		z = 35.785236358643,
 		distanceBetweenCoords=3.5,
 		distanceMarker=3.5,
 		defaultTime=10000,
-		name="Fishing docks"
-	},
-	[4] = {
-		id=25,
-		x = 1732.7165527344, 
-		y = 3985.6623535156, 
-		z = 31.978717803955,
-		distanceBetweenCoords=3.5,
-		distanceMarker=3.5,
-		defaultTime=10000,
-		name="Fishing docks"
-	},
-	[5] = {
-		id=26,
-		x = 3866.8852539063, 
-		y = 4463.630859375, 
-		z = 2.7258133888245,
-		distanceBetweenCoords=3.5,
-		distanceMarker=3.5,
-		defaultTime=10000,
-		name="Fishing docks"
+		name="Pier Fishing and Boat Rental"
 	},
 }
 
 DeepSeaFishing = {
 	[1] = {
-		id=27,
-		x = 4155.1572265625, 
-		y = 4766.2548828125, 
-		z = 0.13745714724064,
+		id=404,
+		x = 3991.8015136719,
+		y = 2428.513671875,
+		z = 2.90869140625,
 		distanceBetweenCoords=20.5,
 		distanceMarker=20.5,
 		defaultTime=10000,
-		name="Zone Fishing"
+		name="Deep Sea Fishing"
+	},
+	[2] = {
+		id=404,
+		x = 3069.6108398438,
+		y = -2130.59375,
+		z = 3.9801769256592,
+		distanceBetweenCoords=20.5,
+		distanceMarker=20.5,
+		defaultTime=10000,
+		name="Deep Sea Fishing"
+	},
+	[3] = {
+		id=404,
+		x = -2301.1547851563,
+		y = -1236.6251220703,
+		z = 4.5,
+		distanceBetweenCoords=20.5,
+		distanceMarker=20.5,
+		defaultTime=10000,
+		name="Deep Sea Fishing"
+	},
+	[4] = {
+		id=404,
+		x = -3516.1176757813,
+		y = 2906.3083496094,
+		z = 7.090615272522,
+		distanceBetweenCoords=20.5,
+		distanceMarker=20.5,
+		defaultTime=10000,
+		name="Deep Sea Fishing"
+	},
+	[5] = {
+		id=404,
+		x = -1787.2473144531,
+		y = 6095.6254882813,
+		z = 2.2088184356689,
+		distanceBetweenCoords=20.5,
+		distanceMarker=20.5,
+		defaultTime=10000,
+		name="Deep Sea Fishing"
+	},
+	[6] = {
+		id=404,
+		x = 1251.6247558594,
+		y = 7330.8481445313,
+		z = 3.8822541236877,
+		distanceBetweenCoords=20.5,
+		distanceMarker=20.5,
+		defaultTime=10000,
+		name="Deep Sea Fishing"
 	},
 }
 
