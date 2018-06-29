@@ -78,6 +78,7 @@ stores = {
 	    {name="Convenience store", sprite=52, x=374.208, y=328.134, z=103.566 },
 	    {name="Convenience store", sprite=52, x=2676.99, y=3281.37, z=55.2412 },
 	    {name="Convenience store", sprite=52, x=-2967.86, y=391.037, z=15.0433 },
+	    {name="Convenience store", sprite=52, x = 316.52230834961, y = -588.90661621094, z = 43.291831970215},
 	},
 }
 
