@@ -2582,7 +2582,7 @@ function UIMenu:DrawCalculations()
         self.Subtitle.Text:Text(self.Subtitle.BackupText)
     end
 
-    self.Background:Size(431 + self.WidthOffset, self:CalculateItemHeight() + WindowHeight + ((self.Subtitle.ExtraY > 0) and (self.Subtitle.ExtraY - 37) or 0))
+    self.Background:Size(431 + self.WidthOffset, self:CalculateItemHeight() + WindowHeight + ((self.Subtitle.ExtraY > 0) and (self.Subtitle.ExtraY - 37) or 37))
 
     self.Extra.Up:Size(431 + self.WidthOffset, 18)
     self.Extra.Down:Size(431 + self.WidthOffset, 18)
