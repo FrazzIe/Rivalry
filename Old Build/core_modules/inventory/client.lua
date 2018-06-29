@@ -625,7 +625,7 @@ AddEventHandler("inventory:use",function(data)
         elseif data.canuse == 3 then --Medkit
             heal()
         elseif data.canuse == 4 then --Repair kit
-            RepairVehicle(data.item_id)
+            RepairVehicleCheck(data.item_id)
         elseif data.canuse == 5 then --Lockpick
             lockpick()
         elseif data.canuse == 6 then --Body armour
