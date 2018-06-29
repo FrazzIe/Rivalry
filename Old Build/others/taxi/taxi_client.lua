@@ -15,7 +15,6 @@ local taxi_Bliptaxi = {}
 local taxi_call_accept = 0
 local taxi_nbtaxiInService = 0
 local taxi_nbtaxiDispo = 0
-local lastPayment = 0
 local missionXCoord = 0
 local missionYCoord = 0
 local missionZCoord = 0
@@ -428,10 +427,10 @@ end)
 function callService(type)
     local myPed = GetPlayerPed(-1)
     local myCoord = GetEntityCoords(myPed)
-    TriggerServerEvent('taxi:Call', myCoord.x, myCoord.y, myCoord.z, type)
     whoCalledX = myCoord.x
     whoCalledY = myCoord.y
     whoCalledZ = myCoord.z
+    TriggerServerEvent('taxi:Call', myCoord.x, myCoord.y, myCoord.z, type)
 end
 
 function toogleHelperLine()
