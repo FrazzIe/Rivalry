@@ -6,7 +6,7 @@ Mechanic.Position = nil
 
 RegisterNetEvent("Mechanic:Set")
 AddEventHandler("Mechanic:Set", function(_Data, _Mechanic, first)
-	Mechanic.Rank = _Data.rank
+	Mechanic.Rank = ((type(_Data) == "table") and _Data.rank or nil)
 	Mechanic.IsMechanic = _Mechanic
 	if not Mechanic.IsMechanic and Mechanic.Active then
 		Mechanic.Active = false

@@ -43,7 +43,7 @@ RegisterNetEvent("Mechanic:Set")
 AddEventHandler("Mechanic:Set", function(_Data, _Mechanic, first)
     isMechanic = _Mechanic
     if not isMechanic then
-        isService = false
+        inService = false
     end
 end)
 
