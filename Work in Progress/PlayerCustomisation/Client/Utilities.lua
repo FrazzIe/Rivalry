@@ -14,6 +14,18 @@ function GetOverlayColourType(Overlay)
 	end
 end
 
+function SetPedTopless()
+	if PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender == "Male" then
+		SetPedComponentVariation(PlayerPedId(), 8, 0, 240, 0)
+		SetPedComponentVariation(PlayerPedId(), 11, 252, 0, 0)
+		SetPedComponentVariation(PlayerPedId(), 3, 15, 0, 0)
+	elseif PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender == "Female" then
+		SetPedComponentVariation(PlayerPedId(), 8, 0, 240, 0)
+		SetPedComponentVariation(PlayerPedId(), 11, 18, 7, 0)
+		SetPedComponentVariation(PlayerPedId(), 3, 15, 0, 0)		
+	end
+end
+
 function UpdatePlayer()
 	if PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender ~= "Hybrid" then
 	    local Resemblance = (PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].HeadBlend[3] + 1.0) / 2.0
@@ -39,7 +51,7 @@ function UpdatePlayer()
 	    	SetPedComponentVariation(PlayerPedId(), Index, PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Clothing.Drawable[Index + 1], PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Clothing.Texture[Index + 1], PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Clothing.Palette[Index + 1])
 	    end
 
-	    for Index = 0, 6 do
+	    for Index = 0, 7 do
 	    	SetPedPropIndex(PlayerPedId(), Index, PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Props.Drawable[Index + 1], PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Props.Texture[Index + 1], true)
 	    end
 	else
@@ -47,7 +59,7 @@ function UpdatePlayer()
 	    	SetPedComponentVariation(PlayerPedId(), Index, PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Clothing.Drawable[Index + 1], PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Clothing.Texture[Index + 1], PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Clothing.Palette[Index + 1])
 	    end
 
-	    for Index = 0, 6 do
+	    for Index = 0, 7 do
 	    	SetPedPropIndex(PlayerPedId(), Index, PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Props.Drawable[Index + 1], PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Props.Texture[Index + 1], true)
 	    end
 	end
@@ -79,18 +91,6 @@ function UpdateModel(Skin)
 
         UpdatePlayer()
     end
-end
-
-function SetPedTopless()
-	if PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender == "Male" then
-		SetPedComponentVariation(PlayerPedId(), 8, 0, 240, 0)
-		SetPedComponentVariation(PlayerPedId(), 11, 252, 0, 0)
-		SetPedComponentVariation(PlayerPedId(), 3, 15, 0, 0)
-	elseif PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender == "Female" then
-		SetPedComponentVariation(PlayerPedId(), 8, 0, 240, 0)
-		SetPedComponentVariation(PlayerPedId(), 11, 18, 7, 0)
-		SetPedComponentVariation(PlayerPedId(), 3, 15, 0, 0)		
-	end
 end
 
 function GetFaceIndex(Key, Face)
@@ -217,4 +217,108 @@ function GetLipstickIndex()
 		end
 	end
 	return nil
+end
+
+function GetComponentIndex(Component)
+	for Index = 1, #PlayerCustomisation.Reference.Clothing.Options[PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender] do
+		if Component == PlayerCustomisation.Reference.Clothing.Options[PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender][Index].Name or Component == PlayerCustomisation.Reference.Clothing.Options[PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender][Index].Value then
+			return Index
+		end
+	end
+	return nil
+end
+
+function GetPropIndex(Prop)
+	for Index = 1, #PlayerCustomisation.Reference.Props.Options[PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender] do
+		if Prop == PlayerCustomisation.Reference.Props.Options[PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender][Index].Name or Prop == PlayerCustomisation.Reference.Props.Options[PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender][Index].Value then
+			return Index
+		end
+	end
+	return nil
+end
+
+function RetrieveComponents()
+	if PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender == "Hybrid" then
+		PlayerCustomisation.Reference.Clothing.Options.Hybrid = {}
+		for Index = 0, 11 do
+			if GetNumberOfPedDrawableVariations(PlayerPedId(), Index) > 0 then
+				table.insert(PlayerCustomisation.Reference.Clothing.Options.Hybrid, {Name = PlayerCustomisation.Reference.Clothing.Options.PedComponentNames[tostring(Index)] or "Slot "..Index, Value = Index})
+			end
+		end
+	end
+
+	PlayerCustomisation.Reference.Clothing.Drawables = {}
+	PlayerCustomisation.Reference.Clothing.Textures = {}
+
+	for Index = 1, #PlayerCustomisation.Reference.Clothing.Options[PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender] do
+		PlayerCustomisation.Reference.Clothing.Drawables[PlayerCustomisation.Reference.Clothing.Options[PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender][Index].Name] = {}
+		for Drawable = 0, GetNumberOfPedDrawableVariations(PlayerPedId(), PlayerCustomisation.Reference.Clothing.Options[PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender][Index].Value) do
+			table.insert(PlayerCustomisation.Reference.Clothing.Drawables[PlayerCustomisation.Reference.Clothing.Options[PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender][Index].Name], Drawable)
+		end
+	end
+
+	for Component, Drawables in pairs(PlayerCustomisation.Reference.Clothing.Drawables) do
+		PlayerCustomisation.Reference.Clothing.Textures[Component] = {}
+		for Index = 1, #Drawables do
+			table.insert(PlayerCustomisation.Reference.Clothing.Textures[Component], {})
+			if PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender ~= "Hybrid" and PlayerCustomisation.Reference.Clothing.Options[PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender][GetComponentIndex(Component)].Value == 8 and Drawables[Index] == 0 then
+				table.insert(PlayerCustomisation.Reference.Clothing.Textures[Component][Index], 240)
+			end
+			for Texture = 0, GetNumberOfPedTextureVariations(PlayerPedId(), PlayerCustomisation.Reference.Clothing.Options[PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender][GetComponentIndex(Component)].Value, Drawables[Index]) do
+				table.insert(PlayerCustomisation.Reference.Clothing.Textures[Component][Index], Texture)
+			end
+		end
+	end
+
+	for Component, Drawables in pairs(PlayerCustomisation.Reference.Clothing.Drawables) do
+		Citizen.Trace(Component.." - "..json.encode(Drawables))
+	end
+
+	for Component, Drawables in pairs(PlayerCustomisation.Reference.Clothing.Textures) do
+		for Index = 1, #Drawables do
+			Citizen.Trace(Component.." - "..Index.." - "..json.encode(Drawables[Index]))
+		end
+	end
+end
+
+function RetrieveProps()
+	if PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender == "Hybrid" then
+		PlayerCustomisation.Reference.Props.Options.Hybrid = {}
+		for Index = 0, 11 do
+			if GetNumberOfPedPropDrawableVariations(PlayerPedId(), Index) > 0 then
+				table.insert(PlayerCustomisation.Reference.Props.Options.Hybrid, {Name = PlayerCustomisation.Reference.Props.Options.PedPropNames[tostring(Index)] or "Slot "..Index, Value = Index})
+			end
+		end
+	end
+
+	PlayerCustomisation.Reference.Props.Drawables = {}
+	PlayerCustomisation.Reference.Props.Textures = {}
+
+	for Index = 1, #PlayerCustomisation.Reference.Props.Options[PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender] do
+		PlayerCustomisation.Reference.Props.Drawables[PlayerCustomisation.Reference.Props.Options[PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender][Index].Name] = {-1}
+		for Drawable = 0, GetNumberOfPedPropDrawableVariations(PlayerPedId(), PlayerCustomisation.Reference.Props.Options[PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender][Index].Value) do
+			table.insert(PlayerCustomisation.Reference.Props.Drawables[PlayerCustomisation.Reference.Props.Options[PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender][Index].Name], Drawable)
+		end
+	end
+
+	for Prop, Drawables in pairs(PlayerCustomisation.Reference.Props.Drawables) do
+		PlayerCustomisation.Reference.Props.Textures[Prop] = {}
+		for Index = 1, #Drawables do
+			table.insert(PlayerCustomisation.Reference.Props.Textures[Prop], {})
+
+			for Texture = 0, GetNumberOfPedPropTextureVariations(PlayerPedId(), PlayerCustomisation.Reference.Props.Options[PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender][GetPropIndex(Prop)].Value, Drawables[Index]) do
+				table.insert(PlayerCustomisation.Reference.Props.Textures[Prop][Index], Texture)
+			end
+		end
+	end
+
+	for Prop, Drawables in pairs(PlayerCustomisation.Reference.Props.Drawables) do
+		Citizen.Trace(Prop.." - "..json.encode(Drawables))
+	end
+
+	for Prop, Drawables in pairs(PlayerCustomisation.Reference.Props.Textures) do
+		for Index = 1, #Drawables do
+			Citizen.Trace(Prop.." - "..Index.." - "..json.encode(Drawables[Index]))
+		end
+	end
 end

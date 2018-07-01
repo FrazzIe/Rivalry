@@ -24,6 +24,7 @@ PlayerCustomisation.Pool:Add(CharacterCreatorMenu)
 PlayerCustomisation.Pool:Add(ModelMenu)
 PlayerCustomisation.Pool:TotalItemsPerPage(8)
 PlayerCustomisation.Pool:Add(BarberMenu)
+PlayerCustomisation.Pool:Add(ClothingMenu)
 
 CharacterCreatorMenu.OnListSelect = function(ParentMenu, SelectedList, NewIndex) 
 	if SelectedList == GenderOption then
@@ -237,6 +238,29 @@ function OpenBarberMenu(LocationIndex)
 	BarberMenu:Visible(true)
 end
 
+function OpenClothingMenu(Index)
+	RetrieveComponents()
+	RetrieveProps()
+
+	ClothingMenu.Items[1].Data.Items = PlayerCustomisation.Reference.Clothing.Options[PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender]
+
+	ClothingMenu.Items[2].Data.Items = PlayerCustomisation.Reference.Clothing.Drawables[PlayerCustomisation.Reference.Clothing.Options[PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender][1].Name]
+	ClothingMenu.Items[2]:Index(ClothingMenu.Items[2]:ItemToIndex(PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Clothing.Drawable[PlayerCustomisation.Reference.Clothing.Options[PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender][1].Value + 1]))
+
+	ClothingMenu.Items[3].Data.Items = PlayerCustomisation.Reference.Clothing.Textures[PlayerCustomisation.Reference.Clothing.Options[PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender][1].Name][ClothingMenu.Items[2]:Index()]
+	ClothingMenu.Items[3]:Index(ClothingMenu.Items[3]:ItemToIndex(PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Clothing.Texture[PlayerCustomisation.Reference.Clothing.Options[PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender][1].Value + 1]))
+
+	ClothingMenu.Items[4].Data.Items = PlayerCustomisation.Reference.Props.Options[PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender]
+
+	ClothingMenu.Items[5].Data.Items = PlayerCustomisation.Reference.Props.Drawables[PlayerCustomisation.Reference.Props.Options[PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender][1].Name]
+	ClothingMenu.Items[5]:Index(ClothingMenu.Items[5]:ItemToIndex(PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Props.Drawable[PlayerCustomisation.Reference.Props.Options[PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender][1].Value + 1]))
+
+	ClothingMenu.Items[6].Data.Items = PlayerCustomisation.Reference.Props.Textures[PlayerCustomisation.Reference.Props.Options[PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender][1].Name][ClothingMenu.Items[2]:Index()]
+	ClothingMenu.Items[6]:Index(ClothingMenu.Items[6]:ItemToIndex(PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Props.Texture[PlayerCustomisation.Reference.Props.Options[PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender][1].Value + 1]))
+
+	ClothingMenu:Visible(true)
+end
+
 PlayerCustomisation.Pool:RefreshIndex()
 
 CharacterCreatorMenu:Visible(true)
@@ -264,6 +288,30 @@ Citizen.CreateThread(function()
 							OpenBarberMenu(Index)
 						else
 							BarberMenu:Visible(false)
+						end
+					end
+				end
+			end
+		end
+	end
+end)
+
+Citizen.CreateThread(function()
+	local Player = {
+		Coordinates = GetEntityCoords(PlayerPedId(), false)
+	}
+	while true do
+		Citizen.Wait(0)
+		Player.Coordinates = GetEntityCoords(PlayerPedId(), false)
+		for Index = 1, #PlayerCustomisation.Locations.Clothing do
+			if Vdist2(Player.Coordinates.x, Player.Coordinates.y, Player.Coordinates.z, PlayerCustomisation.Locations.Clothing[Index].Marker.x, PlayerCustomisation.Locations.Clothing[Index].Marker.y, PlayerCustomisation.Locations.Clothing[Index].Marker.z) < 20 then
+				RenderMarker(25, PlayerCustomisation.Locations.Clothing[Index].Marker.x, PlayerCustomisation.Locations.Clothing[Index].Marker.y, PlayerCustomisation.Locations.Clothing[Index].Marker.z, 2.0, 2.0, 2.5, 255, 255, 0, 255)
+				if Vdist2(Player.Coordinates.x, Player.Coordinates.y, Player.Coordinates.z, PlayerCustomisation.Locations.Clothing[Index].Marker.x, PlayerCustomisation.Locations.Clothing[Index].Marker.y, PlayerCustomisation.Locations.Clothing[Index].Marker.z) < 2 then
+					if IsControlJustPressed(1, 51) then
+						if not ClothingMenu:Visible() then
+							OpenClothingMenu(Index)
+						else
+							ClothingMenu:Visible(false)
 						end
 					end
 				end

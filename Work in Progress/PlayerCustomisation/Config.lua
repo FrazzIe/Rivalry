@@ -14,8 +14,8 @@ PlayerCustomisation.PlayerData = {
 				Palette = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
 			},
 			Props = {
-				Drawable = {-1, -1, -1, -1, -1, -1, -1},
-				Texture = {-1, -1, -1, -1, -1, -1, -1},
+				Drawable = {-1, -1, -1, -1, -1, -1, -1, -1},
+				Texture = {-1, -1, -1, -1, -1, -1, -1, -1},
 			},
 			Overlay = {
 				Drawable = {255, 255, 0, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255},
@@ -36,8 +36,8 @@ PlayerCustomisation.PlayerData = {
 				Palette = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
 			},
 			Props = {
-				Drawable = {-1, -1, -1, -1, -1, -1, -1},
-				Texture = {-1, -1, -1, -1, -1, -1, -1},
+				Drawable = {-1, -1, -1, -1, -1, -1, -1, -1},
+				Texture = {-1, -1, -1, -1, -1, -1, -1, -1},
 			},
 			Overlay = {
 				Drawable = {255, 255, 0, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255},
@@ -58,16 +58,15 @@ PlayerCustomisation.PlayerData = {
 				Palette = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
 			},
 			Props = {
-				Drawable = {-1, -1, -1, -1, -1, -1, -1},
-				Texture = {-1, -1, -1, -1, -1, -1, -1},
+				Drawable = {-1, -1, -1, -1, -1, -1, -1, -1},
+				Texture = {-1, -1, -1, -1, -1, -1, -1, -1},
 			},
 		},
 	},
 }
 
 PlayerCustomisation.Locations = {
-	Clothing = {},
-	Barbers = {
+	Clothing = {
         [1] = {
             Blip = {
                 Name = "Tattoo Store", 
@@ -82,6 +81,7 @@ PlayerCustomisation.Locations = {
             Banner = "shopui_title_barber",
         },
 	},
+	Barbers = {},
 	Tattoos = {},
 }
 
@@ -3018,6 +3018,68 @@ PlayerCustomisation.Reference = {
 				},
 			},
 		},
+	},
+	Clothing = {
+		Options = {
+			PedComponentNames = {
+				["0"] = "Face",
+				["2"] = "Hair",
+				["3"] = "Shirts",
+				["4"] = "Pants",
+				["8"] = "Neck",
+			},
+			Male = {
+				{Name = "Neck", Value = 7},
+				{Name = "Shirts and Jackets", Value = 11},
+				{Name = "Undershirts", Value = 8},
+				{Name = "Arms", Value = 3},
+				{Name = "Pants", Value = 4},
+				{Name = "Shoes", Value = 6},
+				{Name = "Parachutes, Vests and Bags", Value = 5},
+				{Name = "Tactical Vests", Value = 9},
+				{Name = "Decals", Value = 10},
+			},
+			Female = {
+				{Name = "Neck", Value = 7},
+				{Name = "Shirts, Jackets and Dresses", Value = 11},
+				{Name = "Undershirts", Value = 8},
+				{Name = "Arms", Value = 3},
+				{Name = "Pants", Value = 4},
+				{Name = "Shoes", Value = 6},
+				{Name = "Parachutes, Vests and Bags", Value = 5},
+				{Name = "Tactical Vests", Value = 9},
+				{Name = "Decals", Value = 10},
+			},
+			Hybrid = {},
+		},
+		Drawables = {},
+		Textures = {},
+	},
+	Props = {
+		Options = {
+			PedPropNames = {
+				["0"] = "Hats and Helmets",
+				["1"] = "Glasses",
+				["2"] = "Earrings",
+			},
+			Male = {
+				{Name = "Hats and Helmets", Value = 0},
+				{Name = "Glasses", Value = 1},
+				{Name = "Earrings", Value = 2},
+				{Name = "Left wrist", Value = 6},
+				{Name = "Right wrist", Value = 7},
+			},
+			Female = {
+				{Name = "Hats and Helmets", Value = 0},
+				{Name = "Glasses", Value = 1},
+				{Name = "Earrings", Value = 2},
+				{Name = "Left wrist", Value = 6},
+				{Name = "Right wrist", Value = 7},
+			},
+			Hybrid = {},
+		},
+		Drawables = {},
+		Textures = {},
 	},
 	Tattoos = {},
 	Models = {
