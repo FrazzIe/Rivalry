@@ -508,6 +508,72 @@ Emote.Add("guitar", "Air Guitar", "Gesture", {"nim@mp_player_intcelebrationfemal
 	TaskPlayAnim(Player.Ped, self.Dictionaries[1] , self.Animations[1] , 8.0, -8.0, -1, 0, 0, false, false, false)
 end)
 
+Emote.Add("dogsit", "Dog Sit", "Dog", {"creatures@retriever@amb@world_dog_sitting@base"}, {"base"}, {}, {}, function(self)
+	if not IsPedHuman(Player.Ped) then
+		TaskPlayAnim(Player.Ped, self.Dictionaries[1], self.Animations[1], 4.0, -4, -1, 1, 0, false, false, false)
+	end
+end)
+
+Emote.Add("dogbark", "Dog Bark", "Dog", {"creatures@retriever@amb@world_dog_barking@idle_a"}, {"idle_a_facial"}, {}, {}, function(self)
+	if not IsPedHuman(Player.Ped) then
+		TaskPlayAnim(Player.Ped, self.Dictionaries[1], self.Animations[1], 4.0, -4, -1, 1, 0, false, false, false)
+	end
+end)
+
+Emote.Add("dogscared", "Dog Scared", "Dog", {"creatures@rottweiler@amb@"}, {"hump_enter_ladydog"}, {}, {}, function(self)
+	if not IsPedHuman(Player.Ped) then
+		TaskPlayAnim(Player.Ped, self.Dictionaries[1], self.Animations[1], 4.0, -4, -1, 1, 0, false, false, false)
+	end
+end)
+
+Emote.Add("dogsleep", "Dog Sleep", "Dog", {"creatures@rottweiler@amb@sleep_in_kennel@"}, {"sleep_in_kennel"}, {}, {}, function(self)
+	if not IsPedHuman(Player.Ped) then
+		TaskPlayAnim(Player.Ped, self.Dictionaries[1], self.Animations[1], 4.0, -4, -1, 1, 0, false, false, false)
+	end
+end)
+
+Emote.Add("dogincar", "Dog Get in Car", "Dog", {"creatures@rottweiler@in_vehicle@std_car"}, {"get_in"}, {}, {}, function(self)
+	if not IsPedHuman(Player.Ped) then
+		TaskPlayAnim(Player.Ped, self.Dictionaries[1], self.Animations[1], 4.0, -4, -1, 1, 0, false, false, false)
+	end
+end)
+
+Emote.Add("dogoutcar", "Dog Get Out of Car", "Dog", {"creatures@rottweiler@in_vehicle@std_car"}, {"get_out"}, {}, {}, function(self)
+	if not IsPedHuman(Player.Ped) then
+		TaskPlayAnim(Player.Ped, self.Dictionaries[1], self.Animations[1], 4.0, -4, -1, 1, 0, false, false, false)
+	end
+end)
+
+Emote.Add("dogtaunt", "Dog Taunt", "Dog", {"creatures@rottweiler@melee@streamed_taunts@"}, {"taunt_01"}, {}, {}, function(self)
+	if not IsPedHuman(Player.Ped) then
+		TaskPlayAnim(Player.Ped, self.Dictionaries[1], self.Animations[1], 4.0, -4, -1, 1, 0, false, false, false)
+	end
+end)
+
+Emote.Add("dogsignal", "Dog Signal", "Dog", {"creatures@rottweiler@indication@"}, {"indicate_ahead"}, {}, {}, function(self)
+	if not IsPedHuman(Player.Ped) then
+		TaskPlayAnim(Player.Ped, self.Dictionaries[1], self.Animations[1], 4.0, -4, -1, 1, 0, false, false, false)
+	end
+end)
+
+Emote.Add("dogpee", "Dog Pee", "Dog", {"creatures@rottweiler@move"}, {"pee_right_idle"}, {}, {}, function(self)
+	if not IsPedHuman(Player.Ped) then
+		TaskPlayAnim(Player.Ped, self.Dictionaries[1], self.Animations[1], 4.0, -4, -1, 1, 0, false, false, false)
+	end
+end)
+
+Emote.Add("dogpaw", "Dog Paw", "Dog", {"creatures@rottweiler@tricks@"}, {"paw_right_loop"}, {}, {}, function(self)
+	if not IsPedHuman(Player.Ped) then
+		TaskPlayAnim(Player.Ped, self.Dictionaries[1], self.Animations[1], 4.0, -4, -1, 1, 0, false, false, false)
+	end
+end)
+
+Emote.Add("dogbeg", "Dog Beg", "Dog", {"creatures@rottweiler@tricks@"}, {"beg_loop"}, {}, {}, function(self)
+	if not IsPedHuman(Player.Ped) then
+		TaskPlayAnim(Player.Ped, self.Dictionaries[1], self.Animations[1], 4.0, -4, -1, 1, 0, false, false, false)
+	end
+end)
+
 Emote.Add("cigar", "Smoke Cigar", "Misc", {"amb@world_human_smoking@female@idle_a"}, {"idle_a"}, {}, {}, function(self)
 	local Model = GetHashKey("prop_cigar_02")
 	RequestModel(Model)
