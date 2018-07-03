@@ -4,6 +4,7 @@
 	local Fisher_markerBool = false
 	local existingVeh = nil
 	local isInServiceFisher = false
+	-- Distance Checks Client
 	local inRangeX = 0
 	local inRangeY = 0
 	local inRangeZ = 0
@@ -14,6 +15,7 @@
 	local inRangeZD = 0
 	local inRangeDistanceBetweenCoordsD = 0
 	local inRangeTimeD = 0
+	-- Local sold fish and prices
 	local soldSnook = 0
 	local soldPompano = 0
 	local soldSnapper = 0
@@ -25,6 +27,18 @@
 	local soldBarracuda = 0
 	local soldTuna = 0
 	local soldYellowtail = 0
+	local priceSnook = 50
+	local pricePompano = 50
+	local priceSnapper = 50
+	local priceRedfish = 50
+	local priceBass = 50
+	local priceMackerel = 150
+	local priceHerring = 175
+	local priceSalmon = 200
+	local priceBarracuda = 225
+	local priceTuna = 250
+	local priceYellowtail = 275
+	-- Fishing GUI Animated Bar
 	local StartFishing_KEY = 51 -- E
 	local Caught_KEY = 201 -- ENTER
 	local SuccessLimit = 0.09 -- Maxim 0.1 (high value, low success chances)
@@ -40,17 +54,17 @@
 	local TimerAnimation = 0.1
 	local whichgarage = 0
 	local tableOfFish2 = {
-		["Snook"] = {price = 50},
-		["Pompano"] = {price = 50},
-		["Snapper"] = {price = 50},
-		["Redfish"] = {price = 50},
-		["Bass"] = {price = 50},
-		["Mackerel"] = {price = 150},
-		["Herring"] = {price = 175},
-		["Salmon"] = {price = 200},
-		["Barracuda"] = {price = 225},
-		["Tuna"] = {price = 250},
-		["Yellowtail"] = {price = 275},
+		["Snook"] = {price = priceSnook},
+		["Pompano"] = {price = pricePompano},
+		["Snapper"] = {price = priceSnapper},
+		["Redfish"] = {price = priceRedfish},
+		["Bass"] = {price = priceBass},
+		["Mackerel"] = {price = priceMackerel},
+		["Herring"] = {price = priceHerring},
+		["Salmon"] = {price = priceSalmon},
+		["Barracuda"] = {price = priceBarracuda},
+		["Tuna"] = {price = priceTuna},
+		["Yellowtail"] = {price = priceYellowtail},
 	}
 
 	RegisterNetEvent("fish:sync")
@@ -71,17 +85,17 @@
 	end)
 
 	local tableOfFish = {
-		["Snook"] = {name = "Snook", sold = soldSnook, price = tableOfFish2["Snook"].price},
-		["Pompano"] = {name = "Pompano", sold = soldPompano, price = tableOfFish2["Pompano"].price},
-		["Snapper"] = {name = "Snapper", sold = soldSnapper, price = tableOfFish2["Snapper"].price},
-		["Redfish"] = {name = "Redfish", sold = soldRedfish, price = tableOfFish2["Redfish"].price},
-		["Bass"] = {name = "Bass", sold = soldBass, price = tableOfFish2["Bass"].price},
-		["Mackerel"] = {name = "Mackerel", sold = soldMackerel, price = tableOfFish2["Mackerel"].price},
-		["Herring"] = {name = "Herring", sold = soldHerring, price = tableOfFish2["Herring"].price},
-		["Salmon"] = {name = "Salmon", sold = soldSalmon, price = tableOfFish2["Salmon"].price},
-		["Barracuda"] = {name = "Baracuda", sold = soldBarracuda, price = tableOfFish2["Barracuda"].price},
-		["Tuna"] = {name = "Tuna", sold = soldTuna, price = tableOfFish2["Tuna"].price},
-		["Yellowtail"] = {name = "Yellowtail", sold = soldYellowtail, price = tableOfFish2["Yellowtail"].price},
+		{name = "Snook", sold = soldSnook, price = tableOfFish2["Snook"].price},
+		{name = "Pompano", sold = soldPompano, price = tableOfFish2["Pompano"].price},
+		{name = "Snapper", sold = soldSnapper, price = tableOfFish2["Snapper"].price},
+		{name = "Redfish", sold = soldRedfish, price = tableOfFish2["Redfish"].price},
+		{name = "Bass", sold = soldBass, price = tableOfFish2["Bass"].price},
+		{name = "Mackerel", sold = soldMackerel, price = tableOfFish2["Mackerel"].price},
+		{name = "Herring", sold = soldHerring, price = tableOfFish2["Herring"].price},
+		{name = "Salmon", sold = soldSalmon, price = tableOfFish2["Salmon"].price},
+		{name = "Baracuda", sold = soldBarracuda, price = tableOfFish2["Barracuda"].price},
+		{name = "Tuna", sold = soldTuna, price = tableOfFish2["Tuna"].price},
+		{name = "Yellowtail", sold = soldYellowtail, price = tableOfFish2["Yellowtail"].price},
 	}
 
 	fishing_menu = false
@@ -357,22 +371,6 @@
 						end
 					end
 				end
-			
-				if isInServiceFisher and GetDistanceBetweenCoords(GetEntityCoords(PlayerPedId()), Fisher_blips["Point of Sale"].x,Fisher_blips["Point of Sale"].y,Fisher_blips["Point of Sale"].z, true) <= Fisher_blips["Point of Sale"].distanceBetweenCoords then
-					TriggerServerEvent('Fisher:serverRequest', "SellFilet")
-					Citizen.Wait(Fisher_blips["Point of Sale"].defaultTime)
-				end
-
-				if isInServiceFisher and GetDistanceBetweenCoords(GetEntityCoords(PlayerPedId()), Fisher_blips["Point of Sale 2"].x,Fisher_blips["Point of Sale 2"].y,Fisher_blips["Point of Sale 2"].z, true) <= Fisher_blips["Point of Sale 2"].distanceBetweenCoords then
-					TriggerServerEvent('Fisher:serverRequest', "SellFilet")
-					Citizen.Wait(Fisher_blips["Point of Sale 2"].defaultTime)
-				end
-
-				if isInServiceFisher and GetDistanceBetweenCoords(GetEntityCoords(PlayerPedId()), Fisher_blips["Point of Sale 3"].x,Fisher_blips["Point of Sale 3"].y,Fisher_blips["Point of Sale 3"].z, true) <= Fisher_blips["Point of Sale 3"].distanceBetweenCoords then
-					TriggerServerEvent('Fisher:serverRequest', "SellFilet")
-					Citizen.Wait(Fisher_blips["Point of Sale 3"].defaultTime)
-				end
-
 			end
 		end)
 	end)
@@ -433,16 +431,6 @@
 			        	wine_menu = false
 			            Menu.DisplayCurMenu()
 			        end
-
-					if GetDistanceBetweenCoords(GetEntityCoords(PlayerPedId()), Fisher_blips["Point of Sale"].x,Fisher_blips["Point of Sale"].y,Fisher_blips["Point of Sale"].z, true) <= Fisher_blips["Point of Sale"].distanceMarker then
-						DrawMarker(25,Fisher_blips["Point of Sale"].x,Fisher_blips["Point of Sale"].y,Fisher_blips["Point of Sale"].z-1, 0, 0, 0, 0, 0, 0, 2.001, 2.0001, 0.5001, 0, 155, 255, 200, 0, 0, 0, 0)
-					end
-					if GetDistanceBetweenCoords(GetEntityCoords(PlayerPedId()), Fisher_blips["Point of Sale 2"].x,Fisher_blips["Point of Sale 2"].y,Fisher_blips["Point of Sale 2"].z, true) <= Fisher_blips["Point of Sale 2"].distanceMarker then
-						DrawMarker(25,Fisher_blips["Point of Sale 2"].x,Fisher_blips["Point of Sale 2"].y,Fisher_blips["Point of Sale 2"].z-1, 0, 0, 0, 0, 0, 0, 2.001, 2.0001, 0.5001, 0, 155, 255, 200, 0, 0, 0, 0)
-					end
-					if GetDistanceBetweenCoords(GetEntityCoords(PlayerPedId()), Fisher_blips["Point of Sale 3"].x,Fisher_blips["Point of Sale 3"].y,Fisher_blips["Point of Sale 3"].z, true) <= Fisher_blips["Point of Sale 3"].distanceMarker then
-						DrawMarker(25,Fisher_blips["Point of Sale 3"].x,Fisher_blips["Point of Sale 3"].y,Fisher_blips["Point of Sale 3"].z-1, 0, 0, 0, 0, 0, 0, 2.001, 2.0001, 0.5001, 0, 155, 255, 200, 0, 0, 0, 0)
-					end
 				end
 			end
 		end)
@@ -451,10 +439,10 @@
 function GetServiceFisher()
 	local playerPed = PlayerPedId()
 	if isInServiceFisher then
-		notif("Enjoy your break!")
+		exports.pNotify:SendNotification({text = "Enjoy your break!", type = "error", queue = "left", timeout = 2000, layout = "centerRight"})
 		TriggerServerEvent("clothes:spawn")
 	else
-		notif("Get to work!")
+		exports.pNotify:SendNotification({text = "Get to work!", type = "error", queue = "left", timeout = 2000, layout = "centerRight"})
 		TriggerEvent("Fisher:getSkin")
 	end
 	isInServiceFisher = not isInServiceFisher
@@ -516,7 +504,7 @@ end
 			DecorSetBool(existingVeh, "hotwire", true)
 			Citizen.InvokeNative(0xB736A491E64A32CF, Citizen.PointerValueIntInitialized(existingVeh))
 		else
-			notif("Area is congested.")
+			exports.pNotify:SendNotification({text = "Area is congested!", type = "error", queue = "left", timeout = 2000, layout = "centerRight"})
 		end
 	end)
 
@@ -595,109 +583,136 @@ end
 		TriggerEvent('chatMessage', "You caught a "..name.."!")
 	end)
 
-	local beingSold = 1
-	RegisterNetEvent('Fisher:drawSellFilet')
-	AddEventHandler('Fisher:drawSellFilet', function (qte, qte2, qte3, qte4, qte5, qte6, qte7, qte8, qte9, qte10, qte11)
-		fluxiateMarket()
-		if(qte == nil) then
-			qte = 0
-		end
-		if qte > 0  or qte2 > 0 or qte3 > 0 or qte4 > 0 or qte5 > 0 or qte6 > 0 or qte7 > 0 or qte8 > 0 or qte9 > 0 or qte10 > 0 or qte11 > 0 then
-			if(qte >= 1)then
-				TriggerEvent('inventory:removeQty',21, 1)
-				TriggerServerEvent('mission:completed', tableOfFish2["Snook"].price)
-				tableOfFish["Snook"].sold = tableOfFish["Snook"].sold + 1
-			end
-			if(qte2 >= 1)then
-				TriggerEvent('inventory:removeQty',50, 1)
-				TriggerServerEvent('mission:completed', tableOfFish2["Pompano"].price)
-				tableOfFish["Pompano"].sold = tableOfFish["Pompano"].sold + 1
-			end
-			if(qte3 >= 1)then
-				TriggerEvent('inventory:removeQty',52, 1)
-				TriggerServerEvent('mission:completed', tableOfFish2["Snapper"].price)
-				tableOfFish["Snapper"].sold = tableOfFish["Snapper"].sold + 1
-			end
-			if	(qte4 >= 1)then
-				TriggerEvent('inventory:removeQty',54, 1)
-				TriggerServerEvent('mission:completed', tableOfFish2["Redfish"].price)
-				tableOfFish["Redfish"].sold = tableOfFish["Redfish"].sold + 1
-			end
-			if (qte5 >= 1)then
-				TriggerEvent('inventory:removeQty',56, 1)
-				TriggerServerEvent('mission:completed', tableOfFish2["Bass"].price)
-				tableOfFish["Bass"].sold = tableOfFish["Bass"].sold + 1
-			end
-			if (qte6 >= 1)then
-				TriggerEvent('inventory:removeQty',58, 1)
-				TriggerServerEvent('mission:completed', tableOfFish2["Mackerel"].price)
-				tableOfFish["Mackerel"].sold = tableOfFish["Mackerel"].sold + 1
-			end
-			if (qte7 >= 1)then
-				TriggerEvent('inventory:removeQty',60, 1)
-				TriggerServerEvent('mission:completed', tableOfFish2["Herring"].price)
-				tableOfFish["Herring"].sold = tableOfFish["Herring"].sold + 1
-			end
-			if (qte8 >= 1)then
-				TriggerEvent('inventory:removeQty',62, 1)
-				TriggerServerEvent('mission:completed', tableOfFish2["Salmon"].price)
-				tableOfFish["Salmon"].sold = tableOfFish["Salmon"].sold + 1
-			end
-			if (qte9 >= 1)then
-				TriggerEvent('inventory:removeQty',64, 1)
-				TriggerServerEvent('mission:completed', tableOfFish2["Barracuda"].price)
-				tableOfFish["Barracuda"].sold = tableOfFish["Barracuda"].sold + 1
-			end
-			if (qte10 >= 1)then	
-				TriggerEvent('inventory:removeQty',66, 1)
-				TriggerServerEvent('mission:completed', tableOfFish2["Tuna"].price)
-				tableOfFish["Tuna"].sold = tableOfFish["Tuna"].sold + 1
-			end
-			if (qte11 >= 1)then
-				TriggerEvent('inventory:removeQty',68, 1)
-				TriggerServerEvent('mission:completed', tableOfFish2["Yellowtail"].price)
-				tableOfFish["Yellowtail"].sold = tableOfFish["Yellowtail"].sold + 1
-			end
-			ClearPrints()
-			SetTextEntry_2("STRING")
-			AddTextComponentString("~g~You sold a fish!")
-			DrawSubtitleTimed(2000, 1)
-			fluxiateMarket()
-			TriggerServerEvent('fluxiateMarket', tableOfFish)
-		else
-			ClearPrints()
-			SetTextEntry_2("STRING")
-			AddTextComponentString("~r~You have no fish left to sell.")
-			beingSold = beingSold + 1
-			DrawSubtitleTimed(2000, 1)
-		end
-	end)
+	local currentItemIndex = 1
+	local selectedItemIndex = 1
+	local quantity = {}
 
-function fluxiateMarket()
-	local maxShallow = math.max(tableOfFish["Snook"].sold, tableOfFish["Pompano"].sold, tableOfFish["Snapper"].sold, tableOfFish["Redfish"].sold , tableOfFish["Bass"].sold)
-	local maxDeep = math.max(tableOfFish["Mackerel"].sold, tableOfFish["Herring"].sold, tableOfFish["Salmon"].sold, tableOfFish["Barracuda"].sold , tableOfFish["Tuna"].sold, tableOfFish["Yellowtail"].sold)
-	local minShallow = math.min(tableOfFish["Snook"].sold, tableOfFish["Pompano"].sold, tableOfFish["Snapper"].sold, tableOfFish["Redfish"].sold , tableOfFish["Bass"].sold)
-	local minDeep = math.min(tableOfFish["Mackerel"].sold, tableOfFish["Herring"].sold, tableOfFish["Salmon"].sold, tableOfFish["Barracuda"].sold , tableOfFish["Tuna"].sold, tableOfFish["Yellowtail"].sold)
-	for k, v in ipairs(tableOfFish)do
-		if(v.sold == maxShallow) then
-			local newprice = tableOfFish2[v.name].price * .75
-			tableOfFish2[v.name].price = newprice
-		end
-		if(v.sold == maxDeep) then
-			local newprice = tableOfFish2[v.name].price * .75
-			tableOfFish2[v.name].price = newprice
-		end
-		if(v.sold == minShallow) then
-			local newprice = tableOfFish2[v.name].price / .5
-			tableOfFish2[v.name].price = newprice
-		end
-		if(v.sold == minDeep)then
-			local newprice = tableOfFish2[v.name].price / .5
-			tableOfFish2[v.name].price = newprice
+	Store = {
+	    {Items = {
+	    	[1] = {Name = "Snook", Id = 21, price = priceSnook, Max = 100},
+	        [2] = {Name = "Pompano", Id = 50, price = pricePompano, Max = 100},
+	        [3] = {Name = "Snapper", Id = 52, price = priceSnapper, Max = 100},
+	        [4] = {Name = "Redfish", Id = 54, price = priceRedfish, Max = 100},
+	        [5] = {Name = "Bass", Id = 56, price = priceBass, Max = 100},
+	        [6] = {Name = "Mackerel", Id = 58, price = priceMackerel, Max = 100},
+	        [7] = {Name = "Herring", Id = 60, price = priceHerring, Max = 100},
+	        [8] = {Name = "Salmon", Id = 62, price = priceSalmon, Max = 100},
+	        [9] = {Name = "Barracuda", Id = 64, price = priceBarracuda, Max = 100},
+	        [10] = {Name = "Tuna", Id = 66, price = priceTuna, Max = 100},
+	        [11] = {Name = "Yellowtail", Id = 68, price = priceYellowtail, Max = 100},
+	    }},
+	}
+
+	for k,v in pairs(Store) do
+		for i,j in pairs(v.Items) do
+			j.Quantity = {}
+			for index = 1, j.Max do j.Quantity[#j.Quantity+1] = tostring(index) end
 		end
 	end
-	TriggerServerEvent("fish:initialise", source)
-end
+
+	Citizen.CreateThread(function()
+	while true do
+		Citizen.Wait(0)
+        local pos = GetEntityCoords(PlayerPedId(), false)
+        for k,v in ipairs(fishmarkets) do
+            if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 15.0)then
+            	DrawMarker(25,v.x, v.y, v.z-1, 0, 0, 0, 0, 0, 0, 2.001, 2.0001, 0.5001, 0, 155, 255, 200, 0, 0, 0, 0)
+                if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 1.0)then
+					if IsControlJustPressed(1, 51) then
+						if not WarMenu.IsMenuOpened("Fish") then
+							if not WarMenu.DoesMenuExist("Fish") then
+								WarMenu.CreateMenu("Fish", "Fish Market")
+								WarMenu.SetSpriteTitle("Fish", "shopui_title_conveniencestore")
+								WarMenu.SetSubTitle("Fish", "CATEGORIES")
+								WarMenu.SetMenuX("Fish", 0.6)
+								WarMenu.SetMenuY("Fish", 0.15)
+								WarMenu.SetTitleBackgroundColor("Fish", 0, 107, 87)
+								for k,v in pairs(Store) do
+									for i,j in pairs(v.Items) do
+										WarMenu.CreateSubMenu(j.Name, "Fish", j.Name)
+									end
+								end
+								WarMenu.OpenMenu("Fish")
+							else
+								currentItemIndex = 1
+								WarMenu.OpenMenu("Fish")
+							end
+						else
+							WarMenu.CloseMenu()
+						end		
+					end
+					if WarMenu.IsMenuOpened("Fish") then
+--[[						for k,v in pairs(Store) do
+							WarMenu.MenuButton(v.Category, v.Category)
+						end--]]
+--[[						if WarMenu.Button("Close") then
+							WarMenu.CloseMenu()
+						end--]]
+						WarMenu.Display()
+					end
+					for k,v in pairs(Store) do
+						if WarMenu.IsMenuOpened("Fish") then
+							for i,j in pairs(v.Items) do
+								if WarMenu.MenuButton(j.Name, j.Name) then
+									currentItemIndex = 1
+								end
+							end
+							WarMenu.Display()
+						end
+					end
+					for k,v in pairs(Store) do
+						for i,j in pairs(v.Items) do
+							if WarMenu.IsMenuOpened(j.Name) then
+								if WarMenu.Button("Sell "..currentItemIndex.." "..j.Name.."(s)", "$"..j.price*currentItemIndex) then
+									TriggerEvent('inventory:removeQty', j.Id, currentItemIndex)
+									TriggerServerEvent('mission:completed', j.price*currentItemIndex)
+									for a, b in pairs(tableOfFish)do
+											local maxShallow = math.max(b.sold, b.sold, b.sold, b.sold , b.sold)
+											local maxDeep = math.max(b.sold, b.sold, b.sold, b.sold , b.sold, b.sold)
+											local minShallow = math.min(b.sold, b.sold, b.sold, b.sold , b.sold)
+											local minDeep = math.min(b.sold, b.sold, b.sold, b.sold , b.sold, b.sold)
+										if(b.name  == j.name) then
+											if(b.sold == maxShallow) then
+												local newprice = tableOfFish2[v.name].price * .75
+												tableOfFish2[b.name].price = newprice
+											end
+											if(b.sold == maxDeep) then
+												local newprice = tableOfFish2[v.name].price * .75
+												tableOfFish2[b.name].price = newprice
+											end
+											if(b.sold == minShallow) then
+												local newprice = tableOfFish2[v.name].price / .5
+												tableOfFish2[b.name].price = newprice
+											end
+											if(b.sold == minDeep)then
+												local newprice = tableOfFish2[v.name].price / .5
+												tableOfFish2[b.name].price = newprice
+											end
+											b.sold = b.sold + 1
+										end
+										b.sold = b.sold + 1
+									end
+								end
+								if WarMenu.ComboBox("Quantity", j.Quantity, currentItemIndex, selectedItemIndex, function(currentIndex, selectedIndex)
+									currentItemIndex = currentIndex
+									selectedItemIndex = selectedIndex
+								end) then
+							end
+								WarMenu.Display()
+							end
+						end
+					end
+					TriggerServerEvent("fish:initialise", source)
+					TriggerServerEvent("fluxiateMarket", tableOfFish)
+                elseif(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) > 1.0)then
+                	if WarMenu.IsMenuOpened("Fish") then
+                		WarMenu.CloseMenu()
+                	end
+                end
+            end
+		end
+	end
+end)
 
 Citizen.CreateThread(function() -- Thread for  timer
 	while true do 
