@@ -91,15 +91,22 @@ AddEventHandler("weed:harvest", function(plant_id)
     local source = source
     local growth = CalculateGrowth(os.time(), weed_plants[plant_id].start_time, weed_plants[plant_id].end_time)
     local message, amount = GetGrowthInformation(growth)
-    if growth >= 50 then
-        if (getQuantity(source) + amount) <= user_max then
-            TriggerClientEvent("weed:harvest", source)
-            TriggerEvent("inventory:add_server", source, weed_id, amount)
-            ResetPlant(plant_id)
+    TriggerEvent("core:getuser", source, function(user)
+        if(user.get("wallet") > 200)then
+            if growth >= 50 then
+                user.removeWallet(200)
+                if (getQuantity(source) + amount) <= user_max then
+                    TriggerClientEvent("weed:harvest", source)
+                    TriggerEvent("inventory:add_server", source, weed_id, amount)
+                    ResetPlant(plant_id)
+                else
+                    TriggerClientEvent("inventory:messages", source, "~r~Your inventory is full")
+                end
+            end
         else
-            TriggerClientEvent("inventory:messages", source, "~r~Your inventory is full")
+            TriggerClientEvent("inventory:messages", source, "~r~You don't have any cash")
         end
-    end
+    end)
 end)
 
 RegisterServerEvent("weed:trader")

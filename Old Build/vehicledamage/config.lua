@@ -62,7 +62,7 @@ cfg = {
 				1.0,		--	5: Sports Classics
 				1.0,		--	6: Sports
 				1.0,		--	7: Super
-				0.25,		--	8: Motorcycles
+				0.90,		--	8: Motorcycles
 				1.0,		--	9: Off-road
 				0.25,		--	10: Industrial
 				1.0,		--	11: Utility
@@ -72,7 +72,7 @@ cfg = {
 				1.0,		--	15: Helicopters
 				1.0,		--	16: Planes
 				1.0,		--	17: Service
-				0.05,		--	18: Emergency
+				0.50,		--	18: Emergency
 				0.25,		--	19: Military
 				1.0,		--	20: Commercial
 				1.0			--	21: Trains

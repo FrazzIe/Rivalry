@@ -125,7 +125,7 @@ Weapons = {
 		--{Weapon = "WEAPON_PROXMINE", Name = "Proximity Mine", Cost = 1},
 		--{Weapon = "WEAPON_PIPEBOMB", Name = "Pipe Bomb", Cost = 1},
 		{Weapon = "WEAPON_PETROLCAN", Name = "Petrol Can", Cost = 150},
-		{Weapon = "WEAPON_SNOWBALL", Name = "Snow Ball", Cost = 50},
+		--{Weapon = "WEAPON_SNOWBALL", Name = "Snow Ball", Cost = 50},
 	}},
 	--[[
 	{Category = "Specials", Items = {
