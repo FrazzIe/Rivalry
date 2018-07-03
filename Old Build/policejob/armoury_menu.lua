@@ -30,7 +30,7 @@ guns = {
     {name = "Combat Pistol", model = "WEAPON_COMBATPISTOL"},
 	{name = "Combat PDW", model = "WEAPON_COMBATPDW"},
     {name = "Fire Extinguisher", model = "WEAPON_FIREEXTINGUISHER"},
-    {name = "Trooper Only Revolver", model = "WEAPON_REVOLVER"},
+    {name = "Trooper Only Double Action", model = "WEAPON_DOUBLEACTION"},
 }
 
 local options = {"Equip", "Remove"}
