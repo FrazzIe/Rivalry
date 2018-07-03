@@ -67,7 +67,7 @@ Citizen.CreateThread(function()
 end)
 
 
-RegisterNetEvent('markerForCops')
+--[[RegisterNetEvent('markerForCops')
 AddEventHandler('markerForCops', function()
 	if isCop then
 	    for k, v in ipairs(eLocations) do
@@ -127,7 +127,7 @@ Citizen.CreateThread(function()
             end
         end
       end
-end)
+end)--]]
 
 --==============================================================================================================================--
 --Cuffing
