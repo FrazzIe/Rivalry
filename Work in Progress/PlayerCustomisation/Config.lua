@@ -66,7 +66,9 @@ PlayerCustomisation.PlayerData = {
 }
 
 PlayerCustomisation.Locations = {
-	Clothing = {
+	Clothing = {},
+	Barbers = {},
+	Masks = {
         [1] = {
             Blip = {
                 Name = "Tattoo Store", 
@@ -81,7 +83,6 @@ PlayerCustomisation.Locations = {
             Banner = "shopui_title_barber",
         },
 	},
-	Barbers = {},
 	Tattoos = {},
 }
 
@@ -3080,6 +3081,5341 @@ PlayerCustomisation.Reference = {
 		},
 		Drawables = {},
 		Textures = {},
+	},
+	Masks = {
+		[1] = {
+			{
+				Name = "No Mask",
+				Value = {
+					Drawable = 0,
+					Texture = 0,
+				},
+			},
+			{
+				Name = "Black and Tan Pug",
+				Value = {
+					Drawable = 100,
+					Texture = 5,
+				},
+			},
+			{
+				Name = "Josephine Pug",
+				Value = {
+					Drawable = 100,
+					Texture = 4,
+				},
+			},
+			{
+				Name = "Brown Pug",
+				Value = {
+					Drawable = 100,
+					Texture = 3,
+				},
+			},
+			{
+				Name = "Gray Pug",
+				Value = {
+					Drawable = 100,
+					Texture = 2,
+				},
+			},
+			{
+				Name = "Black Pug",
+				Value = {
+					Drawable = 100,
+					Texture = 1,
+				},
+			},
+			{
+				Name = "Moe Pug",
+				Value = {
+					Drawable = 100,
+					Texture = 0,
+				},
+			},
+			{
+				Name = "Zebra",
+				Value = {
+					Drawable = 97,
+					Texture = 5,
+				},
+			},
+			{
+				Name = "Pinto Horse",
+				Value = {
+					Drawable = 97,
+					Texture = 4,
+				},
+			},
+			{
+				Name = "Brown Horse",
+				Value = {
+					Drawable = 97,
+					Texture = 3,
+				},
+			},
+			{
+				Name = "Gray Horse",
+				Value = {
+					Drawable = 97,
+					Texture = 2,
+				},
+			},
+			{
+				Name = "Black Horse",
+				Value = {
+					Drawable = 97,
+					Texture = 1,
+				},
+			},
+			{
+				Name = "Chestnut Horse",
+				Value = {
+					Drawable = 97,
+					Texture = 0,
+				},
+			},
+			{
+				Name = "Albino Crazed Ape",
+				Value = {
+					Drawable = 96,
+					Texture = 3,
+				},
+			},
+			{
+				Name = "Gray Crazed Ape",
+				Value = {
+					Drawable = 96,
+					Texture = 2,
+				},
+			},
+			{
+				Name = "Orangutan Crazed Ape",
+				Value = {
+					Drawable = 96,
+					Texture = 1,
+				},
+			},
+			{
+				Name = "Silverback Crazed Ape",
+				Value = {
+					Drawable = 96,
+					Texture = 0,
+				},
+			},
+			{
+				Name = "Danger Dino",
+				Value = {
+					Drawable = 93,
+					Texture = 5,
+				},
+			},
+			{
+				Name = "Rainforest Dino",
+				Value = {
+					Drawable = 93,
+					Texture = 4,
+				},
+			},
+			{
+				Name = "Earth Dino",
+				Value = {
+					Drawable = 93,
+					Texture = 3,
+				},
+			},
+			{
+				Name = "Tropical Dino",
+				Value = {
+					Drawable = 93,
+					Texture = 2,
+				},
+			},
+			{
+				Name = "Gray Dino",
+				Value = {
+					Drawable = 93,
+					Texture = 1,
+				},
+			},
+			{
+				Name = "Striped Dino",
+				Value = {
+					Drawable = 93,
+					Texture = 0,
+				},
+			},
+			{
+				Name = "Black Racoon",
+				Value = {
+					Drawable = 20,
+					Texture = 1,
+				},
+			},
+			{
+				Name = "Gray Racoon",
+				Value = {
+					Drawable = 20,
+					Texture = 0,
+				},
+			},
+			{
+				Name = "White Owl",
+				Value = {
+					Drawable = 19,
+					Texture = 1,
+				},
+			},
+			{
+				Name = "Brown Owl",
+				Value = {
+					Drawable = 19,
+					Texture = 0,
+				},
+			},
+			{
+				Name = "Brown Fox",
+				Value = {
+					Drawable = 18,
+					Texture = 1,
+				},
+			},
+			{
+				Name = "Red Fox",
+				Value = {
+					Drawable = 18,
+					Texture = 0,
+				},
+			},
+			{
+				Name = "Tabby Cat",
+				Value = {
+					Drawable = 17,
+					Texture = 1,
+				},
+			},
+			{
+				Name = "Gray Cat",
+				Value = {
+					Drawable = 17,
+					Texture = 0,
+				},
+			},
+			{
+				Name = "Pink Pig",
+				Value = {
+					Drawable = 1,
+					Texture = 0,
+				},
+			},
+			{
+				Name = "Brown Pig",
+				Value = {
+					Drawable = 1,
+					Texture = 1,
+				},
+			},
+			{
+				Name = "Bloody Pig",
+				Value = {
+					Drawable = 1,
+					Texture = 2,
+				},
+			},
+			{
+				Name = "Black Pig",
+				Value = {
+					Drawable = 1,
+					Texture = 3,
+				},
+			},
+			{
+				Name = "Tan Ape",
+				Value = {
+					Drawable = 5,
+					Texture = 0,
+				},
+			},
+			{
+				Name = "Brown Ape",
+				Value = {
+					Drawable = 5,
+					Texture = 2,
+				},
+			},
+			{
+				Name = "Green Ape",
+				Value = {
+					Drawable = 5,
+					Texture = 2,
+				},
+			},
+			{
+				Name = "Pink Ape",
+				Value = {
+					Drawable = 5,
+					Texture = 3,
+				},
+			},
+		},
+		[2] = {
+			{
+				Name = "No Mask",
+				Value = {
+					Drawable = 0,
+					Texture = 0,
+				},
+			},
+			{
+				Name = "Dark Neon Scruffy",
+				Value = {
+					Drawable = 119,
+					Texture = 24,
+				},
+			},
+			{
+				Name = "Pretty Scruffy",
+				Value = {
+					Drawable = 119,
+					Texture = 23,
+				},
+			},
+			{
+				Name = "Gray Woodland Scruffy",
+				Value = {
+					Drawable = 119,
+					Texture = 22,
+				},
+			},
+			{
+				Name = "Gray Digital Scruffy",
+				Value = {
+					Drawable = 119,
+					Texture = 21,
+				},
+			},
+			{
+				Name = "Aqua Camo Scruffy",
+				Value = {
+					Drawable = 119,
+					Texture = 20,
+				},
+			},
+			{
+				Name = "Pink Scruffy",
+				Value = {
+					Drawable = 119,
+					Texture = 19,
+				},
+			},
+			{
+				Name = "Skate Scruffy",
+				Value = {
+					Drawable = 119,
+					Texture = 18,
+				},
+			},
+			{
+				Name = "Vibrant Scruffy",
+				Value = {
+					Drawable = 119,
+					Texture = 17,
+				},
+			},
+			{
+				Name = "Magenta Leopard Scruffy",
+				Value = {
+					Drawable = 119,
+					Texture = 16,
+				},
+			},
+			{
+				Name = "Orange Stripe Scruffy",
+				Value = {
+					Drawable = 119,
+					Texture = 15,
+				},
+			},
+			{
+				Name = "Triplet Stripe Scruffy",
+				Value = {
+					Drawable = 119,
+					Texture = 14,
+				},
+			},
+			{
+				Name = "Rasta Stripe Scruffy",
+				Value = {
+					Drawable = 119,
+					Texture = 13,
+				},
+			},
+			{
+				Name = "Beige Stripe Scruffy",
+				Value = {
+					Drawable = 119,
+					Texture = 12,
+				},
+			},
+			{
+				Name = "Bright Green Scruffy",
+				Value = {
+					Drawable = 119,
+					Texture = 11,
+				},
+			},
+			{
+				Name = "Dark Red Scruffy",
+				Value = {
+					Drawable = 119,
+					Texture = 6,
+				},
+			},
+			{
+				Name = "Hessian Scruffy",
+				Value = {
+					Drawable = 119,
+					Texture = 5,
+				},
+			},
+			{
+				Name = "Blue Scruffy",
+				Value = {
+					Drawable = 119,
+					Texture = 4,
+				},
+			},
+			{
+				Name = "Chocolate Scruffy",
+				Value = {
+					Drawable = 119,
+					Texture = 3,
+				},
+			},
+			{
+				Name = "Charcoal Scruffy",
+				Value = {
+					Drawable = 119,
+					Texture = 2,
+				},
+			},
+			{
+				Name = "Ash Scruffy",
+				Value = {
+					Drawable = 119,
+					Texture = 1,
+				},
+			},
+			{
+				Name = "Skull Scruffy",
+				Value = {
+					Drawable = 119,
+					Texture = 0,
+				},
+			},
+			{
+				Name = "Green Luchador Knit",
+				Value = {
+					Drawable = 117,
+					Texture = 20,
+				},
+			},
+			{
+				Name = "Blue Luchador Knit",
+				Value = {
+					Drawable = 117,
+					Texture = 19,
+				},
+			},
+			{
+				Name = "Stars & Stripes Knit",
+				Value = {
+					Drawable = 117,
+					Texture = 18,
+				},
+			},
+			{
+				Name = "Dark Pattern Knit",
+				Value = {
+					Drawable = 117,
+					Texture = 17,
+				},
+			},
+			{
+				Name = "Leopard Knit",
+				Value = {
+					Drawable = 117,
+					Texture = 16,
+				},
+			},
+			{
+				Name = "Tiger Knit",
+				Value = {
+					Drawable = 117,
+					Texture = 15,
+				},
+			},
+			{
+				Name = "Green Stripe Knit",
+				Value = {
+					Drawable = 117,
+					Texture = 14,
+				},
+			},
+			{
+				Name = "Black & Red Knit",
+				Value = {
+					Drawable = 117,
+					Texture = 13,
+				},
+			},
+			{
+				Name = "Primary Stripe Knit",
+				Value = {
+					Drawable = 117,
+					Texture = 12,
+				},
+			},
+			{
+				Name = "Aqua Camo Knit",
+				Value = {
+					Drawable = 117,
+					Texture = 11,
+				},
+			},
+			{
+				Name = "Bright Green Knit",
+				Value = {
+					Drawable = 117,
+					Texture = 10,
+				},
+			},
+			{
+				Name = "Wine Stripe Knit",
+				Value = {
+					Drawable = 117,
+					Texture = 9,
+				},
+			},
+			{
+				Name = "Skull Knit",
+				Value = {
+					Drawable = 117,
+					Texture = 8,
+				},
+			},
+			{
+				Name = "Red Stripe Knit",
+				Value = {
+					Drawable = 117,
+					Texture = 7,
+				},
+			},
+			{
+				Name = "Brown Digital Knit",
+				Value = {
+					Drawable = 117,
+					Texture = 6,
+				},
+			},
+			{
+				Name = "Gray Woodland Knit",
+				Value = {
+					Drawable = 117,
+					Texture = 5,
+				},
+			},
+			{
+				Name = "Gray Digital Knit",
+				Value = {
+					Drawable = 117,
+					Texture = 4,
+				},
+			},
+			{
+				Name = "Sunrise Knit",
+				Value = {
+					Drawable = 117,
+					Texture = 3,
+				},
+			},
+			{
+				Name = "Green & Beige Knit",
+				Value = {
+					Drawable = 117,
+					Texture = 2,
+				},
+			},
+			{
+				Name = "Dark Red Knit",
+				Value = {
+					Drawable = 117,
+					Texture = 1,
+				},
+			},
+			{
+				Name = "Bright Stripe Knit",
+				Value = {
+					Drawable = 117,
+					Texture = 0,
+				},
+			},
+			{
+				Name = "Pink Stripe Knit Balaclava",
+				Value = {
+					Drawable = 58,
+					Texture = 9,
+				},
+			},
+			{
+				Name = "Black Stripe Knit Balaclava",
+				Value = {
+					Drawable = 58,
+					Texture = 8,
+				},
+			},
+			{
+				Name = "Blue Stripe Knit Balaclava",
+				Value = {
+					Drawable = 58,
+					Texture = 7,
+				},
+			},
+			{
+				Name = "Pogo Balaclava",
+				Value = {
+					Drawable = 58,
+					Texture = 6,
+				},
+			},
+			{
+				Name = "Impotent Rage Balaclava",
+				Value = {
+					Drawable = 58,
+					Texture = 5,
+				},
+			},
+			{
+				Name = "Orange Camo Knit Balaclava",
+				Value = {
+					Drawable = 58,
+					Texture = 4,
+				},
+			},
+			{
+				Name = "Pink Camo Knit Balaclava",
+				Value = {
+					Drawable = 58,
+					Texture = 3,
+				},
+			},
+			{
+				Name = "Neon Camo Knit Balaclava",
+				Value = {
+					Drawable = 58,
+					Texture = 2,
+				},
+			},
+			{
+				Name = "Nature Knit Balaclava",
+				Value = {
+					Drawable = 58,
+					Texture = 1,
+				},
+			},
+			{
+				Name = "Bandit Knit Balaclava",
+				Value = {
+					Drawable = 58,
+					Texture = 0,
+				},
+			},
+			{
+				Name = "Purple Knit Balaclava",
+				Value = {
+					Drawable = 57,
+					Texture = 21,
+				},
+			},
+			{
+				Name = "Orange Knit Balaclava",
+				Value = {
+					Drawable = 57,
+					Texture = 20,
+				},
+			},
+			{
+				Name = "Green Knit Balaclava",
+				Value = {
+					Drawable = 57,
+					Texture = 19,
+				},
+			},
+			{
+				Name = "Red Knit Balaclava",
+				Value = {
+					Drawable = 57,
+					Texture = 18,
+				},
+			},
+			{
+				Name = "Blue Knit Balaclava",
+				Value = {
+					Drawable = 57,
+					Texture = 17,
+				},
+			},
+			{
+				Name = "White Knit Balaclava",
+				Value = {
+					Drawable = 57,
+					Texture = 16,
+				},
+			},
+			{
+				Name = "Sessanta Nove Balaclava",
+				Value = {
+					Drawable = 57,
+					Texture = 15,
+				},
+			},
+			{
+				Name = "Perseus Balaclava",
+				Value = {
+					Drawable = 57,
+					Texture = 14,
+				},
+			},
+			{
+				Name = "Perseus Band Balaclava",
+				Value = {
+					Drawable = 57,
+					Texture = 13,
+				},
+			},
+			{
+				Name = "Didier Sachs Balaclava",
+				Value = {
+					Drawable = 57,
+					Texture = 12,
+				},
+			},
+			{
+				Name = "Princess Balaclava",
+				Value = {
+					Drawable = 57,
+					Texture = 11,
+				},
+			},
+			{
+				Name = "Flying Bravo Balaclava",
+				Value = {
+					Drawable = 57,
+					Texture = 10,
+				},
+			},
+			{
+				Name = "Flying Bravo FB Balaclava",
+				Value = {
+					Drawable = 57,
+					Texture = 9,
+				},
+			},
+			{
+				Name = "Pink Knit Balaclava",
+				Value = {
+					Drawable = 57,
+					Texture = 8,
+				},
+			},
+			{
+				Name = "Dirty Knit Balaclava",
+				Value = {
+					Drawable = 57,
+					Texture = 7,
+				},
+			},
+			{
+				Name = "Woodland Knit Balaclava",
+				Value = {
+					Drawable = 57,
+					Texture = 6,
+				},
+			},
+			{
+				Name = "Rainbow Knit Balaclava",
+				Value = {
+					Drawable = 57,
+					Texture = 5,
+				},
+			},
+			{
+				Name = "Brown Knit Balaclava",
+				Value = {
+					Drawable = 57,
+					Texture = 4,
+				},
+			},
+			{
+				Name = "Gray Knit Balaclava",
+				Value = {
+					Drawable = 57,
+					Texture = 3,
+				},
+			},
+			{
+				Name = "Copper Knit Balaclava",
+				Value = {
+					Drawable = 57,
+					Texture = 2,
+				},
+			},
+			{
+				Name = "Army Green Knit Balaclava",
+				Value = {
+					Drawable = 57,
+					Texture = 1,
+				},
+			},
+			{
+				Name = "Black Knit Balaclava",
+				Value = {
+					Drawable = 57,
+					Texture = 0,
+				},
+			},
+			{
+				Name = "Split Loose Balaclava",
+				Value = {
+					Drawable = 56,
+					Texture = 8,
+				},
+			},
+			{
+				Name = "Outback Loose Balaclava",
+				Value = {
+					Drawable = 56,
+					Texture = 7,
+				},
+			},
+			{
+				Name = "Red Loose Balaclava",
+				Value = {
+					Drawable = 56,
+					Texture = 6,
+				},
+			},
+			{
+				Name = "Woodland Loose Balaclava",
+				Value = {
+					Drawable = 56,
+					Texture = 5,
+				},
+			},
+			{
+				Name = "Bloody Loose Balaclava",
+				Value = {
+					Drawable = 56,
+					Texture = 4,
+				},
+			},
+			{
+				Name = "Khaki Loose Balaclava",
+				Value = {
+					Drawable = 56,
+					Texture = 3,
+				},
+			},
+			{
+				Name = "Skull Loose Balaclava",
+				Value = {
+					Drawable = 56,
+					Texture = 2,
+				},
+			},
+			{
+				Name = "Black Loose Balaclava",
+				Value = {
+					Drawable = 56,
+					Texture = 1,
+				},
+			},
+			{
+				Name = "Blue Loose Balaclava",
+				Value = {
+					Drawable = 56,
+					Texture = 0,
+				},
+			},
+			{
+				Name = "Scruffy Balaclava",
+				Value = {
+					Drawable = 37,
+					Texture = 0,
+				},
+			},
+		},
+		[4] = {
+			{
+				Name = "No Mask",
+				Value = {
+					Drawable = 0,
+					Texture = 0,
+				},
+			},
+			{
+				Name = "Gothic False Face",
+				Value = {
+					Drawable = 128,
+					Texture = 11,
+				},
+			},
+			{
+				Name = "Green Pattern False Face",
+				Value = {
+					Drawable = 128,
+					Texture = 10,
+				},
+			},
+			{
+				Name = "Stars & Stripes False Face",
+				Value = {
+					Drawable = 128,
+					Texture = 9,
+				},
+			},
+			{
+				Name = "Opera False Face",
+				Value = {
+					Drawable = 128,
+					Texture = 8,
+				},
+			},
+			{
+				Name = "Rising Sun False Face",
+				Value = {
+					Drawable = 128,
+					Texture = 7,
+				},
+			},
+			{
+				Name = "Cobble Woodland False Face",
+				Value = {
+					Drawable = 128,
+					Texture = 6,
+				},
+			},
+			{
+				Name = "Striped Woodland False Face",
+				Value = {
+					Drawable = 128,
+					Texture = 5,
+				},
+			},
+			{
+				Name = "Brown Digital False Face",
+				Value = {
+					Drawable = 128,
+					Texture = 4,
+				},
+			},
+			{
+				Name = "Splinter False Face",
+				Value = {
+					Drawable = 128,
+					Texture = 3,
+				},
+			},
+			{
+				Name = "Headline False Face",
+				Value = {
+					Drawable = 128,
+					Texture = 2,
+				},
+			},
+			{
+				Name = "Aqua Camo False Face",
+				Value = {
+					Drawable = 128,
+					Texture = 1,
+				},
+			},
+			{
+				Name = "Gray Woodland False Face",
+				Value = {
+					Drawable = 128,
+					Texture = 0,
+				},
+			},
+			{
+				Name = "Mime Plastic Face",
+				Value = {
+					Drawable = 50,
+					Texture = 9,
+				},
+			},
+			{
+				Name = "Puppet Plastic Face",
+				Value = {
+					Drawable = 0,
+					Texture = 8,
+				},
+			},
+			{
+				Name = "Doll Plastic Face",
+				Value = {
+					Drawable = 0,
+					Texture = 7,
+				},
+			},
+			{
+				Name = "Mannequin Plastic Face",
+				Value = {
+					Drawable = 0,
+					Texture = 6,
+				},
+			},
+			{
+				Name = "Brown Plastic Face",
+				Value = {
+					Drawable = 0,
+					Texture = 5,
+				},
+			},
+			{
+				Name = "Black Plastic Face",
+				Value = {
+					Drawable = 0,
+					Texture = 4,
+				},
+			},
+			{
+				Name = "Clown Plastic Face",
+				Value = {
+					Drawable = 0,
+					Texture = 3,
+				},
+			},
+			{
+				Name = "Pink Plastic Face",
+				Value = {
+					Drawable = 0,
+					Texture = 2,
+				},
+			},
+			{
+				Name = "The Don Plastic Face",
+				Value = {
+					Drawable = 0,
+					Texture = 1,
+				},
+			},
+			{
+				Name = "Green Plastic Face",
+				Value = {
+					Drawable = 50,
+					Texture = 0,
+				},
+			},
+			{
+				Name = "Moorehead",
+				Value = {
+					Drawable = 45,
+					Texture = 0,
+				},
+			},
+			{
+				Name = "Princess Robot Bubblegum",
+				Value = {
+					Drawable = 44,
+					Texture = 0,
+				},
+			},
+			{
+				Name = "Impotent Rage",
+				Value = {
+					Drawable = 43,
+					Texture = 0,
+				},
+			},
+			{
+				Name = "Pogo",
+				Value = {
+					Drawable = 3,
+					Texture = 0,
+				},
+			},
+		},
+		[5] = {
+			{
+				Name = "No Mask",
+				Value = {
+					Drawable = 0,
+					Texture = 0,
+				},
+			},
+			{
+				Name = "Sinister Clown",
+				Value = {
+					Drawable = 95,
+					Texture = 7,
+				},
+			},
+			{
+				Name = "Franken Clown",
+				Value = {
+					Drawable = 95,
+					Texture = 6,
+				},
+			},
+			{
+				Name = "Neon Clown",
+				Value = {
+					Drawable = 95,
+					Texture = 5,
+				},
+			},
+			{
+				Name = "Scavenger Clown",
+				Value = {
+					Drawable = 95,
+					Texture = 4,
+				},
+			},
+			{
+				Name = "Orange Clown",
+				Value = {
+					Drawable = 95,
+					Texture = 3,
+				},
+			},
+			{
+				Name = "Green Clown",
+				Value = {
+					Drawable = 95,
+					Texture = 2,
+				},
+			},
+			{
+				Name = "Blue Clown",
+				Value = {
+					Drawable = 95,
+					Texture = 1,
+				},
+			},
+			{
+				Name = "Red Clown",
+				Value = {
+					Drawable = 95,
+					Texture = 0,
+				},
+			},	
+		},
+		[6] = {
+			{
+				Name = "No Mask",
+				Value = {
+					Drawable = 0,
+					Texture = 0,
+				},
+			},
+			{
+				Name = "Pink Pattern T-Shirt",
+				Value = {
+					Drawable = 118,
+					Texture = 25,
+				},
+			},
+			{
+				Name = "Green Pattern T-Shirt",
+				Value = {
+					Drawable = 118,
+					Texture = 24,
+				},
+			},
+			{
+				Name = "Orange Pattern T-Shirt",
+				Value = {
+					Drawable = 118,
+					Texture = 23,
+				},
+			},
+			{
+				Name = "Pink Tie Dye T-Shirt",
+				Value = {
+					Drawable = 118,
+					Texture = 22,
+				},
+			},
+			{
+				Name = "Far Out Tie Dye T-Shirt",
+				Value = {
+					Drawable = 118,
+					Texture = 21,
+				},
+			},
+			{
+				Name = "Aqua Tie Dye T-Shirt",
+				Value = {
+					Drawable = 118,
+					Texture = 20,
+				},
+			},
+			{
+				Name = "SA Republic T-Shirt",
+				Value = {
+					Drawable = 118,
+					Texture = 19,
+				},
+			},
+			{
+				Name = "Black Stars & Stripes T-Shirt",
+				Value = {
+					Drawable = 118,
+					Texture = 18,
+				},
+			},
+			{
+				Name = "Stars & Stripes T-Shirt",
+				Value = {
+					Drawable = 118,
+					Texture = 17,
+				},
+			},
+			{
+				Name = "Green & Pink T-Shirt",
+				Value = {
+					Drawable = 118,
+					Texture = 16,
+				},
+			},
+			{
+				Name = "OJ Squash T-Shirt",
+				Value = {
+					Drawable = 118,
+					Texture = 15,
+				},
+			},
+			{
+				Name = "Primary T-Shirt",
+				Value = {
+					Drawable = 118,
+					Texture = 14,
+				},
+			},
+			{
+				Name = "Gray Bihness T-Shirt",
+				Value = {
+					Drawable = 118,
+					Texture = 13,
+				},
+			},
+			{
+				Name = "Red Bigness T-Shirt",
+				Value = {
+					Drawable = 118,
+					Texture = 12,
+				},
+			},
+			{
+				Name = "Black Bigness T-Shirt",
+				Value = {
+					Drawable = 118,
+					Texture = 11,
+				},
+			},
+			{
+				Name = "Camo Bigness T-Shirt",
+				Value = {
+					Drawable = 118,
+					Texture = 10,
+				},
+			},
+			{
+				Name = "Red Camo T-Shirt",
+				Value = {
+					Drawable = 118,
+					Texture = 9,
+				},
+			},
+			{
+				Name = "Aqua Camo T-Shirt",
+				Value = {
+					Drawable = 118,
+					Texture = 8,
+				},
+			},
+			{
+				Name = "Gray Digital T-Shirt",
+				Value = {
+					Drawable = 118,
+					Texture = 7,
+				},
+			},
+			{
+				Name = "Multicolor Leaves T-Shirt",
+				Value = {
+					Drawable = 118,
+					Texture = 6,
+				},
+			},
+			{
+				Name = "Navy Painted T-Shirt",
+				Value = {
+					Drawable = 118,
+					Texture = 5,
+				},
+			},
+			{
+				Name = "Magenta Leopard T-Shirt",
+				Value = {
+					Drawable = 118,
+					Texture = 4,
+				},
+			},
+			{
+				Name = "Bright Pattern Face Bandana",
+				Value = {
+					Drawable = 111,
+					Texture = 25,
+				},
+			},
+			{
+				Name = "Dark Pattern Face Bandana",
+				Value = {
+					Drawable = 111,
+					Texture = 24,
+				},
+			},
+			{
+				Name = "Zebra Face Bandana",
+				Value = {
+					Drawable = 111,
+					Texture = 23,
+				},
+			},
+			{
+				Name = "Contrast Camo Face Bandana",
+				Value = {
+					Drawable = 111,
+					Texture = 22,
+				},
+			},
+			{
+				Name = "Fractal Face Bandana",
+				Value = {
+					Drawable = 111,
+					Texture = 21,
+				},
+			},
+			{
+				Name = "Painted Face Bandana",
+				Value = {
+					Drawable = 111,
+					Texture = 20,
+				},
+			},
+			{
+				Name = "Stars & Stripes Face Bandana",
+				Value = {
+					Drawable = 111,
+					Texture = 19,
+				},
+			},
+			{
+				Name = "Off-White Broker Face Bandana",
+				Value = {
+					Drawable = 111,
+					Texture = 18,
+				},
+			},
+			{
+				Name = "Black Broker Face Bandana",
+				Value = {
+					Drawable = 111,
+					Texture = 17,
+				},
+			},
+			{
+				Name = "Orange Broker Face Bandana",
+				Value = {
+					Drawable = 111,
+					Texture = 16,
+				},
+			},
+			{
+				Name = "White Broker Face Bandana",
+				Value = {
+					Drawable = 111,
+					Texture = 15,
+				},
+			},
+			{
+				Name = "Skulls Manor Face Bandana",
+				Value = {
+					Drawable = 111,
+					Texture = 14,
+				},
+			},
+			{
+				Name = "Black Manor Face Bandana",
+				Value = {
+					Drawable = 111,
+					Texture = 13,
+				},
+			},
+			{
+				Name = "Red Manor Face Bandana",
+				Value = {
+					Drawable = 111,
+					Texture = 12,
+				},
+			},
+			{
+				Name = "Blue Leaves Face Bandana",
+				Value = {
+					Drawable = 111,
+					Texture = 11,
+				},
+			},
+			{
+				Name = "Green Leaves Face Bandana",
+				Value = {
+					Drawable = 111,
+					Texture = 10,
+				},
+			},
+			{
+				Name = "Red Bigness Face Bandana",
+				Value = {
+					Drawable = 111,
+					Texture = 9,
+				},
+			},
+			{
+				Name = "Splinter Bigness Face Bandana",
+				Value = {
+					Drawable = 111,
+					Texture = 8,
+				},
+			},
+			{
+				Name = "Geometric Face Bandana",
+				Value = {
+					Drawable = 111,
+					Texture = 7,
+				},
+			},
+			{
+				Name = "Bold Abstract Face Bandana",
+				Value = {
+					Drawable = 111,
+					Texture = 6,
+				},
+			},
+			{
+				Name = "Red Blagueurs Face Bandana",
+				Value = {
+					Drawable = 111,
+					Texture = 5,
+				},
+			},
+			{
+				Name = "Blue Blagueurs Face Bandana",
+				Value = {
+					Drawable = 111,
+					Texture = 4,
+				},
+			},
+			{
+				Name = "LSPD T-Shirt Mask",
+				Value = {
+					Drawable = 54,
+					Texture = 10,
+				},
+			},
+			{
+				Name = "Pink Camo T-Shirt Mask",
+				Value = {
+					Drawable = 54,
+					Texture = 9,
+				},
+			},
+			{
+				Name = "TPI T-Shirt Mask",
+				Value = {
+					Drawable = 54,
+					Texture = 8,
+				},
+			},
+			{
+				Name = "Love Fist T-Shirt Mask",
+				Value = {
+					Drawable = 54,
+					Texture = 7,
+				},
+			},
+			{
+				Name = "Stripy T-Shirt Mask",
+				Value = {
+					Drawable = 54,
+					Texture = 6,
+				},
+			},
+			{
+				Name = "Woodland T-Shirt Mask",
+				Value = {
+					Drawable = 54,
+					Texture = 5,
+				},
+			},
+			{
+				Name = "Justice T-Shirt Mask",
+				Value = {
+					Drawable = 54,
+					Texture = 4,
+				},
+			},
+			{
+				Name = "Benders T-Shirt Mask",
+				Value = {
+					Drawable = 54,
+					Texture = 3,
+				},
+			},
+			{
+				Name = "Tan T-Shirt Mask",
+				Value = {
+					Drawable = 54,
+					Texture = 2,
+				},
+			},
+			{
+				Name = "White T-Shirt Mask",
+				Value = {
+					Drawable = 54,
+					Texture = 1,
+				},
+			},
+			{
+				Name = "Black T-Shirt Mask",
+				Value = {
+					Drawable = 54,
+					Texture = 0,
+				},
+			},
+			{
+				Name = "Electric Skull Face Bandana",
+				Value = {
+					Drawable = 51,
+					Texture = 9,
+				},
+			},
+			{
+				Name = "Yellow Face Bandana",
+				Value = {
+					Drawable = 51,
+					Texture = 8,
+				},
+			},
+			{
+				Name = "Paisley Face Bandana",
+				Value = {
+					Drawable = 51,
+					Texture = 7,
+				},
+			},
+			{
+				Name = "Purple Face Bandana",
+				Value = {
+					Drawable = 51,
+					Texture = 6,
+				},
+			},
+			{
+				Name = "Green Face Bandana",
+				Value = {
+					Drawable = 51,
+					Texture = 5,
+				},
+			},
+			{
+				Name = "Forest Face Bandana",
+				Value = {
+					Drawable = 51,
+					Texture = 4,
+				},
+			},
+			{
+				Name = "Desert Face Bandana",
+				Value = {
+					Drawable = 51,
+					Texture = 3,
+				},
+			},
+			{
+				Name = "Urban Face Bandana",
+				Value = {
+					Drawable = 51,
+					Texture = 2,
+				},
+			},
+			{
+				Name = "Skull Face Bandana",
+				Value = {
+					Drawable = 51,
+					Texture = 1,
+				},
+			},
+			{
+				Name = "Black Face Bandana",
+				Value = {
+					Drawable = 51,
+					Texture = 0,
+				},
+			},
+			{
+				Name = "Electrical Duct Tape",
+				Value = {
+					Drawable = 48,
+					Texture = 3,
+				},
+			},
+			{
+				Name = "White Duct Tape",
+				Value = {
+					Drawable = 48,
+					Texture = 2,
+				},
+			},
+			{
+				Name = "Dark Gray Duct Tape",
+				Value = {
+					Drawable = 48,
+					Texture = 1,
+				},
+			},
+			{
+				Name = "Light Gray Duct Tape",
+				Value = {
+					Drawable = 48,
+					Texture = 0,
+				},
+			},
+			{
+				Name = "Red Arrow Tape",
+				Value = {
+					Drawable = 47,
+					Texture = 3,
+				},
+			},
+			{
+				Name = "Hazard Tape",
+				Value = {
+					Drawable = 47,
+					Texture = 2,
+				},
+			},
+			{
+				Name = "Black Arrow Tape",
+				Value = {
+					Drawable = 47,
+					Texture = 1,
+				},
+			},
+			{
+				Name = "Crime Scene Tape",
+				Value = {
+					Drawable = 47,
+					Texture = 0,
+				},
+			},
+		},
+		[7] = {
+			{
+				Name = "No Mask",
+				Value = {
+					Drawable = 0,
+					Texture = 0,
+				},
+			},
+			{
+				Name = "Iwazaru Neon",
+				Value = {
+					Drawable = 124,
+					Texture = 23,
+				},
+			},
+			{
+				Name = "Iwazaru Electric",
+				Value = {
+					Drawable = 124,
+					Texture = 22,
+				},
+			},
+			{
+				Name = "Iwazaru Luminous",
+				Value = {
+					Drawable = 124,
+					Texture = 21,
+				},
+			},
+			{
+				Name = "Tribal Neon",
+				Value = {
+					Drawable = 124,
+					Texture = 20,
+				},
+			},
+			{
+				Name = "Tribal Luminous",
+				Value = {
+					Drawable = 124,
+					Texture = 19,
+				},
+			},
+			{
+				Name = "Tribal Electric",
+				Value = {
+					Drawable = 124,
+					Texture = 18,
+				},
+			},
+			{
+				Name = "Transcendent Neon",
+				Value = {
+					Drawable = 124,
+					Texture = 17,
+				},
+			},
+			{
+				Name = "Transcendent Electric",
+				Value = {
+					Drawable = 124,
+					Texture = 16,
+				},
+			},
+			{
+				Name = "Transcendent Luminous",
+				Value = {
+					Drawable = 124,
+					Texture = 15,
+				},
+			},
+			{
+				Name = "Peaceful Luminous",
+				Value = {
+					Drawable = 124,
+					Texture = 14,
+				},
+			},
+			{
+				Name = "Peaceful Electric",
+				Value = {
+					Drawable = 124,
+					Texture = 13,
+				},
+			},
+			{
+				Name = "Peaceful Neon",
+				Value = {
+					Drawable = 124,
+					Texture = 12,
+				},
+			},
+			{
+				Name = "Pleased Electric",
+				Value = {
+					Drawable = 124,
+					Texture = 11,
+				},
+			},
+			{
+				Name = "Pleased Luminous",
+				Value = {
+					Drawable = 124,
+					Texture = 10,
+				},
+			},
+			{
+				Name = "Pleased Neon",
+				Value = {
+					Drawable = 124,
+					Texture = 9,
+				},
+			},
+			{
+				Name = "Furious Neon",
+				Value = {
+					Drawable = 124,
+					Texture = 8,
+				},
+			},
+			{
+				Name = "Furious Electric",
+				Value = {
+					Drawable = 124,
+					Texture = 7,
+				},
+			},
+			{
+				Name = "Furious Luminous",
+				Value = {
+					Drawable = 124,
+					Texture = 6,
+				},
+			},
+			{
+				Name = "Amused Neon",
+				Value = {
+					Drawable = 124,
+					Texture = 5,
+				},
+			},
+			{
+				Name = "Amused Luminous",
+				Value = {
+					Drawable = 124,
+					Texture = 4,
+				},
+			},
+			{
+				Name = "Amused Electric",
+				Value = {
+					Drawable = 124,
+					Texture = 3,
+				},
+			},
+			{
+				Name = "Manic Neon",
+				Value = {
+					Drawable = 124,
+					Texture = 2,
+				},
+			},
+			{
+				Name = "Manic Electric",
+				Value = {
+					Drawable = 124,
+					Texture = 1,
+				},
+			},
+			{
+				Name = "Manic Luminous",
+				Value = {
+					Drawable = 124,
+					Texture = 0,
+				},
+			},
+			{
+				Name = "Purple Oni",
+				Value = {
+					Drawable = 105,
+					Texture = 23,
+				},
+			},
+			{
+				Name = "Sea Green Oni",
+				Value = {
+					Drawable = 105,
+					Texture = 22,
+				},
+			},
+			{
+				Name = "Stone Oni",
+				Value = {
+					Drawable = 105,
+					Texture = 21,
+				},
+			},
+			{
+				Name = "Gray and Gold Oni",
+				Value = {
+					Drawable = 105,
+					Texture = 20,
+				},
+			},
+			{
+				Name = "White Possessed Oni",
+				Value = {
+					Drawable = 105,
+					Texture = 19,
+				},
+			},
+			{
+				Name = "Fray and Orange Oni",
+				Value = {
+					Drawable = 105,
+					Texture = 18,
+				},
+			},
+			{
+				Name = "Black and Gold Oni",
+				Value = {
+					Drawable = 105,
+					Texture = 17,
+				},
+			},
+			{
+				Name = "Gray Oni",
+				Value = {
+					Drawable = 105,
+					Texture = 16,
+				},
+			},
+			{
+				Name = "Stone Possessed Oni",
+				Value = {
+					Drawable = 105,
+					Texture = 15,
+				},
+			},
+			{
+				Name = "Gold Stone Possessed Oni",
+				Value = {
+					Drawable = 0,
+					Texture = 14,
+				},
+			},
+			{
+				Name = "Orange Oni",
+				Value = {
+					Drawable = 105,
+					Texture = 13,
+				},
+			},
+			{
+				Name = "Black and Yellow Oni",
+				Value = {
+					Drawable = 0,
+					Texture = 12,
+				},
+			},
+			{
+				Name = "Grayscale Oni",
+				Value = {
+					Drawable = 105,
+					Texture = 11,
+				},
+			},
+			{
+				Name = "Plum Oni",
+				Value = {
+					Drawable = 105,
+					Texture = 10,
+				},
+			},
+			{
+				Name = "Yellow Oni",
+				Value = {
+					Drawable = 105,
+					Texture = 9,
+				},
+			},
+			{
+				Name = "Brown Oni",
+				Value = {
+					Drawable = 105,
+					Texture = 8,
+				},
+			},
+			{
+				Name = "Black Possessed Oni",
+				Value = {
+					Drawable = 105,
+					Texture = 7,
+				},
+			},
+			{
+				Name = "Black Painted Oni",
+				Value = {
+					Drawable = 105,
+					Texture = 6,
+				},
+			},
+			{
+				Name = "Red Painted Oni",
+				Value = {
+					Drawable = 105,
+					Texture = 5,
+				},
+			},
+			{
+				Name = "Gold Painted Oni",
+				Value = {
+					Drawable = 105,
+					Texture = 4,
+				},
+			},
+			{
+				Name = "White Painted Oni",
+				Value = {
+					Drawable = 105,
+					Texture = 3,
+				},
+			},
+			{
+				Name = "Sandstone Oni",
+				Value = {
+					Drawable = 105,
+					Texture = 2,
+				},
+			},
+			{
+				Name = "Weathered Oni",
+				Value = {
+					Drawable = 105,
+					Texture = 1,
+				},
+			},
+			{
+				Name = "Obsidian Oni",
+				Value = {
+					Drawable = 105,
+					Texture = 0,
+				},
+			},
+			{
+				Name = "Black Ornate Skull",
+				Value = {
+					Drawable = 99,
+					Texture = 5,
+				},
+			},
+			{
+				Name = "White Ornate Skull",
+				Value = {
+					Drawable = 99,
+					Texture = 4,
+				},
+			},
+			{
+				Name = "Teal Ornate Skull",
+				Value = {
+					Drawable = 99,
+					Texture = 3,
+				},
+			},
+			{
+				Name = "Blue Ornate Skull",
+				Value = {
+					Drawable = 99,
+					Texture = 2,
+				},
+			},
+			{
+				Name = "Silver Ornate Skull",
+				Value = {
+					Drawable = 99,
+					Texture = 1,
+				},
+			},
+			{
+				Name = "Red Ornate Skull",
+				Value = {
+					Drawable = 99,
+					Texture = 0,
+				},
+			},
+			{
+				Name = "Green Oni",
+				Value = {
+					Drawable = 94,
+					Texture = 5,
+				},
+			},
+			{
+				Name = "Gold Oni",
+				Value = {
+					Drawable = 94,
+					Texture = 4,
+				},
+			},
+			{
+				Name = "Black Oni",
+				Value = {
+					Drawable = 94,
+					Texture = 3,
+				},
+			},
+			{
+				Name = "White Oni",
+				Value = {
+					Drawable = 94,
+					Texture = 2,
+				},
+			},
+			{
+				Name = "Blue Oni",
+				Value = {
+					Drawable = 94,
+					Texture = 1,
+				},
+			},
+			{
+				Name = "Red Oni",
+				Value = {
+					Drawable = 94,
+					Texture = 0,
+				},
+			},
+			{
+				Name = "Fashion Hockey",
+				Value = {
+					Drawable = 14,
+					Texture = 10,
+				},
+			},
+			{
+				Name = "Tourist Hockey",
+				Value = {
+					Drawable = 14,
+					Texture = 2,
+				},
+			},
+			{
+				Name = "Vinewood Hockey",
+				Value = {
+					Drawable = 14,
+					Texture = 1,
+				},
+			},
+			{
+				Name = "Green Carnival",
+				Value = {
+					Drawable = 6,
+					Texture = 0,
+				},
+			},
+			{
+				Name = "Blue Carnival",
+				Value = {
+					Drawable = 6,
+					Texture = 2,
+				},
+			},
+			{
+				Name = "Black Carnival",
+				Value = {
+					Drawable = 6,
+					Texture = 3,
+				},
+			},
+			{
+				Name = "White Carnival",
+				Value = {
+					Drawable = 6,
+					Texture = 1,
+				},
+			},
+		},
+		[8] = {
+			{
+				Name = "No Mask",
+				Value = {
+					Drawable = 0,
+					Texture = 0,
+				},
+			},
+			{
+				Name = "Odious Krampus",
+				Value = {
+					Drawable = 131,
+					Texture = 2,
+				},
+			},
+		},
+		[9] = {
+			{
+				Name = "No Mask",
+				Value = {
+					Drawable = 0,
+					Texture = 0,
+				},
+			},
+			{
+				Name = "Crosshatch Respirator",
+				Value = {
+					Drawable = 130,
+					Texture = 14,
+				},
+			},
+			{
+				Name = "Viper Respirator",
+				Value = {
+					Drawable = 130,
+					Texture = 13,
+				},
+			},
+			{
+				Name = "Contrast Camo Respirator",
+				Value = {
+					Drawable = 130,
+					Texture = 12,
+				},
+			},
+			{
+				Name = "Cobble Respirator",
+				Value = {
+					Drawable = 130,
+					Texture = 11,
+				},
+			},
+			{
+				Name = "Gray Woodland Respirator",
+				Value = {
+					Drawable = 130,
+					Texture = 10,
+				},
+			},
+			{
+				Name = "Brushstroke Respirator",
+				Value = {
+					Drawable = 130,
+					Texture = 9,
+				},
+			},
+			{
+				Name = "Green Digital Respirator",
+				Value = {
+					Drawable = 130,
+					Texture = 8,
+				},
+			},
+			{
+				Name = "Moss Striped Respirator",
+				Value = {
+					Drawable = 130,
+					Texture = 7,
+				},
+			},
+			{
+				Name = "Tiger Striped Respirator",
+				Value = {
+					Drawable = 130,
+					Texture = 6,
+				},
+			},
+			{
+				Name = "Gray Splinter Respirator",
+				Value = {
+					Drawable = 130,
+					Texture = 5,
+				},
+			},
+			{
+				Name = "Splinter Respirator",
+				Value = {
+					Drawable = 130,
+					Texture = 4,
+				},
+			},
+			{
+				Name = "Aqua Camo Respirator",
+				Value = {
+					Drawable = 130,
+					Texture = 3,
+				},
+			},
+			{
+				Name = "Gray Digital Respirator",
+				Value = {
+					Drawable = 130,
+					Texture = 2,
+				},
+			},
+			{
+				Name = "Flacktarn Respirator",
+				Value = {
+					Drawable = 130,
+					Texture = 1,
+				},
+			},
+			{
+				Name = "Black Respirator",
+				Value = {
+					Drawable = 130,
+					Texture = 0,
+				},
+			},
+			{
+				Name = "Orange Industrial Gas Mask",
+				Value = {
+					Drawable = 129,
+					Texture = 13,
+				},
+			},
+			{
+				Name = "Yellow Industrial Gas Mask",
+				Value = {
+					Drawable = 129,
+					Texture = 12,
+				},
+			},
+			{
+				Name = "White Industrial Gas Mask",
+				Value = {
+					Drawable = 129,
+					Texture = 11,
+				},
+			},
+			{
+				Name = "Skull Gas Mask",
+				Value = {
+					Drawable = 129,
+					Texture = 10,
+				},
+			},
+			{
+				Name = "Woodland Digital Gas Mask",
+				Value = {
+					Drawable = 129,
+					Texture = 9,
+				},
+			},
+			{
+				Name = "Peach Camo Gas Mask",
+				Value = {
+					Drawable = 129,
+					Texture = 8,
+				},
+			},
+			{
+				Name = "Moss Striped Gas Mask",
+				Value = {
+					Drawable = 129,
+					Texture = 7,
+				},
+			},
+			{
+				Name = "Gray Striped Gas Mask",
+				Value = {
+					Drawable = 129,
+					Texture = 6,
+				},
+			},
+			{
+				Name = "Gray Splinter Gas Mask",
+				Value = {
+					Drawable = 129,
+					Texture = 5,
+				},
+			},
+			{
+				Name = "Splinter Gas Mask",
+				Value = {
+					Drawable = 129,
+					Texture = 4,
+				},
+			},
+			{
+				Name = "Aqua Camo Gas Mask",
+				Value = {
+					Drawable = 129,
+					Texture = 3,
+				},
+			},
+			{
+				Name = "Tan Digital Gas Mask",
+				Value = {
+					Drawable = 129,
+					Texture = 2,
+				},
+			},
+			{
+				Name = "Carbon Gas Mask",
+				Value = {
+					Drawable = 129,
+					Texture = 1,
+				},
+			},
+			{
+				Name = "Gray Gas Mask",
+				Value = {
+					Drawable = 129,
+					Texture = 0,
+				},
+			},
+			{
+				Name = "Gas Mask",
+				Value = {
+					Drawable = 38,
+					Texture = 0,
+				},
+			},
+		},
+		[10] = {
+			{
+				Name = "No Mask",
+				Value = {
+					Drawable = 0,
+					Texture = 0,
+				},
+			},
+			{
+				Name = "Jolly Roger Snood",
+				Value = {
+					Drawable = 116,
+					Texture = 21,
+				},
+			},
+			{
+				Name = "Flecktarn Snood",
+				Value = {
+					Drawable = 116,
+					Texture = 20,
+				},
+			},
+			{
+				Name = "Brushstroke Snood",
+				Value = {
+					Drawable = 116,
+					Texture = 19,
+				},
+			},
+			{
+				Name = "Peach Camo Snood",
+				Value = {
+					Drawable = 116,
+					Texture = 18,
+				},
+			},
+			{
+				Name = "Weapon Pattern Snood",
+				Value = {
+					Drawable = 116,
+					Texture = 17,
+				},
+			},
+			{
+				Name = "Red Pattern Snood",
+				Value = {
+					Drawable = 116,
+					Texture = 16,
+				},
+			},
+			{
+				Name = "Splinter Snood",
+				Value = {
+					Drawable = 116,
+					Texture = 15,
+				},
+			},
+			{
+				Name = "Yellow Pattern Snood",
+				Value = {
+					Drawable = 116,
+					Texture = 14,
+				},
+			},
+			{
+				Name = "Gray Woodland Snood",
+				Value = {
+					Drawable = 116,
+					Texture = 13,
+				},
+			},
+			{
+				Name = "Purple Pattern Snood",
+				Value = {
+					Drawable = 116,
+					Texture = 12,
+				},
+			},
+			{
+				Name = "Blue Pattern Snood",
+				Value = {
+					Drawable = 116,
+					Texture = 11,
+				},
+			},
+			{
+				Name = "Dark Woodland Snood",
+				Value = {
+					Drawable = 116,
+					Texture = 10,
+				},
+			},
+			{
+				Name = "Fall Snood",
+				Value = {
+					Drawable = 116,
+					Texture = 9,
+				},
+			},
+			{
+				Name = "Peach Digital Snood",
+				Value = {
+					Drawable = 116,
+					Texture = 8,
+				},
+			},
+			{
+				Name = "Orange Pattern Snood",
+				Value = {
+					Drawable = 116,
+					Texture = 7,
+				},
+			},
+			{
+				Name = "Dark Red Pattern Snood",
+				Value = {
+					Drawable = 116,
+					Texture = 6,
+				},
+			},
+			{
+				Name = "Brown Digital Snood",
+				Value = {
+					Drawable = 116,
+					Texture = 5,
+				},
+			},
+			{
+				Name = "Turquoise Snood",
+				Value = {
+					Drawable = 116,
+					Texture = 4,
+				},
+			},
+			{
+				Name = "Yellow Snood",
+				Value = {
+					Drawable = 116,
+					Texture = 3,
+				},
+			},	
+			{
+				Name = "Green Snood",
+				Value = {
+					Drawable = 116,
+					Texture = 2,
+				},
+			},
+			{
+				Name = "Teal Snood",
+				Value = {
+					Drawable = 116,
+					Texture = 1,
+				},
+			},
+			{
+				Name = "Brown Snood",
+				Value = {
+					Drawable = 116,
+					Texture = 0,
+				},
+			},
+			{
+				Name = "Purple Pattern Wrapped",
+				Value = {
+					Drawable = 115,
+					Texture = 21,
+				},
+			},
+			{
+				Name = "Flecktarn Wrapped",
+				Value = {
+					Drawable = 115,
+					Texture = 20,
+				},
+			},
+			{
+				Name = "Brushstroke Wrapped",
+				Value = {
+					Drawable = 115,
+					Texture = 19,
+				},
+			},
+			{
+				Name = "Peach Camo Wrapped",
+				Value = {
+					Drawable = 115,
+					Texture = 18,
+				},
+			},
+			{
+				Name = "Orange Pattern Wrapped",
+				Value = {
+					Drawable = 115,
+					Texture = 17,
+				},
+			},
+			{
+				Name = "Dark Red Pattern Wrapped",
+				Value = {
+					Drawable = 115,
+					Texture = 16,
+				},
+			},
+			{
+				Name = "Splinter Wrapped",
+				Value = {
+					Drawable = 115,
+					Texture = 15,
+				},
+			},	
+			{
+				Name = "Dark Pattern Wrapped",
+				Value = {
+					Drawable = 115,
+					Texture = 14,
+				},
+			},
+			{
+				Name = "Gray Woodland Wrapped",
+				Value = {
+					Drawable = 115,
+					Texture = 13,
+				},
+			},
+			{
+				Name = "Blue Pattern Wrapped",
+				Value = {
+					Drawable = 115,
+					Texture = 12,
+				},
+			},
+			{
+				Name = "Weapon Pattern Wrapped",
+				Value = {
+					Drawable = 115,
+					Texture = 11,
+				},
+			},
+			{
+				Name = "Dark Woodland Wrapped",
+				Value = {
+					Drawable = 115,
+					Texture = 10,
+				},
+			},
+			{
+				Name = "Fall Wrapped",
+				Value = {
+					Drawable = 115,
+					Texture = 9,
+				},
+			},
+			{
+				Name = "Peach Digital Wrapped",
+				Value = {
+					Drawable = 115,
+					Texture = 8,
+				},
+			},
+			{
+				Name = "Jolly Roger Wrapped",
+				Value = {
+					Drawable = 115,
+					Texture = 7,
+				},
+			},
+			{
+				Name = "Red Pattern Wrapped",
+				Value = {
+					Drawable = 115,
+					Texture = 6,
+				},
+			},
+			{
+				Name = "Brown Digital Wrapped",
+				Value = {
+					Drawable = 115,
+					Texture = 5,
+				},
+			},	
+			{
+				Name = "Turquoise Wrapped",
+				Value = {
+					Drawable = 115,
+					Texture = 4,
+				},
+			},
+			{
+				Name = "Yellow Wrapped",
+				Value = {
+					Drawable = 115,
+					Texture = 3,
+				},
+			},
+			{
+				Name = "Green Wrapped",
+				Value = {
+					Drawable = 115,
+					Texture = 2,
+				},
+			},
+			{
+				Name = "Teal Wrapped",
+				Value = {
+					Drawable = 115,
+					Texture = 1,
+				},
+			},
+			{
+				Name = "Brown Wrapped",
+				Value = {
+					Drawable = 115,
+					Texture = 0,
+				},
+			},
+			{
+				Name = "Weapon Pattern Loose",
+				Value = {
+					Drawable = 114,
+					Texture = 21,
+				},
+			},
+			{
+				Name = "Flecktarn Loose",
+				Value = {
+					Drawable = 114,
+					Texture = 20,
+				},
+			},
+			{
+				Name = "Brushstroke Loose",
+				Value = {
+					Drawable = 114,
+					Texture = 19,
+				},
+			},
+			{
+				Name = "Peach Camo Loose",
+				Value = {
+					Drawable = 114,
+					Texture = 18,
+				},
+			},
+			{
+				Name = "Jolly Roger Loose",
+				Value = {
+					Drawable = 114,
+					Texture = 17,
+				},
+			},
+			{
+				Name = "Purple Pattern Loose",
+				Value = {
+					Drawable = 114,
+					Texture = 16,
+				},
+			},
+			{
+				Name = "Splinter Loose",
+				Value = {
+					Drawable = 114,
+					Texture = 15,
+				},
+			},
+			{
+				Name = "Blue Pattern Loose",
+				Value = {
+					Drawable = 114,
+					Texture = 14,
+				},
+			},
+			{
+				Name = "Gray Woodland Loose",
+				Value = {
+					Drawable = 114,
+					Texture = 13,
+				},
+			},
+			{
+				Name = "Red Pattern Loose",
+				Value = {
+					Drawable = 114,
+					Texture = 12,
+				},
+			},
+			{
+				Name = "Orange Pattern Loose",
+				Value = {
+					Drawable = 114,
+					Texture = 11,
+				},
+			},
+			{
+				Name = "Dark Woodland Loose",
+				Value = {
+					Drawable = 114,
+					Texture = 10,
+				},
+			},
+			{
+				Name = "Fall Loose",
+				Value = {
+					Drawable = 114,
+					Texture = 9,
+				},
+			},
+			{
+				Name = "Peach Digital Loose",
+				Value = {
+					Drawable = 114,
+					Texture = 8,
+				},
+			},
+			{
+				Name = "Dark Red Pattern Loose",
+				Value = {
+					Drawable = 114,
+					Texture = 7,
+				},
+			},
+			{
+				Name = "Yellow Pattern Loose",
+				Value = {
+					Drawable = 114,
+					Texture = 6,
+				},
+			},
+			{
+				Name = "Brown Digital Loose",
+				Value = {
+					Drawable = 114,
+					Texture = 5,
+				},
+			},
+			{
+				Name = "Turquoise Loose",
+				Value = {
+					Drawable = 114,
+					Texture = 4,
+				},
+			},
+			{
+				Name = "Yellow Loose",
+				Value = {
+					Drawable = 114,
+					Texture = 3,
+				},
+			},
+			{
+				Name = "Green Loose",
+				Value = {
+					Drawable = 114,
+					Texture = 2,
+				},
+			},
+			{
+				Name = "Teal Loose",
+				Value = {
+					Drawable = 114,
+					Texture = 1,
+				},
+			},
+			{
+				Name = "Brown Loose",
+				Value = {
+					Drawable = 114,
+					Texture = 0,
+				},
+			},
+		},
+		[11] = { -- Intimidation
+			{
+				Name = "No Mask",
+				Value = {
+					Drawable = 0,
+					Texture = 0,
+				},
+			},
+			{
+				Name = "White Mandible",
+				Value = {
+					Drawable = 112,
+					Texture = 21,
+				},
+			},
+			{
+				Name = "Zebra Mandible",
+				Value = {
+					Drawable = 112,
+					Texture = 20,
+				},
+			},
+			{
+				Name = "Yellow Mandible",
+				Value = {
+					Drawable = 112,
+					Texture = 19,
+				},
+			},
+			{
+				Name = "Orange Striped Mandible",
+				Value = {
+					Drawable = 112,
+					Texture = 18,
+				},
+			},
+			{
+				Name = "Moss Striped Mandible",
+				Value = {
+					Drawable = 112,
+					Texture = 17,
+				},
+			},
+			{
+				Name = "Blue Striped Mandible",
+				Value = {
+					Drawable = 112,
+					Texture = 16,
+				},
+			},
+			{
+				Name = "Light Woodland Mandible",
+				Value = {
+					Drawable = 112,
+					Texture = 15,
+				},
+			},
+			{
+				Name = "Flecktarn Mandible",
+				Value = {
+					Drawable = 112,
+					Texture = 14,
+				},
+			},
+			{
+				Name = "Brushstroke Mandible",
+				Value = {
+					Drawable = 112,
+					Texture = 13,
+				},
+			},
+			{
+				Name = "Peach Camo Mandible",
+				Value = {
+					Drawable = 112,
+					Texture = 12,
+				},
+			},
+			{
+				Name = "Cobble Mandible",
+				Value = {
+					Drawable = 112,
+					Texture = 11,
+				},
+			},
+			{
+				Name = "Contrast Camo Mandible",
+				Value = {
+					Drawable = 112,
+					Texture = 10,
+				},
+			},
+			{
+				Name = "Splinter Mandible",
+				Value = {
+					Drawable = 112,
+					Texture = 9,
+				},
+			},
+			{
+				Name = "Aqua Camo Mandible",
+				Value = {
+					Drawable = 112,
+					Texture = 8,
+				},
+			},
+			{
+				Name = "Gray Woodland Mandible",
+				Value = {
+					Drawable = 112,
+					Texture = 7,
+				},
+			},
+			{
+				Name = "Crosshatch Mandible",
+				Value = {
+					Drawable = 112,
+					Texture = 6,
+				},
+			},
+			{
+				Name = "Dark Woodland Mandible",
+				Value = {
+					Drawable = 112,
+					Texture = 5,
+				},
+			},
+			{
+				Name = "Fall Mandible",
+				Value = {
+					Drawable = 112,
+					Texture = 4,
+				},
+			},
+			{
+				Name = "Green Digital Mandible",
+				Value = {
+					Drawable = 112,
+					Texture = 3,
+				},
+			},
+			{
+				Name = "Brown Digital Mandible",
+				Value = {
+					Drawable = 112,
+					Texture = 2,
+				},
+			},
+			{
+				Name = "Blue Digital Mandible",
+				Value = {
+					Drawable = 112,
+					Texture = 1,
+				},
+			},
+			{
+				Name = "Black Mandible",
+				Value = {
+					Drawable = 112,
+					Texture = 0,
+				},
+			},
+			{
+				Name = "White Robo",
+				Value = {
+					Drawable = 110,
+					Texture = 21,
+				},
+			},
+			{
+				Name = "Zebra Robo",
+				Value = {
+					Drawable = 110,
+					Texture = 20,
+				},
+			},
+			{
+				Name = "Yellow Robo",
+				Value = {
+					Drawable = 110,
+					Texture = 19,
+				},
+			},
+			{
+				Name = "Orange Striped Robo",
+				Value = {
+					Drawable = 110,
+					Texture = 18,
+				},
+			},
+			{
+				Name = "Moss Striped Robo",
+				Value = {
+					Drawable = 110,
+					Texture = 17,
+				},
+			},
+			{
+				Name = "Blue Striped Robo",
+				Value = {
+					Drawable = 110,
+					Texture = 16,
+				},
+			},
+			{
+				Name = "Light Woodland Robo",
+				Value = {
+					Drawable = 110,
+					Texture = 15,
+				},
+			},
+			{
+				Name = "Flecktarn Robo",
+				Value = {
+					Drawable = 110,
+					Texture = 14,
+				},
+			},
+			{
+				Name = "Brushstroke Robo",
+				Value = {
+					Drawable = 110,
+					Texture = 13,
+				},
+			},
+			{
+				Name = "Peach Camo Robo",
+				Value = {
+					Drawable = 110,
+					Texture = 12,
+				},
+			},
+			{
+				Name = "Cobble Robo",
+				Value = {
+					Drawable = 110,
+					Texture = 11,
+				},
+			},
+			{
+				Name = "Contrast Camo Robo",
+				Value = {
+					Drawable = 110,
+					Texture = 10,
+				},
+			},
+			{
+				Name = "Splinter Robo",
+				Value = {
+					Drawable = 110,
+					Texture = 9,
+				},
+			},
+			{
+				Name = "Aqua Camo Robo",
+				Value = {
+					Drawable = 110,
+					Texture = 8,
+				},
+			},
+			{
+				Name = "Gray Woodland Robo",
+				Value = {
+					Drawable = 110,
+					Texture = 7,
+				},
+			},
+			{
+				Name = "Crosshatch Robo",
+				Value = {
+					Drawable = 110,
+					Texture = 6,
+				},
+			},
+			{
+				Name = "Dark Woodland Robo",
+				Value = {
+					Drawable = 110,
+					Texture = 5,
+				},
+			},
+			{
+				Name = "Fall Robo",
+				Value = {
+					Drawable = 110,
+					Texture = 4,
+				},
+			},
+			{
+				Name = "Green Digital Robo",
+				Value = {
+					Drawable = 110,
+					Texture = 3,
+				},
+			},
+			{
+				Name = "Brown Digital Robo",
+				Value = {
+					Drawable = 110,
+					Texture = 2,
+				},
+			},
+			{
+				Name = "Blue Digital Robo",
+				Value = {
+					Drawable = 110,
+					Texture = 1,
+				},
+			},
+			{
+				Name = "Black Robo",
+				Value = {
+					Drawable = 110,
+					Texture = 0,
+				},
+			},
+			{
+				Name = "Wooden Warrior",
+				Value = {
+					Drawable = 16,
+					Texture = 8,
+				},
+			},
+			{
+				Name = "Lightning Warrior",
+				Value = {
+					Drawable = 16,
+					Texture = 7,
+				},
+			},
+			{
+				Name = "Stone Warrior",
+				Value = {
+					Drawable = 16,
+					Texture = 6,
+				},
+			},
+			{
+				Name = "Deadeye Warrior",
+				Value = {
+					Drawable = 16,
+					Texture = 5,
+				},
+			},
+			{
+				Name = "Carbon Warrior",
+				Value = {
+					Drawable = 16,
+					Texture = 4,
+				},
+			},
+			{
+				Name = "Neon Warrior",
+				Value = {
+					Drawable = 16,
+					Texture = 3,
+				},
+			},
+			{
+				Name = "Molten Warrior",
+				Value = {
+					Drawable = 16,
+					Texture = 2,
+				},
+			},
+			{
+				Name = "Circuit Warrior",
+				Value = {
+					Drawable = 16,
+					Texture = 1,
+				},
+			},
+			{
+				Name = "Metal Warrior",
+				Value = {
+					Drawable = 16,
+					Texture = 0,
+				},
+			},
+			{
+				Name = "Bear Hockey",
+				Value = {
+					Drawable = 14,
+					Texture = 6,
+				},
+			},
+			{
+				Name = "Beast Hockey",
+				Value = {
+					Drawable = 14,
+					Texture = 5,
+				},
+			},
+			{
+				Name = "Wolf Hockey",
+				Value = {
+					Drawable = 14,
+					Texture = 4,
+				},
+			},
+			{
+				Name = "Hound Hockey",
+				Value = {
+					Drawable = 140,
+					Texture = 3,
+				},
+			},
+			{
+				Name = "Bullet Hockey",
+				Value = {
+					Drawable = 14,
+					Texture = 0,
+				},
+			},
+			{
+				Name = "White Hockey",
+				Value = {
+					Drawable = 4,
+					Texture = 0,
+				},
+			},
+			{
+				Name = "Black Bloody Hocket",
+				Value = {
+					Drawable = 4,
+					Texture = 2,
+				},
+			},
+		},
+		[12] = { -- Monsters
+			{
+				Name = "No Mask",
+				Value = {
+					Drawable = 0,
+					Texture = 0,
+				},
+			},
+			{
+				Name = "Striped Skull",
+				Value = {
+					Drawable = 108,
+					Texture = 23,
+				},
+			},
+			{
+				Name = "Terracotta Skull",
+				Value = {
+					Drawable = 108,
+					Texture = 22,
+				},
+			},
+			{
+				Name = "Leather Solar-Eyed Skull",
+				Value = {
+					Drawable = 108,
+					Texture = 21,
+				},
+			},
+			{
+				Name = "Orange Swirl-Eyed Skull",
+				Value = {
+					Drawable = 108,
+					Texture = 20,
+				},
+			},
+			{
+				Name = "Mustard Painted Skull",
+				Value = {
+					Drawable = 108,
+					Texture = 19,
+				},
+			},
+			{
+				Name = "Green Painted Skull",
+				Value = {
+					Drawable = 108,
+					Texture = 18,
+				},
+			},
+			{
+				Name = "Pink Painted Skull",
+				Value = {
+					Drawable = 108,
+					Texture = 17,
+				},
+			},
+			{
+				Name = "Blue Painted Skull",
+				Value = {
+					Drawable = 108,
+					Texture = 16,
+				},
+			},
+			{
+				Name = "Tattooed Skull",
+				Value = {
+					Drawable = 108,
+					Texture = 15,
+				},
+			},
+			{
+				Name = "Wide-Eyed Skull",
+				Value = {
+					Drawable = 108,
+					Texture = 14,
+				},
+			},
+			{
+				Name = "Possessed Skull",
+				Value = {
+					Drawable = 108,
+					Texture = 13,
+				},
+			},
+			{
+				Name = "Orange Open-Eyed Skull",
+				Value = {
+					Drawable = 108,
+					Texture = 12,
+				},
+			},
+			{
+				Name = "Chocolate Leather Skull",
+				Value = {
+					Drawable = 108,
+					Texture = 11,
+				},
+			},
+			{
+				Name = "Tan Leather Skull",
+				Value = {
+					Drawable = 108,
+					Texture = 10,
+				},
+			},
+			{
+				Name = "Stained Skull",
+				Value = {
+					Drawable = 108,
+					Texture = 9,
+				},
+			},
+			{
+				Name = "Inked Skull",
+				Value = {
+					Drawable = 108,
+					Texture = 8,
+				},
+			},
+			{
+				Name = "Sand Skull",
+				Value = {
+					Drawable = 108,
+					Texture = 7,
+				},
+			},
+			{
+				Name = "Moss Skull",
+				Value = {
+					Drawable = 108,
+					Texture = 6,
+				},
+			},
+			{
+				Name = "Fleshy Skull",
+				Value = {
+					Drawable = 108,
+					Texture = 5,
+				},
+			},
+			{
+				Name = "Fresh Skull",
+				Value = {
+					Drawable = 108,
+					Texture = 4,
+				},
+			},
+			{
+				Name = "Venom Skull",
+				Value = {
+					Drawable = 108,
+					Texture = 3,
+				},
+			},
+			{
+				Name = "Aged Skull",
+				Value = {
+					Drawable = 108,
+					Texture = 2,
+				},
+			},
+			{
+				Name = "Weathered Skull",
+				Value = {
+					Drawable = 108,
+					Texture = 1,
+				},
+			},
+			{
+				Name = "Clean Skull",
+				Value = {
+					Drawable = 108,
+					Texture = 0,
+				},
+			},
+			{
+				Name = "Infernal Sea Beast",
+				Value = {
+					Drawable = 92,
+					Texture = 5,
+				},
+			},
+			{
+				Name = "Deity Sea Beast",
+				Value = {
+					Drawable = 92,
+					Texture = 4,
+				},
+			},
+			{
+				Name = "Otherworldly Sea Beast",
+				Value = {
+					Drawable = 92,
+					Texture = 3,
+				},
+			},
+			{
+				Name = "Reptilian Sea Beast",
+				Value = {
+					Drawable = 92,
+					Texture = 2,
+				},
+			},
+			{
+				Name = "Alien Sea Beast",
+				Value = {
+					Drawable = 92,
+					Texture = 1,
+				},
+			},
+			{
+				Name = "Amphibian Sea Beast",
+				Value = {
+					Drawable = 92,
+					Texture = 0,
+				},
+			},
+			{
+				Name = "Gray Frank",
+				Value = {
+					Drawable = 42,
+					Texture = 1,
+				},
+			},
+			{
+				Name = "Pale Frank",
+				Value = {
+					Drawable = 42,
+					Texture = 0,
+				},
+			},
+			{
+				Name = "Blue Vampyr",
+				Value = {
+					Drawable = 41,
+					Texture = 1,
+				},
+			},
+			{
+				Name = "White Vampyr",
+				Value = {
+					Drawable = 41,
+					Texture = 0,
+				},
+			},
+			{
+				Name = "Green Mummy",
+				Value = {
+					Drawable = 40,
+					Texture = 1,
+				},
+			},
+			{
+				Name = "White Mummy",
+				Value = {
+					Drawable = 40,
+					Texture = 0,
+				},
+			},
+			{
+				Name = "Brown Infected",
+				Value = {
+					Drawable = 39,
+					Texture = 1,
+				},
+			},
+			{
+				Name = "Pink Infected",
+				Value = {
+					Drawable = 39,
+					Texture = 0,
+				},
+			},
+			{
+				Name = "Green Skeletal",
+				Value = {
+					Drawable = 29,
+					Texture = 4,
+				},
+			},
+			{
+				Name = "Tan Skeletal",
+				Value = {
+					Drawable = 29,
+					Texture = 3,
+				},
+			},
+			{
+				Name = "Charcoal Skeletal",
+				Value = {
+					Drawable = 29,
+					Texture = 2,
+				},
+			},
+			{
+				Name = "Gray Skeletal",
+				Value = {
+					Drawable = 29,
+					Texture = 1,
+				},
+			},
+			{
+				Name = "Black Skeletal",
+				Value = {
+					Drawable = 29,
+					Texture = 0,
+				},
+			},
+			{
+				Name = "Pale Stitched Hockey",
+				Value = {
+					Drawable = 15,
+					Texture = 2,
+				},
+			},
+			{
+				Name = "Stitched Hockey",
+				Value = {
+					Drawable = 15,
+					Texture = 1,
+				},
+			},
+			{
+				Name = "Skull Hockey",
+				Value = {
+					Drawable = 15,
+					Texture = 0,
+				},
+			},
+			{
+				Name = "Electric Skull Hockey",
+				Value = {
+					Drawable = 14,
+					Texture = 15,
+				},
+			},
+			{
+				Name = "Nightmare Skull Hockey",
+				Value = {
+					Drawable = 14,
+					Texture = 14,
+				},
+			},
+			{
+				Name = "Flame Skull Hockey",
+				Value = {
+					Drawable = 14,
+					Texture = 13,
+				},
+			},
+			{
+				Name = "Rotten Zombie Hockey",
+				Value = {
+					Drawable = 14,
+					Texture = 12,
+				},
+			},
+			{
+				Name = "Vile Zombie Hockey",
+				Value = {
+					Drawable = 14,
+					Texture = 11,
+				},
+			},
+			{
+				Name = "Silver Skull",
+				Value = {
+					Drawable = 2,
+					Texture = 0,
+				},
+			},
+			{
+				Name = "Gray Skull",
+				Value = {
+					Drawable = 2,
+					Texture = 2,
+				},
+			},
+			{
+				Name = "Black Skull",
+				Value = {
+					Drawable = 2,
+					Texture = 3,
+				},
+			},
+			{
+				Name = "Bone Skull",
+				Value = {
+					Drawable = 2,
+					Texture = 1,
+				},
+			},
+			{
+				Name = "Green Monster",
+				Value = {
+					Drawable = 7,
+					Texture = 0,
+				},
+			},
+			{
+				Name = "Red Monster",
+				Value = {
+					Drawable = 7,
+					Texture = 1,
+				},
+			},
+			{
+				Name = "Black Monster",
+				Value = {
+					Drawable = 7,
+					Texture = 2,
+				},
+			},
+			{
+				Name = "White Monster",
+				Value = {
+					Drawable = 7,
+					Texture = 3,
+				},
+			},
+		},
+		[13] = { -- Paper Bags
+			{
+				Name = "No Mask",
+				Value = {
+					Drawable = 0,
+					Texture = 0,
+				},
+			},
+			{
+				Name = "Blackout Paper Bag",
+				Value = {
+					Drawable = 49,
+					Texture = 25,
+				},
+			},
+			{
+				Name = "Love Paper Bag",
+				Value = {
+					Drawable = 49,
+					Texture = 24,
+				},
+			},
+			{
+				Name = "Modernist Paper Bag",
+				Value = {
+					Drawable = 49,
+					Texture = 23,
+				},
+			},
+			{
+				Name = "Sticker Paper Bag",
+				Value = {
+					Drawable = 49,
+					Texture = 22,
+				},
+			},
+			{
+				Name = "Dapper Paper Bag",
+				Value = {
+					Drawable = 49,
+					Texture = 21,
+				},
+			},
+			{
+				Name = "The Bird Paper Bag",
+				Value = {
+					Drawable = 49,
+					Texture = 20,
+				},
+			},
+			{
+				Name = "Puzzle Paper Bag",
+				Value = {
+					Drawable = 49,
+					Texture = 19,
+				},
+			},
+			{
+				Name = "Help Me Paper Bag",
+				Value = {
+					Drawable = 49,
+					Texture = 18,
+				},
+			},
+			{
+				Name = "Alien Paper Bag",
+				Value = {
+					Drawable = 49,
+					Texture = 17,
+				},
+			},
+			{
+				Name = "Pink Paper Bag",
+				Value = {
+					Drawable = 49,
+					Texture = 16,
+				},
+			},
+			{
+				Name = "Dog Paper Bag",
+				Value = {
+					Drawable = 49,
+					Texture = 15,
+				},
+			},
+			{
+				Name = "Skull Paper Bag",
+				Value = {
+					Drawable = 49,
+					Texture = 14,
+				},
+			},
+			{
+				Name = "Zigzag Paper Bag",
+				Value = {
+					Drawable = 49,
+					Texture = 13,
+				},
+			},
+			{
+				Name = "Fury Paper Bag",
+				Value = {
+					Drawable = 49,
+					Texture = 12,
+				},
+			},
+			{
+				Name = "Monster Paper Bag",
+				Value = {
+					Drawable = 49,
+					Texture = 11,
+				},
+			},
+			{
+				Name = "Cop Paper Bag",
+				Value = {
+					Drawable = 49,
+					Texture = 10,
+				},
+			},
+			{
+				Name = "Diabolic Paper Bag",
+				Value = {
+					Drawable = 49,
+					Texture = 9,
+				},
+			},
+			{
+				Name = "Kill Me Paper Bag",
+				Value = {
+					Drawable = 49,
+					Texture = 8,
+				},
+			},
+			{
+				Name = "Burger Shot Paper Bag",
+				Value = {
+					Drawable = 49,
+					Texture = 7,
+				},
+			},
+			{
+				Name = "Shy Paper Bag",
+				Value = {
+					Drawable = 49,
+					Texture = 6,
+				},
+			},
+			{
+				Name = "Mouth Paper Bag",
+				Value = {
+					Drawable = 49,
+					Texture = 5,
+				},
+			},
+			{
+				Name = "Fat Cat Paper Bag",
+				Value = {
+					Drawable = 49,
+					Texture = 4,
+				},
+			},
+			{
+				Name = "Happy Paper Bag",
+				Value = {
+					Drawable = 49,
+					Texture = 3,
+				},
+			},
+			{
+				Name = "Sad Paper Bag",
+				Value = {
+					Drawable = 49,
+					Texture = 2,
+				},
+			},
+			{
+				Name = "Manic Paper Bag",
+				Value = {
+					Drawable = 49,
+					Texture = 1,
+				},
+			},
+			{
+				Name = "Up-n-Atom Paper Bag",
+				Value = {
+					Drawable = 49,
+					Texture = 0,
+				},
+			},
+		},
+		[14] = { -- Ski Masks
+			{
+				Name = "No Mask",
+				Value = {
+					Drawable = 0,
+					Texture = 0,
+				},
+			},
+			{
+				Name = "Camo Bigness Tight Ski",
+				Value = {
+					Drawable = 113,
+					Texture = 21,
+				},
+			},
+			{
+				Name = "Bold Abstract Tight Ski",
+				Value = {
+					Drawable = 113,
+					Texture = 20,
+				},
+			},
+			{
+				Name = "Black & Red Tight Ski",
+				Value = {
+					Drawable = 113,
+					Texture = 19,
+				},
+			},
+			{
+				Name = "Black Stars & Stripes Tight Ski",
+				Value = {
+					Drawable = 113,
+					Texture = 18,
+				},
+			},
+			{
+				Name = "SA Republic Tight Ski",
+				Value = {
+					Drawable = 113,
+					Texture = 17,
+				},
+			},
+			{
+				Name = "White Skull Tight Ski",
+				Value = {
+					Drawable = 113,
+					Texture = 12,
+				},
+			},
+			{
+				Name = "Black Skull Tight Ski",
+				Value = {
+					Drawable = 113,
+					Texture = 11,
+				},
+			},
+			{
+				Name = "Stars & Stripes Tight Ski",
+				Value = {
+					Drawable = 113,
+					Texture = 10,
+				},
+			},
+			{
+				Name = "Mustard Tight Ski",
+				Value = {
+					Drawable = 113,
+					Texture = 9,
+				},
+			},
+			{
+				Name = "Blue Bigness Tight Ski",
+				Value = {
+					Drawable = 113,
+					Texture = 8,
+				},
+			},
+			{
+				Name = "Vibrant Tight Ski",
+				Value = {
+					Drawable = 113,
+					Texture = 7,
+				},
+			},
+			{
+				Name = "Orange & Red Tight Ski",
+				Value = {
+					Drawable = 113,
+					Texture = 6,
+				},
+			},
+			{
+				Name = "Gray Bigness Tight Ski",
+				Value = {
+					Drawable = 113,
+					Texture = 5,
+				},
+			},
+			{
+				Name = "Red Stripe Tight Ski",
+				Value = {
+					Drawable = 113,
+					Texture = 4,
+				},
+			},
+			{
+				Name = "Tropical Xero Tight Ski",
+				Value = {
+					Drawable = 113,
+					Texture = 3,
+				},
+			},
+			{
+				Name = "Lime Xero Tight Ski",
+				Value = {
+					Drawable = 113,
+					Texture = 2,
+				},
+			},
+			{
+				Name = "Multicolor Leaves Tight Ski",
+				Value = {
+					Drawable = 113,
+					Texture = 1,
+				},
+			},
+			{
+				Name = "Skate Tight Ski",
+				Value = {
+					Drawable = 113,
+					Texture = 0,
+				},
+			},
+			{
+				Name = "Skull Tactical Ski",
+				Value = {
+					Drawable = 104,
+					Texture = 25,
+				},
+			},
+			{
+				Name = "Olive Tactical Ski",
+				Value = {
+					Drawable = 104,
+					Texture = 24,
+				},
+			},
+			{
+				Name = "Sand Tactical Ski",
+				Value = {
+					Drawable = 104,
+					Texture = 19,
+				},
+			},
+			{
+				Name = "Moss Tactical Ski",
+				Value = {
+					Drawable = 104,
+					Texture = 18,
+				},
+			},
+			{
+				Name = "Light Woodland Tactical Ski",
+				Value = {
+					Drawable = 104,
+					Texture = 17,
+				},
+			},
+			{
+				Name = "Flecktarn Tactical Ski",
+				Value = {
+					Drawable = 104,
+					Texture = 16,
+				},
+			},
+			{
+				Name = "Brushstroke Tactical Ski",
+				Value = {
+					Drawable = 104,
+					Texture = 15,
+				},
+			},
+			{
+				Name = "Peach Camo Tactical Ski",
+				Value = {
+					Drawable = 104,
+					Texture = 14,
+				},
+			},
+			{
+				Name = "Cobble Tactical Ski",
+				Value = {
+					Drawable = 104,
+					Texture = 13,
+				},
+			},
+			{
+				Name = "Contrast Camo Tactical Ski",
+				Value = {
+					Drawable = 104,
+					Texture = 12,
+				},
+			},
+			{
+				Name = "Splinter Tactical Ski",
+				Value = {
+					Drawable = 104,
+					Texture = 11,
+				},
+			},
+			{
+				Name = "Aqua Camo Tactical Ski",
+				Value = {
+					Drawable = 104,
+					Texture = 10,
+				},
+			},
+			{
+				Name = "Gray Woodland Tactical Ski",
+				Value = {
+					Drawable = 104,
+					Texture = 9,
+				},
+			},
+			{
+				Name = "Moss Digital Tactical Ski",
+				Value = {
+					Drawable = 104,
+					Texture = 8,
+				},
+			},
+			{
+				Name = "Crosshatch Tactical Ski",
+				Value = {
+					Drawable = 104,
+					Texture = 7,
+				},
+			},
+			{
+				Name = "Dark Woodland Tactical Ski",
+				Value = {
+					Drawable = 104,
+					Texture = 6,
+				},
+			},
+			{
+				Name = "Fall Tactical Ski",
+				Value = {
+					Drawable = 104,
+					Texture = 5,
+				},
+			},
+			{
+				Name = "Peach Digital Tactical Ski",
+				Value = {
+					Drawable = 104,
+					Texture = 4,
+				},
+			},
+			{
+				Name = "Gray Digital Tactical Ski",
+				Value = {
+					Drawable = 104,
+					Texture = 3,
+				},
+			},
+			{
+				Name = "Green Digital Tactical Ski",
+				Value = {
+					Drawable = 104,
+					Texture = 2,
+				},
+			},
+			{
+				Name = "Brown Digital Tactical Ski",
+				Value = {
+					Drawable = 104,
+					Texture = 1,
+				},
+			},
+			{
+				Name = "Blue Digital Tactical Ski",
+				Value = {
+					Drawable = 104,
+					Texture = 0,
+				},
+			},
+			{
+				Name = "Blue Camo Bigness Face",
+				Value = {
+					Drawable = 101,
+					Texture = 15,
+				},
+			},
+			{
+				Name = "Gray Leopard Bigness Face",
+				Value = {
+					Drawable = 101,
+					Texture = 14,
+				},
+			},
+			{
+				Name = "Gray Abstract Bigness Face",
+				Value = {
+					Drawable = 101,
+					Texture = 13,
+				},
+			},
+			{
+				Name = "Pale Abstract Bigness Face",
+				Value = {
+					Drawable = 101,
+					Texture = 12,
+				},
+			},
+			{
+				Name = "Bold Abstract Bigness Face",
+				Value = {
+					Drawable = 101,
+					Texture = 11,
+				},
+			},
+			{
+				Name = "Zebra Bigness Face",
+				Value = {
+					Drawable = 101,
+					Texture = 10,
+				},
+			},
+			{
+				Name = "Black Bigness Face",
+				Value = {
+					Drawable = 101,
+					Texture = 9,
+				},
+			},
+			{
+				Name = "Geo Camo Bigness Face",
+				Value = {
+					Drawable = 101,
+					Texture = 8,
+				},
+			},
+			{
+				Name = "Gray Camo Bigness Face",
+				Value = {
+					Drawable = 101,
+					Texture = 7,
+				},
+			},
+			{
+				Name = "Camo Bigness Face",
+				Value = {
+					Drawable = 101,
+					Texture = 6,
+				},
+			},
+			{
+				Name = "Gray Bigness Face",
+				Value = {
+					Drawable = 101,
+					Texture = 5,
+				},
+			},
+			{
+				Name = "Fall Bigness Face",
+				Value = {
+					Drawable = 101,
+					Texture = 4,
+				},
+			},
+			{
+				Name = "Yellow Bigness Face",
+				Value = {
+					Drawable = 101,
+					Texture = 3,
+				},
+			},
+			{
+				Name = "Magenta Bigness Face",
+				Value = {
+					Drawable = 101,
+					Texture = 2,
+				},
+			},
+			{
+				Name = "Blue Bigness Face",
+				Value = {
+					Drawable = 101,
+					Texture = 1,
+				},
+			},
+			{
+				Name = "Orange Bigness Face",
+				Value = {
+					Drawable = 101,
+					Texture = 0,
+				},
+			},
+			{
+				Name = "Khaki Toggle Ski",
+				Value = {
+					Drawable = 55,
+					Texture = 1,
+				},
+			},
+			{
+				Name = "Charcoal Toggle Ski",
+				Value = {
+					Drawable = 55,
+					Texture = 0,
+				},
+			},
+			{
+				Name = "Skull Hooded Ski",
+				Value = {
+					Drawable = 53,
+					Texture = 8,
+				},
+			},
+			{
+				Name = "Urban Hooded Ski",
+				Value = {
+					Drawable = 53,
+					Texture = 7,
+				},
+			},
+			{
+				Name = "Forest Hooded Ski",
+				Value = {
+					Drawable = 53,
+					Texture = 6,
+				},
+			},
+			{
+				Name = "Charcoal Hooded Ski",
+				Value = {
+					Drawable = 53,
+					Texture = 5,
+				},
+			},
+			{
+				Name = "Khaki Hooded Ski",
+				Value = {
+					Drawable = 53,
+					Texture = 4,
+				},
+			},
+			{
+				Name = "Green Hooded Ski",
+				Value = {
+					Drawable = 53,
+					Texture = 3,
+				},
+			},
+			{
+				Name = "White Hooded Ski",
+				Value = {
+					Drawable = 53,
+					Texture = 2,
+				},
+			},
+			{
+				Name = "Gray Hooded Ski",
+				Value = {
+					Drawable = 53,
+					Texture = 1,
+				},
+			},
+			{
+				Name = "Black Hooded Ski",
+				Value = {
+					Drawable = 53,
+					Texture = 0,
+				},
+			},
+			{
+				Name = "Skull Tight Ski",
+				Value = {
+					Drawable = 52,
+					Texture = 10,
+				},
+			},
+			{
+				Name = "Yellow Tight Ski",
+				Value = {
+					Drawable = 52,
+					Texture = 9,
+				},
+			},
+			{
+				Name = "Blue Tight Ski",
+				Value = {
+					Drawable = 52,
+					Texture = 8,
+				},
+			},
+			{
+				Name = "Urban Tight Ski",
+				Value = {
+					Drawable = 52,
+					Texture = 7,
+				},
+			},
+			{
+				Name = "Forest Tight Ski",
+				Value = {
+					Drawable = 52,
+					Texture = 6,
+				},
+			},
+			{
+				Name = "Charcoal Tight Ski",
+				Value = {
+					Drawable = 52,
+					Texture = 5,
+				},
+			},
+			{
+				Name = "Khaki Tight Ski",
+				Value = {
+					Drawable = 52,
+					Texture = 4,
+				},
+			},
+			{
+				Name = "Green Tight Ski",
+				Value = {
+					Drawable = 52,
+					Texture = 3,
+				},
+			},
+			{
+				Name = "White Tight Ski",
+				Value = {
+					Drawable = 52,
+					Texture = 2,
+				},
+			},
+			{
+				Name = "Gray Tight Ski",
+				Value = {
+					Drawable = 52,
+					Texture = 1,
+				},
+			},
+			{
+				Name = "Black Tight Ski",
+				Value = {
+					Drawable = 52,
+					Texture = 0,
+				},
+			},
+		},
+		[15] = { -- Sports
+			{
+				Name = "No Mask",
+				Value = {
+					Drawable = 0,
+					Texture = 0,
+				},
+			},
+			{
+				Name = "Crossed Rampage Hockey",
+				Value = {
+					Drawable = 15,
+					Texture = 3,
+				},
+			},
+			{
+				Name = "Royal Hockey",
+				Value = {
+					Drawable = 14,
+					Texture = 9,
+				},
+			},
+			{
+				Name = "Striped Rampage Hockey",
+				Value = {
+					Drawable = 14,
+					Texture = 8,
+				},
+			},
+			{
+				Name = "Dust Devils Hockey",
+				Value = {
+					Drawable = 14,
+					Texture = 7,
+				},
+			},
+			{
+				Name = "Red Hockey",
+				Value = {
+					Drawable = 4,
+					Texture = 1,
+				},
+			},
+			{
+				Name = "Dust Devils Hockey",
+				Value = {
+					Drawable = 4,
+					Texture = 3,
+				},
+			},
+		},
+		[16] = { -- Tactical
+			{
+				Name = "No Mask",
+				Value = {
+					Drawable = 0,
+					Texture = 0,
+				},
+			},
+			{
+				Name = "Skull Night Vision",
+				Value = {
+					Drawable = 132,
+					Texture = 21,
+				},
+			},
+			{
+				Name = "White Camo Night Vision",
+				Value = {
+					Drawable = 132,
+					Texture = 20,
+				},
+			},
+			{
+				Name = "Moss Striped Night Vision",
+				Value = {
+					Drawable = 132,
+					Texture = 19,
+				},
+			},
+			{
+				Name = "Cobble Night Vision",
+				Value = {
+					Drawable = 132,
+					Texture = 18,
+				},
+			},
+			{
+				Name = "Contrast Camo Night Vision",
+				Value = {
+					Drawable = 132,
+					Texture = 17,
+				},
+			},
+			{
+				Name = "Crosshatch Night Vision",
+				Value = {
+					Drawable = 132,
+					Texture = 16,
+				},
+			},
+			{
+				Name = "Gray Woodland Night Vision",
+				Value = {
+					Drawable = 132,
+					Texture = 15,
+				},
+			},
+			{
+				Name = "Woodland Night Vision",
+				Value = {
+					Drawable = 132,
+					Texture = 14,
+				},
+			},
+			{
+				Name = "Brown Digital Night Vision",
+				Value = {
+					Drawable = 132,
+					Texture = 13,
+				},
+			},
+			{
+				Name = "Dazzle Night Vision",
+				Value = {
+					Drawable = 132,
+					Texture = 12,
+				},
+			},
+			{
+				Name = "Splinter Night Vision",
+				Value = {
+					Drawable = 132,
+					Texture = 11,
+				},
+			},
+			{
+				Name = "Green Digital Night Vision",
+				Value = {
+					Drawable = 132,
+					Texture = 10,
+				},
+			},
+			{
+				Name = "White Digital Night Vision",
+				Value = {
+					Drawable = 132,
+					Texture = 9,
+				},
+			},
+			{
+				Name = "Gray Camo Night Vision",
+				Value = {
+					Drawable = 132,
+					Texture = 8,
+				},
+			},
+			{
+				Name = "Aqua Camo Night Vision",
+				Value = {
+					Drawable = 132,
+					Texture = 7,
+				},
+			},
+			{
+				Name = "Brown Camo Night Vision",
+				Value = {
+					Drawable = 132,
+					Texture = 6,
+				},
+			},
+			{
+				Name = "Moss Night Vision",
+				Value = {
+					Drawable = 132,
+					Texture = 5,
+				},
+			},
+			{
+				Name = "Tan Night Vision",
+				Value = {
+					Drawable = 132,
+					Texture = 4,
+				},
+			},
+			{
+				Name = "Blue Night Vision",
+				Value = {
+					Drawable = 132,
+					Texture = 3,
+				},
+			},
+			{
+				Name = "Gray Night Vision",
+				Value = {
+					Drawable = 132,
+					Texture = 2,
+				},
+			},
+			{
+				Name = "White Night Vision",
+				Value = {
+					Drawable = 132,
+					Texture = 1,
+				},
+			},
+			{
+				Name = "Black Night Vision",
+				Value = {
+					Drawable = 132,
+					Texture = 0,
+				},
+			},
+			{
+				Name = "Opera Spec Ops",
+				Value = {
+					Drawable = 126,
+					Texture = 13,
+				},
+			},
+			{
+				Name = "Striped Spec Ops",
+				Value = {
+					Drawable = 126,
+					Texture = 12,
+				},
+			},
+			{
+				Name = "Ornate Skull Spec Ops",
+				Value = {
+					Drawable = 126,
+					Texture = 11,
+				},
+			},
+			{
+				Name = "LSPD Spec Ops",
+				Value = {
+					Drawable = 126,
+					Texture = 10,
+				},
+			},
+			{
+				Name = "Electric Skull Spec Ops",
+				Value = {
+					Drawable = 126,
+					Texture = 9,
+				},
+			},
+			{
+				Name = "Dark Woodland Spec Ops",
+				Value = {
+					Drawable = 126,
+					Texture = 8,
+				},
+			},
+			{
+				Name = "Gray Woodland Spec Ops",
+				Value = {
+					Drawable = 126,
+					Texture = 7,
+				},
+			},
+			{
+				Name = "Mono Splinter Spec Ops",
+				Value = {
+					Drawable = 126,
+					Texture = 6,
+				},
+			},
+			{
+				Name = "Splinter Spec Ops",
+				Value = {
+					Drawable = 126,
+					Texture = 5,
+				},
+			},
+			{
+				Name = "Aqua Camo Spec Ops",
+				Value = {
+					Drawable = 126,
+					Texture = 4,
+				},
+			},
+			{
+				Name = "Tan Digital Spec Ops",
+				Value = {
+					Drawable = 126,
+					Texture = 3,
+				},
+			},
+			{
+				Name = "Scale Spec Ops",
+				Value = {
+					Drawable = 126,
+					Texture = 2,
+				},
+			},
+			{
+				Name = "Carbon Spec Ops",
+				Value = {
+					Drawable = 126,
+					Texture = 1,
+				},
+			},
+			{
+				Name = "Black Spec Ops",
+				Value = {
+					Drawable = 126,
+					Texture = 0,
+				},
+			},
+			{
+				Name = "Fall Ballistic",
+				Value = {
+					Drawable = 125,
+					Texture = 25,
+				},
+			},
+			{
+				Name = "Brown Digital Ballistic",
+				Value = {
+					Drawable = 125,
+					Texture = 24,
+				},
+			},
+			{
+				Name = "Red Ballistic",
+				Value = {
+					Drawable = 125,
+					Texture = 23,
+				},
+			},
+			{
+				Name = "Off White & Red Ballistic",
+				Value = {
+					Drawable = 125,
+					Texture = 22,
+				},
+			},
+			{
+				Name = "Black Stripe Ballistic",
+				Value = {
+					Drawable = 125,
+					Texture = 21,
+				},
+			},
+			{
+				Name = "Red Stripe Ballistic",
+				Value = {
+					Drawable = 125,
+					Texture = 20,
+				},
+			},
+			{
+				Name = "White & Black Ballistic",
+				Value = {
+					Drawable = 125,
+					Texture = 19,
+				},
+			},
+			{
+				Name = "Orange & Black Ballistic",
+				Value = {
+					Drawable = 125,
+					Texture = 18,
+				},
+			},
+			{
+				Name = "Yellow & Black Ballistic",
+				Value = {
+					Drawable = 125,
+					Texture = 17,
+				},
+			},
+			{
+				Name = "Blue & Black Ballistic",
+				Value = {
+					Drawable = 125,
+					Texture = 16,
+				},
+			},
+			{
+				Name = "Red & Black Ballistic",
+				Value = {
+					Drawable = 125,
+					Texture = 15,
+				},
+			},
+			{
+				Name = "Splinter Ballistic",
+				Value = {
+					Drawable = 125,
+					Texture = 14,
+				},
+			},
+			{
+				Name = "Flecktarn Ballistic",
+				Value = {
+					Drawable = 125,
+					Texture = 13,
+				},
+			},
+			{
+				Name = "Cranial Ballistic",
+				Value = {
+					Drawable = 125,
+					Texture = 12,
+				},
+			},
+			{
+				Name = "Sand Carbon Ballistic",
+				Value = {
+					Drawable = 125,
+					Texture = 11,
+				},
+			},
+			{
+				Name = "Black Carbon Ballistic",
+				Value = {
+					Drawable = 125,
+					Texture = 10,
+				},
+			},
+			{
+				Name = "Red Googled Ballistic",
+				Value = {
+					Drawable = 125,
+					Texture = 9,
+				},
+			},
+			{
+				Name = "Sand Googled Ballistic",
+				Value = {
+					Drawable = 125,
+					Texture = 8,
+				},
+			},
+			{
+				Name = "Sand Mono Ballistic",
+				Value = {
+					Drawable = 125,
+					Texture = 3,
+				},
+			},
+			{
+				Name = "White Mono Ballistic",
+				Value = {
+					Drawable = 125,
+					Texture = 2,
+				},
+			},
+			{
+				Name = "Gray Mono Ballistic",
+				Value = {
+					Drawable = 125,
+					Texture = 1,
+				},
+			},
+			{
+				Name = "Black Mono Ballistic",
+				Value = {
+					Drawable = 125,
+					Texture = 0,
+				},
+			},
+			{
+				Name = "White Snake Skull",
+				Value = {
+					Drawable = 106,
+					Texture = 25,
+				},
+			},
+			{
+				Name = "Red Snake Skull",
+				Value = {
+					Drawable = 106,
+					Texture = 24,
+				},
+			},
+			{
+				Name = "Sand Snake Skull",
+				Value = {
+					Drawable = 106,
+					Texture = 19,
+				},
+			},
+			{
+				Name = "Moss Snake Skull",
+				Value = {
+					Drawable = 106,
+					Texture = 18,
+				},
+			},
+			{
+				Name = "Light Woodland Snake Skull",
+				Value = {
+					Drawable = 106,
+					Texture = 17,
+				},
+			},
+			{
+				Name = "Flecktarn Snake Skull",
+				Value = {
+					Drawable = 106,
+					Texture = 16,
+				},
+			},
+			{
+				Name = "Brushstroke Snake Skull",
+				Value = {
+					Drawable = 106,
+					Texture = 15,
+				},
+			},
+			{
+				Name = "Peach Camo Snake Skull",
+				Value = {
+					Drawable = 106,
+					Texture = 14,
+				},
+			},
+			{
+				Name = "Cobble Snake Skull",
+				Value = {
+					Drawable = 106,
+					Texture = 13,
+				},
+			},
+			{
+				Name = "Contrast Camo Snake Skull",
+				Value = {
+					Drawable = 106,
+					Texture = 12,
+				},
+			},
+			{
+				Name = "Splinter Snake Skull",
+				Value = {
+					Drawable = 106,
+					Texture = 11,
+				},
+			},
+			{
+				Name = "Aqua Camo Snake Skull",
+				Value = {
+					Drawable = 106,
+					Texture = 10,
+				},
+			},
+			{
+				Name = "Gray Woodland Snake Skull",
+				Value = {
+					Drawable = 106,
+					Texture = 9,
+				},
+			},
+			{
+				Name = "Moss Digital Snake Skull",
+				Value = {
+					Drawable = 106,
+					Texture = 8,
+				},
+			},
+			{
+				Name = "Crosshatch Snake Skull",
+				Value = {
+					Drawable = 106,
+					Texture = 7,
+				},
+			},
+			{
+				Name = "Dark Woodland Snake Skull",
+				Value = {
+					Drawable = 106,
+					Texture = 6,
+				},
+			},
+			{
+				Name = "Fall Snake Skull",
+				Value = {
+					Drawable = 106,
+					Texture = 5,
+				},
+			},
+			{
+				Name = "Peach Digital Snake Skull",
+				Value = {
+					Drawable = 106,
+					Texture = 4,
+				},
+			},
+			{
+				Name = "Gray Digital Snake Skull",
+				Value = {
+					Drawable = 106,
+					Texture = 3,
+				},
+			},
+			{
+				Name = "Green Digital Snake Skull",
+				Value = {
+					Drawable = 106,
+					Texture = 2,
+				},
+			},
+			{
+				Name = "Brown Digital Snake Skull",
+				Value = {
+					Drawable = 106,
+					Texture = 1,
+				},
+			},
+			{
+				Name = "Blue Digital Snake Skull",
+				Value = {
+					Drawable = 106,
+					Texture = 0,
+				},
+			},
+			{
+				Name = "Forest Combat Mask",
+				Value = {
+					Drawable = 89,
+					Texture = 4,
+				},
+			},
+			{
+				Name = "Tan Combat Mask",
+				Value = {
+					Drawable = 89,
+					Texture = 3,
+				},
+			},
+			{
+				Name = "Charcoal Combat Mask",
+				Value = {
+					Drawable = 89,
+					Texture = 2,
+				},
+			},
+			{
+				Name = "Gray Combat Mask",
+				Value = {
+					Drawable = 89,
+					Texture = 1,
+				},
+			},
+			{
+				Name = "Black Combat Mask",
+				Value = {
+					Drawable = 89,
+					Texture = 0,
+				},
+			},
+		},
+		[17] = { -- Valentine
+			{
+				Name = "No Mask",
+				Value = {
+					Drawable = 0,
+					Texture = 0,
+				},
+			},
+			{
+				Name = "Cupid",
+				Value = {
+					Drawable = 13,
+					Texture = 0,
+				},
+			},
+			{
+				Name = "Black & Gold Masquerade",
+				Value = {
+					Drawable = 12,
+					Texture = 2,
+				},
+			},
+			{
+				Name = "Silver Masquerade",
+				Value = {
+					Drawable = 12,
+					Texture = 1,
+				},
+			},
+			{
+				Name = "Bronze Masquerade",
+				Value = {
+					Drawable = 12,
+					Texture = 0,
+				},
+			},
+			{
+				Name = "Black Masquerade",
+				Value = {
+					Drawable = 11,
+					Texture = 2,
+				},
+			},
+			{
+				Name = "Red Masquerade",
+				Value = {
+					Drawable = 11,
+					Texture = 1,
+				},
+			},
+			{
+				Name = "White Masquerade",
+				Value = {
+					Drawable = 11,
+					Texture = 0,
+				},
+			},
+		},
+		[18] = { -- Zombie
+			{
+				Name = "No Mask",
+				Value = {
+					Drawable = 0,
+					Texture = 0,
+				},
+			},
+			{
+				Name = "Moss Camo Putrefied Zombie",
+				Value = {
+					Drawable = 103,
+					Texture = 25,
+				},
+			},
+			{
+				Name = "Woodland Putrefied Zombie",
+				Value = {
+					Drawable = 103,
+					Texture = 24,
+				},
+			},
+			{
+				Name = "Green Putrefied Zombie",
+				Value = {
+					Drawable = 103,
+					Texture = 23,
+				},
+			},
+			{
+				Name = "Stone Putrefied Zombie",
+				Value = {
+					Drawable = 103,
+					Texture = 22,
+				},
+			},
+			{
+				Name = "Slate Putrefied Zombie",
+				Value = {
+					Drawable = 103,
+					Texture = 21,
+				},
+			},
+			{
+				Name = "Black Putrefied Zombie",
+				Value = {
+					Drawable = 103,
+					Texture = 20,
+				},
+			},
+			{
+				Name = "Sand Zombie",
+				Value = {
+					Drawable = 103,
+					Texture = 19,
+				},
+			},
+			{
+				Name = "Moss Zombie",
+				Value = {
+					Drawable = 103,
+					Texture = 18,
+				},
+			},
+			{
+				Name = "Light Woodland Zombie",
+				Value = {
+					Drawable = 103,
+					Texture = 17,
+				},
+			},
+			{
+				Name = "Flecktarn Zombie",
+				Value = {
+					Drawable = 103,
+					Texture = 16,
+				},
+			},
+			{
+				Name = "Brushstroke Zombie",
+				Value = {
+					Drawable = 103,
+					Texture = 15,
+				},
+			},
+			{
+				Name = "Peach Camo Zombie",
+				Value = {
+					Drawable = 103,
+					Texture = 14,
+				},
+			},
+			{
+				Name = "Cobble Zombie",
+				Value = {
+					Drawable = 103,
+					Texture = 13,
+				},
+			},
+			{
+				Name = "Contrast Camo Zombie",
+				Value = {
+					Drawable = 103,
+					Texture = 12,
+				},
+			},
+			{
+				Name = "Splinter Zombie",
+				Value = {
+					Drawable = 103,
+					Texture = 11,
+				},
+			},
+			{
+				Name = "Aqua Camo Zombie",
+				Value = {
+					Drawable = 103,
+					Texture = 10,
+				},
+			},
+			{
+				Name = "Gray Woodland Zombie",
+				Value = {
+					Drawable = 103,
+					Texture = 9,
+				},
+			},
+			{
+				Name = "Moss Digital Zombie",
+				Value = {
+					Drawable = 103,
+					Texture = 8,
+				},
+			},
+			{
+				Name = "Crosshatch Zombie",
+				Value = {
+					Drawable = 103,
+					Texture = 7,
+				},
+			},
+			{
+				Name = "Dark Woodland Zombie",
+				Value = {
+					Drawable = 103,
+					Texture = 6,
+				},
+			},
+			{
+				Name = "Fall Zombie",
+				Value = {
+					Drawable = 103,
+					Texture = 5,
+				},
+			},
+			{
+				Name = "Peach Digital Zombie",
+				Value = {
+					Drawable = 103,
+					Texture = 4,
+				},
+			},
+			{
+				Name = "Gray Digital Zombie",
+				Value = {
+					Drawable = 103,
+					Texture = 3,
+				},
+			},
+			{
+				Name = "Green Digital Zombie",
+				Value = {
+					Drawable = 103,
+					Texture = 2,
+				},
+			},
+			{
+				Name = "Brown Digital Zombie",
+				Value = {
+					Drawable = 103,
+					Texture = 1,
+				},
+			},
+			{
+				Name = "Blue Digital Zombie",
+				Value = {
+					Drawable = 103,
+					Texture = 1,
+				},
+			},
+		},
 	},
 	Tattoos = {},
 	Models = {

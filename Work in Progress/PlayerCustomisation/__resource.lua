@@ -7,5 +7,6 @@ client_scripts {
     "Client/Creator.lua",
     "Client/Barbers.lua",
     "Client/Clothing.lua",
+    "Client/Masks.lua",
     "Client/Main.lua",
 }
