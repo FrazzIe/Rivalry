@@ -531,20 +531,24 @@ function RequestAndDelete(entity, detach)
 end
 
 function DestroyCar(_vehicle)
-    for seat = -1, GetVehicleMaxNumberOfPassengers(_vehicle) do
-        if not IsVehicleSeatFree(_vehicle, seat) then
-            TaskLeaveVehicle(GetPedInVehicleSeat(_vehicle, seat), _vehicle, 0)
-        end
-    end
-    NetworkRequestControlOfEntity(_vehicle)
-    while not NetworkHasControlOfEntity(_vehicle) do
-        Citizen.Wait(0)
-    end
-    SetEntityAsMissionEntity(_vehicle, true, true)
-    DeleteVehicle(_vehicle)
     if DoesEntityExist(_vehicle) then
-        local _vehiclepos = GetEntityCoords(_vehicle, false)
-        SetEntityCoords(_vehicle, _vehiclepos.x, _vehiclepos.y, _vehicle.z-20.0)
+        for seat = -1, GetVehicleMaxNumberOfPassengers(_vehicle) do
+            if not IsVehicleSeatFree(_vehicle, seat) then
+                TaskLeaveVehicle(GetPedInVehicleSeat(_vehicle, seat), _vehicle, 0)
+            end
+        end
+
+        Citizen.Wait(5000)
+        NetworkRequestControlOfEntity(_vehicle)
+        while not NetworkHasControlOfEntity(_vehicle) do
+            Citizen.Wait(0)
+        end
+        SetEntityAsMissionEntity(_vehicle, true, true)
+        DeleteVehicle(_vehicle)
+        if DoesEntityExist(_vehicle) then
+            local _vehiclepos = GetEntityCoords(_vehicle, false)
+            SetEntityCoords(_vehicle, _vehiclepos.x, _vehiclepos.y, _vehicle.z-20.0)
+        end
     end
 end
 

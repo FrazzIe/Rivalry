@@ -49,6 +49,7 @@ cars = {
     {name = "Unmarked Buffalo", model = "dtu1", type = "", rank = "detective"},
     {name = "Unmarked Fugitive", model = "dtu2", type = "", rank = "detective"},
     {name = "Unmarked Cruiser", model = "dtu3", type = "", rank = "detective"},
+    {name = "Unmarked Tahoe", model = "utahoe", type = "", rank = "sergeant"},
 }
 
 heli = {

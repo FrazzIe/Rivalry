@@ -30,7 +30,6 @@ AddEventHandler("trucker:complete", function(tier)
         if jobtotal > 4 then jobtotal = 150 end
         total = math.random(50,math.floor(jobtotal))
         user.addWallet(total*8)
+        Notify("You have been paid $"..trucker_tiers[tier].." for completing the delivery!", 3000, source)
     end)
-		Notify("You have been paid $"..trucker_tiers[tier].." for completing the delivery!", 3000, source)
-	end)
 end)
