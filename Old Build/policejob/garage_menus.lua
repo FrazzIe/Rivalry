@@ -31,7 +31,7 @@ cars = {
     {name = "Marked City CVPI", model = "police7", type = "", rank = "cadet"},
     {name = "Marked City Taurus", model = "police", type = "", rank = "officer i"}, 
     {name = "Marked City Charger", model = "police2", type = "", rank = "officer i"},
-    {name = "Marked City K9 Tahoe", model = "police6", type = "", rank = "officer i"},
+    {name = "Marked City Explorer", model = "police5", type = "", rank = "officer ii"},
     {name = "2011 CVPI Slicktop", model = "police3", type = "", rank = "officer ii"},
     {name = "Sheriff CVPI", model = "sheriff3", type = "", rank = "cadet"},
     {name = "Sheriff Charger", model = "sheriff", type = "", rank = "officer ii"},
