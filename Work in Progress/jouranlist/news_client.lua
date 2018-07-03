@@ -71,18 +71,13 @@ RegisterNUICallback('loadnews', function(data, cb)
   if (#news == 0) then
 	TriggerServerEvent('news:load-news', true)
   else
-	SendNUIMessage({openSection = "new-page", list = page})
+	SendNUIMessage({openSection = "news", list = news})
   end
   cb('ok')
 end)
 
 RegisterNUICallback('newsRead', function(data, cb)
-	if (#news == 0) then
-		TriggerServerEvent('news:load-news', true)
-    else
-		SendNUIMessage({openSection = "newsRead", time = data.timestamp, editor_name = data.editor_name, header = data.header, body = data.body, header2 = data.header2, body2 = data.body2})
-	end
-	cb('ok')
+	SendNUIMessage({openSection = "newsRead", id = data.id, time = data.time, editor_name = data.editor_name, header = data.header, body = data.body, header2 = data.header, body2 = data.body2})
 end)
 
 
@@ -109,7 +104,7 @@ AddEventHandler('news:new-news', function(entry)
 	end
 end)
 
-Chat.Command("newspaper", function(source, args, rawCommand)
+Chat.Command("newspaper", function(source, args, fullCommand)
 	showPaper = true
 	loadNewsUp()
 		Citizen.CreateThread(function()
@@ -128,6 +123,16 @@ Chat.Command("newspaper", function(source, args, rawCommand)
 	     end)
 end, false, {Help = "Open the Newspaper",  Params = {}})
 
+RegisterNetEvent('news:load-news')
+AddEventHandler('news:load-news', function(data, openUI)
+  openUI = openUI or false
+  news = data
+  if openUI then
+	SendNUIMessage({openSection = "news", list = news})
+  end
+end)
+
+
 RegisterNetEvent('news:remove-news')
 AddEventHandler('news:remove-news', function(id)
 	for k,v in pairs(news) do
@@ -140,14 +145,3 @@ end)
 =================================================================================================================================================================================================================================================
 =================================================================================================================================================================================================================================================
 --]]
-
-function loadNewsUp()
-	TriggerServerEvent('news:load-news')
-end
-
-function drawPaper()
-	RegisterNetEvent('news:load-news')
-	AddEventHandler('news:LoadFuckingNews', function(time, editor_name, header, body, header2, body2)
-		
-    end)
-end

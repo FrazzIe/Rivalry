@@ -30,9 +30,17 @@ $(document).ready(function(){  // Mouse Controls
     $(".news-container").css("display", "block");
   }
 
-  function openEditor(timestamp, editor_name, header, body, header2, body2) {
+  function openNewsCreator() {
     $(".news-container").css("display", "block");
-    $("#time").val(timestamp);
+  }
+
+  function openNewsPaper() {
+    $(".news-paper").css("display", "block");
+  }
+
+  function openEditor(time, editor_name, header, body, header2, body2) {
+    $(".news-container").css("display", "block");
+    $("#time").val(time);
     $("#editor_name").val(editor_name);
     $("#header").val(header);
     $("#body").val(body);
@@ -40,45 +48,31 @@ $(document).ready(function(){  // Mouse Controls
     $("#body2").val(body2);
   }
 
-  function viewNewspaper(timestamp, editor_name, header, body, header2, body2) {
-    $(".main-container").css("display", "block");
-    $("#time").html(timestamp);
-    $("#editor_name").html(editor_name);
-    $("#header").hmtl(header);
-    $("#body").html(body);
-    $("#header2").html(header2);
-    $("#body2").html(body2);
+  function viewNewspaper(time, editor_name, header, body, header2, body2) {
+    $(".news-paper").css("display", "block");
+    $("#news-time").html(time);
+    $("#news-editor_name").html(editor_name);
+    $("#news-header").html(header);
+    $("#news-body").html(body);
+    $("#news-header2").html(header2);
+    $("#news-body2").html(body2);
   }
 
-  function openNewsCreator() {
-    $(".news-container").css("display", "block");
-  }
-
-  function addnews(items) {
-    for(let i in items) {
-      let item = items[i];
-      var dateVal ="/Date(" + (item.time * 1000) + ")/"; var date = new Date( parseFloat( dateVal.substr(6 ))); let time = (date.getMonth() + 1) + "/" +    date.getDate() + "/" + date.getFullYear() + " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds()
-      $('#news').append('<tr id="news-' + item.id + '"><td>' + time + '</td><td>' + item.editor_name + '</td><td>' + item.header + '</td><td width="50%"><textarea rows="3" placeholder="" class="sans" disabled="true">' + '</textarea></td></tr>')
-      $("#news-" + item.id + "").click(function(){
-        $.post('http://core_modules/news-form', JSON.stringify({id: item.id, time: item.time, editor_name: item.editor_name, header: item.header, body: item.body, header2: item.header2, body2: item.body2}));  
-      })
-    }
-  }
-  function addnew(item) {
-    var dateVal ="/Date(" + (item.time * 1000) + ")/"; var date = new Date( parseFloat( dateVal.substr(6 ))); let time = (date.getMonth() + 1) + "/" +    date.getDate() + "/" + date.getFullYear() + " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds()
-    $('#news').append('<tr id="news-' + item.id + '"><td>' + time + '</td><td>' + item.editor_name + '</td><td>' + item.header + '</td><td width="50%"><textarea rows="3" placeholder="" class="sans" disabled="true">' + '</textarea></td></tr>')
-    $("#news-" + item.id + "").click(function(){
-      $.post('http://core_modules/news-form', JSON.stringify({id: item.id, time: item.time, editor_name: item.editor_name, header: item.header, body: item.body, header2: item.header2, body2: item.body2}));  
-    })
+  function addNew(item) {
+    var dateVal ="/Date(" + (item.time * 1000) + ")/";
+    var date = new Date( parseFloat( dateVal.substr(6 )));
+    let time = (date.getMonth() + 1) + "/" +    date.getDate() + "/" + date.getFullYear() + " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds()
+    $('#news').append('<footer><p>' + item.time + '</p><p>' + item.editor_name + '</p></footer><head><p>' + item.header + '</p></head><body><p>' + item.body + '</p></body><header><p>' + item.header2 + '</p></header>' + '<body><p>' +item.body2 + '</p></body>')
+    $("#news-" + "").click(function(){
+      $.post('http://core_modules/newsRead', JSON.stringify({time: item.time, editor_name: item.editor_name, header: item.header, body: item.body, header2: item.header2, body2: item.body2 }));  
+    })    
   }
 
   // Listen for NUI Events
   window.addEventListener('message', function(event){
     var item = event.data;
     // Trigger adding a new news to the log and create its display
-    if (item.news === true) {
-      addnews(item.news);
-    }
+
     // Open & Close main news window
     if(item.active === true) {
       closeAll();
@@ -89,13 +83,20 @@ $(document).ready(function(){  // Mouse Controls
       closeContainer();
       closeMain();
     }
+    if(item.openSection === "news") {
+      $("#news").empty();
+      $("#news").append("<th>Time</th><th>Editor_Name</th><th>Header</th><th>Body</th><th>Header2</th><th>Body2</th>");
+      addNew(item.list);
+      closeAll();
+      openNewsPaper();
+    }
     if(item.openSection === "loadEdit") {
       closeAll();
       openNews();
     }
     if(item.openSection === "newsRead") {
       closeAll();
-      viewNewspaper(item.timestamp, item.editor_name, item.header, item.body, item.header, item.body2);
+      viewNewspaper(item.time, item.editor_name, item.header, item.body, item.header, item.body2);
     }
   });
 
@@ -115,7 +116,7 @@ $(document).ready(function(){  // Mouse Controls
   });
 
   $(".btnPage").click(function(){
-      $.post('http://core_modules/newsRead', JSON.stringify({}));
+      $.post('http://core_modules/loadnews', JSON.stringify({}));
   });
 
   // Handle Form Submits

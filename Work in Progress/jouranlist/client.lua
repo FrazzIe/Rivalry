@@ -35,19 +35,32 @@ Citizen.CreateThread(function()
 	end
 end)
 
-Chat.Command("paper", function(source, args, rawCommand)
+Chat.Command("paper", function(source, args, fullCommand)
+	local source = source
+	if News.IsNews then
 		TriggerEvent("news:open")
+	else
+		Notify("You are not a news reporter!")
+	end
 end, false, {Help = "Open the Newspaper",  Params = {}})
 
-Chat.Command("cam", function(source, args, rawCommand)
+Chat.Command("cam", function(source, args, fullCommand)
 	local source = source
-	TriggerEvent("Cam:ToggleCam", source)
-end)
+	if News.IsNews then
+		TriggerEvent("Cam:ToggleCam", source)
+	else
+		Notify("You are not a news reporter!")
+	end
+end, false, {Help = "Toggle News Camera",  Params = {}})
 
-Chat.Command("mic", function(source, args, rawCommand)
+Chat.Command("mic", function(source, args, fullCommand)
 	local source = source
-	TriggerEvent("Mic:ToggleMic", source)
-end)
+	if News.IsNews then
+		TriggerEvent("Mic:ToggleMic", source)
+	else
+		Notify("You are not a news reporter!")
+	end
+end, false, {Help = "Toggle News Mic",  Params = {}})
 
 RegisterNetEvent("News:Set")
 AddEventHandler("News:Set", function(_Data, _News, first)
@@ -61,7 +74,7 @@ AddEventHandler("News:Set", function(_Data, _News, first)
 			TriggerServerEvent("jobcenter:jobs", 1)
 		end
 	elseif News.IsNews then
-		TriggerServerEvent("jobcenter:jobs", 24)
+		TriggerServerEvent("jobcenter:jobs", 26)
 	end
 end)
 
@@ -88,33 +101,37 @@ local UI = {
 ---------------------------------------------------------------------------
 RegisterNetEvent("Cam:ToggleCam")
 AddEventHandler("Cam:ToggleCam", function()
-    if not holdingCam then
-        RequestModel(GetHashKey(camModel))
-        while not HasModelLoaded(GetHashKey(camModel)) do
-            Citizen.Wait(100)
-        end
-		
-        local plyCoords = GetOffsetFromEntityInWorldCoords(GetPlayerPed(PlayerId()), 0.0, 0.0, -5.0)
-        local camspawned = CreateObject(GetHashKey(camModel), plyCoords.x, plyCoords.y, plyCoords.z, 1, 1, 1)
-        Citizen.Wait(1000)
-        local netid = ObjToNet(camspawned)
-        SetNetworkIdExistsOnAllMachines(netid, true)
-        NetworkSetNetworkIdDynamic(netid, true)
-        SetNetworkIdCanMigrate(netid, false)
-        AttachEntityToEntity(camspawned, GetPlayerPed(PlayerId()), GetPedBoneIndex(GetPlayerPed(PlayerId()), 28422), 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1, 1, 0, 1, 0, 1)
-        TaskPlayAnim(GetPlayerPed(PlayerId()), 1.0, -1, -1, 50, 0, 0, 0, 0) -- 50 = 32 + 16 + 2
-        TaskPlayAnim(GetPlayerPed(PlayerId()), camanimDict, camanimName, 1.0, -1, -1, 50, 0, 0, 0, 0)
-        cam_net = netid
-        holdingCam = true
-		DisplayNotification("To enter News cam press ~INPUT_PICKUP~ \nTo Enter Movie Cam press ~INPUT_INTERACTION_MENU~")
-    else
-        ClearPedSecondaryTask(GetPlayerPed(PlayerId()))
-        DetachEntity(NetToObj(cam_net), 1, 1)
-        DeleteEntity(NetToObj(cam_net))
-        cam_net = nil
-        holdingCam = false
-        usingCam = false
-    end
+	if News.Active then
+	    if not holdingCam then
+	        RequestModel(GetHashKey(camModel))
+	        while not HasModelLoaded(GetHashKey(camModel)) do
+	            Citizen.Wait(100)
+	        end
+			
+	        local plyCoords = GetOffsetFromEntityInWorldCoords(GetPlayerPed(PlayerId()), 0.0, 0.0, -5.0)
+	        local camspawned = CreateObject(GetHashKey(camModel), plyCoords.x, plyCoords.y, plyCoords.z, 1, 1, 1)
+	        Citizen.Wait(1000)
+	        local netid = ObjToNet(camspawned)
+	        SetNetworkIdExistsOnAllMachines(netid, true)
+	        NetworkSetNetworkIdDynamic(netid, true)
+	        SetNetworkIdCanMigrate(netid, false)
+	        AttachEntityToEntity(camspawned, GetPlayerPed(PlayerId()), GetPedBoneIndex(GetPlayerPed(PlayerId()), 28422), 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1, 1, 0, 1, 0, 1)
+	        TaskPlayAnim(GetPlayerPed(PlayerId()), 1.0, -1, -1, 50, 0, 0, 0, 0) -- 50 = 32 + 16 + 2
+	        TaskPlayAnim(GetPlayerPed(PlayerId()), camanimDict, camanimName, 1.0, -1, -1, 50, 0, 0, 0, 0)
+	        cam_net = netid
+	        holdingCam = true
+			DisplayNotification("To enter News cam press ~INPUT_PICKUP~ \nTo Enter Movie Cam press ~INPUT_INTERACTION_MENU~")
+	    else
+	        ClearPedSecondaryTask(GetPlayerPed(PlayerId()))
+	        DetachEntity(NetToObj(cam_net), 1, 1)
+	        DeleteEntity(NetToObj(cam_net))
+	        cam_net = nil
+	        holdingCam = false
+	        usingCam = false
+	    end
+	else
+		Notify("You are not a news reporter.")
+	end
 end)
 
 Citizen.CreateThread(function()
@@ -414,34 +431,38 @@ end
 ---------------------------------------------------------------------------
 RegisterNetEvent("Mic:ToggleMic")
 AddEventHandler("Mic:ToggleMic", function()
-    if not holdingMic then
-        RequestModel(GetHashKey(micModel))
-        while not HasModelLoaded(GetHashKey(micModel)) do
-            Citizen.Wait(100)
-        end
-		
-		RequestAnimDict(micanimDict)
+	if News.Active then
+	    if not holdingMic then
+	        RequestModel(GetHashKey(micModel))
+	        while not HasModelLoaded(GetHashKey(micModel)) do
+	            Citizen.Wait(100)
+	        end
+			
+			RequestAnimDict(micanimDict)
 
-        local plyCoords = GetOffsetFromEntityInWorldCoords(GetPlayerPed(PlayerId()), 0.0, 0.0, -5.0)
-        local micspawned = CreateObject(GetHashKey(micModel), plyCoords.x, plyCoords.y, plyCoords.z, 1, 1, 1)
-        Citizen.Wait(1000)
-        local netid = ObjToNet(micspawned)
-        SetNetworkIdExistsOnAllMachines(netid, true)
-        NetworkSetNetworkIdDynamic(netid, true)
-        SetNetworkIdCanMigrate(netid, false)
-        AttachEntityToEntity(micspawned, GetPlayerPed(PlayerId()), GetPedBoneIndex(GetPlayerPed(PlayerId()), 60309), 0.055, 0.05, 0.0, 240.0, 0.0, 0.0, 1, 1, 0, 1, 0, 1)
-        TaskPlayAnim(GetPlayerPed(PlayerId()), 1.0, -1, -1, 50, 0, 0, 0, 0) -- 50 = 32 + 16 + 2
-        TaskPlayAnim(GetPlayerPed(PlayerId()), micanimDict, micanimName, 1.0, -1, -1, 50, 0, 0, 0, 0)
-        mic_net = netid
-        holdingMic = true
-    else
-        ClearPedSecondaryTask(GetPlayerPed(PlayerId()))
-        DetachEntity(NetToObj(mic_net), 1, 1)
-        DeleteEntity(NetToObj(mic_net))
-        mic_net = nil
-        holdingMic = false
-        usingMic = false
-    end
+	        local plyCoords = GetOffsetFromEntityInWorldCoords(GetPlayerPed(PlayerId()), 0.0, 0.0, -5.0)
+	        local micspawned = CreateObject(GetHashKey(micModel), plyCoords.x, plyCoords.y, plyCoords.z, 1, 1, 1)
+	        Citizen.Wait(1000)
+	        local netid = ObjToNet(micspawned)
+	        SetNetworkIdExistsOnAllMachines(netid, true)
+	        NetworkSetNetworkIdDynamic(netid, true)
+	        SetNetworkIdCanMigrate(netid, false)
+	        AttachEntityToEntity(micspawned, GetPlayerPed(PlayerId()), GetPedBoneIndex(GetPlayerPed(PlayerId()), 60309), 0.055, 0.05, 0.0, 240.0, 0.0, 0.0, 1, 1, 0, 1, 0, 1)
+	        TaskPlayAnim(GetPlayerPed(PlayerId()), 1.0, -1, -1, 50, 0, 0, 0, 0) -- 50 = 32 + 16 + 2
+	        TaskPlayAnim(GetPlayerPed(PlayerId()), micanimDict, micanimName, 1.0, -1, -1, 50, 0, 0, 0, 0)
+	        mic_net = netid
+	        holdingMic = true
+	    else
+	        ClearPedSecondaryTask(GetPlayerPed(PlayerId()))
+	        DetachEntity(NetToObj(mic_net), 1, 1)
+	        DeleteEntity(NetToObj(mic_net))
+	        mic_net = nil
+	        holdingMic = false
+	        usingMic = false
+	    end
+	else
+		Notify("You are not a news reporter.")
+	end
 end)
 
 function drawRct(x,y,width,height,r,g,b,a)

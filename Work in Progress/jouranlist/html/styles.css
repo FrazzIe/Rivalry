@@ -350,6 +350,10 @@ input[type=submit], .submit {
   .news-container {
     margin-top:40%;
   }
+
+  .news-paper {
+    margin-top:40%;
+  }
   .news-input {
     box-sizing:border-box;
     margin-bottom:3%;

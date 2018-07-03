@@ -14,26 +14,13 @@ AddEventHandler("news:submit", function(time, editor_name, header, body, header2
 end)
 
 RegisterServerEvent("news:load-news")
-AddEventHandler("news:load-news", function()
-    exports['GHMattiMySQL']:QueryResultAsync("SELECT * FROM news_news", {} , function(news)
-        if(news[1] == nil)then
-
+AddEventHandler("news:load-news", function(openUI)
+    local source = source
+    exports['GHMattiMySQL']:QueryResultAsync("SELECT * FROM news_news WHERE `id` = 1;", {}, function(news)
+        if(news[1] == nil) then
+            TriggerClientEvent("news:load-news", source, {}, openUI)
         else
-            local newspage = {}
-            for k, v in ipairs(news)do
-                newspage[v.id] = {}
-            end
-            for k, v in ipairs(news)do
-                newspage[v.id] = {
-                    time_t = v.time,
-                    editor_t = v.editor_name,
-                    header_t = v.header,
-                    body_t = v.body,
-                    header2_t = v.header2,
-                    body2_t = v.body2,
-                }
-                TriggerClientEvent("news:LoadFuckingNews", newspage[v.id].time_t, newspage[v.id].editor_t, newspage[v.id].header_t, newspage[v.id].body, newspage[v.id].header2_t, newspage[v.id].body2_t)
-            end
+            TriggerClientEvent("news:load-news", source, news, openUI)
         end
     end)
 end)
