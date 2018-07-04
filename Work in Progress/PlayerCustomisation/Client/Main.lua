@@ -269,25 +269,20 @@ function OpenClothingMenu(LocationIndex)
 end
 
 function OpenMaskMenu(LocationIndex)
-	Masks.Drawables = {}
-	Masks.Textures = {}
-	for Drawable = 0, GetNumberOfPedDrawableVariations(PlayerPedId(), 1) do
-		table.insert(Masks.Drawables, Drawable)
-	end
+	for Index = 1, #MaskMenu.Items do
+		local Submenu = MaskMenu.Children[MaskMenu.Items[Index]]
+		if Submenu then
+			for ItemIndex = 1, #Submenu.Items do
+				Submenu.Items[ItemIndex]:SetRightBadge(BadgeStyle.None)
+			end
 
-	for Index = 1, #Masks.Drawables do
-		table.insert(Masks.Textures, {})
-		for Texture = 0, GetNumberOfPedTextureVariations(PlayerPedId(), 1, Masks.Drawables[Index]) do
-			table.insert(Masks.Textures[Index], Texture)
+			local MaskIndex = GetMaskIndex(Index)
+
+			if MaskIndex ~= nil then
+				Submenu.Items[MaskIndex]:SetRightBadge(BadgeStyle.Clothes)
+			end
 		end
 	end
-
-	Citizen.Trace(json.encode(Masks.Drawables))
-	MaskMenu.Items[1].Data.Items = Masks.Drawables
-	MaskMenu.Items[1]:Index(MaskMenu.Items[1]:ItemToIndex(PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Clothing.Drawable[2]))
-
-	MaskMenu.Items[2].Data.Items = Masks.Textures[MaskMenu.Items[1]:Index()]
-	MaskMenu.Items[2]:Index(MaskMenu.Items[2]:ItemToIndex(PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Clothing.Texture[2]))
 
 	MaskMenu:Visible(true)
 end

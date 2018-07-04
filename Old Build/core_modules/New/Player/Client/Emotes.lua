@@ -85,6 +85,11 @@ Emotes = {
 			Items = {},
 		},
 		{
+			Id = "Dog",
+			Description = "Animations for doggos.",
+			Items = {},
+		},
+		{
 			Id = "Misc",
 			Description = "Animations that don't fit a category.",
 			Items = {},

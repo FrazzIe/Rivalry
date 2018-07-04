@@ -66,8 +66,36 @@ PlayerCustomisation.PlayerData = {
 }
 
 PlayerCustomisation.Locations = {
-	Clothing = {},
-	Barbers = {},
+	Clothing = {
+        [1] = {
+            Blip = {
+                Name = "Tattoo Store", 
+                Sprite = 75, 
+                Colour = 0,
+            },
+            Marker = {
+            	x = 1322.6247558594, 
+            	y = -1644.7593994141, 
+            	z = 52.145580291748,
+            },
+            Banner = "shopui_title_barber",
+        },
+	},
+	Barbers = {
+        [1] = {
+            Blip = {
+                Name = "Tattoo Store", 
+                Sprite = 75, 
+                Colour = 0,
+            },
+            Marker = {
+				x = 1316.8658447266, 
+				y = -1649.0679931641, 
+				z = 52.145587921143,
+            },
+            Banner = "shopui_title_barber",
+        },
+	},
 	Masks = {
         [1] = {
             Blip = {
@@ -4283,56 +4311,56 @@ PlayerCustomisation.Reference = {
 				{
 					Name = "Puppet Plastic Face",
 					Value = {
-						Drawable = 0,
+						Drawable = 50,
 						Texture = 8,
 					},
 				},
 				{
 					Name = "Doll Plastic Face",
 					Value = {
-						Drawable = 0,
+						Drawable = 50,
 						Texture = 7,
 					},
 				},
 				{
 					Name = "Mannequin Plastic Face",
 					Value = {
-						Drawable = 0,
+						Drawable = 50,
 						Texture = 6,
 					},
 				},
 				{
 					Name = "Brown Plastic Face",
 					Value = {
-						Drawable = 0,
+						Drawable = 50,
 						Texture = 5,
 					},
 				},
 				{
 					Name = "Black Plastic Face",
 					Value = {
-						Drawable = 0,
+						Drawable = 50,
 						Texture = 4,
 					},
 				},
 				{
 					Name = "Clown Plastic Face",
 					Value = {
-						Drawable = 0,
+						Drawable = 50,
 						Texture = 3,
 					},
 				},
 				{
 					Name = "Pink Plastic Face",
 					Value = {
-						Drawable = 0,
+						Drawable = 50,
 						Texture = 2,
 					},
 				},
 				{
 					Name = "The Don Plastic Face",
 					Value = {
-						Drawable = 0,
+						Drawable = 50,
 						Texture = 1,
 					},
 				},
@@ -5199,7 +5227,7 @@ PlayerCustomisation.Reference = {
 				{
 					Name = "Gold Stone Possessed Oni",
 					Value = {
-						Drawable = 0,
+						Drawable = 105,
 						Texture = 14,
 					},
 				},
@@ -5213,7 +5241,7 @@ PlayerCustomisation.Reference = {
 				{
 					Name = "Black and Yellow Oni",
 					Value = {
-						Drawable = 0,
+						Drawable = 105,
 						Texture = 12,
 					},
 				},

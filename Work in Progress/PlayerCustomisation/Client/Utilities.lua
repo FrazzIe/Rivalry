@@ -239,6 +239,17 @@ function GetPropIndex(Prop)
 	return nil
 end
 
+function GetMaskIndex(Category)
+	if PlayerCustomisation.Reference.Masks.List[Category] then
+		for Index = 1, #PlayerCustomisation.Reference.Masks.List[Category] do
+			if PlayerCustomisation.Reference.Masks.List[Category][Index].Value.Drawable == PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Clothing.Drawable[2] and PlayerCustomisation.Reference.Masks.List[Category][Index].Value.Texture == PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Clothing.Texture[2] then
+				return Index
+			end
+		end
+	end
+	return nil
+end
+
 function RetrieveComponents()
 	if PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender == "Hybrid" then
 		PlayerCustomisation.Reference.Clothing.Options.Hybrid = {}
