@@ -37,6 +37,7 @@ function SetupHeritageMenu(ParentMenu)
 		UpdatePlayer()
 	end
 
+	Menu.Pagination.Total = 7
 	Menu:AddWindow(Window)
 	Menu:AddItem(ItemMumList)
 	Menu:AddItem(ItemDadList)
@@ -246,6 +247,7 @@ function SetupFeaturesMenu(ParentMenu)
 		end
 	end
 
+	Menu.Pagination.Total = 7
 	Menu:AddItem(ItemBrowList)
 	Menu:AddItem(ItemEyesList)
 	Menu:AddItem(ItemNoseList)
@@ -500,6 +502,7 @@ function SetupAppearanceMenu(ParentMenu)
 		UpdatePlayer()
 	end
 
+	Menu.Pagination.Total = 7
 	Menu:AddItem(ItemHairList)
 	Menu:AddItem(ItemEyebrowsList)
 	Menu:AddItem(ItemFacialHairList)
@@ -587,6 +590,7 @@ function SetupApparelMenu(ParentMenu)
 		UpdatePlayer()
 	end
 
+	Menu.Pagination.Total = 7
 	Menu:AddItem(ItemStyleList)
 	Menu:AddItem(ItemOutfitList)
 	Menu:AddItem(ItemHatList)
@@ -617,6 +621,7 @@ function SetupModelMenu(ParentMenu)
 		Menu:AddItem(ModelItem)
 	end
 
+	Menu.Pagination.Total = 7
 	Menu.ParentMenu = ParentMenu
 
 	return Menu

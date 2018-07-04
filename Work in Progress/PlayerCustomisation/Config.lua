@@ -78,7 +78,7 @@ PlayerCustomisation.Locations = {
             	y = -1644.7593994141, 
             	z = 52.145580291748,
             },
-            Banner = "shopui_title_barber",
+            Banner = "shopui_title_lowendfashion2",
         },
 	},
 	Barbers = {
@@ -108,7 +108,7 @@ PlayerCustomisation.Locations = {
                 y = -1651.976,
                 z = 52.275,
             },
-            Banner = "shopui_title_barber",
+            Banner = "shopui_title_movie_masks",
         },
 	},
 	Tattoos = {},
@@ -3295,6 +3295,90 @@ PlayerCustomisation.Reference = {
 					},
 				},
 				{
+					Name = "Black Wolf",
+					Value = {
+						Drawable = 26,
+						Texture = 1,
+					},
+				},
+				{
+					Name = "Grey Wolf",
+					Value = {
+						Drawable = 26,
+						Texture = 0,
+					},
+				},
+				{
+					Name = "Black Vulture",
+					Value = {
+						Drawable = 25,
+						Texture = 1,
+					},
+				},
+				{
+					Name = "Pink Vulture",
+					Value = {
+						Drawable = 25,
+						Texture = 0,
+					},
+				},
+				{
+					Name = "White Eagle",
+					Value = {
+						Drawable = 24,
+						Texture = 1,
+					},
+				},
+				{
+					Name = "Brown Eagle",
+					Value = {
+						Drawable = 24,
+						Texture = 0,
+					},
+				},
+				{
+					Name = "Brown Bull",
+					Value = {
+						Drawable = 23,
+						Texture = 1,
+					},
+				},
+				{
+					Name = "Black Bull",
+					Value = {
+						Drawable = 23,
+						Texture = 0,
+					},
+				},
+				{
+					Name = "Golden Bison",
+					Value = {
+						Drawable = 22,
+						Texture = 1,
+					},
+				},
+				{
+					Name = "Brown Bison",
+					Value = {
+						Drawable = 22,
+						Texture = 0,
+					},
+				},
+				{
+					Name = "Grey Bear",
+					Value = {
+						Drawable = 21,
+						Texture = 1,
+					},
+				},
+				{
+					Name = "Brown Bear",
+					Value = {
+						Drawable = 21,
+						Texture = 0,
+					},
+				},
+				{
 					Name = "Black Racoon",
 					Value = {
 						Drawable = 20,
@@ -5472,6 +5556,293 @@ PlayerCustomisation.Reference = {
 					},
 				},
 				{
+					Name = "Latino Mrs Claus",
+					Value = {
+						Drawable = 88,
+						Texture = 2,
+					},
+				},
+				{
+					Name = "Black Mrs Claus",
+					Value = {
+						Drawable = 88,
+						Texture = 1,
+					},
+				},
+				{
+					Name = "White Mrs Claus",
+					Value = {
+						Drawable = 88,
+						Texture = 0,
+					},
+				},
+				{
+					Name = "Badass Bad Elf",
+					Value = {
+						Drawable = 87,
+						Texture = 2,
+					},
+				},
+				{
+					Name = "Gangsta Bad Elf",
+					Value = {
+						Drawable = 87,
+						Texture = 1,
+					},
+				},
+				{
+					Name = "Rebel Bad Elf",
+					Value = {
+						Drawable = 87,
+						Texture = 0,
+					},
+				},
+				{
+					Name = "High Mrs Claus",
+					Value = {
+						Drawable = 86,
+						Texture = 2,
+					},
+				},
+				{
+					Name = "Smashed Mrs Claus",
+					Value = {
+						Drawable = 86,
+						Texture = 1,
+					},
+				},
+				{
+					Name = "Wasted Mrs Claus",
+					Value = {
+						Drawable = 86,
+						Texture = 0,
+					},
+				},
+				{
+					Name = "Burnt Turkey",
+					Value = {
+						Drawable = 85,
+						Texture = 2,
+					},
+				},
+				{
+					Name = "Cooked Turkey",
+					Value = {
+						Drawable = 85,
+						Texture = 1,
+					},
+				},
+				{
+					Name = "Raw Turkey",
+					Value = {
+						Drawable = 85,
+						Texture = 0,
+					},
+				},
+				{
+					Name = "Light Pudding",
+					Value = {
+						Drawable = 78,
+						Texture = 1,
+					},
+				},
+				{
+					Name = "Dark Pudding",
+					Value = {
+						Drawable = 78,
+						Texture = 0,
+					},
+				},
+				{
+					Name = "Purple Festive Luchador",
+					Value = {
+						Drawable = 77,
+						Texture = 5,
+					},
+				},
+				{
+					Name = "Red Festive Luchador",
+					Value = {
+						Drawable = 77,
+						Texture = 4,
+					},
+				},
+				{
+					Name = "White Festive Luchador",
+					Value = {
+						Drawable = 77,
+						Texture = 3,
+					},
+				},
+				{
+					Name = "Black Festive Luchador",
+					Value = {
+						Drawable = 77,
+						Texture = 2,
+					},
+				},
+				{
+					Name = "Dark Green Festive Luchador",
+					Value = {
+						Drawable = 77,
+						Texture = 1,
+					},
+				},
+				{
+					Name = "Green Festive Luchador",
+					Value = {
+						Drawable = 77,
+						Texture = 0,
+					},
+				},
+				{
+					Name = "Filthy Bad Santa",
+					Value = {
+						Drawable = 76,
+						Texture = 2,
+					},
+				},
+				{
+					Name = "Grumpy Bad Santa",
+					Value = {
+						Drawable = 76,
+						Texture = 1,
+					},
+				},
+				{
+					Name = "Bruised Bad Santa",
+					Value = {
+						Drawable = 76,
+						Texture = 0,
+					},
+				},
+				{
+					Name = "Brown Crazy Gingerbread",
+					Value = {
+						Drawable = 75,
+						Texture = 2,
+					},
+				},
+				{
+					Name = "Blue Crazy Gingerbread",
+					Value = {
+						Drawable = 75,
+						Texture = 1,
+					},
+				},
+				{
+					Name = "Pink Crazy Gingerbread",
+					Value = {
+						Drawable = 75,
+						Texture = 0,
+					},
+				},
+				{
+					Name = "Angry Gingerbread",
+					Value = {
+						Drawable = 74,
+						Texture = 2,
+					},
+				},
+				{
+					Name = "Mad Gingerbread",
+					Value = {
+						Drawable = 74,
+						Texture = 1,
+					},
+				},
+				{
+					Name = "Manic Gingerbread",
+					Value = {
+						Drawable = 74,
+						Texture = 0,
+					},
+				},
+				{
+					Name = "Latino Elf",
+					Value = {
+						Drawable = 34,
+						Texture = 2,
+					},
+				},
+				{
+					Name = "Black Elf",
+					Value = {
+						Drawable = 34,
+						Texture = 1,
+					},
+				},
+				{
+					Name = "White Elf",
+					Value = {
+						Drawable = 34,
+						Texture = 0,
+					},
+				},
+				{
+					Name = "Gingerbread",
+					Value = {
+						Drawable = 33,
+						Texture = 0,
+					},
+				},
+				{
+					Name = "Penguin",
+					Value = {
+						Drawable = 31,
+						Texture = 0,
+					},
+				},
+				{
+					Name = "Snowman Mask",
+					Value = {
+						Drawable = 10,
+						Texture = 0,
+					},
+				},
+				{
+					Name = "Reindeer Mask",
+					Value = {
+						Drawable = 9,
+						Texture = 0,
+					},
+				},
+				{
+					Name = "Latino Santa",
+					Value = {
+						Drawable = 8,
+						Texture = 2,
+					},
+				},
+				{
+					Name = "Black Santa",
+					Value = {
+						Drawable = 8,
+						Texture = 1,
+					},
+				},
+				{
+					Name = "White Santa",
+					Value = {
+						Drawable = 8,
+						Texture = 0,
+					},
+				},
+				{
+					Name = "Abominable Snowman",
+					Value = {
+						Drawable = 84,
+						Texture = 0,
+					},
+				},
+				{
+					Name = "Stocking",
+					Value = {
+						Drawable = 32,
+						Texture = 0,
+					},
+				},
+				{
 					Name = "Odious Krampus",
 					Value = {
 						Drawable = 131,
@@ -6813,6 +7184,279 @@ PlayerCustomisation.Reference = {
 					Name = "Amphibian Sea Beast",
 					Value = {
 						Drawable = 92,
+						Texture = 0,
+					},
+				},
+				{
+					Name = "Black Bearded Lucifer",
+					Value = {
+						Drawable = 72,
+						Texture = 2,
+					},
+				},
+				{
+					Name = "Orange Bearded Lucifer",
+					Value = {
+						Drawable = 72,
+						Texture = 1,
+					},
+				},
+				{
+					Name = "Red Bearded Lucifer",
+					Value = {
+						Drawable = 72,
+						Texture = 0,
+					},
+				},
+				{
+					Name = "White Haggard Witch",
+					Value = {
+						Drawable = 71,
+						Texture = 2,
+					},
+				},
+				{
+					Name = "Gray Haggard Witch",
+					Value = {
+						Drawable = 71,
+						Texture = 1,
+					},
+				},
+				{
+					Name = "Yellow Haggard Witch",
+					Value = {
+						Drawable = 71,
+						Texture = 0,
+					},
+				},
+				{
+					Name = "Red Hypnotic Alien",
+					Value = {
+						Drawable = 70,
+						Texture = 2,
+					},
+				},
+				{
+					Name = "Green Hypnotic Alien",
+					Value = {
+						Drawable = 70,
+						Texture = 1,
+					},
+				},
+				{
+					Name = "Blue Hypnotic Alien",
+					Value = {
+						Drawable = 70,
+						Texture = 0,
+					},
+				},
+				{
+					Name = "Black Sack Slasher",
+					Value = {
+						Drawable = 69,
+						Texture = 2,
+					},
+				},
+				{
+					Name = "Bloody Sack Slasher",
+					Value = {
+						Drawable = 69,
+						Texture = 1,
+					},
+				},
+				{
+					Name = "Classic Sack Slasher",
+					Value = {
+						Drawable = 69,
+						Texture = 0,
+					},
+				},
+				{
+					Name = "Black Classic Lucifer",
+					Value = {
+						Drawable = 68,
+						Texture = 2,
+					},
+				},
+				{
+					Name = "Orange Classic Lucifer",
+					Value = {
+						Drawable = 68,
+						Texture = 1,
+					},
+				},
+				{
+					Name = "Red Classic Lucifer",
+					Value = {
+						Drawable = 68,
+						Texture = 0,
+					},
+				},
+				{
+					Name = "Scabby Sewer Creature",
+					Value = {
+						Drawable = 67,
+						Texture = 2,
+					},
+				},
+				{
+					Name = "Rotten Sewer Creature",
+					Value = {
+						Drawable = 67,
+						Texture = 1,
+					},
+				},
+				{
+					Name = "Dirty Sewer Creature",
+					Value = {
+						Drawable = 67,
+						Texture = 0,
+					},
+				},
+				{
+					Name = "Purple Toxic Insect",
+					Value = {
+						Drawable = 66,
+						Texture = 2,
+					},
+				},
+				{
+					Name = "Red Toxic Insect",
+					Value = {
+						Drawable = 66,
+						Texture = 1,
+					},
+				},
+				{
+					Name = "Green Toxic Insect",
+					Value = {
+						Drawable = 66,
+						Texture = 0,
+					},
+				},
+				{
+					Name = "Gray Lycanthrope",
+					Value = {
+						Drawable = 65,
+						Texture = 2,
+					},
+				},
+				{
+					Name = "Dark Lycanthrope",
+					Value = {
+						Drawable = 65,
+						Texture = 1,
+					},
+				},
+				{
+					Name = "Pale Lycanthrope",
+					Value = {
+						Drawable = 65,
+						Texture = 0,
+					},
+				},
+				{
+					Name = "Cream Skull Burst",
+					Value = {
+						Drawable = 64,
+						Texture = 2,
+					},
+				},
+				{
+					Name = "Red Skull Burst",
+					Value = {
+						Drawable = 64,
+						Texture = 1,
+					},
+				},
+				{
+					Name = "White Skull Burst",
+					Value = {
+						Drawable = 64,
+						Texture = 0,
+					},
+				},
+				{
+					Name = "Gray Flayed Demon",
+					Value = {
+						Drawable = 63,
+						Texture = 2,
+					},
+				},
+				{
+					Name = "Green Flayed Demon",
+					Value = {
+						Drawable = 63,
+						Texture = 1,
+					},
+				},
+				{
+					Name = "Red Flayed Demon",
+					Value = {
+						Drawable = 63,
+						Texture = 0,
+					},
+				},
+				{
+					Name = "Black Scalded Psycho",
+					Value = {
+						Drawable = 62,
+						Texture = 2,
+					},
+				},
+				{
+					Name = "Bloody Scalded Psycho",
+					Value = {
+						Drawable = 62,
+						Texture = 1,
+					},
+				},
+				{
+					Name = "White Scalded Psycho",
+					Value = {
+						Drawable = 62,
+						Texture = 0,
+					},
+				},
+				{
+					Name = "Rotten Butler",
+					Value = {
+						Drawable = 61,
+						Texture = 2,
+					},
+				},
+				{
+					Name = "Dead Butler",
+					Value = {
+						Drawable = 61,
+						Texture = 1,
+					},
+				},
+				{
+					Name = "Creepy Butler",
+					Value = {
+						Drawable = 61,
+						Texture = 0,
+					},
+				},
+				{
+					Name = "Nasty Watermelon",
+					Value = {
+						Drawable = 60,
+						Texture = 2,
+					},
+				},
+				{
+					Name = "Rotten Pumpkin",
+					Value = {
+						Drawable = 60,
+						Texture = 1,
+					},
+				},
+				{
+					Name = "Evil Pumpkin",
+					Value = {
+						Drawable = 60,
 						Texture = 0,
 					},
 				},

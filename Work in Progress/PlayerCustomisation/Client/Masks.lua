@@ -1,8 +1,4 @@
 MaskMenu = NativeUI.CreateMenu("", "MASKS", 0, 0)
-Masks = {
-	Drawables = {},
-	Textures = {},
-}
 
 function SetupMaskMenu(ParentMenu)
 	for Index = 1, #PlayerCustomisation.Reference.Masks.Categories do
@@ -51,8 +47,13 @@ end
 
 SetupMaskMenu(MaskMenu)
 
+--[===[
+Masks = {
+	Drawables = {},
+	Textures = {},
+}
 
---[[
+function SetupMaskMenu(ParentMenu)
 	local MaskDrawableItem = NativeUI.CreateProgressItem("Mask Drawables", {}, 1, "", false)
 	local MaskTextureItem = NativeUI.CreateProgressItem("Mask Textures", {}, 1, "", false)
 
@@ -78,6 +79,7 @@ SetupMaskMenu(MaskMenu)
 
 	ParentMenu:AddItem(MaskDrawableItem)
 	ParentMenu:AddItem(MaskTextureItem)
+end
 
 function OpenMaskMenu(LocationIndex)
 	Masks.Drawables = {}
@@ -102,4 +104,4 @@ function OpenMaskMenu(LocationIndex)
 
 	MaskMenu:Visible(true)
 end
---]]
+--]===]

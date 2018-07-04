@@ -1,3 +1,5 @@
+local MenuLogoSprite = NativeUI.CreateSprite("", "")
+
 local GenderOption = SetupGenderOption(CharacterCreatorMenu)
 local HeritageMenu = SetupHeritageMenu(CharacterCreatorMenu)
 local FeaturesMenu = SetupFeaturesMenu(CharacterCreatorMenu)
@@ -6,7 +8,6 @@ local ApparelMenu = SetupApparelMenu(CharacterCreatorMenu)
 local SaveOption = SetupSaveOption(CharacterCreatorMenu)
 local ModelMenu = SetupModelMenu(CharacterCreatorMenu)
 
-local BarberMenuLogo = NativeUI.CreateSprite("", "")
 local HairstyleMenu = SetupHairstylesMenu(BarberMenu)
 local BeardMenu = SetupBeardsMenu(BarberMenu)
 local EyebrowMenu = SetupEyebrowsMenu(BarberMenu)
@@ -18,13 +19,10 @@ local EyeMakeupMenu = SetupEyeMakeupMenu(MakeupMenu)
 local BlushMenu = SetupBlusherMenu(MakeupMenu)
 local LipstickMenu = SetupLipstickMenu(MakeupMenu)
 
-local ClothingMenuLogo = NativeUI.CreateSprite("", "")
-
 BarberMenu.Items[4].Activated = SetPedTopless
 
 PlayerCustomisation.Pool:Add(CharacterCreatorMenu)
 PlayerCustomisation.Pool:Add(ModelMenu)
-PlayerCustomisation.Pool:TotalItemsPerPage(8)
 PlayerCustomisation.Pool:Add(BarberMenu)
 PlayerCustomisation.Pool:Add(ClothingMenu)
 PlayerCustomisation.Pool:Add(MaskMenu)
@@ -234,10 +232,10 @@ function OpenBarberMenu(LocationIndex)
 		LipstickMenu.Items[LipstickIndex]:SetRightBadge(BadgeStyle.Makeup)
 	end
 
-	BarberMenuLogo.TxtDictionary = PlayerCustomisation.Locations.Barbers[LocationIndex].Banner
-	BarberMenuLogo.TxtName = PlayerCustomisation.Locations.Barbers[LocationIndex].Banner
-	BarberMenu:SetBannerSprite(BarberMenuLogo, true)
-	MakeupMenu:SetBannerSprite(BarberMenuLogo, true)
+	MenuLogoSprite.TxtDictionary = PlayerCustomisation.Locations.Barbers[LocationIndex].Banner
+	MenuLogoSprite.TxtName = PlayerCustomisation.Locations.Barbers[LocationIndex].Banner
+	BarberMenu:SetBannerSprite(MenuLogoSprite, true)
+	MakeupMenu:SetBannerSprite(MenuLogoSprite, true)
 	BarberMenu:Visible(true)
 end
 
@@ -261,9 +259,9 @@ function OpenClothingMenu(LocationIndex)
 	ClothingMenu.Items[6].Data.Items = PlayerCustomisation.Reference.Props.Textures[PlayerCustomisation.Reference.Props.Options[PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender][1].Name][ClothingMenu.Items[2]:Index()]
 	ClothingMenu.Items[6]:Index(ClothingMenu.Items[6]:ItemToIndex(PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Props.Texture[PlayerCustomisation.Reference.Props.Options[PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender][1].Value + 1]))
 
-	ClothingMenuLogo.TxtDictionary = PlayerCustomisation.Locations.Barbers[LocationIndex].Banner
-	ClothingMenuLogo.TxtName = PlayerCustomisation.Locations.Barbers[LocationIndex].Banner
-	ClothingMenu:SetBannerSprite(ClothingMenuLogo, true)
+	MenuLogoSprite.TxtDictionary = PlayerCustomisation.Locations.Barbers[LocationIndex].Banner
+	MenuLogoSprite.TxtName = PlayerCustomisation.Locations.Barbers[LocationIndex].Banner
+	ClothingMenu:SetBannerSprite(MenuLogoSprite, true)
 
 	ClothingMenu:Visible(true)
 end
@@ -284,6 +282,9 @@ function OpenMaskMenu(LocationIndex)
 		end
 	end
 
+	MenuLogoSprite.TxtDictionary = PlayerCustomisation.Locations.Masks[LocationIndex].Banner
+	MenuLogoSprite.TxtName = PlayerCustomisation.Locations.Masks[LocationIndex].Banner
+	MaskMenu:SetBannerSprite(MenuLogoSprite, true)
 	MaskMenu:Visible(true)
 end
 
