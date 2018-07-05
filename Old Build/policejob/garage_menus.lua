@@ -43,14 +43,14 @@ cars = {
     {name = "Trooper Charger", model = "statep2", type = "", rank = "sergeant"},
     {name = "Trooper Chevy Silverado", model = "statep3", type = "", rank = "sergeant"},
     {name = "Trooper Hellcat", model = "statep4", type = "", rank = "sergeant"},
-    {name = "Interceptor 1", model = "2015polstang", type = "", rank = "officer ii"},
-    {name = "Interceptor 2", model = "rmodpolice", type = "", rank = "officer ii"},
-    {name = "Unmarked Taxi Vic", model = "umt1", type = "", rank = "detective"},
-    {name = "Unmarked Buffalo", model = "dtu1", type = "", rank = "detective"},
-    {name = "Unmarked Fugitive", model = "dtu2", type = "", rank = "detective"},
-    {name = "Unmarked Cruiser", model = "dtu3", type = "", rank = "detective"},
+    {name = "Interceptor Mustang", model = "2015polstang", type = "", rank = "officer ii"},
+    {name = "Interceptor GTR", model = "rmodpolice", type = "", rank = "officer ii"},
+    {name = "Unmarked Panto", model = "upanto", type = "", rank = "detective"},
+    {name = "Unmarked Buffalo", model = "fbi", type = "", rank = "detective"},
+    {name = "Unmarked Explorer", model = "uexplorer", type = "", rank = "detective"},
     {name = "Unmarked Suburban", model = "usuburban", type = "", rank = "lieutenant"},
     {name = "Unmarked Charger", model = "18charger", type = "", rank = "lieutenant"},
+    {name = "Unmarked Camaro", model = "ucamaro", type = "", rank = "lieutenant"},
 }
 
 heli = {
@@ -244,14 +244,12 @@ end)
 
 function spawncar(model, type)
 	Citizen.CreateThread(function()
-		local plate = "LSPD"..math.random(1,999)
 		local helicopter = false
 		local tint = false
 		if type == "helicopter" or type == "heli" then
 			helicopter = true
 		elseif type == "undercover" then
 			tint = true
-			plate = math.random(00000000,99999999)
 		end
 		local carhashed = GetHashKey(model)
 		local ply = PlayerPedId()
@@ -272,7 +270,6 @@ function spawncar(model, type)
 		SetVehicleMod(existingVeh, 13, 3)
 		SetVehicleMod(existingVeh, 15, 3)
 		SetVehicleTyresCanBurst(existingVeh, false)
-		SetVehicleNumberPlateText(existingVeh, plate)
 		if tint then
 			SetVehicleWindowTint(existingVeh, 1)
 		elseif helicopter then
