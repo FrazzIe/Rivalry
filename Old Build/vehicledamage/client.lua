@@ -62,10 +62,8 @@ Citizen.CreateThread(function()
 	end
 end)
 
-local function notification(msg)
-	SetNotificationTextEntry("STRING")
-	AddTextComponentString(msg)
-	DrawNotification(false, false)
+function Notify(Message, Time)
+	   exports.pNotify:SendNotify({text = Message or "", type = "error", timeout = Time or 3000, layout = "centerRight", queue = "left"})
 end
 
 local function isPedDrivingAVehicle()
@@ -168,24 +166,23 @@ end
 
 RegisterNetEvent('iens:repair')
 AddEventHandler('iens:repair', function(vehicleHandle)
-		local ped = GetPlayerPed(-1)
-		vehicle = vehicleHandle
-		if GetVehicleEngineHealth(vehicle) < cfg.cascadingFailureThreshold + 5 then
-				SetVehicleUndriveable(vehicle,false)
-				SetVehicleEngineHealth(vehicle, cfg.cascadingFailureThreshold + 5)
-				SetVehiclePetrolTankHealth(vehicle, 750.0)
-				healthEngineLast=cfg.cascadingFailureThreshold +5
-				healthPetrolTankLast=750.0
-				SetVehicleEngineOn(vehicle, true, false )
-				notification("~g~".."You have just repaired the cars engine, but it isn't in a good condition. Now get to a mechanic!")
-				fixMessagePos = fixMessagePos + 1
-				if fixMessagePos > repairCfg.fixMessageCount then fixMessagePos = 1 end
-		end
+	local ped = GetPlayerPed(-1)
+	if GetVehicleEngineHealth(vehicleHandle) < cfg.cascadingFailureThreshold + 5 then
+		SetVehicleUndriveable(vehicleHandle,false)
+		SetVehicleEngineHealth(vehicleHandle, cfg.cascadingFailureThreshold + 5)
+		SetVehiclePetrolTankHealth(vehicleHandle, 750.0)
+		healthEngineLast = cfg.cascadingFailureThreshold + 5
+		healthPetrolTankLast = 750.0
+		SetVehicleEngineOn(vehicleHandle, true, false )
+		Notify("You have just repaired the cars engine, but it isn't in a good condition. Now get to a mechanic!")
+	else
+		Notify("You tried to repair the vehicle, but it seems to be done for!")
+	end
 end)
 
 RegisterNetEvent('iens:notAllowed')
 AddEventHandler('iens:notAllowed', function()
-	notification("~r~You don't have permission to repair vehicles")
+	Notify("You don't have permission to repair vehicles")
 end)
 
 if cfg.torqueMultiplierEnabled or cfg.preventVehicleFlip or cfg.limpMode then
