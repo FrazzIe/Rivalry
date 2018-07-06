@@ -36,7 +36,7 @@ Store = {
     }},
     {Category = "Tools", Items = {
     	{Name = "Phone", Id = 200, Cost = 1000, Max = 1},
-        {Name = "Repair kit", Id = 37, Cost = 1250, Max = 100},
+        {Name = "Repair kit", Id = 37, Cost = 500, Max = 100},
     }},
     {Category = "Medical", Items = {
         {Name = "Medkit", Id = 34, Cost = 75, Max = 100},
