@@ -61,8 +61,8 @@ Chat.Command("311", function(source, args, rawCommand)
 					end
 				end
 				Chat.Message(source, "311 - ^5[^3"..source.."^5]^r", Message, 255, 255, 0, true, "policethreeoneone")
-			end
 				TriggerClientEvent("trigger:animation", source)
+			end
 		else
 			Chat.Message(source, "You dont have a phone right? How can you call emergency services", 255, 255, 255, true)
 		end
