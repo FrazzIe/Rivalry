@@ -1,4 +1,4 @@
-CharacterCreatorMenu = NativeUI.CreateMenu("Character Creator", "", 45, 45)
+CharacterCreatorMenu = NativeUI.CreateMenu("Character Creator", "", 0, 0)
 
 function SetupGenderOption(ParentMenu)
 	local ItemGenderList = NativeUI.CreateListItem("Sex", {{Name = "Male", Value = "mp_m_freemode_01"}, {Name = "Female", Value = "mp_f_freemode_01"}, "Hybrid"}, 1, "Select the gender of your Character.")
