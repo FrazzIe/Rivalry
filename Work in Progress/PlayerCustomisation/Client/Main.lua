@@ -26,6 +26,7 @@ PlayerCustomisation.Pool:Add(ModelMenu)
 PlayerCustomisation.Pool:Add(BarberMenu)
 PlayerCustomisation.Pool:Add(ClothingMenu)
 PlayerCustomisation.Pool:Add(MaskMenu)
+PlayerCustomisation.Pool:Add(TattooMenu)
 
 CharacterCreatorMenu.OnListSelect = function(ParentMenu, SelectedList, NewIndex) 
 	if SelectedList == GenderOption then
@@ -106,6 +107,9 @@ CharacterCreatorMenu.OnListSelect = function(ParentMenu, SelectedList, NewIndex)
 				ParentMenu.Items[Index]:Enabled(true)
 				ParentMenu.Items[Index]:SetRightBadge(BadgeStyle.None)
 			end
+
+			SetupTattooMenu(TattooMenu)
+			UpdateHairstylesMenu(HairstyleMenu)
 		end
 		SelectedList:Enabled(true)
 	end
@@ -267,17 +271,29 @@ function OpenClothingMenu(LocationIndex)
 end
 
 function OpenMaskMenu(LocationIndex)
-	for Index = 1, #MaskMenu.Items do
-		local Submenu = MaskMenu.Children[MaskMenu.Items[Index]]
-		if Submenu then
-			for ItemIndex = 1, #Submenu.Items do
-				Submenu.Items[ItemIndex]:SetRightBadge(BadgeStyle.None)
-			end
+	if PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender == "Hybrid" then
+		for Index = 1, #MaskMenu.Items do
+			MaskMenu.Items[Index]:Enabled(false)
+			MaskMenu.Items[Index]:SetRightBadge(BadgeStyle.Lock)
+		end
+	else
+		for Index = 1, #MaskMenu.Items do
+			MaskMenu.Items[Index]:Enabled(true)
+			MaskMenu.Items[Index]:SetRightBadge(BadgeStyle.None)
+		end
 
-			local MaskIndex = GetMaskIndex(Index)
+		for Index = 1, #MaskMenu.Items do
+			local Submenu = MaskMenu.Children[MaskMenu.Items[Index]]
+			if Submenu then
+				for ItemIndex = 1, #Submenu.Items do
+					Submenu.Items[ItemIndex]:SetRightBadge(BadgeStyle.None)
+				end
 
-			if MaskIndex ~= nil then
-				Submenu.Items[MaskIndex]:SetRightBadge(BadgeStyle.Clothes)
+				local MaskIndex = GetMaskIndex(Index)
+
+				if MaskIndex ~= nil then
+					Submenu.Items[MaskIndex]:SetRightBadge(BadgeStyle.Clothes)
+				end
 			end
 		end
 	end
@@ -286,6 +302,38 @@ function OpenMaskMenu(LocationIndex)
 	MenuLogoSprite.TxtName = PlayerCustomisation.Locations.Masks[LocationIndex].Banner
 	MaskMenu:SetBannerSprite(MenuLogoSprite, true)
 	MaskMenu:Visible(true)
+end
+
+function OpenTattooMenu(LocationIndex)
+	if PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender == "Hybrid" then
+		for Index = 1, #TattooMenu.Items do
+			TattooMenu.Items[Index]:Enabled(false)
+			TattooMenu.Items[Index]:SetRightBadge(BadgeStyle.Lock)
+		end
+	else
+		for Index = 1, #TattooMenu.Items do
+			TattooMenu.Items[Index]:Enabled(true)
+			TattooMenu.Items[Index]:SetRightBadge(BadgeStyle.None)
+		end
+
+		for Index = 1, #TattooMenu.Items do
+			local Submenu = TattooMenu.Children[TattooMenu.Items[Index]]
+			if Submenu then
+				for ItemIndex = 1, #Submenu.Items do
+					if PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Tattoos[PlayerCustomisation.Reference.Tattoos[PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender][Index][ItemIndex].Decoration] then
+						Submenu.Items[ItemIndex]:SetRightBadge(BadgeStyle.Tattoo)
+					else
+						Submenu.Items[ItemIndex]:SetRightBadge(BadgeStyle.None)
+					end
+				end
+			end
+		end
+	end
+
+	MenuLogoSprite.TxtDictionary = PlayerCustomisation.Locations.Tattoos[LocationIndex].Banner
+	MenuLogoSprite.TxtName = PlayerCustomisation.Locations.Tattoos[LocationIndex].Banner
+	TattooMenu:SetBannerSprite(MenuLogoSprite, true)
+	TattooMenu:Visible(true)
 end
 
 PlayerCustomisation.Pool:RefreshIndex()
@@ -363,6 +411,30 @@ Citizen.CreateThread(function()
 							OpenMaskMenu(Index)
 						else
 							MaskMenu:Visible(false)
+						end
+					end
+				end
+			end
+		end
+	end
+end)
+
+Citizen.CreateThread(function()
+	local Player = {
+		Coordinates = GetEntityCoords(PlayerPedId(), false)
+	}
+	while true do
+		Citizen.Wait(0)
+		Player.Coordinates = GetEntityCoords(PlayerPedId(), false)
+		for Index = 1, #PlayerCustomisation.Locations.Tattoos do
+			if Vdist2(Player.Coordinates.x, Player.Coordinates.y, Player.Coordinates.z, PlayerCustomisation.Locations.Tattoos[Index].Marker.x, PlayerCustomisation.Locations.Tattoos[Index].Marker.y, PlayerCustomisation.Locations.Tattoos[Index].Marker.z) < 20 then
+				RenderMarker(25, PlayerCustomisation.Locations.Tattoos[Index].Marker.x, PlayerCustomisation.Locations.Tattoos[Index].Marker.y, PlayerCustomisation.Locations.Tattoos[Index].Marker.z, 2.0, 2.0, 2.5, 255, 255, 0, 255)
+				if Vdist2(Player.Coordinates.x, Player.Coordinates.y, Player.Coordinates.z, PlayerCustomisation.Locations.Tattoos[Index].Marker.x, PlayerCustomisation.Locations.Tattoos[Index].Marker.y, PlayerCustomisation.Locations.Tattoos[Index].Marker.z) < 2 then
+					if IsControlJustPressed(1, 51) then
+						if not TattooMenu:Visible() then
+							OpenTattooMenu(Index)
+						else
+							TattooMenu:Visible(false)
 						end
 					end
 				end

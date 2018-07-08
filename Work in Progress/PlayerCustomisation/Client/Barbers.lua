@@ -68,6 +68,47 @@ function SetupHairstylesMenu(ParentMenu)
 	return Menu
 end
 
+function UpdateHairstylesMenu(Menu)
+	Menu:Clear()
+	for Index = 1, #PlayerCustomisation.Reference.Appearance.Hairstyles[PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender] do
+		local HairstyleItem = NativeUI.CreateItem(PlayerCustomisation.Reference.Appearance.Hairstyles[PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender][Index].Name, "")
+		local HairstyleColourPanel = NativeUI.CreateColourPanel("Colour", PlayerCustomisation.Reference.Colours.Hair)
+		local HairstyleHighlightPanel = NativeUI.CreateColourPanel("Highlight", PlayerCustomisation.Reference.Colours.Hair)
+		HairstyleItem:AddPanel(HairstyleColourPanel)
+		HairstyleItem:AddPanel(HairstyleHighlightPanel)
+		HairstyleItem.Activated = function(ParentMenu, SelectedItem)
+			PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Clothing.Drawable[3] = PlayerCustomisation.Reference.Appearance.Hairstyles[PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender][Index].Value
+			
+			UpdatePlayer()
+
+			for ItemIndex = 1, #ParentMenu.Items do
+				ParentMenu.Items[ItemIndex]:SetRightBadge(BadgeStyle.None)
+			end
+
+			SelectedItem:SetRightBadge(BadgeStyle.Barber)
+		end
+		HairstyleItem.ActivatedPanel = function(ParentMenu, SelectedItem, Panel, PanelValue)
+			if Panel == HairstyleColourPanel then
+				PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].HairColour[1] = PanelValue - 1
+
+				for ItemIndex = 1, #ParentMenu.Items do
+					ParentMenu.Items[ItemIndex].Panels[1]:CurrentSelection(PanelValue - 1, true)
+				end
+			elseif Panel == HairstyleHighlightPanel then
+				PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].HairColour[2] = PanelValue - 1
+
+				for ItemIndex = 1, #ParentMenu.Items do
+					ParentMenu.Items[ItemIndex].Panels[2]:CurrentSelection(PanelValue - 1, true)
+				end
+			end
+
+			UpdatePlayer()
+		end
+		Menu:AddItem(HairstyleItem)
+	end
+	Menu:RefreshIndex()
+end
+
 function SetupBeardsMenu(ParentMenu)
 	local Menu = PlayerCustomisation.Pool:AddSubMenu(ParentMenu, "Beards", "", true)
 	for Index = 1, #PlayerCustomisation.Reference.Appearance.Beards do
