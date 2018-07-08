@@ -144,9 +144,9 @@ Citizen.CreateThread(function()
 				if GetPedInVehicleSeat(vehicle, -1) == PlayerPedId() then
 					drawText("~y~"..GetVehicleNumberPlateText(vehicle), 6, 0.889, 0.85, 0.5, 255, 255, 255, 255, false, true)
 				end
-               -- DisplayRadar(true)
+                DisplayRadar(true)
             else
-               -- DisplayRadar(false)
+               -DisplayRadar(false)
                 --DrawHUDBar(GetEntityMaxHealth(PlayerPedId()), GetEntityHealth(PlayerPedId()), minimap.left_x, minimap.bottom_y - 0.01, 0.070, 0.008335, {}, {}, true, {}, 2)
                 --DrawHUDBar(GetEntityMaxHealth(PlayerPedId()), GetEntityHealth(PlayerPedId()), minimap.left_x + 0.070 + 0.0015, minimap.bottom_y - 0.01, 0.070, 0.008335, {r = 61, g = 128, b = 165}, {r = 28, g = 77, b = 107}, true, {}, 1)
 			end
