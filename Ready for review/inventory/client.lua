@@ -26,7 +26,7 @@ vehicle_weapon_inventory = {}
 inventories = {}
 --=INVENTORY====================================================================================================================--
 local drunk = false
-local drugged = true                                                                                                             --
+local drugged = false                                                                                                             --
 local armour_anim_dict = "switch@franklin@getting_ready"
 local put_in_car_dict = "mp_common"
 
