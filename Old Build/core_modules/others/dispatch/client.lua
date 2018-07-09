@@ -94,6 +94,7 @@ local weapons_whitelist = {
 	["WEAPON_BALL"]	= 1,
 	["WEAPON_PETROLCAN"] = 1,
 	["WEAPON_SNOWBALL"] = 1,
+	["WEAPON_STUNGUN"] = 1,
 }
 
 local ten_fifthteen_timer = 10 --Minutes --Drugs
@@ -179,15 +180,18 @@ Citizen.CreateThread(function()
 			if IsPedShooting(PlayerPedId()) then
 				local hasWeapon, currentWeapon = GetCurrentPedWeapon(PlayerPedId(), 1)
 				if currentWeapon ~= nil then
-					if GetAmmoInPedWeapon(PlayerPedId(), GetHashKey(Weaponhashes[tostring(currentWeapon)])) > 0 then
-						if not weapons_whitelist[Weaponhashes[tostring(currentWeapon)]] then
-							local pos = GetEntityCoords(PlayerPedId(), false)
-							if GetDistanceBetweenCoords(pos.x, pos.y, pos.z, lastpos.x, lastpos.y, lastpos.z, true) > 50 then
-								if willNPCreport("gunshots") then
-									lastpos = pos
-									local pos = GetEntityCoords(PlayerPedId(), false)
-									local street, crossing = GetStreetNameAtCoord(pos.x, pos.y, pos.z)
-									TriggerServerEvent("dispatch:ten-thirtytwo", {x = pos.x, y = pos.y, z = pos.z}, GetStreetNameFromHashKey(street))
+					local WeaponStr = Weaponhashes[tostring(currentWeapon)]
+					if WeaponStr then
+						if GetAmmoInPedWeapon(PlayerPedId(), GetHashKey(WeaponStr)) > 0 then
+							if not weapons_whitelist[WeaponStr] then
+								local pos = GetEntityCoords(PlayerPedId(), false)
+								if GetDistanceBetweenCoords(pos.x, pos.y, pos.z, lastpos.x, lastpos.y, lastpos.z, true) > 50 then
+									if willNPCreport("gunshots") then
+										lastpos = pos
+										local pos = GetEntityCoords(PlayerPedId(), false)
+										local street, crossing = GetStreetNameAtCoord(pos.x, pos.y, pos.z)
+										TriggerServerEvent("dispatch:ten-thirtytwo", {x = pos.x, y = pos.y, z = pos.z}, GetStreetNameFromHashKey(street))
+									end
 								end
 							end
 						end

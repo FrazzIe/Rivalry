@@ -787,13 +787,29 @@ end)
 
 local GSR_LastShot = 0
 local GSR_ExpireTime = 15 -- Minutes
+local weapons_whitelist = {
+	["WEAPON_BALL"]	= 1,
+	["WEAPON_PETROLCAN"] = 1,
+	["WEAPON_SNOWBALL"] = 1,
+	["WEAPON_STUNGUN"] = 1,
+}
 DecorRegister("GSR_Active", 2)
 DecorSetBool(GetPlayerPed(-1), "GSR_Active", false) 
 Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(1)
-		if IsPedShooting(GetPlayerPed(-1)) then
-			TriggerEvent("police:wfired")
+		if IsPedShooting(PlayerPedId()) then
+			local hasWeapon, currentWeapon = GetCurrentPedWeapon(PlayerPedId(), 1)
+			if currentWeapon ~= nil then
+				local WeaponStr = Weaponhashes[tostring(currentWeapon)]
+				if WeaponStr then
+					if GetAmmoInPedWeapon(PlayerPedId(), GetHashKey(WeaponStr)) > 0 then
+						if not weapons_whitelist[WeaponStr] then
+							TriggerEvent("police:wfired")
+						end
+					end
+				end
+			end
 		end
 		local isGSRactive = DecorGetBool(GetPlayerPed(-1), "GSR_Active")
 		if isGSRactive then
