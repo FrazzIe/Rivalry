@@ -25,7 +25,8 @@ vehicle_inventory = {}
 vehicle_weapon_inventory = {}
 inventories = {}
 --=INVENTORY====================================================================================================================--
-local drunk = false                                                                                                             --
+local drunk = false
+local drugged = false                                                                                                             --
 local armour_anim_dict = "switch@franklin@getting_ready"
 local put_in_car_dict = "mp_common"
 
@@ -616,6 +617,33 @@ Citizen.CreateThread(function()
     end
 end)
 
+Citizen.CreateThread(function()
+    while true do
+        Citizen.Wait(0)
+        if drugged then
+            drugged = false
+            Citizen.Wait(5000)
+            DoScreenFadeOut(1000)
+            Citizen.Wait(1000)
+            SetTimecycleModifier("spectator5")
+            SetPedMotionBlur(PlayerPedId(), true)
+            SetPedMovementClipset(PlayerPedId(), "MOVE_M@DRUNK@SLIGHTLYDRUNK", true)
+            StartScreenEffect("DrugsDrivingIn", 0, true)
+            DoScreenFadeIn(1000)            
+            Citizen.Wait(50000)
+            DoScreenFadeOut(1000)
+            Citizen.Wait(1000)
+            DoScreenFadeIn(1000)
+            ClearTimecycleModifier()
+            ResetScenarioTypesEnabled()
+            ResetPedMovementClipset(PlayerPedId(), 0)
+            StopScreenEffect("DrugsDrivingIn")
+            
+            SetPedMotionBlur(PlayerPedId(), false)
+        end
+    end
+end)
+
 AddEventHandler("inventory:use",function(data)
     if data.canuse ~= 0 then
         if data.canuse == 1 then
@@ -639,6 +667,8 @@ AddEventHandler("inventory:use",function(data)
             end
         elseif data.canuse == 8 then --Hotwire kit
             hotwire(data.item_id)
+        elseif data.canuse == 10 then
+            drugged = true
         end
         removeQty(data.item_id,1)
     else
