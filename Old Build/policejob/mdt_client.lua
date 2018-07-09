@@ -47,7 +47,7 @@ function closeGui()
 end
 
 local function canDelete(rank)
-	if rank == "chief of police" or rank == "assistant chief" or rank == "deputy chief of police" or rank == "captain ii" or rank == "captain" or rank == "lieutenant ii" or rank == "lieutenant" or rank == "sergeant ii" or rank == "seargeant" or rank == "officer ii" then
+	if rank == "chief of police" or rank == "colonel" or rank == "deputy chief of police" or rank == "lieutenant colonel" or rank == "captain" or rank == "director" or rank == "lieutenant" or rank == "trooper sergeant" or rank == "sergeant" or rank == "trooper" or rank == "detective" or rank == "officer ii" then
 		return true
 	else
 		return false

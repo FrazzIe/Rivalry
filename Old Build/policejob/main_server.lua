@@ -137,16 +137,15 @@ function Notify(source,msg)
 end
 
 addRank("chief of police", "")
-addRank("assistant chief", "")
+addRank("colonel", "")
 addRank("deputy chief of police", "")
-addRank("captain ii", "")
+addRank("lieutenant colonel", "")
 addRank("captain", "")
-addRank("lieutenant ii", "")
+addRank("director", "")
 addRank("lieutenant", "")
-addRank("sergeant ii", "")
+addRank("trooper sergeant", "")
 addRank("sergeant", "")
-addRank("chief inspector", "")
-addRank("senior detective", "")
+addRank("trooper", "")
 addRank("detective", "")
 addRank("officer ii", "")
 addRank("officer i", "")
@@ -272,7 +271,7 @@ TriggerEvent("core:addGroupCommand", "copadd", "command", function(source, args,
 			TriggerClientEvent('chatMessage', source, 'SYSTEM', {255, 0, 0}, "Usage : /copadd [ID] [RANK]")
 		end
 	end
-end, {help = "Add a player to the police force", params = {{name = "id", help = "The id of the player"},{name = "rank", help = "Cadet | Officer I | Officer II | Detective | Senior Detective | Sergeant | Sergeant II | Chief Inspector | Lieutenant | Lieutenant II | Captain | Captain II | Deputy Chief of Police | Assistant Chief | Chief of Police"}}})
+end, {help = "Add a player to the police force", params = {{name = "id", help = "The id of the player"},{name = "rank", help = "Cadet | Officer I | Officer II | Detective | Trooper | Sergeant | Trooper Sergeant | Lieutenant | Director | Captain | Lieutenant Colonel | Deputy Chief of Police | Colonel | Chief of Police"}}})
 
 TriggerEvent("core:addGroupCommand", "coprem", "command", function(source, args, rawCommand, data, power, group)
 	local source = source
@@ -335,7 +334,7 @@ TriggerEvent("core:addGroupCommand", "coppromote", "emergency", function(source,
 			Notify(source,"Player could not be found")
 		end
 	end
-end, {help = "Promote an officer", params = {{name = "id", help = "The id of the player"},{name = "rank", help = "Cadet | Officer I | Officer II | Detective | Senior Detective | Sergeant | Sergeant II | Chief Inspector | Lieutenant | Lieutenant II | Captain | Captain II | Deputy Chief of Police | Assistant Chief | Chief of Police"}}})
+end, {help = "Promote an officer", params = {{name = "id", help = "The id of the player"},{name = "rank", help = "Cadet | Officer I | Officer II | Detective | Trooper | Sergeant | Trooper Sergeant | Lieutenant | Director | Captain | Lieutenant Colonel | Deputy Chief of Police | Colonel | Chief of Police"}}})
 
 TriggerEvent("core:addGroupCommand", "copdemote", "emergency", function(source, args, rawCommand, data, power, group)
 	local source = source
@@ -376,7 +375,7 @@ TriggerEvent("core:addGroupCommand", "copdemote", "emergency", function(source, 
 			Notify(source,"Player could not be found")
 		end
 	end
-end, {help = "Demote an Officer", params = {{name = "id", help = "The id of the player"},{name = "rank", help = "Cadet | Officer I | Officer II | Detective | Sergeant | Sergeant II | Lieutenant | Lieutenant II | Captain | Captain II | Deputy Chief of Police | Assistant Chief | Chief of Police"}}})
+end, {help = "Demote an Officer", params = {{name = "id", help = "The id of the player"},{name = "rank", help = "Cadet | Officer I | Officer II | Detective | Trooper | Sergeant | Trooper Sergeant | Lieutenant | Director | Captain | Lieutenant Colonel | Deputy Chief of Police | Colonel | Chief of Police"}}})
 
 RegisterServerEvent("jail:user")
 AddEventHandler("jail:user",function(target, time, reason)
