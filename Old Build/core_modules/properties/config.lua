@@ -2066,7 +2066,247 @@ properties = {
 					last_picked = 0, --Default (don't touch)
 				},
 				expire = 1 --Default (don't touch)
-			},         
+			},
+			[9] = {
+				property_name = "2044 North Conker Avenue", -- Name of the property (used as the title of the menu)
+				locked = false, --Default (don't touch)
+				owner =  {
+					identifier = "no", --Default (don't touch)
+					char_id = 0, --Default (don't touch)
+					id = 0, --Default (don't touch)
+				},
+				coordinates = {
+					outside = {x = 346.87228393555, y = 440.48822021484, z = 147.70236206055, h = 297.46057128906}, -- The marker outside (used for teleporting inside)
+					inside = {x = 341.88668823242, y = 437.70236206055, z = 149.39407348633, h = 112.42232513428}, -- The marker inside (used for teleporting outside)
+					vault = {x = 336.27679443359, y = 437.85833740234, z = 141.77076721191, h = 205.91784667969}, -- The marker for the vault
+				},
+				rent = 10000, --How much it costs to rent the property (PER DAY)
+				storage = {
+					locked = false, --Default (don't touch)
+					current = {
+						cash = 0, --Default (don't touch)
+						dirty = 0, --Default (don't touch)
+						weapons = {}, --Default (don't touch)
+					},
+					max = {
+						cash = 50000, --Max cash the property can hold
+						dirty = 150000, --Max marked bills the property can hold
+						weapons = 10, --Max weapons the property can hold
+					},
+				},
+				robbing = {
+					cooldown = 2700, --Robbery cooldown time in seconds
+					last_robbed = 0, --Default (don't touch)
+					being_robbed = false, --Default (don't touch)
+					time = 300, --The total time the robber has to hack the vault
+					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+				},
+				lockpicking = {
+					cooldown = 300, --Cooldown between lockpicking attempts
+					last_picked = 0, --Default (don't touch)
+				},
+				expire = 1 --Default (don't touch)
+			},  
+			[10] = {
+				property_name = "2045 North Conker Avenue", -- Name of the property (used as the title of the menu)
+				locked = false, --Default (don't touch)
+				owner =  {
+					identifier = "no", --Default (don't touch)
+					char_id = 0, --Default (don't touch)
+					id = 0, --Default (don't touch)
+				},
+				coordinates = {
+					outside = {x = 372.83941650391, y = 428.42868041992, z = 145.68545532227, h = 27.829916000366}, -- The marker outside (used for teleporting inside)
+					inside = {x = 373.44293212891, y = 422.17086791992, z = 145.90786743164, h = 166.06129455566}, -- The marker inside (used for teleporting outside)
+					vault = {x = 378.92767333984, y = 430.19302368164, z = 138.30014038086, h = 74.124572753906}, -- The marker for the vault
+				},
+				rent = 10000, --How much it costs to rent the property (PER DAY)
+				storage = {
+					locked = false, --Default (don't touch)
+					current = {
+						cash = 0, --Default (don't touch)
+						dirty = 0, --Default (don't touch)
+						weapons = {}, --Default (don't touch)
+					},
+					max = {
+						cash = 50000, --Max cash the property can hold
+						dirty = 150000, --Max marked bills the property can hold
+						weapons = 10, --Max weapons the property can hold
+					},
+				},
+				robbing = {
+					cooldown = 2700, --Robbery cooldown time in seconds
+					last_robbed = 0, --Default (don't touch)
+					being_robbed = false, --Default (don't touch)
+					time = 300, --The total time the robber has to hack the vault
+					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+				},
+				lockpicking = {
+					cooldown = 300, --Cooldown between lockpicking attempts
+					last_picked = 0, --Default (don't touch)
+				},
+				expire = 1 --Default (don't touch)
+			},  
+			[11] = {
+				property_name = "2133 Mad Wayne Thunder", -- Name of the property (used as the title of the menu)
+				locked = false, --Default (don't touch)
+				owner =  {
+					identifier = "no", --Default (don't touch)
+					char_id = 0, --Default (don't touch)
+					id = 0, --Default (don't touch)
+				},
+				coordinates = {
+					outside = {x = -1294.3826904297, y = 454.62731933594, z = 97.528312683105, h = 10.007172584534}, -- The marker outside (used for teleporting inside)
+					inside = {x = -1289.8400878906, y = 449.45440673828, z = 97.902503967285, h = 180.92395019531}, -- The marker inside (used for teleporting outside)
+					vault = {x = -1286.1497802734, y = 457.09368896484, z = 90.29468536377, h = 91.985801696777}, -- The marker for the vault
+				},
+				rent = 10000, --How much it costs to rent the property (PER DAY)
+				storage = {
+					locked = false, --Default (don't touch)
+					current = {
+						cash = 0, --Default (don't touch)
+						dirty = 0, --Default (don't touch)
+						weapons = {}, --Default (don't touch)
+					},
+					max = {
+						cash = 50000, --Max cash the property can hold
+						dirty = 150000, --Max marked bills the property can hold
+						weapons = 10, --Max weapons the property can hold
+					},
+				},
+				robbing = {
+					cooldown = 2700, --Robbery cooldown time in seconds
+					last_robbed = 0, --Default (don't touch)
+					being_robbed = false, --Default (don't touch)
+					time = 300, --The total time the robber has to hack the vault
+					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+				},
+				lockpicking = {
+					cooldown = 300, --Cooldown between lockpicking attempts
+					last_picked = 0, --Default (don't touch)
+				},
+				expire = 1 --Default (don't touch)
+			},  
+			[12] = {
+				property_name = "2862 Hillcrest Avenue", -- Name of the property (used as the title of the menu)
+				locked = false, --Default (don't touch)
+				owner =  {
+					identifier = "no", --Default (don't touch)
+					char_id = 0, --Default (don't touch)
+					id = 0, --Default (don't touch)
+				},
+				coordinates = {
+					outside = {x = -686.27136230469, y = 596.53424072266, z = 143.6420135498, h = 221.31970214844}, -- The marker outside (used for teleporting inside)
+					inside = {x = -682.41345214844, y = 592.49420166016, z = 145.39202880859, h = 219.58547973633}, -- The marker inside (used for teleporting outside)
+					vault = {x = -681.16217041016, y = 586.90997314453, z = 137.76972961426, h = 310.35000610352}, -- The marker for the vault
+				},
+				rent = 10000, --How much it costs to rent the property (PER DAY)
+				storage = {
+					locked = false, --Default (don't touch)
+					current = {
+						cash = 0, --Default (don't touch)
+						dirty = 0, --Default (don't touch)
+						weapons = {}, --Default (don't touch)
+					},
+					max = {
+						cash = 50000, --Max cash the property can hold
+						dirty = 150000, --Max marked bills the property can hold
+						weapons = 10, --Max weapons the property can hold
+					},
+				},
+				robbing = {
+					cooldown = 2700, --Robbery cooldown time in seconds
+					last_robbed = 0, --Default (don't touch)
+					being_robbed = false, --Default (don't touch)
+					time = 300, --The total time the robber has to hack the vault
+					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+				},
+				lockpicking = {
+					cooldown = 300, --Cooldown between lockpicking attempts
+					last_picked = 0, --Default (don't touch)
+				},
+				expire = 1 --Default (don't touch)
+			},  
+			[13] = {
+				property_name = "2868 Hillcrest Avenue", -- Name of the property (used as the title of the menu)
+				locked = false, --Default (don't touch)
+				owner =  {
+					identifier = "no", --Default (don't touch)
+					char_id = 0, --Default (don't touch)
+					id = 0, --Default (don't touch)
+				},
+				coordinates = {
+					outside = {x = -751.87976074219, y = 620.81994628906, z = 142.22148132324, h = 286.69158935547}, -- The marker outside (used for teleporting inside)
+					inside = {x = -758.46026611328, y = 619.11779785156, z = 144.1537322998, h = 110.82205963135}, -- The marker inside (used for teleporting outside)
+					vault = {x = -764.01904296875, y = 619.67431640625, z = 136.53062438965, h = 18.327989578247}, -- The marker for the vault
+				},
+				rent = 10000, --How much it costs to rent the property (PER DAY)
+				storage = {
+					locked = false, --Default (don't touch)
+					current = {
+						cash = 0, --Default (don't touch)
+						dirty = 0, --Default (don't touch)
+						weapons = {}, --Default (don't touch)
+					},
+					max = {
+						cash = 50000, --Max cash the property can hold
+						dirty = 150000, --Max marked bills the property can hold
+						weapons = 10, --Max weapons the property can hold
+					},
+				},
+				robbing = {
+					cooldown = 2700, --Robbery cooldown time in seconds
+					last_robbed = 0, --Default (don't touch)
+					being_robbed = false, --Default (don't touch)
+					time = 300, --The total time the robber has to hack the vault
+					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+				},
+				lockpicking = {
+					cooldown = 300, --Cooldown between lockpicking attempts
+					last_picked = 0, --Default (don't touch)
+				},
+				expire = 1 --Default (don't touch)
+			},  
+			[14] = {
+				property_name = "2874 Hillcrest Avenue", -- Name of the property (used as the title of the menu)
+				locked = false, --Default (don't touch)
+				owner =  {
+					identifier = "no", --Default (don't touch)
+					char_id = 0, --Default (don't touch)
+					id = 0, --Default (don't touch)
+				},
+				coordinates = {
+					outside = {x = -852.92742919922, y = 695.83508300781, z = 148.78746032715, h = 4.3718523979187}, -- The marker outside (used for teleporting inside)
+					inside = {x = -860.21350097656, y = 691.0048828125, z = 152.86070251465, h = 193.40473937988}, -- The marker inside (used for teleporting outside)
+					vault = {x = -856.89422607422, y = 699.02001953125, z = 145.25294494629, h = 270.23968505859}, -- The marker for the vault
+				},
+				rent = 10000, --How much it costs to rent the property (PER DAY)
+				storage = {
+					locked = false, --Default (don't touch)
+					current = {
+						cash = 0, --Default (don't touch)
+						dirty = 0, --Default (don't touch)
+						weapons = {}, --Default (don't touch)
+					},
+					max = {
+						cash = 50000, --Max cash the property can hold
+						dirty = 150000, --Max marked bills the property can hold
+						weapons = 10, --Max weapons the property can hold
+					},
+				},
+				robbing = {
+					cooldown = 2700, --Robbery cooldown time in seconds
+					last_robbed = 0, --Default (don't touch)
+					being_robbed = false, --Default (don't touch)
+					time = 300, --The total time the robber has to hack the vault
+					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+				},
+				lockpicking = {
+					cooldown = 300, --Cooldown between lockpicking attempts
+					last_picked = 0, --Default (don't touch)
+				},
+				expire = 1 --Default (don't touch)
+			},      
 		},
 	},
 	businesses = {
@@ -4617,6 +4857,47 @@ properties = {
 					outside = {x = -1388.762, y = -586.2709, z = 30.21918, h = 210.0018}, -- The marker outside (used for teleporting inside)
 					inside = {x = -1387.151, y = -589.4478, z = 30.31952, h = 128.8528}, -- The marker inside (used for teleporting outside)
 					vault = {x = -1375.394, y = -624.3627, z = 30.81958, h = 295.184}, -- The marker for the vault
+				},
+				rent = 8000, --How much it costs to rent the property (PER DAY)
+				income = 1000, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
+				storage = {
+					locked = false, --Default (don't touch)
+					current = {
+						cash = 0, --Default (don't touch)
+						dirty = 0, --Default (don't touch)
+						weapons = {}, --Default (don't touch)
+					},
+					max = {
+						cash = 25000, --Max cash the property can hold
+						dirty = 50000, --Max marked bills the property can hold
+						weapons = 6, --Max weapons the property can hold
+					},
+				},
+				robbing = {
+					cooldown = 2700, --Robbery cooldown time in seconds
+					last_robbed = 0, --Default (don't touch)
+					being_robbed = false, --Default (don't touch)
+					time = 300, --The total time the robber has to hack the vault
+					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+				},
+				lockpicking = {
+					cooldown = 300, --Colldown between lockpicking attempts
+					last_picked = 0, --Default (don't touch)
+				},
+				expire = 1 --Default (don't touch)
+			},
+			[6] = {
+				property_name = "Comedy Club", -- Name of the property (used as the title of the menu)
+				locked = false, --Default (don't touch)
+				owner =  {
+					identifier = "no", --Default (don't touch)
+					char_id = 0, --Default (don't touch)
+					id = 0, --Default (don't touch)
+				},
+				coordinates = {
+					outside = {x = -430.19445800781, y = 261.35784912109, z = 83.006500244141, h = 174.06776428223}, -- The marker outside (used for teleporting inside)
+					inside = {x = 382.8671875, y = -1001.1643066406, z = -98.999923706055, h = 86.972351074219}, -- The marker inside (used for teleporting outside)
+					vault = {x = 373.46896362305, y = -1003.3117675781, z = -98.999923706055, h = 95.507797241211}, -- The marker for the vault
 				},
 				rent = 8000, --How much it costs to rent the property (PER DAY)
 				income = 1000, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
