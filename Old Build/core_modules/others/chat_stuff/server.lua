@@ -34,7 +34,7 @@ TriggerEvent('core:addCommand', 'tweet', function(source, args, rawCommand, data
         if hasphone then
             TriggerClientEvent("chat:addMessage", -1, {templateId = "tweet", color = {255, 255, 255}, multiline = true, args = {author, message}})
         else
-            TriggerClientEvent('chatMessage', source, {0, 255, 0}, "You don't have a phone!")
+            TriggerClientEvent('chatMessage', source, "ERROR", {0, 255, 0}, "You don't have a phone!")
         end
     end)
 end, {help = "Post a tweet"})
@@ -46,19 +46,19 @@ TriggerEvent('core:addCommand', 't', function(source, args, rawCommand, data)
         if hasphone then
             TriggerClientEvent("chat:addMessage", -1, {templateId = "tweet", color = {255, 255, 255}, multiline = true, args = {author, message}})
         else
-            TriggerClientEvent('chatMessage', source, {0, 255, 0}, "You don't have a phone!")
+            TriggerClientEvent('chatMessage', source, "ERROR", {0, 255, 0}, "You don't have a phone!")
         end
     end)
 end, {help = "Post a tweet"})
 
 TriggerEvent('core:addCommand', 'balance', function(source, args, rawCommand, data)
     local author = "Cash: $"..data.get("wallet").." Debit: $"..data.get("bank")
-    TriggerClientEvent('chatMessage', source, "Bank: ",{0, 255, 0}, author)
+    TriggerClientEvent('chatMessage', source, "Bank", {0, 255, 0}, author)
 end, {help = "Returns Cash and Debit"})
 
 TriggerEvent('core:addCommand', 'dirty', function(source, args, rawCommand, data)
     local author = "You have $"..data.get("dirty").." in dirty cash"
-    TriggerClientEvent('chatMessage', source, "Wallet: ", {0, 255, 0}, author)
+    TriggerClientEvent('chatMessage', source, "Wallet", {0, 255, 0}, author)
 end, {help = "Returns Dirty Cash"})
 
 TriggerEvent('core:addCommand', 'me', function(source, args, rawCommand, data)

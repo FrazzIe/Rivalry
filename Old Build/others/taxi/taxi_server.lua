@@ -5,7 +5,7 @@ AddEventHandler('taxi:payPhone', function()
 		if(user.get("wallet") > 25)then
 			user.removeWallet(25)
 			TriggerClientEvent("pNotify:SendNotification", source, {text = "You payed $25 to call a taxi!",type = "error",queue = "left",timeout = 2500,layout = "bottomCenter"})
-			TriggerClientEvent('taxi:callService', 'taxi')
+			TriggerClientEvent('taxi:callService', source, 'taxi')
 		else
 			TriggerClientEvent("pNotify:SendNotification", source, {text = "Insufficient funds!",type = "error",queue = "left",timeout = 2500,layout = "bottomCenter"})
 		end
