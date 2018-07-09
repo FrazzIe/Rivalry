@@ -87,23 +87,23 @@ local Map = {
 			"gr_grdlc_interior_placement_interior_1_grdlc_int_02_milo_",
 			"hei_sm_16_interior_v_bahama_milo_", -- Bahama Mamas: -1388.0013, -618.41967, 30.819599
 			"redCarpet", -- Red Carpet: 300.5927, 199.7589, 104.3776
-			"ex_dt1_02_office_02b",	-- Executive Rich -- Arcadius Business Centre -- CEO Offices
+			--[["ex_dt1_02_office_02b",	-- Executive Rich -- Arcadius Business Centre -- CEO Offices
 			"ex_dt1_02_office_02c",	-- Executive Cool
-			"ex_dt1_02_office_02a",	-- Executive Contrast
+			"ex_dt1_02_office_02a",	-- Executive Contrast--]]
 			"ex_dt1_02_office_01a",	-- Old Spice Warm
-			"ex_dt1_02_office_01b",	-- Old Spice Classical
+--[[			"ex_dt1_02_office_01b",	-- Old Spice Classical
 			"ex_dt1_02_office_01c",	-- Old Spice Vintage
 			"ex_dt1_02_office_03a",	-- Power Broker Ice
 			"ex_dt1_02_office_03b",	-- Power Broker Conservative
-			"ex_dt1_02_office_03c",	-- Power Broker Polished
-			"ex_dt1_11_office_02b",	-- Executive Rich -- Maze Bank Building
+			"ex_dt1_02_office_03c",	-- Power Broker Polished--]]
+--[[			"ex_dt1_11_office_02b",	-- Executive Rich -- Maze Bank Building
 			"ex_dt1_11_office_02c",	-- Executive Cool
 			"ex_dt1_11_office_02a",	-- Executive Contrast
 			"ex_dt1_11_office_01a",	-- Old Spice Warm
 			"ex_dt1_11_office_01b",	-- Old Spice Classical
 			"ex_dt1_11_office_01c",	-- Old Spice Vintage
 			"ex_dt1_11_office_03a",	-- Power Broker Ice
-			"ex_dt1_11_office_03b",	-- Power Broker Conservative
+			"ex_dt1_11_office_03b",	-- Power Broker Conservative--]]
 			"ex_dt1_11_office_03c",	-- Power Broker Polished
 --[[			"ex_sm_13_office_02b",	-- Executive Rich -- Lom Bank
 			"ex_sm_13_office_02c",	-- Executive Cool
@@ -115,13 +115,13 @@ local Map = {
 			"ex_sm_13_office_03b",	-- Power Broker Conservative
 			"ex_sm_13_office_03c",	-- Power Broker Polished--]]
 			"ex_sm_15_office_02b",	-- Executive Rich -- Maze Bank West
-			"ex_sm_15_office_02c",	-- Executive Cool
+			--[["ex_sm_15_office_02c",	-- Executive Cool
 			"ex_sm_15_office_02a",	-- Executive Contrast
 			"ex_sm_15_office_01a",	-- Old Spice Warm
 			"ex_sm_15_office_01b",	-- Old Spice Classical
 			"ex_sm_15_office_01c",	-- Old Spice Vintage
 			"ex_sm_15_office_03a",	-- Power Broker Ice
-			"ex_sm_15_office_03b",	-- Power Broker Convservati
+			"ex_sm_15_office_03b",	-- Power Broker Convservati--]]
 			"bkr_biker_interior_placement_interior_0_biker_dlc_int_01_milo", -- Biker
 			"bkr_biker_interior_placement_interior_1_biker_dlc_int_02_milo",			
 			"bkr_biker_interior_placement_interior_2_biker_dlc_int_ware01_milo",
@@ -638,7 +638,7 @@ local Map = {
 				"swag_booze_cigs3",
 				--"swag_counterfeit",
 				--"swag_counterfeit2",
-				"swag_counterfeit3",
+				--"swag_counterfeit3",
 				--"swag_drugbags",
 				--"swag_drugbags2",
 				--"swag_drugbags3",
@@ -656,7 +656,7 @@ local Map = {
 				"swag_gems3",
 				--"swag_guns",
 				--"swag_guns2",
-				"swag_guns3",
+				--"swag_guns3",
 				--"swag_ivory",
 				--"swag_ivory2",
 				"swag_ivory3",
@@ -668,7 +668,7 @@ local Map = {
 				"swag_med3",
 				--"swag_pills",
 				--"swag_pills2",
-				"swag_pills3",
+				--"swag_pills3",
 				--"swag_silver",
 				--"swag_silver2",
 				"swag_silver3",
