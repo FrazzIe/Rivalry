@@ -94,7 +94,7 @@ local function canTargetRank(user, target, callback)
 end
 
 local function canPromote(rank)
-	if rank == "chief of police" or rank == "assistant chief" or rank == "deputy chief of police" or rank == "captain ii" or rank == "captain" or rank == "lieutenant ii" or rank == "lieutenant" then
+	if rank == "chief of police" or rank == "colonel" or rank == "deputy chief of police" or rank == "lieutenant colonel" or rank == "captain" or rank == "director" or rank == "lieutenant" then
 		return true
 	else
 		return false
