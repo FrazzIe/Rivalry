@@ -57,8 +57,8 @@ TriggerEvent('core:addCommand', 'balance', function(source, args, rawCommand, da
 end, {help = "Returns Cash and Debit"})
 
 TriggerEvent('core:addCommand', 'dirty', function(source, args, rawCommand, data)
-    local author = "You have $"..data.get("dirty_cash").." in dirty cash"
-    TriggerClientEvent('chatMessage', source,{0, 255, 0}, author)
+    local author = "You have $"..data.get("dirty").." in dirty cash"
+    TriggerClientEvent('chatMessage', source, "Wallet: ", {0, 255, 0}, author)
 end, {help = "Returns Dirty Cash"})
 
 TriggerEvent('core:addCommand', 'me', function(source, args, rawCommand, data)
