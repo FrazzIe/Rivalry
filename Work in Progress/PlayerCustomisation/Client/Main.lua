@@ -27,6 +27,7 @@ PlayerCustomisation.Pool:Add(BarberMenu)
 PlayerCustomisation.Pool:Add(ClothingMenu)
 PlayerCustomisation.Pool:Add(MaskMenu)
 PlayerCustomisation.Pool:Add(TattooMenu)
+PlayerCustomisation.Pool:Add(OutfitMenu)
 
 CharacterCreatorMenu.OnListSelect = function(ParentMenu, SelectedList, NewIndex) 
 	if SelectedList == GenderOption then
@@ -111,6 +112,9 @@ CharacterCreatorMenu.OnListSelect = function(ParentMenu, SelectedList, NewIndex)
 			SetupTattooMenu(TattooMenu)
 			UpdateHairstylesMenu(HairstyleMenu)
 		end
+
+		SetupOutfitMenu(OutfitMenu)
+
 		SelectedList:Enabled(true)
 	end
 end
@@ -436,6 +440,26 @@ Citizen.CreateThread(function()
 						else
 							TattooMenu:Visible(false)
 						end
+					end
+				end
+			end
+		end
+	end
+end)
+
+Citizen.CreateThread(function()
+	local Player = {
+		Coordinates = GetEntityCoords(PlayerPedId(), false)
+	}
+	while true do
+		Citizen.Wait(0)
+		Player.Coordinates = GetEntityCoords(PlayerPedId(), false)
+		for Index = 1, #PlayerCustomisation.Locations.Outfits do
+			if Vdist2(Player.Coordinates.x, Player.Coordinates.y, Player.Coordinates.z, PlayerCustomisation.Locations.Outfits[Index].Marker.x, PlayerCustomisation.Locations.Outfits[Index].Marker.y, PlayerCustomisation.Locations.Outfits[Index].Marker.z) < 20 then
+				RenderMarker(25, PlayerCustomisation.Locations.Outfits[Index].Marker.x, PlayerCustomisation.Locations.Outfits[Index].Marker.y, PlayerCustomisation.Locations.Outfits[Index].Marker.z, 2.0, 2.0, 2.5, 255, 255, 0, 255)
+				if Vdist2(Player.Coordinates.x, Player.Coordinates.y, Player.Coordinates.z, PlayerCustomisation.Locations.Outfits[Index].Marker.x, PlayerCustomisation.Locations.Outfits[Index].Marker.y, PlayerCustomisation.Locations.Outfits[Index].Marker.z) < 2 then
+					if IsControlJustPressed(1, 51) then
+						OutfitMenu:Visible(not OutfitMenu:Visible())
 					end
 				end
 			end

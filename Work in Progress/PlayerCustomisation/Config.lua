@@ -1,5 +1,13 @@
 PlayerCustomisation = {}
 
+PlayerCustomisation.Outfits = {}
+
+if IsDuplicityVersion() then
+
+PlayerCustomisation.PlayerData = {}
+
+else
+
 PlayerCustomisation.Pool = NativeUI.CreatePool()
 
 PlayerCustomisation.PlayerData = {
@@ -122,6 +130,21 @@ PlayerCustomisation.Locations = {
                 x = 1319.4996337891, 
                 y = -1646.8140869141, 
                 z = 52.145530700684,
+            },
+            Banner = "shopui_title_tattoos4",
+        },
+	},
+	Outfits = {
+        [1] = {
+            Blip = {
+                Name = "Tattoo Store", 
+                Sprite = 75, 
+                Colour = 0,
+            },
+            Marker = {
+                x = 1326.0830078125, 
+                y = -1642.2681884766, 
+                z = 52.145595550537,
             },
             Banner = "shopui_title_tattoos4",
         },
@@ -10888,4 +10911,6 @@ end
 
 for Index = 0, GetNumHeadOverlayValues(5) - 1 do
 	table.insert(PlayerCustomisation.Reference.Appearance.Blush, {Name = GetLabelText("CC_BLUSH_"..Index), Value = Index})
+end
+
 end
