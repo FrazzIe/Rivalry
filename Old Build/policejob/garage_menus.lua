@@ -33,6 +33,7 @@ cars = {
     {name = "Marked City Charger", model = "police2", type = "", rank = "officer i"},
     {name = "Marked City Explorer", model = "police5", type = "", rank = "officer ii"},
     {name = "2011 CVPI Slicktop", model = "police3", type = "", rank = "officer ii"},
+    {name = "2011 Ford F-150 SVT Raptor", model = "fraptor", type = "", rank = "officer ii"},
     {name = "Sheriff CVPI", model = "sheriff3", type = "", rank = "cadet"},
     {name = "Sheriff Charger", model = "sheriff", type = "", rank = "officer ii"},
     {name = "Sheriff Chevy Tahoe", model = "sheriff2", type = "", rank = "officer ii"},
