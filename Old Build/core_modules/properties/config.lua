@@ -2196,7 +2196,7 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {
-					outside = {x = -686.27136230469, y = 596.53424072266, z = 143.6420135498, h = 221.31970214844}, -- The marker outside (used for teleporting inside)
+					outside = {x = -704.32666015625, y = 589.54858398438, z = 141.93055725098, h = 83.275207519531}, -- The marker outside (used for teleporting inside)
 					inside = {x = -682.41345214844, y = 592.49420166016, z = 145.39202880859, h = 219.58547973633}, -- The marker inside (used for teleporting outside)
 					vault = {x = -681.16217041016, y = 586.90997314453, z = 137.76972961426, h = 310.35000610352}, -- The marker for the vault
 				},
