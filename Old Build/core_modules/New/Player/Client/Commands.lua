@@ -214,7 +214,7 @@ Citizen.CreateThread(function()
         {Text = " - 10-13 | Officer Down", Scale = 0.3, Font = 6, R = 255, G = 255, B = 255, A = 255},
         {Text = " - 10-15 | Drug Call", Scale = 0.3, Font = 6, R = 255, G = 255, B = 255, A = 255},
         {Text = " - 10-19 | Returning to", Scale = 0.3, Font = 6, R = 255, G = 255, B = 255, A = 255},
-        {Text = " - 10-20 | Disregard", Scale = 0.3, Font = 6, R = 255, G = 255, B = 255, A = 255},
+        {Text = " - 10-20 | Location", Scale = 0.3, Font = 6, R = 255, G = 255, B = 255, A = 255},
         {Text = " - 10-23 | Arrived at scene", Scale = 0.3, Font = 6, R = 255, G = 255, B = 255, A = 255},
         {Text = " - 10-28 | Registration Check", Scale = 0.3, Font = 6, R = 255, G = 255, B = 255, A = 255},
         {Text = " - 10-29 | Background Check", Scale = 0.3, Font = 6, R = 255, G = 255, B = 255, A = 255},

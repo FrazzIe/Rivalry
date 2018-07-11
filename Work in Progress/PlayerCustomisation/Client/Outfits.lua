@@ -1,92 +1,136 @@
 OutfitMenu = NativeUI.CreateMenu("", "OUTFITS", 0, 0)
 
-PlayerCustomisation.Outfits = {}
-
-Citizen.CreateThread(function()
-	local Player = {
-		Coordinates = GetEntityCoords(PlayerPedId(), false)
-	}
-	while true do
-		Citizen.Wait(0)
-		Player.Coordinates = GetEntityCoords(PlayerPedId(), false)
-		for Index = 1, #PlayerCustomisation.Locations.Outfits do
-			if Vdist2(Player.Coordinates.x, Player.Coordinates.y, Player.Coordinates.z, PlayerCustomisation.Locations.Outfits[Index].Marker.x, PlayerCustomisation.Locations.Outfits[Index].Marker.y, PlayerCustomisation.Locations.Outfits[Index].Marker.z) < 20 then
-				RenderMarker(25, PlayerCustomisation.Locations.Outfits[Index].Marker.x, PlayerCustomisation.Locations.Outfits[Index].Marker.y, PlayerCustomisation.Locations.Outfits[Index].Marker.z, 2.0, 2.0, 2.5, 255, 255, 0, 255)
-				if Vdist2(Player.Coordinates.x, Player.Coordinates.y, Player.Coordinates.z, PlayerCustomisation.Locations.Outfits[Index].Marker.x, PlayerCustomisation.Locations.Outfits[Index].Marker.y, PlayerCustomisation.Locations.Outfits[Index].Marker.z) < 2 then
-					if IsControlJustPressed(1, 51) then
-						if not OutfitMenu:Visible() then
-							OpenOutfitMenu(Index)
-						else
-							OutfitMenu:Visible(false)
-						end
-					end
-				end
-			end
-		end
-	end
-end)
-
-function OpenOutfitMenu(LocationIndex)
-
-end
-
 function SetupOutfitMenu(ParentMenu)
 	ParentMenu:Clear()
 	local SaveItem = NativeUI.CreateItem("Save Outfit", "Save an outfit")
-	SaveItem.Activated = function(ParentItem, SelectedItem)
+	SaveItem.Activated = function(ParentMenu, SelectedItem)
+		for Index = 1, #ParentMenu.Items do
+			ParentMenu.Items[Index]:Enabled(false)
+		end
 
+		local Outfit = {
+			Name = "",
+			Clothing = {
+				Drawable = {},
+				Texture = {},
+			},
+			Props = {
+				Drawable = {},
+				Texture = {},
+			},
+		}
+
+		for Index = 1, 12 do
+			Outfit.Clothing.Drawable[Index] = PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Clothing.Drawable[Index]
+			Outfit.Clothing.Texture[Index] = PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Clothing.Texture[Index]
+		end
+
+		for Index = 1, 8 do
+			Outfit.Props.Drawable[Index] = PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Props.Drawable[Index]
+			Outfit.Props.Texture[Index] = PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Props.Texture[Index]
+		end
+
+		Outfit.Name = KeyboardInput("Outfit Name", "", 30) or "Outfit #"..#PlayerCustomisation.Outfits
+
+		TriggerServerEvent("Outfit.Create", PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Model, Outfit)
 	end
 
-	for Index = 1, #PlayerCustomisation.Outfits[PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Model] do
-		local Outfit = Pool:AddSubMenu(ParentMenu, PlayerCustomisation.Outfits[PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Model][Index].Name, "Do something with this outfit", true)
-		local LoadItem = NativeUI.CreateItem("Load "..PlayerCustomisation.Outfits[PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Model][Index].Name, "")
-		local UpdateItem = NativeUI.CreateItem("Update "..PlayerCustomisation.Outfits[PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Model][Index].Name, "")
-		local DeleteItem = NativeUI.CreateItem("Delete "..PlayerCustomisation.Outfits[PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Model][Index].Name, "")
+	ParentMenu:AddItem(SaveItem)
 
-		LoadItem.Activated = function(ParentItem, SelectedItem)
-			SelectedItem:Enabled(false)
+	if PlayerCustomisation.Outfits[PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Model] then
+		for OutfitIndex = 1, #PlayerCustomisation.Outfits[PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Model] do
+			local Outfit = PlayerCustomisation.Pool:AddSubMenu(ParentMenu, PlayerCustomisation.Outfits[PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Model][OutfitIndex].Name, "Do something with this outfit", true)
+			local LoadItem = NativeUI.CreateItem("Load "..PlayerCustomisation.Outfits[PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Model][OutfitIndex].Name, "")
+			local UpdateItem = NativeUI.CreateItem("Update "..PlayerCustomisation.Outfits[PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Model][OutfitIndex].Name, "")
+			local DeleteItem = NativeUI.CreateItem("Delete "..PlayerCustomisation.Outfits[PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Model][OutfitIndex].Name, "")
 
-			if PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender ~= "Hybrid" then
-				PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Clothing.Drawable[3] = PlayerCustomisation.Outfits[PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Model][Index].Clothing.Drawable[3]
-				PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Clothing.Texture[3] = PlayerCustomisation.Outfits[PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Model][Index].Clothing.Texture[3]
+			LoadItem.Activated = function(ParentMenu, SelectedItem)
+				for Index = 1, #ParentMenu.Items do
+					ParentMenu.Items[Index]:Enabled(false)
+				end
 
-				for Index = 4, 12 do
-					PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Clothing.Drawable[Index] = PlayerCustomisation.Outfits[PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Model][Index].Clothing.Drawable[Index]
-					PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Clothing.Texture[Index] = PlayerCustomisation.Outfits[PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Model][Index].Clothing.Texture[Index]
+				if PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender ~= "Hybrid" then
+					PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Clothing.Drawable[3] = PlayerCustomisation.Outfits[PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Model][OutfitIndex].Clothing.Drawable[3]
+					PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Clothing.Texture[3] = PlayerCustomisation.Outfits[PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Model][OutfitIndex].Clothing.Texture[3]
+
+					for Index = 4, 12 do
+						PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Clothing.Drawable[Index] = PlayerCustomisation.Outfits[PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Model][OutfitIndex].Clothing.Drawable[Index]
+						PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Clothing.Texture[Index] = PlayerCustomisation.Outfits[PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Model][OutfitIndex].Clothing.Texture[Index]
+					end
+
+					for Index = 1, 8 do
+						PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Props.Drawable[Index] = PlayerCustomisation.Outfits[PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Model][OutfitIndex].Props.Drawable[Index]
+						PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Props.Texture[Index] = PlayerCustomisation.Outfits[PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Model][OutfitIndex].Props.Texture[Index]
+						
+						if PlayerCustomisation.Outfits[PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Model][OutfitIndex].Props.Drawable[Index] == -1 then
+							ClearPedProp(PlayerPedId(), Index - 1)
+						end
+					end
+
+					UpdatePlayer()
+				else
+					for Index = 1, 12 do
+						PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Clothing.Drawable[Index] = PlayerCustomisation.Outfits[PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Model][OutfitIndex].Clothing.Drawable[Index]
+						PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Clothing.Texture[Index] = PlayerCustomisation.Outfits[PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Model][OutfitIndex].Clothing.Texture[Index]
+					end
+
+					for Index = 1, 8 do
+						PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Props.Drawable[Index] = PlayerCustomisation.Outfits[PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Model][OutfitIndex].Props.Drawable[Index]
+						PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Props.Texture[Index] = PlayerCustomisation.Outfits[PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Model][OutfitIndex].Props.Texture[Index]
+					end
+
+					UpdatePlayer()
+				end
+
+				for Index = 1, #ParentMenu.Items do
+					ParentMenu.Items[Index]:Enabled(true)
+				end
+			end
+			UpdateItem.Activated = function(ParentMenu, SelectedItem)
+				for Index = 1, #ParentMenu.Items do
+					ParentMenu.Items[Index]:Enabled(false)
+				end
+
+				for Index = 1, 12 do
+					PlayerCustomisation.Outfits[PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Model][OutfitIndex].Clothing.Drawable[Index] = PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Clothing.Drawable[Index]
+					PlayerCustomisation.Outfits[PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Model][OutfitIndex].Clothing.Texture[Index] = PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Clothing.Texture[Index]
 				end
 
 				for Index = 1, 8 do
-					PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Props.Drawable[Index] = PlayerCustomisation.Outfits[PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Model][Index].Props.Drawable[Index]
-					PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Props.Texture[Index] = PlayerCustomisation.Outfits[PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Model][Index].Props.Texture[Index]
+					PlayerCustomisation.Outfits[PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Model][OutfitIndex].Props.Drawable[Index] = PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Props.Drawable[Index]
+					PlayerCustomisation.Outfits[PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Model][OutfitIndex].Props.Texture[Index] = PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Props.Texture[Index]
 				end
 
-				UpdatePlayer()
-			else
-			    for Index = 1, 12 do
-					PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Clothing.Drawable[Index] = PlayerCustomisation.Outfits[PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Model][Index].Clothing.Drawable[Index]
-					PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Clothing.Texture[Index] = PlayerCustomisation.Outfits[PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Model][Index].Clothing.Texture[Index]
-				end
-
-			    for Index = 1, 8 do
-					PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Props.Drawable[Index] = PlayerCustomisation.Outfits[PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Model][Index].Props.Drawable[Index]
-					PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Props.Texture[Index] = PlayerCustomisation.Outfits[PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Model][Index].Props.Texture[Index]
-			    end
-
-			    UpdatePlayer()
+				TriggerServerEvent("Outfit.Update", PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Model, PlayerCustomisation.Outfits[PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Model][OutfitIndex])
 			end
-		end
-		UpdateItem.Activated = function(ParentItem, SelectedItem)
-			SelectedItem:Enabled(false)
-			TriggerServerEvent("Outfit.Update", PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Model, Index)
-		end
-		DeleteItem.Activated = function(ParentItem, SelectedItem)
-			SelectedItem:Enabled(false)
-			TriggerServerEvent("Outfit.Delete", PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Model, Index)
-		end
+			DeleteItem.Activated = function(ParentMenu, SelectedItem)
+				for Index = 1, #ParentMenu.Items do
+					ParentMenu.Items[Index]:Enabled(false)
+				end
 
-		Outfit:AddItem(LoadItem)
-		Outfit:AddItem(UpdateItem)
-		Outfit:AddItem(DeleteItem)
+				TriggerServerEvent("Outfit.Delete", PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Model, PlayerCustomisation.Outfits[PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Model][OutfitIndex].Id)
+			end
+
+			Outfit:AddItem(LoadItem)
+			Outfit:AddItem(UpdateItem)
+			Outfit:AddItem(DeleteItem)
+			Outfit:RefreshIndex()
+		end
 	end
 	ParentMenu:RefreshIndex()
 end
+
+SetupOutfitMenu(OutfitMenu)
+
+RegisterNetEvent("Outfit.Load")
+AddEventHandler("Outfit.Load", function(Outfits)
+	PlayerCustomisation.Outfits = Outfits
+
+	if OutfitMenu:Visible() then
+		OutfitMenu:Visible(false)
+		SetupOutfitMenu(OutfitMenu)
+		OutfitMenu:Visible(true)
+	else
+		SetupOutfitMenu(OutfitMenu)
+	end
+end)
