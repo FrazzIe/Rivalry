@@ -1,9 +1,5 @@
 OutfitMenu = NativeUI.CreateMenu("", "OUTFITS", 0, 0)
 
-function OpenOutfitMenu(LocationIndex)
-
-end
-
 function SetupOutfitMenu(ParentMenu)
 	ParentMenu:Clear()
 	local SaveItem = NativeUI.CreateItem("Save Outfit", "Save an outfit")
