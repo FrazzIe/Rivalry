@@ -51,7 +51,8 @@ Config.Priority = {
     ["steam:1100001005d8ef9"] = 680, -- M_tt
     ["steam:11000010af28db3"] = 679, -- Blocky
     ["steam:110000102726dfd"] = 678, -- blue622
-    ["steam:11000010c05158a"] = 677, -- Carmen King
+    ["steam:1100001074e86ec"] = 677, -- RoundishKungFu/Kelly Price
+    ["steam:11000010c05158a"] = 676, -- Carmen King
 --[PD, EMS, DOJ]--
     ["steam:110000103ffdb62"] = 601, -- Steven Austin (DA)
     ["steam:11000010b420b88"] = 600, -- Jordan (PD High Command)
