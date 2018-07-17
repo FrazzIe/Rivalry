@@ -100,14 +100,14 @@ Citizen.CreateThread(function()
         Citizen.Wait(0)
         if not isAdmin then
             if IsPedRunning(GetPlayerPed(-1)) then
-                food = food - 2
-                water = water - 3
+                food = food - 1
+                water = water - 0.8
             elseif IsPedWalking(GetPlayerPed(-1)) then
-                food = food - 0.5
-                water = water - 1
+                food = food - 0.2
+                water = water - 0.1
             else
-        		food = food - 0.5
-        		water = water - 0.5
+                food = food - 0.2
+                water = water - 0.1
             end
     		Citizen.Wait(40000)
     		if food < 20 or water < 20 then
