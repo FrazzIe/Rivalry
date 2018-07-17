@@ -161,6 +161,7 @@ end)
 RegisterNetEvent('police:cancelCall')
 AddEventHandler('police:cancelCall',function(data)
     TriggerServerEvent('police:cancelCall')
+    RemoveBlip(currentMissionBlip)
 end)
 
 

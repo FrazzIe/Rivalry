@@ -161,6 +161,7 @@ end)
 RegisterNetEvent('paramedic:cancelCall')
 AddEventHandler('paramedic:cancelCall',function(data)
     TriggerServerEvent('paramedic:cancelCall')
+    RemoveBlip(currentMissionBlip)
 end)
 
 
