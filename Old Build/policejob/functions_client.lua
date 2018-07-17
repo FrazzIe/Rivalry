@@ -792,6 +792,7 @@ local weapons_whitelist = {
 	["WEAPON_PETROLCAN"] = 1,
 	["WEAPON_SNOWBALL"] = 1,
 	["WEAPON_STUNGUN"] = 1,
+	["WEAPON_FIREEXTINGUISHER"] = 1,
 }
 DecorRegister("GSR_Active", 2)
 DecorSetBool(GetPlayerPed(-1), "GSR_Active", false) 

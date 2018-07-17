@@ -95,6 +95,7 @@ local weapons_whitelist = {
 	["WEAPON_PETROLCAN"] = 1,
 	["WEAPON_SNOWBALL"] = 1,
 	["WEAPON_STUNGUN"] = 1,
+	["WEAPON_FIREEXTINGUISHER"] = 1,
 }
 
 local ten_fifthteen_timer = 10 --Minutes --Drugs
