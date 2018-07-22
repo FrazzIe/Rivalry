@@ -1,5 +1,19 @@
 CharacterCreatorMenu = NativeUI.CreateMenu("Character Creator", "", 0, 0)
 
+CharacterCreatorMenu.Controls.Back.Enabled = false
+
+CharacterCreatorMenu:RemoveEnabledControl(0, 31)
+CharacterCreatorMenu:RemoveEnabledControl(0, 30)
+CharacterCreatorMenu:RemoveEnabledControl(0, 22)
+
+CharacterCreatorMenu.Cameras = {
+	Default = Camera.New(402.85162353516, -999.0, -98.7002119873047),
+	Face = Camera.New(402.85162353516, -997.2, -98.4002119873047),
+}
+
+CharacterCreatorMenu:AddInstructionButton({GetControlInstructionalButton(0, 51, 0), "Turn Right"})
+CharacterCreatorMenu:AddInstructionButton({GetControlInstructionalButton(0, 44, 0), "Turn Left"})
+
 function SetupGenderOption(ParentMenu)
 	local ItemGenderList = NativeUI.CreateListItem("Sex", {{Name = "Male", Value = "mp_m_freemode_01"}, {Name = "Female", Value = "mp_f_freemode_01"}, "Hybrid"}, 1, "Select the gender of your Character.")
 
@@ -38,11 +52,22 @@ function SetupHeritageMenu(ParentMenu)
 	end
 
 	Menu.Pagination.Total = 7
+	Menu:RemoveEnabledControl(0, 31)
+	Menu:RemoveEnabledControl(0, 30)
+	Menu:RemoveEnabledControl(0, 22)
+
 	Menu:AddWindow(Window)
 	Menu:AddItem(ItemMumList)
 	Menu:AddItem(ItemDadList)
 	Menu:AddItem(ItemResemblanceSlider)
 	Menu:AddItem(ItemSkinToneSlider)
+
+	Menu:AddInstructionButton({GetControlInstructionalButton(0, 51, 0), "Turn Right"})
+	Menu:AddInstructionButton({GetControlInstructionalButton(0, 44, 0), "Turn Left"})
+
+	Menu.OnMenuClosed = function(ParentMenu)
+		CharacterCreatorMenu.Cameras.Default:Switch(CharacterCreatorMenu.Cameras.Face.Handle, 1000, false, false)
+	end
 
 	return Menu
 end
@@ -248,6 +273,10 @@ function SetupFeaturesMenu(ParentMenu)
 	end
 
 	Menu.Pagination.Total = 7
+	Menu:RemoveEnabledControl(0, 31)
+	Menu:RemoveEnabledControl(0, 30)
+	Menu:RemoveEnabledControl(0, 22)
+	
 	Menu:AddItem(ItemBrowList)
 	Menu:AddItem(ItemEyesList)
 	Menu:AddItem(ItemNoseList)
@@ -259,6 +288,13 @@ function SetupFeaturesMenu(ParentMenu)
 	Menu:AddItem(ItemJawList)
 	Menu:AddItem(ItemChinProfileList)
 	Menu:AddItem(ItemChinShapeList)
+
+	Menu:AddInstructionButton({GetControlInstructionalButton(0, 51, 0), "Turn Right"})
+	Menu:AddInstructionButton({GetControlInstructionalButton(0, 44, 0), "Turn Left"})
+
+	Menu.OnMenuClosed = function(ParentMenu)
+		CharacterCreatorMenu.Cameras.Default:Switch(CharacterCreatorMenu.Cameras.Face.Handle, 1000, false, false)
+	end
 
 	return Menu
 end
@@ -503,6 +539,10 @@ function SetupAppearanceMenu(ParentMenu)
 	end
 
 	Menu.Pagination.Total = 7
+	Menu:RemoveEnabledControl(0, 31)
+	Menu:RemoveEnabledControl(0, 30)
+	Menu:RemoveEnabledControl(0, 22)
+	
 	Menu:AddItem(ItemHairList)
 	Menu:AddItem(ItemEyebrowsList)
 	Menu:AddItem(ItemFacialHairList)
@@ -515,8 +555,15 @@ function SetupAppearanceMenu(ParentMenu)
 	Menu:AddItem(ItemEyeMakeupList)
 	Menu:AddItem(ItemBlusherList)
 	Menu:AddItem(ItemLipstickList)
-	Menu:AddInstructionButton({GetControlInstructionalButton(0, 22, 0), "Toggle Highlights"})
 
+	Menu:AddInstructionButton({GetControlInstructionalButton(0, 22, 0), "Toggle Highlights"})
+	Menu:AddInstructionButton({GetControlInstructionalButton(0, 51, 0), "Turn Right"})
+	Menu:AddInstructionButton({GetControlInstructionalButton(0, 44, 0), "Turn Left"})
+
+	Menu.OnMenuClosed = function(ParentMenu)
+		CharacterCreatorMenu.Cameras.Default:Switch(CharacterCreatorMenu.Cameras.Face.Handle, 1000, false, false)
+	end
+	
 	Citizen.CreateThread(function()
 		while true do
 			Citizen.Wait(0)
@@ -591,10 +638,17 @@ function SetupApparelMenu(ParentMenu)
 	end
 
 	Menu.Pagination.Total = 7
+	Menu:RemoveEnabledControl(0, 31)
+	Menu:RemoveEnabledControl(0, 30)
+	Menu:RemoveEnabledControl(0, 22)
+	
 	Menu:AddItem(ItemStyleList)
 	Menu:AddItem(ItemOutfitList)
 	Menu:AddItem(ItemHatList)
 	Menu:AddItem(ItemGlassesList)
+
+	Menu:AddInstructionButton({GetControlInstructionalButton(0, 51, 0), "Turn Right"})
+	Menu:AddInstructionButton({GetControlInstructionalButton(0, 44, 0), "Turn Left"})
 
 	return Menu
 end
@@ -612,7 +666,7 @@ function SetupSaveOption(ParentMenu)
 end
 
 function SetupModelMenu(ParentMenu)
-	local Menu = NativeUI.CreateMenu("Ped Models", "Select a model", 45, 45)
+	local Menu = NativeUI.CreateMenu("Ped Models", "Select a model", 0, 0)
 	for Index = 1, #PlayerCustomisation.Reference.Models do
 		local ModelItem = NativeUI.CreateItem(PlayerCustomisation.Reference.Models[Index], "Change your character to "..PlayerCustomisation.Reference.Models[Index])
 		ModelItem.Activated = function(ParentMenu, SelectedItem)
@@ -622,6 +676,9 @@ function SetupModelMenu(ParentMenu)
 	end
 
 	Menu.Pagination.Total = 7
+	Menu:RemoveEnabledControl(0, 31)
+	Menu:RemoveEnabledControl(0, 30)
+	Menu:RemoveEnabledControl(0, 22)	
 	Menu.ParentMenu = ParentMenu
 
 	return Menu

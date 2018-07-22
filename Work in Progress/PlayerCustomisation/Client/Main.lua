@@ -19,6 +19,18 @@ local EyeMakeupMenu = SetupEyeMakeupMenu(MakeupMenu)
 local BlushMenu = SetupBlusherMenu(MakeupMenu)
 local LipstickMenu = SetupLipstickMenu(MakeupMenu)
 
+CharacterCreatorMenu.Items[2].Activated = function(ParentMenu, SelectedItem)
+	CharacterCreatorMenu.Cameras.Face:Switch(CharacterCreatorMenu.Cameras.Default.Handle, 1000, false, false)
+end
+
+CharacterCreatorMenu.Items[3].Activated = function(ParentMenu, SelectedItem)
+	CharacterCreatorMenu.Cameras.Face:Switch(CharacterCreatorMenu.Cameras.Default.Handle, 1000, false, false)
+end
+
+CharacterCreatorMenu.Items[4].Activated = function(ParentMenu, SelectedItem)
+	CharacterCreatorMenu.Cameras.Face:Switch(CharacterCreatorMenu.Cameras.Default.Handle, 1000, false, false)
+end
+
 BarberMenu.Items[4].Activated = SetPedTopless
 
 PlayerCustomisation.Pool:Add(CharacterCreatorMenu)
@@ -340,14 +352,53 @@ function OpenTattooMenu(LocationIndex)
 	TattooMenu:Visible(true)
 end
 
-PlayerCustomisation.Pool:RefreshIndex()
+function OpenCharacterCreatorMenu()
+	TriggerServerEvent("PlayerCustomisation.Instance", "Creator", true)
 
-CharacterCreatorMenu:Visible(true)
+	SetEntityCoords(PlayerPedId(), PlayerCustomisation.Creator.Entry.x, PlayerCustomisation.Creator.Entry.y, PlayerCustomisation.Creator.Entry.z)
+	SetEntityHeading(PlayerPedId(), PlayerCustomisation.Creator.Entry.h)
+
+	CharacterCreatorMenu.Cameras.Face:Create()
+	CharacterCreatorMenu.Cameras.Default:Create()
+
+	CharacterCreatorMenu.Cameras.Default:Activate(false, 2000)
+
+	local PlayerOffset = GetOffsetFromEntityInWorldCoords(PlayerPedId(), 0.0, 0.2, 0.0)
+	TaskTurnPedToFaceCoord(PlayerPedId(), PlayerOffset.x, PlayerOffset.y, PlayerOffset.z, -1)
+
+	CharacterCreatorMenu:Visible(true)
+end
+
+PlayerCustomisation.Pool:RefreshIndex()
 
 Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(0)
 		PlayerCustomisation.Pool:ProcessMenus()
+	end
+end)
+
+Citizen.CreateThread(function()
+	while true do
+		Citizen.Wait(0)
+		if IsDisabledControlPressed(0, 51) then
+			if CharacterCreatorMenu:Visible() or HeritageMenu:Visible() or FeaturesMenu:Visible() or AppearanceMenu:Visible() or ApparelMenu:Visible() then
+				local PlayerPed = PlayerPedId()
+				local PlayerOffset = GetOffsetFromEntityInWorldCoords(PlayerPed, 0.0, 0.2, 0.0)
+
+				SetEntityHeading(PlayerPed, GetEntityHeading(PlayerPed) + 2)
+				TaskTurnPedToFaceCoord(PlayerPed, PlayerOffset.x, PlayerOffset.y, PlayerOffset.z, -1)
+			end
+		end
+		if IsDisabledControlPressed(0, 44) then
+			if CharacterCreatorMenu:Visible() or HeritageMenu:Visible() or FeaturesMenu:Visible() or AppearanceMenu:Visible() or ApparelMenu:Visible() then
+				local PlayerPed = PlayerPedId()
+				local PlayerOffset = GetOffsetFromEntityInWorldCoords(PlayerPed, 0.0, 0.2, 0.0)
+
+				SetEntityHeading(PlayerPed, GetEntityHeading(PlayerPed) - 2)
+				TaskTurnPedToFaceCoord(PlayerPed, PlayerOffset.x, PlayerOffset.y, PlayerOffset.z, -1)
+			end
+		end
 	end
 end)
 
@@ -358,6 +409,7 @@ Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(0)
 		Player.Coordinates = GetEntityCoords(PlayerPedId(), false)
+
 		for Index = 1, #PlayerCustomisation.Locations.Barbers do
 			if Vdist2(Player.Coordinates.x, Player.Coordinates.y, Player.Coordinates.z, PlayerCustomisation.Locations.Barbers[Index].Marker.x, PlayerCustomisation.Locations.Barbers[Index].Marker.y, PlayerCustomisation.Locations.Barbers[Index].Marker.z) < 20 then
 				RenderMarker(25, PlayerCustomisation.Locations.Barbers[Index].Marker.x, PlayerCustomisation.Locations.Barbers[Index].Marker.y, PlayerCustomisation.Locations.Barbers[Index].Marker.z, 2.0, 2.0, 2.5, 255, 255, 0, 255)
@@ -372,16 +424,7 @@ Citizen.CreateThread(function()
 				end
 			end
 		end
-	end
-end)
 
-Citizen.CreateThread(function()
-	local Player = {
-		Coordinates = GetEntityCoords(PlayerPedId(), false)
-	}
-	while true do
-		Citizen.Wait(0)
-		Player.Coordinates = GetEntityCoords(PlayerPedId(), false)
 		for Index = 1, #PlayerCustomisation.Locations.Clothing do
 			if Vdist2(Player.Coordinates.x, Player.Coordinates.y, Player.Coordinates.z, PlayerCustomisation.Locations.Clothing[Index].Marker.x, PlayerCustomisation.Locations.Clothing[Index].Marker.y, PlayerCustomisation.Locations.Clothing[Index].Marker.z) < 20 then
 				RenderMarker(25, PlayerCustomisation.Locations.Clothing[Index].Marker.x, PlayerCustomisation.Locations.Clothing[Index].Marker.y, PlayerCustomisation.Locations.Clothing[Index].Marker.z, 2.0, 2.0, 2.5, 255, 255, 0, 255)
@@ -396,16 +439,7 @@ Citizen.CreateThread(function()
 				end
 			end
 		end
-	end
-end)
 
-Citizen.CreateThread(function()
-	local Player = {
-		Coordinates = GetEntityCoords(PlayerPedId(), false)
-	}
-	while true do
-		Citizen.Wait(0)
-		Player.Coordinates = GetEntityCoords(PlayerPedId(), false)
 		for Index = 1, #PlayerCustomisation.Locations.Masks do
 			if Vdist2(Player.Coordinates.x, Player.Coordinates.y, Player.Coordinates.z, PlayerCustomisation.Locations.Masks[Index].Marker.x, PlayerCustomisation.Locations.Masks[Index].Marker.y, PlayerCustomisation.Locations.Masks[Index].Marker.z) < 20 then
 				RenderMarker(25, PlayerCustomisation.Locations.Masks[Index].Marker.x, PlayerCustomisation.Locations.Masks[Index].Marker.y, PlayerCustomisation.Locations.Masks[Index].Marker.z, 2.0, 2.0, 2.5, 255, 255, 0, 255)
@@ -420,16 +454,7 @@ Citizen.CreateThread(function()
 				end
 			end
 		end
-	end
-end)
 
-Citizen.CreateThread(function()
-	local Player = {
-		Coordinates = GetEntityCoords(PlayerPedId(), false)
-	}
-	while true do
-		Citizen.Wait(0)
-		Player.Coordinates = GetEntityCoords(PlayerPedId(), false)
 		for Index = 1, #PlayerCustomisation.Locations.Tattoos do
 			if Vdist2(Player.Coordinates.x, Player.Coordinates.y, Player.Coordinates.z, PlayerCustomisation.Locations.Tattoos[Index].Marker.x, PlayerCustomisation.Locations.Tattoos[Index].Marker.y, PlayerCustomisation.Locations.Tattoos[Index].Marker.z) < 20 then
 				RenderMarker(25, PlayerCustomisation.Locations.Tattoos[Index].Marker.x, PlayerCustomisation.Locations.Tattoos[Index].Marker.y, PlayerCustomisation.Locations.Tattoos[Index].Marker.z, 2.0, 2.0, 2.5, 255, 255, 0, 255)
@@ -444,16 +469,7 @@ Citizen.CreateThread(function()
 				end
 			end
 		end
-	end
-end)
 
-Citizen.CreateThread(function()
-	local Player = {
-		Coordinates = GetEntityCoords(PlayerPedId(), false)
-	}
-	while true do
-		Citizen.Wait(0)
-		Player.Coordinates = GetEntityCoords(PlayerPedId(), false)
 		for Index = 1, #PlayerCustomisation.Locations.Outfits do
 			if Vdist2(Player.Coordinates.x, Player.Coordinates.y, Player.Coordinates.z, PlayerCustomisation.Locations.Outfits[Index].Marker.x, PlayerCustomisation.Locations.Outfits[Index].Marker.y, PlayerCustomisation.Locations.Outfits[Index].Marker.z) < 20 then
 				RenderMarker(25, PlayerCustomisation.Locations.Outfits[Index].Marker.x, PlayerCustomisation.Locations.Outfits[Index].Marker.y, PlayerCustomisation.Locations.Outfits[Index].Marker.z, 2.0, 2.0, 2.5, 255, 255, 0, 255)
@@ -465,4 +481,56 @@ Citizen.CreateThread(function()
 			end
 		end
 	end
+end)
+
+AddEventHandler("PlayerCustomisation.ModelType", function(Type)
+	if PlayerCustomisation.PlayerData[Type] then
+		PlayerCustomisation.PlayerData.Type = Type
+
+		UpdateModel(PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Model)
+
+		if PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender ~= "Hybrid" then
+			SetupTattooMenu(TattooMenu)
+			UpdateHairstylesMenu(HairstyleMenu)
+		end
+
+		SetupOutfitMenu(OutfitMenu)
+
+		UpdatePlayer()
+
+		if not PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Creator then
+			PlayerCustomisation.CreatorExit = GetEntityCoords(PlayerPedId(), false)
+			OpenCharacterCreatorMenu()
+		end
+	end
+end)
+
+RegisterNetEvent("PlayerCustomisation.Sync")
+AddEventHandler("PlayerCustomisation.Sync", function(Instances)
+	PlayerCustomisation.Instances = Instances
+end)
+
+Citizen.CreateThread(function()
+	while true do
+		Citizen.Wait(0)
+		for Instance, Players in pairs(PlayerCustomisation.Instances) do
+			for Index = 1, #Players do
+				local Player = GetPlayerFromServerId(Players[Index])
+				if NetworkIsPlayerActive(Player) then
+					local PlayerPed = PlayerPedId()
+					local OtherPed = GetPlayerPed(Player)
+					if OtherPed ~= PlayerPed then
+						SetEntityLocallyInvisible(OtherPed)
+						SetEntityNoCollisionEntity(PlayerPed, OtherPed, true)
+					else
+						SetEntityLocallyVisible(PlayerPed)
+					end
+				end
+			end
+		end
+	end
+end)
+
+Citizen.CreateThread(function()
+	OpenCharacterCreatorMenu()
 end)
