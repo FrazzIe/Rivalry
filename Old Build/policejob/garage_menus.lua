@@ -18,6 +18,7 @@ local stationGarage = {
 	{name = "Police Garage", sprite = 50, colour = 18, x=1866.84, y=3697.15, z=33.60}, -- Sandy Shores
 	{name = "Police Garage", sprite = 50, colour = 18, x=-1068.95, y=-859.73, z=4.87}, -- San Andreas Ave
 	{name = "Police Garage", sprite = 50, colour = 18, x=-570.28, y=-145.50, z=37.79}, -- Rockford Hills
+	{name = "Police Garage", sprite = 50, colour = 18, x = 367.40277099609, y = 790.59448242188, z = 187.22383117676, h = 236.06201171875}, -- Park Ranger Station
 }
 
 local stationHeliGarage = {

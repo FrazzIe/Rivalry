@@ -25,6 +25,7 @@ local takingService = {
 	{name="Police Station", sprite = 60, colour = 28, x=1857.01, y=3689.50, z=34.27}, -- Sandy Shores
 	{name="Police Station", sprite = 60, colour = 28, x=-1113.65, y=-849.21, z=13.45}, -- San Andreas Ave
 	{name="Police Station", sprite = 60, colour = 28, x=-561.28, y=-132.60, z=38.04}, -- Rockford Hills
+	{name = "Armoury", sprite = 175, colour = 39, x = 386.90667724609, y = 792.57531738281, z = 187.69357299805}, -- Park Ranger Station
 }
 
 RegisterNetEvent("police:setranks")

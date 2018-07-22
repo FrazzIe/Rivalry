@@ -33,6 +33,7 @@ local policeclothing_emplacement = {
 	{name="Police Clothing", sprite = 365, colour = 39, x=-448.16, y=6008.04, z=31.72}, -- Paleto Bay
 	{name="Police Clothing", sprite = 365, colour = 39, x=1848.49, y=3690.13, z=34.27}, -- Sandy Shores
 	{name="Police Clothing", sprite = 365, colour = 39, x=-557.43, y=-129.10, z=37.98}, -- Rockford Hills
+	{name="Police Clothing", sprite = 365, colour = 39, x=381.49166870117, y=792.46472167969, z=190.40647888184}, -- Park Ranger Station
 }
 
 menu_options = {
