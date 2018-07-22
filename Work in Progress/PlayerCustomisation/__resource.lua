@@ -5,6 +5,7 @@ client_scripts {
 	"Client/NativeUI.lua",
     "Config.lua",
     "Client/Utilities.lua",
+    "Client/Camera.lua",
     "Client/Creator.lua",
     "Client/Barbers.lua",
     "Client/Clothing.lua",
