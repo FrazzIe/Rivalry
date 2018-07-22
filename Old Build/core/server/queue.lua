@@ -49,9 +49,9 @@ Config.Priority = {
     ["steam:1100001005d8ef9"] = 680, -- M_tt
     ["steam:110000102726dfd"] = 678, -- blue622
     ["steam:1100001074e86ec"] = 677, -- RoundishKungFu/Kelly Price
-    ["steam:11000010c05158a"] = 676, -- Carmen King
-    ["steam:11000010214d0bd"] = 675, -- AgentNorth
-
+    ["steam:110000110e35616"] = 676, -- Ryleigh Wolfhart
+    ["steam:11000010c05158a"] = 675, -- Carmen King
+    ["steam:11000010214d0bd"] = 674, -- AgentNorth
 --[PD, EMS, DOJ]--
     ["steam:11000010b420b88"] = 600, -- Jordan (PD High Command)
     ["steam:11000011102bde4"] = 599, -- Kenny (PD High Command)
