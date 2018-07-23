@@ -109,8 +109,8 @@ function SetupFeaturesMenu(ParentMenu)
 			ListItem.Panels[1]:CirclePosition(((ActiveItem.Panel == true) and ActiveItem.Value[1].X or ActiveItem.Value.X), ((ActiveItem.Panel == true) and ActiveItem.Value[1].Y or ActiveItem.Value.Y))
 		else
 			local ResultX, ResultY = ListItem.Panels[1]:CirclePosition()
-			if ResultX ~= ActiveItem.Value[1].X or ResultY ~= ActiveItem.Value[1].Y then
-				ListItem.Panels[1]:CirclePosition(ActiveItem.Value[1].X, ActiveItem.Value[1].Y)
+			if ResultX ~= ((ActiveItem.Value[1].X / 2) + 0.5) or ResultY ~= ((ActiveItem.Value[1].Y / 2) + 0.5) then
+				ListItem.Panels[1]:CirclePosition(((ActiveItem.Value[1].X / 2) + 0.5), ((ActiveItem.Value[1].Y / 2) + 0.5))
 			end
 		end
 	end
@@ -124,8 +124,8 @@ function SetupFeaturesMenu(ParentMenu)
 			ListItem.Panels[1]:CirclePosition(((ActiveItem.Panel == true) and ActiveItem.Value[1].X or ActiveItem.Value.X), ((ActiveItem.Panel == true) and ActiveItem.Value[1].Y or ActiveItem.Value.Y))
 		else
 			local ResultX, ResultY = ListItem.Panels[1]:CirclePosition()
-			if ResultX ~= ActiveItem.Value[1].X or ResultY ~= ActiveItem.Value[1].Y then
-				ListItem.Panels[1]:CirclePosition(ActiveItem.Value[1].X, ActiveItem.Value[1].Y)
+			if ResultX ~= ((ActiveItem.Value[1].X / 2) + 0.5) or ResultY ~= ((ActiveItem.Value[1].Y / 2) + 0.5) then
+				ListItem.Panels[1]:CirclePosition(((ActiveItem.Value[1].X / 2) + 0.5), ((ActiveItem.Value[1].Y / 2) + 0.5))
 			end
 		end
 	end
@@ -140,8 +140,8 @@ function SetupFeaturesMenu(ParentMenu)
 			ListItem.Panels[1]:CirclePosition(((ActiveItem.Panel == true) and ActiveItem.Value[1].X or ActiveItem.Value.X), ((ActiveItem.Panel == true) and ActiveItem.Value[1].Y or ActiveItem.Value.Y))
 		else
 			local ResultX, ResultY = ListItem.Panels[1]:CirclePosition()
-			if ResultX ~= ActiveItem.Value[1].X or ResultY ~= ActiveItem.Value[1].Y then
-				ListItem.Panels[1]:CirclePosition(ActiveItem.Value[1].X, ActiveItem.Value[1].Y)
+			if ResultX ~= ((ActiveItem.Value[1].X / 2) + 0.5) or ResultY ~= ((ActiveItem.Value[1].Y / 2) + 0.5) then
+				ListItem.Panels[1]:CirclePosition(((ActiveItem.Value[1].X / 2) + 0.5), ((ActiveItem.Value[1].Y / 2) + 0.5))
 			end
 		end
 	end
@@ -156,8 +156,8 @@ function SetupFeaturesMenu(ParentMenu)
 			ListItem.Panels[1]:CirclePosition(((ActiveItem.Panel == true) and ActiveItem.Value[1].X or ActiveItem.Value.X), ((ActiveItem.Panel == true) and ActiveItem.Value[1].Y or ActiveItem.Value.Y))
 		else
 			local ResultX, ResultY = ListItem.Panels[1]:CirclePosition()
-			if ResultX ~= ActiveItem.Value[1].X or ResultY ~= ActiveItem.Value[1].Y then
-				ListItem.Panels[1]:CirclePosition(ActiveItem.Value[1].X, ActiveItem.Value[1].Y)
+			if ResultX ~= ((ActiveItem.Value[1].X / 2) + 0.5) or ResultY ~= ((ActiveItem.Value[1].Y / 2) + 0.5) then
+				ListItem.Panels[1]:CirclePosition(((ActiveItem.Value[1].X / 2) + 0.5), ((ActiveItem.Value[1].Y / 2) + 0.5))
 			end
 		end
 	end
@@ -172,8 +172,8 @@ function SetupFeaturesMenu(ParentMenu)
 			ListItem.Panels[1]:CirclePosition(((ActiveItem.Panel == true) and ActiveItem.Value[1].X or ActiveItem.Value.X), ((ActiveItem.Panel == true) and ActiveItem.Value[1].Y or ActiveItem.Value.Y))
 		else
 			local ResultX, ResultY = ListItem.Panels[1]:CirclePosition()
-			if ResultX ~= ActiveItem.Value[1].X or ResultY ~= ActiveItem.Value[1].Y then
-				ListItem.Panels[1]:CirclePosition(ActiveItem.Value[1].X, ActiveItem.Value[1].Y)
+			if ResultX ~= ((ActiveItem.Value[1].X / 2) + 0.5) or ResultY ~= ((ActiveItem.Value[1].Y / 2) + 0.5) then
+				ListItem.Panels[1]:CirclePosition(((ActiveItem.Value[1].X / 2) + 0.5), ((ActiveItem.Value[1].Y / 2) + 0.5))
 			end
 		end
 	end
@@ -188,8 +188,8 @@ function SetupFeaturesMenu(ParentMenu)
 			ListItem.Panels[1]:CirclePosition(((ActiveItem.Panel == true) and ActiveItem.Value[1].X or ActiveItem.Value.X), ((ActiveItem.Panel == true) and ActiveItem.Value[1].Y or ActiveItem.Value.Y))
 		else
 			local ResultX, ResultY = ListItem.Panels[1]:CirclePosition()
-			if ResultX ~= ActiveItem.Value[1].X or ResultY ~= ActiveItem.Value[1].Y then
-				ListItem.Panels[1]:CirclePosition(ActiveItem.Value[1].X, ActiveItem.Value[1].Y)
+			if ResultX ~= ((ActiveItem.Value[1].X / 2) + 0.5) or ResultY ~= ((ActiveItem.Value[1].Y / 2) + 0.5) then
+				ListItem.Panels[1]:CirclePosition(((ActiveItem.Value[1].X / 2) + 0.5), ((ActiveItem.Value[1].Y / 2) + 0.5))
 			end
 		end
 	end
@@ -203,8 +203,8 @@ function SetupFeaturesMenu(ParentMenu)
 			ListItem.Panels[1]:CirclePosition(((ActiveItem.Panel == true) and ActiveItem.Value[1].X or ActiveItem.Value.X), ((ActiveItem.Panel == true) and ActiveItem.Value[1].Y or ActiveItem.Value.Y))
 		else
 			local ResultX, ResultY = ListItem.Panels[1]:CirclePosition()
-			if ResultX ~= ActiveItem.Value[1].X or ResultY ~= ActiveItem.Value[1].Y then
-				ListItem.Panels[1]:CirclePosition(ActiveItem.Value[1].X, ActiveItem.Value[1].Y)
+			if ResultX ~= ((ActiveItem.Value[1].X / 2) + 0.5) or ResultY ~= ((ActiveItem.Value[1].Y / 2) + 0.5) then
+				ListItem.Panels[1]:CirclePosition(((ActiveItem.Value[1].X / 2) + 0.5), ((ActiveItem.Value[1].Y / 2) + 0.5))
 			end
 		end
 	end
@@ -218,8 +218,8 @@ function SetupFeaturesMenu(ParentMenu)
 			ListItem.Panels[1]:CirclePosition(((ActiveItem.Panel == true) and ActiveItem.Value[1].X or ActiveItem.Value.X), ((ActiveItem.Panel == true) and ActiveItem.Value[1].Y or ActiveItem.Value.Y))
 		else
 			local ResultX, ResultY = ListItem.Panels[1]:CirclePosition()
-			if ResultX ~= ActiveItem.Value[1].X or ResultY ~= ActiveItem.Value[1].Y then
-				ListItem.Panels[1]:CirclePosition(ActiveItem.Value[1].X, ActiveItem.Value[1].Y)
+			if ResultX ~= ((ActiveItem.Value[1].X / 2) + 0.5) or ResultY ~= ((ActiveItem.Value[1].Y / 2) + 0.5) then
+				ListItem.Panels[1]:CirclePosition(((ActiveItem.Value[1].X / 2) + 0.5), ((ActiveItem.Value[1].Y / 2) + 0.5))
 			end
 		end
 	end
@@ -234,8 +234,8 @@ function SetupFeaturesMenu(ParentMenu)
 			ListItem.Panels[1]:CirclePosition(((ActiveItem.Panel == true) and ActiveItem.Value[1].X or ActiveItem.Value.X), ((ActiveItem.Panel == true) and ActiveItem.Value[1].Y or ActiveItem.Value.Y))
 		else
 			local ResultX, ResultY = ListItem.Panels[1]:CirclePosition()
-			if ResultX ~= ActiveItem.Value[1].X or ResultY ~= ActiveItem.Value[1].Y then
-				ListItem.Panels[1]:CirclePosition(ActiveItem.Value[1].X, ActiveItem.Value[1].Y)
+			if ResultX ~= ((ActiveItem.Value[1].X / 2) + 0.5) or ResultY ~= ((ActiveItem.Value[1].Y / 2) + 0.5) then
+				ListItem.Panels[1]:CirclePosition(((ActiveItem.Value[1].X / 2) + 0.5), ((ActiveItem.Value[1].Y / 2) + 0.5))
 			end
 		end
 	end
@@ -250,8 +250,8 @@ function SetupFeaturesMenu(ParentMenu)
 			ListItem.Panels[1]:CirclePosition(((ActiveItem.Panel == true) and ActiveItem.Value[1].X or ActiveItem.Value.X), ((ActiveItem.Panel == true) and ActiveItem.Value[1].Y or ActiveItem.Value.Y))
 		else
 			local ResultX, ResultY = ListItem.Panels[1]:CirclePosition()
-			if ResultX ~= ActiveItem.Value[1].X or ResultY ~= ActiveItem.Value[1].Y then
-				ListItem.Panels[1]:CirclePosition(ActiveItem.Value[1].X, ActiveItem.Value[1].Y)
+			if ResultX ~= ((ActiveItem.Value[1].X / 2) + 0.5) or ResultY ~= ((ActiveItem.Value[1].Y / 2) + 0.5) then
+				ListItem.Panels[1]:CirclePosition(((ActiveItem.Value[1].X / 2) + 0.5), ((ActiveItem.Value[1].Y / 2) + 0.5))
 			end
 		end
 	end
@@ -266,8 +266,8 @@ function SetupFeaturesMenu(ParentMenu)
 			ListItem.Panels[1]:CirclePosition(((ActiveItem.Panel == true) and ActiveItem.Value[1].X or ActiveItem.Value.X), ((ActiveItem.Panel == true) and ActiveItem.Value[1].Y or ActiveItem.Value.Y))
 		else
 			local ResultX, ResultY = ListItem.Panels[1]:CirclePosition()
-			if ResultX ~= ActiveItem.Value[1].X or ResultY ~= ActiveItem.Value[1].Y then
-				ListItem.Panels[1]:CirclePosition(ActiveItem.Value[1].X, ActiveItem.Value[1].Y)
+			if ResultX ~= ((ActiveItem.Value[1].X / 2) + 0.5) or ResultY ~= ((ActiveItem.Value[1].Y / 2) + 0.5) then
+				ListItem.Panels[1]:CirclePosition(((ActiveItem.Value[1].X / 2) + 0.5), ((ActiveItem.Value[1].Y / 2) + 0.5))
 			end
 		end
 	end
@@ -657,7 +657,10 @@ function SetupSaveOption(ParentMenu)
 	local ItemSaveList = NativeUI.CreateItem("Save & Continue", "Finish creating your Character.")
 
 	ItemSaveList.Activated = function(ParentMenu, SelectedItem)
-		
+		TriggerServerEvent("PlayerCustomisation.Instance", "Creator", false)
+
+		CharacterCreatorMenu.Cameras.Face:Destroy()
+		CharacterCreatorMenu.Cameras.Default:Destroy()
 	end
 
 	ParentMenu:AddItem(ItemSaveList)
@@ -671,6 +674,9 @@ function SetupModelMenu(ParentMenu)
 		local ModelItem = NativeUI.CreateItem(PlayerCustomisation.Reference.Models[Index], "Change your character to "..PlayerCustomisation.Reference.Models[Index])
 		ModelItem.Activated = function(ParentMenu, SelectedItem)
 			UpdateModel(PlayerCustomisation.Reference.Models[Index])
+
+			local PlayerOffset = GetOffsetFromEntityInWorldCoords(PlayerPedId(), 0.0, 0.2, 0.0)
+			TaskTurnPedToFaceCoord(PlayerPedId(), PlayerOffset.x, PlayerOffset.y, PlayerOffset.z, -1)
 		end
 		Menu:AddItem(ModelItem)
 	end

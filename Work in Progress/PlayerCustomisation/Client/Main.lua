@@ -123,6 +123,9 @@ CharacterCreatorMenu.OnListSelect = function(ParentMenu, SelectedList, NewIndex)
 
 			SetupTattooMenu(TattooMenu)
 			UpdateHairstylesMenu(HairstyleMenu)
+
+			local PlayerOffset = GetOffsetFromEntityInWorldCoords(PlayerPedId(), 0.0, 0.2, 0.0)
+			TaskTurnPedToFaceCoord(PlayerPedId(), PlayerOffset.x, PlayerOffset.y, PlayerOffset.z, -1)
 		end
 
 		SetupOutfitMenu(OutfitMenu)
