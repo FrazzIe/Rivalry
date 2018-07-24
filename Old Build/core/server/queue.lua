@@ -52,6 +52,10 @@ Config.Priority = {
     ["steam:110000110e35616"] = 676, -- Ryleigh Wolfhart
     ["steam:11000010c05158a"] = 675, -- Carmen King
     ["steam:11000010214d0bd"] = 674, -- AgentNorth
+    ["steam:110000104293432"] = 673, -- Cyr
+    ["steam:110000104e491d1"] = 672, -- Vader
+    ["steam:1100001043fe250"] = 671, -- Curtis
+
 --[PD, EMS, DOJ]--
     ["steam:11000010b420b88"] = 600, -- Jordan (PD High Command)
     ["steam:11000011102bde4"] = 599, -- Kenny (PD High Command)
