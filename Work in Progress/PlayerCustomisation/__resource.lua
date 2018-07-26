@@ -18,4 +18,5 @@ client_scripts {
 server_scripts {
 	"Config.lua",
 	"Server/Outfits.lua",
+    "Server/Main.lua",
 }

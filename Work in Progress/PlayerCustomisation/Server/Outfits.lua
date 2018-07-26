@@ -75,7 +75,6 @@ AddEventHandler("Outfit.Delete", function(Model, Id)
 	end)
 end)
 
-RegisterServerEvent("core:loaded")
 AddEventHandler("core:loaded", function(Source, user, power, group)
 	exports["GHMattiMySQL"]:QueryResultAsync("SELECT * FROM outfit WHERE character_id=@char_id", {["@char_id"] = user.get("characterID")}, function(Outfits)
 		if Outfits[1] ~= nil then
