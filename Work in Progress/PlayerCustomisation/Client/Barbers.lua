@@ -1,15 +1,19 @@
 BarberMenu = NativeUI.CreateMenu("", "CATEGORIES", 0, 0)
 
+BarberMenu.OnMenuClosed = function(ParentMenu)
+	TriggerServerEvent("PlayerCustomisation.Update", PlayerCustomisation.PlayerData.Type, PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type])
+end
+
 function SetupHairstylesMenu(ParentMenu)
 	local Menu = PlayerCustomisation.Pool:AddSubMenu(ParentMenu, "Hairstyles", "", true)
-	for Index = 1, #PlayerCustomisation.Reference.Appearance.Hairstyles[PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender] do
-		local HairstyleItem = NativeUI.CreateItem(PlayerCustomisation.Reference.Appearance.Hairstyles[PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender][Index].Name, "")
+	for Index = 1, #PlayerCustomisation.Reference.Appearance.Hairstyles[PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender] do
+		local HairstyleItem = NativeUI.CreateItem(PlayerCustomisation.Reference.Appearance.Hairstyles[PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender][Index].Name, "")
 		local HairstyleColourPanel = NativeUI.CreateColourPanel("Colour", PlayerCustomisation.Reference.Colours.Hair)
 		local HairstyleHighlightPanel = NativeUI.CreateColourPanel("Highlight", PlayerCustomisation.Reference.Colours.Hair)
 		HairstyleItem:AddPanel(HairstyleColourPanel)
 		HairstyleItem:AddPanel(HairstyleHighlightPanel)
 		HairstyleItem.Activated = function(ParentMenu, SelectedItem)
-			PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Clothing.Drawable[3] = PlayerCustomisation.Reference.Appearance.Hairstyles[PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender][Index].Value
+			PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Clothing.Drawable[3] = PlayerCustomisation.Reference.Appearance.Hairstyles[PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender][Index].Value
 			
 			UpdatePlayer()
 
@@ -21,13 +25,13 @@ function SetupHairstylesMenu(ParentMenu)
 		end
 		HairstyleItem.ActivatedPanel = function(ParentMenu, SelectedItem, Panel, PanelValue)
 			if Panel == HairstyleColourPanel then
-				PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].HairColour[1] = PanelValue - 1
+				PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].HairColour[1] = PanelValue - 1
 
 				for ItemIndex = 1, #ParentMenu.Items do
 					ParentMenu.Items[ItemIndex].Panels[1]:CurrentSelection(PanelValue - 1, true)
 				end
 			elseif Panel == HairstyleHighlightPanel then
-				PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].HairColour[2] = PanelValue - 1
+				PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].HairColour[2] = PanelValue - 1
 
 				for ItemIndex = 1, #ParentMenu.Items do
 					ParentMenu.Items[ItemIndex].Panels[2]:CurrentSelection(PanelValue - 1, true)
@@ -40,7 +44,7 @@ function SetupHairstylesMenu(ParentMenu)
 	end
 
 	Menu.OnIndexChange = function(ParentMenu, NewIndex)
-		SetPedComponentVariation(PlayerPedId(), 2, PlayerCustomisation.Reference.Appearance.Hairstyles[PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender][NewIndex].Value, 0, 1)
+		SetPedComponentVariation(PlayerPedId(), 2, PlayerCustomisation.Reference.Appearance.Hairstyles[PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender][NewIndex].Value, 0, 1)
 	end
 	Menu.OnMenuClosed = function(ParentMenu)
 		UpdatePlayer()
@@ -53,10 +57,10 @@ function SetupHairstylesMenu(ParentMenu)
 			Citizen.Wait(0)
 			if IsDisabledControlJustPressed(0, 22) then
 				if Menu:Visible() then
-					PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Highlights = not PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Highlights
+					PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Highlights = not PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Highlights
 					
 					for Index = 1, #Menu.Items do
-						Menu.Items[Index].Panels[2]:Enabled(PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Highlights)
+						Menu.Items[Index].Panels[2]:Enabled(PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Highlights)
 					end
 
 					UpdatePlayer()
@@ -70,14 +74,14 @@ end
 
 function UpdateHairstylesMenu(Menu)
 	Menu:Clear()
-	for Index = 1, #PlayerCustomisation.Reference.Appearance.Hairstyles[PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender] do
-		local HairstyleItem = NativeUI.CreateItem(PlayerCustomisation.Reference.Appearance.Hairstyles[PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender][Index].Name, "")
+	for Index = 1, #PlayerCustomisation.Reference.Appearance.Hairstyles[PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender] do
+		local HairstyleItem = NativeUI.CreateItem(PlayerCustomisation.Reference.Appearance.Hairstyles[PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender][Index].Name, "")
 		local HairstyleColourPanel = NativeUI.CreateColourPanel("Colour", PlayerCustomisation.Reference.Colours.Hair)
 		local HairstyleHighlightPanel = NativeUI.CreateColourPanel("Highlight", PlayerCustomisation.Reference.Colours.Hair)
 		HairstyleItem:AddPanel(HairstyleColourPanel)
 		HairstyleItem:AddPanel(HairstyleHighlightPanel)
 		HairstyleItem.Activated = function(ParentMenu, SelectedItem)
-			PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Clothing.Drawable[3] = PlayerCustomisation.Reference.Appearance.Hairstyles[PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender][Index].Value
+			PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Clothing.Drawable[3] = PlayerCustomisation.Reference.Appearance.Hairstyles[PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender][Index].Value
 			
 			UpdatePlayer()
 
@@ -89,13 +93,13 @@ function UpdateHairstylesMenu(Menu)
 		end
 		HairstyleItem.ActivatedPanel = function(ParentMenu, SelectedItem, Panel, PanelValue)
 			if Panel == HairstyleColourPanel then
-				PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].HairColour[1] = PanelValue - 1
+				PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].HairColour[1] = PanelValue - 1
 
 				for ItemIndex = 1, #ParentMenu.Items do
 					ParentMenu.Items[ItemIndex].Panels[1]:CurrentSelection(PanelValue - 1, true)
 				end
 			elseif Panel == HairstyleHighlightPanel then
-				PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].HairColour[2] = PanelValue - 1
+				PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].HairColour[2] = PanelValue - 1
 
 				for ItemIndex = 1, #ParentMenu.Items do
 					ParentMenu.Items[ItemIndex].Panels[2]:CurrentSelection(PanelValue - 1, true)
@@ -120,7 +124,7 @@ function SetupBeardsMenu(ParentMenu)
 		BeardItem:AddPanel(BeardColourPanel)
 		BeardItem.Activated = function(ParentMenu, SelectedItem)
 
-			PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Drawable[2] = PlayerCustomisation.Reference.Appearance.Beards[Index].Value or 255
+			PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Drawable[2] = PlayerCustomisation.Reference.Appearance.Beards[Index].Value or 255
 			
 			UpdatePlayer()
 
@@ -136,13 +140,13 @@ function SetupBeardsMenu(ParentMenu)
 		end
 		BeardItem.ActivatedPanel = function(ParentMenu, SelectedItem, Panel, PanelValue)
 			if Panel == BeardPercentagePanel then
-				PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Opacity[2] = PanelValue or 1.0
+				PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Opacity[2] = PanelValue or 1.0
 
 				for ItemIndex = 1, #ParentMenu.Items do
 					ParentMenu.Items[ItemIndex].Panels[1]:Percentage(PanelValue)
 				end
 			elseif Panel == BeardColourPanel then
-				PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Colours[2] = PanelValue - 1
+				PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Colours[2] = PanelValue - 1
 
 				for ItemIndex = 1, #ParentMenu.Items do
 					ParentMenu.Items[ItemIndex].Panels[2]:CurrentSelection(PanelValue - 1, true)
@@ -156,8 +160,8 @@ function SetupBeardsMenu(ParentMenu)
 	end
 
 	Menu.OnIndexChange = function(ParentMenu, NewIndex)
-		SetPedHeadOverlay(PlayerPedId(), 1, PlayerCustomisation.Reference.Appearance.Beards[NewIndex].Value, PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Opacity[2])
-		SetPedHeadOverlayColor(PlayerPedId(), 1, GetOverlayColourType(1), PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Colours[2], PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Colours[2])
+		SetPedHeadOverlay(PlayerPedId(), 1, PlayerCustomisation.Reference.Appearance.Beards[NewIndex].Value, PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Opacity[2])
+		SetPedHeadOverlayColor(PlayerPedId(), 1, GetOverlayColourType(1), PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Colours[2], PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Colours[2])
 	end
 	Menu.OnMenuClosed = function(ParentMenu)
 		UpdatePlayer()
@@ -177,7 +181,7 @@ function SetupEyebrowsMenu(ParentMenu)
 		EyebrowItem:AddPanel(EyebrowColourPanel)
 		EyebrowItem.Activated = function(ParentMenu, SelectedItem)
 
-			PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Drawable[3] = PlayerCustomisation.Reference.Appearance.Eyebrows[Index].Value or 255
+			PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Drawable[3] = PlayerCustomisation.Reference.Appearance.Eyebrows[Index].Value or 255
 			
 			UpdatePlayer()
 
@@ -193,13 +197,13 @@ function SetupEyebrowsMenu(ParentMenu)
 		end
 		EyebrowItem.ActivatedPanel = function(ParentMenu, SelectedItem, Panel, PanelValue)
 			if Panel == EyebrowPercentagePanel then
-				PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Opacity[3] = PanelValue or 1.0
+				PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Opacity[3] = PanelValue or 1.0
 
 				for ItemIndex = 1, #ParentMenu.Items do
 					ParentMenu.Items[ItemIndex].Panels[1]:Percentage(PanelValue)
 				end
 			elseif Panel == EyebrowColourPanel then
-				PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Colours[3] = PanelValue - 1
+				PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Colours[3] = PanelValue - 1
 
 				for ItemIndex = 1, #ParentMenu.Items do
 					ParentMenu.Items[ItemIndex].Panels[2]:CurrentSelection(PanelValue - 1, true)
@@ -213,8 +217,8 @@ function SetupEyebrowsMenu(ParentMenu)
 	end
 
 	Menu.OnIndexChange = function(ParentMenu, NewIndex)
-		SetPedHeadOverlay(PlayerPedId(), 2, PlayerCustomisation.Reference.Appearance.Eyebrows[NewIndex].Value, PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Opacity[3])
-		SetPedHeadOverlayColor(PlayerPedId(), 2, GetOverlayColourType(2), PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Colours[3], PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Colours[3])
+		SetPedHeadOverlay(PlayerPedId(), 2, PlayerCustomisation.Reference.Appearance.Eyebrows[NewIndex].Value, PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Opacity[3])
+		SetPedHeadOverlayColor(PlayerPedId(), 2, GetOverlayColourType(2), PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Colours[3], PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Colours[3])
 	end
 	Menu.OnMenuClosed = function(ParentMenu)
 		UpdatePlayer()
@@ -235,7 +239,7 @@ function SetupChestMenu(ParentMenu)
 		ChestItem:AddPanel(ChestColourPanel)
 		ChestItem.Activated = function(ParentMenu, SelectedItem)
 
-			PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Drawable[11] = PlayerCustomisation.Reference.Appearance.Chest[Index].Value or 255
+			PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Drawable[11] = PlayerCustomisation.Reference.Appearance.Chest[Index].Value or 255
 			
 			UpdatePlayer()
 			SetPedTopless()
@@ -252,13 +256,13 @@ function SetupChestMenu(ParentMenu)
 		end
 		ChestItem.ActivatedPanel = function(ParentMenu, SelectedItem, Panel, PanelValue)
 			if Panel == ChestPercentagePanel then
-				PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Opacity[11] = PanelValue or 1.0
+				PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Opacity[11] = PanelValue or 1.0
 
 				for ItemIndex = 1, #ParentMenu.Items do
 					ParentMenu.Items[ItemIndex].Panels[1]:Percentage(PanelValue)
 				end
 			elseif Panel == ChestColourPanel then
-				PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Colours[11] = PanelValue - 1
+				PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Colours[11] = PanelValue - 1
 
 				for ItemIndex = 1, #ParentMenu.Items do
 					ParentMenu.Items[ItemIndex].Panels[2]:CurrentSelection(PanelValue - 1, true)
@@ -273,8 +277,8 @@ function SetupChestMenu(ParentMenu)
 	end
 
 	Menu.OnIndexChange = function(ParentMenu, NewIndex)
-		SetPedHeadOverlay(PlayerPedId(), 10, PlayerCustomisation.Reference.Appearance.Chest[NewIndex].Value, PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Opacity[11])
-		SetPedHeadOverlayColor(PlayerPedId(), 10, GetOverlayColourType(10), PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Colours[11], PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Colours[11])
+		SetPedHeadOverlay(PlayerPedId(), 10, PlayerCustomisation.Reference.Appearance.Chest[NewIndex].Value, PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Opacity[11])
+		SetPedHeadOverlayColor(PlayerPedId(), 10, GetOverlayColourType(10), PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Colours[11], PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Colours[11])
 	end
 	Menu.OnMenuClosed = function(ParentMenu)
 		UpdatePlayer()
@@ -290,7 +294,7 @@ function SetupContactsMenu(ParentMenu)
 
 		ContactItem.Activated = function(ParentMenu, SelectedItem)
 
-			PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].EyeColour = PlayerCustomisation.Reference.Appearance.Contacts[Index].Value or 0
+			PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].EyeColour = PlayerCustomisation.Reference.Appearance.Contacts[Index].Value or 0
 			
 			UpdatePlayer()
 
@@ -325,7 +329,7 @@ function SetupFacePaintsMenu(ParentMenu)
 
 		FacePaintItem.Activated = function(ParentMenu, SelectedItem)
 
-			PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Drawable[5] = PlayerCustomisation.Reference.Appearance.FacePaint[Index].Value or 255
+			PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Drawable[5] = PlayerCustomisation.Reference.Appearance.FacePaint[Index].Value or 255
 			
 			UpdatePlayer()
 
@@ -340,7 +344,7 @@ function SetupFacePaintsMenu(ParentMenu)
 		end
 		FacePaintItem.ActivatedPanel = function(ParentMenu, SelectedItem, Panel, PanelValue)
 			if Panel == FacePaintPercentagePanel then
-				PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Opacity[5] = PanelValue or 1.0
+				PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Opacity[5] = PanelValue or 1.0
 
 				for ItemIndex = 1, #ParentMenu.Items do
 					ParentMenu.Items[ItemIndex].Panels[1]:Percentage(PanelValue)
@@ -354,8 +358,8 @@ function SetupFacePaintsMenu(ParentMenu)
 	end
 
 	Menu.OnIndexChange = function(ParentMenu, NewIndex)
-		SetPedHeadOverlay(PlayerPedId(), 4, PlayerCustomisation.Reference.Appearance.FacePaint[NewIndex].Value, PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Opacity[5])
-		SetPedHeadOverlayColor(PlayerPedId(), 4, GetOverlayColourType(4), PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Colours[5], PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Colours[5])
+		SetPedHeadOverlay(PlayerPedId(), 4, PlayerCustomisation.Reference.Appearance.FacePaint[NewIndex].Value, PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Opacity[5])
+		SetPedHeadOverlayColor(PlayerPedId(), 4, GetOverlayColourType(4), PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Colours[5], PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Colours[5])
 	end
 	Menu.OnMenuClosed = function(ParentMenu)
 		UpdatePlayer()
@@ -375,7 +379,7 @@ function SetupEyeMakeupMenu(ParentMenu)
 
 		EyeMakeupItem.Activated = function(ParentMenu, SelectedItem)
 
-			PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Drawable[5] = PlayerCustomisation.Reference.Appearance.EyeMakeup[Index].Value or 255
+			PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Drawable[5] = PlayerCustomisation.Reference.Appearance.EyeMakeup[Index].Value or 255
 			
 			UpdatePlayer()
 
@@ -390,7 +394,7 @@ function SetupEyeMakeupMenu(ParentMenu)
 		end
 		EyeMakeupItem.ActivatedPanel = function(ParentMenu, SelectedItem, Panel, PanelValue)
 			if Panel == EyeMakeupPercentagePanel then
-				PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Opacity[5] = PanelValue or 1.0
+				PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Opacity[5] = PanelValue or 1.0
 
 				for ItemIndex = 1, #ParentMenu.Items do
 					ParentMenu.Items[ItemIndex].Panels[1]:Percentage(PanelValue)
@@ -404,8 +408,8 @@ function SetupEyeMakeupMenu(ParentMenu)
 	end
 
 	Menu.OnIndexChange = function(ParentMenu, NewIndex)
-		SetPedHeadOverlay(PlayerPedId(), 4, PlayerCustomisation.Reference.Appearance.EyeMakeup[NewIndex].Value, PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Opacity[5])
-		SetPedHeadOverlayColor(PlayerPedId(), 4, GetOverlayColourType(4), PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Colours[5], PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Colours[5])
+		SetPedHeadOverlay(PlayerPedId(), 4, PlayerCustomisation.Reference.Appearance.EyeMakeup[NewIndex].Value, PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Opacity[5])
+		SetPedHeadOverlayColor(PlayerPedId(), 4, GetOverlayColourType(4), PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Colours[5], PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Colours[5])
 	end
 	Menu.OnMenuClosed = function(ParentMenu)
 		UpdatePlayer()
@@ -426,7 +430,7 @@ function SetupBlusherMenu(ParentMenu)
 		BlushItem:AddPanel(BlushColourPanel)
 		BlushItem.Activated = function(ParentMenu, SelectedItem)
 
-			PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Drawable[6] = PlayerCustomisation.Reference.Appearance.Blush[Index].Value or 255
+			PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Drawable[6] = PlayerCustomisation.Reference.Appearance.Blush[Index].Value or 255
 			
 			UpdatePlayer()
 
@@ -442,13 +446,13 @@ function SetupBlusherMenu(ParentMenu)
 		end
 		BlushItem.ActivatedPanel = function(ParentMenu, SelectedItem, Panel, PanelValue)
 			if Panel == BlushPercentagePanel then
-				PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Opacity[6] = PanelValue or 1.0
+				PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Opacity[6] = PanelValue or 1.0
 
 				for ItemIndex = 1, #ParentMenu.Items do
 					ParentMenu.Items[ItemIndex].Panels[1]:Percentage(PanelValue)
 				end
 			elseif Panel == BlushColourPanel then
-				PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Colours[6] = PanelValue - 1
+				PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Colours[6] = PanelValue - 1
 
 				for ItemIndex = 1, #ParentMenu.Items do
 					ParentMenu.Items[ItemIndex].Panels[2]:CurrentSelection(PanelValue - 1, true)
@@ -462,8 +466,8 @@ function SetupBlusherMenu(ParentMenu)
 	end
 
 	Menu.OnIndexChange = function(ParentMenu, NewIndex)
-		SetPedHeadOverlay(PlayerPedId(), 5, PlayerCustomisation.Reference.Appearance.Blush[NewIndex].Value, PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Opacity[6])
-		SetPedHeadOverlayColor(PlayerPedId(), 5, GetOverlayColourType(5), PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Colours[6], PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Colours[6])
+		SetPedHeadOverlay(PlayerPedId(), 5, PlayerCustomisation.Reference.Appearance.Blush[NewIndex].Value, PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Opacity[6])
+		SetPedHeadOverlayColor(PlayerPedId(), 5, GetOverlayColourType(5), PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Colours[6], PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Colours[6])
 	end
 	Menu.OnMenuClosed = function(ParentMenu)
 		UpdatePlayer()
@@ -484,7 +488,7 @@ function SetupLipstickMenu(ParentMenu)
 		LipstickItem:AddPanel(LipstickColourPanel)
 		LipstickItem.Activated = function(ParentMenu, SelectedItem)
 
-			PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Drawable[9] = PlayerCustomisation.Reference.Appearance.Lipstick[Index].Value or 255
+			PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Drawable[9] = PlayerCustomisation.Reference.Appearance.Lipstick[Index].Value or 255
 			
 			UpdatePlayer()
 
@@ -500,13 +504,13 @@ function SetupLipstickMenu(ParentMenu)
 		end
 		LipstickItem.ActivatedPanel = function(ParentMenu, SelectedItem, Panel, PanelValue)
 			if Panel == LipstickPercentagePanel then
-				PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Opacity[9] = PanelValue or 1.0
+				PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Opacity[9] = PanelValue or 1.0
 
 				for ItemIndex = 1, #ParentMenu.Items do
 					ParentMenu.Items[ItemIndex].Panels[1]:Percentage(PanelValue)
 				end
 			elseif Panel == LipstickColourPanel then
-				PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Colours[9] = PanelValue - 1
+				PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Colours[9] = PanelValue - 1
 
 				for ItemIndex = 1, #ParentMenu.Items do
 					ParentMenu.Items[ItemIndex].Panels[2]:CurrentSelection(PanelValue - 1, true)
@@ -520,8 +524,8 @@ function SetupLipstickMenu(ParentMenu)
 	end
 
 	Menu.OnIndexChange = function(ParentMenu, NewIndex)
-		SetPedHeadOverlay(PlayerPedId(), 8, PlayerCustomisation.Reference.Appearance.Blush[NewIndex].Value, PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Opacity[9])
-		SetPedHeadOverlayColor(PlayerPedId(), 8, GetOverlayColourType(8), PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Colours[9], PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Colours[9])
+		SetPedHeadOverlay(PlayerPedId(), 8, PlayerCustomisation.Reference.Appearance.Blush[NewIndex].Value, PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Opacity[9])
+		SetPedHeadOverlayColor(PlayerPedId(), 8, GetOverlayColourType(8), PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Colours[9], PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Colours[9])
 	end
 	Menu.OnMenuClosed = function(ParentMenu)
 		UpdatePlayer()

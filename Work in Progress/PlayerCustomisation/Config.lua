@@ -15,63 +15,65 @@ if IsDuplicityVersion() then
 PlayerCustomisation.PlayerData = {}
 PlayerCustomisation.DefaultPlayerData = {
 	Type = "Default",
-	Default = {
-		Gender = "Male",
-		Model = "mp_m_freemode_01",
-		Creator = false,
-		Male = {
-			Clothing = {
-				Drawable = {0, 0, 37, 6, 12, 0, 8, 0, 5, 0, 0, 3},
-				Texture = {0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0},
-				Palette = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+	Types = {
+		Default = {
+			Gender = "Male",
+			Model = "mp_m_freemode_01",
+			Creator = false,
+			Male = {
+				Clothing = {
+					Drawable = {0, 0, 37, 6, 12, 0, 8, 0, 5, 0, 0, 3},
+					Texture = {0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0},
+					Palette = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+				},
+				Props = {
+					Drawable = {-1, -1, -1, -1, -1, -1, -1, -1},
+					Texture = {-1, -1, -1, -1, -1, -1, -1, -1},
+				},
+				Overlay = {
+					Drawable = {255, 255, 0, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255},
+					Opacity = {1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0},
+					Colours = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+				},
+				FacialFeature = {0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5},
+				HeadBlend = {21, 19, 0.0, 0.0},
+				HairColour = {0, 0},
+				EyeColour = 0,
+				Highlights = false,
+				Tattoos = {},
 			},
-			Props = {
-				Drawable = {-1, -1, -1, -1, -1, -1, -1, -1},
-				Texture = {-1, -1, -1, -1, -1, -1, -1, -1},
+			Female = {
+				Clothing = {
+					Drawable = {45, 0, 42, 4, 3, 0, 4, 0, 0, 0, 0, 32},
+					Texture = {0, 0, 0, 0, 8, 0, 1, 0, 240, 0, 0, 0},
+					Palette = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+				},
+				Props = {
+					Drawable = {-1, -1, -1, -1, -1, -1, -1, -1},
+					Texture = {-1, -1, -1, -1, -1, -1, -1, -1},
+				},
+				Overlay = {
+					Drawable = {255, 255, 0, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255},
+					Opacity = {1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0},
+					Colours = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+				},
+				FacialFeature = {0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5},
+				HeadBlend = {21, 19, 0.0, 0.0},
+				HairColour = {0, 0},
+				EyeColour = 0,
+				Highlights = false,
+				Tattoos = {},
 			},
-			Overlay = {
-				Drawable = {255, 255, 0, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255},
-				Opacity = {1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0},
-				Colours = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-			},
-			FacialFeature = {0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5},
-			HeadBlend = {21, 19, 0.0, 0.0},
-			HairColour = {0, 0},
-			EyeColour = 0,
-			Highlights = false,
-			Tattoos = {},
-		},
-		Female = {
-			Clothing = {
-				Drawable = {45, 0, 42, 4, 3, 0, 4, 0, 0, 0, 0, 32},
-				Texture = {0, 0, 0, 0, 8, 0, 1, 0, 240, 0, 0, 0},
-				Palette = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-			},
-			Props = {
-				Drawable = {-1, -1, -1, -1, -1, -1, -1, -1},
-				Texture = {-1, -1, -1, -1, -1, -1, -1, -1},
-			},
-			Overlay = {
-				Drawable = {255, 255, 0, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255},
-				Opacity = {1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0},
-				Colours = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-			},
-			FacialFeature = {0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5},
-			HeadBlend = {21, 19, 0.0, 0.0},
-			HairColour = {0, 0},
-			EyeColour = 0,
-			Highlights = false,
-			Tattoos = {},
-		},
-		Hybrid = {
-			Clothing = {
-				Drawable = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-				Texture = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-				Palette = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-			},
-			Props = {
-				Drawable = {-1, -1, -1, -1, -1, -1, -1, -1},
-				Texture = {-1, -1, -1, -1, -1, -1, -1, -1},
+			Hybrid = {
+				Clothing = {
+					Drawable = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+					Texture = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+					Palette = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+				},
+				Props = {
+					Drawable = {-1, -1, -1, -1, -1, -1, -1, -1},
+					Texture = {-1, -1, -1, -1, -1, -1, -1, -1},
+				},
 			},
 		},
 	},
@@ -84,67 +86,85 @@ PlayerCustomisation.Pool = NativeUI.CreatePool()
 PlayerCustomisation.Creator = {
 	Entry = {x = 402.84613037109, y = -996.60723876953, z = -99.006462097168, h = 180.80046081543},
 	Exit = {x = 0.0, y = 0.0, z = 0.0, h = 180.0},
+	Board = {
+		Scaleform = {
+			Name = "mugshot_board_01",
+			Handle = nil,
+		},
+		Dictionary = "mp_character_creation@customise@male_a",
+		Animation = "loop",
+		RenderTarget = {
+			Name = "ID_Text",
+			Model = "prop_police_id_text",
+			Id = -1,
+			Handle = nil,
+		},
+		Model = "prop_police_id_board",
+		Handle = nil,
+	},
 }
 
 PlayerCustomisation.PlayerData = {
 	Type = "Default",
-	Default = {
-		Gender = "Male",
-		Model = "mp_m_freemode_01",
-		Creator = false,
-		Male = {
-			Clothing = {
-				Drawable = {0, 0, 37, 6, 12, 0, 8, 0, 5, 0, 0, 3},
-				Texture = {0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0},
-				Palette = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+	Types = {
+		Default = {
+			Gender = "Male",
+			Model = "mp_m_freemode_01",
+			Creator = false,
+			Male = {
+				Clothing = {
+					Drawable = {0, 0, 37, 6, 12, 0, 8, 0, 5, 0, 0, 3},
+					Texture = {0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0},
+					Palette = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+				},
+				Props = {
+					Drawable = {-1, -1, -1, -1, -1, -1, -1, -1},
+					Texture = {-1, -1, -1, -1, -1, -1, -1, -1},
+				},
+				Overlay = {
+					Drawable = {255, 255, 0, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255},
+					Opacity = {1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0},
+					Colours = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+				},
+				FacialFeature = {0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5},
+				HeadBlend = {21, 19, 0.0, 0.0},
+				HairColour = {0, 0},
+				EyeColour = 0,
+				Highlights = false,
+				Tattoos = {},
 			},
-			Props = {
-				Drawable = {-1, -1, -1, -1, -1, -1, -1, -1},
-				Texture = {-1, -1, -1, -1, -1, -1, -1, -1},
+			Female = {
+				Clothing = {
+					Drawable = {45, 0, 42, 4, 3, 0, 4, 0, 0, 0, 0, 32},
+					Texture = {0, 0, 0, 0, 8, 0, 1, 0, 240, 0, 0, 0},
+					Palette = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+				},
+				Props = {
+					Drawable = {-1, -1, -1, -1, -1, -1, -1, -1},
+					Texture = {-1, -1, -1, -1, -1, -1, -1, -1},
+				},
+				Overlay = {
+					Drawable = {255, 255, 0, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255},
+					Opacity = {1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0},
+					Colours = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+				},
+				FacialFeature = {0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5},
+				HeadBlend = {21, 19, 0.0, 0.0},
+				HairColour = {0, 0},
+				EyeColour = 0,
+				Highlights = false,
+				Tattoos = {},
 			},
-			Overlay = {
-				Drawable = {255, 255, 0, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255},
-				Opacity = {1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0},
-				Colours = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-			},
-			FacialFeature = {0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5},
-			HeadBlend = {21, 19, 0.0, 0.0},
-			HairColour = {0, 0},
-			EyeColour = 0,
-			Highlights = false,
-			Tattoos = {},
-		},
-		Female = {
-			Clothing = {
-				Drawable = {45, 0, 42, 4, 3, 0, 4, 0, 0, 0, 0, 32},
-				Texture = {0, 0, 0, 0, 8, 0, 1, 0, 240, 0, 0, 0},
-				Palette = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-			},
-			Props = {
-				Drawable = {-1, -1, -1, -1, -1, -1, -1, -1},
-				Texture = {-1, -1, -1, -1, -1, -1, -1, -1},
-			},
-			Overlay = {
-				Drawable = {255, 255, 0, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255},
-				Opacity = {1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0},
-				Colours = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-			},
-			FacialFeature = {0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5},
-			HeadBlend = {21, 19, 0.0, 0.0},
-			HairColour = {0, 0},
-			EyeColour = 0,
-			Highlights = false,
-			Tattoos = {},
-		},
-		Hybrid = {
-			Clothing = {
-				Drawable = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-				Texture = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-				Palette = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-			},
-			Props = {
-				Drawable = {-1, -1, -1, -1, -1, -1, -1, -1},
-				Texture = {-1, -1, -1, -1, -1, -1, -1, -1},
+			Hybrid = {
+				Clothing = {
+					Drawable = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+					Texture = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+					Palette = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+				},
+				Props = {
+					Drawable = {-1, -1, -1, -1, -1, -1, -1, -1},
+					Texture = {-1, -1, -1, -1, -1, -1, -1, -1},
+				},
 			},
 		},
 	},
