@@ -16,8 +16,8 @@ local Cocaine = {
 		Handle = nil,
 	},
 	Pay = {
-		Min = 400,
-		Max = 500,
+		Min = 450,
+		Max = 550,
 	},
 	Harvesting = false,
 	Cooldown = 0,
@@ -107,7 +107,7 @@ local drug_zones = {
 	['VCANA'] = {label = "Vespucci Canals", chance = 50}, 
 	['VESP'] = {label = "Vespucci", chance = 50}, 
 	['VINE'] = {label = "Vinewood", chance = 50}, 
-	['WINDF'] = {label = "Ron Alternates Wind Farm", chance = 80}, 
+	['WINDF'] = {label = "Ron Alternates Wind Farm", chance = 70}, 
 	['WVINE'] = {label = "West Vinewood", chance = 50}, 
 	['ZANCUDO'] = {label = "Zancudo River", chance = 50}, 
 	['ZP_ORT'] = {label = "Port of South Los Santos", chance = 50}, 
@@ -238,64 +238,66 @@ Citizen.CreateThread(function()
 	end
 	while true do
 		Citizen.Wait(0)
-		if GetItemQuantity(Cocaine.Items.Cocaine) > 0 then
-			for ped in EnumeratePeds() do
-				if DoesEntityExist(ped) then
-					if not IsEntityDead(ped) then
-						if not IsPedAPlayer(ped) and not DecorGetBool(ped, "isTrader") and not DecorGetBool(ped, "soldTo") and not IsPedAnAnimal(GetEntityModel(ped)) then
-							if Vdist2(GetEntityCoords(PlayerPedId(), false), GetEntityCoords(ped, false)) < 1 then
-								if Cocaine.Cooldown > 0 then
-									DisplayHelpText("Press ~INPUT_CONTEXT~ to sell cocaine! ["..Cocaine.Cooldown.."]")
-								else
-									DisplayHelpText("Press ~INPUT_CONTEXT~ to sell cocaine!")
-									if IsControlJustPressed(1, 51) then
-										Cocaine.Cooldown = 10
-										DecorSetBool(ped, "soldTo", true)
-										if willNPCbuy() then
-											local methbag_model = GetHashKey("prop_meth_bag_01")
+		if not IsPedSittingInAnyVehicle(PlayerPedId()) then
+			if GetItemQuantity(Cocaine.Items.Cocaine) > 0 then
+				for ped in EnumeratePeds() do
+					if DoesEntityExist(ped) then
+						if not IsEntityDead(ped) then
+							if not IsPedAPlayer(ped) and not DecorGetBool(ped, "isTrader") and not DecorGetBool(ped, "soldTo") and not IsPedAnAnimal(GetEntityModel(ped)) then
+								if Vdist2(GetEntityCoords(PlayerPedId(), false), GetEntityCoords(ped, false)) < 1 then
+									if Cocaine.Cooldown > 0 then
+										DisplayHelpText("Press ~INPUT_CONTEXT~ to sell cocaine! ["..Cocaine.Cooldown.."]")
+									else
+										DisplayHelpText("Press ~INPUT_CONTEXT~ to sell cocaine!")
+										if IsControlJustPressed(1, 51) then
+											Cocaine.Cooldown = 10
+											DecorSetBool(ped, "soldTo", true)
+											if willNPCbuy() then
+												local methbag_model = GetHashKey("prop_meth_bag_01")
 
-											RequestModel(methbag_model)
+												RequestModel(methbag_model)
 
-											while not HasModelLoaded(methbag_model) do
-												Citizen.Wait(250)
-											end
+												while not HasModelLoaded(methbag_model) do
+													Citizen.Wait(250)
+												end
 
-											SetEntityHeading(ped, GetEntityHeading(PlayerPedId()) - 180)
+												SetEntityHeading(ped, GetEntityHeading(PlayerPedId()) - 180)
 
-											local methbag = CreateObject(methbag_model, 0.01, 0, 0, 1, 0, 0)
+												local methbag = CreateObject(methbag_model, 0.01, 0, 0, 1, 0, 0)
 
-											AttachEntityToEntity(methbag, PlayerPedId(), GetPedBoneIndex(PlayerPedId(), 64096), 0.0, 0.0, 0.020, 90.0, -10.0, -130.0 ,true, true, false, true, 1, true)
+												AttachEntityToEntity(methbag, PlayerPedId(), GetPedBoneIndex(PlayerPedId(), 64096), 0.0, 0.0, 0.020, 90.0, -10.0, -130.0 ,true, true, false, true, 1, true)
 
-											TaskPlayAnim(PlayerPedId(), "mp_common", "givetake1_a", 100.0, 200.0, 0.3, 16, 0.2, 0, 0, 0)
+												TaskPlayAnim(PlayerPedId(), "mp_common", "givetake1_a", 100.0, 200.0, 0.3, 16, 0.2, 0, 0, 0)
 
-	                    					TaskPlayAnim(ped, "mp_common", "givetake1_b", 100.0, 200.0, 0.3, 16, 0.2, 0, 0, 0)
+		                    					TaskPlayAnim(ped, "mp_common", "givetake1_b", 100.0, 200.0, 0.3, 16, 0.2, 0, 0, 0)
 
-	                    					Citizen.Wait(500)
+		                    					Citizen.Wait(500)
 
-	                    					DestroyObject(methbag)
+		                    					DestroyObject(methbag)
 
-											local amount = GetRandomIntInRange(1, 8)
-											
-											if GetItemQuantity(Cocaine.Items.Cocaine) >= amount then
-												removeQty(Cocaine.Items.Cocaine, amount)
-												local pay = GetRandomIntInRange(Cocaine.Pay.Min, Cocaine.Pay.Max+1) * amount
-												local money_type = GetRandomIntInRange(1, 3)
-												if getCops() <= 0 then pay = pay/2 end
-												Notify("You sold "..amount.." gram(s) of coke for <span style='color:lime'>$</span><span style='color:white'>"..math.floor(pay).."</span>")
-												TriggerServerEvent("cocaine:sell", math.floor(pay), money_type)
+												local amount = GetRandomIntInRange(1, 8)
+												
+												if GetItemQuantity(Cocaine.Items.Cocaine) >= amount then
+													removeQty(Cocaine.Items.Cocaine, amount)
+													local pay = GetRandomIntInRange(Cocaine.Pay.Min, Cocaine.Pay.Max+1) * amount
+													local money_type = GetRandomIntInRange(1, 3)
+													if getCops() <= 0 then pay = pay/2 end
+													Notify("You sold "..amount.." gram(s) of coke for <span style='color:lime'>$</span><span style='color:white'>"..math.floor(pay).."</span>")
+													TriggerServerEvent("cocaine:sell", math.floor(pay), money_type)
+												else
+													removeQty(Cocaine.Items.Cocaine, 1)
+													local pay = GetRandomIntInRange(Cocaine.Pay.Min, Cocaine.Pay.Max+1)
+													local money_type = GetRandomIntInRange(1, 3)
+													if getCops() <= 0 then pay = pay/2 end
+													Notify("You sold "..amount.." gram(s) of coke for <span style='color:lime'>$</span><span style='color:white'>"..math.floor(pay).."</span>")
+													TriggerServerEvent("cocaine:sell", math.floor(pay), money_type)
+												end
+												PlaySoundFrontend(-1, "Hack_Success", "DLC_HEIST_BIOLAB_PREP_HACKING_SOUNDS", true)
 											else
-												removeQty(Cocaine.Items.Cocaine, 1)
-												local pay = GetRandomIntInRange(Cocaine.Pay.Min, Cocaine.Pay.Max+1)
-												local money_type = GetRandomIntInRange(1, 3)
-												if getCops() <= 0 then pay = pay/2 end
-												Notify("You sold "..amount.." gram(s) of coke for <span style='color:lime'>$</span><span style='color:white'>"..math.floor(pay).."</span>")
-												TriggerServerEvent("cocaine:sell", math.floor(pay), money_type)
+												TaskReactAndFleePed(ped, PlayerPedId())
+												PlaySoundFrontend(-1, "Hack_Failed", "DLC_HEIST_BIOLAB_PREP_HACKING_SOUNDS", true)
+												TriggerEvent("dispatch:drug")
 											end
-											PlaySoundFrontend(-1, "Hack_Success", "DLC_HEIST_BIOLAB_PREP_HACKING_SOUNDS", true)
-										else
-											TaskReactAndFleePed(ped, PlayerPedId())
-											PlaySoundFrontend(-1, "Hack_Failed", "DLC_HEIST_BIOLAB_PREP_HACKING_SOUNDS", true)
-											TriggerEvent("dispatch:drug")
 										end
 									end
 								end
