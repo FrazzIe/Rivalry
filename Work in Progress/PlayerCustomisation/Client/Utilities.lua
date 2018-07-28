@@ -1,5 +1,13 @@
+function GetGroundZ(X, Y, Z)
+	if tonumber(X) and tonumber(Y) and tonumber(Z) then
+		local _, GroundZ = GetGroundZFor_3dCoord(X + 0.0, Y + 0.0, Z + 0.0, Citizen.ReturnResultAnyway())
+		return GroundZ
+	else
+		return 0.0
+	end
+end
+
 function DestroyObject(Handle)
-	print("Destorying object")
 	Citizen.CreateThread(function()
 		local Handle = Handle
 		local Start = GetGameTimer()
@@ -64,10 +72,12 @@ function SetPedTopless()
 	if PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender == "Male" then
 		SetPedComponentVariation(PlayerPedId(), 8, 0, 240, 0)
 		SetPedComponentVariation(PlayerPedId(), 11, 252, 0, 0)
+		SetPedComponentVariation(PlayerPedId(), 5, 0, 0, 0)
 		SetPedComponentVariation(PlayerPedId(), 3, 15, 0, 0)
 	elseif PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender == "Female" then
 		SetPedComponentVariation(PlayerPedId(), 8, 0, 240, 0)
 		SetPedComponentVariation(PlayerPedId(), 11, 18, 7, 0)
+		SetPedComponentVariation(PlayerPedId(), 5, 0, 0, 0)
 		SetPedComponentVariation(PlayerPedId(), 3, 15, 0, 0)		
 	end
 end
@@ -349,7 +359,7 @@ end
 function RetrieveProps()
 	if PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender == "Hybrid" then
 		PlayerCustomisation.Reference.Props.Options.Hybrid = {}
-		for Index = 0, 11 do
+		for Index = 0, 7 do
 			if GetNumberOfPedPropDrawableVariations(PlayerPedId(), Index) > 0 then
 				table.insert(PlayerCustomisation.Reference.Props.Options.Hybrid, {Name = PlayerCustomisation.Reference.Props.Options.PedPropNames[tostring(Index)] or "Slot "..Index, Value = Index})
 			end

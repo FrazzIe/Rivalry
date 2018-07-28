@@ -101,13 +101,12 @@ AddEventHandler("core:loaded", function(Source, user, power, group)
 end)
 
 RegisterServerEvent("PlayerCustomisation.Instance")
-AddEventHandler("PlayerCustomisation.Instance", function(Type, Enter)
+AddEventHandler("PlayerCustomisation.Instance", function(Enter)
 	local Source = source
-	if PlayerCustomisation.Instances[Type] then
-		PlayerCustomisation.Instances[Type][Source] = (Enter and true or nil)
-	end
+	
+	PlayerCustomisation.InstancedPlayers[Source] = (Enter and true or nil)
 
-	TriggerClientEvent("PlayerCustomisation.Sync", -1, PlayerCustomisation.Instances)
+	TriggerClientEvent("PlayerCustomisation.Sync", -1, PlayerCustomisation.InstancedPlayers)
 end)
 
 RegisterServerEvent("PlayerCustomisation.ModelType")
