@@ -31,7 +31,43 @@ CharacterCreatorMenu.Items[4].Activated = function(ParentMenu, SelectedItem)
 	CharacterCreatorMenu.Cameras.Face:Switch(CharacterCreatorMenu.Cameras.Default.Handle, 1000, false, false)
 end
 
+BarberMenu.Items[1].Activated = function(ParentMenu, SelectedItem)
+	BarberMenu.Cameras.Face:Switch(BarberMenu.Cameras.Default.Handle, 1000, false, false)
+end
+
+BarberMenu.Items[2].Activated = function(ParentMenu, SelectedItem)
+	BarberMenu.Cameras.Face:Switch(BarberMenu.Cameras.Default.Handle, 1000, false, false)
+end
+
+BarberMenu.Items[3].Activated = function(ParentMenu, SelectedItem)
+	ClearPedProp(PlayerPedId(), 1)
+	BarberMenu.Cameras.Face:Switch(BarberMenu.Cameras.Default.Handle, 1000, false, false)
+end
+
 BarberMenu.Items[4].Activated = SetPedTopless
+
+BarberMenu.Items[5].Activated = function(ParentMenu, SelectedItem)
+	ClearPedProp(PlayerPedId(), 1)
+	BarberMenu.Cameras.Face:Switch(BarberMenu.Cameras.Default.Handle, 1000, false, false)
+end
+
+BarberMenu.Items[6].Activated = function(ParentMenu, SelectedItem)
+	ClearPedProp(PlayerPedId(), 1)
+	BarberMenu.Cameras.Face:Switch(BarberMenu.Cameras.Default.Handle, 1000, false, false)
+end
+
+MakeupMenu.Items[1].Activated = function(ParentMenu, SelectedItem)
+	ClearPedProp(PlayerPedId(), 1)
+	BarberMenu.Cameras.Face:Switch(BarberMenu.Cameras.Default.Handle, 1000, false, false)
+end
+
+MakeupMenu.Items[2].Activated = function(ParentMenu, SelectedItem)
+	BarberMenu.Cameras.Face:Switch(BarberMenu.Cameras.Default.Handle, 1000, false, false)
+end
+
+MakeupMenu.Items[3].Activated = function(ParentMenu, SelectedItem)
+	BarberMenu.Cameras.Face:Switch(BarberMenu.Cameras.Default.Handle, 1000, false, false)
+end
 
 PlayerCustomisation.Pool:Add(CharacterCreatorMenu)
 PlayerCustomisation.Pool:Add(ModelMenu)
@@ -136,6 +172,9 @@ CharacterCreatorMenu.OnListSelect = function(ParentMenu, SelectedList, NewIndex)
 end
 
 function OpenBarberMenu(LocationIndex)
+	PlayerCustomisation.Instanced = true
+	TriggerServerEvent("PlayerCustomisation.Instance", true)
+
 	if PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender == "Hybrid" then
 		for Index = 1, #BarberMenu.Items do
 			BarberMenu.Items[Index]:Enabled(false)
@@ -255,6 +294,19 @@ function OpenBarberMenu(LocationIndex)
 
 		LipstickMenu.Items[LipstickIndex]:SetRightBadge(BadgeStyle.Makeup)
 	end
+	
+	SetEntityCoords(PlayerPedId(), PlayerCustomisation.Locations.Barbers[LocationIndex].Marker.x, PlayerCustomisation.Locations.Barbers[LocationIndex].Marker.y, PlayerCustomisation.Locations.Barbers[LocationIndex].Marker.z)
+	SetEntityHeading(PlayerPedId(), PlayerCustomisation.Locations.Barbers[LocationIndex].Marker.h)
+	
+	BarberMenu.Cameras.Default:Create()
+	BarberMenu.Cameras.Default:Position(table.unpack(GetOffsetFromEntityInWorldCoords(PlayerPedId(), 0.0, 1.0, -0.5)))
+	BarberMenu.Cameras.Default:Rotate(0.0, 0.0, PlayerCustomisation.Locations.Barbers[LocationIndex].Marker.h - 180.0)
+
+	BarberMenu.Cameras.Face:Create()
+	BarberMenu.Cameras.Face:Position(table.unpack(GetOffsetFromEntityInWorldCoords(PlayerPedId(), 0.0, 0.5, -0.3)))
+	BarberMenu.Cameras.Face:Rotate(0.0, 0.0, PlayerCustomisation.Locations.Barbers[LocationIndex].Marker.h - 180.0)
+
+	BarberMenu.Cameras.Default:Activate(false, 2000)
 
 	MenuLogoSprite.TxtDictionary = PlayerCustomisation.Locations.Barbers[LocationIndex].Banner
 	MenuLogoSprite.TxtName = PlayerCustomisation.Locations.Barbers[LocationIndex].Banner
@@ -264,6 +316,9 @@ function OpenBarberMenu(LocationIndex)
 end
 
 function OpenClothingMenu(LocationIndex)
+	PlayerCustomisation.Instanced = true
+	TriggerServerEvent("PlayerCustomisation.Instance", true)
+
 	RetrieveComponents()
 	RetrieveProps()
 
@@ -283,6 +338,32 @@ function OpenClothingMenu(LocationIndex)
 	ClothingMenu.Items[6].Data.Items = PlayerCustomisation.Reference.Props.Textures[PlayerCustomisation.Reference.Props.Options[PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender][1].Name][ClothingMenu.Items[2]:Index()]
 	ClothingMenu.Items[6]:Index(ClothingMenu.Items[6]:ItemToIndex(PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Props.Texture[PlayerCustomisation.Reference.Props.Options[PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender][1].Value + 1]))
 
+	SetEntityCoords(PlayerPedId(), PlayerCustomisation.Locations.Clothing[LocationIndex].Marker.x, PlayerCustomisation.Locations.Clothing[LocationIndex].Marker.y, GetGroundZ(PlayerCustomisation.Locations.Clothing[LocationIndex].Marker.x, PlayerCustomisation.Locations.Clothing[LocationIndex].Marker.y, PlayerCustomisation.Locations.Clothing[LocationIndex].Marker.z))
+	SetEntityHeading(PlayerPedId(), PlayerCustomisation.Locations.Clothing[LocationIndex].Marker.h)
+	FreezeEntityPosition(PlayerPedId(), true)
+
+	for Index = 1, #PlayerCustomisation.Reference.Clothing.Cameras[PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender] do
+		table.insert(ClothingMenu.CameraCoordinates.Clothing, GetOffsetFromEntityInWorldCoords(PlayerPedId(), PlayerCustomisation.Reference.Clothing.Cameras[PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender][Index].x, PlayerCustomisation.Reference.Clothing.Cameras[PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender][Index].y, PlayerCustomisation.Reference.Clothing.Cameras[PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender][Index].z))
+	end
+
+	for Index = 1, #PlayerCustomisation.Reference.Props.Cameras[PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender] do
+		table.insert(ClothingMenu.CameraCoordinates.Props, GetOffsetFromEntityInWorldCoords(PlayerPedId(), PlayerCustomisation.Reference.Props.Cameras[PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender][Index].x, PlayerCustomisation.Reference.Props.Cameras[PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender][Index].y, PlayerCustomisation.Reference.Props.Cameras[PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender][Index].z))
+	end
+
+	if ClothingMenu:CurrentSelection() < 4 then
+		ClothingMenu.Cameras[1]:Position(table.unpack(ClothingMenu.CameraCoordinates.Clothing[PlayerCustomisation.Reference.Clothing.Options[PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender][ClothingMenu.Items[1]:Index()].Value + 1]))
+	else
+		ClothingMenu.Cameras[1]:Position(table.unpack(ClothingMenu.CameraCoordinates.Props[PlayerCustomisation.Reference.Props.Options[PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender][ClothingMenu.Items[4]:Index()].Value + 1]))
+	end
+
+	ClothingMenu.Cameras[1]:Rotate(0.0, 0.0, PlayerCustomisation.Locations.Clothing[LocationIndex].Marker.h - 180.0)
+	ClothingMenu.Cameras[1]:Create()
+
+	ClothingMenu.Cameras[2]:Rotate(0.0, 0.0, PlayerCustomisation.Locations.Clothing[LocationIndex].Marker.h - 180.0)
+	ClothingMenu.Cameras[2]:Create()
+
+	ClothingMenu.Cameras[1]:Activate(false, 2000)
+
 	MenuLogoSprite.TxtDictionary = PlayerCustomisation.Locations.Barbers[LocationIndex].Banner
 	MenuLogoSprite.TxtName = PlayerCustomisation.Locations.Barbers[LocationIndex].Banner
 	ClothingMenu:SetBannerSprite(MenuLogoSprite, true)
@@ -291,6 +372,9 @@ function OpenClothingMenu(LocationIndex)
 end
 
 function OpenMaskMenu(LocationIndex)
+	PlayerCustomisation.Instanced = true
+	TriggerServerEvent("PlayerCustomisation.Instance", true)
+
 	if PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender == "Hybrid" then
 		for Index = 1, #MaskMenu.Items do
 			MaskMenu.Items[Index]:Enabled(false)
@@ -317,6 +401,15 @@ function OpenMaskMenu(LocationIndex)
 			end
 		end
 	end
+
+	SetEntityCoords(PlayerPedId(), PlayerCustomisation.Locations.Masks[LocationIndex].Marker.x, PlayerCustomisation.Locations.Masks[LocationIndex].Marker.y, GetGroundZ(PlayerCustomisation.Locations.Masks[LocationIndex].Marker.x, PlayerCustomisation.Locations.Masks[LocationIndex].Marker.y, PlayerCustomisation.Locations.Masks[LocationIndex].Marker.z))
+	SetEntityHeading(PlayerPedId(), PlayerCustomisation.Locations.Masks[LocationIndex].Marker.h)
+
+	MaskMenu.Cameras.Default:Create()
+	MaskMenu.Cameras.Default:Position(table.unpack(GetOffsetFromEntityInWorldCoords(PlayerPedId(), 0.0, 0.5, -0.3)))
+	MaskMenu.Cameras.Default:Rotate(0.0, 0.0, PlayerCustomisation.Locations.Masks[LocationIndex].Marker.h - 180.0)
+
+	MaskMenu.Cameras.Default:Activate(false, 2000)
 
 	MenuLogoSprite.TxtDictionary = PlayerCustomisation.Locations.Masks[LocationIndex].Banner
 	MenuLogoSprite.TxtName = PlayerCustomisation.Locations.Masks[LocationIndex].Banner
@@ -426,10 +519,12 @@ function OpenCharacterCreatorMenu(Name, CharacterId, Gender, Rank)
 
 	PlayerCustomisation.Creator.Exit = {x = PlayerCoordinates.x, y = PlayerCoordinates.y, z = PlayerCoordinates.z, h = GetEntityHeading(PlayerPedId())}
 
-	TriggerServerEvent("PlayerCustomisation.Instance", "Creator", true)
+	PlayerCustomisation.Instanced = true
+	TriggerServerEvent("PlayerCustomisation.Instance", true)
 
-	SetEntityCoords(PlayerPedId(), PlayerCustomisation.Creator.Entry.x, PlayerCustomisation.Creator.Entry.y, PlayerCustomisation.Creator.Entry.z)
+	SetEntityCoords(PlayerPedId(), PlayerCustomisation.Creator.Entry.x, PlayerCustomisation.Creator.Entry.y, GetGroundZ(PlayerCustomisation.Creator.Entry.x, PlayerCustomisation.Creator.Entry.y, PlayerCustomisation.Creator.Entry.z))
 	SetEntityHeading(PlayerPedId(), PlayerCustomisation.Creator.Entry.h)
+	FreezeEntityPosition(PlayerPedId(), true)
 
 	CharacterCreatorMenu.Cameras.Face:Create()
 	CharacterCreatorMenu.Cameras.Default:Create()
@@ -533,19 +628,19 @@ end)
 Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(0)
-		if IsDisabledControlPressed(0, 51) then
-			if CharacterCreatorMenu:Visible() or HeritageMenu:Visible() or FeaturesMenu:Visible() or AppearanceMenu:Visible() or ApparelMenu:Visible() then
-				local PlayerPed = PlayerPedId()
+		if PlayerCustomisation.Instanced then
+			local PlayerPed = PlayerPedId()
 
+			if IsDisabledControlPressed(0, 51) then
 				SetEntityHeading(PlayerPed, GetEntityHeading(PlayerPed) + 2)
 			end
-		end
 
-		if IsDisabledControlPressed(0, 44) then
-			if CharacterCreatorMenu:Visible() or HeritageMenu:Visible() or FeaturesMenu:Visible() or AppearanceMenu:Visible() or ApparelMenu:Visible() then
-				local PlayerPed = PlayerPedId()
-
+			if IsDisabledControlPressed(0, 44) then
 				SetEntityHeading(PlayerPed, GetEntityHeading(PlayerPed) - 2)
+			end
+
+			if IsEntityDead(PlayerPed) and PlayerCustomisation.Pool:IsAnyMenuOpen() then
+				PlayerCustomisation.Pool:CloseAllMenus()
 			end
 		end
 
@@ -676,8 +771,8 @@ AddEventHandler("PlayerCustomisation.ModelType", function(Type, Name, CharacterI
 end)
 
 RegisterNetEvent("PlayerCustomisation.Sync")
-AddEventHandler("PlayerCustomisation.Sync", function(Instances)
-	PlayerCustomisation.Instances = Instances
+AddEventHandler("PlayerCustomisation.Sync", function(InstancedPlayers)
+	PlayerCustomisation.InstancedPlayers = InstancedPlayers
 end)
 
 RegisterNetEvent("PlayerCustomisation.Sync.PlayerData")
@@ -692,11 +787,23 @@ end)
 Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(0)
-		for Instance, Players in pairs(PlayerCustomisation.Instances) do
-			for PlayerServerId, _ in pairs(Players) do
+		local PlayerPed = PlayerPedId()
+		if PlayerCustomisation.Instanced then
+			for Player = 0, 32 do
+				if NetworkIsPlayerActive(Player) then
+					local OtherPed = GetPlayerPed(Player)
+					if OtherPed ~= PlayerPed then
+						SetEntityLocallyInvisible(OtherPed)
+						SetEntityNoCollisionEntity(PlayerPed, OtherPed, true)
+					else
+						SetEntityLocallyVisible(PlayerPed)
+					end
+				end
+			end
+		else
+			for PlayerServerId, _ in pairs(PlayerCustomisation.InstancedPlayers) do
 				local Player = GetPlayerFromServerId(PlayerServerId)
 				if NetworkIsPlayerActive(Player) then
-					local PlayerPed = PlayerPedId()
 					local OtherPed = GetPlayerPed(Player)
 					if OtherPed ~= PlayerPed then
 						SetEntityLocallyInvisible(OtherPed)
