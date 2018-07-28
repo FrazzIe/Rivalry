@@ -80,7 +80,7 @@ PlayerCustomisation.Pool = NativeUI.CreatePool()
 PlayerCustomisation.Instanced = false
 
 PlayerCustomisation.Creator = {
-	Entry = {x = 402.84613037109, y = -996.60723876953, z = -99.006462097168, h = 180.80046081543},
+	Entry = {x = 402.84613037109, y = -996.60723876953, z = -99.006462097168, h = 179.80046081543},
 	Exit = {x = 0.0, y = 0.0, z = 0.0, h = 180.0},
 	Board = {
 		Scaleform = {

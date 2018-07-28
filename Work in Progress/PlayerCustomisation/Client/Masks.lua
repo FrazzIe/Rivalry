@@ -13,6 +13,8 @@ MaskMenu.OnMenuClosed = function(ParentMenu)
 	TriggerServerEvent("PlayerCustomisation.Instance", false)
 	TriggerServerEvent("PlayerCustomisation.Update", PlayerCustomisation.PlayerData.Type, PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type])
 
+	FreezeEntityPosition(PlayerPedId(), false)
+
 	MaskMenu.Cameras.Default:Deactivate()
 	MaskMenu.Cameras.Default:Destroy()
 end

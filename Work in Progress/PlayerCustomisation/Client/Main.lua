@@ -295,15 +295,16 @@ function OpenBarberMenu(LocationIndex)
 		LipstickMenu.Items[LipstickIndex]:SetRightBadge(BadgeStyle.Makeup)
 	end
 	
-	SetEntityCoords(PlayerPedId(), PlayerCustomisation.Locations.Barbers[LocationIndex].Marker.x, PlayerCustomisation.Locations.Barbers[LocationIndex].Marker.y, PlayerCustomisation.Locations.Barbers[LocationIndex].Marker.z)
+	SetEntityCoords(PlayerPedId(), PlayerCustomisation.Locations.Barbers[LocationIndex].Marker.x, PlayerCustomisation.Locations.Barbers[LocationIndex].Marker.y, GetGroundZ(PlayerCustomisation.Locations.Barbers[LocationIndex].Marker.x, PlayerCustomisation.Locations.Barbers[LocationIndex].Marker.y, PlayerCustomisation.Locations.Barbers[LocationIndex].Marker.z))
 	SetEntityHeading(PlayerPedId(), PlayerCustomisation.Locations.Barbers[LocationIndex].Marker.h)
-	
+	FreezeEntityPosition(PlayerPedId(), true)
+
 	BarberMenu.Cameras.Default:Create()
-	BarberMenu.Cameras.Default:Position(table.unpack(GetOffsetFromEntityInWorldCoords(PlayerPedId(), 0.0, 1.0, -0.5)))
+	BarberMenu.Cameras.Default:Position(table.unpack(GetOffsetFromEntityInWorldCoords(PlayerPedId(), 0.0, 1.0, 0.4)))
 	BarberMenu.Cameras.Default:Rotate(0.0, 0.0, PlayerCustomisation.Locations.Barbers[LocationIndex].Marker.h - 180.0)
 
 	BarberMenu.Cameras.Face:Create()
-	BarberMenu.Cameras.Face:Position(table.unpack(GetOffsetFromEntityInWorldCoords(PlayerPedId(), 0.0, 0.5, -0.3)))
+	BarberMenu.Cameras.Face:Position(table.unpack(GetOffsetFromEntityInWorldCoords(PlayerPedId(), 0.0, 0.5, 0.7)))
 	BarberMenu.Cameras.Face:Rotate(0.0, 0.0, PlayerCustomisation.Locations.Barbers[LocationIndex].Marker.h - 180.0)
 
 	BarberMenu.Cameras.Default:Activate(false, 2000)
@@ -404,9 +405,10 @@ function OpenMaskMenu(LocationIndex)
 
 	SetEntityCoords(PlayerPedId(), PlayerCustomisation.Locations.Masks[LocationIndex].Marker.x, PlayerCustomisation.Locations.Masks[LocationIndex].Marker.y, GetGroundZ(PlayerCustomisation.Locations.Masks[LocationIndex].Marker.x, PlayerCustomisation.Locations.Masks[LocationIndex].Marker.y, PlayerCustomisation.Locations.Masks[LocationIndex].Marker.z))
 	SetEntityHeading(PlayerPedId(), PlayerCustomisation.Locations.Masks[LocationIndex].Marker.h)
+	FreezeEntityPosition(PlayerPedId(), true)
 
 	MaskMenu.Cameras.Default:Create()
-	MaskMenu.Cameras.Default:Position(table.unpack(GetOffsetFromEntityInWorldCoords(PlayerPedId(), 0.0, 0.5, -0.3)))
+	MaskMenu.Cameras.Default:Position(table.unpack(GetOffsetFromEntityInWorldCoords(PlayerPedId(), 0.0, 0.8, 0.7)))
 	MaskMenu.Cameras.Default:Rotate(0.0, 0.0, PlayerCustomisation.Locations.Masks[LocationIndex].Marker.h - 180.0)
 
 	MaskMenu.Cameras.Default:Activate(false, 2000)
@@ -522,7 +524,7 @@ function OpenCharacterCreatorMenu(Name, CharacterId, Gender, Rank)
 	PlayerCustomisation.Instanced = true
 	TriggerServerEvent("PlayerCustomisation.Instance", true)
 
-	SetEntityCoords(PlayerPedId(), PlayerCustomisation.Creator.Entry.x, PlayerCustomisation.Creator.Entry.y, GetGroundZ(PlayerCustomisation.Creator.Entry.x, PlayerCustomisation.Creator.Entry.y, PlayerCustomisation.Creator.Entry.z))
+	SetEntityCoords(PlayerPedId(), PlayerCustomisation.Creator.Entry.x, PlayerCustomisation.Creator.Entry.y, PlayerCustomisation.Creator.Entry.z)
 	SetEntityHeading(PlayerPedId(), PlayerCustomisation.Creator.Entry.h)
 	FreezeEntityPosition(PlayerPedId(), true)
 
@@ -594,7 +596,7 @@ function OpenCharacterCreatorMenu(Name, CharacterId, Gender, Rank)
 
 		local StyleIndex, OutfitIndex = GetOutfitIndex()
 
-		ApparelMenu.Items[2].Items = PlayerCustomisation.Reference.Apparel.Outfits[PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender][StyleIndex]
+		ApparelMenu.Items[2].Items = PlayerCustomisation.Reference.Apparel.Outfits[PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender][StyleIndex or 1]
 		ApparelMenu.Items[1]:Index(StyleIndex or 1)
 		ApparelMenu.Items[2]:Index(OutfitIndex or 1)
 		ApparelMenu.Items[3]:Index(GetHatIndex() or 1)

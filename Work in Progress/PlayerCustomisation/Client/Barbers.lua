@@ -14,6 +14,8 @@ BarberMenu.OnMenuClosed = function(ParentMenu)
 	TriggerServerEvent("PlayerCustomisation.Instance", false)
 	TriggerServerEvent("PlayerCustomisation.Update", PlayerCustomisation.PlayerData.Type, PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type])
 
+	FreezeEntityPosition(PlayerPedId(), false)
+
 	BarberMenu.Cameras.Default:Deactivate()
 	BarberMenu.Cameras.Face:Deactivate()
 	BarberMenu.Cameras.Default:Destroy()
