@@ -2,13 +2,7 @@ PlayerCustomisation = {}
 
 PlayerCustomisation.Outfits = {}
 
-PlayerCustomisation.Instances = {
-	Creator = {},
-	Clothing = {},
-	Barbers = {},
-	Masks = {},
-	Tattoos = {},
-}
+PlayerCustomisation.InstancedPlayers = {}
 
 if IsDuplicityVersion() then
 
@@ -83,6 +77,8 @@ else
 
 PlayerCustomisation.Pool = NativeUI.CreatePool()
 
+PlayerCustomisation.Instanced = false
+
 PlayerCustomisation.Creator = {
 	Entry = {x = 402.84613037109, y = -996.60723876953, z = -99.006462097168, h = 180.80046081543},
 	Exit = {x = 0.0, y = 0.0, z = 0.0, h = 180.0},
@@ -101,6 +97,13 @@ PlayerCustomisation.Creator = {
 		},
 		Model = "prop_police_id_board",
 		Handle = nil,
+	},
+}
+
+PlayerCustomisation.Barbers = {
+	Chair = {
+		Dictionary = "misshair_shop@barbers",
+		Animation = "player_base",
 	},
 }
 
@@ -185,34 +188,89 @@ PlayerCustomisation.Locations = {
             },
             Banner = "shopui_title_lowendfashion2",
         },
-	},
-	Barbers = {
-        [1] = {
+        [2] = {
             Blip = {
                 Name = "Tattoo Store", 
                 Sprite = 75, 
                 Colour = 0,
             },
-            Marker = {
-				x = 1316.8658447266, 
-				y = -1649.0679931641, 
-				z = 52.145587921143,
+            Marker = {x = -1451.3239746094, y = -237.0061340332, z = 49.808544158936, h = 56.556392669678},
+            Banner = "shopui_title_highendfashion",
+        },
+	},
+	Barbers = {
+        [1] = {
+            Blip = {
+                Name = "Barbers", 
+                Sprite = 75, 
+                Colour = 0,
             },
+            Marker = {x = -33.027969360352, y = -152.4655456543, z = 57.076545715332, h = 339.44464111328},
+            Banner = "shopui_title_barber4",
+        },
+        [2] = {
+            Blip = {
+                Name = "Barbers", 
+                Sprite = 75, 
+                Colour = 0,
+            },
+            Marker = {x = -1282.4963378906, y = -1117.1075439453, z = 6.9901118278503, h = 92.022262573242},
+            Banner = "shopui_title_barber2",
+        },
+        [3] = {
+            Blip = {
+                Name = "Barbers", 
+                Sprite = 75, 
+                Colour = 0,
+            },
+            Marker = {x = 137.12803649902, y = -1707.8559570313, z = 29.291624069214, h = 137.43272399902},
+            Banner = "shopui_title_barber",
+        },
+        [4] = {
+            Blip = {
+                Name = "Barbers", 
+                Sprite = 75, 
+                Colour = 0,
+            },
+            Marker = {x = -812.86358642578, y = -183.17976379395, z = 37.568912506104, h = 119.62373352051},
+            Banner = "shopui_title_highendsalon",
+        },
+        [5] = {
+            Blip = {
+                Name = "Barbers", 
+                Sprite = 75, 
+                Colour = 0,
+            },
+            Marker = {x = 1213.5350341797, y = -473.13397216797, z = 66.2080078125, h = 75.476364135742},
+            Banner = "shopui_title_barber",
+        },
+        [6] = {
+            Blip = {
+                Name = "Barbers", 
+                Sprite = 75, 
+                Colour = 0,
+            },
+            Marker = {x = 1931.224609375, y = 3731.0048828125, z = 32.844425201416, h = 210.06588745117},
+            Banner = "shopui_title_barber3",
+        },
+        [7] = {
+            Blip = {
+                Name = "Barbers", 
+                Sprite = 75, 
+                Colour = 0,
+            },
+            Marker = {x = -277.47912597656, y = 6227.6870117188, z = 31.695518493652, h = 44.93936920166},
             Banner = "shopui_title_barber",
         },
 	},
 	Masks = {
         [1] = {
             Blip = {
-                Name = "Tattoo Store", 
-                Sprite = 75, 
+                Name = "Vespucci Movie Masks", 
+                Sprite = 75,
                 Colour = 0,
             },
-            Marker = {
-                x = 1322.645,
-                y = -1651.976,
-                z = 52.275,
-            },
+            Marker = {x = -1337.6094970703, y = -1278.38671875, z = 4.8686590194702, h = 104.41195678711},
             Banner = "shopui_title_movie_masks",
         },
 	},
@@ -3215,6 +3273,50 @@ PlayerCustomisation.Reference = {
 			},
 			Hybrid = {},
 		},
+		Cameras = {
+			Male = {
+				[1] = {x = 0.0, y = 0.0, z = 0.0},
+				[2] = {x = 0.0, y = 0.0, z = 0.0},
+				[3] = {x = 0.0, y = 0.0, z = 0.0},
+				[4] = {x = 0.0, y = 1.2, z = 0.3},
+				[5] = {x = 0.0, y = 1.2, z = -0.3},
+				[6] = {x = 0.0, y = 1.2, z = 0.3},
+				[7] = {x = 0.0, y = 0.6, z = -0.8},
+				[8] = {x = 0.0, y = 1.2, z = 0.3},
+				[9] = {x = 0.0, y = 1.2, z = 0.3},
+				[10] = {x = 0.0, y = 1.2, z = 0.3},
+				[11] = {x = 0.0, y = 1.2, z = 0.3},
+				[12] = {x = 0.0, y = 1.2, z = 0.3},
+			},
+			Female = {
+				[1] = {x = 0.0, y = 0.0, z = 0.0},
+				[2] = {x = 0.0, y = 0.0, z = 0.0},
+				[3] = {x = 0.0, y = 0.0, z = 0.0},
+				[4] = {x = 0.0, y = 1.2, z = 0.3},
+				[5] = {x = 0.0, y = 1.2, z = -0.3},
+				[6] = {x = 0.0, y = 1.2, z = 0.3},
+				[7] = {x = 0.0, y = 0.6, z = -0.8},
+				[8] = {x = 0.0, y = 1.2, z = 0.3},
+				[9] = {x = 0.0, y = 1.2, z = 0.3},
+				[10] = {x = 0.0, y = 1.2, z = 0.3},
+				[11] = {x = 0.0, y = 1.2, z = 0.3},
+				[12] = {x = 0.0, y = 1.2, z = 0.3},
+			},
+			Hybrid = {
+				[1] = {x = 0.0, y = 1.2, z = 0.3},
+				[2] = {x = 0.0, y = 1.2, z = 0.3},
+				[3] = {x = 0.0, y = 1.2, z = 0.3},
+				[4] = {x = 0.0, y = 1.2, z = 0.3},
+				[5] = {x = 0.0, y = 1.2, z = -0.3},
+				[6] = {x = 0.0, y = 1.2, z = 0.3},
+				[7] = {x = 0.0, y = 1.2, z = 0.3},
+				[8] = {x = 0.0, y = 1.2, z = 0.3},
+				[9] = {x = 0.0, y = 1.2, z = 0.3},
+				[10] = {x = 0.0, y = 1.2, z = 0.3},
+				[11] = {x = 0.0, y = 1.2, z = 0.3},
+				[12] = {x = 0.0, y = 1.2, z = 0.3},
+			},
+		},
 		Drawables = {},
 		Textures = {},
 	},
@@ -3240,6 +3342,38 @@ PlayerCustomisation.Reference = {
 				{Name = "Right wrist", Value = 7},
 			},
 			Hybrid = {},
+		},
+		Cameras = {
+			Male = {
+				[1] = {x = 0.0, y = 0.8, z = 0.7},
+				[2] = {x = 0.0, y = 0.8, z = 0.7},
+				[3] = {x = 0.0, y = 0.8, z = 0.7},
+				[4] = {x = 0.0, y = 1.2, z = 0.3},
+				[5] = {x = 0.0, y = 1.2, z = 0.3},
+				[6] = {x = 0.0, y = 1.2, z = 0.3},
+				[7] = {x = -0.3, y = 0.6, z = 0.0},
+				[8] = {x = 0.3, y = 0.6, z = 0.0},
+			},
+			Female = {
+				[1] = {x = 0.0, y = 0.8, z = 0.7},
+				[2] = {x = 0.0, y = 0.8, z = 0.7},
+				[3] = {x = 0.0, y = 0.8, z = 0.7},
+				[4] = {x = 0.0, y = 1.2, z = 0.3},
+				[5] = {x = 0.0, y = 1.2, z = 0.3},
+				[6] = {x = 0.0, y = 1.2, z = 0.3},
+				[7] = {x = -0.3, y = 0.6, z = 0.0},
+				[8] = {x = 0.3, y = 0.6, z = 0.0},
+			},
+			Hybrid = {
+				[1] = {x = 0.0, y = 0.8, z = 0.7},
+				[2] = {x = 0.0, y = 0.8, z = 0.7},
+				[3] = {x = 0.0, y = 0.8, z = 0.7},
+				[4] = {x = 0.0, y = 1.2, z = 0.3},
+				[5] = {x = 0.0, y = 1.2, z = 0.3},
+				[6] = {x = 0.0, y = 1.2, z = 0.3},
+				[7] = {x = 0.0, y = 1.2, z = 0.3},
+				[8] = {x = 0.0, y = 1.2, z = 0.3},
+			},
 		},
 		Drawables = {},
 		Textures = {},
