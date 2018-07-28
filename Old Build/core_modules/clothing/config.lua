@@ -63,7 +63,6 @@ player_data = {
     },
 }
 local clothing_shops = {
-    {name="Clothing Store", id=73, x=1932.76989746094, y=3727.73510742188, z=32.8444557189941},
     {name="Clothing Store", id=73, x=1196.6008300781, y=2709.7121582031, z=38.222640991211},
 	{name="Clothing Store", id=73, x=105.37589263916, y=-1303.1781005859, z=28.768796920776},
 	{name="Clothing Store", id=73, x=-163.08120727539, y=-303.32330322266, z=39.733287811279},
@@ -77,6 +76,7 @@ local clothing_shops = {
     {name="Clothing Store", id=73, x=-1192.81, y=-768.24, z=17.31},
     {name="Clothing Store", id=73, x=4.25, y=6512.88, z=31.87},
     {name="Clothing Store", id=73, x=425.471, y=-806.164, z=29.4911},
+    {name="Clothing Store", id=73, x = -1451.3239746094, y = -237.0061340332, z = 49.808544158936, h = 56.556392669678},
 }
 incircle = false
 Citizen.CreateThread(function()
