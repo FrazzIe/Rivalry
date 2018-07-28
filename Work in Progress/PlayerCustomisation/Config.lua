@@ -68,6 +68,17 @@ PlayerCustomisation.DefaultPlayerData = {
 					Drawable = {-1, -1, -1, -1, -1, -1, -1, -1},
 					Texture = {-1, -1, -1, -1, -1, -1, -1, -1},
 				},
+				Overlay = {
+					Drawable = {},
+					Opacity = {},
+					Colours = {},
+				},
+				FacialFeature = {},
+				HeadBlend = {},
+				HairColour = {},
+				EyeColour = 0,
+				Highlights = false,
+				Tattoos = {},
 			},
 		},
 	},
@@ -80,7 +91,7 @@ PlayerCustomisation.Pool = NativeUI.CreatePool()
 PlayerCustomisation.Instanced = false
 
 PlayerCustomisation.Creator = {
-	Entry = {x = 402.84613037109, y = -996.60723876953, z = -99.006462097168, h = 179.80046081543},
+	Entry = {x = 402.84613037109, y = -996.60723876953, z = -100.006462097168, h = 180.80046081543},
 	Exit = {x = 0.0, y = 0.0, z = 0.0, h = 180.0},
 	Board = {
 		Scaleform = {
@@ -97,13 +108,6 @@ PlayerCustomisation.Creator = {
 		},
 		Model = "prop_police_id_board",
 		Handle = nil,
-	},
-}
-
-PlayerCustomisation.Barbers = {
-	Chair = {
-		Dictionary = "misshair_shop@barbers",
-		Animation = "player_base",
 	},
 }
 
@@ -168,6 +172,17 @@ PlayerCustomisation.PlayerData = {
 					Drawable = {-1, -1, -1, -1, -1, -1, -1, -1},
 					Texture = {-1, -1, -1, -1, -1, -1, -1, -1},
 				},
+				Overlay = {
+					Drawable = {},
+					Opacity = {},
+					Colours = {},
+				},
+				FacialFeature = {},
+				HeadBlend = {},
+				HairColour = {},
+				EyeColour = 0,
+				Highlights = false,
+				Tattoos = {},
 			},
 		},
 	},
@@ -3303,9 +3318,9 @@ PlayerCustomisation.Reference = {
 				[12] = {x = 0.0, y = 1.2, z = 0.3},
 			},
 			Hybrid = {
-				[1] = {x = 0.0, y = 1.2, z = 0.3},
+				[1] = {x = 0.0, y = 0.8, z = 0.7},
 				[2] = {x = 0.0, y = 1.2, z = 0.3},
-				[3] = {x = 0.0, y = 1.2, z = 0.3},
+				[3] = {x = 0.0, y = 0.8, z = 0.7},
 				[4] = {x = 0.0, y = 1.2, z = 0.3},
 				[5] = {x = 0.0, y = 1.2, z = -0.3},
 				[6] = {x = 0.0, y = 1.2, z = 0.3},
