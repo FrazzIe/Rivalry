@@ -1,7 +1,33 @@
 ClothingMenu = NativeUI.CreateMenu("", "OPTIONS", 0, 0)
 
+ClothingMenu:RemoveEnabledControl(0, 31)
+ClothingMenu:RemoveEnabledControl(0, 30)
+ClothingMenu:RemoveEnabledControl(0, 22)
+
+ClothingMenu.Cameras = {
+	Camera.New(),
+	Camera.New(),
+}
+
+ClothingMenu.CameraCoordinates = {
+	Clothing = {},
+	Props = {},
+}
+
 ClothingMenu.OnMenuClosed = function(ParentMenu)
+	PlayerCustomisation.Instanced = false
+	TriggerServerEvent("PlayerCustomisation.Instance", false)
 	TriggerServerEvent("PlayerCustomisation.Update", PlayerCustomisation.PlayerData.Type, PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type])
+
+	FreezeEntityPosition(PlayerPedId(), false)
+
+	ClothingMenu.CameraCoordinates.Clothing = {}
+	ClothingMenu.CameraCoordinates.Props = {}
+
+	ParentMenu.Cameras[1]:Deactivate()
+	ParentMenu.Cameras[2]:Deactivate()
+	ParentMenu.Cameras[1]:Destroy()
+	ParentMenu.Cameras[2]:Destroy()
 end
 
 function SetupClothingMenu(ParentMenu)
@@ -18,6 +44,14 @@ function SetupClothingMenu(ParentMenu)
 
 		ClothingTextureItem.Data.Items = PlayerCustomisation.Reference.Clothing.Textures[PlayerCustomisation.Reference.Clothing.Options[PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender][NewIndex].Name][ClothingDrawableItem:Index()]
 		ClothingTextureItem:Index(ClothingTextureItem:ItemToIndex(PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Clothing.Texture[PlayerCustomisation.Reference.Clothing.Options[PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender][NewIndex].Value + 1]))
+
+		if ParentMenu.Cameras[1]:Rendering() then
+			ParentMenu.Cameras[2]:Position(table.unpack(ClothingMenu.CameraCoordinates.Clothing[PlayerCustomisation.Reference.Clothing.Options[PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender][NewIndex].Value + 1]))
+			ParentMenu.Cameras[2]:Switch(ParentMenu.Cameras[1].Handle, 250, false, false)
+		else
+			ParentMenu.Cameras[1]:Position(table.unpack(ClothingMenu.CameraCoordinates.Clothing[PlayerCustomisation.Reference.Clothing.Options[PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender][NewIndex].Value + 1]))
+			ParentMenu.Cameras[1]:Switch(ParentMenu.Cameras[2].Handle, 250, false, false)
+		end
 	end
 	ClothingDrawableItem.OnProgressChanged = function(ParentMenu, SelectedItem, NewIndex)
 		local Item = SelectedItem:IndexToItem(NewIndex)
@@ -46,6 +80,14 @@ function SetupClothingMenu(ParentMenu)
 
 		PropsTextureItem.Data.Items = PlayerCustomisation.Reference.Props.Textures[PlayerCustomisation.Reference.Props.Options[PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender][NewIndex].Name][PropsDrawableItem:Index()]
 		PropsTextureItem:Index(PropsTextureItem:ItemToIndex(PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Props.Texture[PlayerCustomisation.Reference.Props.Options[PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender][NewIndex].Value + 1]))
+
+		if ParentMenu.Cameras[1]:Rendering() then
+			ParentMenu.Cameras[2]:Position(table.unpack(ClothingMenu.CameraCoordinates.Props[PlayerCustomisation.Reference.Props.Options[PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender][NewIndex].Value + 1]))
+			ParentMenu.Cameras[2]:Switch(ParentMenu.Cameras[1].Handle, 250, false, false)
+		else
+			ParentMenu.Cameras[1]:Position(table.unpack(ClothingMenu.CameraCoordinates.Props[PlayerCustomisation.Reference.Props.Options[PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender][NewIndex].Value + 1]))
+			ParentMenu.Cameras[1]:Switch(ParentMenu.Cameras[2].Handle, 250, false, false)
+		end
 	end
 	PropsDrawableItem.OnProgressChanged = function(ParentMenu, SelectedItem, NewIndex)
 		local Item = SelectedItem:IndexToItem(NewIndex)
@@ -71,6 +113,26 @@ function SetupClothingMenu(ParentMenu)
 		PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Props.Texture[PlayerCustomisation.Reference.Props.Options[PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender][PropsComponentIndex].Value + 1] = Item
 		
 		UpdatePlayer()
+	end
+
+	ParentMenu.OnIndexChange = function(ParentMenu, NewIndex)
+		if ParentMenu.Cameras[1]:Rendering() then
+			if NewIndex < 4 then
+				ParentMenu.Cameras[2]:Position(table.unpack(ClothingMenu.CameraCoordinates.Clothing[PlayerCustomisation.Reference.Clothing.Options[PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender][ParentMenu.Items[1]:Index()].Value + 1]))
+			else
+				ParentMenu.Cameras[2]:Position(table.unpack(ClothingMenu.CameraCoordinates.Props[PlayerCustomisation.Reference.Props.Options[PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender][ParentMenu.Items[4]:Index()].Value + 1]))
+			end
+
+			ParentMenu.Cameras[2]:Switch(ParentMenu.Cameras[1].Handle, 250, false, false)
+		else
+			if NewIndex < 4 then
+				ParentMenu.Cameras[1]:Position(table.unpack(ClothingMenu.CameraCoordinates.Clothing[PlayerCustomisation.Reference.Clothing.Options[PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender][ParentMenu.Items[1]:Index()].Value + 1]))
+			else
+				ParentMenu.Cameras[1]:Position(table.unpack(ClothingMenu.CameraCoordinates.Props[PlayerCustomisation.Reference.Props.Options[PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender][ParentMenu.Items[4]:Index()].Value + 1]))
+			end
+
+			ParentMenu.Cameras[1]:Switch(ParentMenu.Cameras[2].Handle, 250, false, false)
+		end
 	end
 
 	ParentMenu:AddItem(ClothingComponentItem)
