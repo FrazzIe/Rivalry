@@ -475,11 +475,12 @@ end
 
 local function heal()
     Citizen.CreateThread(function()
-        Citizen.Wait(200)
-        SetPedMaxHealth(PlayerPedId(), 200)
-        SetEntityHealth(PlayerPedId(), 200)
-        exports.pNotify:SendNotification({text = "Medkit used!",type = "error",queue = "left",timeout = 3000,layout = "centerRight"})
-        TriggerEvent("inventory:open")    
+        if not IsEntityDead(PlayerPedId()) then
+            Citizen.Wait(200)
+            SetEntityHealth(PlayerPedId(), 200)
+            exports.pNotify:SendNotification({text = "Medkit used!",type = "error",queue = "left",timeout = 3000,layout = "centerRight"})
+            TriggerEvent("inventory:open")
+        end
     end)
 end
 
