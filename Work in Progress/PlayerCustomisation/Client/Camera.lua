@@ -50,6 +50,14 @@ function Camera:Exists()
 	return DoesCamExist(self.Handle)
 end
 
+function Camera:Active()
+	return IsCamActive(self.Handle)
+end
+
+function Camera:Rendering()
+	return IsCamRendering(self.Handle)
+end
+
 function Camera:Detach()
 	DetachCam(self.Handle)
 end
