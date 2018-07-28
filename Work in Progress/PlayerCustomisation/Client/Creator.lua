@@ -1,9 +1,5 @@
 CharacterCreatorMenu = NativeUI.CreateMenu("Character Creator", "", 0, 0)
 
-CharacterCreatorMenu.OnMenuClosed = function(ParentMenu)
-	TriggerServerEvent("PlayerCustomisation.Update", PlayerCustomisation.PlayerData.Type, PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type])
-end
-
 CharacterCreatorMenu.Controls.Back.Enabled = false
 
 CharacterCreatorMenu:RemoveEnabledControl(0, 31)
@@ -661,7 +657,10 @@ function SetupSaveOption(ParentMenu)
 	local ItemSaveList = NativeUI.CreateItem("Save & Continue", "Finish creating your Character.")
 
 	ItemSaveList.Activated = function(ParentMenu, SelectedItem)
-		TriggerServerEvent("PlayerCustomisation.Instance", "Creator", false)
+		TriggerServerEvent("PlayerCustomisation.Instance", false)
+		PlayerCustomisation.Instanced = false
+
+		TriggerServerEvent("PlayerCustomisation.Update", PlayerCustomisation.PlayerData.Type, PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type])
 
 		CharacterCreatorMenu.Cameras.Face:Deactivate()
 		CharacterCreatorMenu.Cameras.Default:Deactivate()
@@ -671,6 +670,7 @@ function SetupSaveOption(ParentMenu)
 
 		ParentMenu:Visible(false)
 
+		FreezeEntityPosition(PlayerPedId(), false)
 		SetEntityCoords(PlayerPedId(), PlayerCustomisation.Creator.Exit.x, PlayerCustomisation.Creator.Exit.y, PlayerCustomisation.Creator.Exit.z)
 		SetEntityHeading(PlayerPedId(), PlayerCustomisation.Creator.Exit.h)
 
