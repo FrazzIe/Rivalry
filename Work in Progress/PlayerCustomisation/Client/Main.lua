@@ -82,9 +82,9 @@ CharacterCreatorMenu.OnListSelect = function(ParentMenu, SelectedList, NewIndex)
 		SelectedList:Enabled(false)
 		local Item = SelectedList:IndexToItem(NewIndex)
 		if Item == "Hybrid" then
+			ParentMenu:Visible(false)
+			ModelMenu:Visible(true)
 			for Index = 2, (#ParentMenu.Items - 1) do
-				ParentMenu:Visible(false)
-				ModelMenu:Visible(true)
 				ParentMenu.Items[Index]:Enabled(false)
 				ParentMenu.Items[Index]:SetRightBadge(BadgeStyle.Lock)
 			end
@@ -535,8 +535,6 @@ function OpenCharacterCreatorMenu(Name, CharacterId, Gender, Rank)
 
 	if PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender == "Hybrid" then
 		for Index = 2, (#CharacterCreatorMenu.Items - 1) do
-			CharacterCreatorMenu:Visible(false)
-			ModelMenu:Visible(true)
 			CharacterCreatorMenu.Items[Index]:Enabled(false)
 			CharacterCreatorMenu.Items[Index]:SetRightBadge(BadgeStyle.Lock)
 		end
