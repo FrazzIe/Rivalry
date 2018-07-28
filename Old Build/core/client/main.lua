@@ -184,39 +184,13 @@ AddEventHandler("core:login", function(coords, _timeplayed)
 	close()
 	FreezeEntityPosition(PlayerPedId(), false)
 
-	StartScreenEffect("CamPushInNeutral", 5000, false)
+	SwitchOutPlayer(PlayerPedId(), 0, 1)
 
-	local old_camera = CreateCam("DEFAULT_SCRIPTED_CAMERA", true)
-	local camera = CreateCam("DEFAULT_SCRIPTED_CAMERA", true)
-	local skycamheight = 300.0
-
-	SetCamCoord(camera, coords.x, coords.y, skycamheight)
-	SetCamRot(camera, -90.0, 0.0, 260.0, true)
-	RenderScriptCams(true, false, camera, 1, 0)
-
-	SetCamActiveWithInterp(camera, old_camera, 2500, false, false)
-
-	while IsCamInterpolating(camera) do
-		Citizen.Wait(100)
-	end
-
-	zoom = 0
-	while zoom < 200 do
-		SetCamCoord(camera, coords.x, coords.y, skycamheight-zoom)
-		SetCamRot(camera, -90.0, 0.0, 260.0+zoom/2, true)
-		zoom = zoom+3
-		Citizen.Wait(1)
-	end
-
-	RenderScriptCams(false, false, old_camera, 1, 0)
-	RenderScriptCams(false, false, camera, 1, 0)
-	DestroyCam(old_camera, false)
-	DestroyCam(camera, false)
-
-	DoScreenFadeOut(1000)
+	Citizen.Wait(1000)
+	
 	SetEntityCoords(PlayerPedId(), coords.x, coords.y, coords.z)
 				
-	DoScreenFadeIn(1000)
+	N_0xd8295af639fd9cb8(PlayerPedId())
 
 	loggedIn = true
 
