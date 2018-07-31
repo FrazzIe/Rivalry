@@ -124,9 +124,9 @@ AddEventHandler("informer:getguns", function()
 		local price = 50000
 		if (tonumber(user.get("wallet")) >= tonumber(price)) then
 		user.removeWallet(price)
-			TriggerClientEvent('chatMessage', source, 'Informer ', {0, 255, 100}, "Paper..." )
+		TriggerClientEvent('chatMessage', source, 'Informer ', {0, 255, 100}, "I heard the gun runner moved operations to some worn down abandoned warehouse in El Burro Heights" )
 		else
-			TriggerClientEvent('chatMessage', source, 'Informer ', {0, 255, 100}, "Information isn't free, get your bread up!")
+		TriggerClientEvent('chatMessage', source, 'Informer ', {0, 255, 100}, "Information isn't free, get your bread up!")
 		end
 	end)
 end)

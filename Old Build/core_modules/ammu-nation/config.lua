@@ -29,7 +29,7 @@ ammu_nation = {
 	    {name="Ammunation", colour=1, sprite=110, x= 810.15, y= -2156.88, z= 29.61},
 	},
 	blackmarket = {
-		{name="Black Market", colour=4, id=110, x=-601.63043212891, y=-1598.5496826172, z=30.405195236206},
+		{name="Black Market", colour=4, id=110, x=1250.9196777344, y=-2567.3503417969, z=42.715717315674},
 	},
 	license = {
 		{name="Gun License", colour=5, id=434, x=437.24404907227, y=-994.11242675781, z=30.68959236145},
@@ -142,7 +142,7 @@ Blackmarket_Weapons = {
 	{Category = "Pistols", Items = {
 		{Weapon = "WEAPON_PISTOL", Name = "Pistol", Cost = 750},
 		{Weapon = "WEAPON_COMBATPISTOL", Name = "Combat Pistol", Cost = 1000},
-		{Weapon = "WEAPON_PISTOL50", Name = "Pistol .50", Cost = 5000},
+		{Weapon = "WEAPON_PISTOL50", Name = "Pistol .50", Cost = 12500},
 		--{Weapon = "WEAPON_HEAVYPISTOL", Name = "Heavy Pistol", Cost = 1},
 		{Weapon = "WEAPON_SNSPISTOL", Name = "SNS Pistol", Cost = 1500},
 		--{Weapon = "WEAPON_APPISTOL", Name = "AP Pistol", Cost = 1},
@@ -156,23 +156,23 @@ Blackmarket_Weapons = {
 		{Weapon = "WEAPON_MINISMG", Name = "Mini SMG", Cost = 50000},
 		--{Weapon = "WEAPON_MACHINEPISTOL", Name = "Machine Pistol", Cost = 1},
 		--{Weapon = "WEAPON_COMBATPDW", Name = "Combat PDW", Cost = 1},
-		{Weapon = "WEAPON_MICROSMG", Name = "Micro SMG", Cost = 90000},
+		{Weapon = "WEAPON_MICROSMG", Name = "Micro SMG", Cost = 75000},
 		--{Weapon = "WEAPON_SMG", Name = "MP5", Cost = 1},
 		--{Weapon = "WEAPON_ASSAULTSMG", Name = "Assault SMG", Cost = 1},
 		--{Weapon = "WEAPON_GUSENBERG", Name = "Gusenberg Sweeper", Cost = 110000},
 		--{Weapon = "WEAPON_COMBATMG", Name = "Combat MG", Cost = 1},
 		--{Weapon = "WEAPON_MG", Name = "MG", Cost = 1},
 	}},
-	--[[
+	
 	{Category = "Assault Rifles", Items = {
-		--{Weapon = "WEAPON_COMPACTRIFLE", Name = "Compact Rifle", Cost = 120000},
+		{Weapon = "WEAPON_COMPACTRIFLE", Name = "Compact Rifle", Cost = 100000},
 		--{Weapon = "WEAPON_ADVANCEDRIFLE", Name = "Advanced Rifle", Cost = 1},
 		--{Weapon = "WEAPON_ASSAULTRIFLE", Name = "Assault Rifle", Cost = 1},
 		--{Weapon = "WEAPON_BULLPUPRIFLE", Name = "Bullpup Rifle", Cost = 150000},
 		--{Weapon = "WEAPON_CARBINERIFLE", Name = "Carbine Rifle", Cost = 1},
 		--{Weapon = "WEAPON_SPECIALCARBINE", Name = "Special Carbine", Cost = 1},
 	}},
-	{Category = "Snipers", Items = {
+--[[	{Category = "Snipers", Items = {
 		{Weapon = "WEAPON_SNIPERRIFLE", Name = "Sniper Rifle", Cost = 1},
 		{Weapon = "WEAPON_HEAVYSNIPER", Name = "Heavy Sniper", Cost = 1},
 		{Weapon = "WEAPON_MARKSMANRIFLE", Name = "Marksman Rifle", Cost = 1},
@@ -197,7 +197,7 @@ Blackmarket_Weapons = {
 	--{Weapon = "WEAPON_WRENCH", Name = "Wrench", Cost = 30},
 	}},
 	{Category = "Shotguns", Items = {
-		{Weapon = "WEAPON_SAWNOFFSHOTGUN", Name = "Sawed-Off Shotgun", Cost = 30000},
+		{Weapon = "WEAPON_SAWNOFFSHOTGUN", Name = "Sawed-Off Shotgun", Cost = 25000},
 		--{Weapon = "WEAPON_DBSHOTGUN", Name = "Double Barrel Shotgun", Cost = 1},
 		--{Weapon = "WEAPON_AUTOSHOTGUN", Name = "Sweeper Shotgun", Cost = 1},
 		--{Weapon = "WEAPON_PUMPSHOTGUN", Name = "Pump Shotgun", Cost = 1},
