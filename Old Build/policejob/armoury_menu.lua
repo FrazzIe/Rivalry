@@ -29,9 +29,8 @@ guns = {
     {name = "Nightstick", model = "WEAPON_NIGHTSTICK"},
     {name = "Pump Shotgun", model = "WEAPON_PUMPSHOTGUN"},
     {name = "Combat Pistol", model = "WEAPON_COMBATPISTOL"},
-	{name = "Combat PDW", model = "WEAPON_COMBATPDW"},
-    {name = "Fire Extinguisher", model = "WEAPON_FIREEXTINGUISHER"},
-    {name = "Trooper Only Double Action", model = "WEAPON_DOUBLEACTION"},
+    {name = "Pistol MK2 (SASP)", model = "WEAPON_PISTOL_MK2"},
+    {name = "Carbine Rifle", model = "WEAPON_CARBINERIFLE"},
 }
 
 local options = {"Equip", "Remove"}
@@ -88,9 +87,9 @@ Citizen.CreateThread(function()
                                                 end
                                             end
                                             if string.sub(HashWeapon, string.len(HashWeapon)-2, string.len(HashWeapon)) == "MK2" then
-                                                SetPedWeaponTintIndex(PlayerPedId(), GetHashKey(HashWeapon), 10)
+                                                SetPedWeaponTintIndex(PlayerPedId(), GetHashKey(HashWeapon), 24)
                                             else
-                                                SetPedWeaponTintIndex(PlayerPedId(), GetHashKey(HashWeapon), 5)
+                                                SetPedWeaponTintIndex(PlayerPedId(), GetHashKey(HashWeapon), 7)
                                             end
                                             local ammotype = GetPedAmmoTypeFromWeapon(PlayerPedId(), GetHashKey(HashWeapon))
                                             SetPedAmmoByType(PlayerPedId(), ammotype, 250)
