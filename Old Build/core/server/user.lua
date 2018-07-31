@@ -29,6 +29,16 @@ function setupUser(source, data, new)
 
     ExecuteCommand("add_principal identifier."..self["steam"].." group."..self["group"])
 
+    if self["group"] == "owner" then
+        ExecuteCommand("add_ace identifier."..self["steam"].." \"vMenu.Everything\" allow")
+    elseif self["group"] == "staff" then
+        ExecuteCommand("add_ace identifier."..self["steam"].." \"vMenu.OnlinePlayers.Menu\" allow")
+        ExecuteCommand("add_ace identifier."..self["steam"].." \"vMenu.OnlinePlayers.Spectate\" allow")
+    elseif self["group"] == "admin" then
+        ExecuteCommand("add_ace identifier."..self["steam"].." \"vMenu.OnlinePlayers.Menu\" allow")
+        ExecuteCommand("add_ace identifier."..self["steam"].." \"vMenu.OnlinePlayers.Spectate\" allow")
+    end
+    
     Identifiers[self["steam"]] = self["source"]
 
     UGroup[self["source"]] = self["group"]
