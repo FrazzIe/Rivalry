@@ -133,10 +133,10 @@ AddEventHandler("playerSpawned", function()
 		end)
 		TriggerEvent("anticheat:set", "noclip", true, function(callback)
 			if callback then
-				SetEntityCoords(PlayerPedId(), -1400.11, -1530.36, 81.1)
+				SetEntityCoords(PlayerPedId(),  394.99826049805, -984.61370849609, 118.63548278809)
 			else
 				TriggerServerEvent("core:bug", "Line 121 in resource "..GetCurrentResourceName())
-				SetEntityCoords(PlayerPedId(), -1400.11, -1530.36, 81.1)
+				SetEntityCoords(PlayerPedId(), 394.99826049805, -984.61370849609, 118.63548278809)
 			end
 		end)
 		FreezeEntityPosition(PlayerPedId(), true)
@@ -187,9 +187,10 @@ AddEventHandler("core:login", function(coords, _timeplayed)
 	SwitchOutPlayer(PlayerPedId(), 0, 1)
 
 	Citizen.Wait(1000)
-	
-	SetEntityCoords(PlayerPedId(), coords.x, coords.y, coords.z)
-				
+
+	local _, GroundZ = GetGroundZFor_3dCoord(coords.x + 0.0, coords.y + 0.0, coords.z + 0.0, Citizen.ReturnResultAnyway())	
+	SetEntityCoords(PlayerPedId(), coords.x, coords.y, GroundZ)
+		
 	N_0xd8295af639fd9cb8(PlayerPedId())
 
 	loggedIn = true
@@ -204,6 +205,7 @@ AddEventHandler("core:login", function(coords, _timeplayed)
 	TriggerEvent("anticheat:set", "noclip", false, function(callback)
 	end)
 	TriggerEvent("core:pvp")
+	TriggerServerEvent("core:loggedin")
 end)
 
 RegisterNetEvent("core:loadCharacters")
