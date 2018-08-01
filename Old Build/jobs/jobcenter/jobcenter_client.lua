@@ -79,7 +79,7 @@
 		for key, item in pairs(job_blips) do
 			local blip = AddBlipForCoord(item.x, item.y, item.z)
 			SetBlipSprite(blip, item.id)
-			SetBlipScale(blip, 0.8)
+			SetBlipScale(blip, 0.6)
 			SetBlipAsShortRange(blip, true)
 			BeginTextCommandSetBlipName("STRING")
 			AddTextComponentString(key)

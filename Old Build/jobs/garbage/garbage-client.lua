@@ -45,6 +45,7 @@ function ShowbinBlips(bool)
 			-- 60 58 137
 			SetBlipSprite(blip,318)
 			SetBlipColour(blip, 2)
+			SetBlipScale(blip, 0.6)
 			BeginTextCommandSetBlipName("STRING")
 			AddTextComponentString('Garbage')
 			EndTextCommandSetBlipName(blip)

@@ -51,7 +51,7 @@ function ShowpoolBlips(bool)
 			-- 60 58 137
 			SetBlipSprite(blip,399)
 			SetBlipColour(blip, 2)
-			SetBlipScale(blip, 0.65)
+			SetBlipScale(blip, 0.6)
 			BeginTextCommandSetBlipName("STRING")
 			AddTextComponentString('Clean Pools Job')
 			EndTextCommandSetBlipName(blip)

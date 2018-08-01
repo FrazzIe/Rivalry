@@ -1335,6 +1335,7 @@ local function AddBlips()
 		local blip = AddBlipForCoord(pos.inside.x,pos.inside.y,pos.inside.z)
 		SetBlipSprite(blip, 72)
 		SetBlipAsShortRange(blip,true)
+		SetBlipScale(blip, 0.6)
 		if i == 5 then
 			BeginTextCommandSetBlipName("STRING")
 			AddTextComponentString("Beeker's Garage")
