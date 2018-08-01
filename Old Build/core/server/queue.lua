@@ -691,7 +691,7 @@ Citizen.CreateThread(function()
             local data = Queue.QueueList[i]
             local lastMsg = GetPlayerLastMsg(data.source)
 
-            if lastMsg == 0 or lastMsg >= 30000 then
+            if lastMsg >= 30000 then
                 data.timeout = data.timeout + 1
             else
                 data.timeout = 0
