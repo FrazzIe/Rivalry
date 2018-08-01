@@ -658,7 +658,7 @@ function SetupSaveOption(ParentMenu)
 	local ItemSaveList = NativeUI.CreateItem("Save & Continue", "Finish creating your Character.")
 
 	ItemSaveList.Activated = function(ParentMenu, SelectedItem)
-		IsStanceAllowed = false
+		IsStanceAllowed = true
 		TriggerServerEvent("PlayerCustomisation.Instance", false)
 
 		PlayerCustomisation.Instanced = false

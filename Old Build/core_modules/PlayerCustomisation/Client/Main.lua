@@ -317,7 +317,7 @@ function OpenBarberMenu(LocationIndex)
 end
 
 function OpenClothingMenu(LocationIndex)
-	IsStanceAllowed = true
+	IsStanceAllowed = false
 	PlayerCustomisation.Instanced = true
 	TriggerServerEvent("PlayerCustomisation.Instance", true)
 
@@ -374,7 +374,7 @@ function OpenClothingMenu(LocationIndex)
 end
 
 function OpenMaskMenu(LocationIndex)
-	IsStanceAllowed = true
+	IsStanceAllowed = false
 	PlayerCustomisation.Instanced = true
 	TriggerServerEvent("PlayerCustomisation.Instance", true)
 
@@ -422,7 +422,7 @@ function OpenMaskMenu(LocationIndex)
 end
 
 function OpenTattooMenu(LocationIndex)
-	IsStanceAllowed = true
+	IsStanceAllowed = false
 	PlayerCustomisation.Instanced = true
 	TriggerServerEvent("PlayerCustomisation.Instance", true)
 
@@ -480,7 +480,7 @@ function OpenTattooMenu(LocationIndex)
 end
 
 function OpenOutfitMenu(LocationIndex)
-	IsStanceAllowed = true
+	IsStanceAllowed = false
 	PlayerCustomisation.Instanced = true
 	TriggerServerEvent("PlayerCustomisation.Instance", true)
 
@@ -503,7 +503,7 @@ function OpenOutfitMenu(LocationIndex)
 end
 
 function OpenCharacterCreatorMenu(Coordinates, Name, CharacterId, Gender, Rank)
-	IsStanceAllowed = true
+	IsStanceAllowed = false
 
 	if Coordinates == nil then
 		Coordinates = GetEntityCoords(PlayerPedId(), false)

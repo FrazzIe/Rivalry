@@ -15,7 +15,7 @@ TattooMenu.Cameras = {
 TattooMenu.OnMenuClosed = function(ParentMenu)
 	UpdatePlayer()
 
-	IsStanceAllowed = false
+	IsStanceAllowed = true
 	PlayerCustomisation.Instanced = false
 	TriggerServerEvent("PlayerCustomisation.Instance", false)
 	TriggerServerEvent("PlayerCustomisation.Update", PlayerCustomisation.PlayerData.Type, PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type])

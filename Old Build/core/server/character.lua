@@ -51,7 +51,7 @@ function setupCharacter(source, data)
 
     self["session"] = {}
 
-    self["coords"] = {}
+    self["coords"] = {x = data["position_x"], y = data["position_y"], z = data["position_z"]}
     self["lastcoords"] = {x = data["position_x"], y = data["position_y"], z = data["position_z"]}
 
     TriggerClientEvent("core:updateMoney", self["source"], self["wallet"], "wallet", "set", math.floor(tonumber(self["wallet"])))
@@ -225,10 +225,17 @@ AddEventHandler("core:updatePosition", function(_x, _y, _z, _update)
     end
 end)
 
-RegisterServerEvent("core:model_loaded")
-AddEventHandler("core:model_loaded", function()
+RegisterServerEvent("PlayerCustomisation.ModelLoaded")
+AddEventHandler("PlayerCustomisation.ModelLoaded", function(Type)
     local source = source
-    TriggerClientEvent("weapon:give", source)
+    if Type == "Default" then
+        TriggerClientEvent("weapon:give", source)
+    elseif Type == "Paramedic" then
+        TriggerEvent("blips:set", source, true, 2)
+        TriggerClientEvent("paramedic:weapons", source)
+    elseif Type == "Police" then
+        TriggerEvent("blips:set", source, true, 3)
+    end
 end)
 
 RegisterServerEvent("core:retrieveCharacters")
@@ -368,7 +375,6 @@ AddEventHandler("core:selectCharacter", function(data)
                 TriggerClientEvent("core:sync", -1, Characters, CharacterNames, Users, UPower, UGroup)
                 TriggerEvent("core:sync", Characters, CharacterNames, Users, UPower, UGroup)
 
-                TriggerEvent("Tattoos.Initialise", source, identifier, tonumber(data.character_id))
                 TriggerEvent("police:initialise", source, identifier, tonumber(data.character_id))
                 TriggerEvent("paramedic:initialise", source, identifier, tonumber(data.character_id))
                 TriggerEvent("DOJ:Initialise", source, identifier, tonumber(data.character_id))
@@ -378,7 +384,6 @@ AddEventHandler("core:selectCharacter", function(data)
                 TriggerEvent('jobcenter:initialise', source, Characters[source].get("job"))
                 TriggerEvent("properties:initialise", source, identifier, tonumber(data.character_id))
 
-                TriggerEvent("clothes:initialise", source, identifier, tonumber(data.character_id), model)
                 TriggerEvent("phone:initialise", source, identifier, tonumber(data.character_id))
                 TriggerEvent("garage:initialise", source, identifier, tonumber(data.character_id))
                 TriggerEvent("inventory:initialise", source, identifier, tonumber(data.character_id))
@@ -435,4 +440,11 @@ AddEventHandler("core:killCharacter", function(source)
         Characters[source] = nil
     end
     TriggerClientEvent("core:switchCharacter", source)
+end)
+
+RegisterServerEvent("core:loggedin")
+AddEventHandler("core:loggedin", function()
+    local source = source
+    
+    TriggerEvent("PlayerCustomisation.Initialise", source, Characters[source], Users[source].get("power"), Users[source].get("group"))
 end)

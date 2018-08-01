@@ -12,7 +12,7 @@ BarberMenu.Cameras = {
 }
 
 BarberMenu.OnMenuClosed = function(ParentMenu)
-	IsStanceAllowed = false
+	IsStanceAllowed = true
 	PlayerCustomisation.Instanced = false
 	TriggerServerEvent("PlayerCustomisation.Instance", false)
 	TriggerServerEvent("PlayerCustomisation.Update", PlayerCustomisation.PlayerData.Type, PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type])

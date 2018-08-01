@@ -11,7 +11,7 @@ OutfitMenu.Cameras = {
 }
 
 OutfitMenu.OnMenuClosed = function(ParentMenu)
-	IsStanceAllowed = false
+	IsStanceAllowed = true
 	PlayerCustomisation.Instanced = false
 	TriggerServerEvent("PlayerCustomisation.Instance", false)
 
