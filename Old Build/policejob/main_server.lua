@@ -199,39 +199,6 @@ AddEventHandler('police:initialise', function(source, identifier, character_id)
 	end)
 end)
 
-RegisterServerEvent("police:model_loaded")
-AddEventHandler("police:model_loaded", function(inService)
-	TriggerEvent("blips:set", source, inService, 3)
-end)
-
-RegisterServerEvent("police:load_clothing")
-AddEventHandler("police:load_clothing",function()
-	local source = source
-	TriggerClientEvent("police:load_clothing", source, user_models[source])
-end)
-
-RegisterServerEvent("police:save_clothing")
-AddEventHandler("police:save_clothing",function(player_data, inService)
-	local source = source
-	user_models[source] = player_data
-	TriggerEvent("core:getuser", source, function(user)
-		exports['GHMattiMySQL']:QueryAsync("UPDATE police_models SET model=@model, new=@new, clothing_drawables=@clothing_drawables, clothing_textures=@clothing_textures, clothing_palette=@clothing_palette, props_drawables=@props_drawables, props_textures=@props_textures, overlays_drawables=@overlays_drawables, overlays_opacity=@overlays_opacity, overlays_colours=@overlays_colours WHERE character_id=@character_id", {
-			["@character_id"] = user.get("characterID"),
-			["@model"] = player_data.model,
-			["@new"] = player_data.new,
-			["@clothing_drawables"] = json.encode(player_data.clothing.drawables),
-			["@clothing_textures"] = json.encode(player_data.clothing.textures),
-			["@clothing_palette"] = json.encode(player_data.clothing.palette),
-			["@props_drawables"] = json.encode(player_data.props.drawables),
-			["@props_textures"] = json.encode(player_data.props.textures),
-			["@overlays_drawables"] = json.encode(player_data.overlays.drawables),
-			["@overlays_opacity"] = json.encode(player_data.overlays.opacity),
-			["@overlays_colours"] = json.encode(player_data.overlays.colours),
-		})
-	end)
-	TriggerEvent("blips:set", source, inService, 3)
-end)
-
 RegisterServerEvent("police:doors_lock")
 AddEventHandler("police:doors_lock", function(doorid, type)
 	local source = source
