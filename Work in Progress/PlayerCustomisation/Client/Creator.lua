@@ -1,5 +1,6 @@
 CharacterCreatorMenu = NativeUI.CreateMenu("Character Creator", "", 0, 0)
 
+CharacterCreatorMenu.Settings.MouseEdgeEnabled = false
 CharacterCreatorMenu.Controls.Back.Enabled = false
 
 CharacterCreatorMenu:RemoveEnabledControl(0, 31)
@@ -658,10 +659,14 @@ function SetupSaveOption(ParentMenu)
 
 	ItemSaveList.Activated = function(ParentMenu, SelectedItem)
 		TriggerServerEvent("PlayerCustomisation.Instance", false)
+
 		PlayerCustomisation.Instanced = false
+		PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Creator = true
 
 		TriggerServerEvent("PlayerCustomisation.Update", PlayerCustomisation.PlayerData.Type, PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type])
 
+		TriggerServerEvent("PlayerCustomisation.ModelLoaded", PlayerCustomisation.PlayerData.Type)
+		
 		CharacterCreatorMenu.Cameras.Face:Deactivate()
 		CharacterCreatorMenu.Cameras.Default:Deactivate()
 
@@ -702,10 +707,10 @@ end
 
 function SetupModelMenu(ParentMenu)
 	local Menu = NativeUI.CreateMenu("Ped Models", "Select a model", 0, 0)
-	for Index = 1, #PlayerCustomisation.Reference.Models do
-		local ModelItem = NativeUI.CreateItem(PlayerCustomisation.Reference.Models[Index], "Change your character to "..PlayerCustomisation.Reference.Models[Index])
+	for Index = 1, #PlayerCustomisation.Reference.Models[PlayerCustomisation.PlayerData.Type] do
+		local ModelItem = NativeUI.CreateItem(PlayerCustomisation.Reference.Models[PlayerCustomisation.PlayerData.Type][Index], "Change your character to "..PlayerCustomisation.Reference.Models[PlayerCustomisation.PlayerData.Type][Index])
 		ModelItem.Activated = function(ParentMenu, SelectedItem)
-			UpdateModel(PlayerCustomisation.Reference.Models[Index])
+			UpdateModel(PlayerCustomisation.Reference.Models[PlayerCustomisation.PlayerData.Type][Index])
 
 			AttachEntityToEntity(PlayerCustomisation.Creator.Board.Handle, PlayerPedId(), GetPedBoneIndex(PlayerPedId(), 28422), 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, false, false, false, false, 2, true)
 			AttachEntityToEntity(PlayerCustomisation.Creator.Board.RenderTarget.Handle, PlayerPedId(), GetPedBoneIndex(PlayerPedId(), 28422), 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, false, false, false, false, 2, true)
@@ -721,4 +726,22 @@ function SetupModelMenu(ParentMenu)
 	Menu.ParentMenu = ParentMenu
 
 	return Menu
+end
+
+function UpdateModelMenu(Menu)
+	Menu:Clear()
+
+	for Index = 1, #PlayerCustomisation.Reference.Models[PlayerCustomisation.PlayerData.Type] do
+		local ModelItem = NativeUI.CreateItem(PlayerCustomisation.Reference.Models[PlayerCustomisation.PlayerData.Type][Index], "Change your character to "..PlayerCustomisation.Reference.Models[PlayerCustomisation.PlayerData.Type][Index])
+		ModelItem.Activated = function(ParentMenu, SelectedItem)
+			UpdateModel(PlayerCustomisation.Reference.Models[PlayerCustomisation.PlayerData.Type][Index])
+
+			AttachEntityToEntity(PlayerCustomisation.Creator.Board.Handle, PlayerPedId(), GetPedBoneIndex(PlayerPedId(), 28422), 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, false, false, false, false, 2, true)
+			AttachEntityToEntity(PlayerCustomisation.Creator.Board.RenderTarget.Handle, PlayerPedId(), GetPedBoneIndex(PlayerPedId(), 28422), 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, false, false, false, false, 2, true)
+			TaskPlayAnim(PlayerPedId(), PlayerCustomisation.Creator.Board.Dictionary, PlayerCustomisation.Creator.Board.Animation, 8.0, -8, -1, 1, 0, 0, 0, 0)
+		end
+		Menu:AddItem(ModelItem)
+	end
+
+	Menu:RefreshIndex()
 end

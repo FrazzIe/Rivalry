@@ -1,5 +1,28 @@
 OutfitMenu = NativeUI.CreateMenu("", "OUTFITS", 0, 0)
 
+OutfitMenu.Settings.MouseEdgeEnabled = false
+
+OutfitMenu:RemoveEnabledControl(0, 31)
+OutfitMenu:RemoveEnabledControl(0, 30)
+OutfitMenu:RemoveEnabledControl(0, 22)
+
+OutfitMenu.Cameras = {
+	Default = Camera.New(),
+}
+
+OutfitMenu.OnMenuClosed = function(ParentMenu)
+	PlayerCustomisation.Instanced = false
+	TriggerServerEvent("PlayerCustomisation.Instance", false)
+
+	FreezeEntityPosition(PlayerPedId(), false)
+
+	ParentMenu.Cameras.Default:Deactivate()
+	ParentMenu.Cameras.Default:Destroy()
+end
+
+OutfitMenu:AddInstructionButton({GetControlInstructionalButton(0, 51, 0), "Turn Right"})
+OutfitMenu:AddInstructionButton({GetControlInstructionalButton(0, 44, 0), "Turn Left"})
+
 function SetupOutfitMenu(ParentMenu)
 	ParentMenu:Clear()
 	local SaveItem = NativeUI.CreateItem("Save Outfit", "Save an outfit")
@@ -114,6 +137,16 @@ function SetupOutfitMenu(ParentMenu)
 			Outfit:AddItem(LoadItem)
 			Outfit:AddItem(UpdateItem)
 			Outfit:AddItem(DeleteItem)
+
+			Outfit.Settings.MouseEdgeEnabled = false
+
+			Outfit:RemoveEnabledControl(0, 31)
+			Outfit:RemoveEnabledControl(0, 30)
+			Outfit:RemoveEnabledControl(0, 22)
+
+			Outfit:AddInstructionButton({GetControlInstructionalButton(0, 51, 0), "Turn Right"})
+			Outfit:AddInstructionButton({GetControlInstructionalButton(0, 44, 0), "Turn Left"})
+
 			Outfit:RefreshIndex()
 		end
 	end

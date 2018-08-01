@@ -1,5 +1,7 @@
 ClothingMenu = NativeUI.CreateMenu("", "OPTIONS", 0, 0)
 
+ClothingMenu.Settings.MouseEdgeEnabled = false
+
 ClothingMenu:RemoveEnabledControl(0, 31)
 ClothingMenu:RemoveEnabledControl(0, 30)
 ClothingMenu:RemoveEnabledControl(0, 22)
@@ -141,6 +143,9 @@ function SetupClothingMenu(ParentMenu)
 	ParentMenu:AddItem(PropsComponentItem)
 	ParentMenu:AddItem(PropsDrawableItem)
 	ParentMenu:AddItem(PropsTextureItem)
+
+	ParentMenu:AddInstructionButton({GetControlInstructionalButton(0, 51, 0), "Turn Right"})
+	ParentMenu:AddInstructionButton({GetControlInstructionalButton(0, 44, 0), "Turn Left"})
 end
 
 SetupClothingMenu(ClothingMenu)

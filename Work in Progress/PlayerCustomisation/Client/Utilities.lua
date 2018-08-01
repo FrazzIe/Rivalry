@@ -1,3 +1,17 @@
+function CreateBlip(Str, Sprite, Colour, X, Y, Z, Scale, ShortRange)
+	if tonumber(X) and tonumber(Y) and tonumber(Z) then
+		local Blip = AddBlipForCoord(X, Y, Z)
+		SetBlipSprite(Blip, Sprite or 1)
+		SetBlipColour(Blip, Colour or 1)
+		SetBlipScale(Blip, Scale or 0.6)
+		SetBlipAsShortRange(Blip, ShortRange or true)
+		BeginTextCommandSetBlipName("STRING")
+		AddTextComponentString(Str)
+		EndTextCommandSetBlipName(Blip)
+		return Blip
+	end
+end
+
 function GetGroundZ(X, Y, Z)
 	if tonumber(X) and tonumber(Y) and tonumber(Z) then
 		local _, GroundZ = GetGroundZFor_3dCoord(X + 0.0, Y + 0.0, Z + 0.0, Citizen.ReturnResultAnyway())
@@ -25,6 +39,12 @@ function DestroyObject(Handle)
 			SetEntityCoords(Handle, 601.28948974609, -4396.9853515625, 384.98565673828)
 		end
 	end)
+end
+
+function DisplayHelpText(str)
+    BeginTextCommandDisplayHelp("STRING")
+    AddTextComponentSubstringPlayerName(str)
+    EndTextCommandDisplayHelp(0, 0, 1, -1)
 end
 
 function RenderMarker(Type, X, Y, Z, SX, SY, SZ, R, G, B, A, BobUpAndDown)
@@ -66,6 +86,24 @@ function GetOverlayColourType(Overlay)
 	else
 		return 0
 	end
+end
+
+function SetPedNaked()
+	if PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender == "Male" then
+        SetPedComponentVariation(PlayerPedId(), 1, 0, 0, 2)
+        SetPedComponentVariation(PlayerPedId(), 8, 15, 0, 2)
+        SetPedComponentVariation(PlayerPedId(), 3, 15, 0, 2)
+        SetPedComponentVariation(PlayerPedId(), 11, 91, 0, 2)
+        SetPedComponentVariation(PlayerPedId(), 4, 14, 0, 2)
+        SetPedComponentVariation(PlayerPedId(), 5, 0, 0, 0)
+    elseif PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender == "Female" then
+        SetPedComponentVariation(PlayerPedId(), 1, 0, 0, 2)
+        SetPedComponentVariation(PlayerPedId(), 8, 34, 0, 2)
+        SetPedComponentVariation(PlayerPedId(), 3, 15, 0, 2)
+        SetPedComponentVariation(PlayerPedId(), 11, 101, 1, 2)
+        SetPedComponentVariation(PlayerPedId(), 4, 16, 0, 2)
+        SetPedComponentVariation(PlayerPedId(), 5, 0, 0, 0)
+    end
 end
 
 function SetPedTopless()

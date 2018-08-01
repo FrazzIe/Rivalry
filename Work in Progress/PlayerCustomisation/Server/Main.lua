@@ -10,10 +10,14 @@ function bool_to_number(value)
 	return value and 1 or 0
 end
 
+function Notify(Message, Time, Source)
+    TriggerClientEvent("pNotify:SendNotification", Source, {text = Message, type = "error", queue = "left", timeout = Time, layout = "centerRight"})
+end
+
 AddEventHandler("core:loaded", function(Source, user, power, group)
 	local char_id = user.get("characterID")
 	exports["GHMattiMySQL"]:QueryResultAsync("SELECT * FROM playercustomisation WHERE character_id=@char_id", {["@char_id"] = char_id}, function(PlayerData)
-		PlayerCustomisation.PlayerData[Source] = PlayerCustomisation.DefaultPlayerData
+		PlayerCustomisation.PlayerData[Source] = GetDefaultPlayerData()
 		if PlayerData[1] ~= nil then
 			local _PlayerData = {}
 
@@ -97,6 +101,7 @@ AddEventHandler("core:loaded", function(Source, user, power, group)
 		end
 
 		TriggerClientEvent("PlayerCustomisation.Sync.PlayerData", Source, PlayerCustomisation.PlayerData[Source], "Default")
+		TriggerClientEvent("PlayerCustomisation.Sync", -1, PlayerCustomisation.InstancedPlayers)
 	end)
 end)
 
@@ -116,11 +121,11 @@ AddEventHandler("PlayerCustomisation.ModelType", function(Type)
 		if user ~= nil then
 			if PlayerCustomisation.PlayerData[Source].Types[Type] then
 				PlayerCustomisation.PlayerData[Source].Type = Type
-				TriggerClientEvent("PlayerCustomisation.ModelType", Source, Type, user.get("first_name").." "..user.get("last_name"), user.get("characterID"), user.get("gender"))
 			else
 				PlayerCustomisation.PlayerData[Source].Type = "Default"
-				TriggerClientEvent("PlayerCustomisation.ModelType", Source, "Default", user.get("first_name").." "..user.get("last_name"), user.get("characterID"), user.get("gender"))
 			end
+
+			TriggerClientEvent("PlayerCustomisation.ModelType", Source, PlayerCustomisation.PlayerData[Source].Type, user.get("coords"), user.get("first_name").." "..user.get("last_name"), user.get("characterID"), user.get("gender"))
 		end
 	end)
 end)
@@ -152,6 +157,34 @@ AddEventHandler("PlayerCustomisation.Update", function(Type, PlayerData)
 					["@creator"] = bool_to_number(PlayerData.Creator),
 				})
 			end
+		end
+	end)
+end)
+
+RegisterServerEvent("PlayerCustomisation.PlasticSurgery")
+AddEventHandler("PlayerCustomisation.PlasticSurgery", function()
+	local Source = source
+	TriggerEvent("core:getuser", Source, function(user)
+		if user ~= nil then
+			if user.get("wallet") >= PlayerCustomisation.PlasticSurgeryCost then
+				user.removeWallet(PlayerCustomisation.PlasticSurgeryCost)
+				TriggerClientEvent("PlayerCustomisation.OpenCreator", Source, nil, user.get("first_name").." "..user.get("last_name"), user.get("characterID"), user.get("gender"))
+			elseif user.get("bank") >= PlayerCustomisation.PlasticSurgeryCost then
+				user.removeBank(PlayerCustomisation.PlasticSurgeryCost)
+				TriggerClientEvent("PlayerCustomisation.OpenCreator", Source, nil, user.get("first_name").." "..user.get("last_name"), user.get("characterID"), user.get("gender"))
+			else
+				Notify("Insufficient funds!", 3000, Source)
+			end
+		end
+	end)
+end)
+
+RegisterServerEvent("PlayerCustomisation.OpenCreator")
+AddEventHandler("PlayerCustomisation.OpenCreator", function()
+	local Source = source
+	TriggerEvent("core:getuser", Source, function(user)
+		if user ~= nil then
+			TriggerClientEvent("PlayerCustomisation.OpenCreator", Source, user.get("coords"), user.get("first_name").." "..user.get("last_name"), user.get("characterID"), user.get("gender"))
 		end
 	end)
 end)

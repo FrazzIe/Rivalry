@@ -1,5 +1,7 @@
 MaskMenu = NativeUI.CreateMenu("", "MASKS", 0, 0)
 
+MaskMenu.Settings.MouseEdgeEnabled = false
+
 MaskMenu:RemoveEnabledControl(0, 31)
 MaskMenu:RemoveEnabledControl(0, 30)
 MaskMenu:RemoveEnabledControl(0, 22)
@@ -65,6 +67,8 @@ function SetupMaskMenu(ParentMenu)
 			UpdatePlayer()
 		end
 
+		Menu.Settings.MouseEdgeEnabled = false
+		
 		Menu:RemoveEnabledControl(0, 31)
 		Menu:RemoveEnabledControl(0, 30)
 		Menu:RemoveEnabledControl(0, 22)

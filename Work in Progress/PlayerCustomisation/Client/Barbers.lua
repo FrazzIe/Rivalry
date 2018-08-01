@@ -1,5 +1,7 @@
 BarberMenu = NativeUI.CreateMenu("", "CATEGORIES", 0, 0)
 
+BarberMenu.Settings.MouseEdgeEnabled = false
+
 BarberMenu:RemoveEnabledControl(0, 31)
 BarberMenu:RemoveEnabledControl(0, 30)
 BarberMenu:RemoveEnabledControl(0, 22)
@@ -74,6 +76,8 @@ function SetupHairstylesMenu(ParentMenu)
 
 		BarberMenu.Cameras.Default:Switch(BarberMenu.Cameras.Face.Handle, 1000, false, false)
 	end
+
+	Menu.Settings.MouseEdgeEnabled = false
 
 	Menu:RemoveEnabledControl(0, 31)
 	Menu:RemoveEnabledControl(0, 30)
@@ -205,6 +209,8 @@ function SetupBeardsMenu(ParentMenu)
 	Menu:AddInstructionButton({GetControlInstructionalButton(0, 51, 0), "Turn Right"})
 	Menu:AddInstructionButton({GetControlInstructionalButton(0, 44, 0), "Turn Left"})
 
+	Menu.Settings.MouseEdgeEnabled = false
+
 	Menu:RemoveEnabledControl(0, 31)
 	Menu:RemoveEnabledControl(0, 30)
 	Menu:RemoveEnabledControl(0, 22)
@@ -274,6 +280,8 @@ function SetupEyebrowsMenu(ParentMenu)
 	Menu:AddInstructionButton({GetControlInstructionalButton(0, 51, 0), "Turn Right"})
 	Menu:AddInstructionButton({GetControlInstructionalButton(0, 44, 0), "Turn Left"})
 
+	Menu.Settings.MouseEdgeEnabled = false
+
 	Menu:RemoveEnabledControl(0, 31)
 	Menu:RemoveEnabledControl(0, 30)
 	Menu:RemoveEnabledControl(0, 22)
@@ -341,6 +349,8 @@ function SetupChestMenu(ParentMenu)
 	Menu:AddInstructionButton({GetControlInstructionalButton(0, 51, 0), "Turn Right"})
 	Menu:AddInstructionButton({GetControlInstructionalButton(0, 44, 0), "Turn Left"})
 
+	Menu.Settings.MouseEdgeEnabled = false
+
 	Menu:RemoveEnabledControl(0, 31)
 	Menu:RemoveEnabledControl(0, 30)
 	Menu:RemoveEnabledControl(0, 22)
@@ -382,6 +392,8 @@ function SetupContactsMenu(ParentMenu)
 
 	Menu:AddInstructionButton({GetControlInstructionalButton(0, 51, 0), "Turn Right"})
 	Menu:AddInstructionButton({GetControlInstructionalButton(0, 44, 0), "Turn Left"})
+
+	Menu.Settings.MouseEdgeEnabled = false
 
 	Menu:RemoveEnabledControl(0, 31)
 	Menu:RemoveEnabledControl(0, 30)
@@ -444,6 +456,8 @@ function SetupFacePaintsMenu(ParentMenu)
 	Menu:AddInstructionButton({GetControlInstructionalButton(0, 51, 0), "Turn Right"})
 	Menu:AddInstructionButton({GetControlInstructionalButton(0, 44, 0), "Turn Left"})
 
+	Menu.Settings.MouseEdgeEnabled = false
+
 	Menu:RemoveEnabledControl(0, 31)
 	Menu:RemoveEnabledControl(0, 30)
 	Menu:RemoveEnabledControl(0, 22)
@@ -504,6 +518,8 @@ function SetupEyeMakeupMenu(ParentMenu)
 
 	Menu:AddInstructionButton({GetControlInstructionalButton(0, 51, 0), "Turn Right"})
 	Menu:AddInstructionButton({GetControlInstructionalButton(0, 44, 0), "Turn Left"})
+
+	Menu.Settings.MouseEdgeEnabled = false
 
 	Menu:RemoveEnabledControl(0, 31)
 	Menu:RemoveEnabledControl(0, 30)
@@ -572,6 +588,8 @@ function SetupBlusherMenu(ParentMenu)
 	Menu:AddInstructionButton({GetControlInstructionalButton(0, 51, 0), "Turn Right"})
 	Menu:AddInstructionButton({GetControlInstructionalButton(0, 44, 0), "Turn Left"})
 
+	Menu.Settings.MouseEdgeEnabled = false
+
 	Menu:RemoveEnabledControl(0, 31)
 	Menu:RemoveEnabledControl(0, 30)
 	Menu:RemoveEnabledControl(0, 22)
@@ -639,6 +657,8 @@ function SetupLipstickMenu(ParentMenu)
 	Menu:AddInstructionButton({GetControlInstructionalButton(0, 51, 0), "Turn Right"})
 	Menu:AddInstructionButton({GetControlInstructionalButton(0, 44, 0), "Turn Left"})
 
+	Menu.Settings.MouseEdgeEnabled = false
+
 	Menu:RemoveEnabledControl(0, 31)
 	Menu:RemoveEnabledControl(0, 30)
 	Menu:RemoveEnabledControl(0, 22)
@@ -651,6 +671,8 @@ function SetupMakeupMenu(ParentMenu)
 
 	Menu:AddInstructionButton({GetControlInstructionalButton(0, 51, 0), "Turn Right"})
 	Menu:AddInstructionButton({GetControlInstructionalButton(0, 44, 0), "Turn Left"})
+	
+	Menu.Settings.MouseEdgeEnabled = false
 	
 	Menu:RemoveEnabledControl(0, 31)
 	Menu:RemoveEnabledControl(0, 30)
