@@ -187,7 +187,7 @@ LSC_Config.prices = {
 		{ name = "Bulletproof Tires", price = 25000},
 		{ name = "White Tire Smoke",smokecolor = {254,254,254}, price = 1000},
 		{ name = "Black Tire Smoke", smokecolor = {1,1,1}, price = 1000},
-		{ name = "BLue Tire Smoke", smokecolor = {0,150,255}, price = 1000},
+		{ name = "Blue Tire Smoke", smokecolor = {0,150,255}, price = 1000},
 		{ name = "Yellow Tire Smoke", smokecolor = {255,255,50}, price = 1000},
 		{ name = "Orange Tire Smoke", smokecolor = {255,153,51}, price = 1000},
 		{ name = "Red Tire Smoke", smokecolor = {255,10,10}, price = 1000},
