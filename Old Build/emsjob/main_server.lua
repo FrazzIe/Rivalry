@@ -164,41 +164,6 @@ AddEventHandler("paramedic:initialise", function(source, identifier, character_i
 	end)
 end)
 
-RegisterServerEvent("paramedic:model_loaded")
-AddEventHandler("paramedic:model_loaded", function(inService)
-	local source = source
-	TriggerEvent("blips:set", source, inService, 2)
-	TriggerClientEvent("paramedic:weapons", source)
-end)
-
-RegisterServerEvent("paramedic:load_clothing")
-AddEventHandler("paramedic:load_clothing",function()
-	local source = source
-	TriggerClientEvent("paramedic:load_clothing", source, user_models[source])
-end)
-
-RegisterServerEvent("paramedic:save_clothing")
-AddEventHandler("paramedic:save_clothing",function(player_data)
-	local source = source
-	user_models[source] = player_data
-	TriggerEvent("core:getuser", source, function(user)
-		exports['GHMattiMySQL']:QueryAsync("UPDATE paramedic_models SET model=@model, new=@new, clothing_drawables=@clothing_drawables, clothing_textures=@clothing_textures, clothing_palette=@clothing_palette, props_drawables=@props_drawables, props_textures=@props_textures, overlays_drawables=@overlays_drawables, overlays_opacity=@overlays_opacity, overlays_colours=@overlays_colours WHERE character_id=@character_id", {
-			["@character_id"] = user.get("characterID"),
-			["@model"] = player_data.model,
-			["@new"] = player_data.new,
-			["@clothing_drawables"] = json.encode(player_data.clothing.drawables),
-			["@clothing_textures"] = json.encode(player_data.clothing.textures),
-			["@clothing_palette"] = json.encode(player_data.clothing.palette),
-			["@props_drawables"] = json.encode(player_data.props.drawables),
-			["@props_textures"] = json.encode(player_data.props.textures),
-			["@overlays_drawables"] = json.encode(player_data.overlays.drawables),
-			["@overlays_opacity"] = json.encode(player_data.overlays.opacity),
-			["@overlays_colours"] = json.encode(player_data.overlays.colours),
-		})
-	end)
-	TriggerEvent("blips:set", source, inService, 2)
-end)
-
 TriggerEvent("core:addGroupCommand", "emsadd", "command", function(source, args, rawCommand, data, power, group)
 	local source = source
 	if(#args < 2) then

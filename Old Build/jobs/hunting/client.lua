@@ -211,7 +211,7 @@ Citizen.CreateThread(function()
 							end
 						else
 							isinjob = false
-							TriggerServerEvent("clothes:spawn")
+							TriggerServerEvent("PlayerCustomisation.ModelType", "Default")
 							RemoveWeaponFromPed(GetPlayerPed(-1), GetHashKey("WEAPON_MUSKET"), true, true)
 							missionRunning = false
 							RemoveBlip(entityBlip[proie])

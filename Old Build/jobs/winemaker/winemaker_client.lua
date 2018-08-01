@@ -132,7 +132,7 @@ function GetServiceVigneron()
 	local playerPed = GetPlayerPed(-1)
 	if isInServiceVigneron then
 		notif("Enjoy your break!")
-		TriggerServerEvent("clothes:spawn")
+		TriggerServerEvent("PlayerCustomisation.ModelType", "Default")
 	else
 		notif("Get to work!")
 		TriggerEvent("vigneron:getSkin")

@@ -44,7 +44,7 @@ AddEventHandler("police:set", function(_data, _iscop, first)
 		TriggerServerEvent("police:setService", isInService)
 		BlipRemoval()
 		RemovePoliceBlips()
-		TriggerServerEvent("clothes:spawn")
+		TriggerServerEvent("PlayerCustomisation.ModelType", "Default")
 		if(existingVeh ~= nil) then
 			SetEntityAsMissionEntity(existingVeh, true, true)
 			Citizen.InvokeNative(0xEA386986E786A54F, Citizen.PointerValueIntInitialized(existingVeh))
@@ -67,7 +67,7 @@ AddEventHandler("paramedic:dead", function()
 		exports["core_modules"]:SetPolice(isCop, isInService)
 		TriggerServerEvent("jobcenter:jobs", 1)
 		TriggerServerEvent("police:setService", isInService)
-		TriggerServerEvent("clothes:spawn")
+		TriggerServerEvent("PlayerCustomisation.ModelType", "Default")
 		RemovePoliceBlips()
 		BlipRemoval()
 	end
@@ -106,11 +106,11 @@ Citizen.CreateThread(function()
 					
 					if(isInService) then
 						TriggerServerEvent("jobcenter:jobs", 2)
-						TriggerServerEvent("police:load_clothing")
+						TriggerServerEvent("PlayerCustomisation.ModelType", "Police")
 						AddPoliceBlips()
 					else
 						TriggerServerEvent("jobcenter:jobs", 2)
-						TriggerServerEvent("clothes:spawn")
+						TriggerServerEvent("PlayerCustomisation.ModelType", "Default")
 						RemovePoliceBlips()
 						BlipRemoval()
 					end
@@ -191,13 +191,11 @@ AddEventHandler('police:resultAllCopsInService', function(array)
 end)
 
 function AddPoliceBlips()
-	ClothingBlips()
 	ArmouryBlips()
 	GarageBlips()
 end
 
 function RemovePoliceBlips()
-	RemoveClothingBlips()
 	RemoveArmouryBlips()
 	RemoveGarageBlips()
 end

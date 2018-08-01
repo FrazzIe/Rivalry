@@ -40,13 +40,6 @@ server_script 'admin/server.lua'
 --Anticheat
 client_script 'anticheat/client.lua'
 server_script 'anticheat/server.lua'
---Tattoos
-client_script 'tattoos/client.lua'
-server_script 'tattoos/server.lua'
---Clothing
-client_script 'clothing/client.lua'
-client_script 'clothing/config.lua'
-server_script 'clothing/server.lua'
 --Garages
 client_script 'garages/client.lua'
 server_script 'garages/server.lua'
@@ -176,8 +169,21 @@ client_script 'interaction/speedcontrol.lua'
 client_script 'interaction/crouch_cuffs.lua'
 client_script 'interaction/doors.lua'
 client_script 'interaction/head_display_talking.lua'
-client_script 'interaction/emotes.lua'
 
+client_script "PlayerCustomisation/Config.lua"
+server_script "PlayerCustomisation/Config.lua"
+client_script "PlayerCustomisation/Client/Utilities.lua"
+client_script "PlayerCustomisation/Client/Camera.lua"
+client_script "PlayerCustomisation/Client/Creator.lua"
+client_script "PlayerCustomisation/Client/Barbers.lua"
+client_script "PlayerCustomisation/Client/Clothing.lua"
+client_script "PlayerCustomisation/Client/Masks.lua"
+client_script "PlayerCustomisation/Client/Tattoos.lua"
+client_script "PlayerCustomisation/Client/Outfits.lua"
+client_script "PlayerCustomisation/Client/Main.lua"
+
+server_script "PlayerCustomisation/Server/Outfits.lua"
+server_script "PlayerCustomisation/Server/Main.lua"
 --Exports
 
 --Inventory

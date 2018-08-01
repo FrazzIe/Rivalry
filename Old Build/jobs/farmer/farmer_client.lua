@@ -131,7 +131,7 @@ function GetServiceFarmer()
 	local playerPed = GetPlayerPed(-1)
 	if isInServiceFarmer then
 		notif("Enjoy your break!")
-		TriggerServerEvent("clothes:spawn")
+		TriggerServerEvent("PlayerCustomisation.ModelType", "Default")
 	else
 		notif("Get to work!")
 		TriggerEvent("Farmer:getSkin")

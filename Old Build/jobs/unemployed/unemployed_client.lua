@@ -18,7 +18,7 @@
 
 	RegisterNetEvent('Unemployed:marker')
 	AddEventHandler('Unemployed:marker', function ()
-	TriggerServerEvent("clothes:spawn")
+	TriggerServerEvent("PlayerCustomisation.ModelType", "Default")
 		
 	end)
 
@@ -31,7 +31,7 @@
 		-- SetPedComponentVariation(playerPed, 4, 0, 12, 2)   -- Pants
 		-- SetPedComponentVariation(playerPed, 6, 25, 0, 2)   -- shoes
 		-- SetPedComponentVariation(playerPed, 3, 34, 0, 2)   -- under skin
-		TriggerServerEvent("clothes:spawn")
+		TriggerServerEvent("PlayerCustomisation.ModelType", "Default")
 		--RemoveAllPedWeapons(GetPlayerPed(-1), true)
 		existingVeh = nil
 	end)

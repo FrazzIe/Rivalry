@@ -142,7 +142,7 @@ function GetServiceFisher()
 	local playerPed = GetPlayerPed(-1)
 	if isInServiceFisher then
 		notif("Enjoy your break!")
-		TriggerServerEvent("clothes:spawn")
+		TriggerServerEvent("PlayerCustomisation.ModelType", "Default")
 	else
 		notif("Get to work!")
 		TriggerEvent("Fisher:getSkin")

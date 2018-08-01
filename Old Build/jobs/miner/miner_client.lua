@@ -139,7 +139,7 @@ function GetServiceMiner()
 	local playerPed = GetPlayerPed(-1)
 	if isInServiceMiner then
 		notif("Enjoy your break!")
-		TriggerServerEvent("clothes:spawn")
+		TriggerServerEvent("PlayerCustomisation.ModelType", "Default")
 	else
 		notif("Get to work!")
 		TriggerEvent("Miner:getSkin")

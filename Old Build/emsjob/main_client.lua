@@ -43,7 +43,7 @@ AddEventHandler('paramedic:set', function(_data, _isparamedic, first)
 		TriggerServerEvent("jobcenter:jobs", 1)
 		TriggerServerEvent("paramedic:setService", isInService)
 		RemoveParamedicBlips()
-		TriggerServerEvent("clothes:spawn")
+		TriggerServerEvent("PlayerCustomisation.ModelType", "Default")
 		if(existingVeh ~= nil) then
 			SetEntityAsMissionEntity(existingVeh, true, true)
 			Citizen.InvokeNative(0xEA386986E786A54F, Citizen.PointerValueIntInitialized(existingVeh))
@@ -93,12 +93,12 @@ Citizen.CreateThread(function()
 					
 					if isInService then
 						TriggerServerEvent("jobcenter:jobs", 15)
-						TriggerServerEvent("paramedic:load_clothing")
+						TriggerServerEvent("PlayerCustomisation.ModelType", "Paramedic")
 						TriggerServerEvent("paramedic:getinteriors")
 						AddParamedicBlips()
 					else
 						TriggerServerEvent("jobcenter:jobs", 1)
-						TriggerServerEvent("clothes:spawn")
+						TriggerServerEvent("PlayerCustomisation.ModelType", "Default")
 						RemoveParamedicBlips()
 					end
 				end
@@ -114,6 +114,6 @@ AddEventHandler("paramedic:dead", function()
 		TriggerServerEvent("jobcenter:jobs", 1)
 		TriggerServerEvent("paramedic:setService", isInService)
 		RemoveParamedicBlips()
-		TriggerServerEvent("clothes:spawn")
+		TriggerServerEvent("PlayerCustomisation.ModelType", "Default")
 	end
 end)

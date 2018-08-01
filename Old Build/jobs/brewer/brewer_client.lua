@@ -138,7 +138,7 @@ function GetServiceBrewer()
 	local playerPed = GetPlayerPed(-1)
 	if isInServiceBrewer then
 		notif("Enjoy your break!")
-		TriggerServerEvent("clothes:spawn")
+		TriggerServerEvent("PlayerCustomisation.ModelType", "Default")
 	else
 		notif("Get to work!")
 		TriggerEvent("Brewer:getSkin")

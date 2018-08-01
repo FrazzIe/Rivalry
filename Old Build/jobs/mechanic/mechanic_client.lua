@@ -241,6 +241,7 @@ local function showBlipMechanic()
         local currentBlip = AddBlipForCoord(c.Repair.x, c.Repair.y, c.Repair.z)
         SetBlipSprite(currentBlip, 17)
         SetBlipColour(currentBlip, 25)
+        SetBlipScale(currentBlip, 0.6)
         SetBlipAsShortRange(currentBlip, true)
         BeginTextCommandSetBlipName("STRING")
         AddTextComponentString(TEXT.BlipMechanicService)
@@ -251,6 +252,7 @@ local function showBlipMechanic()
         local currentBlip2 = AddBlipForCoord(c.SpawnVehicleAction.x, c.SpawnVehicleAction.y, c.SpawnVehicleAction.z)
         SetBlipSprite(currentBlip2, 18)
         SetBlipColour(currentBlip2, 64)
+        SetBlipScale(currentBlip2, 0.6)
         SetBlipAsShortRange(currentBlip2, true)
         --SetBlipFlashes(currentBlip,1)
         BeginTextCommandSetBlipName("STRING")
@@ -404,7 +406,7 @@ local function toogleService()
     else
         -- Restaure Ped
         TriggerServerEvent('mechanic:endService')
-        TriggerServerEvent("clothes:spawn")
+        TriggerServerEvent("PlayerCustomisation.ModelType", "Default")
     end 
 end
 
