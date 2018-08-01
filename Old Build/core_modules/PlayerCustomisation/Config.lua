@@ -1340,7 +1340,7 @@ PlayerCustomisation.Reference = {
 		},
 		SkinAging = {
 			{Name = "None", Value = 255},
-			{Name = "Corw's Feet", Value = 0},
+			{Name = "Crow's Feet", Value = 0},
 			{Name = "First Signs", Value = 1},
 			{Name = "Middle Aged", Value = 2},
 			{Name = "Worry Lines", Value = 3},

@@ -706,6 +706,20 @@ function SetupSaveOption(ParentMenu)
 	return ItemSaveList
 end
 
+function SetupMergeOption(ParentMenu)
+	local MergeList = {}
+
+	for Type, _ in pairs(PlayerCustomisation.PlayerData.Types) do
+		table.insert(MergeList, Type)
+	end
+
+	local MergeListItem = NativeUI.CreateListItem("Merge with", MergeList, 1, "Merge your characters features (e.g. copy your off-duty face)")
+
+	ParentMenu:AddItem(MergeListItem)
+
+	return MergeListItem
+end
+
 function SetupModelMenu(ParentMenu)
 	local Menu = NativeUI.CreateMenu("Ped Models", "Select a model", 0, 0)
 	for Index = 1, #PlayerCustomisation.Reference.Models[PlayerCustomisation.PlayerData.Type] do

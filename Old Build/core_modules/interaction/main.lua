@@ -18,7 +18,7 @@ Citizen.CreateThread(function()
 	local voice_count = 1
 	while true do
 		Citizen.Wait(0)
-		if not IsPauseMenuActive() and PlayerCustomisation.Instanced then
+		if not IsPauseMenuActive() and not PlayerCustomisation.Instanced then
 			if IsControlJustReleased(1, 311) or IsControlJustReleased(1, 19) then
 				if exports.ui:currentmenu() == "" then
 					if not IsPedFalling(PlayerPedId()) then
