@@ -302,16 +302,6 @@ function RetrieveComponents()
 			end
 		end
 	end
-
-	for Component, Drawables in pairs(PlayerCustomisation.Reference.Clothing.Drawables) do
-		Citizen.Trace(Component.." - "..json.encode(Drawables))
-	end
-
-	for Component, Drawables in pairs(PlayerCustomisation.Reference.Clothing.Textures) do
-		for Index = 1, #Drawables do
-			Citizen.Trace(Component.." - "..Index.." - "..json.encode(Drawables[Index]))
-		end
-	end
 end
 
 function RetrieveProps()
@@ -342,16 +332,6 @@ function RetrieveProps()
 			for Texture = 0, GetNumberOfPedPropTextureVariations(PlayerPedId(), PlayerCustomisation.Reference.Props.Options[PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender][GetPropIndex(Prop)].Value, Drawables[Index]) do
 				table.insert(PlayerCustomisation.Reference.Props.Textures[Prop][Index], Texture)
 			end
-		end
-	end
-
-	for Prop, Drawables in pairs(PlayerCustomisation.Reference.Props.Drawables) do
-		Citizen.Trace(Prop.." - "..json.encode(Drawables))
-	end
-
-	for Prop, Drawables in pairs(PlayerCustomisation.Reference.Props.Textures) do
-		for Index = 1, #Drawables do
-			Citizen.Trace(Prop.." - "..Index.." - "..json.encode(Drawables[Index]))
 		end
 	end
 end

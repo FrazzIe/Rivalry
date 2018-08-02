@@ -37,9 +37,9 @@ function SetupClothingMenu(ParentMenu)
 	local ClothingComponentItem = NativeUI.CreateProgressItem("Clothing", PlayerCustomisation.Reference.Clothing.Options[PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender], 1, "", false)
 	local ClothingDrawableItem = NativeUI.CreateProgressItem("Clothing Drawables", {}, 1, "", true)
 	local ClothingTextureItem = NativeUI.CreateProgressItem("Clothing Textures", {}, 1, "", true)
-	local PropsComponentItem = NativeUI.CreateProgressItem("Props", PlayerCustomisation.Reference.Props.Options[PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender], 1, "", false)
-	local PropsDrawableItem = NativeUI.CreateProgressItem("Prop Drawables", {}, 1, "", true)
-	local PropsTextureItem = NativeUI.CreateProgressItem("Prop Textures", {}, 1, "", true)
+	local PropsComponentItem = NativeUI.CreateProgressItem("Accessories", PlayerCustomisation.Reference.Props.Options[PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender], 1, "", false)
+	local PropsDrawableItem = NativeUI.CreateProgressItem("Accessory Drawables", {}, 1, "", true)
+	local PropsTextureItem = NativeUI.CreateProgressItem("Accessory Textures", {}, 1, "", true)
 
 	ClothingComponentItem.OnProgressChanged = function(ParentMenu, SelectedItem, NewIndex)
 		ClothingDrawableItem.Data.Items = PlayerCustomisation.Reference.Clothing.Drawables[PlayerCustomisation.Reference.Clothing.Options[PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender][NewIndex].Name]
