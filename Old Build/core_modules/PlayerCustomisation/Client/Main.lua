@@ -20,28 +20,34 @@ local EyeMakeupMenu = SetupEyeMakeupMenu(MakeupMenu)
 local BlushMenu = SetupBlusherMenu(MakeupMenu)
 local LipstickMenu = SetupLipstickMenu(MakeupMenu)
 
-CharacterCreatorMenu.Items[2].Activated = function(ParentMenu, SelectedItem)
-	CharacterCreatorMenu.Cameras.Face:Switch(CharacterCreatorMenu.Cameras.Default.Handle, 1000, false, false)
-end
-
 CharacterCreatorMenu.Items[3].Activated = function(ParentMenu, SelectedItem)
+	RemoveMask()
 	CharacterCreatorMenu.Cameras.Face:Switch(CharacterCreatorMenu.Cameras.Default.Handle, 1000, false, false)
 end
 
 CharacterCreatorMenu.Items[4].Activated = function(ParentMenu, SelectedItem)
+	RemoveMask()
+	CharacterCreatorMenu.Cameras.Face:Switch(CharacterCreatorMenu.Cameras.Default.Handle, 1000, false, false)
+end
+
+CharacterCreatorMenu.Items[5].Activated = function(ParentMenu, SelectedItem)
+	RemoveMask()
 	CharacterCreatorMenu.Cameras.Face:Switch(CharacterCreatorMenu.Cameras.Default.Handle, 1000, false, false)
 end
 
 BarberMenu.Items[1].Activated = function(ParentMenu, SelectedItem)
+	RemoveMask()
 	BarberMenu.Cameras.Face:Switch(BarberMenu.Cameras.Default.Handle, 1000, false, false)
 end
 
 BarberMenu.Items[2].Activated = function(ParentMenu, SelectedItem)
+	RemoveMask()
 	BarberMenu.Cameras.Face:Switch(BarberMenu.Cameras.Default.Handle, 1000, false, false)
 end
 
 BarberMenu.Items[3].Activated = function(ParentMenu, SelectedItem)
 	ClearPedProp(PlayerPedId(), 1)
+	RemoveMask()
 	BarberMenu.Cameras.Face:Switch(BarberMenu.Cameras.Default.Handle, 1000, false, false)
 end
 
@@ -49,24 +55,29 @@ BarberMenu.Items[4].Activated = SetPedTopless
 
 BarberMenu.Items[5].Activated = function(ParentMenu, SelectedItem)
 	ClearPedProp(PlayerPedId(), 1)
+	RemoveMask()
 	BarberMenu.Cameras.Face:Switch(BarberMenu.Cameras.Default.Handle, 1000, false, false)
 end
 
 BarberMenu.Items[6].Activated = function(ParentMenu, SelectedItem)
 	ClearPedProp(PlayerPedId(), 1)
+	RemoveMask()
 	BarberMenu.Cameras.Face:Switch(BarberMenu.Cameras.Default.Handle, 1000, false, false)
 end
 
 MakeupMenu.Items[1].Activated = function(ParentMenu, SelectedItem)
 	ClearPedProp(PlayerPedId(), 1)
+	RemoveMask()
 	BarberMenu.Cameras.Face:Switch(BarberMenu.Cameras.Default.Handle, 1000, false, false)
 end
 
 MakeupMenu.Items[2].Activated = function(ParentMenu, SelectedItem)
+	RemoveMask()
 	BarberMenu.Cameras.Face:Switch(BarberMenu.Cameras.Default.Handle, 1000, false, false)
 end
 
 MakeupMenu.Items[3].Activated = function(ParentMenu, SelectedItem)
+	RemoveMask()
 	BarberMenu.Cameras.Face:Switch(BarberMenu.Cameras.Default.Handle, 1000, false, false)
 end
 
@@ -261,6 +272,10 @@ MergeOption.OnListSelected = function(ParentMenu, ListItem, NewIndex)
 end
 
 function OpenBarberMenu(LocationIndex)
+	IsStanceAllowed = false
+	TriggerEvent("chat:disable", true)
+	hud_off = true
+	
 	PlayerCustomisation.Instanced = true
 	TriggerServerEvent("PlayerCustomisation.Instance", true)
 
@@ -408,6 +423,9 @@ end
 
 function OpenClothingMenu(LocationIndex)
 	IsStanceAllowed = false
+	TriggerEvent("chat:disable", true)
+	hud_off = true
+
 	PlayerCustomisation.Instanced = true
 	TriggerServerEvent("PlayerCustomisation.Instance", true)
 
@@ -465,6 +483,9 @@ end
 
 function OpenMaskMenu(LocationIndex)
 	IsStanceAllowed = false
+	TriggerEvent("chat:disable", true)
+	hud_off = true
+
 	PlayerCustomisation.Instanced = true
 	TriggerServerEvent("PlayerCustomisation.Instance", true)
 
@@ -513,6 +534,9 @@ end
 
 function OpenTattooMenu(LocationIndex)
 	IsStanceAllowed = false
+	TriggerEvent("chat:disable", true)
+	hud_off = true
+
 	PlayerCustomisation.Instanced = true
 	TriggerServerEvent("PlayerCustomisation.Instance", true)
 
@@ -571,6 +595,9 @@ end
 
 function OpenOutfitMenu(LocationIndex)
 	IsStanceAllowed = false
+	TriggerEvent("chat:disable", true)
+	hud_off = true
+
 	PlayerCustomisation.Instanced = true
 	TriggerServerEvent("PlayerCustomisation.Instance", true)
 
@@ -594,6 +621,8 @@ end
 
 function OpenCharacterCreatorMenu(Coordinates, Name, CharacterId, Gender, Rank)
 	IsStanceAllowed = false
+	TriggerEvent("chat:disable", true)
+	hud_off = true
 
 	if Coordinates == nil then
 		Coordinates = GetEntityCoords(PlayerPedId(), false)
@@ -670,10 +699,6 @@ function OpenCharacterCreatorMenu(Coordinates, Name, CharacterId, Gender, Rank)
 	SetEntityCoords(PlayerPedId(), PlayerCustomisation.Creator.Entry.x, PlayerCustomisation.Creator.Entry.y, PlayerCustomisation.Creator.Entry.z)
 	SetEntityHeading(PlayerPedId(), PlayerCustomisation.Creator.Entry.h)
 	FreezeEntityPosition(PlayerPedId(), true)
-
-	local Interior = GetInteriorAtCoords(PlayerCustomisation.Creator.Entry.x, PlayerCustomisation.Creator.Entry.y, PlayerCustomisation.Creator.Entry.z)
-
-	RefreshInterior(Interior)
 
 	CharacterCreatorMenu.Cameras.Face:Create()
 	CharacterCreatorMenu.Cameras.Default:Create()
@@ -764,6 +789,8 @@ function OpenCharacterCreatorMenu(Coordinates, Name, CharacterId, Gender, Rank)
 
 	TaskPlayAnim(PlayerPedId(), PlayerCustomisation.Creator.Board.Dictionary, PlayerCustomisation.Creator.Board.Animation, 8.0, -8, -1, 1, 0, 0, 0, 0)
 
+	RemoveMask()
+
 	CharacterCreatorMenu:Visible(true)
 end
 
@@ -793,6 +820,8 @@ Citizen.CreateThread(function()
 			if IsEntityDead(PlayerPed) and PlayerCustomisation.Pool:IsAnyMenuOpen() then
 				PlayerCustomisation.Pool:CloseAllMenus()
 			end
+
+			HideHudAndRadarThisFrame()
 		end
 
 		if PlayerCustomisation.Creator.Board.RenderTarget.Id ~= -1 and HasScaleformMovieLoaded(PlayerCustomisation.Creator.Board.Scaleform.Handle) then

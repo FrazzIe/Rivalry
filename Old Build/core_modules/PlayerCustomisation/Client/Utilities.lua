@@ -40,6 +40,10 @@ function SetPedTopless()
 	end
 end
 
+function RemoveMask()
+	SetPedComponentVariation(PlayerPedId(), 1, 0, 0, 0)
+end
+
 function UpdatePlayer()
 	if PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender ~= "Hybrid" then
 	    local Resemblance = (PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].HeadBlend[3] + 1.0) / 2.0

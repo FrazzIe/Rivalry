@@ -13,6 +13,9 @@ BarberMenu.Cameras = {
 
 BarberMenu.OnMenuClosed = function(ParentMenu)
 	IsStanceAllowed = true
+	TriggerEvent("chat:disable", false)
+	hud_off = false
+	
 	PlayerCustomisation.Instanced = false
 	TriggerServerEvent("PlayerCustomisation.Instance", false)
 	TriggerServerEvent("PlayerCustomisation.Update", PlayerCustomisation.PlayerData.Type, PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type])
@@ -41,6 +44,7 @@ function SetupHairstylesMenu(ParentMenu)
 			
 			UpdatePlayer()
 			ClearPedProp(PlayerPedId(), 0)
+			RemoveMask()
 
 			for ItemIndex = 1, #ParentMenu.Items do
 				ParentMenu.Items[ItemIndex]:SetRightBadge(BadgeStyle.None)
@@ -65,6 +69,7 @@ function SetupHairstylesMenu(ParentMenu)
 
 			UpdatePlayer()
 			ClearPedProp(PlayerPedId(), 0)
+			RemoveMask()
 		end
 		Menu:AddItem(HairstyleItem)
 	end
@@ -100,6 +105,8 @@ function SetupHairstylesMenu(ParentMenu)
 					end
 
 					UpdatePlayer()
+					ClearPedProp(PlayerPedId(), 0)
+					RemoveMask()
 				end
 			end
 		end
@@ -121,6 +128,7 @@ function UpdateHairstylesMenu(Menu)
 			
 			UpdatePlayer()
 			ClearPedProp(PlayerPedId(), 0)
+			RemoveMask()
 
 			for ItemIndex = 1, #ParentMenu.Items do
 				ParentMenu.Items[ItemIndex]:SetRightBadge(BadgeStyle.None)
@@ -145,6 +153,7 @@ function UpdateHairstylesMenu(Menu)
 
 			UpdatePlayer()
 			ClearPedProp(PlayerPedId(), 0)
+			RemoveMask()
 		end
 		Menu:AddItem(HairstyleItem)
 	end
@@ -165,6 +174,7 @@ function SetupBeardsMenu(ParentMenu)
 			PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Drawable[2] = PlayerCustomisation.Reference.Appearance.Beards[Index].Value or 255
 			
 			UpdatePlayer()
+			RemoveMask()
 
 			local PanelsEnabled = (Index ~= 1)
 
@@ -192,6 +202,7 @@ function SetupBeardsMenu(ParentMenu)
 			end
 
 			UpdatePlayer()
+			RemoveMask()
 		end
 
 		Menu:AddItem(BeardItem)
@@ -201,6 +212,7 @@ function SetupBeardsMenu(ParentMenu)
 		SetPedHeadOverlay(PlayerPedId(), 1, PlayerCustomisation.Reference.Appearance.Beards[NewIndex].Value, PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Opacity[2])
 		SetPedHeadOverlayColor(PlayerPedId(), 1, GetOverlayColourType(1), PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Colours[2], PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Colours[2])
 	end
+
 	Menu.OnMenuClosed = function(ParentMenu)
 		UpdatePlayer()
 
@@ -235,6 +247,7 @@ function SetupEyebrowsMenu(ParentMenu)
 			
 			UpdatePlayer()
 			ClearPedProp(PlayerPedId(), 1)
+			RemoveMask()
 
 			local PanelsEnabled = (Index ~= 1)
 
@@ -263,6 +276,7 @@ function SetupEyebrowsMenu(ParentMenu)
 
 			UpdatePlayer()
 			ClearPedProp(PlayerPedId(), 1)
+			RemoveMask()
 		end
 
 		Menu:AddItem(EyebrowItem)
@@ -371,6 +385,7 @@ function SetupContactsMenu(ParentMenu)
 			
 			UpdatePlayer()
 			ClearPedProp(PlayerPedId(), 1)
+			RemoveMask()
 
 			for ItemIndex = 1, #ParentMenu.Items do
 				ParentMenu.Items[ItemIndex]:SetRightBadge(BadgeStyle.None)
@@ -418,6 +433,7 @@ function SetupFacePaintsMenu(ParentMenu)
 			
 			UpdatePlayer()
 			ClearPedProp(PlayerPedId(), 1)
+			RemoveMask()
 
 			local PanelsEnabled = (Index ~= 1)
 
@@ -439,6 +455,7 @@ function SetupFacePaintsMenu(ParentMenu)
 
 			UpdatePlayer()
 			ClearPedProp(PlayerPedId(), 1)
+			RemoveMask()
 		end
 
 		Menu:AddItem(FacePaintItem)
@@ -481,6 +498,7 @@ function SetupEyeMakeupMenu(ParentMenu)
 			
 			UpdatePlayer()
 			ClearPedProp(PlayerPedId(), 1)
+			RemoveMask()
 
 			local PanelsEnabled = (Index ~= 1)
 
@@ -502,6 +520,7 @@ function SetupEyeMakeupMenu(ParentMenu)
 
 			UpdatePlayer()
 			ClearPedProp(PlayerPedId(), 1)
+			RemoveMask()
 		end
 
 		Menu:AddItem(EyeMakeupItem)
@@ -544,6 +563,7 @@ function SetupBlusherMenu(ParentMenu)
 			PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Drawable[6] = PlayerCustomisation.Reference.Appearance.Blush[Index].Value or 255
 			
 			UpdatePlayer()
+			RemoveMask()
 
 			local PanelsEnabled = (Index ~= 1)
 
@@ -571,6 +591,7 @@ function SetupBlusherMenu(ParentMenu)
 			end
 
 			UpdatePlayer()
+			RemoveMask()
 		end
 
 		Menu:AddItem(BlushItem)
@@ -613,6 +634,7 @@ function SetupLipstickMenu(ParentMenu)
 			PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Drawable[9] = PlayerCustomisation.Reference.Appearance.Lipstick[Index].Value or 255
 			
 			UpdatePlayer()
+			RemoveMask()
 
 			local PanelsEnabled = (Index ~= 1)
 
@@ -640,6 +662,7 @@ function SetupLipstickMenu(ParentMenu)
 			end
 
 			UpdatePlayer()
+			RemoveMask()
 		end
 
 		Menu:AddItem(LipstickItem)

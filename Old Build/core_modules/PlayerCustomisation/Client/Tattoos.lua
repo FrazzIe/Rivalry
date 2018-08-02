@@ -16,6 +16,9 @@ TattooMenu.OnMenuClosed = function(ParentMenu)
 	UpdatePlayer()
 
 	IsStanceAllowed = true
+	TriggerEvent("chat:disable", false)
+	hud_off = false
+	
 	PlayerCustomisation.Instanced = false
 	TriggerServerEvent("PlayerCustomisation.Instance", false)
 	TriggerServerEvent("PlayerCustomisation.Update", PlayerCustomisation.PlayerData.Type, PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type])

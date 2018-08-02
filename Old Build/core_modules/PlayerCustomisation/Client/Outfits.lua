@@ -12,6 +12,9 @@ OutfitMenu.Cameras = {
 
 OutfitMenu.OnMenuClosed = function(ParentMenu)
 	IsStanceAllowed = true
+	TriggerEvent("chat:disable", false)
+	hud_off = false
+	
 	PlayerCustomisation.Instanced = false
 	TriggerServerEvent("PlayerCustomisation.Instance", false)
 
