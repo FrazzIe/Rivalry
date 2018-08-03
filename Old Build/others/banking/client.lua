@@ -91,7 +91,7 @@ end
 
 -- Banks
 local banks = {
-  --{name="Bank", id=108, x=150.266, y=-1040.203, z=29.374}, --park (inside)
+  {name="Bank", id=108, x=150.266, y=-1040.203, z=29.374}, --park (inside)
   --{name="Bank", id=108, x=146.95637512207,y=-1035.0616455078,z=29.343982696533}, --park outside(atm)
   {name="Bank", id=108, x=-1212.980, y=-330.841, z=37.787},
   {name="Bank", id=108, x=-2962.582, y=482.627, z=15.703},
