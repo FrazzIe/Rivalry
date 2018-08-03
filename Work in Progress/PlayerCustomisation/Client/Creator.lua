@@ -36,20 +36,24 @@ function SetupHeritageMenu(ParentMenu)
 		PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].HeadBlend[1] = ActiveItem.Value.Face
 		Window:Index(ActiveItem.Value.Portrait, nil)
 		UpdatePlayer()
+		RemoveMask()
 	end
 	ItemDadList.OnListChanged = function(ParentMenu, ListItem, Index)
 		local ActiveItem = ListItem:IndexToItem(Index)
 		PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].HeadBlend[2] = ActiveItem.Value.Face
 		Window:Index(nil, ActiveItem.Value.Portrait)
 		UpdatePlayer()
+		RemoveMask()
 	end
 	ItemResemblanceSlider.OnSliderChanged = function(ParentMenu, SliderItem, Index)
 		PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].HeadBlend[3] = SliderItem:IndexToItem(Index)
 		UpdatePlayer()
+		RemoveMask()
 	end
 	ItemSkinToneSlider.OnSliderChanged = function(ParentMenu, SliderItem, Index)
 		PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].HeadBlend[4] = SliderItem:IndexToItem(Index)
 		UpdatePlayer()
+		RemoveMask()
 	end
 
 	Menu.Pagination.Total = 7
@@ -105,6 +109,7 @@ function SetupFeaturesMenu(ParentMenu)
 		PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].FacialFeature[7] = ((ActiveItem.Panel == true) and ActiveItem.Value[1].Y or ActiveItem.Value.Y)
 
 		UpdatePlayer()
+		RemoveMask()
 
 		if not ActiveItem.Panel then
 			ListItem.Panels[1]:CirclePosition(((ActiveItem.Panel == true) and ActiveItem.Value[1].X or ActiveItem.Value.X), ((ActiveItem.Panel == true) and ActiveItem.Value[1].Y or ActiveItem.Value.Y))
@@ -120,6 +125,7 @@ function SetupFeaturesMenu(ParentMenu)
 		PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].FacialFeature[12] = ((ActiveItem.Panel == true) and (1.0 - ActiveItem.Value[1].X) or (1.0 - ActiveItem.Value.X))
 
 		UpdatePlayer()
+		RemoveMask()
 
 		if not ActiveItem.Panel then
 			ListItem.Panels[1]:CirclePosition(((ActiveItem.Panel == true) and ActiveItem.Value[1].X or ActiveItem.Value.X), ((ActiveItem.Panel == true) and ActiveItem.Value[1].Y or ActiveItem.Value.Y))
@@ -136,6 +142,7 @@ function SetupFeaturesMenu(ParentMenu)
 		PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].FacialFeature[2] = ((ActiveItem.Panel == true) and ActiveItem.Value[1].Y or ActiveItem.Value.Y)
 
 		UpdatePlayer()
+		RemoveMask()
 
 		if not ActiveItem.Panel then
 			ListItem.Panels[1]:CirclePosition(((ActiveItem.Panel == true) and ActiveItem.Value[1].X or ActiveItem.Value.X), ((ActiveItem.Panel == true) and ActiveItem.Value[1].Y or ActiveItem.Value.Y))
@@ -152,6 +159,7 @@ function SetupFeaturesMenu(ParentMenu)
 		PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].FacialFeature[4] = ((ActiveItem.Panel == true) and ActiveItem.Value[1].Y or ActiveItem.Value.Y)
 
 		UpdatePlayer()
+		RemoveMask()
 
 		if not ActiveItem.Panel then
 			ListItem.Panels[1]:CirclePosition(((ActiveItem.Panel == true) and ActiveItem.Value[1].X or ActiveItem.Value.X), ((ActiveItem.Panel == true) and ActiveItem.Value[1].Y or ActiveItem.Value.Y))
@@ -168,6 +176,7 @@ function SetupFeaturesMenu(ParentMenu)
 		PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].FacialFeature[5] = ((ActiveItem.Panel == true) and ActiveItem.Value[1].Y or ActiveItem.Value.Y)
 
 		UpdatePlayer()
+		RemoveMask()
 
 		if not ActiveItem.Panel then
 			ListItem.Panels[1]:CirclePosition(((ActiveItem.Panel == true) and ActiveItem.Value[1].X or ActiveItem.Value.X), ((ActiveItem.Panel == true) and ActiveItem.Value[1].Y or ActiveItem.Value.Y))
@@ -184,6 +193,7 @@ function SetupFeaturesMenu(ParentMenu)
 		PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].FacialFeature[9] = ((ActiveItem.Panel == true) and ActiveItem.Value[1].Y or ActiveItem.Value.Y)
 
 		UpdatePlayer()
+		RemoveMask()
 
 		if not ActiveItem.Panel then
 			ListItem.Panels[1]:CirclePosition(((ActiveItem.Panel == true) and ActiveItem.Value[1].X or ActiveItem.Value.X), ((ActiveItem.Panel == true) and ActiveItem.Value[1].Y or ActiveItem.Value.Y))
@@ -199,6 +209,7 @@ function SetupFeaturesMenu(ParentMenu)
 		PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].FacialFeature[11] = ((ActiveItem.Panel == true) and (1.0 - ActiveItem.Value[1].X) or ActiveItem.Value.X)
 
 		UpdatePlayer()
+		RemoveMask()
 
 		if not ActiveItem.Panel then
 			ListItem.Panels[1]:CirclePosition(((ActiveItem.Panel == true) and ActiveItem.Value[1].X or ActiveItem.Value.X), ((ActiveItem.Panel == true) and ActiveItem.Value[1].Y or ActiveItem.Value.Y))
@@ -214,6 +225,7 @@ function SetupFeaturesMenu(ParentMenu)
 		PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].FacialFeature[13] = ((ActiveItem.Panel == true) and (1.0 - ActiveItem.Value[1].X) or (1.0 - ActiveItem.Value.X))
 
 		UpdatePlayer()
+		RemoveMask()
 
 		if not ActiveItem.Panel then
 			ListItem.Panels[1]:CirclePosition(((ActiveItem.Panel == true) and ActiveItem.Value[1].X or ActiveItem.Value.X), ((ActiveItem.Panel == true) and ActiveItem.Value[1].Y or ActiveItem.Value.Y))
@@ -230,6 +242,7 @@ function SetupFeaturesMenu(ParentMenu)
 		PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].FacialFeature[15] = ((ActiveItem.Panel == true) and ActiveItem.Value[1].Y or ActiveItem.Value.Y)
 
 		UpdatePlayer()
+		RemoveMask()
 
 		if not ActiveItem.Panel then
 			ListItem.Panels[1]:CirclePosition(((ActiveItem.Panel == true) and ActiveItem.Value[1].X or ActiveItem.Value.X), ((ActiveItem.Panel == true) and ActiveItem.Value[1].Y or ActiveItem.Value.Y))
@@ -246,6 +259,7 @@ function SetupFeaturesMenu(ParentMenu)
 		PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].FacialFeature[16] = ((ActiveItem.Panel == true) and ActiveItem.Value[1].Y or ActiveItem.Value.Y)
 
 		UpdatePlayer()
+		RemoveMask()
 
 		if not ActiveItem.Panel then
 			ListItem.Panels[1]:CirclePosition(((ActiveItem.Panel == true) and ActiveItem.Value[1].X or ActiveItem.Value.X), ((ActiveItem.Panel == true) and ActiveItem.Value[1].Y or ActiveItem.Value.Y))
@@ -262,6 +276,7 @@ function SetupFeaturesMenu(ParentMenu)
 		PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].FacialFeature[19] = ((ActiveItem.Panel == true) and ActiveItem.Value[1].Y or ActiveItem.Value.Y)
 
 		UpdatePlayer()
+		RemoveMask()
 
 		if not ActiveItem.Panel then
 			ListItem.Panels[1]:CirclePosition(((ActiveItem.Panel == true) and ActiveItem.Value[1].X or ActiveItem.Value.X), ((ActiveItem.Panel == true) and ActiveItem.Value[1].Y or ActiveItem.Value.Y))
@@ -372,6 +387,7 @@ function SetupAppearanceMenu(ParentMenu)
 		PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].HairColour[2] = (ActiveItem.Panels and ActiveItem.Panels[2] or 1) - 1
 
 		UpdatePlayer()
+		RemoveMask()
 	end
 	ItemEyebrowsList.OnListChanged = function(ParentMenu, ListItem, Index)
 		local ActiveItem = ListItem:IndexToItem(Index)
@@ -389,6 +405,7 @@ function SetupAppearanceMenu(ParentMenu)
 		PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Colours[3] = (ActiveItem.Panels and ActiveItem.Panels[2] or 1) - 1
 
 		UpdatePlayer()
+		RemoveMask()
 	end
 	ItemFacialHairList.OnListChanged = function(ParentMenu, ListItem, Index)
 		local ActiveItem = ListItem:IndexToItem(Index)
@@ -406,6 +423,7 @@ function SetupAppearanceMenu(ParentMenu)
 		PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Colours[2] = (ActiveItem.Panels and ActiveItem.Panels[2] or 1) - 1
 
 		UpdatePlayer()
+		RemoveMask()
 	end
 	ItemSkinBlemishesList.OnListChanged = function(ParentMenu, ListItem, Index)
 		local ActiveItem = ListItem:IndexToItem(Index)
@@ -421,6 +439,7 @@ function SetupAppearanceMenu(ParentMenu)
 		PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Colours[1] = (ActiveItem.Panels and ActiveItem.Panels[2] or 1) - 1
 
 		UpdatePlayer()
+		RemoveMask()
 	end
 	ItemSkinAgingList.OnListChanged = function(ParentMenu, ListItem, Index)
 		local ActiveItem = ListItem:IndexToItem(Index)
@@ -436,6 +455,7 @@ function SetupAppearanceMenu(ParentMenu)
 		PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Colours[4] = (ActiveItem.Panels and ActiveItem.Panels[2] or 1) - 1
 
 		UpdatePlayer()
+		RemoveMask()
 	end
 	ItemSkinComplexionList.OnListChanged = function(ParentMenu, ListItem, Index)
 		local ActiveItem = ListItem:IndexToItem(Index)
@@ -451,6 +471,7 @@ function SetupAppearanceMenu(ParentMenu)
 		PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Colours[7] = (ActiveItem.Panels and ActiveItem.Panels[2] or 1) - 1
 
 		UpdatePlayer()
+		RemoveMask()
 	end
 	ItemMolesFrecklesList.OnListChanged = function(ParentMenu, ListItem, Index)
 		local ActiveItem = ListItem:IndexToItem(Index)
@@ -466,6 +487,7 @@ function SetupAppearanceMenu(ParentMenu)
 		PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Colours[10] = (ActiveItem.Panels and ActiveItem.Panels[2] or 1) - 1
 
 		UpdatePlayer()
+		RemoveMask()
 	end
 	ItemSkinDamageList.OnListChanged = function(ParentMenu, ListItem, Index)
 		local ActiveItem = ListItem:IndexToItem(Index)
@@ -481,6 +503,7 @@ function SetupAppearanceMenu(ParentMenu)
 		PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Colours[8] = (ActiveItem.Panels and ActiveItem.Panels[2] or 1) - 1
 
 		UpdatePlayer()
+		RemoveMask()
 	end
 	ItemEyeColourList.OnListChanged = function(ParentMenu, ListItem, Index)
 		local ActiveItem = ListItem:IndexToItem(Index)
@@ -488,6 +511,7 @@ function SetupAppearanceMenu(ParentMenu)
 		PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].EyeColour = ActiveItem.Value
 
 		UpdatePlayer()
+		RemoveMask()
 	end
 	ItemEyeMakeupList.OnListChanged = function(ParentMenu, ListItem, Index)
 		local ActiveItem = ListItem:IndexToItem(Index)
@@ -503,6 +527,7 @@ function SetupAppearanceMenu(ParentMenu)
 		PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Colours[5] = (ActiveItem.Panels and ActiveItem.Panels[2] or 1) - 1
 
 		UpdatePlayer()
+		RemoveMask()
 	end
 	ItemBlusherList.OnListChanged = function(ParentMenu, ListItem, Index)
 		local ActiveItem = ListItem:IndexToItem(Index)
@@ -520,6 +545,7 @@ function SetupAppearanceMenu(ParentMenu)
 		PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Colours[6] = (ActiveItem.Panels and ActiveItem.Panels[2] or 1) - 1
 
 		UpdatePlayer()
+		RemoveMask()
 	end
 	ItemLipstickList.OnListChanged = function(ParentMenu, ListItem, Index)
 		local ActiveItem = ListItem:IndexToItem(Index)
@@ -537,6 +563,7 @@ function SetupAppearanceMenu(ParentMenu)
 		PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Colours[9] = (ActiveItem.Panels and ActiveItem.Panels[2] or 1) - 1
 
 		UpdatePlayer()
+		RemoveMask()
 	end
 
 	Menu.Pagination.Total = 7
@@ -574,6 +601,7 @@ function SetupAppearanceMenu(ParentMenu)
 						PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Highlights = not PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Highlights
 						ItemHairHighlightColourPanel:Enabled(PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Highlights)
 						UpdatePlayer()
+						RemoveMask()
 					end
 				end
 			end
@@ -600,7 +628,7 @@ function SetupApparelMenu(ParentMenu)
 			PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Clothing.Palette[Index + 1] = PlayerCustomisation.Reference.Apparel.Outfits[PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender][NewIndex][1].Value.Palette[Index + 1]
 		end
 
-		UpdatePlayer()		
+		UpdatePlayer()	
 	end
 	ItemOutfitList.OnListChanged = function(ParentMenu, ListItem, Index)
 		local ActiveItem = ListItem:IndexToItem(Index)
@@ -698,11 +726,27 @@ function SetupSaveOption(ParentMenu)
 		PlayerCustomisation.Creator.Board.RenderTarget.Id = -1
 
 		ClearPedTasks()
+
+		UpdatePlayer()
 	end
 
 	ParentMenu:AddItem(ItemSaveList)
 
 	return ItemSaveList
+end
+
+function SetupMergeOption(ParentMenu)
+	local MergeList = {}
+
+	for Type, _ in pairs(PlayerCustomisation.PlayerData.Types) do
+		table.insert(MergeList, Type)
+	end
+
+	local MergeListItem = NativeUI.CreateListItem("Merge with", MergeList, 1, "Merge your characters features (e.g. copy your off-duty face)")
+
+	ParentMenu:AddItem(MergeListItem)
+
+	return MergeListItem
 end
 
 function SetupModelMenu(ParentMenu)

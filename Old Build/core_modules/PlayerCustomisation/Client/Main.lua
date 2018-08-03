@@ -1045,8 +1045,3 @@ RegisterNetEvent("PlayerCustomisation.OpenCreator")
 AddEventHandler("PlayerCustomisation.OpenCreator", function(Coordinates, Name, CharacterId, Gender)
 	OpenCharacterCreatorMenu(Coordinates, Name, CharacterId, Gender)
 end)
-
-RegisterCommand("tp2", function(source, args, fullCommand)
-	SetEntityCoords(PlayerPedId(), PlayerCustomisation.Creator.Entry.x, PlayerCustomisation.Creator.Entry.y, PlayerCustomisation.Creator.Entry.z)
-	SetEntityHeading(PlayerPedId(), PlayerCustomisation.Creator.Entry.h)
-end, false)
