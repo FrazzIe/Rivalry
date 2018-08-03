@@ -16,17 +16,6 @@
 	local inRangeDistanceBetweenCoordsD = 0
 	local inRangeTimeD = 0
 	-- Local sold fish and prices
-	local soldSnook = 0
-	local soldPompano = 0
-	local soldSnapper = 0
-	local soldRedfish = 0
-	local soldBass = 0
-	local soldMackerel = 0
-	local soldHerring = 0
-	local soldSalmon = 0
-	local soldBarracuda = 0
-	local soldTuna = 0
-	local soldYellowtail = 0
 	local priceSnook = 50
 	local pricePompano = 50
 	local priceSnapper = 50
@@ -45,6 +34,7 @@
 	local AnimationSpeed = 0.0015
 	local ShowChatMSG = true -- or false
 	local IsFishing = false
+	local FishingRodInHand = false
 	local CFish = false
 	local BarAnimation = 0
 	local Faketimer = 0
@@ -53,50 +43,6 @@
 	local PosY = 0.1
 	local TimerAnimation = 0.1
 	local whichgarage = 0
-	local tableOfFish2 = {
-		["Snook"] = {price = priceSnook},
-		["Pompano"] = {price = pricePompano},
-		["Snapper"] = {price = priceSnapper},
-		["Redfish"] = {price = priceRedfish},
-		["Bass"] = {price = priceBass},
-		["Mackerel"] = {price = priceMackerel},
-		["Herring"] = {price = priceHerring},
-		["Salmon"] = {price = priceSalmon},
-		["Barracuda"] = {price = priceBarracuda},
-		["Tuna"] = {price = priceTuna},
-		["Yellowtail"] = {price = priceYellowtail},
-	}
-
-	RegisterNetEvent("fish:sync")
-		AddEventHandler("fish:sync", function(newtable)
-			tableOfFish = {
-			soldSnook = newtable.snooksold,
-			soldPompano = newtable.pompanosold,
-			soldSnapper = newtable.snappersold,
-			soldRedfish = newtable.redfishsold,
-			soldBass = newtable.basssold,
-			soldMackerel = newtable.mackerelsold,
-			soldHerring = newtable.herringsold,
-			soldSalmon = newtable.salmonsold,
-			soldBarracuda = newtable.barracudasold,
-			soldTuna = newtable.tunasold,
-			soldYellowtail = newtable.yellowtailsold,
-			}
-	end)
-
-	local tableOfFish = {
-		{name = "Snook", sold = soldSnook, price = tableOfFish2["Snook"].price},
-		{name = "Pompano", sold = soldPompano, price = tableOfFish2["Pompano"].price},
-		{name = "Snapper", sold = soldSnapper, price = tableOfFish2["Snapper"].price},
-		{name = "Redfish", sold = soldRedfish, price = tableOfFish2["Redfish"].price},
-		{name = "Bass", sold = soldBass, price = tableOfFish2["Bass"].price},
-		{name = "Mackerel", sold = soldMackerel, price = tableOfFish2["Mackerel"].price},
-		{name = "Herring", sold = soldHerring, price = tableOfFish2["Herring"].price},
-		{name = "Salmon", sold = soldSalmon, price = tableOfFish2["Salmon"].price},
-		{name = "Baracuda", sold = soldBarracuda, price = tableOfFish2["Barracuda"].price},
-		{name = "Tuna", sold = soldTuna, price = tableOfFish2["Tuna"].price},
-		{name = "Yellowtail", sold = soldYellowtail, price = tableOfFish2["Yellowtail"].price},
-	}
 
 	fishing_menu = false
 	function Fisher_callSE(evt)
@@ -262,7 +208,10 @@
 						IsFishing = true
 						RunCodeOnly1Time = true
 						BarAnimation = 0
-						FishRod = AttachEntityToPed('prop_fishing_rod_01',60309, 0,0,0, 0,0,0)
+						if FishingRodInHand == false then
+							FishRod = AttachEntityToPed('prop_fishing_rod_01',60309, 0,0,0, 0,0,0)
+						end
+						FishingRodInHand = true
 					end
 					while IsFishing do
 						local time = 4*3000
@@ -306,11 +255,10 @@
 								DeleteEntity(FishRod)
 								DeleteObject(FishRod)
 							end
-							DetachEntity(FishRod, true, true)
-							DeleteEntity(FishRod)
-							DeleteObject(FishRod)
 						end
 					end
+				else
+					FishingRodInHand = false
 				end
 
 				if isInServiceFisher and GetDistanceBetweenCoords(GetEntityCoords(PlayerPedId()), inRangeXD, inRangeYD, inRangeZD, true) <= inRangeDistanceBetweenCoordsD then
@@ -321,7 +269,10 @@
 						IsFishing = true
 						RunCodeOnly1Time = true
 						BarAnimation = 0
-						FishRod = AttachEntityToPed('prop_fishing_rod_01',60309, 0,0,0, 0,0,0)
+						if FishingRodInHand == false then
+							FishRod = AttachEntityToPed('prop_fishing_rod_01',60309, 0,0,0, 0,0,0)
+						end
+						FishingRodInHand = true
 					end
 					while IsFishing do
 						local time = 4*3000
@@ -353,7 +304,6 @@
 								Citizen.Wait(200)
 								DetachEntity(FishRod, true, true)
 								DeleteEntity(FishRod)
-								DeleteObject(FishRod)
 								TriggerServerEvent('Fisher:serverRequest', "GetPoissonDeep")								
 							else
 								CFish = false
@@ -363,13 +313,11 @@
 								TriggerEvent('chatMessage', "The fish slipped away! You need to be more focused!")
 								DetachEntity(FishRod, true, true)
 								DeleteEntity(FishRod)
-								DeleteObject(FishRod)
 							end
-							DetachEntity(FishRod, true, true)
-							DeleteEntity(FishRod)
-							DeleteObject(FishRod)
 						end
 					end
+				else
+					FishingRodInHand = false
 				end
 			end
 		end)
@@ -666,32 +614,6 @@ end
 								if WarMenu.Button("Sell "..currentItemIndex.." "..j.Name.."(s)", "$"..j.price*currentItemIndex) then
 									TriggerEvent('inventory:removeQty', j.Id, currentItemIndex)
 									TriggerServerEvent('mission:completed', j.price*currentItemIndex)
-									for a, b in pairs(tableOfFish)do
-											local maxShallow = math.max(b.sold, b.sold, b.sold, b.sold , b.sold)
-											local maxDeep = math.max(b.sold, b.sold, b.sold, b.sold , b.sold, b.sold)
-											local minShallow = math.min(b.sold, b.sold, b.sold, b.sold , b.sold)
-											local minDeep = math.min(b.sold, b.sold, b.sold, b.sold , b.sold, b.sold)
-										if(b.name  == j.name) then
-											if(b.sold == maxShallow) then
-												local newprice = tableOfFish2[v.name].price * .75
-												tableOfFish2[b.name].price = newprice
-											end
-											if(b.sold == maxDeep) then
-												local newprice = tableOfFish2[v.name].price * .75
-												tableOfFish2[b.name].price = newprice
-											end
-											if(b.sold == minShallow) then
-												local newprice = tableOfFish2[v.name].price / .5
-												tableOfFish2[b.name].price = newprice
-											end
-											if(b.sold == minDeep)then
-												local newprice = tableOfFish2[v.name].price / .5
-												tableOfFish2[b.name].price = newprice
-											end
-											b.sold = b.sold + 1
-										end
-										b.sold = b.sold + 1
-									end
 								end
 								if WarMenu.ComboBox("Quantity", j.Quantity, currentItemIndex, selectedItemIndex, function(currentIndex, selectedIndex)
 									currentItemIndex = currentIndex

@@ -85,8 +85,8 @@ Garages = {
 		x=3865.51171875,
 		y=4464.83056640625,
 		z=1.76628189086914,
-		distanceBetweenCoords=15,
-		distanceMarker=15,
+		distanceBetweenCoords=3.5,
+		distanceMarker=3.5,
 		defaultTime=10,
 		name="Boat Yard"
 	},
@@ -95,8 +95,8 @@ Garages = {
 		x = -284.56878662109,
 		y = 6627.732421875,
 		z = 7.2201852798462,
-		distanceBetweenCoords=15,
-		distanceMarker=15,
+		distanceBetweenCoords=3.5,
+		distanceMarker=3.5,
 		defaultTime=10,
 		name="Boat Yard"
 	},
@@ -105,8 +105,8 @@ Garages = {
 		x = -3428.3881835938,
 		y = 976.40924072266,
 		z = 8.3466844558716,
-		distanceBetweenCoords=15,
-		distanceMarker=15,
+		distanceBetweenCoords=3.5,
+		distanceMarker=3.5,
 		defaultTime=10,
 		name="Boat Yard"
 	},	
