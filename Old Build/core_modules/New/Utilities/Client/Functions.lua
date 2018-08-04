@@ -401,6 +401,10 @@ function DestroyObject(Handle)
 			Citizen.Wait(0)
 		end
 
+		if IsEntityAttachedToAnyObject(Handle) or IsEntityAttachedToAnyPed(Handle) or IsEntityAttachedToAnyVehicle(Handle) then
+			 DetachEntity(Handle, 0, false)
+		end
+		
 		DeleteObject(Handle)
 		SetEntityAsNoLongerNeeded(Handle)
 

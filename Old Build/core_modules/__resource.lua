@@ -135,7 +135,7 @@ client_script 'others/deer_riding/client.lua'
 --client_script 'others/chopshop/client.lua'
 --server_script 'others/chopshop/server.lua'
 
---client_script 'others/attached_weapons/client.lua'
+client_script 'others/attached_weapons/client.lua'
 
 client_script 'others/zones/client.lua'
 server_script 'others/zones/server.lua'
