@@ -20,9 +20,11 @@ Citizen.CreateThread(function()
 		Citizen.Wait(0)
 		if Player.Cuffs.Active then
 			if IsPedRunningRagdollTask(Player.Ped) then
+
 				while IsPedRunningRagdollTask(Player.Ped) do
 					Citizen.Wait(0)
 				end
+
 				ClearPedTasksImmediately(Player.Ped)
 			end
 			if Player.Cuffs.Type then
@@ -45,7 +47,9 @@ Citizen.CreateThread(function()
 			DisableControlAction(1, 141, true)
 			DisableControlAction(1, 142, true)
 			DisableControlAction(1, 25, true)
+
 			SetPedPathCanUseLadders(Player.Ped, false)
+
 			if IsPedInAnyVehicle(Player.Ped, false) then
 				DisableControlAction(0, 59, true)
 			end
@@ -58,12 +62,15 @@ Citizen.CreateThread(function()
 						local TargetServerId = GetPlayerServerId(Index)
 						local TargetPosition = GetEntityCoords(TargetPed, false)
 						local Distance = GetDistanceBetweenCoords(Player.Coordinates.x, Player.Coordinates.y, Player.Coordinates.z, TargetPosition.x, TargetPosition.y, TargetPosition.z, true)
+
 						if Distance < 1.1 then
 							local TargetCuffed, TargetCuffType, TargetDead = GetDecorator(TargetPed, "_Player_Cuffed"), GetDecorator(TargetPed, "_Player_Cuffed_Type"), GetDecorator(TargetPed, "_Player_Down")
 							if IsPolice and IsOnDuty then
 								if IsPlayerFreeAiming(Player.Id) then
 									if not TargetCuffed then
+
 										DisplayHelpText("Press ~INPUT_CONTEXT~ to cuff "..exports.core:GetCharacterName(TargetServerId)) --GetCharacterName might change
+
 										if IsControlJustPressed(1, 51) then
 											TriggerServerEvent("Police.Cuff", TargetServerId)
 											Citizen.Wait(200)
@@ -71,10 +78,14 @@ Citizen.CreateThread(function()
 										end
 									else
 										DisplayHelpText(TargetCuffType and "Press ~INPUT_CONTEXT~ to uncuff "..exports.core:GetCharacterName(TargetServerId).."\nPress ~INPUT_INTERACTION_MENU~ to loosen" or "Press ~INPUT_CONTEXT~ to uncuff "..exports.core:GetCharacterName(TargetServerId).."\nPress ~INPUT_INTERACTION_MENU~ to tighten")
+										
 										if IsControlJustPressed(1, 51) then
 											TaskPlayAnim(Player.Ped, Animations.Handcuffs.Dictionary, Animations.Handcuffs.Uncuff, 8.0, -8.0, -1, 16, 0, 0, 0, 0)
+											
 											TriggerServerEvent("Police.Uncuff", TargetServerId, true)
+											
 											Citizen.Wait(5000)
+											
 											TriggerServerEvent("Police.Uncuff", TargetServerId)
 										end
 										if IsControlJustPressed(1, 244) then 
@@ -84,11 +95,16 @@ Citizen.CreateThread(function()
 								end
 							else
 								if GetSelectedPedWeapon(Player.Ped) == GetHashKey("WEAPON_KNIFE") and TargetCuffed and not TargetCuffType and not TargetDead then
+									
 									DisplayHelpText("Press ~INPUT_CONTEXT~ to uncuff "..exports.core:GetCharacterName(TargetServerId))
+									
 									if IsControlJustPressed(1, 51) then
 										TaskPlayAnim(Player.Ped, Animations.Handcuffs.Dictionary, Animations.Handcuffs.Uncuff, 8.0, -8.0, -1, 16, 0, 0, 0, 0)
+										
 										TriggerServerEvent("Police.Uncuff", TargetServerId, true)
+										
 										Citizen.Wait(5000)
+										
 										if not Player.Cuffs.Active and not Player.Dead then
 											TriggerServerEvent("Police.Uncuff", TargetServerId)
 										else

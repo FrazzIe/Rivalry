@@ -1,36 +1,83 @@
 local Drunk = {
-	Very = "MOVE_M@DRUNK@VERYDRUNK",
-	Moderate = "MOVE_M@DRUNK@MODERATEDRUNK",
 	Slightly = "MOVE_M@DRUNK@SLIGHTLYDRUNK",
+	Moderate = "MOVE_M@DRUNK@MODERATEDRUNK",
+	Very = "MOVE_M@DRUNK@VERYDRUNK",
 	Shake = "DRUNK_SHAKE",
+	Walkstyle = "",
 }
 
 local SetDrunkState = {
-	[1] = function() 				
-		ResetPedMovementClipset(Player.Ped, 0)
+	[1] = function()
+		Player.Walkstyle = Drunk.Walkstyle
+
+		if not Player.Stance.Crouched then
+			if Player.Walkstyle ~= "" then
+				SetPedMovementClipset(Player.Ped, Player.Walkstyle, 1.0)
+			else
+				ResetPedMovementClipset(Player.Ped, 1.0)
+			end
+		end
+
 		SetPedIsDrunk(Player.Ped, false)
 		SetPedMotionBlur(Player.Ped, false)
 		ShakeGameplayCam(Drunk.Shake, 0.0)
 	end,
 	[2] = function()
-		SetPedMovementClipset(Player.Ped, Drunk.Slightly, true)
+		if Player.Walkstyle ~= Drunk.Slightly and Player.Walkstyle ~= Drunk.Moderate and Player.Walkstyle ~= Drunk.Very then
+			Drunk.Walkstyle = Player.Walkstyle
+		end
+
+		Player.Walkstyle = Drunk.Slightly
+
+		if not Player.Stance.Crouched then
+			SetPedMovementClipset(Player.Ped, Player.Walkstyle, 1.0)
+		end
+
 		SetPedIsDrunk(Player.Ped, true)
 		SetPedMotionBlur(Player.Ped, true)
 		ShakeGameplayCam(Drunk.Shake, 0.25)
 	end,
 	[3] = function()
-		SetPedMovementClipset(Player.Ped, Drunk.Moderate, true)
+		if Player.Walkstyle ~= Drunk.Slightly and Player.Walkstyle ~= Drunk.Moderate and Player.Walkstyle ~= Drunk.Very then
+			Drunk.Walkstyle = Player.Walkstyle
+		end
+
+		Player.Walkstyle = Drunk.Moderate
+
+		if not Player.Stance.Crouched then
+			SetPedMovementClipset(Player.Ped, Player.Walkstyle, 1.0)
+		end
+
 		SetPedIsDrunk(Player.Ped, true)
 		SetPedMotionBlur(Player.Ped, true) 
 		ShakeGameplayCam(Drunk.Shake, 1.0)
 	end,
 	[4] = function()
-		SetPedMovementClipset(Player.Ped, Drunk.Very, true)
+		if Player.Walkstyle ~= Drunk.Slightly and Player.Walkstyle ~= Drunk.Moderate and Player.Walkstyle ~= Drunk.Very then
+			Drunk.Walkstyle = Player.Walkstyle
+		end
+
+		Player.Walkstyle = Drunk.Very
+
+		if not Player.Stance.Crouched then
+			SetPedMovementClipset(Player.Ped, Player.Walkstyle, 1.0)
+		end
+
 		SetPedIsDrunk(Player.Ped, true)
 		SetPedMotionBlur(Player.Ped, true) 
 		ShakeGameplayCam(Drunk.Shake, 2.0)
 	end,
 	[5] = function()
+		Player.Walkstyle = Drunk.Walkstyle
+
+		if not Player.Stance.Crouched then
+			if Player.Walkstyle ~= "" then
+				SetPedMovementClipset(Player.Ped, Player.Walkstyle, 1.0)
+			else
+				ResetPedMovementClipset(Player.Ped, 1.0)
+			end
+		end
+
 		SetEntityHealth(Player.Ped, 0.0)
 		Player.BAC = 0
 		SetDecorator(Player.Ped, "_Player_BAC", Player.BAC)
@@ -71,6 +118,7 @@ function IncreaseBloodAlcoholContent(Amount)
 	else
 		Player.BAC = Player.BAC + Amount + GetRandomFloatInRange(0.03, 0.045)
 	end
+
 	SetDecorator(Player.Ped, "_Player_BAC", Player.BAC)
 end
 
@@ -78,7 +126,9 @@ function ReduceBloodAlcoholContent(Amount)
 	if Amount then
 		Player.BAC = Player.BAC - Amount
 	end
+	
 	if Player.BAC < 0 then Player.BAC = 0 end
+
 	SetDecorator(Player.Ped, "_Player_BAC", Player.BAC)
 end
 

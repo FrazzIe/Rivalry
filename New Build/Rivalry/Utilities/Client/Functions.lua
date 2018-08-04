@@ -8,7 +8,7 @@ local entityEnumerator = {
 	end
 }
 
-function EnumerateEntities(initFunc, moveFunc, disposeFunc)
+function Utilities.EnumerateEntities(initFunc, moveFunc, disposeFunc)
 	return coroutine.wrap(function()
 		local iter, id = initFunc()
 		if not id or id == 0 then
@@ -30,23 +30,23 @@ function EnumerateEntities(initFunc, moveFunc, disposeFunc)
 	end)
 end
 
-function EnumerateObjects()
-    return EnumerateEntities(FindFirstObject, FindNextObject, EndFindObject)
+function Utilities.EnumerateObjects()
+    return Utilities.EnumerateEntities(FindFirstObject, FindNextObject, EndFindObject)
 end
 
-function EnumeratePeds()
-    return EnumerateEntities(FindFirstPed, FindNextPed, EndFindPed)
+function Utilities.EnumeratePeds()
+    return Utilities.EnumerateEntities(FindFirstPed, FindNextPed, EndFindPed)
 end
 
-function EnumerateVehicles()
+function Utilities.EnumerateVehicles()
     return EnumerateEntities(FindFirstVehicle, FindNextVehicle, EndFindVehicle)
 end
 
-function EnumeratePickups()
-    return EnumerateEntities(FindFirstPickup, FindNextPickup, EndFindPickup)
+function Utilities.EnumeratePickups()
+    return Utilities.EnumerateEntities(FindFirstPickup, FindNextPickup, EndFindPickup)
 end
 
-function GetPlayers()
+function Utilities.GetPlayers()
 	local Players = {}
 	for Index = 0, 31 do
 		if NetworkIsPlayerActive(Index) then
@@ -56,12 +56,12 @@ function GetPlayers()
 	return Players
 end
 
-function GetNearestVehicleAtCoords(X, Y, Z, Radius, Alive, ExcludePlayer)
+function Utilities.GetNearestVehicleAtCoords(X, Y, Z, Radius, Alive, ExcludePlayer)
 	local NearestVehicles = {}
 	local NearestVehicle = {Handle = nil, Position = nil}
 	if tonumber(X) and tonumber(Y) and tonumber(Z) then
 		if tonumber(Radius) then
-			for Vehicle in EnumerateVehicles() do
+			for Vehicle in Utilities.EnumerateVehicles() do
 				if DoesEntityExist(Vehicle) and not (Alive and false or IsEntityDead(Vehicle)) and not (ExcludePlayer and false or (Vehicle == Player.Vehicle.Current)) then
 					local VehiclePosition = GetEntityCoords(Vehicle, false)
 					if Vdist(X, Y, Z, VehiclePosition.x, VehiclePosition.y, VehiclePosition.z) <= Radius then
@@ -87,12 +87,12 @@ function GetNearestVehicleAtCoords(X, Y, Z, Radius, Alive, ExcludePlayer)
 	return NearestVehicle.Handle, NearestVehicle.Position
 end
 
-function GetNearestPedAtCoords(X, Y, Z, Radius, Alive, ExcludePlayer)
+function Utilities.GetNearestPedAtCoords(X, Y, Z, Radius, Alive, ExcludePlayer)
 	local NearestPeds = {}
 	local NearestPed = {Handle = nil, Position = nil}
 	if tonumber(X) and tonumber(Y) and tonumber(Z) then
 		if tonumber(Radius) then
-			for Ped in EnumeratePeds() do
+			for Ped in Utilities.EnumeratePeds() do
 				if DoesEntityExist(Ped) and not (Alive and false or IsEntityDead(Ped)) and not (ExcludePlayer and false or (Ped == Player.Ped)) then
 					local PedPosition = GetEntityCoords(Ped, false)
 					if Vdist(X, Y, Z, PedPosition.x, PedPosition.y, PedPosition.z) <= Radius then
@@ -118,12 +118,12 @@ function GetNearestPedAtCoords(X, Y, Z, Radius, Alive, ExcludePlayer)
 	return NearestPed.Handle, NearestPed.Position
 end
 
-function GetNearestPlayerVehicleAtCoords(X, Y, Z, Radius, Alive, ExcludePlayer)
+function Utilities.GetNearestPlayerVehicleAtCoords(X, Y, Z, Radius, Alive, ExcludePlayer)
 	local NearestVehicles = {}
 	local NearestVehicle = {Player = nil, Ped = nil, Vehicle = nil, Position = nil}
 	if tonumber(X) and tonumber(Y) and tonumber(Z) then
 		if tonumber(Radius) then
-			local Players = GetPlayers()
+			local Players = Utilities.GetPlayers()
 			for Index = 1, #Players do
 				local TargetPed = GetPlayerPed(Players[Index])
 				if DoesEntityExist(TargetPed) then
@@ -154,12 +154,12 @@ function GetNearestPlayerVehicleAtCoords(X, Y, Z, Radius, Alive, ExcludePlayer)
 	return NearestVehicle.Player, NearestVehicle.Ped, NearestVehicle.Vehicle, NearestVehicle.Position
 end
 
-function GetNearestPlayerAtCoords(X, Y, Z, Radius, Alive, ExcludePlayer)
+function Utilities.GetNearestPlayerAtCoords(X, Y, Z, Radius, Alive, ExcludePlayer)
 	local NearestPlayers = {}
 	local NearestPlayer = {Player = nil, Ped = nil, Position = nil}
 	if tonumber(X) and tonumber(Y) and tonumber(Z) then
 		if tonumber(Radius) then
-			local Players = GetPlayers()
+			local Players = Utilities.GetPlayers()
 			for Index = 1, #Players do
 				local TargetPed = GetPlayerPed(Players[Index])
 				if DoesEntityExist(TargetPed) and not (Alive and false or IsEntityDead(TargetPed)) and not (ExcludePlayer and false or (TargetPed == Player.Ped)) then
@@ -187,11 +187,11 @@ function GetNearestPlayerAtCoords(X, Y, Z, Radius, Alive, ExcludePlayer)
 	return NearestPlayer.Player, NearestPlayer.Ped, NearestPlayer.Position
 end
 
-function GetNearbyObjects(X, Y, Z, Radius)
+function Utilities.GetNearbyObjects(X, Y, Z, Radius)
 	local NearbyObjects = {}
 	if tonumber(X) and tonumber(Y) and tonumber(Z) then
 		if tonumber(Radius) then
-			for Object in EnumerateObjects() do
+			for Object in Utilities.EnumerateObjects() do
 				if DoesEntityExist(Object) then
 					local ObjectPosition = GetEntityCoords(Object, false)
 					if Vdist(X, Y, Z, ObjectPosition.x, ObjectPosition.y, ObjectPosition.z) <= Radius then
@@ -208,11 +208,11 @@ function GetNearbyObjects(X, Y, Z, Radius)
 	return NearbyObjects
 end
 
-function GetNearbyPeds(X, Y, Z, Radius)
+function Utilities.GetNearbyPeds(X, Y, Z, Radius)
 	local NearbyPeds = {}
 	if tonumber(X) and tonumber(Y) and tonumber(Z) then
 		if tonumber(Radius) then
-			for Ped in EnumeratePeds() do
+			for Ped in Utilities.EnumeratePeds() do
 				if DoesEntityExist(Ped) then
 					local PedPosition = GetEntityCoords(Ped, false)
 					if Vdist(X, Y, Z, PedPosition.x, PedPosition.y, PedPosition.z) <= Radius then
@@ -229,11 +229,11 @@ function GetNearbyPeds(X, Y, Z, Radius)
 	return NearbyPeds
 end
 
-function GetNearbyVehicles(X, Y, Z, Radius)
+function Utilities.GetNearbyVehicles(X, Y, Z, Radius)
 	local NearbyVehicles = {}
 	if tonumber(X) and tonumber(Y) and tonumber(Z) then
 		if tonumber(Radius) then
-			for Vehicle in EnumerateVehicles() do
+			for Vehicle in Utilities.EnumerateVehicles() do
 				if DoesEntityExist(Vehicle) then
 					local VehiclePosition = GetEntityCoords(Vehicle, false)
 					if Vdist(X, Y, Z, VehiclePosition.x, VehiclePosition.y, VehiclePosition.z) <= Radius then
@@ -250,11 +250,11 @@ function GetNearbyVehicles(X, Y, Z, Radius)
 	return NearbyVehicles
 end
 
-function GetNearbyPickups(X, Y, Z, Radius)
+function Utilities.GetNearbyPickups(X, Y, Z, Radius)
 	local NearbyPickups = {}
 	if tonumber(X) and tonumber(Y) and tonumber(Z) then
 		if tonumber(Radius) then
-			for Pickup in EnumeratePickups() do
+			for Pickup in Utilities.EnumeratePickups() do
 				if DoesEntityExist(Pickup) then
 					local PickupPosition = GetEntityCoords(Vehicle, false)
 					if Vdist(X, Y, Z, PickupPosition.x, PickupPosition.y, PickupPosition.z) <= Radius then
@@ -271,7 +271,7 @@ function GetNearbyPickups(X, Y, Z, Radius)
 	return NearbyPickups
 end
 
-function KeyboardInput(TextEntry, ExampleText, MaxStringLength)
+function Utilities.KeyboardInput(TextEntry, ExampleText, MaxStringLength)
 	-- TextEntry		-->	The Text above the typing field in the black square
 	-- ExampleText		-->	An Example Text, what it should say in the typing field
 	-- MaxStringLength	-->	Maximum String Lenght
@@ -296,7 +296,7 @@ function KeyboardInput(TextEntry, ExampleText, MaxStringLength)
 	end
 end
 
-function GetVehicleName(Model)
+function Utilities.GetVehicleName(Model)
     local VehicleNameLabel = GetDisplayNameFromVehicleModel(Model)
     
     if DoesTextLabelExist(VehicleNameLabel) then
@@ -305,7 +305,7 @@ function GetVehicleName(Model)
     return GetLabelText("collision_1s44o03")
 end
 
-function CreatePlate(Vehicle)
+function Utilities.CreatePlate(Vehicle)
 	local Model = GetEntityModel(Vehicle)
 	local Name = GetVehicleName(Model)
 	local Plate = string.gsub(GetVehicleNumberPlateText(Vehicle), "%s*", "")
@@ -313,7 +313,7 @@ function CreatePlate(Vehicle)
     return string.upper(Name.."_"..Plate.."_"..Class)
 end
 
-function GetVehicleSeatPedIsIn(Vehicle, Ped)
+function Utilities.GetVehicleSeatPedIsIn(Vehicle, Ped)
     for Index = -1, GetVehicleMaxNumberOfPassengers(Vehicle) do
         if GetPedInVehicleSeat(Vehicle, Index) == Ped then
             return Index
@@ -322,15 +322,15 @@ function GetVehicleSeatPedIsIn(Vehicle, Ped)
     return nil
 end
 
-function GetRandomIntegerPercentage()
+function Utilities.GetRandomIntegerPercentage()
 	return GetRandomIntInRange(0, 101)
 end
 
-function GetRandomFloatPercentage()
+function Utilities.GetRandomFloatPercentage()
 	return GetRandomFloatInRange(0, 101)
 end
 
-function TeleportPlayer(X, Y, Z, H)
+function Utilities.TeleportPlayer(X, Y, Z, H)
 	if tonumber(X) and tonumber(Y) and tonumber(Z) then
 	    Citizen.CreateThread(function()
 	        DoScreenFadeOut(1000)
@@ -350,7 +350,7 @@ function TeleportPlayer(X, Y, Z, H)
 	end
 end
 
-function RenderMarker(Type, X, Y, Z, SX, SY, SZ, R, G, B, A, BobUpAndDown)
+function Utilities.RenderMarker(Type, X, Y, Z, SX, SY, SZ, R, G, B, A, BobUpAndDown)
 	if tonumber(X) and tonumber(Y) and tonumber(Z) then
 		DrawMarker(Type, X, Y, Z - 0.9, 0, 0, 0, 0, 0, 0, SX or 0, SY or 0, SZ or 0, R or 255, G or 255, B or 255, A or 255, BobUpAndDown or false, 0, 2, 0, 0, 0, 0)
 	else
@@ -358,13 +358,13 @@ function RenderMarker(Type, X, Y, Z, SX, SY, SZ, R, G, B, A, BobUpAndDown)
 	end
 end
 
-function DisplayHelpText(Str)
+function Utilities.DisplayHelpText(Str)
 	BeginTextCommandDisplayHelp("STRING")
 	AddTextComponentString(Str or "")
 	EndTextCommandDisplayHelp(0, 0, 0, -1)
 end
 
-function DestroyVehicle(Handle)
+function Utilities.DestroyVehicle(Handle)
 	Citizen.CreateThread(function()
 		local Handle = Handle
 		local Start = GetGameTimer()
@@ -389,7 +389,7 @@ function DestroyVehicle(Handle)
 	end)
 end
 
-function DestroyObject(Handle)
+function Utilities.DestroyObject(Handle)
 	Citizen.CreateThread(function()
 		local Handle = Handle
 		local Start = GetGameTimer()
@@ -409,7 +409,7 @@ function DestroyObject(Handle)
 	end)
 end
 
-function DestroyPed(Handle)
+function Utilities.DestroyPed(Handle)
 	Citizen.CreateThread(function()
 		local Handle = Handle
 		local Start = GetGameTimer()
@@ -429,7 +429,7 @@ function DestroyPed(Handle)
 	end)
 end
 
-function GetCoordsInfrontOfEntityWithDistance(Entity, Distance, Heading)
+function Utilities.GetCoordsInfrontOfEntityWithDistance(Entity, Distance, Heading)
 	if DoesEntityExist(Entity) then
 		if tonumber(Distance) and tonumber(Heading) then
 			local Coordinates = GetEntityCoords(Entity, false)
@@ -443,7 +443,7 @@ function GetCoordsInfrontOfEntityWithDistance(Entity, Distance, Heading)
 	end
 end
 
-function GetGroundZ(X, Y, Z)
+function Utilities.GetGroundZ(X, Y, Z)
 	if tonumber(X) and tonumber(Y) and tonumber(Z) then
 		local _, GroundZ = GetGroundZFor_3dCoord(X + 0.0, Y + 0.0, Z + 0.0, Citizen.ReturnResultAnyway())
 		return GroundZ
@@ -453,15 +453,15 @@ function GetGroundZ(X, Y, Z)
 	end
 end
 
-function UsingController()
+function Utilities.UsingController()
 	return not IsInputDisabled(2)
 end
 
-function Atan(Value)
+function Utilities.Atan(Value)
 	return Value / ( 1+ (Value * Value / (3 + (4 * Value * Value) / (5 + (9 * Value * Value) / (7 + (16 * Value * Value) / (9 + (25 * Value * Value) / (11 + (36 * Value * Value) / (13 + (49 * Value * Value) / (15 + (64 * Value * Value) / (17 + (81 * Value * Value)))))))))))
 end
 
-function Atan2(Y, X)
+function Utilities.Atan2(Y, X)
 	local Product = 0
 
 	if tonumber(Y) == nil or tonumber(X) == nil then
@@ -478,7 +478,7 @@ function Atan2(Y, X)
 			Product = Product * 3
 		end
 	else
-		Product = Atan(Y/X)
+		Product = Utilities.Atan(Y/X)
 		if X < 0 then
 			Product = Product + math.pi
 		end
@@ -486,9 +486,9 @@ function Atan2(Y, X)
 	return Product
 end
 
-function GetHeadingFromCoordinates(X1, Y1, X2, Y2)
+function Utilities.GetHeadingFromCoordinates(X1, Y1, X2, Y2)
 	if tonumber(X1) and tonumber(Y1) and tonumber(X2) and tonumber(Y2) then
-		local Heading = (Atan2(Y2 - Y1, X2 - X1) * 360) / (2*math.pi)
+		local Heading = (Utilities.Atan2(Y2 - Y1, X2 - X1) * 360) / (2 * math.pi)
 		if Heading < 0 then
 			Heading = Heading + 360
 		end

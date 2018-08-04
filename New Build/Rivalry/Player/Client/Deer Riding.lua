@@ -63,10 +63,10 @@ function Deer.Attach()
 end
 
 function Deer.Detach(AttachedEntity)
-	local SideCoordinates = GetCoordsInfrontOfEntityWithDistance(AttachedEntity, 1.0, 90.0)
+	local SideCoordinates = Utilities.GetCoordsInfrontOfEntityWithDistance(AttachedEntity, 1.0, 90.0)
 	local SideHeading = GetEntityHeading(AttachedEntity)
 
-	SideCoordinates.z = GetGroundZ(SideCoordinates.x, SideCoordinates.y, SideCoordinates.z)
+	SideCoordinates.z = Utilities.GetGroundZ(SideCoordinates.x, SideCoordinates.y, SideCoordinates.z)
 
 	Deer.Handle = nil
 	DetachEntity(Player.Ped, true, false)

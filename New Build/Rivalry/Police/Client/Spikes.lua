@@ -19,18 +19,24 @@ Citizen.CreateThread(function()
 			for Index = 0, 32 do
 				if NetworkIsPlayerActive(Index) then
 					local TargetPed = GetPlayerPed(Index)
+					
 					if DoesEntityExist(TargetPed) then
 						local Vehicle = GetVehiclePedIsUsing(TargetPed)
+						
 						if DoesEntityExist(Vehicle) then
 							local VehiclePosition = GetEntityCoords(Vehicle, false)
 							local Spikestrip = GetClosestObjectOfType(VehiclePosition.x, VehiclePosition.y, VehiclePosition.z, 30.0, GetHashKey(Spikes.Model), false, 1, 1)
+							
 							if DoesEntityExist(Spikestrip) then
 								local SpikestripPosition = GetEntityCoords(Spikestrip, false)
 								local Distance = Vdist(VehiclePosition.x, VehiclePosition.y, VehiclePosition.z, SpikestripPosition.x, SpikestripPosition.y, SpikestripPosition.z)
+								
 								if Distance < 15 then
 									for Wheel = 1, #Spikes.Tyres do
 										local TyrePosition = GetWorldPositionOfEntityBone(Vehicle, GetEntityBoneIndexByName(Vehicle, Spikes.Tyres[Wheel].Bone))
+										
 										Distance = Vdist(TyrePosition.x, TyrePosition.y, TyrePosition.z, SpikestripPosition.x, SpikestripPosition.y, SpikestripPosition.z)
+										
 										if Distance < 1.8 then
 											if not IsVehicleTyreBurst(Vehicle, Spikes.Tyres[Wheel].Index, true) or IsVehicleTyreBurst(Vehicle, Spikes.Tyres[Wheel].Index, false) then
 												SetVehicleTyreBurst(Vehicle, Spikes.Tyres[Wheel].Index, false, 1000.0)
@@ -59,6 +65,7 @@ AddEventHandler("Spikes.Create", function(Amount)
 		local Model = GetHashKey(Spikes.Model)
 
 		RequestModel(Model)
+		
 		while not HasModelLoaded(Model) do
 			Citizen.Wait(250)
 		end
@@ -67,9 +74,11 @@ AddEventHandler("Spikes.Create", function(Amount)
 			local SpikePlacement = GetOffsetFromEntityInWorldCoords(Player.Ped, 0.0, 4.0 * Index + 0.5, 0.0)
 			local Spike = CreateObject(Model, SpikePlacement.x, SpikePlacement.y, SpikePlacement.z, true, false, false)
 			local SpikeHeight = GetEntityHeightAboveGround(Spike)
+			
 			SetEntityCoords(Spike, SpikePlacement.x, SpikePlacement.y, SpikePlacement.z - SpikeHeight + 0.05, 0.0, 0.0, 0.0, 0.0)
 			SetEntityHeading(Spike, Player.Heading)
 			SetEntityCollision(Spike, false, false)
+			
 			table.insert(Spikes.Handles, Spike)
 		end
 
@@ -80,6 +89,7 @@ AddEventHandler("Spikes.Create", function(Amount)
 		for Index = 1, #Spikes.Handles do
 			DestroyObject(Spikes.Handles[Index])
 		end
+		
 		Spikes.Handles = {}
 		Spikes.Spawned = false
 	end

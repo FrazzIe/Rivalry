@@ -8,6 +8,7 @@ Citizen.CreateThread(function()
 		if Player.Ready then
 			local _, SelectedWeapon = GetCurrentPedWeapon(Player.Ped, 1)
 			local WeaponString = Config.Weapons.ToString[SelectedWeapon]
+			
 			if Config.Weapons.ToString[SelectedWeapon] then
 				if IsPedShooting(Player.Ped) then
 					if GetAmmoInPedWeapon(Player.Ped, SelectedWeapon) > 0 then
@@ -28,7 +29,8 @@ Citizen.CreateThread(function()
 end)
 
 AddEventHandler("Residue.Check", function()
-	local NearestPlayer, NearestPed, NearestPosition = GetNearestPlayerAtCoords(Player.Coordinates.x, Player.Coordinates.y, Player.Coordinates.z, 3, false, true)
+	local NearestPlayer, NearestPed, NearestPosition = Utilities.GetNearestPlayerAtCoords(Player.Coordinates.x, Player.Coordinates.y, Player.Coordinates.z, 3, false, true)
+	
 	if DoesEntityExist(NearestPed) then
 		Notify(GetDecorator(NearestPed, "_Player_Residue") and "Subject tested <b style='color:red'>Positive</b><br>You found residue on the individual!" or "Subject tested <b style='color:lime'>Negative</b><br>There wasn't any residue on the individual!", 3000)
 	else

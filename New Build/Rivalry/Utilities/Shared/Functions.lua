@@ -1,8 +1,10 @@
-function math.round(num, numDecimalPlaces)
+Utilities = {}
+
+function Utilities.RoundNumber(num, numDecimalPlaces)
 	return tonumber(string.format("%." .. (numDecimalPlaces or 0) .. "f", num))
 end
 
-function string.split(inputstr, sep)
+function Utilities.SplitString(inputstr, sep)
 	if sep == nil then
 		sep = "%s"
 	end
@@ -15,17 +17,17 @@ function string.split(inputstr, sep)
 	return t
 end
 
-function string.starts(String, Start)
+function Utilities.DoesStringStartWith(String, Start)
 	return string.sub(String, 1, string.len(Start)) == Start
 end
 
-function table.length(T)
+function Utilities.GetTableLength(T)
     local count = 0
     for _ in pairs(T) do count = count + 1 end
     return count
 end
 
-function tobool(input)
+function Utilities.ToBool(input)
 	if input == "true" or tonumber(input) == 1 or input == true or input == "on" then
 		return true
 	else
@@ -33,7 +35,7 @@ function tobool(input)
 	end
 end
 
-function strpad(input, pad_length, pad_string, pad_type)
+function Utilities.PadString(input, pad_length, pad_string, pad_type)
     local output = input
 
     if not pad_string then pad_string = ' ' end
@@ -55,11 +57,11 @@ function strpad(input, pad_length, pad_string, pad_type)
 end
 
 if IsDuplicityVersion() then
-	function Notify(Message, Time, Source)
+	function Utilities.Notify(Message, Time, Source)
     	TriggerClientEvent("pNotify:SendNotification", Source, {text = Message, type = "error", queue = "left", timeout = Time, layout = "centerRight"})
 	end
 else
-	function Notify(Message, Time)
+	function Utilities.Notify(Message, Time)
 	    exports.pNotify:SendNotification({text = Message or "", type = "error", timeout = Time or 3000, layout = "centerRight", queue = "left"})
 	end
 end

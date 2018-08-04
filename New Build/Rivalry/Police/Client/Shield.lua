@@ -44,6 +44,7 @@ AddAnimDictionary(Shield.Animation.Dictionary)
 function Shield.Create()
 	local Model = GetHashKey(Shield.Models.Riot)
 	RequestModel(Model)
+	
 	while not HasModelLoaded(Model) do
 		Citizen.Wait(250)
 	end
@@ -61,10 +62,13 @@ function Shield.Destroy()
 	if IsEntityPlayingAnim(Player.Ped, Shield.Animation.Dictionary, Shield.Animation.Aim, 3) and (Shield.State.Current == "Inactive" or Shield.State.Current == "Reloading" or Shield.State.Current == "Melee") then
 		StopAnimTask(Player.Ped, Shield.Animation.Dictionary, Shield.Animation.Aim, 1.0)
 	end
+	
 	DetachEntity(Shield.Handle, true, false)
 	DestroyObject(Shield.Handle)
+	
 	Shield.Handle = nil
 	Shield.State.Current = ""
+
 	StopAnimTask(Player.Ped, Shield.Animation.Dictionary, Shield.Animation.Aim, 1.0)
 	SetPedCanArmIk(Player.Ped, true)
 end
@@ -76,6 +80,7 @@ end
 
 function Shield.Attach()
 	local Position, Bone = Shield.Position[Shield.State.Current], GetPedBoneIndex(Player.Ped, Shield.Bone[Shield.State.Current])
+	
 	AttachEntityToEntity(Shield.Handle, Player.Ped, Bone, Position[1].x, Position[1].y, Position[1].z, Position[2].x, Position[2].y, Position[2].z, false, false, false, false, 2, true)
 	SetEntityAlpha(Shield.Handle, 255)
 end
@@ -85,6 +90,7 @@ function Shield.Update()
 		Shield.State.Previous = Shield.State.Current
 		Shield.Detach()
 		Shield.Attach()
+		
 		if IsEntityPlayingAnim(Player.Ped, Shield.Animation.Dictionary, Shield.Animation.Aim, 3) and (Shield.State.Current == "Inactive" or Shield.State.Current == "Reloading" or Shield.State.Current == "Melee") then
 			StopAnimTask(Player.Ped, Shield.Animation.Dictionary, Shield.Animation.Aim, 1.0)
 		end
@@ -119,6 +125,7 @@ Citizen.CreateThread(function()
 					DisableControlAction(0, 25, true)
 					DisableControlAction(1, 25, true)
 					DisableControlAction(2, 25, true)
+					
 					if not IsPedReloading(Player.Ped) then
 						if Shield.State.Current ~= "Armed" then
 							Shield.State.Current = "Armed"
@@ -137,6 +144,7 @@ Citizen.CreateThread(function()
 						Shield.State.Current = "Inactive"
 					end		
 				end
+				
 				Shield.Update()
 				Shield.Animations()
 			end

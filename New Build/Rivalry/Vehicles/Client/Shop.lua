@@ -15,10 +15,12 @@ end
 
 local function CreateVehicleItem(SubMenu, Name, Price)
 	local Item = NativeUI.CreateItem(Name,  "The "..Name.." can be purchased for $"..Price)
-	SubMenu:AddItem(Item)
 	local Menu = UIMenu.New("", Name, SubMenu.Position.X, SubMenu.Position.Y)
+
+	SubMenu:AddItem(Item)
 	Pool:Add(Menu)
 	SubMenu:BindMenuToItem(Menu, Item)
+
 	return Item, Menu
 end
 
@@ -75,7 +77,10 @@ function GetStockVehicle()
 end
 
 function PackVehicle(Vehicle)
-	if not DoesEntityExist(Vehicle) then return GetStockVehicle() end
+	if not DoesEntityExist(Vehicle) then 
+		return GetStockVehicle() 
+	end
+
 	local Primary, Secondary = GetVehicleColours(Vehicle)
 	local Pearlescent, Wheel = GetVehicleExtraColours(Vehicle)
 	local SmokeColour, NeonColour = table.pack(GetVehicleTyreSmokeColor(Vehicle)), table.pack(GetVehicleNeonLightsColour(Vehicle))
@@ -90,6 +95,7 @@ function PackVehicle(Vehicle)
 			Mods[tostring(i)] = GetVehicleMod(Vehicle, i)
 		end
 	end
+
 	local PackedVehicle = {
 		Mods = Mods,
 		Wheels = {
@@ -137,6 +143,7 @@ function OpenShop(Type, Location)
 	SetEntityHeading(Player.Ped, Location.Inside.h)
 	SetFollowVehicleCamZoomLevel(2)
 	SetFollowPedCamViewMode(2)
+
 	ShopMenu:Clear()
 	ShopMenu:SetBannerSprite(NativeUI.CreateSprite(Config.Dealership.Sprites[Type].Dictionary, Config.Dealership.Sprites[Type].Texture))
 	ShopMenu.OnMenuClosed = function(Menu)
@@ -145,19 +152,23 @@ function OpenShop(Type, Location)
 		FreezeEntityPosition(Player.Ped, false)
 		SetEntityCoords(Player.Ped, Location.Marker.x, Location.Marker.y, Location.Marker.z)
 		SetEntityHeading(Player.Ped, Location.Marker.h)
+
 		if Preview.Handle then
 			if Preview.Handle ~= 0 then
 				DeleteVehicle(Preview.Handle)
 				Preview = {}
 			end
 		end
+
 		for i = 1, #PreviewHandles do
 			SetEntityCoords(PreviewHandles[i], 601.28948974609, -4396.9853515625, 384.98565673828)
 		end
+
 		PreviewHandles = {}
 	end
 	for Index = 1, #Config.Dealership.Vehicles[Type] do
 		local SubMenuItem, SubMenu = CreateCategory(Config.Dealership.Vehicles[Type][Index].Title)
+
 		SubMenu:SetBannerSprite(NativeUI.CreateSprite(Config.Dealership.Sprites[Type].Dictionary, Config.Dealership.Sprites[Type].Texture))
 		SubMenuItem.Activated = function(ParentMenu, SelectedItem)
 			Citizen.CreateThread(function()
@@ -170,18 +181,26 @@ function OpenShop(Type, Location)
 								Preview = {}
 							end
 						end
+						
 						Preview = Config.Dealership.Vehicles[Type][Index].Items[SubMenu:CurrentSelection()]
+						
 						local model = GetHashKey(Preview.Model)
+						
 						RequestModel(model)
+						
 						while not HasModelLoaded(model) and ThreadStart + 40000 > GetGameTimer() do
 							Citizen.Wait(0)
 						end
+						
 						if ThreadStart + 40000 > GetGameTimer() then
 							Preview.Handle = CreateVehicle(model, Location.Inside.x, Location.Inside.y, Location.Inside.z, Location.Inside.h, false, false)
+							
 							table.insert(PreviewHandles, Preview.Handle)
+							
 							while not DoesEntityExist(Preview.Handle) and ThreadStart + 40000 > GetGameTimer() do
 								Citizen.Wait(0)
 							end
+							
 							if ThreadStart + 40000 > GetGameTimer() then
 								FreezeEntityPosition(Preview.Handle, true)
 								SetEntityInvincible(Preview.Handle, true)
@@ -189,10 +208,12 @@ function OpenShop(Type, Location)
 								TaskWarpPedIntoVehicle(Player.Ped, Preview.Handle, -1)
 								SetModelAsNoLongerNeeded(model)
 								SetVehicleModKit(Preview.Handle, 0)
+								
 								for i = 0, 48 do
 									SetVehicleMod(Preview.Handle, i, -1, false)
 									ToggleVehicleMod(Preview.Handle, i, false)
 								end
+								
 								SetFollowVehicleCamZoomLevel(2)
 							end
 						end
@@ -203,25 +224,35 @@ function OpenShop(Type, Location)
 		SubMenu.OnIndexChange = function(ParentMenu, NewIndex)
 			Citizen.CreateThread(function()
 				local ThreadStart = GetGameTimer()
+				
 				ParentMenu:Visible(false)
+				
 				if Preview.Handle then
 					if Preview.Handle ~= 0 then
 						DeleteVehicle(Preview.Handle)
 						Preview = {}
 					end
 				end
+				
 				Preview = Config.Dealership.Vehicles[Type][Index].Items[NewIndex]
+				
 				local model = GetHashKey(Preview.Model)
+				
 				RequestModel(model)
+				
 				while not HasModelLoaded(model) and ThreadStart + 40000 > GetGameTimer() do
 					Citizen.Wait(0)
 				end
+				
 				if ThreadStart + 40000 > GetGameTimer() then
 					Preview.Handle = CreateVehicle(model, Location.Inside.x, Location.Inside.y, Location.Inside.z, Location.Inside.h, false, false)
+					
 					table.insert(PreviewHandles, Preview.Handle)
+					
 					while not DoesEntityExist(Preview.Handle) and ThreadStart + 40000 > GetGameTimer() do
 						Citizen.Wait(0)
 					end
+					
 					if ThreadStart + 40000 > GetGameTimer() then
 						FreezeEntityPosition(Preview.Handle, true)
 						SetEntityInvincible(Preview.Handle, true)
@@ -229,10 +260,12 @@ function OpenShop(Type, Location)
 						TaskWarpPedIntoVehicle(Player.Ped, Preview.Handle, -1)
 						SetModelAsNoLongerNeeded(model)
 						SetVehicleModKit(Preview.Handle, 0)
+						
 						for i = 0, 48 do
 							SetVehicleMod(Preview.Handle, i, -1, false)
 							ToggleVehicleMod(Preview.Handle, i, false)
 						end
+						
 						SetFollowVehicleCamZoomLevel(2)
 					end
 				end
@@ -298,9 +331,9 @@ Citizen.CreateThread(function()
 			for Type, Locations in pairs(Config.Dealership.Locations) do
 				for Index = 1, #Locations do
 					if Vdist(Player.Coordinates.x, Player.Coordinates.y, Player.Coordinates.z, Locations[Index].Marker.x, Locations[Index].Marker.y, Locations[Index].Marker.z) < 20 then
-						RenderMarker(25, Locations[Index].Marker.x, Locations[Index].Marker.y, Locations[Index].Marker.z, 1.0, 1.0, 1.5, 255, 255, 0, 255)
+						Utilities.RenderMarker(25, Locations[Index].Marker.x, Locations[Index].Marker.y, Locations[Index].Marker.z, 1.0, 1.0, 1.5, 255, 255, 0, 255)
 						if Vdist(Player.Coordinates.x, Player.Coordinates.y, Player.Coordinates.z, Locations[Index].Marker.x, Locations[Index].Marker.y, Locations[Index].Marker.z) < 1 then
-							DisplayHelpText("Press ~INPUT_CONTEXT~ to open the shop!")
+							Utilities.DisplayHelpText("Press ~INPUT_CONTEXT~ to open the shop!")
 							if IsControlJustPressed(1, 51) then
 								if ShopMenu:Visible() then
 									ShopMenu:Visible(false)

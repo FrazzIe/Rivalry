@@ -700,22 +700,32 @@ Emote.Add("sit3", "Stupor", "Misc", {}, {}, {"WORLD_HUMAN_STUPOR"}, {}, function
 end)
 
 local StopItem = NativeUI.CreateItem("~r~Stop Emote", "")
+
 StopItem.Activated = function(ParentMenu, SelectedItem)
 	Emotes.Stop()
 end
+
 EmoteMenu:AddItem(StopItem)
 
 local WalkStyleMenu = Pool:AddSubMenu(EmoteMenu, "Walking styles", "Changes the way your character walks.", true)
 local WalkStyleStopItem = NativeUI.CreateItem("~r~Reset walking style", "")
+
 WalkStyleStopItem.Activated = function(ParentMenu, SelectedItem)
-	ResetPedMovementClipset(Player.Ped, 1.0)
+	Player.Walkstyle = ""
+	if not Player.Stance.Crouched then
+		ResetPedMovementClipset(Player.Ped, 1.0)
+	end
 end
+
 WalkStyleMenu:AddItem(WalkStyleStopItem)
 
 for Index = 1, #WalkStyles.List do
 	local WalkStyleItem = NativeUI.CreateItem(WalkStyles.List[Index].Name, "")
 	WalkStyleItem.Activated = function(ParentMenu, SelectedItem)
-		SetPedMovementClipset(Player.Ped, WalkStyles.List[Index].Clipset, 1.0)
+		Player.Walkstyle = WalkStyles.List[Index].Clipset
+		if not Player.Stance.Crouched then
+			SetPedMovementClipset(Player.Ped, WalkStyles.List[Index].Clipset, 1.0)
+		end
 	end
 	WalkStyleMenu:AddItem(WalkStyleItem)
 end

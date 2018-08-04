@@ -11,6 +11,7 @@ Player = {
 		Component = {Drawable = nil, Texture = nil, Palette = nil},
 	},
 	Stance = {
+		Enabled = false,
 		Standing = true,
 		Crouched = false,
 		Proned = false,
@@ -37,6 +38,7 @@ Player = {
 		Using = nil,
 		Seatbelt = false,
 	},
+	Walkstyle = "",
 }
 
 CreateDecorator("_Player_Down", 2)
@@ -50,7 +52,7 @@ CreateDecorator("_Player_Seatbelt", 2)
 
 Citizen.CreateThread(function()
 	while true do
-		Citizen.Wait(500)
+		Citizen.Wait(0)
 		Player.Id = PlayerId()
 		if Player.Ped ~= PlayerPedId() then
 			Player.Ped = PlayerPedId()
@@ -62,6 +64,12 @@ Citizen.CreateThread(function()
 			SetDecorator(Player.Ped, "_Player_Drunk_State", Player.DrunkState)
 			SetDecorator(Player.Ped, "_Player_Residue", Player.Residue.Active)
 			SetDecorator(Player.Ped, "_Player_Seatbelt", Player.Vehicle.Seatbelt)
+
+			if not Player.Stance.Crouched then
+				if Player.Walkstyle ~= "" then
+					SetPedMovementClipset(PlayerPedId(), Player.Walkstyle, 1.0)
+				end
+			end
 		end
 		Player.Coordinates = GetEntityCoords(Player.Ped, false)
 		Player.Heading = GetEntityHeading(Player.Ped)
