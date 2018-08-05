@@ -100,12 +100,12 @@ bone_config = {
 		rotation = {x = 0.0, y = 0.0, z = 0.0}, 
 		model = "w_ar_musket"
 	},
-	["WEAPON_DBSHOTGUN"] = {
-		bone = 24818,		
-		coordinates = {x = 0.1, y = -0.15, z = 0.0}, 
-		rotation = {x = 0.0, y = 0.0, z = 0.0}, 
-		model = "w_sg_dbshotgun"
-	},
+--[[	["WEAPON_DBSHOTGUN"] = {
+		bone = 57597,		
+		coordinates = {x = 0.08, y = -0.15, z = 0.07}, 
+		rotation = {x = 0.0, y = 75.0, z = 0.0}, 
+		model = "w_sg_doublebarrel"
+	},--]]
 	["WEAPON_SNIPERRIFLE"] = {
 		bone = 24818,
 		coordinates = {x = 0.1, y = -0.15, z = 0.0}, 
@@ -293,7 +293,8 @@ local weaponstable = {
     "WEAPON_COMBATPISTOL",
     "WEAPON_STUNGUN",
     "WEAPON_FLAREGUN",
-    "WEAPON_APPISTOL"
+    "WEAPON_APPISTOL",
+    "WEAPON_DBSHOTGUN"
 }
 
 local riflestable = {
@@ -383,7 +384,7 @@ Citizen.CreateThread(function()
 						firingdisabled = true
 	                    Citizen.Wait(1100)
 	                    SetPedCurrentWeaponVisible(ped, 1, 1, 1, 1)
-	                    Citizen.Wait(1000)
+	                    Citizen.Wait(1200)
 	                    
 	                    ClearPedTasks(ped)
 	                    holstered = false
@@ -394,7 +395,7 @@ Citizen.CreateThread(function()
 	                    SetPedCurrentWeaponVisible(ped, 1, 1, 1, 1)
 	                    TaskPlayAnim(ped, "reaction@intimidation@1h", "outro", 8.0, 2.0, -1, 48, 10, 0, 0, 0 )
 						firingdisabled = true
-	                    Citizen.Wait(1200)
+	                    Citizen.Wait(1300)
 	                    
 	                    ClearPedTasks(ped)
 	                    holstered = true
