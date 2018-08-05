@@ -293,13 +293,17 @@ local weaponstable = {
     "WEAPON_COMBATPISTOL",
     "WEAPON_STUNGUN",
     "WEAPON_FLAREGUN",
-    "WEAPON_APPISTOL"
+    "WEAPON_APPISTOL",
+    "WEAPON_DBSHOTGUN",
+    "WEAPON_PISTOL_MK2",
+    "WEAPON_VINTAGEPISTOL",
 }
 
 local riflestable = {
     "WEAPON_CARBINERIFLE",
     "WEAPON_COMPACTRIFLE",
     "WEAPON_PUMPSHOTGUN",
+    "WEAPON_MUSKET",
 }
 
 function CheckWeapon(ped)
