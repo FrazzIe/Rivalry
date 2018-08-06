@@ -44,7 +44,8 @@ AddAnimDictionary(Animations.Mask.On.Dictionary)
 AddAnimDictionary(Animations.Mask.Off.Dictionary)
 AddAnimDictionary(Animations.Gloves.Dictionary)
 
-AddEventHandler("playerSpawned", function()
+RegisterNetEvent("core:ready")
+AddEventHandler("core:ready", function()
     Chat.Command({"e", "emote"}, function(source, args, fullCommand)
         if args[1] then
             if args[1] == "stop" then 
@@ -201,6 +202,49 @@ AddEventHandler("playerSpawned", function()
             Notify("No vehicle in range!")
         end
     end, false, {Help = "Open/Close your trunk!", Params = {}})
+
+    Chat.Command({"ar", "rifle"}, function(source, args, rawCommand)
+        if exports.policejob:getIsInService() then
+            local pos = GetEntityCoords(PlayerPedId(), false)
+            local NearestVehicle, NearestVehiclePosition = GetNearestVehicleAtCoords(pos.x, pos.y, pos.z, 2.0, false, false)
+            if GetVehicleClass(NearestVehicle) == 18 then
+                local weaponhash = GetHashKey("WEAPON_CARBINERIFLE")
+                if not HasPedGotWeapon(PlayerPedId(), weaponhash, false) and weaponhash ~= GetSelectedPedWeapon(PlayerPedId()) then
+                    GiveWeaponToPed(PlayerPedId(), weaponhash, 250, false, true)
+                    GiveWeaponComponentToPed(PlayerPedId(), weaponhash, 2076495324)
+                    GiveWeaponComponentToPed(PlayerPedId(), weaponhash, 202788691)
+                    SetPedWeaponTintIndex(PlayerPedId(), weaponhash, 7)
+                else
+                    RemoveWeaponFromPed(PlayerPedId(), weaponhash)
+                end
+            else
+                Chat.Message("INFO", "You must be near a police vehicle!", 255, 0, 0, true)
+            end 
+        else
+            Chat.Message("INFO", "You must be on duty use this command!", 255, 0, 0, true)
+        end
+    end, false, {Help = "Toggle assault rifle",  Params = {}})
+
+    Chat.Command({"sg", "shotgun"}, function(source, args, rawCommand)
+        if exports.policejob:getIsInService() then
+            local pos = GetEntityCoords(PlayerPedId(), false)
+            local NearestVehicle, NearestVehiclePosition = GetNearestVehicleAtCoords(pos.x, pos.y, pos.z, 2.0, false, false)
+            if GetVehicleClass(NearestVehicle) == 18 then
+                local weaponhash = GetHashKey("WEAPON_PUMPSHOTGUN")
+                if not HasPedGotWeapon(PlayerPedId(), weaponhash, false) and weaponhash ~= GetSelectedPedWeapon(PlayerPedId()) then
+                    GiveWeaponToPed(PlayerPedId(), weaponhash, 250, false, true)
+                    GiveWeaponComponentToPed(PlayerPedId(), weaponhash, 2076495324)
+                    SetPedWeaponTintIndex(PlayerPedId(), weaponhash, 7)
+                else
+                    RemoveWeaponFromPed(PlayerPedId(), weaponhash)
+                end
+            else
+                Chat.Message("INFO", "You must be near a police vehicle!", 255, 0, 0, true)
+            end 
+        else
+            Chat.Message("INFO", "You must be on duty use this command!", 255, 0, 0, true)
+        end
+    end, false, {Help = "Toggle shotgun",  Params = {}})
 end)
 
 Citizen.CreateThread(function()

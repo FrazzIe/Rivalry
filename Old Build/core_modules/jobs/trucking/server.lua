@@ -1,10 +1,10 @@
 local trucker_rent = 500
 local trucker_tiers = {
-    [1] = 250,
-    [2] = 400,
-    [3] = 500,
-    [4] = 600,
-    [5] = 750,
+    [1] = 2500,
+    [2] = 4000,
+    [3] = 5000,
+    [4] = 6000,
+    [5] = 7500,
 }
 
 RegisterServerEvent("trucker:rent")
