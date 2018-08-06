@@ -1,6 +1,6 @@
 -- User Get
 
-function Core.GetPlayerUserId(Player)
+function Export_GetPlayerUserId(Player)
 	if Core.Players[Player] then
 		if Core.Players[Player].User then
 			return Core.Players[Player].User.Id
@@ -12,7 +12,7 @@ function Core.GetPlayerUserId(Player)
 	end
 end
 
-function Core.GetPlayerSteam(Player)
+function Export_GetPlayerSteam(Player)
 	if Core.Players[Player] then
 		if Core.Players[Player].User then
 			return Core.Players[Player].User.Steam
@@ -24,7 +24,7 @@ function Core.GetPlayerSteam(Player)
 	end
 end
 
-function Core.GetPlayerSteam64(Player)
+function Export_GetPlayerSteam64(Player)
 	if Core.Players[Player] then
 		if Core.Players[Player].User then
 			return Core.Players[Player].User.Steam64
@@ -36,7 +36,7 @@ function Core.GetPlayerSteam64(Player)
 	end
 end
 
-function Core.GetPlayerSteam32(Player)
+function Export_GetPlayerSteam32(Player)
 	if Core.Players[Player] then
 		if Core.Players[Player].User then
 			return Core.Players[Player].User.Steam32
@@ -48,7 +48,7 @@ function Core.GetPlayerSteam32(Player)
 	end
 end
 
-function Core.GetPlayerLicense(Player)
+function Export_GetPlayerLicense(Player)
 	if Core.Players[Player] then
 		if Core.Players[Player].User then
 			return Core.Players[Player].User.License
@@ -60,7 +60,7 @@ function Core.GetPlayerLicense(Player)
 	end
 end
 
-function Core.GetPlayerIP(Player)
+function Export_GetPlayerIP(Player)
 	if Core.Players[Player] then
 		if Core.Players[Player].User then
 			return Core.Players[Player].User.IP
@@ -72,7 +72,7 @@ function Core.GetPlayerIP(Player)
 	end
 end
 
-function Core.GetPlayerUsername(Player)
+function Export_GetPlayerUsername(Player)
 	if Core.Players[Player] then
 		if Core.Players[Player].User then
 			return Core.Players[Player].User.Username
@@ -84,7 +84,7 @@ function Core.GetPlayerUsername(Player)
 	end
 end
 
-function Core.GetPlayerPlaytime(Player)
+function Export_GetPlayerPlaytime(Player)
 	if Core.Players[Player] then
 		if Core.Players[Player].User then
 			return Core.Players[Player].User.Playtime
@@ -96,7 +96,7 @@ function Core.GetPlayerPlaytime(Player)
 	end
 end
 
-function Core.GetPlayerTimestamp(Player)
+function Export_GetPlayerTimestamp(Player)
 	if Core.Players[Player] then
 		if Core.Players[Player].User then
 			return Core.Players[Player].User.Timestamp
@@ -108,7 +108,7 @@ function Core.GetPlayerTimestamp(Player)
 	end
 end
 
-function Core.GetPlayerPower(Player)
+function Export_GetPlayerPower(Player)
 	if Core.Players[Player] then
 		if Core.Players[Player].User then
 			return Core.Players[Player].User.Power
@@ -120,7 +120,7 @@ function Core.GetPlayerPower(Player)
 	end
 end
 
-function Core.GetPlayerGroup(Player)
+function Export_GetPlayerGroup(Player)
 	if Core.Players[Player] then
 		if Core.Players[Player].User then
 			return Core.Players[Player].User.Group
@@ -134,7 +134,7 @@ end
 
 -- Character Get
 
-function Core.GetPlayerCharacterId(Player)
+function Export_GetPlayerCharacterId(Player)
 	if Core.Players[Player] then
 		if Core.Players[Player].Character then
 			return Core.Players[Player].Character.Id
@@ -146,7 +146,7 @@ function Core.GetPlayerCharacterId(Player)
 	end
 end
 
-function Core.GetPlayerCash(Player)
+function Export_GetPlayerCash(Player)
 	if Core.Players[Player] then
 		if Core.Players[Player].Character then
 			return Core.Players[Player].Character.Cash
@@ -158,7 +158,7 @@ function Core.GetPlayerCash(Player)
 	end
 end
 
-function Core.GetPlayerCounterfeit(Player)
+function Export_GetPlayerCounterfeit(Player)
 	if Core.Players[Player] then
 		if Core.Players[Player].Character then
 			return Core.Players[Player].Character.Counterfeit
@@ -170,7 +170,7 @@ function Core.GetPlayerCounterfeit(Player)
 	end
 end
 
-function Core.GetPlayerBank(Player)
+function Export_GetPlayerBank(Player)
 	if Core.Players[Player] then
 		if Core.Players[Player].Character then
 			return Core.Players[Player].Character.Bank
@@ -182,7 +182,7 @@ function Core.GetPlayerBank(Player)
 	end
 end
 
-function Core.GetPlayerJob(Player)
+function Export_GetPlayerJob(Player)
 	if Core.Players[Player] then
 		if Core.Players[Player].Character then
 			return Core.Players[Player].Character.Job
@@ -194,7 +194,7 @@ function Core.GetPlayerJob(Player)
 	end
 end
 
-function Core.GetPlayerForename(Player)
+function Export_GetPlayerForename(Player)
 	if Core.Players[Player] then
 		if Core.Players[Player].Character then
 			return Core.Players[Player].Character.Firstname
@@ -206,7 +206,7 @@ function Core.GetPlayerForename(Player)
 	end
 end
 
-function Core.GetPlayerSurname(Player)
+function Export_GetPlayerSurname(Player)
 	if Core.Players[Player] then
 		if Core.Players[Player].Character then
 			return Core.Players[Player].Character.Surname
@@ -218,7 +218,7 @@ function Core.GetPlayerSurname(Player)
 	end
 end
 
-function Core.GetPlayerName(Player)
+function Export_GetPlayerName(Player)
 	if Core.Players[Player] then
 		if Core.Players[Player].Character then
 			return Core.Players[Player].Character.Name
@@ -230,7 +230,7 @@ function Core.GetPlayerName(Player)
 	end
 end
 
-function Core.GetPlayerGender(Player)
+function Export_GetPlayerGender(Player)
 	if Core.Players[Player] then
 		if Core.Players[Player].Character then
 			return Core.Players[Player].Character.Gender
@@ -242,7 +242,7 @@ function Core.GetPlayerGender(Player)
 	end
 end
 
-function Core.GetPlayerPosition(Player)
+function Export_GetPlayerPosition(Player)
 	if Core.Players[Player] then
 		if Core.Players[Player].Character then
 			return Core.Players[Player].Character.Position
@@ -254,7 +254,7 @@ function Core.GetPlayerPosition(Player)
 	end
 end
 
-function Core.GetPlayerCharacterPlaytime(Player)
+function Export_GetPlayerCharacterPlaytime(Player)
 	if Core.Players[Player] then
 		if Core.Players[Player].Character then
 			return Core.Players[Player].Character.Playtime
@@ -266,7 +266,7 @@ function Core.GetPlayerCharacterPlaytime(Player)
 	end
 end
 
-function Core.GetPlayerCharacterTimestamp(Player)
+function Export_GetPlayerCharacterTimestamp(Player)
 	if Core.Players[Player] then
 		if Core.Players[Player].Character then
 			return Core.Players[Player].Character.Timestamp
@@ -278,7 +278,7 @@ function Core.GetPlayerCharacterTimestamp(Player)
 	end
 end
 
-function Core.GetPlayerJailtime(Player)
+function Export_GetPlayerJailtime(Player)
 	if Core.Players[Player] then
 		if Core.Players[Player].Character then
 			return Core.Players[Player].Character.Jailtime
@@ -290,7 +290,7 @@ function Core.GetPlayerJailtime(Player)
 	end
 end
 
-function Core.GetPlayerWeaponLicense(Player)
+function Export_GetPlayerWeaponLicense(Player)
 	if Core.Players[Player] then
 		if Core.Players[Player].Character then
 			return Core.Players[Player].Character.Licenses.Weapon
@@ -302,7 +302,7 @@ function Core.GetPlayerWeaponLicense(Player)
 	end
 end
 
-function Core.GetPlayerDriversLicense(Player)
+function Export_GetPlayerDriversLicense(Player)
 	if Core.Players[Player] then
 		if Core.Players[Player].Character then
 			return Core.Players[Player].Character.Licenses.Drivers
@@ -316,7 +316,7 @@ end
 
 -- Set User
 
-function Core.SetPlayerPlaytime(Player, Amount)
+function Export_SetPlayerPlaytime(Player, Amount)
 	if type(Amount) == "number" then
 		if Core.Players[Player] then
 			if Core.Players[Player].User then
@@ -334,7 +334,7 @@ function Core.SetPlayerPlaytime(Player, Amount)
 	end
 end
 
-function Core.SetPlayerPower(Player, Power)
+function Export_SetPlayerPower(Player, Power)
 	if type(Amount) == "number" then
 		if Core.Players[Player] then
 			if Core.Players[Player].User then
@@ -352,7 +352,7 @@ function Core.SetPlayerPower(Player, Power)
 	end
 end
 
-function Core.SetPlayerGroup(Player, Group)
+function Export_SetPlayerGroup(Player, Group)
 	if type(Group) == "string" then
 		if Core.Groups[Group] then
 			if Core.Players[Player] then
@@ -376,7 +376,7 @@ end
 
 -- Set Character
 
-function Core.SetPlayerCash(Player, Amount)
+function Export_SetPlayerCash(Player, Amount)
 	if type(Amount) == "number" then
 		if Core.Players[Player] then
 			if Core.Players[Player].Character then
@@ -394,7 +394,7 @@ function Core.SetPlayerCash(Player, Amount)
 	end
 end
 
-function Core.SetPlayerCounterfeit(Player, Amount)
+function Export_SetPlayerCounterfeit(Player, Amount)
 	if type(Amount) == "number" then
 		if Core.Players[Player] then
 			if Core.Players[Player].Character then
@@ -412,7 +412,7 @@ function Core.SetPlayerCounterfeit(Player, Amount)
 	end
 end
 
-function Core.SetPlayerBank(Player, Amount)
+function Export_SetPlayerBank(Player, Amount)
 	if type(Amount) == "number" then
 		if Core.Players[Player] then
 			if Core.Players[Player].Character then
@@ -430,7 +430,7 @@ function Core.SetPlayerBank(Player, Amount)
 	end
 end
 
-function Core.SetPlayerForename(Player, Str)
+function Export_SetPlayerForename(Player, Str)
 	if type(Str) == "string" then
 		if Core.Players[Player] then
 			if Core.Players[Player].Character then
@@ -449,7 +449,7 @@ function Core.SetPlayerForename(Player, Str)
 	end
 end
 
-function Core.SetPlayerSurname(Player, Str)
+function Export_SetPlayerSurname(Player, Str)
 	if type(Str) == "string" then
 		if Core.Players[Player] then
 			if Core.Players[Player].Character then
@@ -468,7 +468,7 @@ function Core.SetPlayerSurname(Player, Str)
 	end
 end
 
-function Core.SetPlayerGender(Player, Str)
+function Export_SetPlayerGender(Player, Str)
 	if type(Str) == "string" then
 		if Core.Players[Player] then
 			if Core.Players[Player].Character then
@@ -486,7 +486,7 @@ function Core.SetPlayerGender(Player, Str)
 	end
 end
 
-function Core.SetPlayerPosition(Player, X, Y, Z)
+function Export_SetPlayerPosition(Player, X, Y, Z)
 	if type(X) == "number" or type(Y) == "number" or type(Z) == "number" then
 		if Core.Players[Player] then
 			if Core.Players[Player].Character then
@@ -512,7 +512,7 @@ function Core.SetPlayerPosition(Player, X, Y, Z)
 	end
 end
 
-function Core.SetPlayerCharacterPlaytime(Player, Amount)
+function Export_SetPlayerCharacterPlaytime(Player, Amount)
 	if type(Amount) == "number" then
 		if Core.Players[Player] then
 			if Core.Players[Player].Character then
@@ -530,7 +530,7 @@ function Core.SetPlayerCharacterPlaytime(Player, Amount)
 	end
 end
 
-function Core.SetPlayerJailtime(Player, Amount)
+function Export_SetPlayerJailtime(Player, Amount)
 	if type(Amount) == "number" then
 		if Core.Players[Player] then
 			if Core.Players[Player].Character then
@@ -548,7 +548,7 @@ function Core.SetPlayerJailtime(Player, Amount)
 	end
 end
 
-function Core.SetPlayerWeaponLicense(Player, Bool)
+function Export_SetPlayerWeaponLicense(Player, Bool)
 	if type(Bool) == "boolean" then
 		if Core.Players[Player] then
 			if Core.Players[Player].Character then
@@ -566,7 +566,7 @@ function Core.SetPlayerWeaponLicense(Player, Bool)
 	end
 end
 
-function Core.SetPlayerDriversLicense(Player, Bool)
+function Export_SetPlayerDriversLicense(Player, Bool)
 	if type(Bool) == "boolean" then
 		if Core.Players[Player] then
 			if Core.Players[Player].Character then
@@ -582,4 +582,174 @@ function Core.SetPlayerDriversLicense(Player, Bool)
 	else
 		Log.Error("Unable to set player "..Player.."'s drivers license as the amount "..tostring(Bool).." wasn't a number value")
 	end
+end
+
+-- Exports
+
+-- User Get
+
+function Core.GetPlayerUserId(Player)
+	return exports["Rivalry"]:Export_GetPlayerUserId(Player)
+end
+
+function Core.GetPlayerSteam(Player)
+	return exports["Rivalry"]:Export_GetPlayerSteam(Player)
+end
+
+function Core.GetPlayerSteam64(Player)
+	return exports["Rivalry"]:Export_GetPlayerSteam64(Player)
+end
+
+function Core.GetPlayerSteam32(Player)
+	return exports["Rivalry"]:Export_GetPlayerSteam32(Player)
+end
+
+function Core.GetPlayerLicense(Player)
+	return exports["Rivalry"]:Export_GetPlayerLicense(Player)
+end
+
+function Core.GetPlayerIP(Player)
+	return exports["Rivalry"]:Export_GetPlayerIP(Player)
+end
+
+function Core.GetPlayerUsername(Player)
+	return exports["Rivalry"]:Export_GetPlayerUsername(Player)
+end
+
+function Core.GetPlayerPlaytime(Player)
+	return exports["Rivalry"]:Export_GetPlayerPlaytime(Player)
+end
+
+function Core.GetPlayerTimestamp(Player)
+	return exports["Rivalry"]:Export_GetPlayerTimestamp(Player)
+end
+
+function Core.GetPlayerPower(Player)
+	return exports["Rivalry"]:Export_GetPlayerPower(Player)
+end
+
+function Core.GetPlayerGroup(Player)
+	return exports["Rivalry"]:Export_GetPlayerGroup(Player)
+end
+
+-- Character Get
+
+function Core.GetPlayerCharacterId(Player)
+	return exports["Rivalry"]:Export_GetPlayerCharacterId(Player)
+end
+
+function Core.GetPlayerCash(Player)
+	return exports["Rivalry"]:Export_GetPlayerCash(Player)
+end
+
+function Core.GetPlayerCounterfeit(Player)
+	return exports["Rivalry"]:Export_GetPlayerCounterfeit(Player)
+end
+
+function Core.GetPlayerBank(Player)
+	return exports["Rivalry"]:Export_GetPlayerBank(Player)
+end
+
+function Core.GetPlayerJob(Player)
+	return exports["Rivalry"]:Export_GetPlayerJob(Player)
+end
+
+function Core.GetPlayerForename(Player)
+	return exports["Rivalry"]:Export_GetPlayerForename(Player)
+end
+
+function Core.GetPlayerSurname(Player)
+	return exports["Rivalry"]:Export_GetPlayerSurname(Player)
+end
+
+function Core.GetPlayerName(Player)
+	return exports["Rivalry"]:Export_GetPlayerName(Player)
+end
+
+function Core.GetPlayerGender(Player)
+	return exports["Rivalry"]:Export_GetPlayerGender(Player)
+end
+
+function Core.GetPlayerPosition(Player)
+	return exports["Rivalry"]:Export_GetPlayerPosition(Player)
+end
+
+function Core.GetPlayerCharacterPlaytime(Player)
+	return exports["Rivalry"]:Export_GetPlayerCharacterPlaytime(Player)
+end
+
+function Core.GetPlayerCharacterTimestamp(Player)
+	return exports["Rivalry"]:Export_GetPlayerCharacterTimestamp(Player)
+end
+
+function Core.GetPlayerJailtime(Player)
+	return exports["Rivalry"]:Export_GetPlayerJailtime(Player)
+end
+
+function Core.GetPlayerWeaponLicense(Player)
+	return exports["Rivalry"]:Export_GetPlayerWeaponLicense(Player)
+end
+
+function Core.GetPlayerDriversLicense(Player)
+	return exports["Rivalry"]:Export_GetPlayerDriversLicense(Player)
+end
+
+-- Set User
+
+function Core.SetPlayerPlaytime(Player, Amount)
+	exports["Rivalry"]:Export_SetPlayerPlaytime(Player, Amount)
+end
+
+function Core.SetPlayerPower(Player, Power)
+	exports["Rivalry"]:Export_SetPlayerPower(Player, Power)
+end
+
+function Core.SetPlayerGroup(Player, Group)
+	exports["Rivalry"]:Export_SetPlayerGroup(Player, Group)
+end
+
+-- Set Character
+
+function Core.SetPlayerCash(Player, Amount)
+	exports["Rivalry"]:Export_SetPlayerCash(Player, Amount)
+end
+
+function Core.SetPlayerCounterfeit(Player, Amount)
+	exports["Rivalry"]:Export_SetPlayerCounterfeit(Player, Amount)
+end
+
+function Core.SetPlayerBank(Player, Amount)
+	exports["Rivalry"]:Export_SetPlayerBank(Player, Amount)
+end
+
+function Core.SetPlayerForename(Player, Str)
+	exports["Rivalry"]:Export_SetPlayerForename(Player, Str)
+end
+
+function Core.SetPlayerSurname(Player, Str)
+	exports["Rivalry"]:Export_SetPlayerSurname(Player, Str)
+end
+
+function Core.SetPlayerGender(Player, Str)
+	exports["Rivalry"]:Export_SetPlayerGender(Player, Str)
+end
+
+function Core.SetPlayerPosition(Player, X, Y, Z)
+	exports["Rivalry"]:Export_SetPlayerPosition(Player, X, Y, Z)
+end
+
+function Core.SetPlayerCharacterPlaytime(Player, Amount)
+	exports["Rivalry"]:Export_SetPlayerCharacterPlaytime(Player, Amount)
+end
+
+function Core.SetPlayerJailtime(Player, Amount)
+	exports["Rivalry"]:Export_SetPlayerJailtime(Player, Amount)
+end
+
+function Core.SetPlayerWeaponLicense(Player, Bool)
+	exports["Rivalry"]:Export_SetPlayerWeaponLicense(Player, Bool)
+end
+
+function Core.SetPlayerDriversLicense(Player, Bool)
+	exports["Rivalry"]:Export_SetPlayerDriversLicense(Player, Bool)
 end
