@@ -30,6 +30,7 @@ AddEventHandler("trucker:complete", function(tier)
         if jobtotal > 4 then jobtotal = 150 end
         total = math.random(50,math.floor(jobtotal))
         user.addWallet(total*8)
-        Notify("You have been paid $"..trucker_tiers[tier].." for completing the delivery!", 3000, source)
+        local payment = (total * 8)
+        TriggerClientEvent("es_freeroam:notify", source, "CHAR_BANK_MAZE", 1, "Maze Bank", false, "~g~$~s~Payment Recieved : + "..payment.."")
     end)
 end)
