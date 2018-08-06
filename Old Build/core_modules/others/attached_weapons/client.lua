@@ -128,19 +128,19 @@ bone_config = {
 		bone = 24818,
 		coordinates = {x = -0.01, y = 0.10, z = 0.07}, 
 		rotation = {x = 0.0, y = 0.0, z = 0.0},
-		model = "prop_tool_fireaxe"
+		model = "w_me_battleaxe"
 	},
 	["WEAPON_POOLCUE"] = {
 		bone = 24818,
 		coordinates = {x = 0.1, y = -0.15, z = 0.0}, 
 		rotation = {x = 0.0, y = 0.0, z = 0.0},
-		model = "prop_pool_cue"
+		model = "w_me_poolcue"
 	},
 	["WEAPON_WRENCH"] = {
 		bone = 24818,
 		coordinates = {x = -0.01, y = 0.10, z = 0.07}, 
 		rotation = {x = 0.0, y = 0.0, z = 0.0},
-		model = "w_me_hammer"
+		model = "w_me_wrench"
 	},
 }
 
@@ -173,6 +173,19 @@ Citizen.CreateThread(function()
 	      			elseif onPlayer and _weapon_hash == GetSelectedPedWeapon(_ped) then
 						RemoveWeapon(_weapon)
 	      			end
+	      		else
+					for _Weapon, entity in pairs(attached_weapons) do
+	      				if entity ~= nil then
+	      					if _Weapon == _weapon then
+	      						onPlayer = true
+	      						break
+	      					end
+	      				end
+	      			end
+
+	      			if attached_weapons[_weapon] ~= nil then
+	      				RemoveWeapon(_weapon)
+	      			end
 	    		end
 	    	end
   		end
@@ -193,10 +206,7 @@ end)
 
 function RemoveWeapon(_weapon)
 	if attached_weapons[_weapon] ~= nil then
-		print("Removing ".._weapon.." "..attached_weapons[_weapon])
 		DestroyObject(attached_weapons[_weapon])
-	else
-		print("Invalid Entity!")
 	end
 	attached_weapons[_weapon] = nil
 end
@@ -211,7 +221,6 @@ function RemoveWeapons()
 end
 
 function AddWeapon(_weapon)
-	print("Adding ".._weapon..", Exists? : "..(bone_config[_weapon] and "Yes" or "No"))
 	if bone_config[_weapon] then
 		local weapon_hash = GetHashKey(bone_config[_weapon]["model"])
 		RequestModel(weapon_hash)
@@ -225,10 +234,13 @@ function AddWeapon(_weapon)
 			Citizen.Wait(0)
 		end
 
+		SetModelAsNoLongerNeeded(weapon_hash)
+
 		local _ped = PlayerPedId()
 		local boneIndex = GetPedBoneIndex(_ped, bone_config[_weapon]["bone"])
 		local bonePos = GetWorldPositionOfEntityBone(_ped, boneIndex)
 		AttachEntityToEntity(attached_weapons[_weapon], _ped, boneIndex, bone_config[_weapon]["coordinates"]["x"], bone_config[_weapon]["coordinates"]["y"], bone_config[_weapon]["coordinates"]["z"], bone_config[_weapon]["rotation"]["x"], bone_config[_weapon]["rotation"]["y"], bone_config[_weapon]["rotation"]["z"], false, false, false, false, 2, true)
+		
 	end
 end
 
@@ -246,10 +258,14 @@ function AddWeapons()
 				while not DoesEntityExist(attached_weapons[_weapon]) do
 					Citizen.Wait(0)
 				end
+
+				SetModelAsNoLongerNeeded(weapon_hash)
+
 				local _ped = PlayerPedId()
 				local boneIndex = GetPedBoneIndex(_ped, bone_config[_weapon]["bone"])
 				local bonePos = GetWorldPositionOfEntityBone(_ped, boneIndex)
 				AttachEntityToEntity(attached_weapons[_weapon], _ped, boneIndex, bone_config[_weapon]["coordinates"]["x"], bone_config[_weapon]["coordinates"]["y"], bone_config[_weapon]["coordinates"]["z"], bone_config[_weapon]["rotation"]["x"], bone_config[_weapon]["rotation"]["y"], bone_config[_weapon]["rotation"]["z"], false, false, false, false, 2, true)
+				
 			end
 		end
 	end)
@@ -282,6 +298,10 @@ function RemoveAndAddWeapons()
 	      		elseif onPlayer and _weapon_hash == GetSelectedPedWeapon(_ped) then
 					RemoveWeapon(_weapon)
 	      		end
+	      	else
+	      		if attached_weapons[_weapon] ~= nil then
+	      			RemoveWeapon(_weapon)
+	      		end
 	    	end
 	    end
 		aw_loaded = true
@@ -290,6 +310,7 @@ end
 
 local weaponstable = {
     "WEAPON_PISTOL",
+    "WEAPON_PISTOL50",
     "WEAPON_COMBATPISTOL",
     "WEAPON_STUNGUN",
     "WEAPON_FLAREGUN",
