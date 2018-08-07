@@ -24,13 +24,11 @@ AddEventHandler("trucker:rent", function()
 end)
 
 RegisterServerEvent("trucker:complete")
-AddEventHandler("trucker:complete", function(tier)
+AddEventHandler("trucker:complete", function(tier, distance)
 	TriggerEvent("core:getuser", source, function(user)
-		local jobtotal = trucker_tiers[tier]
-        if jobtotal > 4 then jobtotal = 150 end
-        total = math.random(50,math.floor(jobtotal))
-        user.addWallet(total*8)
-        local payment = (total * 8)
-        TriggerClientEvent("es_freeroam:notify", source, "CHAR_BANK_MAZE", 1, "Maze Bank", false, "~g~$~s~Payment Recieved : + "..payment.."")
+		local payment = math.floor(math.floor(distance) * 1.3)
+		user.addWallet(payment)
+        TriggerClientEvent("es_freeroam:notify", source, "CHAR_BANK_MAZE", 1, "Maze Bank", false, "~s~Payment Recieved: ~g~$~s~"..payment.."")
     end)
 end)
+ 

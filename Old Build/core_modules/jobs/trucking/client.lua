@@ -450,6 +450,46 @@ AddEventHandler("trucker:rent", function()
 	end)
 end)
 
+local possibleTierMissions = {}
+local randomizer = nil
+local missionRandomizer = nil
+
+function checkTier(missionTier)
+	possibleTierMissions = {}
+	for k, v in ipairs(trucker_destinations) do
+		if(v.Tier == missionTier)then
+			table.insert(possibleTierMissions, v)
+			print("Table Insert: "..#possibleTierMissions)
+		end
+	end
+	randomizer = math.random(1, #possibleTierMissions)
+	trucker_job = randomizer
+	print("Printing Randomized Index "..trucker_job)
+	Notify("Tier "..missionTier.." has been selected!", 2500)
+end
+
+function TruckingInitMenu()
+	Menu.SetupMenu("trucking_menu","Trucking Menu")
+    Menu.Switch(nil,"trucking_menu")
+	Menu.addOption("trucking_menu", function()
+	    if(Menu.Option("General Store"))then
+	        checkTier(1)
+	    end
+	    if(Menu.Option("Food Delivery"))then
+	        checkTier(2)
+	    end
+	    if(Menu.Option("Wood Delivery"))then
+	        checkTier(3)
+	    end
+	    if(Menu.Option("Gas Delivery"))then
+	        checkTier(4)
+	    end
+	    if(Menu.Option("Car Delivery"))then
+	        checkTier(5)
+	    end
+	end)		
+end
+
 Citizen.CreateThread(function()
 	CreateBlip("Jetsam Trucking", 477, 21, locations.service.x, locations.service.y, locations.service.z)
 	while true do
@@ -496,12 +536,12 @@ Citizen.CreateThread(function()
 								trucker_job = nil
 								trucker_trailer = nil
 							else
-								trucker_job = GetRandomIntInRange(1, #trucker_destinations+1)
+								TruckingInitMenu()
+								trucking_menu = not trucking_menu
 							end
 						end
 					end
 				end
-
 				if trucker_truck and trucker_job then
 					if not trucker_trailer then
 						if not DoesBlipExist(trucker_trailer_blip) then
@@ -522,7 +562,7 @@ Citizen.CreateThread(function()
 									DisplayHelpText("Press ~INPUT_CONTEXT~ to get a trailer!")
 									if IsControlJustPressed(1, 51) then
 										Citizen.CreateThread(function()
-											local model = trucker_destinations[trucker_job].Trailer
+											local model = possibleTierMissions[trucker_job].Trailer
 											RequestModel(model)
 											while not HasModelLoaded(model) do
 												Citizen.Wait(0)
@@ -554,7 +594,7 @@ Citizen.CreateThread(function()
 								trucker_trailer_blip = nil
 							end
 							if not DoesBlipExist(trucker_blip) then
-								trucker_blip = AddBlipForCoord(trucker_destinations[trucker_job].Destination.x, trucker_destinations[trucker_job].Destination.y, trucker_destinations[trucker_job].Destination.z)
+								trucker_blip = AddBlipForCoord(possibleTierMissions[trucker_job].Destination.x, possibleTierMissions[trucker_job].Destination.y, possibleTierMissions[trucker_job].Destination.z)
 								SetBlipSprite(trucker_blip, 1)
 								SetBlipColour(trucker_blip, 60)
 								SetBlipAsShortRange(trucker_blip, true)
@@ -564,15 +604,17 @@ Citizen.CreateThread(function()
 								EndTextCommandSetBlipName(trucker_blip)
 								SetBlipRoute(trucker_blip, true)
 							end
-							if Vdist(pos.x, pos.y, pos.z, trucker_destinations[trucker_job].Destination.x, trucker_destinations[trucker_job].Destination.y, trucker_destinations[trucker_job].Destination.z) < 20 then
-								RenderMarker(25, trucker_destinations[trucker_job].Destination.x, trucker_destinations[trucker_job].Destination.y, trucker_destinations[trucker_job].Destination.z, 6.0, 6.0, 6.5, 0, 255, 0, 255)
-								if Vdist(pos.x, pos.y, pos.z, trucker_destinations[trucker_job].Destination.x, trucker_destinations[trucker_job].Destination.y, trucker_destinations[trucker_job].Destination.z) < 6 then
+							if Vdist(pos.x, pos.y, pos.z, possibleTierMissions[trucker_job].Destination.x, possibleTierMissions[trucker_job].Destination.y, possibleTierMissions[trucker_job].Destination.z) < 20 then
+								RenderMarker(25, possibleTierMissions[trucker_job].Destination.x, possibleTierMissions[trucker_job].Destination.y, possibleTierMissions[trucker_job].Destination.z, 6.0, 6.0, 6.5, 0, 255, 0, 255)
+								if Vdist(pos.x, pos.y, pos.z, possibleTierMissions[trucker_job].Destination.x, possibleTierMissions[trucker_job].Destination.y, possibleTierMissions[trucker_job].Destination.z) < 6 then
 									DisplayHelpText("Press ~INPUT_CONTEXT~ to complete the delivery!")
 									if IsControlJustPressed(1, 51) then
-										TriggerServerEvent("trucker:complete", trucker_destinations[trucker_job].Tier)
+										local distance = Vdist(pos.x, pos.y, pos.z, locations.truck.x, locations.truck.y, locations.truck.z)
+										TriggerServerEvent("trucker:complete", possibleTierMissions[trucker_job].Tier, distance)
 										DestroyVehicle(trucker_trailer)
 										trucker_trailer = nil
 										trucker_job = nil
+										possibleTierMissions = {}
 									end
 								end
 							end
