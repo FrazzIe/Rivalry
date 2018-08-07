@@ -202,10 +202,6 @@ AddEventHandler("playerSpawned", function()
             Notify("No vehicle in range!")
         end
     end, false, {Help = "Open/Close your trunk!", Params = {}})
-
-    Chat.Command("newmdt", function(source, args, fullCommand)
-            TriggerEvent('open:newmdt')
-    end, false, {Help = "Open/Close the MDT!", Params = {}})
 end)
 
     Chat.Command("showid", function(source, args, rawCommand)
