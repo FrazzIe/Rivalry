@@ -1,32 +1,32 @@
 bone_config = {
 	["WEAPON_BAT"] = {
 		bone = 24818,
-		coordinates = {x = 0.0, y = 0.0, z = 0.0}, 
-		rotation = {x = 320.0, y = 320.0, z = 320.0}, 
+		coordinates = {x = -0.1, y = -0.15, z = 0.07},
+		rotation = {x = 0.0, y = 125.0, z = 0.0},
 		model = "w_me_bat"
 	},
 	["WEAPON_GOLFCLUB"] = {		
 		bone = 24818,		
-		coordinates = {x = 0.1, y = -0.15, z = 0.0}, 
-		rotation = {x = 0.0, y = 0.0, z = 0.0},
+		coordinates = {x = -0.2, y = -0.15, z = 0.07},
+		rotation = {x = 0.0, y = 90.0, z = 0.0},
 		model = "w_me_gclub"
 	},
 	["WEAPON_CROWBAR"] = {
 		bone = 24818,
-		coordinates = {x = 0.1, y = -0.15, z = 0.0}, 
-		rotation = {x = 0.0, y = 0.0, z = 0.0},
+		coordinates = {x = -0.2, y = -0.15, z = 0.07},
+		rotation = {x = 0.0, y = 90.0, z = 0.0},
 		model = "w_me_crowbar"
 	},
 	["WEAPON_HATCHET"] = {
-		bone = 24818, 
-		coordinates = {x = -0.01, y = 0.10, z = 0.07}, 
-		rotation = {x = 0.0, y = 0.0, z = 0.0},
+		bone = 51826, 
+		coordinates = {x = -0.01, y = 0.10, z = 0.1},
+		rotation = {x = 85.0, y = 0.0,  z = 45.0},
 		model = "w_me_hatchet"
 	},
 	["WEAPON_MACHETE"] = {
-		bone = 24818,
-		coordinates = {x = -0.01, y = 0.10, z = 0.07}, 
-		rotation = {x = 0.0, y = 0.0, z = 0.0},
+		bone = 51826,
+		coordinates = {x = -0.01, y = 0.10, z = 0.1},
+		rotation = {x = 85.0, y = 0.0,  z = 45.0},
 		model = "prop_ld_w_me_machette"
 	},
 	["WEAPON_PETROLCAN"] = {
@@ -42,9 +42,9 @@ bone_config = {
 		model = "w_sg_pumpshotgun"
 	}, 
 	["WEAPON_MICROSMG"] = {
-		bone = 24818, 
-		coordinates = {x = 0.1, y = -0.15, z = 0.0}, 
-		rotation = {x = 0.0, y = 0.0, z = 0.0},
+		bone = 51826, 
+		coordinates = {x = -0.01, y = 0.10, z = 0.07},
+		rotation = {x = -115.0, y = 0.0,  z = 0.0},
 		model = "w_sb_microsmg"
 	},
 	["WEAPON_GUSENBERG"] = {
@@ -59,9 +59,9 @@ bone_config = {
 		model = "w_sb_combatpdw"
 	},
 	["WEAPON_MINISMG"] = {
-		bone = 24818,
-		coordinates = {x = -0.01, y = 0.10, z = 0.07}, 
-		rotation = {x = 0.0, y = 0.0, z = 0.0},
+		bone = 51826,
+		coordinates = {x = -0.01, y = 0.10, z = 0.07},
+		rotation = {x = -115.0, y = 0.0,  z = 0.0},
 		model = "w_sb_minismg"
 	},
 	["WEAPON_CARBINERIFLE"] = {
@@ -100,12 +100,12 @@ bone_config = {
 		rotation = {x = 0.0, y = 0.0, z = 0.0}, 
 		model = "w_ar_musket"
 	},
-	["WEAPON_DBSHOTGUN"] = {
-		bone = 24818,		
-		coordinates = {x = 0.1, y = -0.15, z = 0.0}, 
-		rotation = {x = 0.0, y = 0.0, z = 0.0}, 
-		model = "w_sg_dbshotgun"
-	},
+--[[	["WEAPON_DBSHOTGUN"] = {
+		bone = 57597,		
+		coordinates = {x = 0.08, y = -0.15, z = 0.07}, 
+		rotation = {x = 0.0, y = 75.0, z = 0.0}, 
+		model = "w_sg_doublebarrel"
+	},--]]
 	["WEAPON_SNIPERRIFLE"] = {
 		bone = 24818,
 		coordinates = {x = 0.1, y = -0.15, z = 0.0}, 
@@ -126,20 +126,20 @@ bone_config = {
 	},
 	["WEAPON_BATTLEAXE"] = {
 		bone = 24818,
-		coordinates = {x = -0.01, y = 0.10, z = 0.07}, 
-		rotation = {x = 0.0, y = 0.0, z = 0.0},
+		coordinates = {x = -0.1, y = -0.15, z = 0.07},
+		rotation = {x = 0.0, y = 125.0, z = 0.0},
 		model = "w_me_battleaxe"
 	},
 	["WEAPON_POOLCUE"] = {
 		bone = 24818,
-		coordinates = {x = 0.1, y = -0.15, z = 0.0}, 
-		rotation = {x = 0.0, y = 0.0, z = 0.0},
+		coordinates = {x = -0.1, y = -0.15, z = 0.07},
+		rotation = {x = 0.0, y = 125.0, z = 0.0},
 		model = "w_me_poolcue"
 	},
 	["WEAPON_WRENCH"] = {
-		bone = 24818,
-		coordinates = {x = -0.01, y = 0.10, z = 0.07}, 
-		rotation = {x = 0.0, y = 0.0, z = 0.0},
+		bone = 51826,
+		coordinates = {x = -0.01, y = 0.10, z = 0.08},
+		rotation = {x = 90.0, y = 90.0,  z = 0.0},
 		model = "w_me_wrench"
 	},
 }
@@ -173,19 +173,6 @@ Citizen.CreateThread(function()
 	      			elseif onPlayer and _weapon_hash == GetSelectedPedWeapon(_ped) then
 						RemoveWeapon(_weapon)
 	      			end
-	      		else
-					for _Weapon, entity in pairs(attached_weapons) do
-	      				if entity ~= nil then
-	      					if _Weapon == _weapon then
-	      						onPlayer = true
-	      						break
-	      					end
-	      				end
-	      			end
-
-	      			if attached_weapons[_weapon] ~= nil then
-	      				RemoveWeapon(_weapon)
-	      			end
 	    		end
 	    	end
   		end
@@ -206,7 +193,10 @@ end)
 
 function RemoveWeapon(_weapon)
 	if attached_weapons[_weapon] ~= nil then
+		print("Removing ".._weapon.." "..attached_weapons[_weapon])
 		DestroyObject(attached_weapons[_weapon])
+	else
+		print("Invalid Entity!")
 	end
 	attached_weapons[_weapon] = nil
 end
@@ -221,6 +211,7 @@ function RemoveWeapons()
 end
 
 function AddWeapon(_weapon)
+	print("Adding ".._weapon..", Exists? : "..(bone_config[_weapon] and "Yes" or "No"))
 	if bone_config[_weapon] then
 		local weapon_hash = GetHashKey(bone_config[_weapon]["model"])
 		RequestModel(weapon_hash)
@@ -234,13 +225,10 @@ function AddWeapon(_weapon)
 			Citizen.Wait(0)
 		end
 
-		SetModelAsNoLongerNeeded(weapon_hash)
-
 		local _ped = PlayerPedId()
 		local boneIndex = GetPedBoneIndex(_ped, bone_config[_weapon]["bone"])
 		local bonePos = GetWorldPositionOfEntityBone(_ped, boneIndex)
 		AttachEntityToEntity(attached_weapons[_weapon], _ped, boneIndex, bone_config[_weapon]["coordinates"]["x"], bone_config[_weapon]["coordinates"]["y"], bone_config[_weapon]["coordinates"]["z"], bone_config[_weapon]["rotation"]["x"], bone_config[_weapon]["rotation"]["y"], bone_config[_weapon]["rotation"]["z"], false, false, false, false, 2, true)
-		
 	end
 end
 
@@ -258,14 +246,10 @@ function AddWeapons()
 				while not DoesEntityExist(attached_weapons[_weapon]) do
 					Citizen.Wait(0)
 				end
-
-				SetModelAsNoLongerNeeded(weapon_hash)
-
 				local _ped = PlayerPedId()
 				local boneIndex = GetPedBoneIndex(_ped, bone_config[_weapon]["bone"])
 				local bonePos = GetWorldPositionOfEntityBone(_ped, boneIndex)
 				AttachEntityToEntity(attached_weapons[_weapon], _ped, boneIndex, bone_config[_weapon]["coordinates"]["x"], bone_config[_weapon]["coordinates"]["y"], bone_config[_weapon]["coordinates"]["z"], bone_config[_weapon]["rotation"]["x"], bone_config[_weapon]["rotation"]["y"], bone_config[_weapon]["rotation"]["z"], false, false, false, false, 2, true)
-				
 			end
 		end
 	end)
@@ -298,10 +282,6 @@ function RemoveAndAddWeapons()
 	      		elseif onPlayer and _weapon_hash == GetSelectedPedWeapon(_ped) then
 					RemoveWeapon(_weapon)
 	      		end
-	      	else
-	      		if attached_weapons[_weapon] ~= nil then
-	      			RemoveWeapon(_weapon)
-	      		end
 	    	end
 	    end
 		aw_loaded = true
@@ -310,21 +290,17 @@ end
 
 local weaponstable = {
     "WEAPON_PISTOL",
-    "WEAPON_PISTOL50",
     "WEAPON_COMBATPISTOL",
     "WEAPON_STUNGUN",
     "WEAPON_FLAREGUN",
     "WEAPON_APPISTOL",
-    "WEAPON_DBSHOTGUN",
-    "WEAPON_PISTOL_MK2",
-    "WEAPON_VINTAGEPISTOL",
+    "WEAPON_DBSHOTGUN"
 }
 
 local riflestable = {
     "WEAPON_CARBINERIFLE",
     "WEAPON_COMPACTRIFLE",
     "WEAPON_PUMPSHOTGUN",
-    "WEAPON_MUSKET",
 }
 
 function CheckWeapon(ped)
@@ -408,7 +384,7 @@ Citizen.CreateThread(function()
 						firingdisabled = true
 	                    Citizen.Wait(1100)
 	                    SetPedCurrentWeaponVisible(ped, 1, 1, 1, 1)
-	                    Citizen.Wait(1000)
+	                    Citizen.Wait(1200)
 	                    
 	                    ClearPedTasks(ped)
 	                    holstered = false
@@ -419,7 +395,7 @@ Citizen.CreateThread(function()
 	                    SetPedCurrentWeaponVisible(ped, 1, 1, 1, 1)
 	                    TaskPlayAnim(ped, "reaction@intimidation@1h", "outro", 8.0, 2.0, -1, 48, 10, 0, 0, 0 )
 						firingdisabled = true
-	                    Citizen.Wait(1200)
+	                    Citizen.Wait(1300)
 	                    
 	                    ClearPedTasks(ped)
 	                    holstered = true
