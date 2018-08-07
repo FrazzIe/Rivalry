@@ -3,16 +3,6 @@ Core = {
 	Players = {},
 }
 
-function Core.CanPlayerTargetPlayer(SourcePlayer, TargetPlayer)
-    if Core.Players[SourcePlayer] and Core.Players[TargetPlayer] then
-        if Core.Players[SourcePlayer].Power > Core.Players[TargetPlayer].Power then
-            return true
-        else
-            return false
-        end
-    end
-end
-
 function Core.SetupUser(Data)
 	local User = {}
 
@@ -86,7 +76,7 @@ AddEventHandler("Core.Start", function()
 				TriggerClientEvent("Core.Ready.User", Source, Core.Players[Source].User)
 			else
 				local Lastplayed, Timestamp = os.time(), os.time()
-				local Username = string.gsub(GetPlayerName(Source), "%W", " ")
+				local Username = GetPlayerName(Source)
 
 	            exports["GHMattiMySQL"]:Insert("user", {
 	                {
