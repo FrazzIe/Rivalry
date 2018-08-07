@@ -173,6 +173,19 @@ Citizen.CreateThread(function()
 	      			elseif onPlayer and _weapon_hash == GetSelectedPedWeapon(_ped) then
 						RemoveWeapon(_weapon)
 	      			end
+	      		else
+					for _Weapon, entity in pairs(attached_weapons) do
+	      				if entity ~= nil then
+	      					if _Weapon == _weapon then
+	      						onPlayer = true
+	      						break
+	      					end
+	      				end
+	      			end
+
+	      			if attached_weapons[_weapon] ~= nil then
+	      				RemoveWeapon(_weapon)
+	      			end
 	    		end
 	    	end
   		end
@@ -193,10 +206,7 @@ end)
 
 function RemoveWeapon(_weapon)
 	if attached_weapons[_weapon] ~= nil then
-		print("Removing ".._weapon.." "..attached_weapons[_weapon])
 		DestroyObject(attached_weapons[_weapon])
-	else
-		print("Invalid Entity!")
 	end
 	attached_weapons[_weapon] = nil
 end
@@ -211,7 +221,6 @@ function RemoveWeapons()
 end
 
 function AddWeapon(_weapon)
-	print("Adding ".._weapon..", Exists? : "..(bone_config[_weapon] and "Yes" or "No"))
 	if bone_config[_weapon] then
 		local weapon_hash = GetHashKey(bone_config[_weapon]["model"])
 		RequestModel(weapon_hash)
@@ -225,10 +234,13 @@ function AddWeapon(_weapon)
 			Citizen.Wait(0)
 		end
 
+		SetModelAsNoLongerNeeded(weapon_hash)
+
 		local _ped = PlayerPedId()
 		local boneIndex = GetPedBoneIndex(_ped, bone_config[_weapon]["bone"])
 		local bonePos = GetWorldPositionOfEntityBone(_ped, boneIndex)
 		AttachEntityToEntity(attached_weapons[_weapon], _ped, boneIndex, bone_config[_weapon]["coordinates"]["x"], bone_config[_weapon]["coordinates"]["y"], bone_config[_weapon]["coordinates"]["z"], bone_config[_weapon]["rotation"]["x"], bone_config[_weapon]["rotation"]["y"], bone_config[_weapon]["rotation"]["z"], false, false, false, false, 2, true)
+		
 	end
 end
 
@@ -246,10 +258,14 @@ function AddWeapons()
 				while not DoesEntityExist(attached_weapons[_weapon]) do
 					Citizen.Wait(0)
 				end
+
+				SetModelAsNoLongerNeeded(weapon_hash)
+
 				local _ped = PlayerPedId()
 				local boneIndex = GetPedBoneIndex(_ped, bone_config[_weapon]["bone"])
 				local bonePos = GetWorldPositionOfEntityBone(_ped, boneIndex)
 				AttachEntityToEntity(attached_weapons[_weapon], _ped, boneIndex, bone_config[_weapon]["coordinates"]["x"], bone_config[_weapon]["coordinates"]["y"], bone_config[_weapon]["coordinates"]["z"], bone_config[_weapon]["rotation"]["x"], bone_config[_weapon]["rotation"]["y"], bone_config[_weapon]["rotation"]["z"], false, false, false, false, 2, true)
+				
 			end
 		end
 	end)
@@ -282,6 +298,10 @@ function RemoveAndAddWeapons()
 	      		elseif onPlayer and _weapon_hash == GetSelectedPedWeapon(_ped) then
 					RemoveWeapon(_weapon)
 	      		end
+	      	else
+	      		if attached_weapons[_weapon] ~= nil then
+	      			RemoveWeapon(_weapon)
+	      		end
 	    	end
 	    end
 		aw_loaded = true
@@ -290,17 +310,21 @@ end
 
 local weaponstable = {
     "WEAPON_PISTOL",
+    "WEAPON_PISTOL50",
     "WEAPON_COMBATPISTOL",
     "WEAPON_STUNGUN",
     "WEAPON_FLAREGUN",
     "WEAPON_APPISTOL",
-    "WEAPON_DBSHOTGUN"
+    "WEAPON_DBSHOTGUN",
+    "WEAPON_PISTOL_MK2",
+    "WEAPON_VINTAGEPISTOL",
 }
 
 local riflestable = {
     "WEAPON_CARBINERIFLE",
     "WEAPON_COMPACTRIFLE",
     "WEAPON_PUMPSHOTGUN",
+    "WEAPON_MUSKET",
 }
 
 function CheckWeapon(ped)
@@ -384,7 +408,7 @@ Citizen.CreateThread(function()
 						firingdisabled = true
 	                    Citizen.Wait(1100)
 	                    SetPedCurrentWeaponVisible(ped, 1, 1, 1, 1)
-	                    Citizen.Wait(1200)
+	                    Citizen.Wait(1000)
 	                    
 	                    ClearPedTasks(ped)
 	                    holstered = false
@@ -395,7 +419,7 @@ Citizen.CreateThread(function()
 	                    SetPedCurrentWeaponVisible(ped, 1, 1, 1, 1)
 	                    TaskPlayAnim(ped, "reaction@intimidation@1h", "outro", 8.0, 2.0, -1, 48, 10, 0, 0, 0 )
 						firingdisabled = true
-	                    Citizen.Wait(1300)
+	                    Citizen.Wait(1200)
 	                    
 	                    ClearPedTasks(ped)
 	                    holstered = true
