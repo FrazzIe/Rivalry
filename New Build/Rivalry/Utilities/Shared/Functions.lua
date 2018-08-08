@@ -35,6 +35,10 @@ function Utilities.ToBool(input)
 	end
 end
 
+function Utilities.BoolToNumber(input)
+	return input and 1 or 0
+end
+
 function Utilities.PadString(input, pad_length, pad_string, pad_type)
     local output = input
 
