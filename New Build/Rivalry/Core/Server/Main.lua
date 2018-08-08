@@ -1,6 +1,19 @@
 Core = {
 	Groups = {},
 	Players = {},
+	Settings = {
+		Character = {
+			Cash = 5000,
+			Counterfeit = 0,
+			Bank = 0,
+			Position = {x = 0.0, y = 0.0, z = 0.0},
+			Job = 0,
+			Licenses = {
+				Weapon = false,
+				Drivers = false,
+			},
+		},
+	}
 }
 
 function Core.SetupUser(Data)
@@ -36,6 +49,7 @@ function Core.SetupCharacter(Data)
 	Character.Lastname = Data.lastname
 	Character.Name = Data.firstname.." "..Data.lastname
 	Character.Gender = Data.gender
+	Character.Birthday = Data.dob
 
 	Character.Position = {x = Data.position_x, y = Data.position_y, z = Data.position_z}
 
@@ -58,50 +72,6 @@ function Core.SetupCharacter(Data)
 
 	return Character
 end
-
-RegisterServerEvent("Core.Start")
-AddEventHandler("Core.Start", function()
-	local Source = source
-	local Steam, Steam64, Steam32, License, IP = Utilities.GetPlayerSteam(Source), Utilities.GetPlayerSteam64(Source), Utilities.GetPlayerSteam32(Source), Utilities.GetPlayerLicense(Source), Utilities.GetPlayerIP(Source)
-
-	if Steam == nil or Steam64 == nil or Steam32 == nil or License == nil or IP == nil then
-		DropPlayer(Source, "We were unable to retrieve the identifiers needed to load your characters!")
-	else
-		Core.Players[Source] = {}
-		exports["GHMattiMySQL"]:QueryResultAsync("SELECT * FROM User WHERE steam = @steam", {["@steam"] = Steam}, function(Result)
-			if result[1] ~= nil then
-				Core.Players[Source].User = Core.SetupUser(Result)
-
-				TriggerEvent("Core.Ready.User", Source, Core.Players[Source].User)
-				TriggerClientEvent("Core.Ready.User", Source, Core.Players[Source].User)
-			else
-				local Lastplayed, Timestamp = os.time(), os.time()
-				local Username = GetPlayerName(Source)
-
-	            exports["GHMattiMySQL"]:Insert("user", {
-	                {
-	                	["@steam"] = Steam,
-	                	["@steam64"] = Steam64,
-	                	["@steam32"] = Steam32,
-	                	["@license"] = License,
-	                	["@ip"] = IP,
-	                	["@username"] = Username,
-	                	["@lastplayed"] = Lastplayed,
-	                	["@timestamp"] = Timestamp,
-	                	["@playtime"] = 0,
-	                	["@group"] = "default",
-	                	["@power"] = 0,
-	                }
-	            }, function(Id)
-	            	Core.Players[Source].User = Core.SetupUser({steam = Steam, steam64 = Steam64, steam32 = Steam32, license = License, ip = IP, username = Username, lastplayed = Lastplayed, timestamp = Timestamp, playtime = 0, group = "default", power = 0})
-	            	
-	            	TriggerEvent("Core.Ready.User", Source, Core.Players[Source].User)
-	            	TriggerClientEvent("Core.Ready.User", Source, Core.Players[Source].User)
-	            end, true)
-			end
-		end)
-	end
-end)
 
 AddEventHandler("onServerResourceStart", function(resource)
 	if resource == GetCurrentResourceName() then
@@ -145,4 +115,169 @@ AddEventHandler("onServerResourceStart", function(resource)
 
 		Core.Groups.AddInherit("ems", "default")
 	end
+end)
+
+RegisterServerEvent("Core.Start")
+AddEventHandler("Core.Start", function()
+	local Source = source
+	local Steam, Steam64, Steam32, License, IP = Utilities.GetPlayerSteam(Source), Utilities.GetPlayerSteam64(Source), Utilities.GetPlayerSteam32(Source), Utilities.GetPlayerLicense(Source), Utilities.GetPlayerIP(Source)
+
+	if Steam == nil or Steam64 == nil or Steam32 == nil or License == nil or IP == nil then
+		DropPlayer(Source, "We were unable to retrieve the identifiers needed to load your characters!")
+	else
+		Core.Players[Source] = {}
+		exports["GHMattiMySQL"]:QueryResultAsync("SELECT * FROM User WHERE steam = @steam", {["@steam"] = Steam}, function(Result)
+			if Result[1] ~= nil then
+				Core.Players[Source].User = Core.SetupUser(Result[1])
+
+				TriggerEvent("Core.Ready.User", Source, Core.Players[Source].User)
+				TriggerClientEvent("Core.Ready.User", Source, Core.Players[Source].User)
+			else
+				local Lastplayed, Timestamp = os.time(), os.time()
+				local Username = GetPlayerName(Source)
+
+	            exports["GHMattiMySQL"]:Insert("User", {
+	                {
+	                	["@steam"] = Steam,
+	                	["@steam64"] = Steam64,
+	                	["@steam32"] = Steam32,
+	                	["@license"] = License,
+	                	["@ip"] = IP,
+	                	["@username"] = Username,
+	                	["@lastplayed"] = Lastplayed,
+	                	["@timestamp"] = Timestamp,
+	                	["@playtime"] = 0,
+	                	["@group"] = "default",
+	                	["@power"] = 0,
+	                }
+	            }, function(Id)
+	            	Core.Players[Source].User = Core.SetupUser({steam = Steam, steam64 = Steam64, steam32 = Steam32, license = License, ip = IP, username = Username, lastplayed = Lastplayed, timestamp = Timestamp, playtime = 0, group = "default", power = 0})
+	            	
+	            	TriggerEvent("Core.Ready.User", Source, Core.Players[Source].User)
+	            	TriggerClientEvent("Core.Ready.User", Source, Core.Players[Source].User)
+	            end, true)
+			end
+		end)
+	end
+end)
+
+RegisterServerEvent("Core.Update")
+AddEventHandler("Core.Update", function(Playtime, Coordinates)
+	local Source = source
+
+	if Core.Players[Source] then
+		Core.SetPlayerPlaytime(Source, Core.GetPlayerTimestamp(Source) + Playtime)
+
+		if Core.Players[Source].Character then
+			Core.SetPlayerCharacterPlaytime(Source, Core.GetPlayerCharacterPlaytime(Source) + Playtime)
+			Core.SetPlayerPosition(Source, Coordinates.x, Coordinates.y, Coordinates.z)
+		end
+	end
+end)
+
+RegisterServerEvent("Core.Characters.Get")
+AddEventHandler("Core.Characters.Get", function()
+	local Source = source
+
+	exports["GHMattiMySQL"]:QueryResultAsync("SELECT * FROM Character WHERE steam = @steam", {["@steam"] = Core.GetPlayerSteam(Source) or Utilities.GetPlayerSteam(Source)}, function(Result)
+		TriggerClientEvent("Core.Set.Characters", Source, Result)
+	end)
+end)
+
+RegisterServerEvent("Core.Character.Create")
+AddEventHandler("Core.Character.Create", function(Data)
+	local Source = source
+	local Lastplayed, Timestamp =  os.time(), os.time()
+
+	exports["GHMattiMySQL"]:Insert("Character", {
+		["@firstname"] = Data.firstname,
+		["@lastname"] = Data.lastname,
+		["@gender"] = Data.gender,
+		["@dob"] = Data.dob,
+		["@position_x"] = Core.Settings.Character.Position.x,
+		["@position_y"] = Core.Settings.Character.Position.y,
+		["@position_z"] = Core.Settings.Character.Position.z,
+		["@lastplayed"] = Lastplayed,
+		["@timestamp"] = Timestamp,
+		["@playtime"] = 0,
+		["@cash"] = Core.Settings.Character.Cash,
+		["@counterfeit"] = Core.Settings.Character.Counterfeit,
+		["@bank"] = Core.Settings.Character.Bank,
+		["@job"] = Core.Settings.Character.Job,
+		["@weapon_license"] = Utilities.BoolToNumber(Core.Settings.Character.Licenses.Weapon),
+		["@drivers_license"] = Utilities.BoolToNumber(Core.Settings.Character.Licenses.Drivers),
+		["@jail_time"] = 0,
+	}, function(Id)
+		TriggerClientEvent("Core.Character.Create", Source, {
+			id = Id,
+			firstname = Data.firstname,
+			lastname = Data.lastname,
+			gender = Data.gender,
+			dob = Data.dob,
+			position_x = Core.Settings.Character.Position.x,
+			position_y = Core.Settings.Character.Position.y,
+			position_z = Core.Settings.Character.Position.z,
+			lastplayed = Lastplayed,
+			timestamp = Timestamp,
+			playtime = 0,
+			cash = Core.Settings.Character.Cash,
+			counterfeit = Core.Settings.Character.Counterfeit,
+			bank = Core.Settings.Character.Bank,
+			job = Core.Settings.Character.Job,
+			weapon_license = Utilities.BoolToNumber(Core.Settings.Character.Licenses.Weapon),
+			drivers_license = Utilities.BoolToNumber(Core.Settings.Character.Licenses.Drivers),
+			jail_time = 0,
+		})
+	end)
+end)
+
+RegisterServerEvent("Core.Character.Edit")
+AddEventHandler("Core.Character.Edit", function(Data)
+	local Source = source
+
+	exports["GHMattiMySQL"]:QueryAsync("UPDATE Character SET firstname=@firstname, lastname=@lastname, gender=@gender, dob=@dob WHERE id=@id", {
+		["@id"] = Data.id,
+		["@firstname"] = Data.firstname,
+		["@lastname"] = Data.lastname,
+		["@gender"] = Data.gender,
+		["@dob"] = Data.dob,
+	})
+
+	TriggerClientEvent("Core.Character.Edit", Source, Data)
+end)
+
+RegisterServerEvent("Core.Character.Delete")
+AddEventHandler("Core.Character.Delete", function(Data)
+	local Source = source
+
+	exports["GHMattiMySQL"]:QueryAsync("DELETE FROM Character WHERE id=@id", {
+		["@id"] = Data.id,
+	})
+
+	TriggerClientEvent("Core.Character.Delete", Source, Data)
+end)
+
+RegisterServerEvent("Core.Character.Select")
+AddEventHandler("Core.Character.Select", function(Data)
+	local Source = source
+
+	exports["GHMattiMySQL"]:QueryResultAsync("SELECT * FROM Character WHERE id=@id", {
+		["@id"] = Data.id
+	}, function(Result)
+		if Result[1] ~= nil then
+			Core.Players[Source].Character = Core.SetupCharacter(Result[1])
+
+			TriggerEvent("Core.Ready.Character", Source)
+		end
+	end)
+end)
+
+RegisterServerEvent("Core.Character.Switch")
+AddEventHandler("Core.Character.Switch", function(Data)
+	local Source = source
+
+	Core.Players[Source].Character = nil
+
+	TriggerEvent("Core.Character.Switched", Source)
+	TriggerClientEvent("Core.Character.Switch", Source)
 end)

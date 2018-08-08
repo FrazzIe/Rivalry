@@ -12,8 +12,9 @@ Citizen.CreateThread(function()
 		
 		Player.Playtime = Player.Playtime + 1
 
-		if LastUpdate + 60 == Player.Playtime then
+		if (LastUpdate + 60) == Player.Playtime then
 			LastUpdate = Player.Playtime
+			
 			TriggerServerEvent("Core.Update", Player.Playtime, Player.Coordinates)
 		end
 	end
@@ -24,6 +25,7 @@ Citizen.CreateThread(function()
 		Citizen.Wait(0)
 		if NetworkIsSessionStarted() then
 			TriggerServerEvent("Core.Start")
+
 			return
 		end
 	end

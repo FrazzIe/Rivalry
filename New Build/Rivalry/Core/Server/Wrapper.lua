@@ -1,3 +1,27 @@
+-- Groups
+
+function Core.AddGroup(Id)
+	exports["Rivalry"]:Export_AddGroup(Id)
+end
+
+function Core.AddGroupInherit(TargetGroup, InheritGroup)
+	exports["Rivalry"]:Export_AddGroupInherit(TargetGroup, InheritGroup)
+end
+
+function Core.RemoveGroupInherit(TargetGroup, InheritGroup)
+	exports["Rivalry"]:Export_RemoveGroupInherit(TargetGroup, InheritGroup)
+end
+
+function Core.AddGroupCommand(Command, Group, Callback, Suggestions)
+ 	exports["Rivalry"]:Export_AddGroupCommand(Command, Group, Callback, Suggestions)
+end
+
+function Core.CanGroupTargetGroup(SourceGroup, TargetGroup)
+	return exports["Rivalry"]:Export_CanGroupTargetGroup(SourceGroup, TargetGroup)
+end
+
+-- Power
+
 function Core.CanPlayerTargetPlayer(SourcePlayer, TargetPlayer)
 	return exports["Rivalry"]:Export_CanPlayerTargetPlayer(SourcePlayer, TargetPlayer)
 end
@@ -70,12 +94,12 @@ function Core.GetPlayerJob(Player)
 	return exports["Rivalry"]:Export_GetPlayerJob(Player)
 end
 
-function Core.GetPlayerForename(Player)
-	return exports["Rivalry"]:Export_GetPlayerForename(Player)
+function Core.GetPlayerFirstname(Player)
+	return exports["Rivalry"]:Export_GetPlayerFirstname(Player)
 end
 
-function Core.GetPlayerSurname(Player)
-	return exports["Rivalry"]:Export_GetPlayerSurname(Player)
+function Core.GetPlayerLastname(Player)
+	return exports["Rivalry"]:Export_GetPlayerLastname(Player)
 end
 
 function Core.GetPlayerName(Player)
@@ -138,12 +162,16 @@ function Core.SetPlayerBank(Player, Amount)
 	exports["Rivalry"]:Export_SetPlayerBank(Player, Amount)
 end
 
-function Core.SetPlayerForename(Player, Str)
-	exports["Rivalry"]:Export_SetPlayerForename(Player, Str)
+function Core.SetPlayerJob(Player, Id)
+	exports["Rivalry"]:Export_SetPlayerJob(Player, Id)
 end
 
-function Core.SetPlayerSurname(Player, Str)
-	exports["Rivalry"]:Export_SetPlayerSurname(Player, Str)
+function Core.SetPlayerFirstname(Player, Str)
+	exports["Rivalry"]:Export_SetPlayerFirstname(Player, Str)
+end
+
+function Core.SetPlayerLastname(Player, Str)
+	exports["Rivalry"]:Export_SetPlayerlastname(Player, Str)
 end
 
 function Core.SetPlayerGender(Player, Str)

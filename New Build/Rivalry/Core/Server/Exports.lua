@@ -1,3 +1,93 @@
+-- Groups
+
+function Export_AddGroup(Id)
+	if tostring(Id) then
+		if not Core.Groups[Id] then
+			Core.Groups[Id] = {}
+		end
+	end
+end
+
+function Export_AddGroupInherit(TargetGroup, InheritGroup)
+	if Core.Groups[TargetGroup] and Core.Groups[InheritGroup] then
+		if not Core.Groups[TargetGroup][InheritGroup] then
+			Core.Groups[TargetGroup][InheritGroup] = true
+			ExecuteCommand("add_principal group."..TargetGroup.." group."..InheritGroup)
+		end
+	end
+end
+
+function Export_RemoveGroupInherit(TargetGroup, InheritGroup)
+	if Core.Groups[TargetGroup] and Core.Groups[InheritGroup] then
+		if Core.Groups[TargetGroup][InheritGroup] then
+			Core.Groups[TargetGroup][InheritGroup] = nil
+			ExecuteCommand("remove_principal group."..TargetGroup.." group."..InheritGroup)
+		end
+	end
+end
+
+function Export_AddGroupCommand(Command, Group, Callback, Suggestions)
+	if type(Command) ~= "string" and type(Command) ~= "table" then
+		return Log.Error("Unable to add command!")
+	end
+
+	if type(Callback) ~= "function" then 
+		return Log.Error("Unable to add command! (Callback is not a function)") 
+	end
+
+	if Core.Groups[Group] then 
+		return Log.Error("Unable to add command! (Group doesn't exist)") 
+	end
+
+	if type(Command) == "table" then
+		for Index = 1, #Command do
+			RegisterCommand(Command[Index], function(Source, Args, FullCommand)
+				if not (Source ~= 0) then
+					Callback(Source, Args, FullCommand)
+				else
+					RconPrint("[INFO] You cannot use the command \""..Command[Index].."\" in the console!\n")
+				end
+			end, true)
+			
+			if Suggestions then
+				Chat.Suggestion(Command[Index], Suggestions.Help or "", Suggestions.Params or {})
+			end
+
+			ExecuteCommand("add_ace group."..Group.." command."..Command[Index].." allow")
+		end
+	else
+		RegisterCommand(Command, function(Source, Args, FullCommand)
+			if not (Source ~= 0) then
+				Callback(Source, Args, FullCommand)
+			else
+				RconPrint("[INFO] You cannot use the command \""..Command.."\" in the console!\n")
+			end
+		end, true)
+
+		if Suggestions then
+			Chat.Suggestion(Command, Suggestions.Help or "", Suggestions.Params or {})
+		end
+		
+		ExecuteCommand("add_ace group."..Group.." command."..Command.." allow")
+	end  
+end
+
+function Export_CanGroupTargetGroup(SourceGroup, TargetGroup)
+	if Core.Groups[SourceGroup] and Core.Groups[TargetGroup] then
+		if Core.Groups[SourceGroup][TargetGroup] then
+			if not Core.Groups[TargetGroup][SourceGroup] then
+				return true
+			else
+				return false
+			end
+		else
+			return false
+		end
+	end
+end
+
+-- Power
+
 function Export_CanPlayerTargetPlayer(SourcePlayer, TargetPlayer)
 	if Core.Players[SourcePlayer] and Core.Players[TargetPlayer] then
 		if Core.Players[SourcePlayer].User and Core.Players[TargetPlayer].User then
@@ -208,7 +298,7 @@ function Export_GetPlayerJob(Player)
 	end
 end
 
-function Export_GetPlayerForename(Player)
+function Export_GetPlayerFirstname(Player)
 	if Core.Players[Player] then
 		if Core.Players[Player].Character then
 			return Core.Players[Player].Character.Firstname
@@ -220,10 +310,10 @@ function Export_GetPlayerForename(Player)
 	end
 end
 
-function Export_GetPlayerSurname(Player)
+function Export_GetPlayerLastname(Player)
 	if Core.Players[Player] then
 		if Core.Players[Player].Character then
-			return Core.Players[Player].Character.Surname
+			return Core.Players[Player].Character.Lastname
 		else
 			return nil
 		end
@@ -337,6 +427,11 @@ function Export_SetPlayerPlaytime(Player, Amount)
 				Log.Info("Set player "..Player.."'s playtime to "..tostring(Amount))
 
 				Core.Players[Player].User.Playtime = Amount
+
+				exports["GHMattiMySQL"]:QueryAsync("UPDATE User SET playtime=@playtime WHERE id=@id", {
+					["@id"] = Core.Players[Player].User.Id,
+					["@playtime"] = Core.Players[Player].User.Playtime,
+				})
 			else
 				Log.Error("Unable to set player "..Player.."'s playtime to "..tostring(Amount))
 			end
@@ -355,6 +450,11 @@ function Export_SetPlayerPower(Player, Power)
 				Log.Info("Set player "..Player.."'s power to "..tostring(Power))
 
 				Core.Players[Player].User.Power = Power
+
+				exports["GHMattiMySQL"]:QueryAsync("UPDATE User SET power=@power WHERE id=@id", {
+					["@id"] = Core.Players[Player].User.Id,
+					["@power"] = Core.Players[Player].User.Power,
+				})
 			else
 				Log.Error("Unable to set player "..Player.."'s power to "..tostring(Power))
 			end
@@ -374,6 +474,11 @@ function Export_SetPlayerGroup(Player, Group)
 					Log.Info("Set player "..Player.."'s group to "..tostring(Group))
 
 					Core.Players[Player].User.Group = Group
+
+					exports["GHMattiMySQL"]:QueryAsync("UPDATE User SET group=@group WHERE id=@id", {
+						["@id"] = Core.Players[Player].User.Id,
+						["@group"] = Core.Players[Player].User.Group,
+					})
 				else
 					Log.Error("Unable to set player "..Player.."'s group to "..tostring(Group))
 				end
@@ -397,6 +502,11 @@ function Export_SetPlayerCash(Player, Amount)
 				Log.Info("Set player "..Player.."'s cash to "..tostring(Amount))
 
 				Core.Players[Player].Character.Cash = Amount
+
+				exports["GHMattiMySQL"]:QueryAsync("UPDATE Character SET cash=@cash WHERE id=@id", {
+					["@id"] = Core.Players[Player].Character.Id,
+					["@cash"] = Core.Players[Player].Character.Cash,
+				})
 			else
 				Log.Error("Unable to set player "..Player.."'s cash to "..tostring(Amount))
 			end
@@ -415,6 +525,11 @@ function Export_SetPlayerCounterfeit(Player, Amount)
 				Log.Info("Set player "..Player.."'s counterfeit to "..tostring(Amount))
 
 				Core.Players[Player].Character.Counterfeit = Amount
+
+				exports["GHMattiMySQL"]:QueryAsync("UPDATE Character SET counterfeit=@counterfeit WHERE id=@id", {
+					["@id"] = Core.Players[Player].Character.Id,
+					["@counterfeit"] = Core.Players[Player].Character.Counterfeit,
+				})
 			else
 				Log.Error("Unable to set player "..Player.."'s counterfeit to "..tostring(Amount))
 			end
@@ -433,6 +548,11 @@ function Export_SetPlayerBank(Player, Amount)
 				Log.Info("Set player "..Player.."'s bank to "..tostring(Amount))
 
 				Core.Players[Player].Character.Bank = Amount
+
+				exports["GHMattiMySQL"]:QueryAsync("UPDATE Character SET bank=@bank WHERE id=@id", {
+					["@id"] = Core.Players[Player].Character.Id,
+					["@bank"] = Core.Players[Player].Character.Bank,
+				})
 			else
 				Log.Error("Unable to set player "..Player.."'s bank to "..tostring(Amount))
 			end
@@ -444,14 +564,42 @@ function Export_SetPlayerBank(Player, Amount)
 	end
 end
 
-function Export_SetPlayerForename(Player, Str)
+function Export_SetPlayerJob(Player, Id)
+	if type(Id) == "number" then
+		if Core.Players[Player] then
+			if Core.Players[Player].Character then
+				Log.Info("Set player "..Player.."'s job to "..tostring(Id))
+
+				Core.Players[Player].Character.Job = Id
+
+				exports["GHMattiMySQL"]:QueryAsync("UPDATE Character SET job=@job WHERE id=@id", {
+					["@id"] = Core.Players[Player].Character.Id,
+					["@job"] = Core.Players[Player].Character.Job,
+				})
+			else
+				Log.Error("Unable to set player "..Player.."'s job to "..tostring(Id))
+			end
+		else
+			Log.Error("Unable to set player "..Player.."'s job to "..tostring(Id))
+		end
+	else
+		Log.Error("Unable to set player "..Player.."'s job as the amount "..tostring(Id).." wasn't a number value")
+	end
+end
+
+function Export_SetPlayerFirstname(Player, Str)
 	if type(Str) == "string" then
 		if Core.Players[Player] then
 			if Core.Players[Player].Character then
 				Log.Info("Set player "..Player.."'s forename to "..tostring(Str))
 
-				Core.Players[Player].Character.Forename = Str
-				Core.Players[Player].Character.Name = Core.Players[Player].Character.Forename.." "..Core.Players[Player].Character.Surname
+				Core.Players[Player].Character.Firstname = Str
+				Core.Players[Player].Character.Name = Core.Players[Player].Character.Firstname.." "..Core.Players[Player].Character.Lastname
+
+				exports["GHMattiMySQL"]:QueryAsync("UPDATE Character SET firstname=@firstname WHERE id=@id", {
+					["@id"] = Core.Players[Player].Character.Id,
+					["@firstname"] = Core.Players[Player].Character.Firstname,
+				})
 			else
 				Log.Error("Unable to set player "..Player.."'s forename to "..tostring(Str))
 			end
@@ -463,14 +611,19 @@ function Export_SetPlayerForename(Player, Str)
 	end
 end
 
-function Export_SetPlayerSurname(Player, Str)
+function Export_SetPlayerLastname(Player, Str)
 	if type(Str) == "string" then
 		if Core.Players[Player] then
 			if Core.Players[Player].Character then
 				Log.Info("Set player "..Player.."'s surname to "..tostring(Str))
 
-				Core.Players[Player].Character.Surname = Str
-				Core.Players[Player].Character.Name = Core.Players[Player].Character.Forename.." "..Core.Players[Player].Character.Surname
+				Core.Players[Player].Character.Lastname = Str
+				Core.Players[Player].Character.Name = Core.Players[Player].Character.Forename.." "..Core.Players[Player].Character.Lastname
+
+				exports["GHMattiMySQL"]:QueryAsync("UPDATE Character SET lastname=@lastname WHERE id=@id", {
+					["@id"] = Core.Players[Player].Character.Id,
+					["@lastname"] = Core.Players[Player].Character.Lastname,
+				})
 			else
 				Log.Error("Unable to set player "..Player.."'s surname to "..tostring(Str))
 			end
@@ -489,6 +642,11 @@ function Export_SetPlayerGender(Player, Str)
 				Log.Info("Set player "..Player.."'s gender to "..tostring(Str))
 
 				Core.Players[Player].Character.Gender = Str
+
+				exports["GHMattiMySQL"]:QueryAsync("UPDATE Character SET gender=@gender WHERE id=@id", {
+					["@id"] = Core.Players[Player].Character.Id,
+					["@gender"] = Core.Players[Player].Character.Gender,
+				})
 			else
 				Log.Error("Unable to set player "..Player.."'s gender to "..tostring(Str))
 			end
@@ -517,6 +675,13 @@ function Export_SetPlayerPosition(Player, X, Y, Z)
 				if tonumber(Z) then
 					Core.Players[Player].Character.Position.z = Z
 				end
+
+				exports["GHMattiMySQL"]:QueryAsync("UPDATE Character SET position_x=@position_x, position_y=@position_y, position_z=@position_z WHERE id=@id", {
+					["@id"] = Core.Players[Player].Character.Id,
+					["@position_x"] = Core.Players[Player].Character.Position.x,
+					["@position_y"] = Core.Players[Player].Character.Position.y,
+					["@position_z"] = Core.Players[Player].Character.Position.z,
+				})
 			else
 				Log.Error("Unable to set player "..Player.."'s position to to "..tostring(X)..", "..tostring(Y)..", "..tostring(Z))
 			end
@@ -533,6 +698,11 @@ function Export_SetPlayerCharacterPlaytime(Player, Amount)
 				Log.Info("Set player "..Player.."'s playtime to "..tostring(Amount))
 
 				Core.Players[Player].Character.Playtime = Amount
+
+				exports["GHMattiMySQL"]:QueryAsync("UPDATE Character SET playtime=@playtime WHERE id=@id", {
+					["@id"] = Core.Players[Player].Character.Id,
+					["@playtime"] = Core.Players[Player].Character.Playtime,
+				})
 			else
 				Log.Error("Unable to set player "..Player.."'s playtime to "..tostring(Amount))
 			end
@@ -551,6 +721,11 @@ function Export_SetPlayerJailtime(Player, Amount)
 				Log.Info("Set player "..Player.."'s jailtime to "..tostring(Amount))
 
 				Core.Players[Player].Character.Jailtime = Amount
+
+				exports["GHMattiMySQL"]:QueryAsync("UPDATE Character SET jail_time=@jail_time WHERE id=@id", {
+					["@id"] = Core.Players[Player].Character.Id,
+					["@jail_time"] = Core.Players[Player].Character.Jailtime,
+				})
 			else
 				Log.Error("Unable to set player "..Player.."'s jailtime to "..tostring(Amount))
 			end
@@ -569,6 +744,11 @@ function Export_SetPlayerWeaponLicense(Player, Bool)
 				Log.Info("Set player "..Player.."'s weapon license to "..tostring(Bool))
 
 				Core.Players[Player].Character.Licenses.Weapon = Bool
+
+				exports["GHMattiMySQL"]:QueryAsync("UPDATE Character SET weapon_license=@weapon_license WHERE id=@id", {
+					["@id"] = Core.Players[Player].Character.Id,
+					["@weapon_license"] = Utilities.BoolToNumber(Core.Players[Player].Character.Licenses.Weapon),
+				})
 			else
 				Log.Error("Unable to set player "..Player.."'s weapon license to "..tostring(Bool))
 			end
@@ -587,6 +767,11 @@ function Export_SetPlayerDriversLicense(Player, Bool)
 				Log.Info("Set player "..Player.."'s drivers license to "..tostring(Bool))
 
 				Core.Players[Player].Character.Licenses.Drivers = Bool
+
+				exports["GHMattiMySQL"]:QueryAsync("UPDATE Character SET drivers_license=@drivers_license WHERE id=@id", {
+					["@id"] = Core.Players[Player].Character.Id,
+					["@drivers_license"] = Utilities.BoolToNumber(Core.Players[Player].Character.Licenses.Drivers),
+				})
 			else
 				Log.Error("Unable to set player "..Player.."'s drivers license to "..tostring(Bool))
 			end
