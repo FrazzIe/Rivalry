@@ -168,7 +168,7 @@ Blackmarket_Weapons = {
 		{Weapon = "WEAPON_COMPACTRIFLE", Name = "Compact Rifle", Cost = 100000},
 		--{Weapon = "WEAPON_ADVANCEDRIFLE", Name = "Advanced Rifle", Cost = 1},
 		--{Weapon = "WEAPON_ASSAULTRIFLE", Name = "Assault Rifle", Cost = 1},
-		--{Weapon = "WEAPON_BULLPUPRIFLE", Name = "Bullpup Rifle", Cost = 150000},
+		--{Weapon = "WEAPON_BULLPUPRIFLE", Name = "Bullpup Rifle", Cost = 1},
 		--{Weapon = "WEAPON_CARBINERIFLE", Name = "Carbine Rifle", Cost = 1},
 		--{Weapon = "WEAPON_SPECIALCARBINE", Name = "Special Carbine", Cost = 1},
 	}},
