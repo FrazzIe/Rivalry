@@ -54,7 +54,8 @@ Citizen.CreateThread(function()
 		if not Player.Ready then Player.Ready = true end
 	end
 end)
-	local count = 0
+
+local count = 0
 Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(0)

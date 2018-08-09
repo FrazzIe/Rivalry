@@ -270,7 +270,7 @@ local UI = {
 Citizen.CreateThread(function()
     while true do
         Citizen.Wait(0)
-        if IsControlJustReleased(1, 84)then
+        if IsControlJustReleased(1, 39)then
             DisplayImmersionBars = not DisplayImmersionBars
             TriggerEvent('interaction:hud')
         end
