@@ -17,7 +17,7 @@ local armoury = {
     {name = "Armoury", sprite = 175, colour = 39, x=1852.49, y=3691.61, z=34.27}, -- Sandy Shores
     {name = "Armoury", sprite = 175, colour = 39, x=-1078.54, y=-857.00, z=5.04}, -- San Andreas Ave
     {name = "Armoury", sprite = 175, colour = 39, x=-566.57, y=-132.83, z=37.96}, -- Rockford Hills
-    {name = "Armoury", sprite = 175, colour = 39, x = 386.90667724609, y = 792.57531738281, z = 187.69357299805}, -- Park Ranger Station
+    {name = "Armoury", sprite = 175, colour = 39, x=389.47625732422, y=798.86975097656, z=187.67149353027}, -- Park Ranger Station
 }
 
 guns = {
