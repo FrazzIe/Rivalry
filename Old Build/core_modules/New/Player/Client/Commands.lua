@@ -248,13 +248,9 @@ AddEventHandler("core:ready", function()
     end, false, {Help = "Toggle shotgun",  Params = {}})
 
     Chat.Command("p#", function(source, args, rawCommand)
-        TriggerServerEvent("server:phonenumber")
+        TriggerServerEvent("server:showid")
     end, false, {Help = "Show your phone number.", Params = {}})
     
-    Chat.Command("showid", function(source, args, rawCommand)
-        TriggerServerEvent("server:showid")
-    end, false, {Help = "Show your id.", Params = {}})
-
 end)
 
 Citizen.CreateThread(function()
@@ -307,7 +303,7 @@ Citizen.CreateThread(function()
     end
 end)
 
---[[function drawRct(x,y,width,height,r,g,b,a) COMMENTED OUT WHILE REWRITING THE HUD EVENT
+function drawRct(x,y,width,height,r,g,b,a)
     DrawRect(x + width/2, y + height/2, width, height, r, g, b, a)
 end
 
@@ -335,25 +331,10 @@ Citizen.CreateThread(function()
             drawRct(UI.x + 0.0,     UI.y + 0.85, 1.0,0.151,0,0,0,255) -- Bottom Bar
         end
     end
-end)--]]
-
-RegisterNetEvent("showid:phonenumber")
-AddEventHandler("showid:phonenumber", function(currentjob, lastname, firstname, phonenumber)
-    local source = source
-    if(currentjob == "Police")then
-        currentjob = "Police "..string.gsub(exports.policejob:getPoliceRank() or "", "%f[%a].", string.upper)
-    end
-    if(currentjob == "Emergency")then
-        currentjob = "EMS "..string.gsub(exports.emsjob:getParamedicRank() or "", "%f[%a].", string.upper)
-    end
-    if(currentjob == "DOJ")then
-        currentjob = string.gsub(DOJ.rank or "", "%f[%a].", string.upper)
-    end
-    TriggerClientEvent("prox_chatMessage", -1, source, "ID: ", "^3 "..firstname.." "..lastname.." | "..currentjob.." | "..phonenumber.."^0")
 end)
 
-RegisterNetEvent("showid:info")
-AddEventHandler("showid:info", function(currentjob, lastname, firstname)
+RegisterNetEvent("showid-player")
+AddEventHandler("showid-player", function(currentjob, lastname, firstname, phonenumber)
     local source = source
     if(currentjob == "Police")then
         currentjob = "Police "..string.gsub(exports.policejob:getPoliceRank() or "", "%f[%a].", string.upper)
@@ -364,7 +345,7 @@ AddEventHandler("showid:info", function(currentjob, lastname, firstname)
     if(currentjob == "DOJ")then
         currentjob = string.gsub(DOJ.rank or "", "%f[%a].", string.upper)
     end
-    TriggerClientEvent("prox_chatMessage", -1, source, "ID: ", "^3 "..firstname.." "..lastname.." | "..currentjob.."^0")
+    Chat.Message(-1, "^3 "..firstname.." "..lastname.." | "..currentjob.." | "..phonenumber.."^0", true, "showid", 5, source)
 end)
 
 Citizen.CreateThread(function()
