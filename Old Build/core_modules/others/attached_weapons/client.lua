@@ -315,8 +315,8 @@ local weaponstable = {
     "WEAPON_STUNGUN",
     "WEAPON_FLAREGUN",
     "WEAPON_APPISTOL",
+    "WEAPON_MINISMG",
     "WEAPON_DBSHOTGUN",
-    "WEAPON_MICROSMG",
     "WEAPON_PISTOL_MK2",
     "WEAPON_VINTAGEPISTOL",
 }
@@ -330,6 +330,7 @@ local riflestable = {
     "WEAPON_BAT",
     "WEAPON_GOLFCLUB",
     "WEAPON_POOLCUE",
+    "WEAPON_MICROSMG",
 }
 
 function CheckWeapon(ped)
@@ -361,7 +362,7 @@ Citizen.CreateThread(function()
             RequestAnimDict( "rcmjosh4" )
             RequestAnimDict( "weapons@pistol@" )
             RequestAnimDict( "anim@heists@money_grab@duffel" )
-        	if(exports.policejob:getIsInService() or GetSelectedPedWeapon(ped) == GetHashKey("WEAPON_MICROSMG") ) then
+        	if(exports.policejob:getIsInService() or GetSelectedPedWeapon(ped) == GetHashKey("WEAPON_MINISMG") ) then
         		if CheckWeapon(ped) then
             		if holstered then
                 		TaskPlayAnim(ped, "rcmjosh4", "josh_leadout_cop2", 8.0, 2.0, -1, 48, 10, 0, 0, 0 )
