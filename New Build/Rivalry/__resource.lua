@@ -45,6 +45,37 @@ server_scripts {
 	"Police/Server/Spikes.lua",
 }
 
+exports {
+	"Export_CanGroupTargetGroup",
+	"Export_CanPlayerTargetPlayer",
+	"Export_GetPlayerUserId",
+	"Export_GetPlayerSteam",
+	"Export_GetPlayerSteam64",
+	"Export_GetPlayerSteam32",
+	"Export_GetPlayerLicense",
+	"Export_GetPlayerIP",
+	"Export_GetPlayerUsername",
+	"Export_GetPlayerPlaytime",
+	"Export_GetPlayerTimestamp",
+	"Export_GetPlayerPower",
+	"Export_GetPlayerGroup",
+	"Export_GetPlayerCharacterId",
+	"Export_GetPlayerCash",
+	"Export_GetPlayerCounterfeit",
+	"Export_GetPlayerBank",
+	"Export_GetPlayerJob",
+	"Export_GetPlayerFirstname",
+	"Export_GetPlayerLastname",
+	"Export_GetPlayerName",
+	"Export_GetPlayerGender",
+	"Export_GetPlayerPosition",
+	"Export_GetPlayerCharacterPlaytime",
+	"Export_GetPlayerCharacterTimestamp",
+	"Export_GetPlayerJailtime",
+	"Export_GetPlayerWeaponLicense",
+	"Export_GetPlayerDriversLicense",	
+}
+
 server_exports {
 	"Export_AddGroup",
 	"Export_AddGroupInherit",

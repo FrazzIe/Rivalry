@@ -432,6 +432,8 @@ function Export_SetPlayerPlaytime(Player, Amount)
 					["@id"] = Core.Players[Player].User.Id,
 					["@playtime"] = Core.Players[Player].User.Playtime,
 				})
+
+				TriggerClientEvent("Core.Sync", -1, Core)
 			else
 				Log.Error("Unable to set player "..Player.."'s playtime to "..tostring(Amount))
 			end
@@ -455,6 +457,8 @@ function Export_SetPlayerPower(Player, Power)
 					["@id"] = Core.Players[Player].User.Id,
 					["@power"] = Core.Players[Player].User.Power,
 				})
+
+				TriggerClientEvent("Core.Sync", -1, Core)
 			else
 				Log.Error("Unable to set player "..Player.."'s power to "..tostring(Power))
 			end
@@ -479,6 +483,8 @@ function Export_SetPlayerGroup(Player, Group)
 						["@id"] = Core.Players[Player].User.Id,
 						["@group"] = Core.Players[Player].User.Group,
 					})
+
+					TriggerClientEvent("Core.Sync", -1, Core)
 				else
 					Log.Error("Unable to set player "..Player.."'s group to "..tostring(Group))
 				end
@@ -507,6 +513,8 @@ function Export_SetPlayerCash(Player, Amount)
 					["@id"] = Core.Players[Player].Character.Id,
 					["@cash"] = Core.Players[Player].Character.Cash,
 				})
+
+				TriggerClientEvent("Core.Sync", -1, Core)
 			else
 				Log.Error("Unable to set player "..Player.."'s cash to "..tostring(Amount))
 			end
@@ -530,6 +538,8 @@ function Export_SetPlayerCounterfeit(Player, Amount)
 					["@id"] = Core.Players[Player].Character.Id,
 					["@counterfeit"] = Core.Players[Player].Character.Counterfeit,
 				})
+
+				TriggerClientEvent("Core.Sync", -1, Core)
 			else
 				Log.Error("Unable to set player "..Player.."'s counterfeit to "..tostring(Amount))
 			end
@@ -553,6 +563,8 @@ function Export_SetPlayerBank(Player, Amount)
 					["@id"] = Core.Players[Player].Character.Id,
 					["@bank"] = Core.Players[Player].Character.Bank,
 				})
+
+				TriggerClientEvent("Core.Sync", -1, Core)
 			else
 				Log.Error("Unable to set player "..Player.."'s bank to "..tostring(Amount))
 			end
@@ -576,6 +588,8 @@ function Export_SetPlayerJob(Player, Id)
 					["@id"] = Core.Players[Player].Character.Id,
 					["@job"] = Core.Players[Player].Character.Job,
 				})
+
+				TriggerClientEvent("Core.Sync", -1, Core)
 			else
 				Log.Error("Unable to set player "..Player.."'s job to "..tostring(Id))
 			end
@@ -600,6 +614,8 @@ function Export_SetPlayerFirstname(Player, Str)
 					["@id"] = Core.Players[Player].Character.Id,
 					["@firstname"] = Core.Players[Player].Character.Firstname,
 				})
+
+				TriggerClientEvent("Core.Sync", -1, Core)
 			else
 				Log.Error("Unable to set player "..Player.."'s forename to "..tostring(Str))
 			end
@@ -624,6 +640,8 @@ function Export_SetPlayerLastname(Player, Str)
 					["@id"] = Core.Players[Player].Character.Id,
 					["@lastname"] = Core.Players[Player].Character.Lastname,
 				})
+
+				TriggerClientEvent("Core.Sync", -1, Core)
 			else
 				Log.Error("Unable to set player "..Player.."'s surname to "..tostring(Str))
 			end
@@ -647,6 +665,8 @@ function Export_SetPlayerGender(Player, Str)
 					["@id"] = Core.Players[Player].Character.Id,
 					["@gender"] = Core.Players[Player].Character.Gender,
 				})
+
+				TriggerClientEvent("Core.Sync", -1, Core)
 			else
 				Log.Error("Unable to set player "..Player.."'s gender to "..tostring(Str))
 			end
@@ -682,6 +702,8 @@ function Export_SetPlayerPosition(Player, X, Y, Z)
 					["@position_y"] = Core.Players[Player].Character.Position.y,
 					["@position_z"] = Core.Players[Player].Character.Position.z,
 				})
+
+				TriggerClientEvent("Core.Sync", -1, Core)
 			else
 				Log.Error("Unable to set player "..Player.."'s position to to "..tostring(X)..", "..tostring(Y)..", "..tostring(Z))
 			end
@@ -703,6 +725,8 @@ function Export_SetPlayerCharacterPlaytime(Player, Amount)
 					["@id"] = Core.Players[Player].Character.Id,
 					["@playtime"] = Core.Players[Player].Character.Playtime,
 				})
+
+				TriggerClientEvent("Core.Sync", -1, Core)
 			else
 				Log.Error("Unable to set player "..Player.."'s playtime to "..tostring(Amount))
 			end
@@ -726,6 +750,8 @@ function Export_SetPlayerJailtime(Player, Amount)
 					["@id"] = Core.Players[Player].Character.Id,
 					["@jail_time"] = Core.Players[Player].Character.Jailtime,
 				})
+
+				TriggerClientEvent("Core.Sync", -1, Core)
 			else
 				Log.Error("Unable to set player "..Player.."'s jailtime to "..tostring(Amount))
 			end
@@ -749,6 +775,8 @@ function Export_SetPlayerWeaponLicense(Player, Bool)
 					["@id"] = Core.Players[Player].Character.Id,
 					["@weapon_license"] = Utilities.BoolToNumber(Core.Players[Player].Character.Licenses.Weapon),
 				})
+
+				TriggerClientEvent("Core.Sync", -1, Core)
 			else
 				Log.Error("Unable to set player "..Player.."'s weapon license to "..tostring(Bool))
 			end
@@ -772,6 +800,8 @@ function Export_SetPlayerDriversLicense(Player, Bool)
 					["@id"] = Core.Players[Player].Character.Id,
 					["@drivers_license"] = Utilities.BoolToNumber(Core.Players[Player].Character.Licenses.Drivers),
 				})
+
+				TriggerClientEvent("Core.Sync", -1, Core)
 			else
 				Log.Error("Unable to set player "..Player.."'s drivers license to "..tostring(Bool))
 			end

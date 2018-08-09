@@ -1,3 +1,5 @@
+Core = {}
+
 Citizen.CreateThread(function()
 	for Index = 1, 15 do
 		if Index ~= 11 and Index ~= 15 then
@@ -25,8 +27,13 @@ Citizen.CreateThread(function()
 		Citizen.Wait(0)
 		if NetworkIsSessionStarted() then
 			TriggerServerEvent("Core.Start")
-
+			TriggerServerEvent("Queue:playerActivated")
 			return
 		end
 	end
+end)
+
+RegisterNetEvent("Core.Sync")
+AddEventHandler("Core.Sync", function(Data)
+	Core = Data
 end)

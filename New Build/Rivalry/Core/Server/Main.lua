@@ -155,6 +155,8 @@ AddEventHandler("Core.Start", function()
 	            	
 	            	TriggerEvent("Core.Ready.User", Source, Core.Players[Source].User)
 	            	TriggerClientEvent("Core.Ready.User", Source, Core.Players[Source].User)
+
+	            	TriggerClientEvent("Core.Sync", -1, Core)
 	            end, true)
 			end
 		end)
@@ -268,6 +270,8 @@ AddEventHandler("Core.Character.Select", function(Data)
 			Core.Players[Source].Character = Core.SetupCharacter(Result[1])
 
 			TriggerEvent("Core.Ready.Character", Source)
+
+			TriggerClientEvent("Core.Sync", -1, Core)
 		end
 	end)
 end)
@@ -280,4 +284,5 @@ AddEventHandler("Core.Character.Switch", function(Data)
 
 	TriggerEvent("Core.Character.Switched", Source)
 	TriggerClientEvent("Core.Character.Switch", Source)
+	TriggerClientEvent("Core.Sync", -1, Core)
 end)
