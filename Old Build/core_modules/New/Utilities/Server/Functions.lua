@@ -11,8 +11,8 @@ function GetIdentifier(type, source)
     return nil
 end
 
-RegisterServerEvent("server:showid")
-AddEventHandler("server:showid", function()
+RegisterServerEvent("server:phonenumber")
+AddEventHandler("server:phonenumber", function()
     local source = source
     TriggerEvent("core:getuser", source, function(user)
         local character_id = user.get("characterID")
@@ -23,6 +23,18 @@ AddEventHandler("server:showid", function()
         exports["GHMattiMySQL"]:QueryResultAsync("SELECT * from phone WHERE character_id=@character_id", {["@character_id"] = character_id}, function(player)
             local phonenumber = player.phone_number
         end)
-        TriggerClientEvent("showid-player", source, currentjob, lastname, firstname, phonenumber)
+        TriggerClientEvent("showid:phonenumber", source, currentjob, lastname, firstname, phonenumber)
+    end)
+end)
+
+RegisterServerEvent("server:showid")
+AddEventHandler("server:showid", function()
+    local source = source
+    TriggerEvent("core:getuser", source, function(user)
+        local character_id = user.get("characterID")
+        local currentjob = user.get("job").name
+        local lastname = user.get("last_name")
+        local firstname = user.get("first_name")
+        TriggerClientEvent("showid:info", source, currentjob, lastname, firstname)
     end)
 end)

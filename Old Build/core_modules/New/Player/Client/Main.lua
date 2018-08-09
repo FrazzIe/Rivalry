@@ -39,6 +39,8 @@ Player = {
 	},
 }
 
+local JumpTimer = -1
+
 Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(0)
@@ -55,6 +57,15 @@ Citizen.CreateThread(function()
 	end
 end)
 
+Citizen.CreateThread(function()
+	while true do
+		Citizen.Wait(1000)
+		if JumpTimer > 0 then
+			JumpTimer = JumpTimer - 1
+		end
+	end
+end)
+
 local count = 0
 Citizen.CreateThread(function()
 	while true do
@@ -62,9 +73,16 @@ Citizen.CreateThread(function()
 		if(IsPedJumping(PlayerPedId()))then
 			count = count + 0.03
 		end
+		if(count > 0)then
+			JumpTimer = 10
+		end
 		if(math.floor(count) == 4)then
 			SetPedToRagdoll(PlayerPedId(), 2000, 2000, 0, 0, 0, 0)
 			count = 0
+		end
+		if JumpTimer == 0 then
+			count = 0
+			JumpTimer = -1
 		end
 	end
 end)
