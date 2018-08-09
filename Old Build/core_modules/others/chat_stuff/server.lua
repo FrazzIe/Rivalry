@@ -52,14 +52,14 @@ TriggerEvent('core:addCommand', 't', function(source, args, rawCommand, data)
 end, {help = "Post a tweet"})
 
 TriggerEvent('core:addCommand', 'balance', function(source, args, rawCommand, data)
-    local author = "Cash: $"..data.get("wallet").." Debit: $"..data.get("bank")
+    local author = "$"..data.get("bank").." is your current balance."
     TriggerClientEvent('chatMessage', source, "Bank", {0, 255, 0}, author)
-end, {help = "Returns Cash and Debit"})
+end, {help = "Returns Bank Balance"})
 
-TriggerEvent('core:addCommand', 'dirty', function(source, args, rawCommand, data)
-    local author = "You have $"..data.get("dirty").." in dirty cash"
+TriggerEvent('core:addCommand', 'wallet', function(source, args, rawCommand, data)
+    local author = "You have $"..data.get("wallet").." in cash and $"..data.get("dirty").." in dirty cash."
     TriggerClientEvent('chatMessage', source, "Wallet", {0, 255, 0}, author)
-end, {help = "Returns Dirty Cash"})
+end, {help = "Returns Cash and Dirty Cash"})
 
 TriggerEvent('core:addCommand', 'me', function(source, args, rawCommand, data)
     TriggerClientEvent("prox_chatMessage", -1, source, data.get("first_name").." "..data.get("last_name"), table.concat(args, " "))

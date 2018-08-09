@@ -4,6 +4,7 @@ local GlassesDrawable, GlassesTexture = nil, nil
 local MaskDrawable, MaskTexture, MaskPalette = nil, nil, nil
 local GlovesDrawable, GlovesTexture, GlovesPalette = nil, nil, nil
 local DisplayTenCodes = false
+local DisplayImmersionBars = false
 local Animations = {
     Hat = {
         On = {
@@ -245,6 +246,12 @@ AddEventHandler("core:ready", function()
             Chat.Message("INFO", "You must be on duty use this command!", 255, 0, 0, true)
         end
     end, false, {Help = "Toggle shotgun",  Params = {}})
+
+    Chat.Command("showid", function(source, args, rawCommand)
+        TriggerServerEvent("server:showid")
+        print("Showing ID from Clientside.")
+    end, false, {Help = "Show an ID.", Params = {}})
+    
 end)
 
 Citizen.CreateThread(function()
@@ -293,6 +300,36 @@ Citizen.CreateThread(function()
                 EndTextCommandDisplayText(X, Y + (0.015 * (Index - 1)))
             end
             ScreenDrawPositionEnd()
+        end
+    end
+end)
+
+function drawRct(x,y,width,height,r,g,b,a)
+    DrawRect(x + width/2, y + height/2, width, height, r, g, b, a)
+end
+
+local UI = { 
+    x =  0.000 ,
+    y = -0.001 ,
+}
+
+Citizen.CreateThread(function()
+    while true do
+        Citizen.Wait(0)
+        if IsControlJustReleased(1, 39)then
+            DisplayImmersionBars = not DisplayImmersionBars
+            TriggerEvent('interaction:hud')
+        end
+    end
+end)
+
+Citizen.CreateThread(function()
+    local X, Y, WIDTH, HEIGHT, HEIGHT2 = 0.000, -0.001, 1.0, 0.15, 0.151
+    while true do
+        Citizen.Wait(0)
+        if DisplayImmersionBars then
+            drawRct(UI.x + 0.0,     UI.y + 0.0, 1.0,0.15,0,0,0,255) -- Top Bar
+            drawRct(UI.x + 0.0,     UI.y + 0.85, 1.0,0.151,0,0,0,255) -- Bottom Bar
         end
     end
 end)

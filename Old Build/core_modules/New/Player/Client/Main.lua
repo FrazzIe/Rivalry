@@ -54,3 +54,26 @@ Citizen.CreateThread(function()
 		if not Player.Ready then Player.Ready = true end
 	end
 end)
+
+local count = 0
+Citizen.CreateThread(function()
+	while true do
+		Citizen.Wait(0)
+		if(IsPedJumping(PlayerPedId()))then
+			count = count + 0.03
+		end
+		if(math.floor(count) == 4)then
+			SetPedToRagdoll(PlayerPedId(), 2000, 2000, 0, 0, 0, 0)
+			count = 0
+		end
+	end
+end)
+
+Citizen.CreateThread(function()
+    while true do
+        Citizen.Wait(0)
+        if IsControlJustReleased(1, 40)then
+            SetPedToRagdoll(PlayerPedId(), 2000, 2000, 0, 0, 0, 0)
+        end
+    end
+end)

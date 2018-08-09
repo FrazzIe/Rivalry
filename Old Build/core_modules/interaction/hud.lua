@@ -28,38 +28,38 @@ AddEventHandler('onClientMapStart', function()
 end)
 
 AddEventHandler("interaction:voice_change",function(_type)
-	if _type == 1 then
-		NetworkSetTalkerProximity(4.0)
-		voice = "~y~Whisper"
-	elseif _type == 2 then
-		NetworkSetTalkerProximity(15.0)
-		voice = "~b~Normal"
-	elseif _type == 3 then
-		NetworkSetTalkerProximity(35.0)
-		voice = "~r~Shout"
-	end
+    if _type == 1 then
+        NetworkSetTalkerProximity(4.0)
+        voice = "~y~Whisper"
+    elseif _type == 2 then
+        NetworkSetTalkerProximity(15.0)
+        voice = "~b~Normal"
+    elseif _type == 3 then
+        NetworkSetTalkerProximity(35.0)
+        voice = "~r~Shout"
+    end
 end)
 
 AddEventHandler("interaction:hud", function()
-	exports.ui:open()
-	Citizen.CreateThread(function()
-		hud_off = not hud_off
+    exports.ui:open()
+    Citizen.CreateThread(function()
+        hud_off = not hud_off
         TriggerEvent("chat:disable", hud_off)
-		while hud_off do
-			Citizen.Wait(0)
-			HideHudAndRadarThisFrame()
-		end
-	end)
+        while hud_off do
+            Citizen.Wait(0)
+            HideHudAndRadarThisFrame()
+        end
+    end)
 end)
 
 Citizen.CreateThread(function()
-	while true do
-		Citizen.Wait(0)
+    while true do
+        Citizen.Wait(0)
         local minimap = GetMinimapAnchor()
         if WarMenu.IsMenuOpened("Scoreboard") or WarMenu.IsMenuOpened("player_info") or WarMenu.IsMenuOpened("player_info_disconnected") or WarMenu.IsMenuOpened("disconnected") then
-            drawText("~g~$~w~"..wallet, 6, 0.16, 0.82, 0.50, 255, 255, 255, 255, false, true)
+--[[            drawText("~g~$~w~"..wallet, 6, 0.16, 0.82, 0.50, 255, 255, 255, 255, false, true)
             drawText("~r~$~w~"..dirty, 6, 0.16, 0.845, 0.50, 255, 255, 255, 255, false, true)
-            drawText("~b~$~w~"..bank, 6, 0.16, 0.87, 0.50, 255, 255, 255, 255, false, true)
+            drawText("~b~$~w~"..bank, 6, 0.16, 0.87, 0.50, 255, 255, 255, 255, false, true)--]]
             drawText(job, 6, 0.16, 0.895, 0.50, 255, 255, 255, 255, false, true)
 
             drawText("~g~Status of calls", 6, 0.3, 0.795, 0.50, 255, 255, 255, 255, false, true)
@@ -132,25 +132,25 @@ Citizen.CreateThread(function()
                 drawText(mechanic_information, 6, 0.6, 0.895, 0.50, 255, 255, 255, 255, false, true)
             end 
         end
-		if not hud_off then
-			if NetworkIsPlayerTalking(PlayerId()) then
-				drawText("~o~>>"..voice, 6, 0.16, 0.92, 0.50, 255, 255, 255, 255, false, true)
+        if not hud_off then
+            if NetworkIsPlayerTalking(PlayerId()) then
+                drawText("~o~>>"..voice, 6, 0.16, 0.92, 0.50, 255, 255, 255, 255, false, true)
             else
                 drawText(voice, 6, 0.16, 0.92, 0.50, 255, 255, 255, 255, false, true)
-			end
+            end
 
-			if IsPedSittingInAnyVehicle(PlayerPedId()) then
-				local vehicle = GetVehiclePedIsIn(PlayerPedId(), false)
-				if GetPedInVehicleSeat(vehicle, -1) == PlayerPedId() then
-					drawText("~y~"..GetVehicleNumberPlateText(vehicle), 6, 0.889, 0.85, 0.5, 255, 255, 255, 255, false, true)
-				end
+            if IsPedSittingInAnyVehicle(PlayerPedId()) then
+                local vehicle = GetVehiclePedIsIn(PlayerPedId(), false)
+                if GetPedInVehicleSeat(vehicle, -1) == PlayerPedId() then
+                    drawText("~y~"..GetVehicleNumberPlateText(vehicle), 6, 0.889, 0.85, 0.5, 255, 255, 255, 255, false, true)
+                end
                -- DisplayRadar(true)
             else
                -- DisplayRadar(false)
                 --DrawHUDBar(GetEntityMaxHealth(PlayerPedId()), GetEntityHealth(PlayerPedId()), minimap.left_x, minimap.bottom_y - 0.01, 0.070, 0.008335, {}, {}, true, {}, 2)
                 --DrawHUDBar(GetEntityMaxHealth(PlayerPedId()), GetEntityHealth(PlayerPedId()), minimap.left_x + 0.070 + 0.0015, minimap.bottom_y - 0.01, 0.070, 0.008335, {r = 61, g = 128, b = 165}, {r = 28, g = 77, b = 107}, true, {}, 1)
-			end
-			
+            end
+            
             local pos = GetEntityCoords(PlayerPedId())
             local var1, var2 = GetStreetNameAtCoord(pos.x, pos.y, pos.z, Citizen.ResultAsInteger(), Citizen.ResultAsInteger())
 
@@ -194,8 +194,8 @@ Citizen.CreateThread(function()
                     end
                 end
             end            
-		end
-	end
+        end
+    end
 end)
 
 --[[ Call HUDs - Police ]]--
