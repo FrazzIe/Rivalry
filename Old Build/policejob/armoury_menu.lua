@@ -27,10 +27,8 @@ guns = {
     {name = "Stun Gun", model = "WEAPON_STUNGUN"},
     {name = "Flashlight", model = "WEAPON_FLASHLIGHT"},
     {name = "Nightstick", model = "WEAPON_NIGHTSTICK"},
-    {name = "Pump Shotgun", model = "WEAPON_PUMPSHOTGUN"},
     {name = "Combat Pistol", model = "WEAPON_COMBATPISTOL"},
     {name = "Pistol MK2 (SASP)", model = "WEAPON_PISTOL_MK2"},
-    {name = "Carbine Rifle", model = "WEAPON_CARBINERIFLE"},
 }
 
 local options = {"Equip", "Remove"}
