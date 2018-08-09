@@ -197,8 +197,12 @@ function Draw3DText(x,y,z, text, _size) -- some useful function, use it if you w
 end
 
 Citizen.CreateThread(function()
-    for i = 1, 12 do
-        Citizen.InvokeNative(0xDC0F817884CDD856, i, false)
+    for Index = 1, 15 do
+        if Index ~= 11 and Index ~= 15 then
+            EnableDispatchService(Index, false)
+        else
+            EnableDispatchService(Index, true)
+        end
     end
     for _, item in pairs(extrablips) do
         addBlip(item)
