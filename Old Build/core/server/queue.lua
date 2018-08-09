@@ -52,6 +52,7 @@ Config.Priority = {
     ["steam:110000104293432"] = 673, -- Cyr
     ["steam:110000104e491d1"] = 672, -- Vader
     ["steam:1100001043fe250"] = 671, -- Curtis
+    ["steam:11000010a89612b"] = 670, -- ZombieBarricades
 
 --[PD, EMS, DOJ]--
     ["steam:11000010b420b88"] = 600, -- Jordan (PD High Command)
