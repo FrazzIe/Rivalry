@@ -34,7 +34,7 @@ Brewer_blips = {
 		distanceBetweenCoords=25,
 		distanceMarker=25,
 		defaultTime=5000,
-		name="Brewer garage"
+		name="Brewer Garage"
 	},
 	["Field"] = {
 		id=19,
@@ -58,12 +58,12 @@ Brewer_blips = {
 	},
 	["Point of Sale"] = {
 		id=21,
-		x=141.320083618164,
-		y=-1277.92822265625,
-		z=28.1096794891357,
+		x=1992.1666259766,
+		y=3031.5759277344,
+		z=47.056339263916,
 		distanceBetweenCoords=10,
 		distanceMarker=15,
 		defaultTime=5000,
-		name="Sell beer"
+		name="Sell Beer"
 	}
 }
