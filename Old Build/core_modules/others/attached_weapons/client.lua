@@ -42,9 +42,9 @@ bone_config = {
 		model = "w_sg_pumpshotgun"
 	}, 
 	["WEAPON_MICROSMG"] = {
-		bone = 51826, 
-		coordinates = {x = -0.01, y = 0.10, z = 0.07},
-		rotation = {x = -115.0, y = 0.0,  z = 0.0},
+		bone = 24818,
+		coordinates = {x = 0.1, y = -0.15, z = 0.0}, 
+		rotation = {x = 0.0, y = 0.0, z = 0.0},
 		model = "w_sb_microsmg"
 	},
 	["WEAPON_GUSENBERG"] = {
@@ -83,9 +83,9 @@ bone_config = {
 		model = "w_ar_compactrifle"
 	},
 	["WEAPON_SAWNOFFSHOTGUN"] = {
-		bone = 24818,		
+		bone = 24818,
 		coordinates = {x = 0.1, y = -0.15, z = 0.0}, 
-		rotation = {x = 0.0, y = 0.0, z = 0.0}, 
+		rotation = {x = 0.0, y = 0.0, z = 0.0},
 		model = "w_sg_sawnoffshotgun"
 	},
 	["WEAPON_BULLPUPSHOTGUN"] = {
@@ -316,6 +316,7 @@ local weaponstable = {
     "WEAPON_FLAREGUN",
     "WEAPON_APPISTOL",
     "WEAPON_DBSHOTGUN",
+    "WEAPON_MICROSMG",
     "WEAPON_PISTOL_MK2",
     "WEAPON_VINTAGEPISTOL",
 }
@@ -325,6 +326,10 @@ local riflestable = {
     "WEAPON_COMPACTRIFLE",
     "WEAPON_PUMPSHOTGUN",
     "WEAPON_MUSKET",
+    "WEAPON_SAWNOFFSHOTGUN",
+    "WEAPON_BAT",
+    "WEAPON_GOLFCLUB",
+    "WEAPON_POOLCUE",
 }
 
 function CheckWeapon(ped)
@@ -356,7 +361,7 @@ Citizen.CreateThread(function()
             RequestAnimDict( "rcmjosh4" )
             RequestAnimDict( "weapons@pistol@" )
             RequestAnimDict( "anim@heists@money_grab@duffel" )
-        	if(exports.policejob:getIsInService()) then
+        	if(exports.policejob:getIsInService() or GetSelectedPedWeapon(ped) == GetHashKey("WEAPON_MICROSMG") ) then
         		if CheckWeapon(ped) then
             		if holstered then
                 		TaskPlayAnim(ped, "rcmjosh4", "josh_leadout_cop2", 8.0, 2.0, -1, 48, 10, 0, 0, 0 )
@@ -408,7 +413,7 @@ Citizen.CreateThread(function()
 						firingdisabled = true
 	                    Citizen.Wait(1100)
 	                    SetPedCurrentWeaponVisible(ped, 1, 1, 1, 1)
-	                    Citizen.Wait(1000)
+	                    Citizen.Wait(1200)
 	                    
 	                    ClearPedTasks(ped)
 	                    holstered = false
@@ -419,7 +424,7 @@ Citizen.CreateThread(function()
 	                    SetPedCurrentWeaponVisible(ped, 1, 1, 1, 1)
 	                    TaskPlayAnim(ped, "reaction@intimidation@1h", "outro", 8.0, 2.0, -1, 48, 10, 0, 0, 0 )
 						firingdisabled = true
-	                    Citizen.Wait(1200)
+	                    Citizen.Wait(1300)
 	                    
 	                    ClearPedTasks(ped)
 	                    holstered = true

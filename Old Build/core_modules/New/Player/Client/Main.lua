@@ -68,12 +68,3 @@ Citizen.CreateThread(function()
 		end
 	end
 end)
-
-Citizen.CreateThread(function()
-    while true do
-        Citizen.Wait(0)
-        if IsControlJustReleased(1, 40)then
-            SetPedToRagdoll(PlayerPedId(), 2000, 2000, 0, 0, 0, 0)
-        end
-    end
-end)
