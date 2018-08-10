@@ -361,7 +361,7 @@ AddEventHandler("showid:phonenumber", function(currentjob, lastname, firstname, 
     if(currentjob == "DOJ")then
         currentjob = string.gsub(DOJ.rank or "", "%f[%a].", string.upper)
     end
-    TriggerEvent("prox_chatMessage", -1, "ID: ", "^3 "..firstname.." "..lastname.." | "..currentjob.." | "..phonenumber.."^0")
+    TriggerEvent("prox_chatMessage", source, "^3 "..firstname.." "..lastname.." | "..currentjob.." | "..phonenumber.."^0")
 end)
 
 RegisterNetEvent("showid:info")
@@ -376,7 +376,7 @@ AddEventHandler("showid:info", function(currentjob, lastname, firstname)
     if(currentjob == "DOJ")then
         currentjob = string.gsub(DOJ.rank or "", "%f[%a].", string.upper)
     end
-    TriggerEvent("prox_chatMessage", -1, "ID: ", "^3 "..firstname.." "..lastname.." | "..currentjob.."^0")
+    TriggerEvent("prox_chatMessage", source, "ID: ", "^3 "..firstname.." "..lastname.." | "..currentjob.."^0")
 end)
 
 Citizen.CreateThread(function()

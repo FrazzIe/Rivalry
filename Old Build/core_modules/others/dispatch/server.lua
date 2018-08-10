@@ -126,7 +126,7 @@ AddEventHandler("dispatch:panicbutton", function(street_name)
 	for id, dept in pairs(emergency_users) do
 		if dept ~= nil then
 			TriggerClientEvent("chatMessage", id, "Panic Button", {255, 0, 0}, "^7Officer in distress at "..street_name)
-			TriggerClientEvent("dispatch:add_panicbutton", id, source)
+			TriggerClientEvent("dispatch:addpanicbutton", id, source)
 		end
 	end
 end)

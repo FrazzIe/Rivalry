@@ -21,7 +21,7 @@ AddEventHandler("server:phonenumber", function()
         local firstname = user.get("first_name")
         local phonenumber = 0
         exports["GHMattiMySQL"]:QueryResultAsync("SELECT * from phone WHERE character_id=@character_id", {["@character_id"] = character_id}, function(player)
-            local phonenumber = player.phone_number
+            phonenumber = player.phone_number
         end)
         TriggerClientEvent("showid:phonenumber", source, currentjob, lastname, firstname, phonenumber)
     end)

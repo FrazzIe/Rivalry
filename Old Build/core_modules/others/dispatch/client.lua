@@ -298,16 +298,15 @@ AddEventHandler("dispatch:panicbutton", function(_source)
     TriggerServerEvent("dispatch:panicbutton", GetStreetNameFromHashKey(street))
 end)
 
-RegisterNetEvent("dispatch:add_panicbutton")
-AddEventHandler("dispatch:add_panicbutton", function(_source)
+RegisterNetEvent("dispatch:addpanicbutton")
+AddEventHandler("dispatch:addpanicbutton", function(_source)
     if PlayerId() ~= GetPlayerFromServerId(_source) then
         Citizen.CreateThread(function()
             local player_id = GetPlayerFromServerId(_source)
             local officer_panic = true
             local player_blip = nil
             local endTime = GetGameTimer() + ((panicbutton_timer * 60)/ 0.001)
-            local arrived = false
-            while officer_panic and endTime > GetGameTimer() and not arrived do
+            while officer_panic and endTime > GetGameTimer() do
                 Citizen.Wait(0)
                 if NetworkIsPlayerActive(player_id) then
                     if DoesEntityExist(GetPlayerPed(player_id)) then
@@ -321,12 +320,6 @@ AddEventHandler("dispatch:add_panicbutton", function(_source)
                                 BeginTextCommandSetBlipName("STRING")
                                 AddTextComponentString("Panic Button")
                                 EndTextCommandSetBlipName(player_blip)
-                            end
-                            if not arrived then
-                                if GetDistanceBetweenCoords(pos.x, pos.y, pos.z, coords.x, coords.y, coords.z, true) < 20 then
-                                    arrived = true
-                                    TriggerServerEvent("dispatch:pay", "Panic Button")
-                                end
                             end
                         else
                             officer_panic = false
