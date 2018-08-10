@@ -247,14 +247,6 @@ AddEventHandler("core:ready", function()
         end
     end, false, {Help = "Toggle shotgun",  Params = {}})
 
-    Chat.Command("pn", function(source, args, rawCommand)
-        TriggerServerEvent("server:phonenumber")
-    end, false, {Help = "Show your phone number", Params = {}})
-    
-    Chat.Command("showid", function(source, args, rawCommand)
-        TriggerServerEvent("server:showid")
-    end, false, {Help = "Show your id", Params = {}})
-
     Chat.Command("panic", function(source, args, rawCommand)
         if exports.policejob:getIsInService() and exports["phone"]:PlayerHasPhone() then
             if not exports.policejob:getIsCuffed() then
@@ -348,37 +340,3 @@ Citizen.CreateThread(function()
         end
     end
 end)--]]
-
-RegisterNetEvent("showid:phonenumber")
-AddEventHandler("showid:phonenumber", function(source, currentjob, lastname, firstname, phonenumber)
-    local source = source
-    if(currentjob == "Police")then
-        currentjob = "Police "..string.gsub(exports.policejob:getPoliceRank() or "", "%f[%a].", string.upper)
-    end
-    if(currentjob == "Emergency")then
-        currentjob = "EMS "..string.gsub(exports.emsjob:getParamedicRank() or "", "%f[%a].", string.upper)
-    end
-    if(currentjob == "DOJ")then
-        currentjob = string.gsub(DOJ.rank or "", "%f[%a].", string.upper)
-    end
-    TriggerEvent("prox_chatMessage", source, "^3 "..firstname.." "..lastname.." | "..currentjob.." | "..phonenumber.."^0")
-end)
-
-RegisterNetEvent("showid:info")
-AddEventHandler("showid:info", function(source, currentjob, lastname, firstname)
-    local source = source
-    if(currentjob == "Police")then
-        currentjob = "Police "..string.gsub(exports.policejob:getPoliceRank() or "", "%f[%a].", string.upper)
-    end
-    if(currentjob == "Emergency")then
-        currentjob = "EMS "..string.gsub(exports.emsjob:getParamedicRank() or "", "%f[%a].", string.upper)
-    end
-    if(currentjob == "DOJ")then
-        currentjob = string.gsub(DOJ.rank or "", "%f[%a].", string.upper)
-    end
-    TriggerEvent("prox_chatMessage", source, "ID: ", "^3 "..firstname.." "..lastname.." | "..currentjob.."^0")
-end)
-
-Citizen.CreateThread(function()
-    Chat.Template("showid", "<img src=\"data:image/svg+xml;utf8;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/Pgo8IS0tIEdlbmVyYXRvcjogQWRvYmUgSWxsdXN0cmF0b3IgMTYuMC4wLCBTVkcgRXhwb3J0IFBsdWctSW4gLiBTVkcgVmVyc2lvbjogNi4wMCBCdWlsZCAwKSAgLS0+CjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+CjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgdmVyc2lvbj0iMS4xIiBpZD0iQ2FwYV8xIiB4PSIwcHgiIHk9IjBweCIgd2lkdGg9IjE2cHgiIGhlaWdodD0iMTZweCIgdmlld0JveD0iMCAwIDMxLjkzOSAzMS45MzkiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDMxLjkzOSAzMS45Mzk7IiB4bWw6c3BhY2U9InByZXNlcnZlIj4KPGc+Cgk8Zz4KCQk8cGF0aCBkPSJNMTUuNTgsMTguMzMyaC0wLjc3N2MtMC40MDMsMC0wLjczLTAuMzI2LTAuNzMtMC43MjljMC0wLjE0OSwwLjA2LTAuMjkzLDAuMTY3LTAuMzk3YzAuNDUyLTAuNDM5LDAuODMyLTEuMDMsMS4xMDctMS42NjcgICAgYzAuMDU2LDAuMDQxLDAuMTE2LDAuMDcxLDAuMTg0LDAuMDcxYzAuNDM2LDAsMC45NS0wLjk2NCwwLjk1LTEuNjIxYzAtMC42NTctMC4wNjEtMS4xOS0wLjQ5OC0xLjE5ICAgIGMtMC4wNTIsMC0wLjEwNiwwLjAwOS0wLjE2MiwwLjAyM2MtMC4wMzEtMS43ODItMC40ODEtNC4wMDUtMy4yMDItNC4wMDVjLTIuODM5LDAtMy4xNywyLjIxOS0zLjIwMiwzLjk5OSAgICBjLTAuMDQtMC4wMDgtMC4wOC0wLjAxNy0wLjExNy0wLjAxN2MtMC40MzcsMC0wLjQ5NywwLjUzMy0wLjQ5NywxLjE5YzAsMC42NTcsMC41MTIsMS42MjEsMC45NDksMS42MjEgICAgYzAuMDU0LDAsMC4xMDQtMC4wMTUsMC4xNTEtMC4wNDJjMC4yNzQsMC42MjcsMC42NDksMS4yMDYsMS4wOTQsMS42NDFjMC4xMDcsMC4xMDQsMC4xNjcsMC4yNDYsMC4xNjcsMC4zOTYgICAgYzAsMC40MDMtMC4zMjcsMC43My0wLjczLDAuNzNIOS42NTZjLTEuNjYyLDAtMy4wMDksMS4zNDctMy4wMDksMy4wMDl2MC44MzRjMCwwLjUyNCwwLjQyNSwwLjk1LDAuOTUsMC45NWgxMC4wNDIgICAgYzAuNTI0LDAsMC45NDktMC40MjYsMC45NDktMC45NXYtMC44MzRDMTguNTg5LDE5LjY4LDE3LjI0MiwxOC4zMzIsMTUuNTgsMTguMzMyeiIgZmlsbD0iIzAwMDAwMCIvPgoJCTxwYXRoIGQ9Ik0yNC41ODksMTAuMDc3aC04LjQyMWMwLjI0MywwLjUzOCwwLjQxNywxLjIsMC40ODksMi4wMTljMC4xOCwwLjExMSwwLjMxNSwwLjI5LDAuNDI1LDAuNTA2aDcuNTA3ICAgIGMwLjM5LDAsMC43MDQtMC4zMTUsMC43MDQtMC43MDR2LTEuMTE3QzI1LjI5MywxMC4zOTMsMjQuOTc5LDEwLjA3NywyNC41ODksMTAuMDc3eiIgZmlsbD0iIzAwMDAwMCIvPgoJCTxwYXRoIGQ9Ik0yNC41ODksMTQuNjc4aC03LjMzNWMtMC4xOTksMC43NTItMC42ODksMS41MzktMS4zNjgsMS43NDljLTAuMDIsMC4wMzctMC4wNDMsMC4wNjktMC4wNjQsMC4xMDZ2MC42N2g4Ljc2NiAgICBjMC4zODksMCwwLjcwNC0wLjMxNSwwLjcwNC0wLjcwNXYtMS4xMTZDMjUuMjkzLDE0Ljk5MywyNC45NzksMTQuNjc4LDI0LjU4OSwxNC42Nzh6IiBmaWxsPSIjMDAwMDAwIi8+CgkJPHBhdGggZD0iTTI0LjU4OSwxOS4yNzloLTUuNzI2YzAuMzc4LDAuNTk4LDAuNiwxLjMwMywwLjYsMi4wNjJ2MC40NjNoNS4xMjZjMC4zOSwwLDAuNzA0LTAuMzE1LDAuNzA0LTAuNzA0di0xLjExNyAgICBDMjUuMjkzLDE5LjU5NCwyNC45NzksMTkuMjc5LDI0LjU4OSwxOS4yNzl6IiBmaWxsPSIjMDAwMDAwIi8+CgkJPHBhdGggZD0iTTI3LjYxNSwzLjA1N0g0LjMyNUMxLjkzNiwzLjA1NywwLDQuOTkzLDAsNy4zODJ2MTcuMTc2YzAsMi4zOSwxLjkzNiw0LjMyNSw0LjMyNSw0LjMyNWgyMy4yOSAgICBjMi4zODksMCw0LjMyNC0xLjkzNiw0LjMyNC00LjMyNVY3LjM4MkMzMS45MzksNC45OTMsMzAuMDA0LDMuMDU3LDI3LjYxNSwzLjA1N3ogTTI5Ljg5OCwyNC41NThjMCwxLjI1OS0xLjAyNCwyLjI4My0yLjI4MywyLjI4MyAgICBINC4zMjVjLTEuMjU5LDAtMi4yODMtMS4wMjQtMi4yODMtMi4yODNWNy4zODJjMC0xLjI1OSwxLjAyNC0yLjI4MywyLjI4My0yLjI4M2gyMy4yOWMxLjI1OSwwLDIuMjgzLDEuMDI0LDIuMjgzLDIuMjgzVjI0LjU1OHoiIGZpbGw9IiMwMDAwMDAiLz4KCTwvZz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8L3N2Zz4K=\" height=\"16\" />  <b>{0}</b>: {1}")
-end)

@@ -65,6 +65,20 @@ TriggerEvent('core:addCommand', 'me', function(source, args, rawCommand, data)
     TriggerClientEvent("prox_chatMessage", -1, source, data.get("first_name").." "..data.get("last_name"), table.concat(args, " "))
 end, {help = "Roleplay with text by describing what you are doing."})
 
+TriggerEvent('core:addCommand', 'pn', function(source, args, rawCommand, data)
+        local character_id = data.get("characterID")
+        local phonenumber = 0
+        exports["GHMattiMySQL"]:QueryResultAsync("SELECT * from phone WHERE character_id=@character_id", {["@character_id"] = character_id}, function(player)
+            phonenumber = player.phone_number
+            TriggerClientEvent("prox_chatMessage", -1, source, data.get("first_name").." "..data.get("last_name"), "^3 "..phonenumber.."^0")
+    end)
+end, {help = "Shows your phone number."})
+
+TriggerEvent('core:addCommand', 'showid', function(source, args, rawCommand, data)
+        local currentjob = data.get("job").name
+        TriggerClientEvent("prox_chatMessage", -1, source, data.get("first_name").." "..data.get("last_name"), "^3 "..phonenumber.."^0")
+end, {help = "Shows your ID."})
+
 TriggerEvent("core:addCommand", "ad", function(source, args, rawCommand, data, power, group)
     local message = table.concat(args, " ")
     TriggerEvent("phone:has", source, function(hasphone)
