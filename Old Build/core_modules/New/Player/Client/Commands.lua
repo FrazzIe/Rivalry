@@ -247,26 +247,24 @@ AddEventHandler("core:ready", function()
         end
     end, false, {Help = "Toggle shotgun",  Params = {}})
 
-    Chat.Command("p#", function(source, args, rawCommand)
+    Chat.Command("phonenumber", function(source, args, rawCommand)
         TriggerServerEvent("server:phonenumber")
-    end, false, {Help = "Show your phone number.", Params = {}})
+    end, false, {Help = "Show your phone number", Params = {}})
     
     Chat.Command("showid", function(source, args, rawCommand)
         TriggerServerEvent("server:showid")
-    end, false, {Help = "Show your id.", Params = {}})
+    end, false, {Help = "Show your id", Params = {}})
 
     Chat.Command("panic", function(source, args, rawCommand)
-        TriggerEvent("phone:has", source, function(hasphone)
-            if exports.policejob:getIsInService() then
-                if hasphone and not exports.policejob:getIsCuffed() then
-                    TriggerEvent("dispatch:panicbutton")
-                else
-                    Chat.Message("INFO", "You have been handcuffed or your gps has been taken. Stop Shitlord!", 255, 0, 0, true)
-                end 
+        if exports.policejob:getIsInService() and exports["phone"]:PlayerHasPhone() then
+            if not exports.policejob:getIsCuffed() then
+                TriggerEvent("dispatch:panicbutton")
             else
-                Chat.Message("INFO", "You must be on duty use this command!", 255, 0, 0, true)
-            end
-        end)
+                Chat.Message("INFO", "You have been handcuffed or your gps has been taken. Stop Shitlord!", 255, 0, 0, true)
+            end 
+        else
+            Chat.Message("INFO", "You must be on duty use this command!", 255, 0, 0, true)
+        end
     end, false, {Help = "Toggle Panic Button",  Params = {}})
 
 end)
@@ -363,7 +361,7 @@ AddEventHandler("showid:phonenumber", function(currentjob, lastname, firstname, 
     if(currentjob == "DOJ")then
         currentjob = string.gsub(DOJ.rank or "", "%f[%a].", string.upper)
     end
-    TriggerEvent("prox_chatMessage", -1, source, "ID: ", "^3 "..firstname.." "..lastname.." | "..currentjob.." | "..phonenumber.."^0")
+    TriggerEvent("prox_chatMessage", -1, "ID: ", "^3 "..firstname.." "..lastname.." | "..currentjob.." | "..phonenumber.."^0")
 end)
 
 RegisterNetEvent("showid:info")
@@ -378,7 +376,7 @@ AddEventHandler("showid:info", function(currentjob, lastname, firstname)
     if(currentjob == "DOJ")then
         currentjob = string.gsub(DOJ.rank or "", "%f[%a].", string.upper)
     end
-    TriggerEvent("prox_chatMessage", -1, source, "ID: ", "^3 "..firstname.." "..lastname.." | "..currentjob.."^0")
+    TriggerEvent("prox_chatMessage", -1, "ID: ", "^3 "..firstname.." "..lastname.." | "..currentjob.."^0")
 end)
 
 Citizen.CreateThread(function()
