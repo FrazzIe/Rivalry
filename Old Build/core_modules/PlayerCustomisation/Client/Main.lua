@@ -432,21 +432,57 @@ function OpenClothingMenu(LocationIndex)
 	RetrieveComponents()
 	RetrieveProps()
 
-	ClothingMenu.Items[1].Data.Items = PlayerCustomisation.Reference.Clothing.Options[PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender]
+	if #PlayerCustomisation.Reference.Clothing.Options[PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender] > 0 then
+		ClothingMenu.Items[1].Data.Items = PlayerCustomisation.Reference.Clothing.Options[PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender]
 
-	ClothingMenu.Items[2].Data.Items = PlayerCustomisation.Reference.Clothing.Drawables[PlayerCustomisation.Reference.Clothing.Options[PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender][1].Name]
-	ClothingMenu.Items[2]:Index(ClothingMenu.Items[2]:ItemToIndex(PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Clothing.Drawable[PlayerCustomisation.Reference.Clothing.Options[PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender][1].Value + 1]))
+		ClothingMenu.Items[2].Data.Items = PlayerCustomisation.Reference.Clothing.Drawables[PlayerCustomisation.Reference.Clothing.Options[PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender][1].Name]
+		ClothingMenu.Items[2]:Index(ClothingMenu.Items[2]:ItemToIndex(PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Clothing.Drawable[PlayerCustomisation.Reference.Clothing.Options[PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender][1].Value + 1]))
 
-	ClothingMenu.Items[3].Data.Items = PlayerCustomisation.Reference.Clothing.Textures[PlayerCustomisation.Reference.Clothing.Options[PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender][1].Name][ClothingMenu.Items[2]:Index()]
-	ClothingMenu.Items[3]:Index(ClothingMenu.Items[3]:ItemToIndex(PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Clothing.Texture[PlayerCustomisation.Reference.Clothing.Options[PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender][1].Value + 1]))
+		ClothingMenu.Items[3].Data.Items = PlayerCustomisation.Reference.Clothing.Textures[PlayerCustomisation.Reference.Clothing.Options[PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender][1].Name][ClothingMenu.Items[2]:Index()]
+		ClothingMenu.Items[3]:Index(ClothingMenu.Items[3]:ItemToIndex(PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Clothing.Texture[PlayerCustomisation.Reference.Clothing.Options[PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender][1].Value + 1]))
 
-	ClothingMenu.Items[4].Data.Items = PlayerCustomisation.Reference.Props.Options[PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender]
+		ClothingMenu.Items[1]:Enabled(true)
+		ClothingMenu.Items[2]:Enabled(true)
+		ClothingMenu.Items[3]:Enabled(true)
+	else
+		ClothingMenu.Items[1].Data.Items = {{Name = "None", Value = 0}}
+		ClothingMenu.Items[2].Data.Items = {0}
+		ClothingMenu.Items[3].Data.Items = {0}
 
-	ClothingMenu.Items[5].Data.Items = PlayerCustomisation.Reference.Props.Drawables[PlayerCustomisation.Reference.Props.Options[PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender][1].Name]
-	ClothingMenu.Items[5]:Index(ClothingMenu.Items[5]:ItemToIndex(PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Props.Drawable[PlayerCustomisation.Reference.Props.Options[PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender][1].Value + 1]))
+		ClothingMenu.Items[1]:Index(1)
+		ClothingMenu.Items[2]:Index(1)
+		ClothingMenu.Items[3]:Index(1)
 
-	ClothingMenu.Items[6].Data.Items = PlayerCustomisation.Reference.Props.Textures[PlayerCustomisation.Reference.Props.Options[PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender][1].Name][ClothingMenu.Items[5]:Index()]
-	ClothingMenu.Items[6]:Index(ClothingMenu.Items[6]:ItemToIndex(PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Props.Texture[PlayerCustomisation.Reference.Props.Options[PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender][1].Value + 1]))
+		ClothingMenu.Items[1]:Enabled(false)
+		ClothingMenu.Items[2]:Enabled(false)
+		ClothingMenu.Items[3]:Enabled(false)
+	end
+
+	if #PlayerCustomisation.Reference.Props.Options[PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender] > 0 then
+		ClothingMenu.Items[4].Data.Items = PlayerCustomisation.Reference.Props.Options[PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender]
+
+		ClothingMenu.Items[5].Data.Items = PlayerCustomisation.Reference.Props.Drawables[PlayerCustomisation.Reference.Props.Options[PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender][1].Name]
+		ClothingMenu.Items[5]:Index(ClothingMenu.Items[5]:ItemToIndex(PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Props.Drawable[PlayerCustomisation.Reference.Props.Options[PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender][1].Value + 1]))
+
+		ClothingMenu.Items[6].Data.Items = PlayerCustomisation.Reference.Props.Textures[PlayerCustomisation.Reference.Props.Options[PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender][1].Name][ClothingMenu.Items[5]:Index()]
+		ClothingMenu.Items[6]:Index(ClothingMenu.Items[6]:ItemToIndex(PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Props.Texture[PlayerCustomisation.Reference.Props.Options[PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender][1].Value + 1]))
+
+		ClothingMenu.Items[4]:Enabled(true)
+		ClothingMenu.Items[5]:Enabled(true)
+		ClothingMenu.Items[6]:Enabled(true)
+	else
+		ClothingMenu.Items[4].Data.Items = {{Name = "None", Value = 0}}
+		ClothingMenu.Items[5].Data.Items = {0}
+		ClothingMenu.Items[6].Data.Items = {0}
+
+		ClothingMenu.Items[4]:Index(1)
+		ClothingMenu.Items[5]:Index(1)
+		ClothingMenu.Items[6]:Index(1)
+
+		ClothingMenu.Items[4]:Enabled(false)
+		ClothingMenu.Items[5]:Enabled(false)
+		ClothingMenu.Items[6]:Enabled(false)
+	end
 
 	SetEntityCoords(PlayerPedId(), PlayerCustomisation.Locations.Clothing[LocationIndex].Marker.x, PlayerCustomisation.Locations.Clothing[LocationIndex].Marker.y, GetGroundZ(PlayerCustomisation.Locations.Clothing[LocationIndex].Marker.x, PlayerCustomisation.Locations.Clothing[LocationIndex].Marker.y, PlayerCustomisation.Locations.Clothing[LocationIndex].Marker.z))
 	SetEntityHeading(PlayerPedId(), PlayerCustomisation.Locations.Clothing[LocationIndex].Marker.h)

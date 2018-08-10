@@ -3036,6 +3036,11 @@ function UIMenu:GoLeft()
 		return
 	end
 
+	if not self.Items[self:CurrentSelection()]:Enabled() then
+		PlaySoundFrontend(-1, self.Settings.Audio.Error, self.Settings.Audio.Library, true)
+		return
+	end
+
 	if subtype == "UIMenuListItem" then
 		local Item = self.Items[self:CurrentSelection()]
 		Item:Index(Item._Index - 1)
@@ -3063,6 +3068,11 @@ function UIMenu:GoRight()
 		return
 	end
 
+	if not self.Items[self:CurrentSelection()]:Enabled() then
+		PlaySoundFrontend(-1, self.Settings.Audio.Error, self.Settings.Audio.Library, true)
+		return
+	end
+	
 	if subtype == "UIMenuListItem" then
 		local Item = self.Items[self:CurrentSelection()]
 		Item:Index(Item._Index + 1)
