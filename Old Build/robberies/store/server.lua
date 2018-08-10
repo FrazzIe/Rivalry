@@ -15,29 +15,36 @@ local robbers = {}
 local stores = {
 	["paleto_twentyfourseven"] = {
 		position = { ['x'] = 1730.35949707031, ['y'] = 6416.7001953125, ['z'] = 35.0372161865234 },
-		reward = math.random(800,2000),
+		reward = math.random(4000,6000),
 		nameofstore = "Twenty Four Seven. (Paleto Bay)",
 		time = 120,
 		lastrobbed = 0
 	},
 	["sandyshores_twentyfourseven"] = {
 		position = { ['x'] = 1960.4197998047, ['y'] = 3742.9755859375, ['z'] = 32.343738555908 },
-		reward = math.random(800,2000),
+		reward = math.random(4000,6000),
 		nameofstore = "Twenty Four Seven. (Sandy Shores)",
 		time = 120,
 		lastrobbed = 0
 	},
 	["bar_one"] = {
 		position = { ['x'] = 1986.1240234375, ['y'] = 3053.8747558594, ['z'] = 47.215171813965 },
-		reward = math.random(800,2000),
+		reward = math.random(4000,6000),
 		nameofstore = "Yellow Jack. (Sandy Shores)",
 		time = 120,
 		lastrobbed = 0
 	},
 	["littleseoul_twentyfourseven"] = {
 		position = { ['x'] = -709.17022705078, ['y'] = -904.21722412109, ['z'] = 19.215591430664 },
-		reward = math.random(800,2000),
+		reward = math.random(6000,8000),
 		nameofstore = "Twenty Four Seven. (Little Seoul)",
+		time = 120,
+		lastrobbed = 0
+	},
+	["palomino_twentyfourseven"] = {
+		position = { ['x'] = 2553.0849609375, ['y'] = 383.39788818359, ['z'] = 300.11364746094 },
+		reward = math.random(4000,6000),
+		nameofstore = "Twenty Four Seven. (Palomino Fwy)",
 		time = 120,
 		lastrobbed = 0
 	}
