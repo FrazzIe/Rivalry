@@ -488,9 +488,17 @@ function OpenClothingMenu(LocationIndex)
 	end
 
 	if ClothingMenu:CurrentSelection() < 4 then
-		ClothingMenu.Cameras[1]:Position(table.unpack(ClothingMenu.CameraCoordinates.Clothing[PlayerCustomisation.Reference.Clothing.Options[PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender][ClothingMenu.Items[1]:Index()].Value + 1]))
+		if ParentMenu.Items[1]:Enabled() then
+			ClothingMenu.Cameras[1]:Position(table.unpack(ClothingMenu.CameraCoordinates.Clothing[PlayerCustomisation.Reference.Clothing.Options[PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender][ClothingMenu.Items[1]:Index()].Value + 1]))
+		else
+			ClothingMenu.Cameras[1]:Position(table.unpack(GetOffsetFromEntityInWorldCoords(PlayerPedId(), 0.0, 0.8, 0.7)))
+		end
 	else
-		ClothingMenu.Cameras[1]:Position(table.unpack(ClothingMenu.CameraCoordinates.Props[PlayerCustomisation.Reference.Props.Options[PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender][ClothingMenu.Items[4]:Index()].Value + 1]))
+		if ParentMenu.Items[4]:Enabled() then
+			ClothingMenu.Cameras[1]:Position(table.unpack(ClothingMenu.CameraCoordinates.Props[PlayerCustomisation.Reference.Props.Options[PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender][ClothingMenu.Items[4]:Index()].Value + 1]))
+		else
+			ClothingMenu.Cameras[1]:Position(table.unpack(GetOffsetFromEntityInWorldCoords(PlayerPedId(), 0.0, 0.8, 0.7)))
+		end
 	end
 
 	ClothingMenu.Cameras[1]:Rotate(0.0, 0.0, PlayerCustomisation.Locations.Clothing[LocationIndex].Marker.h - 180.0)
