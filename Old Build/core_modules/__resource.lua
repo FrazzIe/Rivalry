@@ -27,6 +27,8 @@ client_script "New/Player/Client/Main.lua"
 client_script "New/Player/Client/Emotes.lua"
 client_script "New/Player/Client/Commands.lua"
 
+server_script "New/Player/Server/Commands.lua"
+
 client_script "New/Player/Shared/Gambling.lua"
 server_script "New/Player/Shared/Gambling.lua"
 
