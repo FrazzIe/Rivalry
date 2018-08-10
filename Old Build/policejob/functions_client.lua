@@ -442,7 +442,7 @@ end)
 RegisterNetEvent("Spikes.Create")
 AddEventHandler("Spikes.Create", function(Amount)
 	if not Spikes.Spawned then
-		if isInService then
+		if isInService and IsPedInAnyVehicle(PlayerPedId()) == false then
 			if not Spikes.Spawning then
 				Spikes.Spawning = true
 				local Model = GetHashKey(Spikes.Model)

@@ -264,6 +264,7 @@ local ten_thirtyone_timer = 10 --Minutes --Gunshots
 local ten_thirtytwo_timer = 10 --Minutes --Car Lockpicking
 local ten_thirtytwo_2_timer = 10 --Minutes --Property lockpicking
 local ten_ninety_timer = 10
+local panicbutton_timer = 10 --Minutes --Panic Button
 
 local function willNPCreport(type)
 	local pos = GetEntityCoords(PlayerPedId(), false)
@@ -286,6 +287,62 @@ AddEventHandler("dispatch:ten-thirteen", function(_source)
 	local pos = GetEntityCoords(PlayerPedId(), false)
 	local street, crossing = GetStreetNameAtCoord(pos.x, pos.y, pos.z)
 	TriggerServerEvent("dispatch:ten-thirteen", GetStreetNameFromHashKey(street))
+end)
+
+panic_button_pressed = false
+RegisterNetEvent("dispatch:panicbutton")
+AddEventHandler("dispatch:panicbutton", function(_source)
+    panic_button_pressed = true
+    local pos = GetEntityCoords(PlayerPedId(), false)
+    local street, crossing = GetStreetNameAtCoord(pos.x, pos.y, pos.z)
+    TriggerServerEvent("dispatch:panicbutton", GetStreetNameFromHashKey(street))
+end)
+
+RegisterNetEvent("dispatch:add_panicbutton")
+AddEventHandler("dispatch:add_panicbutton", function(_source)
+    if PlayerId() ~= GetPlayerFromServerId(_source) then
+        Citizen.CreateThread(function()
+            local player_id = GetPlayerFromServerId(_source)
+            local officer_panic = true
+            local player_blip = nil
+            local endTime = GetGameTimer() + ((panicbutton_timer * 60)/ 0.001)
+            local arrived = false
+            while officer_panic and endTime > GetGameTimer() and not arrived do
+                Citizen.Wait(0)
+                if NetworkIsPlayerActive(player_id) then
+                    if DoesEntityExist(GetPlayerPed(player_id)) then
+                        if IsEntityDead(GetPlayerPed(player_id)) then
+                            if not DoesBlipExist(player_blip) then
+                                player_blip = AddBlipForEntity(GetPlayerPed(player_id))
+                                SetBlipSprite(player_blip, 480)
+                                SetBlipColour(player_blip, 1)
+                                SetBlipAsShortRange(player_blip, true)
+                                SetBlipScale(player_blip, 0.85)
+                                BeginTextCommandSetBlipName("STRING")
+                                AddTextComponentString("Panic Button")
+                                EndTextCommandSetBlipName(player_blip)
+                            end
+                            if not arrived then
+                                if GetDistanceBetweenCoords(pos.x, pos.y, pos.z, coords.x, coords.y, coords.z, true) < 20 then
+                                    arrived = true
+                                    TriggerServerEvent("dispatch:pay", "Panic Button")
+                                end
+                            end
+                        else
+                            officer_panic = false
+                            RemoveBlip(player_blip)
+                        end
+                    else
+                        officer_panic = false
+                        RemoveBlip(player_blip)
+                    end
+                else
+                    officer_panic = false
+                    RemoveBlip(player_blip)
+                end
+            end
+        end)
+    end
 end)
 
 RegisterNetEvent("dispatch:add_ten-thirteen")
