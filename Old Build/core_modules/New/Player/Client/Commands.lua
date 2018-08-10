@@ -248,17 +248,20 @@ AddEventHandler("core:ready", function()
     end, false, {Help = "Toggle shotgun",  Params = {}})
 
     Chat.Command("panic", function(source, args, rawCommand)
-        if exports.policejob:getIsInService() and exports["phone"]:PlayerHasPhone() then
-            if not exports.policejob:getIsCuffed() then
-                TriggerEvent("dispatch:panicbutton")
+        if exports.policejob:getIsInService() or exports.policejob:getIsInService() then
+            if exports["phone"]:PlayerHasPhone() then
+                if not exports.policejob:getIsCuffed() then
+                    TriggerEvent("dispatch:panicbutton")
+                else
+                    Chat.Message("INFO", "You have been handcuffed or your gps has been taken. Stop Shitlord!", 255, 0, 0, true)
+                end
             else
-                Chat.Message("INFO", "You have been handcuffed or your gps has been taken. Stop Shitlord!", 255, 0, 0, true)
-            end 
+                Chat.Message("INFO", "You must have a phone!", 255, 0, 0, true)
+            end
         else
             Chat.Message("INFO", "You must be on duty use this command!", 255, 0, 0, true)
         end
     end, false, {Help = "Toggle Panic Button",  Params = {}})
-
 end)
 
 Citizen.CreateThread(function()
