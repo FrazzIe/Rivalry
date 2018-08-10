@@ -390,7 +390,6 @@ function DestroyVehicle(Handle)
 end
 
 function DestroyObject(Handle)
-	print("Destorying object")
 	Citizen.CreateThread(function()
 		local Handle = Handle
 		local Start = GetGameTimer()

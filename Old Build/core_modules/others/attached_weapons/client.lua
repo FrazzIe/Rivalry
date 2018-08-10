@@ -194,7 +194,6 @@ end)
 -----------------------------------------------------------
 -----------------------------------------------------------
 AddEventHandler("aw:load", function()
-	print("Loading _weapons")
 	aw_loaded = false
 	RemoveAndAddWeapons()
 end)
