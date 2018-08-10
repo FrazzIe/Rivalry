@@ -300,7 +300,7 @@ end)
 
 RegisterNetEvent("dispatch:addpanicbutton")
 AddEventHandler("dispatch:addpanicbutton", function(_source)
-    if PlayerId() ~= GetPlayerFromServerId(_source) then
+    if PlayerId ~= GetPlayerFromServerId(_source) then
         Citizen.CreateThread(function()
             local player_id = GetPlayerFromServerId(_source)
             local officer_panic = true

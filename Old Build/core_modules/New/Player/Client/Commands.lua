@@ -247,7 +247,7 @@ AddEventHandler("core:ready", function()
         end
     end, false, {Help = "Toggle shotgun",  Params = {}})
 
-    Chat.Command("phonenumber", function(source, args, rawCommand)
+    Chat.Command("pn", function(source, args, rawCommand)
         TriggerServerEvent("server:phonenumber")
     end, false, {Help = "Show your phone number", Params = {}})
     
@@ -350,7 +350,7 @@ Citizen.CreateThread(function()
 end)--]]
 
 RegisterNetEvent("showid:phonenumber")
-AddEventHandler("showid:phonenumber", function(currentjob, lastname, firstname, phonenumber)
+AddEventHandler("showid:phonenumber", function(source, currentjob, lastname, firstname, phonenumber)
     local source = source
     if(currentjob == "Police")then
         currentjob = "Police "..string.gsub(exports.policejob:getPoliceRank() or "", "%f[%a].", string.upper)
@@ -365,7 +365,7 @@ AddEventHandler("showid:phonenumber", function(currentjob, lastname, firstname, 
 end)
 
 RegisterNetEvent("showid:info")
-AddEventHandler("showid:info", function(currentjob, lastname, firstname)
+AddEventHandler("showid:info", function(source, currentjob, lastname, firstname)
     local source = source
     if(currentjob == "Police")then
         currentjob = "Police "..string.gsub(exports.policejob:getPoliceRank() or "", "%f[%a].", string.upper)
