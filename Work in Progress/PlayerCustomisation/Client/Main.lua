@@ -488,13 +488,13 @@ function OpenClothingMenu(LocationIndex)
 	end
 
 	if ClothingMenu:CurrentSelection() < 4 then
-		if ParentMenu.Items[1]:Enabled() then
+		if ClothingMenu.Items[1]:Enabled() then
 			ClothingMenu.Cameras[1]:Position(table.unpack(ClothingMenu.CameraCoordinates.Clothing[PlayerCustomisation.Reference.Clothing.Options[PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender][ClothingMenu.Items[1]:Index()].Value + 1]))
 		else
 			ClothingMenu.Cameras[1]:Position(table.unpack(GetOffsetFromEntityInWorldCoords(PlayerPedId(), 0.0, 0.8, 0.7)))
 		end
 	else
-		if ParentMenu.Items[4]:Enabled() then
+		if ClothingMenu.Items[4]:Enabled() then
 			ClothingMenu.Cameras[1]:Position(table.unpack(ClothingMenu.CameraCoordinates.Props[PlayerCustomisation.Reference.Props.Options[PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender][ClothingMenu.Items[4]:Index()].Value + 1]))
 		else
 			ClothingMenu.Cameras[1]:Position(table.unpack(GetOffsetFromEntityInWorldCoords(PlayerPedId(), 0.0, 0.8, 0.7)))
