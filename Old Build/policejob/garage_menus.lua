@@ -28,10 +28,16 @@ local stationHeliGarage = {
 	{name = "Police Helipad", sprite = 43, colour = 18, x=-1095.3184814453, y=-834.97686767578, z=37.675365447998}, -- San Andreas Ave
 }
 
+local boatGarage = {
+	{name = "Police Boatyard", sprite = 266, colour = 18, x = -1824.4139404297, y = -1267.0305175781, z = 7.8385934829712, h = 229.06300354004},
+}
+
 cars = {
     {name = "Marked City CVPI", model = "police7", type = "", rank = "cadet"},
     {name = "Marked City Taurus", model = "police", type = "", rank = "officer i"}, 
     {name = "Marked City Charger", model = "police2", type = "", rank = "officer i"},
+    {name = "Park Ranger Raptor", model = "sheriff2", type = "", rank = "officer i"},
+    {name = "Park Ranger ATV", model = "ATV", type = "", rank = "officer i"},
     {name = "Marked City Explorer", model = "police5", type = "", rank = "officer ii"},
     {name = "2011 CVPI Slicktop", model = "police3", type = "", rank = "officer ii"},
     {name = "2011 Ford F-150 SVT Raptor", model = "fraptor", type = "", rank = "officer ii"},
@@ -56,6 +62,10 @@ cars = {
 
 heli = {
 	{name = "LSPD Chopper", model = "polmav", type = "helicopter", rank = "officer ii"},
+}
+
+boat = {
+	{name = "LSPD Predator", model = "Predator", type = "", rank = "officer i"},
 }
 
 function isNearStationGarage()
@@ -91,6 +101,23 @@ function isNearStationHeliGarage()
 				--if WarMenu.IsMenuOpened("heli_menu") then
 					--WarMenu.CloseMenu("heli_menu")
 				--end
+			end
+		end
+	end
+end
+
+function isNearStationBoatyard()
+	for i = 1, #boatGarage do
+		local ply = PlayerPedId()
+		local plyCoords = GetEntityCoords(ply, 0)
+		local distance = GetDistanceBetweenCoords(boatGarage[i].x, boatGarage[i].y, boatGarage[i].z, plyCoords["x"], plyCoords["y"], plyCoords["z"], true)
+		if(distance < 30) then
+			DrawMarker(25, boatGarage[i].x, boatGarage[i].y, boatGarage[i].z-0.9, 0, 0, 0, 0, 0, 0, 9.0, 9.0, 2.5, 0, 0, 255, 155, 0, 0, 2, 0, 0, 0, 0)
+			currentgarage.x, currentgarage.y, currentgarage.z = -1805.9073486328, -1283.0847167969, 2.8385939598083
+			if(distance < 7)then
+				return true
+			elseif distance > 7 then
+
 			end
 		end
 	end
@@ -238,6 +265,46 @@ Citizen.CreateThread(function()
 						WarMenu.Display()
 					end
 				end
+				if isNearStationBoatyard() then
+					if existingVeh == nil then
+						DisplayHelpText("Press ~INPUT_CONTEXT~ to ~b~collect your predator~w~!")
+					else
+						DisplayHelpText("Press ~INPUT_CONTEXT~ to ~b~store your predator~w~!")
+					end
+		
+					if IsControlJustPressed(1, 38) then
+						if existingVeh ~= nil then
+							SetEntityAsMissionEntity(existingVeh, true, true)
+							Citizen.InvokeNative(0xEA386986E786A54F, Citizen.PointerValueIntInitialized(existingVeh))
+							existingVeh = nil
+						else
+							if not WarMenu.IsMenuOpened("boat_menu") then
+								if not WarMenu.DoesMenuExist("boat_menu") then
+									WarMenu.CreateMenu("boat_menu", "Boats")
+									WarMenu.SetSpriteTitle("boat_menu", {"pause_menu_pages_char_mom_dad", "vignette", "Boats"})
+									WarMenu.SetSubTitle("boat_menu", "")
+									WarMenu.SetMenuX("boat_menu", 0.6)
+									WarMenu.SetMenuY("boat_menu", 0.15)
+									WarMenu.SetTitleBackgroundColor("boat_menu", 0, 128, 255, 255)
+								else
+									WarMenu.OpenMenu("boat_menu")
+								end
+							else
+								WarMenu.CloseMenu("boat_menu")
+							end
+						end
+					end
+					if WarMenu.IsMenuOpened("boat_menu") then
+						for k,v in pairs(boat) do
+							if ranks[user_cop.rank][v.rank] or user_cop.rank == v.rank then
+								if WarMenu.Button(v.name) then
+									spawncar(v.model, v.type)
+								end
+							end
+						end
+						WarMenu.Display()
+					end
+				end
 			end
 		end
 	end
@@ -291,6 +358,9 @@ function spawncar(model, type)
 		if WarMenu.IsMenuOpened("heli_menu") then
 			WarMenu.CloseMenu("heli_menu")
 		end
+		if WarMenu.IsMenuOpened("boat_menu") then
+			WarMenu.CloseMenu("boat_menu")
+		end
 		SetModelAsNoLongerNeeded(carhashed)
 	end)
 end
@@ -302,6 +372,9 @@ function GarageBlips()
 	for _, item in pairs(stationHeliGarage) do
 		addBlip(item)
 	end
+	for _, item in pairs(boatGarage) do
+		addBlip(item)
+	end
 end
 
 function RemoveGarageBlips()
@@ -309,6 +382,9 @@ function RemoveGarageBlips()
 		RemoveBlip(item.blip)
 	end
 	for _, item in pairs(stationHeliGarage) do
+		RemoveBlip(item.blip)
+	end
+	for _, item in pairs(boatGarage) do
 		RemoveBlip(item.blip)
 	end
 end
@@ -323,6 +399,12 @@ function IsVehicleExempt(_model)
 	end
 	for i = 1, #heli do
 		if GetHashKey(heli[i].model) == _model then
+			exempt = true
+			break
+		end
+	end
+	for i = 1, #boat do
+		if GetHashKey(boat[i].model) == _model then
 			exempt = true
 			break
 		end
