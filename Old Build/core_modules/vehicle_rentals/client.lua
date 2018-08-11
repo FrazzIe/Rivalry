@@ -81,7 +81,7 @@ rental_boats = {
         {name = "Toro", price = 15000, model = "toro"},
         {name = "Toro2", price = 15000, model = "toro2"},
         {name = "Marquis (Sailboat)", price = 20000, model = "marquis"},
-        {name = "Submarine", price = 150000, model = "submersible"},
+        {name = "Submarine", price = 250000, model = "submersible"},
     }},
     {title = "Jetskis", vehicles = {
         {name = "Seashark", price = 2500, model = "seashark"},
