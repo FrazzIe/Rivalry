@@ -127,7 +127,7 @@
 					end
 
 					if GetDistanceBetweenCoords(GetEntityCoords(GetPlayerPed(-1)), Brewer_blips["Point of Sale"].x,Brewer_blips["Point of Sale"].y,Brewer_blips["Point of Sale"].z, true) <= Brewer_blips["Point of Sale"].distanceMarker then
-						DrawMarker(1,Brewer_blips["Point of Sale"].x,Brewer_blips["Point of Sale"].y,Brewer_blips["Point of Sale"].z, 0, 0, 0, 0, 0, 0, 2.001, 2.0001, 0.5001, 0, 155, 255, 200, 0, 0, 0, 0)
+						DrawMarker(1,Brewer_blips["Point of Sale"].x,Brewer_blips["Point of Sale"].y,Brewer_blips["Point of Sale"].z - 1, 0, 0, 0, 0, 0, 0, 2.001, 2.0001, 0.5001, 0, 155, 255, 200, 0, 0, 0, 0)
 					end
 				end
 			end

@@ -246,6 +246,26 @@ AddEventHandler("core:ready", function()
             Chat.Message("INFO", "You must be on duty use this command!", 255, 0, 0, true)
         end
     end, false, {Help = "Toggle shotgun",  Params = {}})
+
+	Chat.Command("panic", function(source, args, rawCommand)
+        if exports.policejob:getIsInService() or exports.policejob:getIsInService() then
+            if exports["phone"]:PlayerHasPhone() then
+                if not exports.policejob:getIsCuffed() then
+                	local Position = GetEntityCoords(PlayerPedId(), false)
+					local Street, Crossing = GetStreetNameAtCoord(Position.x, Position.y, Position.z)
+
+                    TriggerServerEvent("Panic.Toggle", (exports.policejob:getIsInService() and "^7Officer" or "^7Medic"), GetStreetNameFromHashKey(Street))
+                else
+                    Chat.Message("INFO", "You are handcuffed, you cannot reach the button!", 255, 0, 0, true)
+                end
+            else
+                Chat.Message("INFO", "You must have a phone!", 255, 0, 0, true)
+            end
+        else
+            Chat.Message("INFO", "You must be on duty use this command!", 255, 0, 0, true)
+        end
+    end, false, {Help = "Toggle Panic Button",  Params = {}})
+
 end)
 
 Citizen.CreateThread(function()

@@ -221,9 +221,13 @@ Citizen.CreateThread(function()
             elseif tattoo_menu then 
                 garage_menu = false
                 Menu.DisplayCurMenu()
+            elseif trucking_menu then
+                garage_menu = false
+                Menu.DisplayCurMenu()
             end
         else
             garage_menu = false
+            trucking_menu = false
             clothing_menu = false
             tattoo_menu = false
         end

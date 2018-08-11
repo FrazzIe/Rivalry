@@ -15,11 +15,7 @@ if IsDuplicityVersion() then
 
 		local Message = Type..(PanicPlayers[Source] and " is in distress at " or " is no longer in distress at ")..Street
 
-		for id, dept in pairs(emergency_users) do
-			if dept ~= nil then
-				Chat.Message(id, "10-13", Message, 255, 0, 0, true, "panic")
-			end
-		end
+		TriggerEvent("dispatch:panic.button", Message)
 
 		TriggerClientEvent("Panic.Sync", -1, PanicPlayers)
 	end)
@@ -41,25 +37,25 @@ else
 						if NetworkIsPlayerActive(PlayerId) then
 							local PedId = GetPlayerPed(PedId)
 							if DoesEntityExist(PedId) then
-								if not Panicblips[Player] then
-									Panicblips[Player] = AddBlipForEntity(PedId)
-									SetBlipSprite(Panicblips[Player], 1)
-									SetBlipColour(Panicblips[Player], 1)
-									SetBlipAsShortRange(Panicblips[Player], true)
-									SetBlipScale(Panicblips[Player], 0.85)
+								if not PanicBlips[Player] then
+									PanicBlips[Player] = AddBlipForEntity(PedId)
+									SetBlipSprite(PanicBlips[Player], 1)
+									SetBlipColour(PanicBlips[Player], 1)
+									SetBlipAsShortRange(PanicBlips[Player], true)
+									SetBlipScale(PanicBlips[Player], 0.85)
 									BeginTextCommandSetBlipName("STRING")
 									AddTextComponentString("10-13")
-									EndTextCommandSetBlipName(Panicblips[Player])
+									EndTextCommandSetBlipName(PanicBlips[Player])
 								else
-									if GetBlipFromEntity(PedId) ~= Panicblips[Player] then
-										Panicblips[Player] = AddBlipForEntity(PedId)
-										SetBlipSprite(Panicblips[Player], 1)
-										SetBlipColour(Panicblips[Player], 1)
-										SetBlipAsShortRange(Panicblips[Player], true)
-										SetBlipScale(Panicblips[Player], 0.85)
+									if GetBlipFromEntity(PedId) ~= PanicBlips[Player] then
+										PanicBlips[Player] = AddBlipForEntity(PedId)
+										SetBlipSprite(PanicBlips[Player], 1)
+										SetBlipColour(PanicBlips[Player], 1)
+										SetBlipAsShortRange(PanicBlips[Player], true)
+										SetBlipScale(PanicBlips[Player], 0.85)
 										BeginTextCommandSetBlipName("STRING")
 										AddTextComponentString("10-13")
-										EndTextCommandSetBlipName(Panicblips[Player])
+										EndTextCommandSetBlipName(PanicBlips[Player])
 									end
 								end
 							end
@@ -76,28 +72,6 @@ else
 				end
 			end
 		end
-	end)
-
-	RegisterNetEvent("core:ready")
-	AddEventHandler("core:ready", function()
-	    Chat.Command("panic", function(source, args, rawCommand)
-	        if exports.policejob:getIsInService() or exports.policejob:getIsInService() then
-	            if exports["phone"]:PlayerHasPhone() then
-	                if not exports.policejob:getIsCuffed() then
-	                	local Position = GetEntityCoords(PlayerPedId(), false)
-						local Street, Crossing = GetStreetNameAtCoord(Position.x, Position.y, Position.z)
-
-	                    TriggerServerEvent("Panic.Toggle", (exports.policejob:getIsInService() and "^7Officer" or "^7Medic"), GetStreetNameFromHashKey(Street))
-	                else
-	                    Chat.Message("INFO", "You are handcuffed, you cannot reach the button!", 255, 0, 0, true)
-	                end
-	            else
-	                Chat.Message("INFO", "You must have a phone!", 255, 0, 0, true)
-	            end
-	        else
-	            Chat.Message("INFO", "You must be on duty use this command!", 255, 0, 0, true)
-	        end
-	    end, false, {Help = "Toggle Panic Button",  Params = {}})
 	end)
 
 	RegisterNetEvent("Panic.Sync")

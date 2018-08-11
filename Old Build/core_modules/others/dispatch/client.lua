@@ -291,52 +291,38 @@ end)
 
 panic_button_pressed = false
 RegisterNetEvent("dispatch:panicbutton")
-AddEventHandler("dispatch:panicbutton", function(_source)
+--[[AddEventHandler("dispatch:panicbutton", function(_source)
     panic_button_pressed = true
     local pos = GetEntityCoords(PlayerPedId(), false)
     local street, crossing = GetStreetNameAtCoord(pos.x, pos.y, pos.z)
     TriggerServerEvent("dispatch:panicbutton", GetStreetNameFromHashKey(street))
-end)
+end)--]]
 
-RegisterNetEvent("dispatch:addpanicbutton")
-AddEventHandler("dispatch:addpanicbutton", function(_source)
+--[[RegisterNetEvent("dispatch:add_panic-button")
+AddEventHandler("dispatch:add_panic-button", function(_source)
     if PlayerId ~= GetPlayerFromServerId(_source) then
         Citizen.CreateThread(function()
             local player_id = GetPlayerFromServerId(_source)
             local officer_panic = true
-            local player_blip = nil
+            local panic_blip = nil
             local endTime = GetGameTimer() + ((panicbutton_timer * 60)/ 0.001)
             while officer_panic and endTime > GetGameTimer() do
                 Citizen.Wait(0)
-                if NetworkIsPlayerActive(player_id) then
-                    if DoesEntityExist(GetPlayerPed(player_id)) then
-                        if IsEntityDead(GetPlayerPed(player_id)) then
-                            if not DoesBlipExist(player_blip) then
-                                player_blip = AddBlipForEntity(GetPlayerPed(player_id))
-                                SetBlipSprite(player_blip, 480)
-                                SetBlipColour(player_blip, 1)
-                                SetBlipAsShortRange(player_blip, true)
-                                SetBlipScale(player_blip, 0.85)
-                                BeginTextCommandSetBlipName("STRING")
-                                AddTextComponentString("Panic Button")
-                                EndTextCommandSetBlipName(player_blip)
-                            end
-                        else
-                            officer_panic = false
-                            RemoveBlip(player_blip)
-                        end
-                    else
-                        officer_panic = false
-                        RemoveBlip(player_blip)
-                    end
-                else
-                    officer_panic = false
-                    RemoveBlip(player_blip)
+                if not DoesBlipExist(panic_blip) then
+                    panic_blip = AddBlipForEntity(GetPlayerPed(player_id))
+                    SetBlipSprite(panic_blip, 480)
+                    SetBlipColour(panic_blip, 1)
+                    SetBlipAsShortRange(panic_blip, true)
+                    SetBlipScale(panic_blip, 0.85)
+                    BeginTextCommandSetBlipName("STRING")
+                    AddTextComponentString("Panic Button")
+                    EndTextCommandSetBlipName(panic_blip)
                 end
-            end
+            officer_panic = false
+            RemoveBlip(player_blip)
         end)
     end
-end)
+end)--]]
 
 RegisterNetEvent("dispatch:add_ten-thirteen")
 AddEventHandler("dispatch:add_ten-thirteen", function(_source)
