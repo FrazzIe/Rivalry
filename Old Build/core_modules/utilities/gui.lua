@@ -646,6 +646,8 @@ function Menu.updateSelection()
             	carshop_menu = false
             elseif garage_menu then
             	garage_menu = false
+            elseif trucking_menu then
+            	trucking_menu = false
             elseif gun_menu then
             	gun_menu = false
             elseif item_menu then
