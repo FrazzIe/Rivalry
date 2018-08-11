@@ -233,24 +233,24 @@ function openCarRental()
             SetEntityVisible(GetPlayerPed(-1),false)
         end
     end)
-	FreezeEntityPosition(GetPlayerPed(-1),true)
-	local zcoord = Citizen.InvokeNative(0xC906A7DAB05C8D2B,currentShop[1],currentShop[2],currentShop[3],Citizen.PointerValueFloat(),0)
-	SetEntityCoords(GetPlayerPed(-1),currentShop[1],currentShop[2],zcoord)
-	SetEntityHeading(GetPlayerPed(-1),currentShop[4])
+    FreezeEntityPosition(GetPlayerPed(-1),true)
+    local zcoord = Citizen.InvokeNative(0xC906A7DAB05C8D2B,currentShop[1],currentShop[2],currentShop[3],Citizen.PointerValueFloat(),0)
+    SetEntityCoords(GetPlayerPed(-1),currentShop[1],currentShop[2],zcoord)
+    SetEntityHeading(GetPlayerPed(-1),currentShop[4])
 end
 
 function closeCarRental()
     WarMenu.CloseMenu()
-	if DoesEntityExist(currentPreview.entity) then
-		Citizen.InvokeNative(0xEA386986E786A54F, Citizen.PointerValueIntInitialized(currentPreview.entity))
-	end
-	currentPreview = {model=0, entity=nil}
-	SetEntityCoords(GetPlayerPed(-1),currentMarker[1],currentMarker[2],currentMarker[3])
-	FreezeEntityPosition(GetPlayerPed(-1),false)
-	SetEntityVisible(GetPlayerPed(-1),true)
+    if DoesEntityExist(currentPreview.entity) then
+        Citizen.InvokeNative(0xEA386986E786A54F, Citizen.PointerValueIntInitialized(currentPreview.entity))
+    end
+    currentPreview = {model=0, entity=nil}
+    SetEntityCoords(GetPlayerPed(-1),currentMarker[1],currentMarker[2],currentMarker[3])
+    FreezeEntityPosition(GetPlayerPed(-1),false)
+    SetEntityVisible(GetPlayerPed(-1),true)
     TriggerEvent("anticheat:set", "invisible", false, function(callback)
     end)
-	isCarRentalOpen = false 
+    isCarRentalOpen = false 
 end
 
 function openBoatRental()
@@ -393,8 +393,8 @@ emplacement_vehiclerentals = {
 
 emplacement_boatrentals = {
     {name="Boat rentals", colour=69, sprite=266, x = -803.02807617188, y = -1415.1254882813, z = 0.81553113460541,inside={-821.85522460938,-1440.8056640625,0.0093457698822021,173.33671569824},exit={-821.85522460938,-1440.8056640625,0.0093457698822021,173.33671569824}},
-    {name="Boat rentals", colour=69, sprite=266, x = 712.12225341797, y = 4101.3256835938, z = 35.785194396973,inside={698.50482177734,4099.6259765625,30.311496734619,43.885768890381},exit={698.50482177734,4099.6259765625,30.311496734619,43.885768890381}},
-    {name="Boat rentals", colour=69, sprite=266, x = -287.29446411133, y = 6628.7670898438, z = 7.170877456665,inside={304.71173095703,6657.6284179688,-0.60059690475464,47.499641418457},exit={304.71173095703,6657.6284179688,-0.60059690475464,47.499641418457}},
+    {name="Boat rentals", colour=69, sprite=266, x = 712.12225341797, y = 4101.3256835938, z = (35.785194396973) - 0.5,inside={698.50482177734,4099.6259765625,30.311496734619,43.885768890381},exit={698.50482177734,4099.6259765625,30.311496734619,43.885768890381}},
+    {name="Boat rentals", colour=69, sprite=266, x = -287.29446411133, y = 6628.7670898438, z = (7.170877456665) - 0.5,inside={-309.6123046875,6652.4213867188,0.67072486877441,35.311882019043},exit={-309.6123046875,6652.4213867188,0.67072486877441,35.311882019043}},
 }
 
 Citizen.CreateThread(function()

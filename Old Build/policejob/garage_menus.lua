@@ -30,6 +30,8 @@ local stationHeliGarage = {
 
 local boatGarage = {
 	{name = "Police Boatyard", sprite = 266, colour = 18, x = -772.71636962891, y = -1431.1351318359, z = 1.5952169895172, h = 52.574047088623},
+	{name = "Police Boatyard", sprite = 266, colour = 18, x = -280.49618530273, y = 6635.1884765625, z = 7.5431871414185, h = 40.816436767578},
+	{name = "Police Boatyard", sprite = 266, colour = 18, x = 712.01379394531, y = 4103.9819335938, z = 35.785232543945, h = 90.944297790527},
 }
 
 cars = {
@@ -40,7 +42,6 @@ cars = {
     {name = "Marked Ford Raptor", model = "fraptor", type = "", rank = "officer ii"},
     {name = "Marked K9 Charger", model = "k9c", type = "", rank = "officer ii"},
     {name = "Marked Motorcycle", model = "policebmw", type = "", rank = "officer i"},
-    {name = "Park Ranger Raptor", model = "fraptor", type = "", rank = "officer i"},
     {name = "Park Ranger ATV", model = "ATV", type = "", rank = "officer i"},
     {name = "Trooper Motorcycle", model = "policeb", type = "", rank = "trooper"},
     {name = "Trooper CVPI", model = "statep", type = "", rank = "trooper"},
@@ -112,7 +113,13 @@ function isNearStationBoatyard()
 		local distance2 = GetDistanceBetweenCoords(boatGarage[i].x, boatGarage[i].y, boatGarage[i].z, plyCoords["x"], plyCoords["y"], plyCoords["z"], true)
 		if(distance < 30) then
 			DrawMarker(1, boatGarage[i].x, boatGarage[i].y, boatGarage[i].z-0.9, 0, 0, 0, 0, 0, 0, 1.5001, 1.5001, 0.7555, 0, 0, 255, 155, 0, 0, 2, 0, 0, 0, 0)
-			currentgarage.x, currentgarage.y, currentgarage.z = -778.4921875, -1430.2032470703, 1.294110417366
+			if i == 1 then
+				currentgarage.x, currentgarage.y, currentgarage.z = -778.4921875, -1430.2032470703, 1.294110417366
+			elseif i == 2 then
+				currentgarage.x, currentgarage.y, currentgarage.z = -289.64694213867, 6645.7841796875, 1.5431871414185
+			elseif i == 3 then
+				currentgarage.x, currentgarage.y, currentgarage.z =  699.35211181641, 4107.576171875, 29.779243469238
+			end
 			if(distance < 7)then
 				return true
 			elseif distance > 7 then

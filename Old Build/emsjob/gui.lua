@@ -440,6 +440,8 @@ function Menu.updateSelection()
       menuOpen = false
       if car_menu then
         car_menu = false
+      elseif boat_menu then
+        boat_menu = false
       elseif heli_menu then
         heli_menu = false
       elseif armoury_menu then

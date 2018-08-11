@@ -32,6 +32,12 @@ local stationHeliGarage = {
     {name = "Paramedic Helipad", sprite = 43, colour = 2, x=1216.7823486328, y=-1516.5510253906, z=34.700180053711},
 }
 
+local stationBoatGarage = {
+	{name = "Paramedic Boatyard", sprite = 266, colour = 2, x = -725.88293457031, y = -1374.7302246094, z = 1.595218539238},
+	{name = "Paramedic Boatyard", sprite = 266, colour = 2, x = -276.0068359375, y = 6639.4140625, z = 7.5257635116577},
+	{name = "Paramedic Boatyard", sprite = 266, colour = 2, x = 712.20294189453, y = 4098.0649414063, z = 35.785232543945},
+}
+
 cars = {
     {name = "Ambulance", model = "ambulance", type = "", rank = "probationary"},
     {name = "Ambulance 2", model = "ambulance2", type = "", rank = "probationary"},
@@ -45,6 +51,10 @@ cars = {
 
 heli = {
     {name = "LSFD Chopper", model = "polmav", type = "helicopter", rank = "paramedic"},
+}
+
+boat = {
+	{name = "LSFD Rescue Boat", model = "defender", type = "", rank = "paramedic"}
 }
 
 function isNearStationGarage()
@@ -79,6 +89,31 @@ function isNearStationHeliGarage()
             elseif distance > 7 then
                 if WarMenu.IsMenuOpened("heli_menu") then
                     WarMenu.CloseMenu("heli_menu")
+                end
+            end
+        end
+    end
+end
+
+function isNearStationBoatGarage()
+    for i = 1, #stationBoatGarage do
+        local ply = PlayerPedId()
+        local plyCoords = GetEntityCoords(ply, 0)
+        local distance = GetDistanceBetweenCoords(stationBoatGarage[i].x, stationBoatGarage[i].y, stationBoatGarage[i].z, plyCoords["x"], plyCoords["y"], plyCoords["z"], true)
+        if(distance < 30) then
+            DrawMarker(25, stationBoatGarage[i].x, stationBoatGarage[i].y, stationBoatGarage[i].z-0.7, 0, 0, 0, 0, 0, 0, 1.5001, 1.5001, 0.7555, 243, 44, 82, 155, 0, 0, 2, 0, 0, 0, 0)
+            if i == 1 then
+            	currentgarage.x, currentgarage.y, currentgarage.z = -731.48315429688, -1369.9741210938, 0.52509331703186
+            elseif i == 2 then
+				currentgarage.x, currentgarage.y, currentgarage.z = -289.64694213867, 6645.7841796875, 1.5431871414185
+			elseif i == 3 then
+				currentgarage.x, currentgarage.y, currentgarage.z =  699.35211181641, 4107.576171875, 29.779243469238
+			end
+            if(distance < 7) then
+                return true
+            elseif distance > 7 then
+                if WarMenu.IsMenuOpened("boat_menu") then
+                    WarMenu.CloseMenu("boat_menu")
                 end
             end
         end
@@ -229,6 +264,47 @@ Citizen.CreateThread(function()
                         WarMenu.Display()
                     end
                 end
+                if isNearStationBoatGarage() then
+                    if existingVeh == nil then
+                        DisplayHelpText("Press ~INPUT_CONTEXT~ to ~b~collect your rescue boat~w~!")
+                    else
+                        DisplayHelpText("Press ~INPUT_CONTEXT~ to ~b~store your rescue boat~w~!")
+                    end
+        
+                    if IsControlJustPressed(1, 38) then
+                        if existingVeh ~= nil then
+                            SetEntityAsMissionEntity(existingVeh, true, true)
+                            Citizen.InvokeNative(0xEA386986E786A54F, Citizen.PointerValueIntInitialized(existingVeh))
+                            existingVeh = nil
+                        else
+                            if not WarMenu.IsMenuOpened("boat_menu") then
+                                if not WarMenu.DoesMenuExist("boat_menu") then
+                                    WarMenu.CreateMenu("boat_menu", "Boats")
+                                    WarMenu.SetSpriteTitle("boat_menu", {"pause_menu_pages_char_mom_dad", "vignette", "Boats"})
+                                    WarMenu.SetSubTitle("boat_menu", "")
+                                    WarMenu.SetMenuX("boat_menu", 0.6)
+                                    WarMenu.SetMenuY("boat_menu", 0.15)
+                                    WarMenu.SetTitleBackgroundColor("boat_menu", 43, 44, 82, 255)
+                                    WarMenu.OpenMenu("boat_menu")
+                                else
+                                    WarMenu.OpenMenu("boat_menu")
+                                end
+                            else
+                                WarMenu.CloseMenu("boat_menu")
+                            end
+                        end
+                    end
+                    if WarMenu.IsMenuOpened("boat_menu") then
+                        for k,v in pairs(heli) do
+                            if ranks[user_paramedic.rank][v.rank] or user_paramedic.rank == v.rank then
+                                if WarMenu.Button(v.name) then
+                                    spawncar(v.model, v.type)
+                                end
+                            end
+                        end
+                        WarMenu.Display()
+                    end
+                end
             end
         end
     end
@@ -296,7 +372,10 @@ function AddParamedicBlips()
     end
     for _, item in pairs(stationHeliGarage) do
         addBlip(item)
-    end   
+    end  
+    for _, item in pairs(stationBoatGarage) do
+        addBlip(item)
+    end  
 end
 
 function RemoveParamedicBlips()
@@ -304,6 +383,9 @@ function RemoveParamedicBlips()
         RemoveBlip(item.blip)
     end
     for _, item in pairs(stationHeliGarage) do
+        RemoveBlip(item.blip)
+    end
+    for _, item in pairs(stationBoatGarage) do
         RemoveBlip(item.blip)
     end
 end
@@ -318,6 +400,12 @@ function IsVehicleExempt(_model)
     end
     for i = 1, #heli do
         if GetHashKey(heli[i].model) == _model then
+            exempt = true
+            break
+        end
+    end
+    for i = 1, #boat do
+        if GetHashKey(boat[i].model) == _model then
             exempt = true
             break
         end
