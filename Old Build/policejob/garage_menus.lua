@@ -29,24 +29,22 @@ local stationHeliGarage = {
 }
 
 local boatGarage = {
-	{name = "Police Boatyard", sprite = 266, colour = 18, x = -1824.4139404297, y = -1267.0305175781, z = 7.8385934829712, h = 229.06300354004},
+	{name = "Police Boatyard", sprite = 266, colour = 18, x = -772.71636962891, y = -1431.1351318359, z = 1.5952169895172, h = 52.574047088623},
 }
 
 cars = {
     {name = "Marked City CVPI", model = "police7", type = "", rank = "cadet"},
     {name = "Marked City Taurus", model = "police", type = "", rank = "officer i"}, 
     {name = "Marked City Charger", model = "police2", type = "", rank = "officer i"},
-    {name = "Park Ranger Raptor", model = "sheriff2", type = "", rank = "officer i"},
-    {name = "Park Ranger ATV", model = "ATV", type = "", rank = "officer i"},
     {name = "Marked City Explorer", model = "police5", type = "", rank = "officer ii"},
-    {name = "2011 CVPI Slicktop", model = "police3", type = "", rank = "officer ii"},
-    {name = "2011 Ford F-150 SVT Raptor", model = "fraptor", type = "", rank = "officer ii"},
+    {name = "Marked Ford Raptor", model = "fraptor", type = "", rank = "officer ii"},
     {name = "Marked K9 Charger", model = "k9c", type = "", rank = "officer ii"},
     {name = "Marked Motorcycle", model = "policebmw", type = "", rank = "officer i"},
+    {name = "Park Ranger Raptor", model = "fraptor", type = "", rank = "officer i"},
+    {name = "Park Ranger ATV", model = "ATV", type = "", rank = "officer i"},
     {name = "Trooper Motorcycle", model = "policeb", type = "", rank = "trooper"},
     {name = "Trooper CVPI", model = "statep", type = "", rank = "trooper"},
     {name = "Trooper Charger", model = "statep2", type = "", rank = "trooper"},
-    {name = "Trooper Chevy Silverado", model = "statep3", type = "", rank = "trooper"},
     {name = "Trooper Hellcat", model = "statep4", type = "", rank = "trooper"},
     {name = "Interceptor Mustang", model = "2015polstang", type = "", rank = "officer ii"},
     {name = "Interceptor GTR", model = "rmodpolice", type = "", rank = "officer ii"},
@@ -111,14 +109,18 @@ function isNearStationBoatyard()
 		local ply = PlayerPedId()
 		local plyCoords = GetEntityCoords(ply, 0)
 		local distance = GetDistanceBetweenCoords(boatGarage[i].x, boatGarage[i].y, boatGarage[i].z, plyCoords["x"], plyCoords["y"], plyCoords["z"], true)
+		local distance2 = GetDistanceBetweenCoords(boatGarage[i].x, boatGarage[i].y, boatGarage[i].z, plyCoords["x"], plyCoords["y"], plyCoords["z"], true)
 		if(distance < 30) then
-			DrawMarker(25, boatGarage[i].x, boatGarage[i].y, boatGarage[i].z-0.9, 0, 0, 0, 0, 0, 0, 9.0, 9.0, 2.5, 0, 0, 255, 155, 0, 0, 2, 0, 0, 0, 0)
-			currentgarage.x, currentgarage.y, currentgarage.z = -1805.9073486328, -1283.0847167969, 2.8385939598083
+			DrawMarker(1, boatGarage[i].x, boatGarage[i].y, boatGarage[i].z-0.9, 0, 0, 0, 0, 0, 0, 1.5001, 1.5001, 0.7555, 0, 0, 255, 155, 0, 0, 2, 0, 0, 0, 0)
+			currentgarage.x, currentgarage.y, currentgarage.z = -778.4921875, -1430.2032470703, 1.294110417366
 			if(distance < 7)then
 				return true
 			elseif distance > 7 then
 
 			end
+		end
+		if distance2 < 20 then
+			return true
 		end
 	end
 end

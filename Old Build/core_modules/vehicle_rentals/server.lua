@@ -18,7 +18,7 @@ AddEventHandler("carRental:buy",function(data)
         if (tonumber(user.get("wallet")) >= tonumber(rental_cars[data.model])) then
             user.removeWallet(tonumber(rental_cars[data.model]))
             TriggerClientEvent("carRental:bought", source, data)
-        elseif (tonumber(user.get("wallet")) >= tonumber(rental_cars[data.model])) then
+        elseif (tonumber(user.get("bank")) >= tonumber(rental_cars[data.model])) then
             user.removeBank(tonumber(rental_cars[data.model]))
             TriggerClientEvent("carRental:bought", source, data)
         else

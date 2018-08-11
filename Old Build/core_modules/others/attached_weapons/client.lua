@@ -366,7 +366,7 @@ Citizen.CreateThread(function()
             		if holstered then
                 		TaskPlayAnim(ped, "rcmjosh4", "josh_leadout_cop2", 8.0, 2.0, -1, 48, 10, 0, 0, 0 )
 						firingdisabled = true
-                		Citizen.Wait(400)
+                		Citizen.Wait(500)
                 		
                 		ClearPedTasks(ped)
                 		holstered = false
@@ -377,7 +377,7 @@ Citizen.CreateThread(function()
 		                SetPedCurrentWeaponVisible(ped, 1, 1, 1, 1)
 		                TaskPlayAnim(ped, "weapons@pistol@", "aim_2_holster", 8.0, 2.0, -1, 48, 10, 0, 0, 0 )
 						firingdisabled = true
-		                Citizen.Wait(1200)
+		                Citizen.Wait(1300)
 		                
 		                ClearPedTasks(ped)
 		                holstered = true
@@ -388,7 +388,7 @@ Citizen.CreateThread(function()
             		if holstered2 then
                 		TaskPlayAnim(ped, "anim@heists@money_grab@duffel", "enter", 8.0, 2.0, -1, 48, 10, 0, 0, 0 )
 						firingdisabled = true
-                		Citizen.Wait(1200)
+                		Citizen.Wait(1300)
                 		
                 		ClearPedTasks(ped)
                 		holstered2 = false
@@ -398,7 +398,7 @@ Citizen.CreateThread(function()
 	                if not holstered2 then
 		                TaskPlayAnim(ped, "anim@heists@money_grab@duffel", "enter", 8.0, 2.0, -1, 48, 10, 0, 0, 0 )
 						firingdisabled = true
-		                Citizen.Wait(1200)
+		                Citizen.Wait(1300)
 		                
 		                ClearPedTasks(ped)
 		                holstered2 = true
@@ -411,9 +411,9 @@ Citizen.CreateThread(function()
 	                    SetPedCurrentWeaponVisible(ped, 0, 1, 1, 1)
 	                    TaskPlayAnim(ped, "reaction@intimidation@1h", "intro", 8.0, 2.0, -1, 48, 10, 0, 0, 0 )
 						firingdisabled = true
-	                    Citizen.Wait(1100)
-	                    SetPedCurrentWeaponVisible(ped, 1, 1, 1, 1)
 	                    Citizen.Wait(1200)
+	                    SetPedCurrentWeaponVisible(ped, 1, 1, 1, 1)
+	                    Citizen.Wait(1300)
 	                    
 	                    ClearPedTasks(ped)
 	                    holstered = false
@@ -424,7 +424,7 @@ Citizen.CreateThread(function()
 	                    SetPedCurrentWeaponVisible(ped, 1, 1, 1, 1)
 	                    TaskPlayAnim(ped, "reaction@intimidation@1h", "outro", 8.0, 2.0, -1, 48, 10, 0, 0, 0 )
 						firingdisabled = true
-	                    Citizen.Wait(1300)
+	                    Citizen.Wait(1400)
 	                    
 	                    ClearPedTasks(ped)
 	                    holstered = true
@@ -435,7 +435,7 @@ Citizen.CreateThread(function()
             		if holstered2 then
                 		TaskPlayAnim(ped, "anim@heists@money_grab@duffel", "enter", 8.0, 2.0, -1, 48, 10, 0, 0, 0 )
 						firingdisabled = true
-                		Citizen.Wait(1200)
+                		Citizen.Wait(1300)
                 		
                 		ClearPedTasks(ped)
                 		holstered2 = false
@@ -445,7 +445,7 @@ Citizen.CreateThread(function()
 	                if not holstered2 then
 		                TaskPlayAnim(ped, "anim@heists@money_grab@duffel", "enter", 8.0, 2.0, -1, 48, 10, 0, 0, 0 )
 						firingdisabled = true
-		                Citizen.Wait(1200)
+		                Citizen.Wait(1300)
 		                
 		                ClearPedTasks(ped)
 		                holstered2 = true

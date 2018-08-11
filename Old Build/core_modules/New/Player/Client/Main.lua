@@ -73,7 +73,7 @@ Citizen.CreateThread(function()
 		if(IsPedJumping(PlayerPedId()))then
 			count = count + 0.03
 		end
-		if(count > 0)then
+		if(math.floor(count) > 0.00)then
 			JumpTimer = 10
 		end
 		if(math.floor(count) == 4)then

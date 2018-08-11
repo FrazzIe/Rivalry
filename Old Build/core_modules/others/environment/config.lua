@@ -8,7 +8,6 @@ Weather.Current, Weather.Types = "SUNNY", {
     "FOGGY", 
     "OVERCAST", 
     "CLOUDS", 
-    "CLEARING", 
 }
 
 --[[
