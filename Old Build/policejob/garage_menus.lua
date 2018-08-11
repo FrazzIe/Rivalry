@@ -42,7 +42,7 @@ cars = {
     {name = "Marked Ford Raptor", model = "fraptor", type = "", rank = "officer ii"},
     {name = "Marked K9 Charger", model = "k9c", type = "", rank = "officer ii"},
     {name = "Marked Motorcycle", model = "policebmw", type = "", rank = "officer i"},
-    {name = "Marked Transport", model = "policet", type = "", rank = "officer i"},
+    {name = "Marked Transport", model = "policet", type = "", rank = "cadet"},
     {name = "Trooper Motorcycle", model = "policeb", type = "", rank = "trooper"},
     {name = "Trooper CVPI", model = "statep", type = "", rank = "trooper"},
     {name = "Trooper Charger", model = "statep2", type = "", rank = "trooper"},
