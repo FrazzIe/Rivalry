@@ -35,7 +35,7 @@ local stationHeliGarage = {
 local stationBoatGarage = {
 	{name = "Paramedic Boatyard", sprite = 266, colour = 2, x = -725.88293457031, y = -1374.7302246094, z = 1.595218539238},
 	{name = "Paramedic Boatyard", sprite = 266, colour = 2, x = -276.0068359375, y = 6639.4140625, z = 7.5257635116577},
-	{name = "Paramedic Boatyard", sprite = 266, colour = 2, x = 712.20294189453, y = 4098.0649414063, z = 35.785232543945},
+	{name = "Paramedic Boatyard", sprite = 266, colour = 2, x = 1537.3765869141, y = 3913.4584960938, z = 31.677017211914},
 }
 
 cars = {
@@ -107,7 +107,7 @@ function isNearStationBoatGarage()
             elseif i == 2 then
 				currentgarage.x, currentgarage.y, currentgarage.z = -289.64694213867, 6645.7841796875, 1.5431871414185
 			elseif i == 3 then
-				currentgarage.x, currentgarage.y, currentgarage.z =  699.35211181641, 4107.576171875, 29.779243469238
+				currentgarage.x, currentgarage.y, currentgarage.z = 1535.8880615234, 3895.6235351563, 31.606565475464
 			end
             if(distance < 7) then
                 return true
