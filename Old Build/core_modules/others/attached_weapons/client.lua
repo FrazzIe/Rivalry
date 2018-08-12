@@ -80,7 +80,7 @@ bone_config = {
 		bone = 24818,
 		coordinates = {x = 0.09, y = -0.15, z = 0.1}, 
 		rotation = {x = 0.0, y = 0.0, z = 0.0},
-		model = "w_sb_compactsmg"
+		model = "w_ar_assaultrifle_smg"
 	},
 	["WEAPON_SAWNOFFSHOTGUN"] = {
 		bone = 24818,
