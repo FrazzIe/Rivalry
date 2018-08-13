@@ -313,15 +313,19 @@ Citizen.CreateThread(function()
 	while not HasAnimDictLoaded("mp_common") do
 		Citizen.Wait(0)
 	end
+	local methbag_model = GetHashKey("prop_meth_bag_01")
 	while true do
 		Citizen.Wait(0)
-		if not IsPedSittingInAnyVehicle(PlayerPedId()) then
+		local PlayerPed = PlayerPedId()
+		local PlayerPosition = GetEntityCoords(PlayerPed, false)
+
+		if not IsPedSittingInAnyVehicle(PlayerPed) then
 			if GetItemQuantity(joint_id) > 0 then
 				for ped in EnumeratePeds() do
 					if DoesEntityExist(ped) then
 						if not IsEntityDead(ped) then
 							if not IsPedAPlayer(ped) and not DecorGetBool(ped, "isTrader") and not DecorGetBool(ped, "soldTo") and not IsPedAnAnimal(GetEntityModel(ped)) then
-								if Vdist2(GetEntityCoords(PlayerPedId(), false), GetEntityCoords(ped, false)) < 1 then
+								if Vdist2(PlayerPosition.x, PlayerPosition.y, PlayerPosition.z, GetEntityCoords(ped, false)) < 1 then
 									if sell_cooldown > 0 then
 										DisplayHelpText("Press ~INPUT_CONTEXT~ to sell a joint! ["..sell_cooldown.."]")
 									else
@@ -330,8 +334,6 @@ Citizen.CreateThread(function()
 											sell_cooldown = 10
 											DecorSetBool(ped, "soldTo", true)
 											if willNPCbuy() then
-
-												local methbag_model = GetHashKey("prop_meth_bag_01")
 												
 												RequestModel(methbag_model)
 
@@ -339,13 +341,13 @@ Citizen.CreateThread(function()
 													Citizen.Wait(250)
 												end
 
-												SetEntityHeading(ped, GetEntityHeading(PlayerPedId()) - 180)
+												SetEntityHeading(ped, GetEntityHeading(PlayerPed) - 180)
 
 												local methbag = CreateObject(methbag_model, 0.01, 0, 0, 1, 0, 0)
 
-												AttachEntityToEntity(methbag, PlayerPedId(), GetPedBoneIndex(GetPlayerPed(-1), 64096), 0.0, 0.0, 0.020, 90.0, -10.0, -130.0 ,true, true, false, true, 1, true)
+												AttachEntityToEntity(methbag, PlayerPed, GetPedBoneIndex(PlayerPed, 64096), 0.0, 0.0, 0.020, 90.0, -10.0, -130.0 ,true, true, false, true, 1, true)
 
-												TaskPlayAnim(PlayerPedId(), "mp_common", "givetake1_a", 100.0, 200.0, 0.3, 16, 0.2, 0, 0, 0)
+												TaskPlayAnim(PlayerPed, "mp_common", "givetake1_a", 100.0, 200.0, 0.3, 16, 0.2, 0, 0, 0)
 
 		                    					TaskPlayAnim(ped, "mp_common", "givetake1_b", 100.0, 200.0, 0.3, 16, 0.2, 0, 0, 0)
 
@@ -373,7 +375,7 @@ Citizen.CreateThread(function()
 
 												PlaySoundFrontend(-1, "Hack_Success", "DLC_HEIST_BIOLAB_PREP_HACKING_SOUNDS", true)
 											else
-												TaskReactAndFleePed(ped, PlayerPedId())
+												TaskReactAndFleePed(ped, PlayerPed)
 												PlaySoundFrontend(-1, "Hack_Failed", "DLC_HEIST_BIOLAB_PREP_HACKING_SOUNDS", true)
 												TriggerEvent("dispatch:drug")
 											end

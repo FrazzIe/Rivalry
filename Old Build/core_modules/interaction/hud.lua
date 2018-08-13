@@ -23,6 +23,14 @@ local paramedics_callstatus, paramedics_active, paramedics_available = 0, 0, 0
 local taxi_callstatus, taxi_active, taxi_available = 0, 0, 0
 local mechanic_callstatus, mechanic_active, mechanic_available = 0, 0, 0
 
+function TurnOffHudElements(value)
+    if value then
+        hud_off = true
+    else
+        hud_off = false
+    end
+end
+
 AddEventHandler('onClientMapStart', function()
     NetworkSetTalkerProximity(15.0)
 end)
@@ -57,12 +65,16 @@ Citizen.CreateThread(function()
         Citizen.Wait(0)
         local minimap = GetMinimapAnchor()
         if WarMenu.IsMenuOpened("Scoreboard") or WarMenu.IsMenuOpened("player_info") or WarMenu.IsMenuOpened("player_info_disconnected") or WarMenu.IsMenuOpened("disconnected") then
---[[            drawText("~g~$~w~"..wallet, 6, 0.16, 0.82, 0.50, 255, 255, 255, 255, false, true)
+            --[[
+            drawText("~g~$~w~"..wallet, 6, 0.16, 0.82, 0.50, 255, 255, 255, 255, false, true)
             drawText("~r~$~w~"..dirty, 6, 0.16, 0.845, 0.50, 255, 255, 255, 255, false, true)
-            drawText("~b~$~w~"..bank, 6, 0.16, 0.87, 0.50, 255, 255, 255, 255, false, true)--]]
+            drawText("~b~$~w~"..bank, 6, 0.16, 0.87, 0.50, 255, 255, 255, 255, false, true)
+            --]]
+
             drawText(job, 6, 0.16, 0.895, 0.50, 255, 255, 255, 255, false, true)
 
             drawText("~g~Status of calls", 6, 0.3, 0.795, 0.50, 255, 255, 255, 255, false, true)
+
             if cops_callstatus == 0 then
                 drawText("~b~LSPD~w~: You currently don't have a call", 6, 0.3, 0.82, 0.50, 255, 255, 255, 255, false, true)
             elseif cops_callstatus == 1 then
@@ -130,18 +142,19 @@ Citizen.CreateThread(function()
             end
             if exports.jobs:getMechanicIsInService() then
                 drawText(mechanic_information, 6, 0.6, 0.895, 0.50, 255, 255, 255, 255, false, true)
-            end 
+            end
         end
         if not hud_off then
+            local PlayerPed = PlayerPedId()
             if NetworkIsPlayerTalking(PlayerId()) then
                 drawText("~o~>>"..voice, 6, 0.16, 0.92, 0.50, 255, 255, 255, 255, false, true)
             else
                 drawText(voice, 6, 0.16, 0.92, 0.50, 255, 255, 255, 255, false, true)
             end
 
-            if IsPedSittingInAnyVehicle(PlayerPedId()) then
-                local vehicle = GetVehiclePedIsIn(PlayerPedId(), false)
-                if GetPedInVehicleSeat(vehicle, -1) == PlayerPedId() then
+            if IsPedSittingInAnyVehicle(PlayerPed) then
+                local vehicle = GetVehiclePedIsIn(PlayerPed, false)
+                if GetPedInVehicleSeat(vehicle, -1) == PlayerPed then
                     drawText("~y~"..GetVehicleNumberPlateText(vehicle), 6, 0.889, 0.85, 0.5, 255, 255, 255, 255, false, true)
                 end
                -- DisplayRadar(true)
@@ -151,18 +164,18 @@ Citizen.CreateThread(function()
                 --DrawHUDBar(GetEntityMaxHealth(PlayerPedId()), GetEntityHealth(PlayerPedId()), minimap.left_x + 0.070 + 0.0015, minimap.bottom_y - 0.01, 0.070, 0.008335, {r = 61, g = 128, b = 165}, {r = 28, g = 77, b = 107}, true, {}, 1)
             end
             
-            local pos = GetEntityCoords(PlayerPedId())
+            local pos = GetEntityCoords(PlayerPed)
             local var1, var2 = GetStreetNameAtCoord(pos.x, pos.y, pos.z, Citizen.ResultAsInteger(), Citizen.ResultAsInteger())
 
             for k,v in pairs(directions)do
-                direction = GetEntityHeading(PlayerPedId())
+                direction = GetEntityHeading(PlayerPed)
                 if(math.abs(direction - k) < 22.5)then
                     direction = v
                     break
                 end
             end
 
-            local posme = GetEntityCoords(PlayerPedId(), false)
+            local posme = GetEntityCoords(PlayerPed, false)
 
             if(var2 ~= 0)then
                 drawText("Crossing ~y~" .. tostring(GetStreetNameFromHashKey(var2)) .. "~w~", 6, 0.18, 0.965, 0.4, 255, 255, 255, 255, false, true)

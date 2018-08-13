@@ -14,70 +14,61 @@
 --[[ Open Menu ]]--
 drivers_license = "false"
 controller = false
+
+local seat_cooldown = -1
 Citizen.CreateThread(function()
 	local voice_count = 1
 	while true do
 		Citizen.Wait(0)
-		if not IsPauseMenuActive() and not PlayerCustomisation.Instanced then
+		local PlayerPed = PlayerPedId()
+		if not IsPauseMenuActive() and not exports.PlayerCustomisation:IsInstanced() then
 			if IsControlJustReleased(1, 311) or IsControlJustReleased(1, 19) then
 				if exports.ui:currentmenu() == "" then
-					if not IsPedFalling(PlayerPedId()) then
+					if not IsPedFalling(PlayerPed) then
 						TriggerEvent("interaction:main")
 					end
 				elseif exports.ui:currentmenu() ~= "" then
 					exports.ui:close()
 				end
 			end
+
 			if IsControlJustPressed(1, 182) and IsInputDisabled(2) and not controller and not exports.policejob:getIsInService() then
 				TriggerEvent("keys:toggle")
 			end
+
 			if IsControlJustPressed(1, 170) and IsInputDisabled(2) and not controller then
 				voice_count = voice_count + 1
 				if voice_count > 3 then voice_count = 1 end
 				TriggerEvent("interaction:voice_change", voice_count)
 			end
-			if IsPedSittingInAnyVehicle(PlayerPedId()) then	
-				if (GetPedInVehicleSeat(GetVehiclePedIsIn(PlayerPedId(), false), -1) == PlayerPedId()) then
-					if IsControlJustPressed(1, 15) and IsInputDisabled(2) and not controller then
-						local model = GetEntityModel(GetVehiclePedIsIn(PlayerPedId(), false))
-						if IsThisModelACar(model) or IsThisModelAQuadbike(model) or IsThisModelABike(model) then
-							if DecorGetFloat(GetVehiclePedIsIn(PlayerPedId(), false), "_Fuel_Level") > 0 then
-								TriggerEvent("interaction:vehicle_engine")
+
+			if exports.policejob:getIsInService() then 
+				if IsPedInAnyPoliceVehicle(PlayerPed) then
+					local CurrentVehicle = GetVehiclePedIsIn(PlayerPed, false)
+					if GetPedInVehicleSeat(CurrentVehicle, -1) == PlayerPed then
+						if IsControlJustPressed(1, 182) and IsInputDisabled(2) and not controller then
+							local vehicle = GetVehiclePedIsIn(PlayerPed, false)
+							local lockstatus = GetVehicleDoorLockStatus(vehicle)
+							if lockstatus == 1 or lockstatus == 0 then
+								Notify("Vehicle locked", 3000)
+								SetVehicleDoorsLocked(vehicle, 4)
+							else
+								Notify("Vehicle unlocked", 300)
+								SetVehicleDoorsLocked(vehicle, 1)
 							end
-						else
-							TriggerEvent("interaction:vehicle_engine")
 						end
 					end
-				end
-			end
-			if exports.policejob:getIsCop() then 
-				if exports.policejob:getIsInService() then 
-					if IsPedInAnyPoliceVehicle(PlayerPedId()) then
-						if (GetPedInVehicleSeat(GetVehiclePedIsIn(PlayerPedId(), false), -1) == PlayerPedId()) then
-							if IsControlJustPressed(1, 182) and IsInputDisabled(2) and not controller then
-								local vehicle = GetVehiclePedIsIn(PlayerPedId(), false)
-								local lockstatus = GetVehicleDoorLockStatus(vehicle)
-								if lockstatus == 1 or lockstatus == 0 then
-									Notify("Vehicle locked", 3000)
-									SetVehicleDoorsLocked(vehicle, 4)
-								else
-									Notify("Vehicle unlocked", 300)
-									SetVehicleDoorsLocked(vehicle, 1)
-								end
-							end
-						end
-					else
-						if IsControlJustPressed(1, 182) and IsInputDisabled(2) and not controller then
-							local pos = GetEntityCoords(PlayerPedId())
-							local entityWorld = GetOffsetFromEntityInWorldCoords(PlayerPedId(), 0.0, 20.0, 0.0)
+				else
+					if IsControlJustPressed(1, 182) and IsInputDisabled(2) and not controller then
+						local pos = GetEntityCoords(PlayerPed)
+						local entityWorld = GetOffsetFromEntityInWorldCoords(PlayerPed, 0.0, 20.0, 0.0)
 
-							local rayHandle = CastRayPointToPoint(pos.x, pos.y, pos.z, entityWorld.x, entityWorld.y, entityWorld.z, 10, PlayerPedId(), 0)
-							local a, b, c, d, vehicleHandle = GetRaycastResult(rayHandle)
+						local rayHandle = CastRayPointToPoint(pos.x, pos.y, pos.z, entityWorld.x, entityWorld.y, entityWorld.z, 10, PlayerPed, 0)
+						local a, b, c, d, vehicleHandle = GetRaycastResult(rayHandle)
 
-							if vehicleHandle ~= nil then
-							   	if DoesEntityExist(vehicleHandle) then
-							   		TriggerServerEvent("interaction:check_keys", GetVehicleNumberPlateText(vehicleHandle), vehicleHandle)
-							   	end
+						if vehicleHandle ~= nil then
+							if DoesEntityExist(vehicleHandle) then
+							   	TriggerServerEvent("interaction:check_keys", GetVehicleNumberPlateText(vehicleHandle), vehicleHandle)
 							end
 						end
 					end
@@ -88,79 +79,89 @@ Citizen.CreateThread(function()
 				exports.ui:close()
 			end
 		end
-		if not IsEntityDead(PlayerPedId()) then
+
+		if not IsEntityDead(PlayerPed) then
 			if ten_thirteen_pressed then
 				ten_thirteen_pressed = false
 			end
 		end
-	end
-end)
 
-local seat_cooldown = -1
-Citizen.CreateThread(function()
-	while true do
-		Citizen.Wait(0)
-		local _ped = PlayerPedId()
-		if IsPedSittingInAnyVehicle(_ped) then
-			local _vehicle = GetVehiclePedIsIn(_ped, false)
-			if GetPedInVehicleSeat(_vehicle, 0) == _ped then
-				if GetIsTaskActive(_ped, 165) then
-					SetPedIntoVehicle(_ped, _vehicle, 0)
+		if IsPedSittingInAnyVehicle(PlayerPed) then
+			local CurrentVehicle = GetVehiclePedIsIn(PlayerPed, false)
+			if GetPedInVehicleSeat(CurrentVehicle, -1) == PlayerPed then
+				if IsControlJustPressed(1, 15) and IsInputDisabled(2) and not controller then
+					local model = GetEntityModel(CurrentVehicle)
+					if IsThisModelACar(model) or IsThisModelAQuadbike(model) or IsThisModelABike(model) then
+						if DecorGetFloat(CurrentVehicle, "_Fuel_Level") > 0 then
+							TriggerEvent("interaction:vehicle_engine")
+						end
+					else
+						TriggerEvent("interaction:vehicle_engine")
+					end
 				end
 			end
-			local seat = GetSeat(_vehicle, _ped)
+
+			if GetPedInVehicleSeat(CurrentVehicle, 0) == PlayerPed then
+				if GetIsTaskActive(PlayerPed, 165) then
+					SetPedIntoVehicle(PlayerPed, CurrentVehicle, 0)
+				end
+			end
+
+			local seat = GetSeat(CurrentVehicle, PlayerPed)
+
 			if seat ~= nil then
 				if seat % 2 == 0 then
 					if IsDisabledControlPressed(0, 36) then
 						if IsControlJustPressed(1, 174) then
-							if IsVehicleSeatFree(_vehicle, seat - 1) then
+							if IsVehicleSeatFree(CurrentVehicle, seat - 1) then
 								if seat_cooldown <= 0 then
 									seat_cooldown = 2
-									SetPedIntoVehicle(_ped, _vehicle, seat - 1)
+									SetPedIntoVehicle(PlayerPed, CurrentVehicle, seat - 1)
 								end
 							end
 						end
 						if IsControlJustPressed(1, 172) then
-							if IsVehicleSeatFree(_vehicle, seat - 2) then
+							if IsVehicleSeatFree(CurrentVehicle, seat - 2) then
 								if seat_cooldown <= 0 then
 									seat_cooldown = 4
-									SetPedIntoVehicle(_ped, _vehicle, seat - 2)
+									SetPedIntoVehicle(PlayerPed, CurrentVehicle, seat - 2)
 								end
 							end
 						end
 						if IsControlJustPressed(1, 173) then
-							if IsVehicleSeatFree(_vehicle, seat + 2) then
+							if IsVehicleSeatFree(CurrentVehicle, seat + 2) then
 								if seat_cooldown <= 0 then
 									seat_cooldown = 4
-									SetPedIntoVehicle(_ped, _vehicle, seat + 2)
+									SetPedIntoVehicle(PlayerPed, CurrentVehicle, seat + 2)
 								end
 							end
 						end
 					end
 				end
+
 				if seat % 2 == 1 then
 					if IsDisabledControlPressed(0, 36) then
 						if IsControlJustPressed(1, 175) then
-							if IsVehicleSeatFree(_vehicle, seat + 1) then
+							if IsVehicleSeatFree(CurrentVehicle, seat + 1) then
 								if seat_cooldown <= 0 then
 									seat_cooldown = 2
-									SetPedIntoVehicle(_ped, _vehicle, seat + 1)
+									SetPedIntoVehicle(PlayerPed, CurrentVehicle, seat + 1)
 								end
 							end
 						end
 						if IsControlJustPressed(1, 172) then
-							if IsVehicleSeatFree(_vehicle, seat - 2) then
+							if IsVehicleSeatFree(CurrentVehicle, seat - 2) then
 								if seat_cooldown <= 0 then
 									seat_cooldown = 4
-									SetPedIntoVehicle(_ped, _vehicle, seat - 2)
+									SetPedIntoVehicle(PlayerPed, CurrentVehicle, seat - 2)
 								end
 							end
 						end
 						if IsControlJustPressed(1, 173) then
-							if IsVehicleSeatFree(_vehicle, seat + 2) then
+							if IsVehicleSeatFree(CurrentVehicle, seat + 2) then
 								if seat_cooldown <= 0 then
 									seat_cooldown = 4
-									SetPedIntoVehicle(_ped, _vehicle, seat + 2)
+									SetPedIntoVehicle(PlayerPed, CurrentVehicle, seat + 2)
 								end
 							end
 						end
@@ -180,6 +181,7 @@ Citizen.CreateThread(function()
 		end
 	end
 end)
+
 local hasphonebool = false
 --[[ Main Menu ]]--
 AddEventHandler("interaction:main", function()

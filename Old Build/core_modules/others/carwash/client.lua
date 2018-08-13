@@ -11,14 +11,17 @@ Citizen.CreateThread(function()
 	end
 	while true do
 		Citizen.Wait(0)
-		local pos = GetEntityCoords(PlayerPedId(), false)
+		local PlayerPed = PlayerPedId()
+		local PlayerPosition = GetEntityCoords(PlayerPed, false)
+
 		for k,v in pairs(car_washes) do
-			if Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 20 then
+			local Distance = GetDistanceBetweenCoords(PlayerPosition.x, PlayerPosition.y, PlayerPosition.z, v.x, v.y, v.z, true)
+			if Distance < 20 then
 				drawMarker(25, v.x, v.y, v.z, 2.0, 2.0, 2.5, 255, 255, 0, 255)
-				if Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 2 then
-					if IsPedSittingInAnyVehicle(PlayerPedId()) then
-						local vehicle = GetVehiclePedIsIn(PlayerPedId(), false)
-						if GetPedInVehicleSeat(vehicle, -1) == PlayerPedId() then
+				if Distance < 2 then
+					if IsPedSittingInAnyVehicle(PlayerPed) then
+						local vehicle = GetVehiclePedIsIn(PlayerPed, false)
+						if GetPedInVehicleSeat(vehicle, -1) == PlayerPed then
 							if IsControlJustPressed(1, 51) then
 								TriggerServerEvent("carwash:pay", vehicle)
 							end

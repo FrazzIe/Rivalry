@@ -15,6 +15,7 @@ files {
 	'banking/html/debounce.min.js',
 	'sounds/chime.ogg',
 	'banking/html/sounds/chime.ogg',
+	"config.ini",
 }
 
 client_scripts {
@@ -31,6 +32,7 @@ client_scripts {
 	"taxi/taxi_client.lua",
 	"pointer/client.lua",
 	"watermark/watermark.lua",
+	"fuel/frfuel.net.dll",
 }
 
 server_scripts {

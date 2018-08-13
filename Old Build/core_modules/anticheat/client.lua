@@ -102,98 +102,26 @@ Citizen.CreateThread(function()
     while true do
         Citizen.Wait(1)
         if not isAdmin then
-            SetPedInfiniteAmmoClip(PlayerPedId(), false)
+            local PlayerPed = PlayerPedId()
+            
+            SetPedInfiniteAmmoClip(PlayerPed, false)
             if not isInvisible then
-                ResetEntityAlpha(PlayerPedId())
-                SetEntityVisible(PlayerPedId(), true)
+                ResetEntityAlpha(PlayerPed)
+                SetEntityVisible(PlayerPed, true)
             end
-            local isFalling, isRagdoll, paraState = IsPedFalling(PlayerPedId()), IsPedRagdoll(PlayerPedId()), GetPedParachuteState(PlayerPedId())
+            local isFalling, isRagdoll, paraState = IsPedFalling(PlayerPed), IsPedRagdoll(PlayerPed), GetPedParachuteState(PlayerPed)
             if paraState >= 0 or isRagdoll or isFalling then
-                SetEntityMaxSpeed(PlayerPedId(), 80.0)
+                SetEntityMaxSpeed(PlayerPed, 80.0)
             else
-                SetEntityMaxSpeed(PlayerPedId(), 7.1)
+                SetEntityMaxSpeed(PlayerPed, 7.1)
             end
-        end
-    end
-end)
-
---[[
-Citizen.CreateThread(function()
-    while true do
-        Citizen.Wait(60000)
-        if not isAdmin then
-            local currentPed, currentHealth = PlayerPedId(), GetEntityHealth(currentPed)
-            SetEntityHealth(currentPed, currentHealth-2) -- this will substract 2hp from the current player, wait 50ms and then add it back, this is to check for hacks that force HP at 200
-            Citizen.Wait(50)
-            if PlayerPedId() == currentPed and GetEntityHealth(currentPed) == currentHealth and GetEntityHealth(currentPed) ~= 0 then
-                TriggerServerEvent("anticheat:flag", "health", { invincible = false, health = { old = currentHealth-2, new = GetEntityHealth(currentPed) } })
-            elseif GetEntityHealth(currentPed) == currentHealth-2 then
-                SetEntityHealth(currentPed, GetEntityHealth(currentPed)+2)
-            end
-
-            if GetPlayerInvincible(PlayerId()) and not isInvincible then -- if the player is invincible, flag him as a cheater and then disable their invincibility
-                --TriggerServerEvent("anticheat:flag", "health", { invincible = true, health = { old = currentHealth-2, new = GetEntityHealth(currentPed) } })
-                SetPlayerInvincible( PlayerId(), false )
-            end
-        end
-    end
-end)
-
-Citizen.CreateThread(function()
-    Citizen.Wait(60000)
-    while true do
-        Citizen.Wait(0)
-        if not isAdmin then
-            if not isNoclipping then
-                local currentPed = PlayerPedId()
-                local posx, posy, posz = table.unpack(GetEntityCoords(currentPed, true))
-                local isStill, currentSpeed = IsPedStill(currentPed), GetEntitySpeed(currentPed)
-                
-                Citizen.Wait(3000) -- wait 3 seconds and check again
-
-                local newx, newy, newz = table.unpack(GetEntityCoords(currentPed, true))
-                local newPed = PlayerPedId() -- make sure the peds are still the same, otherwise the player probably respawned
-                if GetDistanceBetweenCoords(posx, posy, posz, newx, newy, newz) > 200 and isStill == IsPedStill(currentPed) and currentSpeed == GetEntitySpeed(currentPed) and currentPed == newPed then
-                    TriggerServerEvent("anticheat:flag", "noclip", {distance = GetDistanceBetweenCoords(posx, posy, posz, newx, newy, newz)})
-                end
-            end
-        end
-    end
-end)
---]]
-
-Citizen.CreateThread(function()
-    while true do
-        Citizen.Wait(0)
-        if not isAdmin then
-            if IsPedSittingInAnyVehicle(PlayerPedId()) then
-                local currentVehicle = GetVehiclePedIsUsing(PlayerPedId(), false)
+            if IsPedSittingInAnyVehicle(PlayerPed) then
+                local currentVehicle = GetVehiclePedIsUsing(PlayerPed, false)
                 for k,v in pairs(BannedVehicles) do
-                    if GetEntityModel(currentVehicle) == GetHashKey(v) and GetPedInVehicleSeat(currentVehicle, -1) == PlayerPedId() then
+                    if GetEntityModel(currentVehicle) == GetHashKey(v) and GetPedInVehicleSeat(currentVehicle, -1) == PlayerPed then
                         SetEntityAsMissionEntity(currentVehicle, true, true)
                         Citizen.InvokeNative(0xEA386986E786A54F, Citizen.PointerValueIntInitialized(currentVehicle))
                     end
-                end
-            end
-        end
-    end
-end)
-
-Citizen.CreateThread(function()
-    while true do
-        Citizen.Wait(500)
-        local ped = PlayerPedId()
-        for object in EnumerateObjects() do
-            local ObjX,ObjY,ObjZ = table.unpack(GetEntityCoords(object, true))
-            local x,y,z = table.unpack(GetEntityCoords(PlayerPedId(), true))
-            if IsEntityAttached(object) and DoesEntityExist(object) then
-                if GetEntityModel(object) == GetHashKey("prop_acc_guitar_01") then
-                    RequestAndDelete(object, true)
-                end
-            end
-            for i = 1, #CageObjs do
-                if GetEntityModel(object) == GetHashKey(CageObjs[i]) then
-                    RequestAndDelete(object, false)
                 end
             end
         end

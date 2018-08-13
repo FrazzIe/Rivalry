@@ -40,6 +40,9 @@ doors_locked = {
 Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(0)
+		local PlayerPed = PlayerPedId()
+		local PlayerPosition = GetEntityCoords(PlayerPed, false)
+
 		for k,v in pairs(doors.single) do
 			if v.locked then
 				local door = GetClosestObjectOfType(v.x, v.y, v.z, 0.5, v.model, false, false, false)
@@ -47,11 +50,11 @@ Citizen.CreateThread(function()
 					SetEntityHeading(door, v.heading)
 				end
 			end
-			local pos = GetEntityCoords(PlayerPedId(),false)
-			if GetDistanceBetweenCoords(pos.x, pos.y, pos.z, v.x, v.y, v.z, true) <= 1.2 then
+
+			if GetDistanceBetweenCoords(PlayerPosition.x, PlayerPosition.y, PlayerPosition.z, v.x, v.y, v.z, true) <= 1.2 then
 				local state = "Unlocked"
 				if v.locked then state = "Locked" end
-				Draw3DText(v.x, v.y, pos.z,"~o~[E]"..state)
+				Draw3DText(v.x, v.y, PlayerPosition.z,"~o~[E]"..state)
 				if IsControlJustPressed(1, 51) then
 					TriggerServerEvent("doors:lock", k, "single")
 				end
@@ -66,8 +69,8 @@ Citizen.CreateThread(function()
 					SetEntityHeading(rightdoor, v.right.heading)
 				end
 			end
-			local pos = GetEntityCoords(PlayerPedId(),false)
-			if GetDistanceBetweenCoords(pos.x, pos.y, pos.z, v.left.x, v.left.y, v.left.z, true) <= 1.5 or GetDistanceBetweenCoords(pos.x, pos.y, pos.z, v.right.x, v.right.y, v.right.z, true) <= 1.5 then
+
+			if GetDistanceBetweenCoords(PlayerPosition.x, PlayerPosition.y, PlayerPosition.z, v.left.x, v.left.y, v.left.z, true) <= 1.5 or GetDistanceBetweenCoords(PlayerPosition.x, PlayerPosition.y, PlayerPosition.z, v.right.x, v.right.y, v.right.z, true) <= 1.5 then
 				local state = "Unlocked"
 				if v.left.locked then state = "Locked" end
 				Draw3DText(v.left.x, v.left.y, v.left.z,"~o~[E]"..state)

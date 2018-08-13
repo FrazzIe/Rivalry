@@ -457,14 +457,13 @@ local missionRandomizer = nil
 function checkTier(missionTier)
 	possibleTierMissions = {}
 	for k, v in ipairs(trucker_destinations) do
-		if(v.Tier == missionTier)then
+		if v.Tier == missionTier then
 			table.insert(possibleTierMissions, v)
-			print("Table Insert: "..#possibleTierMissions)
 		end
 	end
 	randomizer = math.random(1, #possibleTierMissions)
 	trucker_job = randomizer
-	print("Printing Randomized Index "..trucker_job)
+
 	Notify("Tier "..missionTier.." has been selected!", 2500)
 end
 

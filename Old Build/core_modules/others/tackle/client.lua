@@ -67,20 +67,22 @@ Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(0)
 		local ped, position = PlayerPedId(), GetEntityCoords(PlayerPedId(), false)
-		if IsControlJustPressed(1, 51) and not IsPedSittingInAnyVehicle(ped) and GetEntitySpeed(ped) > 4.7 and exports.policejob:getIsInService() then
-			local players, peds = GetPlayerTargets(ped, position), GetPedTargets(ped, position)
-			if #players > 0 or #peds > 0 then
-				TaskPlayAnim(ped, "move_jump", "dive_start_run", 8.0, -8.0, -1, 0, 0, false, false, false)
-				Citizen.Wait(500)
-				SetPedToRagdoll(ped, ragdoll_time_source, 2 * ragdoll_time_source, 0, true, true, true)
-				if #players > 0 then
-					TriggerServerEvent("police:tackle", players)
-				else
-					for i = 1, #peds do
-						SetPedToRagdoll(peds[i], ragdoll_time_target_ai, 2 * ragdoll_time_target_ai, 0, true, true, true)
-						Citizen.Wait(2 * ragdoll_time_target_ai)
-						ClearPedTasksImmediately(peds[i])
-						TaskReactAndFleePed(peds[i], ped)
+		if IsControlJustPressed(1, 51) and not IsPedSittingInAnyVehicle(ped) and GetEntitySpeed(ped) > 4.7 then
+			if exports.policejob:getIsInService() then
+				local players, peds = GetPlayerTargets(ped, position), GetPedTargets(ped, position)
+				if #players > 0 or #peds > 0 then
+					TaskPlayAnim(ped, "move_jump", "dive_start_run", 8.0, -8.0, -1, 0, 0, false, false, false)
+					Citizen.Wait(500)
+					SetPedToRagdoll(ped, ragdoll_time_source, 2 * ragdoll_time_source, 0, true, true, true)
+					if #players > 0 then
+						TriggerServerEvent("police:tackle", players)
+					else
+						for i = 1, #peds do
+							SetPedToRagdoll(peds[i], ragdoll_time_target_ai, 2 * ragdoll_time_target_ai, 0, true, true, true)
+							Citizen.Wait(2 * ragdoll_time_target_ai)
+							ClearPedTasksImmediately(peds[i])
+							TaskReactAndFleePed(peds[i], ped)
+						end
 					end
 				end
 			end

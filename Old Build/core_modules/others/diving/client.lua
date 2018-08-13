@@ -140,9 +140,10 @@ Citizen.CreateThread(function()
 		end
 
 		for i = 1, #Scuba.locations do
-			if GetDistanceBetweenCoords(pos.x, pos.y, pos.z, Scuba.locations[i].x, Scuba.locations[i].y, Scuba.locations[i].z, true) < 20 then
+			local Distance = GetDistanceBetweenCoords(pos.x, pos.y, pos.z, Scuba.locations[i].x, Scuba.locations[i].y, Scuba.locations[i].z, true)
+			if Distance < 20 then
 				drawMarker(25, Scuba.locations[i].x, Scuba.locations[i].y, Scuba.locations[i].z, 1.0, 1.0, 1.5, 255, 255, 0, 255)
-				if GetDistanceBetweenCoords(pos.x, pos.y, pos.z, Scuba.locations[i].x, Scuba.locations[i].y, Scuba.locations[i].z, true) < 1 then
+				if Distance < 1 then
 					if not Scuba.has() then
 						DisplayHelpText("Press ~INPUT_CONTEXT~ to get a diving set for ~g~$~w~300 with 5 minutes of air!")
 					else

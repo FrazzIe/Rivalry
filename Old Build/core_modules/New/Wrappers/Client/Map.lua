@@ -863,9 +863,7 @@ Citizen.CreateThread(function()
 		RemoveIpl(Map.Ipl.Remove[Index])
 	end
 	Citizen.Trace("[IPL]->Loaded")
-end)
-
-Citizen.CreateThread(function()
+	
 	Citizen.Trace("[Interior]->Loading")
 	for Index = 1, #Map.Interior do
 		local Interior = Map.Interior[Index]

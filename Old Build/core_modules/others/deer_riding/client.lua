@@ -10,42 +10,6 @@ local Deer = {
 	},
 }
 
-function GetNearbyPeds(X, Y, Z, Radius)
-	local NearbyPeds = {}
-	if tonumber(X) and tonumber(Y) and tonumber(Z) then
-		if tonumber(Radius) then
-			for Ped in EnumeratePeds() do
-				if DoesEntityExist(Ped) then
-					local PedPosition = GetEntityCoords(Ped, false)
-					if Vdist(X, Y, Z, PedPosition.x, PedPosition.y, PedPosition.z) <= Radius then
-						table.insert(NearbyPeds, Ped)
-					end
-				end
-			end
-		end
-	end
-	return NearbyPeds
-end
-
-function GetCoordsInfrontOfEntityWithDistance(Entity, Distance, Heading)
-	if DoesEntityExist(Entity) then
-		if tonumber(Distance) and tonumber(Heading) then
-			local Coordinates = GetEntityCoords(Entity, false)
-			local Head = (GetEntityHeading(Entity) + (Heading or 0.0)) * math.pi / 180.0
-			return {x = Coordinates.x + Distance * math.sin(-1.0 * Head), y = Coordinates.y + Distance * math.cos(-1.0 * Head), z = Coordinates.z}
-		end
-	end
-end
-
-function GetGroundZ(X, Y, Z)
-	if tonumber(X) and tonumber(Y) and tonumber(Z) then
-		local _, GroundZ = GetGroundZFor_3dCoord(X + 0.0, Y + 0.0, Z + 0.0, Citizen.ReturnResultAnyway())
-		return GroundZ
-	else
-		return 0.0
-	end
-end
-
 function IsAnyPlayerAttachedToEntity(Entity)
 	local Players = GetPlayers()
 	for i = 1, #Players do

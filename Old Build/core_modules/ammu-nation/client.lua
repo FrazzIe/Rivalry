@@ -18,12 +18,14 @@ Citizen.CreateThread(function()
 	end
 	while true do
 		Citizen.Wait(0)
-		local pos = GetEntityCoords(PlayerPedId(), false)
+		local PlayerPed = PlayerPedId()
+		local pos = GetEntityCoords(PlayerPed, false)
 		if weapon_license == "true" then
 			for k,v in ipairs(ammu_nation.normal) do
-				if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 15.0)then
+				local Distance = GetDistanceBetweenCoords(pos.x, pos.y, pos.z, v.x, v.y, v.z, true)
+				if Distance < 15.0 then
 					DrawMarker(1, v.x, v.y, v.z - 1, 0, 0, 0, 0, 0, 0, 1.5001, 1.5001, 0.7555, 1555, 90, 10,150, 0, 0, 0,0)
-					if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 1.0)then
+					if Distance < 1.0 then
 						DisplayHelpText("Press ~INPUT_CONTEXT~ to buy weapons!")
 						if IsControlJustPressed(1, 51) then
 							if not WarMenu.IsMenuOpened("Weapons") then
@@ -77,9 +79,9 @@ Citizen.CreateThread(function()
 								if user_weapons[j.Weapon] ~= nil then
 									if WarMenu.IsMenuOpened(j.Weapon) then
 										if Ammo[j.Weapon] then
-											if WarMenu.Button("Current Ammo", GetAmmoInPedWeapon(PlayerPedId(), GetHashKey(j.Weapon)).."/"..Ammo[j.Weapon].Max) then
+											if WarMenu.Button("Current Ammo", GetAmmoInPedWeapon(PlayerPed, GetHashKey(j.Weapon)).."/"..Ammo[j.Weapon].Max) then
 											end
-											if GetAmmoInPedWeapon(PlayerPedId(), GetHashKey(j.Weapon)) < Ammo[j.Weapon].Max then
+											if GetAmmoInPedWeapon(PlayerPed, GetHashKey(j.Weapon)) < Ammo[j.Weapon].Max then
 												if WarMenu.Button(Ammo[j.Weapon].Name..Ammo[j.Weapon].Amount, "$"..Ammo[j.Weapon].Cost) then
 													TriggerServerEvent("weapon:buyammo", j.Weapon)
 												end
@@ -145,7 +147,7 @@ Citizen.CreateThread(function()
 								end
 							end
 						end
-					elseif(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) > 1.0)then
+					elseif Distance > 1.0 then
 						if WarMenu.IsMenuOpened("Weapons") then
 							WarMenu.CloseMenu()
 						end
@@ -155,9 +157,10 @@ Citizen.CreateThread(function()
 		end
 		--Blackmarket
 		for k,v in ipairs(ammu_nation.blackmarket) do
-			if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 15.0)then
+			local Distance = GetDistanceBetweenCoords(pos.x, pos.y, pos.z, v.x, v.y, v.z, true)
+			if Distance < 15.0 then
 				DrawMarker(1, v.x, v.y, v.z - 1, 0, 0, 0, 0, 0, 0, 1.5001, 1.5001, 0.7555, 1555, 90, 10,150, 0, 0, 0,0)
-				if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 1.0)then
+				if Distance < 1.0 then
 					DisplayHelpText("Press ~INPUT_CONTEXT~ to buy weapons!")
 					if IsControlJustPressed(1, 51) then
 						if not WarMenu.IsMenuOpened("Blackmarket_Weapons") then
@@ -211,9 +214,9 @@ Citizen.CreateThread(function()
 							if user_weapons[j.Weapon] ~= nil then
 								if WarMenu.IsMenuOpened(j.Weapon.."_BLACKMARKET") then
 									if Ammo[j.Weapon] then
-										if WarMenu.Button("Current Ammo", GetAmmoInPedWeapon(PlayerPedId(), GetHashKey(j.Weapon)).."/"..Ammo[j.Weapon].Max) then
+										if WarMenu.Button("Current Ammo", GetAmmoInPedWeapon(PlayerPed, GetHashKey(j.Weapon)).."/"..Ammo[j.Weapon].Max) then
 										end
-										if GetAmmoInPedWeapon(PlayerPedId(), GetHashKey(j.Weapon)) < Ammo[j.Weapon].Max then
+										if GetAmmoInPedWeapon(PlayerPed, GetHashKey(j.Weapon)) < Ammo[j.Weapon].Max then
 											if WarMenu.Button(Ammo[j.Weapon].Name..Ammo[j.Weapon].Amount, "$"..Ammo[j.Weapon].Cost) then
 												TriggerServerEvent("weapon:buyammo", j.Weapon)
 											end
@@ -279,7 +282,7 @@ Citizen.CreateThread(function()
 							end
 						end
 					end
-				elseif(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) > 1.0)then
+				elseif Distance > 1.0 then
 					if WarMenu.IsMenuOpened("Blackmarket_Weapons") then
 						WarMenu.CloseMenu()
 					end
@@ -309,19 +312,22 @@ Citizen.CreateThread(function()
     while true do
         Citizen.Wait(0)
         if not exports.policejob:getIsInService() and not exports.emsjob:getIsInService() and not isAdmin then
-            local hasWeapon, currentWeapon = GetCurrentPedWeapon(PlayerPedId(), 1)
+        	local PlayerPed = PlayerPedId()
+            local hasWeapon, currentWeapon = GetCurrentPedWeapon(PlayerPed, 1)
             if currentWeapon ~= nil then
-                if IsPedArmed(PlayerPedId(), 7) then
-                    if user_weapons[Weaponhashes[tostring(currentWeapon)]] then
-                        if IsPedShooting(PlayerPedId()) then
-                            local ammo = GetAmmoInPedWeapon(PlayerPedId(), GetHashKey(Weaponhashes[tostring(currentWeapon)]))
-                            if ammo ~= user_weapons[Weaponhashes[tostring(currentWeapon)]].ammo and ammo >= 0 then
-                                user_weapons[Weaponhashes[tostring(currentWeapon)]].ammo = ammo
-                                TriggerServerEvent("weapon:updateammo", Weaponhashes[tostring(currentWeapon)], ammo)
+                if IsPedArmed(PlayerPed, 7) then
+                	local Weaponstring = Weaponhashes[tostring(currentWeapon)]
+                	local Weaponhash = GetHashKey(Weaponstring)
+                    if user_weapons[Weaponstring] then
+                        if IsPedShooting(PlayerPed) then
+                            local ammo = GetAmmoInPedWeapon(PlayerPed, Weaponhash)
+                            if ammo ~= user_weapons[Weaponstring].ammo and ammo >= 0 then
+                                user_weapons[Weaponstring].ammo = ammo
+                                TriggerServerEvent("weapon:updateammo", Weaponstring, ammo)
                             end
                         end
                     else
-                        RemoveWeaponFromPed(PlayerPedId(), currentWeapon)
+                        RemoveWeaponFromPed(PlayerPed, currentWeapon)
                     end
                 end
             end
@@ -352,32 +358,34 @@ end)
 
 RegisterNetEvent("weapon:give")
 AddEventHandler("weapon:give", function()
-	RemoveAllPedWeapons(PlayerPedId(), 0)
+	local PlayerPed = PlayerPedId()
+	RemoveAllPedWeapons(PlayerPed, 0)
 	for k,v in pairs(user_weapons) do
-		GiveWeaponToPed(PlayerPedId(), GetHashKey(k), tonumber(v.ammo), 0, false)
+		local Weaponhash = GetHashKey(k)
+		GiveWeaponToPed(PlayerPed, Weaponhash, tonumber(v.ammo), 0, false)
 		if v.suppressor ~= "false" then
-			GiveWeaponComponentToPed(PlayerPedId(), GetHashKey(k), tonumber(v.suppressor))
+			GiveWeaponComponentToPed(PlayerPed, Weaponhash, tonumber(v.suppressor))
 		end
 		if v.flashlight ~= "false" then
-			GiveWeaponComponentToPed(PlayerPedId(), GetHashKey(k), tonumber(v.flashlight))
+			GiveWeaponComponentToPed(PlayerPed, Weaponhash, tonumber(v.flashlight))
 		end
 		if v.extended_clip ~= "false" then
-			GiveWeaponComponentToPed(PlayerPedId(), GetHashKey(k), tonumber(v.extended_clip))
+			GiveWeaponComponentToPed(PlayerPed, Weaponhash, tonumber(v.extended_clip))
 		end
 		if v.scope ~= "false" then
-			GiveWeaponComponentToPed(PlayerPedId(), GetHashKey(k), tonumber(v.scope))
+			GiveWeaponComponentToPed(PlayerPed, Weaponhash, tonumber(v.scope))
 		end
 		if v.grip ~= "false" then
-			GiveWeaponComponentToPed(PlayerPedId(), GetHashKey(k), tonumber(v.grip))
+			GiveWeaponComponentToPed(PlayerPed, Weaponhash, tonumber(v.grip))
 		end
 		if v.advanced_scope ~= "false" then
-			GiveWeaponComponentToPed(PlayerPedId(), GetHashKey(k), tonumber(v.advanced_scope))
+			GiveWeaponComponentToPed(PlayerPed, Weaponhash, tonumber(v.advanced_scope))
 		end
 		if k ~= "GADGET_PARACHUTE" then
 			if string.len(v.skin) > 1 then
-				GiveWeaponComponentToPed(PlayerPedId(), GetHashKey(k), tonumber(v.skin))
+				GiveWeaponComponentToPed(PlayerPed, Weaponhash, tonumber(v.skin))
 			else
-				SetPedWeaponTintIndex(PlayerPedId(), GetHashKey(k), tonumber(v.skin))
+				SetPedWeaponTintIndex(PlayerPed, Weaponhash, tonumber(v.skin))
 			end
 		else
 			SetPlayerParachuteTintIndex(PlayerId(), tonumber(v.skin))

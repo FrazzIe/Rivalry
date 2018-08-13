@@ -62,9 +62,7 @@ Citizen.CreateThread(function()
 		end
 	end
 	Citizen.Trace("[Dictionaries]->Loaded")
-end)
 
-Citizen.CreateThread(function()
 	Citizen.Trace("[Sets]->Loading")
 	for Index = 1, #Animation.Sets do
 		local Set = Animation.Sets[Index]
@@ -75,9 +73,7 @@ Citizen.CreateThread(function()
 		--Citizen.Trace("[Sets]->["..Set.."]->Loaded")
 	end
 	Citizen.Trace("[Sets]->Loaded")
-end)
 
-Citizen.CreateThread(function()
 	Citizen.Trace("[Clipsets]->Loading")
 	for Index = 1, #Animation.Clipsets do
 		local Clipset = Animation.Clipsets[Index]

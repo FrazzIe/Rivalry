@@ -368,14 +368,16 @@ Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(0)
 		if not exports.policejob:getIsInService() then
-			if IsPedShooting(PlayerPedId()) then
-				local hasWeapon, currentWeapon = GetCurrentPedWeapon(PlayerPedId(), 1)
+            local PlayerPed = PlayerPedId()
+			if IsPedShooting(PlayerPed) then
+				local hasWeapon, currentWeapon = GetCurrentPedWeapon(PlayerPed, 1)
 				if currentWeapon ~= nil then
 					local WeaponStr = Weaponhashes[tostring(currentWeapon)]
 					if WeaponStr then
-						if GetAmmoInPedWeapon(PlayerPedId(), GetHashKey(WeaponStr)) > 0 then
+                        local Weaponhash = GetHashKey(WeaponStr)
+						if GetAmmoInPedWeapon(PlayerPed, Weaponhash) > 0 then
 							if not weapons_whitelist[WeaponStr] then
-								local pos = GetEntityCoords(PlayerPedId(), false)
+								local pos = GetEntityCoords(Weaponhash, false)
 								if GetDistanceBetweenCoords(pos.x, pos.y, pos.z, lastpos.x, lastpos.y, lastpos.z, true) > 50 then
 									if willNPCreport("gunshots") then
 										lastpos = pos

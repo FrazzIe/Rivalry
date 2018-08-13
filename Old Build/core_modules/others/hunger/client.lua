@@ -21,9 +21,10 @@ Citizen.CreateThread(function()
     while true do
         Citizen.Wait(0)
         if not hud_off then
+            local PlayerPed = PlayerPedId()
             DrawRect(0.0855,0.8,0.142,0.015,0,0,0,150)
-            if(IsPedInAnyVehicle(GetPlayerPed(-1), false))then
-    	        local cVeh = GetVehiclePedIsIn(GetPlayerPed(-1), false)
+            if(IsPedInAnyVehicle(PlayerPed, false))then
+    	        local cVeh = GetVehiclePedIsIn(PlayerPed, false)
     	        local currentfuel = DecorGetFloat(cVeh, "_Fuel_Level")
             	DrawRect(0.068 + (0.05175)/2,0.8,0.05175,0.008295,10,100,255,75)
             	DrawRect(0.068 + (water/1932.3671497)/2,0.8,water/1932.3671497,0.008295,10,100,255,walpha)

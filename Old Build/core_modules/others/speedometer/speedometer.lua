@@ -47,7 +47,9 @@ Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(0)
 			speedTable = {}
-			local veh = GetVehiclePedIsUsing(PlayerPedId())
+			local PlayerPed = PlayerPedId()
+			local PlayerVehicle = GetVehiclePedIsUsing(PlayerPed)
+
 			if hud_off then
 				if curAlpha <= 0 then
 					curAlpha = 0
@@ -55,20 +57,20 @@ Citizen.CreateThread(function()
 				else
 					curAlpha = curAlpha-5
 				end
-			elseif IsPedInAnyVehicle(GetPlayerPed(-1),true) and GetSeatPedIsTryingToEnter(GetPlayerPed(-1)) == -1 or GetPedInVehicleSeat(veh, -1) == GetPlayerPed(-1) then
+			elseif IsPedInAnyVehicle(PlayerPed, true) and GetSeatPedIsTryingToEnter(PlayerPed) == -1 or GetPedInVehicleSeat(PlayerVehicle, -1) == PlayerPed then
 				if curAlpha >= 255 then
 					curAlpha = 255
 				else
 					curAlpha = curAlpha+5
 				end
-			elseif IsPedInAnyVehicle(GetPlayerPed(-1),false) and GetPedInVehicleSeat(veh, -1) ~= GetPlayerPed(-1) then
+			elseif IsPedInAnyVehicle(PlayerPed, false) and GetPedInVehicleSeat(PlayerVehicle, -1) ~= PlayerPed then
 				if curAlpha <= 0 then
 					curAlpha = 0
 					curDriftAlpha = 0
 				else
 					curAlpha = curAlpha-5
 				end				
-			elseif not IsPedInAnyVehicle(GetPlayerPed(-1),false) then
+			elseif not IsPedInAnyVehicle(PlayerPed, false) then
 				if curAlpha <= 0 then
 					curAlpha = 0
 					curDriftAlpha = 0
@@ -79,73 +81,80 @@ Citizen.CreateThread(function()
 			if not HasStreamedTextureDictLoaded("speedometer") then
 				RequestStreamedTextureDict("speedometer", true)
 				while not HasStreamedTextureDictLoaded("speedometer") do
-					Wait(0)
+					Citizen.Wait(0)
 				end
 			else
+
+				local PlayerVehicleModel = GetEntityModel(PlayerVehicle)
+				local PlayerVehicleSpeed = GetEntitySpeed(PlayerVehicle)
+				local PlayerVehicleClass = GetVehicleClass(PlayerVehicle)
+				local PlayerVehicleFuelLevel = GetVehicleFuelLevel(PlayerVehicle)
+				local PlayerVehicleDisplayName = GetDisplayNameFromVehicleModel(VehicleModel)
+
 				DrawSprite("speedometer", curBackground, 0.853,0.820,0.25,0.23, 0.0, 255, 255, 255, curAlpha)
-				if DoesEntityExist(veh) and not IsEntityDead(veh) then
-					RPM = GetVehicleCurrentRpm(veh)
-					if RPM > 0.99 and GetVehicleFuelLevel(veh) ~= 0.0 then
+				if DoesEntityExist(PlayerVehicle) and not IsEntityDead(PlayerVehicle) then
+					RPM = GetVehicleCurrentRpm(PlayerVehicle)
+					if RPM > 0.99 and PlayerVehicleFuelLevel ~= 0.0 then
 						RPM = RPM*100
 						RPM = RPM+math.random(-2,2)
 						RPM = RPM/100
 					end
 					degree, step = 0, 2.32833
-					if not GetIsVehicleEngineRunning(veh) then RPM = 0.067 end -- fix for R*'s Engine RPM fuckery
-					_,lightson,highbeams = GetVehicleLightsState(veh)
+					if not GetIsVehicleEngineRunning(PlayerVehicle) then RPM = 0.067 end -- fix for R*'s Engine RPM fuckery
+					_,lightson,highbeams = GetVehicleLightsState(PlayerVehicle)
 					if lightson == 1 or highbeams == 1 then	
 						curNeedle, curTachometer, curBackground = "night_rpm", "night_labels_"..labelType, "nodrift_background"
 					else
 						curNeedle, curTachometer, curBackground = "rpm", "labels_"..labelType, "nodrift_background"
 					end
 					
-					if GetVehicleClass(veh) >= 0 and GetVehicleClass(veh) <= 5 then
+					if PlayerVehicleClass >= 0 and PlayerVehicleClass <= 5 then
 						labelType = "8k"
 						rpmScale = 200
-					elseif GetVehicleClass(veh) == 6 then
+					elseif PlayerVehicleClass == 6 then
 						labelType = "9k"
 						rpmScale = 222
-					elseif GetVehicleClass(veh) == 7 then
+					elseif PlayerVehicleClass == 7 then
 						labelType = "10k"
 						rpmScale = 222
-					elseif GetVehicleClass(veh) == 8 then
+					elseif PlayerVehicleClass == 8 then
 						labelType = "13k"
 						rpmScale = 220
 					end
 					
-					if GetVehicleFuelLevel(veh) == 0.0 then
+					if PlayerVehicleFuelLevel == 0.0 then
 						labelType = "18k"
 						rpmScale = 230
 					end
 					
 					for i,theName in ipairs(idcars) do
-						if string.find(GetDisplayNameFromVehicleModel(GetEntityModel(veh)), theName) ~= nil and string.find(GetDisplayNameFromVehicleModel(GetEntityModel(veh)), theName) >= 0 then
+						if string.find(PlayerVehicleDisplayName, theName) ~= nil and string.find(PlayerVehicleDisplayName, theName) >= 0 then
 							labelType = "86"
 							rpmScale = 242
 						end
-					if GetDisplayNameFromVehicleModel(GetEntityModel(veh)) == theName then
-						if not SpeedChimeActive and GetEntitySpeed(veh)*3.6 > 105.0 then
+					if PlayerVehicleDisplayName == theName then
+						if not SpeedChimeActive and PlayerVehicleSpeed*3.6 > 105.0 then
 							SpeedChimeActive = true
-							TriggerEvent("LIFE_CL:Sound:PlayOnOne","chime",0.7,true)
-						elseif SpeedChimeActive and GetEntitySpeed(veh)*3.6 < 105.0 then
+							--TriggerEvent("LIFE_CL:Sound:PlayOnOne","chime",0.7,true)
+						elseif SpeedChimeActive and PlayerVehicleSpeed*3.6 < 105.0 then
 							SpeedChimeActive = false
-							TriggerEvent("LIFE_CL:Sound:StopOnOne")
+							--TriggerEvent("LIFE_CL:Sound:StopOnOne")
 						end
 					end
 					end 
-					if GetEntitySpeed(veh) > 0 then degree=(GetEntitySpeed(veh)*2.036936)*step end
+					if PlayerVehicleSpeed > 0 then degree=(PlayerVehicleSpeed*2.036936)*step end
 					if degree > 290 then degree=290 end
-					if GetVehicleClass(veh) >= 0 and GetVehicleClass(veh) < 13 or GetVehicleClass(veh) >= 17 then
+					if PlayerVehicleClass >= 0 and PlayerVehicleClass < 13 or PlayerVehicleClass >= 17 then
 						
 						
 					
 						
 					if useKPH then
-						speed = GetEntitySpeed(veh)* 3.6
+						speed = PlayerVehicleSpeed* 3.6
 					else
-						speed = GetEntitySpeed(veh)*2.236936
+						speed = PlayerVehicleSpeed*2.236936
 					end
-					gear = GetVehicleCurrentGear(veh)+1
+					gear = GetVehicleCurrentGear(PlayerVehicle)+1
 					else
 						curAlpha = 0
 					end
@@ -157,15 +166,17 @@ Citizen.CreateThread(function()
 					RPM = 0.067
 				end
 				
-				if angle(veh) >= 10 and angle(veh) <= 18 then
+				local PlayerVehicleAngle = angle(PlayerVehicle)
+				
+				if PlayerVehicleAngle >= 10 and PlayerVehicleAngle <= 18 then
 					driftSprite = "drift_blue"
 					DrawSprite("speedometer", driftSprite, 0.765,0.770,0.05,0.04, 0.0, 255, 255, 255, curDriftAlpha)
 					BlinkDriftText(false)
-				elseif angle(veh) > 18 then
+				elseif PlayerVehicleAngle > 18 then
 					driftSprite = "drift_yellow"
 					DrawSprite("speedometer", driftSprite, 0.765,0.770,0.05,0.04, 0.0, 255, 255, 255, curDriftAlpha)
 					BlinkDriftText(false)
-				elseif angle(veh) < 10 then
+				elseif PlayerVehicleAngle < 10 then
 					driftSprite = "drift_blue"
 					DrawSprite("speedometer", driftSprite, 0.765,0.770,0.05,0.04, 0.0, 255, 255, 255, curDriftAlpha)
 					BlinkDriftText(true)

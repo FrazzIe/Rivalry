@@ -111,18 +111,21 @@ Citizen.CreateThread(function()
 		Citizen.Wait(0)
 		local pos = GetEntityCoords(PlayerPedId(), false)
 		for _, teleport in pairs(teleports) do
-			if Vdist(pos.x, pos.y, pos.z, teleport.outside.x, teleport.outside.y, teleport.outside.z) < 20 then
+            local OutsideDistance = GetDistanceBetweenCoords(pos.x, pos.y, pos.z, teleport.outside.x, teleport.outside.y, teleport.outside.z, true)
+            local InsideDistance = GetDistanceBetweenCoords(pos.x, pos.y, pos.z, teleport.inside.x, teleport.inside.y, teleport.inside.z, true)
+            
+			if OutsideDistance < 20 then
 				drawMarker(25, teleport.outside.x, teleport.outside.y, teleport.outside.z, 1.0, 1.0, 1.5, 255, 255, 0, 255)
-				if Vdist(pos.x, pos.y, pos.z, teleport.outside.x, teleport.outside.y, teleport.outside.z) < 1 then
+				if OutsideDistance < 1 then
 					DisplayHelpText("Press ~INPUT_CONTEXT~ to enter")
 					if IsControlJustPressed(1, 51) then
 						teleportPlayer(teleport.inside)
 					end
 				end
 			end
-			if Vdist(pos.x, pos.y, pos.z, teleport.inside.x, teleport.inside.y, teleport.inside.z) < 20 then
+			if InsideDistance < 20 then
 				drawMarker(25, teleport.inside.x, teleport.inside.y, teleport.inside.z, 1.0, 1.0, 1.5, 255, 255, 0, 255)
-				if Vdist(pos.x, pos.y, pos.z, teleport.inside.x, teleport.inside.y, teleport.inside.z) < 1 then
+				if InsideDistance < 1 then
 					DisplayHelpText("Press ~INPUT_CONTEXT~ to exit")
 					if IsControlJustPressed(1, 51) then
 						teleportPlayer(teleport.outside)

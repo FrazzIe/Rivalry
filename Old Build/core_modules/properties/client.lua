@@ -84,9 +84,10 @@ Citizen.CreateThread(function()
 		if properties_synced then
 			local pos = GetEntityCoords(PlayerPedId(), false)
 			for k,v in pairs(properties.houses.normal) do
-				if Vdist(pos.x, pos.y, pos.z, v.coordinates.x, v.coordinates.y, v.coordinates.z) < 10 then
+				local Distance = GetDistanceBetweenCoords(pos.x, pos.y, pos.z, v.coordinates.x, v.coordinates.y, v.coordinates.z, true)
+				if Distance < 10 then
 					drawMarker(25, v.coordinates.x, v.coordinates.y, v.coordinates.z, 1.0, 1.0, 1.5, 255, 255, 0, 255)
-					if Vdist(pos.x, pos.y, pos.z, v.coordinates.x, v.coordinates.y, v.coordinates.z) <= 2 then
+					if Distance <= 2 then
 						if not shownHelp then
 							shownHelp = true
 							DisplayHelpText("Press ~INPUT_CONTEXT~ to view property")
@@ -384,7 +385,7 @@ Citizen.CreateThread(function()
 								WarMenu.Display()
 							end
 						end
-					elseif Vdist(pos.x, pos.y, pos.z, v.coordinates.x, v.coordinates.y, v.coordinates.z) > 2 then
+					elseif Distance > 2 then
 						shownHelp = false
 						if WarMenu.IsMenuOpened("properties_menu") then
 							WarMenu.CloseMenu("properties_menu")
@@ -408,9 +409,13 @@ Citizen.CreateThread(function()
 				end
 			end
 			for k,v in pairs(properties.houses.enterable) do
-				if Vdist(pos.x, pos.y, pos.z, v.coordinates.outside.x, v.coordinates.outside.y, v.coordinates.outside.z) < 10 then
+				local OutsideDistance = GetDistanceBetweenCoords(pos.x, pos.y, pos.z, v.coordinates.outside.x, v.coordinates.outside.y, v.coordinates.outside.z, true)
+				local InsideDistance = GetDistanceBetweenCoords(pos.x, pos.y, pos.z, v.coordinates.inside.x, v.coordinates.inside.y, v.coordinates.inside.z, true)
+				local VaultDistance = GetDistanceBetweenCoords(pos.x, pos.y, pos.z, v.coordinates.vault.x, v.coordinates.vault.y, v.coordinates.vault.z, true)
+
+				if OutsideDistance < 10 then
 					drawMarker(25, v.coordinates.outside.x, v.coordinates.outside.y, v.coordinates.outside.z, 1.0, 1.0, 1.5, 255, 255, 0, 255)
-					if Vdist(pos.x, pos.y, pos.z, v.coordinates.outside.x, v.coordinates.outside.y, v.coordinates.outside.z) < 2 then
+					if OutsideDistance < 2 then
 						if not shownHelp then
 							shownHelp = true
 							DisplayHelpText("Press ~INPUT_CONTEXT~ to view property")
@@ -543,7 +548,7 @@ Citizen.CreateThread(function()
 								WarMenu.Display()
 							end
 						end
-					elseif Vdist(pos.x, pos.y, pos.z, v.coordinates.outside.x, v.coordinates.outside.y, v.coordinates.outside.z) > 2 then
+					elseif OutsideDistance > 2 then
 						shownHelp = false
 						if WarMenu.IsMenuOpened("properties_menu") then
 							WarMenu.CloseMenu("properties_menu")
@@ -556,9 +561,9 @@ Citizen.CreateThread(function()
 						end
 					end
 				end
-				if Vdist(pos.x, pos.y, pos.z, v.coordinates.inside.x, v.coordinates.inside.y, v.coordinates.inside.z) < 10 then
+				if InsideDistance < 10 then
 					drawMarker(25, v.coordinates.inside.x, v.coordinates.inside.y, v.coordinates.inside.z, 1.0, 1.0, 1.5, 255, 255, 0, 255)
-					if Vdist(pos.x, pos.y, pos.z, v.coordinates.inside.x, v.coordinates.inside.y, v.coordinates.inside.z) < 2 then
+					if InsideDistance < 2 then
 						if not shownInsideHelp then
 							shownInsideHelp = true
 							DisplayHelpText("Press ~INPUT_CONTEXT~ to view property")
@@ -596,16 +601,16 @@ Citizen.CreateThread(function()
 							end
 							WarMenu.Display()
 						end
-					elseif Vdist(pos.x, pos.y, pos.z, v.coordinates.inside.x, v.coordinates.inside.y, v.coordinates.inside.z) > 2 then
+					elseif InsideDistance > 2 then
 						shownInsideHelp = false
 						if WarMenu.IsMenuOpened("properties_menu_inside") then
 							WarMenu.CloseMenu("properties_menu_inside")
 						end
 					end					
 				end
-				if Vdist(pos.x, pos.y, pos.z, v.coordinates.vault.x, v.coordinates.vault.y, v.coordinates.vault.z) < 10 then
+				if VaultDistance < 10 then
 					drawMarker(25, v.coordinates.vault.x, v.coordinates.vault.y, v.coordinates.vault.z, 1.0, 1.0, 1.5, 255, 255, 0, 255)
-					if Vdist(pos.x, pos.y, pos.z, v.coordinates.vault.x, v.coordinates.vault.y, v.coordinates.vault.z) < 2 then
+					if VaultDistance < 2 then
 						if not shownVaultHelp then
 							shownVaultHelp = true
 							DisplayHelpText("Press ~INPUT_CONTEXT~ to open vault")
@@ -806,7 +811,7 @@ Citizen.CreateThread(function()
 								WarMenu.Display()
 							end
 						end
-					elseif Vdist(pos.x, pos.y, pos.z, v.coordinates.vault.x, v.coordinates.vault.y, v.coordinates.vault.z) > 2 then
+					elseif VaultDistance > 2 then
 						shownVaultHelp = false
 						if WarMenu.IsMenuOpened("properties_vault") then
 							WarMenu.CloseMenu("properties_vault")
@@ -821,9 +826,10 @@ Citizen.CreateThread(function()
 				end
 			end
 			for k,v in pairs(properties.businesses.normal) do
-				if Vdist(pos.x, pos.y, pos.z, v.coordinates.x, v.coordinates.y, v.coordinates.z) < 10 then
+				local Distance = GetDistanceBetweenCoords(pos.x, pos.y, pos.z, v.coordinates.x, v.coordinates.y, v.coordinates.z, true)
+				if Distance < 10 then
 					drawMarker(25, v.coordinates.x, v.coordinates.y, v.coordinates.z, 1.0, 1.0, 1.5, 255, 255, 0, 255)
-					if Vdist(pos.x, pos.y, pos.z, v.coordinates.x, v.coordinates.y, v.coordinates.z) < 2 then
+					if Distance < 2 then
 						if not shownHelp then
 							shownHelp = true
 							DisplayHelpText("Press ~INPUT_CONTEXT~ to view property")
@@ -1124,7 +1130,7 @@ Citizen.CreateThread(function()
 								WarMenu.Display()
 							end
 						end
-					elseif Vdist(pos.x, pos.y, pos.z, v.coordinates.x, v.coordinates.y, v.coordinates.z) > 2 then
+					elseif Distance > 2 then
 						shownHelp = false
 						if WarMenu.IsMenuOpened("properties_menu") then
 							WarMenu.CloseMenu("properties_menu")
@@ -1148,9 +1154,13 @@ Citizen.CreateThread(function()
 				end
 			end
 			for k,v in pairs(properties.businesses.enterable) do
-				if Vdist(pos.x, pos.y, pos.z, v.coordinates.outside.x, v.coordinates.outside.y, v.coordinates.outside.z) < 10 then
+				local OutsideDistance = GetDistanceBetweenCoords(pos.x, pos.y, pos.z, v.coordinates.outside.x, v.coordinates.outside.y, v.coordinates.outside.z, true)
+				local InsideDistance = GetDistanceBetweenCoords(pos.x, pos.y, pos.z, v.coordinates.inside.x, v.coordinates.inside.y, v.coordinates.inside.z, true)
+				local VaultDistance = GetDistanceBetweenCoords(pos.x, pos.y, pos.z, v.coordinates.vault.x, v.coordinates.vault.y, v.coordinates.vault.z, true)
+
+				if OutsideDistance < 10 then
 					drawMarker(25, v.coordinates.outside.x, v.coordinates.outside.y, v.coordinates.outside.z, 1.0, 1.0, 1.5, 255, 255, 0, 255)
-					if Vdist(pos.x, pos.y, pos.z, v.coordinates.outside.x, v.coordinates.outside.y, v.coordinates.outside.z) < 2 then
+					if OutsideDistance < 2 then
 						if not shownHelp then
 							shownHelp = true
 							DisplayHelpText("Press ~INPUT_CONTEXT~ to view property")
@@ -1286,7 +1296,7 @@ Citizen.CreateThread(function()
 								WarMenu.Display()
 							end
 						end
-					elseif Vdist(pos.x, pos.y, pos.z, v.coordinates.outside.x, v.coordinates.outside.y, v.coordinates.outside.z) > 2 then
+					elseif OutsideDistance > 2 then
 						shownHelp = false
 						if WarMenu.IsMenuOpened("properties_menu") then
 							WarMenu.CloseMenu("properties_menu")
@@ -1299,9 +1309,9 @@ Citizen.CreateThread(function()
 						end
 					end
 				end
-				if Vdist(pos.x, pos.y, pos.z, v.coordinates.inside.x, v.coordinates.inside.y, v.coordinates.inside.z) < 10 then
+				if InsideDistance < 10 then
 					drawMarker(25, v.coordinates.inside.x, v.coordinates.inside.y, v.coordinates.inside.z, 1.0, 1.0, 1.5, 255, 255, 0, 255)
-					if Vdist(pos.x, pos.y, pos.z, v.coordinates.inside.x, v.coordinates.inside.y, v.coordinates.inside.z) < 2 then
+					if InsideDistance < 2 then
 						if not shownInsideHelp then
 							shownInsideHelp = true
 							DisplayHelpText("Press ~INPUT_CONTEXT~ to view property")
@@ -1339,16 +1349,16 @@ Citizen.CreateThread(function()
 							end
 							WarMenu.Display()
 						end
-					elseif Vdist(pos.x, pos.y, pos.z, v.coordinates.inside.x, v.coordinates.inside.y, v.coordinates.inside.z) > 2 then
+					elseif InsideDistance > 2 then
 						shownInsideHelp = false
 						if WarMenu.IsMenuOpened("properties_menu_inside") then
 							WarMenu.CloseMenu("properties_menu_inside")
 						end
 					end					
 				end
-				if Vdist(pos.x, pos.y, pos.z, v.coordinates.vault.x, v.coordinates.vault.y, v.coordinates.vault.z) < 10 then
+				if VaultDistance < 10 then
 					drawMarker(25, v.coordinates.vault.x, v.coordinates.vault.y, v.coordinates.vault.z, 1.0, 1.0, 1.5, 255, 255, 0, 255)
-					if Vdist(pos.x, pos.y, pos.z, v.coordinates.vault.x, v.coordinates.vault.y, v.coordinates.vault.z) < 2 then
+					if VaultDistance < 2 then
 						if not shownVaultHelp then
 							shownVaultHelp = true
 							DisplayHelpText("Press ~INPUT_CONTEXT~ to open vault")
@@ -1549,7 +1559,7 @@ Citizen.CreateThread(function()
 								WarMenu.Display()
 							end
 						end
-					elseif Vdist(pos.x, pos.y, pos.z, v.coordinates.vault.x, v.coordinates.vault.y, v.coordinates.vault.z) > 2 then
+					elseif VaultDistance > 2 then
 						shownVaultHelp = false
 						if WarMenu.IsMenuOpened("properties_vault") then
 							WarMenu.CloseMenu("properties_vault")

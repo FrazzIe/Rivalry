@@ -27,6 +27,15 @@ IsStanceAllowed = true
 local drag = false
 local draggedBy = -1
 local wasDragged = false
+
+function StanceAllowed(value)
+	if type(value) == "boolean" then
+		IsStanceAllowed = value
+	else
+		return IsStanceAllowed
+	end
+end
+
 --[[ STANCE ]]--
 function Timer.start()
 	time_on = true
@@ -110,24 +119,27 @@ function ProneMovement()
 end
 
 Citizen.CreateThread(function()
-	RequestAnimSet("move_ped_crouched")
-	RequestAnimSet("move_ped_crouched_strafing")
-	RequestAnimDict("move_crawl")
+	AddAnimSet("move_ped_crouched")
+	AddAnimSet("move_ped_crouched_strafing")
+	AddAnimDictionary("move_crawl")
+
 	while true do
 		Citizen.Wait(0)
-		if DoesEntityExist(PlayerPedId()) and not IsEntityDead(PlayerPedId()) then 
+		local PlayerPed = PlayerPedId()
+
+		if DoesEntityExist(PlayerPed) and not IsEntityDead(PlayerPed) then 
 			DisableControlAction(0, 36, true)
 			if not IsPauseMenuActive() then
-				if not IsPedSittingInAnyVehicle(PlayerPedId()) then
+				if not IsPedSittingInAnyVehicle(PlayerPed) then
 					if stance == "standing" then
 						if IsDisabledControlPressed(0, 36) and IsStanceAllowed then 
 							Timer.start()
 						elseif IsDisabledControlJustReleased(0, 36) and IsStanceAllowed then
 							if time >= 250 then
 								if not cuffed and not exports.policejob:getIsCuffed() then
-									if IsPedSprinting(PlayerPedId()) or IsPedRunning(PlayerPedId()) then
+									if IsPedSprinting(PlayerPed) or IsPedRunning(PlayerPed) then
 										ClearPedTasks()
-										TaskPlayAnim(PlayerPedId(), "move_jump", "dive_start_run", 8.0, -8.0, -1, 0, 0, false, false, false)
+										TaskPlayAnim(PlayerPed, "move_jump", "dive_start_run", 8.0, -8.0, -1, 0, 0, false, false, false)
 										Citizen.Wait(1000)
 										setStance("prone")
 									else
@@ -178,7 +190,7 @@ Citizen.CreateThread(function()
 					end
 				end
 			end
-		elseif DoesEntityExist(PlayerPedId()) and IsEntityDead(PlayerPedId()) then
+		elseif DoesEntityExist(PlayerPed) and IsEntityDead(PlayerPed) then
 			if stance ~= "standing" then
 				setStance("standing")
 			end
@@ -196,23 +208,24 @@ Citizen.CreateThread(function()
     end
     while true do
         Citizen.Wait(0)
+        local PlayerPed = PlayerPedId()
         if IsControlJustPressed(1, 323) and not cuffed and not exports.policejob:getIsCuffed() then
-            if not cuffable and stance ~= "prone" and not IsPedSittingInAnyVehicle(PlayerPedId()) then
-                TaskPlayAnim(PlayerPedId(), dict, "handsup_enter", 8.0, 8.0, -1, 50, 0, false, false, false)
+            if not cuffable and stance ~= "prone" and not IsPedSittingInAnyVehicle(PlayerPed) then
+                TaskPlayAnim(PlayerPed, dict, "handsup_enter", 8.0, 8.0, -1, 50, 0, false, false, false)
                 cuffable = true
             elseif cuffable then
                 cuffable = false
-                ClearPedSecondaryTask(PlayerPedId())
+                ClearPedSecondaryTask(PlayerPed)
             end
         end
         if cuffable and stance == "prone" then
         	cuffable = false
-            ClearPedTasks(PlayerPedId())
-            if not IsPedArmed(PlayerPedId(), 6) then
+            ClearPedTasks(PlayerPed)
+            if not IsPedArmed(PlayerPed, 6) then
                 if lastanim == "onfront_bwd" then
-                    TaskPlayAnim(PlayerPedId(), "move_crawl", "onfront_bwd", 8.0, -4.0, -1, 2, 0, false, false, false)
+                    TaskPlayAnim(PlayerPed, "move_crawl", "onfront_bwd", 8.0, -4.0, -1, 2, 0, false, false, false)
                 elseif lastanim == "onfront_fwd" then
-                    TaskPlayAnim(PlayerPedId(), "move_crawl", "onfront_fwd", 8.0, -4.0, -1, 2, 0, false, false, false)
+                    TaskPlayAnim(PlayerPed, "move_crawl", "onfront_fwd", 8.0, -4.0, -1, 2, 0, false, false, false)
                 end
             end
         end
@@ -223,18 +236,19 @@ end)
 Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(0)
-
-		if cuffed and not IsEntityPlayingAnim(GetPlayerPed(PlayerId()), "mp_arresting", "idle", 3) then
+		local PlayerPed = PlayerPedId()
+		
+		if cuffed and not IsEntityPlayingAnim(PlayerPed, "mp_arresting", "idle", 3) then
 			Citizen.Wait(100)
-			TaskPlayAnim(GetPlayerPed(PlayerId()), "mp_arresting", "idle", 8.0, -8, -1, 49, 0, 0, 0, 0)
+			TaskPlayAnim(PlayerPed, "mp_arresting", "idle", 8.0, -8, -1, 49, 0, 0, 0, 0)
 		end
 
-		if IsEntityPlayingAnim(GetPlayerPed(PlayerId()), "mp_arresting", "idle", 3) then
+		if IsEntityPlayingAnim(PlayerPed, "mp_arresting", "idle", 3) then
 			DisableControlAction(1, 140, true)
 			DisableControlAction(1, 141, true)
 			DisableControlAction(1, 142, true)
-			SetPedPathCanUseLadders(GetPlayerPed(PlayerId()), false)
-			if IsPedInAnyVehicle(GetPlayerPed(PlayerId()), false) then
+			SetPedPathCanUseLadders(PlayerPed, false)
+			if IsPedInAnyVehicle(PlayerPed, false) then
 				DisableControlAction(0, 59, true)
 			end
 		end
@@ -242,29 +256,42 @@ Citizen.CreateThread(function()
 end)
 
 Citizen.CreateThread(function()
+	local KnifeHash = GetHashKey("WEAPON_KNIFE")
 	while true do
 		Citizen.Wait(0)
-		local pos = GetEntityCoords(PlayerPedId(), false)
-		for i = 0, 32 do
+
+		local PlayerId = PlayerId()
+		local ServerId = GetPlayerServerId(PlayerId)
+		local PlayerPed = PlayerPedId()
+		local PlayerPosition = GetEntityCoords(PlayerPed, false)
+
+		for PlayerIndex = 0, 32 do
 			if NetworkIsPlayerActive(i) then
-				if PlayerId() ~= i then
-					local pos2 = GetEntityCoords(GetPlayerPed(i), false)
-					if GetDistanceBetweenCoords(pos.x, pos.y, pos.z, pos2.x, pos2.y, pos2.z, true) < 2 then
-						if handcuffs[GetPlayerServerId(i)] then
-							if handcuffs[GetPlayerServerId(i)].cuffed then
-								if GetCurrentPedWeapon(PlayerPedId(), GetHashKey("WEAPON_KNIFE"), true) or handcuffs[GetPlayerServerId(i)].keyholder == GetPlayerServerId(PlayerId()) then
-									DisplayHelpText("Press ~INPUT_CONTEXT~ to uncuff "..exports.core:GetCharacterName(GetPlayerServerId(i)))
-									if IsControlJustPressed(1, 51) then
-                                    	local uncuffing = GetGameTimer() + 4000
-                                    	while uncuffing > GetGameTimer() do
-                                        	Citizen.Wait(0)
-                                        	if not IsEntityPlayingAnim(PlayerPedId(), "weapons@first_person@aim_idle@p_m_zero@melee@knife@fidgets@b", "fidget_low_loop", 3) then
-                                            	TaskPlayAnim(PlayerPedId(), "weapons@first_person@aim_idle@p_m_zero@melee@knife@fidgets@b", "fidget_low_loop", 8.0, -4.0, -1, 9, 0, false, false, false)
-                                        	end
-                                    	end
-                                    	ClearPedTasks(PlayerPedId())
-                                    	if not IsEntityDead(PlayerPedId()) and not cuffed then 
-											TriggerServerEvent("handcuffs:uncuff", GetPlayerServerId(i))
+				if PlayerId ~= PlayerIndex then
+					local OtherPed = GetPlayerPed(PlayerIndex)
+					if DoesEntityExist(OtherPed) then
+						local OtherPlayerPosition = GetEntityCoords(OtherPed, false)
+						if GetDistanceBetweenCoords(PlayerPosition.x, PlayerPosition.y, PlayerPosition.z, OtherPlayerPosition.x, OtherPlayerPosition.y, OtherPlayerPosition.z, true) < 2 then
+							local OtherServerId = GetPlayerServerId(PlayerIndex)
+							if handcuffs[OtherServerId] then
+								if handcuffs[OtherServerId].cuffed then
+									if GetCurrentPedWeapon(PlayerPed, KnifeHash, true) or handcuffs[OtherServerId].keyholder == ServerId then
+										DisplayHelpText("Press ~INPUT_CONTEXT~ to uncuff "..exports.core:GetCharacterName(OtherServerId))
+										if IsControlJustPressed(1, 51) then
+                                    		local uncuffing = GetGameTimer() + 4000
+                                    		while uncuffing > GetGameTimer() do
+                                        		Citizen.Wait(0)
+                                        		PlayerPed = PlayerPedId()
+
+                                        		if not IsEntityPlayingAnim(PlayerPed, "weapons@first_person@aim_idle@p_m_zero@melee@knife@fidgets@b", "fidget_low_loop", 3) then
+                                            		TaskPlayAnim(PlayerPed, "weapons@first_person@aim_idle@p_m_zero@melee@knife@fidgets@b", "fidget_low_loop", 8.0, -4.0, -1, 9, 0, false, false, false)
+                                        		end
+                                    		end
+                                    		ClearPedTasks(PlayerPed)
+
+                                    		if not IsEntityDead(PlayerPed) and not cuffed then 
+												TriggerServerEvent("handcuffs:uncuff", OtherServerId)
+											end
 										end
 									end
 								end

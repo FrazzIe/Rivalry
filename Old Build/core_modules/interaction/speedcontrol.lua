@@ -374,9 +374,12 @@ AddEventHandler("interaction:vehicle_speedlock", function()
             Citizen.CreateThread(function()
                 while speedlocked do
                     Citizen.Wait(0)
-                    if IsPedSittingInAnyVehicle(PlayerPedId()) then
-                        local vehicle = GetVehiclePedIsIn(PlayerPedId(), false)
-                        if GetPedInVehicleSeat(vehicle, -1) == PlayerPedId() then
+                    local PlayerPed = PlayerPedId()
+                    local LastVehicle = GetVehiclePedIsIn(PlayerPed, true)
+
+                    if IsPedSittingInAnyVehicle(PlayerPed) then
+                        local vehicle = GetVehiclePedIsIn(PlayerPed, false)
+                        if GetPedInVehicleSeat(vehicle, -1) == PlayerPed then
                             if (math.abs(speed)/2.23693629) <= GetVehicleHandlingFloat(vehicle, "CHandlingData", "fInitialDriveMaxFlatVel") then
                                 SetEntityMaxSpeed(vehicle, math.abs(speed)/2.23693629)
                                 if not hud_off then
@@ -385,53 +388,40 @@ AddEventHandler("interaction:vehicle_speedlock", function()
                                     drawText("~y~SPEED LOCKED TO "..math.abs(speed), 6, x, 0.789, 0.4, 255, 255, 255, 255, false, true)
                                 end
                             else
-                                SetEntityMaxSpeed(GetVehiclePedIsIn(PlayerPedId(), true), GetVehicleHandlingFloat(GetVehiclePedIsIn(PlayerPedId(), true), "CHandlingData", "fInitialDriveMaxFlatVel"))
+                                SetEntityMaxSpeed(LastVehicle, GetVehicleHandlingFloat(LastVehicle, "CHandlingData", "fInitialDriveMaxFlatVel"))
                                 speedlocked = false
                             end
                         else
-                            SetEntityMaxSpeed(GetVehiclePedIsIn(PlayerPedId(), true), GetVehicleHandlingFloat(GetVehiclePedIsIn(PlayerPedId(), true), "CHandlingData", "fInitialDriveMaxFlatVel"))
+                            SetEntityMaxSpeed(LastVehicle, GetVehicleHandlingFloat(LastVehicle, "CHandlingData", "fInitialDriveMaxFlatVel"))
                             speedlocked = false
                         end
                     else
-                        SetEntityMaxSpeed(GetVehiclePedIsIn(PlayerPedId(), true), GetVehicleHandlingFloat(GetVehiclePedIsIn(PlayerPedId(), true), "CHandlingData", "fInitialDriveMaxFlatVel"))
+                        SetEntityMaxSpeed(LastVehicle, GetVehicleHandlingFloat(LastVehicle, "CHandlingData", "fInitialDriveMaxFlatVel"))
                         speedlocked = false
                     end
                 end
             end)
         end
     else
-        SetEntityMaxSpeed(GetVehiclePedIsIn(PlayerPedId(), true), GetVehicleHandlingFloat(GetVehiclePedIsIn(PlayerPedId(), true), "CHandlingData", "fInitialDriveMaxFlatVel"))
+        SetEntityMaxSpeed(LastVehicle, GetVehicleHandlingFloat(GetVehiclePedIsIn(PlayerPedId(), true), "CHandlingData", "fInitialDriveMaxFlatVel"))
     end
 end)
 
 Citizen.CreateThread(function()
     while true do
         Citizen.Wait(0)
-        if not IsPedInAnyVehicle(PlayerPedId(), false) and speedlocked then
+        local PlayerPed = PlayerPedId()
+
+        if not IsPedInAnyVehicle(PlayerPed, false) and speedlocked then
             speedlocked = false
         end
-        if IsPedSittingInAnyVehicle(PlayerPedId()) then 
-            if (GetPedInVehicleSeat(GetVehiclePedIsIn(PlayerPedId(), false), -1) == PlayerPedId()) then
+
+        if IsPedSittingInAnyVehicle(PlayerPed) then 
+            if GetPedInVehicleSeat(GetVehiclePedIsIn(PlayerPed, false), -1) == PlayerPed then
                 if IsControlJustPressed(1, 244) and IsInputDisabled(2) and not controller then
                     TriggerEvent("interaction:vehicle_speedlock")
                 end
             end
         end
-        --[[
-        if not speedlocked then
-            if IsPedInAnyVehicle(PlayerPedId(), false) then
-                local vehicle = GetVehiclePedIsUsing(PlayerPedId(), false)
-                if IsPedInAnyPoliceVehicle(PlayerPedId()) then
-                    SetEntityMaxSpeed(vehicle, default_speed_emergency/2.236936)
-                else
-                    if vehicle_speeds[tostring(GetEntityModel(vehicle))] then
-                        SetEntityMaxSpeed(vehicle, vehicle_speeds[tostring(GetEntityModel(vehicle))]/2.236936)
-                    else
-                        SetEntityMaxSpeed(vehicle, default_speed/2.236936)
-                    end
-                end
-            end
-        end
-        --]]
     end
 end)
