@@ -119,9 +119,9 @@ function ProneMovement()
 end
 
 Citizen.CreateThread(function()
-	AddAnimSet("move_ped_crouched")
-	AddAnimSet("move_ped_crouched_strafing")
-	AddAnimDictionary("move_crawl")
+	RequestAnimSet("move_ped_crouched")
+	RequestAnimSet("move_ped_crouched_strafing")
+	RequestAnimDict("move_crawl")
 
 	while true do
 		Citizen.Wait(0)
