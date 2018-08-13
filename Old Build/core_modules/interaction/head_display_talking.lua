@@ -104,8 +104,8 @@ Citizen.CreateThread(function()
 						seatnumber = tonumber(seatnumber)
 
 						if Distance < PlayerNameDistance then
+							local ServerId = GetPlayerServerId(PlayerIndex)
 							if NetworkIsPlayerTalking(PlayerIndex) then
-								local ServerId = GetPlayerServerId(PlayerIndex)
 								if cansee then
 									 if seatnumber == -2 then
 										DrawText3D(OtherPlayerPosition.x, OtherPlayerPosition.y, OtherPlayerPosition.z+1.2, ServerId, 255, 0, 0, 255)
