@@ -72,13 +72,7 @@ client_script 'jobs/mechanic/client.lua'
 client_script 'jobs/mechanic/shared.lua'
 server_script 'jobs/mechanic/server.lua'
 server_script 'jobs/mechanic/shared.lua'
---[[
-client_script 'jobs/towing/client.lua'
-server_script 'jobs/towing/server.lua'
---Los Santos Customs
-client_script 'lscustoms/client.lua'
-server_script 'lscustoms/server.lua'
---]]
+
 --Vehicle rentals
 client_script 'vehicle_rentals/client.lua'
 server_script 'vehicle_rentals/server.lua'
@@ -105,15 +99,12 @@ server_script 'drugs/cocaine_server.lua'
 client_script 'others/fuel/client.lua'
 server_script 'others/fuel/server.lua'
 
-client_script "others/fuel/frfuel.net.dll"
-file "config.ini"
-
 client_script 'others/hunger/client.lua'
 
 client_script 'animations/client.lua'
 
-client_script 'others/alerts/client.lua'
-server_script 'others/alerts/server.lua'
+--client_script 'others/alerts/client.lua'
+--server_script 'others/alerts/server.lua'
 
 client_script 'others/chat_stuff/client.lua'
 server_script 'others/chat_stuff/server.lua'
@@ -121,7 +112,6 @@ server_script 'others/chat_stuff/server.lua'
 client_script 'others/scoreboard/client.lua'
 server_script 'others/scoreboard/server.lua'
 
-client_script 'others/speedometer/InteractSound.lua'
 client_script 'others/speedometer/speedometer.lua'
 
 client_script 'others/emergency_blips/client.lua'
@@ -165,7 +155,7 @@ server_script 'others/environment/server.lua'
 
 client_script 'others/pdpeds/client.lua'
 
---Interaction
+--Interaction --Big point of interest
 client_script 'interaction/main.lua'
 server_script 'interaction/server.lua'
 
@@ -189,6 +179,7 @@ client_script "PlayerCustomisation/Client/Main.lua"
 
 server_script "PlayerCustomisation/Server/Outfits.lua"
 server_script "PlayerCustomisation/Server/Main.lua"
+
 --Exports
 
 --Inventory
@@ -213,3 +204,7 @@ export 'ApplyTattoos'
 
 export 'SetParamedic'
 export 'SetPolice'
+
+export 'StanceAllowed'
+
+export 'TurnOffHudElements'

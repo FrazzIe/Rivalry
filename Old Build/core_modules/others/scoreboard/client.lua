@@ -64,7 +64,7 @@ Citizen.CreateThread(function()
 					if not WarMenu.DoesMenuExist("Scoreboard") then
 						WarMenu.CreateMenu("Scoreboard", "Player list")
 						WarMenu.SetTitleBackgroundColor("Scoreboard", 0, 128, 255, 255)
-						WarMenu.SetScaleformTitle("Scoreboard", "mp_menu_glare")
+						--WarMenu.SetScaleformTitle("Scoreboard", "mp_menu_glare")
 						WarMenu.SetScaleformTitleColour("Scoreboard", 0, 128, 255, 255)
 						WarMenu.SetSubTitle("Scoreboard", "PLAYERS")
 						WarMenu.SetMenuMaxOptionCountOnScreen("Scoreboard", 16)

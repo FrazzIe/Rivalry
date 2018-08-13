@@ -21,7 +21,7 @@ Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(0)
 		local PlayerPed = PlayerPedId()
-		if not IsPauseMenuActive() and not exports.PlayerCustomisation:IsInstanced() then
+		if not IsPauseMenuActive() and not PlayerCustomisation.Instanced then
 			if IsControlJustReleased(1, 311) or IsControlJustReleased(1, 19) then
 				if exports.ui:currentmenu() == "" then
 					if not IsPedFalling(PlayerPed) then
