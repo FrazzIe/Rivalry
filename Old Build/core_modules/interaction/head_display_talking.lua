@@ -108,17 +108,17 @@ Citizen.CreateThread(function()
 								local ServerId = GetPlayerServerId(PlayerIndex)
 								if cansee then
 									 if seatnumber == -2 then
-										DrawText3D(x2, y2, z2+1.2, ServerId, 255, 0, 0, 255)
+										DrawText3D(OtherPlayerPosition.x, OtherPlayerPosition.y, OtherPlayerPosition.z+1.2, ServerId, 255, 0, 0, 255)
 									else
-										DrawText3D(x2, (y2+seatnumber), z2+1.2, ServerId, 255, 0, 0, 255)
+										DrawText3D(OtherPlayerPosition.x, (OtherPlayerPosition.y+seatnumber), OtherPlayerPosition.z+1.2, ServerId, 255, 0, 0, 255)
 									end
 								end
 							else
 								if cansee then
 									if seatnumber == -2 then
-										DrawText3D(x2, y2, z2+1.2, ServerId, 255, 255, 255, 255)
+										DrawText3D(OtherPlayerPosition.x, OtherPlayerPosition.y, OtherPlayerPosition.z+1.2, ServerId, 255, 255, 255, 255)
 									else
-										DrawText3D(x2, (y2+seatnumber), z2+1.2, ServerId, 255, 255, 255, 255)
+										DrawText3D(OtherPlayerPosition.x, (OtherPlayerPosition.y+seatnumber), OtherPlayerPosition.z+1.2, ServerId, 255, 255, 255, 255)
 									end
 								end
 							end
