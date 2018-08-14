@@ -14,24 +14,7 @@
 --==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--
 --==============================================================================================================================--
 --Make police cars undrivable for civs
-Citizen.CreateThread(function()
-	while true do
-		Citizen.Wait(0)
-		if not isCop then
-			if IsPedSittingInAnyVehicle(PlayerPedId()) then
-				local vehicle = GetVehiclePedIsUsing(PlayerPedId(), false)
-				if GetPedInVehicleSeat(vehicle, -1) == PlayerPedId() then
-					for k,v in pairs(cars) do
-						if GetHashKey(v.model) == GetEntityModel(vehicle) then
-							drawText("~r~It's against the rules for civilians to drive these vehicles!", 6, 0.45 , 0.5, 0.5, 255, 255, 255, 255, false, true)
-							SetVehicleUndriveable(vehicle, true)
-						end
-					end
-				end
-			end
-		end
-	end
-end)
+
 --==============================================================================================================================--
 --Cuffing
 cuff_type = nil
@@ -43,49 +26,51 @@ DecorSetBool(PlayerPedId(), "Cuffedtype", false)
 
 RegisterNetEvent("police:cuff")
 AddEventHandler("police:cuff", function(_type)
+	local PlayerPed = PlayerPedId()
 	if cuffed and _type == cuff_type then
 		cuffed = not cuffed
 		cuff_type = nil
 		Notify("Your restraints have been removed!", 2500)
-		SetPedCanRagdoll(PlayerPedId(), true)
-		ClearPedSecondaryTask(PlayerPedId())
-		SetEnableHandcuffs(PlayerPedId(), false)
-		SetCurrentPedWeapon(PlayerPedId(), GetHashKey("WEAPON_UNARMED"), true)
-		SetPedComponentVariation(PlayerPedId(), 7, 0, 0 ,0)
-		DecorSetBool(PlayerPedId(), "policeCuffed", false) 
-		DecorSetBool(PlayerPedId(), "Cuffedtype", false)
+		SetPedCanRagdoll(PlayerPed, true)
+		ClearPedSecondaryTask(PlayerPed)
+		SetEnableHandcuffs(PlayerPed, false)
+		SetCurrentPedWeapon(PlayerPed, GetHashKey("WEAPON_UNARMED"), true)
+		SetPedComponentVariation(PlayerPed, 7, 0, 0 ,0)
+		DecorSetBool(PlayerPed, "policeCuffed", false) 
+		DecorSetBool(PlayerPed, "Cuffedtype", false)
 	elseif cuffed and _type ~= cuff_type then
 		cuff_type = _type
 		if _type == "freeze" then
-			DecorSetBool(PlayerPedId(), "Cuffedtype", true) 
+			DecorSetBool(PlayerPed, "Cuffedtype", true) 
 			Notify("Your restraints have been tightened to the point where you are unable to move!", 2500)
 		else
 			Notify("Your restraints have been loosened!", 2500)
-			DecorSetBool(PlayerPedId(), "Cuffedtype", false)
+			DecorSetBool(PlayerPed, "Cuffedtype", false)
 		end
 	elseif not cuffed then
-		SetPedCanRagdoll(PlayerPedId(), false)
+		SetPedCanRagdoll(PlayerPed, false)
 		if exports.core_modules:isCuffed() then
 			TriggerServerEvent("handcuffs:uncuff", GetPlayerServerId(PlayerId()))
 		end
 		cuff_type = _type
 		Notify("You have been restrained!", 2500)
-		ClearPedTasks(PlayerPedId())
+		ClearPedTasks(PlayerPed)
 		RequestAnimDict("mp_arresting")
 		while not HasAnimDictLoaded("mp_arresting") do
 			Citizen.Wait(100)
+			PlayerPed = PlayerPedId()
 		end
 
-		TaskPlayAnim(PlayerPedId(), "mp_arresting", "idle", 8.0, -8, -1, 49, 0, 0, 0, 0)
-		SetPedCanRagdoll(PlayerPedId(), true)
-		SetEnableHandcuffs(PlayerPedId(), true)
-		SetCurrentPedWeapon(PlayerPedId(), GetHashKey("WEAPON_UNARMED"), true)
-		SetPedComponentVariation(PlayerPedId(), 7, 41, 0 ,0)
-		DecorSetBool(PlayerPedId(), "policeCuffed", true)
+		TaskPlayAnim(PlayerPed, "mp_arresting", "idle", 8.0, -8, -1, 49, 0, 0, 0, 0)
+		SetPedCanRagdoll(PlayerPed, true)
+		SetEnableHandcuffs(PlayerPed, true)
+		SetCurrentPedWeapon(PlayerPed, GetHashKey("WEAPON_UNARMED"), true)
+		SetPedComponentVariation(PlayerPed, 7, 41, 0 ,0)
+		DecorSetBool(PlayerPed, "policeCuffed", true)
 		if _type == "freeze" then
-			DecorSetBool(PlayerPedId(), "Cuffedtype", true) 
+			DecorSetBool(PlayerPed, "Cuffedtype", true) 
 		else
-			DecorSetBool(PlayerPedId(), "Cuffedtype", false)
+			DecorSetBool(PlayerPed, "Cuffedtype", false)
 		end
 		cuffed = not cuffed
 	end
@@ -93,141 +78,19 @@ end)
 
 RegisterNetEvent("police:uncuff")
 AddEventHandler("police:uncuff", function()
+	local PlayerPed = PlayerPedId()
+
 	cuffed = false
 	cuff_type = nil
-	ClearPedSecondaryTask(PlayerPedId())
-	SetEnableHandcuffs(PlayerPedId(), false)
-	SetCurrentPedWeapon(PlayerPedId(), GetHashKey("WEAPON_UNARMED"), true)
-	SetPedComponentVariation(PlayerPedId(), 7, 0, 0 ,0)
-	DecorSetBool(PlayerPedId(), "policeCuffed", false)
-	DecorSetBool(PlayerPedId(), "Cuffedtype", false)
-end)
-
-Citizen.CreateThread(function()
-	while true do
-		Citizen.Wait(0)
-		if cuffed then
-			if IsPedRunningRagdollTask(PlayerPedId()) then
-				while IsPedRunningRagdollTask(PlayerPedId()) do
-					Citizen.Wait(0)
-				end
-				ClearPedTasksImmediately(PlayerPedId())
-			end
-			if cuff_type == "freeze" then
-				TaskPlayAnim(PlayerPedId(), 'mp_arresting', 'idle', 8.0, -8, -1, 16, 0, 0, 0, 0)
-			end
-
-			if not IsEntityPlayingAnim(PlayerPedId(), "mp_arresting", "idle", 3) and cuff_type == "normal" then
-				Citizen.Wait(100)
-				TaskPlayAnim(PlayerPedId(), "mp_arresting", "idle", 8.0, -8, -1, 49, 0, 0, 0, 0)
-			end
-		end
-	end
-end)
-
-Citizen.CreateThread(function()
-	while true do
-		Citizen.Wait(0)
-		if cuffed then
-			DisableControlAction(1, 140, true)
-			DisableControlAction(1, 141, true)
-			DisableControlAction(1, 142, true)
-			DisableControlAction(1, 25, true)
-			SetPedPathCanUseLadders(PlayerPedId(), false)
-			if IsPedInAnyVehicle(PlayerPedId(), false) then
-				DisableControlAction(0, 59, true)
-			end
-		end
-	end
+	ClearPedSecondaryTask(PlayerPed)
+	SetEnableHandcuffs(PlayerPed, false)
+	SetCurrentPedWeapon(PlayerPed, GetHashKey("WEAPON_UNARMED"), true)
+	SetPedComponentVariation(PlayerPed, 7, 0, 0 ,0)
+	DecorSetBool(PlayerPed, "policeCuffed", false)
+	DecorSetBool(PlayerPed, "Cuffedtype", false)
 end)
 
 
-Citizen.CreateThread(function()
-	RequestAnimDict("weapons@first_person@aim_idle@p_m_zero@melee@knife@fidgets@b")
-	while not HasAnimDictLoaded("weapons@first_person@aim_idle@p_m_zero@melee@knife@fidgets@b") do
-		Citizen.Wait(0)
-	end
-	while true do
-		Citizen.Wait(0)
-		if not isInService then
-			local pos = GetEntityCoords(PlayerPedId(), false)
-			for i = 0, 32 do
-				if NetworkIsPlayerActive(i) then
-					if PlayerId() ~= i then
-						local pos2 = GetEntityCoords(GetPlayerPed(i), false)
-						if GetDistanceBetweenCoords(pos.x, pos.y, pos.z, pos2.x, pos2.y, pos2.z, true) < 1.0 then
-							local isUserCuffed = DecorGetBool(GetPlayerPed(i), "policeCuffed")
-							if isUserCuffed then
-								if GetCurrentPedWeapon(PlayerPedId(), GetHashKey("WEAPON_KNIFE"), true) then
-									DisplayHelpText("Press ~INPUT_CONTEXT~ to uncuff "..exports.core:GetCharacterName(GetPlayerServerId(i)))
-									if IsControlJustPressed(1, 51) then
-										local uncuffing = GetGameTimer() + 7500
-										while uncuffing > GetGameTimer() do
-											Citizen.Wait(0)
-											if not IsEntityPlayingAnim(PlayerPedId(), "weapons@first_person@aim_idle@p_m_zero@melee@knife@fidgets@b", "fidget_low_loop", 3) then
-												TaskPlayAnim(PlayerPedId(), "weapons@first_person@aim_idle@p_m_zero@melee@knife@fidgets@b", "fidget_low_loop", 8.0, -4.0, -1, 9, 0, false, false, false)
-											end
-										end
-										ClearPedTasks(PlayerPedId())
-										if not IsEntityDead(PlayerPedId()) and not cuffed then 
-											TriggerServerEvent("police:uncuff", GetPlayerServerId(i))
-										end
-									end
-								end
-							end
-						end
-					end
-				end
-			end
-		end
-	end
-end)
-
-Citizen.CreateThread(function()
-	while true do
-		Citizen.Wait(0)
-		if isCop then
-			if isInService then
-				local pos = GetEntityCoords(PlayerPedId(), false)
-				for i = 0, 32 do
-					if NetworkIsPlayerActive(i) then
-						if PlayerId() ~= i then
-							local pos2 = GetEntityCoords(GetPlayerPed(i), false)
-							if GetDistanceBetweenCoords(pos.x, pos.y, pos.z, pos2.x, pos2.y, pos2.z, true) < 1.0 then
-								if IsPlayerFreeAiming(PlayerId()) then
-									local ped = GetPlayerPed(i)
-									local isUserCuffed, cuffType = DecorGetBool(ped, "policeCuffed"), DecorGetBool(GetPlayerPed(i), "Cuffedtype")
-									if not isUserCuffed then
-										DisplayHelpText("Press ~INPUT_CONTEXT~ to cuff "..exports.core:GetCharacterName(GetPlayerServerId(i)))
-										if IsControlJustPressed(1, 51) then
-											TriggerServerEvent("police:cuff", GetPlayerServerId(i), "normal")
-										end
-									else
-										if cuffType then
-											DisplayHelpText("Press ~INPUT_CONTEXT~ to uncuff "..exports.core:GetCharacterName(GetPlayerServerId(i)).."\nPress ~INPUT_INTERACTION_MENU~ to loosen")
-										else
-											DisplayHelpText("Press ~INPUT_CONTEXT~ to uncuff "..exports.core:GetCharacterName(GetPlayerServerId(i)).."\nPress ~INPUT_INTERACTION_MENU~ to tighten")
-										end
-										if IsControlJustPressed(1, 51) then
-											TriggerServerEvent("police:uncuff", GetPlayerServerId(i))
-										end
-										if IsControlJustPressed(1, 244) then
-											if cuffType then
-												TriggerServerEvent("police:cuff", GetPlayerServerId(i), "normal")
-											else
-												TriggerServerEvent("police:cuff", GetPlayerServerId(i), "freeze")
-											end
-										end
-									end
-								end
-							end
-						end
-					end
-				end
-			end
-		end
-	end
-end)
 
 --==============================================================================================================================--
 --Dragging
@@ -248,20 +111,6 @@ AddEventHandler('police:undrag', function()
 	draggedBy = -1
 end)
 
-Citizen.CreateThread(function()
-	while true do
-		Citizen.Wait(0)
-		if drag then
-			wasDragged = true
-			AttachEntityToEntity(PlayerPedId(), GetPlayerPed(GetPlayerFromServerId(draggedBy)), 4103, 11816, 0.48, 0.00, 0.0, 0.0, 0.0, 0.0, false, false, false, false, 2, true)
-		else
-			if not IsPedInParachuteFreeFall(PlayerPedId()) and wasDragged then
-				wasDragged = false
-				DetachEntity(PlayerPedId(), true, false)    
-			end
-		end
-	end
-end)
 --==============================================================================================================================--
 --Forced entry of a vehicle
 RegisterNetEvent('police:force')
@@ -340,48 +189,7 @@ end)
 
 --==============================================================================================================================--
 --Radar
-Citizen.CreateThread(function()
-	local radar_locked = false
-	local front_info, rear_info, left_info, right_info = {name = "None", plate = "None", speed = 0}, {name = "None", plate = "None", speed = 0}, {name = "None", plate = "None", speed = 0}, {name = "None", plate = "None", speed = 0}
-	while true do
-		Citizen.Wait(0)
-		if isInService then
-			if IsControlJustPressed(1, 243) then
-				radar_locked = not radar_locked
-			end
-			local front = getVehicleInDirection(GetEntityCoords(PlayerPedId(), false), GetOffsetFromEntityInWorldCoords(PlayerPedId(), 0.0, 15.0, 1.0))
-			local rear = getVehicleInDirection(GetEntityCoords(PlayerPedId(), false), GetOffsetFromEntityInWorldCoords(PlayerPedId(), 0.0, -15.0, 1.0))
-			local left = getVehicleInDirection(GetEntityCoords(PlayerPedId(), false), GetOffsetFromEntityInWorldCoords(PlayerPedId(), -15.0, 0.0, 1.0))
-			local right = getVehicleInDirection(GetEntityCoords(PlayerPedId(), false), GetOffsetFromEntityInWorldCoords(PlayerPedId(), 15.0, 0.0, 1.0))
-			if not radar_locked then
-				if front ~= nil then
-					front_info.name = GetLabelText(GetDisplayNameFromVehicleModel(GetEntityModel(front)))
-					front_info.plate = GetVehicleNumberPlateText(front)
-					front_info.speed = GetEntitySpeed(front)*2.236936
-				end
-				if rear ~= nil then
-					rear_info.name = GetLabelText(GetDisplayNameFromVehicleModel(GetEntityModel(rear)))
-					rear_info.plate = GetVehicleNumberPlateText(rear)
-					rear_info.speed = GetEntitySpeed(rear)*2.236936
-				end
-				if left ~= nil then
-					left_info.name = GetLabelText(GetDisplayNameFromVehicleModel(GetEntityModel(left)))
-					left_info.plate = GetVehicleNumberPlateText(left)
-					left_info.speed = GetEntitySpeed(left)*2.236936
-				end
-				if right ~= nil then
-					right_info.name = GetLabelText(GetDisplayNameFromVehicleModel(GetEntityModel(right)))
-					right_info.plate = GetVehicleNumberPlateText(right)
-					right_info.speed = GetEntitySpeed(right)*2.236936
-				end
-			end
-			drawText("~o~Front ~w~| ~b~"..front_info.name.." ~w~| ~y~"..front_info.plate.." ~w~| ~g~"..math.floor(front_info.speed).."~c~mph", 6, 0.805, 0.895, 0.45, 255, 255, 255, 255, false, true)
-			drawText("~o~Left ~w~| ~b~"..left_info.name.." ~w~| ~y~"..left_info.plate.." ~w~| ~g~"..math.floor(left_info.speed).."~c~mph", 6, 0.805, 0.92, 0.45, 255, 255, 255, 255, false, true)
-			drawText("~o~Right ~w~| ~b~"..right_info.name.." ~w~| ~y~"..right_info.plate.." ~w~| ~g~"..math.floor(right_info.speed).."~c~mph", 6, 0.805, 0.945, 0.45, 255, 255, 255, 255, false, true)
-			drawText("~o~Rear ~w~| ~b~"..rear_info.name.." ~w~| ~y~"..rear_info.plate.." ~w~| ~g~"..math.floor(rear_info.speed).."~c~mph", 6, 0.805, 0.97, 0.45, 255, 255, 255, 255, false, true)
-		end
-	end
-end)
+
 --==============================================================================================================================--
 --Spike strips
 local Spikes = {
@@ -519,7 +327,7 @@ Citizen.CreateThread(function()
 								Citizen.CreateThread(function()
 									local Tracker = CreateEntityBlip("Speeder", 225, 1, NearestVehicle, 0.6, false)
 									local StartTime = GetGameTimer()
-									while StartTime + 120000 > GetGameTimer() do
+									while StartTime + 10000 > GetGameTimer() do
 										Citizen.Wait(1000)
 									end
 									DeleteEntityBlip(Tracker)
@@ -625,158 +433,47 @@ AddEventHandler("PortableRadar.Delete", function()
 	Notify("Radar removed!", 3000)
 	PortableRadar.Deleting = false	
 end)
---==============================================================================================================================--
---Cones
-local cones_deployed = false
-local cobj1 = nil
-local cobj2 = nil
-local cobj3 = nil
-local cobj4 = nil
-local cobj5 = nil
 
-RegisterNetEvent("police:DeployC")
-AddEventHandler("police:DeployC", function()
-	Citizen.CreateThread(function()
-		if not cones_deployed then
-			local cones = GetHashKey("prop_mp_cone_02")
-			RequestModel(cones)
-			while not HasModelLoaded(cones) do
-				Citizen.Wait(0)
-			end
-			exports.pNotify:SendNotification({text = "Deploying cones!",type = "error",queue = "left",timeout = 3000,layout = "centerRight"}) 
-			local playerheading = GetEntityHeading(GetPlayerPed(-1))
-			coords1 = GetOffsetFromEntityInWorldCoords(GetPlayerPed(-1), 3, 10, -0.7)
-			coords2 = GetOffsetFromEntityInWorldCoords(GetPlayerPed(-1), 0, -5, -0.5)
-			cobj1 = CreateObject(cones, coords1['x'], coords1['y'], coords1['z'], true, true, true)
-			cobj2 = CreateObject(cones, coords2['x'], coords2['y'], coords2['z'], true, true, true)
-			cobj3 = CreateObject(cones, coords2['x'], coords2['y'], coords2['z'], true, true, true)
-			cobj4 = CreateObject(cones, coords2['x'], coords2['y'], coords2['z'], true, true, true)
-			cobj5 = CreateObject(cones, coords2['x'], coords2['y'], coords2['z'], true, true, true)
-			SetEntityHeading(cobj1, playerheading)
-			SetEntityHeading(cobj2, playerheading)
-			SetEntityHeading(cobj3, playerheading)
-			SetEntityHeading(cobj4, playerheading)
-			SetEntityHeading(cobj5, playerheading)
-			AttachEntityToEntity(cobj1, GetPlayerPed(-1), 1, 0.0, 4.0, 0.0, 0.0, -90.0, 0.0, true, true, false, false, 2, true)
-			AttachEntityToEntity(cobj2, GetPlayerPed(-1), 1, 0.0, 8.0, 0.0, 0.0, -90.0, 0.0, true, true, false, false, 2, true)
-			AttachEntityToEntity(cobj3, GetPlayerPed(-1), 1, 0.0, 12.0, 0.0, 0.0, -90.0, 0.0, true, true, false, false, 2, true)
-			AttachEntityToEntity(cobj4, GetPlayerPed(-1), 1, 0.0, 16.0, 0.0, 0.0, -90.0, 0.0, true, true, false, false, 2, true)
-			AttachEntityToEntity(cobj5, GetPlayerPed(-1), 1, 0.0, 20.0, 0.0, 0.0, -90.0, 0.0, true, true, false, false, 2, true)
-			Citizen.Wait(10)
-			DetachEntity(cobj1, true, true)
-			DetachEntity(cobj2, true, true)
-			DetachEntity(cobj3, true, true)
-			DetachEntity(cobj4, true, true)
-			DetachEntity(cobj5, true, true)
-			cones_deployed = true
-		else
-			cones_deployed = false
-			exports.pNotify:SendNotification({text = "Removing cones!",type = "error",queue = "left",timeout = 3000,layout = "centerRight"}) 
-			SetEntityCoords(cobj1, -5000.0, -5000.0, 20.0, true, false, false, true)
-			SetEntityCoords(cobj2, -5000.0, -5000.0, 20.0, true, false, false, true)
-			SetEntityCoords(cobj3, -5000.0, -5000.0, 20.0, true, false, false, true)
-			SetEntityCoords(cobj4, -5000.0, -5000.0, 20.0, true, false, false, true)
-			SetEntityCoords(cobj5, -5000.0, -5000.0, 20.0, true, false, false, true)
-			Citizen.InvokeNative(0xB736A491E64A32CF, Citizen.PointerValueIntInitialized(cobj1))
-			Citizen.InvokeNative(0xB736A491E64A32CF, Citizen.PointerValueIntInitialized(cobj2))
-			Citizen.InvokeNative(0xB736A491E64A32CF, Citizen.PointerValueIntInitialized(cobj3))
-			Citizen.InvokeNative(0xB736A491E64A32CF, Citizen.PointerValueIntInitialized(cobj4))
-			Citizen.InvokeNative(0xB736A491E64A32CF, Citizen.PointerValueIntInitialized(cobj5))
-			cobj1 = nil
-			cobj2 = nil
-			cobj3 = nil
-			cobj4 = nil
-			cobj5 = nil
-		end
-	end)
-end)
-
----Make all peds fuck off at the sight of cones
-Citizen.CreateThread(function()
-	while true do
-		Citizen.Wait(0)
-		local o1x, o1y, o1z = table.unpack(GetEntityCoords(cobj1, true))
-		local cVeh = GetClosestVehicle(o1x, o1y, o1z, 50.1, 0, 70)
-		if(IsEntityAVehicle(cVeh)) then
-			if IsEntityAtEntity(cVeh, cobj1, 20.0, 6.0, 2.0, 0, 1, 0) then
-				local cDriver = GetPedInVehicleSeat(cVeh, -1)
-				TaskVehicleTempAction(cDriver, cVeh, 6, 1000)
-				SetVehicleHandbrake(cVeh, true)
-			end
-		end
-		local o2x, o2y, o2z = table.unpack(GetEntityCoords(cobj2, true))
-		local cVeh2 = GetClosestVehicle(o2x, o2y, o2z, 50.1, 0, 70)
-		if(IsEntityAVehicle(cVeh2)) then
-			if IsEntityAtEntity(cVeh2, cobj2, 20.0, 6.0, 2.0, 0, 1, 0) then
-				local cDriver = GetPedInVehicleSeat(cVeh2, -1)
-				TaskVehicleTempAction(cDriver, cVeh2, 6, 1000)
-				SetVehicleHandbrake(cVeh2, true)
-			end
-		end
-		local o3x, o3y, o3z = table.unpack(GetEntityCoords(cobj3, true))
-		local cVeh3 = GetClosestVehicle(o3x, o3y, o3z, 50.1, 0, 70)
-		if(IsEntityAVehicle(cVeh3)) then
-			if IsEntityAtEntity(cVeh3, cobj3, 20.0, 6.0, 2.0, 0, 1, 0) then
-				local cDriver = GetPedInVehicleSeat(cVeh3, -1)
-				TaskVehicleTempAction(cDriver, cVeh3, 6, 1000)
-				SetVehicleHandbrake(cVeh3, true)
-			end
-		end
-		local o4x, o4y, o4z = table.unpack(GetEntityCoords(cobj3, true))
-		local cVeh4 = GetClosestVehicle(o4x, o4y, o4z, 50.1, 0, 70)
-		if(IsEntityAVehicle(cVeh4)) then
-			if IsEntityAtEntity(cVeh3, cobj3, 20.0, 6.0, 2.0, 0, 1, 0) then
-				local cDriver = GetPedInVehicleSeat(cVeh4, -1)
-				TaskVehicleTempAction(cDriver, cVeh4, 6, 1000)
-				SetVehicleHandbrake(cVeh4, true)
-			end
-		end
-		local o5x, o5y, o5z = table.unpack(GetEntityCoords(cobj3, true))
-		local cVeh5 = GetClosestVehicle(o5x, o5y, o5z, 50.1, 0, 70)
-		if(IsEntityAVehicle(cVeh5)) then
-			if IsEntityAtEntity(cVeh3, cobj3, 20.0, 6.0, 2.0, 0, 1, 0) then
-				local cDriver = GetPedInVehicleSeat(cVeh5, -1)
-				TaskVehicleTempAction(cDriver, cVeh5, 6, 1000)
-				SetVehicleHandbrake(cVeh5, true)
-			end
-		end
-	end
-end)
 --==============================================================================================================================--
 
 --Breathalyzer
 
 DecorRegister("BAC_Active", 2)
-DecorSetBool(GetPlayerPed(-1), "BAC_Active", false)
+DecorSetBool(PlayerPedId(), "BAC_Active", false)
 DecorRegister("_BAC_Level", 1)
-DecorSetFloat(GetPlayerPed(-1), "_BAC_Level", 0.0)
+DecorSetFloat(PlayerPedId(), "_BAC_Level", 0.0)
+
+local BAC_Driving_Limit = 0.08
 
 function addBAC(amount)
-	local BAC_Driving_Limit = 0.08
-	local currentBAC = DecorGetFloat(GetPlayerPed(-1), "_BAC_Level")
+	local PlayerPed = PlayerPedId()
+	local currentBAC = DecorGetFloat(PlayerPed, "_BAC_Level")
 	local newBAC = currentBAC + amount
-	DecorSetFloat(GetPlayerPed(-1), "_BAC_Level", newBAC)
+
+	DecorSetFloat(PlayerPed, "_BAC_Level", newBAC)
 	if newBAC >= BAC_Driving_Limit then
-		local isBACactive = DecorGetBool(GetPlayerPed(-1), "BAC_Active")
-		if not isBACactive then
-			DecorSetBool(GetPlayerPed(-1), "BAC_Active", true)  
-		end
+		DecorSetBool(PlayerPed, "BAC_Active", true)  
+	else
+		DecorSetBool(PlayerPed, "BAC_Active", false) 
 	end
 end
 
 Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(60000) -- Every Minute remove some BAC
-		local currentBAC = DecorGetFloat(GetPlayerPed(-1), "_BAC_Level")
+		local PlayerPed = PlayerPedId()
+		local currentBAC = DecorGetFloat(PlayerPed, "_BAC_Level")
 		if currentBAC > 0 then
 			local newBAC = currentBAC - 0.0005 --BAC to remove
 
 			if newBAC < 0 then
 				newBAC = 0
 			end
-			DecorSetFloat(GetPlayerPed(-1), "_BAC_Level", newBAC) 
+
+			DecorSetFloat(PlayerPed, "_BAC_Level", newBAC) 
+
 			if newBAC == 0 then
-				DecorSetBool(GetPlayerPed(-1), "BAC_Active", false) 
+				DecorSetBool(PlayerPed, "BAC_Active", false) 
 			end
 		end
 
@@ -785,49 +482,9 @@ end)
 --==============================================================================================================================--
 --Gunshot residue test 
 
-local GSR_LastShot = 0
-local GSR_ExpireTime = 15 -- Minutes
-local weapons_whitelist = {
-	["WEAPON_BALL"]	= 1,
-	["WEAPON_PETROLCAN"] = 1,
-	["WEAPON_SNOWBALL"] = 1,
-	["WEAPON_STUNGUN"] = 1,
-	["WEAPON_FIREEXTINGUISHER"] = 1,
-}
 DecorRegister("GSR_Active", 2)
-DecorSetBool(GetPlayerPed(-1), "GSR_Active", false) 
-Citizen.CreateThread(function()
-	while true do
-		Citizen.Wait(1)
-		if IsPedShooting(PlayerPedId()) then
-			local hasWeapon, currentWeapon = GetCurrentPedWeapon(PlayerPedId(), 1)
-			if currentWeapon ~= nil then
-				local WeaponStr = Weaponhashes[tostring(currentWeapon)]
-				if WeaponStr then
-					if GetAmmoInPedWeapon(PlayerPedId(), GetHashKey(WeaponStr)) > 0 then
-						if not weapons_whitelist[WeaponStr] then
-							TriggerEvent("police:wfired")
-						end
-					end
-				end
-			end
-		end
-		local isGSRactive = DecorGetBool(GetPlayerPed(-1), "GSR_Active")
-		if isGSRactive then
-			if GSR_LastShot + (GSR_ExpireTime * 1000 * 60) <= GetGameTimer() then
-				DecorSetBool(GetPlayerPed(-1), "GSR_Active", false)     
-			end
-		end
-	end
-end)
+DecorSetBool(PlayerPedId(), "GSR_Active", false)
 
-AddEventHandler("police:wfired", function()
-	GSR_LastShot = GetGameTimer()
-	local isGSRactive = DecorGetBool(GetPlayerPed(-1), "GSR_Active")
-	if not isGSRactive then
-		DecorSetBool(GetPlayerPed(-1), "GSR_Active", true)
-	end
-end)
 --==============================================================================================================================--
 --Charges
 currentSuspectCharges = {}
@@ -898,50 +555,275 @@ end)
 
 --==============================================================================================================================--
 --==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--
+
 Citizen.CreateThread(function()
-	RequestAnimDict("random@arrests")
-	while not HasAnimDictLoaded("random@arrests") do
+	local AnimDict = "random@arrests"
+	local Anim1, Anim2 = "generic_radio_enter", "radio_chatter"
+	local GSR_LastShot = 0
+	local GSR_ExpireTime = 15 -- Minutes
+	local GSR_Whitelist = {
+		["WEAPON_BALL"]	= 1,
+		["WEAPON_PETROLCAN"] = 1,
+		["WEAPON_SNOWBALL"] = 1,
+		["WEAPON_STUNGUN"] = 1,
+		["WEAPON_FIREEXTINGUISHER"] = 1,
+	}
+
+	RequestAnimDict(AnimDict)
+
+	while not HasAnimDictLoaded(AnimDict) do
 		Citizen.Wait(0)
 	end
+
 	local radio = false
+
 	while true do
 		Citizen.Wait(0)
-		local ped = PlayerPedId()
-		if DoesEntityExist(ped) and not IsEntityDead(ped) then
-			if not IsPauseMenuActive() then 
+		local PlayerPed = PlayerPedId()
+
+		if not isCop then
+			if IsPedSittingInAnyVehicle(PlayerPedId()) then
+				local PlayerVehicle = GetVehiclePedIsUsing(PlayerPed, false)
+				if GetPedInVehicleSeat(vehicle, -1) == PlayerPed then
+					local PlayerVehicleModel = GetEntityModel(PlayerVehicle)
+					for k,v in pairs(cars) do
+						if GetHashKey(v.model) == PlayerVehicleModel then
+							drawText("~r~It's against the rules for civilians to drive these vehicles!", 6, 0.45 , 0.5, 0.5, 255, 255, 255, 255, false, true)
+							SetVehicleUndriveable(PlayerVehicle, true)
+						end
+					end
+				end
+			end
+		else
+			if not IsEntityDead(PlayerPed) and not IsPauseMenuActive() then
+				if isInService then
+					local PlayerId = PlayerId()
+
+					if IsPlayerFreeAiming(PlayerId) then
+						local PlayerPosition = GetEntityCoords(PlayerPed, false)
+
+						for PlayerIndex = 0, 32 do
+							if NetworkIsPlayerActive(PlayerIndex) then
+								if PlayerId ~= PlayerIndex then
+									local OtherPed = GetPlayerPed(PlayerIndex)
+
+									if DoesEntityExist(OtherPed) then
+										local OtherPosition = GetEntityCoords(OtherPed, false)
+										local Distance = GetDistanceBetweenCoords(PlayerPosition.x, PlayerPosition.y, PlayerPosition.z, OtherPosition.x, OtherPosition.y, OtherPosition.z, true)
+
+										if Distance < 1.0 then
+											local isUserCuffed, cuffType = DecorGetBool(OtherPed, "policeCuffed"), DecorGetBool(OtherPed, "Cuffedtype")
+											local OtherServerId = GetPlayerServerId(PlayerIndex)
+											local OtherCharacterName = exports.core:GetCharacterName(OtherServerId)
+											if not isUserCuffed then
+												DisplayHelpText("Press ~INPUT_CONTEXT~ to cuff "..OtherCharacterName)
+
+												if IsControlJustPressed(1, 51) then
+													TriggerServerEvent("police:cuff", OtherServerId, "normal")
+												end
+											else
+												if cuffType then
+													DisplayHelpText("Press ~INPUT_CONTEXT~ to uncuff "..OtherCharacterName.."\nPress ~INPUT_INTERACTION_MENU~ to loosen")
+												else
+													DisplayHelpText("Press ~INPUT_CONTEXT~ to uncuff "..OtherCharacterName.."\nPress ~INPUT_INTERACTION_MENU~ to tighten")
+												end
+
+												if IsControlJustPressed(1, 51) then
+													TriggerServerEvent("police:uncuff", OtherServerId)
+												end
+												
+												if IsControlJustPressed(1, 244) then
+													if cuffType then
+														TriggerServerEvent("police:cuff", OtherServerId, "normal")
+													else
+														TriggerServerEvent("police:cuff", OtherServerId, "freeze")
+													end
+												end
+											end
+										end
+									end
+								end
+							end
+						end
+					end
+				end
+
+
 				if isInService or exports.emsjob:getIsInService() then
+					local PlayerId = PlayerId()
+
 					if IsControlJustReleased(1, 249) then -- INPUT_PUSH_TO_TALK
 						if radio then
 							radio = false
-							ClearPedTasks(ped)
-							SetEnableHandcuffs(ped, false)
+							ClearPedTasks(PlayerPed)
+							SetEnableHandcuffs(PlayerPed, false)
 						end
 					else
-						if IsControlPressed(1, 249) and IsControlJustPressed(1, 217) and not IsPlayerFreeAiming(PlayerId()) then -- INPUT_PUSH_TO_TALK
+						local IsFreeAiming = IsPlayerFreeAiming(PlayerId)
+
+						if IsControlPressed(1, 249) and IsControlJustPressed(1, 217) and not IsFreeAiming then -- INPUT_PUSH_TO_TALK
 							radio = true
-							TaskPlayAnim(ped, "random@arrests", "generic_radio_enter", 8.0, 2.0, -1, 50, 2.0, 0, 0, 0 )
-							SetEnableHandcuffs(ped, true)
-						elseif IsControlPressed(1, 249) and IsControlJustPressed(1, 217) and IsPlayerFreeAiming(PlayerId()) then -- INPUT_PUSH_TO_TALK
+
+							TaskPlayAnim(PlayerPed, AnimDict, Anim1, 8.0, 2.0, -1, 50, 2.0, 0, 0, 0)
+							SetEnableHandcuffs(PlayerPed, true)
+						elseif IsControlPressed(1, 249) and IsControlJustPressed(1, 217) and IsFreeAiming then -- INPUT_PUSH_TO_TALK
 							radio = true
-							TaskPlayAnim(ped, "random@arrests", "radio_chatter", 8.0, 2.0, -1, 50, 2.0, 0, 0, 0 )
-							SetEnableHandcuffs(ped, true)
+
+							TaskPlayAnim(PlayerPed, AnimDict, Anim2, 8.0, 2.0, -1, 50, 2.0, 0, 0, 0)
+							SetEnableHandcuffs(PlayerPed, true)
 						end 
-						if IsEntityPlayingAnim(PlayerPedId(), "random@arrests", "generic_radio_enter", 3) then
+
+						if IsEntityPlayingAnim(PlayerPed, AnimDict, Anim1, 3) then
 							DisableControlAction(1, 140, true)
 							DisableControlAction(1, 141, true)
 							DisableControlAction(1, 142, true)
 							DisableControlAction(1, 37, true) -- Disables INPUT_SELECT_WEAPON (TAB)
-							DisablePlayerFiring(ped, false) -- Disable weapon firing
-						elseif IsEntityPlayingAnim(PlayerPedId(), "random@arrests", "radio_chatter", 3) then
+							DisablePlayerFiring(PlayerPed, true) -- Disable weapon firing
+						elseif IsEntityPlayingAnim(PlayerPed, AnimDict, Anim2, 3) then
 							DisableControlAction(1, 140, true)
 							DisableControlAction(1, 141, true)
 							DisableControlAction(1, 142, true)
 							DisableControlAction(1, 37, true) -- Disables INPUT_SELECT_WEAPON (TAB)
-							DisablePlayerFiring(ped, false) -- Disable weapon firing
+							DisablePlayerFiring(PlayerPed, true) -- Disable weapon firing
 						end
 					end
 				end
 			end 
-		end 
+		end
+
+		if cuffed then
+			DisableControlAction(1, 140, true)
+			DisableControlAction(1, 141, true)
+			DisableControlAction(1, 142, true)
+			DisableControlAction(1, 25, true)
+			SetPedPathCanUseLadders(PlayerPed, false)
+			if IsPedInAnyVehicle(PlayerPed, false) then
+				DisableControlAction(0, 59, true)
+			end
+		end
+
+		if IsPedShooting(PlayerPed) then
+			local hasWeapon, currentWeapon = GetCurrentPedWeapon(PlayerPed, 1)
+			if currentWeapon ~= nil then
+				local WeaponStr = Weaponhashes[tostring(currentWeapon)]
+				if WeaponStr then
+					if GetAmmoInPedWeapon(PlayerPed, currentWeapon) > 0 then
+						if not GSR_Whitelist[WeaponStr] then
+							GSR_LastShot = GetGameTimer()
+							DecorSetBool(PlayerPed, "GSR_Active", true)
+						end
+					end
+				end
+			end
+		end
+
+		local isGSRactive = DecorGetBool(PlayerPed, "GSR_Active")
+
+		if isGSRactive then
+			if GSR_LastShot + (GSR_ExpireTime * 1000 * 60) <= GetGameTimer() then
+				DecorSetBool(PlayerPed, "GSR_Active", false)   
+			end
+		end
+
+		if drag then
+			wasDragged = true
+			AttachEntityToEntity(PlayerPed, GetPlayerPed(GetPlayerFromServerId(draggedBy)), 4103, 11816, 0.48, 0.00, 0.0, 0.0, 0.0, 0.0, false, false, false, false, 2, true)
+		else
+			if not IsPedInParachuteFreeFall(PlayerPed) and wasDragged then
+				wasDragged = false
+				DetachEntity(PlayerPed, true, false)    
+			end
+		end
+	end
+end)
+
+Citizen.CreateThread(function()
+	while true do
+		Citizen.Wait(0)
+		if cuffed then
+			local PlayerPed = PlayerPedId()
+
+			if not IsEntityDead(PlayerPed) then
+				if IsPedRunningRagdollTask(PlayerPed) then
+					while IsPedRunningRagdollTask(PlayerPed) do
+						Citizen.Wait(0)
+					end
+					ClearPedTasksImmediately(PlayerPed)
+				end
+			end
+
+			if cuff_type == "freeze" then
+				TaskPlayAnim(PlayerPed, 'mp_arresting', 'idle', 8.0, -8, -1, 16, 0, 0, 0, 0)
+			end
+
+			if not IsEntityPlayingAnim(PlayerPed, "mp_arresting", "idle", 3) and cuff_type == "normal" then
+				Citizen.Wait(100)
+				TaskPlayAnim(PlayerPed, "mp_arresting", "idle", 8.0, -8, -1, 49, 0, 0, 0, 0)
+			end
+		end
+	end
+end)
+
+Citizen.CreateThread(function()
+	local AnimDict = "weapons@first_person@aim_idle@p_m_zero@melee@knife@fidgets@b"
+	local Anim = "fidget_low_loop"
+	local Knifehash = GetHashKey("WEAPON_KNIFE")
+
+	RequestAnimDict(AnimDict)
+
+	while not HasAnimDictLoaded(AnimDict) do
+		Citizen.Wait(0)
+	end
+
+	while true do
+		Citizen.Wait(0)
+		if not isInService then
+			local PlayerPed = PlayerPedId()
+
+			if GetCurrentPedWeapon(PlayerPed, Knifehash, true) then
+				local PlayerId = PlayerId()
+				local PlayerPosition = GetEntityCoords(PlayerPed, false)
+
+
+				for PlayerIndex = 0, 32 do
+					if NetworkIsPlayerActive(PlayerIndex) then
+						if PlayerId ~= PlayerIndex then
+							local OtherPed = GetPlayerPed(PlayerIndex)
+							if DoesEntityExist(OtherPed) then
+								local OtherPosition = GetEntityHeading(OtherPed, false)
+								local Distance = GetDistanceBetweenCoords(PlayerPosition.x, PlayerPosition.y, PlayerPosition.z, OtherPosition.x, OtherPosition.y, OtherPosition.z, true)
+
+								if Distance < 1.0 then
+									local isUserCuffed = DecorGetBool(OtherPed, "policeCuffed")
+									if isUserCuffed then
+										local OtherServerId = GetPlayerServerId(PlayerIndex)
+
+										DisplayHelpText("Press ~INPUT_CONTEXT~ to uncuff "..exports.core:GetCharacterName(OtherServerId))
+
+										if IsControlJustPressed(1, 51) then
+											local uncuffing = GetGameTimer() + 7500
+											
+											while uncuffing > GetGameTimer() do
+												Citizen.Wait(0)
+
+												if not IsEntityPlayingAnim(PlayerPed, AnimDict, Anim, 3) then
+													TaskPlayAnim(PlayerPed, AnimDict, Anim, 8.0, -4.0, -1, 9, 0, false, false, false)
+												end
+											end
+												
+											ClearPedTasks(PlayerPed)
+												
+											if not IsEntityDead(PlayerPed) and not cuffed then 
+												TriggerServerEvent("police:uncuff", OtherServerId)
+											end
+										end
+									end
+								end
+							end
+						end
+					end
+				end
+			end
+		end
 	end
 end)

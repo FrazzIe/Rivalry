@@ -42,11 +42,15 @@ Citizen.CreateThread(function()
     while true do
         Citizen.Wait(0)
 		if isInService then
-        	local pos = GetEntityCoords(GetPlayerPed(-1), true)
+            local PlayerPed = PlayerPedId()
+        	local PlayerPosition = GetEntityCoords(PlayerPed, false)
+
+
         	for k,v in ipairs(armoury) do
-            	if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 15.0)then
+                local Distance = GetDistanceBetweenCoords(PlayerPosition.x, PlayerPosition.y, PlayerPosition.z, v.x, v.y, v.z, true)
+            	if Distance < 15.0 then
                 	DrawMarker(25, v.x, v.y, v.z-0.9, 0, 0, 0, 0, 0, 0, 1.0, 1.0, 1.5, 0, 0, 255, 155, 0, 0, 2, 0, 0, 0, 0)
-                	if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 1.0)then
+                	if Distance < 1.0 then
                     	if not armoury_menu then
                         	DisplayHelpText("Press ~INPUT_CONTEXT~ to ~b~open the armoury~w~!")
                         else
@@ -70,27 +74,27 @@ Citizen.CreateThread(function()
                     	end
                         if WarMenu.IsMenuOpened("armoury_menu") then
                             if WarMenu.Button("Add Attachments to current weapon") then
-                                local hasWeapon, currentWeapon = GetCurrentPedWeapon(PlayerPedId(), 1)
+                                local hasWeapon, currentWeapon = GetCurrentPedWeapon(PlayerPed, 1)
                                 if currentWeapon ~= nil then
-                                    if IsPedArmed(PlayerPedId(), 7) then
-                                        local HashWeapon = Weaponhashes[tostring(currentWeapon)]
-                                        if HashWeapon then
-                                            if Attachments[HashWeapon] then
-                                                for k,v in pairs(Attachments[HashWeapon]) do
+                                    if IsPedArmed(PlayerPed, 7) then
+                                        local WeaponStr = Weaponhashes[tostring(currentWeapon)]
+                                        if WeaponStr then
+                                            if Attachments[WeaponStr] then
+                                                for k,v in pairs(Attachments[WeaponStr]) do
                                                     if not tonumber(v.Hash) then
-                                                        GiveWeaponComponentToPed(PlayerPedId(), GetHashKey(HashWeapon), GetHashKey(v.Hash))
+                                                        GiveWeaponComponentToPed(PlayerPed, currentWeapon, GetHashKey(v.Hash))
                                                     else
-                                                        GiveWeaponComponentToPed(PlayerPedId(), GetHashKey(HashWeapon), tonumber(v.Hash))
+                                                        GiveWeaponComponentToPed(PlayerPed, currentWeapon, tonumber(v.Hash))
                                                     end
                                                 end
                                             end
-                                            if string.sub(HashWeapon, string.len(HashWeapon)-2, string.len(HashWeapon)) == "MK2" then
-                                                SetPedWeaponTintIndex(PlayerPedId(), GetHashKey(HashWeapon), 24)
+                                            if string.sub(WeaponStr, string.len(WeaponStr)-2, string.len(WeaponStr)) == "MK2" then
+                                                SetPedWeaponTintIndex(PlayerPed, currentWeapon, 24)
                                             else
-                                                SetPedWeaponTintIndex(PlayerPedId(), GetHashKey(HashWeapon), 7)
+                                                SetPedWeaponTintIndex(PlayerPed, currentWeapon, 7)
                                             end
-                                            local ammotype = GetPedAmmoTypeFromWeapon(PlayerPedId(), GetHashKey(HashWeapon))
-                                            SetPedAmmoByType(PlayerPedId(), ammotype, 250)
+                                            local ammotype = GetPedAmmoTypeFromWeapon(PlayerPed, currentWeapon)
+                                            SetPedAmmoByType(PlayerPed, ammotype, 250)
                                         end
                                     end
                                 end
@@ -101,9 +105,9 @@ Citizen.CreateThread(function()
                                     selectedItemIndex[k] = selectedIndex
                                 end) then
                                     if selectedItemIndex[k] == 1 then
-                                        GiveWeaponToPed(PlayerPedId(), GetHashKey(v.model), 250, 0, false)
+                                        GiveWeaponToPed(PlayerPed, GetHashKey(v.model), 250, 0, false)
                                     elseif selectedItemIndex[k] == 2 then
-                                        RemoveWeaponFromPed(PlayerPedId(), GetHashKey(v.model))
+                                        RemoveWeaponFromPed(PlayerPed, GetHashKey(v.model))
                                     end
                                 end
                             end
@@ -112,14 +116,14 @@ Citizen.CreateThread(function()
                                 selectedItemIndex[#selectedItemIndex] = selectedIndex
                             end) then
                                 if selectedItemIndex[#selectedItemIndex] == 1 then
-                                    SetPedArmour(PlayerPedId(), 100)
+                                    SetPedArmour(PlayerPed, 100)
                                 elseif selectedItemIndex[#selectedItemIndex] == 2 then
-                                    SetPedArmour(PlayerPedId(), 0)
+                                    SetPedArmour(PlayerPed, 0)
                                 end
                             end
                             WarMenu.Display()
                         end
-                    elseif(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) > 1.0)then
+                    elseif Distance > 1.0 then
                         if WarMenu.IsMenuOpened("armoury_menu") then
                             WarMenu.CloseMenu("armoury_menu")
                         end
