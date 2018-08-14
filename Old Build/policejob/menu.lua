@@ -314,7 +314,7 @@ AddEventHandler("police:fix_vehicle", function()
 		local _, _, _, _, vehicleHandle = GetRaycastResult(rayHandle)
 
 		if vehicleHandle ~= nil then
-			TaskStartScenarioInPlace(PlayerPedId(), "world_human_vehicle_mechanic", 0, false)
+			TaskPlayAnim(PlayerPedId(), "mini@repair","fixing_a_player", 8.0, 0.0, -1, 1, 0, 0, 0, 0)  
 			Citizen.Wait(20000)
 			ClearPedTasks(PlayerPedId())
 			SetVehicleFixed(vehicleHandle)
