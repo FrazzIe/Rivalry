@@ -790,7 +790,7 @@ Citizen.CreateThread(function()
 						if PlayerId ~= PlayerIndex then
 							local OtherPed = GetPlayerPed(PlayerIndex)
 							if DoesEntityExist(OtherPed) then
-								local OtherPosition = GetEntityHeading(OtherPed, false)
+								local OtherPosition = GetEntityCoords(OtherPed, false)
 								local Distance = GetDistanceBetweenCoords(PlayerPosition.x, PlayerPosition.y, PlayerPosition.z, OtherPosition.x, OtherPosition.y, OtherPosition.z, true)
 
 								if Distance < 1.0 then

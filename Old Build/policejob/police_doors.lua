@@ -95,7 +95,7 @@ Citizen.CreateThread(function()
 				if GetDistanceBetweenCoords(PlayerPosition.x, PlayerPosition.y, PlayerPosition.z, v.x, v.y, v.z, true) <= 1.2 then
 					local state = "Unlocked"
 					if v.locked then state = "Locked" end
-					Draw3DText(v.x, v.y, pos.z,"~o~[E]"..state)
+					Draw3DText(v.x, v.y, PlayerPosition.z,"~o~[E]"..state)
 					if IsControlJustPressed(1, 51) then
 						TriggerServerEvent("police:doors_lock", k, "single")
 					end
