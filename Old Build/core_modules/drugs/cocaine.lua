@@ -184,7 +184,7 @@ Citizen.CreateThread(function()
 		local CokeDistance = GetDistanceBetweenCoords(PlayerPosition.x, PlayerPosition.y, PlayerPosition.z, Cocaine.Locations.Pickup.x, Cocaine.Locations.Pickup.y, Cocaine.Locations.Pickup.z, true)
 		local VanDistance = GetDistanceBetweenCoords(PlayerPosition.x, PlayerPosition.y, PlayerPosition.z, Cocaine.Locations.Van.x, Cocaine.Locations.Van.y, Cocaine.Locations.Van.z, true)
 
-		if (IsInZone("coke") or IsInZone("coke2") or IsInZone("coke3")) and Position.z <= -35.50 then
+		if (IsInZone("coke") or IsInZone("coke2") or IsInZone("coke3")) and PlayerPosition.z <= -35.50 then
 			if GetItemQuantity(Cocaine.Items.Dirty) > 0 then
 				DisplayHelpText("Press ~INPUT_CONTEXT~ to clean cocaine")
 				if IsControlJustPressed(1, 51) and not Cocaine.Harvesting then
