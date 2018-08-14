@@ -360,6 +360,11 @@ RegisterNetEvent("weapon:give")
 AddEventHandler("weapon:give", function()
 	local PlayerPed = PlayerPedId()
 	RemoveAllPedWeapons(PlayerPed, 0)
+
+	if not IsPedHuman(PlayerPed) then
+		GiveWeaponToPed(PlayerPed, GetHashKey("WEAPON_ANIMAL"), 0, 0, true)
+	end
+
 	for k,v in pairs(user_weapons) do
 		local Weaponhash = GetHashKey(k)
 		GiveWeaponToPed(PlayerPed, Weaponhash, tonumber(v.ammo), 0, false)

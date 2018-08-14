@@ -377,11 +377,10 @@ Citizen.CreateThread(function()
                         local Weaponhash = GetHashKey(WeaponStr)
 						if GetAmmoInPedWeapon(PlayerPed, Weaponhash) > 0 then
 							if not weapons_whitelist[WeaponStr] then
-								local pos = GetEntityCoords(Weaponhash, false)
+								local pos = GetEntityCoords(PlayerPed, false)
 								if GetDistanceBetweenCoords(pos.x, pos.y, pos.z, lastpos.x, lastpos.y, lastpos.z, true) > 50 then
 									if willNPCreport("gunshots") then
 										lastpos = pos
-										local pos = GetEntityCoords(PlayerPedId(), false)
 										local street, crossing = GetStreetNameAtCoord(pos.x, pos.y, pos.z)
 										TriggerServerEvent("dispatch:ten-thirtytwo", {x = pos.x, y = pos.y, z = pos.z}, GetStreetNameFromHashKey(street))
 									end
