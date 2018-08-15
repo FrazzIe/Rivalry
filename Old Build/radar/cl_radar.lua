@@ -470,16 +470,16 @@ Citizen.CreateThread( function()
 
         -- These control pressed natives must be the disabled check ones. 
 
-        -- LCtrl is pressed and M has just been pressed 
-        if IsDisabledControlJustPressed( 1, 157 ) and IsPedSittingInAnyVehicle( ped ) then 
-            TriggerEvent( 'wk:radarRC' )
-        end 
+            -- LCtrl is pressed and M has just been pressed 
+                if IsDisabledControlJustPressed( 1, 157 ) and IsPedSittingInAnyVehicle( ped ) and exports.policejob:getIsInService() then 
+                    TriggerEvent( 'wk:radarRC' )
+                end 
 
-        -- LCtrl is not being pressed and M has just been pressed 
-        if IsDisabledControlJustPressed( 1, 158 ) then 
-            ResetFrontFast()
-            ResetRearFast()
-        end 
+                -- LCtrl is not being pressed and M has just been pressed 
+                if IsDisabledControlJustPressed( 1, 158 ) and exports.policejob:getIsInService() then 
+                    ResetFrontFast()
+                    ResetRearFast()
+                end
 
         local inVeh = IsPedSittingInAnyVehicle( ped )
         local veh = nil 
