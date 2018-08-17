@@ -582,13 +582,12 @@ Citizen.CreateThread(function()
 		local PlayerPed = PlayerPedId()
 
 		if not isCop then
-			if IsPedSittingInAnyVehicle(PlayerPedId()) then
+			if IsPedSittingInAnyVehicle(PlayerPed) then
 				local PlayerVehicle = GetVehiclePedIsUsing(PlayerPed, false)
-				if GetPedInVehicleSeat(vehicle, -1) == PlayerPed then
+				if GetPedInVehicleSeat(PlayerVehicle, -1) == PlayerPed then
 					local PlayerVehicleModel = GetEntityModel(PlayerVehicle)
 					for k,v in pairs(cars) do
 						if GetHashKey(v.model) == PlayerVehicleModel then
-							drawText("~r~It's against the rules for civilians to drive these vehicles!", 6, 0.45 , 0.5, 0.5, 255, 255, 255, 255, false, true)
 							SetVehicleUndriveable(PlayerVehicle, true)
 						end
 					end
