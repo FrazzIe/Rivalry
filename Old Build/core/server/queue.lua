@@ -87,6 +87,7 @@ Config.Priority = {
     ["steam:110000114e5c4ee"] = 395, -- Poppy Winslow
     ["steam:11000010512aeff"] = 394, -- Julien
     ["steam:11000011457b97e"] = 393, -- Jay Stylz
+    ["steam:1100001032aa2a1"] = 392, -- Austin James
 }
 
 Config.RequireSteam = true
