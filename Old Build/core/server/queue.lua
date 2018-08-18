@@ -59,8 +59,9 @@ Config.Priority = {
     ["steam:1100001058d2310"] = 585, -- Joey Walker (EMS High Command)
     ["steam:110000104ecabe7"] = 584, -- Nathan Bandage (EMS Command)
     ["steam:110000109fc2f7e"] = 583, -- Isaac Finn (EMS Command)
-    ["steam:110000101bb39b3"] = 582, -- John Bishop (SASP)
-    ["steam:11000010bb2d89e"] = 581, -- Tyler (SASP)
+    ["steam:11000010663c880"] = 582, -- Leah Abbott (EMS)
+    ["steam:110000101bb39b3"] = 581, -- John Bishop (SASP)
+    ["steam:11000010bb2d89e"] = 580, -- Tyler (SASP)
     ["steam:11000010012c897"] = 580, -- Ryan (SASP)
     ["steam:1100001047e1d3d"] = 579, -- Hank
     ["steam:11000010e519899"] = 578, -- Skitzzo (K9 | SASP)
@@ -75,7 +76,6 @@ Config.Priority = {
     ["steam:11000011102bde4"] = 493, -- Kenn
     ["steam:1100001032aa2a1"] = 492, -- Austin James (Mechanic)
     ["steam:11000010048d646"] = 491, -- Tsury
-    ["steam:1100001032aa2a1"] = 490, -- Austin James
 }
 
 Config.RequireSteam = true
