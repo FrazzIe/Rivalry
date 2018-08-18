@@ -75,7 +75,6 @@ Config.Priority = {
     ["steam:11000011102bde4"] = 493, -- Kenn
     ["steam:1100001032aa2a1"] = 492, -- Austin James (Mechanic)
     ["steam:11000010048d646"] = 491, -- Tsury
-    ["steam:1100001032aa2a1"] = 490, -- Austin James
 }
 
 Config.RequireSteam = true
