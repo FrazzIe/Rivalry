@@ -295,7 +295,7 @@ Citizen.CreateThread(function()
                         end
                     end
                     if WarMenu.IsMenuOpened("boat_menu") then
-                        for k,v in pairs(heli) do
+                        for k,v in pairs(boat) do
                             if ranks[user_paramedic.rank][v.rank] or user_paramedic.rank == v.rank then
                                 if WarMenu.Button(v.name) then
                                     spawncar(v.model, v.type)
