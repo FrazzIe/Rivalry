@@ -356,29 +356,32 @@ function closeAllPoliceWithFooter() {
         $.post('http://mdt/autofillArrest', JSON.stringify({}));
     });
     $('#report-submit').click(function(event){
-    	var reportfullname = $('#reportfullname').val();
-    	var reportage = $('#reportage').val();
-    	var reportphonenumber = $('#reportphonenumber').val();
-    	var reportdate = $('#reportdate').val();
-    	var reporttime = $('#reporttime').val();
-    	var reportpolice = $('#reportpolice').val();
-    	var reportlocation = $('#reportlocation').val();
-    	var reportdescription = $('#reportdescription').val();
-    	var reportwchecky = $('#reportwchecky').is(":checked");
-    	var reportwcheckn = $('#reportwcheckn').is(":checked");
-    	var reportdetails = $('#reportdetails').val();
-    	var reportinjury = $('#reportinjury').val();
-    	var reportmedicaly = $('#reportmedicaly').is(":checked");
-    	var reportmedicaln = $('#reportmedicaln').is(":checked");
-    	var reportmedicalr = $('#reportmedicalr').is(":checked");
-    	var reportmedicalon = $('#reportmedicalon').is(":checked");
-    	var reportmedicaluc = $('#reportmedicaluc').is(":checked");
-    	var reportmedicaler = $('#reportmedicaler').is(":checked");
-    	var reportmedicalother = $('#reportmedicalother').is(":checked");
-    	var reportofficername = $('#reportofficername').val();
-    	var reportsignature = $('#reportsignature').val();
-    	var reportcompleted = $('#reportcompleted').val();
-        $.post('http://mdt/submit-report', JSON.stringify({r1: reportfullname, r2: reportage, r3: reportphonenumber, r4: reportdate, r5: reporttime, r6: reportpolice, r7: reportlocation, r8: reportdescription, r9: reportwchecky, r10: reportwcheckn, r11: reportdetails, r12: reportinjury, r13: reportmedicaly, r14: reportmedicaln, r15: reportmedicalr, r16: reportmedicalon, r17: reportmedicaluc, r18: reportmedicaler, r19: reportmedicalother, r20: reportofficername, r21: reportsignature, r22: reportcompleted}));
+        if (confirm('Are you sure you want to submit this report?') === true) {
+        	var reportfullname = $('#reportfullname').val();
+        	var reportage = $('#reportage').val();
+        	var reportphonenumber = $('#reportphonenumber').val();
+        	var reportdate = $('#reportdate').val();
+        	var reporttime = $('#reporttime').val();
+        	var reportpolice = $('#reportpolice').val();
+        	var reportlocation = $('#reportlocation').val();
+        	var reportdescription = $('#reportdescription').val();
+        	var reportwchecky = $('#reportwchecky').is(":checked");
+        	var reportwcheckn = $('#reportwcheckn').is(":checked");
+        	var reportdetails = $('#reportdetails').val();
+        	var reportinjury = $('#reportinjury').val();
+        	var reportmedicaly = $('#reportmedicaly').is(":checked");
+        	var reportmedicaln = $('#reportmedicaln').is(":checked");
+        	var reportmedicalr = $('#reportmedicalr').is(":checked");
+        	var reportmedicalon = $('#reportmedicalon').is(":checked");
+        	var reportmedicaluc = $('#reportmedicaluc').is(":checked");
+        	var reportmedicaler = $('#reportmedicaler').is(":checked");
+        	var reportmedicalother = $('#reportmedicalother').is(":checked");
+        	var reportofficername = $('#reportofficername').val();
+        	var reportsignature = $('#reportsignature').val();
+        	var reportcompleted = $('#reportcompleted').val();
+            $(reports).hide();
+            $.post('http://mdt/submit-report', JSON.stringify({r1: reportfullname, r2: reportage, r3: reportphonenumber, r4: reportdate, r5: reporttime, r6: reportpolice, r7: reportlocation, r8: reportdescription, r9: reportwchecky, r10: reportwcheckn, r11: reportdetails, r12: reportinjury, r13: reportmedicaly, r14: reportmedicaln, r15: reportmedicalr, r16: reportmedicalon, r17: reportmedicaluc, r18: reportmedicaler, r19: reportmedicalother, r20: reportofficername, r21: reportsignature, r22: reportcompleted}));
+        }
     });
     var olddescription = ""
     $('#warranteditbtn').click(function(event){
@@ -468,7 +471,7 @@ function closeAllPoliceWithFooter() {
     function LoadWarrants(items) {
         for(let i in items) {
             let item = items[i];
-            $('#WarrantRowOne').append('<div class="col-md-4 playerwarrant" id = "playerwarrant" style="background-color:#ffffff;"><p class="text-center">'+ item.offender_name +'</p></div>');
+            $('#WarrantRowOne').append('<div class="col-md-4 playerwarrant" id = "playerwarrant" style="background-color:#ffffff;border:groove;"><p class="text-center">'+ item.offender_name +'</p></div>');
         }
     }
     function PlayerNotepad(items){
