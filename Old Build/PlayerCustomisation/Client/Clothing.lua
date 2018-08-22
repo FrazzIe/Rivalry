@@ -1,42 +1,48 @@
-ClothingMenu = NativeUI.CreateMenu("", "OPTIONS", 0, 0)
-
-ClothingMenu.Settings.MouseEdgeEnabled = false
-
-ClothingMenu:RemoveEnabledControl(0, 31)
-ClothingMenu:RemoveEnabledControl(0, 30)
-ClothingMenu:RemoveEnabledControl(0, 22)
-
-ClothingMenu.Cameras = {
-	Camera.New(),
-	Camera.New(),
-}
-
-ClothingMenu.CameraCoordinates = {
-	Clothing = {},
-	Props = {},
-}
-
-ClothingMenu.OnMenuClosed = function(ParentMenu)
-	IsStanceAllowed = true
-	TriggerEvent("chat:disable", false)
-	hud_off = false
+function CreateClothingMenu()
+	PlayerCustomisation.Pool = NativeUI.CreatePool()
 	
-	PlayerCustomisation.Instanced = false
-	TriggerServerEvent("PlayerCustomisation.Instance", false)
-	TriggerServerEvent("PlayerCustomisation.Update", PlayerCustomisation.PlayerData.Type, PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type])
+	local ClothingMenu = NativeUI.CreateMenu("", "OPTIONS", 0, 0)
 
-	FreezeEntityPosition(PlayerPedId(), false)
+	ClothingMenu.Settings.MouseEdgeEnabled = false
 
-	ClothingMenu.CameraCoordinates.Clothing = {}
-	ClothingMenu.CameraCoordinates.Props = {}
+	ClothingMenu:RemoveEnabledControl(0, 31)
+	ClothingMenu:RemoveEnabledControl(0, 30)
+	ClothingMenu:RemoveEnabledControl(0, 22)
 
-	ParentMenu.Cameras[1]:Deactivate()
-	ParentMenu.Cameras[2]:Deactivate()
-	ParentMenu.Cameras[1]:Destroy()
-	ParentMenu.Cameras[2]:Destroy()
-end
+	ClothingMenu.Cameras = {
+		Camera.New(),
+		Camera.New(),
+	}
 
-function SetupClothingMenu(ParentMenu)
+	ClothingMenu.CameraCoordinates = {
+		Clothing = {},
+		Props = {},
+	}
+
+	ClothingMenu.OnMenuClosed = function(ParentMenu)
+		exports["core_modules"]:StanceAllowed(true)
+		exports["core_modules"]:TurnOffHudElements(false)
+		TriggerEvent("chat:disable", false)
+		
+		PlayerCustomisation.Instanced = false
+		TriggerServerEvent("PlayerCustomisation.Instance", false)
+		TriggerServerEvent("PlayerCustomisation.Update", PlayerCustomisation.PlayerData.Type, PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type])
+
+		FreezeEntityPosition(PlayerPedId(), false)
+
+		ClothingMenu.CameraCoordinates.Clothing = {}
+		ClothingMenu.CameraCoordinates.Props = {}
+
+		ParentMenu.Cameras[1]:Deactivate()
+		ParentMenu.Cameras[2]:Deactivate()
+		ParentMenu.Cameras[1]:Destroy()
+		ParentMenu.Cameras[2]:Destroy()
+
+		PlayerCustomisation.Pool:Remove()
+
+		collectgarbage()
+	end
+
 	local ClothingComponentItem = NativeUI.CreateProgressItem("Clothing", PlayerCustomisation.Reference.Clothing.Options[PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender], 1, "", false)
 	local ClothingDrawableItem = NativeUI.CreateProgressItem("Clothing Drawables", {}, 1, "", true)
 	local ClothingTextureItem = NativeUI.CreateProgressItem("Clothing Textures", {}, 1, "", true)
@@ -121,7 +127,7 @@ function SetupClothingMenu(ParentMenu)
 		UpdatePlayer()
 	end
 
-	ParentMenu.OnIndexChange = function(ParentMenu, NewIndex)
+	ClothingMenu.OnIndexChange = function(ParentMenu, NewIndex)
 		if ParentMenu.Cameras[1]:Rendering() then
 			if NewIndex < 4 then
 				if ParentMenu.Items[1]:Enabled() then
@@ -149,15 +155,18 @@ function SetupClothingMenu(ParentMenu)
 		end
 	end
 
-	ParentMenu:AddItem(ClothingComponentItem)
-	ParentMenu:AddItem(ClothingDrawableItem)
-	ParentMenu:AddItem(ClothingTextureItem)
-	ParentMenu:AddItem(PropsComponentItem)
-	ParentMenu:AddItem(PropsDrawableItem)
-	ParentMenu:AddItem(PropsTextureItem)
+	ClothingMenu:AddItem(ClothingComponentItem)
+	ClothingMenu:AddItem(ClothingDrawableItem)
+	ClothingMenu:AddItem(ClothingTextureItem)
+	ClothingMenu:AddItem(PropsComponentItem)
+	ClothingMenu:AddItem(PropsDrawableItem)
+	ClothingMenu:AddItem(PropsTextureItem)
 
-	ParentMenu:AddInstructionButton({GetControlInstructionalButton(0, 51, 0), "Turn Right"})
-	ParentMenu:AddInstructionButton({GetControlInstructionalButton(0, 44, 0), "Turn Left"})
+	ClothingMenu:AddInstructionButton({GetControlInstructionalButton(0, 51, 0), "Turn Right"})
+	ClothingMenu:AddInstructionButton({GetControlInstructionalButton(0, 44, 0), "Turn Left"})
+
+	PlayerCustomisation.Pool:Add(ClothingMenu)
+	PlayerCustomisation.Pool:RefreshIndex()
+
+	return ClothingMenu
 end
-
-SetupClothingMenu(ClothingMenu)

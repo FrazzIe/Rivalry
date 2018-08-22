@@ -1,3 +1,87 @@
+function math.round(num, numDecimalPlaces)
+	return tonumber(string.format("%." .. (numDecimalPlaces or 0) .. "f", num))
+end
+
+function CreateBlip(Str, Sprite, Colour, X, Y, Z, Scale, ShortRange)
+	if tonumber(X) and tonumber(Y) and tonumber(Z) then
+		local Blip = AddBlipForCoord(X, Y, Z)
+		SetBlipSprite(Blip, Sprite or 1)
+		SetBlipColour(Blip, Colour or 1)
+		SetBlipScale(Blip, Scale or 0.6)
+		SetBlipAsShortRange(Blip, ShortRange or true)
+		BeginTextCommandSetBlipName("STRING")
+		AddTextComponentString(Str)
+		EndTextCommandSetBlipName(Blip)
+		return Blip
+	end
+end
+
+function GetGroundZ(X, Y, Z)
+	if tonumber(X) and tonumber(Y) and tonumber(Z) then
+		local _, GroundZ = GetGroundZFor_3dCoord(X + 0.0, Y + 0.0, Z + 0.0, Citizen.ReturnResultAnyway())
+		return GroundZ
+	else
+		return 0.0
+	end
+end
+
+function DestroyObject(Handle)
+	Citizen.CreateThread(function()
+		local Handle = Handle
+		local Start = GetGameTimer()
+
+		NetworkRequestControlOfEntity(Handle)
+
+		while not NetworkHasControlOfEntity(Handle) and Start + 5000 > GetGameTimer() do
+			Citizen.Wait(0)
+		end
+
+		DeleteObject(Handle)
+		SetEntityAsNoLongerNeeded(Handle)
+
+		if DoesEntityExist(Handle) then
+			SetEntityCoords(Handle, 601.28948974609, -4396.9853515625, 384.98565673828)
+		end
+	end)
+end
+
+function DisplayHelpText(str)
+    BeginTextCommandDisplayHelp("STRING")
+    AddTextComponentSubstringPlayerName(str)
+    EndTextCommandDisplayHelp(0, 0, 1, -1)
+end
+
+function RenderMarker(Type, X, Y, Z, SX, SY, SZ, R, G, B, A, BobUpAndDown)
+	if tonumber(X) and tonumber(Y) and tonumber(Z) then
+		DrawMarker(Type, X, Y, Z - 0.9, 0, 0, 0, 0, 0, 0, SX or 0, SY or 0, SZ or 0, R or 255, G or 255, B or 255, A or 255, BobUpAndDown or false, 0, 2, 0, 0, 0, 0)
+	end
+end
+
+function KeyboardInput(TextEntry, ExampleText, MaxStringLength)
+	-- TextEntry		-->	The Text above the typing field in the black square
+	-- ExampleText		-->	An Example Text, what it should say in the typing field
+	-- MaxStringLength	-->	Maximum String Lenght
+
+	AddTextEntry('FMMC_KEY_TIP1', TextEntry) --Sets the Text above the typing field in the black square
+	DisplayOnscreenKeyboard(1, "FMMC_KEY_TIP1", "", ExampleText, "", "", "", MaxStringLength) --Actually calls the Keyboard Input
+	blockinput = true --Blocks new input while typing if **blockinput** is used
+
+	while UpdateOnscreenKeyboard() ~= 1 and UpdateOnscreenKeyboard() ~= 2 do --While typing is not aborted and not finished, this loop waits
+		Citizen.Wait(0)
+	end
+		
+	if UpdateOnscreenKeyboard() ~= 2 then
+		local result = GetOnscreenKeyboardResult() --Gets the result of the typing
+		Citizen.Wait(500) --Little Time Delay, so the Keyboard won't open again if you press enter to finish the typing
+		blockinput = false --This unblocks new Input when typing is done
+		return result --Returns the result
+	else
+		Citizen.Wait(500) --Little Time Delay, so the Keyboard won't open again if you press enter to finish the typing
+		blockinput = false --This unblocks new Input when typing is done
+		return nil --Returns nil if the typing got aborted
+	end
+end
+
 function GetOverlayColourType(Overlay)
 	if Overlay == 1 or Overlay == 2 or Overlay == 10 then
 		return 1

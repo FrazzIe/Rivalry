@@ -11761,4 +11761,9 @@ for Index = 0, GetNumHeadOverlayValues(5) - 1 do
 	table.insert(PlayerCustomisation.Reference.Appearance.Blush, {Name = GetLabelText("CC_BLUSH_"..Index), Value = Index})
 end
 
+
+function IsInstanced()
+	return PlayerCustomisation.Instanced
+end
+
 end

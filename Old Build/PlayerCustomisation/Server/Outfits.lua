@@ -1,5 +1,5 @@
 RegisterServerEvent("Outfit.Create")
-AddEventHandler("Outfit.Create", function(Model, Outfit)
+AddEventHandler("Outfit.Create", function(Model, Outfit, LocationIndex)
 	local Source = source
 	TriggerEvent("core:getuser", Source, function(user)
 		if user ~= nil then
@@ -22,14 +22,14 @@ AddEventHandler("Outfit.Create", function(Model, Outfit)
 
             	table.insert(PlayerCustomisation.Outfits[Source][Model], Outfit)
 
-            	TriggerClientEvent("Outfit.Load", Source, PlayerCustomisation.Outfits[Source])
+            	TriggerClientEvent("Outfit.Load", Source, PlayerCustomisation.Outfits[Source], LocationIndex)
             end, true)
 		end
 	end)
 end)
 
 RegisterServerEvent("Outfit.Update")
-AddEventHandler("Outfit.Update", function(Model, Outfit)
+AddEventHandler("Outfit.Update", function(Model, Outfit, LocationIndex)
 	local Source = source
 	TriggerEvent("core:getuser", Source, function(user)
 		if user ~= nil then
@@ -49,13 +49,13 @@ AddEventHandler("Outfit.Update", function(Model, Outfit)
 				end
 			end
 
-			TriggerClientEvent("Outfit.Load", Source, PlayerCustomisation.Outfits[Source])
+			TriggerClientEvent("Outfit.Load", Source, PlayerCustomisation.Outfits[Source], LocationIndex)
 		end
 	end)
 end)
 
 RegisterServerEvent("Outfit.Delete")
-AddEventHandler("Outfit.Delete", function(Model, Id)
+AddEventHandler("Outfit.Delete", function(Model, Id, LocationIndex)
 	local Source = source
 	TriggerEvent("core:getuser", Source, function(user)
 		if user ~= nil then
@@ -70,7 +70,7 @@ AddEventHandler("Outfit.Delete", function(Model, Id)
 				end
 			end
 
-			TriggerClientEvent("Outfit.Load", Source, PlayerCustomisation.Outfits[Source])
+			TriggerClientEvent("Outfit.Load", Source, PlayerCustomisation.Outfits[Source], LocationIndex)
 		end
 	end)
 end)

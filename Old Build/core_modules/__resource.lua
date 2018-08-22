@@ -165,21 +165,6 @@ client_script 'interaction/crouch_cuffs.lua'
 client_script 'interaction/doors.lua'
 client_script 'interaction/head_display_talking.lua'
 
-client_script "PlayerCustomisation/Config.lua"
-server_script "PlayerCustomisation/Config.lua"
-client_script "PlayerCustomisation/Client/Utilities.lua"
-client_script "PlayerCustomisation/Client/Camera.lua"
-client_script "PlayerCustomisation/Client/Creator.lua"
-client_script "PlayerCustomisation/Client/Barbers.lua"
-client_script "PlayerCustomisation/Client/Clothing.lua"
-client_script "PlayerCustomisation/Client/Masks.lua"
-client_script "PlayerCustomisation/Client/Tattoos.lua"
-client_script "PlayerCustomisation/Client/Outfits.lua"
-client_script "PlayerCustomisation/Client/Main.lua"
-
-server_script "PlayerCustomisation/Server/Outfits.lua"
-server_script "PlayerCustomisation/Server/Main.lua"
-
 --Exports
 
 --Inventory
