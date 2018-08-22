@@ -44,652 +44,665 @@ function CreateCharacterCreator()
 	CharacterCreatorMenu:AddItem(GenderListItem)
 
 	local HeritageMenu = PlayerCustomisation.Pool:AddSubMenu(CharacterCreatorMenu, "Heritage", "Select to choose your parents.", true)
-	local Window = NativeUI.CreateHeritageWindow(0, 19)
-	local ItemMumList = NativeUI.CreateListItem("Mum", PlayerCustomisation.Reference.Heritage.Female, 1, "Select your Mum.")
-	local ItemDadList = NativeUI.CreateListItem("Dad", PlayerCustomisation.Reference.Heritage.Male, 1, "Select your Dad.")
-	local ItemResemblanceSlider = NativeUI.CreateSliderItem("Resemblance", PlayerCustomisation.Reference.RangeTable, math.round(#PlayerCustomisation.Reference.RangeTable / 2), "Select if your features are influenced more by your Mother or Father.", true)
-	local ItemSkinToneSlider = NativeUI.CreateSliderItem("Skin Tone", PlayerCustomisation.Reference.RangeTable, math.round(#PlayerCustomisation.Reference.RangeTable / 2), "Select if your skin tone is influenced more by your Mother or Father.", true)
 
-	ItemMumList.OnListChanged = function(ParentMenu, ListItem, Index)
-		local ActiveItem = ListItem:IndexToItem(Index)
-		PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].HeadBlend[1] = ActiveItem.Value.Face
-		Window:Index(ActiveItem.Value.Portrait, nil)
-		UpdatePlayer()
-		RemoveMask()
-	end
-	ItemDadList.OnListChanged = function(ParentMenu, ListItem, Index)
-		local ActiveItem = ListItem:IndexToItem(Index)
-		PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].HeadBlend[2] = ActiveItem.Value.Face
-		Window:Index(nil, ActiveItem.Value.Portrait)
-		UpdatePlayer()
-		RemoveMask()
-	end
-	ItemResemblanceSlider.OnSliderChanged = function(ParentMenu, SliderItem, Index)
-		PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].HeadBlend[3] = SliderItem:IndexToItem(Index)
-		UpdatePlayer()
-		RemoveMask()
-	end
-	ItemSkinToneSlider.OnSliderChanged = function(ParentMenu, SliderItem, Index)
-		PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].HeadBlend[4] = SliderItem:IndexToItem(Index)
-		UpdatePlayer()
-		RemoveMask()
-	end
+	if PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender ~= "Hybrid" then
+		local Window = NativeUI.CreateHeritageWindow(0, 19)
+		local ItemMumList = NativeUI.CreateListItem("Mum", PlayerCustomisation.Reference.Heritage.Female, 1, "Select your Mum.")
+		local ItemDadList = NativeUI.CreateListItem("Dad", PlayerCustomisation.Reference.Heritage.Male, 1, "Select your Dad.")
+		local ItemResemblanceSlider = NativeUI.CreateSliderItem("Resemblance", PlayerCustomisation.Reference.RangeTable, math.round(#PlayerCustomisation.Reference.RangeTable / 2), "Select if your features are influenced more by your Mother or Father.", true)
+		local ItemSkinToneSlider = NativeUI.CreateSliderItem("Skin Tone", PlayerCustomisation.Reference.RangeTable, math.round(#PlayerCustomisation.Reference.RangeTable / 2), "Select if your skin tone is influenced more by your Mother or Father.", true)
 
-	HeritageMenu.Pagination.Total = 7
-	HeritageMenu.Settings.MouseEdgeEnabled = false
-	HeritageMenu:RemoveEnabledControl(0, 31)
-	HeritageMenu:RemoveEnabledControl(0, 30)
-	HeritageMenu:RemoveEnabledControl(0, 22)
+		ItemMumList.OnListChanged = function(ParentMenu, ListItem, Index)
+			local ActiveItem = ListItem:IndexToItem(Index)
+			PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].HeadBlend[1] = ActiveItem.Value.Face
+			Window:Index(ActiveItem.Value.Portrait, nil)
+			UpdatePlayer()
+			RemoveMask()
+		end
+		ItemDadList.OnListChanged = function(ParentMenu, ListItem, Index)
+			local ActiveItem = ListItem:IndexToItem(Index)
+			PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].HeadBlend[2] = ActiveItem.Value.Face
+			Window:Index(nil, ActiveItem.Value.Portrait)
+			UpdatePlayer()
+			RemoveMask()
+		end
+		ItemResemblanceSlider.OnSliderChanged = function(ParentMenu, SliderItem, Index)
+			PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].HeadBlend[3] = SliderItem:IndexToItem(Index)
+			UpdatePlayer()
+			RemoveMask()
+		end
+		ItemSkinToneSlider.OnSliderChanged = function(ParentMenu, SliderItem, Index)
+			PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].HeadBlend[4] = SliderItem:IndexToItem(Index)
+			UpdatePlayer()
+			RemoveMask()
+		end
 
-	HeritageMenu:AddWindow(Window)
-	HeritageMenu:AddItem(ItemMumList)
-	HeritageMenu:AddItem(ItemDadList)
-	HeritageMenu:AddItem(ItemResemblanceSlider)
-	HeritageMenu:AddItem(ItemSkinToneSlider)
+		HeritageMenu.Pagination.Total = 7
+		HeritageMenu.Settings.MouseEdgeEnabled = false
+		HeritageMenu:RemoveEnabledControl(0, 31)
+		HeritageMenu:RemoveEnabledControl(0, 30)
+		HeritageMenu:RemoveEnabledControl(0, 22)
 
-	HeritageMenu:AddInstructionButton({GetControlInstructionalButton(0, 51, 0), "Turn Right"})
-	HeritageMenu:AddInstructionButton({GetControlInstructionalButton(0, 44, 0), "Turn Left"})
+		HeritageMenu:AddWindow(Window)
+		HeritageMenu:AddItem(ItemMumList)
+		HeritageMenu:AddItem(ItemDadList)
+		HeritageMenu:AddItem(ItemResemblanceSlider)
+		HeritageMenu:AddItem(ItemSkinToneSlider)
 
-	HeritageMenu.OnMenuClosed = function(ParentMenu)
-		CharacterCreatorMenu.Cameras.Default:Switch(CharacterCreatorMenu.Cameras.Face.Handle, 1000, false, false)
+		HeritageMenu:AddInstructionButton({GetControlInstructionalButton(0, 51, 0), "Turn Right"})
+		HeritageMenu:AddInstructionButton({GetControlInstructionalButton(0, 44, 0), "Turn Left"})
+
+		HeritageMenu.OnMenuClosed = function(ParentMenu)
+			CharacterCreatorMenu.Cameras.Default:Switch(CharacterCreatorMenu.Cameras.Face.Handle, 1000, false, false)
+		end
 	end
 
 
 	local FeaturesMenu = PlayerCustomisation.Pool:AddSubMenu(CharacterCreatorMenu, "Features", "Select to alter your facial Features", true)
-	local ItemBrowList = NativeUI.CreateListItem("Brow", PlayerCustomisation.Reference.Features.Brow, 1, "Make changes your physical Features.")
-	local ItemEyesList = NativeUI.CreateListItem("Eyes", PlayerCustomisation.Reference.Features.Eyes, 1, "Make changes your physical Features.")
-	local ItemNoseList = NativeUI.CreateListItem("Nose", PlayerCustomisation.Reference.Features.Nose, 1, "Make changes your physical Features.")
-	local ItemNoseProfileList = NativeUI.CreateListItem("Nose Profile", PlayerCustomisation.Reference.Features.NoseProfile, 1, "Make changes your physical Features.")
-	local ItemNoseTipList = NativeUI.CreateListItem("Nose Tip", PlayerCustomisation.Reference.Features.NoseTip, 1, "Make changes your physical Features.")
-	local ItemCheekbonesList = NativeUI.CreateListItem("Cheekbones", PlayerCustomisation.Reference.Features.Cheekbones, 1, "Make changes your physical Features.")
-	local ItemCheeksList = NativeUI.CreateListItem("Cheeks", PlayerCustomisation.Reference.Features.Cheeks, 1, "Make changes your physical Features.")
-	local ItemLipsList = NativeUI.CreateListItem("Lips", PlayerCustomisation.Reference.Features.Lips, 1, "Make changes your physical Features.")
-	local ItemJawList = NativeUI.CreateListItem("Jaw", PlayerCustomisation.Reference.Features.Jaw, 1, "Make changes your physical Features.")
-	local ItemChinProfileList = NativeUI.CreateListItem("Chin Profile", PlayerCustomisation.Reference.Features.ChinProfile, 1, "Make changes your physical Features.")
-	local ItemChinShapeList = NativeUI.CreateListItem("Chin Shape", PlayerCustomisation.Reference.Features.ChinShape, 1, "Make changes your physical Features.")
 
-	ItemBrowList:AddPanel(NativeUI.CreateGridPanel("Up", "In", "Out", "Down"))
-	ItemEyesList:AddPanel(NativeUI.CreateGridPanel("", "Squint", "Wide", ""))
-	ItemNoseList:AddPanel(NativeUI.CreateGridPanel("Up", "Narrow", "Wide", "Down"))
-	ItemNoseProfileList:AddPanel(NativeUI.CreateGridPanel("Crooked", "Short", "Long", "Curved"))
-	ItemNoseTipList:AddPanel(NativeUI.CreateGridPanel("Tip Up", "Broken Left", "Broken Right", "Tip Down"))
-	ItemCheekbonesList:AddPanel(NativeUI.CreateGridPanel("Up", "In", "Out", "Down"))
-	ItemCheeksList:AddPanel(NativeUI.CreateGridPanel("", "Gaunt", "Puffed", ""))
-	ItemLipsList:AddPanel(NativeUI.CreateGridPanel("", "Thin", "Fat", ""))
-	ItemJawList:AddPanel(NativeUI.CreateGridPanel("Round", "Narrow", "Wide", "Square"))
-	ItemChinProfileList:AddPanel(NativeUI.CreateGridPanel("Up", "In", "Out", "Down"))
-	ItemChinShapeList:AddPanel(NativeUI.CreateGridPanel("Rounded", "Square", "Pointed", "Bum"))
-
-	ItemBrowList.OnListChanged = function(ParentMenu, ListItem, Index)
-		local ActiveItem = ListItem:IndexToItem(Index)
-		PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].FacialFeature[8] = ((ActiveItem.Panel == true) and ActiveItem.Value[1].X or ActiveItem.Value.X)
-		PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].FacialFeature[7] = ((ActiveItem.Panel == true) and ActiveItem.Value[1].Y or ActiveItem.Value.Y)
-
-		UpdatePlayer()
-		RemoveMask()
-
-		if not ActiveItem.Panel then
-			ListItem.Panels[1]:CirclePosition(((ActiveItem.Panel == true) and ActiveItem.Value[1].X or ActiveItem.Value.X), ((ActiveItem.Panel == true) and ActiveItem.Value[1].Y or ActiveItem.Value.Y))
-		else
-			local ResultX, ResultY = ListItem.Panels[1]:CirclePosition()
-			if ResultX ~= ((ActiveItem.Value[1].X / 2) + 0.5) or ResultY ~= ((ActiveItem.Value[1].Y / 2) + 0.5) then
-				ListItem.Panels[1]:CirclePosition(((ActiveItem.Value[1].X / 2) + 0.5), ((ActiveItem.Value[1].Y / 2) + 0.5))
-			end
-		end
-	end
-	ItemEyesList.OnListChanged = function(ParentMenu, ListItem, Index)
-		local ActiveItem = ListItem:IndexToItem(Index)
-		PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].FacialFeature[12] = ((ActiveItem.Panel == true) and (1.0 - ActiveItem.Value[1].X) or (1.0 - ActiveItem.Value.X))
-
-		UpdatePlayer()
-		RemoveMask()
-
-		if not ActiveItem.Panel then
-			ListItem.Panels[1]:CirclePosition(((ActiveItem.Panel == true) and ActiveItem.Value[1].X or ActiveItem.Value.X), ((ActiveItem.Panel == true) and ActiveItem.Value[1].Y or ActiveItem.Value.Y))
-		else
-			local ResultX, ResultY = ListItem.Panels[1]:CirclePosition()
-			if ResultX ~= ((ActiveItem.Value[1].X / 2) + 0.5) or ResultY ~= ((ActiveItem.Value[1].Y / 2) + 0.5) then
-				ListItem.Panels[1]:CirclePosition(((ActiveItem.Value[1].X / 2) + 0.5), ((ActiveItem.Value[1].Y / 2) + 0.5))
-			end
-		end
-	end
-	ItemNoseList.OnListChanged = function(ParentMenu, ListItem, Index)
-		local ActiveItem = ListItem:IndexToItem(Index)
-		PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].FacialFeature[1] = ((ActiveItem.Panel == true) and ActiveItem.Value[1].X or ActiveItem.Value.X)
-		PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].FacialFeature[2] = ((ActiveItem.Panel == true) and ActiveItem.Value[1].Y or ActiveItem.Value.Y)
-
-		UpdatePlayer()
-		RemoveMask()
-
-		if not ActiveItem.Panel then
-			ListItem.Panels[1]:CirclePosition(((ActiveItem.Panel == true) and ActiveItem.Value[1].X or ActiveItem.Value.X), ((ActiveItem.Panel == true) and ActiveItem.Value[1].Y or ActiveItem.Value.Y))
-		else
-			local ResultX, ResultY = ListItem.Panels[1]:CirclePosition()
-			if ResultX ~= ((ActiveItem.Value[1].X / 2) + 0.5) or ResultY ~= ((ActiveItem.Value[1].Y / 2) + 0.5) then
-				ListItem.Panels[1]:CirclePosition(((ActiveItem.Value[1].X / 2) + 0.5), ((ActiveItem.Value[1].Y / 2) + 0.5))
-			end
-		end
-	end
-	ItemNoseProfileList.OnListChanged = function(ParentMenu, ListItem, Index)
-		local ActiveItem = ListItem:IndexToItem(Index)
-		PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].FacialFeature[3] = ((ActiveItem.Panel == true) and (1.0 - ActiveItem.Value[1].X) or (1.0 - ActiveItem.Value.X))
-		PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].FacialFeature[4] = ((ActiveItem.Panel == true) and ActiveItem.Value[1].Y or ActiveItem.Value.Y)
-
-		UpdatePlayer()
-		RemoveMask()
-
-		if not ActiveItem.Panel then
-			ListItem.Panels[1]:CirclePosition(((ActiveItem.Panel == true) and ActiveItem.Value[1].X or ActiveItem.Value.X), ((ActiveItem.Panel == true) and ActiveItem.Value[1].Y or ActiveItem.Value.Y))
-		else
-			local ResultX, ResultY = ListItem.Panels[1]:CirclePosition()
-			if ResultX ~= ((ActiveItem.Value[1].X / 2) + 0.5) or ResultY ~= ((ActiveItem.Value[1].Y / 2) + 0.5) then
-				ListItem.Panels[1]:CirclePosition(((ActiveItem.Value[1].X / 2) + 0.5), ((ActiveItem.Value[1].Y / 2) + 0.5))
-			end
-		end
-	end
-	ItemNoseTipList.OnListChanged = function(ParentMenu, ListItem, Index)
-		local ActiveItem = ListItem:IndexToItem(Index)
-		PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].FacialFeature[6] = ((ActiveItem.Panel == true) and (1.0 - ActiveItem.Value[1].X) or (1.0 - ActiveItem.Value.X))
-		PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].FacialFeature[5] = ((ActiveItem.Panel == true) and ActiveItem.Value[1].Y or ActiveItem.Value.Y)
-
-		UpdatePlayer()
-		RemoveMask()
-
-		if not ActiveItem.Panel then
-			ListItem.Panels[1]:CirclePosition(((ActiveItem.Panel == true) and ActiveItem.Value[1].X or ActiveItem.Value.X), ((ActiveItem.Panel == true) and ActiveItem.Value[1].Y or ActiveItem.Value.Y))
-		else
-			local ResultX, ResultY = ListItem.Panels[1]:CirclePosition()
-			if ResultX ~= ((ActiveItem.Value[1].X / 2) + 0.5) or ResultY ~= ((ActiveItem.Value[1].Y / 2) + 0.5) then
-				ListItem.Panels[1]:CirclePosition(((ActiveItem.Value[1].X / 2) + 0.5), ((ActiveItem.Value[1].Y / 2) + 0.5))
-			end
-		end
-	end
-	ItemCheekbonesList.OnListChanged = function(ParentMenu, ListItem, Index)
-		local ActiveItem = ListItem:IndexToItem(Index)
-		PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].FacialFeature[10] = ((ActiveItem.Panel == true) and ActiveItem.Value[1].X or ActiveItem.Value.X)
-		PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].FacialFeature[9] = ((ActiveItem.Panel == true) and ActiveItem.Value[1].Y or ActiveItem.Value.Y)
-
-		UpdatePlayer()
-		RemoveMask()
-
-		if not ActiveItem.Panel then
-			ListItem.Panels[1]:CirclePosition(((ActiveItem.Panel == true) and ActiveItem.Value[1].X or ActiveItem.Value.X), ((ActiveItem.Panel == true) and ActiveItem.Value[1].Y or ActiveItem.Value.Y))
-		else
-			local ResultX, ResultY = ListItem.Panels[1]:CirclePosition()
-			if ResultX ~= ((ActiveItem.Value[1].X / 2) + 0.5) or ResultY ~= ((ActiveItem.Value[1].Y / 2) + 0.5) then
-				ListItem.Panels[1]:CirclePosition(((ActiveItem.Value[1].X / 2) + 0.5), ((ActiveItem.Value[1].Y / 2) + 0.5))
-			end
-		end
-	end
-	ItemCheeksList.OnListChanged = function(ParentMenu, ListItem, Index)
-		local ActiveItem = ListItem:IndexToItem(Index)
-		PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].FacialFeature[11] = ((ActiveItem.Panel == true) and (1.0 - ActiveItem.Value[1].X) or ActiveItem.Value.X)
-
-		UpdatePlayer()
-		RemoveMask()
-
-		if not ActiveItem.Panel then
-			ListItem.Panels[1]:CirclePosition(((ActiveItem.Panel == true) and ActiveItem.Value[1].X or ActiveItem.Value.X), ((ActiveItem.Panel == true) and ActiveItem.Value[1].Y or ActiveItem.Value.Y))
-		else
-			local ResultX, ResultY = ListItem.Panels[1]:CirclePosition()
-			if ResultX ~= ((ActiveItem.Value[1].X / 2) + 0.5) or ResultY ~= ((ActiveItem.Value[1].Y / 2) + 0.5) then
-				ListItem.Panels[1]:CirclePosition(((ActiveItem.Value[1].X / 2) + 0.5), ((ActiveItem.Value[1].Y / 2) + 0.5))
-			end
-		end
-	end
-	ItemLipsList.OnListChanged = function(ParentMenu, ListItem, Index)
-		local ActiveItem = ListItem:IndexToItem(Index)
-		PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].FacialFeature[13] = ((ActiveItem.Panel == true) and (1.0 - ActiveItem.Value[1].X) or (1.0 - ActiveItem.Value.X))
-
-		UpdatePlayer()
-		RemoveMask()
-
-		if not ActiveItem.Panel then
-			ListItem.Panels[1]:CirclePosition(((ActiveItem.Panel == true) and ActiveItem.Value[1].X or ActiveItem.Value.X), ((ActiveItem.Panel == true) and ActiveItem.Value[1].Y or ActiveItem.Value.Y))
-		else
-			local ResultX, ResultY = ListItem.Panels[1]:CirclePosition()
-			if ResultX ~= ((ActiveItem.Value[1].X / 2) + 0.5) or ResultY ~= ((ActiveItem.Value[1].Y / 2) + 0.5) then
-				ListItem.Panels[1]:CirclePosition(((ActiveItem.Value[1].X / 2) + 0.5), ((ActiveItem.Value[1].Y / 2) + 0.5))
-			end
-		end
-	end
-	ItemJawList.OnListChanged = function(ParentMenu, ListItem, Index)
-		local ActiveItem = ListItem:IndexToItem(Index)
-		PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].FacialFeature[14] = ((ActiveItem.Panel == true) and ActiveItem.Value[1].X or ActiveItem.Value.X)
-		PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].FacialFeature[15] = ((ActiveItem.Panel == true) and ActiveItem.Value[1].Y or ActiveItem.Value.Y)
-
-		UpdatePlayer()
-		RemoveMask()
-
-		if not ActiveItem.Panel then
-			ListItem.Panels[1]:CirclePosition(((ActiveItem.Panel == true) and ActiveItem.Value[1].X or ActiveItem.Value.X), ((ActiveItem.Panel == true) and ActiveItem.Value[1].Y or ActiveItem.Value.Y))
-		else
-			local ResultX, ResultY = ListItem.Panels[1]:CirclePosition()
-			if ResultX ~= ((ActiveItem.Value[1].X / 2) + 0.5) or ResultY ~= ((ActiveItem.Value[1].Y / 2) + 0.5) then
-				ListItem.Panels[1]:CirclePosition(((ActiveItem.Value[1].X / 2) + 0.5), ((ActiveItem.Value[1].Y / 2) + 0.5))
-			end
-		end
-	end
-	ItemChinProfileList.OnListChanged = function(ParentMenu, ListItem, Index)
-		local ActiveItem = ListItem:IndexToItem(Index)
-		PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].FacialFeature[17] = ((ActiveItem.Panel == true) and ActiveItem.Value[1].X or ActiveItem.Value.X)
-		PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].FacialFeature[16] = ((ActiveItem.Panel == true) and ActiveItem.Value[1].Y or ActiveItem.Value.Y)
-
-		UpdatePlayer()
-		RemoveMask()
-
-		if not ActiveItem.Panel then
-			ListItem.Panels[1]:CirclePosition(((ActiveItem.Panel == true) and ActiveItem.Value[1].X or ActiveItem.Value.X), ((ActiveItem.Panel == true) and ActiveItem.Value[1].Y or ActiveItem.Value.Y))
-		else
-			local ResultX, ResultY = ListItem.Panels[1]:CirclePosition()
-			if ResultX ~= ((ActiveItem.Value[1].X / 2) + 0.5) or ResultY ~= ((ActiveItem.Value[1].Y / 2) + 0.5) then
-				ListItem.Panels[1]:CirclePosition(((ActiveItem.Value[1].X / 2) + 0.5), ((ActiveItem.Value[1].Y / 2) + 0.5))
-			end
-		end
-	end
-	ItemChinShapeList.OnListChanged = function(ParentMenu, ListItem, Index)
-		local ActiveItem = ListItem:IndexToItem(Index)
-		PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].FacialFeature[18] = ((ActiveItem.Panel == true) and (1.0 - ActiveItem.Value[1].X) or (1.0 - ActiveItem.Value.X))
-		PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].FacialFeature[19] = ((ActiveItem.Panel == true) and ActiveItem.Value[1].Y or ActiveItem.Value.Y)
-
-		UpdatePlayer()
-		RemoveMask()
-
-		if not ActiveItem.Panel then
-			ListItem.Panels[1]:CirclePosition(((ActiveItem.Panel == true) and ActiveItem.Value[1].X or ActiveItem.Value.X), ((ActiveItem.Panel == true) and ActiveItem.Value[1].Y or ActiveItem.Value.Y))
-		else
-			local ResultX, ResultY = ListItem.Panels[1]:CirclePosition()
-			if ResultX ~= ((ActiveItem.Value[1].X / 2) + 0.5) or ResultY ~= ((ActiveItem.Value[1].Y / 2) + 0.5) then
-				ListItem.Panels[1]:CirclePosition(((ActiveItem.Value[1].X / 2) + 0.5), ((ActiveItem.Value[1].Y / 2) + 0.5))
-			end
-		end
-	end
-
-	FeaturesMenu.Pagination.Total = 7
-	FeaturesMenu.Settings.MouseEdgeEnabled = false
-	FeaturesMenu:RemoveEnabledControl(0, 31)
-	FeaturesMenu:RemoveEnabledControl(0, 30)
-	FeaturesMenu:RemoveEnabledControl(0, 22)
-	
-	FeaturesMenu:AddItem(ItemBrowList)
-	FeaturesMenu:AddItem(ItemEyesList)
-	FeaturesMenu:AddItem(ItemNoseList)
-	FeaturesMenu:AddItem(ItemNoseProfileList)
-	FeaturesMenu:AddItem(ItemNoseTipList)
-	FeaturesMenu:AddItem(ItemCheekbonesList)
-	FeaturesMenu:AddItem(ItemCheeksList)
-	FeaturesMenu:AddItem(ItemLipsList)
-	FeaturesMenu:AddItem(ItemJawList)
-	FeaturesMenu:AddItem(ItemChinProfileList)
-	FeaturesMenu:AddItem(ItemChinShapeList)
-
-	FeaturesMenu:AddInstructionButton({GetControlInstructionalButton(0, 51, 0), "Turn Right"})
-	FeaturesMenu:AddInstructionButton({GetControlInstructionalButton(0, 44, 0), "Turn Left"})
-
-	FeaturesMenu.OnMenuClosed = function(ParentMenu)
-		CharacterCreatorMenu.Cameras.Default:Switch(CharacterCreatorMenu.Cameras.Face.Handle, 1000, false, false)
-	end
-
-	local AppearanceMenu = PlayerCustomisation.Pool:AddSubMenu(CharacterCreatorMenu, "Appearance", "Select to to change your Appearance.", true)
-	local ItemHairList = NativeUI.CreateListItem("Hair", PlayerCustomisation.Reference.Appearance.Hairstyles[PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender], 1, "Make changes your Appearance.")
-	local ItemEyebrowsList = NativeUI.CreateListItem("Eyebrows", PlayerCustomisation.Reference.Appearance.Eyebrows, 1, "Make changes your Appearance.")
-	local ItemFacialHairList = NativeUI.CreateListItem("Facial Hair", PlayerCustomisation.Reference.Appearance.Beards, 1, "Make changes your Appearance.")
-	local ItemSkinBlemishesList = NativeUI.CreateListItem("Skin Blemishes", PlayerCustomisation.Reference.Appearance.Blemishes, 1, "Make changes your Appearance.")
-	local ItemSkinAgingList = NativeUI.CreateListItem("Skin Aging", PlayerCustomisation.Reference.Appearance.SkinAging, 1, "Make changes your Appearance.")
-	local ItemSkinComplexionList = NativeUI.CreateListItem("Skin Complexion", PlayerCustomisation.Reference.Appearance.SkinComplexion, 1, "Make changes your Appearance.")
-	local ItemMolesFrecklesList = NativeUI.CreateListItem("Moles & Freckles", PlayerCustomisation.Reference.Appearance.MolesFreckles, 1, "Make changes your Appearance.")
-	local ItemSkinDamageList = NativeUI.CreateListItem("Skin Damage", PlayerCustomisation.Reference.Appearance.SkinDamage, 1, "Make changes your Appearance.")
-	local ItemEyeColourList = NativeUI.CreateListItem("Eye Colour", PlayerCustomisation.Reference.Appearance.Eyes, 1, "Make changes your Appearance.")
-	local ItemEyeMakeupList = NativeUI.CreateListItem("Eye Makeup", PlayerCustomisation.Reference.Appearance.EyeMakeup, 1, "Make changes your Appearance.")
-	local ItemBlusherList = NativeUI.CreateListItem("Blusher", PlayerCustomisation.Reference.Appearance.Blush, 1, "Make changes your Appearance.")
-	local ItemLipstickList = NativeUI.CreateListItem("Lipstick", PlayerCustomisation.Reference.Appearance.Lipstick, 1, "Make changes your Appearance.")
-
-	local ItemHairColourPanel = NativeUI.CreateColourPanel("Colour", PlayerCustomisation.Reference.Colours.Hair)
-	local ItemHairHighlightColourPanel = NativeUI.CreateColourPanel("Highlight", PlayerCustomisation.Reference.Colours.Hair)
-	local ItemEyebrowsPercentagePanel = NativeUI.CreatePercentagePanel()
-	local ItemEyebrowsColourPanel = NativeUI.CreateColourPanel("Colour", PlayerCustomisation.Reference.Colours.Hair)
-	local ItemFacialHairPercentagePanel = NativeUI.CreatePercentagePanel()
-	local ItemFacialHairColourPanel = NativeUI.CreateColourPanel("Colour", PlayerCustomisation.Reference.Colours.Hair)
-	local ItemSkinBlemishesPercentagePanel = NativeUI.CreatePercentagePanel()
-	local ItemSkinAgingPercentagePanel = NativeUI.CreatePercentagePanel()
-	local ItemSkinComplexionPercentagePanel = NativeUI.CreatePercentagePanel()
-	local ItemMolesFrecklesPercentagePanel = NativeUI.CreatePercentagePanel()
-	local ItemSkinDamagePercentagePanel = NativeUI.CreatePercentagePanel()
-	local ItemEyeMakeupPercentagePanel = NativeUI.CreatePercentagePanel()
-	local ItemBlusherPercentagePanel = NativeUI.CreatePercentagePanel()
-	local ItemBlusherColourPanel = NativeUI.CreateColourPanel("Colour", PlayerCustomisation.Reference.Colours.Lipstick)
-	local ItemLipstickPercentagePanel = NativeUI.CreatePercentagePanel()
-	local ItemLipstickColourPanel = NativeUI.CreateColourPanel("Colour", PlayerCustomisation.Reference.Colours.Lipstick)
-
-	ItemHairList:AddPanel(ItemHairColourPanel)
-	ItemHairList:AddPanel(ItemHairHighlightColourPanel)
-	ItemEyebrowsList:AddPanel(ItemEyebrowsPercentagePanel)
-	ItemEyebrowsList:AddPanel(ItemEyebrowsColourPanel)
-	ItemFacialHairList:AddPanel(ItemFacialHairPercentagePanel)
-	ItemFacialHairList:AddPanel(ItemFacialHairColourPanel)
-	ItemSkinBlemishesList:AddPanel(ItemSkinBlemishesPercentagePanel)
-	ItemSkinAgingList:AddPanel(ItemSkinAgingPercentagePanel)
-	ItemSkinComplexionList:AddPanel(ItemSkinComplexionPercentagePanel)
-	ItemMolesFrecklesList:AddPanel(ItemMolesFrecklesPercentagePanel)
-	ItemSkinDamageList:AddPanel(ItemSkinDamagePercentagePanel)
-	ItemEyeMakeupList:AddPanel(ItemEyeMakeupPercentagePanel)
-	ItemBlusherList:AddPanel(ItemBlusherPercentagePanel)
-	ItemBlusherList:AddPanel(ItemBlusherColourPanel)
-	ItemLipstickList:AddPanel(ItemLipstickPercentagePanel)
-	ItemLipstickList:AddPanel(ItemLipstickColourPanel)
-
-	ItemHairHighlightColourPanel:Enabled(false)
-	ItemEyebrowsPercentagePanel:Enabled(false)
-	ItemEyebrowsColourPanel:Enabled(false)
-	ItemFacialHairPercentagePanel:Enabled(false)
-	ItemFacialHairColourPanel:Enabled(false)
-	ItemSkinBlemishesPercentagePanel:Enabled(false)
-	ItemSkinAgingPercentagePanel:Enabled(false)
-	ItemMolesFrecklesPercentagePanel:Enabled(false)
-	ItemSkinComplexionPercentagePanel:Enabled(false)
-	ItemSkinDamagePercentagePanel:Enabled(false)
-	ItemEyeMakeupPercentagePanel:Enabled(false)
-	ItemBlusherPercentagePanel:Enabled(false)
-	ItemBlusherColourPanel:Enabled(false)
-	ItemLipstickPercentagePanel:Enabled(false)
-	ItemLipstickColourPanel:Enabled(false)
-
-	ItemHairList.OnListChanged = function(ParentMenu, ListItem, Index)
-		local ActiveItem = ListItem:IndexToItem(Index)
-		PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Clothing.Drawable[3] = ActiveItem.Value
-		PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].HairColour[1] = (ActiveItem.Panels and ActiveItem.Panels[1] or 1) - 1
-		PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].HairColour[2] = (ActiveItem.Panels and ActiveItem.Panels[2] or 1) - 1
-
-		UpdatePlayer()
-		RemoveMask()
-	end
-	ItemEyebrowsList.OnListChanged = function(ParentMenu, ListItem, Index)
-		local ActiveItem = ListItem:IndexToItem(Index)
-
-		if Index == 1 then
-			ItemEyebrowsPercentagePanel:Enabled(false)
-			ItemEyebrowsColourPanel:Enabled(false)
-		else
-			ItemEyebrowsPercentagePanel:Enabled(true)
-			ItemEyebrowsColourPanel:Enabled(true)		
-		end
-
-		PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Drawable[3] = ActiveItem.Value or 255
-		PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Opacity[3] = (ActiveItem.Panels and ActiveItem.Panels[1] or 1.0)
-		PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Colours[3] = (ActiveItem.Panels and ActiveItem.Panels[2] or 1) - 1
-
-		UpdatePlayer()
-		RemoveMask()
-	end
-	ItemFacialHairList.OnListChanged = function(ParentMenu, ListItem, Index)
-		local ActiveItem = ListItem:IndexToItem(Index)
-
-		if Index == 1 then
-			ItemFacialHairPercentagePanel:Enabled(false)
-			ItemFacialHairColourPanel:Enabled(false)
-		else
-			ItemFacialHairPercentagePanel:Enabled(true)
-			ItemFacialHairColourPanel:Enabled(true)		
-		end
-
-		PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Drawable[2] = ActiveItem.Value or 255
-		PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Opacity[2] = (ActiveItem.Panels and ActiveItem.Panels[1] or 1.0)
-		PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Colours[2] = (ActiveItem.Panels and ActiveItem.Panels[2] or 1) - 1
-
-		UpdatePlayer()
-		RemoveMask()
-	end
-	ItemSkinBlemishesList.OnListChanged = function(ParentMenu, ListItem, Index)
-		local ActiveItem = ListItem:IndexToItem(Index)
-
-		if Index == 1 then
-			ItemSkinBlemishesPercentagePanel:Enabled(false)
-		else
-			ItemSkinBlemishesPercentagePanel:Enabled(true)
-		end
-
-		PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Drawable[1] = ActiveItem.Value or 255
-		PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Opacity[1] = (ActiveItem.Panels and ActiveItem.Panels[1] or 1.0)
-		PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Colours[1] = (ActiveItem.Panels and ActiveItem.Panels[2] or 1) - 1
-
-		UpdatePlayer()
-		RemoveMask()
-	end
-	ItemSkinAgingList.OnListChanged = function(ParentMenu, ListItem, Index)
-		local ActiveItem = ListItem:IndexToItem(Index)
-
-		if Index == 1 then
-			ItemSkinAgingPercentagePanel:Enabled(false)
-		else
-			ItemSkinAgingPercentagePanel:Enabled(true)
-		end
-
-		PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Drawable[4] = ActiveItem.Value or 255
-		PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Opacity[4] = (ActiveItem.Panels and ActiveItem.Panels[1] or 1.0)
-		PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Colours[4] = (ActiveItem.Panels and ActiveItem.Panels[2] or 1) - 1
-
-		UpdatePlayer()
-		RemoveMask()
-	end
-	ItemSkinComplexionList.OnListChanged = function(ParentMenu, ListItem, Index)
-		local ActiveItem = ListItem:IndexToItem(Index)
-
-		if Index == 1 then
-			ItemSkinComplexionPercentagePanel:Enabled(false)
-		else
-			ItemSkinComplexionPercentagePanel:Enabled(true)
-		end
-
-		PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Drawable[7] = ActiveItem.Value or 255
-		PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Opacity[7] = (ActiveItem.Panels and ActiveItem.Panels[1] or 1.0)
-		PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Colours[7] = (ActiveItem.Panels and ActiveItem.Panels[2] or 1) - 1
-
-		UpdatePlayer()
-		RemoveMask()
-	end
-	ItemMolesFrecklesList.OnListChanged = function(ParentMenu, ListItem, Index)
-		local ActiveItem = ListItem:IndexToItem(Index)
-
-		if Index == 1 then
-			ItemMolesFrecklesPercentagePanel:Enabled(false)
-		else
-			ItemMolesFrecklesPercentagePanel:Enabled(true)
-		end
-
-		PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Drawable[10] = ActiveItem.Value or 255
-		PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Opacity[10] = (ActiveItem.Panels and ActiveItem.Panels[1] or 1.0)
-		PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Colours[10] = (ActiveItem.Panels and ActiveItem.Panels[2] or 1) - 1
-
-		UpdatePlayer()
-		RemoveMask()
-	end
-	ItemSkinDamageList.OnListChanged = function(ParentMenu, ListItem, Index)
-		local ActiveItem = ListItem:IndexToItem(Index)
-
-		if Index == 1 then
-			ItemSkinDamagePercentagePanel:Enabled(false)
-		else
-			ItemSkinDamagePercentagePanel:Enabled(true)
-		end
-
-		PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Drawable[8] = ActiveItem.Value or 255
-		PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Opacity[8] = (ActiveItem.Panels and ActiveItem.Panels[1] or 1.0)
-		PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Colours[8] = (ActiveItem.Panels and ActiveItem.Panels[2] or 1) - 1
-
-		UpdatePlayer()
-		RemoveMask()
-	end
-	ItemEyeColourList.OnListChanged = function(ParentMenu, ListItem, Index)
-		local ActiveItem = ListItem:IndexToItem(Index)
-
-		PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].EyeColour = ActiveItem.Value
-
-		UpdatePlayer()
-		RemoveMask()
-	end
-	ItemEyeMakeupList.OnListChanged = function(ParentMenu, ListItem, Index)
-		local ActiveItem = ListItem:IndexToItem(Index)
-
-		if Index == 1 then
-			ItemEyeMakeupPercentagePanel:Enabled(false)
-		else
-			ItemEyeMakeupPercentagePanel:Enabled(true)
-		end
-
-		PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Drawable[5] = ActiveItem.Value or 255
-		PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Opacity[5] = (ActiveItem.Panels and ActiveItem.Panels[1] or 1.0)
-		PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Colours[5] = (ActiveItem.Panels and ActiveItem.Panels[2] or 1) - 1
-
-		UpdatePlayer()
-		RemoveMask()
-	end
-	ItemBlusherList.OnListChanged = function(ParentMenu, ListItem, Index)
-		local ActiveItem = ListItem:IndexToItem(Index)
-
-		if Index == 1 then
-			ItemBlusherPercentagePanel:Enabled(false)
-			ItemBlusherColourPanel:Enabled(false)
-		else
-			ItemBlusherPercentagePanel:Enabled(true)
-			ItemBlusherColourPanel:Enabled(true)		
-		end
-
-		PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Drawable[6] = ActiveItem.Value or 255
-		PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Opacity[6] = (ActiveItem.Panels and ActiveItem.Panels[1] or 1.0)
-		PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Colours[6] = (ActiveItem.Panels and ActiveItem.Panels[2] or 1) - 1
-
-		UpdatePlayer()
-		RemoveMask()
-	end
-	ItemLipstickList.OnListChanged = function(ParentMenu, ListItem, Index)
-		local ActiveItem = ListItem:IndexToItem(Index)
-
-		if Index == 1 then
-			ItemLipstickPercentagePanel:Enabled(false)
-			ItemLipstickColourPanel:Enabled(false)
-		else
-			ItemLipstickPercentagePanel:Enabled(true)
-			ItemLipstickColourPanel:Enabled(true)		
-		end
-
-		PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Drawable[9] = ActiveItem.Value or 255
-		PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Opacity[9] = (ActiveItem.Panels and ActiveItem.Panels[1] or 1.0)
-		PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Colours[9] = (ActiveItem.Panels and ActiveItem.Panels[2] or 1) - 1
-
-		UpdatePlayer()
-		RemoveMask()
-	end
-
-	AppearanceMenu.Pagination.Total = 7
-	AppearanceMenu.Settings.MouseEdgeEnabled = false
-	AppearanceMenu:RemoveEnabledControl(0, 31)
-	AppearanceMenu:RemoveEnabledControl(0, 30)
-	AppearanceMenu:RemoveEnabledControl(0, 22)
-	
-	AppearanceMenu:AddItem(ItemHairList)
-	AppearanceMenu:AddItem(ItemEyebrowsList)
-	AppearanceMenu:AddItem(ItemFacialHairList)
-	AppearanceMenu:AddItem(ItemSkinBlemishesList)
-	AppearanceMenu:AddItem(ItemSkinAgingList)
-	AppearanceMenu:AddItem(ItemSkinComplexionList)
-	AppearanceMenu:AddItem(ItemMolesFrecklesList)
-	AppearanceMenu:AddItem(ItemSkinDamageList)
-	AppearanceMenu:AddItem(ItemEyeColourList)
-	AppearanceMenu:AddItem(ItemEyeMakeupList)
-	AppearanceMenu:AddItem(ItemBlusherList)
-	AppearanceMenu:AddItem(ItemLipstickList)
-
-	AppearanceMenu:AddInstructionButton({GetControlInstructionalButton(0, 22, 0), "Toggle Highlights"})
-	AppearanceMenu:AddInstructionButton({GetControlInstructionalButton(0, 51, 0), "Turn Right"})
-	AppearanceMenu:AddInstructionButton({GetControlInstructionalButton(0, 44, 0), "Turn Left"})
-
-	AppearanceMenu.OnMenuClosed = function(ParentMenu)
-		CharacterCreatorMenu.Cameras.Default:Switch(CharacterCreatorMenu.Cameras.Face.Handle, 1000, false, false)
-	end
-	
-	Citizen.CreateThread(function()
-		while CharacterCreatorActive do
-			Citizen.Wait(0)
-			if IsDisabledControlJustPressed(0, 22) then
-				if AppearanceMenu:CurrentSelection() == 1 then
-					if AppearanceMenu:Visible() then
-						PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Highlights = not PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Highlights
-						ItemHairHighlightColourPanel:Enabled(PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Highlights)
-						UpdatePlayer()
-						RemoveMask()
-					end
+	if PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender ~= "Hybrid" then
+		local ItemBrowList = NativeUI.CreateListItem("Brow", PlayerCustomisation.Reference.Features.Brow, 1, "Make changes your physical Features.")
+		local ItemEyesList = NativeUI.CreateListItem("Eyes", PlayerCustomisation.Reference.Features.Eyes, 1, "Make changes your physical Features.")
+		local ItemNoseList = NativeUI.CreateListItem("Nose", PlayerCustomisation.Reference.Features.Nose, 1, "Make changes your physical Features.")
+		local ItemNoseProfileList = NativeUI.CreateListItem("Nose Profile", PlayerCustomisation.Reference.Features.NoseProfile, 1, "Make changes your physical Features.")
+		local ItemNoseTipList = NativeUI.CreateListItem("Nose Tip", PlayerCustomisation.Reference.Features.NoseTip, 1, "Make changes your physical Features.")
+		local ItemCheekbonesList = NativeUI.CreateListItem("Cheekbones", PlayerCustomisation.Reference.Features.Cheekbones, 1, "Make changes your physical Features.")
+		local ItemCheeksList = NativeUI.CreateListItem("Cheeks", PlayerCustomisation.Reference.Features.Cheeks, 1, "Make changes your physical Features.")
+		local ItemLipsList = NativeUI.CreateListItem("Lips", PlayerCustomisation.Reference.Features.Lips, 1, "Make changes your physical Features.")
+		local ItemJawList = NativeUI.CreateListItem("Jaw", PlayerCustomisation.Reference.Features.Jaw, 1, "Make changes your physical Features.")
+		local ItemChinProfileList = NativeUI.CreateListItem("Chin Profile", PlayerCustomisation.Reference.Features.ChinProfile, 1, "Make changes your physical Features.")
+		local ItemChinShapeList = NativeUI.CreateListItem("Chin Shape", PlayerCustomisation.Reference.Features.ChinShape, 1, "Make changes your physical Features.")
+
+		ItemBrowList:AddPanel(NativeUI.CreateGridPanel("Up", "In", "Out", "Down"))
+		ItemEyesList:AddPanel(NativeUI.CreateGridPanel("", "Squint", "Wide", ""))
+		ItemNoseList:AddPanel(NativeUI.CreateGridPanel("Up", "Narrow", "Wide", "Down"))
+		ItemNoseProfileList:AddPanel(NativeUI.CreateGridPanel("Crooked", "Short", "Long", "Curved"))
+		ItemNoseTipList:AddPanel(NativeUI.CreateGridPanel("Tip Up", "Broken Left", "Broken Right", "Tip Down"))
+		ItemCheekbonesList:AddPanel(NativeUI.CreateGridPanel("Up", "In", "Out", "Down"))
+		ItemCheeksList:AddPanel(NativeUI.CreateGridPanel("", "Gaunt", "Puffed", ""))
+		ItemLipsList:AddPanel(NativeUI.CreateGridPanel("", "Thin", "Fat", ""))
+		ItemJawList:AddPanel(NativeUI.CreateGridPanel("Round", "Narrow", "Wide", "Square"))
+		ItemChinProfileList:AddPanel(NativeUI.CreateGridPanel("Up", "In", "Out", "Down"))
+		ItemChinShapeList:AddPanel(NativeUI.CreateGridPanel("Rounded", "Square", "Pointed", "Bum"))
+
+		ItemBrowList.OnListChanged = function(ParentMenu, ListItem, Index)
+			local ActiveItem = ListItem:IndexToItem(Index)
+			PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].FacialFeature[8] = ((ActiveItem.Panel == true) and ActiveItem.Value[1].X or ActiveItem.Value.X)
+			PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].FacialFeature[7] = ((ActiveItem.Panel == true) and ActiveItem.Value[1].Y or ActiveItem.Value.Y)
+
+			UpdatePlayer()
+			RemoveMask()
+
+			if not ActiveItem.Panel then
+				ListItem.Panels[1]:CirclePosition(((ActiveItem.Panel == true) and ActiveItem.Value[1].X or ActiveItem.Value.X), ((ActiveItem.Panel == true) and ActiveItem.Value[1].Y or ActiveItem.Value.Y))
+			else
+				local ResultX, ResultY = ListItem.Panels[1]:CirclePosition()
+				if ResultX ~= ((ActiveItem.Value[1].X / 2) + 0.5) or ResultY ~= ((ActiveItem.Value[1].Y / 2) + 0.5) then
+					ListItem.Panels[1]:CirclePosition(((ActiveItem.Value[1].X / 2) + 0.5), ((ActiveItem.Value[1].Y / 2) + 0.5))
 				end
 			end
 		end
-	end)
+		ItemEyesList.OnListChanged = function(ParentMenu, ListItem, Index)
+			local ActiveItem = ListItem:IndexToItem(Index)
+			PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].FacialFeature[12] = ((ActiveItem.Panel == true) and (1.0 - ActiveItem.Value[1].X) or (1.0 - ActiveItem.Value.X))
+
+			UpdatePlayer()
+			RemoveMask()
+
+			if not ActiveItem.Panel then
+				ListItem.Panels[1]:CirclePosition(((ActiveItem.Panel == true) and ActiveItem.Value[1].X or ActiveItem.Value.X), ((ActiveItem.Panel == true) and ActiveItem.Value[1].Y or ActiveItem.Value.Y))
+			else
+				local ResultX, ResultY = ListItem.Panels[1]:CirclePosition()
+				if ResultX ~= ((ActiveItem.Value[1].X / 2) + 0.5) or ResultY ~= ((ActiveItem.Value[1].Y / 2) + 0.5) then
+					ListItem.Panels[1]:CirclePosition(((ActiveItem.Value[1].X / 2) + 0.5), ((ActiveItem.Value[1].Y / 2) + 0.5))
+				end
+			end
+		end
+		ItemNoseList.OnListChanged = function(ParentMenu, ListItem, Index)
+			local ActiveItem = ListItem:IndexToItem(Index)
+			PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].FacialFeature[1] = ((ActiveItem.Panel == true) and ActiveItem.Value[1].X or ActiveItem.Value.X)
+			PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].FacialFeature[2] = ((ActiveItem.Panel == true) and ActiveItem.Value[1].Y or ActiveItem.Value.Y)
+
+			UpdatePlayer()
+			RemoveMask()
+
+			if not ActiveItem.Panel then
+				ListItem.Panels[1]:CirclePosition(((ActiveItem.Panel == true) and ActiveItem.Value[1].X or ActiveItem.Value.X), ((ActiveItem.Panel == true) and ActiveItem.Value[1].Y or ActiveItem.Value.Y))
+			else
+				local ResultX, ResultY = ListItem.Panels[1]:CirclePosition()
+				if ResultX ~= ((ActiveItem.Value[1].X / 2) + 0.5) or ResultY ~= ((ActiveItem.Value[1].Y / 2) + 0.5) then
+					ListItem.Panels[1]:CirclePosition(((ActiveItem.Value[1].X / 2) + 0.5), ((ActiveItem.Value[1].Y / 2) + 0.5))
+				end
+			end
+		end
+		ItemNoseProfileList.OnListChanged = function(ParentMenu, ListItem, Index)
+			local ActiveItem = ListItem:IndexToItem(Index)
+			PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].FacialFeature[3] = ((ActiveItem.Panel == true) and (1.0 - ActiveItem.Value[1].X) or (1.0 - ActiveItem.Value.X))
+			PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].FacialFeature[4] = ((ActiveItem.Panel == true) and ActiveItem.Value[1].Y or ActiveItem.Value.Y)
+
+			UpdatePlayer()
+			RemoveMask()
+
+			if not ActiveItem.Panel then
+				ListItem.Panels[1]:CirclePosition(((ActiveItem.Panel == true) and ActiveItem.Value[1].X or ActiveItem.Value.X), ((ActiveItem.Panel == true) and ActiveItem.Value[1].Y or ActiveItem.Value.Y))
+			else
+				local ResultX, ResultY = ListItem.Panels[1]:CirclePosition()
+				if ResultX ~= ((ActiveItem.Value[1].X / 2) + 0.5) or ResultY ~= ((ActiveItem.Value[1].Y / 2) + 0.5) then
+					ListItem.Panels[1]:CirclePosition(((ActiveItem.Value[1].X / 2) + 0.5), ((ActiveItem.Value[1].Y / 2) + 0.5))
+				end
+			end
+		end
+		ItemNoseTipList.OnListChanged = function(ParentMenu, ListItem, Index)
+			local ActiveItem = ListItem:IndexToItem(Index)
+			PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].FacialFeature[6] = ((ActiveItem.Panel == true) and (1.0 - ActiveItem.Value[1].X) or (1.0 - ActiveItem.Value.X))
+			PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].FacialFeature[5] = ((ActiveItem.Panel == true) and ActiveItem.Value[1].Y or ActiveItem.Value.Y)
+
+			UpdatePlayer()
+			RemoveMask()
+
+			if not ActiveItem.Panel then
+				ListItem.Panels[1]:CirclePosition(((ActiveItem.Panel == true) and ActiveItem.Value[1].X or ActiveItem.Value.X), ((ActiveItem.Panel == true) and ActiveItem.Value[1].Y or ActiveItem.Value.Y))
+			else
+				local ResultX, ResultY = ListItem.Panels[1]:CirclePosition()
+				if ResultX ~= ((ActiveItem.Value[1].X / 2) + 0.5) or ResultY ~= ((ActiveItem.Value[1].Y / 2) + 0.5) then
+					ListItem.Panels[1]:CirclePosition(((ActiveItem.Value[1].X / 2) + 0.5), ((ActiveItem.Value[1].Y / 2) + 0.5))
+				end
+			end
+		end
+		ItemCheekbonesList.OnListChanged = function(ParentMenu, ListItem, Index)
+			local ActiveItem = ListItem:IndexToItem(Index)
+			PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].FacialFeature[10] = ((ActiveItem.Panel == true) and ActiveItem.Value[1].X or ActiveItem.Value.X)
+			PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].FacialFeature[9] = ((ActiveItem.Panel == true) and ActiveItem.Value[1].Y or ActiveItem.Value.Y)
+
+			UpdatePlayer()
+			RemoveMask()
+
+			if not ActiveItem.Panel then
+				ListItem.Panels[1]:CirclePosition(((ActiveItem.Panel == true) and ActiveItem.Value[1].X or ActiveItem.Value.X), ((ActiveItem.Panel == true) and ActiveItem.Value[1].Y or ActiveItem.Value.Y))
+			else
+				local ResultX, ResultY = ListItem.Panels[1]:CirclePosition()
+				if ResultX ~= ((ActiveItem.Value[1].X / 2) + 0.5) or ResultY ~= ((ActiveItem.Value[1].Y / 2) + 0.5) then
+					ListItem.Panels[1]:CirclePosition(((ActiveItem.Value[1].X / 2) + 0.5), ((ActiveItem.Value[1].Y / 2) + 0.5))
+				end
+			end
+		end
+		ItemCheeksList.OnListChanged = function(ParentMenu, ListItem, Index)
+			local ActiveItem = ListItem:IndexToItem(Index)
+			PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].FacialFeature[11] = ((ActiveItem.Panel == true) and (1.0 - ActiveItem.Value[1].X) or ActiveItem.Value.X)
+
+			UpdatePlayer()
+			RemoveMask()
+
+			if not ActiveItem.Panel then
+				ListItem.Panels[1]:CirclePosition(((ActiveItem.Panel == true) and ActiveItem.Value[1].X or ActiveItem.Value.X), ((ActiveItem.Panel == true) and ActiveItem.Value[1].Y or ActiveItem.Value.Y))
+			else
+				local ResultX, ResultY = ListItem.Panels[1]:CirclePosition()
+				if ResultX ~= ((ActiveItem.Value[1].X / 2) + 0.5) or ResultY ~= ((ActiveItem.Value[1].Y / 2) + 0.5) then
+					ListItem.Panels[1]:CirclePosition(((ActiveItem.Value[1].X / 2) + 0.5), ((ActiveItem.Value[1].Y / 2) + 0.5))
+				end
+			end
+		end
+		ItemLipsList.OnListChanged = function(ParentMenu, ListItem, Index)
+			local ActiveItem = ListItem:IndexToItem(Index)
+			PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].FacialFeature[13] = ((ActiveItem.Panel == true) and (1.0 - ActiveItem.Value[1].X) or (1.0 - ActiveItem.Value.X))
+
+			UpdatePlayer()
+			RemoveMask()
+
+			if not ActiveItem.Panel then
+				ListItem.Panels[1]:CirclePosition(((ActiveItem.Panel == true) and ActiveItem.Value[1].X or ActiveItem.Value.X), ((ActiveItem.Panel == true) and ActiveItem.Value[1].Y or ActiveItem.Value.Y))
+			else
+				local ResultX, ResultY = ListItem.Panels[1]:CirclePosition()
+				if ResultX ~= ((ActiveItem.Value[1].X / 2) + 0.5) or ResultY ~= ((ActiveItem.Value[1].Y / 2) + 0.5) then
+					ListItem.Panels[1]:CirclePosition(((ActiveItem.Value[1].X / 2) + 0.5), ((ActiveItem.Value[1].Y / 2) + 0.5))
+				end
+			end
+		end
+		ItemJawList.OnListChanged = function(ParentMenu, ListItem, Index)
+			local ActiveItem = ListItem:IndexToItem(Index)
+			PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].FacialFeature[14] = ((ActiveItem.Panel == true) and ActiveItem.Value[1].X or ActiveItem.Value.X)
+			PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].FacialFeature[15] = ((ActiveItem.Panel == true) and ActiveItem.Value[1].Y or ActiveItem.Value.Y)
+
+			UpdatePlayer()
+			RemoveMask()
+
+			if not ActiveItem.Panel then
+				ListItem.Panels[1]:CirclePosition(((ActiveItem.Panel == true) and ActiveItem.Value[1].X or ActiveItem.Value.X), ((ActiveItem.Panel == true) and ActiveItem.Value[1].Y or ActiveItem.Value.Y))
+			else
+				local ResultX, ResultY = ListItem.Panels[1]:CirclePosition()
+				if ResultX ~= ((ActiveItem.Value[1].X / 2) + 0.5) or ResultY ~= ((ActiveItem.Value[1].Y / 2) + 0.5) then
+					ListItem.Panels[1]:CirclePosition(((ActiveItem.Value[1].X / 2) + 0.5), ((ActiveItem.Value[1].Y / 2) + 0.5))
+				end
+			end
+		end
+		ItemChinProfileList.OnListChanged = function(ParentMenu, ListItem, Index)
+			local ActiveItem = ListItem:IndexToItem(Index)
+			PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].FacialFeature[17] = ((ActiveItem.Panel == true) and ActiveItem.Value[1].X or ActiveItem.Value.X)
+			PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].FacialFeature[16] = ((ActiveItem.Panel == true) and ActiveItem.Value[1].Y or ActiveItem.Value.Y)
+
+			UpdatePlayer()
+			RemoveMask()
+
+			if not ActiveItem.Panel then
+				ListItem.Panels[1]:CirclePosition(((ActiveItem.Panel == true) and ActiveItem.Value[1].X or ActiveItem.Value.X), ((ActiveItem.Panel == true) and ActiveItem.Value[1].Y or ActiveItem.Value.Y))
+			else
+				local ResultX, ResultY = ListItem.Panels[1]:CirclePosition()
+				if ResultX ~= ((ActiveItem.Value[1].X / 2) + 0.5) or ResultY ~= ((ActiveItem.Value[1].Y / 2) + 0.5) then
+					ListItem.Panels[1]:CirclePosition(((ActiveItem.Value[1].X / 2) + 0.5), ((ActiveItem.Value[1].Y / 2) + 0.5))
+				end
+			end
+		end
+		ItemChinShapeList.OnListChanged = function(ParentMenu, ListItem, Index)
+			local ActiveItem = ListItem:IndexToItem(Index)
+			PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].FacialFeature[18] = ((ActiveItem.Panel == true) and (1.0 - ActiveItem.Value[1].X) or (1.0 - ActiveItem.Value.X))
+			PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].FacialFeature[19] = ((ActiveItem.Panel == true) and ActiveItem.Value[1].Y or ActiveItem.Value.Y)
+
+			UpdatePlayer()
+			RemoveMask()
+
+			if not ActiveItem.Panel then
+				ListItem.Panels[1]:CirclePosition(((ActiveItem.Panel == true) and ActiveItem.Value[1].X or ActiveItem.Value.X), ((ActiveItem.Panel == true) and ActiveItem.Value[1].Y or ActiveItem.Value.Y))
+			else
+				local ResultX, ResultY = ListItem.Panels[1]:CirclePosition()
+				if ResultX ~= ((ActiveItem.Value[1].X / 2) + 0.5) or ResultY ~= ((ActiveItem.Value[1].Y / 2) + 0.5) then
+					ListItem.Panels[1]:CirclePosition(((ActiveItem.Value[1].X / 2) + 0.5), ((ActiveItem.Value[1].Y / 2) + 0.5))
+				end
+			end
+		end
+
+		FeaturesMenu.Pagination.Total = 7
+		FeaturesMenu.Settings.MouseEdgeEnabled = false
+		FeaturesMenu:RemoveEnabledControl(0, 31)
+		FeaturesMenu:RemoveEnabledControl(0, 30)
+		FeaturesMenu:RemoveEnabledControl(0, 22)
+		
+		FeaturesMenu:AddItem(ItemBrowList)
+		FeaturesMenu:AddItem(ItemEyesList)
+		FeaturesMenu:AddItem(ItemNoseList)
+		FeaturesMenu:AddItem(ItemNoseProfileList)
+		FeaturesMenu:AddItem(ItemNoseTipList)
+		FeaturesMenu:AddItem(ItemCheekbonesList)
+		FeaturesMenu:AddItem(ItemCheeksList)
+		FeaturesMenu:AddItem(ItemLipsList)
+		FeaturesMenu:AddItem(ItemJawList)
+		FeaturesMenu:AddItem(ItemChinProfileList)
+		FeaturesMenu:AddItem(ItemChinShapeList)
+
+		FeaturesMenu:AddInstructionButton({GetControlInstructionalButton(0, 51, 0), "Turn Right"})
+		FeaturesMenu:AddInstructionButton({GetControlInstructionalButton(0, 44, 0), "Turn Left"})
+
+		FeaturesMenu.OnMenuClosed = function(ParentMenu)
+			CharacterCreatorMenu.Cameras.Default:Switch(CharacterCreatorMenu.Cameras.Face.Handle, 1000, false, false)
+		end
+	end
+
+	local AppearanceMenu = PlayerCustomisation.Pool:AddSubMenu(CharacterCreatorMenu, "Appearance", "Select to to change your Appearance.", true)
+	
+	if PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender ~= "Hybrid" then
+
+		local ItemHairList = NativeUI.CreateListItem("Hair", PlayerCustomisation.Reference.Appearance.Hairstyles[PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender], 1, "Make changes your Appearance.")
+		local ItemEyebrowsList = NativeUI.CreateListItem("Eyebrows", PlayerCustomisation.Reference.Appearance.Eyebrows, 1, "Make changes your Appearance.")
+		local ItemFacialHairList = NativeUI.CreateListItem("Facial Hair", PlayerCustomisation.Reference.Appearance.Beards, 1, "Make changes your Appearance.")
+		local ItemSkinBlemishesList = NativeUI.CreateListItem("Skin Blemishes", PlayerCustomisation.Reference.Appearance.Blemishes, 1, "Make changes your Appearance.")
+		local ItemSkinAgingList = NativeUI.CreateListItem("Skin Aging", PlayerCustomisation.Reference.Appearance.SkinAging, 1, "Make changes your Appearance.")
+		local ItemSkinComplexionList = NativeUI.CreateListItem("Skin Complexion", PlayerCustomisation.Reference.Appearance.SkinComplexion, 1, "Make changes your Appearance.")
+		local ItemMolesFrecklesList = NativeUI.CreateListItem("Moles & Freckles", PlayerCustomisation.Reference.Appearance.MolesFreckles, 1, "Make changes your Appearance.")
+		local ItemSkinDamageList = NativeUI.CreateListItem("Skin Damage", PlayerCustomisation.Reference.Appearance.SkinDamage, 1, "Make changes your Appearance.")
+		local ItemEyeColourList = NativeUI.CreateListItem("Eye Colour", PlayerCustomisation.Reference.Appearance.Eyes, 1, "Make changes your Appearance.")
+		local ItemEyeMakeupList = NativeUI.CreateListItem("Eye Makeup", PlayerCustomisation.Reference.Appearance.EyeMakeup, 1, "Make changes your Appearance.")
+		local ItemBlusherList = NativeUI.CreateListItem("Blusher", PlayerCustomisation.Reference.Appearance.Blush, 1, "Make changes your Appearance.")
+		local ItemLipstickList = NativeUI.CreateListItem("Lipstick", PlayerCustomisation.Reference.Appearance.Lipstick, 1, "Make changes your Appearance.")
+
+		local ItemHairColourPanel = NativeUI.CreateColourPanel("Colour", PlayerCustomisation.Reference.Colours.Hair)
+		local ItemHairHighlightColourPanel = NativeUI.CreateColourPanel("Highlight", PlayerCustomisation.Reference.Colours.Hair)
+		local ItemEyebrowsPercentagePanel = NativeUI.CreatePercentagePanel()
+		local ItemEyebrowsColourPanel = NativeUI.CreateColourPanel("Colour", PlayerCustomisation.Reference.Colours.Hair)
+		local ItemFacialHairPercentagePanel = NativeUI.CreatePercentagePanel()
+		local ItemFacialHairColourPanel = NativeUI.CreateColourPanel("Colour", PlayerCustomisation.Reference.Colours.Hair)
+		local ItemSkinBlemishesPercentagePanel = NativeUI.CreatePercentagePanel()
+		local ItemSkinAgingPercentagePanel = NativeUI.CreatePercentagePanel()
+		local ItemSkinComplexionPercentagePanel = NativeUI.CreatePercentagePanel()
+		local ItemMolesFrecklesPercentagePanel = NativeUI.CreatePercentagePanel()
+		local ItemSkinDamagePercentagePanel = NativeUI.CreatePercentagePanel()
+		local ItemEyeMakeupPercentagePanel = NativeUI.CreatePercentagePanel()
+		local ItemBlusherPercentagePanel = NativeUI.CreatePercentagePanel()
+		local ItemBlusherColourPanel = NativeUI.CreateColourPanel("Colour", PlayerCustomisation.Reference.Colours.Lipstick)
+		local ItemLipstickPercentagePanel = NativeUI.CreatePercentagePanel()
+		local ItemLipstickColourPanel = NativeUI.CreateColourPanel("Colour", PlayerCustomisation.Reference.Colours.Lipstick)
+
+		ItemHairList:AddPanel(ItemHairColourPanel)
+		ItemHairList:AddPanel(ItemHairHighlightColourPanel)
+		ItemEyebrowsList:AddPanel(ItemEyebrowsPercentagePanel)
+		ItemEyebrowsList:AddPanel(ItemEyebrowsColourPanel)
+		ItemFacialHairList:AddPanel(ItemFacialHairPercentagePanel)
+		ItemFacialHairList:AddPanel(ItemFacialHairColourPanel)
+		ItemSkinBlemishesList:AddPanel(ItemSkinBlemishesPercentagePanel)
+		ItemSkinAgingList:AddPanel(ItemSkinAgingPercentagePanel)
+		ItemSkinComplexionList:AddPanel(ItemSkinComplexionPercentagePanel)
+		ItemMolesFrecklesList:AddPanel(ItemMolesFrecklesPercentagePanel)
+		ItemSkinDamageList:AddPanel(ItemSkinDamagePercentagePanel)
+		ItemEyeMakeupList:AddPanel(ItemEyeMakeupPercentagePanel)
+		ItemBlusherList:AddPanel(ItemBlusherPercentagePanel)
+		ItemBlusherList:AddPanel(ItemBlusherColourPanel)
+		ItemLipstickList:AddPanel(ItemLipstickPercentagePanel)
+		ItemLipstickList:AddPanel(ItemLipstickColourPanel)
+
+		ItemHairHighlightColourPanel:Enabled(false)
+		ItemEyebrowsPercentagePanel:Enabled(false)
+		ItemEyebrowsColourPanel:Enabled(false)
+		ItemFacialHairPercentagePanel:Enabled(false)
+		ItemFacialHairColourPanel:Enabled(false)
+		ItemSkinBlemishesPercentagePanel:Enabled(false)
+		ItemSkinAgingPercentagePanel:Enabled(false)
+		ItemMolesFrecklesPercentagePanel:Enabled(false)
+		ItemSkinComplexionPercentagePanel:Enabled(false)
+		ItemSkinDamagePercentagePanel:Enabled(false)
+		ItemEyeMakeupPercentagePanel:Enabled(false)
+		ItemBlusherPercentagePanel:Enabled(false)
+		ItemBlusherColourPanel:Enabled(false)
+		ItemLipstickPercentagePanel:Enabled(false)
+		ItemLipstickColourPanel:Enabled(false)
+
+		ItemHairList.OnListChanged = function(ParentMenu, ListItem, Index)
+			local ActiveItem = ListItem:IndexToItem(Index)
+			PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Clothing.Drawable[3] = ActiveItem.Value
+			PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].HairColour[1] = (ActiveItem.Panels and ActiveItem.Panels[1] or 1) - 1
+			PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].HairColour[2] = (ActiveItem.Panels and ActiveItem.Panels[2] or 1) - 1
+
+			UpdatePlayer()
+			RemoveMask()
+		end
+		ItemEyebrowsList.OnListChanged = function(ParentMenu, ListItem, Index)
+			local ActiveItem = ListItem:IndexToItem(Index)
+
+			if Index == 1 then
+				ItemEyebrowsPercentagePanel:Enabled(false)
+				ItemEyebrowsColourPanel:Enabled(false)
+			else
+				ItemEyebrowsPercentagePanel:Enabled(true)
+				ItemEyebrowsColourPanel:Enabled(true)		
+			end
+
+			PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Drawable[3] = ActiveItem.Value or 255
+			PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Opacity[3] = (ActiveItem.Panels and ActiveItem.Panels[1] or 1.0)
+			PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Colours[3] = (ActiveItem.Panels and ActiveItem.Panels[2] or 1) - 1
+
+			UpdatePlayer()
+			RemoveMask()
+		end
+		ItemFacialHairList.OnListChanged = function(ParentMenu, ListItem, Index)
+			local ActiveItem = ListItem:IndexToItem(Index)
+
+			if Index == 1 then
+				ItemFacialHairPercentagePanel:Enabled(false)
+				ItemFacialHairColourPanel:Enabled(false)
+			else
+				ItemFacialHairPercentagePanel:Enabled(true)
+				ItemFacialHairColourPanel:Enabled(true)		
+			end
+
+			PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Drawable[2] = ActiveItem.Value or 255
+			PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Opacity[2] = (ActiveItem.Panels and ActiveItem.Panels[1] or 1.0)
+			PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Colours[2] = (ActiveItem.Panels and ActiveItem.Panels[2] or 1) - 1
+
+			UpdatePlayer()
+			RemoveMask()
+		end
+		ItemSkinBlemishesList.OnListChanged = function(ParentMenu, ListItem, Index)
+			local ActiveItem = ListItem:IndexToItem(Index)
+
+			if Index == 1 then
+				ItemSkinBlemishesPercentagePanel:Enabled(false)
+			else
+				ItemSkinBlemishesPercentagePanel:Enabled(true)
+			end
+
+			PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Drawable[1] = ActiveItem.Value or 255
+			PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Opacity[1] = (ActiveItem.Panels and ActiveItem.Panels[1] or 1.0)
+			PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Colours[1] = (ActiveItem.Panels and ActiveItem.Panels[2] or 1) - 1
+
+			UpdatePlayer()
+			RemoveMask()
+		end
+		ItemSkinAgingList.OnListChanged = function(ParentMenu, ListItem, Index)
+			local ActiveItem = ListItem:IndexToItem(Index)
+
+			if Index == 1 then
+				ItemSkinAgingPercentagePanel:Enabled(false)
+			else
+				ItemSkinAgingPercentagePanel:Enabled(true)
+			end
+
+			PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Drawable[4] = ActiveItem.Value or 255
+			PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Opacity[4] = (ActiveItem.Panels and ActiveItem.Panels[1] or 1.0)
+			PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Colours[4] = (ActiveItem.Panels and ActiveItem.Panels[2] or 1) - 1
+
+			UpdatePlayer()
+			RemoveMask()
+		end
+		ItemSkinComplexionList.OnListChanged = function(ParentMenu, ListItem, Index)
+			local ActiveItem = ListItem:IndexToItem(Index)
+
+			if Index == 1 then
+				ItemSkinComplexionPercentagePanel:Enabled(false)
+			else
+				ItemSkinComplexionPercentagePanel:Enabled(true)
+			end
+
+			PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Drawable[7] = ActiveItem.Value or 255
+			PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Opacity[7] = (ActiveItem.Panels and ActiveItem.Panels[1] or 1.0)
+			PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Colours[7] = (ActiveItem.Panels and ActiveItem.Panels[2] or 1) - 1
+
+			UpdatePlayer()
+			RemoveMask()
+		end
+		ItemMolesFrecklesList.OnListChanged = function(ParentMenu, ListItem, Index)
+			local ActiveItem = ListItem:IndexToItem(Index)
+
+			if Index == 1 then
+				ItemMolesFrecklesPercentagePanel:Enabled(false)
+			else
+				ItemMolesFrecklesPercentagePanel:Enabled(true)
+			end
+
+			PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Drawable[10] = ActiveItem.Value or 255
+			PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Opacity[10] = (ActiveItem.Panels and ActiveItem.Panels[1] or 1.0)
+			PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Colours[10] = (ActiveItem.Panels and ActiveItem.Panels[2] or 1) - 1
+
+			UpdatePlayer()
+			RemoveMask()
+		end
+		ItemSkinDamageList.OnListChanged = function(ParentMenu, ListItem, Index)
+			local ActiveItem = ListItem:IndexToItem(Index)
+
+			if Index == 1 then
+				ItemSkinDamagePercentagePanel:Enabled(false)
+			else
+				ItemSkinDamagePercentagePanel:Enabled(true)
+			end
+
+			PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Drawable[8] = ActiveItem.Value or 255
+			PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Opacity[8] = (ActiveItem.Panels and ActiveItem.Panels[1] or 1.0)
+			PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Colours[8] = (ActiveItem.Panels and ActiveItem.Panels[2] or 1) - 1
+
+			UpdatePlayer()
+			RemoveMask()
+		end
+		ItemEyeColourList.OnListChanged = function(ParentMenu, ListItem, Index)
+			local ActiveItem = ListItem:IndexToItem(Index)
+
+			PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].EyeColour = ActiveItem.Value
+
+			UpdatePlayer()
+			RemoveMask()
+		end
+		ItemEyeMakeupList.OnListChanged = function(ParentMenu, ListItem, Index)
+			local ActiveItem = ListItem:IndexToItem(Index)
+
+			if Index == 1 then
+				ItemEyeMakeupPercentagePanel:Enabled(false)
+			else
+				ItemEyeMakeupPercentagePanel:Enabled(true)
+			end
+
+			PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Drawable[5] = ActiveItem.Value or 255
+			PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Opacity[5] = (ActiveItem.Panels and ActiveItem.Panels[1] or 1.0)
+			PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Colours[5] = (ActiveItem.Panels and ActiveItem.Panels[2] or 1) - 1
+
+			UpdatePlayer()
+			RemoveMask()
+		end
+		ItemBlusherList.OnListChanged = function(ParentMenu, ListItem, Index)
+			local ActiveItem = ListItem:IndexToItem(Index)
+
+			if Index == 1 then
+				ItemBlusherPercentagePanel:Enabled(false)
+				ItemBlusherColourPanel:Enabled(false)
+			else
+				ItemBlusherPercentagePanel:Enabled(true)
+				ItemBlusherColourPanel:Enabled(true)		
+			end
+
+			PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Drawable[6] = ActiveItem.Value or 255
+			PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Opacity[6] = (ActiveItem.Panels and ActiveItem.Panels[1] or 1.0)
+			PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Colours[6] = (ActiveItem.Panels and ActiveItem.Panels[2] or 1) - 1
+
+			UpdatePlayer()
+			RemoveMask()
+		end
+		ItemLipstickList.OnListChanged = function(ParentMenu, ListItem, Index)
+			local ActiveItem = ListItem:IndexToItem(Index)
+
+			if Index == 1 then
+				ItemLipstickPercentagePanel:Enabled(false)
+				ItemLipstickColourPanel:Enabled(false)
+			else
+				ItemLipstickPercentagePanel:Enabled(true)
+				ItemLipstickColourPanel:Enabled(true)		
+			end
+
+			PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Drawable[9] = ActiveItem.Value or 255
+			PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Opacity[9] = (ActiveItem.Panels and ActiveItem.Panels[1] or 1.0)
+			PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Colours[9] = (ActiveItem.Panels and ActiveItem.Panels[2] or 1) - 1
+
+			UpdatePlayer()
+			RemoveMask()
+		end
+
+		AppearanceMenu.Pagination.Total = 7
+		AppearanceMenu.Settings.MouseEdgeEnabled = false
+		AppearanceMenu:RemoveEnabledControl(0, 31)
+		AppearanceMenu:RemoveEnabledControl(0, 30)
+		AppearanceMenu:RemoveEnabledControl(0, 22)
+		
+		AppearanceMenu:AddItem(ItemHairList)
+		AppearanceMenu:AddItem(ItemEyebrowsList)
+		AppearanceMenu:AddItem(ItemFacialHairList)
+		AppearanceMenu:AddItem(ItemSkinBlemishesList)
+		AppearanceMenu:AddItem(ItemSkinAgingList)
+		AppearanceMenu:AddItem(ItemSkinComplexionList)
+		AppearanceMenu:AddItem(ItemMolesFrecklesList)
+		AppearanceMenu:AddItem(ItemSkinDamageList)
+		AppearanceMenu:AddItem(ItemEyeColourList)
+		AppearanceMenu:AddItem(ItemEyeMakeupList)
+		AppearanceMenu:AddItem(ItemBlusherList)
+		AppearanceMenu:AddItem(ItemLipstickList)
+
+		AppearanceMenu:AddInstructionButton({GetControlInstructionalButton(0, 22, 0), "Toggle Highlights"})
+		AppearanceMenu:AddInstructionButton({GetControlInstructionalButton(0, 51, 0), "Turn Right"})
+		AppearanceMenu:AddInstructionButton({GetControlInstructionalButton(0, 44, 0), "Turn Left"})
+
+		AppearanceMenu.OnMenuClosed = function(ParentMenu)
+			CharacterCreatorMenu.Cameras.Default:Switch(CharacterCreatorMenu.Cameras.Face.Handle, 1000, false, false)
+		end
+		
+		Citizen.CreateThread(function()
+			while CharacterCreatorActive do
+				Citizen.Wait(0)
+				if IsDisabledControlJustPressed(0, 22) then
+					if AppearanceMenu:CurrentSelection() == 1 then
+						if AppearanceMenu:Visible() then
+							PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Highlights = not PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Highlights
+							ItemHairHighlightColourPanel:Enabled(PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Highlights)
+							UpdatePlayer()
+							RemoveMask()
+						end
+					end
+				end
+			end
+		end)
+	end
 
 	local ApparelMenu = PlayerCustomisation.Pool:AddSubMenu(CharacterCreatorMenu, "Apparel", "Select to to change your Apparel.", true)
-	local ItemStyleList = NativeUI.CreateListItem("Style", PlayerCustomisation.Reference.Apparel.Styles, 1, "Make changes your Apparel.")
-	local ItemOutfitList = NativeUI.CreateListItem("Outfit", PlayerCustomisation.Reference.Apparel.Outfits[PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender][1], 1, "Make changes your Apparel.")
-	local ItemHatList = NativeUI.CreateListItem("Hat", PlayerCustomisation.Reference.Apparel.Hat[PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender], 1, "Make changes your Apparel.")
-	local ItemGlassesList = NativeUI.CreateListItem("Glasses", PlayerCustomisation.Reference.Apparel.Glasses[PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender], 1, "Make changes your Apparel.")
 
-	ItemStyleList.OnListChanged = function(ParentMenu, ListItem, NewIndex)
-		ItemOutfitList.Items = PlayerCustomisation.Reference.Apparel.Outfits[PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender][NewIndex]
-		ItemOutfitList:Index(1)
+	if PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender ~= "Hybrid" then
+		local ItemStyleList = NativeUI.CreateListItem("Style", PlayerCustomisation.Reference.Apparel.Styles, 1, "Make changes your Apparel.")
+		local ItemOutfitList = NativeUI.CreateListItem("Outfit", PlayerCustomisation.Reference.Apparel.Outfits[PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender][1], 1, "Make changes your Apparel.")
+		local ItemHatList = NativeUI.CreateListItem("Hat", PlayerCustomisation.Reference.Apparel.Hat[PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender], 1, "Make changes your Apparel.")
+		local ItemGlassesList = NativeUI.CreateListItem("Glasses", PlayerCustomisation.Reference.Apparel.Glasses[PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender], 1, "Make changes your Apparel.")
 
-		for Index = 3, 11 do
-			PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Clothing.Drawable[Index + 1] = PlayerCustomisation.Reference.Apparel.Outfits[PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender][NewIndex][1].Value.Drawable[Index + 1]
-			PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Clothing.Texture[Index + 1] = PlayerCustomisation.Reference.Apparel.Outfits[PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender][NewIndex][1].Value.Texture[Index + 1]
-			PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Clothing.Palette[Index + 1] = PlayerCustomisation.Reference.Apparel.Outfits[PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender][NewIndex][1].Value.Palette[Index + 1]
+		ItemStyleList.OnListChanged = function(ParentMenu, ListItem, NewIndex)
+			ItemOutfitList.Items = PlayerCustomisation.Reference.Apparel.Outfits[PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender][NewIndex]
+			ItemOutfitList:Index(1)
+
+			for Index = 3, 11 do
+				PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Clothing.Drawable[Index + 1] = PlayerCustomisation.Reference.Apparel.Outfits[PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender][NewIndex][1].Value.Drawable[Index + 1]
+				PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Clothing.Texture[Index + 1] = PlayerCustomisation.Reference.Apparel.Outfits[PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender][NewIndex][1].Value.Texture[Index + 1]
+				PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Clothing.Palette[Index + 1] = PlayerCustomisation.Reference.Apparel.Outfits[PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender][NewIndex][1].Value.Palette[Index + 1]
+			end
+
+			UpdatePlayer()		
+		end
+		ItemOutfitList.OnListChanged = function(ParentMenu, ListItem, Index)
+			local ActiveItem = ListItem:IndexToItem(Index)
+
+			for Index = 3, 11 do
+				PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Clothing.Drawable[Index + 1] = ActiveItem.Value.Drawable[Index + 1]
+				PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Clothing.Texture[Index + 1] = ActiveItem.Value.Texture[Index + 1]
+				PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Clothing.Palette[Index + 1] = ActiveItem.Value.Palette[Index + 1]
+			end
+
+			UpdatePlayer()
+		end
+		ItemHatList.OnListChanged = function(ParentMenu, ListItem, Index)
+			local ActiveItem = ListItem:IndexToItem(Index)
+
+			if ActiveItem.Name == "Off" then
+				ClearPedProp(PlayerPedId(), 0)
+			end
+
+			PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Props.Drawable[1] = ActiveItem.Value.Drawable
+			PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Props.Texture[1] = ActiveItem.Value.Texture
+
+			UpdatePlayer()
+		end
+		ItemGlassesList.OnListChanged = function(ParentMenu, ListItem, Index)
+			local ActiveItem = ListItem:IndexToItem(Index)
+
+			if ActiveItem.Name == "Off" then
+				ClearPedProp(PlayerPedId(), 1)
+			end
+
+			PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Props.Drawable[2] = ActiveItem.Value.Drawable
+			PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Props.Texture[2] = ActiveItem.Value.Texture
+
+			UpdatePlayer()
 		end
 
-		UpdatePlayer()		
+		ApparelMenu.Pagination.Total = 7
+		ApparelMenu.Settings.MouseEdgeEnabled = false
+		ApparelMenu:RemoveEnabledControl(0, 31)
+		ApparelMenu:RemoveEnabledControl(0, 30)
+		ApparelMenu:RemoveEnabledControl(0, 22)
+		
+		ApparelMenu:AddItem(ItemStyleList)
+		ApparelMenu:AddItem(ItemOutfitList)
+		ApparelMenu:AddItem(ItemHatList)
+		ApparelMenu:AddItem(ItemGlassesList)
+
+		ApparelMenu:AddInstructionButton({GetControlInstructionalButton(0, 51, 0), "Turn Right"})
+		ApparelMenu:AddInstructionButton({GetControlInstructionalButton(0, 44, 0), "Turn Left"})
 	end
-	ItemOutfitList.OnListChanged = function(ParentMenu, ListItem, Index)
-		local ActiveItem = ListItem:IndexToItem(Index)
-
-		for Index = 3, 11 do
-			PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Clothing.Drawable[Index + 1] = ActiveItem.Value.Drawable[Index + 1]
-			PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Clothing.Texture[Index + 1] = ActiveItem.Value.Texture[Index + 1]
-			PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Clothing.Palette[Index + 1] = ActiveItem.Value.Palette[Index + 1]
-		end
-
-		UpdatePlayer()
-	end
-	ItemHatList.OnListChanged = function(ParentMenu, ListItem, Index)
-		local ActiveItem = ListItem:IndexToItem(Index)
-
-		if ActiveItem.Name == "Off" then
-			ClearPedProp(PlayerPedId(), 0)
-		end
-
-		PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Props.Drawable[1] = ActiveItem.Value.Drawable
-		PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Props.Texture[1] = ActiveItem.Value.Texture
-
-		UpdatePlayer()
-	end
-	ItemGlassesList.OnListChanged = function(ParentMenu, ListItem, Index)
-		local ActiveItem = ListItem:IndexToItem(Index)
-
-		if ActiveItem.Name == "Off" then
-			ClearPedProp(PlayerPedId(), 1)
-		end
-
-		PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Props.Drawable[2] = ActiveItem.Value.Drawable
-		PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Props.Texture[2] = ActiveItem.Value.Texture
-
-		UpdatePlayer()
-	end
-
-	ApparelMenu.Pagination.Total = 7
-	ApparelMenu.Settings.MouseEdgeEnabled = false
-	ApparelMenu:RemoveEnabledControl(0, 31)
-	ApparelMenu:RemoveEnabledControl(0, 30)
-	ApparelMenu:RemoveEnabledControl(0, 22)
-	
-	ApparelMenu:AddItem(ItemStyleList)
-	ApparelMenu:AddItem(ItemOutfitList)
-	ApparelMenu:AddItem(ItemHatList)
-	ApparelMenu:AddItem(ItemGlassesList)
-
-	ApparelMenu:AddInstructionButton({GetControlInstructionalButton(0, 51, 0), "Turn Right"})
-	ApparelMenu:AddInstructionButton({GetControlInstructionalButton(0, 44, 0), "Turn Left"})
 
 	local ItemSaveList = NativeUI.CreateItem("Save & Continue", "Finish creating your Character.")
 
