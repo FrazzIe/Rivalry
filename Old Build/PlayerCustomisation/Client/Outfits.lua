@@ -1,31 +1,48 @@
-OutfitMenu = NativeUI.CreateMenu("", "OUTFITS", 0, 0)
+local OutfitMenu = nil
 
-OutfitMenu.Settings.MouseEdgeEnabled = false
-
-OutfitMenu:RemoveEnabledControl(0, 31)
-OutfitMenu:RemoveEnabledControl(0, 30)
-OutfitMenu:RemoveEnabledControl(0, 22)
-
-OutfitMenu.Cameras = {
-	Default = Camera.New(),
-}
-
-OutfitMenu.OnMenuClosed = function(ParentMenu)
+function DestoryOutfitMenu()
+	exports["core_modules"]:StanceAllowed(true)
+	exports["core_modules"]:TurnOffHudElements(false)
+	TriggerEvent("chat:disable", false)
+	
 	PlayerCustomisation.Instanced = false
 	TriggerServerEvent("PlayerCustomisation.Instance", false)
 	TriggerServerEvent("PlayerCustomisation.Update", PlayerCustomisation.PlayerData.Type, PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type])
 
 	FreezeEntityPosition(PlayerPedId(), false)
 
-	ParentMenu.Cameras.Default:Deactivate()
-	ParentMenu.Cameras.Default:Destroy()
+	if OutfitMenu ~= nil then
+		OutfitMenu.Cameras.Default:Deactivate()
+		OutfitMenu.Cameras.Default:Destroy()
+
+		OutfitMenu:Visible(false)
+	end
+
+	PlayerCustomisation.Pool:Remove()
+
+	OutfitMenu = nil
+
+	collectgarbage()
 end
 
-OutfitMenu:AddInstructionButton({GetControlInstructionalButton(0, 51, 0), "Turn Right"})
-OutfitMenu:AddInstructionButton({GetControlInstructionalButton(0, 44, 0), "Turn Left"})
+function CreateOutfitMenu(LocationIndex)
+	OutfitMenu = NativeUI.CreateMenu("", "OUTFITS", 0, 0)
 
-function SetupOutfitMenu(ParentMenu)
-	ParentMenu:Clear()
+	OutfitMenu.Settings.MouseEdgeEnabled = false
+
+	OutfitMenu:RemoveEnabledControl(0, 31)
+	OutfitMenu:RemoveEnabledControl(0, 30)
+	OutfitMenu:RemoveEnabledControl(0, 22)
+
+	OutfitMenu.Cameras = {
+		Default = Camera.New(),
+	}
+
+	OutfitMenu.OnMenuClosed = DestoryOutfitMenu
+
+	OutfitMenu:AddInstructionButton({GetControlInstructionalButton(0, 51, 0), "Turn Right"})
+	OutfitMenu:AddInstructionButton({GetControlInstructionalButton(0, 44, 0), "Turn Left"})
+
 	local SaveItem = NativeUI.CreateItem("Save Outfit", "Save an outfit")
 	SaveItem.Activated = function(ParentMenu, SelectedItem)
 		for Index = 1, #ParentMenu.Items do
@@ -56,14 +73,14 @@ function SetupOutfitMenu(ParentMenu)
 
 		Outfit.Name = KeyboardInput("Outfit Name", "", 30) or "Outfit #"..#PlayerCustomisation.Outfits
 
-		TriggerServerEvent("Outfit.Create", PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Model, Outfit)
+		TriggerServerEvent("Outfit.Create", PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Model, Outfit, LocationIndex)
 	end
 
-	ParentMenu:AddItem(SaveItem)
+	OutfitMenu:AddItem(SaveItem)
 
 	if PlayerCustomisation.Outfits[PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Model] then
 		for OutfitIndex = 1, #PlayerCustomisation.Outfits[PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Model] do
-			local Outfit = PlayerCustomisation.Pool:AddSubMenu(ParentMenu, PlayerCustomisation.Outfits[PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Model][OutfitIndex].Name, "Do something with this outfit", true)
+			local Outfit = PlayerCustomisation.Pool:AddSubMenu(OutfitMenu, PlayerCustomisation.Outfits[PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Model][OutfitIndex].Name, "Do something with this outfit", true)
 			local LoadItem = NativeUI.CreateItem("Load "..PlayerCustomisation.Outfits[PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Model][OutfitIndex].Name, "")
 			local UpdateItem = NativeUI.CreateItem("Update "..PlayerCustomisation.Outfits[PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Model][OutfitIndex].Name, "")
 			local DeleteItem = NativeUI.CreateItem("Delete "..PlayerCustomisation.Outfits[PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Model][OutfitIndex].Name, "")
@@ -111,9 +128,7 @@ function SetupOutfitMenu(ParentMenu)
 				end
 			end
 			UpdateItem.Activated = function(ParentMenu, SelectedItem)
-				for Index = 1, #ParentMenu.Items do
-					ParentMenu.Items[Index]:Enabled(false)
-				end
+				ParentMenu:Visible(false)
 
 				for Index = 1, 12 do
 					PlayerCustomisation.Outfits[PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Model][OutfitIndex].Clothing.Drawable[Index] = PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Clothing.Drawable[Index]
@@ -125,14 +140,12 @@ function SetupOutfitMenu(ParentMenu)
 					PlayerCustomisation.Outfits[PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Model][OutfitIndex].Props.Texture[Index] = PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Props.Texture[Index]
 				end
 
-				TriggerServerEvent("Outfit.Update", PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Model, PlayerCustomisation.Outfits[PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Model][OutfitIndex])
+				TriggerServerEvent("Outfit.Update", PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Model, PlayerCustomisation.Outfits[PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Model][OutfitIndex], LocationIndex)
 			end
 			DeleteItem.Activated = function(ParentMenu, SelectedItem)
-				for Index = 1, #ParentMenu.Items do
-					ParentMenu.Items[Index]:Enabled(false)
-				end
+				ParentMenu:Visible(false)
 
-				TriggerServerEvent("Outfit.Delete", PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Model, PlayerCustomisation.Outfits[PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Model][OutfitIndex].Id)
+				TriggerServerEvent("Outfit.Delete", PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Model, PlayerCustomisation.Outfits[PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Model][OutfitIndex].Id, LocationIndex)
 			end
 
 			Outfit:AddItem(LoadItem)
@@ -147,24 +160,21 @@ function SetupOutfitMenu(ParentMenu)
 
 			Outfit:AddInstructionButton({GetControlInstructionalButton(0, 51, 0), "Turn Right"})
 			Outfit:AddInstructionButton({GetControlInstructionalButton(0, 44, 0), "Turn Left"})
-
-			Outfit:RefreshIndex()
 		end
 	end
-	ParentMenu:RefreshIndex()
+
+	PlayerCustomisation.Pool:Add(OutfitMenu)
+	PlayerCustomisation.Pool:RefreshIndex()
+
+	return OutfitMenu
 end
 
-SetupOutfitMenu(OutfitMenu)
-
 RegisterNetEvent("Outfit.Load")
-AddEventHandler("Outfit.Load", function(Outfits)
+AddEventHandler("Outfit.Load", function(Outfits, LocationIndex)
 	PlayerCustomisation.Outfits = Outfits
 
-	if OutfitMenu:Visible() then
-		OutfitMenu:Visible(false)
-		SetupOutfitMenu(OutfitMenu)
-		OutfitMenu:Visible(true)
-	else
-		SetupOutfitMenu(OutfitMenu)
+	if LocationIndex then
+		DestoryOutfitMenu()
+		OpenOutfitMenu(LocationIndex)
 	end
 end)

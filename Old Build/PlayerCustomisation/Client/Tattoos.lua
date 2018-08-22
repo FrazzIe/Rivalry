@@ -1,43 +1,48 @@
-TattooMenu = NativeUI.CreateMenu("", "BODY PARTS", 0, 0)
+function CreateTattooMenu()
+	PlayerCustomisation.Pool = NativeUI.CreatePool()
 
-TattooMenu.Settings.MouseEdgeEnabled = false
+	local TattooMenu = NativeUI.CreateMenu("", "BODY PARTS", 0, 0)
 
-TattooMenu:RemoveEnabledControl(0, 31)
-TattooMenu:RemoveEnabledControl(0, 30)
-TattooMenu:RemoveEnabledControl(0, 22)
+	TattooMenu.Settings.MouseEdgeEnabled = false
 
-TattooMenu.Cameras = {
-	Default = Camera.New(),
-	Face = Camera.New(),
-	Legs = Camera.New(),
-}
+	TattooMenu:RemoveEnabledControl(0, 31)
+	TattooMenu:RemoveEnabledControl(0, 30)
+	TattooMenu:RemoveEnabledControl(0, 22)
 
-TattooMenu.OnMenuClosed = function(ParentMenu)
-	UpdatePlayer()
+	TattooMenu.Cameras = {
+		Default = Camera.New(),
+		Face = Camera.New(),
+		Legs = Camera.New(),
+	}
 
-	IsStanceAllowed = true
-	TriggerEvent("chat:disable", false)
-	hud_off = false
-	
-	PlayerCustomisation.Instanced = false
-	TriggerServerEvent("PlayerCustomisation.Instance", false)
-	TriggerServerEvent("PlayerCustomisation.Update", PlayerCustomisation.PlayerData.Type, PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type])
+	TattooMenu.OnMenuClosed = function(ParentMenu)
+		UpdatePlayer()
 
-	FreezeEntityPosition(PlayerPedId(), false)
+		exports["core_modules"]:StanceAllowed(true)
+		exports["core_modules"]:TurnOffHudElements(false)
+		TriggerEvent("chat:disable", false)
+		
+		PlayerCustomisation.Instanced = false
+		TriggerServerEvent("PlayerCustomisation.Instance", false)
+		TriggerServerEvent("PlayerCustomisation.Update", PlayerCustomisation.PlayerData.Type, PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type])
 
-	TattooMenu.Cameras.Default:Deactivate()
-	TattooMenu.Cameras.Face:Deactivate()
-	TattooMenu.Cameras.Legs:Deactivate()
+		FreezeEntityPosition(PlayerPedId(), false)
 
-	TattooMenu.Cameras.Default:Destroy()
-	TattooMenu.Cameras.Face:Destroy()
-	TattooMenu.Cameras.Legs:Destroy()
-end
+		TattooMenu.Cameras.Default:Deactivate()
+		TattooMenu.Cameras.Face:Deactivate()
+		TattooMenu.Cameras.Legs:Deactivate()
 
-function SetupTattooMenu(ParentMenu)
-	ParentMenu:Clear()
+		TattooMenu.Cameras.Default:Destroy()
+		TattooMenu.Cameras.Face:Destroy()
+		TattooMenu.Cameras.Legs:Destroy()
+
+		PlayerCustomisation.Pool:Remove()
+
+		collectgarbage()
+	end
+
 	for Index = 1, #PlayerCustomisation.Reference.Tattoos.Categories do
-		local Menu = PlayerCustomisation.Pool:AddSubMenu(ParentMenu, PlayerCustomisation.Reference.Tattoos.Categories[Index], "", true)
+		local Menu = PlayerCustomisation.Pool:AddSubMenu(TattooMenu, PlayerCustomisation.Reference.Tattoos.Categories[Index], "", true)
 		Menu.Subtitle.Text:Text("TATTOOS")
 		Menu.Subtitle.BackupText = "TATTOOS"
 		for Tattoo = 1, #PlayerCustomisation.Reference.Tattoos.Options[PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender][Index] do
@@ -76,9 +81,9 @@ function SetupTattooMenu(ParentMenu)
 			SetPedNaked()
 
 			if Index == 4 then
-				ParentMenu.Cameras.Default:Switch((ParentMenu.Cameras.Face.Handle), 250, false, false)
+				TattooMenu.Cameras.Default:Switch((TattooMenu.Cameras.Face.Handle), 250, false, false)
 			elseif Index == 7 or Index == 8 then
-				ParentMenu.Cameras.Default:Switch((ParentMenu.Cameras.Legs.Handle), 250, false, false)
+				TattooMenu.Cameras.Default:Switch((TattooMenu.Cameras.Legs.Handle), 250, false, false)
 			end
 		end
 
@@ -90,8 +95,6 @@ function SetupTattooMenu(ParentMenu)
 
 		Menu:AddInstructionButton({GetControlInstructionalButton(0, 51, 0), "Turn Right"})
 		Menu:AddInstructionButton({GetControlInstructionalButton(0, 44, 0), "Turn Left"})
-
-		Menu:RefreshIndex()
 	end
 
 	TattooMenu.Items[4].Activated = function(ParentMenu, SelectedItem)
@@ -105,7 +108,9 @@ function SetupTattooMenu(ParentMenu)
 	TattooMenu.Items[8].Activated = function(ParentMenu, SelectedItem)
 		ParentMenu.Cameras.Legs:Switch((ParentMenu.Cameras.Default.Handle), 250, false, false)
 	end
-	TattooMenu:RefreshIndex()
-end
 
-SetupTattooMenu(TattooMenu)
+	PlayerCustomisation.Pool:Add(TattooMenu)
+	PlayerCustomisation.Pool:RefreshIndex()
+
+	return TattooMenu
+end

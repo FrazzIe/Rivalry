@@ -1,30 +1,49 @@
-CharacterCreatorMenu = NativeUI.CreateMenu("Character Creator", "", 0, 0)
+local CharacterCreatorActive = false
 
-CharacterCreatorMenu.Settings.MouseEdgeEnabled = false
-CharacterCreatorMenu.Controls.Back.Enabled = false
-
-CharacterCreatorMenu:RemoveEnabledControl(0, 31)
-CharacterCreatorMenu:RemoveEnabledControl(0, 30)
-CharacterCreatorMenu:RemoveEnabledControl(0, 22)
-
-CharacterCreatorMenu.Cameras = {
-	Default = Camera.New(402.85162353516, -999.0, -98.7002119873047),
-	Face = Camera.New(402.85162353516, -997.2, -98.4002119873047),
-}
-
-CharacterCreatorMenu:AddInstructionButton({GetControlInstructionalButton(0, 51, 0), "Turn Right"})
-CharacterCreatorMenu:AddInstructionButton({GetControlInstructionalButton(0, 44, 0), "Turn Left"})
-
-function SetupGenderOption(ParentMenu)
-	local ItemGenderList = NativeUI.CreateListItem("Sex", {{Name = "Male", Value = "mp_m_freemode_01"}, {Name = "Female", Value = "mp_f_freemode_01"}, "Hybrid"}, 1, "Select the gender of your Character.")
-
-	ParentMenu:AddItem(ItemGenderList)
-
-	return ItemGenderList
+function DestoryCharacterCreator()
+	CharacterCreatorActive = false
+	PlayerCustomisation.Pool:Remove()
+	collectgarbage()
 end
 
-function SetupHeritageMenu(ParentMenu)
-	local Menu = PlayerCustomisation.Pool:AddSubMenu(ParentMenu, "Heritage", "Select to choose your parents.", true)
+function CreateCharacterCreator()
+	PlayerCustomisation.Pool = NativeUI.CreatePool()
+
+	CharacterCreatorActive = true
+
+	local CharacterCreatorMenu = NativeUI.CreateMenu("Character Creator", "", 0, 0)
+
+	CharacterCreatorMenu.Settings.MouseEdgeEnabled = false
+	CharacterCreatorMenu.Controls.Back.Enabled = false
+
+	CharacterCreatorMenu:RemoveEnabledControl(0, 31)
+	CharacterCreatorMenu:RemoveEnabledControl(0, 30)
+	CharacterCreatorMenu:RemoveEnabledControl(0, 22)
+
+	CharacterCreatorMenu.Cameras = {
+		Default = Camera.New(402.85162353516, -999.0, -98.7002119873047),
+		Face = Camera.New(402.85162353516, -997.2, -98.4002119873047),
+	}
+
+	CharacterCreatorMenu:AddInstructionButton({GetControlInstructionalButton(0, 51, 0), "Turn Right"})
+	CharacterCreatorMenu:AddInstructionButton({GetControlInstructionalButton(0, 44, 0), "Turn Left"})
+
+	local MergeList = {}
+
+	for Type, _ in pairs(PlayerCustomisation.PlayerData.Types) do
+		table.insert(MergeList, Type)
+	end
+
+	local MergeListItem = NativeUI.CreateListItem("Merge with", MergeList, 1, "Merge your characters features (e.g. copy your off-duty face)")
+
+	CharacterCreatorMenu:AddItem(MergeListItem)
+
+
+	local GenderListItem = NativeUI.CreateListItem("Sex", {{Name = "Male", Value = "mp_m_freemode_01"}, {Name = "Female", Value = "mp_f_freemode_01"}, "Hybrid"}, 1, "Select the gender of your Character.")
+
+	CharacterCreatorMenu:AddItem(GenderListItem)
+
+	local HeritageMenu = PlayerCustomisation.Pool:AddSubMenu(CharacterCreatorMenu, "Heritage", "Select to choose your parents.", true)
 	local Window = NativeUI.CreateHeritageWindow(0, 19)
 	local ItemMumList = NativeUI.CreateListItem("Mum", PlayerCustomisation.Reference.Heritage.Female, 1, "Select your Mum.")
 	local ItemDadList = NativeUI.CreateListItem("Dad", PlayerCustomisation.Reference.Heritage.Male, 1, "Select your Dad.")
@@ -56,30 +75,27 @@ function SetupHeritageMenu(ParentMenu)
 		RemoveMask()
 	end
 
-	Menu.Pagination.Total = 7
-	Menu.Settings.MouseEdgeEnabled = false
-	Menu:RemoveEnabledControl(0, 31)
-	Menu:RemoveEnabledControl(0, 30)
-	Menu:RemoveEnabledControl(0, 22)
+	HeritageMenu.Pagination.Total = 7
+	HeritageMenu.Settings.MouseEdgeEnabled = false
+	HeritageMenu:RemoveEnabledControl(0, 31)
+	HeritageMenu:RemoveEnabledControl(0, 30)
+	HeritageMenu:RemoveEnabledControl(0, 22)
 
-	Menu:AddWindow(Window)
-	Menu:AddItem(ItemMumList)
-	Menu:AddItem(ItemDadList)
-	Menu:AddItem(ItemResemblanceSlider)
-	Menu:AddItem(ItemSkinToneSlider)
+	HeritageMenu:AddWindow(Window)
+	HeritageMenu:AddItem(ItemMumList)
+	HeritageMenu:AddItem(ItemDadList)
+	HeritageMenu:AddItem(ItemResemblanceSlider)
+	HeritageMenu:AddItem(ItemSkinToneSlider)
 
-	Menu:AddInstructionButton({GetControlInstructionalButton(0, 51, 0), "Turn Right"})
-	Menu:AddInstructionButton({GetControlInstructionalButton(0, 44, 0), "Turn Left"})
+	HeritageMenu:AddInstructionButton({GetControlInstructionalButton(0, 51, 0), "Turn Right"})
+	HeritageMenu:AddInstructionButton({GetControlInstructionalButton(0, 44, 0), "Turn Left"})
 
-	Menu.OnMenuClosed = function(ParentMenu)
+	HeritageMenu.OnMenuClosed = function(ParentMenu)
 		CharacterCreatorMenu.Cameras.Default:Switch(CharacterCreatorMenu.Cameras.Face.Handle, 1000, false, false)
 	end
 
-	return Menu
-end
 
-function SetupFeaturesMenu(ParentMenu)
-	local Menu = PlayerCustomisation.Pool:AddSubMenu(ParentMenu, "Features", "Select to alter your facial Features", true)
+	local FeaturesMenu = PlayerCustomisation.Pool:AddSubMenu(CharacterCreatorMenu, "Features", "Select to alter your facial Features", true)
 	local ItemBrowList = NativeUI.CreateListItem("Brow", PlayerCustomisation.Reference.Features.Brow, 1, "Make changes your physical Features.")
 	local ItemEyesList = NativeUI.CreateListItem("Eyes", PlayerCustomisation.Reference.Features.Eyes, 1, "Make changes your physical Features.")
 	local ItemNoseList = NativeUI.CreateListItem("Nose", PlayerCustomisation.Reference.Features.Nose, 1, "Make changes your physical Features.")
@@ -289,36 +305,32 @@ function SetupFeaturesMenu(ParentMenu)
 		end
 	end
 
-	Menu.Pagination.Total = 7
-	Menu.Settings.MouseEdgeEnabled = false
-	Menu:RemoveEnabledControl(0, 31)
-	Menu:RemoveEnabledControl(0, 30)
-	Menu:RemoveEnabledControl(0, 22)
+	FeaturesMenu.Pagination.Total = 7
+	FeaturesMenu.Settings.MouseEdgeEnabled = false
+	FeaturesMenu:RemoveEnabledControl(0, 31)
+	FeaturesMenu:RemoveEnabledControl(0, 30)
+	FeaturesMenu:RemoveEnabledControl(0, 22)
 	
-	Menu:AddItem(ItemBrowList)
-	Menu:AddItem(ItemEyesList)
-	Menu:AddItem(ItemNoseList)
-	Menu:AddItem(ItemNoseProfileList)
-	Menu:AddItem(ItemNoseTipList)
-	Menu:AddItem(ItemCheekbonesList)
-	Menu:AddItem(ItemCheeksList)
-	Menu:AddItem(ItemLipsList)
-	Menu:AddItem(ItemJawList)
-	Menu:AddItem(ItemChinProfileList)
-	Menu:AddItem(ItemChinShapeList)
+	FeaturesMenu:AddItem(ItemBrowList)
+	FeaturesMenu:AddItem(ItemEyesList)
+	FeaturesMenu:AddItem(ItemNoseList)
+	FeaturesMenu:AddItem(ItemNoseProfileList)
+	FeaturesMenu:AddItem(ItemNoseTipList)
+	FeaturesMenu:AddItem(ItemCheekbonesList)
+	FeaturesMenu:AddItem(ItemCheeksList)
+	FeaturesMenu:AddItem(ItemLipsList)
+	FeaturesMenu:AddItem(ItemJawList)
+	FeaturesMenu:AddItem(ItemChinProfileList)
+	FeaturesMenu:AddItem(ItemChinShapeList)
 
-	Menu:AddInstructionButton({GetControlInstructionalButton(0, 51, 0), "Turn Right"})
-	Menu:AddInstructionButton({GetControlInstructionalButton(0, 44, 0), "Turn Left"})
+	FeaturesMenu:AddInstructionButton({GetControlInstructionalButton(0, 51, 0), "Turn Right"})
+	FeaturesMenu:AddInstructionButton({GetControlInstructionalButton(0, 44, 0), "Turn Left"})
 
-	Menu.OnMenuClosed = function(ParentMenu)
+	FeaturesMenu.OnMenuClosed = function(ParentMenu)
 		CharacterCreatorMenu.Cameras.Default:Switch(CharacterCreatorMenu.Cameras.Face.Handle, 1000, false, false)
 	end
 
-	return Menu
-end
-
-function SetupAppearanceMenu(ParentMenu)
-	local Menu = PlayerCustomisation.Pool:AddSubMenu(ParentMenu, "Appearance", "Select to to change your Appearance.", true)
+	local AppearanceMenu = PlayerCustomisation.Pool:AddSubMenu(CharacterCreatorMenu, "Appearance", "Select to to change your Appearance.", true)
 	local ItemHairList = NativeUI.CreateListItem("Hair", PlayerCustomisation.Reference.Appearance.Hairstyles[PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender], 1, "Make changes your Appearance.")
 	local ItemEyebrowsList = NativeUI.CreateListItem("Eyebrows", PlayerCustomisation.Reference.Appearance.Eyebrows, 1, "Make changes your Appearance.")
 	local ItemFacialHairList = NativeUI.CreateListItem("Facial Hair", PlayerCustomisation.Reference.Appearance.Beards, 1, "Make changes your Appearance.")
@@ -568,39 +580,39 @@ function SetupAppearanceMenu(ParentMenu)
 		RemoveMask()
 	end
 
-	Menu.Pagination.Total = 7
-	Menu.Settings.MouseEdgeEnabled = false
-	Menu:RemoveEnabledControl(0, 31)
-	Menu:RemoveEnabledControl(0, 30)
-	Menu:RemoveEnabledControl(0, 22)
+	AppearanceMenu.Pagination.Total = 7
+	AppearanceMenu.Settings.MouseEdgeEnabled = false
+	AppearanceMenu:RemoveEnabledControl(0, 31)
+	AppearanceMenu:RemoveEnabledControl(0, 30)
+	AppearanceMenu:RemoveEnabledControl(0, 22)
 	
-	Menu:AddItem(ItemHairList)
-	Menu:AddItem(ItemEyebrowsList)
-	Menu:AddItem(ItemFacialHairList)
-	Menu:AddItem(ItemSkinBlemishesList)
-	Menu:AddItem(ItemSkinAgingList)
-	Menu:AddItem(ItemSkinComplexionList)
-	Menu:AddItem(ItemMolesFrecklesList)
-	Menu:AddItem(ItemSkinDamageList)
-	Menu:AddItem(ItemEyeColourList)
-	Menu:AddItem(ItemEyeMakeupList)
-	Menu:AddItem(ItemBlusherList)
-	Menu:AddItem(ItemLipstickList)
+	AppearanceMenu:AddItem(ItemHairList)
+	AppearanceMenu:AddItem(ItemEyebrowsList)
+	AppearanceMenu:AddItem(ItemFacialHairList)
+	AppearanceMenu:AddItem(ItemSkinBlemishesList)
+	AppearanceMenu:AddItem(ItemSkinAgingList)
+	AppearanceMenu:AddItem(ItemSkinComplexionList)
+	AppearanceMenu:AddItem(ItemMolesFrecklesList)
+	AppearanceMenu:AddItem(ItemSkinDamageList)
+	AppearanceMenu:AddItem(ItemEyeColourList)
+	AppearanceMenu:AddItem(ItemEyeMakeupList)
+	AppearanceMenu:AddItem(ItemBlusherList)
+	AppearanceMenu:AddItem(ItemLipstickList)
 
-	Menu:AddInstructionButton({GetControlInstructionalButton(0, 22, 0), "Toggle Highlights"})
-	Menu:AddInstructionButton({GetControlInstructionalButton(0, 51, 0), "Turn Right"})
-	Menu:AddInstructionButton({GetControlInstructionalButton(0, 44, 0), "Turn Left"})
+	AppearanceMenu:AddInstructionButton({GetControlInstructionalButton(0, 22, 0), "Toggle Highlights"})
+	AppearanceMenu:AddInstructionButton({GetControlInstructionalButton(0, 51, 0), "Turn Right"})
+	AppearanceMenu:AddInstructionButton({GetControlInstructionalButton(0, 44, 0), "Turn Left"})
 
-	Menu.OnMenuClosed = function(ParentMenu)
+	AppearanceMenu.OnMenuClosed = function(ParentMenu)
 		CharacterCreatorMenu.Cameras.Default:Switch(CharacterCreatorMenu.Cameras.Face.Handle, 1000, false, false)
 	end
 	
 	Citizen.CreateThread(function()
-		while true do
+		while CharacterCreatorActive do
 			Citizen.Wait(0)
 			if IsDisabledControlJustPressed(0, 22) then
-				if Menu:CurrentSelection() == 1 then
-					if Menu:Visible() then
+				if AppearanceMenu:CurrentSelection() == 1 then
+					if AppearanceMenu:Visible() then
 						PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Highlights = not PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Highlights
 						ItemHairHighlightColourPanel:Enabled(PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Highlights)
 						UpdatePlayer()
@@ -611,11 +623,7 @@ function SetupAppearanceMenu(ParentMenu)
 		end
 	end)
 
-	return Menu
-end
-
-function SetupApparelMenu(ParentMenu)
-	local Menu = PlayerCustomisation.Pool:AddSubMenu(ParentMenu, "Apparel", "Select to to change your Apparel.", true)
+	local ApparelMenu = PlayerCustomisation.Pool:AddSubMenu(CharacterCreatorMenu, "Apparel", "Select to to change your Apparel.", true)
 	local ItemStyleList = NativeUI.CreateListItem("Style", PlayerCustomisation.Reference.Apparel.Styles, 1, "Make changes your Apparel.")
 	local ItemOutfitList = NativeUI.CreateListItem("Outfit", PlayerCustomisation.Reference.Apparel.Outfits[PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender][1], 1, "Make changes your Apparel.")
 	local ItemHatList = NativeUI.CreateListItem("Hat", PlayerCustomisation.Reference.Apparel.Hat[PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender], 1, "Make changes your Apparel.")
@@ -669,30 +677,26 @@ function SetupApparelMenu(ParentMenu)
 		UpdatePlayer()
 	end
 
-	Menu.Pagination.Total = 7
-	Menu.Settings.MouseEdgeEnabled = false
-	Menu:RemoveEnabledControl(0, 31)
-	Menu:RemoveEnabledControl(0, 30)
-	Menu:RemoveEnabledControl(0, 22)
+	ApparelMenu.Pagination.Total = 7
+	ApparelMenu.Settings.MouseEdgeEnabled = false
+	ApparelMenu:RemoveEnabledControl(0, 31)
+	ApparelMenu:RemoveEnabledControl(0, 30)
+	ApparelMenu:RemoveEnabledControl(0, 22)
 	
-	Menu:AddItem(ItemStyleList)
-	Menu:AddItem(ItemOutfitList)
-	Menu:AddItem(ItemHatList)
-	Menu:AddItem(ItemGlassesList)
+	ApparelMenu:AddItem(ItemStyleList)
+	ApparelMenu:AddItem(ItemOutfitList)
+	ApparelMenu:AddItem(ItemHatList)
+	ApparelMenu:AddItem(ItemGlassesList)
 
-	Menu:AddInstructionButton({GetControlInstructionalButton(0, 51, 0), "Turn Right"})
-	Menu:AddInstructionButton({GetControlInstructionalButton(0, 44, 0), "Turn Left"})
+	ApparelMenu:AddInstructionButton({GetControlInstructionalButton(0, 51, 0), "Turn Right"})
+	ApparelMenu:AddInstructionButton({GetControlInstructionalButton(0, 44, 0), "Turn Left"})
 
-	return Menu
-end
-
-function SetupSaveOption(ParentMenu)
 	local ItemSaveList = NativeUI.CreateItem("Save & Continue", "Finish creating your Character.")
 
 	ItemSaveList.Activated = function(ParentMenu, SelectedItem)
-		IsStanceAllowed = true
+		exports["core_modules"]:StanceAllowed(true)
+		exports["core_modules"]:TurnOffHudElements(false)
 		TriggerEvent("chat:disable", false)
-		hud_off = false
 		
 		TriggerServerEvent("PlayerCustomisation.Instance", false)
 
@@ -736,29 +740,13 @@ function SetupSaveOption(ParentMenu)
 		ClearPedTasks()
 
 		UpdatePlayer()
+
+		DestoryCharacterCreator()
 	end
 
-	ParentMenu:AddItem(ItemSaveList)
+	CharacterCreatorMenu:AddItem(ItemSaveList)
 
-	return ItemSaveList
-end
-
-function SetupMergeOption(ParentMenu)
-	local MergeList = {}
-
-	for Type, _ in pairs(PlayerCustomisation.PlayerData.Types) do
-		table.insert(MergeList, Type)
-	end
-
-	local MergeListItem = NativeUI.CreateListItem("Merge with", MergeList, 1, "Merge your characters features (e.g. copy your off-duty face)")
-
-	ParentMenu:AddItem(MergeListItem)
-
-	return MergeListItem
-end
-
-function SetupModelMenu(ParentMenu)
-	local Menu = NativeUI.CreateMenu("Ped Models", "Select a model", 0, 0)
+	local ModelMenu = NativeUI.CreateMenu("Ped Models", "Select a model", 0, 0)
 	for Index = 1, #PlayerCustomisation.Reference.Models[PlayerCustomisation.PlayerData.Type] do
 		local ModelItem = NativeUI.CreateItem(PlayerCustomisation.Reference.Models[PlayerCustomisation.PlayerData.Type][Index], "Change your character to "..PlayerCustomisation.Reference.Models[PlayerCustomisation.PlayerData.Type][Index])
 		ModelItem.Activated = function(ParentMenu, SelectedItem)
@@ -768,33 +756,213 @@ function SetupModelMenu(ParentMenu)
 			AttachEntityToEntity(PlayerCustomisation.Creator.Board.RenderTarget.Handle, PlayerPedId(), GetPedBoneIndex(PlayerPedId(), 28422), 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, false, false, false, false, 2, true)
 			TaskPlayAnim(PlayerPedId(), PlayerCustomisation.Creator.Board.Dictionary, PlayerCustomisation.Creator.Board.Animation, 8.0, -8, -1, 1, 0, 0, 0, 0)
 		end
-		Menu:AddItem(ModelItem)
+		ModelMenu:AddItem(ModelItem)
 	end
 
-	Menu.Pagination.Total = 7
-	Menu.Settings.MouseEdgeEnabled = false
-	Menu:RemoveEnabledControl(0, 31)
-	Menu:RemoveEnabledControl(0, 30)
-	Menu:RemoveEnabledControl(0, 22)	
-	Menu.ParentMenu = ParentMenu
+	ModelMenu.Pagination.Total = 7
+	ModelMenu.Settings.MouseEdgeEnabled = false
+	ModelMenu:RemoveEnabledControl(0, 31)
+	ModelMenu:RemoveEnabledControl(0, 30)
+	ModelMenu:RemoveEnabledControl(0, 22)	
+	ModelMenu.ParentMenu = CharacterCreatorMenu
 
-	return Menu
-end
+	CharacterCreatorMenu.Items[3].Activated = function(ParentMenu, SelectedItem)
+		RemoveMask()
+		CharacterCreatorMenu.Cameras.Face:Switch(CharacterCreatorMenu.Cameras.Default.Handle, 1000, false, false)
+	end
 
-function UpdateModelMenu(Menu)
-	Menu:Clear()
+	CharacterCreatorMenu.Items[4].Activated = function(ParentMenu, SelectedItem)
+		RemoveMask()
+		CharacterCreatorMenu.Cameras.Face:Switch(CharacterCreatorMenu.Cameras.Default.Handle, 1000, false, false)
+	end
 
-	for Index = 1, #PlayerCustomisation.Reference.Models[PlayerCustomisation.PlayerData.Type] do
-		local ModelItem = NativeUI.CreateItem(PlayerCustomisation.Reference.Models[PlayerCustomisation.PlayerData.Type][Index], "Change your character to "..PlayerCustomisation.Reference.Models[PlayerCustomisation.PlayerData.Type][Index])
-		ModelItem.Activated = function(ParentMenu, SelectedItem)
-			UpdateModel(PlayerCustomisation.Reference.Models[PlayerCustomisation.PlayerData.Type][Index])
+	CharacterCreatorMenu.Items[5].Activated = function(ParentMenu, SelectedItem)
+		RemoveMask()
+		CharacterCreatorMenu.Cameras.Face:Switch(CharacterCreatorMenu.Cameras.Default.Handle, 1000, false, false)
+	end
 
-			AttachEntityToEntity(PlayerCustomisation.Creator.Board.Handle, PlayerPedId(), GetPedBoneIndex(PlayerPedId(), 28422), 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, false, false, false, false, 2, true)
-			AttachEntityToEntity(PlayerCustomisation.Creator.Board.RenderTarget.Handle, PlayerPedId(), GetPedBoneIndex(PlayerPedId(), 28422), 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, false, false, false, false, 2, true)
-			TaskPlayAnim(PlayerPedId(), PlayerCustomisation.Creator.Board.Dictionary, PlayerCustomisation.Creator.Board.Animation, 8.0, -8, -1, 1, 0, 0, 0, 0)
+	CharacterCreatorMenu.OnListSelect = function(ParentMenu, SelectedList, NewIndex) 
+		if SelectedList == GenderListItem then
+			SelectedList:Enabled(false)
+			local Item = SelectedList:IndexToItem(NewIndex)
+			if Item == "Hybrid" then
+				ParentMenu:Visible(false)
+				ModelMenu:Visible(true)
+				for Index = 3, (#ParentMenu.Items - 1) do
+					ParentMenu.Items[Index]:Enabled(false)
+					ParentMenu.Items[Index]:SetRightBadge(BadgeStyle.Lock)
+				end
+
+				ParentMenu.Items[1]:Enabled(false)
+			else
+				UpdateModel(Item.Value)
+
+				AppearanceMenu.Items[1].Items = PlayerCustomisation.Reference.Appearance.Hairstyles[PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender]
+				ApparelMenu.Items[3].Items = PlayerCustomisation.Reference.Apparel.Hat[PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender]
+				ApparelMenu.Items[4].Items = PlayerCustomisation.Reference.Apparel.Glasses[PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender]
+
+				HeritageMenu.Windows[1]:Index(GetPortraitFromFace("Female", PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].HeadBlend[1]), GetPortraitFromFace("Male", PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].HeadBlend[2]))
+				HeritageMenu.Items[1]:Index(GetFaceIndex("Female", PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].HeadBlend[1]))
+				HeritageMenu.Items[2]:Index(GetFaceIndex("Male", PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].HeadBlend[2]))
+				HeritageMenu.Items[3]:Index(HeritageMenu.Items[3]:ItemToIndex(PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].HeadBlend[3]))
+				HeritageMenu.Items[4]:Index(HeritageMenu.Items[4]:ItemToIndex(PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].HeadBlend[4]))
+
+				FeaturesMenu.Items[1].Panels[1]:CirclePosition(PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].FacialFeature[8], PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].FacialFeature[7])
+				FeaturesMenu.Items[2].Panels[1]:CirclePosition(1.0 - PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].FacialFeature[12], 0.5)
+				FeaturesMenu.Items[3].Panels[1]:CirclePosition(PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].FacialFeature[1], PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].FacialFeature[2])
+				FeaturesMenu.Items[4].Panels[1]:CirclePosition(1.0 - PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].FacialFeature[3], PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].FacialFeature[4])
+				FeaturesMenu.Items[5].Panels[1]:CirclePosition(1.0 - PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].FacialFeature[6], PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].FacialFeature[5])
+				FeaturesMenu.Items[6].Panels[1]:CirclePosition(PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].FacialFeature[10], PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].FacialFeature[9])
+				FeaturesMenu.Items[7].Panels[1]:CirclePosition(1.0 - PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].FacialFeature[11], 0.5)
+				FeaturesMenu.Items[8].Panels[1]:CirclePosition(1.0 - PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].FacialFeature[13], 0.5)
+				FeaturesMenu.Items[9].Panels[1]:CirclePosition(PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].FacialFeature[14], PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].FacialFeature[15])
+				FeaturesMenu.Items[10].Panels[1]:CirclePosition(PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].FacialFeature[17], PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].FacialFeature[16])
+				FeaturesMenu.Items[11].Panels[1]:CirclePosition(1.0 - PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].FacialFeature[18], PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].FacialFeature[19])
+
+				AppearanceMenu.Items[1]:Index(AppearanceMenu.Items[1]:ItemToIndex(PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Clothing.Drawable[3]))
+				AppearanceMenu.Items[1].Panels[1]:CurrentSelection(PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].HairColour[1], true)
+				AppearanceMenu.Items[1].Panels[2]:CurrentSelection(PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].HairColour[2], true)
+				AppearanceMenu.Items[2]:Index(AppearanceMenu.Items[2]:ItemToIndex(PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Drawable[3]))
+				AppearanceMenu.Items[2].Panels[1]:Percentage(PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Opacity[3])
+				AppearanceMenu.Items[2].Panels[2]:CurrentSelection(PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Colours[3], true)
+				AppearanceMenu.Items[3]:Index(AppearanceMenu.Items[3]:ItemToIndex(PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Drawable[2]))
+				AppearanceMenu.Items[3].Panels[1]:Percentage(PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Opacity[2])
+				AppearanceMenu.Items[3].Panels[2]:CurrentSelection(PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Colours[2], true)
+				AppearanceMenu.Items[4]:Index(AppearanceMenu.Items[4]:ItemToIndex(PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Drawable[1]))
+				AppearanceMenu.Items[4].Panels[1]:Percentage(PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Opacity[1])
+				AppearanceMenu.Items[5]:Index(AppearanceMenu.Items[5]:ItemToIndex(PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Drawable[4]))
+				AppearanceMenu.Items[5].Panels[1]:Percentage(PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Opacity[4])
+				AppearanceMenu.Items[6]:Index(AppearanceMenu.Items[6]:ItemToIndex(PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Drawable[7]))
+				AppearanceMenu.Items[6].Panels[1]:Percentage(PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Opacity[7])
+				AppearanceMenu.Items[7]:Index(AppearanceMenu.Items[7]:ItemToIndex(PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Drawable[10]))
+				AppearanceMenu.Items[7].Panels[1]:Percentage(PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Opacity[10])
+				AppearanceMenu.Items[8]:Index(AppearanceMenu.Items[8]:ItemToIndex(PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Drawable[8]))
+				AppearanceMenu.Items[8].Panels[1]:Percentage(PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Opacity[8])
+				AppearanceMenu.Items[9]:Index(AppearanceMenu.Items[9]:ItemToIndex(PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].EyeColour))
+				AppearanceMenu.Items[10]:Index(AppearanceMenu.Items[10]:ItemToIndex(PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Drawable[5]))
+				AppearanceMenu.Items[10].Panels[1]:Percentage(PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Opacity[5])
+				AppearanceMenu.Items[11]:Index(AppearanceMenu.Items[11]:ItemToIndex(PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Drawable[6]))
+				AppearanceMenu.Items[11].Panels[1]:Percentage(PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Opacity[6])
+				AppearanceMenu.Items[11].Panels[2]:CurrentSelection(PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Colours[6], true)
+				AppearanceMenu.Items[12]:Index(AppearanceMenu.Items[12]:ItemToIndex(PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Drawable[9]))
+				AppearanceMenu.Items[12].Panels[1]:Percentage(PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Opacity[9])
+				AppearanceMenu.Items[12].Panels[2]:CurrentSelection(PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Colours[9], true)
+
+				AppearanceMenu.Items[1].Panels[2]:Enabled(PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Highlights)
+
+				local StyleIndex, OutfitIndex = GetOutfitIndex()
+
+				ApparelMenu.Items[2].Items = PlayerCustomisation.Reference.Apparel.Outfits[PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender][StyleIndex]
+				ApparelMenu.Items[1]:Index(StyleIndex)
+				ApparelMenu.Items[2]:Index(OutfitIndex)
+				ApparelMenu.Items[3]:Index(GetHatIndex())
+				ApparelMenu.Items[4]:Index(GetGlassesIndex())
+
+				for Index = 3, #ParentMenu.Items do
+					ParentMenu.Items[Index]:Enabled(true)
+					ParentMenu.Items[Index]:SetRightBadge(BadgeStyle.None)
+				end
+
+				ParentMenu.Items[1]:Enabled(true)
+
+				--SetupTattooMenu(TattooMenu)
+				--UpdateHairstylesMenu(HairstyleMenu)
+
+				AttachEntityToEntity(PlayerCustomisation.Creator.Board.Handle, PlayerPedId(), GetPedBoneIndex(PlayerPedId(), 28422), 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, false, false, false, false, 2, true)
+				AttachEntityToEntity(PlayerCustomisation.Creator.Board.RenderTarget.Handle, PlayerPedId(), GetPedBoneIndex(PlayerPedId(), 28422), 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, false, false, false, false, 2, true)
+				TaskPlayAnim(PlayerPedId(), PlayerCustomisation.Creator.Board.Dictionary, PlayerCustomisation.Creator.Board.Animation, 8.0, -8, -1, 1, 0, 0, 0, 0)
+			end
+
+			--SetupOutfitMenu(OutfitMenu)
+
+			SelectedList:Enabled(true)
+		elseif SelectedList == MergeListItem then
+			local ActiveItem = SelectedList:IndexToItem(NewIndex)
+
+			for Index = 1, #PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].FacialFeature do
+				PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].FacialFeature[Index] = PlayerCustomisation.PlayerData.Types[ActiveItem][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].FacialFeature[Index]
+			end
+
+			for Index = 1, #PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].HeadBlend do
+				PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].HeadBlend[Index] = PlayerCustomisation.PlayerData.Types[ActiveItem][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].HeadBlend[Index]
+			end
+
+			for Index = 1, #PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Drawable do
+				PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Drawable[Index] = PlayerCustomisation.PlayerData.Types[ActiveItem][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Drawable[Index]
+				PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Opacity[Index] = PlayerCustomisation.PlayerData.Types[ActiveItem][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Opacity[Index]
+				PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Colours[Index] = PlayerCustomisation.PlayerData.Types[ActiveItem][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Colours[Index]
+			end
+
+			PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Tattoos = PlayerCustomisation.PlayerData.Types[ActiveItem][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Tattoos
+
+			PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Clothing.Drawable[3] = PlayerCustomisation.PlayerData.Types[ActiveItem][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Clothing.Drawable[3]
+			
+			PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].HairColour[1] = PlayerCustomisation.PlayerData.Types[ActiveItem][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].HairColour[1]
+
+			PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].HairColour[2] = PlayerCustomisation.PlayerData.Types[ActiveItem][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].HairColour[2]
+
+			PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Highlights = PlayerCustomisation.PlayerData.Types[ActiveItem][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Highlights
+			UpdatePlayer()
+
+			AppearanceMenu.Items[1].Items = PlayerCustomisation.Reference.Appearance.Hairstyles[PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender]
+			ApparelMenu.Items[3].Items = PlayerCustomisation.Reference.Apparel.Hat[PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender]
+			ApparelMenu.Items[4].Items = PlayerCustomisation.Reference.Apparel.Glasses[PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender]
+
+			HeritageMenu.Windows[1]:Index(GetPortraitFromFace("Female", PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].HeadBlend[1]), GetPortraitFromFace("Male", PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].HeadBlend[2]))
+			HeritageMenu.Items[1]:Index(GetFaceIndex("Female", PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].HeadBlend[1]))
+			HeritageMenu.Items[2]:Index(GetFaceIndex("Male", PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].HeadBlend[2]))
+			HeritageMenu.Items[3]:Index(HeritageMenu.Items[3]:ItemToIndex(PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].HeadBlend[3]))
+			HeritageMenu.Items[4]:Index(HeritageMenu.Items[4]:ItemToIndex(PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].HeadBlend[4]))
+
+			FeaturesMenu.Items[1].Panels[1]:CirclePosition(PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].FacialFeature[8], PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].FacialFeature[7])
+			FeaturesMenu.Items[2].Panels[1]:CirclePosition(1.0 - PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].FacialFeature[12], 0.5)
+			FeaturesMenu.Items[3].Panels[1]:CirclePosition(PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].FacialFeature[1], PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].FacialFeature[2])
+			FeaturesMenu.Items[4].Panels[1]:CirclePosition(1.0 - PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].FacialFeature[3], PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].FacialFeature[4])
+			FeaturesMenu.Items[5].Panels[1]:CirclePosition(1.0 - PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].FacialFeature[6], PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].FacialFeature[5])
+			FeaturesMenu.Items[6].Panels[1]:CirclePosition(PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].FacialFeature[10], PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].FacialFeature[9])
+			FeaturesMenu.Items[7].Panels[1]:CirclePosition(1.0 - PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].FacialFeature[11], 0.5)
+			FeaturesMenu.Items[8].Panels[1]:CirclePosition(1.0 - PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].FacialFeature[13], 0.5)
+			FeaturesMenu.Items[9].Panels[1]:CirclePosition(PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].FacialFeature[14], PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].FacialFeature[15])
+			FeaturesMenu.Items[10].Panels[1]:CirclePosition(PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].FacialFeature[17], PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].FacialFeature[16])
+			FeaturesMenu.Items[11].Panels[1]:CirclePosition(1.0 - PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].FacialFeature[18], PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].FacialFeature[19])
+
+			AppearanceMenu.Items[1]:Index(AppearanceMenu.Items[1]:ItemToIndex(PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Clothing.Drawable[3]))
+			AppearanceMenu.Items[1].Panels[1]:CurrentSelection(PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].HairColour[1], true)
+			AppearanceMenu.Items[1].Panels[2]:CurrentSelection(PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].HairColour[2], true)
+			AppearanceMenu.Items[2]:Index(AppearanceMenu.Items[2]:ItemToIndex(PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Drawable[3]))
+			AppearanceMenu.Items[2].Panels[1]:Percentage(PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Opacity[3])
+			AppearanceMenu.Items[2].Panels[2]:CurrentSelection(PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Colours[3], true)
+			AppearanceMenu.Items[3]:Index(AppearanceMenu.Items[3]:ItemToIndex(PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Drawable[2]))
+			AppearanceMenu.Items[3].Panels[1]:Percentage(PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Opacity[2])
+			AppearanceMenu.Items[3].Panels[2]:CurrentSelection(PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Colours[2], true)
+			AppearanceMenu.Items[4]:Index(AppearanceMenu.Items[4]:ItemToIndex(PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Drawable[1]))
+			AppearanceMenu.Items[4].Panels[1]:Percentage(PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Opacity[1])
+			AppearanceMenu.Items[5]:Index(AppearanceMenu.Items[5]:ItemToIndex(PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Drawable[4]))
+			AppearanceMenu.Items[5].Panels[1]:Percentage(PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Opacity[4])
+			AppearanceMenu.Items[6]:Index(AppearanceMenu.Items[6]:ItemToIndex(PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Drawable[7]))
+			AppearanceMenu.Items[6].Panels[1]:Percentage(PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Opacity[7])
+			AppearanceMenu.Items[7]:Index(AppearanceMenu.Items[7]:ItemToIndex(PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Drawable[10]))
+			AppearanceMenu.Items[7].Panels[1]:Percentage(PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Opacity[10])
+			AppearanceMenu.Items[8]:Index(AppearanceMenu.Items[8]:ItemToIndex(PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Drawable[8]))
+			AppearanceMenu.Items[8].Panels[1]:Percentage(PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Opacity[8])
+			AppearanceMenu.Items[9]:Index(AppearanceMenu.Items[9]:ItemToIndex(PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].EyeColour))
+			AppearanceMenu.Items[10]:Index(AppearanceMenu.Items[10]:ItemToIndex(PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Drawable[5]))
+			AppearanceMenu.Items[10].Panels[1]:Percentage(PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Opacity[5])
+			AppearanceMenu.Items[11]:Index(AppearanceMenu.Items[11]:ItemToIndex(PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Drawable[6]))
+			AppearanceMenu.Items[11].Panels[1]:Percentage(PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Opacity[6])
+			AppearanceMenu.Items[11].Panels[2]:CurrentSelection(PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Colours[6], true)
+			AppearanceMenu.Items[12]:Index(AppearanceMenu.Items[12]:ItemToIndex(PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Drawable[9]))
+			AppearanceMenu.Items[12].Panels[1]:Percentage(PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Opacity[9])
+			AppearanceMenu.Items[12].Panels[2]:CurrentSelection(PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Colours[9], true)
+
+			AppearanceMenu.Items[1].Panels[2]:Enabled(PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Highlights)
+
+			--SetupTattooMenu(TattooMenu)
 		end
-		Menu:AddItem(ModelItem)
 	end
 
-	Menu:RefreshIndex()
+	PlayerCustomisation.Pool:Add(CharacterCreatorMenu)
+	PlayerCustomisation.Pool:RefreshIndex()
+
+	return CharacterCreatorMenu, MergeListItem, GenderListItem, HeritageMenu, FeaturesMenu, AppearanceMenu, ApparelMenu, ItemSaveList, ModelMenu
 end

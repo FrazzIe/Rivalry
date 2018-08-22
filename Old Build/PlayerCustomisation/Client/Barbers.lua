@@ -1,38 +1,51 @@
-BarberMenu = NativeUI.CreateMenu("", "CATEGORIES", 0, 0)
+local BarbersMenuActive = false
 
-BarberMenu.Settings.MouseEdgeEnabled = false
+function CreateBarberMenu()
+	PlayerCustomisation.Pool = NativeUI.CreatePool()
 
-BarberMenu:RemoveEnabledControl(0, 31)
-BarberMenu:RemoveEnabledControl(0, 30)
-BarberMenu:RemoveEnabledControl(0, 22)
+	BarbersMenuActive = true
 
-BarberMenu.Cameras = {
-	Default = Camera.New(),
-	Face = Camera.New(),
-}
+	local BarberMenu = NativeUI.CreateMenu("", "CATEGORIES", 0, 0)
 
-BarberMenu.OnMenuClosed = function(ParentMenu)
-	IsStanceAllowed = true
-	TriggerEvent("chat:disable", false)
-	hud_off = false
-	
-	PlayerCustomisation.Instanced = false
-	TriggerServerEvent("PlayerCustomisation.Instance", false)
-	TriggerServerEvent("PlayerCustomisation.Update", PlayerCustomisation.PlayerData.Type, PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type])
+	BarberMenu.Settings.MouseEdgeEnabled = false
 
-	FreezeEntityPosition(PlayerPedId(), false)
+	BarberMenu:RemoveEnabledControl(0, 31)
+	BarberMenu:RemoveEnabledControl(0, 30)
+	BarberMenu:RemoveEnabledControl(0, 22)
 
-	BarberMenu.Cameras.Default:Deactivate()
-	BarberMenu.Cameras.Face:Deactivate()
-	BarberMenu.Cameras.Default:Destroy()
-	BarberMenu.Cameras.Face:Destroy()
-end
+	BarberMenu.Cameras = {
+		Default = Camera.New(),
+		Face = Camera.New(),
+	}
 
-BarberMenu:AddInstructionButton({GetControlInstructionalButton(0, 51, 0), "Turn Right"})
-BarberMenu:AddInstructionButton({GetControlInstructionalButton(0, 44, 0), "Turn Left"})
+	BarberMenu.OnMenuClosed = function(ParentMenu)
+		exports["core_modules"]:StanceAllowed(true)
+		exports["core_modules"]:TurnOffHudElements(false)
+		TriggerEvent("chat:disable", false)
+		
+		PlayerCustomisation.Instanced = false
+		TriggerServerEvent("PlayerCustomisation.Instance", false)
+		TriggerServerEvent("PlayerCustomisation.Update", PlayerCustomisation.PlayerData.Type, PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type])
 
-function SetupHairstylesMenu(ParentMenu)
-	local Menu = PlayerCustomisation.Pool:AddSubMenu(ParentMenu, "Hairstyles", "", true)
+		FreezeEntityPosition(PlayerPedId(), false)
+
+		BarberMenu.Cameras.Default:Deactivate()
+		BarberMenu.Cameras.Face:Deactivate()
+		BarberMenu.Cameras.Default:Destroy()
+		BarberMenu.Cameras.Face:Destroy()
+
+		BarbersMenuActive = false
+
+		PlayerCustomisation.Pool:Remove()
+
+		collectgarbage()
+	end
+
+	BarberMenu:AddInstructionButton({GetControlInstructionalButton(0, 51, 0), "Turn Right"})
+	BarberMenu:AddInstructionButton({GetControlInstructionalButton(0, 44, 0), "Turn Left"})
+
+	local HairstyleMenu = PlayerCustomisation.Pool:AddSubMenu(BarberMenu, "Hairstyles", "", true)
+
 	for Index = 1, #PlayerCustomisation.Reference.Appearance.Hairstyles[PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender] do
 		local HairstyleItem = NativeUI.CreateItem(PlayerCustomisation.Reference.Appearance.Hairstyles[PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender][Index].Name, "")
 		local HairstyleColourPanel = NativeUI.CreateColourPanel("Colour", PlayerCustomisation.Reference.Colours.Hair)
@@ -71,33 +84,33 @@ function SetupHairstylesMenu(ParentMenu)
 			ClearPedProp(PlayerPedId(), 0)
 			RemoveMask()
 		end
-		Menu:AddItem(HairstyleItem)
+		HairstyleMenu:AddItem(HairstyleItem)
 	end
 
-	Menu.OnIndexChange = function(ParentMenu, NewIndex)
+	HairstyleMenu.OnIndexChange = function(ParentMenu, NewIndex)
 		SetPedComponentVariation(PlayerPedId(), 2, PlayerCustomisation.Reference.Appearance.Hairstyles[PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender][NewIndex].Value, 0, 1)
 	end
-	Menu.OnMenuClosed = function(ParentMenu)
+	HairstyleMenu.OnMenuClosed = function(ParentMenu)
 		UpdatePlayer()
 
 		BarberMenu.Cameras.Default:Switch(BarberMenu.Cameras.Face.Handle, 1000, false, false)
 	end
 
-	Menu.Settings.MouseEdgeEnabled = false
+	HairstyleMenu.Settings.MouseEdgeEnabled = false
 
-	Menu:RemoveEnabledControl(0, 31)
-	Menu:RemoveEnabledControl(0, 30)
-	Menu:RemoveEnabledControl(0, 22)
+	HairstyleMenu:RemoveEnabledControl(0, 31)
+	HairstyleMenu:RemoveEnabledControl(0, 30)
+	HairstyleMenu:RemoveEnabledControl(0, 22)
 
-	Menu:AddInstructionButton({GetControlInstructionalButton(0, 22, 0), "Toggle Highlights"})
-	Menu:AddInstructionButton({GetControlInstructionalButton(0, 51, 0), "Turn Right"})
-	Menu:AddInstructionButton({GetControlInstructionalButton(0, 44, 0), "Turn Left"})
+	HairstyleMenu:AddInstructionButton({GetControlInstructionalButton(0, 22, 0), "Toggle Highlights"})
+	HairstyleMenu:AddInstructionButton({GetControlInstructionalButton(0, 51, 0), "Turn Right"})
+	HairstyleMenu:AddInstructionButton({GetControlInstructionalButton(0, 44, 0), "Turn Left"})
 
 	Citizen.CreateThread(function()
-		while true do
+		while BarbersMenuActive do
 			Citizen.Wait(0)
 			if IsDisabledControlJustPressed(0, 22) then
-				if Menu:Visible() then
+				if HairstyleMenu:Visible() then
 					PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Highlights = not PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Highlights
 					
 					for Index = 1, #Menu.Items do
@@ -112,56 +125,8 @@ function SetupHairstylesMenu(ParentMenu)
 		end
 	end)
 
-	return Menu
-end
+	local BeardMenu = PlayerCustomisation.Pool:AddSubMenu(BarberMenu, "Beards", "", true)
 
-function UpdateHairstylesMenu(Menu)
-	Menu:Clear()
-	for Index = 1, #PlayerCustomisation.Reference.Appearance.Hairstyles[PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender] do
-		local HairstyleItem = NativeUI.CreateItem(PlayerCustomisation.Reference.Appearance.Hairstyles[PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender][Index].Name, "")
-		local HairstyleColourPanel = NativeUI.CreateColourPanel("Colour", PlayerCustomisation.Reference.Colours.Hair)
-		local HairstyleHighlightPanel = NativeUI.CreateColourPanel("Highlight", PlayerCustomisation.Reference.Colours.Hair)
-		HairstyleItem:AddPanel(HairstyleColourPanel)
-		HairstyleItem:AddPanel(HairstyleHighlightPanel)
-		HairstyleItem.Activated = function(ParentMenu, SelectedItem)
-			PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Clothing.Drawable[3] = PlayerCustomisation.Reference.Appearance.Hairstyles[PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender][Index].Value
-			
-			UpdatePlayer()
-			ClearPedProp(PlayerPedId(), 0)
-			RemoveMask()
-
-			for ItemIndex = 1, #ParentMenu.Items do
-				ParentMenu.Items[ItemIndex]:SetRightBadge(BadgeStyle.None)
-			end
-
-			SelectedItem:SetRightBadge(BadgeStyle.Barber)
-		end
-		HairstyleItem.ActivatedPanel = function(ParentMenu, SelectedItem, Panel, PanelValue)
-			if Panel == HairstyleColourPanel then
-				PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].HairColour[1] = PanelValue - 1
-
-				for ItemIndex = 1, #ParentMenu.Items do
-					ParentMenu.Items[ItemIndex].Panels[1]:CurrentSelection(PanelValue - 1, true)
-				end
-			elseif Panel == HairstyleHighlightPanel then
-				PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].HairColour[2] = PanelValue - 1
-
-				for ItemIndex = 1, #ParentMenu.Items do
-					ParentMenu.Items[ItemIndex].Panels[2]:CurrentSelection(PanelValue - 1, true)
-				end
-			end
-
-			UpdatePlayer()
-			ClearPedProp(PlayerPedId(), 0)
-			RemoveMask()
-		end
-		Menu:AddItem(HairstyleItem)
-	end
-	Menu:RefreshIndex()
-end
-
-function SetupBeardsMenu(ParentMenu)
-	local Menu = PlayerCustomisation.Pool:AddSubMenu(ParentMenu, "Beards", "", true)
 	for Index = 1, #PlayerCustomisation.Reference.Appearance.Beards do
 		local BeardItem = NativeUI.CreateItem(PlayerCustomisation.Reference.Appearance.Beards[Index].Name, "")
 		local BeardPercentagePanel = NativeUI.CreatePercentagePanel()
@@ -205,34 +170,30 @@ function SetupBeardsMenu(ParentMenu)
 			RemoveMask()
 		end
 
-		Menu:AddItem(BeardItem)
+		BeardMenu:AddItem(BeardItem)
 	end
 
-	Menu.OnIndexChange = function(ParentMenu, NewIndex)
+	BeardMenu.OnIndexChange = function(ParentMenu, NewIndex)
 		SetPedHeadOverlay(PlayerPedId(), 1, PlayerCustomisation.Reference.Appearance.Beards[NewIndex].Value, PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Opacity[2])
 		SetPedHeadOverlayColor(PlayerPedId(), 1, GetOverlayColourType(1), PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Colours[2], PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Colours[2])
 	end
 
-	Menu.OnMenuClosed = function(ParentMenu)
+	BeardMenu.OnMenuClosed = function(ParentMenu)
 		UpdatePlayer()
 
 		BarberMenu.Cameras.Default:Switch(BarberMenu.Cameras.Face.Handle, 1000, false, false)
 	end
 
-	Menu:AddInstructionButton({GetControlInstructionalButton(0, 51, 0), "Turn Right"})
-	Menu:AddInstructionButton({GetControlInstructionalButton(0, 44, 0), "Turn Left"})
+	BeardMenu:AddInstructionButton({GetControlInstructionalButton(0, 51, 0), "Turn Right"})
+	BeardMenu:AddInstructionButton({GetControlInstructionalButton(0, 44, 0), "Turn Left"})
 
-	Menu.Settings.MouseEdgeEnabled = false
+	BeardMenu.Settings.MouseEdgeEnabled = false
 
-	Menu:RemoveEnabledControl(0, 31)
-	Menu:RemoveEnabledControl(0, 30)
-	Menu:RemoveEnabledControl(0, 22)
+	BeardMenu:RemoveEnabledControl(0, 31)
+	BeardMenu:RemoveEnabledControl(0, 30)
+	BeardMenu:RemoveEnabledControl(0, 22)
 
-	return Menu
-end
-
-function SetupEyebrowsMenu(ParentMenu)
-	local Menu = PlayerCustomisation.Pool:AddSubMenu(ParentMenu, "Eyebrows", "", true)
+	local EyebrowMenu = PlayerCustomisation.Pool:AddSubMenu(BarberMenu, "Eyebrows", "", true)
 
 	for Index = 1, #PlayerCustomisation.Reference.Appearance.Eyebrows do
 		local EyebrowItem = NativeUI.CreateItem(PlayerCustomisation.Reference.Appearance.Eyebrows[Index].Name, "")
@@ -279,33 +240,30 @@ function SetupEyebrowsMenu(ParentMenu)
 			RemoveMask()
 		end
 
-		Menu:AddItem(EyebrowItem)
+		EyebrowMenu:AddItem(EyebrowItem)
 	end
 
-	Menu.OnIndexChange = function(ParentMenu, NewIndex)
+	EyebrowMenu.OnIndexChange = function(ParentMenu, NewIndex)
 		SetPedHeadOverlay(PlayerPedId(), 2, PlayerCustomisation.Reference.Appearance.Eyebrows[NewIndex].Value, PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Opacity[3])
 		SetPedHeadOverlayColor(PlayerPedId(), 2, GetOverlayColourType(2), PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Colours[3], PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Colours[3])
 	end
-	Menu.OnMenuClosed = function(ParentMenu)
+	
+	EyebrowMenu.OnMenuClosed = function(ParentMenu)
 		UpdatePlayer()
 
 		BarberMenu.Cameras.Default:Switch(BarberMenu.Cameras.Face.Handle, 1000, false, false)
 	end
 
-	Menu:AddInstructionButton({GetControlInstructionalButton(0, 51, 0), "Turn Right"})
-	Menu:AddInstructionButton({GetControlInstructionalButton(0, 44, 0), "Turn Left"})
+	EyebrowMenu:AddInstructionButton({GetControlInstructionalButton(0, 51, 0), "Turn Right"})
+	EyebrowMenu:AddInstructionButton({GetControlInstructionalButton(0, 44, 0), "Turn Left"})
 
-	Menu.Settings.MouseEdgeEnabled = false
+	EyebrowMenu.Settings.MouseEdgeEnabled = false
 
-	Menu:RemoveEnabledControl(0, 31)
-	Menu:RemoveEnabledControl(0, 30)
-	Menu:RemoveEnabledControl(0, 22)
+	EyebrowMenu:RemoveEnabledControl(0, 31)
+	EyebrowMenu:RemoveEnabledControl(0, 30)
+	EyebrowMenu:RemoveEnabledControl(0, 22)
 
-	return Menu
-end
-
-function SetupChestMenu(ParentMenu)
-	local Menu = PlayerCustomisation.Pool:AddSubMenu(ParentMenu, "Chest", "", true)
+	local ChestMenu = PlayerCustomisation.Pool:AddSubMenu(BarberMenu, "Chest", "", true)
 
 	for Index = 1, #PlayerCustomisation.Reference.Appearance.Chest do
 		local ChestItem = NativeUI.CreateItem(PlayerCustomisation.Reference.Appearance.Chest[Index].Name, "")
@@ -350,31 +308,27 @@ function SetupChestMenu(ParentMenu)
 			SetPedTopless()
 		end
 
-		Menu:AddItem(ChestItem)
+		ChestMenu:AddItem(ChestItem)
 	end
 
-	Menu.OnIndexChange = function(ParentMenu, NewIndex)
+	ChestMenu.OnIndexChange = function(ParentMenu, NewIndex)
 		SetPedHeadOverlay(PlayerPedId(), 10, PlayerCustomisation.Reference.Appearance.Chest[NewIndex].Value, PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Opacity[11])
 		SetPedHeadOverlayColor(PlayerPedId(), 10, GetOverlayColourType(10), PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Colours[11], PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Colours[11])
 	end
-	Menu.OnMenuClosed = function(ParentMenu)
+	ChestMenu.OnMenuClosed = function(ParentMenu)
 		UpdatePlayer()
 	end
 
-	Menu:AddInstructionButton({GetControlInstructionalButton(0, 51, 0), "Turn Right"})
-	Menu:AddInstructionButton({GetControlInstructionalButton(0, 44, 0), "Turn Left"})
+	ChestMenu:AddInstructionButton({GetControlInstructionalButton(0, 51, 0), "Turn Right"})
+	ChestMenu:AddInstructionButton({GetControlInstructionalButton(0, 44, 0), "Turn Left"})
 
-	Menu.Settings.MouseEdgeEnabled = false
+	ChestMenu.Settings.MouseEdgeEnabled = false
 
-	Menu:RemoveEnabledControl(0, 31)
-	Menu:RemoveEnabledControl(0, 30)
-	Menu:RemoveEnabledControl(0, 22)
+	ChestMenu:RemoveEnabledControl(0, 31)
+	ChestMenu:RemoveEnabledControl(0, 30)
+	ChestMenu:RemoveEnabledControl(0, 22)
 
-	return Menu
-end
-
-function SetupContactsMenu(ParentMenu)
-	local Menu = PlayerCustomisation.Pool:AddSubMenu(ParentMenu, "Contacts", "", true)
+	local ContactMenu = PlayerCustomisation.Pool:AddSubMenu(BarberMenu, "Contacts", "", true)
 
 	for Index = 1, #PlayerCustomisation.Reference.Appearance.Contacts do
 		local ContactItem = NativeUI.CreateItem(PlayerCustomisation.Reference.Appearance.Contacts[Index].Name, "")
@@ -394,32 +348,28 @@ function SetupContactsMenu(ParentMenu)
 			SelectedItem:SetRightBadge(BadgeStyle.Barber)
 		end
 
-		Menu:AddItem(ContactItem)
+		ContactMenu:AddItem(ContactItem)
 	end
 
-	Menu.OnIndexChange = function(ParentMenu, NewIndex)
+	ContactMenu.OnIndexChange = function(ParentMenu, NewIndex)
 		SetPedEyeColor(PlayerPedId(), PlayerCustomisation.Reference.Appearance.Contacts[NewIndex].Value)
 	end
-	Menu.OnMenuClosed = function(ParentMenu)
+	ContactMenu.OnMenuClosed = function(ParentMenu)
 		UpdatePlayer()
 
 		BarberMenu.Cameras.Default:Switch(BarberMenu.Cameras.Face.Handle, 1000, false, false)
 	end
 
-	Menu:AddInstructionButton({GetControlInstructionalButton(0, 51, 0), "Turn Right"})
-	Menu:AddInstructionButton({GetControlInstructionalButton(0, 44, 0), "Turn Left"})
+	ContactMenu:AddInstructionButton({GetControlInstructionalButton(0, 51, 0), "Turn Right"})
+	ContactMenu:AddInstructionButton({GetControlInstructionalButton(0, 44, 0), "Turn Left"})
 
-	Menu.Settings.MouseEdgeEnabled = false
+	ContactMenu.Settings.MouseEdgeEnabled = false
 
-	Menu:RemoveEnabledControl(0, 31)
-	Menu:RemoveEnabledControl(0, 30)
-	Menu:RemoveEnabledControl(0, 22)
+	ContactMenu:RemoveEnabledControl(0, 31)
+	ContactMenu:RemoveEnabledControl(0, 30)
+	ContactMenu:RemoveEnabledControl(0, 22)
 
-	return Menu
-end
-
-function SetupFacePaintsMenu(ParentMenu)
-	local Menu = PlayerCustomisation.Pool:AddSubMenu(ParentMenu, "Face Paints", "", true)
+	local FacePaintMenu = PlayerCustomisation.Pool:AddSubMenu(BarberMenu, "Face Paints", "", true)
 
 	for Index = 1, #PlayerCustomisation.Reference.Appearance.FacePaint do
 		local FacePaintItem = NativeUI.CreateItem(PlayerCustomisation.Reference.Appearance.FacePaint[Index].Name, "")
@@ -458,33 +408,40 @@ function SetupFacePaintsMenu(ParentMenu)
 			RemoveMask()
 		end
 
-		Menu:AddItem(FacePaintItem)
+		FacePaintMenu:AddItem(FacePaintItem)
 	end
 
-	Menu.OnIndexChange = function(ParentMenu, NewIndex)
+	FacePaintMenu.OnIndexChange = function(ParentMenu, NewIndex)
 		SetPedHeadOverlay(PlayerPedId(), 4, PlayerCustomisation.Reference.Appearance.FacePaint[NewIndex].Value, PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Opacity[5])
 		SetPedHeadOverlayColor(PlayerPedId(), 4, GetOverlayColourType(4), PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Colours[5], PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Colours[5])
 	end
-	Menu.OnMenuClosed = function(ParentMenu)
+	FacePaintMenu.OnMenuClosed = function(ParentMenu)
 		UpdatePlayer()
 
 		BarberMenu.Cameras.Default:Switch(BarberMenu.Cameras.Face.Handle, 1000, false, false)
 	end
 
-	Menu:AddInstructionButton({GetControlInstructionalButton(0, 51, 0), "Turn Right"})
-	Menu:AddInstructionButton({GetControlInstructionalButton(0, 44, 0), "Turn Left"})
+	FacePaintMenu:AddInstructionButton({GetControlInstructionalButton(0, 51, 0), "Turn Right"})
+	FacePaintMenu:AddInstructionButton({GetControlInstructionalButton(0, 44, 0), "Turn Left"})
 
-	Menu.Settings.MouseEdgeEnabled = false
+	FacePaintMenu.Settings.MouseEdgeEnabled = false
 
-	Menu:RemoveEnabledControl(0, 31)
-	Menu:RemoveEnabledControl(0, 30)
-	Menu:RemoveEnabledControl(0, 22)
+	FacePaintMenu:RemoveEnabledControl(0, 31)
+	FacePaintMenu:RemoveEnabledControl(0, 30)
+	FacePaintMenu:RemoveEnabledControl(0, 22)
 
-	return Menu
-end
+	local MakeupMenu = PlayerCustomisation.Pool:AddSubMenu(BarberMenu, "Makeup", "", true)
 
-function SetupEyeMakeupMenu(ParentMenu)
-	local Menu = PlayerCustomisation.Pool:AddSubMenu(ParentMenu, "Eye Makeup", "", true)
+	MakeupMenu:AddInstructionButton({GetControlInstructionalButton(0, 51, 0), "Turn Right"})
+	MakeupMenu:AddInstructionButton({GetControlInstructionalButton(0, 44, 0), "Turn Left"})
+	
+	MakeupMenu.Settings.MouseEdgeEnabled = false
+	
+	MakeupMenu:RemoveEnabledControl(0, 31)
+	MakeupMenu:RemoveEnabledControl(0, 30)
+	MakeupMenu:RemoveEnabledControl(0, 22)
+
+	local EyeMakeupMenu = PlayerCustomisation.Pool:AddSubMenu(MakeupMenu, "Eye Makeup", "", true)
 
 	for Index = 1, #PlayerCustomisation.Reference.Appearance.EyeMakeup do
 		local EyeMakeupItem = NativeUI.CreateItem(PlayerCustomisation.Reference.Appearance.EyeMakeup[Index].Name, "")
@@ -523,33 +480,29 @@ function SetupEyeMakeupMenu(ParentMenu)
 			RemoveMask()
 		end
 
-		Menu:AddItem(EyeMakeupItem)
+		EyeMakeupMenu:AddItem(EyeMakeupItem)
 	end
 
-	Menu.OnIndexChange = function(ParentMenu, NewIndex)
+	EyeMakeupMenu.OnIndexChange = function(ParentMenu, NewIndex)
 		SetPedHeadOverlay(PlayerPedId(), 4, PlayerCustomisation.Reference.Appearance.EyeMakeup[NewIndex].Value, PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Opacity[5])
 		SetPedHeadOverlayColor(PlayerPedId(), 4, GetOverlayColourType(4), PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Colours[5], PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Colours[5])
 	end
-	Menu.OnMenuClosed = function(ParentMenu)
+	EyeMakeupMenu.OnMenuClosed = function(ParentMenu)
 		UpdatePlayer()
 
 		BarberMenu.Cameras.Default:Switch(BarberMenu.Cameras.Face.Handle, 1000, false, false)
 	end
 
-	Menu:AddInstructionButton({GetControlInstructionalButton(0, 51, 0), "Turn Right"})
-	Menu:AddInstructionButton({GetControlInstructionalButton(0, 44, 0), "Turn Left"})
+	EyeMakeupMenu:AddInstructionButton({GetControlInstructionalButton(0, 51, 0), "Turn Right"})
+	EyeMakeupMenu:AddInstructionButton({GetControlInstructionalButton(0, 44, 0), "Turn Left"})
 
-	Menu.Settings.MouseEdgeEnabled = false
+	EyeMakeupMenu.Settings.MouseEdgeEnabled = false
 
-	Menu:RemoveEnabledControl(0, 31)
-	Menu:RemoveEnabledControl(0, 30)
-	Menu:RemoveEnabledControl(0, 22)
+	EyeMakeupMenu:RemoveEnabledControl(0, 31)
+	EyeMakeupMenu:RemoveEnabledControl(0, 30)
+	EyeMakeupMenu:RemoveEnabledControl(0, 22)
 
-	return Menu
-end
-
-function SetupBlusherMenu(ParentMenu)
-	local Menu = PlayerCustomisation.Pool:AddSubMenu(ParentMenu, "Blusher", "", true)
+	local BlusherMenu = PlayerCustomisation.Pool:AddSubMenu(MakeupMenu, "Blusher", "", true)
 
 	for Index = 1, #PlayerCustomisation.Reference.Appearance.Blush do
 		local BlushItem = NativeUI.CreateItem(PlayerCustomisation.Reference.Appearance.Blush[Index].Name, "")
@@ -594,33 +547,29 @@ function SetupBlusherMenu(ParentMenu)
 			RemoveMask()
 		end
 
-		Menu:AddItem(BlushItem)
+		BlusherMenu:AddItem(BlushItem)
 	end
 
-	Menu.OnIndexChange = function(ParentMenu, NewIndex)
+	BlusherMenu.OnIndexChange = function(ParentMenu, NewIndex)
 		SetPedHeadOverlay(PlayerPedId(), 5, PlayerCustomisation.Reference.Appearance.Blush[NewIndex].Value, PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Opacity[6])
 		SetPedHeadOverlayColor(PlayerPedId(), 5, GetOverlayColourType(5), PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Colours[6], PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Colours[6])
 	end
-	Menu.OnMenuClosed = function(ParentMenu)
+	BlusherMenu.OnMenuClosed = function(ParentMenu)
 		UpdatePlayer()
 
 		BarberMenu.Cameras.Default:Switch(BarberMenu.Cameras.Face.Handle, 1000, false, false)
 	end
 
-	Menu:AddInstructionButton({GetControlInstructionalButton(0, 51, 0), "Turn Right"})
-	Menu:AddInstructionButton({GetControlInstructionalButton(0, 44, 0), "Turn Left"})
+	BlusherMenu:AddInstructionButton({GetControlInstructionalButton(0, 51, 0), "Turn Right"})
+	BlusherMenu:AddInstructionButton({GetControlInstructionalButton(0, 44, 0), "Turn Left"})
 
-	Menu.Settings.MouseEdgeEnabled = false
+	BlusherMenu.Settings.MouseEdgeEnabled = false
 
-	Menu:RemoveEnabledControl(0, 31)
-	Menu:RemoveEnabledControl(0, 30)
-	Menu:RemoveEnabledControl(0, 22)
+	BlusherMenu:RemoveEnabledControl(0, 31)
+	BlusherMenu:RemoveEnabledControl(0, 30)
+	BlusherMenu:RemoveEnabledControl(0, 22)
 
-	return Menu
-end
-
-function SetupLipstickMenu(ParentMenu)
-	local Menu = PlayerCustomisation.Pool:AddSubMenu(ParentMenu, "Lipstick", "", true)
+	local LipstickMenu = PlayerCustomisation.Pool:AddSubMenu(MakeupMenu, "Lipstick", "", true)
 
 	for Index = 1, #PlayerCustomisation.Reference.Appearance.Lipstick do
 		local LipstickItem = NativeUI.CreateItem(PlayerCustomisation.Reference.Appearance.Lipstick[Index].Name, "")
@@ -665,42 +614,77 @@ function SetupLipstickMenu(ParentMenu)
 			RemoveMask()
 		end
 
-		Menu:AddItem(LipstickItem)
+		LipstickMenu:AddItem(LipstickItem)
 	end
 
-	Menu.OnIndexChange = function(ParentMenu, NewIndex)
+	LipstickMenu.OnIndexChange = function(ParentMenu, NewIndex)
 		SetPedHeadOverlay(PlayerPedId(), 8, PlayerCustomisation.Reference.Appearance.Blush[NewIndex].Value, PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Opacity[9])
 		SetPedHeadOverlayColor(PlayerPedId(), 8, GetOverlayColourType(8), PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Colours[9], PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Overlay.Colours[9])
 	end
-	Menu.OnMenuClosed = function(ParentMenu)
+
+	LipstickMenu.OnMenuClosed = function(ParentMenu)
 		UpdatePlayer()
 
 		BarberMenu.Cameras.Default:Switch(BarberMenu.Cameras.Face.Handle, 1000, false, false)
 	end
 
-	Menu:AddInstructionButton({GetControlInstructionalButton(0, 51, 0), "Turn Right"})
-	Menu:AddInstructionButton({GetControlInstructionalButton(0, 44, 0), "Turn Left"})
+	LipstickMenu:AddInstructionButton({GetControlInstructionalButton(0, 51, 0), "Turn Right"})
+	LipstickMenu:AddInstructionButton({GetControlInstructionalButton(0, 44, 0), "Turn Left"})
 
-	Menu.Settings.MouseEdgeEnabled = false
+	LipstickMenu.Settings.MouseEdgeEnabled = false
 
-	Menu:RemoveEnabledControl(0, 31)
-	Menu:RemoveEnabledControl(0, 30)
-	Menu:RemoveEnabledControl(0, 22)
+	LipstickMenu:RemoveEnabledControl(0, 31)
+	LipstickMenu:RemoveEnabledControl(0, 30)
+	LipstickMenu:RemoveEnabledControl(0, 22)
 
-	return Menu
-end
+	BarberMenu.Items[1].Activated = function(ParentMenu, SelectedItem)
+		RemoveMask()
+		BarberMenu.Cameras.Face:Switch(BarberMenu.Cameras.Default.Handle, 1000, false, false)
+	end
 
-function SetupMakeupMenu(ParentMenu)
-	local Menu = PlayerCustomisation.Pool:AddSubMenu(ParentMenu, "Makeup", "", true)
+	BarberMenu.Items[2].Activated = function(ParentMenu, SelectedItem)
+		RemoveMask()
+		BarberMenu.Cameras.Face:Switch(BarberMenu.Cameras.Default.Handle, 1000, false, false)
+	end
 
-	Menu:AddInstructionButton({GetControlInstructionalButton(0, 51, 0), "Turn Right"})
-	Menu:AddInstructionButton({GetControlInstructionalButton(0, 44, 0), "Turn Left"})
-	
-	Menu.Settings.MouseEdgeEnabled = false
-	
-	Menu:RemoveEnabledControl(0, 31)
-	Menu:RemoveEnabledControl(0, 30)
-	Menu:RemoveEnabledControl(0, 22)
+	BarberMenu.Items[3].Activated = function(ParentMenu, SelectedItem)
+		ClearPedProp(PlayerPedId(), 1)
+		RemoveMask()
+		BarberMenu.Cameras.Face:Switch(BarberMenu.Cameras.Default.Handle, 1000, false, false)
+	end
 
-	return Menu
+	BarberMenu.Items[4].Activated = SetPedTopless
+
+	BarberMenu.Items[5].Activated = function(ParentMenu, SelectedItem)
+		ClearPedProp(PlayerPedId(), 1)
+		RemoveMask()
+		BarberMenu.Cameras.Face:Switch(BarberMenu.Cameras.Default.Handle, 1000, false, false)
+	end
+
+	BarberMenu.Items[6].Activated = function(ParentMenu, SelectedItem)
+		ClearPedProp(PlayerPedId(), 1)
+		RemoveMask()
+		BarberMenu.Cameras.Face:Switch(BarberMenu.Cameras.Default.Handle, 1000, false, false)
+	end
+
+	MakeupMenu.Items[1].Activated = function(ParentMenu, SelectedItem)
+		ClearPedProp(PlayerPedId(), 1)
+		RemoveMask()
+		BarberMenu.Cameras.Face:Switch(BarberMenu.Cameras.Default.Handle, 1000, false, false)
+	end
+
+	MakeupMenu.Items[2].Activated = function(ParentMenu, SelectedItem)
+		RemoveMask()
+		BarberMenu.Cameras.Face:Switch(BarberMenu.Cameras.Default.Handle, 1000, false, false)
+	end
+
+	MakeupMenu.Items[3].Activated = function(ParentMenu, SelectedItem)
+		RemoveMask()
+		BarberMenu.Cameras.Face:Switch(BarberMenu.Cameras.Default.Handle, 1000, false, false)
+	end
+
+	PlayerCustomisation.Pool:Add(BarberMenu)
+	PlayerCustomisation.Pool:RefreshIndex()
+
+	return BarberMenu, HairstyleMenu, BeardMenu, EyebrowMenu, ChestMenu, ContactMenu, FacePaintMenu, MakeupMenu, EyeMakeupMenu, BlusherMenu, LipstickMenu
 end

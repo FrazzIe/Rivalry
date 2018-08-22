@@ -114,6 +114,8 @@ addRank("assistant chief", "")
 addRank("captain", "")
 addRank("lieutenant", "")
 addRank("specialist", "")
+addRank("doctor", "")
+addRank("coroner", "")
 addRank("paramedic", "")
 addRank("probationary", "")
 
@@ -190,7 +192,7 @@ TriggerEvent("core:addGroupCommand", "emsadd", "command", function(source, args,
 			TriggerClientEvent('chatMessage', source, 'SYSTEM', {255, 0, 0}, "Usage : /emsadd [ID] [RANK]")
 		end
 	end
-end, {help = "Add a player to the LSFD", params = {{name = "id", help = "The id of the player"},{name = "rank", help = "Probationary | Paramedic | Specialist | Lieutenant | Captain | Assistant Chief | Chief"}}})
+end, {help = "Add a player to the LSFD", params = {{name = "id", help = "The id of the player"},{name = "rank", help = "Probationary | Paramedic | Coroner | Doctor | Specialist | Lieutenant | Captain | Assistant Chief | Chief"}}})
 
 TriggerEvent("core:addGroupCommand", "emsrem", "command", function(source, args, rawCommand, data, power, group)
 	local source = source
@@ -253,7 +255,7 @@ TriggerEvent("core:addGroupCommand", "emspromote", "emergency", function(source,
 			Notify("Player could not be found", 3000, source)
 		end
 	end
-end, {help = "Promote a paramedic", params = {{name = "id", help = "The id of the player"},{name = "rank", help = "Probationary | Paramedic | Specialist | Lieutenant | Captain | Assistant Chief | Chief"}}})
+end, {help = "Promote a paramedic", params = {{name = "id", help = "The id of the player"},{name = "rank", help = "Probationary | Paramedic | Coroner | Doctor | Specialist | Lieutenant | Captain | Assistant Chief | Chief"}}})
 
 TriggerEvent("core:addGroupCommand", "emsdemote", "emergency", function(source, args, rawCommand, data, power, group)
 	local source = source
@@ -294,7 +296,7 @@ TriggerEvent("core:addGroupCommand", "emsdemote", "emergency", function(source, 
 			Notify("Player could not be found", 3000, source)
 		end
 	end
-end, {help = "Demote an Officer", params = {{name = "id", help = "The id of the player"},{name = "rank", help = "Probationary | Paramedic | Specialist | Lieutenant | Captain | Assistant Chief | Chief"}}})
+end, {help = "Demote an Officer", params = {{name = "id", help = "The id of the player"},{name = "rank", help = "Probationary | Paramedic | Coroner | Doctor | Specialist | Lieutenant | Captain | Assistant Chief | Chief"}}})
 
 RegisterServerEvent("paramedic:doors_lock")
 AddEventHandler("paramedic:doors_lock", function(doorid, type)
