@@ -1,0 +1,442 @@
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MDT</title>
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/Footer-Basic.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <script src="nui://game/ui/jquery.js" type="text/javascript"></script>
+</head>
+
+<body style="max-width:1200px;background-color:rgb(255,255,255,0);">
+    <div class="vertical-center" style="height:60%;background-color:rgb(214,214,214,255);">
+        <div id = "main-container" style="background-color:rgb(214,214,214,255);">
+            <div id="policefooter" class="footer-basic" style="padding:11px;background-color:rgb(101,127,152);">
+                <footer>
+                    <ul class="list-unstyled d-flex justify-content-center" style="color:#ffffff;letter-spacing:2px;font-weight:normal;padding:0px;">
+                        <li data-bs-hover-animate="pulse" id="databasebtn"><a href="#">Database</a></li>
+                        <li data-bs-hover-animate="pulse" id="warrantbtn"><a href="#">Warrants</a></li>
+                        <li data-bs-hover-animate="pulse" id="reportbtn"><a href="#">Police Reports</a></li>
+                        <li data-bs-hover-animate="pulse" id="logoutbtn"><a href="#">Logout</a></li>
+                    </ul>
+                </footer>
+            </div>
+            <div class="container" style="background-color:rgb(214,214,214,255);">
+                <div class="row" id="logo">
+                    <div class="col d-flex flex-row justify-content-center align-items-center align-content-center flex-wrap"><img src="assets/img/logo.png" style="height:100px;"></div>
+                </div>
+                <div class="row" id="logintext" style="background-color:rgba(18,18,18,0.07);">
+                    <div class="col">
+                        <p class="lead text-uppercase text-center text-danger" style="margin:0px;">Please Select A Department</p>
+                    </div>
+                </div>
+                <div class="row" id="departments">
+                    <div class="col-xl-12 offset-xl-0 d-flex justify-content-center align-items-center align-content-center flex-wrap" style="margin-top:95px;">
+                        <div id="lspdmdt" style="margin:15px;"><img class="rounded img-fluid" src="assets/img/lspd.png" data-bs-hover-animate="pulse" style="width:198px;"></div>
+                        <div style="margin:15px;"><img src="assets/img/doj.png" data-bs-hover-animate="pulse" style="width:198px;"></div>
+                        <div style="margin:15px;"><img src="assets/img/lsfd.png" data-bs-hover-animate="pulse"></div>
+                    </div>
+                </div>
+                <div class="row" id="playersearch" style="background-color:#ffffff;margin:20px;height:111px;">
+                    <div class="col">
+                        <p style="height:19px;margin:8px;padding:0px;">Civilian Search:</p><input type="text" id ="firstname" required="" placeholder="First Name" style="margin:8px;"><input type="text" id ="lastname" required="" placeholder="Last Name"><button class="btn btn-primary" type="submit" data-bs-hover-animate="pulse" id="searchplayer"
+                            style="height:34px;margin:9px;padding:5px;margin-top:7px;background-color:#657f98;color:rgb(255,255,255);">Search</button></div>
+                </div>
+                <div class="row" id="playertable" style="background-color:#ffffff;margin:20px;">
+                    <div class="col">
+                        <div class="table-responsive float-left">
+                            <table class="table table-sm">
+                                <thead>
+                                    <tr>
+                                        <th>Citizen ID</th>
+                                        <th>Surname</th>
+                                        <th>Forename</th>
+                                        <th>Occupation</th>
+                                    </tr>
+                                </thead>
+                                <tbody id= playertablez>
+                                <tr class="visible playerrow">
+                                </tr>
+                                <tr class="playerrow">
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" id="stats" style="background-color:#ffffff;margin:20px;padding-top:15px;padding-bottom:15px;">
+                    <div class="col"><small class="form-text text-muted">Citizen ID</small>
+                        <p id = playercitizenid>56</p><small class="form-text text-muted">Forename</small>
+                        <p id = playerfirstname>Frazzle</p><small class="form-text text-muted">Surname</small>
+                        <p id = playerlastname>Dazzle</p>
+                    </div>
+                    <div class="col"><small class="form-text text-muted">Warrants</small>
+                        <p id= playerwarrants>1</p><small class="form-text text-muted">Arrests</small>
+                        <p id= playerarrests>56</p><small class="form-text text-muted">Citations<br></small>
+                        <p id= playercitations>202</p>
+                    </div>
+                    <div class="col"><small class="form-text text-muted">Weapons License</small>
+                        <p id= playerweaponsl>1</p><small class="form-text text-muted">Drivers License</small>
+                        <p id= playerdriversl>56</p>
+                    </div>
+                </div>
+                <div class="row" id="tabs" style="background-color:#ffffff;margin:20px;">
+                    <div class="col-4" style="padding-right:0px;padding-left:0px;">
+                        <div class="custom-tab"><button class="custom-tab-active" id = Arrests type="button">Arrests</button>
+        <button id = Tickets type="button">Tickets</button>
+        <button id = Vehicles type="button">Vehicles</button>
+        <button id = AddArrest type="button">Add Arrest</button>
+        <button id = AddCitation type="button">Add Citation</button>
+        <button id = Notepad type="button">Profile Notepad</button></div>
+                    </div>
+                    <div class="col-8" style="background-color:#f1f1f1;">
+                        <div class="row" id="ArrestsRow">
+                            <div class="col">
+                                <div class="table-responsive table-borderless" style="max-width:100%;">
+                                    <table class="table table-bordered table-sm">
+                                        <thead>
+                                            <tr>
+                                                <th>Date</th>
+                                                <th>Officer</th>
+                                                <th>Charges</th>
+                                                <th>Fine</th>
+                                                <th>Time Served</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id = "playerarrestrow">
+                                            <tr>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" id="TicketsRow">
+                            <div class="col">
+                                <div class="table-responsive table-borderless" style="max-width:100%;">
+                                    <table class="table table-bordered table-sm">
+                                        <thead>
+                                            <tr>
+                                                <th>Date</th>
+                                                <th>Officer</th>
+                                                <th>Charges</th>
+                                                <th>Fine</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id = "playerticketsrow">
+                                            <tr>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" id="VehiclesRow">
+                            <div class="col">
+                                <div class="table-responsive table-borderless" style="max-width:100%;">
+                                    <table class="table table-bordered table-sm">
+                                        <thead>
+                                            <tr>
+                                                <th>Vehicle Model</th>
+                                                <th>Plate</th>
+                                                <th>State</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id = "playervehiclesrow">
+                                            <tr>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" id="AddArrestRow">
+                            <div class="col"><small class="form-text text-muted">Suspects First Name</small><input id = "arrest-firstname" type="text"><small class="form-text text-muted">Suspects Last Name</small><input id = "arrest-lastname" type="text"><small class="form-text text-muted">Arresting Officer</small><input id = "arrest-officer_name" type="text"><small class="form-text text-muted">Charges</small><textarea id = "arrest-charges" class="form-control-lg"
+                                    rows="6" cols="40" wrap="hard" spellcheck="true"></textarea></div>
+                            <div class="col"><small class="form-text text-muted">Fine</small><input id = "arrest-fine" type="text"><small class="form-text text-muted">Time Served</small><input id = "arrest-sentence" type="text"><small class="form-text text-muted">Bail</small>
+                                <div class="form-check"><input class="form-check-input" type="checkbox" id="formCheck-1"><label class="form-check-label" for="formCheck-1">Yes</label></div>
+                                <div class="form-check"><input class="form-check-input" type="checkbox" id="formCheck-1"><label class="form-check-label" for="formCheck-1">No</label></div>
+                            </div>
+                            <div class="col-xl-12 offset-xl-0"><button id = arrest-submit class="btn btn-primary active btn-block" type="button" style="margin-top:9px;background-color:rgb(241,241,241);color:rgb(0,0,0);">Submit</button></div>
+                            <div class="col-xl-12 offset-xl-0"><button id = arrest-autofill class="btn btn-primary active btn-block" type="button" style="margin-top:9px;background-color:rgb(241,241,241);color:rgb(0,0,0);">Autofill</button></div>
+                        </div>
+                        <div class="row" id="AddCitationRow">
+                            <div class="col"><small class="form-text text-muted">Suspects First Name</small><input id = "citation-firstname" type="text"><small class="form-text text-muted">Suspects Last Name</small><input id = "citation-lastname" type="text"><small class="form-text text-muted">Officer</small><input id = "citation-officer_name" type="text"><small class="form-text text-muted">Charges</small><textarea id = "citation-charges" class="form-control-lg"
+                                    rows="6" cols="40" wrap="hard" spellcheck="true"></textarea></div>
+                            <div class="col"><small class="form-text text-muted">Fine</small><input id = "citation-fine" type="text"></div>
+                            <div class="col-xl-12 offset-xl-0"><button id = citation-submit class="btn btn-primary active btn-block" type="button" style="margin-top:9px;background-color:rgb(241,241,241);color:rgb(0,0,0);">Submit</button></div>
+                            <div class="col-xl-12 offset-xl-0"><button id = citation-autofill class="btn btn-primary active btn-block" type="button" style="margin-top:9px;background-color:rgb(241,241,241);color:rgb(0,0,0);">Autofill</button></div>
+                        </div>
+                        <div class="row" id="NotepadRow">
+                            <div class="col"><small class="form-text text-muted">Notepad:&nbsp;</small><textarea id = "notepad" class="d-flex" wrap="hard" autofocus=""></textarea></div>
+                             <div class="col-xl-12 offset-xl-0"><button id = notepad-submit class="btn btn-primary active btn-block" type="button" style="margin-top:9px;background-color:rgb(241,241,241);color:rgb(0,0,0);">Submit</button></div>
+                        </div>
+                    </div>
+                    <div class="col"><dialog id="myDialog">
+                        <p></p>
+                    </dialog></div>
+                </div>
+                <div class="row" id="selectedwarrant" style="padding:15px;padding-top:62px;">
+                    <div class="col" style="background-color:#ffffff;color:rgb(0,0,0);font-family:'Abhaya Libre', serif;border-style:groove;">
+                        <div class="justify-content-center align-items-center align-content-center">
+                            <p class="text-center" style="font-size:41px;margin:9px;letter-spacing:26px;">WANTED</p>
+                        </div>
+                    </div>
+                    <div class="col-xl-7" style="background-color:#ffffff;border-style:groove;">
+                        <div class="justify-content-center align-items-center align-content-center">
+                            <p class="text-center" id="selectedwarrantname" style="font-size:41px;margin:9px;letter-spacing:2px;">INSERT SUSPECTS NAME HERE</p>
+                        </div>
+                    </div>
+                    <div class="col-xl-9 offset-xl-0" style="background-color:#ffffff;border-style:groove;height:615px;"><small class="form-text text-monospace d-inline-flex" style="font-size:25px;color:rgb(0,0,0);margin:12px;width:71px;">Date:</small><input type="text" value="6/27/18" readonly class="form-control-plaintext d-inline-flex" id="selectedwarrantdate" style="width:84%;margin:5px;padding:3px;font-size:25px;color:rgb(0,0,0);"
+                        /><small class="form-text text-monospace d-inline-flex" style="font-size:25px;color:rgb(0,0,0);margin:12px;">Officer:</small><input type="text" value="Potato Officer" readonly class="form-control-plaintext d-inline-flex" id="selectedwarrantofficer" style="width:75%;font-size:25px;padding-right:0px;"
+                        /><small class="form-text text-monospace d-inline-flex" style="font-size:25px;color:rgb(0,0,0);margin:12px;">Description:</small><textarea wrap="hard" readonly id="selectedwarrantdescription" style="height:34%;width:100%;"></textarea><small class="form-text text-monospace d-flex"
+                            style="font-size:25px;color:rgb(0,0,0);margin:12px;">Charges:</small><textarea wrap="hard" readonly id="selectedwarrantcharges" style="height:24%;width:100%;"></textarea></div>
+                    <div class="col" style="background-color:#ffffff;border-style:groove;height:615px;"><button class="btn btn-primary btn-block btn-lg" id = "warrant-remove" type="button" style="background-color:rgb(101,127,152);border-radius:0px;">Delete</button><!-- <button class="btn btn-primary btn-block btn-lg" type="button" id = "warranteditbtn" style="background-color:rgb(101,127,152);border-radius:0px;margin:0px;">Edit</button>
+                        <button
+                            class="btn btn-primary btn-block btn-lg" type="button" id = "warrantsubmitchanges" style="background-color:rgb(101,127,152);border-radius:0px;margin:0px;">Submit Changes</button> -->
+                    </div>
+                </div>
+                <div class="row" id="warrantsedit" style="padding:15px;padding-top:62px;">
+                    <div class="col" style="background-color:#ffffff;color:rgb(0,0,0);font-family:'Abhaya Libre', serif;border-style:groove;">
+                        <div class="justify-content-center align-items-center align-content-center">
+                            <p class="text-center" style="font-size:41px;margin:9px;letter-spacing:26px;">WANTED</p>
+                        </div>
+                    </div>
+                    <div class="col-xl-7" style="background-color:#ffffff;border-style:groove;">
+                        <div class="justify-content-center align-items-center align-content-center">
+                            <small class="form-text text-monospace d-inline-flex" style="font-size:25px;color:rgb(0,0,0);margin:12px;width:71px;">Suspect Name</small><input type="text" value="" class="form-control-plaintext d-inline-flex" id="newwarrantname" style="width:84%;margin:5px;padding:3px;font-size:25px;color:rgb(0,0,0);"
+                        />
+                        </div>
+                    </div>
+                    <div class="col-xl-9 offset-xl-0" style="background-color:#ffffff;border-style:groove;height:615px;"><small class="form-text text-monospace d-inline-flex" style="font-size:25px;color:rgb(0,0,0);margin:12px;width:71px;">Date:</small><input type="text" value="" class="form-control-plaintext d-inline-flex" id="newwarrantdate" style="width:84%;margin:5px;padding:3px;font-size:25px;color:rgb(0,0,0);"
+                        /><small class="form-text text-monospace d-inline-flex" style="font-size:25px;color:rgb(0,0,0);margin:12px;">Officer:</small><input type="text" value="" class="form-control-plaintext d-inline-flex" id="newwarrantofficer" style="width:75%;font-size:25px;padding-right:0px;"
+                        /><small class="form-text text-monospace d-inline-flex" style="font-size:25px;color:rgb(0,0,0);margin:12px;">Description:</small><textarea wrap="hard" id="newwarrantdescription" style="height:34%;width:100%;"></textarea><small class="form-text text-monospace d-flex"
+                            style="font-size:25px;color:rgb(0,0,0);margin:12px;">Charges:</small><textarea wrap="hard" id="newwarrantcharges" style="height:24%;width:100%;"></textarea></div>
+                    <div class="col" style="background-color:#ffffff;border-style:groove;height:615px;">
+                        <button
+                            class="btn btn-primary btn-block btn-lg" id="submit-warrant" style="background-color:rgb(101,127,152);border-radius:0px;margin:0px;">Submit Warrant</button>
+                    </div>
+                </div>
+            <div class="row no-gutters" id = "reportst" style="width:auto;height:auto;background-color:#ffffff;">
+                <div class="col">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Police Reports</th>
+                                </tr>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Officer</th>
+                                    <th>Date</th>
+                                </tr>
+                            </thead>
+                            <tbody id= "reportsdirectory">
+                                <tr id ="reportstable">
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-xl-12 offset-xl-0"><button id = report-new class="btn btn-primary active btn-block" type="button" style="margin-top:9px;background-color:rgb(241,241,241);color:rgb(0,0,0);">New Report</button></div>
+                </div>
+            </div>
+            <div class="row" id="reports" style="width:auto;height:auto;">
+                <div class="col-lg-12" style="padding-top:20px;"><small class="form-text text-monospace d-flex" style="background-color:#b3b3b3;border: groove;"><strong>INFORMATION ABOUT PERSON INVOLVED IN THE INCIDENT</strong></small>
+                        <div id="ReportOne" style="background-color:#ffffff;border: groove;"><input class="form-control-sm d-inline-flex float-right" type="text" id="reportfullname" style="width:93%;margin:2px;">
+                            <p style="width:8%;">Full Name</p>
+                            <hr><input class="form-control-sm float-right" type="text" id="reportage" style="width:97%;">
+                            <p>Age:</p>
+                            <hr><input class="form-control-sm float-right" type="text" id="reportphonenumber" style="width:89%;margin:-5px;">
+                            <p>Phone Numbers:</p>
+                        </div>
+                    </div>
+                    <div class="col-xl-12" style="padding-top:20px;"><small class="form-text text-monospace" style="background-color:#b3b3b3;border:groove;"><strong>INFORMATION ABOUT PERSON INVOLVED IN THE INCIDENT</strong></small>
+                        <div class="row no-gutters" style="width:auto;">
+                            <div class="col-xl-4 offset-xl-0" style="background-color:#ffffff;border: groove;"><input class="form-control-sm float-right" type="text" id="reportdate" style="width:66%;margin:2px;">
+                                <p>Date of Incident</p>
+                            </div>
+                            <div class="col-xl-4" style="background-color:#ffffff;border: groove;"><input class="form-control-sm float-right" type="text" id="reporttime" style="width:88%;margin:2px;">
+                                <p>Time</p>
+                            </div>
+                            <div class="col" style="background-color:#ffffff;border: groove;"><input class="form-control-sm float-right" type="text" id="reportpolice" style="width:69%;margin:2px;">
+                                <p>Police Notified</p>
+                            </div>
+                        </div>
+                        <div class="row no-gutters" style="width:auto;">
+                            <div class="col-xl-12 offset-xl-0" style="background-color:#ffffff;border: groove;"><input class="form-control-sm float-right" type="text" id="reportlocation" style="width:86%;margin:2px;">
+                                <p>Location of Incident</p>
+                            </div>
+                        </div>
+                        <div class="row no-gutters" style="width:auto;">
+                            <div class="col-xl-12 offset-xl-0" style="background-color:#ffffff;border: groove;"><input class="form-control-sm float-right" type="text" id="reportdescription" style="width:85%;margin:2px;">
+                                <p>Description of Incident</p>
+                            </div>
+                        </div>
+                        <div class="row no-gutters" style="width:auto;border: groove;">
+                            <div class="col-xl-4 offset-xl-0" style="background-color:#ffffff;">
+                                <p>Were there any witnesses to the incident?</p>
+                            </div>
+                            <div class="col" style="background-color:#ffffff;">
+                                <form class="d-flex">
+                                    <div class="form-check d-flex my-auto" style="width:20%;"><input class="form-check-input" type="checkbox" id="reportwchecky"><label class="form-check-label" for="reportwchecky">Yes</label></div>
+                                    <div class="form-check d-flex my-auto" style="width:20%;"><input class="form-check-input" type="checkbox" id="reportwcheckn"><label class="form-check-label" for="reportwcheckn">No</label></div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="row no-gutters" style="width:auto;">
+                            <div class="col-xl-12 offset-xl-0" style="background-color:#ffffff;border: groove;"><input class="form-control-sm float-right" type="text" id="reportdetails" style="width:84%;margin:2px;height:58px;">
+                                <p>If so, identify them and give contact details</p>
+                            </div>
+                        </div>
+                        <div class="row no-gutters" style="width:auto;">
+                            <div class="col-xl-12 offset-xl-0" style="background-color:#ffffff;border: groove;"><input class="form-control-sm float-right" type="text" id="reportinjury" style="width:82%;margin:2px;height:58px;">
+                                <p>Was the individual injured? If so, describe the injury.</p>
+                            </div>
+                        </div>
+                        <div class="row no-gutters" style="width:auto;border: groove;">
+                            <div class="col-xl-3 offset-xl-0" style="background-color:#ffffff;">
+                                <p class="text-nowrap" style="width:50%;">Was medical treatement provided?</p>
+                            </div>
+                            <div class="col" style="background-color:#ffffff;">
+                                <form class="d-flex">
+                                    <div class="form-check d-flex my-auto" style="width:20%;"><input class="form-check-input" type="checkbox" id="reportmedicaly"><label class="form-check-label" for="reportmedicaly">Yes</label></div>
+                                    <div class="form-check d-flex my-auto" style="width:20%;"><input class="form-check-input" type="checkbox" id="reportmedicaln"><label class="form-check-label" for="reportmedicaln">No</label></div>
+                                    <div class="form-check" style="width:20%;"><input class="form-check-input" type="checkbox" id="reportmedicalr"><label class="form-check-label mx-auto" for="reportmedicalr">Refused</label></div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="row no-gutters" style="width:auto;border: groove;">
+                            <div class="col-xl-3 offset-xl-0" style="background-color:#ffffff;">
+                                <p class="text-nowrap" style="width:50%;">If yes, where was treatment provided:</p>
+                            </div>
+                            <div class="col" style="background-color:#ffffff;">
+                                <form class="d-flex">
+                                    <div class="form-check d-flex my-auto" style="width:20%;"><input class="form-check-input" type="checkbox" id="reportmedicalon"><label class="form-check-label" for="reportmedicalon">On Site</label></div>
+                                    <div class="form-check d-flex my-auto" style="width:20%;"><input class="form-check-input" type="checkbox" id="reportmedicaluc"><label class="form-check-label" for="reportmedicaluc">Urgent Care</label></div>
+                                    <div class="form-check" style="width:20%;"><input class="form-check-input" type="checkbox" id="reportmedicaler"><label class="form-check-label mx-auto" for="reportmedicaler">Emergency Room</label></div>
+                                    <div class="form-check my-auto" style="width:20%;"><input class="form-check-input" type="checkbox" id="reportmedicalother"><label class="form-check-label" for="reportmedicalother">Other</label></div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12" style="padding-top:20px;"><small class="form-text text-monospace" style="background-color:#b3b3b3;border:groove;"><strong>REPORTER INFORMATION</strong></small>
+                        <div id="ReportOne" style="background-color:#ffffff;border: groove;"><input class="form-control-sm float-right" type="text" id="reportofficername" style="width:85%;margin:2px;height:57px;">
+                            <p class="d-flex">Individual Submitting Report(print name)</p>
+                            <hr><input class="form-control-sm float-right" type="text" id="reportsignature" style="width:93%;margin:2px;">
+                            <p>Signature</p>
+                            <hr><input class="form-control-sm float-right" type="text" id="reportcompleted" style="width:84%;margin:3px;margin-top:-3px;">
+                            <p>Date Report Completed</p>
+                        </div>
+                    </div>
+                    <div class="col-xl-12 offset-xl-0"><button id = report-submit class="btn btn-primary active btn-block" type="button" style="margin-top:9px;background-color:rgb(241,241,241);color:rgb(0,0,0);">Submit Report</button></div>
+                </div>
+                <div class="row no-gutters" id="WarrantHeader">
+                    <div class="col-md-12" style="background-color:#ffffff;margin-top:39px;margin-bottom:24px;">
+                        <p class="lead text-center d-flex justify-content-center align-items-center align-content-center" style="margin-bottom:0;margin-top:1px;">ACTIVE WARRANTS</p>
+                    </div>
+                </div>
+                <div class="row no-gutters" id="WarrantRowOne" style="margin-bottom:16px;height:80px;">
+                    
+                </div>
+                <div class="row no-gutters" id="WarrantRowTwo" style="margin-bottom:16px;">
+                    <div class="col-xl-12 offset-xl-0"><button id = "warrant-add" class="btn btn-primary active btn-block" type="button" style="margin-top:9px;background-color:rgb(241,241,241);color:rgb(0,0,0);">New Warrant</button></div>
+                </div>
+                <div class="row no-gutters" id="WarrantRowThree" style="margin-bottom:16px;">
+
+                </div>
+                <div class="row no-gutters" id="WarrantRowFour" style="margin-bottom:16px;"">
+
+                </div>
+                <div class="row" id="homepage" style="width:auto;height:auto;">
+                    <div class="col" style="width:auto;height:383px;padding:34px;">
+                        <div class="row">
+                            <div class="col">
+                                <div style="height:51px;background-color:#657f98;">
+                                    <p class="lead text-center" style="height:51px;padding:10px;color:rgb(255,255,255);">Announcements</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col" style="height:264px;">
+                                <div style="height:264px;background-color:#ffffff;">
+                                    <div class="table-responsive table-borderless d-inline">
+                                        <table class="table table-bordered">
+                                            <tbody>
+                                                <tr class="align-items-center align-content-center">
+                                                    <td class="justify-content-center align-items-center align-content-center align-self-center flex-wrap"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col" style="width:auto;height:383px;padding:34px;">
+                        <div class="row">
+                            <div class="col">
+                                <div style="height:51px;background-color:#657f98;">
+                                    <p class="lead text-center" style="height:51px;padding:10px;color:rgb(255,255,255);">Active BOLO&#39;s</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col" style="height:264px;">
+                                <div style="height:264px;background-color:#ffffff;">
+                                    <div class="table-responsive table-borderless d-inline">
+                                        <table class="table table-bordered">
+                                            <tbody>
+                                                <tr class="align-items-center align-content-center">
+                                                    <td class="justify-content-center align-items-center align-content-center align-self-center flex-wrap"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col" style="width:auto;height:383px;padding:34px;">
+                        <div class="row">
+                            <div class="col">
+                                <div style="height:51px;background-color:#657f98;">
+                                    <p class="lead text-center" style="height:51px;padding:10px;color:rgb(255,255,255);">Upcoming Events</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col" style="height:264px;">
+                                <div style="height:264px;background-color:#ffffff;">
+                                    <div class="table-responsive table-borderless d-inline">
+                                        <table class="table table-bordered">
+                                            <tbody>
+                                                <tr class="align-items-center align-content-center">
+                                                    <td class="justify-content-center align-items-center align-content-center align-self-center flex-wrap"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+            <script src="assets/js/jquery.min.js"></script>
+            <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+            <script src="assets/js/bs-animation.js"></script>
+            <script src="assets/js/table.js"></script>
+        </div>
+    </div>
+</body>
