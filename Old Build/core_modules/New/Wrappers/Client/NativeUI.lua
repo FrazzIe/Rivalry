@@ -3619,6 +3619,16 @@ function MenuPool:Add(Menu)
 	end
 end
 
+function MenuPool:Remove()
+    self = nil
+end
+
+function MenuPool:Clear()
+    self = {
+		Menus = {}
+	}
+end
+
 function MenuPool:MouseEdgeEnabled(bool)
 	if bool ~= nil then
 		for _, Menu in pairs(self.Menus) do
