@@ -438,7 +438,7 @@ function closeAllPoliceWithFooter() {
         closeWarrants();
     }
 
-    var jobs = ["","Unemployed","Police","Pharmacist","futurjob2","futurjob","Farmer","Gang","Miner","Fisher","Docker","Brewer","Vigneron","Livreur","Emergency","Mechanic","Taxi","FBI","Courier","Pool Cleaner","Garbage Collector","Tow","DOJ","Trucker","Bus Driver","Journalist"];
+    var jobs = ["","Unemployed","Police","Pharmacist","futurjob2","futurjob","Farmer","Lumberjack","Gang","Miner","Fisher","Docker","Brewer","Vigneron","Livreur","Emergency","Mechanic","Taxi","FBI","Courier","Pool Cleaner","Garbage Collector","Tow","DOJ","Trucker","Bus Driver","Journalist"];
 
     function PlayerSearch(items) {
         $('#playertablez').empty();
@@ -447,7 +447,6 @@ function closeAllPoliceWithFooter() {
         	$('#playertablez').append('<tr id = "playersearchzz" class="playerrow"><td>' + item.character_id + '</td><td>' + item.last_name + '</td><td>' + item.first_name + '</td><td>'  + jobs[item.job_id] + '</td></tr>')
 	    }
     }
-    
     function PlayerArrests(items) {
         for(let i in items) {
             let item = items[i];
@@ -677,4 +676,256 @@ function closeAllPoliceWithFooter() {
     	$('#reportcompleted').val(item.reportcompleted);
     }
   });
+
+    /*
+    |--------------------------------------------------------------------------|
+    | EMS MDT PORTION                                                          |
+    |--------------------------------------------------------------------------|
+    */
+
+    var PatientTreatment = '#medicalsearch'
+    var PatientTreatmentBtn = '#PatientTreatment'
+    var AddTreatementBtn = '#AddTreatment'
+    var PatientNotepadBtn = '#PatientNotepad'
+    var PatientTable = '#medicaltable'
+    var MedicalStats = '#medicalstats'
+    var MedicalTabs = '#medicaltabs'
+    var emsfooter = '#emsfooter'
+    var mdatabase = '#medicaldatabasebtn'
+    var mcertificates = '#deathdertificatesbtn'
+    var mreports = '#medicalreportsbtn'
+    var mlogout = '#medicallogoutbtn'
+    var TreatementTable = '#TreatmentTable'
+    var AddTreatmentForm = '#AddMedicalReport'
+    var PatientNotepad = '#MedicalNotepad'
+
+    $(PatientTreatment).hide();
+    $(PatientTable).hide();
+    $(MedicalStats).hide();
+    $(MedicalTabs).hide();
+    $(emsfooter).hide();
+    $(TreatementTable).hide();
+    $(AddTreatmentForm).hide();
+    $(PatientNotepad).hide();
+
+    function emsLogout() {
+        $(PatientTreatment).hide();
+        $(PatientTable).hide();
+        $(MedicalStats).hide();
+        $(MedicalTabs).hide();
+        $(emsfooter).hide();
+        $(TreatementTable).hide();
+        $(AddTreatmentForm).hide();
+        $(PatientNotepad).hide();
+        openLoginScreen()
+    }
+
+    function closeAllEMSNoFooter(){
+        $(PatientTreatment).hide();
+        $(PatientTable).hide();
+        $(MedicalStats).hide();
+        $(MedicalTabs).hide();
+        $(TreatementTable).hide();
+        $(AddTreatmentForm).hide();
+        $(PatientNotepad).hide();
+    }
+
+    function EMSPlayerSearch(items) {
+        $('#emsplayertablez').empty();
+        for(let i in items) {
+            let item = items[i];
+            $('#emsplayertablez').append('<tr id = "emsplayertablezz" class="emsplayerrow"><td>' + item.character_id + '</td><td>' + item.last_name + '</td><td>' + item.first_name + '</td><td>'  + jobs[item.job_id] + '</td></tr>')
+        }
+    }
+
+    function EMSLoadInformation(citizenid, firstname, lastname, record, dob, healthstatus, mentalstatus) {
+        jQuery("#playermedicalreports").text(record);
+        jQuery("#playdob").text(dob);
+        jQuery("#playerhealthstatus").text(healthstatus);
+        jQuery("#emscitizenid").text(citizenid);
+        if (mentalstatus == 1){
+            $('#emsdangerous').prop('checked', true);
+        }else if(mentalstatus == 2){
+            $('#emsmental').prop('checked', true);
+        }else{
+            $('#emssane').prop('checked', true);
+        }
+    }
+
+    function EMSLoadRecord(items) {
+        $('#playerrecordrow').empty();
+        for(let i in items) {
+            let item = items[i];
+            var dateVal ="/Date(" + (item.timestamp * 1000) + ")/"; var date = new Date( parseFloat( dateVal.substr(6 ))); let timestamp = (date.getMonth() + 1) + "/" +    date.getDate() + "/" + date.getFullYear() + " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds()    
+            if(item.hospital == 1){
+                $('#playerrecordrow').append('<tr id = "playerrecordrowz"><td>' + timestamp + '</td><td>' + item.medic_name + '</td><td class="cell-which-triggers-popup">' + item.injuries + '</td><td class="cell-which-triggers-popup">' + item.results + '</td><td>' + "Yes" + '</td></tr>');
+            }else{
+                $('#playerrecordrow').append('<tr id = "playerrecordrowz"><td>' + timestamp + '</td><td>' + item.medic_name + '</td><td class="cell-which-triggers-popup">' + item.injuries + '</td><td class="cell-which-triggers-popup">' + item.results + '</td><td>' + "No" + '</td></tr>');
+            }
+        }
+    }
+
+    function emsNotepad(items){
+        for(let i in items) {
+            let item = items[i];
+            $('#patientnotepadval').text(item.notes)   
+        }
+    }
+
+    $("#lsfdmdt").click(function(event){
+        $.post('http://mdt/emsopen', JSON.stringify({}));
+    });
+
+    function hideTabForms(){
+        $(TreatementTable).hide();
+        $(AddTreatmentForm).hide();
+        $(PatientNotepad).hide();
+    }
+
+    $(PatientTreatmentBtn).click(function(event){
+        hideTabForms();
+        $(TreatementTable).show();
+        var firstnamev = jQuery("#emsfirstnametwo").html();
+        var lastnamev = jQuery("#emslastnametwo").html();
+        $.post('http://mdt/emsreportsload', JSON.stringify({firstname: firstnamev, lastname: lastnamev}));
+    });
+
+    $(AddTreatementBtn).click(function(event){
+        hideTabForms();
+        $(AddTreatmentForm).show();
+    });
+
+    $(PatientNotepadBtn).click(function(event){
+        hideTabForms();
+        $(PatientNotepad).show();
+    });
+
+    $("#playerrecordrow").delegate('.cell-which-triggers-popup', 'click', function(event){
+        var cell_value = $(event.target).text();
+        showPopup(cell_value)    
+    });
+
+    function showPopup2(your_variable) {
+        jQuery("#myDialog2").text(your_variable);
+        document.getElementById("myDialog2").showModal();
+    }
+
+    $("#emsplayertablez").delegate('.emsplayerrow', 'click', function(event){
+        var $row = jQuery(this).closest('tr');
+        var $columns = $row.find('td');
+
+        var values = [];
+
+        jQuery.each($columns, function(i, item) {
+            values.push(item.innerHTML);
+        });
+        
+        firstnamev = values[2]
+        lastnamev = values[1]
+
+        $("#emsfirstnametwo").text(firstnamev);
+        $("#emslastnametwo").text(lastnamev);
+        
+        $.post('http://mdt/emsplayer', JSON.stringify({lastname: lastnamev, firstname: firstnamev}));
+/*        $.post('http://mdt/ems-notepad', JSON.stringify({firstname: firstnamev, lastname: lastnamev}));
+*/    });
+
+    $(mdatabase).click(function(event){
+        closeAllEMSNoFooter();
+        $(PatientTreatment).show();
+    });
+
+    $('#patientsubmit').click(function(event){
+        hideTabForms();
+        var patientinput = $('#patientinput').val();
+        var medicnameinput = $('#medicnameinput').val();
+        var injuriesinput = $('#injuriesinput').val();
+        var descriptioninput = $('#descriptioninput').val();
+        var hospitalcby = $('#hospitalcby').is(":checked");
+        var hospitalcbn = $('#hospitalcbn').is(":checked");
+        if(hospitalcbn == 1){
+            $.post('http://mdt/submitpatientreport', JSON.stringify({patient: patientinput, medic: medicnameinput, injuries: injuriesinput, description: descriptioninput, hospital: 0}));
+        }else if(hospitalcby == 1){
+            $.post('http://mdt/submitpatientreport', JSON.stringify({patient: patientinput, medic: medicnameinput, injuries: injuriesinput, description: descriptioninput, hospital: 1}));
+        }else{
+            $.post('http://mdt/submitpatientreport', JSON.stringify({patient: patientinput, medic: medicnameinput, injuries: injuriesinput, description: descriptioninput, hospital: 0}));
+        }
+    });
+
+    $('#patientnotepadsubmit').click(function(event){
+        var notepadv = $('#patientnotepadval').val();
+        var firstnamev = jQuery("#emsfirstnametwo").html();
+        var lastnamev = jQuery("#emslastnametwo").html();
+        $.post('http://mdt/emsnotepad', JSON.stringify({firstname: firstnamev, lastname: lastnamev, notepad: notepadv}));
+    });
+
+    $('#emssearch').click(function(event){
+        var emsfirstname = $('#emsfirstname').val(); 
+        var emslastname =  $('#emslastname').val();
+        $.post('http://mdt/emssearch', JSON.stringify({firstname: emsfirstname}));
+        $('#emsdangerous').prop('checked', false);
+        $('#emsmental').prop('checked', false);
+        $('#emssane').prop('checked', false);
+    });
+
+    $('#healthstatus').click(function(event){
+        var firstnamev = jQuery("#emsfirstnametwo").html();
+        var lastnamev = jQuery("#emslastnametwo").html();
+        var healthstatusd = $('#emsdangerous').is(":checked");
+        var healthstatusm = $('#emsmental').is(":checked");
+        var healthstatuss = $('#emssane').is(":checked");
+        if(healthstatusd = 1){
+            $.post('http://mdt/emsmentalstatus', JSON.stringify({firstname: firstnamev, lastname: lastnamev, status: 1}))
+            $('#emsmental').prop('checked', false);
+            $('#emssane').prop('checked', false);
+        }
+        if(healthstatusm = 1){
+            $.post('http://mdt/emsmentalstatus', JSON.stringify({firstname: firstnamev, lastname: lastnamev, status: 2}))
+            $('#emsdangerous').prop('checked', false);
+            $('#emssane').prop('checked', false);
+        }
+        if(healthstatuss = 1){
+            $.post('http://mdt/emsmentalstatus', JSON.stringify({firstname: firstnamev, lastname: lastnamev, status: 3}))
+            $('#emsdangerous').prop('checked', false);
+            $('#emsmental').prop('checked', false);
+        }
+    });
+
+    $(mcertificates).click(function(event){
+        
+    });
+
+    $(mreports).click(function(event){
+        
+    });
+
+    $(mlogout).click(function(event){
+        emsLogout();
+    });
+
+    window.addEventListener('message', function(event){
+        var item = event.data;
+        if(item.openSection == "ems_mdt") {
+            closeLoginScreen();
+            $(emsfooter).show();
+        }
+        if(item.openSection == "emstable") {
+          EMSPlayerSearch(item.list);
+          $(PatientTable).show();
+        }
+        if(item.openSection == "ems-playerinformation") {
+            EMSLoadInformation(item.citizenid, item.firstname, item.lastname, item.record, item.dob, item.healthstatus, item.mentalstatus);
+            $(PatientTable).hide();
+            $(PatientTreatment).hide();
+            $(MedicalStats).show();
+            $(MedicalTabs).show();
+        }
+        if(item.openSection == "playeremsrecords") {
+          EMSLoadRecord(item.list);
+        }
+        if(item.openSection == "emsOpenNotepad") {
+            $("#patientnotepadval").empty();
+            emsNotepad(item.list);
+        }
+    });
 });

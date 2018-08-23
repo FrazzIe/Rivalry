@@ -22,6 +22,16 @@
                     </ul>
                 </footer>
             </div>
+            <div id="emsfooter" class="footer-basic" style="padding:11px;background-color:rgb(207,52,52);">
+                <footer>
+                    <ul class="list-unstyled d-flex justify-content-center" style="color:#ffffff;letter-spacing:2px;font-weight:normal;padding:0px;">
+                        <li data-bs-hover-animate="pulse" id="medicaldatabasebtn"><a href="#">Database</a></li>
+                        <li data-bs-hover-animate="pulse" id="deathdertificatesbtn"><a href="#">Death Certificates</a></li>
+                        <li data-bs-hover-animate="pulse" id="medicalreportsbtn"><a href="#">Medical Reports</a></li>
+                        <li data-bs-hover-animate="pulse" id="medicallogoutbtn"><a href="#">Logout</a></li>
+                    </ul>
+                </footer>
+            </div>
             <div class="container" style="background-color:rgb(214,214,214,255);">
                 <div class="row" id="logo">
                     <div class="col d-flex flex-row justify-content-center align-items-center align-content-center flex-wrap"><img src="assets/img/logo.png" style="height:100px;"></div>
@@ -34,8 +44,8 @@
                 <div class="row" id="departments">
                     <div class="col-xl-12 offset-xl-0 d-flex justify-content-center align-items-center align-content-center flex-wrap" style="margin-top:95px;">
                         <div id="lspdmdt" style="margin:15px;"><img class="rounded img-fluid" src="assets/img/lspd.png" data-bs-hover-animate="pulse" style="width:198px;"></div>
-                        <div style="margin:15px;"><img src="assets/img/doj.png" data-bs-hover-animate="pulse" style="width:198px;"></div>
-                        <div style="margin:15px;"><img src="assets/img/lsfd.png" data-bs-hover-animate="pulse"></div>
+                        <div id = "dojmdt" style="margin:15px;"><img src="assets/img/doj.png" data-bs-hover-animate="pulse" style="width:198px;"></div>
+                        <div id = "lsfdmdt" style="margin:15px;"><img src="assets/img/lsfd.png" data-bs-hover-animate="pulse"></div>
                     </div>
                 </div>
                 <div class="row" id="playersearch" style="background-color:#ffffff;margin:20px;height:111px;">
@@ -429,6 +439,92 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
+                </div>
+            <div class="row" id="medicalsearch" style="background-color:#ffffff;margin:20px;height:111px;">
+                <div class="col">
+                    <p style="height:19px;margin:8px;padding:0px;">Civilian Search:</p><input type="text" required="" placeholder="First Name" id="emsfirstname" style="margin:8px;"><input type="text" required="" placeholder="Last Name" id="emslastname"><button class="btn btn-primary" type="submit" data-bs-hover-animate="pulse"
+                        id="emssearch" style="height:34px;margin:9px;padding:5px;margin-top:7px;background-color:#cf3434;color:rgb(255,255,255);">Search</button></div>
+                </div>
+            <div class="row" id="medicaltable" style="background-color:#ffffff;margin:20px;">
+                <div class="col"><div class="table-responsive float-left">
+                    <table class="table table-sm">
+                        <thead>
+                            <tr>
+                                <th>Citizen ID</th>
+                                <th>Surname</th>
+                                <th>Forename</th>
+                                <th>Occupation</th>
+                            </tr>
+                        </thead>
+                        <tbody id= emsplayertablez>
+                            <tr class="visible emsplayerrow">
+                            </tr>
+                            <tr class="emsplayerrow">
+                            </tr>
+                        </tbody>
+                    </table>
+                </div></div>
+            </div>
+            <div class="row" id="medicalstats" style="background-color:#ffffff;margin:20px;padding-top:15px;padding-bottom:15px;">
+                <div class="col"><small class="form-text text-muted">Citizen ID</small>
+                    <p id="emscitizenid">56</p><small class="form-text text-muted">Forename</small>
+                    <p id="emsfirstnametwo">Frazzle</p><small class="form-text text-muted">Surname</small>
+                    <p id="emslastnametwo">Dazzle</p>
+                </div>
+                <div class="col"><small class="form-text text-muted">Medical Reports</small>
+                    <p id="playermedicalreports">1</p><small class="form-text text-muted">Health Status</small>
+                    <p id="playerhealthstatus">Healthy</p><small class="form-text text-muted">Date of Birth</small>
+                    <p id="playdob">202</p>
+                </div>
+                <div class="col"><small class="form-text text-muted">Mental Status</small>
+                    <div class="form-check" style="padding-top:8px;"><input class="form-check-input" id = "emsdangerous" type="checkbox" id="formCheck-4"><label class="form-check-label" for="formCheck-4">Dangerous</label></div>
+                    <div class="form-check" style="padding-top:20px;"><input class="form-check-input" id = "emsmental" type="checkbox" id="formCheck-4"><label class="form-check-label" for="formCheck-4">Mental Disorder</label></div>
+                    <div class="form-check" style="padding-top:8px;padding-bottom:14px;"><input class="form-check-input" id = "emssane" type="checkbox" id="formCheck-4"><label class="form-check-label" for="formCheck-4">Sane</label></div><button class="btn btn-primary btn-block btn-sm" id = "healthstatus" type="button" style="background-color:rgb(207,52,52);">Edit</button></div>
+            </div>
+            <div class="row" id="medicaltabs" style="background-color:#ffffff;margin:20px;">
+                <div class="col-4" style="padding-right:0px;padding-left:0px;">
+                    <div class="custom-tab"><button class="custom-tab-active" id = PatientTreatment type="button">Patient Treatment</button>
+                    <button id = AddTreatment type="button">Add Patient Treatment</button>
+                    <button id = PatientNotepad type="button">Patient Notepad</button></div>
+                </div>
+                <div class="col-8" style="background-color:#f1f1f1;">
+                    <div class="row" id="TreatmentTable">
+                        <div class="col">
+                            <div class="table-responsive table-borderless" style="max-width:100%;">
+                                <table class="table table-bordered table-sm">
+                                    <thead>
+                                        <tr>
+                                            <th>Date</th>
+                                            <th>Paramedic</th>
+                                            <th>Injuries</th>
+                                            <th>Treatment</th>
+                                            <th>Hospital</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id = "playerrecordrow">
+                                        <tr>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col"><dialog id="myDialog2">
+                    <p></p>
+                    </dialog></div>
+                    <div class="row" id="AddMedicalReport">
+                        <div class="col"><small class="form-text text-muted">Patient Name</small><input id = "patientinput" type="text"><small class="form-text text-muted">Person who provided treatment</small><input id = "medicnameinput" type="text"><small class="form-text text-muted">Injuries</small>
+                            <textarea
+                                class="form-control-lg" id = "injuriesinput" rows="6" cols="40" wrap="hard" spellcheck="true" style="height:99px;"></textarea><small class="form-text text-muted">Treatment Description</small><textarea id = "descriptioninput" class="form-control-lg" rows="6" cols="40" wrap="hard" spellcheck="true" style="height:153px;"></textarea></div>
+                        <div class="col"><small class="form-text text-muted">Admitted to hospital</small>
+                            <div class="form-check"><input class="form-check-input" id = "hospitalcby" type="checkbox" id="formCheck-1"><label class="form-check-label" for="formCheck-1">Yes</label></div>
+                            <div class="form-check"><input class="form-check-input" id = "hospitalcbn" type="checkbox" id="formCheck-1"><label class="form-check-label" for="formCheck-1">No</label></div>
+                        </div>
+                        <div class="col-xl-12 offset-xl-0"><button class="btn btn-primary active btn-block" id = "patientsubmit" type="button" style="margin-top:9px;background-color:rgb(241,241,241);color:rgb(0,0,0);">Submit</button></div>
+                    </div>
+                    <div class="row" id="MedicalNotepad">
+                        <div class="col"><small class="form-text text-muted">Notepad:&nbsp;</small><textarea id = "patientnotepadval" class="d-flex" wrap="hard" autofocus=""></textarea><button class="btn btn-primary active btn-block" id = "patientnotepadsubmit" type="button" style="margin-top:9px;background-color:rgb(241,241,241);color:rgb(0,0,0);">Submit</button></div>
                     </div>
                 </div>
             </div>

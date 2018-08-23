@@ -9,6 +9,7 @@ local notepad = {}
 local loadplayerdata = {}
 local autofill = {}
 local PlayerPed = PlayerPedId()
+local emsrecord = {}
 
 -- Open Gui and Focus NUI
 function openGui()
@@ -94,8 +95,20 @@ RegisterNUICallback('policeopen', function(data, cb)
 	cb('ok')
 end)
 
+RegisterNUICallback('emsopen', function(data, cb)
+	if(exports.emsjob:getIsInService())then
+		SendNUIMessage({openSection = "ems_mdt", isEms = true})
+	end
+	cb('ok')
+end)
+
 RegisterNUICallback('search', function(data, cb)
 	TriggerServerEvent('police:search-table', data.firstname, data.lastname)
+  cb('ok')
+end)
+
+RegisterNUICallback('emssearch', function(data, cb)
+	TriggerServerEvent('ems:search-table', data.firstname)
   cb('ok')
 end)
 
@@ -103,6 +116,17 @@ RegisterNUICallback('player', function(data, cb)
 	TriggerServerEvent('police:loadplayerdata', data.lastname, data.firstname)
 	firstname, lastname = data.firstname, data.lastname
   	cb('ok')
+end)
+
+RegisterNUICallback('emsplayer', function(data, cb)
+	TriggerServerEvent('ems:loadplayerdata', data.lastname, data.firstname)
+	firstname, lastname = data.firstname, data.lastname
+  	cb('ok')
+end)
+
+RegisterNUICallback('emsreportsload', function(data, cb)
+	TriggerServerEvent('ems:reportsload', data.firstname, data.lastname)
+	cb('ok')
 end)
 
 RegisterNUICallback('autofillArrest', function(data, cb)
@@ -151,6 +175,11 @@ RegisterNUICallback('submit-arrest', function(data, cb)
 	cb('ok')
 end)
 
+RegisterNUICallback('submitpatientreport', function(data ,cb)
+	TriggerServerEvent('ems:submit-report', data.patient, data.medic, data.injuries, data.description, data.hospital)
+	cb('ok')
+end)
+
 RegisterNUICallback('submit-citation', function(data, cb)
 	TriggerServerEvent('police:new-citation', data.officer_name, data.firstname, data.lastname, data.charges, data.fine)
 	cb('ok')
@@ -158,6 +187,11 @@ end)
 
 RegisterNUICallback('submit-notepad', function(data, cb)
 	TriggerServerEvent('police:edit-notepad', data.firstname, data.lastname, data.notes)
+	cb('ok')
+end)
+
+RegisterNUICallback('emsnotepad', function(data, cb)
+	TriggerServerEvent('ems:edit-notepad', data.firstname, data.lastname, data.notepad)
 	cb('ok')
 end)
 
@@ -200,6 +234,10 @@ RegisterNUICallback('edit-warrant', function(data, cb)
 	TriggerServerEvent('police:edit-warrant', data.description, data.charges, data.newdescription)
 	cb('ok')
 end)
+
+RegisterNUICallback('emsmentalstatus', function(data, cb)
+	TriggerServerEvent('ems:update-mentalstatus', data.firstname, data.lastname, data.status)
+end)
 --[[
 =================================================================================================================================================================================================================================================
 =================================================================================================================================================================================================================================================
@@ -208,6 +246,11 @@ end)
 RegisterNetEvent('police:loadarrestdata-client')
 AddEventHandler('police:loadarrestdata-client', function(arrests)
 	SendNUIMessage({openSection = "playerarrests", list = arrests})
+end)
+
+RegisterNetEvent("ems:loadreports")
+AddEventHandler("ems:loadreports", function(records)
+	SendNUIMessage({openSection = "playeremsrecords", list = records})
 end)
 
 RegisterNetEvent('police:loadticketsdata-client')
@@ -235,9 +278,19 @@ AddEventHandler("police:load-searchtable", function(search)
 	SendNUIMessage({openSection = "tableofplayers", list = search })
 end)
 
+RegisterNetEvent("ems:load-searchtable")
+AddEventHandler("ems:load-searchtable", function(search)
+	SendNUIMessage({openSection = "emstable", list = search })
+end)
+
 RegisterNetEvent('police:loadplayerdata-client')
 AddEventHandler('police:loadplayerdata-client', function(firstnamev, lastnamev, citizenidv, arrestsv, warrantsv, citationsv, weaponslv, driverslv)
 	SendNUIMessage({openSection = "playerinformation", warrants = warrantsv, arrests = arrestsv, citations = citationsv, citizenid = citizenidv, firstname = firstnamev, lastname = lastnamev, weaponsl = weaponslv, driversl = driverslv})
+end)
+
+RegisterNetEvent('ems:loadplayerdata-client')
+AddEventHandler('ems:loadplayerdata-client', function(firstnamev, lastnamev, citizenidv, recordv, dobv, healthstatusv, mentalstatusv)
+	SendNUIMessage({openSection = "ems-playerinformation", citizenid = citizenidv, firstname = firstnamev, lastname = lastnamev, record = recordv, dob = dobv, healthstatus = healthstatusv, mentalstatus = mentalstatusv})
 end)
 
 RegisterNetEvent('police:new-arrest')
@@ -246,6 +299,15 @@ AddEventHandler('police:new-arrest', function(entry)
 	if isInService then
 		PlaySound(-1, "Whoosh_1s_L_to_R", "MP_LOBBY_SOUNDS", 0, 0, 1)
 		TriggerEvent('customNotification', "New Arrest Entry")
+	end
+end)
+
+RegisterNetEvent('ems:new-record')
+AddEventHandler('ems:new-record', function(entry)
+	table.insert(emsrecord, entry[1])
+	if exports.emsjob:getIsInService() then
+		PlaySound(-1, "Whoosh_1s_L_to_R", "MP_LOBBY_SOUNDS", 0, 0, 1)
+		TriggerEvent('customNotification', "New Record Entry")
 	end
 end)
 
@@ -278,6 +340,11 @@ end)
 RegisterNetEvent('client:load-notepad')
 AddEventHandler('client:load-notepad', function(notes)
 	SendNUIMessage({openSection = "openNotepad", list = notes})
+end)
+
+RegisterNetEvent('ems:load-notepad')
+AddEventHandler('ems:load-notepad', function(notes)
+	SendNUIMessage({openSection = "emsOpenNotepad", list = notes})
 end)
 
 RegisterNetEvent('police:loadreports')
