@@ -187,7 +187,7 @@ function UpdateModel(Skin)
         SetPlayerModel(PlayerId(), Model)
 
         if Skin ~= "mp_f_freemode_01" and Skin ~= "mp_m_freemode_01" then
-            SetPedRandomComponentVariation(PlayerPedId(), true)
+            SetPedDefaultComponentVariation(PlayerPedId())
         else
             SetPedComponentVariation(PlayerPedId(), 11, 0, 240, 0)
             SetPedComponentVariation(PlayerPedId(), 8, 0, 240, 0)

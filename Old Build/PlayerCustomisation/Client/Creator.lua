@@ -975,6 +975,7 @@ function CreateCharacterCreator()
 	end
 
 	PlayerCustomisation.Pool:Add(CharacterCreatorMenu)
+	PlayerCustomisation.Pool:Add(ModelMenu)
 	PlayerCustomisation.Pool:RefreshIndex()
 
 	return CharacterCreatorMenu, MergeListItem, GenderListItem, HeritageMenu, FeaturesMenu, AppearanceMenu, ApparelMenu, ItemSaveList, ModelMenu
