@@ -241,6 +241,87 @@ AddEventHandler('rconCommand', function(commandName, args)
 				end
 			end
 		end
+	elseif commandName:lower() == "rban" then
+		if #args < 7 then
+			RconPrint("ban [username] [steam:id] [license:id] [time] [s|m|h] [permanent (true|false)] [reason]\n")
+			CancelEvent()
+		else
+			if tostring(args[1]) == nil or tostring(args[1]) == "" then
+				RconPrint("Something went wrong with the username\n")
+				CancelEvent()
+			else
+				if string.sub(args[2], 1, string.len("steam:")) ~= "steam:" then
+					RconPrint("Invalid steam hex\n")
+					CancelEvent()
+				else
+					if string.sub(args[3], 1, string.len("license:")) ~= "license:" then
+						RconPrint("Invalid license\n")
+						CancelEvent()
+					else			
+						if tonumber(args[4]) == nil or tonumber(args[4]) < 0 then
+							RconPrint("The time must be a positive number\n")
+							CancelEvent()
+						else
+							if args[5] ~= "s" and args[5] ~= "m" and args[5] ~= "h" then
+								RconPrint("Invalid type for time entered\n")
+								CancelEvent()
+							else
+								if args[5] ~= "s" then
+									args[4] = args[4]..args[5]
+								end
+								if args[6] ~= "true" and args[6] ~= "false" then
+									RconPrint("Invalid type for permanent entered\n")
+									CancelEvent()                            
+								else
+									if tostring(args[7]) == nil or tostring(args[7]) == "" then
+										RconPrint("Something went wrong with the reason\n")
+										CancelEvent()
+									else
+										local reason = table.concat(args, " ", 7)
+										local bantime = "Default"
+										local duration = tostring(args[4])
+										local permed = (args[6] == "true") and true or false
+
+										if string.find(duration, "m") then
+											duration = string.gsub(duration, "m", "")
+											bantime = duration .. " minute(s)"
+											duration = os.time() + (tonumber(duration) * 60)
+										elseif string.find(duration, "h") then
+											duration = string.gsub(duration, "h", "")
+											bantime = duration .. " hour(s)"
+											duration = os.time() + (tonumber(duration) * 60 * 60)
+										else
+											bantime = duration .. " second(s)"
+											duration = os.time() + tonumber(duration)
+										end
+
+										exports["GHMattiMySQL"]:QueryAsync("INSERT INTO bans (`identifier`,`license`,`timestamp`,`expire`,`reason`,`name`,`banner`,`permanent`) VALUES (@identifier, @license, @timestamp, @expire, @reason, @name, @banner, @permanent)", {
+											["@identifier"] = args[2],
+											["@license"] = args[3],
+											["@timestamp"] = os.time(),
+											["@expire"] = duration,
+											["@reason"] = reason,
+											["@name"] = args[1],
+											["@banner"] = "Console",
+											["@permanent"] = tostring(permed),
+										})
+
+										if not permed then
+											banMessage(args[1], args[2], args[3], bantime, reason, "Console")
+										else
+											banMessage(args[1], args[2], args[3], "Permanent", reason, "Console")
+										end
+
+										RconPrint("Banned "..args[1].."for "..bantime)
+										CancelEvent()
+									end
+								end
+							end
+						end
+					end
+				end
+			end
+		end
 	elseif commandName:lower() == "kick" then
 		if #args < 2 then
 			RconPrint("kick [id] [reason]\n")

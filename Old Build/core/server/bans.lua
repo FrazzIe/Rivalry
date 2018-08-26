@@ -20,7 +20,7 @@ local function ordinal_numbers(n)
 	end
 end
 
-local function banMessage(name, steam, license, duration, reason, banner)
+function banMessage(name, steam, license, duration, reason, banner)
 	PerformHttpRequest(GetConvar("ban_webhook", "https://discordapp.com/api/webhooks/393124622926741504/kjC2it8lmFuu2KjzJDPskTlRX3MSES64HSbs_ZEbKyf4Ujp0XZ0ggHi1jmP0-oyJ3GP5"), function(err, text, headers) end, 'POST', json.encode(
 	{
 		username = "Ban Bot",
