@@ -135,6 +135,7 @@ function activateMissionSystem()
             end
         end
         ms_removeMedic(personnelId)
+        ms_setMission()
         ms_updateMedics()
     end
 
@@ -203,44 +204,53 @@ function activateMissionSystem()
         if isInService then
             ms_addMedic(source)
             ms_updateMedics()
+            ms_setMission()
         else
             ms_exitMission(source)
             ms_removeMedic(source)
+            ms_updateMedics()
         end
     end)
 
     RegisterServerEvent('paramedic:requestMission')
     AddEventHandler('paramedic:requestMission', function ()
+        local source = source
         ms_setMission(source)
     end)
 
     RegisterServerEvent('paramedic:getactiveMedics')
     AddEventHandler('paramedic:getactiveMedics', function ()
+        local source = source
         ms_updateMedics(source)
     end)
 
     RegisterServerEvent('paramedic:Call')
     AddEventHandler('paramedic:Call',function(posX,posY,posZ,type)
+        local source = source
         ms_addMission(source, {posX, posY, posZ}, type)
     end)
 
     RegisterServerEvent('paramedic:CallCancel')
     AddEventHandler('paramedic:CallCancel', function ()
+        local source = source
         ms_cancelMissionclient(source)
     end)
 
     RegisterServerEvent('paramedic:acceptMission')
     AddEventHandler('paramedic:acceptMission', function (id)
+        local source = source
         ms_acceptMission(source, id)
     end)
 
     RegisterServerEvent('paramedic:finishMission')
     AddEventHandler('paramedic:finishMission', function (id)
+        local source = source
         ms_closeMission(source, id)
     end)
 
     RegisterServerEvent('paramedic:cancelCall')
     AddEventHandler('paramedic:cancelCall', function ()
+        local source = source
         ms_cancelMissionclient(source)
     end)
 
@@ -410,8 +420,19 @@ function activateMissionSystem()
     end)
 
     AddEventHandler('playerDropped', function()
+        local source = source
         ms_exitMission(source)
         ms_cancelMissionclient(source)
+        ms_removeMedic(source)
+        ms_updateMedics()
+    end)
+
+    AddEventHandler("core:switch", function(source)
+        local source = source
+        ms_exitMission(source)
+        ms_cancelMissionclient(source)
+        ms_removeMedic(source)
+        ms_updateMedics()
     end)
 end
 
