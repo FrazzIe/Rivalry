@@ -357,7 +357,7 @@ Citizen.CreateThread(function()
     while true do
         Citizen.Wait(0)
         local ped = PlayerPedId()
-        if DoesEntityExist( ped ) and not IsEntityDead( ped ) and not IsPedInAnyVehicle(PlayerPedId(), true)then
+        if DoesEntityExist( ped ) and not IsEntityDead( ped ) and not IsPedInAnyVehicle(PlayerPedId(), true) not IsPedInParachuteFreeFall( ped ) then
             RequestAnimDict( "reaction@intimidation@1h" )
             RequestAnimDict( "rcmjosh4" )
             RequestAnimDict( "weapons@pistol@" )
