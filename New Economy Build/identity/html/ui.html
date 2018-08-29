@@ -1,0 +1,52 @@
+<head>
+	<link rel="stylesheet" href="style.css" type="text/css">
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+</head>
+
+<body>
+<img id="cursor" src="cursor.png">
+<div id="identity" style="display:none">
+	<span id="prenom">O'Sullivan</span>
+	<span id="nom">John</span>
+	<span id="dateNaissance">14/09/1989</span>
+	<span id="sexe">Homme</span>
+	<span id="taille">175 cm</span>
+	<span id="jobs">Bucheron</span>
+	<span id="numCarte"></span>
+</div>
+
+<div id="register" style="display:none">
+	<form action="" id="registerFrom">
+	<h1>Citizen Registration</h1>
+	<div class="champ">
+		<label for="prenom">First Name :</label>
+		<input type="text" name="prenom" required pattern="^[A-Za-z \-\']+$" >
+	</div>
+	<div class="champ">
+		<label for="nom">Last Name :</label>
+		<input type="text" name="nom" required pattern="^[A-Za-z \-\']+$" >
+	</div>
+	<div class="champ">
+		<label for="dateNaissance">Date of Birth : (dd/mm/yyyy)</label>
+		<input type="text" name="dateNaissance" required pattern="(0[1-9]|1[0-9]|2[0-9]|3[01])\/(0[1-9]|1[012])\/[0-9]{4}">
+	</div>
+	<div class="champ">
+		<label for="sexy">Gender :</label>
+		<label class="lcheck"><input required type="radio" name="sexe" value="h">Male</label>
+		<label class="lcheck"><input required type="radio" name="sexe" value="f">Female</label>
+	</div>
+	<div class="champ">
+		<label for="taille">Height (en cm) :</label>
+		<input  type="number" name="taille" required min="60" max="240">
+	</div>
+	<div class="clearfix">
+	<button type="submit">Sign and validate</button>
+	</div>
+	</form>
+</div>
+
+<!-- For local test -->
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script src="nui://game/ui/jquery.js" type="text/javascript"></script>
+<script src="script.js" type="text/javascript"></script>
+</body>
