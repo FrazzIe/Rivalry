@@ -1,0 +1,241 @@
+@font-face {
+    font-family: pricedown;
+    src: url('pricedown.ttf');
+}
+
+*{
+    box-sizing: border-box;
+    /*font-family: pricedown*/
+}
+
+body{
+    padding: 0;
+    margin: 0; 
+    overflow: hidden;
+}
+
+.fright{
+    float:right;
+}
+#cursor {
+    position: absolute;
+    z-index: 99999999;
+    display: none;
+}
+
+/* TextColor */
+.text-r{ color: red }
+.text-b{ color: blue }
+.text-g{ color: green }
+.text-y{ color: yellow }
+
+.text-p{ color: purple }
+.text-o{ color: orange }
+
+.text-d{ color: darkblue }
+.text-f{ color: lightblue }
+
+.text-c{ color: gray }
+.text-m{ color: darkgray }
+.text-u{ color: black }
+
+.text-s{ color: white } /* Default white */
+.text-w{ color: white }
+
+/* ProgressBar */
+/*
+#progressbar{
+    position: absolute;
+    left: 20vw;
+    bottom: 4vh;
+    width: 60vw;
+    height: 3vh;
+    background-color: rgba(255,255,255,0.9) ;
+}
+#progressbar_loading{
+    background: rgba(0,0,0,0.9);
+    height: 100%;
+    width: 50%;
+    display: inline-block;
+    transition-timing-function: linear;
+}
+#progressbar_text{
+    color: #65b4d4;
+    font-weight: 700;
+    font-size: 2vh;
+    top: 0;
+    line-height: 3vh;
+    text-align: center;
+    width: 100%;
+    height: 100%;
+    display: block;
+    position: absolute;
+}
+*/
+
+#progressbar{
+    position: absolute;
+    left: 20vw;
+    bottom: 4vh;
+    width: 60vw;
+    height: calc(3vh + 4px);
+    background-color: rgba(255,255,255,0.4) ;
+    border: 2px solid black;
+}
+#progressbar_loading{
+    background: #00aeff ;
+    height: 100%;
+    width: 50%;
+    display: inline-block;
+    transition-timing-function: linear;
+}
+#progressbar_text{
+    color: #FFF;
+    font-weight: 700;
+    font-size: 2vh;
+    font-family: 'Open Sans', sans-serif;
+    top: 0;
+    line-height: 3vh;
+    text-align: center;
+    width: 100%;
+    height: 100%;
+    display: block;
+    position: absolute;
+    text-shadow:
+    -1px -1px 0 #000,
+    1px -1px 0 #000,
+    -1px 1px 0 #000,
+    1px 1px 0 #000;  
+}
+
+/* ProgressBar */
+#inputText_wrapper{
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background-color: rgba(0,0,0,0.3)
+}
+
+#inputText_wrapper2{
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    
+}
+#inputText_title{
+    color: #EEE;
+    width: 40vw;
+    height: 3vh;
+    font-size: 2vh;
+    line-height: 3vh;
+    margin: 0;
+    background-color: #060606;
+    padding: 0 0 0 20px;
+}
+#inputText_value{
+    background-color: #111;
+    color: #65b4d4;
+    font-size: 1.2em;
+    width: 40vw;
+    height: 40vh;
+    border: 1px solid #060606;
+    padding: 10px;
+    outline: none;
+    resize: none;
+}
+
+#inputText_button_wrapper{
+    background-color: #060606;
+    width: 40vw;
+    padding: 10px;
+}
+/* ProgressBar */
+#dialog_wrapper{
+    position: absolute;
+    left: 20vw;
+    bottom: 16vh;
+    width: 60vw;
+    height: 18vh;
+
+}
+
+#dialog_texte{
+    height: 100%;
+    width: 80%;
+    color: white;
+    margin: 0;
+    padding: 0.5em;
+    background-color: rgba(0,0,0,0.8) ;
+    border: 2px solid #000;
+    font-size: 1.4em;
+    float: left;
+    /*text-shadow:
+    -1px -1px 0 #000,
+    1px -1px 0 #000,
+    -1px 1px 0 #000,
+    1px 1px 0 #000; */
+
+    background: rgba(0,38,59,1);
+    background: linear-gradient(to bottom, rgba(0,38,59,1) 0%, rgba(0,0,0,0.8) 100%);
+    border: 2px solid #AAA;
+}
+
+#dialog_button{
+    width: 20%;
+    height: 100%;
+    float: right;
+}
+
+#dialog_button button{
+    position: relative;
+    margin-left: 20%;
+    margin-bottom: 5%;
+    width: 100%;
+    height: 3.5vh;
+    background-color: rgba(0,0,0,0.4) ;
+    outline: none;
+    color: white;
+}
+
+#dialog_button button:focus, #dialog_button button.focus{
+    background-color: rgba(0,0,0,0.8) ;
+    color: #00aeff;
+}
+
+#dialog_button button:focus:after, #dialog_button button.focus:after{
+    content: '';
+    position: absolute;
+    left: -1vh;
+    top: calc(50% - 0.6vh);
+    width: 0; 
+    height: 0; 
+    border-top: 0.6vh solid transparent;
+    border-bottom: 0.6vh solid transparent;
+    border-left: 0.6vh solid white;
+
+    
+}
+
+
+/* global */
+button{
+    background-color: transparent;
+    color: #00aeff;
+    font-size: 1.4em;
+    border: none;
+    padding: 5px 10px;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn-cancel{
+    color: darkorange;
+}
+
+.btn-valid{
+    color: darkolivegreen;
+}

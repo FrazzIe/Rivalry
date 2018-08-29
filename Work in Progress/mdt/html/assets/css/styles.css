@@ -1,0 +1,136 @@
+.btn-primary:not(:disabled):not(.disabled).active, .btn-primary:not(:disabled):not(.disabled):active, .show > .btn-primary.dropdown-toggle {
+  color:#fff;
+  background-color:rgba(255,255,255,0);
+  border-color:rgba(255,255,255,0);
+}
+
+.btn-primary:not(:disabled):not(.disabled).active:focus, .btn-primary:not(:disabled):not(.disabled):active:focus, .show > .btn-primary.dropdown-toggle:focus {
+  box-shadow:0 0 0 .2rem rgba(255,255,255,0.5);
+}
+
+#currentcharges {
+  overflow:scroll;
+}
+
+.custom-tab {
+  background-color:#ffffff;
+  width:100%;
+}
+
+.charge:hover {
+  background-color:#f1f1f1;
+  color:rgba(255,255,255,0.36);
+  outline:none;
+}
+
+.vertical-center {
+  /*min-height:100%;*/
+  height:100%;
+  align-items:center;
+  vertical-align: auto;
+  position: center;
+}
+
+body{ height:100%;
+  margin:0 auto; }
+
+html{
+  height:100%;
+}
+
+.custom-tab button {
+  display:block;
+  background-color:inherit;
+  color:black;
+  padding:22px 16px;
+  width:100%;
+  border:none;
+  outline:none;
+  text-align:left;
+  cursor:pointer;
+  transition:0.3s;
+}
+
+.custom-tab button:hover {
+  background-color:#f1f1f1;
+  color:black;
+  outline:none;
+}
+
+.custom-tab-active {
+  background-color:#f1f1f1 !important;
+  color:black;
+  outline:none;
+}
+
+.charges:focus {
+  background-color:#f1f1f1;
+  color:black;
+  outline:none;
+}
+
+.custom-tab button:focus {
+  background-color:#f1f1f1;
+  color:black;
+  outline:none;
+}
+
+.custom-tab.active {
+  background-color:#cccccc;
+  color:black;
+  border:none;
+  outline:none;
+  box-shadow:none;
+}
+
+.custom-tab-content {
+  float:left;
+  padding:0px 12px;
+  border:1px solid #ccc;
+  width:70%;
+  border-left:none;
+  height:300px;
+}
+
+.table td, .table th {
+  padding:.75rem;
+  vertical-align:top;
+  border-top:1px solid #dee2e6;
+  max-width:100px;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  overflow-y:hidden;
+}
+
+#playerarrestrow {
+	overflow-y:hidden;
+}
+
+#playerticketsrow {
+	overflow-y:hidden;
+}
+
+textarea {
+  overflow:auto;
+  resize:both;
+}
+
+.btn-primary:not(:disabled):not(.disabled).active, .btn-primary:not(:disabled):not(.disabled):active, .show > .btn-primary.dropdown-toggle {
+  color:#fff;
+  background-color:rgba(255,255,255,0);
+  border-color:rgba(255,255,255,0);
+}
+
+.btn-primary:hover {
+  color:#fff;
+  background-color:rgba(0,105,217,0);
+  border-color:rgba(255,255,255,0);
+}
+
+.btn-primary {
+  color:#fff;
+  background-color:rgba(0,123,255,0);
+  border-color:rgba(0,123,255,0);
+}
+
