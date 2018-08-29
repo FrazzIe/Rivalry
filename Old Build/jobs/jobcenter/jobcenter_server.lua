@@ -1,16 +1,16 @@
 jobList = {
 	{name="Unemployed", id=1},
 	{name="police", id=2},
-	{name="Miner", id=9},
-	{name="bucheron", id=7},
-	{name="Farmer", id=6},
-	{name="Fisher", id=10},
-	{name="Brewer", id=12},
-	{name="vigneron", id=13},
+	--{name="Miner", id=9},
+	--{name="bucheron", id=7},
+	--{name="Farmer", id=6},
+	--{name="Fisher", id=10},
+	--{name="Brewer", id=12},
+	--{name="vigneron", id=13},
 	{name="emergency", id=15},
 	{name="mechanic", id=16},
 	{name="taxi", id=17},
-	{name="Secret Service", id=18},
+	--{name="Secret Service", id=18},
 	{name="Trucker", id=24},
 }
 

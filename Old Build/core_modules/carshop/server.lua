@@ -12,6 +12,20 @@
     Copy, re-release, re-distribute it without my written permission.
 --]]
 cars = {
+    ["cheburek"] = 0,
+    ["dominator3"] = 0,
+    ["ellie"] = 0,
+    ["entity2"] = 0,
+    ["fagaloa"] = 0,
+    ["flashgt"] = 0,
+    ["gb200"] = 0,
+    ["hotring"] = 0,
+    ["issi3"] = 0,
+    ["jester3"] = 0,
+    ["michelli"] = 0,
+    ["taipan"] = 0,
+    ["tezeract"] = 0,
+    ["tyrant"] = 0,
 
     ["taxi"] = 25000,
     ["towtruck"] = 25000,
