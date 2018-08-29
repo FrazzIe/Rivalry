@@ -1,0 +1,38 @@
+<head>
+	<link rel="stylesheet" href="style.css" type="text/css">
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+</head>
+<body>
+    <img id="cursor" src="cursor.png">
+
+    <div id="dialog_wrapper" style='display:none;' >
+        <p id="dialog_texte">Salut, j'ai une info pour toi !, sa va faire mal</p>
+        <div id="dialog_button">
+            <button>Reponse A</button>
+            <button class='focus'>Demain</button>
+            <button>Laisse tomber</button>
+        </div>
+    </div>
+
+    <div id="inputText_wrapper" style='display:none;' >
+        <div id="inputText_wrapper2">
+            <h3 id='inputText_title'></h3>
+            <textarea id="inputText_value"></textarea>
+            <div id="inputText_button_wrapper">
+                <button id="inputText_button_cancel" class='btn-cancel'> Annuler</button>
+                <button id="inputText_button_valid" class='fright'>Valider</button>
+            </div>
+        </div>
+    </div>
+
+    
+
+    <div id="progressbar" style='display:none;'>
+        <span id="progressbar_loading"></span>
+        <span id="progressbar_text"></span>
+    </div>
+<!-- For local test -->
+<!-- <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script> -->
+<script src="nui://game/ui/jquery.js" type="text/javascript"></script>
+<script src="script.js" type="text/javascript"></script>
+</body>

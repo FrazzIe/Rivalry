@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+  <setting key="MySQL:UseConvars">false</setting>
+  <setting key="MySQL:Server">209.222.98.202</setting>
+  <setting key="MySQL:Port">3306</setting>
+  <setting key="MySQL:Database">rivalryrp_whitelist</setting>
+  <setting key="MySQL:Username">frazzle</setting>
+  <setting key="MySQL:Password">123qwe!!</setting>
+  <setting key="MySQL:Debug">false</setting>
+</configuration>

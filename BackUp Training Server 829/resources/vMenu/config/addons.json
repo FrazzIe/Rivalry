@@ -1,0 +1,31 @@
+{
+  "vehicles": [
+    "police3",
+    "police5",
+	"fraptor",
+	"int1",
+	"rmodpolice",
+	"policeb",
+	"policebmw",
+	"2015polstang",
+	"k9c",
+	"police2",
+	"police6",
+	"police7",
+	"police",
+	"statep",
+	"statep2",
+	"statep3",
+	"statep4",
+	"18charger",
+	"usuburban",
+	"upanto",
+	"ucamaro",
+	"uexplorer",
+	"police9",
+  ],
+  "peds": [
+    "goblin",
+  ],
+  "weapons": []
+}
