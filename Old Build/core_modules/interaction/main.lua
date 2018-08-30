@@ -382,7 +382,7 @@ AddEventHandler("interaction:licenses",function()
 	if tobool(drivers_license) then
 		exports.ui:addOption("Drivers license", [[]])
 	else
-		exports.ui:addOption("Drivers license [$2500]", [[exports.ui:reset();exports.ui:open("licenses");TriggerServerEvent("interaction:buy_drivers_license")]])
+		exports.ui:addOption("Drivers license [$150]", [[exports.ui:reset();exports.ui:open("licenses");TriggerServerEvent("interaction:buy_drivers_license")]])
 	end
 	exports.ui:back([[TriggerEvent("interaction:wallet")]])
 end)
