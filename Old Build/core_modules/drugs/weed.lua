@@ -327,9 +327,9 @@ Citizen.CreateThread(function()
 							if not IsPedAPlayer(ped) and not DecorGetBool(ped, "isTrader") and not DecorGetBool(ped, "soldTo") and not IsPedAnAnimal(GetEntityModel(ped)) then
 								if Vdist2(PlayerPosition.x, PlayerPosition.y, PlayerPosition.z, GetEntityCoords(ped, false)) < 1 then
 									if sell_cooldown > 0 then
-										DisplayHelpText("Press ~INPUT_CONTEXT~ to sell a joint! ["..sell_cooldown.."]")
+										DisplayHelpText("Press ~INPUT_CONTEXT~ to sell some weed! ["..sell_cooldown.."]")
 									else
-										DisplayHelpText("Press ~INPUT_CONTEXT~ to sell a joint!")
+										DisplayHelpText("Press ~INPUT_CONTEXT~ to sell some weed!")
 										if IsControlJustPressed(1, 51) then
 											sell_cooldown = 10
 											DecorSetBool(ped, "soldTo", true)
@@ -362,14 +362,14 @@ Citizen.CreateThread(function()
 													local pay = GetRandomIntInRange(weed_pay.min, weed_pay.max+1) * amount
 													local money_type = GetRandomIntInRange(1, 3)
 													if getCops() <= 0 then pay = pay/2 end
-													Notify("You sold "..amount.." joint(s) for <span style='color:lime'>$</span><span style='color:white'>"..math.floor(pay).."</span>")
+													Notify("You sold "..amount.." bags(s) of weed for <span style='color:lime'>$</span><span style='color:white'>"..math.floor(pay).."</span>")
 													TriggerServerEvent("weed:sell", math.floor(pay), money_type)
 												else
 													removeQty(joint_id, 1)
 													local pay = GetRandomIntInRange(weed_pay.min, weed_pay.max+1)
 													local money_type = GetRandomIntInRange(1, 3)
 													if getCops() <= 0 then pay = pay/2 end
-													Notify("You sold "..amount.." joint(s) for <span style='color:lime'>$</span><span style='color:white'>"..math.floor(pay).."</span>")
+													Notify("You sold "..amount.." bags(s) of weed <span style='color:lime'>$</span><span style='color:white'>"..math.floor(pay).."</span>")
 													TriggerServerEvent("weed:sell", math.floor(pay), money_type)
 												end
 
@@ -491,7 +491,7 @@ AddEventHandler("weed:setuptrader", function()
 
 					drawMarker(25, traders[trader_id].coordinates.marker.x, traders[trader_id].coordinates.marker.y, traders[trader_id].coordinates.marker.z, 1.0, 1.0, 1.5, 255, 0, 0, 255)
 					if Vdist(pos.x, pos.y, pos.z, traders[trader_id].coordinates.marker.x, traders[trader_id].coordinates.marker.y, traders[trader_id].coordinates.marker.z) < 2 then
-						DisplayHelpText("Press ~INPUT_CONTEXT~ to trade your ~g~Cannabis ~w~for Joints")
+						DisplayHelpText("Press ~INPUT_CONTEXT~ to trade your ~g~Cannabis ~w~for Weed")
 						if IsControlJustPressed(1, 51) then
 							if GetItemQuantity(weed_id) > 0 then
 								trading = false
