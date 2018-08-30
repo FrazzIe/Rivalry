@@ -538,11 +538,11 @@ RegisterServerEvent("garage:pay_impound")
 AddEventHandler("garage:pay_impound", function(index)
     local source = tonumber(source)
     TriggerEvent('core:getuser', source, function(user)
-        if user.get("wallet") >= 5000 then
-            user.removeWallet(5000)
+        if user.get("wallet") >= 500 then
+            user.removeWallet(500)
             TriggerClientEvent("garage:pay_impound", source, index)
-        elseif user.get("bank") >= 5000 then
-            user.removeBank(5000)
+        elseif user.get("bank") >= 500 then
+            user.removeBank(500)
             TriggerClientEvent("garage:pay_impound", source, index)
         else
             GNotify(source,"Insufficient funds")
@@ -554,11 +554,11 @@ RegisterServerEvent("garage:claim")
 AddEventHandler("garage:claim", function(index)
     local source = tonumber(source)
     TriggerEvent('core:getuser', source, function(user)
-        if user.get("wallet") >= 5000 then
-            user.removeWallet(5000)
+        if user.get("wallet") >= 750 then
+            user.removeWallet(750)
             TriggerClientEvent("garage:claim", source, index)
-        elseif user.get("bank") >= 5000 then
-            user.removeBank(5000)
+        elseif user.get("bank") >= 750 then
+            user.removeBank(750)
             TriggerClientEvent("garage:claim", source, index)
         else
             GNotify(source,"Insufficient funds")

@@ -252,13 +252,13 @@ RegisterServerEvent("interaction:buy_drivers_license")
 AddEventHandler("interaction:buy_drivers_license", function()
     local source = source
     TriggerEvent("core:getuser", source, function(user)
-        if user.get("wallet") >= 2500 then
-            user.removeWallet(2500)
+        if user.get("wallet") >= 150 then
+            user.removeWallet(150)
             user.set("drivers_license", "true")
             TriggerClientEvent("interaction:set_drivers_license", source, "true")
             Notify("Drivers license purchased!", 3000, source)
-        elseif user.get("bank") >= 2500 then
-            user.removeBank(2500)
+        elseif user.get("bank") >= 150 then
+            user.removeBank(150)
             user.set("drivers_license", "true")
             TriggerClientEvent("interaction:set_drivers_license", source, "true")
             Notify("Drivers license purchased!", 3000, source)
