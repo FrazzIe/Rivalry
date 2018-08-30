@@ -3,8 +3,8 @@ local properties_owned = {
 	businesses = {},
 }
 local max_properties_allowed = {
-	houses = 5,
-	businesses = 3,
+	houses = 2,
+	businesses = 1,
 }
 local robbers = {}
 local properties_income_interval = 30 --minutes
