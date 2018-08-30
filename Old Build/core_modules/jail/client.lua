@@ -49,7 +49,7 @@ AddEventHandler("jail:jail", function(JailTime)
                     ClearPedTasksImmediately(PlayerPedId())
                 end
                 if JailTime % 30 == 0 then
-                    exports.pNotify:SendNotification({text = JailTime/60 .." more minuutes until release.",type = "error",timeout = 3000,layout = "centerRight",queue = "left"})
+                    exports.pNotify:SendNotification({text = JailTime/60 .." more minutes until release.",type = "error",timeout = 3000,layout = "centerRight",queue = "left"})
                     TriggerServerEvent("jail:update", JailTime)
                 end
                 Citizen.Wait(500)
