@@ -114,7 +114,10 @@ function delete_menu() {
 
 function add_characters(characters) {
     $("#div-characters").empty();
+    var count = 0;
+    
     for(let i in characters) {
+        count++;
         let character = characters[i];
         $("#div-characters").append('<form id="character_' + character.character_id + '" class="rounded character" style="padding-left:15px;padding-right:15px;padding-top:15px;margin-top:7.5px;margin-bottom:7.5px;"><div class="form-row"><div class="col"><p>' + character.first_name + ' ' + character.last_name + '</p></div><div class="col"><p class="float-right"><span style="color:green">$</span>' + character.wallet + '</p></div></div><div class="form-row"><div class="col"><p>' + character.dob + '</p></div><div class="col"><p class="float-right"><span style="color:red">$</span>' + character.dirty_cash + '</p></div></div><div class="form-row"><div class="col"><p>' + moment.duration(character.timeplayed, "seconds").format() + '</p></div><div class="col"><p class="float-right"><span style="color:blue">$</span>' + character.bank + '</p></div></div></form>');
         $("#character_" + character.character_id).click(function(){
@@ -126,16 +129,19 @@ function add_characters(characters) {
             }
         });
     }
-    $("#div-characters").append('<form id="form-add-character" class="rounded character" style="padding-left:15px;padding-right:15px;margin-top:7.5px;margin-bottom:7.5px;"><div class="form-group"><div class="form-row justify-content-center align-items-center"><div class="col-auto"><i class="fa fa-plus-circle" style="font-size:67.5px;color:#898e8c;"></i></div></div></div></form>');
-    $("#form-add-character").click(function() {
-        if(selection_disabled === false) {
-            $(selected).removeClass("selected");
-            $(this).addClass("selected");
-            selected = this;
-            selected_data = null;        
-            create_menu();
-        }
-    });
+
+    if (count < 5) {
+        $("#div-characters").append('<form id="form-add-character" class="rounded character" style="padding-left:15px;padding-right:15px;margin-top:7.5px;margin-bottom:7.5px;"><div class="form-group"><div class="form-row justify-content-center align-items-center"><div class="col-auto"><i class="fa fa-plus-circle" style="font-size:67.5px;color:#898e8c;"></i></div></div></div></form>');
+        $("#form-add-character").click(function() {
+            if(selection_disabled === false) {
+                $(selected).removeClass("selected");
+                $(this).addClass("selected");
+                selected = this;
+                selected_data = null;        
+                create_menu();
+            }
+        });
+    }
 }
 
 window.addEventListener('message', function(event) {
