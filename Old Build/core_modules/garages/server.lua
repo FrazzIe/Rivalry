@@ -329,18 +329,18 @@ insurance = {
 }
 local slotprice = 1000
 local emplacement_garage = {
-    [1] = {name="Public Garage", colour=1, sprite=357, x=-332.88320922852,y=-779.23046875,z=33.964912414551,id=1,gname="Peaceful St [1]",cost=1000,heading=0.0,maxslots=5}, -- Peaceful St
-    [2] = {name="Public Garage", colour=1, sprite=357, x=-443.00497436523,y=185.29835510254,z=75.203712463379,id=2,gname="North LS [2]",cost=1000,heading=0.0,maxslots=5}, -- Public Upper City
-    [3] = {name="Public Garage", colour=1, sprite=357, x=1232.4792480469,y=2708.3212890625,z=38.005790710449,id=3,gname="Sandy [3]",cost=1000,heading=0.0,maxslots=5}, -- Public Sandy
-    [4] = {name="Public Garage", colour=1, sprite=357, x=117.96788024902,y=6599.45703125,z=32.013603210449,id=4,gname="Paleto [4]",cost=1000,heading=-90.0,maxslots=5}, -- Public Paleto
-    [5] = {name="Personal Garage", colour=3, sprite=357, x=947.13641357422,y=-1697.9788818359,z=30.085023880005,id=5,gname="Industrial [5]",cost=12000,heading=-95.0,maxslots=10}, -- Personal
-    [6] = {name="Personal Garage", colour=3, sprite=357, x=520.40753173828,y=168.9965057373,z=99.372108459473,id=6,gname="Apartment Complex [6]",cost=8000,heading=-110.0,maxslots=6}, -- Personal
-    [7] = {name="Personal Garage", colour=3, sprite=357, x=-667.74456787109,y=-2378.0485839844,z=13.8580493927,id=7,gname="Exceptionalists Way [7]",cost=15000,heading=-45.0,maxslots=12}, -- Personal
-    [8] = {name="Personal Garage", colour=3, sprite=357, x=258.68347167969,y=2589.7287597656,z=44.954097747803,id=8,gname="Autoshop Garage [8]",cost=10000,heading=10.0,maxslots=8}, -- Personal
-    [9] = {name="Personal Garage", colour=3, sprite=357, x=-34.561923980713,y=6418.0092773438,z=31.442190170288,id=9,gname="Paleto Blvd [9]",cost=5000,heading=225.0,maxslots=4}, -- Personal
-    [10] = {name="Personal Garage", colour=3, sprite=357, x=-833.24926757813,y=-392.95385742188,z=31.325246810913,id=10,gname="Weazel [10]",cost=15000,heading=225.0,maxslots=12}, -- Personal
-    [11] = {name="Personal Garage", colour=3, sprite=357, x=-30.303638458252,y=2.1268248558044,z=71.200004577637,id=11,gname="Small Garage [11]",cost=5000,heading=150.0,maxslots=4}, -- Personal
-    [12] = {name="Personal Garage", colour=3, sprite=357, x=-84.019691467285,y=-820.99694824219,z=36.028030395508,id=12,gname="Maze Tower [12]",cost=35000,heading=-365.0,maxslots=32}, -- Personal
+    [1] = {name="Public Garage", colour=1, sprite=357, x=-332.88320922852,y=-779.23046875,z=33.964912414551,id=1,gname="Peaceful St [1]",cost=1000,heading=0.0,maxslots=3}, -- Peaceful St
+    [2] = {name="Public Garage", colour=1, sprite=357, x=-443.00497436523,y=185.29835510254,z=75.203712463379,id=2,gname="North LS [2]",cost=1000,heading=0.0,maxslots=2}, -- Public Upper City
+    [3] = {name="Public Garage", colour=1, sprite=357, x=1232.4792480469,y=2708.3212890625,z=38.005790710449,id=3,gname="Sandy [3]",cost=1000,heading=0.0,maxslots=1}, -- Public Sandy
+    [4] = {name="Public Garage", colour=1, sprite=357, x=117.96788024902,y=6599.45703125,z=32.013603210449,id=4,gname="Paleto [4]",cost=1000,heading=-90.0,maxslots=1}, -- Public Paleto
+    [5] = {name="Personal Garage", colour=3, sprite=357, x=947.13641357422,y=-1697.9788818359,z=30.085023880005,id=5,gname="Industrial [5]",cost=12000,heading=-95.0,maxslots=2}, -- Personal
+    [6] = {name="Personal Garage", colour=3, sprite=357, x=520.40753173828,y=168.9965057373,z=99.372108459473,id=6,gname="Apartment Complex [6]",cost=8000,heading=-110.0,maxslots=2}, -- Personal
+    [7] = {name="Personal Garage", colour=3, sprite=357, x=-667.74456787109,y=-2378.0485839844,z=13.8580493927,id=7,gname="Exceptionalists Way [7]",cost=15000,heading=-45.0,maxslots=4}, -- Personal
+    [8] = {name="Personal Garage", colour=3, sprite=357, x=258.68347167969,y=2589.7287597656,z=44.954097747803,id=8,gname="Autoshop Garage [8]",cost=10000,heading=10.0,maxslots=2}, -- Personal
+    [9] = {name="Personal Garage", colour=3, sprite=357, x=-34.561923980713,y=6418.0092773438,z=31.442190170288,id=9,gname="Paleto Blvd [9]",cost=5000,heading=225.0,maxslots=2}, -- Personal
+    [10] = {name="Personal Garage", colour=3, sprite=357, x=-833.24926757813,y=-392.95385742188,z=31.325246810913,id=10,gname="Weazel [10]",cost=15000,heading=225.0,maxslots=4}, -- Personal
+    [11] = {name="Personal Garage", colour=3, sprite=357, x=-30.303638458252,y=2.1268248558044,z=71.200004577637,id=11,gname="Small Garage [11]",cost=5000,heading=150.0,maxslots=2}, -- Personal
+    [12] = {name="Personal Garage", colour=3, sprite=357, x=-84.019691467285,y=-820.99694824219,z=36.028030395508,id=12,gname="Maze Tower [12]",cost=35000,heading=-365.0,maxslots=5}, -- Personal
 }
 
 RegisterServerEvent("garage:initialise")
