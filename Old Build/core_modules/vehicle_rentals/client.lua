@@ -66,29 +66,29 @@ rental_cars = {
 
 rental_boats = {
     {title = "Boats", vehicles = {
-        {name = "Dinghy", price = 5000, model = "dinghy"},
-        {name = "Dinghy2", price = 5000, model = "dinghy2"},
-        {name = "Dinghy3", price = 5000, model = "dinghy3"},
-        {name = "Dinghy4", price = 5000, model = "dinghy4"},
-        {name = "Jetmax", price = 5000, model = "jetmax"},
-        {name = "Speeder", price = 5000, model = "speeder"},
-        {name = "Speeder2", price = 5000, model = "speeder2"},
-        {name = "Squalo", price = 5000, model = "squalo"},
-        {name = "Suntrap", price = 5000, model = "suntrap"},
-        {name = "Tropic", price = 5000, model = "tropic"},
-        {name = "Tropic2", price = 5000, model = "tropic2"},
-        {name = "Tug Boat", price = 10000, model = "tug"},
-        {name = "Toro", price = 15000, model = "toro"},
-        {name = "Toro2", price = 15000, model = "toro2"},
-        {name = "Marquis (Sailboat)", price = 20000, model = "marquis"},
-        {name = "Submarine", price = 250000, model = "submersible"},
+        {name = "Dinghy", price = 350, model = "dinghy"},
+        {name = "Dinghy2", price = 200, model = "dinghy2"},
+        {name = "Dinghy3", price = 425, model = "dinghy3"},
+        {name = "Dinghy4", price = 300, model = "dinghy4"},
+        {name = "Jetmax", price = 370, model = "jetmax"},
+        {name = "Speeder", price = 520, model = "speeder"},
+        {name = "Speeder2", price = 500, model = "speeder2"},
+        {name = "Squalo", price = 300, model = "squalo"},
+        {name = "Suntrap", price = 250, model = "suntrap"},
+        {name = "Tropic", price = 320, model = "tropic"},
+        {name = "Tropic2", price = 400, model = "tropic2"},
+        {name = "Tug Boat", price = 100, model = "tug"},
+        {name = "Toro", price = 1500, model = "toro"},
+        {name = "Toro2", price = 1700, model = "toro2"},
+        {name = "Marquis (Sailboat)", price = 2000, model = "marquis"},
+        {name = "Submarine", price = 35000, model = "submersible"},
     }},
     {title = "Jetskis", vehicles = {
-        {name = "Seashark", price = 2500, model = "seashark"},
-        {name = "Seashark2", price = 2500, model = "seashark2"},
-        {name = "Seashark3", price = 2500, model = "seashark3"},
+        {name = "Seashark", price = 550, model = "seashark"},
+        {name = "Seashark2", price = 625, model = "seashark2"},
+        {name = "Seashark3", price = 700, model = "seashark3"},
     }},
-} 
+}
 --==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--
 --==============================================================================================================================--
 --                                                            Events                                                            --

@@ -531,7 +531,7 @@ end
 
 function deliverysuccess()
 TriggerServerEvent('gopostal:success',destination[l].money)
-	if visits == 3 then --change 3 to however many runs you want a person to be able to make before having to return to the depot
+	if visits == 10 then --change 3 to however many runs you want a person to be able to make before having to return to the depot
 		RemoveBlip(deliveryblip)
 		onjob = false
 		visits = 1
