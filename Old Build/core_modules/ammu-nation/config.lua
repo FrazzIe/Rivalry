@@ -37,17 +37,17 @@ ammu_nation = {
 }
 Weapons = {
 	{Category = "Pistols", Items = {
-		{Weapon = "WEAPON_PISTOL", Name = "Pistol", Cost = 750},
-		{Weapon = "WEAPON_COMBATPISTOL", Name = "Combat Pistol", Cost = 1000},
+		{Weapon = "WEAPON_PISTOL", Name = "Pistol", Cost = 550},
+		{Weapon = "WEAPON_COMBATPISTOL", Name = "Combat Pistol", Cost = 625},
 		--{Weapon = "WEAPON_PISTOL50", Name = "Pistol .50", Cost = 1},
 		--{Weapon = "WEAPON_HEAVYPISTOL", Name = "Heavy Pistol", Cost = 1},
 		--{Weapon = "WEAPON_SNSPISTOL", Name = "SNS Pistol", Cost = 1500},
 		--{Weapon = "WEAPON_APPISTOL", Name = "AP Pistol", Cost = 1},
-		{Weapon = "WEAPON_VINTAGEPISTOL", Name = "Vintage Pistol", Cost = 1750},
+		{Weapon = "WEAPON_VINTAGEPISTOL", Name = "Vintage Pistol", Cost = 1050},
 		--{Weapon = "WEAPON_REVOLVER", Name = "Revolver", Cost = 1},
 		--{Weapon = "WEAPON_MARKSMANPISTOL", Name = "Marksman Pistol", Cost = 1},
 		--{Weapon = "WEAPON_FLAREGUN", Name = "Flaregun", Cost = 1},
-		{Weapon = "WEAPON_STUNGUN", Name = "Stungun", Cost =16000},
+		{Weapon = "WEAPON_STUNGUN", Name = "Stungun", Cost =300},
 	}},
 	--[[
 	{Category = "Submachine guns", Items = {
@@ -76,18 +76,18 @@ Weapons = {
 	}},
 	--]]
 	{Category = "Melee", Items = {
-		{Weapon = "WEAPON_KNIFE", Name = "Knife", Cost = 150},
-		{Weapon = "WEAPON_FLASHLIGHT", Name = "Flashlight", Cost = 50},
+		{Weapon = "WEAPON_KNIFE", Name = "Knife", Cost = 65},
+		{Weapon = "WEAPON_FLASHLIGHT", Name = "Flashlight", Cost = 20},
 		--{Weapon = "WEAPON_NIGHTSTICK", Name = "Nightstick", Cost = 100},
 		{Weapon = "WEAPON_HAMMER", Name = "Hammer", Cost = 50},
 		{Weapon = "WEAPON_BAT", Name = "Baseball Bat", Cost = 100},
 		{Weapon = "WEAPON_GOLFCLUB", Name = "Golfclub", Cost = 150},
 		{Weapon = "WEAPON_CROWBAR", Name = "Crowbar", Cost = 100},
 		{Weapon = "WEAPON_BOTTLE", Name = "Smashed Bottle", Cost = 50},
-		{Weapon = "WEAPON_DAGGER", Name = "Dagger", Cost = 150},
+		{Weapon = "WEAPON_DAGGER", Name = "Dagger", Cost = 50},
 		--{Weapon = "WEAPON_KNUCKLE", Name = "Knuckle Dusters", Cost = 500},
-		{Weapon = "WEAPON_HATCHET", Name = "Hatchet", Cost = 100},
-		{Weapon = "WEAPON_MACHETE", Name = "Machete", Cost = 200},
+		{Weapon = "WEAPON_HATCHET", Name = "Hatchet", Cost = 70},
+		{Weapon = "WEAPON_MACHETE", Name = "Machete", Cost = 140},
 		{Weapon = "WEAPON_SWITCHBLADE", Name = "Switchblade", Cost = 150},
 		{Weapon = "WEAPON_BATTLEAXE", Name = "Battleaxe", Cost = 300},
 		{Weapon = "WEAPON_POOLCUE", Name = "Poolcue", Cost = 50},
@@ -95,7 +95,7 @@ Weapons = {
 	}},
 	{Category = "Shotguns", Items = {
 		--{Weapon = "WEAPON_SAWNOFFSHOTGUN", Name = "Sawed-Off Shotgun", Cost = 1},
-		{Weapon = "WEAPON_DBSHOTGUN", Name = "Double Barrel Shotgun", Cost = 2500},
+		{Weapon = "WEAPON_DBSHOTGUN", Name = "Double Barrel Shotgun", Cost = 1700},
 		--{Weapon = "WEAPON_AUTOSHOTGUN", Name = "Sweeper Shotgun", Cost = 1},
 		--{Weapon = "WEAPON_PUMPSHOTGUN", Name = "Pump Shotgun", Cost = 3250},
 		--{Weapon = "WEAPON_ASSAULTSHOTGUN", Name = "Assault Shotgun", Cost = 1},
@@ -124,7 +124,7 @@ Weapons = {
 		--{Weapon = "WEAPON_FLARE", Name = "Flare", Cost = 1},
 		--{Weapon = "WEAPON_PROXMINE", Name = "Proximity Mine", Cost = 1},
 		--{Weapon = "WEAPON_PIPEBOMB", Name = "Pipe Bomb", Cost = 1},
-		{Weapon = "WEAPON_PETROLCAN", Name = "Petrol Can", Cost = 150},
+		{Weapon = "WEAPON_PETROLCAN", Name = "Petrol Can", Cost = 40},
 		--{Weapon = "WEAPON_SNOWBALL", Name = "Snow Ball", Cost = 50},
 	}},
 	--[[
@@ -134,29 +134,29 @@ Weapons = {
 	}},
 	--]]
 	{Category = "Gadgets", Items = {
-		{Weapon = "GADGET_PARACHUTE", Name = "Parachute", Cost = 1500},
+		{Weapon = "GADGET_PARACHUTE", Name = "Parachute", Cost = 500},
 	}},
 }
 
 Blackmarket_Weapons = {
 	{Category = "Pistols", Items = {
-		{Weapon = "WEAPON_PISTOL", Name = "Pistol", Cost = 750},
-		{Weapon = "WEAPON_COMBATPISTOL", Name = "Combat Pistol", Cost = 1000},
-		{Weapon = "WEAPON_PISTOL50", Name = "Pistol .50", Cost = 12500},
+		{Weapon = "WEAPON_PISTOL", Name = "Pistol", Cost = 550},
+		{Weapon = "WEAPON_COMBATPISTOL", Name = "Combat Pistol", Cost = 625},
+		{Weapon = "WEAPON_PISTOL50", Name = "Pistol .50", Cost = 2500},
 		--{Weapon = "WEAPON_HEAVYPISTOL", Name = "Heavy Pistol", Cost = 1},
 		{Weapon = "WEAPON_SNSPISTOL", Name = "SNS Pistol", Cost = 1500},
 		--{Weapon = "WEAPON_APPISTOL", Name = "AP Pistol", Cost = 1},
-		{Weapon = "WEAPON_VINTAGEPISTOL", Name = "Vintage Pistol", Cost = 1750},
+		{Weapon = "WEAPON_VINTAGEPISTOL", Name = "Vintage Pistol", Cost = 1050},
 		--{Weapon = "WEAPON_REVOLVER", Name = "Revolver", Cost = 1250},
 		--{Weapon = "WEAPON_MARKSMANPISTOL", Name = "Marksman Pistol", Cost = 1},
 		--{Weapon = "WEAPON_FLAREGUN", Name = "Flaregun", Cost = 1},
 		--{Weapon = "WEAPON_STUNGUN", Name = "Stungun", Cost = 16000},
 	}},
 	{Category = "Submachine guns", Items = {
-		{Weapon = "WEAPON_MINISMG", Name = "Mini SMG", Cost = 50000},
+		{Weapon = "WEAPON_MINISMG", Name = "Mini SMG", Cost = 2600},
 		--{Weapon = "WEAPON_MACHINEPISTOL", Name = "Machine Pistol", Cost = 1},
 		--{Weapon = "WEAPON_COMBATPDW", Name = "Combat PDW", Cost = 1},
-		{Weapon = "WEAPON_MICROSMG", Name = "Micro SMG", Cost = 75000},
+		{Weapon = "WEAPON_MICROSMG", Name = "Micro SMG", Cost = 3500},
 		--{Weapon = "WEAPON_SMG", Name = "MP5", Cost = 1},
 		--{Weapon = "WEAPON_ASSAULTSMG", Name = "Assault SMG", Cost = 1},
 		--{Weapon = "WEAPON_GUSENBERG", Name = "Gusenberg Sweeper", Cost = 110000},
@@ -165,7 +165,7 @@ Blackmarket_Weapons = {
 	}},
 	
 	{Category = "Assault Rifles", Items = {
-		{Weapon = "WEAPON_COMPACTRIFLE", Name = "Compact Rifle", Cost = 100000},
+		{Weapon = "WEAPON_COMPACTRIFLE", Name = "Compact Rifle", Cost = 40000},
 		--{Weapon = "WEAPON_ADVANCEDRIFLE", Name = "Advanced Rifle", Cost = 1},
 		--{Weapon = "WEAPON_ASSAULTRIFLE", Name = "Assault Rifle", Cost = 1},
 		--{Weapon = "WEAPON_BULLPUPRIFLE", Name = "Bullpup Rifle", Cost = 1},
@@ -179,7 +179,7 @@ Blackmarket_Weapons = {
 	}},
 	--]]
 	{Category = "Melee", Items = {
-	{Weapon = "WEAPON_KNIFE", Name = "Knife", Cost = 150},
+	{Weapon = "WEAPON_KNIFE", Name = "Knife", Cost = 65},
 	--{Weapon = "WEAPON_FLASHLIGHT", Name = "Flashlight", Cost = 50},
 	--{Weapon = "WEAPON_NIGHTSTICK", Name = "Nightstick", Cost = 100},
 	--{Weapon = "WEAPON_HAMMER", Name = "Hammer", Cost = 50},
@@ -187,17 +187,17 @@ Blackmarket_Weapons = {
 	--{Weapon = "WEAPON_GOLFCLUB", Name = "Golfclub", Cost = 150},
 	--{Weapon = "WEAPON_CROWBAR", Name = "Crowbar", Cost = 100},
 	{Weapon = "WEAPON_BOTTLE", Name = "Smashed Bottle", Cost = 50},
-	{Weapon = "WEAPON_DAGGER", Name = "Dagger", Cost = 150},
+	{Weapon = "WEAPON_DAGGER", Name = "Dagger", Cost = 50},
 	--{Weapon = "WEAPON_KNUCKLE", Name = "Knuckle Dusters", Cost = 500},
 	--{Weapon = "WEAPON_HATCHET", Name = "Hatchet", Cost = 100},
-	{Weapon = "WEAPON_MACHETE", Name = "Machete", Cost = 200},
+	{Weapon = "WEAPON_MACHETE", Name = "Machete", Cost = 140},
 	--{Weapon = "WEAPON_SWITCHBLADE", Name = "Switchblade", Cost = 150},
 	{Weapon = "WEAPON_BATTLEAXE", Name = "Battleaxe", Cost = 300},
 	--{Weapon = "WEAPON_POOLCUE", Name = "Poolcue", Cost = 50},
 	--{Weapon = "WEAPON_WRENCH", Name = "Wrench", Cost = 30},
 	}},
 	{Category = "Shotguns", Items = {
-		{Weapon = "WEAPON_SAWNOFFSHOTGUN", Name = "Sawed-Off Shotgun", Cost = 25000},
+		{Weapon = "WEAPON_SAWNOFFSHOTGUN", Name = "Sawed-Off Shotgun", Cost = 900},
 		--{Weapon = "WEAPON_DBSHOTGUN", Name = "Double Barrel Shotgun", Cost = 1},
 		--{Weapon = "WEAPON_AUTOSHOTGUN", Name = "Sweeper Shotgun", Cost = 1},
 		--{Weapon = "WEAPON_PUMPSHOTGUN", Name = "Pump Shotgun", Cost = 1},
@@ -212,8 +212,8 @@ Blackmarket_Weapons = {
 		--{Weapon = "WEAPON_RAILGUN", Name = "Railgun", Cost = 1},
 		--{Weapon = "WEAPON_HOMINGLAUNCHER", Name = "Homing Launcher", Cost = 1},
 		--{Weapon = "WEAPON_MINIGUN", Name = "Minigun", Cost = 1},
-		{Weapon = "WEAPON_RPG", Name = "RPG", Cost = 10000000},
-		{Weapon = "WEAPON_FIREWORK", Name = "Firework Launcher", Cost = 7500000},
+		--{Weapon = "WEAPON_RPG", Name = "RPG", Cost = 1},
+		--{Weapon = "WEAPON_FIREWORK", Name = "Firework Launcher", Cost = 1},
 	}},
 	--[[
 	{Category = "Throwables", Items = {
