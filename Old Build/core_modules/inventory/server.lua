@@ -33,7 +33,7 @@ itemlist = {
     [5] = {name = "Flour", item_id = 5, canuse = 0, illegal = false},
     [6] = {name = "Water", item_id = 6, canuse = 1, illegal = false},
     [7] = {name = "Coca leaf", item_id = 7, canuse = 0, illegal = false},
-    [8] = {name = "Joint", item_id = 8, canuse = 10, illegal = true},
+    [8] = {name = "Weed", item_id = 8, canuse = 10, illegal = true},
     [9] = {name = "Ingot", item_id = 9, canuse = 0, illegal = false},
     [10] = {name = "Wheat", item_id = 10, canuse = 0, illegal = false},
     [11] = {name = "Meth", item_id = 11, canuse = 0, illegal = true},
