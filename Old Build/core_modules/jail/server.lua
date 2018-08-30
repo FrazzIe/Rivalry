@@ -27,10 +27,10 @@ TriggerEvent("core:addGroupCommand", "jail", "emergency", function(source, args,
             if tonumber(args[2]) ~= nil then
                 if tostring(args[3]) ~= nil then
                     TriggerEvent("core:getuser", tonumber(tonumber(args[1])), function(target)
-                        TriggerClientEvent("pNotify:SendNotification", -1, {text = "<b style='color:red'>Alert</b> <br><span style='color:lime'>"..target.get("first_name").." "..target.get("last_name").."</span> has been jailed. <br> Time: <span style='color:lime'>".. tonumber(args[2]) .."</span> Seconds <br> Charges: <span style='color:lime'>".. table.concat(args, " ", 3) .."</span>", type = "error", queue = "left", timeout = 10000, layout = "bottomRight"})
+                        TriggerClientEvent("pNotify:SendNotification", -1, {text = "<b style='color:red'>Alert</b> <br><span style='color:lime'>"..target.get("first_name").." "..target.get("last_name").."</span> has been jailed. <br> Time: <span style='color:lime'>".. tonumber(args[2]) .."</span> Months <br> Charges: <span style='color:lime'>".. table.concat(args, " ", 3) .."</span>", type = "error", queue = "left", timeout = 10000, layout = "bottomRight"})
                         TriggerClientEvent("pNotify:SendNotification", tonumber(args[1]), {text = "Your weapons have been confiscated!",type = "error", queue = "left",timeout = 10000,layout = "bottomCenter"})
-                        TriggerClientEvent("jail:jail", tonumber(args[1]) , tonumber(args[2]))
-                        target.set("jail_time", tonumber(args[2]))
+                        TriggerClientEvent("jail:jail", tonumber(args[1]) , tonumber(args[2]) * 60)
+                        target.set("jail_time", tonumber(args[2]) * 60)
                     end)
                 else
                     TriggerClientEvent('chatMessage', source, 'SYSTEM', {255, 0, 0}, "Usage : /jail [ID] [TIME] [REASON]") 

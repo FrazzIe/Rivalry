@@ -64,7 +64,7 @@ AddEventHandler("police:new-arrest", function(officer_name, offender_name, sente
         ['@offender_identifier'] = offender_identifier,
         ['@offender_name'] = offender_name,
         ['@sentenceORfine'] = sentenceORfine,
-        ['@sentence'] = sentence,
+        ['@sentence'] = math.floor(sentence),
         ['@fine'] = fine,
         ['@charges'] = charges,
     })
