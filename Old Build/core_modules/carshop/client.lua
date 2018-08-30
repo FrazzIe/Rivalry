@@ -37,27 +37,24 @@ keys = {[0] = "ControlNextCamera", [1] = "ControlLookLeftRight", [2] = "ControlL
 cars = {
     {title = "Assault Vehicles", vehicles = { -- noonab will do these
         {name = "Cheburek", price = 0, model = "cheburek"},
-        {name = "Dominator GTX", price = 0, model = "dominator3"},
         {name = "Ellie", price = 0, model = "ellie"},
         {name = "Entity XXR", price = 0, model = "entity2"},
         {name = "Fagaloa", price = 0, model = "fagaloa"},
         {name = "Flash GT", price = 0, model = "flashgt"},
         {name = "GB200", price = 0, model = "gb200"},
-        {name = "Hotring Sabre", price = 0, model = "hotring"},
         {name = "Issi Classic", price = 0, model = "issi3"},
-        {name = "Jester Classic", price = 0, model = "jester3"},
         {name = "Michelli GT", price = 0, model = "michelli"},
         {name = "Tezeract", price = 0, model = "tezeract"},
         {name = "Tyrant", price = 0, model = "tyrant"},
     }},
-    {title = "Job Vehicles", vehicles = { -- done
+    {title = "Job Vehicles", vehicles = {
         {name = "Taxi", price = 9500, model = "taxi"},
         {name = "Tow Truck", price = 15000, model = "towtruck"},
         {name = "Tow Truck Mini", price = 7000, model = "towtruck2"},
         {name = "Taco Truck", price = 11000, model = "taco"},
         {name = "Tour Bus", price = 13000, model = "tourbus"},
     }},
-    {title = "Compacts", vehicles = { -- Kole[Done]
+    {title = "Compacts", vehicles = {
         {name = "Blista", price = 7500, model = "blista"},
         {name = "Brioso R/A", price = 9000, model = "brioso"},
         {name = "Dilettante", price = 6000, model = "dilettante"},
@@ -66,7 +63,7 @@ cars = {
         {name = "Prairie", price = 6000, model = "prairie"},
         {name = "Rhapsody", price = 2500, model = "rhapsody"},
     }},
-    {title = "Coupes", vehicles = { -- done
+    {title = "Coupes", vehicles = {
         {name = "Cognoscenti Cabrio", price = 218400, model = "cogcabrio"},
         {name = "Exemplar", price = 173000, model = "exemplar"},
         {name = "F620", price = 85400, model = "f620"},
@@ -82,23 +79,24 @@ cars = {
         {name = "Zion", price = 60000, model = "zion"},
         {name = "Zion Cabrio", price = 63000, model = "zion2"},
     }},
-    {title = "Sports", vehicles = { -- Kole[Done]
-        {name = "9F", price = 160000, model = "ninef"},
-        {name = "9F Cabrio", price = 210000, model = "ninef2"},
+    {title = "Sports", vehicles = { -- Kole needs to redo this section
+        {name = "9F", price = 75000, model = "ninef"},
+        {name = "9F Cabrio", price = 77000, model = "ninef2"},
         {name = "Alpha", price = 35000, model = "alpha"},
-        {name = "Banshee", price = 105000, model = "banshee"},
-        {name = "Banshee 900R", price = 135000, model = "banshee2"},
-        {name = "Bestia GTS", price = 125000, model = "bestiagts"},
+        {name = "Banshee", price = 55000, model = "banshee"},
+        {name = "Banshee 900R", price = 65000, model = "banshee2"},
+        {name = "Bestia GTS", price = 25000, model = "bestiagts"},
         {name = "Buffalo", price = 32500, model = "buffalo"},
         {name = "Buffalo S", price = 44500, model = "buffalo2"},
-        {name = "Carbonizzare", price = 140000, model = "carbonizzare"},
+        {name = "Carbonizzare", price = 40000, model = "carbonizzare"},
         {name = "Coil Raiden", price = 80000, model = "raiden"},
-        {name = "Comet", price = 190000, model = "comet2"},
-        {name = "Comet Retro Custom", price = 180000, model = "comet3"},
-        {name = "Comet Safari", price = 170000, model = "comet4"},
-        {name = "Comet SR", price = 150000, model = "comet5"},
-        {name = "Coquette", price = 125000, model = "coquette"},
+        {name = "Comet", price = 90000, model = "comet2"},
+        {name = "Comet Retro Custom", price = 80000, model = "comet3"},
+        {name = "Comet Safari", price = 70000, model = "comet4"},
+        {name = "Comet SR", price = 75000, model = "comet5"},
+        {name = "Coquette", price = 45000, model = "coquette"},
         {name = "Drift Tampa", price = 75000, model = "tampa2"},
+        {name = "Hotring Sabre", price = 0, model = "hotring"}, -- Assault Pack
         {name = "Elegy RH8", price = 55000, model = "elegy2"},
         {name = "Elegy Retro Custom", price = 65000, model = "elegy"},
         {name = "Feltzer", price = 60000, model = "feltzer2"},
@@ -106,19 +104,19 @@ cars = {
         {name = "Fusilade", price = 31500, model = "fusilade"},
         {name = "Futo", price = 17000, model = "futo"},
         {name = "Go Go Monkey Blista", price = 40000, model = "blista3"},
-        {name = "Jester", price = 133000, model = "jester"},
-        {name = "Jester Race", price = 143000, model = "jester2"},
-        {name = "Khamelion", price = 90000, model = "khamelion"},
-        {name = "Kuruma", price = 72000, model = "kuruma"},
-        --{name = "Kuruma Armored", price = 333000, model = "kuruma2"}, --Armoured car
+        {name = "Jester", price = 73000, model = "jester"},
+        {name = "Jester Race", price = 74000, model = "jester2"},
+        {name = "Khamelion", price = 81000, model = "khamelion"},
+        {name = "Kuruma", price = 52500, model = "kuruma"},
+        --{name = "Kuruma Armored", price = 333000, model = "kuruma2"}, -- Armoured car
         {name = "Lynx", price = 61750, model = "lynx"},
-        {name = "Massacro", price = 140000, model = "massacro"},
-        {name = "Massacro Race", price = 175000, model = "massacro2"},
+        {name = "Massacro", price = 142500, model = "massacro"},
+        {name = "Massacro Race", price = 143500, model = "massacro2"},
         {name = "Neon", price = 135000, model = "neon"},
-        {name = "Omnis", price = 45000, model = "omnis"},
-        {name = "Pariah", price = 195000, model = "pariah"},
+        {name = "Omnis", price = 51750, model = "omnis"},
+        {name = "Pariah", price = 35750, model = "pariah"},
         {name = "Penumbra", price = 43900, model = "penumbra"},
-        {name = "Rapid GT", price = 153000, model = "rapidgt"},
+        {name = "Rapid GT", price = 53000, model = "rapidgt"},
         {name = "Rapid GT Convertible", price = 163000, model = "rapidgt2"},
         {name = "Raptor", price = 51000, model = "raptor"},
         {name = "Revolter", price = 43000, model = "revolter"},
@@ -126,9 +124,9 @@ cars = {
         {name = "Schafter LWB", price = 78000, model = "schafter2"},
         {name = "Schafter V12", price = 92000, model = "schafter3"},
         {name = "Sentinel Classic", price = 71000, model = "sentinel3"},
-        {name = "Seven-70", price = 325000, model = "seven70"},
-        {name = "Specter", price = 275000, model = "specter"},
-        {name = "Specter Custom", price = 310000, model = "specter2"},
+        {name = "Seven-70", price = 225000, model = "seven70"},
+        {name = "Specter", price = 175000, model = "specter"},
+        {name = "Specter Custom", price = 210000, model = "specter2"},
         {name = "Sprunk Buffalo", price = 49000, model = "buffalo3"},
         {name = "Streiter", price = 42000, model = "streiter"},
         {name = "Sultan", price = 28210, model = "sultan"},
@@ -137,17 +135,18 @@ cars = {
         {name = "Tropos Rallye", price = 120000, model = "tropos"},
         {name = "Verlierer", price = 79150, model = "verlierer2"}, 
     }},
-    {title = "Sports Classics", vehicles = { -- done
-        --{name = "Ardent", price = 30000, model = "ardent"}, --Has guns, rip
+    {title = "Sports Classics", vehicles = {
+        --{name = "Ardent", price = 30000, model = "ardent"}, -- Has guns rip
         {name = "Casco", price = 75000, model = "casco"},
         {name = "Cheetah Classic", price = 170000, model = "cheetah2"},
-        {name = "Coquette Classic", price = 530000, model = "coquette2"},
+        {name = "Coquette Classic", price = 230000, model = "coquette2"},
         {name = "Fränken Strange", price = 150000, model = "btype2"},
-        {name = "GT 500", price = 300000, model = "gt500"},
-        {name = "Infernus Classic", price = 400000, model = "infernus2"},
-        {name = "JB 700", price = 475000, model = "jb700"},
+        {name = "GT 500", price = 127500, model = "gt500"},
+        {name = "Infernus Classic", price = 220000, model = "infernus2"},
+        {name = "Jester Classic", price = 105000, model = "jester3"},
+        {name = "JB 700", price = 175000, model = "jb700"},
         {name = "Karin 190z", price = 20000, model = "z190"},
-        {name = "Mamba", price = 450000, model = "mamba"},
+        {name = "Mamba", price = 350000, model = "mamba"},
         {name = "Manana", price = 18000, model = "manana"},
         {name = "Monroe", price = 45500, model = "monroe"},
         {name = "Peyote", price = 17000, model = "peyote"},
@@ -157,9 +156,9 @@ cars = {
         {name = "Roosevelt", price = 122500, model = "btype"},
         {name = "Roosevelt Valor", price = 24500, model = "btype3"},
         {name = "Savestra", price = 58000, model = "savestra"},
-        {name = "Stinger", price = 427000, model = "stinger"},
-        {name = "Stinger GT", price = 418000, model = "stingergt"},
-        {name = "Stirling GT", price = 428500, model = "feltzer3"},
+        {name = "Stinger", price = 327000, model = "stinger"},
+        {name = "Stinger GT", price = 318000, model = "stingergt"},
+        {name = "Stirling GT", price = 328500, model = "feltzer3"},
         {name = "Torero", price = 17500, model = "torero"},
         {name = "Tornado", price = 15500, model = "tornado"},
         {name = "Tornado (Beater)", price = 9000, model = "tornado3"},
@@ -167,10 +166,10 @@ cars = {
         {name = "Tornado Custom", price = 17500, model = "tornado5"},
         {name = "Tornado Rat Rod", price = 11000, model = "tornado6"},
         {name = "Turismo Classic", price = 292500, model = "turismo2"},
-        --{name = "Viseris", price = 45000, model = "viseris"}, --Sports Classic--Has guns
+        --{name = "Viseris", price = 45000, model = "viseris"}, -- Sports Classic w/ guns
         {name = "Z-type", price = 44500, model = "ztype"},
     }},
-    {title = "Super", vehicles = { -- Noonab [done]
+    {title = "Super", vehicles = {
         --{name = "811", price = 1350000, model = "pfister811"},
         {name = "Adder", price = 1700000, model = "adder"},
         --{name = "Bullet", price = 1120000, model = "bullet"},
@@ -202,19 +201,20 @@ cars = {
         {name = "XA-21", price = 1500000, model = "xa21"},
         --{name = "X80 Proto", price = 1700000, model = "prototipo"},
         {name = "Zentorno", price = 1100000, model = "zentorno"},
-        {name = "Taipan", price = 900000, model = "taipan"},
+        {name = "Taipan", price = 2175000, model = "taipan"}, -- Assault Pack
     }},
-    {title = "Muscle", vehicles = { -- Kole[DONE]
+    {title = "Muscle", vehicles = {
         {name = "Blade", price = 12500, model = "blade"},
         {name = "Buccaneer", price = 11000, model = "buccaneer"},
         {name = "Buccaneer Custom", price = 14000, model = "buccaneer2"},
-        --{name = "Burger Shot Stallion", price = 0, model = "stallion2"}, --Doesnt load in the shop?
+        --{name = "Burger Shot Stallion", price = 0, model = "stallion2"}, -- Doesnt load in the shop?
         {name = "Chino", price = 10200, model = "chino"},
         {name = "Chino Custom", price = 12200, model = "chino2"},
         {name = "Coquette BlackFin", price = 67900, model = "coquette3"},
         {name = "Dominator", price = 25680, model = "dominator"},
+        {name = "Dominator GTX", price = 125680, model = "dominator3"}, -- Assault Pack
         {name = "Dukes", price = 22500, model = "dukes"},
-        --{name = "Duke O'Death", price = 0, model = "dukes2"}, --Armoured car
+        --{name = "Duke O'Death", price = 0, model = "dukes2"}, -- Armoured car
         {name = "Gauntlet", price = 27290, model = "gauntlet"},
         {name = "Hermes", price = 19995, model = "hermes"},
         {name = "Hotknife", price = 60000, model = "hotknife"},
@@ -249,7 +249,7 @@ cars = {
         {name = "Voodoo Custom", price = 3000, model = "voodoo"},
         {name = "Yosemite", price = 12900, model = "yosemite"},
     }},
-    {title = "Offroad", vehicles = { -- Kole[DONE]
+    {title = "Offroad", vehicles = {
         {name = "Bifta", price = 7795, model = "bifta"},
         {name = "Bodhi", price = 8495, model = "bodhi2"},
         {name = "Brawler", price = 100000, model = "brawler"},
@@ -261,7 +261,7 @@ cars = {
         {name = "Injection", price = 4000, model = "bfinjection"},
         {name = "Kalahari", price = 16000, model = "kalahari"},
         {name = "Mesa (Caged)", price = 47000, model = "mesa3"},
-        --{name = "Nightshark", price = 0, model = "nightshark"}, --Armoured car
+        --{name = "Nightshark", price = 0, model = "nightshark"}, -- Armoured car
         {name = "Rancher XL", price = 7000, model = "rancherxl"},
         {name = "Riata", price = 10000, model = "riata"},
         {name = "Rebel", price = 19000, model = "rebel2"},
@@ -270,7 +270,7 @@ cars = {
         {name = "Sandking XL", price = 24000, model = "sandking"},
         {name = "Trophy Truck", price = 435000, model = "trophytruck"},
     }}, 
-    {title = "SUV", vehicles = { -- Kole[DONE]
+    {title = "SUV", vehicles = {
         {name = "Baller", price = 80000, model = "baller"},
         {name = "Baller 2nd Gen", price = 83000, model = "baller2"},
         {name = "Baller LE", price = 139000, model = "baller3"},
@@ -294,7 +294,7 @@ cars = {
         {name = "Serrano", price = 27000, model = "serrano"},
         {name = "XLS", price = 70150, model = "xls"},
     }}, 
-    {title = "Vans", vehicles = { --DWAYNE [done]
+    {title = "Vans", vehicles = {
         {name = "Bison", price = 32000, model = "bison"},
         {name = "Bobcat XL", price = 21000, model = "bobcatxl"},
         {name = "Burrito", price = 14000, model = "burrito3"},
@@ -311,7 +311,7 @@ cars = {
         {name = "Youga", price = 12000, model = "youga"},
         {name = "Youga Classic", price = 14000, model = "youga2"},
     }},
-    {title = "Sedans", vehicles = { -- Emma [done]
+    {title = "Sedans", vehicles = {
         {name = "Asea", price = 10000, model = "asea"},
         {name = "Asterope", price = 14000, model = "asterope"},
         {name = "Cognoscenti", price = 120000, model = "cognoscenti"},
@@ -337,7 +337,7 @@ cars = {
         {name = "Warrener", price = 13000, model = "warrener"},
         {name = "Washington", price = 15000, model = "washington"},
     }}, 
-    {title = "Motorcycles", vehicles = { -- Kole[D]
+    {title = "Motorcycles", vehicles = {
         {name = "Akuma", price = 4500, model = "akuma"},
         {name = "Avarus", price = 38900, model = "avarus"},
         {name = "Bagger", price = 14500, model = "bagger"},
