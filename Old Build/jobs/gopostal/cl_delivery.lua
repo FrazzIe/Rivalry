@@ -451,7 +451,7 @@ end
 function startjob()
 	DrawMissionText("Drive to the marked ~g~destination~w~.", 10000)
 	onjob = true
-	area = math.random(1,9) 
+	area = math.random(1,8) 
 	if area == 1 then 
 		l = math.random(1,56)
 	elseif area == 2 then 
@@ -467,9 +467,7 @@ function startjob()
 	elseif area == 7 then 
 		l = math.random(286,329)
 	elseif area == 8 then 
-		l = math.random(330,337)
-	elseif area == 9 then 
-		l = math.random(253,337)
+		l = math.random(330,336)
 	end
 	deliveryblip = (AddBlipForCoord(destination[l].x,destination[l].y,destination[l].z))
 	SetBlipSprite(deliveryblip, 280)
