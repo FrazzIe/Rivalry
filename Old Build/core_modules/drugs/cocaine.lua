@@ -4,8 +4,8 @@ local Cocaine = {
 		Van = {x = -488.9792175293, y = -2909.376953125, z = 6.000385761261, h = 316.95101928711},
 	},
 	Cost = {
-		Dirty = 50,
-		Van = 500,
+		Dirty = 30,
+		Van = 150,
 	},
 	Items = {
 		Dirty = 47,
@@ -16,8 +16,8 @@ local Cocaine = {
 		Handle = nil,
 	},
 	Pay = {
-		Min = 450,
-		Max = 550,
+		Min = 70,
+		Max = 90,
 	},
 	Harvesting = false,
 	Cooldown = 0,
