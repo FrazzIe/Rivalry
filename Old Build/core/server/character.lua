@@ -1,7 +1,7 @@
 local _Characters = {}
 jobs = {
     [1] = {id = 1, name = "Unemployed", pay = 10},
-    [2] = {id = 2, name = "Police", pay = {on=150,off=25}},
+    [2] = {id = 2, name = "Police", pay = {on=200,off=100}},
     [3] = {id = 3, name = "Pharmacist", pay = 25},
     [4] = {id = 4, name = "futurjob2", pay = 25},
     [5] = {id = 5, name = "futurjob", pay = 25},
@@ -14,7 +14,7 @@ jobs = {
     [12] = {id = 12, name = "Brewer", pay = 25},
     [13] = {id = 13, name = "Vigneron", pay = 25},
     [14] = {id = 14, name = "Livreur", pay = 25},
-    [15] = {id = 15, name = "Emergency", pay = {on = 150, off = 25}},
+    [15] = {id = 15, name = "Emergency", pay = {on = 200, off = 100}},
     [16] = {id = 16, name = "Mechanic", pay = 75},
     [17] = {id = 17, name = "Taxi", pay = 75},
     [18] = {id = 18, name = "FBI", pay = 25},
@@ -22,7 +22,7 @@ jobs = {
     [20] = {id = 20, name = "Pool Cleaner", pay = 25}, 
     [21] = {id = 21, name = "Garbage Collector", pay = 25},
     [22] = {id = 22, name = "Tow", pay = 25},
-    [23] = {id = 23, name = "DOJ", pay = 300},
+    [23] = {id = 23, name = "DOJ", pay = 400},
     [24] = {id = 24, name = "Trucker", pay = 25},
 }
 
