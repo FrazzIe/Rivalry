@@ -92,7 +92,7 @@ AddEventHandler("weed:harvest", function(plant_id)
     local growth = CalculateGrowth(os.time(), weed_plants[plant_id].start_time, weed_plants[plant_id].end_time)
     local message, amount = GetGrowthInformation(growth)
     TriggerEvent("core:getuser", source, function(user)
-        if(user.get("wallet") > 50)then
+        if(user.get("wallet") > 10)then
             if growth >= 100 then
                 user.removeWallet(50)
             elseif growth >= 80 then
