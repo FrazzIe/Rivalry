@@ -2,7 +2,7 @@ RegisterServerEvent("informer:getweed")
 AddEventHandler("informer:getweed", function()
 	local source = tonumber(source)
 	TriggerEvent('core:getuser', source, function(user)
-		local price = 15000
+		local price = 3000
 		if (tonumber(user.get("wallet")) >= tonumber(price)) then
 		user.removeWallet(price)
 			TriggerClientEvent('chatMessage', source, 'Informer ', {0, 255, 100}, "I heard it's hidden in the mountains near a freeway protected by a herd of cows." )
@@ -15,7 +15,7 @@ RegisterServerEvent("informer:dirtycoke")
 AddEventHandler("informer:dirtycoke", function()
 	local source = tonumber(source)
 	TriggerEvent('core:getuser', source, function(user)
-		local price = 25000
+		local price = 5000
 		if (tonumber(user.get("wallet")) >= tonumber(price)) then
 			user.removeWallet(price)
 			TriggerClientEvent('chatMessage', source, 'Informer ', {0, 255, 100}, "I heard some shipment company is fronting the illegal cocaine trade from somewhere in the Elysian Islands. That's all I know." )
@@ -28,7 +28,7 @@ RegisterServerEvent("informer:cleancoke")
 AddEventHandler("informer:cleancoke", function()
 	local source = tonumber(source)
 	TriggerEvent('core:getuser', source, function(user)
-		local price = 25000
+		local price = 5000
 		if (tonumber(user.get("wallet")) >= tonumber(price)) then
 			user.removeWallet(price)
 			TriggerClientEvent('chatMessage', source, 'Informer ', {0, 255, 100}, "What the hell.. the guy from the shipment place didn't tell you where to go? They clean the stuff somewhere up north in Paleto Bay." )
@@ -121,7 +121,7 @@ RegisterServerEvent("informer:getguns")
 AddEventHandler("informer:getguns", function()
 	local source = tonumber(source)
 	TriggerEvent('core:getuser', source, function(user)
-		local price = 50000
+		local price = 10000
 		if (tonumber(user.get("wallet")) >= tonumber(price)) then
 		user.removeWallet(price)
 		TriggerClientEvent('chatMessage', source, 'Informer ', {0, 255, 100}, "You might need a small vessel." )
@@ -134,7 +134,7 @@ RegisterServerEvent("informer:getlaunder")
 AddEventHandler("informer:getlaunder", function()
 	local source = tonumber(source)
 	TriggerEvent('core:getuser', source, function(user)
-		local price = 20000
+		local price = 4000
 		if (tonumber(user.get("wallet")) >= tonumber(price)) then
 		user.removeWallet(price)
 			TriggerClientEvent('chatMessage', source, 'Informer ', {0, 255, 100}, "Try your luck at the Casino." )
