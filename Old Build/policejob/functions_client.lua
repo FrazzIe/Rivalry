@@ -523,7 +523,7 @@ AddEventHandler("police:review_charge", function(_ignore)
 		time = time + currentSuspectCharges[key].time
 		cost = cost + currentSuspectCharges[key].cost
 	end
-	charges[#charges+1] = (" ^1||^0 Suggested Jailtime: ^3" .. time .. "^0 seconds ^1" .. "||^0 Suggested Cost: ^2$^3" .. cost .. "")
+	charges[#charges+1] = (" ^1||^0 Suggested Jailtime: ^3" .. time .. "^0 months ^1" .. "||^0 Suggested Fine: ^2$^3" .. cost .. "")
 	TriggerEvent('chatMessage', '[Charges]', {255, 0, 0}, table.concat(charges))
 end)
 
