@@ -1760,7 +1760,7 @@ properties = {
 					inside = {x = -784.75231933594, y = 323.61608886719, z = 211.99726867676, h = 283.5973815918}, -- The marker inside (used for teleporting outside)
 					vault = {x = -765.59680175781, y = 327.7966003418, z = 211.396484375, h = 143.80198669434}, -- The marker for the vault
 				},
-				rent = 10000, --How much it costs to rent the property (PER DAY)
+				rent = 7500, --How much it costs to rent the property (PER DAY)
 				storage = {
 					locked = false, --Default (don't touch)
 					current = {
@@ -1769,9 +1769,9 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 50000, --Max cash the property can hold
+						cash = 10000, --Max cash the property can hold
 						dirty = 150000, --Max marked bills the property can hold
-						weapons = 10, --Max weapons the property can hold
+						weapons = 8, --Max weapons the property can hold
 					},
 				},
 				robbing = {
@@ -1800,7 +1800,7 @@ properties = {
 					inside = {x = -781.81390380859, y = 326.27362060547, z = 176.80383300781, h = 179.322265625}, -- The marker inside (used for teleporting outside)
 					vault = {x = -759.46441650391, y = 325.38388061523, z = 170.6071472168, h = 271.9319152832}, -- The marker for the vault
 				},
-				rent = 10000, --How much it costs to rent the property (PER DAY)
+				rent = 7000, --How much it costs to rent the property (PER DAY)
 				storage = {
 					locked = false, --Default (don't touch)
 					current = {
@@ -1809,9 +1809,9 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 50000, --Max cash the property can hold
+						cash = 10000, --Max cash the property can hold
 						dirty = 150000, --Max marked bills the property can hold
-						weapons = 10, --Max weapons the property can hold
+						weapons = 6, --Max weapons the property can hold
 					},
 				},
 				robbing = {
@@ -1840,7 +1840,7 @@ properties = {
 					inside = {x = -603.44000244141, y = 58.969806671143, z = 98.2001953125, h = 96.099281311035}, -- The marker inside (used for teleporting outside)
 					vault = {x = -622.85327148438, y = 54.74146270752, z = 97.599494934082, h = 326.84490966797}, -- The marker for the vault
 				},
-				rent = 10000, --How much it costs to rent the property (PER DAY)
+				rent = 6800, --How much it costs to rent the property (PER DAY)
 				storage = {
 					locked = false, --Default (don't touch)
 					current = {
@@ -1849,9 +1849,9 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 50000, --Max cash the property can hold
+						cash = 10000, --Max cash the property can hold
 						dirty = 150000, --Max marked bills the property can hold
-						weapons = 10, --Max weapons the property can hold
+						weapons = 6, --Max weapons the property can hold
 					},
 				},
 				robbing = {
@@ -1880,7 +1880,7 @@ properties = {
 					inside = {x = 266.0615234375, y = -1007.2471313477, z = -101.00849914551, h = 177.8150177002}, -- The marker inside (used for teleporting outside)
 					vault = {x = 259.7912902832, y = -1003.4866943359, z = -99.00853729248, h = 140.61070251465}, -- The marker for the vault
 				},
-				rent = 6000, --How much it costs to rent the property (PER DAY)
+				rent = 6400, --How much it costs to rent the property (PER DAY)
 				storage = {
 					locked = false, --Default (don't touch)
 					current = {
@@ -1889,7 +1889,7 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 50000, --Max cash the property can hold
+						cash = 10000, --Max cash the property can hold
 						dirty = 150000, --Max marked bills the property can hold
 						weapons = 6, --Max weapons the property can hold
 					},
@@ -1920,7 +1920,7 @@ properties = {
 					inside = {x = 346.63479614258, y = -1012.7304077148, z = -99.196174621582, h = 351.94812011719}, -- The marker inside (used for teleporting outside)
 					vault = {x = 351.9665222168, y = -994.28277587891, z = -99.196128845215, h = 323.93228149414}, -- The marker for the vault
 				},
-				rent = 5000, --How much it costs to rent the property (PER DAY)
+				rent = 5900, --How much it costs to rent the property (PER DAY)
 				storage = {
 					locked = false, --Default (don't touch)
 					current = {
@@ -1929,7 +1929,7 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 50000, --Max cash the property can hold
+						cash = 10000, --Max cash the property can hold
 						dirty = 150000, --Max marked bills the property can hold
 						weapons = 5, --Max weapons the property can hold
 					},
@@ -1960,7 +1960,7 @@ properties = {
 					inside = {x = -174.0973, y = 497.194, z = 137.667, h = 222.1987}, -- The marker inside (used for teleporting outside)
 					vault = {x = -175.24800109863, y = 492.56127929688, z = 130.04359436035, h = 59.443283081055}, -- The marker for the vault
 				},
-				rent = 10000, --How much it costs to rent the property (PER DAY)
+				rent = 8400, --How much it costs to rent the property (PER DAY)
 				storage = {
 					locked = false, --Default (don't touch)
 					current = {
@@ -1969,9 +1969,9 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 50000, --Max cash the property can hold
+						cash = 10000, --Max cash the property can hold
 						dirty = 150000, --Max marked bills the property can hold
-						weapons = 10, --Max weapons the property can hold
+						weapons = 8, --Max weapons the property can hold
 					},
 				},
 				robbing = {
@@ -2000,7 +2000,7 @@ properties = {
 					inside = {x = 1397.9954833984, y = 1141.7806396484, z = 114.33367156982, h = 91.478500366211}, -- The marker inside (used for teleporting outside)
 					vault = {x = 1398.7845458984, y = 1164.8054199219, z = 114.33367156982, h = 42.698337554932}, -- The marker for the vault
 				},
-				rent = 10000, --How much it costs to rent the property (PER DAY)
+				rent = 9000, --How much it costs to rent the property (PER DAY)
 				storage = {
 					locked = false, --Default (don't touch)
 					current = {
@@ -2009,9 +2009,9 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 50000, --Max cash the property can hold
+						cash = 10000, --Max cash the property can hold
 						dirty = 150000, --Max marked bills the property can hold
-						weapons = 10, --Max weapons the property can hold
+						weapons = 8, --Max weapons the property can hold
 					},
 				},
 				robbing = {
@@ -2040,7 +2040,7 @@ properties = {
 					inside = {x = -1452.3041992188, y = -540.70257568359, z = 74.044326782227, h = 30.716178894043}, -- The marker inside (used for teleporting outside)
 					vault = {x = -1466.970703125, y = -527.34332275391, z = 73.443649291992, h = 275.67248535156}, -- The marker for the vault
 				},
-				rent = 10000, --How much it costs to rent the property (PER DAY)
+				rent = 6800, --How much it costs to rent the property (PER DAY)
 				storage = {
 					locked = false, --Default (don't touch)
 					current = {
@@ -2049,9 +2049,9 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 50000, --Max cash the property can hold
+						cash = 10000, --Max cash the property can hold
 						dirty = 150000, --Max marked bills the property can hold
-						weapons = 10, --Max weapons the property can hold
+						weapons = 6, --Max weapons the property can hold
 					},
 				},
 				robbing = {
@@ -2080,7 +2080,7 @@ properties = {
 					inside = {x = 341.88668823242, y = 437.70236206055, z = 149.39407348633, h = 112.42232513428}, -- The marker inside (used for teleporting outside)
 					vault = {x = 336.27679443359, y = 437.85833740234, z = 141.77076721191, h = 205.91784667969}, -- The marker for the vault
 				},
-				rent = 10000, --How much it costs to rent the property (PER DAY)
+				rent = 7200, --How much it costs to rent the property (PER DAY)
 				storage = {
 					locked = false, --Default (don't touch)
 					current = {
@@ -2089,9 +2089,9 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 50000, --Max cash the property can hold
+						cash = 10000, --Max cash the property can hold
 						dirty = 150000, --Max marked bills the property can hold
-						weapons = 10, --Max weapons the property can hold
+						weapons = 6, --Max weapons the property can hold
 					},
 				},
 				robbing = {
@@ -2120,7 +2120,7 @@ properties = {
 					inside = {x = 373.44293212891, y = 422.17086791992, z = 145.90786743164, h = 166.06129455566}, -- The marker inside (used for teleporting outside)
 					vault = {x = 378.92767333984, y = 430.19302368164, z = 138.30014038086, h = 74.124572753906}, -- The marker for the vault
 				},
-				rent = 10000, --How much it costs to rent the property (PER DAY)
+				rent = 7300, --How much it costs to rent the property (PER DAY)
 				storage = {
 					locked = false, --Default (don't touch)
 					current = {
@@ -2129,9 +2129,9 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 50000, --Max cash the property can hold
+						cash = 10000, --Max cash the property can hold
 						dirty = 150000, --Max marked bills the property can hold
-						weapons = 10, --Max weapons the property can hold
+						weapons = 6, --Max weapons the property can hold
 					},
 				},
 				robbing = {
@@ -2160,7 +2160,7 @@ properties = {
 					inside = {x = -1289.8400878906, y = 449.45440673828, z = 97.902503967285, h = 180.92395019531}, -- The marker inside (used for teleporting outside)
 					vault = {x = -1286.1497802734, y = 457.09368896484, z = 90.29468536377, h = 91.985801696777}, -- The marker for the vault
 				},
-				rent = 10000, --How much it costs to rent the property (PER DAY)
+				rent = 7600, --How much it costs to rent the property (PER DAY)
 				storage = {
 					locked = false, --Default (don't touch)
 					current = {
@@ -2169,9 +2169,9 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 50000, --Max cash the property can hold
+						cash = 10000, --Max cash the property can hold
 						dirty = 150000, --Max marked bills the property can hold
-						weapons = 10, --Max weapons the property can hold
+						weapons = 6, --Max weapons the property can hold
 					},
 				},
 				robbing = {
@@ -2200,7 +2200,7 @@ properties = {
 					inside = {x = -682.41345214844, y = 592.49420166016, z = 145.39202880859, h = 219.58547973633}, -- The marker inside (used for teleporting outside)
 					vault = {x = -681.16217041016, y = 586.90997314453, z = 137.76972961426, h = 310.35000610352}, -- The marker for the vault
 				},
-				rent = 10000, --How much it costs to rent the property (PER DAY)
+				rent = 6700, --How much it costs to rent the property (PER DAY)
 				storage = {
 					locked = false, --Default (don't touch)
 					current = {
@@ -2209,9 +2209,9 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 50000, --Max cash the property can hold
+						cash = 10000, --Max cash the property can hold
 						dirty = 150000, --Max marked bills the property can hold
-						weapons = 10, --Max weapons the property can hold
+						weapons = 6, --Max weapons the property can hold
 					},
 				},
 				robbing = {
@@ -2240,7 +2240,7 @@ properties = {
 					inside = {x = -758.46026611328, y = 619.11779785156, z = 144.1537322998, h = 110.82205963135}, -- The marker inside (used for teleporting outside)
 					vault = {x = -764.01904296875, y = 619.67431640625, z = 136.53062438965, h = 18.327989578247}, -- The marker for the vault
 				},
-				rent = 10000, --How much it costs to rent the property (PER DAY)
+				rent = 6800, --How much it costs to rent the property (PER DAY)
 				storage = {
 					locked = false, --Default (don't touch)
 					current = {
@@ -2249,9 +2249,9 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 50000, --Max cash the property can hold
+						cash = 10000, --Max cash the property can hold
 						dirty = 150000, --Max marked bills the property can hold
-						weapons = 10, --Max weapons the property can hold
+						weapons = 6, --Max weapons the property can hold
 					},
 				},
 				robbing = {
@@ -2280,7 +2280,7 @@ properties = {
 					inside = {x = -860.21350097656, y = 691.0048828125, z = 152.86070251465, h = 193.40473937988}, -- The marker inside (used for teleporting outside)
 					vault = {x = -856.89422607422, y = 699.02001953125, z = 145.25294494629, h = 270.23968505859}, -- The marker for the vault
 				},
-				rent = 10000, --How much it costs to rent the property (PER DAY)
+				rent = 6900, --How much it costs to rent the property (PER DAY)
 				storage = {
 					locked = false, --Default (don't touch)
 					current = {
@@ -2289,9 +2289,9 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 50000, --Max cash the property can hold
+						cash = 10000, --Max cash the property can hold
 						dirty = 150000, --Max marked bills the property can hold
-						weapons = 10, --Max weapons the property can hold
+						weapons = 6, --Max weapons the property can hold
 					},
 				},
 				robbing = {
