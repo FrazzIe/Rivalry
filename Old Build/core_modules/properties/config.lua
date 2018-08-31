@@ -18,7 +18,7 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {x = -1541.1848144531, y = 92.128402709961, z = 53.897403717041, h = 196.31907653809}, -- The location of the property
-				rent = 10000, --How much it costs to rent the property (PER DAY)
+				rent = 5000, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
 						cash = 0, --Default (don't touch)
@@ -26,9 +26,9 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 50000, --Max cash the property can hold
-						dirty = 150000, --Max marked bills the property can hold
-						weapons = 10, --Max weapons the property can hold
+						cash = 10000, --Max cash the property can hold
+						dirty = 50000, --Max marked bills the property can hold
+						weapons = 3, --Max weapons the property can hold
 					},
 				},
 				robbing = {
@@ -49,7 +49,7 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
               coordinates = {x = -10.622609138489, y = -1428.7703857422, z = 31.101453781128, h = 323.42373657227}, -- The location of the property
-				rent = 5000, --How much it costs to rent the property (PER DAY)
+				rent = 2500, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
 						cash = 0, --Default (don't touch)
@@ -57,9 +57,9 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 50000, --Max cash the property can hold
-						dirty = 150000, --Max marked bills the property can hold
-						weapons = 5, --Max weapons the property can hold
+						cash = 10000, --Max cash the property can hold
+						dirty = 50000, --Max marked bills the property can hold
+						weapons = 3, --Max weapons the property can hold
 					},
 				},
 				robbing = {
@@ -80,7 +80,7 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {x = -5.1676306724548, y = 522.70458984375, z = 174.62725830078, h = 83.613456726074}, -- The location of the property
-				rent = 10000, --How much it costs to rent the property (PER DAY)
+				rent = 5000, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
 						cash = 0, --Default (don't touch)
@@ -88,9 +88,9 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 50000, --Max cash the property can hold
-						dirty = 150000, --Max marked bills the property can hold
-						weapons = 5, --Max weapons the property can hold
+						cash = 10000, --Max cash the property can hold
+						dirty = 50000, --Max marked bills the property can hold
+						weapons = 3, --Max weapons the property can hold
 					},
 				},
 				robbing = {
@@ -111,7 +111,7 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {x = -874.56011962891, y = 561.56439208984, z = 96.61930847168, h = 302.44467163086}, -- The location of the property
-				rent = 6000, --How much it costs to rent the property (PER DAY)
+				rent = 3000, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
 						cash = 0, --Default (don't touch)
@@ -119,9 +119,9 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 50000, --Max cash the property can hold
-						dirty = 150000, --Max marked bills the property can hold
-						weapons = 5, --Max weapons the property can hold
+						cash = 10000, --Max cash the property can hold
+						dirty = 50000, --Max marked bills the property can hold
+						weapons = 3, --Max weapons the property can hold
 					},
 				},
 				robbing = {
@@ -142,7 +142,7 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {x = -687.80926513672, y = 597.47955322266, z = 143.64202880859, h = 212.60356140137}, -- The location of the property
-				rent = 10000, --How much it costs to rent the property (PER DAY)
+				rent = 5000, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
 						cash = 0, --Default (don't touch)
@@ -150,9 +150,9 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 50000, --Max cash the property can hold
-						dirty = 150000, --Max marked bills the property can hold
-						weapons = 5, --Max weapons the property can hold
+						cash = 10000, --Max cash the property can hold
+						dirty = 50000, --Max marked bills the property can hold
+						weapons = 3, --Max weapons the property can hold
 					},
 				},
 				robbing = {
@@ -173,7 +173,7 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {x = -109.58322906494, y = 504.18048095703, z = 143.32385253906, h = 182.41125488281}, -- The location of the property
-				rent = 4000, --How much it costs to rent the property (PER DAY)
+				rent = 2000, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
 						cash = 0, --Default (don't touch)
@@ -181,9 +181,9 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 20000, --Max cash the property can hold
-						dirty = 100000, --Max marked bills the property can hold
-						weapons = 5, --Max weapons the property can hold
+						cash = 10000, --Max cash the property can hold
+						dirty = 50000, --Max marked bills the property can hold
+						weapons = 3, --Max weapons the property can hold
 					},
 				},
 				robbing = {
@@ -204,7 +204,7 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {x = 1273.9063720703, y = -1709.2525634766, z = 54.771488189697, h = 10.599884033203}, -- The location of the property
-				rent = 4000, --How much it costs to rent the property (PER DAY)
+				rent = 2000, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
 						cash = 0, --Default (don't touch)
@@ -212,9 +212,9 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 25000, --Max cash the property can hold
-						dirty = 100000, --Max marked bills the property can hold
-						weapons = 5, --Max weapons the property can hold
+						cash = 10000, --Max cash the property can hold
+						dirty = 50000, --Max marked bills the property can hold
+						weapons = 3, --Max weapons the property can hold
 					},
 				},
 				robbing = {
@@ -235,7 +235,7 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {x = -293.64105224609, y = 601.70745849609, z = 181.57548522949, h = 188.13056945801}, -- The location of the property
-				rent = 4000, --How much it costs to rent the property (PER DAY)
+				rent = 2000, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
 						cash = 0, --Default (don't touch)
@@ -243,9 +243,9 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 25000, --Max cash the property can hold
-						dirty = 100000, --Max marked bills the property can hold
-						weapons = 5, --Max weapons the property can hold
+						cash = 10000, --Max cash the property can hold
+						dirty = 50000, --Max marked bills the property can hold
+						weapons = 3, --Max weapons the property can hold
 					},
 				},
 				robbing = {
@@ -266,7 +266,7 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {x = -110.5061, y = 8.684491, z = 70.51956, h = 11.29703}, -- The location of the property
-				rent = 4000, --How much it costs to rent the property (PER DAY)
+				rent = 2000, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
 						cash = 0, --Default (don't touch)
@@ -274,9 +274,9 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 50000, --Max cash the property can hold
-						dirty = 150000, --Max marked bills the property can hold
-						weapons = 5, --Max weapons the property can hold
+						cash = 10000, --Max cash the property can hold
+						dirty = 50000, --Max marked bills the property can hold
+						weapons = 3, --Max weapons the property can hold
 					},
 				},
 				robbing = {
@@ -297,7 +297,7 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {x = -1147.9143066406, y = -1512.1651611328, z = 10.632730484009, h = 126.85916137695}, -- The location of the property
-				rent = 5000, --How much it costs to rent the property (PER DAY)
+				rent = 2500, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
 						cash = 0, --Default (don't touch)
@@ -305,9 +305,9 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 50000, --Max cash the property can hold
-						dirty = 150000, --Max marked bills the property can hold
-						weapons = 5, --Max weapons the property can hold
+						cash = 10000, --Max cash the property can hold
+						dirty = 50000, --Max marked bills the property can hold
+						weapons = 3, --Max weapons the property can hold
 					},
 				},
               robbing = {
@@ -336,10 +336,10 @@ properties = {
                         weapons = {}, --Default (don't touch)
                     },
                     max = {
-                        cash = 25000, --Max cash the property can hold
-                        dirty = 50000, --Max marked bills the property can hold
-                        weapons = 3, --Max weapons the property can hold
-                    },
+						cash = 10000, --Max cash the property can hold
+						dirty = 50000, --Max marked bills the property can hold
+						weapons = 3, --Max weapons the property can hold
+					},
                 },
               robbing = {
                     cooldown = 2700, --Robbery cooldown time in seconds
@@ -367,7 +367,7 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 25000, --Max cash the property can hold
+						cash = 10000, --Max cash the property can hold
 						dirty = 50000, --Max marked bills the property can hold
 						weapons = 3, --Max weapons the property can hold
 					},
@@ -398,7 +398,7 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 25000, --Max cash the property can hold
+						cash = 10000, --Max cash the property can hold
 						dirty = 50000, --Max marked bills the property can hold
 						weapons = 3, --Max weapons the property can hold
 					},
@@ -429,7 +429,7 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 25000, --Max cash the property can hold
+						cash = 10000, --Max cash the property can hold
 						dirty = 50000, --Max marked bills the property can hold
 						weapons = 3, --Max weapons the property can hold
 					},
@@ -460,7 +460,7 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 25000, --Max cash the property can hold
+						cash = 10000, --Max cash the property can hold
 						dirty = 50000, --Max marked bills the property can hold
 						weapons = 3, --Max weapons the property can hold
 					},
@@ -491,7 +491,7 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 25000, --Max cash the property can hold
+						cash = 10000, --Max cash the property can hold
 						dirty = 50000, --Max marked bills the property can hold
 						weapons = 3, --Max weapons the property can hold
 					},
@@ -522,7 +522,7 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 25000, --Max cash the property can hold
+						cash = 10000, --Max cash the property can hold
 						dirty = 50000, --Max marked bills the property can hold
 						weapons = 3, --Max weapons the property can hold
 					},
@@ -553,7 +553,7 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 25000, --Max cash the property can hold
+						cash = 10000, --Max cash the property can hold
 						dirty = 50000, --Max marked bills the property can hold
 						weapons = 3, --Max weapons the property can hold
 					},
@@ -584,7 +584,7 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 25000, --Max cash the property can hold
+						cash = 10000, --Max cash the property can hold
 						dirty = 50000, --Max marked bills the property can hold
 						weapons = 3, --Max weapons the property can hold
 					},
@@ -615,7 +615,7 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 25000, --Max cash the property can hold
+						cash = 10000, --Max cash the property can hold
 						dirty = 50000, --Max marked bills the property can hold
 						weapons = 3, --Max weapons the property can hold
 					},
@@ -646,7 +646,7 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 25000, --Max cash the property can hold
+						cash = 10000, --Max cash the property can hold
 						dirty = 50000, --Max marked bills the property can hold
 						weapons = 3, --Max weapons the property can hold
 					},
@@ -669,7 +669,7 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {x = 963.25720214844, y = -595.94689941406, z = 59.902702331543, h = 252.17263793945}, -- The location of the property
-				rent = 5000, --How much it costs to rent the property (PER DAY)
+				rent = 2500, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
 						cash = 0, --Default (don't touch)
@@ -677,8 +677,8 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 25000, --Max cash the property can hold
-						dirty = 100000, --Max marked bills the property can hold
+						cash = 10000, --Max cash the property can hold
+						dirty = 50000, --Max marked bills the property can hold
 						weapons = 3, --Max weapons the property can hold
 					},
 				},
@@ -700,7 +700,7 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {x = 861.56988525391, y = -582.49072265625, z = 58.156490325928, h = 178.8897857666}, -- The location of the property
-				rent = 5000, --How much it costs to rent the property (PER DAY)
+				rent = 2500, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
 						cash = 0, --Default (don't touch)
@@ -708,9 +708,9 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 25000, --Max cash the property can hold
-						dirty = 100000, --Max marked bills the property can hold
-						weapons = 6, --Max weapons the property can hold
+						cash = 10000, --Max cash the property can hold
+						dirty = 50000, --Max marked bills the property can hold
+						weapons = 3, --Max weapons the property can hold
 					},
 				},
               robbing = {
@@ -731,7 +731,7 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {x = 979.74169921875, y = -627.20623779297, z = 59.235836029053, h = 213.00134277344}, -- The location of the property
-				rent = 5000, --How much it costs to rent the property (PER DAY)
+				rent = 2500, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
 						cash = 0, --Default (don't touch)
@@ -739,8 +739,8 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 25000, --Max cash the property can hold
-						dirty = 100000, --Max marked bills the property can hold
+						cash = 10000, --Max cash the property can hold
+						dirty = 50000, --Max marked bills the property can hold
 						weapons = 3, --Max weapons the property can hold
 					},
 				},
@@ -762,7 +762,7 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {x = 922.28070068359, y = -478.60290527344, z = 61.083583831787, h = 18.485750198364}, -- The location of the property
-				rent = 5000, --How much it costs to rent the property (PER DAY)
+				rent = 2500, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
 						cash = 0, --Default (don't touch)
@@ -770,9 +770,9 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 25000, --Max cash the property can hold
-						dirty = 100000, --Max marked bills the property can hold
-						weapons = 6, --Max weapons the property can hold
+						cash = 10000, --Max cash the property can hold
+						dirty = 50000, --Max marked bills the property can hold
+						weapons = 3, --Max weapons the property can hold
 					},
 				},
               robbing = {
@@ -793,7 +793,7 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {x = 920.23712158203, y = -570.53887939453, z = 58.366363525391, h = 29.028879165649}, -- The location of the property
-				rent = 5000, --How much it costs to rent the property (PER DAY)
+				rent = 2500, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
 						cash = 0, --Default (don't touch)
@@ -801,9 +801,9 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 25000, --Max cash the property can hold
-						dirty = 100000, --Max marked bills the property can hold
-						weapons = 6, --Max weapons the property can hold
+						cash = 10000, --Max cash the property can hold
+						dirty = 50000, --Max marked bills the property can hold
+						weapons = 3, --Max weapons the property can hold
 					},
 				},
               robbing = {
@@ -824,7 +824,7 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {x = 1001.1132202148, y = -594.14642333984, z = 59.232391357422, h = 79.767478942871}, -- The location of the property
-				rent = 5000, --How much it costs to rent the property (PER DAY)
+				rent = 2500, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
 						cash = 0, --Default (don't touch)
@@ -832,9 +832,9 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 25000, --Max cash the property can hold
-						dirty = 100000, --Max marked bills the property can hold
-						weapons = 6, --Max weapons the property can hold
+						cash = 10000, --Max cash the property can hold
+						dirty = 50000, --Max marked bills the property can hold
+						weapons = 3, --Max weapons the property can hold
 					},
 				},
               robbing = {
@@ -855,7 +855,7 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {x = 1046.2370605469, y = -497.13256835938, z = 64.079315185547, h = 164.02305603027}, -- The location of the property
-				rent = 5000, --How much it costs to rent the property (PER DAY)
+				rent = 2500, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
 						cash = 0, --Default (don't touch)
@@ -863,8 +863,8 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 25000, --Max cash the property can hold
-						dirty = 100000, --Max marked bills the property can hold
+						cash = 10000, --Max cash the property can hold
+						dirty = 50000, --Max marked bills the property can hold
 						weapons = 3, --Max weapons the property can hold
 					},
 				},
@@ -886,7 +886,7 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {x = 1098.4874267578, y = -465.08499145508, z = 67.319396972656, h = 353.05224609375}, -- The location of the property
-				rent = 5000, --How much it costs to rent the property (PER DAY)
+				rent = 2500, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
 						cash = 0, --Default (don't touch)
@@ -894,9 +894,9 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 25000, --Max cash the property can hold
-						dirty = 100000, --Max marked bills the property can hold
-						weapons = 6, --Max weapons the property can hold
+						cash = 10000, --Max cash the property can hold
+						dirty = 50000, --Max marked bills the property can hold
+						weapons = 3, --Max weapons the property can hold
 					},
 				},
               robbing = {
@@ -917,7 +917,7 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {x = 1270.7966308594, y = -682.783203125, z = 66.031616210938, h = 180.47001647949}, -- The location of the property
-				rent = 5000, --How much it costs to rent the property (PER DAY)
+				rent = 2500, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
 						cash = 0, --Default (don't touch)
@@ -925,9 +925,9 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 25000, --Max cash the property can hold
-						dirty = 100000, --Max marked bills the property can hold
-						weapons = 6, --Max weapons the property can hold
+						cash = 10000, --Max cash the property can hold
+						dirty = 50000, --Max marked bills the property can hold
+						weapons = 3, --Max weapons the property can hold
 					},
 				},
               robbing = {
@@ -948,7 +948,7 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {x = 1251.3123779297, y = -515.60803222656, z = 69.349052429199, h = 70.709053039551}, -- The location of the property
-				rent = 5000, --How much it costs to rent the property (PER DAY)
+				rent = 2500, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
 						cash = 0, --Default (don't touch)
@@ -956,9 +956,9 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 50000, --Max cash the property can hold
-						dirty = 150000, --Max marked bills the property can hold
-						weapons = 6, --Max weapons the property can hold
+						cash = 10000, --Max cash the property can hold
+						dirty = 50000, --Max marked bills the property can hold
+						weapons = 3, --Max weapons the property can hold
 					},
 				},
               robbing = {
@@ -979,7 +979,7 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {x = 1263.5560302734, y = -429.26174926758, z = 69.800323486328, h = 114.36005401611}, -- The location of the property
-				rent = 5000, --How much it costs to rent the property (PER DAY)
+				rent = 2500, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
 						cash = 0, --Default (don't touch)
@@ -987,9 +987,9 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 50000, --Max cash the property can hold
-						dirty = 150000, --Max marked bills the property can hold
-						weapons = 6, --Max weapons the property can hold
+						cash = 10000, --Max cash the property can hold
+						dirty = 50000, --Max marked bills the property can hold
+						weapons = 3, --Max weapons the property can hold
 					},
 				},
               robbing = {
@@ -1010,7 +1010,7 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {x = 2435.7275390625, y = 4966.2797851563, z = 42.347606658936, h = 266.12255859375}, -- The location of the property
-				rent = 5000, --How much it costs to rent the property (PER DAY)
+				rent = 2500, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
 						cash = 0, --Default (don't touch)
@@ -1018,9 +1018,9 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 50000, --Max cash the property can hold
-						dirty = 150000, --Max marked bills the property can hold
-						weapons = 6, --Max weapons the property can hold
+						cash = 10000, --Max cash the property can hold
+						dirty = 50000, --Max marked bills the property can hold
+						weapons = 3, --Max weapons the property can hold
 					},
 				},
               robbing = {
@@ -1041,7 +1041,7 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {x = 1978.2546386719, y = 3819.4265136719, z = 33.450054168701, h = 24.174715042114}, -- The location of the property
-				rent = 1000, --How much it costs to rent the property (PER DAY)
+				rent = 500, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
 						cash = 0, --Default (don't touch)
@@ -1049,7 +1049,7 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 25000, --Max cash the property can hold
+						cash = 10000, --Max cash the property can hold
 						dirty = 50000, --Max marked bills the property can hold
 						weapons = 3, --Max weapons the property can hold
 					},
@@ -1072,7 +1072,7 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {x = 1803.0750732422, y = 3913.681640625, z = 37.057018280029, h = 15.705402374268}, -- The location of the property
-				rent = 1000, --How much it costs to rent the property (PER DAY)
+				rent = 500, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
 						cash = 0, --Default (don't touch)
@@ -1080,7 +1080,7 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 25000, --Max cash the property can hold
+						cash = 10000, --Max cash the property can hold
 						dirty = 50000, --Max marked bills the property can hold
 						weapons = 3, --Max weapons the property can hold
 					},
@@ -1103,7 +1103,7 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {x = 1781.9161376953, y = 3744.7509765625, z = 34.656623840332, h = 21.048610687256}, -- The location of the property
-				rent = 1000, --How much it costs to rent the property (PER DAY)
+				rent = 500, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
 						cash = 0, --Default (don't touch)
@@ -1111,7 +1111,7 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 25000, --Max cash the property can hold
+						cash = 10000, --Max cash the property can hold
 						dirty = 50000, --Max marked bills the property can hold
 						weapons = 3, --Max weapons the property can hold
 					},
@@ -1134,7 +1134,7 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {x = 1651.0162353516, y = 3806.7937011719, z = 35.013919830322, h = 43.992961883545}, -- The location of the property
-				rent = 1000, --How much it costs to rent the property (PER DAY)
+				rent = 500, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
 						cash = 0, --Default (don't touch)
@@ -1142,7 +1142,7 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 25000, --Max cash the property can hold
+						cash = 10000, --Max cash the property can hold
 						dirty = 50000, --Max marked bills the property can hold
 						weapons = 3, --Max weapons the property can hold
 					},
@@ -1165,7 +1165,7 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {x = 1639.7318115234, y = 3731.7133789063, z = 35.067100524902, h = 121.82363128662}, -- The location of the property
-				rent = 1000, --How much it costs to rent the property (PER DAY)
+				rent = 500, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
 						cash = 0, --Default (don't touch)
@@ -1173,7 +1173,7 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 25000, --Max cash the property can hold
+						cash = 10000, --Max cash the property can hold
 						dirty = 50000, --Max marked bills the property can hold
 						weapons = 3, --Max weapons the property can hold
 					},
@@ -1196,7 +1196,7 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {x = 52.523105621338, y = 3740.5842285156, z = 39.589405059814, h = 19.637350082397}, -- The location of the property
-				rent = 1000, --How much it costs to rent the property (PER DAY)
+				rent = 500, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
 						cash = 0, --Default (don't touch)
@@ -1204,7 +1204,7 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 25000, --Max cash the property can hold
+						cash = 10000, --Max cash the property can hold
 						dirty = 50000, --Max marked bills the property can hold
 						weapons = 3, --Max weapons the property can hold
 					},
@@ -1227,7 +1227,7 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {x = 195.34185791016, y = 3031.1162109375, z = 43.886692047119, h = 270.18508911133}, -- The location of the property
-				rent = 1000, --How much it costs to rent the property (PER DAY)
+				rent = 500, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
 						cash = 0, --Default (don't touch)
@@ -1235,7 +1235,7 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 25000, --Max cash the property can hold
+						cash = 10000, --Max cash the property can hold
 						dirty = 50000, --Max marked bills the property can hold
 						weapons = 3, --Max weapons the property can hold
 					},
@@ -1258,7 +1258,7 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {x = 1724.4509277344, y = 4641.951171875, z = 43.875457763672, h = 298.48852539063}, -- The location of the property
-				rent = 1000, --How much it costs to rent the property (PER DAY)
+				rent = 500, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
 						cash = 0, --Default (don't touch)
@@ -1266,7 +1266,7 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 25000, --Max cash the property can hold
+						cash = 10000, --Max cash the property can hold
 						dirty = 50000, --Max marked bills the property can hold
 						weapons = 3, --Max weapons the property can hold
 					},
@@ -1289,7 +1289,7 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {x = 1663.0693359375, y = 4776.2231445313, z = 42.007556915283, h = 72.134742736816}, -- The location of the property
-				rent = 1000, --How much it costs to rent the property (PER DAY)
+				rent = 500, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
 						cash = 0, --Default (don't touch)
@@ -1297,7 +1297,7 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 25000, --Max cash the property can hold
+						cash = 10000, --Max cash the property can hold
 						dirty = 50000, --Max marked bills the property can hold
 						weapons = 3, --Max weapons the property can hold
 					},
@@ -1320,7 +1320,7 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {x = 1984.9240722656, y = 5175.1635742188, z = 47.639125823975, h = 276.42691040039}, -- The location of the property
-				rent = 5000, --How much it costs to rent the property (PER DAY)
+				rent = 2500, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
 						cash = 0, --Default (don't touch)
@@ -1328,9 +1328,9 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 50000, --Max cash the property can hold
-						dirty = 150000, --Max marked bills the property can hold
-						weapons = 6, --Max weapons the property can hold
+						cash = 10000, --Max cash the property can hold
+						dirty = 50000, --Max marked bills the property can hold
+						weapons = 3, --Max weapons the property can hold
 					},
 				},
               robbing = {
@@ -1351,7 +1351,7 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {x = 3311.2243652344, y = 5176.1728515625, z = 19.614582061768, h = 51.796821594238}, -- The location of the property
-				rent = 5000, --How much it costs to rent the property (PER DAY)
+				rent = 2500, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
 						cash = 0, --Default (don't touch)
@@ -1359,9 +1359,9 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 50000, --Max cash the property can hold
-						dirty = 150000, --Max marked bills the property can hold
-						weapons = 6, --Max weapons the property can hold
+						cash = 10000, --Max cash the property can hold
+						dirty = 50000, --Max marked bills the property can hold
+						weapons = 3, --Max weapons the property can hold
 					},
 				},
               robbing = {
@@ -1382,7 +1382,7 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {x = 3688.7797851563, y = 4562.9462890625, z = 25.183052062988, h = 90.358489990234}, -- The location of the property
-				rent = 1000, --How much it costs to rent the property (PER DAY)
+				rent = 500, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
 						cash = 0, --Default (don't touch)
@@ -1390,7 +1390,7 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 25000, --Max cash the property can hold
+						cash = 10000, --Max cash the property can hold
 						dirty = 50000, --Max marked bills the property can hold
 						weapons = 3, --Max weapons the property can hold
 					},
@@ -1422,7 +1422,7 @@ properties = {
 					},
 					max = {
 						cash = 10000, --Max cash the property can hold
-						dirty = 25000, --Max marked bills the property can hold
+						dirty = 50000, --Max marked bills the property can hold
 						weapons = 3, --Max weapons the property can hold
 					},
 				},
@@ -1444,7 +1444,7 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {x = 741.68121337891, y = 4170.390625, z = 41.087860107422, h = 343.5768737793}, -- The location of the property
-				rent = 1000, --How much it costs to rent the property (PER DAY)
+				rent = 500, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
 						cash = 0, --Default (don't touch)
@@ -1452,7 +1452,7 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 25000, --Max cash the property can hold
+						cash = 10000, --Max cash the property can hold
 						dirty = 50000, --Max marked bills the property can hold
 						weapons = 3, --Max weapons the property can hold
 					},
@@ -1475,7 +1475,7 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {x = 722.92016601563, y = 4187.0991210938, z = 40.882667541504, h = 185.83708190918}, -- The location of the property
-				rent = 1000, --How much it costs to rent the property (PER DAY)
+				rent = 500, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
 						cash = 0, --Default (don't touch)
@@ -1483,7 +1483,7 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 25000, --Max cash the property can hold
+						cash = 10000, --Max cash the property can hold
 						dirty = 50000, --Max marked bills the property can hold
 						weapons = 3, --Max weapons the property can hold
 					},
@@ -1506,7 +1506,7 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {x = 436.2356262207, y = 2997.0383300781, z = 41.283229827881, h = 192.28036499023}, -- The location of the property
-				rent = 1000, --How much it costs to rent the property (PER DAY)
+				rent = 500, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
 						cash = 0, --Default (don't touch)
@@ -1514,7 +1514,7 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 25000, --Max cash the property can hold
+						cash = 10000, --Max cash the property can hold
 						dirty = 50000, --Max marked bills the property can hold
 						weapons = 3, --Max weapons the property can hold
 					},
@@ -1537,7 +1537,7 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {x = 412.08709716797, y = 2965.7241210938, z = 41.888053894043, h = 222.50732421875}, -- The location of the property
-				rent = 1000, --How much it costs to rent the property (PER DAY)
+				rent = 500, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
 						cash = 0, --Default (don't touch)
@@ -1545,7 +1545,7 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 25000, --Max cash the property can hold
+						cash = 10000, --Max cash the property can hold
 						dirty = 50000, --Max marked bills the property can hold
 						weapons = 3, --Max weapons the property can hold
 					},
@@ -1568,7 +1568,7 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {x = 180.46072387695, y = 3087.2543945313, z = 43.262702941895, h = 240.33563232422}, -- The location of the property
-				rent = 1000, --How much it costs to rent the property (PER DAY)
+				rent = 500, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
 						cash = 0, --Default (don't touch)
@@ -1576,7 +1576,7 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 25000, --Max cash the property can hold
+						cash = 10000, --Max cash the property can hold
 						dirty = 50000, --Max marked bills the property can hold
 						weapons = 3, --Max weapons the property can hold
 					},
@@ -1599,7 +1599,7 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {x = 240.93174743652, y = 3107.90625, z = 42.487194061279, h = 86.731803894043}, -- The location of the property
-				rent = 1000, --How much it costs to rent the property (PER DAY)
+				rent = 500, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
 						cash = 0, --Default (don't touch)
@@ -1607,7 +1607,7 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 25000, --Max cash the property can hold
+						cash = 10000, --Max cash the property can hold
 						dirty = 50000, --Max marked bills the property can hold
 						weapons = 3, --Max weapons the property can hold
 					},
@@ -1630,7 +1630,7 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {x = -34.51997756958, y = 1951.2297363281, z = 190.35537719727, h = 119.89051055908}, -- The location of the property
-				rent = 1000, --How much it costs to rent the property (PER DAY)
+				rent = 500, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
 						cash = 0, --Default (don't touch)
@@ -1638,7 +1638,7 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 25000, --Max cash the property can hold
+						cash = 10000, --Max cash the property can hold
 						dirty = 50000, --Max marked bills the property can hold
 						weapons = 3, --Max weapons the property can hold
 					},
@@ -1661,7 +1661,7 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {x = 791.92803955078, y = 2177.1506347656, z = 52.648387908936, h = 153.18553161621}, -- The location of the property
-				rent = 5000, --How much it costs to rent the property (PER DAY)
+				rent = 2500, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
 						cash = 0, --Default (don't touch)
@@ -1669,9 +1669,9 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 50000, --Max cash the property can hold
-						dirty = 150000, --Max marked bills the property can hold
-						weapons = 6, --Max weapons the property can hold
+						cash = 10000, --Max cash the property can hold
+						dirty = 50000, --Max marked bills the property can hold
+						weapons = 3, --Max weapons the property can hold
 					},
 				},
               robbing = {
@@ -1692,7 +1692,7 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {x = -33.481433868408, y = -1847.3713378906, z = 26.193550109863, h = 77.506813049316}, -- The location of the property
-				rent = 1000, --How much it costs to rent the property (PER DAY)
+				rent = 500, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
 						cash = 0, --Default (don't touch)
@@ -1700,7 +1700,7 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 25000, --Max cash the property can hold
+						cash = 10000, --Max cash the property can hold
 						dirty = 50000, --Max marked bills the property can hold
 						weapons = 3, --Max weapons the property can hold
 					},
@@ -1723,7 +1723,7 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {x = -5.2547397613525, y = -1871.6096191406, z = 24.1510181427, h = 355.76708984375}, -- The location of the property
-				rent = 1000, --How much it costs to rent the property (PER DAY)
+				rent = 500, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
 						cash = 0, --Default (don't touch)
@@ -1731,7 +1731,7 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 25000, --Max cash the property can hold
+						cash = 10000, --Max cash the property can hold
 						dirty = 50000, --Max marked bills the property can hold
 						weapons = 3, --Max weapons the property can hold
 					},
