@@ -266,7 +266,7 @@ function closures_taxi_server()
 		local source = source
 		if listPersonnelActive[source] ~= nil then
 			TriggerEvent("core:getuser", source, function(user)
-				user.addWallet(3000)
+				user.addWallet(150)
 			end)
 		end
 	end)

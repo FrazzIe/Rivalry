@@ -148,7 +148,7 @@ AddEventHandler('mechanic:PayPlayer', function()
 	local source = source
   	if Mechanic.Players[source] then
         TriggerEvent("core:getuser", source, function(user)
-            user.addWallet(3000)
+            user.addWallet(150)
         end)
     end
 end)
