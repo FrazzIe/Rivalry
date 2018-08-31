@@ -290,7 +290,7 @@ AddEventHandler("jewel-heist:complete", function(type)
 	elseif type == 2 then
 		totalJewels = robbers[id].current_capacity
 	end
-	local pay = totalJewels * 375
+	local pay = totalJewels * 350
 	TriggerEvent("core:getuser", source, function(user)
 		if type == 1 then
 			user.addBank(pay)
