@@ -1,6 +1,6 @@
 local isTrucker = true
 local isTruckerInService = false
-local trucker_rent = 500
+local trucker_rent = 250
 local trucker_truck = nil
 local trucker_trailer = nil
 local trucker_job = nil

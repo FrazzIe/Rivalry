@@ -1,4 +1,4 @@
-local trucker_rent = 500
+local trucker_rent = 250
 local trucker_tiers = {
     [1] = 2500,
     [2] = 4000,
