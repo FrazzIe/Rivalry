@@ -366,7 +366,7 @@ TriggerEvent("core:addGroupCommand", "runplate", "emergency", function(source, a
 				if tonumber(args[1], 16) ~= nil then
 					exports['GHMattiMySQL']:QueryResultAsync("SELECT first_name, last_name FROM characters WHERE character_id=(SELECT character_id FROM vehicles WHERE plate=@plate)", {["@plate"] = tonumber(args[1], 16)}, function(character)
 						if character[1] == nil then
-							TriggerClientEvent("chatMessage", source, "Dispatch", {0, 255, 0}, "The plate "..args[1].." could not be found in the database!")
+							TriggerClientEvent("chatMessage", source, "Dispatch", {0, 255, 0}, "The plate "..args[1].." has been reported 10-99 stolen! Call for backup.")
 						else
 							TriggerClientEvent("chatMessage", source, "Dispatch", {0, 255, 0}, "The plate "..args[1].." is owned by a "..character[1].first_name.." "..character[1].last_name)
 						end
@@ -387,7 +387,7 @@ TriggerEvent("core:addGroupCommand", "checktow", "emergency", function(source, a
 		if mechanics > 0 then
 			TriggerClientEvent("chatMessage", source, "Dispatch", {0, 255, 0}, "There are "..mechanics.." tows online!")
 		else
-			TriggerClientEvent("chatMessage", source, "Dispatch", {0, 255, 0}, "Unfortunatly there are no tows in service!")
+			TriggerClientEvent("chatMessage", source, "Dispatch", {0, 255, 0}, "Unfortunately there are no tows in service!")
 		end
 	end)
 end, {help = "Check if any tows are online"})
