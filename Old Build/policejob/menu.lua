@@ -114,7 +114,7 @@ local charges = {
     }},
     {title="DOJ/License", items = {
         {charge="Weapons License", time=0, cost=1000},
-        {charge="Drivers License", time=0, cost=200},
+        {charge="Drivers License", time=0, cost=150},
         {charge="Release of Information", time=0, cost=100},
     }},
     {title="Traffic Violations", items = {
