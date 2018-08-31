@@ -2,10 +2,10 @@ local informer_menu = false
 local informerbool = false
 
 local options = {
-	{text="Blackmarket Weapons",price=50000},
-	{text="Harvest Cannabis",price=15000},
-	{text="Buy Dirty Cocaine",price=25000},
-	{text="Clean Dirty Cocaine",price=25000},
+	{text="Blackmarket Weapons",price=10000},
+	{text="Harvest Cannabis",price=3000},
+	{text="Buy Dirty Cocaine",price=5000},
+	{text="Clean Dirty Cocaine",price=5000},
 }
 
 function InformerMenu()

@@ -95,10 +95,31 @@ AddEventHandler("weed:harvest", function(plant_id)
         if(user.get("wallet") > 10)then
             if growth >= 100 then
                 user.removeWallet(50)
+                if (getQuantity(source) + amount) <= user_max then
+                    TriggerClientEvent("weed:harvest", source)
+                    TriggerEvent("inventory:add_server", source, weed_id, amount)
+                    ResetPlant(plant_id)
+                else
+                    TriggerClientEvent("inventory:messages", source, "~r~Your inventory is full")
+                end
             elseif growth >= 80 then
                 user.removeWallet(30)
+                if (getQuantity(source) + amount) <= user_max then
+                    TriggerClientEvent("weed:harvest", source)
+                    TriggerEvent("inventory:add_server", source, weed_id, amount)
+                    ResetPlant(plant_id)
+                else
+                    TriggerClientEvent("inventory:messages", source, "~r~Your inventory is full")
+                end
             elseif growth >= 70 then
                 user.removeWallet(20)
+                if (getQuantity(source) + amount) <= user_max then
+                    TriggerClientEvent("weed:harvest", source)
+                    TriggerEvent("inventory:add_server", source, weed_id, amount)
+                    ResetPlant(plant_id)
+                else
+                    TriggerClientEvent("inventory:messages", source, "~r~Your inventory is full")
+                end
             elseif growth >= 50 then
                 user.removeWallet(10)
                 if (getQuantity(source) + amount) <= user_max then

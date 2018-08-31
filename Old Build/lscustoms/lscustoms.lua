@@ -204,7 +204,7 @@ local function DriveInGarage()
 		local maxvehhp = 1000
 		local damage = 0
 		damage = (maxvehhp - GetVehicleBodyHealth(veh))/100
-		LSCMenu:addPurchase("Repair vehicle",round(3000+750*damage,0), "Full body repair and engine service.")
+		LSCMenu:addPurchase("Repair vehicle",round(900*damage,0), "Full body repair and engine service.")
 		
 		--Setup table for vehicle with all mods, colors etc.
 		SetVehicleModKit(veh,0)	
