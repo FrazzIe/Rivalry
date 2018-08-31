@@ -3656,7 +3656,7 @@ properties = {
 				expire = 1 --Default (don't touch)
 			},
 			[43] = {
-				property_name = "Mechanic Shop 2", -- Name of the property (used as the title of the menu)
+				property_name = "Elgin Avenue Mechanic Shop", -- Name of the property (used as the title of the menu)
 				locked = false, --Default (don't touch)
 				owner =  {
 					identifier = "no", --Default (don't touch)
@@ -4679,6 +4679,70 @@ properties = {
                 },
                 expire = 1 --Default (don't touch)
             },
+            [76] = {
+				property_name = "Mirror Park Mechanic Shop", -- Name of the property (used as the title of the menu)
+				locked = false, --Default (don't touch)
+				owner =  {
+					identifier = "no", --Default (don't touch)
+					char_id = 0, --Default (don't touch)
+					id = 0, --Default (don't touch)
+				},
+				coordinates = {x = 1135.4501953125, y = -785.09313964844, z = 57.598724365234, h = 264.30389404297}, -- The location of the property
+				rent = 3200, --How much it costs to rent the property (PER DAY)
+				income = 250, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
+				storage = {
+					current = {
+						cash = 0, --Default (don't touch)
+						dirty = 0, --Default (don't touch)
+						weapons = {}, --Default (don't touch)
+					},
+					max = {
+						cash = 4000, --Max cash the property can hold
+						dirty = 4000, --Max marked bills the property can hold
+						weapons = 1, --Max weapons the property can hold
+					},
+				},
+				robbing = {
+					cooldown = 2700, --Robbery cooldown time in seconds
+					last_robbed = 0, --Default (don't touch)
+					being_robbed = false, --Default (don't touch)
+					time = 300, --The total time the robber has to hack the vault
+					max_phases = 4, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+				},
+				expire = 1 --Default (don't touch)
+			},
+			[77] = {
+				property_name = "Greenwich Mechanic Shop", -- Name of the property (used as the title of the menu)
+				locked = false, --Default (don't touch)
+				owner =  {
+					identifier = "no", --Default (don't touch)
+					char_id = 0, --Default (don't touch)
+					id = 0, --Default (don't touch)
+				},
+				coordinates = {x = -1142.5466308594, y = -1993.1862792969, z = 13.164275169373, h = 311.6618347168}, -- The location of the property
+				rent = 3200, --How much it costs to rent the property (PER DAY)
+				income = 250, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
+				storage = {
+					current = {
+						cash = 0, --Default (don't touch)
+						dirty = 0, --Default (don't touch)
+						weapons = {}, --Default (don't touch)
+					},
+					max = {
+						cash = 4000, --Max cash the property can hold
+						dirty = 4000, --Max marked bills the property can hold
+						weapons = 1, --Max weapons the property can hold
+					},
+				},
+				robbing = {
+					cooldown = 2700, --Robbery cooldown time in seconds
+					last_robbed = 0, --Default (don't touch)
+					being_robbed = false, --Default (don't touch)
+					time = 300, --The total time the robber has to hack the vault
+					max_phases = 4, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+				},
+				expire = 1 --Default (don't touch)
+			},
 		},
 		enterable = {
 			[1] = {
