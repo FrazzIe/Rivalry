@@ -2320,8 +2320,8 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {x = 93.631385803223, y = -1291.7485351563, z = 29.268758773804, h = 80.385093688965}, -- The location of the property
-				rent = 5200, --How much it costs to rent the property (PER DAY)
-				income = 325, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
+				rent = 3250, --How much it costs to rent the property (PER DAY)
+				income = 250, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
 				storage = {
 					current = {
 						cash = 0, --Default (don't touch)
@@ -2329,9 +2329,9 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 25000, --Max cash the property can hold
-						dirty = 50000, --Max marked bills the property can hold
-						weapons = 3, --Max weapons the property can hold
+						cash = 5000, --Max cash the property can hold
+						dirty = 5000, --Max marked bills the property can hold
+						weapons = 1, --Max weapons the property can hold
 					},
 				},
 				robbing = {
@@ -2339,7 +2339,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 18, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -2352,8 +2352,8 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {x = -1516.5870361328, y = 851.78472900391, z = 181.59466552734, h = 9.740273475647}, -- The location of the property
-				rent = 8000, --How much it costs to rent the property (PER DAY)
-				income = 500, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
+				rent = 1300, --How much it costs to rent the property (PER DAY)
+				income = 100, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
 				storage = {
 					current = {
 						cash = 0, --Default (don't touch)
@@ -2361,9 +2361,9 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 25000, --Max cash the property can hold
-						dirty = 50000, --Max marked bills the property can hold
-						weapons = 3, --Max weapons the property can hold
+						cash = 1500,--Max cash the property can hold
+						dirty = 1500,--Max marked bills the property can hold
+						weapons = 1, --Max weapons the property can hold
 					},
 				},
 				robbing = {
@@ -2371,7 +2371,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 5, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -2384,8 +2384,8 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {x = -1054.6870117188, y = -232.02612304688, z = 44.020999908447, h = 24.40404510498}, -- The location of the property
-				rent = 12000, --How much it costs to rent the property (PER DAY)
-				income = 750, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
+				rent = 4300, --How much it costs to rent the property (PER DAY)
+				income = 250, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
 				storage = {
 					current = {
 						cash = 0, --Default (don't touch)
@@ -2393,9 +2393,9 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 25000, --Max cash the property can hold
-						dirty = 50000, --Max marked bills the property can hold
-						weapons = 3, --Max weapons the property can hold
+						cash = 5000, --Max cash the property can hold
+						dirty = 5000, --Max marked bills the property can hold
+						weapons = 1, --Max weapons the property can hold
 					},
 				},
 				robbing = {
@@ -2416,8 +2416,8 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {x = -1830.2518310547, y = -1180.2045898438, z = 14.323050498962, h = 148.58807373047}, -- The location of the property
-				rent = 4800, --How much it costs to rent the property (PER DAY)
-				income = 300, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
+				rent = 1500, --How much it costs to rent the property (PER DAY)
+				income = 200, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
 				storage = {
 					current = {
 						cash = 0, --Default (don't touch)
@@ -2425,9 +2425,9 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 25000, --Max cash the property can hold
-						dirty = 50000, --Max marked bills the property can hold
-						weapons = 3, --Max weapons the property can hold
+						cash = 2000,--Max cash the property can hold
+						dirty = 2000,----Max marked bills the property can hold
+						weapons = 1, --Max weapons the property can hold
 					},
 				},
 				robbing = {
@@ -2448,8 +2448,8 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {x = 707.25177001953, y = -966.77947998047, z = 30.412851333618, h = 182.68515014648}, -- The location of the property
-				rent = 2400, --How much it costs to rent the property (PER DAY)
-				income = 150, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
+				rent = 900, --How much it costs to rent the property (PER DAY)
+				income = 100, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
 				storage = {
 					current = {
 						cash = 0, --Default (don't touch)
@@ -2457,9 +2457,9 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 25000, --Max cash the property can hold
-						dirty = 50000, --Max marked bills the property can hold
-						weapons = 3, --Max weapons the property can hold
+						cash = 1500,--Max cash the property can hold
+						dirty = 1500,--Max marked bills the property can hold
+						weapons = 1, --Max weapons the property can hold
 					},
 				},
 				robbing = {
@@ -2467,7 +2467,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 5, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -2480,8 +2480,8 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {x = 976.57989501953, y = -103.56016540527, z = 74.845161437988, h = 179.32347106934}, -- The location of the property
-				rent = 8000, --How much it costs to rent the property (PER DAY)
-				income = 500, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
+				rent = 4000, --How much it costs to rent the property (PER DAY)
+				income = 250, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
 				storage = {
 					current = {
 						cash = 0, --Default (don't touch)
@@ -2489,9 +2489,9 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 25000, --Max cash the property can hold
-						dirty = 50000, --Max marked bills the property can hold
-						weapons = 6, --Max weapons the property can hold
+						cash = 5000, --Max cash the property can hold
+						dirty = 5000, --Max marked bills the property can hold
+						weapons = 1, --Max weapons the property can hold
 					},
 				},
 				robbing = {
@@ -2499,7 +2499,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 5, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -2512,8 +2512,8 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {x = 52.744663238525, y = 2787.1535644531, z = 57.878303527832, h = 300.71408081055}, -- The location of the property
-				rent = 4000, --How much it costs to rent the property (PER DAY)
-				income = 500, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
+				rent = 600, --How much it costs to rent the property (PER DAY)
+				income = 100, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
 				storage = {
 					current = {
 						cash = 0, --Default (don't touch)
@@ -2521,9 +2521,9 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 10000, --Max cash the property can hold
-						dirty = 25000, --Max marked bills the property can hold
-						weapons = 3, --Max weapons the property can hold
+						cash = 1000,--Max cash the property can hold
+						dirty = 1000,--Max marked bills the property can hold
+						weapons = 1, --Max weapons the property can hold
 					},
 				},
 				robbing = {
@@ -2531,7 +2531,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -2544,8 +2544,8 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {x = 265.78106689453, y = 2598.9763183594, z = 44.760681152344, h = 193.48750305176}, -- The location of the property
-				rent = 4000, --How much it costs to rent the property (PER DAY)
-				income = 500, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
+				rent = 600, --How much it costs to rent the property (PER DAY)
+				income = 100, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
 				storage = {
 					current = {
 						cash = 0, --Default (don't touch)
@@ -2553,9 +2553,9 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 10000, --Max cash the property can hold
-						dirty = 25000, --Max marked bills the property can hold
-						weapons = 3, --Max weapons the property can hold
+						cash = 1000,--Max cash the property can hold
+						dirty = 1000,--Max marked bills the property can hold
+						weapons = 1, --Max weapons the property can hold
 					},
 				},
 				robbing = {
@@ -2563,7 +2563,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -2576,8 +2576,8 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {x = 1046.5478515625, y = 2664.5654296875, z = 39.550731658936, h = 161.1455078125}, -- The location of the property
-				rent = 4000, --How much it costs to rent the property (PER DAY)
-				income = 500, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
+				rent = 600, --How much it costs to rent the property (PER DAY)
+				income = 100, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
 				storage = {
 					current = {
 						cash = 0, --Default (don't touch)
@@ -2585,9 +2585,9 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 10000, --Max cash the property can hold
-						dirty = 25000, --Max marked bills the property can hold
-						weapons = 3, --Max weapons the property can hold
+						cash = 1000,--Max cash the property can hold
+						dirty = 1000,--Max marked bills the property can hold
+						weapons = 1, --Max weapons the property can hold
 					},
 				},
 				robbing = {
@@ -2595,7 +2595,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -2608,8 +2608,8 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {x = 1202.1948242188, y = 2655.5451660156, z = 37.851932525635, h = 126.81734466553}, -- The location of the property
-				rent = 4000, --How much it costs to rent the property (PER DAY)
-				income = 500, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
+				rent = 600, --How much it costs to rent the property (PER DAY)
+				income = 100, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
 				storage = {
 					current = {
 						cash = 0, --Default (don't touch)
@@ -2617,9 +2617,9 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 10000, --Max cash the property can hold
-						dirty = 25000, --Max marked bills the property can hold
-						weapons = 3, --Max weapons the property can hold
+						cash = 1000,--Max cash the property can hold
+						dirty = 1000,--Max marked bills the property can hold
+						weapons = 1, --Max weapons the property can hold
 					},
 				},
 				robbing = {
@@ -2627,7 +2627,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -2640,8 +2640,8 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {x = 2543.5002441406, y = 2591.6889648438, z = 37.944873809814, h = 282.22555541992}, -- The location of the property
-				rent = 4000, --How much it costs to rent the property (PER DAY)
-				income = 500, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
+				rent = 600, --How much it costs to rent the property (PER DAY)
+				income = 100, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
 				storage = {
 					current = {
 						cash = 0, --Default (don't touch)
@@ -2649,9 +2649,9 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 10000, --Max cash the property can hold
-						dirty = 25000, --Max marked bills the property can hold
-						weapons = 3, --Max weapons the property can hold
+						cash = 1000,--Max cash the property can hold
+						dirty = 1000,--Max marked bills the property can hold
+						weapons = 1, --Max weapons the property can hold
 					},
 				},
 				robbing = {
@@ -2659,7 +2659,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -2672,8 +2672,8 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {x = 2674.962890625, y = 3267.4235839844, z = 55.240516662598, h = 113.83560943604}, -- The location of the property
-				rent = 4000, --How much it costs to rent the property (PER DAY)
-				income = 500, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
+				rent = 600, --How much it costs to rent the property (PER DAY)
+				income = 100, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
 				storage = {
 					current = {
 						cash = 0, --Default (don't touch)
@@ -2681,9 +2681,9 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 10000, --Max cash the property can hold
-						dirty = 25000, --Max marked bills the property can hold
-						weapons = 3, --Max weapons the property can hold
+						cash = 1000,--Max cash the property can hold
+						dirty = 1000,--Max marked bills the property can hold
+						weapons = 1, --Max weapons the property can hold
 					},
 				},
 				robbing = {
@@ -2691,7 +2691,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 7, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -2704,8 +2704,8 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {x = 2002.1213378906, y = 3779.1433105469, z = 32.180816650391, h = 27.534631729126}, -- The location of the property
-				rent = 4000, --How much it costs to rent the property (PER DAY)
-				income = 500, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
+				rent = 600, --How much it costs to rent the property (PER DAY)
+				income = 100, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
 				storage = {
 					current = {
 						cash = 0, --Default (don't touch)
@@ -2713,9 +2713,9 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 10000, --Max cash the property can hold
-						dirty = 25000, --Max marked bills the property can hold
-						weapons = 3, --Max weapons the property can hold
+						cash = 1000,--Max cash the property can hold
+						dirty = 1000,--Max marked bills the property can hold
+						weapons = 1, --Max weapons the property can hold
 					},
 				},
 				robbing = {
@@ -2723,7 +2723,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 7, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -2736,8 +2736,8 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {x = 1692.810546875, y = 4923.8950195313, z = 42.078144073486, h = 235.10232543945}, -- The location of the property
-				rent = 4000, --How much it costs to rent the property (PER DAY)
-				income = 500, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
+				rent = 600, --How much it costs to rent the property (PER DAY)
+				income = 100, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
 				storage = {
 					current = {
 						cash = 0, --Default (don't touch)
@@ -2745,9 +2745,9 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 10000, --Max cash the property can hold
-						dirty = 25000, --Max marked bills the property can hold
-						weapons = 3, --Max weapons the property can hold
+						cash = 1000,--Max cash the property can hold
+						dirty = 1000,--Max marked bills the property can hold
+						weapons = 1, --Max weapons the property can hold
 					},
 				},
 				robbing = {
@@ -2755,7 +2755,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 8, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -2768,8 +2768,8 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {x = 1705.8416748047, y = 6425.2358398438, z = 32.764064788818, h = 334.28591918945}, -- The location of the property
-				rent = 4000, --How much it costs to rent the property (PER DAY)
-				income = 500, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
+				rent = 600, --How much it costs to rent the property (PER DAY)
+				income = 100, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
 				storage = {
 					current = {
 						cash = 0, --Default (don't touch)
@@ -2777,9 +2777,9 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 10000, --Max cash the property can hold
-						dirty = 25000, --Max marked bills the property can hold
-						weapons = 3, --Max weapons the property can hold
+						cash = 1000,--Max cash the property can hold
+						dirty = 1000,--Max marked bills the property can hold
+						weapons = 1, --Max weapons the property can hold
 					},
 				},
 				robbing = {
@@ -2787,7 +2787,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 8, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -2800,8 +2800,8 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {x = 172.08407592773, y = 6633.0244140625, z = 31.675447463989, h = 54.13680267334}, -- The location of the property
-				rent = 4000, --How much it costs to rent the property (PER DAY)
-				income = 500, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
+				rent = 600, --How much it costs to rent the property (PER DAY)
+				income = 100, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
 				storage = {
 					current = {
 						cash = 0, --Default (don't touch)
@@ -2809,9 +2809,9 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 10000, --Max cash the property can hold
-						dirty = 25000, --Max marked bills the property can hold
-						weapons = 3, --Max weapons the property can hold
+						cash = 1000,--Max cash the property can hold
+						dirty = 1000,--Max marked bills the property can hold
+						weapons = 1, --Max weapons the property can hold
 					},
 				},
 				robbing = {
@@ -2832,8 +2832,8 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {x = -93.724960327148, y = 6410.8686523438, z = 31.639465332031, h = 224.63626098633}, -- The location of the property
-				rent = 4000, --How much it costs to rent the property (PER DAY)
-				income = 500, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
+				rent = 600, --How much it costs to rent the property (PER DAY)
+				income = 100, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
 				storage = {
 					current = {
 						cash = 0, --Default (don't touch)
@@ -2841,9 +2841,9 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 10000, --Max cash the property can hold
-						dirty = 25000, --Max marked bills the property can hold
-						weapons = 3, --Max weapons the property can hold
+						cash = 1000,--Max cash the property can hold
+						dirty = 1000,--Max marked bills the property can hold
+						weapons = 1, --Max weapons the property can hold
 					},
 				},
 				robbing = {
@@ -2864,8 +2864,8 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {x = -2544.046875, y = 2318.1806640625, z = 33.215488433838, h = 179.70344543457}, -- The location of the property
-				rent = 4000, --How much it costs to rent the property (PER DAY)
-				income = 500, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
+				rent = 600, --How much it costs to rent the property (PER DAY)
+				income = 100, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
 				storage = {
 					current = {
 						cash = 0, --Default (don't touch)
@@ -2873,9 +2873,9 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 10000, --Max cash the property can hold
-						dirty = 25000, --Max marked bills the property can hold
-						weapons = 3, --Max weapons the property can hold
+						cash = 1000,--Max cash the property can hold
+						dirty = 1000,--Max marked bills the property can hold
+						weapons = 1, --Max weapons the property can hold
 					},
 				},
 				robbing = {
@@ -2883,7 +2883,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 8, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -2896,8 +2896,8 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {x = -1818.2939453125, y = 798.06213378906, z = 138.14192199707, h = 118.85492706299}, -- The location of the property
-				rent = 4000, --How much it costs to rent the property (PER DAY)
-				income = 500, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
+				rent = 600, --How much it costs to rent the property (PER DAY)
+				income = 100, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
 				storage = {
 					current = {
 						cash = 0, --Default (don't touch)
@@ -2905,9 +2905,9 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 10000, --Max cash the property can hold
-						dirty = 25000, --Max marked bills the property can hold
-						weapons = 3, --Max weapons the property can hold
+						cash = 1000,--Max cash the property can hold
+						dirty = 1000,--Max marked bills the property can hold
+						weapons = 1, --Max weapons the property can hold
 					},
 				},
 				robbing = {
@@ -2915,7 +2915,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -2928,8 +2928,8 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {x = -1428.9865722656, y = -269.25137329102, z = 46.207695007324, h = 307.25439453125}, -- The location of the property
-				rent = 4000, --How much it costs to rent the property (PER DAY)
-				income = 500, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
+				rent = 600, --How much it costs to rent the property (PER DAY)
+				income = 100, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
 				storage = {
 					current = {
 						cash = 0, --Default (don't touch)
@@ -2937,9 +2937,9 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 10000, --Max cash the property can hold
-						dirty = 25000, --Max marked bills the property can hold
-						weapons = 3, --Max weapons the property can hold
+						cash = 1000,--Max cash the property can hold
+						dirty = 1000,--Max marked bills the property can hold
+						weapons = 1, --Max weapons the property can hold
 					},
 				},
 				robbing = {
@@ -2947,7 +2947,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 4, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -2960,8 +2960,8 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {x = -2074.12109375, y = -328.0710144043, z = 13.315941810608, h = 272.62078857422}, -- The location of the property
-				rent = 4000, --How much it costs to rent the property (PER DAY)
-				income = 500, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
+				rent = 600, --How much it costs to rent the property (PER DAY)
+				income = 100, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
 				storage = {
 					current = {
 						cash = 0, --Default (don't touch)
@@ -2969,9 +2969,9 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 10000, --Max cash the property can hold
-						dirty = 25000, --Max marked bills the property can hold
-						weapons = 3, --Max weapons the property can hold
+						cash = 1000,--Max cash the property can hold
+						dirty = 1000,--Max marked bills the property can hold
+						weapons = 1, --Max weapons the property can hold
 					},
 				},
 				robbing = {
@@ -2979,7 +2979,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 4, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -2992,8 +2992,8 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {x = -530.35510253906, y = -1220.5142822266, z = 18.454978942871, h = 142.79470825195}, -- The location of the property
-				rent = 4000, --How much it costs to rent the property (PER DAY)
-				income = 500, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
+				rent = 600, --How much it costs to rent the property (PER DAY)
+				income = 100, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
 				storage = {
 					current = {
 						cash = 0, --Default (don't touch)
@@ -3001,9 +3001,9 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 10000, --Max cash the property can hold
-						dirty = 25000, --Max marked bills the property can hold
-						weapons = 3, --Max weapons the property can hold
+						cash = 1000,--Max cash the property can hold
+						dirty = 1000,--Max marked bills the property can hold
+						weapons = 1, --Max weapons the property can hold
 					},
 				},
 				robbing = {
@@ -3011,7 +3011,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 4, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -3024,8 +3024,8 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {x = -60.002513885498, y = -1749.4362792969, z = 29.317445755005, h = 232.01921081543}, -- The location of the property
-				rent = 4000, --How much it costs to rent the property (PER DAY)
-				income = 500, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
+				rent = 600, --How much it costs to rent the property (PER DAY)
+				income = 100, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
 				storage = {
 					current = {
 						cash = 0, --Default (don't touch)
@@ -3033,9 +3033,9 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 10000, --Max cash the property can hold
-						dirty = 25000, --Max marked bills the property can hold
-						weapons = 3, --Max weapons the property can hold
+						cash = 1000,--Max cash the property can hold
+						dirty = 1000,--Max marked bills the property can hold
+						weapons = 1, --Max weapons the property can hold
 					},
 				},
 				robbing = {
@@ -3043,7 +3043,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 4, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -3056,8 +3056,8 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {x = 287.89657592773, y = -1267.0200195313, z = 29.440755844116, h = 272.93865966797}, -- The location of the property
-				rent = 4000, --How much it costs to rent the property (PER DAY)
-				income = 500, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
+				rent = 600, --How much it costs to rent the property (PER DAY)
+				income = 100, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
 				storage = {
 					current = {
 						cash = 0, --Default (don't touch)
@@ -3065,9 +3065,9 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 10000, --Max cash the property can hold
-						dirty = 25000, --Max marked bills the property can hold
-						weapons = 3, --Max weapons the property can hold
+						cash = 1000,--Max cash the property can hold
+						dirty = 1000,--Max marked bills the property can hold
+						weapons = 1, --Max weapons the property can hold
 					},
 				},
 				robbing = {
@@ -3075,7 +3075,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 4, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -3088,8 +3088,8 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {x = 818.41009521484, y = -1040.2541503906, z = 26.75079536438, h = 174.77627563477}, -- The location of the property
-				rent = 4000, --How much it costs to rent the property (PER DAY)
-				income = 500, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
+				rent = 600, --How much it costs to rent the property (PER DAY)
+				income = 100, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
 				storage = {
 					current = {
 						cash = 0, --Default (don't touch)
@@ -3097,9 +3097,9 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 10000, --Max cash the property can hold
-						dirty = 25000, --Max marked bills the property can hold
-						weapons = 3, --Max weapons the property can hold
+						cash = 1000,--Max cash the property can hold
+						dirty = 1000,--Max marked bills the property can hold
+						weapons = 1, --Max weapons the property can hold
 					},
 				},
 				robbing = {
@@ -3107,7 +3107,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 4, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -3120,8 +3120,8 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {x = 1211.1971435547, y = -1390.4691162109, z = 35.376880645752, h = 356.52203369141}, -- The location of the property
-				rent = 4000, --How much it costs to rent the property (PER DAY)
-				income = 500, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
+				rent = 600, --How much it costs to rent the property (PER DAY)
+				income = 100, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
 				storage = {
 					current = {
 						cash = 0, --Default (don't touch)
@@ -3129,9 +3129,9 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 10000, --Max cash the property can hold
-						dirty = 25000, --Max marked bills the property can hold
-						weapons = 3, --Max weapons the property can hold
+						cash = 1000,--Max cash the property can hold
+						dirty = 1000,--Max marked bills the property can hold
+						weapons = 1, --Max weapons the property can hold
 					},
 				},
 				robbing = {
@@ -3139,7 +3139,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 4, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -3152,8 +3152,8 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {x = 1167.9370117188, y = -322.10855102539, z = 69.296417236328, h = 78.574684143066}, -- The location of the property
-				rent = 4000, --How much it costs to rent the property (PER DAY)
-				income = 500, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
+				rent = 600, --How much it costs to rent the property (PER DAY)
+				income = 100, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
 				storage = {
 					current = {
 						cash = 0, --Default (don't touch)
@@ -3161,9 +3161,9 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 10000, --Max cash the property can hold
-						dirty = 25000, --Max marked bills the property can hold
-						weapons = 3, --Max weapons the property can hold
+						cash = 1000,--Max cash the property can hold
+						dirty = 1000,--Max marked bills the property can hold
+						weapons = 1, --Max weapons the property can hold
 					},
 				},
 				robbing = {
@@ -3171,7 +3171,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 4, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -3184,8 +3184,8 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {x = 645.06207275391, y = 268.45913696289, z = 103.19506072998, h = 240.5746307373}, -- The location of the property
-				rent = 4000, --How much it costs to rent the property (PER DAY)
-				income = 500, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
+				rent = 600, --How much it costs to rent the property (PER DAY)
+				income = 100, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
 				storage = {
 					current = {
 						cash = 0, --Default (don't touch)
@@ -3193,9 +3193,9 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 10000, --Max cash the property can hold
-						dirty = 25000, --Max marked bills the property can hold
-						weapons = 3, --Max weapons the property can hold
+						cash = 1000,--Max cash the property can hold
+						dirty = 1000,--Max marked bills the property can hold
+						weapons = 1, --Max weapons the property can hold
 					},
 				},
 				robbing = {
@@ -3203,7 +3203,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 4, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -3216,8 +3216,8 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {x = 2561.474609375, y = 373.81854248047, z = 108.62075805664, h = 93.89461517334}, -- The location of the property
-				rent = 4000, --How much it costs to rent the property (PER DAY)
-				income = 500, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
+				rent = 600, --How much it costs to rent the property (PER DAY)
+				income = 100, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
 				storage = {
 					current = {
 						cash = 0, --Default (don't touch)
@@ -3225,9 +3225,9 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 10000, --Max cash the property can hold
-						dirty = 25000, --Max marked bills the property can hold
-						weapons = 3, --Max weapons the property can hold
+						cash = 1000,--Max cash the property can hold
+						dirty = 1000,--Max marked bills the property can hold
+						weapons = 1, --Max weapons the property can hold
 					},
 				},
 				robbing = {
@@ -3235,7 +3235,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -3248,8 +3248,8 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {x = 1397.4262695313, y = 3602.7575683594, z = 34.980926513672, h = 268.162109375}, -- The location of the property
-				rent = 4000, --How much it costs to rent the property (PER DAY)
-				income = 500, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
+				rent = 1200, --How much it costs to rent the property (PER DAY)
+				income = 125, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
 				storage = {
 					current = {
 						cash = 0, --Default (don't touch)
@@ -3257,9 +3257,9 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 10000, --Max cash the property can hold
-						dirty = 25000, --Max marked bills the property can hold
-						weapons = 3, --Max weapons the property can hold
+						cash = 1500,--Max cash the property can hold
+						dirty = 1500,--Max marked bills the property can hold
+						weapons = 1, --Max weapons the property can hold
 					},
 				},
 				robbing = {
@@ -3267,7 +3267,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -3280,8 +3280,8 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {x = 547.68017578125, y = 2663.1569824219, z = 42.156532287598, h = 73.824157714844}, -- The location of the property
-				rent = 4000, --How much it costs to rent the property (PER DAY)
-				income = 500, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
+				rent = 1200, --How much it costs to rent the property (PER DAY)
+				income = 125, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
 				storage = {
 					current = {
 						cash = 0, --Default (don't touch)
@@ -3289,9 +3289,9 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 10000, --Max cash the property can hold
-						dirty = 25000, --Max marked bills the property can hold
-						weapons = 3, --Max weapons the property can hold
+						cash = 1500,--Max cash the property can hold
+						dirty = 1500,--Max marked bills the property can hold
+						weapons = 1, --Max weapons the property can hold
 					},
 				},
 				robbing = {
@@ -3299,7 +3299,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -3312,8 +3312,8 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {x = 2550.0434570313, y = 384.61920166016, z = 108.62294006348, h = 346.5901184082}, -- The location of the property
-				rent = 4000, --How much it costs to rent the property (PER DAY)
-				income = 500, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
+				rent = 1200, --How much it costs to rent the property (PER DAY)
+				income = 125, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
 				storage = {
 					current = {
 						cash = 0, --Default (don't touch)
@@ -3321,9 +3321,9 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 10000, --Max cash the property can hold
-						dirty = 25000, --Max marked bills the property can hold
-						weapons = 3, --Max weapons the property can hold
+						cash = 1500,--Max cash the property can hold
+						dirty = 1500,--Max marked bills the property can hold
+						weapons = 1, --Max weapons the property can hold
 					},
 				},
 				robbing = {
@@ -3331,7 +3331,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -3344,8 +3344,8 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {x = -1828.1866455078, y = 799.51293945313, z = 138.16690063477, h = 44.189666748047}, -- The location of the property
-				rent = 4000, --How much it costs to rent the property (PER DAY)
-				income = 500, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
+				rent = 1200, --How much it costs to rent the property (PER DAY)
+				income = 125, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
 				storage = {
 					current = {
 						cash = 0, --Default (don't touch)
@@ -3353,9 +3353,9 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 10000, --Max cash the property can hold
-						dirty = 25000, --Max marked bills the property can hold
-						weapons = 3, --Max weapons the property can hold
+						cash = 1500,--Max cash the property can hold
+						dirty = 1500,--Max marked bills the property can hold
+						weapons = 1, --Max weapons the property can hold
 					},
 				},
 				robbing = {
@@ -3363,7 +3363,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 4, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -3376,8 +3376,8 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {x = -1219.7514648438, y = -915.67547607422, z = 11.326183319092, h = 124.23349761963}, -- The location of the property
-				rent = 4000, --How much it costs to rent the property (PER DAY)
-				income = 500, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
+				rent = 1200, --How much it costs to rent the property (PER DAY)
+				income = 125, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
 				storage = {
 					current = {
 						cash = 0, --Default (don't touch)
@@ -3385,9 +3385,9 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 10000, --Max cash the property can hold
-						dirty = 25000, --Max marked bills the property can hold
-						weapons = 3, --Max weapons the property can hold
+						cash = 1500,--Max cash the property can hold
+						dirty = 1500,--Max marked bills the property can hold
+						weapons = 1, --Max weapons the property can hold
 					},
 				},
 				robbing = {
@@ -3395,7 +3395,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 4, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -3408,8 +3408,8 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {x = 28.582492828369, y = -1339.9034423828, z = 29.497022628784, h = 160.28625488281}, -- The location of the property
-				rent = 4000, --How much it costs to rent the property (PER DAY)
-				income = 500, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
+				rent = 1200, --How much it costs to rent the property (PER DAY)
+				income = 125, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
 				storage = {
 					current = {
 						cash = 0, --Default (don't touch)
@@ -3417,9 +3417,9 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 10000, --Max cash the property can hold
-						dirty = 25000, --Max marked bills the property can hold
-						weapons = 3, --Max weapons the property can hold
+						cash = 1500,--Max cash the property can hold
+						dirty = 1500,--Max marked bills the property can hold
+						weapons = 1, --Max weapons the property can hold
 					},
 				},
 				robbing = {
@@ -3427,7 +3427,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 4, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -3440,8 +3440,8 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {x = 1126.5080566406, y = -981.30200195313, z = 45.415649414063, h = 7.0381255149841}, -- The location of the property
-				rent = 4000, --How much it costs to rent the property (PER DAY)
-				income = 500, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
+				rent = 1200, --How much it costs to rent the property (PER DAY)
+				income = 125, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
 				storage = {
 					current = {
 						cash = 0, --Default (don't touch)
@@ -3449,9 +3449,9 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 10000, --Max cash the property can hold
-						dirty = 25000, --Max marked bills the property can hold
-						weapons = 3, --Max weapons the property can hold
+						cash = 1500,--Max cash the property can hold
+						dirty = 1500,--Max marked bills the property can hold
+						weapons = 1, --Max weapons the property can hold
 					},
 				},
 				robbing = {
@@ -3459,7 +3459,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -3472,8 +3472,8 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {x = -43.65754699707, y = -1750.1833496094, z = 29.421014785767, h = 74.783134460449}, -- The location of the property
-				rent = 4000, --How much it costs to rent the property (PER DAY)
-				income = 500, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
+				rent = 1200, --How much it costs to rent the property (PER DAY)
+				income = 125, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
 				storage = {
 					current = {
 						cash = 0, --Default (don't touch)
@@ -3481,9 +3481,9 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 10000, --Max cash the property can hold
-						dirty = 25000, --Max marked bills the property can hold
-						weapons = 3, --Max weapons the property can hold
+						cash = 1500,--Max cash the property can hold
+						dirty = 1500,--Max marked bills the property can hold
+						weapons = 1, --Max weapons the property can hold
 					},
 				},
 				robbing = {
@@ -3491,7 +3491,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -3504,8 +3504,8 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {x = -1479.189453125, y = -373.7580871582, z = 39.163341522217, h = 215.85456848145}, -- The location of the property
-				rent = 4000, --How much it costs to rent the property (PER DAY)
-				income = 500, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
+				rent = 1200, --How much it costs to rent the property (PER DAY)
+				income = 125, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
 				storage = {
 					current = {
 						cash = 0, --Default (don't touch)
@@ -3513,9 +3513,9 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 10000, --Max cash the property can hold
-						dirty = 25000, --Max marked bills the property can hold
-						weapons = 3, --Max weapons the property can hold
+						cash = 1500,--Max cash the property can hold
+						dirty = 1500,--Max marked bills the property can hold
+						weapons = 1, --Max weapons the property can hold
 					},
 				},
 				robbing = {
@@ -3523,7 +3523,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 8, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -3536,8 +3536,8 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {x = -561.79840087891, y = 289.189453125, z = 82.17643737793, h = 355.47973632813}, -- The location of the property
-				rent = 8000, --How much it costs to rent the property (PER DAY)
-				income = 500, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
+				rent = 2800, --How much it costs to rent the property (PER DAY)
+				income = 250, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
 				storage = {
 					current = {
 						cash = 0, --Default (don't touch)
@@ -3545,9 +3545,9 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 25000, --Max cash the property can hold
-						dirty = 50000, --Max marked bills the property can hold
-						weapons = 3, --Max weapons the property can hold
+						cash = 4000,--Max cash the property can hold
+						dirty = 4000,--Max marked bills the property can hold
+						weapons = 1, --Max weapons the property can hold
 					},
 				},
 				robbing = {
@@ -3555,7 +3555,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 5, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -3568,8 +3568,8 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {x = 377.06616210938, y = 332.47296142578, z = 103.56638336182, h = 267.99389648438}, -- The location of the property
-				rent = 4000, --How much it costs to rent the property (PER DAY)
-				income = 500, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
+				rent = 1200, --How much it costs to rent the property (PER DAY)
+				income = 125, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
 				storage = {
 					current = {
 						cash = 0, --Default (don't touch)
@@ -3577,9 +3577,9 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 10000, --Max cash the property can hold
-						dirty = 25000, --Max marked bills the property can hold
-						weapons = 3, --Max weapons the property can hold
+						cash = 1500,--Max cash the property can hold
+						dirty = 1500,--Max marked bills the property can hold
+						weapons = 1, --Max weapons the property can hold
 					},
 				},
 				robbing = {
@@ -3587,7 +3587,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 4, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -3600,8 +3600,8 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {x = 2673.2348632813, y = 3286.4475097656, z = 55.241130828857, h = 46.315406799316}, -- The location of the property
-				rent = 4000, --How much it costs to rent the property (PER DAY)
-				income = 500, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
+				rent = 1200, --How much it costs to rent the property (PER DAY)
+				income = 125, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
 				storage = {
 					current = {
 						cash = 0, --Default (don't touch)
@@ -3609,9 +3609,9 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 10000, --Max cash the property can hold
-						dirty = 25000, --Max marked bills the property can hold
-						weapons = 3, --Max weapons the property can hold
+						cash = 1500,--Max cash the property can hold
+						dirty = 1500,--Max marked bills the property can hold
+						weapons = 1, --Max weapons the property can hold
 					},
 				},
 				robbing = {
@@ -3619,7 +3619,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 4, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -3632,8 +3632,8 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {x = -2959.5029296875, y = 388.18765258789, z = 14.043118476868, h = 166.72801208496}, -- The location of the property
-				rent = 4000, --How much it costs to rent the property (PER DAY)
-				income = 500, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
+				rent = 1200, --How much it costs to rent the property (PER DAY)
+				income = 125, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
 				storage = {
 					current = {
 						cash = 0, --Default (don't touch)
@@ -3641,9 +3641,9 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 10000, --Max cash the property can hold
-						dirty = 25000, --Max marked bills the property can hold
-						weapons = 3, --Max weapons the property can hold
+						cash = 1500,--Max cash the property can hold
+						dirty = 1500,--Max marked bills the property can hold
+						weapons = 1, --Max weapons the property can hold
 					},
 				},
 				robbing = {
@@ -3651,7 +3651,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 4, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -3664,8 +3664,8 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {x = 548.54443359375, y = -191.01976013184, z = 54.481353759766, h = 178.2611541748}, -- The location of the property
-				rent = 5000, --How much it costs to rent the property (PER DAY)
-				income = 550, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
+				rent = 3200, --How much it costs to rent the property (PER DAY)
+				income = 250, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
 				storage = {
 					current = {
 						cash = 0, --Default (don't touch)
@@ -3673,9 +3673,9 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 25000, --Max cash the property can hold
-						dirty = 50000, --Max marked bills the property can hold
-						weapons = 3, --Max weapons the property can hold
+						cash = 4000, --Max cash the property can hold
+						dirty = 4000, --Max marked bills the property can hold
+						weapons = 1, --Max weapons the property can hold
 					},
 				},
 				robbing = {
@@ -3683,7 +3683,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 4, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -3696,8 +3696,8 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {x = -1038.3128662109, y = -1396.9908447266, z = 5.5531916618347, h = 255.26635742188}, -- The location of the property
-				rent = 16000, --How much it costs to rent the property (PER DAY)
-				income = 1000, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
+				rent = 1200, --How much it costs to rent the property (PER DAY)
+				income = 200, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
 				storage = {
 					current = {
 						cash = 0, --Default (don't touch)
@@ -3705,9 +3705,9 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 25000, --Max cash the property can hold
-						dirty = 50000, --Max marked bills the property can hold
-						weapons = 3, --Max weapons the property can hold
+						cash = 2000,--Max cash the property can hold
+						dirty = 2000,----Max marked bills the property can hold
+						weapons = 1, --Max weapons the property can hold
 					},
 				},
 				robbing = {
@@ -3715,7 +3715,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 5, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -3728,8 +3728,8 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {x = -1344.8402099609, y = -890.47045898438, z = 13.445146560669, h = 358.48434448242}, -- The location of the property
-				rent = 16000, --How much it costs to rent the property (PER DAY)
-				income = 1000, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
+				rent = 1200, --How much it costs to rent the property (PER DAY)
+				income = 200, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
 				storage = {
 					current = {
 						cash = 0, --Default (don't touch)
@@ -3737,9 +3737,9 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 25000, --Max cash the property can hold
-						dirty = 50000, --Max marked bills the property can hold
-						weapons = 3, --Max weapons the property can hold
+						cash = 2000,--Max cash the property can hold
+						dirty = 2000,----Max marked bills the property can hold
+						weapons = 1, --Max weapons the property can hold
 					},
 				},
 				robbing = {
@@ -3747,7 +3747,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 5, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -3760,8 +3760,8 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {x = -1585.4925537109, y = -838.13146972656, z = 9.9547996520996, h = 212.17260742188}, -- The location of the property
-				rent = 16000, --How much it costs to rent the property (PER DAY)
-				income = 1000, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
+				rent = 1000, --How much it costs to rent the property (PER DAY)
+				income = 150, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
 				storage = {
 					current = {
 						cash = 0, --Default (don't touch)
@@ -3769,9 +3769,9 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 25000, --Max cash the property can hold
-						dirty = 50000, --Max marked bills the property can hold
-						weapons = 3, --Max weapons the property can hold
+						cash = 1500,--Max cash the property can hold
+						dirty = 1500,--Max marked bills the property can hold
+						weapons = 1, --Max weapons the property can hold
 					},
 				},
 				robbing = {
@@ -3779,7 +3779,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 4, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -3792,8 +3792,8 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {x = -1480.65234375, y = -941.31549072266, z = 10.33315372467, h = 352.40145874023}, -- The location of the property
-				rent = 16000, --How much it costs to rent the property (PER DAY)
-				income = 1000, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
+				rent = 1000, --How much it costs to rent the property (PER DAY)
+				income = 150, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
 				storage = {
 					current = {
 						cash = 0, --Default (don't touch)
@@ -3801,9 +3801,9 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 25000, --Max cash the property can hold
-						dirty = 50000, --Max marked bills the property can hold
-						weapons = 3, --Max weapons the property can hold
+						cash = 1500,--Max cash the property can hold
+						dirty = 1500,--Max marked bills the property can hold
+						weapons = 1, --Max weapons the property can hold
 					},
 				},
 				robbing = {
@@ -3811,7 +3811,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 4, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -3824,8 +3824,8 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {x = -832.76434326172, y = -2351.2136230469, z = 14.570618629456, h = 85.076301574707}, -- The location of the property
-				rent = 16000, --How much it costs to rent the property (PER DAY)
-				income = 1000, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
+				rent = 4000, --How much it costs to rent the property (PER DAY)
+				income = 500, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
 				storage = {
 					current = {
 						cash = 0, --Default (don't touch)
@@ -3833,9 +3833,9 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 25000, --Max cash the property can hold
-						dirty = 50000, --Max marked bills the property can hold
-						weapons = 3, --Max weapons the property can hold
+						cash = 5000, --Max cash the property can hold
+						dirty = 5000, --Max marked bills the property can hold
+						weapons = 1, --Max weapons the property can hold
 					},
 				},
 				robbing = {
@@ -3843,7 +3843,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 5, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -3856,8 +3856,8 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {x = -591.10961914063, y = -911.96722412109, z = 23.876775741577, h = 352.92874145508}, -- The location of the property
-				rent = 16000, --How much it costs to rent the property (PER DAY)
-				income = 1000, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
+				rent = 4000, --How much it costs to rent the property (PER DAY)
+				income = 500, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
 				storage = {
 					current = {
 						cash = 0, --Default (don't touch)
@@ -3865,9 +3865,9 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 25000, --Max cash the property can hold
-						dirty = 50000, --Max marked bills the property can hold
-						weapons = 3, --Max weapons the property can hold
+						cash = 5000, --Max cash the property can hold
+						dirty = 5000, --Max marked bills the property can hold
+						weapons = 1, --Max weapons the property can hold
 					},
 				},
 				robbing = {
@@ -3875,7 +3875,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 5, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -3888,8 +3888,8 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {x = 1170.2911376953, y = -401.6689453125, z = 71.586532592773, h = 163.33717346191}, -- The location of the property
-				rent = 9600, --How much it costs to rent the property (PER DAY)
-				income = 600, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
+				rent = 1200, --How much it costs to rent the property (PER DAY)
+				income = 200, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
 				storage = {
 					current = {
 						cash = 0, --Default (don't touch)
@@ -3897,9 +3897,9 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 25000, --Max cash the property can hold
-						dirty = 50000, --Max marked bills the property can hold
-						weapons = 3, --Max weapons the property can hold
+						cash = 2000,--Max cash the property can hold
+						dirty = 2000,----Max marked bills the property can hold
+						weapons = 1, --Max weapons the property can hold
 					},
 				},
 				robbing = {
@@ -3907,7 +3907,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 4, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -3920,8 +3920,8 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {x = 1099.7105712891, y = -345.62646484375, z = 67.183265686035, h = 127.11851501465}, -- The location of the property
-				rent = 9600, --How much it costs to rent the property (PER DAY)
-				income = 600, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
+				rent = 1200, --How much it costs to rent the property (PER DAY)
+				income = 200, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
 				storage = {
 					current = {
 						cash = 0, --Default (don't touch)
@@ -3929,9 +3929,9 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 25000, --Max cash the property can hold
-						dirty = 50000, --Max marked bills the property can hold
-						weapons = 3, --Max weapons the property can hold
+						cash = 2000,--Max cash the property can hold
+						dirty = 2000,----Max marked bills the property can hold
+						weapons = 1, --Max weapons the property can hold
 					},
 				},
 				robbing = {
@@ -3939,7 +3939,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 4, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -3952,8 +3952,8 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {x = -2175.0561523438, y = 4294.1069335938, z = 49.054237365723, h = 232.86531066895}, -- The location of the property
-				rent = 17500, --How much it costs to rent the property (PER DAY)
-				income = 1250, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
+				rent = 1200, --How much it costs to rent the property (PER DAY)
+				income = 200, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
 				storage = {
 					current = {
 						cash = 0, --Default (don't touch)
@@ -3961,9 +3961,9 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 25000, --Max cash the property can hold
-						dirty = 50000, --Max marked bills the property can hold
-						weapons = 3, --Max weapons the property can hold
+						cash = 2000,--Max cash the property can hold
+						dirty = 2000,----Max marked bills the property can hold
+						weapons = 1, --Max weapons the property can hold
 					},
 				},
 				robbing = {
@@ -3971,7 +3971,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 4, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -3984,8 +3984,8 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {x = -757.60528564453, y = 5596.1455078125, z = 36.706226348877, h = 185.08938598633}, -- The location of the property
-				rent = 28000, --How much it costs to rent the property (PER DAY)
-				income = 1500, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
+				rent = 2000, --How much it costs to rent the property (PER DAY)
+				income = 250, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
 				storage = {
 					current = {
 						cash = 0, --Default (don't touch)
@@ -3993,9 +3993,9 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 25000, --Max cash the property can hold
-						dirty = 50000, --Max marked bills the property can hold
-						weapons = 3, --Max weapons the property can hold
+						cash = 3000, --Max cash the property can hold
+						dirty = 3000, --Max marked bills the property can hold
+						weapons = 1, --Max weapons the property can hold
 					},
 				},
 				robbing = {
@@ -4003,7 +4003,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 5, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -4016,8 +4016,8 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {x = -696.08569335938, y = 5802.4716796875, z = 17.330944061279, h = 61.536270141602}, -- The location of the property
-				rent = 28000, --How much it costs to rent the property (PER DAY)
-				income = 1500, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
+				rent = 1700, --How much it costs to rent the property (PER DAY)
+				income = 250, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
 				storage = {
 					current = {
 						cash = 0, --Default (don't touch)
@@ -4025,9 +4025,9 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 25000, --Max cash the property can hold
-						dirty = 50000, --Max marked bills the property can hold
-						weapons = 5, --Max weapons the property can hold
+						cash = 2500, --Max cash the property can hold
+						dirty = 2500, --Max marked bills the property can hold
+						weapons = 1, --Max weapons the property can hold
 					},
 				},
 				robbing = {
@@ -4048,8 +4048,8 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {x = -3249.7397460938, y = 1004.3108520508, z = 12.830714225769, h = 69.013862609863}, -- The location of the property
-				rent = 4000, --How much it costs to rent the property (PER DAY)
-				income = 500, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
+				rent = 1000, --How much it costs to rent the property (PER DAY)
+				income = 150, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
 				storage = {
 					current = {
 						cash = 0, --Default (don't touch)
@@ -4057,9 +4057,9 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 10000, --Max cash the property can hold
-						dirty = 25000, --Max marked bills the property can hold
-						weapons = 3, --Max weapons the property can hold
+						cash = 1500,--Max cash the property can hold
+						dirty = 1500,--Max marked bills the property can hold
+						weapons = 1, --Max weapons the property can hold
 					},
 				},
 				robbing = {
@@ -4067,7 +4067,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 4, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -4080,8 +4080,8 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {x = -3047.5939941406, y = 585.70684814453, z = 7.9089288711548, h = 94.96671295166}, -- The location of the property
-				rent = 4000, --How much it costs to rent the property (PER DAY)
-				income = 500, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
+				rent = 1000, --How much it costs to rent the property (PER DAY)
+				income = 150, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
 				storage = {
 					current = {
 						cash = 0, --Default (don't touch)
@@ -4089,9 +4089,9 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 10000, --Max cash the property can hold
-						dirty = 25000, --Max marked bills the property can hold
-						weapons = 3, --Max weapons the property can hold
+						cash = 1500,--Max cash the property can hold
+						dirty = 1500,--Max marked bills the property can hold
+						weapons = 1, --Max weapons the property can hold
 					},
 				},
 				robbing = {
@@ -4099,7 +4099,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 4, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -4112,8 +4112,8 @@ properties = {
                     id = 0, --Default (don't touch)
                 },
                 coordinates = {x = 329.08746337891, y = -191.93128967285, z = 54.230735778809, h = 343.2848815918}, -- The location of the property
-                rent = 12000, --How much it costs to rent the property (PER DAY)
-                income = 750, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
+                rent = 1500, --How much it costs to rent the property (PER DAY)
+                income = 225, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
                 storage = {
                     current = {
                         cash = 0, --Default (don't touch)
@@ -4121,17 +4121,17 @@ properties = {
                         weapons = {}, --Default (don't touch)
                     },
                     max = {
-                        cash = 25000, --Max cash the property can hold
-                        dirty = 50000, --Max marked bills the property can hold
-                        weapons = 4, --Max weapons the property can hold
-                    },
+						cash = 2500, --Max cash the property can hold
+						dirty = 2500, --Max marked bills the property can hold
+						weapons = 1, --Max weapons the property can hold
+					},
                 },
                 robbing = {
                     cooldown = 2700, --Robbery cooldown time in seconds
                     last_robbed = 0, --Default (don't touch)
                     being_robbed = false, --Default (don't touch)
                     time = 300, --The total time the robber has to hack the vault
-                    max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+                    max_phases = 5, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
                 },
                 expire = 1 --Default (don't touch)
             },
@@ -4144,26 +4144,26 @@ properties = {
                     id = 0, --Default (don't touch)
                 },
                 coordinates = {x = 1168.875, y = 2717.8879394531, z = 37.157569885254, h = 38.040710449219}, -- The location of the property
-                rent = 4000, --How much it costs to rent the property (PER DAY)
-                income = 500, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
-                storage = {
+                rent = 1000, --How much it costs to rent the property (PER DAY)
+				income = 150, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
+				storage = {
                     current = {
                         cash = 0, --Default (don't touch)
                         dirty = 0, --Default (don't touch)
                         weapons = {}, --Default (don't touch)
                     },
                     max = {
-                        cash = 10000, --Max cash the property can hold
-                        dirty = 25000, --Max marked bills the property can hold
-                        weapons = 3, --Max weapons the property can hold
-                    },
+						cash = 1500,--Max cash the property can hold
+						dirty = 1500,--Max marked bills the property can hold
+						weapons = 1, --Max weapons the property can hold
+					},
                 },
                 robbing = {
                     cooldown = 2700, --Robbery cooldown time in seconds
                     last_robbed = 0, --Default (don't touch)
                     being_robbed = false, --Default (don't touch)
                     time = 300, --The total time the robber has to hack the vault
-                    max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+                    max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
                 },
                 expire = 1 --Default (don't touch)
             },
@@ -4176,8 +4176,8 @@ properties = {
                     id = 0, --Default (don't touch)
                 },
                 coordinates = {x = 301.10498046875, y = 201.873046875, z = 104.37339019775, h = 338.12774658203}, -- The location of the property
-                rent = 32000, --How much it costs to rent the property (PER DAY)
-                income = 2000, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
+                rent = 2000, --How much it costs to rent the property (PER DAY)
+                income = 300, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
                 storage = {
                     current = {
                         cash = 0, --Default (don't touch)
@@ -4185,17 +4185,17 @@ properties = {
                         weapons = {}, --Default (don't touch)
                     },
                     max = {
-                        cash = 25000, --Max cash the property can hold
-                        dirty = 50000, --Max marked bills the property can hold
-                        weapons = 10, --Max weapons the property can hold
-                    },
+						cash = 3000, --Max cash the property can hold
+						dirty = 3000, --Max marked bills the property can hold
+						weapons = 1, --Max weapons the property can hold
+					},
                 },
                 robbing = {
                     cooldown = 2700, --Robbery cooldown time in seconds
                     last_robbed = 0, --Default (don't touch)
                     being_robbed = false, --Default (don't touch)
                     time = 300, --The total time the robber has to hack the vault
-                    max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+                    max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
                 },
                 expire = 1 --Default (don't touch)
             },
@@ -4208,8 +4208,8 @@ properties = {
                     id = 0, --Default (don't touch)
                 },
                 coordinates = {x = 90.793251037598, y = 298.52142333984, z = 110.21018218994, h = 161.21424865723}, -- The location of the property
-                rent = 6000, --How much it costs to rent the property (PER DAY)
-                income = 500, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
+                rent = 1200, --How much it costs to rent the property (PER DAY)
+                income = 200, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
                 storage = {
                     current = {
                         cash = 0, --Default (don't touch)
@@ -4217,17 +4217,17 @@ properties = {
                         weapons = {}, --Default (don't touch)
                     },
                     max = {
-                        cash = 10000, --Max cash the property can hold
-                        dirty = 25000, --Max marked bills the property can hold
-                        weapons = 3, --Max weapons the property can hold
-                    },
+						cash = 2000,--Max cash the property can hold
+						dirty = 2000,----Max marked bills the property can hold
+						weapons = 1, --Max weapons the property can hold
+					},
                 },
                 robbing = {
                     cooldown = 2700, --Robbery cooldown time in seconds
                     last_robbed = 0, --Default (don't touch)
                     being_robbed = false, --Default (don't touch)
                     time = 300, --The total time the robber has to hack the vault
-                    max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+                    max_phases = 4, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
                 },
                 expire = 1 --Default (don't touch)
             },
@@ -4240,8 +4240,8 @@ properties = {
                     id = 0, --Default (don't touch)
                 },
                 coordinates = {x = -77.661186218262, y = 363.97402954102, z = 112.44161224365, h = 324.08038330078}, -- The location of the property
-                rent = 24000, --How much it costs to rent the property (PER DAY)
-                income = 1500, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
+                rent = 2000, --How much it costs to rent the property (PER DAY)
+                income = 250, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
                 storage = {
                     current = {
                         cash = 0, --Default (don't touch)
@@ -4249,17 +4249,17 @@ properties = {
                         weapons = {}, --Default (don't touch)
                     },
                     max = {
-                        cash = 25000, --Max cash the property can hold
-                        dirty = 50000, --Max marked bills the property can hold
-                        weapons = 8, --Max weapons the property can hold
-                    },
+						cash = 3000,--Max cash the property can hold
+						dirty = 3000,----Max marked bills the property can hold
+						weapons = 1, --Max weapons the property can hold
+					},
                 },
                 robbing = {
                     cooldown = 2700, --Robbery cooldown time in seconds
                     last_robbed = 0, --Default (don't touch)
                     being_robbed = false, --Default (don't touch)
                     time = 300, --The total time the robber has to hack the vault
-                    max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+                    max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
                 },
                 expire = 1 --Default (don't touch)
             },
@@ -4272,8 +4272,8 @@ properties = {
                     id = 0, --Default (don't touch)
                 },
                 coordinates = {x = 485.26983642578, y = -1528.9083251953, z = 29.300325393677, h = 218.99945068359}, -- The location of the property
-                rent = 9200, --How much it costs to rent the property (PER DAY)
-                income = 575, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
+                rent = 1200, --How much it costs to rent the property (PER DAY)
+                income = 200, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
                 storage = {
                     current = {
                         cash = 0, --Default (don't touch)
@@ -4281,17 +4281,17 @@ properties = {
                         weapons = {}, --Default (don't touch)
                     },
                     max = {
-                        cash = 25000, --Max cash the property can hold
-                        dirty = 50000, --Max marked bills the property can hold
-                        weapons = 3, --Max weapons the property can hold
-                    },
+						cash = 2000,--Max cash the property can hold
+						dirty = 2000,----Max marked bills the property can hold
+						weapons = 1, --Max weapons the property can hold
+					},
                 },
                 robbing = {
                     cooldown = 2700, --Robbery cooldown time in seconds
                     last_robbed = 0, --Default (don't touch)
                     being_robbed = false, --Default (don't touch)
                     time = 300, --The total time the robber has to hack the vault
-                    max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+                    max_phases = 4, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
                 },
                 expire = 1 --Default (don't touch)
             },
@@ -4304,8 +4304,8 @@ properties = {
                     id = 0, --Default (don't touch)
                 },
                 coordinates = {x = 373.82733154297, y = -1788.4298095703, z = 29.095478057861, h = 79.752624511719}, -- The location of the property
-                rent = 5600, --How much it costs to rent the property (PER DAY)
-                income = 350, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
+                rent = 1200, --How much it costs to rent the property (PER DAY)
+                income = 225, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
                 storage = {
                     current = {
                         cash = 0, --Default (don't touch)
@@ -4313,17 +4313,17 @@ properties = {
                         weapons = {}, --Default (don't touch)
                     },
                     max = {
-                        cash = 25000, --Max cash the property can hold
-                        dirty = 50000, --Max marked bills the property can hold
-                        weapons = 3, --Max weapons the property can hold
-                    },
+						cash = 1800,--Max cash the property can hold
+						dirty = 1800,----Max marked bills the property can hold
+						weapons = 1, --Max weapons the property can hold
+					},
                 },
                 robbing = {
                     cooldown = 2700, --Robbery cooldown time in seconds
                     last_robbed = 0, --Default (don't touch)
                     being_robbed = false, --Default (don't touch)
                     time = 300, --The total time the robber has to hack the vault
-                    max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+                    max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
                 },
                 expire = 1 --Default (don't touch)
             },
@@ -4336,8 +4336,8 @@ properties = {
                     id = 0, --Default (don't touch)
                 },
                 coordinates = {x = 457.3229675293, y = -1498.3328857422, z = 28.18815612793, h = 281.72918701172}, -- The location of the property
-                rent = 10400, --How much it costs to rent the property (PER DAY)
-                income = 650, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
+                rent = 2000, --How much it costs to rent the property (PER DAY)
+                income = 250, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
                 storage = {
                     current = {
                         cash = 0, --Default (don't touch)
@@ -4345,9 +4345,9 @@ properties = {
                         weapons = {}, --Default (don't touch)
                     },
                     max = {
-                        cash = 25000, --Max cash the property can hold
-                        dirty = 50000, --Max marked bills the property can hold
-                        weapons = 3, --Max weapons the property can hold
+                        cash = 3000, --Max cash the property can hold
+                        dirty = 3000, --Max marked bills the property can hold
+                        weapons = 1, --Max weapons the property can hold
                     },
                 },
                 robbing = {
@@ -4355,7 +4355,7 @@ properties = {
                     last_robbed = 0, --Default (don't touch)
                     being_robbed = false, --Default (don't touch)
                     time = 300, --The total time the robber has to hack the vault
-                    max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+                    max_phases = 5, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
                 },
                 expire = 1 --Default (don't touch)
             },
@@ -4368,8 +4368,8 @@ properties = {
                     id = 0, --Default (don't touch)
                 },
                 coordinates = {x = 911.14813232422, y = 3644.0510253906, z = 32.676345825195, h = 352.94802856445}, -- The location of the property
-                rent = 6000, --How much it costs to rent the property (PER DAY)
-                income = 500, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
+                rent = 1000, --How much it costs to rent the property (PER DAY)
+                income = 150, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
                 storage = {
                     current = {
                         cash = 0, --Default (don't touch)
@@ -4377,17 +4377,17 @@ properties = {
                         weapons = {}, --Default (don't touch)
                     },
                     max = {
-                        cash = 10000, --Max cash the property can hold
-                        dirty = 25000, --Max marked bills the property can hold
-                        weapons = 3, --Max weapons the property can hold
-                    },
+						cash = 1500,--Max cash the property can hold
+						dirty = 1500,--Max marked bills the property can hold
+						weapons = 1, --Max weapons the property can hold
+					},
                 },
                 robbing = {
                     cooldown = 2700, --Robbery cooldown time in seconds
                     last_robbed = 0, --Default (don't touch)
                     being_robbed = false, --Default (don't touch)
                     time = 300, --The total time the robber has to hack the vault
-                    max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+                    max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
                 },
                 expire = 1 --Default (don't touch)
             },
@@ -4400,8 +4400,8 @@ properties = {
                     id = 0, --Default (don't touch)
                 },
                 coordinates = {x = 1959.4729003906, y = 3748.5314941406, z = 32.343742370605, h = 352.03918457031}, -- The location of the property
-                rent = 4000, --How much it costs to rent the property (PER DAY)
-                income = 500, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
+                rent = 1000, --How much it costs to rent the property (PER DAY)
+                income = 150, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
                 storage = {
                     current = {
                         cash = 0, --Default (don't touch)
@@ -4409,17 +4409,17 @@ properties = {
                         weapons = {}, --Default (don't touch)
                     },
                     max = {
-                        cash = 10000, --Max cash the property can hold
-                        dirty = 25000, --Max marked bills the property can hold
-                        weapons = 3, --Max weapons the property can hold
-                    },
+						cash = 1500,--Max cash the property can hold
+						dirty = 1500,--Max marked bills the property can hold
+						weapons = 1, --Max weapons the property can hold
+					},
                 },
                 robbing = {
                     cooldown = 2700, --Robbery cooldown time in seconds
                     last_robbed = 0, --Default (don't touch)
                     being_robbed = false, --Default (don't touch)
                     time = 300, --The total time the robber has to hack the vault
-                    max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+                    max_phases = 5, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
                 },
                 expire = 1 --Default (don't touch)
             },
@@ -4432,8 +4432,8 @@ properties = {
                     id = 0, --Default (don't touch)
                 },
                 coordinates = {x = 1748.4437255859, y = 3783.3193359375, z = 34.834915161133, h = 308.76403808594}, -- The location of the property
-                rent = 5000, --How much it costs to rent the property (PER DAY)
-                income = 500, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
+                rent = 800, --How much it costs to rent the property (PER DAY)
+                income = 150, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
                 storage = {
                     current = {
                         cash = 0, --Default (don't touch)
@@ -4441,17 +4441,17 @@ properties = {
                         weapons = {}, --Default (don't touch)
                     },
                     max = {
-                        cash = 10000, --Max cash the property can hold
-                        dirty = 25000, --Max marked bills the property can hold
-                        weapons = 3, --Max weapons the property can hold
-                    },
+						cash = 1200,--Max cash the property can hold
+						dirty = 1200,--Max marked bills the property can hold
+						weapons = 1, --Max weapons the property can hold
+					},
                 },
                 robbing = {
                     cooldown = 2700, --Robbery cooldown time in seconds
                     last_robbed = 0, --Default (don't touch)
                     being_robbed = false, --Default (don't touch)
                     time = 300, --The total time the robber has to hack the vault
-                    max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+                    max_phases = 4, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
                 },
                 expire = 1 --Default (don't touch)
             },
@@ -4464,8 +4464,8 @@ properties = {
                     id = 0, --Default (don't touch)
                 },
                 coordinates = {x = 2697.076171875, y = 4325.048828125, z = 45.852001190186, h = 208.66400146484}, -- The location of the property
-                rent = 10000, --How much it costs to rent the property (PER DAY)
-                income = 750, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
+                rent = 1200, --How much it costs to rent the property (PER DAY)
+                income = 250, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
                 storage = {
                     current = {
                         cash = 0, --Default (don't touch)
@@ -4473,17 +4473,17 @@ properties = {
                         weapons = {}, --Default (don't touch)
                     },
                     max = {
-                        cash = 10000, --Max cash the property can hold
-                        dirty = 25000, --Max marked bills the property can hold
-                        weapons = 3, --Max weapons the property can hold
-                    },
+						cash = 2000,--Max cash the property can hold
+						dirty = 2000,----Max marked bills the property can hold
+						weapons = 1, --Max weapons the property can hold
+					},
                 },
                 robbing = {
                     cooldown = 2700, --Robbery cooldown time in seconds
                     last_robbed = 0, --Default (don't touch)
                     being_robbed = false, --Default (don't touch)
                     time = 300, --The total time the robber has to hack the vault
-                    max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+                    max_phases = 4, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
                 },
                 expire = 1 --Default (don't touch)
             },
@@ -4496,8 +4496,8 @@ properties = {
                     id = 0, --Default (don't touch)
                 },
                 coordinates = {x = 2709.064453125, y = 3452.6284179688, z = 55.540119171143, h = 302.75106811523}, -- The location of the property
-                rent = 28800, --How much it costs to rent the property (PER DAY)
-                income = 1800, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
+                rent = 3500, --How much it costs to rent the property (PER DAY)
+                income = 300, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
                 storage = {
                     current = {
                         cash = 0, --Default (don't touch)
@@ -4505,17 +4505,17 @@ properties = {
                         weapons = {}, --Default (don't touch)
                     },
                     max = {
-                        cash = 50000, --Max cash the property can hold
-                        dirty = 100000, --Max marked bills the property can hold
-                        weapons = 10, --Max weapons the property can hold
-                    },
+						cash = 4500, --Max cash the property can hold
+						dirty = 4500, --Max marked bills the property can hold
+						weapons = 1, --Max weapons the property can hold
+					},
                 },
                 robbing = {
                     cooldown = 2700, --Robbery cooldown time in seconds
                     last_robbed = 0, --Default (don't touch)
                     being_robbed = false, --Default (don't touch)
                     time = 300, --The total time the robber has to hack the vault
-                    max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+                    max_phases = 8, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
                 },
                 expire = 1 --Default (don't touch)
             },
@@ -4528,8 +4528,8 @@ properties = {
                     id = 0, --Default (don't touch)
                 },
                 coordinates = {x = -1182.8460693359, y = -883.79803466797, z = 13.761403083801, h = 120.01786804199}, -- The location of the property
-                rent = 6000, --How much it costs to rent the property (PER DAY)
-                income = 500, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
+                rent = 1200, --How much it costs to rent the property (PER DAY)
+                income = 250, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
                 storage = {
                     current = {
                         cash = 0, --Default (don't touch)
@@ -4537,17 +4537,17 @@ properties = {
                         weapons = {}, --Default (don't touch)
                     },
                     max = {
-                        cash = 10000, --Max cash the property can hold
-                        dirty = 25000, --Max marked bills the property can hold
-                        weapons = 3, --Max weapons the property can hold
-                    },
+						cash = 2000,--Max cash the property can hold
+						dirty = 2000,----Max marked bills the property can hold
+						weapons = 1, --Max weapons the property can hold
+					},
                 },
                 robbing = {
                     cooldown = 2700, --Robbery cooldown time in seconds
                     last_robbed = 0, --Default (don't touch)
                     being_robbed = false, --Default (don't touch)
                     time = 300, --The total time the robber has to hack the vault
-                    max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+                    max_phases = 4, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
                 },
                 expire = 1 --Default (don't touch)
             },
@@ -4560,8 +4560,8 @@ properties = {
                     id = 0, --Default (don't touch)
                 },
                 coordinates = {x = -1540.5760498047, y = -454.17718505859, z = 40.519027709961, h = 224.47229003906}, -- The location of the property
-                rent = 6000, --How much it costs to rent the property (PER DAY)
-                income = 500, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
+                rent = 1200, --How much it costs to rent the property (PER DAY)
+                income = 250, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
                 storage = {
                     current = {
                         cash = 0, --Default (don't touch)
@@ -4569,17 +4569,17 @@ properties = {
                         weapons = {}, --Default (don't touch)
                     },
                     max = {
-                        cash = 10000, --Max cash the property can hold
-                        dirty = 25000, --Max marked bills the property can hold
-                        weapons = 3, --Max weapons the property can hold
-                    },
+						cash = 2000,--Max cash the property can hold
+						dirty = 2000,----Max marked bills the property can hold
+						weapons = 1, --Max weapons the property can hold
+					},
                 },
                 robbing = {
                     cooldown = 2700, --Robbery cooldown time in seconds
                     last_robbed = 0, --Default (don't touch)
                     being_robbed = false, --Default (don't touch)
                     time = 300, --The total time the robber has to hack the vault
-                    max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+                    max_phases = 4, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
                 },
                 expire = 1 --Default (don't touch)
             },
@@ -4592,8 +4592,8 @@ properties = {
                     id = 0, --Default (don't touch)
                 },
                 coordinates = {x = -430.24157714844, y = -24.123147964478, z = 46.22868347168, h = 268.6064453125}, -- The location of the property
-                rent = 7500, --How much it costs to rent the property (PER DAY)
-                income = 500, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
+                rent = 3000, --How much it costs to rent the property (PER DAY)
+                income = 250, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
                 storage = {
                     current = {
                         cash = 0, --Default (don't touch)
@@ -4601,17 +4601,17 @@ properties = {
                         weapons = {}, --Default (don't touch)
                     },
                     max = {
-                        cash = 25000, --Max cash the property can hold
-                        dirty = 50000, --Max marked bills the property can hold
-                        weapons = 3, --Max weapons the property can hold
-                    },
+						cash = 4000, --Max cash the property can hold
+						dirty = 4000, --Max marked bills the property can hold
+						weapons = 1, --Max weapons the property can hold
+					},
                 },
                 robbing = {
                     cooldown = 2700, --Robbery cooldown time in seconds
                     last_robbed = 0, --Default (don't touch)
                     being_robbed = false, --Default (don't touch)
                     time = 300, --The total time the robber has to hack the vault
-                    max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+                    max_phases = 4, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
                 },
                 expire = 1 --Default (don't touch)
             },
@@ -4624,8 +4624,8 @@ properties = {
                     id = 0, --Default (don't touch)
                 },
                 coordinates = {x = 220.44418334961, y = 304.67657470703, z = 105.57559967041, h = 70.97972869873}, -- The location of the property
-                rent = 7500, --How much it costs to rent the property (PER DAY)
-                income = 500, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
+                rent = 3000, --How much it costs to rent the property (PER DAY)
+                income = 250, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
                 storage = {
                     current = {
                         cash = 0, --Default (don't touch)
@@ -4633,17 +4633,17 @@ properties = {
                         weapons = {}, --Default (don't touch)
                     },
                     max = {
-                        cash = 25000, --Max cash the property can hold
-                        dirty = 50000, --Max marked bills the property can hold
-                        weapons = 3, --Max weapons the property can hold
-                    },
+						cash = 4000, --Max cash the property can hold
+						dirty = 4000, --Max marked bills the property can hold
+						weapons = 1, --Max weapons the property can hold
+					},
                 },
                 robbing = {
                     cooldown = 2700, --Robbery cooldown time in seconds
                     last_robbed = 0, --Default (don't touch)
                     being_robbed = false, --Default (don't touch)
                     time = 300, --The total time the robber has to hack the vault
-                    max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+                    max_phases = 4, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
                 },
                 expire = 1 --Default (don't touch)
             },
@@ -4656,8 +4656,8 @@ properties = {
                     id = 0, --Default (don't touch)
                 },
                 coordinates = {x = -16.007053375244, y = 216.77110290527, z = 106.74420166016, h = 275.6940612793}, -- The location of the property
-                rent = 7500, --How much it costs to rent the property (PER DAY)
-                income = 500, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
+                rent = 3000, --How much it costs to rent the property (PER DAY)
+                income = 250, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
                 storage = {
                     current = {
                         cash = 0, --Default (don't touch)
@@ -4665,17 +4665,17 @@ properties = {
                         weapons = {}, --Default (don't touch)
                     },
                     max = {
-                        cash = 35000, --Max cash the property can hold
-                        dirty = 60000, --Max marked bills the property can hold
-                        weapons = 4, --Max weapons the property can hold
-                    },
+						cash = 2000,--Max cash the property can hold
+						dirty = 2000,----Max marked bills the property can hold
+						weapons = 1, --Max weapons the property can hold
+					},
                 },
                 robbing = {
                     cooldown = 2700, --Robbery cooldown time in seconds
                     last_robbed = 0, --Default (don't touch)
                     being_robbed = false, --Default (don't touch)
                     time = 300, --The total time the robber has to hack the vault
-                    max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+                    max_phases = 4, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
                 },
                 expire = 1 --Default (don't touch)
             },
@@ -4695,7 +4695,7 @@ properties = {
 					vault = {x = -1006.5913696289, y = -474.34524536133, z = 50.026187896729, h = 338.42321777344}, -- The marker for the vault
 				},
 				rent = 8000, --How much it costs to rent the property (PER DAY)
-				income = 1000, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
+				income = 500, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
 				storage = {
 					locked = false, --Default (don't touch)
 					current = {
@@ -4704,9 +4704,9 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 25000, --Max cash the property can hold
-						dirty = 50000, --Max marked bills the property can hold
-						weapons = 3, --Max weapons the property can hold
+						cash = 10000, --Max cash the property can hold
+						dirty = 10000, --Max marked bills the property can hold
+						weapons = 1, --Max weapons the property can hold
 					},
 				},
 				robbing = {
@@ -4714,7 +4714,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				lockpicking = {
 					cooldown = 300, --Colldown between lockpicking attempts
@@ -4736,7 +4736,7 @@ properties = {
 					vault = {x = 1014.362, y = -3105.95, z = -38.99986, h = 267.0504}, -- The marker for the vault
 				},
 				rent = 8000, --How much it costs to rent the property (PER DAY)
-				income = 1000, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
+				income = 500, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
 				storage = {
 					locked = false, --Default (don't touch)
 					current = {
@@ -4745,9 +4745,9 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 25000, --Max cash the property can hold
-						dirty = 50000, --Max marked bills the property can hold
-						weapons = 12, --Max weapons the property can hold
+						cash = 10000, --Max cash the property can hold
+						dirty = 10000, --Max marked bills the property can hold
+						weapons = 6, --Max weapons the property can hold
 					},
 				},
 				robbing = {
@@ -4755,7 +4755,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 8, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				lockpicking = {
 					cooldown = 300, --Colldown between lockpicking attempts
@@ -4776,8 +4776,8 @@ properties = {
 					inside = {x = 997.0413, y = -3158.019, z = -38.90715, h = 247.4221}, -- The marker inside (used for teleporting outside)
 					vault = {x = 1001.748, y = -3167.127, z = -34.07746, h = 263.3291}, -- The marker for the vault
 				},
-				rent = 6000, --How much it costs to rent the property (PER DAY)
-				income = 750, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
+				rent = 7500, --How much it costs to rent the property (PER DAY)
+				income = 500, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
 				storage = {
 					locked = false, --Default (don't touch)
 					current = {
@@ -4786,8 +4786,8 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 25000, --Max cash the property can hold
-						dirty = 50000, --Max marked bills the property can hold
+						cash = 10000, --Max cash the property can hold
+						dirty = 10000, --Max marked bills the property can hold
 						weapons = 6, --Max weapons the property can hold
 					},
 				},
@@ -4796,7 +4796,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 8, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				lockpicking = {
 					cooldown = 300, --Colldown between lockpicking attempts
@@ -4817,8 +4817,8 @@ properties = {
 					inside = {x = 1120.963, y = -3152.196, z = -37.06273, h = 222.8231}, -- The marker inside (used for teleporting outside)
 					vault = {x = 1112.419, y = -3145.239, z = -37.06273, h = 235.9401}, -- The marker for the vault
 				},
-				rent = 6000, --How much it costs to rent the property (PER DAY)
-				income = 750, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
+				rent = 7500, --How much it costs to rent the property (PER DAY)
+				income = 500, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
 				storage = {
 					locked = false, --Default (don't touch)
 					current = {
@@ -4827,8 +4827,8 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 25000, --Max cash the property can hold
-						dirty = 50000, --Max marked bills the property can hold
+						cash = 10000, --Max cash the property can hold
+						dirty = 10000, --Max marked bills the property can hold
 						weapons = 6, --Max weapons the property can hold
 					},
 				},
@@ -4837,7 +4837,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 8, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				lockpicking = {
 					cooldown = 300, --Colldown between lockpicking attempts
@@ -4859,7 +4859,7 @@ properties = {
 					vault = {x = -1375.394, y = -624.3627, z = 30.81958, h = 295.184}, -- The marker for the vault
 				},
 				rent = 8000, --How much it costs to rent the property (PER DAY)
-				income = 1000, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
+				income = 500, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
 				storage = {
 					locked = false, --Default (don't touch)
 					current = {
@@ -4868,9 +4868,9 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 25000, --Max cash the property can hold
-						dirty = 50000, --Max marked bills the property can hold
-						weapons = 6, --Max weapons the property can hold
+						cash = 10000, --Max cash the property can hold
+						dirty = 10000, --Max marked bills the property can hold
+						weapons = 1, --Max weapons the property can hold
 					},
 				},
 				robbing = {
@@ -4878,7 +4878,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				lockpicking = {
 					cooldown = 300, --Colldown between lockpicking attempts
@@ -4900,7 +4900,7 @@ properties = {
 					vault = {x = 373.46896362305, y = -1003.3117675781, z = -98.999923706055, h = 95.507797241211}, -- The marker for the vault
 				},
 				rent = 8000, --How much it costs to rent the property (PER DAY)
-				income = 1000, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
+				income = 500, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
 				storage = {
 					locked = false, --Default (don't touch)
 					current = {
@@ -4909,9 +4909,9 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 25000, --Max cash the property can hold
-						dirty = 50000, --Max marked bills the property can hold
-						weapons = 6, --Max weapons the property can hold
+						cash = 10000, --Max cash the property can hold
+						dirty = 10000, --Max marked bills the property can hold
+						weapons = 1, --Max weapons the property can hold
 					},
 				},
 				robbing = {
@@ -4919,7 +4919,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				lockpicking = {
 					cooldown = 300, --Colldown between lockpicking attempts
