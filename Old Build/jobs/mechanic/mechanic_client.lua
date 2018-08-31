@@ -479,11 +479,16 @@ AddEventHandler("mechanic:getStatusVehicle", function()
         -- if not capotOpen then 
         --     showMessageInformation(TEXT.CapotFerme)
         -- else
-            local scenario = 'PROP_HUMAN_BUM_SHOPPING_CART'
+            local dict = 'amb@prop_human_bum_shopping_cart@male@base'
+            local anim = 'base'
             local pos = GetOffsetFromEntityInWorldCoords(myPed, 0.0, 0.2, 0.0)
-        
+            RequestAnimDict(dict)
+            while not HasAnimDictLoaded(dict) do
+                Citizen.Wait(100)
+            end
+
             --TaskStartScenarioAtPosition(myPed, scenario, pos.x, pos.y, pos.z, 0.0, 8000, 1, 0)
-            TaskStartScenarioInPlace(myPed, scenario, 8000, 1)
+            TaskPlayAnim(PlayerPedId(), dict, anim, 4.0, -4, -1, 1, 0, false, false, false)
             Citizen.Wait(8000)
             ClearPedTasks(myPed)
             local vehicleHealth = GetVehicleEngineHealth(vehicle)
@@ -508,10 +513,17 @@ AddEventHandler("mechanic:repairVehicle", function()
         -- if not capotOpen then 
         --     showMessageInformation(TEXT.CapotFerme)
         -- else
-            local scenario = 'WORLD_HUMAN_VEHICLE_MECHANIC'
+            local dict = 'amb@world_human_vehicle_mechanic@male@base'
+            local anim = 'base'
+
+            RequestAnimDict(dict)
+            while not HasAnimDictLoaded(dict) do
+                Citizen.Wait(100)
+            end
+
             local pos = GetOffsetFromEntityInWorldCoords(myPed, 0.0, 0.02, 0.0)
             local h = GetEntityHeading(myPed)
-            TaskStartScenarioAtPosition(myPed, scenario, pos.x, pos.y, pos.z, h + 180 , 8000, 1, 0)
+            TaskPlayAnim(PlayerPedId(), dict, anim, 4.0, -4, -1, 1, 0, false, false, false)
             --TaskStartScenarioAtPosition(myPed, scenario,8000,1)
             Citizen.Wait(8000)
             ClearPedTasks(myPed)
@@ -558,11 +570,16 @@ AddEventHandler("mechanic:fullrepairVehicle", function()
     end
     local vehicle = GetVehicleLookByPlayer(myPed, 3.0)
     if vehicle ~= 0 then 
-        local scenario = 'WORLD_HUMAN_VEHICLE_MECHANIC'
+        local dict = 'amb@world_human_vehicle_mechanic@male@base'
+        local anim = 'base'
+
+        RequestAnimDict(dict)
+            while not HasAnimDictLoaded(dict) do
+                Citizen.Wait(100)
+            end
         local pos = GetOffsetFromEntityInWorldCoords(myPed, 0.0, 0.02, 0.0)
         local h = GetEntityHeading(myPed)
-        TaskStartScenarioAtPosition(myPed, scenario, pos.x, pos.y, pos.z, h + 180 , 8000, 1, 0)
-        local value = GetVehicleBodyHealth(vehicle)
+        TaskPlayAnim(PlayerPedId(), dict, anim, 4.0, -4, -1, 1, 0, false, false, false)        local value = GetVehicleBodyHealth(vehicle)
         
         while( value < 999.9 ) do
             value = GetVehicleBodyHealth(vehicle)
