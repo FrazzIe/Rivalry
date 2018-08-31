@@ -43,9 +43,9 @@ Store = {
     }},
     {Category = "Illegal", Items = {
         {Name = "Lockpick", Id=36, Cost = 25, Max = 10},
-        {Name = "Hotwire kit", Id=46, Cost = 75, Max = 5},
-        {Name = "Body Armor", Id=39, Cost = 100, Max = 5},
-        {Name = "Handcuffs", Id=44, Cost = 100, Max = 3},
+        {Name = "Hotwire kit", Id=46, Cost = 150, Max = 5},
+        {Name = "Body Armor", Id=39, Cost = 450, Max = 5},
+        {Name = "Handcuffs", Id=44, Cost = 50, Max = 3},
     }},
 }
 for k,v in pairs(Store) do
