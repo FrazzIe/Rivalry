@@ -15,7 +15,7 @@ jobs = {
     [13] = {id = 13, name = "Vigneron", pay = 25},
     [14] = {id = 14, name = "Livreur", pay = 25},
     [15] = {id = 15, name = "Emergency", pay = {on = 200, off = 100}},
-    [16] = {id = 16, name = "Mechanic", pay = 75},
+    [16] = {id = 16, name = "Mechanic", pay = 100},
     [17] = {id = 17, name = "Taxi", pay = 75},
     [18] = {id = 18, name = "FBI", pay = 25},
     [19] = {id = 19, name = "Courier", pay = 25},
