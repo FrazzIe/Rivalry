@@ -108,6 +108,10 @@ local teleports = {
         outside = {x = -79.311721801758, y = -796.45880126953, z = 44.227291107178, h = 13.352147102356},
         inside = {x = -68.553421020508, y = -814.14270019531, z = 285.0, h = 69.416656494141},
     },-- Mechanic Offices(Maze Bank Repair Room Thing)
+    [28] = {
+        outside = {x = -1829.2888183594, y = 801.29138183594, z = 138.41163635254, h = 39.63009262085},
+        inside = {x = -1828.4725341797, y = 800.28326416016, z = 138.16339111328, h = 224.63505554199},
+    },-- Richman Glen Gas Station 24/7
 }
 
 Citizen.CreateThread(function()
