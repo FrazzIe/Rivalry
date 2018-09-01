@@ -451,23 +451,25 @@ end
 function startjob()
 	DrawMissionText("Drive to the marked ~g~destination~w~.", 10000)
 	onjob = true
-	area = math.random(1,8) 
+	area = math.random(1,9) 
 	if area == 1 then 
 		l = math.random(1,56)
 	elseif area == 2 then 
-		l = math.random(57,102)
+		l = math.random(57,76)
 	elseif area == 3 then 
-		l = math.random(103,148)
+		l = math.random(77,105)
 	elseif area == 4 then 
-		l = math.random(149,201)
+		l = math.random(106,123)
 	elseif area == 5 then 
-		l = math.random(202,255)
+		l = math.random(124,148)
 	elseif area == 6 then 
-		l = math.random(256,285)
+		l = math.random(149,201)
 	elseif area == 7 then 
-		l = math.random(286,329)
+		l = math.random(202,255)
 	elseif area == 8 then 
-		l = math.random(330,336)
+		l = math.random(256,285)
+	elseif area == 9 then
+		l = math.random(286,329)
 	end
 	deliveryblip = (AddBlipForCoord(destination[l].x,destination[l].y,destination[l].z))
 	SetBlipSprite(deliveryblip, 280)
@@ -528,7 +530,7 @@ function SpawnVan()
 end
 
 function deliverysuccess()
-TriggerServerEvent('gopostal:success',destination[l].money)
+TriggerServerEvent('gopostal:success', l)
 	if visits == 10 then --change 3 to however many runs you want a person to be able to make before having to return to the depot
 		RemoveBlip(deliveryblip)
 		onjob = false
