@@ -258,8 +258,6 @@ Citizen.CreateThread(function()
 							end
 						end
 					end
-				else
-					Notify("You must rake all of the land before you can place crops!", 3000)
 				end
 			end
 		end
