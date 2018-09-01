@@ -50,6 +50,13 @@ local stores = {
 		nameofstore = "24/7 (Palomino Fwy)",
 		time = 120,
 		lastrobbed = 0
+	},
+	["richman_twentyfourseven"] = {
+		position = { ['x'] = -1826.9853515625, ['y'] = 797.06665039063, ['z'] = 138.17137145996 },
+		reward = 750,
+		nameofstore = "24/7 (Richman Glen)",
+		time = 120,
+		lastrobbed = 0
 	}
 }
 
