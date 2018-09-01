@@ -38,7 +38,6 @@ cars = {
     --[[{title = "Assault Vehicles", vehicles = { -- noonab will do these
         {name = "Cheburek", price = 0, model = "cheburek"},
         {name = "Ellie", price = 0, model = "ellie"},
-        {name = "Entity XXR", price = 0, model = "entity2"},
         {name = "Fagaloa", price = 0, model = "fagaloa"},
         {name = "Flash GT", price = 0, model = "flashgt"},
         {name = "GB200", price = 0, model = "gb200"},
@@ -95,8 +94,8 @@ cars = {
         {name = "Comet Safari", price = 70000, model = "comet4"},
         {name = "Comet SR", price = 165000, model = "comet5"},
         {name = "Coquette", price = 125000, model = "coquette"},
-        {name = "Drift Tampa", price = 105000, model = "tampa2"},
-        {name = "Hotring Sabre", price = 22500, model = "hotring"}, -- Assault Pack
+        {name = "Drift Tampa", price = 95000, model = "tampa2"},
+        {name = "Hotring Sabre", price = 42500, model = "hotring"}, -- Assault Pack
         {name = "Elegy RH8", price = 82000, model = "elegy2"},
         {name = "Elegy Retro Custom", price = 99000, model = "elegy"},
         {name = "Feltzer", price = 164000, model = "feltzer2"},
@@ -202,6 +201,7 @@ cars = {
         --{name = "X80 Proto", price = 1700000, model = "prototipo"},
         {name = "Zentorno", price = 1100000, model = "zentorno"},
         {name = "Taipan", price = 2175000, model = "taipan"}, -- Assault Pack
+        {name = "Entity XXR", price = 975000, model = "entity2"}, -- Assault Pack
     }},
     {title = "Muscle", vehicles = {
         {name = "Blade", price = 12500, model = "blade"},
