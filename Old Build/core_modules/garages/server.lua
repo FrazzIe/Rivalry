@@ -345,10 +345,6 @@ local emplacement_garage = {
 
 RegisterServerEvent("garage:initialise")
 AddEventHandler("garage:initialise",function(source, identifier, character_id)
-    exports["GHMattiMySQL"]:QueryAsync("UPDATE vehicles SET state=@state WHERE character_id=@character_id", {
-        ["@character_id"] = character_id,
-        ["@state"] = "~g~Stored",
-    })
     exports["GHMattiMySQL"]:QueryResultAsync("SELECT * from vehicles WHERE character_id=@character_id", {["@character_id"] = character_id}, function(vehicles)
         for k,v in pairs(vehicles) do
             v.plate = string.format("%X", tostring(v.plate))
