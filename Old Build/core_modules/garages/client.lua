@@ -461,10 +461,10 @@ RegisterNetEvent("garage:impound")
 AddEventHandler("garage:impound", function(plate, amount)
     for k,v in pairs(user_vehicles) do
         if plate == v.plate then
-            if amount == 0 then
+            if amount > 0 then
+                v.state = "~b~Impounded"
+            else
                 v.state = "~g~Stored"
-            elseif amount == 5000 then
-                v.state = "~r~Impounded~w~ (~g~$~w~5000~w~)"
             end
             break
         end
@@ -693,10 +693,10 @@ function GetVehicles()
             if user_vehicles[i].garage_id == currentgarage.id then
                 Menu.addOption("vehicle_list", function()
                     if(Menu.Bool(tostring(user_vehicles[i].name), vehiclebool, tostring(user_vehicles[i].state),tostring(user_vehicles[i].state),function(cb)   vehiclebool = cb end))then
-                        if user_vehicles[i].state ~= "~r~Missing" and user_vehicles[i].state ~= "~r~Impounded~w~ (~g~$~w~5000~w~)" then
+                        if user_vehicles[i].state ~= "~r~Missing" and not string.starts(user_vehicles[i].state, "~b~Impounded") then
                             garage_menu = false
                             SpawnVehicle(user_vehicles[i], i)
-                        elseif user_vehicles[i].state == "~r~Impounded~w~ (~g~$~w~5000~w~)" then
+                        elseif string.starts(user_vehicles[i].state, "~b~Impounded") then
                             TriggerServerEvent("garage:pay_impound", i)
                             garage_menu = false
                         else
@@ -773,14 +773,13 @@ function claimMenu()
                                     local found_instance = false
                                     for a = 1, #out do
                                         if out[a] == instance then
-    	   		                            TriggerServerEvent("garage:pay_impound") else
                                             found_instance = true
                                             table.remove(out, a)
                                             SpawnReplacement(user_vehicles[i], i)                                
                                             if DoesEntityExist(instance) then
                                                 DestroyCar(instance)
-                                                break
                                             end
+                                            break
                                         end
                                     end
                                     if not found_instance then
