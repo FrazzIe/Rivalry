@@ -42,7 +42,7 @@ local stores = {
 		lastrobbed = 0
 	},
 	["palomino_twentyfourseven"] = {
-		position = { ['x'] = 2553.0849609375, ['y'] = 383.39788818359, ['z'] = 300.11364746094 },
+		position = { ['x'] = 2553.1997070313, ['y'] = 383.5231628418, ['z'] = 108.62293243408 },
 		reward = math.random(500,700),
 		nameofstore = "Twenty Four Seven. (Palomino Fwy)",
 		time = 120,
