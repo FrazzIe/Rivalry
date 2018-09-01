@@ -1,5 +1,5 @@
 local user_max = 100
-local _plant_id =
+local _plant_id = 50
 
 RegisterServerEvent("weed:harvest")
 AddEventHandler("weed:harvest", function(plant_id, growth, amount)

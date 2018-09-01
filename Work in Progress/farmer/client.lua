@@ -92,14 +92,14 @@ local function GetGrowthInformation(current_growth)
 end
 
 function spawnPlant(_x,_y,_z)
-	local _plant = CreateObject(GetHashKey(), _x, _y, _z, true, p5, dynamic)
+	local _plant = CreateObject(GetHashKey("prop_veg_corn_01"), _x, _y, _z, true, false, false)
 	plant = {
 		x = _x,
 		y = _y,
 		z =_z,
 		start_time = 0,
 		end_time = 0,
-		object = _plant
+		object = _plant,
 	}
 	table.insert(planted_seed, plant)
 end
