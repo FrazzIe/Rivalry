@@ -3343,7 +3343,7 @@ properties = {
 					char_id = 0, --Default (don't touch)
 					id = 0, --Default (don't touch)
 				},
-				coordinates = {x = -1828.1866455078, y = 799.51293945313, z = 138.16690063477, h = 44.189666748047}, -- The location of the property
+				coordinates = {x = -1829.0661621094, y = 798.75335693359, z = 138.18907165527, h = 93.985496520996}, -- The location of the property
 				rent = 1200, --How much it costs to rent the property (PER DAY)
 				income = 125, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
 				storage = {
