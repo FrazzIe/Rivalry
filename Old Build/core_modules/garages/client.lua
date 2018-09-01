@@ -542,7 +542,7 @@ Citizen.CreateThread(function()
                 DrawMarker(25, v.x, v.y, v.z - 1, 0, 0, 0, 0, 0, 0, 1.5001, 1.5001, 0.7555, 1555, 90, 10,150, 0, 0, 0,0)
                 if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 1.0)then
                     if (incircle == false) then
-                        DisplayHelpText("Press ~INPUT_CONTEXT~ to claim insurance for $5000!")
+                        DisplayHelpText("Press ~INPUT_CONTEXT~ to claim insurance!")
                     end
                     incircle = true
                     if IsControlJustReleased(1, 51) and IsPedInAnyVehicle(GetPlayerPed(-1), true) == false then -- INPUT_CELLPHONE_DOWN

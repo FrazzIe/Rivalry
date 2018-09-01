@@ -209,17 +209,9 @@ Citizen.CreateThread(function()
     end
     while true do
         Citizen.Wait(0)
-        SetPedDensityMultiplierThisFrame(0.9999999)
-        SetVehicleDensityMultiplierThisFrame(0.06)
         if not IsEntityDead(GetPlayerPed(-1)) then
             if garage_menu then
-                clothing_menu = false
-                Menu.DisplayCurMenu()
-            elseif clothing_menu then
-                garage_menu = false
-                Menu.DisplayCurMenu()
-            elseif tattoo_menu then 
-                garage_menu = false
+                trucking_menu = false
                 Menu.DisplayCurMenu()
             elseif trucking_menu then
                 garage_menu = false
@@ -228,8 +220,6 @@ Citizen.CreateThread(function()
         else
             garage_menu = false
             trucking_menu = false
-            clothing_menu = false
-            tattoo_menu = false
         end
     end
 end)
