@@ -241,13 +241,14 @@ Citizen.CreateThread(function()
 					end
 					for k, v in pairs(planted_seed) do
 						if Vdist2(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 1 then
+							DisplayHelpText("Press ~INPUT_CONTEXT~ to harvest the crop")
 							local growth = CalculateGrowth(GetCurrentServerTime(), v.start_time, v.end_time)
 							local message, amount = GetGrowthInformation(growth)
 							Draw3DText(v.x, v.y, v.z, growth.."%")
 							Draw3DText(v.x, v.y, v.z-0.1, message.." ["..amount.."]")
 							if IsControlJustPressed(1, 51) then
 								if growth >= 50 then
-									TriggerServerEvent("plant:harvest", k)
+									TriggerServerEvent("plant:harvest", k, growth, amount)
 									TaskStartScenarioInPlace(PlayerPedId(), scenario, 0, false);
 									Citizen.Wait(4000)
 									ClearPedTasks(ped)
