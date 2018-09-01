@@ -6,6 +6,7 @@ local tractor_rake = nil
 local farmer_job = nil
 local tractor_rake_blip, farmer_blip = nil, nil
 local isLandRaked = false
+local plot = {x = 2186.8093261719, y = 5188.0375976563, z = 58.89741897583, h = 309.36944580078}
 
 local locations = {
 	mower = {x = 2234.9660644531, y = 5163.5834960938, z = 58.425266265869, h = 137.29484558105},
@@ -15,6 +16,9 @@ local locations = {
 	},
 	service = {x = 2243.3278808594, y = 5154.0966796875, z = 57.887161254883, h = 144.05862426758},
 }
+
+local scenario = "WORLD_HUMAN_GARDENER_PLANT"
+local planted_seed = {}
 
 local path = {
 	[1] = {x = 2193.9150390625, y = 5188.1459960938, z = 59.059753417969, h = 39.391429901123, completed = 0},
@@ -59,6 +63,53 @@ AddEventHandler("farmer:rent", function()
 		SetModelAsNoLongerNeeded(model)
 		DecorSetBool(tractor, "hotwire", true)
 	end)
+end)
+
+local function CalculateGrowth(current_time, plant_start, plant_end)
+	local total_seconds = plant_end - plant_start
+	local elapsed_seconds = current_time - plant_start
+	if math.floor((elapsed_seconds/total_seconds) * 100) > 100 then
+		return 100
+	else
+		return math.floor((elapsed_seconds/total_seconds) * 100)
+	end
+end
+
+local function GetGrowthInformation(current_growth)
+	if current_growth >= 100 then
+		return "Ready", 5
+	elseif current_growth >= 80 then
+		return "Flowering", 3
+	elseif current_growth >= 70 then
+		return "Vegetative", 2
+	elseif current_growth >= 50 then
+		return "Germination", 1
+	elseif current_growth >= 30 then
+		return "Seedling", 0
+	else
+		return "Seed", 0
+	end
+end
+
+function spawnPlant(_x,_y,_z)
+	local _plant = CreateObject(GetHashKey(), _x, _y, _z, true, p5, dynamic)
+	plant = {
+		x = _x,
+		y = _y,
+		z =_z,
+		start_time = 0,
+		end_time = 0,
+		object = _plant
+	}
+	table.insert(planted_seed, plant)
+end
+
+RegisterNetEvent("plant:sync")
+AddEventHandler("plant:sync", function(_plants)
+	for i = 1, #_plants do
+		planted_seed[i].start_time = _plants[i].start_time
+		planted_seed[i].end_time = _plants[i].end_time
+	end
 end)
 
 Citizen.CreateThread(function()
@@ -179,7 +230,33 @@ Citizen.CreateThread(function()
 					end
 				end
 				if isLandRaked then
-					
+					if Vdist(pos.x, pos.y, pos.z, plot[1].x, plot[1].y, plot[1].z) < 40 then
+						DisplayHelpText("Press ~INPUT_CONTEXT~ to plant a seed")
+						if IsControlJustPressed(1, 51)
+							TaskStartScenarioInPlace(PlayerPedId(), scenario, 0, false)
+							Citizen.Wait(4000)
+							ClearPedTasks(ped)
+							spawnPlant(pos.x, pos.y, pos.z)
+						end
+					end
+					for k, v in pairs(planted_seed) do
+						if Vdist2(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 1 then
+							local growth = CalculateGrowth(GetCurrentServerTime(), v.start_time, v.end_time)
+							local message, amount = GetGrowthInformation(growth)
+							Draw3DText(v.x, v.y, v.z, growth.."%")
+							Draw3DText(v.x, v.y, v.z-0.1, message.." ["..amount.."]")
+							if IsControlJustPressed(1, 51) then
+								if growth >= 50 then
+									TriggerServerEvent("plant:harvest", k)
+									TaskStartScenarioInPlace(PlayerPedId(), scenario, 0, false);
+									Citizen.Wait(4000)
+									ClearPedTasks(ped)
+									DestoryObject(v.object)
+									table.remove(v)
+								end
+							end
+						end
+					end
 				else
 					Notify("You must rake all of the land before you can place crops!", 3000)
 				end
