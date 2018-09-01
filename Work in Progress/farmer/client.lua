@@ -212,7 +212,7 @@ Citizen.CreateThread(function()
 								end
 							end
 						else
-							if IsEntityDead(tractor_rake then
+							if IsEntityDead(tractor_rake) then
 								tractor_rake = nil
 								Notify("The trailer was destroyed, go get a new one!", 3000)
 							end
