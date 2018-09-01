@@ -1,6 +1,6 @@
 local isFarmer = true
 local isFarmerInService = false
-local tractor_rent = 250
+local tractor_rent = 50
 local tractor = nil
 local tractor_rake = nil
 local farmer_job = nil
