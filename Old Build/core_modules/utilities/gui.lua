@@ -86,7 +86,7 @@ end
 function Menu.DisplayCurMenu()
 	if not (curMenu == "") then
 		menuOpen = true
-		Menu.Title(Menus[curMenu].title)
+		Menu.Title(Menus[curMenu].title or "")
 		for k,v in pairs(Menus[curMenu].options) do
 			v()
 		end
