@@ -232,7 +232,7 @@ Citizen.CreateThread(function()
 				if isLandRaked then
 					if Vdist(pos.x, pos.y, pos.z, plot[1].x, plot[1].y, plot[1].z) < 40 then
 						DisplayHelpText("Press ~INPUT_CONTEXT~ to plant a seed")
-						if IsControlJustPressed(1, 51)
+						if IsControlJustPressed(1, 51) then
 							TaskStartScenarioInPlace(PlayerPedId(), scenario, 0, false)
 							Citizen.Wait(4000)
 							ClearPedTasks(ped)
