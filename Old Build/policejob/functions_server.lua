@@ -292,7 +292,7 @@ end)
 RegisterServerEvent('police:impound')
 AddEventHandler('police:impound', function(plate, amount)
 	if tonumber(plate, 16) ~= nil then
-		exports['GHMattiMySQL']:QueryResultAsync("SELECT identifier FROM vehicles WHERE plate=@plate", {["@plate"] = tonumber(plate, 16)}, function(identifier)
+		exports['GHMattiMySQL']:QueryResultAsync("SELECT characters.identifier FROM vehicles INNER JOIN characters ON vehicles.character_id = characters.character_id WHERE plate=@plate", {["@plate"] = tonumber(plate, 16)}, function(identifier)
 			if identifier[1] == nil then
 			else
 				TriggerEvent("core:getuserfromidentifier", identifier[1].identifier, function(target)
