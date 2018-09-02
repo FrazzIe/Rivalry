@@ -441,10 +441,11 @@ AddEventHandler("properties:deposit", function(property_type, property_variant, 
 										        ["scope"] = _data.scope, 
 										        ["grip"] = _data.grip, 
 										        ["advanced_scope"] = _data.advanced_scope, 
-										        ["skin"] = _data.skin, 
+										        ["skin"] = _data.skin,
+										        ["owner"] = _data.owner,
 										    }
 										}, function(weapon_id)
-										    table.insert(properties[property_type][property_variant][property_id]["storage"]["current"][deposit_type], {id = weapon_id, sellprice = _data.sellprice, model = _data.model, ammo = _data.ammo, suppressor = _data.suppressor, flashlight = _data.flashlight, extended_clip = _data.extended_clip, scope = _data.scope, grip = _data.grip, advanced_scope = _data.advanced_scope, skin = _data.skin})
+										    table.insert(properties[property_type][property_variant][property_id]["storage"]["current"][deposit_type], {id = weapon_id, sellprice = _data.sellprice, model = _data.model, ammo = _data.ammo, suppressor = _data.suppressor, flashlight = _data.flashlight, extended_clip = _data.extended_clip, scope = _data.scope, grip = _data.grip, advanced_scope = _data.advanced_scope, skin = _data.skin, owner = _data.owner})
 										    TriggerClientEvent("properties:sync", -1, properties)
 										    TriggerClientEvent("weapon:set", source, user_weapons[source])
 										    TriggerClientEvent("weapon:give", source)
@@ -542,7 +543,7 @@ AddEventHandler("properties:withdraw", function(property_type, property_variant,
 										if properties[property_type][property_variant][property_id]["storage"]["current"][withdraw_type][_data.weapon_id] then
 											table.remove(properties[property_type][property_variant][property_id]["storage"]["current"][withdraw_type], _data.weapon_id)
 											exports["GHMattiMySQL"]:QueryAsync("DELETE FROM properties_"..property_type.."_"..property_variant.."_weapons WHERE (property_id=@property_id) AND (id=@weapon_id)", {["@property_id"] = property_id, ["@weapon_id"] = _data.weapon.id})
-											exports["GHMattiMySQL"]:QueryAsync("INSERT INTO weapons (`character_id`,`sellprice`,`model`,`ammo`,`suppressor`,`flashlight`,`extended_clip`,`scope`,`grip`,`advanced_scope`,`skin`) VALUES (@character_id,@sellprice,@model,@ammo,@suppressor,@flashlight,@extended_clip,@scope,@grip,@advanced_scope,@skin)", {
+											exports["GHMattiMySQL"]:QueryAsync("INSERT INTO weapons (`character_id`,`sellprice`,`model`,`ammo`,`suppressor`,`flashlight`,`extended_clip`,`scope`,`grip`,`advanced_scope`,`skin`,`owner`) VALUES (@character_id,@sellprice,@model,@ammo,@suppressor,@flashlight,@extended_clip,@scope,@grip,@advanced_scope,@skin,@owner)", {
 												["@character_id"] = user.get("characterID"), 
 												["@sellprice"] = _data.weapon.sellprice,
 												["@model"] = _data.weapon.model,
@@ -554,8 +555,9 @@ AddEventHandler("properties:withdraw", function(property_type, property_variant,
 												["@grip"] = _data.weapon.grip,
 												["@advanced_scope"] = _data.weapon.advanced_scope,
 												["@skin"] = _data.weapon.skin,
+												["@owner"] = _data.weapon.owner,
 											})
-											user_weapons[source][_data.weapon.model] = { character_id = user.get("characterID"), sellprice = _data.weapon.sellprice, model = _data.weapon.model, ammo = _data.weapon.ammo, suppressor = _data.weapon.suppressor, flashlight = _data.weapon.flashlight, extended_clip = _data.weapon.extended_clip, scope = _data.weapon.scope, grip = _data.weapon.grip, advanced_scope = _data.weapon.advanced_scope, skin = _data.weapon.skin }
+											user_weapons[source][_data.weapon.model] = { character_id = user.get("characterID"), sellprice = _data.weapon.sellprice, model = _data.weapon.model, ammo = _data.weapon.ammo, suppressor = _data.weapon.suppressor, flashlight = _data.weapon.flashlight, extended_clip = _data.weapon.extended_clip, scope = _data.weapon.scope, grip = _data.weapon.grip, advanced_scope = _data.weapon.advanced_scope, skin = _data.weapon.skin, owner = _data.weapon.owner }
 											TriggerClientEvent("properties:sync", -1, properties)
 											TriggerClientEvent("weapon:set", source, user_weapons[source])
 											TriggerClientEvent("weapon:give", source)

@@ -102,7 +102,7 @@ exports["GHMattiMySQL"]:QueryResultAsync("SELECT * from vehicle_weapon_inventory
             weapons_setup[v.plate].locked = "false"
         end
         for k,v in pairs(weapon_inventory) do
-            table.insert(weapons_setup[v.plate].weapons,{ id = v.id, plate = v.plate, sellprice = v.sellprice, model = v.model, ammo = v.ammo, suppressor = v.suppressor, flashlight = v.flashlight, extended_clip = v.extended_clip, scope = v.scope, grip = v.grip, advanced_scope = v.advanced_scope, skin = v.skin, locked = v.locked})
+            table.insert(weapons_setup[v.plate].weapons,{ id = v.id, plate = v.plate, sellprice = v.sellprice, model = v.model, ammo = v.ammo, suppressor = v.suppressor, flashlight = v.flashlight, extended_clip = v.extended_clip, scope = v.scope, grip = v.grip, advanced_scope = v.advanced_scope, skin = v.skin, locked = v.locked, owner = v.owner})
             weapons_setup[v.plate].locked = v.locked
         end
         vehicle_weapon_inventory = weapons_setup
@@ -1135,10 +1135,11 @@ AddEventHandler("inventory:vehicle_weapon_deposit", function(plate, weapon)
                             ["grip"] = weapon.grip, 
                             ["advanced_scope"] = weapon.advanced_scope, 
                             ["skin"] = weapon.skin, 
-                            ["locked"] = vehicle_weapon_inventory[plate].locked
+                            ["locked"] = vehicle_weapon_inventory[plate].locked,
+                            ["owner"] = weapon.owner,
                         }
                     }, function(weapon_id)
-                        table.insert(vehicle_weapon_inventory[plate].weapons, { id = weapon_id, plate = plate, sellprice = weapon.sellprice, model = weapon.model, ammo = weapon.ammo, suppressor = weapon.suppressor, flashlight = weapon.flashlight, extended_clip = weapon.extended_clip, scope = weapon.scope, grip = weapon.grip, advanced_scope = weapon.advanced_scope, skin = weapon.skin, locked = vehicle_weapon_inventory[plate].locked })
+                        table.insert(vehicle_weapon_inventory[plate].weapons, { id = weapon_id, plate = plate, sellprice = weapon.sellprice, model = weapon.model, ammo = weapon.ammo, suppressor = weapon.suppressor, flashlight = weapon.flashlight, extended_clip = weapon.extended_clip, scope = weapon.scope, grip = weapon.grip, advanced_scope = weapon.advanced_scope, skin = weapon.skin, locked = vehicle_weapon_inventory[plate].locked, owner = weapon.owner })
                         TriggerClientEvent("inventory:updateitems_vehicle_weapon", -1, vehicle_weapon_inventory)
                         TriggerClientEvent("weapon:set", source, user_weapons[source])
                         TriggerClientEvent("weapon:give", source)
@@ -1168,10 +1169,11 @@ AddEventHandler("inventory:vehicle_weapon_deposit", function(plate, weapon)
                             ["grip"] = weapon.grip, 
                             ["advanced_scope"] = weapon.advanced_scope, 
                             ["skin"] = weapon.skin, 
-                            ["locked"] = vehicle_weapon_inventory[plate].locked
+                            ["locked"] = vehicle_weapon_inventory[plate].locked,
+                            ["owner"] = weapon.owner,
                         }
                     }, function(weapon_id)
-                        table.insert(vehicle_weapon_inventory[plate].weapons, { id = weapon_id, plate = plate, sellprice = weapon.sellprice, model = weapon.model, ammo = weapon.ammo, suppressor = weapon.suppressor, flashlight = weapon.flashlight, extended_clip = weapon.extended_clip, scope = weapon.scope, grip = weapon.grip, advanced_scope = weapon.advanced_scope, skin = weapon.skin, locked = vehicle_weapon_inventory[plate].locked })
+                        table.insert(vehicle_weapon_inventory[plate].weapons, { id = weapon_id, plate = plate, sellprice = weapon.sellprice, model = weapon.model, ammo = weapon.ammo, suppressor = weapon.suppressor, flashlight = weapon.flashlight, extended_clip = weapon.extended_clip, scope = weapon.scope, grip = weapon.grip, advanced_scope = weapon.advanced_scope, skin = weapon.skin, locked = vehicle_weapon_inventory[plate].locked, owner = weapon.owner })
                         TriggerClientEvent("inventory:updateitems_vehicle_weapon", -1, vehicle_weapon_inventory)
                         TriggerClientEvent("weapon:set", source, user_weapons[source])
                         TriggerClientEvent("weapon:give", source)
@@ -1202,7 +1204,7 @@ AddEventHandler("inventory:vehicle_weapon_withdraw", function(plate, weapon, wea
                             ["@plate"] = plate,
                             ["@weapon_id"] = weapon.id,
                         })
-                        exports["GHMattiMySQL"]:QueryAsync("INSERT INTO weapons (`character_id`,`sellprice`,`model`,`ammo`,`suppressor`,`flashlight`,`extended_clip`,`scope`,`grip`,`advanced_scope`,`skin`) VALUES (@character_id, @sellprice,@model,@ammo,@suppressor,@flashlight,@extended_clip,@scope,@grip,@advanced_scope,@skin)", {
+                        exports["GHMattiMySQL"]:QueryAsync("INSERT INTO weapons (`character_id`,`sellprice`,`model`,`ammo`,`suppressor`,`flashlight`,`extended_clip`,`scope`,`grip`,`advanced_scope`,`skin`,`owner`) VALUES (@character_id, @sellprice,@model,@ammo,@suppressor,@flashlight,@extended_clip,@scope,@grip,@advanced_scope,@skin,@owner)", {
                             ["@character_id"] = user.get("characterID"),            
                             ["@sellprice"] = weapon.sellprice,
                             ["@model"] = weapon.model,
@@ -1214,8 +1216,9 @@ AddEventHandler("inventory:vehicle_weapon_withdraw", function(plate, weapon, wea
                             ["@grip"] = weapon.grip,
                             ["@advanced_scope"] = weapon.advanced_scope,
                             ["@skin"] = weapon.skin,
+                            ["@owner"] = weapon.owner,
                         })
-                        user_weapons[source][weapon.model] = { character_id = user.get("characterID"), sellprice = weapon.sellprice, model = weapon.model, ammo = weapon.ammo, suppressor = weapon.suppressor, flashlight = weapon.flashlight, extended_clip = weapon.extended_clip, scope = weapon.scope, grip = weapon.grip, advanced_scope = weapon.advanced_scope, skin = weapon.skin }
+                        user_weapons[source][weapon.model] = { character_id = user.get("characterID"), sellprice = weapon.sellprice, model = weapon.model, ammo = weapon.ammo, suppressor = weapon.suppressor, flashlight = weapon.flashlight, extended_clip = weapon.extended_clip, scope = weapon.scope, grip = weapon.grip, advanced_scope = weapon.advanced_scope, skin = weapon.skin, owner = weapon.owner }
                         TriggerClientEvent("inventory:updateitems_vehicle_weapon", -1, vehicle_weapon_inventory)
                         TriggerClientEvent("weapon:set", source, user_weapons[source])
                         TriggerClientEvent("weapon:give", source)
@@ -1420,7 +1423,7 @@ function updateInventories()
                     weapons_setup[v.plate].locked = "false"
                 end
                 for k,v in pairs(weapon_inventory) do
-                    table.insert(weapons_setup[v.plate].weapons,{ id = v.id, plate = v.plate, sellprice = v.sellprice, model = v.model, ammo = v.ammo, suppressor = v.suppressor, flashlight = v.flashlight, extended_clip = v.extended_clip, scope = v.scope, grip = v.grip, advanced_scope = v.advanced_scope, skin = v.skin, locked = v.locked})
+                    table.insert(weapons_setup[v.plate].weapons,{ id = v.id, plate = v.plate, sellprice = v.sellprice, model = v.model, ammo = v.ammo, suppressor = v.suppressor, flashlight = v.flashlight, extended_clip = v.extended_clip, scope = v.scope, grip = v.grip, advanced_scope = v.advanced_scope, skin = v.skin, locked = v.locked, owner = v.owner})
                     weapons_setup[v.plate].locked = v.locked
                 end
                 vehicle_weapon_inventory = weapons_setup
