@@ -107,16 +107,11 @@ AddEventHandler('police:search', function(target, type)
 				end
 			end)
 		elseif type == "weapons" then
-			local message = ""
 			TriggerEvent("weapon:getuser", target, function(_weapon)
 				if _weapon ~= nil then
-					if #_weapon ~= 0 then
+					if tablelength(_weapon) > 0 then
 						for k,v in pairs(_weapon) do
-							TriggerClientEvent("chat:addMessage", source or -1, {
-								color = {tonumber(R) or 255, tonumber(G) or 255,tonumber(B) or 255},
-								multiline = true,
-								args = {"FRISK", "Weapon: "..Weapons_names[k]..", Serial number: "..v.id},
-							})
+							TriggerClientEvent("chatMessage", source, "Frisk", {16, 102, 158}, "Weapon: "..Weapons_names[k]..", Serial number: "..v.id)
 						end
 					else
 						TriggerClientEvent("pNotify:SendNotification", source, {text = "No weapons found",type = "error",queue = "left",timeout = 2500,layout = "centerRight"})
@@ -178,13 +173,9 @@ AddEventHandler('police:search_vehicle', function(target, type)
 			TriggerEvent("inventory:getvehicle", target, type, function(_weapon)
 				if _weapon ~= nil then
 					if _weapon.weapons then
-						if #_weapon.weapons ~= 0 then
+						if tablelength(_weapon.weapons) > 0 then
 							for k,v in pairs(_weapon.weapons) do
-								TriggerClientEvent("chat:addMessage", source or -1, {
-									color = {tonumber(R) or 255, tonumber(G) or 255,tonumber(B) or 255},
-									multiline = true,
-									args = {"FRISK", "Weapon: "..Weapons_names[v.model]..", Serial number: "..v.id},
-								})
+								TriggerClientEvent("chatMessage", source, "Search", {16, 102, 158}, "Weapon: "..Weapons_names[v.model]..", Serial number: "..v.id)
 							end
 						else
 							TriggerClientEvent("pNotify:SendNotification", source, {text = "No weapons found",type = "error",queue = "left",timeout = 2500,layout = "centerRight"})
@@ -387,24 +378,38 @@ TriggerEvent("core:addGroupCommand", "runplate", "emergency", function(source, a
 end, {help = "Run a plate"})
 
 TriggerEvent("core:addGroupCommand", "runserial", "emergency", function(source, args, rawCommand, data, power, group)
-	if args[1] then
-		if args[1] ~= nil then
-			if tonumber(args[1]) then
-				exports['GHMattiMySQL']:QueryResultAsync("SELECT CONCAT(characters.first_name, ' ', characters.last_name) FROM weapons INNER JOIN characters ON weapons.owner = characters.character_id  WHERE id=@id", {["@id"] = tonumber(args[1])}, function(owner)
-					if owner[1] ~= nil then
-						TriggerClientEvent("chatMessage", source, "Dispatch", {0, 255, 0}, "The weapon with serial number: "..tonumber(args[1]).." belongs to "..owner[1])
-					else
-						TriggerClientEvent("chatMessage", source, "Dispatch", {0, 255, 0}, "The weapon with serial number: "..tonumber(args[1]).." isn't registered!")
-					end
-				end)
+	if args[2] then
+		if args[1] == "p" or args[1] == "v" or args[1] == "vehicle" or args[1] == "person" then
+			if args[1] == "p" or args[1] == "person" then
+				if tonumber(args[2]) then
+					exports['GHMattiMySQL']:QueryResultAsync("SELECT CONCAT(characters.first_name, ' ', characters.last_name) AS 'name' FROM weapons INNER JOIN characters ON weapons.owner = characters.character_id WHERE id=@id", {["@id"] = tonumber(args[1])}, function(owner)
+						if owner[1] ~= nil then
+							TriggerClientEvent("chatMessage", source, "Dispatch", {0, 255, 0}, "The weapon with serial number ^3"..tonumber(args[2]).."^0 belongs to "..owner[1].name)
+						else
+							TriggerClientEvent("chatMessage", source, "Dispatch", {0, 255, 0}, "The weapon with serial number ^3"..tonumber(args[2]).."^0 isn't registered!")
+						end
+					end)
+				else
+					TriggerClientEvent("chatMessage", source, "Dispatch", {0, 255, 0}, "An unexpected error occured, please try again!")
+				end
 			else
-				TriggerClientEvent("chatMessage", source, "Dispatch", {0, 255, 0}, "An unexpected error occured, please try again!")
+				if tonumber(args[2]) then
+					exports['GHMattiMySQL']:QueryResultAsync("SELECT CONCAT(characters.first_name, ' ', characters.last_name) AS 'name' FROM vehicle_weapon_inventory INNER JOIN characters ON vehicle_weapon_inventory.owner = characters.character_id WHERE id=@id", {["@id"] = tonumber(args[1])}, function(owner)
+						if owner[1] ~= nil then
+							TriggerClientEvent("chatMessage", source, "Dispatch", {0, 255, 0}, "The weapon with serial number ^3"..tonumber(args[2]).."^0 belongs to "..owner[1].name)
+						else
+							TriggerClientEvent("chatMessage", source, "Dispatch", {0, 255, 0}, "The weapon with serial number ^3"..tonumber(args[2]).."^0 isn't registered!")
+						end
+					end)
+				else
+					TriggerClientEvent("chatMessage", source, "Dispatch", {0, 255, 0}, "An unexpected error occured, please try again!")
+				end
 			end
 		else
 			TriggerClientEvent("chatMessage", source, "Dispatch", {0, 255, 0}, "An unexpected error occured, please try again!")
 		end
 	end
-end, {help = "Run a weapon serial number"})
+end, {help = "Run a weapon serial number", params = {{name = "location", help = "p | person | v | vehicle - Is the gun on a person or in a vehicle"},{name = "serial", help = "Serial number"}}})
 
 TriggerEvent("core:addGroupCommand", "checktow", "emergency", function(source, args, rawCommand, data, power, group)
 	TriggerEvent("getMechs", function(mechanics)
@@ -421,3 +426,4 @@ AddEventHandler("Spikes.Burst", function(Target, Tyre)
 	local Source = source
 	TriggerClientEvent("Spikes.Burst", Target, Tyre)
 end)
+

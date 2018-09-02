@@ -15,136 +15,136 @@ local license_cost = 10000
 max_weapons = 4
 user_weapons = {}
 Weapons = {
-    ["WEAPON_PISTOL"] = 550,
-    ["WEAPON_COMBATPISTOL"] = 625,
-    ["WEAPON_PISTOL50"] = 2500,
-    ["WEAPON_HEAVYPISTOL"] = 1,
-    ["WEAPON_SNSPISTOL"] = 1500,
-    ["WEAPON_APPISTOL"] = 1,
-    ["WEAPON_VINTAGEPISTOL"] = 1050,
-    ["WEAPON_REVOLVER"] = 1,
-    ["WEAPON_MARKSMANPISTOL"] = 1,
-    ["WEAPON_FLAREGUN"] = 1,
-    ["WEAPON_STUNGUN"] = 300,
+	["WEAPON_PISTOL"] = 550,
+	["WEAPON_COMBATPISTOL"] = 625,
+	["WEAPON_PISTOL50"] = 2500,
+	["WEAPON_HEAVYPISTOL"] = 1,
+	["WEAPON_SNSPISTOL"] = 1500,
+	["WEAPON_APPISTOL"] = 1,
+	["WEAPON_VINTAGEPISTOL"] = 1050,
+	["WEAPON_REVOLVER"] = 1,
+	["WEAPON_MARKSMANPISTOL"] = 1,
+	["WEAPON_FLAREGUN"] = 1,
+	["WEAPON_STUNGUN"] = 300,
 
-    ["WEAPON_MINISMG"] = 2600,
-    ["WEAPON_MACHINEPISTOL"] = 1,
-    ["WEAPON_COMBATPDW"] = 1,
-    ["WEAPON_MICROSMG"] = 3500,
-    ["WEAPON_SMG"] = 1,
-    ["WEAPON_ASSAULTSMG"] = 1,
-    ["WEAPON_GUSENBERG"] = 14000,
-    ["WEAPON_COMBATMG"] = 1,
-    ["WEAPON_MG"] = 1,
+	["WEAPON_MINISMG"] = 2600,
+	["WEAPON_MACHINEPISTOL"] = 1,
+	["WEAPON_COMBATPDW"] = 1,
+	["WEAPON_MICROSMG"] = 3500,
+	["WEAPON_SMG"] = 1,
+	["WEAPON_ASSAULTSMG"] = 1,
+	["WEAPON_GUSENBERG"] = 14000,
+	["WEAPON_COMBATMG"] = 1,
+	["WEAPON_MG"] = 1,
 
-    ["WEAPON_COMPACTRIFLE"] = 40000,
-    ["WEAPON_ADVANCEDRIFLE"] = 1,
-    ["WEAPON_ASSAULTRIFLE"] = 1,
-    ["WEAPON_BULLPUPRIFLE"] = 1,
-    ["WEAPON_CARBINERIFLE"] = 1,
-    ["WEAPON_SPECIALCARBINE"] = 1,
+	["WEAPON_COMPACTRIFLE"] = 40000,
+	["WEAPON_ADVANCEDRIFLE"] = 1,
+	["WEAPON_ASSAULTRIFLE"] = 1,
+	["WEAPON_BULLPUPRIFLE"] = 1,
+	["WEAPON_CARBINERIFLE"] = 1,
+	["WEAPON_SPECIALCARBINE"] = 1,
 
-    ["WEAPON_SNIPERRIFLE"] = 1,
-    ["WEAPON_HEAVYSNIPER"] = 1,
-    ["WEAPON_MARKSMANRIFLE"] = 1,
+	["WEAPON_SNIPERRIFLE"] = 1,
+	["WEAPON_HEAVYSNIPER"] = 1,
+	["WEAPON_MARKSMANRIFLE"] = 1,
 
-    ["WEAPON_KNIFE"] = 65,
-    ["WEAPON_FLASHLIGHT"] = 20,
-    ["WEAPON_NIGHTSTICK"] = 150,
-    ["WEAPON_HAMMER"] = 50,
-    ["WEAPON_BAT"] = 100,
-    ["WEAPON_GOLFCLUB"] = 150,
-    ["WEAPON_CROWBAR"] = 100,
-    ["WEAPON_BOTTLE"] = 50,
-    ["WEAPON_DAGGER"] = 50,
-    ["WEAPON_KNUCKLE"] = 50,
-    ["WEAPON_HATCHET"] = 70,
-    ["WEAPON_MACHETE"] = 140,
-    ["WEAPON_SWITCHBLADE"] = 150,
-    ["WEAPON_BATTLEAXE"] = 300,
-    ["WEAPON_POOLCUE"] = 50,
-    ["WEAPON_WRENCH"] = 30,
+	["WEAPON_KNIFE"] = 65,
+	["WEAPON_FLASHLIGHT"] = 20,
+	["WEAPON_NIGHTSTICK"] = 150,
+	["WEAPON_HAMMER"] = 50,
+	["WEAPON_BAT"] = 100,
+	["WEAPON_GOLFCLUB"] = 150,
+	["WEAPON_CROWBAR"] = 100,
+	["WEAPON_BOTTLE"] = 50,
+	["WEAPON_DAGGER"] = 50,
+	["WEAPON_KNUCKLE"] = 50,
+	["WEAPON_HATCHET"] = 70,
+	["WEAPON_MACHETE"] = 140,
+	["WEAPON_SWITCHBLADE"] = 150,
+	["WEAPON_BATTLEAXE"] = 300,
+	["WEAPON_POOLCUE"] = 50,
+	["WEAPON_WRENCH"] = 30,
 
-    ["WEAPON_SAWNOFFSHOTGUN"] = 900,
-    ["WEAPON_DBSHOTGUN"] = 1700,
-    ["WEAPON_AUTOSHOTGUN"] = 1,
-    ["WEAPON_PUMPSHOTGUN"] = 1100,
-    ["WEAPON_ASSAULTSHOTGUN"] = 1,
-    ["WEAPON_BULLPUPSHOTGUN"] = 1,
-    ["WEAPON_HEAVYSHOTGUN"] = 1,
-    ["WEAPON_MUSKET"] = 1,
+	["WEAPON_SAWNOFFSHOTGUN"] = 900,
+	["WEAPON_DBSHOTGUN"] = 1700,
+	["WEAPON_AUTOSHOTGUN"] = 1,
+	["WEAPON_PUMPSHOTGUN"] = 1100,
+	["WEAPON_ASSAULTSHOTGUN"] = 1,
+	["WEAPON_BULLPUPSHOTGUN"] = 1,
+	["WEAPON_HEAVYSHOTGUN"] = 1,
+	["WEAPON_MUSKET"] = 1,
 
-    ["WEAPON_GRENADELAUNCHER"] = 1,
-    ["WEAPON_COMPACTLAUNCHER"] = 1,
-    ["WEAPON_RAILGUN"] = 1,
-    ["WEAPON_HOMINGLAUNCHER"] = 1,
-    ["WEAPON_MINIGUN"] = 1,
-    ["WEAPON_RPG"] = 1,
-    ["WEAPON_FIREWORK"] = 1,
+	["WEAPON_GRENADELAUNCHER"] = 1,
+	["WEAPON_COMPACTLAUNCHER"] = 1,
+	["WEAPON_RAILGUN"] = 1,
+	["WEAPON_HOMINGLAUNCHER"] = 1,
+	["WEAPON_MINIGUN"] = 1,
+	["WEAPON_RPG"] = 1,
+	["WEAPON_FIREWORK"] = 1,
 
-    ["WEAPON_BZGAS"] = 1,
-    ["WEAPON_MOLOTOV"] = 1,
-    ["WEAPON_SMOKEGRENADE"] = 1,
-    ["WEAPON_STICKYBOMB"] = 1,
-    ["WEAPON_GRENADE"] = 1,
-    ["WEAPON_BALL"] = 50,
-    ["WEAPON_FLARE"] = 1,
-    ["WEAPON_PROXMINE"] = 1,
-    ["WEAPON_PIPEBOMB"] = 1,
-    ["WEAPON_PETROLCAN"] = 40,
-    ["WEAPON_SNOWBALL"] = 1,
+	["WEAPON_BZGAS"] = 1,
+	["WEAPON_MOLOTOV"] = 1,
+	["WEAPON_SMOKEGRENADE"] = 1,
+	["WEAPON_STICKYBOMB"] = 1,
+	["WEAPON_GRENADE"] = 1,
+	["WEAPON_BALL"] = 50,
+	["WEAPON_FLARE"] = 1,
+	["WEAPON_PROXMINE"] = 1,
+	["WEAPON_PIPEBOMB"] = 1,
+	["WEAPON_PETROLCAN"] = 40,
+	["WEAPON_SNOWBALL"] = 1,
 
-    ["WEAPON_DIGISCANNER"] = 1,
-    ["WEAPON_REMOTESNIPER"] = 1,
+	["WEAPON_DIGISCANNER"] = 1,
+	["WEAPON_REMOTESNIPER"] = 1,
 
-    ["GADGET_PARACHUTE"] = 500,
+	["GADGET_PARACHUTE"] = 500,
 }
 Attachments_Cost = {
-    ["Suppressor"] = {15000, 17760},
-    ["Flashlight"] = {300, 872},
-    ["Extended clip"] = {1900, 2178},
-    ["Scope"] = {1000, 1472},
-    ["Grip"] = {300, 864},
-    ["Advanced Scope"] = {2500, 3178},
-    ["Yusuf Amir Luxury Finish"] = {3000, 4000},
-    ["Platinum Pearl Deluxe Finish"] = {3000, 4000},
-    ["Etched Wood Grip Finish"] = {1000, 2000},
-    ["Gilded Gun Metal Finish"] = {2000, 3000},
-    ["Eteched Gun Metal Finish"] = {2000, 3000},
-    ["Bodyguard Variant"] = {1000, 1600},
-    ["VIP Variant"] = {3000, 4000},
-    ["Black tint"] = {1000, 2000},
-    ["Army tint"] = {1000, 2000},
-    ["Green tint"] = {1000, 2000},
-    ["Orange tint"] = {1000, 2000},
-    ["LSPD tint"] = {1000, 2000},
-    ["Pink tint"] = {1000, 2000},
-    ["Gold tint"] = {3000, 4000},
-    ["Platinum tint"] = {3000, 4000},
-    ["Base Model"] = {50, 100},
-    ["The Pimp"] = {500, 800},
-    ["The Ballas"] = {500, 800},
-    ["The Hustler"] = {500, 800},
-    ["The Rock"] = {500, 800},
-    ["The Hater"] = {500, 800},
-    ["The Lover"] = {500, 800},
-    ["The Player"] = {500, 800},
-    ["The King"] = {500, 800},
-    ["The Vagos"] = {500, 800},
-    ["No tint"] = {1000, 2000},
-    ["Rainbow tint"] = {1000, 2000},
-    ["Red tint"] = {1000, 2000},
-    ["Seaside Stripes tint"] = {1000, 2000},
-    ["Widow Maker tint"] = {1000, 2000},
-    ["Patriot tint"] = {1000, 2000},
-    ["Blue tint"] = {1000, 2000},
-    ["Hornet tint"] = {1000, 2000},
-    ["Air force tint"] = {1000, 2000},
-    ["Desert tint"] = {1000, 2000},
-    ["Shadow tint"] = {1000, 2000},
-    ["High Altitude tint"] = {1000, 2000},
-    ["Airborne tint"] = {1000, 2000},
-    ["Sunrise tint"] = {1000, 2000},
+	["Suppressor"] = {15000, 17760},
+	["Flashlight"] = {300, 872},
+	["Extended clip"] = {1900, 2178},
+	["Scope"] = {1000, 1472},
+	["Grip"] = {300, 864},
+	["Advanced Scope"] = {2500, 3178},
+	["Yusuf Amir Luxury Finish"] = {3000, 4000},
+	["Platinum Pearl Deluxe Finish"] = {3000, 4000},
+	["Etched Wood Grip Finish"] = {1000, 2000},
+	["Gilded Gun Metal Finish"] = {2000, 3000},
+	["Eteched Gun Metal Finish"] = {2000, 3000},
+	["Bodyguard Variant"] = {1000, 1600},
+	["VIP Variant"] = {3000, 4000},
+	["Black tint"] = {1000, 2000},
+	["Army tint"] = {1000, 2000},
+	["Green tint"] = {1000, 2000},
+	["Orange tint"] = {1000, 2000},
+	["LSPD tint"] = {1000, 2000},
+	["Pink tint"] = {1000, 2000},
+	["Gold tint"] = {3000, 4000},
+	["Platinum tint"] = {3000, 4000},
+	["Base Model"] = {50, 100},
+	["The Pimp"] = {500, 800},
+	["The Ballas"] = {500, 800},
+	["The Hustler"] = {500, 800},
+	["The Rock"] = {500, 800},
+	["The Hater"] = {500, 800},
+	["The Lover"] = {500, 800},
+	["The Player"] = {500, 800},
+	["The King"] = {500, 800},
+	["The Vagos"] = {500, 800},
+	["No tint"] = {1000, 2000},
+	["Rainbow tint"] = {1000, 2000},
+	["Red tint"] = {1000, 2000},
+	["Seaside Stripes tint"] = {1000, 2000},
+	["Widow Maker tint"] = {1000, 2000},
+	["Patriot tint"] = {1000, 2000},
+	["Blue tint"] = {1000, 2000},
+	["Hornet tint"] = {1000, 2000},
+	["Air force tint"] = {1000, 2000},
+	["Desert tint"] = {1000, 2000},
+	["Shadow tint"] = {1000, 2000},
+	["High Altitude tint"] = {1000, 2000},
+	["Airborne tint"] = {1000, 2000},
+	["Sunrise tint"] = {1000, 2000},
 }
 Ammo = {
 	["WEAPON_PISTOL"] = {Name = "Rounds x ", Amount = 24, Cost = 40, Max = 250},
@@ -252,21 +252,21 @@ Skins = {
 }
 RegisterServerEvent("weapon:initialise")
 AddEventHandler("weapon:initialise",function(source, identifier, character_id)
-    exports["GHMattiMySQL"]:QueryResultAsync("SELECT * from weapons WHERE character_id=@character_id", {["@character_id"] = character_id}, function(weapons)
-	    if weapons[1] == nil then
-	    	user_weapons[source] = weapons
-	    	TriggerClientEvent("weapon:set", source, user_weapons[source])
-	    	TriggerClientEvent("weapon:sync", -1, user_weapons)
-	    else
-	    	local weapons_setup = {}
-		    for k,v in pairs(weapons) do
-		    	weapons_setup[v.model] = { character_id = v.character_id, sellprice = v.sellprice, model = v.model, ammo = v.ammo, suppressor = v.suppressor, flashlight = v.flashlight, extended_clip = v.extended_clip, scope = v.scope, grip = v.grip, advanced_scope = v.advanced_scope, skin = v.skin, owner = v.owner }
-		    end
+	exports["GHMattiMySQL"]:QueryResultAsync("SELECT * from weapons WHERE character_id=@character_id", {["@character_id"] = character_id}, function(weapons)
+		if weapons[1] == nil then
+			user_weapons[source] = weapons
+			TriggerClientEvent("weapon:set", source, user_weapons[source])
+			TriggerClientEvent("weapon:sync", -1, user_weapons)
+		else
+			local weapons_setup = {}
+			for k,v in pairs(weapons) do
+				weapons_setup[v.model] = { id = v.id, character_id = v.character_id, sellprice = v.sellprice, model = v.model, ammo = v.ammo, suppressor = v.suppressor, flashlight = v.flashlight, extended_clip = v.extended_clip, scope = v.scope, grip = v.grip, advanced_scope = v.advanced_scope, skin = v.skin, owner = v.owner }
+			end
 			user_weapons[source] = weapons_setup
 			TriggerClientEvent("weapon:set", source, user_weapons[source])
 			TriggerClientEvent("weapon:sync", -1, user_weapons)
 		end
-    end)
+	end)
 end)
 
 RegisterServerEvent("weapon:buy")
@@ -276,44 +276,50 @@ AddEventHandler("weapon:buy", function(model)
 		TriggerEvent("core:getuser", source, function(user)
 			if user.get("wallet") >= Weapons[model] then
 				user.removeWallet(Weapons[model])
-				exports["GHMattiMySQL"]:QueryAsync("INSERT INTO weapons (`character_id`,`sellprice`,`model`,`ammo`,`suppressor`,`flashlight`,`extended_clip`,`scope`,`grip`,`advanced_scope`,`skin`, `owner`) VALUES (@character_id,@sellprice,@model,@ammo,@suppressor,@flashlight,@extended_clip,@scope,@grip,@advanced_scope,@skin,@owner)", {
-					["@character_id"] = user.get("characterID"),
-					["@sellprice"] = Weapons[model]/2,
-					["@model"] = model,
-					["@ammo"] = 0,
-					["@suppressor"] = "false",
-					["@flashlight"] = "false",
-					["@extended_clip"] = "false",
-					["@scope"] = "false",
-					["@grip"] = "false",
-					["@advanced_scope"] = "false",
-					["@skin"] = 0,
-					["@owner"] = user.get("characterID"),
-				})
-				user_weapons[source][model] = { character_id = user.get("characterID"), sellprice = Weapons[model]/2, model = model, ammo = 0, suppressor = "false", flashlight = "false", extended_clip = "false", scope = "false", grip = "false", advanced_scope = "false", skin = 0, owner = user.get("characterID")}
-				TriggerClientEvent("weapon:set", source, user_weapons[source])
-				TriggerClientEvent("weapon:give", source)
-				TriggerClientEvent("weapon:sync", -1, user_weapons)
+				exports["GHMattiMySQL"]:Insert("weapons", {
+					{
+						["character_id"] = user.get("characterID"),
+						["sellprice"] = Weapons[model]/2,
+						["model"] = model,
+						["ammo"] = 0,
+						["suppressor"] = "false",
+						["flashlight"] = "false",
+						["extended_clip"] = "false",
+						["scope"] = "false",
+						["grip"] = "false",
+						["advanced_scope"] = "false",
+						["skin"] = 0,
+						["owner"] = user.get("characterID"),
+					}
+				}, function(weapon_id)
+					user_weapons[source][model] = { id = weapon_id, character_id = user.get("characterID"), sellprice = Weapons[model]/2, model = model, ammo = 0, suppressor = "false", flashlight = "false", extended_clip = "false", scope = "false", grip = "false", advanced_scope = "false", skin = 0, owner = user.get("characterID")}
+					TriggerClientEvent("weapon:set", source, user_weapons[source])
+					TriggerClientEvent("weapon:give", source)
+					TriggerClientEvent("weapon:sync", -1, user_weapons)
+				end, true)
 			elseif user.get("bank") >= Weapons[model] then
 				user.removeBank(Weapons[model])
-				exports["GHMattiMySQL"]:QueryAsync("INSERT INTO weapons (`character_id`,`sellprice`,`model`,`ammo`,`suppressor`,`flashlight`,`extended_clip`,`scope`,`grip`,`advanced_scope`,`skin`,`owner`) VALUES (@character_id,@sellprice,@model,@ammo,@suppressor,@flashlight,@extended_clip,@scope,@grip,@advanced_scope,@skin,@owner)", {
-					["@character_id"] = user.get("characterID"),
-					["@sellprice"] = Weapons[model]/2,
-					["@model"] = model,
-					["@ammo"] = 0,
-					["@suppressor"] = "false",
-					["@flashlight"] = "false",
-					["@extended_clip"] = "false",
-					["@scope"] = "false",
-					["@grip"] = "false",
-					["@advanced_scope"] = "false",
-					["@skin"] = 0,
-					["@owner"] = user.get("characterID"),
-				})
-				user_weapons[source][model] = { character_id = user.get("characterID"), sellprice = Weapons[model]/2, model = model, ammo = 0, suppressor = "false", flashlight = "false", extended_clip = "false", scope = "false", grip = "false", advanced_scope = "false", skin = 0, owner = user.get("characterID")}
-				TriggerClientEvent("weapon:set", source, user_weapons[source])
-				TriggerClientEvent("weapon:give", source)
-				TriggerClientEvent("weapon:sync", -1, user_weapons)
+				exports["GHMattiMySQL"]:Insert("weapons", {
+					{
+						["character_id"] = user.get("characterID"),
+						["sellprice"] = Weapons[model]/2,
+						["model"] = model,
+						["ammo"] = 0,
+						["suppressor"] = "false",
+						["flashlight"] = "false",
+						["extended_clip"] = "false",
+						["scope"] = "false",
+						["grip"] = "false",
+						["advanced_scope"] = "false",
+						["skin"] = 0,
+						["owner"] = user.get("characterID"),
+					}
+				}, function(weapon_id)
+					user_weapons[source][model] = { id = weapon_id, character_id = user.get("characterID"), sellprice = Weapons[model]/2, model = model, ammo = 0, suppressor = "false", flashlight = "false", extended_clip = "false", scope = "false", grip = "false", advanced_scope = "false", skin = 0, owner = user.get("characterID")}
+					TriggerClientEvent("weapon:set", source, user_weapons[source])
+					TriggerClientEvent("weapon:give", source)
+					TriggerClientEvent("weapon:sync", -1, user_weapons)
+				end, true)
 			else
 				Notify("Insufficient funds!", 3000, source)
 			end
@@ -330,24 +336,27 @@ AddEventHandler("weapon:buy_illegal", function(model)
 		TriggerEvent("core:getuser", source, function(user)
 			if user.get("dirty") >= Weapons[model] then
 				user.removeDirty(Weapons[model])
-				exports["GHMattiMySQL"]:QueryAsync("INSERT INTO weapons (`character_id`,`sellprice`,`model`,`ammo`,`suppressor`,`flashlight`,`extended_clip`,`scope`,`grip`,`advanced_scope`,`skin`, `owner`) VALUES (@character_id,@sellprice,@model,@ammo,@suppressor,@flashlight,@extended_clip,@scope,@grip,@advanced_scope,@skin, @owner)", {
-					["@character_id"] = user.get("characterID"),
-					["@sellprice"] = Weapons[model]/2,
-					["@model"] = model,
-					["@ammo"] = 0,
-					["@suppressor"] = "false",
-					["@flashlight"] = "false",
-					["@extended_clip"] = "false",
-					["@scope"] = "false",
-					["@grip"] = "false",
-					["@advanced_scope"] = "false",
-					["@skin"] = 0,
-					["@owner"] = 0,
-				})
-				user_weapons[source][model] = { character_id = user.get("characterID"), sellprice = Weapons[model]/2, model = model, ammo = 0, suppressor = "false", flashlight = "false", extended_clip = "false", scope = "false", grip = "false", advanced_scope = "false", skin = 0, owner = 0}
-				TriggerClientEvent("weapon:set", source, user_weapons[source])
-				TriggerClientEvent("weapon:give", source)
-				TriggerClientEvent("weapon:sync", -1, user_weapons)
+				exports["GHMattiMySQL"]:Insert("weapons", {
+					{
+						["@character_id"] = user.get("characterID"),
+						["@sellprice"] = Weapons[model]/2,
+						["@model"] = model,
+						["@ammo"] = 0,
+						["@suppressor"] = "false",
+						["@flashlight"] = "false",
+						["extended_clip"] = "false",
+						["scope"] = "false",
+						["grip"] = "false",
+						["advanced_scope"] = "false",
+						["skin"] = 0,
+						["owner"] = 0,
+					}
+				}, function(weapon_id)
+					user_weapons[source][model] = { id = weapon_id, character_id = user.get("characterID"), sellprice = Weapons[model]/2, model = model, ammo = 0, suppressor = "false", flashlight = "false", extended_clip = "false", scope = "false", grip = "false", advanced_scope = "false", skin = 0, owner = 0}
+					TriggerClientEvent("weapon:set", source, user_weapons[source])
+					TriggerClientEvent("weapon:give", source)
+					TriggerClientEvent("weapon:sync", -1, user_weapons)
+				end, true)
 			else
 				Notify("Insufficient funds!", 3000, source)
 			end
@@ -365,12 +374,12 @@ AddEventHandler("weapon:buyattachment", function(model, attachment, cost, hash)
 			cost = math.random(Attachments_Cost[attachment][1], Attachments_Cost[attachment][2])
 			cost = math.floor(cost)
 		end
-	    if Skins[attachment] then
-	    	attachment = "skin"
-	    else
+		if Skins[attachment] then
+			attachment = "skin"
+		else
 			attachment = attachment:lower()
 			attachment = string.gsub(attachment, " ", "_")
-	    end
+		end
 		TriggerEvent("core:getuser", source, function(user)
 			if user.get("wallet") >= cost then
 				user.removeWallet(cost)
@@ -514,11 +523,11 @@ AddEventHandler("weapon:give", function(model, target)
 					user_weapons[target][model] = user_weapons[source][model]
 					user_weapons[target][model].character_id = user.get("characterID")
 					user_weapons[source][model] = nil
-			        TriggerClientEvent("weapon:set", source, user_weapons[source])
-			        TriggerClientEvent("weapon:give", source)
-			        TriggerClientEvent("weapon:set", target, user_weapons[target])
-			        TriggerClientEvent("weapon:give", target)
-			        TriggerClientEvent("weapon:sync", -1, user_weapons)
+					TriggerClientEvent("weapon:set", source, user_weapons[source])
+					TriggerClientEvent("weapon:give", source)
+					TriggerClientEvent("weapon:set", target, user_weapons[target])
+					TriggerClientEvent("weapon:give", target)
+					TriggerClientEvent("weapon:sync", -1, user_weapons)
 				end)
 			else
 				Notify("This user cannot hold anymore weapons", 3000, source)
@@ -534,8 +543,8 @@ end)
 RegisterServerEvent("weapon:take")
 AddEventHandler("weapon:take", function(model, target)
 	local source = source
-    if handcuffs[target] then
-        if handcuffs[target].cuffed and handcuffs[target].keyholder == source then
+	if handcuffs[target] then
+		if handcuffs[target].cuffed and handcuffs[target].keyholder == source then
 			if user_weapons[target] then
 				if user_weapons[target][model] then
 					if not user_weapons[source][model] then
@@ -549,14 +558,14 @@ AddEventHandler("weapon:take", function(model, target)
 								user_weapons[source][model] = user_weapons[target][model]
 								user_weapons[source][model].character_id = user.get("characterID")
 								user_weapons[target][model] = nil
-						        TriggerClientEvent("weapon:set", target, user_weapons[target])
-						        TriggerClientEvent("weapon:give", target)
-						        TriggerClientEvent("weapon:set", source, user_weapons[source])
-						        TriggerClientEvent("weapon:give", source)
-						        TriggerClientEvent("weapon:sync", -1, user_weapons)
+								TriggerClientEvent("weapon:set", target, user_weapons[target])
+								TriggerClientEvent("weapon:give", target)
+								TriggerClientEvent("weapon:set", source, user_weapons[source])
+								TriggerClientEvent("weapon:give", source)
+								TriggerClientEvent("weapon:sync", -1, user_weapons)
 
-						        Notify(user.get("first_name").." "..user.get("last_name").." stole your "..Weapons_names[model], 3000, target)
-						        Notify("You stole a "..Weapons_names[model].." from "..GetIdentity(target), 3000, source)
+								Notify(user.get("first_name").." "..user.get("last_name").." stole your "..Weapons_names[model], 3000, target)
+								Notify("You stole a "..Weapons_names[model].." from "..GetIdentity(target), 3000, source)
 							end)
 						else
 							Notify("You cannot hold anymore weapons", 3000, source)
@@ -579,8 +588,8 @@ end)
 RegisterServerEvent("weapon:destroy_target")
 AddEventHandler("weapon:destroy_target", function(model, target)
 	local source = source
-    if handcuffs[target] then
-        if handcuffs[target].cuffed and handcuffs[target].keyholder == source then
+	if handcuffs[target] then
+		if handcuffs[target].cuffed and handcuffs[target].keyholder == source then
 			TriggerEvent("core:getuser", target, function(user)
 				exports["GHMattiMySQL"]:QueryAsync("DELETE FROM weapons WHERE (character_id=@character_id) AND (model=@model)", {
 					["@character_id"] = user.get("characterID"),
@@ -639,14 +648,14 @@ AddEventHandler("weapon:getuser", function(user, cb)
 end)
 
 AddEventHandler("playerDropped", function()
-    local source = source
-    user_weapons[source] = nil
+	local source = source
+	user_weapons[source] = nil
 end)
 
 AddEventHandler("core:switch", function(source)
-    local source = source
-    user_weapons[source] = {}
-    TriggerClientEvent("weapon:set", source, user_weapons[source])
-    TriggerClientEvent("weapon:give", source)
-    TriggerClientEvent("weapon:sync", -1, user_weapons)
+	local source = source
+	user_weapons[source] = {}
+	TriggerClientEvent("weapon:set", source, user_weapons[source])
+	TriggerClientEvent("weapon:give", source)
+	TriggerClientEvent("weapon:sync", -1, user_weapons)
 end)

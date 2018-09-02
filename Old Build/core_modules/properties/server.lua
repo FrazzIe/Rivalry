@@ -543,25 +543,28 @@ AddEventHandler("properties:withdraw", function(property_type, property_variant,
 										if properties[property_type][property_variant][property_id]["storage"]["current"][withdraw_type][_data.weapon_id] then
 											table.remove(properties[property_type][property_variant][property_id]["storage"]["current"][withdraw_type], _data.weapon_id)
 											exports["GHMattiMySQL"]:QueryAsync("DELETE FROM properties_"..property_type.."_"..property_variant.."_weapons WHERE (property_id=@property_id) AND (id=@weapon_id)", {["@property_id"] = property_id, ["@weapon_id"] = _data.weapon.id})
-											exports["GHMattiMySQL"]:QueryAsync("INSERT INTO weapons (`character_id`,`sellprice`,`model`,`ammo`,`suppressor`,`flashlight`,`extended_clip`,`scope`,`grip`,`advanced_scope`,`skin`,`owner`) VALUES (@character_id,@sellprice,@model,@ammo,@suppressor,@flashlight,@extended_clip,@scope,@grip,@advanced_scope,@skin,@owner)", {
-												["@character_id"] = user.get("characterID"), 
-												["@sellprice"] = _data.weapon.sellprice,
-												["@model"] = _data.weapon.model,
-												["@ammo"] = _data.weapon.ammo,
-												["@suppressor"] = _data.weapon.suppressor,
-												["@flashlight"] = _data.weapon.flashlight,
-												["@extended_clip"] = _data.weapon.extended_clip,
-												["@scope"] = _data.weapon.scope,
-												["@grip"] = _data.weapon.grip,
-												["@advanced_scope"] = _data.weapon.advanced_scope,
-												["@skin"] = _data.weapon.skin,
-												["@owner"] = _data.weapon.owner,
-											})
-											user_weapons[source][_data.weapon.model] = { character_id = user.get("characterID"), sellprice = _data.weapon.sellprice, model = _data.weapon.model, ammo = _data.weapon.ammo, suppressor = _data.weapon.suppressor, flashlight = _data.weapon.flashlight, extended_clip = _data.weapon.extended_clip, scope = _data.weapon.scope, grip = _data.weapon.grip, advanced_scope = _data.weapon.advanced_scope, skin = _data.weapon.skin, owner = _data.weapon.owner }
-											TriggerClientEvent("properties:sync", -1, properties)
-											TriggerClientEvent("weapon:set", source, user_weapons[source])
-											TriggerClientEvent("weapon:give", source)
-											TriggerClientEvent("weapon:sync", -1, user_weapons)
+											exports["GHMattiMySQL"]:Insert("weapons", {
+												{
+													["character_id"] = user.get("characterID"), 
+													["sellprice"] = _data.weapon.sellprice,
+													["model"] = _data.weapon.model,
+													["ammo"] = _data.weapon.ammo,
+													["suppressor"] = _data.weapon.suppressor,
+													["flashlight"] = _data.weapon.flashlight,
+													["extended_clip"] = _data.weapon.extended_clip,
+													["scope"] = _data.weapon.scope,
+													["grip"] = _data.weapon.grip,
+													["advanced_scope"] = _data.weapon.advanced_scope,
+													["skin"] = _data.weapon.skin,
+													["owner"] = _data.weapon.owner,
+												}
+											}, function(weapon_id)
+												user_weapons[source][_data.weapon.model] = { id = weapon_id, character_id = user.get("characterID"), sellprice = _data.weapon.sellprice, model = _data.weapon.model, ammo = _data.weapon.ammo, suppressor = _data.weapon.suppressor, flashlight = _data.weapon.flashlight, extended_clip = _data.weapon.extended_clip, scope = _data.weapon.scope, grip = _data.weapon.grip, advanced_scope = _data.weapon.advanced_scope, skin = _data.weapon.skin, owner = _data.weapon.owner }
+												TriggerClientEvent("properties:sync", -1, properties)
+												TriggerClientEvent("weapon:set", source, user_weapons[source])
+												TriggerClientEvent("weapon:give", source)
+												TriggerClientEvent("weapon:sync", -1, user_weapons)
+											end, true)
 										end
 									else
 										Notify("You cannot carry a weapon that you are already carrying", 3000, source)

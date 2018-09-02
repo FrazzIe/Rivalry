@@ -85,6 +85,12 @@ function GetIdentity(id)
     return name
 end
 
+function tablelength(T)
+    local count = 0
+    for _ in pairs(T) do count = count + 1 end
+    return count
+end
+
 function Notify(_message, _time, _target)
     TriggerClientEvent("pNotify:SendNotification", _target, {text = _message, type = "error", queue = "left", timeout = _time, layout = "centerRight"})
 end
