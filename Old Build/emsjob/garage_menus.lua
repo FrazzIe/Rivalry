@@ -344,7 +344,7 @@ function spawncar(model, type)
         if tint then
             SetVehicleWindowTint(existingVeh, 1)
         elseif helicopter then
-            SetVehicleLivery(existingVeh, 0)
+            SetVehicleLivery(existingVeh, 1)
         else
             SetVehicleWindowTint(existingVeh, 0)
         end
