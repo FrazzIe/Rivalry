@@ -69,8 +69,8 @@ itemlist = {
     [47] = {name = "Dirty Cocaine", item_id = 47, canuse = 0, illegal = true},
     [48] = {name = "Donut Taco", item_id = 48, canuse = 2, illegal = false},
     [49] = {name = "Taco", item_id = 49, canuse = 2, illegal = false},
-    [50] = {name = "Corn Husk", item_id = 50, canuse = 0, illegal = false},
-    [51] = {name = "Corn", item_id = 51, canuse = 2, illegal = false},
+    [50] = {name = "Strawberry", item_id = 50, canuse = 0, illegal = false},
+    [51] = {name = "Clean Strawberry", item_id = 51, canuse = 2, illegal = false},
 }
 
 user_max = 100

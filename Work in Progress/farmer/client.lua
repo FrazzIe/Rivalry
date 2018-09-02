@@ -94,13 +94,13 @@ local function GetGrowthInformation(current_growth)
 end
 
 function spawnPlant(_x,_y,_z)
-	local _plant = CreateObject(GetHashKey("prop_veg_corn_01"), _x, _y - 1, _z, true, false, false)
+	local _plant = CreateObject(GetHashKey("prop_veg_crop_02"), _x, _y, _z - 2, true, false, false)
 	plant = {
 		x = _x,
-		y = _y,
-		z =_z,
+		y = _y - 1,
+		z =_z - 1,
 		start_time = 0,
-		end_time = 180000,
+		end_time = 180,
 		object = _plant,
 	}
 	table.insert(planted_seed, plant)
@@ -126,7 +126,6 @@ function isNearAnotherPlant()
 	if #planted_seed > 0 then
 		for k, v in ipairs(planted_seed) do
 			if Vdist(v.x, v.y, v.z, pos.x, pos.y, pos.z) < 5 then
-				Notify("Try planting a little further from your other crop.", 3000)
 				return true
 			else
 				return false
@@ -274,12 +273,12 @@ Citizen.CreateThread(function()
 					end
 					for k, v in pairs(planted_seed) do
 						if Vdist2(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 1 then
-							DisplayHelpText("Press ~INPUT_CONTEXT~ to harvest the crop")
+							DisplayHelpText("Press ~INPUT_DETONATE~ to harvest the crop")
 							local growth = CalculateGrowth(GetCurrentServerTime(), v.start_time, v.end_time)
 							local message, amount = GetGrowthInformation(growth)
 							Draw3DText(v.x, v.y, v.z, growth.."%")
 							Draw3DText(v.x, v.y, v.z-0.1, message.." ["..amount.."]")
-							if IsControlJustPressed(1, 51) then
+							if IsControlJustPressed(1, 47) then
 								if growth >= 50 then
 									TriggerServerEvent("plant:harvest", k, growth, amount)
 									TaskStartScenarioInPlace(PlayerPedId(), scenario, 0, false);
