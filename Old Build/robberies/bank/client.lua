@@ -34,7 +34,7 @@ local banks = {
 		position = { ['x'] = 259.43179321289, ['y'] = 225.69024658203, ['z'] = 101.68327331543 },
 		reward = 35000,
 		nameofbank = "Pacific Standard Bank (Code Red)",
-		time = 420,
+		time = 300,
 		lastrobbed = 0
 	},
 }
