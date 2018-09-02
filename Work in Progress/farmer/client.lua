@@ -206,7 +206,7 @@ Citizen.CreateThread(function()
 							local currentPathIndex = 1
 							if Vdist(pos.x, pos.y, pos.z, locations.rake.marker.x, locations.rake.marker.y, locations.rake.marker.z) < 60 and path[currentPathIndex].completed == 0 then
 								drawMarker(25, path[currentPathIndex].x, path[currentPathIndex].y, path[currentPathIndex].z, 1.0, 1.0, 1.5, 0, 255, 0, 255)
-								if Vdist(pos.x, pos.y, pos.z, path[currentPathIndex].x, path[currentPathIndex].x, path[currentPathIndex].x) < 1 then
+								if Vdist(pos.x, pos.y, pos.z, path[currentPathIndex].x, path[currentPathIndex].y, path[currentPathIndex].z) < 1 then
 									path[currentPathIndex].completed = 1
 									currentPathIndex = currentPathIndex + 1
 								end
