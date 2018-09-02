@@ -6,6 +6,7 @@ local tractor_rake = nil
 local farmer_job = nil
 local tractor_rake_blip, farmer_blip = nil, nil
 local isLandRaked = false
+local currentPathIndex = 1
 local plot = {x = 2186.8093261719, y = 5188.0375976563, z = 58.89741897583, h = 309.36944580078}
 
 local locations = {
@@ -102,6 +103,22 @@ function spawnPlant(_x,_y,_z)
 		object = _plant,
 	}
 	table.insert(planted_seed, plant)
+end
+
+function rakeSync()
+	path[currentPathIndex].completed = 1
+	currentPathIndex = currentPathIndex + 1
+	for k, v in ipairs(path) do
+		if(v.completed == 1) then
+			isAllRaked = isAllRaked + 1
+		end
+	end
+	if (isAllRaked == 18) then
+		isLandRaked = true
+		for k, v in ipairs(path)do
+			v.completed = 0
+		end
+	end
 end
 
 RegisterNetEvent("plant:sync")
@@ -203,12 +220,10 @@ Citizen.CreateThread(function()
 								SetBlipRoute(tractor_rake_blip, false)
 								tractor_rake_blip = nil
 							end
-							local currentPathIndex = 1
 							if Vdist(pos.x, pos.y, pos.z, locations.rake.marker.x, locations.rake.marker.y, locations.rake.marker.z) < 60 and path[currentPathIndex].completed == 0 then
 								drawMarker(25, path[currentPathIndex].x, path[currentPathIndex].y, path[currentPathIndex].z, 1.0, 1.0, 1.5, 0, 255, 0, 255)
 								if Vdist(pos.x, pos.y, pos.z, path[currentPathIndex].x, path[currentPathIndex].y, path[currentPathIndex].z) < 1 then
-									path[currentPathIndex].completed = 1
-									currentPathIndex = currentPathIndex + 1
+									rakeSync(currentPathIndex)
 								end
 							end
 						else
