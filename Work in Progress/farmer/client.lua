@@ -115,8 +115,8 @@ function rakeSync()
 		end
 	end
 	if (isAllRaked == 18) then
-		currentPathIndex = 0
 		isLandRaked = true
+		currentPathIndex = 0
 	end
 end
 
@@ -244,7 +244,7 @@ Citizen.CreateThread(function()
 					end
 				end
 				if isLandRaked then
-					if Vdist(pos.x, pos.y, pos.z, plot[1].x, plot[1].y, plot[1].z) < 40 then
+					if Vdist(pos.x, pos.y, pos.z, plot.x, plot.y, plot.z) < 40 then
 						DisplayHelpText("Press ~INPUT_CONTEXT~ to plant a seed")
 						if IsControlJustPressed(1, 51) then
 							TaskStartScenarioInPlace(PlayerPedId(), scenario, 0, false)
