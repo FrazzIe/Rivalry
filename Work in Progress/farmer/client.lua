@@ -93,12 +93,36 @@ local function GetGrowthInformation(current_growth)
 	end
 end
 
+function DestroyObject(Handle)
+	Citizen.CreateThread(function()
+		local Handle = Handle
+		local Start = GetGameTimer()
+
+		NetworkRequestControlOfEntity(Handle)
+
+		while not NetworkHasControlOfEntity(Handle) and Start + 5000 > GetGameTimer() do
+			Citizen.Wait(0)
+		end
+
+		if IsEntityAttachedToAnyObject(Handle) or IsEntityAttachedToAnyPed(Handle) or IsEntityAttachedToAnyVehicle(Handle) then
+			 DetachEntity(Handle, 0, false)
+		end
+		
+		DeleteObject(Handle)
+		SetEntityAsNoLongerNeeded(Handle)
+
+		if DoesEntityExist(Handle) then
+			SetEntityCoords(Handle, 601.28948974609, -4396.9853515625, 384.98565673828)
+		end
+	end)
+end
+
 function spawnPlant(_x,_y,_z)
-	local _plant = CreateObject(GetHashKey("prop_veg_crop_02"), _x, _y, _z - 2, true, false, false)
+	local _plant = CreateObject(GetHashKey("prop_veg_crop_02"), _x, _y, _z - 1, true, false, false)
 	plant = {
 		x = _x,
-		y = _y - 1,
-		z =_z - 1,
+		y = _y - 0.3,
+		z =_z,
 		start_time = 0,
 		end_time = 180,
 		object = _plant,
@@ -284,8 +308,8 @@ Citizen.CreateThread(function()
 									TaskStartScenarioInPlace(PlayerPedId(), scenario, 0, false);
 									Citizen.Wait(4000)
 									ClearPedTasks(ped)
-									DestoryObject(v.object)
-									table.remove(v)
+									DestroyObject(v.object)
+									table.remove(k)
 								end
 							end
 						end
