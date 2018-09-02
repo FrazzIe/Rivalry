@@ -94,13 +94,13 @@ local function GetGrowthInformation(current_growth)
 end
 
 function spawnPlant(_x,_y,_z)
-	local _plant = CreateObject(GetHashKey("prop_veg_corn_01"), _x, _y, _z, true, false, false)
+	local _plant = CreateObject(GetHashKey("prop_veg_corn_01"), _x, _y - 1, _z, true, false, false)
 	plant = {
 		x = _x,
 		y = _y,
 		z =_z,
 		start_time = 0,
-		end_time = 0,
+		end_time = 180000,
 		object = _plant,
 	}
 	table.insert(planted_seed, plant)
@@ -114,9 +114,26 @@ function rakeSync()
 			isAllRaked = isAllRaked + 1
 		end
 	end
-	if (isAllRaked == 18) then
+	print(isAllRaked)
+	if (isAllRaked == 171) then
 		isLandRaked = true
 		currentPathIndex = 0
+	end
+end
+
+function isNearAnotherPlant()
+	local pos = GetEntityCoords(PlayerPedId(), false)
+	if #planted_seed > 0 then
+		for k, v in ipairs(planted_seed) do
+			if Vdist(v.x, v.y, v.z, pos.x, pos.y, pos.z) < 5 then
+				Notify("Try planting a little further from your other crop.", 3000)
+				return true
+			else
+				return false
+			end
+		end
+	else
+		return false
 	end
 end
 
@@ -219,10 +236,12 @@ Citizen.CreateThread(function()
 								SetBlipRoute(tractor_rake_blip, false)
 								tractor_rake_blip = nil
 							end
-							if Vdist(pos.x, pos.y, pos.z, locations.rake.marker.x, locations.rake.marker.y, locations.rake.marker.z) < 60 and currentPathIndex ~= 19 and path[currentPathIndex].completed == 0 then
-								drawMarker(25, path[currentPathIndex].x, path[currentPathIndex].y, path[currentPathIndex].z, 1.0, 1.0, 1.5, 0, 255, 0, 255)
-								if Vdist(pos.x, pos.y, pos.z, path[currentPathIndex].x, path[currentPathIndex].y, path[currentPathIndex].z) < 1 then
-									rakeSync(currentPathIndex)
+							if isAllRaked ~= 171 then
+								if Vdist(pos.x, pos.y, pos.z, locations.rake.marker.x, locations.rake.marker.y, locations.rake.marker.z) < 60 and currentPathIndex ~= 19 and path[currentPathIndex].completed == 0 then
+									drawMarker(25, path[currentPathIndex].x, path[currentPathIndex].y, path[currentPathIndex].z, 1.0, 1.0, 1.5, 0, 255, 0, 255)
+									if Vdist(pos.x, pos.y, pos.z, path[currentPathIndex].x, path[currentPathIndex].y, path[currentPathIndex].z) < 1 then
+										rakeSync(currentPathIndex)
+									end
 								end
 							end
 						else
@@ -244,7 +263,7 @@ Citizen.CreateThread(function()
 					end
 				end
 				if isLandRaked then
-					if Vdist(pos.x, pos.y, pos.z, plot.x, plot.y, plot.z) < 40 then
+					if Vdist(pos.x, pos.y, pos.z, plot.x, plot.y, plot.z) < 40 and isNearAnotherPlant() == false then
 						DisplayHelpText("Press ~INPUT_CONTEXT~ to plant a seed")
 						if IsControlJustPressed(1, 51) then
 							TaskStartScenarioInPlace(PlayerPedId(), scenario, 0, false)
