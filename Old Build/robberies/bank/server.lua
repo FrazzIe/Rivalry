@@ -36,7 +36,7 @@ local banks = {
 	}
 }
 
-local cooldown = 150--minutes
+local cooldown = 90--minutes
 local cops = 0
 
 RegisterServerEvent('bank:toofar')
