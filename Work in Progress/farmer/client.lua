@@ -130,7 +130,7 @@ AddEventHandler("plant:sync", function(_plants)
 end)
 
 Citizen.CreateThread(function()
-	CreateBlip("", 477, 21, locations.service.x, locations.service.y, locations.service.z)
+	CreateBlip("Crop Farms", 469, 24, locations.service.x, locations.service.y, locations.service.z)
 	while true do
 		Citizen.Wait(0)
 		local ped = PlayerPedId()
