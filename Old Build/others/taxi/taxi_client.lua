@@ -360,9 +360,9 @@ Citizen.CreateThread(function()
         distance = Vdist(coords.x, coords.y, coords.z, missionXCoord, missionYCoord, missionZCoord)
         distanceP = Vdist(missionXCoord, missionYCoord, missionZCoord, previousMissionX, previousMissionY, previousMissionZ)
         checkDistance = Vdist(coords.x, coords.y, coords.z, whoCalledX, whoCalledY, whoCalledZ)
-        if(distance < 20 and distanceP > 50 and checkDistance > 50) then
+        if(distance < 10 and distanceP > 50 and checkDistance > 50) then
             TriggerEvent('taxi:finish_mission')
-                previousMissionX = missionXCoord
+            previousMissionX = missionXCoord
             previousMissionY = missionYCoord
             previousMissionZ = missionZCoord
             RemoveBlip(currentBlip)
@@ -371,7 +371,7 @@ Citizen.CreateThread(function()
 end)
 
 Citizen.CreateThread(function()
-        while true do
+    while true do
       Citizen.Wait(180000)
         previousMissionX = 0
         previousMissionY = 0
