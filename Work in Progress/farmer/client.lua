@@ -9,6 +9,7 @@ local isLandRaked = false
 local currentPathIndex = 1
 local isAllRaked = 0
 local soldStrawberry = false
+local isConversationOver = false
 local plot = {x = 2186.8093261719, y = 5188.0375976563, z = 58.89741897583, h = 309.36944580078}
 
 local locations = {
@@ -125,8 +126,8 @@ function spawnPlant(_x,_y,_z)
 		x = _x,
 		y = _y,
 		z =_z-1,
-		start_time = 180,
-		end_time = 0,
+		start_time = 0,
+		end_time = 3,
 		object = _plant,
 	}
 	table.insert(planted_seed, plant)
@@ -183,31 +184,35 @@ RegisterNetEvent("npc:conversation")
 AddEventHandler("npc:conversation", function()
 	Notify("Meet the employer at the 24/7 on Innocence Boulevard. Make sure your prompt.", 3000)
 	Citizen.CreateThread(function()
-		local ped = PlayerPedId()
-		local pos = GetEntityCoords(ped, false)
-		if Vdist(pos.x, pos.y, pos.z, store.x, store.y, store.z) < 20 then
-			drawMarker(25, store.x, store.y, store.z, 1.0, 1.0, 1.5, 0, 255, 0, 255)
-			if Vdist(pos.x, pos.y, pos.z, store.x, store.y, store.z) < 1 then
-				RequestModel( GetHashKey( "a_f_y_buisness_01" ) )
-				while not HasModelLoaded( GetHashKey( "a_f_y_buisness_01" ) ) do
-					Citizen.Wait( 1 )
-				end
-				local NPCControl = CreatePed(3, GetHashKey("a_f_y_buisness_01"), npcoords.x, npcoords.y, npcoords.z, npcoords.h, true, true)
-				TaskGoStraightToCoord(NPCControl, task.x, task.y, task.z, 1, 0, task.h)
-				local pos2 = GetEntityCoords(NPCControl, false)
-				if Vdist(pos.x, pos.y, pos.z, pos2.x, pos2.y, pos2.z) < 3 then
-					Draw3DText(pos2.x, pos2.y, pos2.z, "Hello, I am here to buy strawberry's in bulk for my super market.")
-					Citizen.Wait(4000)
-					Draw3DText(pos2.x, pos2.y, pos2.z - 1, "I assume you are the person selling them.")
-					Citizen.Wait(4000)
-					Draw3DText(pos2.x, pos2.y, pos2.z - 2, "Here is the payout I was told to bring. Thanks for your buisness.")
-					TaskPlayAnim(NPCControl, "mp_common", "givetake1_a", 100.0, 200.0, 0.3, 16, 0.2, 0, 0, 0)
-					TaskPlayAnim(ped, "mp_common", "givetake1_a", 100.0, 200.0, 0.3, 16, 0.2, 0, 0, 0)
-					TaskWanderStandard(NPCControl, 10.0, 10)
-					isConversationOver = true
-				end
-				if Vdist(pos.x, pos.y, pos.z, pos2.x, pos2.y, pos2.z) < 100 and isConversationOver then
-					DeletePed(NPCControl)
+		while true do
+			Citizen.Wait(0)
+			local ped = PlayerPedId()
+			local pos = GetEntityCoords(ped, false)
+			if Vdist(pos.x, pos.y, pos.z, store.x, store.y, store.z) < 20 then
+				drawMarker(25, store.x, store.y, store.z, 1.0, 1.0, 1.5, 0, 255, 0, 255)
+				if Vdist(pos.x, pos.y, pos.z, store.x, store.y, store.z) < 1 then
+					local model = GetHashKey("a_f_y_buisness_01")
+					RequestModel(model)
+					while not HasModelLoaded( model ) do
+						Citizen.Wait( 1 )
+					end
+					local NPCControl = CreatePed(3, model, npcoords.x, npcoords.y, npcoords.z, npcoords.h, true, true)
+					TaskGoStraightToCoord(NPCControl, task.x, task.y, task.z, 1, 0, task.h)
+					local pos2 = GetEntityCoords(NPCControl, false)
+					if Vdist(pos.x, pos.y, pos.z, pos2.x, pos2.y, pos2.z) < 3 then
+						Draw3DText(pos2.x, pos2.y, pos2.z, "Hello, I am here to buy strawberry's in bulk for my super market.")
+						Citizen.Wait(4000)
+						Draw3DText(pos2.x, pos2.y, pos2.z - 1, "I assume you are the person selling them.")
+						Citizen.Wait(4000)
+						Draw3DText(pos2.x, pos2.y, pos2.z - 2, "Here is the payout I was told to bring. Thanks for your buisness.")
+						TaskPlayAnim(NPCControl, "mp_common", "givetake1_a", 100.0, 200.0, 0.3, 16, 0.2, 0, 0, 0)
+						TaskPlayAnim(ped, "mp_common", "givetake1_a", 100.0, 200.0, 0.3, 16, 0.2, 0, 0, 0)
+						TaskWanderStandard(NPCControl, 10.0, 10)
+						isConversationOver = true
+					end
+					if Vdist(pos.x, pos.y, pos.z, pos2.x, pos2.y, pos2.z) < 100 and isConversationOver then
+						DeletePed(NPCControl)
+					end
 				end
 			end
 		end
