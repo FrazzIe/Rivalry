@@ -48,3 +48,10 @@ AddEventHandler("plant:harvest", function(plant_id, growth, amount)
         end
     end)
 end)
+
+RegisterServerEvent('Server:ProcessCrop')
+AddEventHandler('Server:ProcessCrop', function()
+    local source = source
+    TriggerEvent("inventory:remove_server", source, 50, 1)
+    TriggerEvent("inventory:add_server", source, 51, 1)
+end)

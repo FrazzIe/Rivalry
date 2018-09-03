@@ -8,6 +8,7 @@ local tractor_rake_blip, farmer_blip = nil, nil
 local isLandRaked = false
 local currentPathIndex = 1
 local isAllRaked = 0
+local soldStrawberry = false
 local plot = {x = 2186.8093261719, y = 5188.0375976563, z = 58.89741897583, h = 309.36944580078}
 
 local locations = {
@@ -17,6 +18,7 @@ local locations = {
 		spawn = {x = 2191.7397460938, y = 5201.9365234375, z = 61.073333740234, h = 137.29484558105},
 	},
 	service = {x = 2243.3278808594, y = 5154.0966796875, z = 57.887161254883, h = 144.05862426758},
+	fridge = {x = 966.93762207031, y = -1623.9093017578, z = 30.110687255859, h = 176.55815124512},
 }
 
 local scenario = "WORLD_HUMAN_GARDENER_PLANT"
@@ -121,13 +123,18 @@ function spawnPlant(_x,_y,_z)
 	local _plant = CreateObject(GetHashKey("prop_veg_crop_02"), _x, _y, _z - 1, true, false, false)
 	plant = {
 		x = _x,
-		y = _y - 0.3,
-		z =_z,
-		start_time = 0,
-		end_time = 180,
+		y = _y,
+		z =_z-1,
+		start_time = 180,
+		end_time = 0,
 		object = _plant,
 	}
 	table.insert(planted_seed, plant)
+end
+
+function processStrawberry()
+	TriggerServerEvent('Server:ProcessCrop')
+	soldStrawberry = true
 end
 
 function rakeSync()
@@ -166,6 +173,45 @@ AddEventHandler("plant:sync", function(_plants)
 		planted_seed[i].start_time = _plants[i].start_time
 		planted_seed[i].end_time = _plants[i].end_time
 	end
+end)
+
+local npcoords = {x = -60.217746734619, y = -1352.7264404297, z = 29.369081497192, h = 267.6125793457}
+local task = {x = 25.515472412109, y = -1351.671875, z = 29.333112716675, h = 0.77475261688232}
+local store = {x = 25.568923950195, y = -1350.6950683594, z = 29.330324172974, h = 180.47160339355}
+
+RegisterNetEvent("npc:conversation")
+AddEventHandler("npc:conversation", function()
+	Notify("Meet the employer at the 24/7 on Innocence Boulevard. Make sure your prompt.", 3000)
+	Citizen.CreateThread(function()
+		local ped = PlayerPedId()
+		local pos = GetEntityCoords(ped, false)
+		if Vdist(pos.x, pos.y, pos.z, store.x, store.y, store.z) < 20 then
+			drawMarker(25, store.x, store.y, store.z, 1.0, 1.0, 1.5, 0, 255, 0, 255)
+			if Vdist(pos.x, pos.y, pos.z, store.x, store.y, store.z) < 1 then
+				RequestModel( GetHashKey( "a_f_y_buisness_01" ) )
+				while not HasModelLoaded( GetHashKey( "a_f_y_buisness_01" ) ) do
+					Citizen.Wait( 1 )
+				end
+				local NPCControl = CreatePed(3, GetHashKey("a_f_y_buisness_01"), npcoords.x, npcoords.y, npcoords.z, npcoords.h, true, true)
+				TaskGoStraightToCoord(NPCControl, task.x, task.y, task.z, 1, 0, task.h)
+				local pos2 = GetEntityCoords(NPCControl, false)
+				if Vdist(pos.x, pos.y, pos.z, pos2.x, pos2.y, pos2.z) < 3 then
+					Draw3DText(pos2.x, pos2.y, pos2.z, "Hello, I am here to buy strawberry's in bulk for my super market.")
+					Citizen.Wait(4000)
+					Draw3DText(pos2.x, pos2.y, pos2.z - 1, "I assume you are the person selling them.")
+					Citizen.Wait(4000)
+					Draw3DText(pos2.x, pos2.y, pos2.z - 2, "Here is the payout I was told to bring. Thanks for your buisness.")
+					TaskPlayAnim(NPCControl, "mp_common", "givetake1_a", 100.0, 200.0, 0.3, 16, 0.2, 0, 0, 0)
+					TaskPlayAnim(ped, "mp_common", "givetake1_a", 100.0, 200.0, 0.3, 16, 0.2, 0, 0, 0)
+					TaskWanderStandard(NPCControl, 10.0, 10)
+					isConversationOver = true
+				end
+				if Vdist(pos.x, pos.y, pos.z, pos2.x, pos2.y, pos2.z) < 100 and isConversationOver then
+					DeletePed(NPCControl)
+				end
+			end
+		end
+	end)
 end)
 
 Citizen.CreateThread(function()
@@ -309,7 +355,32 @@ Citizen.CreateThread(function()
 									Citizen.Wait(4000)
 									ClearPedTasks(ped)
 									DestroyObject(v.object)
-									table.remove(k)
+									table.remove(planted_seed, k)
+								end
+							end
+						end
+					end
+				end
+				if Vdist(pos.x, pos.y, pos.z, locations.fridge.x, locations.fridge.y, locations.fridge.z) < 20 then
+					drawMarker(25, locations.fridge.x, locations.fridge.y, locations.fridge.z, 1.0, 1.0, 1.5, 0, 255, 0, 255)
+					if Vdist(pos.x, pos.y, pos.z, locations.fridge.x, locations.fridge.y, locations.fridge.z) < 1 then
+						if not IsPedSittingInAnyVehicle(ped) then
+							if GetItemQuantity(50) > 0 then
+								DisplayHelpText("Press ~INPUT_CONTEXT~ to start packing the strawberrys")
+								if IsControlJustPressed(1, 51) then
+									TaskPlayAnim(ped, "mp_common", "givetake1_a", 100.0, 200.0, 0.3, 16, 0.2, 0, 0, 0)
+									Citizen.Wait(5000)
+									ClearPedTasks(ped)
+									processStrawberry()
+								end
+							end
+							if GetItemQuantity(50) <= 0 and soldStrawberry then
+								DisplayHelpText("Press ~INPUT_CONTEXT~ to tape the package")
+								if IsControlJustPressed(1, 51) then
+									TaskPlayAnim(ped, "mp_common", "givetake1_a", 100.0, 200.0, 0.3, 16, 0.2, 0, 0, 0)
+									Citizen.Wait(5000)
+									ClearPedTasks(ped)
+									TriggerEvent('npc:conversation')
 								end
 							end
 						end
