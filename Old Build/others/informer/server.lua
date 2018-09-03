@@ -31,7 +31,7 @@ AddEventHandler("informer:cleancoke", function()
 		local price = 5000
 		if (tonumber(user.get("wallet")) >= tonumber(price)) then
 			user.removeWallet(price)
-			TriggerClientEvent('chatMessage', source, 'Informer ', {0, 255, 100}, "What the hell.. the guy from the shipment place didn't tell you where to go? They clean the stuff somewhere up north in Paleto Bay." )
+			TriggerClientEvent('chatMessage', source, 'Informer ', {0, 255, 100}, "It used to be in Paleto Bay but the LSPD detectives found it.. they moved the operation into the city near some gay bar." )
 		else
 			TriggerClientEvent('chatMessage', source, 'Informer ', {0, 255, 100}, "Information isn't free, get your bread up!")
 		end
@@ -124,7 +124,7 @@ AddEventHandler("informer:getguns", function()
 		local price = 10000
 		if (tonumber(user.get("wallet")) >= tonumber(price)) then
 		user.removeWallet(price)
-		TriggerClientEvent('chatMessage', source, 'Informer ', {0, 255, 100}, "You might need a small vessel." )
+		TriggerClientEvent('chatMessage', source, 'Informer ', {0, 255, 100}, "You may need to rent a small vessel." )
 		else
 		TriggerClientEvent('chatMessage', source, 'Informer ', {0, 255, 100}, "Information isn't free, get your bread up!")
 		end
