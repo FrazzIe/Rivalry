@@ -446,7 +446,6 @@ end)
 
 function deliverysuccess()
 	local distance = Vdist(casino.x, casino.y, casino.z, delivery_points[l].x,delivery_points[l].y,delivery_points[l].z)
-	print(distance)
 	TriggerServerEvent("dm:clean", distance)
 	RemoveBlip(deliveryblip)
 	startDelivery()
