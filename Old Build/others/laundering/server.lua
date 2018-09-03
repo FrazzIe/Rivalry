@@ -15,7 +15,7 @@ AddEventHandler("dm:clean", function(distance)
 			user.addWallet(payment)
 			user.removeDirty(payment)
 			TriggerClientEvent("customNotification", source, "Money laundered!")
-		elseif dirty < 0 then
+		elseif dirty <= 0 then
 			TriggerClientEvent("customNotification", source, "You have no more money to clean!")
 		else
 			user.addWallet(dirty)
