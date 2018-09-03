@@ -523,6 +523,7 @@ AddEventHandler("mechanic:repairVehicle", function()
 
             local pos = GetOffsetFromEntityInWorldCoords(myPed, 0.0, 0.02, 0.0)
             local h = GetEntityHeading(myPed)
+            SetEntityHeading(myPed, GetEntityHeading(myPed) - 180)
             TaskPlayAnim(PlayerPedId(), dict, anim, 4.0, -4, -1, 1, 0, false, false, false)
             --TaskStartScenarioAtPosition(myPed, scenario,8000,1)
             Citizen.Wait(8000)
@@ -579,6 +580,7 @@ AddEventHandler("mechanic:fullrepairVehicle", function()
             end
         local pos = GetOffsetFromEntityInWorldCoords(myPed, 0.0, 0.02, 0.0)
         local h = GetEntityHeading(myPed)
+        SetEntityHeading(myPed, GetEntityHeading(myPed) - 180)
         TaskPlayAnim(PlayerPedId(), dict, anim, 4.0, -4, -1, 1, 0, false, false, false)        local value = GetVehicleBodyHealth(vehicle)
         
         while( value < 999.9 ) do
