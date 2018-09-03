@@ -14,7 +14,7 @@
 AddEventHandler("jail:initialise", function(source, time)
     local source = source
     if tonumber(time) > 0 then
-        TriggerClientEvent("jail:jail", source , tonumber(time))
+        TriggerClientEvent("jail:jail", source , tonumber(time) * 60)
     end
 end)
 
