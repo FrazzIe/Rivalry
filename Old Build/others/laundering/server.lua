@@ -23,3 +23,15 @@ AddEventHandler("dm:clean", function(distance)
 		end
 	end)
 end)
+
+RegisterServerEvent('server:launderingVan')
+AddEventHandler('server:launderingVan', function()
+	TriggerEvent("core:getuser", source, function(user)
+		if user.get("dirty") > 0 then
+			user.removeDirty(250)
+			TriggerClientEvent('client:launderingVan')
+		else
+			TriggerClientEvent("customNotification", source, "Insufficient Funds! Stop playing games with me.")
+		end
+	end)
+end)

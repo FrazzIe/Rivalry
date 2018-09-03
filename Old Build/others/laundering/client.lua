@@ -433,9 +433,9 @@ Citizen.CreateThread(function()
 			if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 15.0)then
 				DrawMarker(25, v.x, v.y, v.z - 0.9, 0, 0, 0, 0, 0, 0, 1.5001, 1.5001, 1.0001, 0, 0, 0,255, 0, 0, 0,0)
 				if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 1.0)then
-					DisplayHelpText("Press ~INPUT_CONTEXT~ to clean your money!")
+					DisplayHelpText("Press ~INPUT_CONTEXT~ to clean your money!($250 Dirty)")
 					if IsControlJustReleased(1, 51) then -- INPUT_CELLPHONE_DOWN
-						TriggerEvent('client:launderingVan')
+						TriggerServerEvent('server:launderingVan')
 					end
 				elseif(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) > 1.0)then
 				end
