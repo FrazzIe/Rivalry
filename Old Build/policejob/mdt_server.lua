@@ -56,6 +56,7 @@ end)
 
 RegisterServerEvent("police:new-arrest")
 AddEventHandler("police:new-arrest", function(officer_name, offender_name, sentenceORfine, sentence, fine, charges, offender_identifier)
+    if type(sentence) ~= "number" then sentence = 0 end
     local source = source; timestamp = os.time(); officer_identifier = getID("steam", source)
     local arrest = exports['GHMattiMySQL']:QueryResult("INSERT INTO police_arrests (`timestamp`,`officer_identifier`,`officer_name`,`offender_identifier`,`offender_name`,`sentenceORfine`,`sentence`,`fine`,`charges`) VALUES (@timestamp,@officer_identifier,@officer_name,@offender_identifier,@offender_name,@sentenceORfine,@sentence,@fine,@charges); SELECT * FROM police_arrests WHERE `id` = (SELECT LAST_INSERT_ID());", { 
         ['@timestamp'] = timestamp,
