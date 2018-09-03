@@ -120,8 +120,8 @@ local charges = {
         {charge="Release of Information", time=0, cost=100},
     }},
     {title="Traffic Violations", items = {
-        {charge="Failure to Stop - Red Light", time=0, cost=750},
-        {charge="Failure to Stop - Stop Sign", time=0, cost=500},
+        {charge="Failure to Stop - Red Light", time=0, cost=50},
+        {charge="Failure to Stop - Stop Sign", time=0, cost=50},
         {charge="Speeding 5mph Over", time=0, cost=100},
         {charge="Speeding 10mph Over", time=0, cost=150},
         {charge="Speeding 20mph Over", time=0, cost=300},
