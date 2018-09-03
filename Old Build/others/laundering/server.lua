@@ -26,6 +26,7 @@ end)
 
 RegisterServerEvent('server:launderingVan')
 AddEventHandler('server:launderingVan', function()
+	local source = source
 	TriggerEvent("core:getuser", source, function(user)
 		if user.get("dirty") > 0 then
 			user.removeDirty(250)
