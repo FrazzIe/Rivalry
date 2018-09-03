@@ -4519,7 +4519,7 @@ properties = {
                 },
                 expire = 1 --Default (don't touch)
             },
-            [71] = {
+            [70] = {
                 property_name = "Burger Shot (San Andreas Ave)", -- Name of the property (used as the title of the menu)
                 locked = false, --Default (don't touch)
                 owner =  {
@@ -4551,7 +4551,7 @@ properties = {
                 },
                 expire = 1 --Default (don't touch)
             },
-            [72] = {
+            [71] = {
                 property_name = "Up N' Atom (Blvd Del Perro)", -- Name of the property (used as the title of the menu)
                 locked = false, --Default (don't touch)
                 owner =  {
@@ -4583,7 +4583,7 @@ properties = {
                 },
                 expire = 1 --Default (don't touch)
             },
-            [73] = {
+            [72] = {
                 property_name = "Cockatoos Night Club", -- Name of the property (used as the title of the menu)
                 locked = false, --Default (don't touch)
                 owner =  {
@@ -4615,7 +4615,7 @@ properties = {
                 },
                 expire = 1 --Default (don't touch)
             },
-            [74] = {
+            [73] = {
                 property_name = "Singletons", -- Name of the property (used as the title of the menu)
                 locked = false, --Default (don't touch)
                 owner =  {
@@ -4647,7 +4647,7 @@ properties = {
                 },
                 expire = 1 --Default (don't touch)
             },
-            [75] = {
+            [74] = {
                 property_name = "Haute Restaurant", -- Name of the property (used as the title of the menu)
                 locked = false, --Default (don't touch)
                 owner =  {
@@ -4679,7 +4679,7 @@ properties = {
                 },
                 expire = 1 --Default (don't touch)
             },
-            [76] = {
+            [75] = {
 				property_name = "Mirror Park Mechanic Shop", -- Name of the property (used as the title of the menu)
 				locked = false, --Default (don't touch)
 				owner =  {
@@ -4711,7 +4711,7 @@ properties = {
 				},
 				expire = 1 --Default (don't touch)
 			},
-			[77] = {
+			[76] = {
 				property_name = "Greenwich Mechanic Shop", -- Name of the property (used as the title of the menu)
 				locked = false, --Default (don't touch)
 				owner =  {

@@ -207,7 +207,9 @@ Citizen.CreateThread(function()
 		Citizen.Wait(0)
 		if properties_ready then
 			if GetConvar("property_payouts", "true") == "true" then
+				print("\n[Properties] Starting payouts in "..properties_income_interval.." minutes!")
 				Citizen.Wait(properties_income_interval * 60000)
+				print("\n[Properties] Starting payouts!")
 				local businesses_normal = exports["GHMattiMySQL"]:QueryResult("SELECT * FROM properties_businesses_normal")
 				for Index = 1, #businesses_normal do
 					if businesses_normal[Index] then
@@ -327,6 +329,7 @@ Citizen.CreateThread(function()
 						end
 					end
 				end
+				print("\n[Properties] Finished payouts!")
 				TriggerClientEvent("properties:sync", -1, properties)
 			end
 		end
