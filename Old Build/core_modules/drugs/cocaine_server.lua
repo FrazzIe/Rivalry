@@ -5,7 +5,7 @@ local Cocaine = {
     },
     Cost = {
         Dirty = 30,
-        Van = 500,
+        Van = 250,
     },
     Items = {
         Dirty = 47,
