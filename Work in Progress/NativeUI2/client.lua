@@ -13,6 +13,7 @@ NativeUI.Settings = {
 	Controls = {
 		Up = {
 			Enabled = true,
+			Active = false,
 			Pressed = false,
 			Keys = {
 				{0, 172},
@@ -25,6 +26,7 @@ NativeUI.Settings = {
 		},
 		Down = {
 			Enabled = true,
+			Active = false,
 			Pressed = false,
 			Keys = {
 				{0, 173},
@@ -37,6 +39,7 @@ NativeUI.Settings = {
 		},
 		Left = {
 			Enabled = true,
+			Active = false,
 			Pressed = false,
 			Keys = {
 				{0, 174},
@@ -47,6 +50,7 @@ NativeUI.Settings = {
 		Right = {
 			Enabled = true,
 			Pressed = false,
+			Active = false,
 			Keys = {
 				{0, 175},
 				{1, 175},
@@ -56,6 +60,7 @@ NativeUI.Settings = {
 		Select = {
 			Enabled = true,
 			Pressed = false,
+			Active = false,
 			Keys = {
 				{0, 201},
 				{1, 201},
@@ -64,6 +69,7 @@ NativeUI.Settings = {
 		},
 		Back = {
 			Enabled = true,
+			Active = false,
 			Pressed = false,
 			Keys = {
 				{0, 177},
@@ -314,12 +320,16 @@ function NativeUI.Visible(Menu, Value)
 				else
 					if Menu.Parent ~= nil then
 						if Menu.Parent() == "Menu" then
-							NativeUI.CurrentMenu = Menu.Parent
+							NativeUI.Visible(Menu.Parent, true)
 						else
 							NativeUI.CurrentMenu = nil
+							NativeUI.Options = 0
+							NativeUI.ItemOffset = 0
 						end
 					else
 						NativeUI.CurrentMenu = nil
+						NativeUI.Options = 0
+						NativeUI.ItemOffset = 0
 					end
 				end
 			else
@@ -459,10 +469,22 @@ function NativeUI.Controls(Menu)
 								Menu.Controls.Left.Pressed = true
 
 								Citizen.CreateThread(function()
-									Citizen.Wait(175)
+									Menu.Controls.Left.Activated = true
+
+									Citizen.Wait(1)
+
+									Menu.Controls.Left.Activated = false
+
+									Citizen.Wait(174)
 										
 									while Menu.Controls.Left.Enabled and IsControlPressed(Menu.Controls.Left.Keys[Index][1], Menu.Controls.Left.Keys[Index][2]) do
-										Citizen.Wait(125)
+										Menu.Controls.Left.Activated = true
+
+										Citizen.Wait(1)
+
+										Menu.Controls.Left.Activated = false
+
+										Citizen.Wait(124)
 									end
 
 									Menu.Controls.Left.Pressed = false
@@ -481,10 +503,22 @@ function NativeUI.Controls(Menu)
 								Menu.Controls.Right.Pressed = true
 
 								Citizen.CreateThread(function()
-									Citizen.Wait(175)
+									Menu.Controls.Right.Active = true
+
+									Citizen.Wait(1)
+
+									Menu.Controls.Right.Active = false
+
+									Citizen.Wait(174)
 										
 									while Menu.Controls.Right.Enabled and IsControlPressed(Menu.Controls.Right.Keys[Index][1], Menu.Controls.Right.Keys[Index][2]) do
-										Citizen.Wait(125)
+										Menu.Controls.Right.Active = true
+
+										Citizen.Wait(1)
+
+										Menu.Controls.Right.Active = false
+
+										Citizen.Wait(124)
 									end
 
 									Menu.Controls.Right.Pressed = false
@@ -525,9 +559,13 @@ function NativeUI.Controls(Menu)
 								Menu.Controls.Back.Pressed = true
 
 								Citizen.CreateThread(function()
+									NativeUI.Visible(Menu, false)
+
 									Citizen.Wait(175)
 										
 									while Menu.Controls.Back.Enabled and IsControlPressed(Menu.Controls.Back.Keys[Index][1], Menu.Controls.Back.Keys[Index][2]) do
+										NativeUI.Visible(Menu, false)
+
 										Citizen.Wait(125)
 									end
 
@@ -630,7 +668,7 @@ function NativeUI.Render(Menu)
 	end
 end
 
-function NativeUI.Button(Menu, Label, Description, RightLabel, LeftBadge, RightBadge, Enabled)
+function NativeUI.Button(Menu, Label, Description, RightLabel, LeftBadge, RightBadge, Enabled, Callback)
 	if Menu ~= nil then
 		if Menu() == "Menu" then
 			local Option = NativeUI.Options + 1			
@@ -701,11 +739,13 @@ function NativeUI.Button(Menu, Label, Description, RightLabel, LeftBadge, RightB
 			end
 
 			NativeUI.Options = NativeUI.Options + 1
+
+			Callback(Hovered, Selected, (Menu.Controls.Select.Active and Selected))
 		end
 	end
 end
 
-function NativeUI.Checkbox(Menu, Label, Description, Checked, Enabled)
+function NativeUI.Checkbox(Menu, Label, Description, Checked, Enabled, Callback)
 	if Menu ~= nil then
 		if Menu() == "Menu" then
 			local Option = NativeUI.Options + 1			
@@ -769,11 +809,13 @@ function NativeUI.Checkbox(Menu, Label, Description, Checked, Enabled)
 			end
 
 			NativeUI.Options = NativeUI.Options + 1
+
+			Callback(Hovered, Selected, (Menu.Controls.Select.Active and Selected), (Menu.Controls.Select.Active and Selected) and not Checked or Checked)
 		end
 	end
 end
 
-function NativeUI.List(Menu, Label, Items, Index, Description, Enabled)
+function NativeUI.List(Menu, Label, Items, Index, Description, Enabled, Callback)
 	if Menu ~= nil then
 		if Menu() == "Menu" then
 			local Option = NativeUI.Options + 1			
@@ -841,11 +883,27 @@ function NativeUI.List(Menu, Label, Items, Index, Description, Enabled)
 			end
 
 			NativeUI.Options = NativeUI.Options + 1
+
+			if Selected and Mouse.Controls.Left.Active and not Mouse.Controls.Right.Active then
+				Index = Index - 1
+
+				if Index < 1 then
+					Index = #Items
+				end
+			elseif Selected and Mouse.Controls.Right.Active and not Mouse.Controls.Left.Active then
+				Index = Index + 1
+
+				if Index > #Items then
+					Index = 1
+				end
+			end
+
+			Callback(Hovered, Selected, (Menu.Controls.Select.Active and Selected), Index)
 		end
 	end
 end
 
-function NativeUI.Slider(Menu, Label, Items, Index, Description, Divider, Enabled)
+function NativeUI.Slider(Menu, Label, Items, Index, Description, Divider, Enabled, Callback)
 	if Menu ~= nil then
 		if Menu() == "Menu" then
 			local Option = NativeUI.Options + 1			
@@ -910,11 +968,27 @@ function NativeUI.Slider(Menu, Label, Items, Index, Description, Divider, Enable
 			end
 
 			NativeUI.Options = NativeUI.Options + 1
+
+			if Selected and Mouse.Controls.Left.Active and not Mouse.Controls.Right.Active then
+				Index = Index - 1
+
+				if Index < 1 then
+					Index = #Items
+				end
+			elseif Selected and Mouse.Controls.Right.Active and not Mouse.Controls.Left.Active then
+				Index = Index + 1
+
+				if Index > #Items then
+					Index = 1
+				end
+			end
+
+			Callback(Hovered, Selected, (Menu.Controls.Select.Active and Selected), Index)
 		end
 	end
 end
 
-function NativeUI.Progress(Menu, Label, Items, Index, Description, Counter, Enabled)
+function NativeUI.Progress(Menu, Label, Items, Index, Description, Counter, Enabled, Callback)
 	if Menu ~= nil then
 		if Menu() == "Menu" then
 			local Option = NativeUI.Options + 1			
@@ -983,6 +1057,22 @@ function NativeUI.Progress(Menu, Label, Items, Index, Description, Counter, Enab
 			end
 
 			NativeUI.Options = NativeUI.Options + 1
+
+			if Selected and Mouse.Controls.Left.Active and not Mouse.Controls.Right.Active then
+				Index = Index - 1
+
+				if Index < 1 then
+					Index = #Items
+				end
+			elseif Selected and Mouse.Controls.Right.Active and not Mouse.Controls.Left.Active then
+				Index = Index + 1
+
+				if Index > #Items then
+					Index = 1
+				end
+			end
+			
+			Callback(Hovered, Selected, (Menu.Controls.Select.Active and Selected), Index)
 		end
 	end
 end
