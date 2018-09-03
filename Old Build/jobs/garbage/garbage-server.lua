@@ -14,6 +14,7 @@ AddEventHandler('garbage:getplayerjob', function()
 	TriggerEvent('core:getuser', source, function(user)
 
 		local job = user.get("job")
+		user.removeWallet(50)
 		TriggerClientEvent("garbage:result", source, job.id)
 	end)
 end)

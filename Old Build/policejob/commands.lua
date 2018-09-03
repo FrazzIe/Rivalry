@@ -116,7 +116,7 @@ AddEventHandler("playerSpawned", function()
 		if isInService then
 			TriggerEvent("police:menu_vehicle_impound", 5000)
 		end
-	end, false, {Help = "Impound, costs the owner 5k",  Params = {}})
+	end, false, {Help = "Impound, costs the owner $500",  Params = {}})
 
 	Chat_Command("force", function(source, args, rawCommand)
 		local InServiceParamedic = exports["emsjob"]:getIsInService()
