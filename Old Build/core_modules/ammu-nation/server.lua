@@ -338,12 +338,12 @@ AddEventHandler("weapon:buy_illegal", function(model)
 				user.removeDirty(Weapons[model])
 				exports["GHMattiMySQL"]:Insert("weapons", {
 					{
-						["@character_id"] = user.get("characterID"),
-						["@sellprice"] = Weapons[model]/2,
-						["@model"] = model,
-						["@ammo"] = 0,
-						["@suppressor"] = "false",
-						["@flashlight"] = "false",
+						["character_id"] = user.get("characterID"),
+						["sellprice"] = Weapons[model]/2,
+						["model"] = model,
+						["ammo"] = 0,
+						["suppressor"] = "false",
+						["flashlight"] = "false",
 						["extended_clip"] = "false",
 						["scope"] = "false",
 						["grip"] = "false",
