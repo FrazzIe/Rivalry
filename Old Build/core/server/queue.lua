@@ -40,6 +40,7 @@ Config.Priority = {
     ["steam:11000010390c424"] = 686, -- Vinny
     ["steam:11000010b054d0e"] = 685, -- imSilkyful
     ["steam:11000010467c91d"] = 684, -- Mason Preacher
+    ["steam:110000104a8dd05"] = 683, -- Jayce the Salt Lord
 --[PD, EMS, DOJ]--
     ["steam:110000115c8520b"] = 600, -- Jinia (PD High Command)
     ["steam:110000104c9acb6"] = 599, -- Tyler Reagan (PD High Command)
