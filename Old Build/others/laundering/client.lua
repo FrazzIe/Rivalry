@@ -348,6 +348,31 @@ local laundering = {
 	vehicle = {x = 919.77911376953, y = 52.247329711914, z = 80.764801025391, h = 127.42662811279},
 }
 
+function DestroyVehicle(Handle)
+	Citizen.CreateThread(function()
+		local Handle = Handle
+		local Start = GetGameTimer()
+		for Seat = -1, GetVehicleMaxNumberOfPassengers(Handle) do
+			if not IsVehicleSeatFree(Handle, Seat) then
+				TaskLeaveVehicle(GetPedInVehicleSeat(Handle, Seat), Handle, 0)
+			end
+		end
+
+		NetworkRequestControlOfEntity(Handle)
+
+		while not NetworkHasControlOfEntity(Handle) and Start + 5000 > GetGameTimer() do
+			Citizen.Wait(0)
+		end
+
+		DeleteVehicle(Handle)
+		SetEntityAsNoLongerNeeded(Handle)
+		
+		if DoesEntityExist(Handle) then
+			SetEntityCoords(Handle, 601.28948974609, -4396.9853515625, 384.98565673828)
+		end
+	end)
+end
+
 local l = 0
 local area = 0
 local delivery_truck = nil
@@ -390,28 +415,50 @@ function startDelivery()
 	elseif area == 9 then
 		l = math.random(286,329)
 	end
-	deliveryblip = (AddBlipForCoord(delivery_points[l].x,delivery_points[l].y,delivery_points[l].z))
-	SetBlipSprite(deliveryblip, 280)
-	SetNewWaypoint(delivery_points[l].x,delivery_points[l].y)
-	isDeliveryStarted = true
+	if DoesBlipExist(deliveryblip) then
+		RemoveBlip(deliveryblip)
+		deliveryblip = (AddBlipForCoord(delivery_points[l].x,delivery_points[l].y,delivery_points[l].z))
+		SetBlipSprite(deliveryblip, 280)
+		SetNewWaypoint(delivery_points[l].x,delivery_points[l].y)
+		isDeliveryStarted = true
+	else
+		deliveryblip = (AddBlipForCoord(delivery_points[l].x,delivery_points[l].y,delivery_points[l].z))
+		SetBlipSprite(deliveryblip, 280)
+		SetNewWaypoint(delivery_points[l].x,delivery_points[l].y)
+		isDeliveryStarted = true
+	end
 end
 
 RegisterNetEvent('client:launderingVan')
 AddEventHandler('client:launderingVan', function()
 	Citizen.CreateThread(function()
-		local model = "boxville2"
+		local model = "pony"
 		RequestModel(model)
 		while not HasModelLoaded(model) do
 			Citizen.Wait(0)
 		end
-		delivery_truck = CreateVehicle(model, laundering.vehicle.x, laundering.vehicle.y, laundering.vehicle.z, laundering.vehicle.h, true, false)
-		local plate = "GP"..GetVehicleNumberPlateText(delivery_truck)
-		SetVehicleNumberPlateText(delivery_truck, plate)
-		SetEntityInvincible(delivery_truck, false)
-		SetPedIntoVehicle(PlayerPedId(), delivery_truck, -1)
-		SetModelAsNoLongerNeeded(model)
-		DecorSetBool(delivery_truck, "hotwire", true)
-		startDelivery()
+		if DoesEntityExist(delivery_truck) then
+			DestroyVehicle(delivery_truck)
+			delivery_truck = CreateVehicle(model, laundering.vehicle.x, laundering.vehicle.y, laundering.vehicle.z, laundering.vehicle.h, true, false)
+			local plate = "GP"..GetVehicleNumberPlateText(delivery_truck)
+			SetVehicleNumberPlateText(delivery_truck, plate)
+			SetEntityInvincible(delivery_truck, false)
+			SetPedIntoVehicle(PlayerPedId(), delivery_truck, -1)
+			SetModelAsNoLongerNeeded(model)
+			SetVehicleLivery(delivery_truck, 1)
+			DecorSetBool(delivery_truck, "hotwire", true)
+			startDelivery()
+		else
+			delivery_truck = CreateVehicle(model, laundering.vehicle.x, laundering.vehicle.y, laundering.vehicle.z, laundering.vehicle.h, true, false)
+			local plate = "GP"..GetVehicleNumberPlateText(delivery_truck)
+			SetVehicleNumberPlateText(delivery_truck, plate)
+			SetEntityInvincible(delivery_truck, false)
+			SetPedIntoVehicle(PlayerPedId(), delivery_truck, -1)
+			SetModelAsNoLongerNeeded(model)
+			SetVehicleLivery(delivery_truck, 1)
+			DecorSetBool(delivery_truck, "hotwire", true)
+			startDelivery()
+		end
 	end)
 end)
 
@@ -458,7 +505,7 @@ Citizen.CreateThread(function()
 			if Vdist(delivery_points[l].x, delivery_points[l].y, delivery_points[l].z, GetEntityCoords(GetPlayerPed(-1))) < 20 then
 				DrawMarker(25, delivery_points[l].x, delivery_points[l].y, delivery_points[l].z - 0.9, 0, 0, 0, 0, 0, 0, 2.5001, 2.5001, 2.0001, 0, 0, 0,255, 0, 0, 0,0)
 				if Vdist(delivery_points[l].x, delivery_points[l].y, delivery_points[l].z, GetEntityCoords(GetPlayerPed(-1))) < 1 then
-					if IsVehicleModel(GetVehiclePedIsIn(GetPlayerPed(-1), true), GetHashKey("boxville2"))  then
+					if IsVehicleModel(GetVehiclePedIsIn(GetPlayerPed(-1), true), GetHashKey("pony"))  then
 						DisplayHelpText("Press ~INPUT_CONTEXT~ to deliver your ~b~ package", 2, 1, 0.5, 0.8, 0.6, 255, 255, 255, 255)
 						if (IsControlJustReleased(1, 51)) then
 							deliverysuccess()
