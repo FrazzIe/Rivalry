@@ -985,7 +985,10 @@ end)
 
 
 AddEventHandler("mechanic:finish_mission", function()
-    TriggerServerEvent('mechanic:FinishMission', currentMissions.id)
+    if currentMissions ~= nil then
+        TriggerServerEvent('mechanic:FinishMission', currentMissions.id)
+    end
+    
     local distanceP = Vdist(missionXCoord, missionYCoord, missionZCoord, previousMissionX, previousMissionY, previousMissionZ)
     currentMissions = nil
     if(distanceP > 50  and checkDistance > 50 )then
