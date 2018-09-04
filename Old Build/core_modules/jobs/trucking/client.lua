@@ -424,6 +424,11 @@ local trucker_destinations = { --trailers models that are good: trailers, traile
 		Tier = 5,
 		Trailer = "tr4"
 	},
+	{
+		Destination = {x = 1212.0620117188, y = 2722.9533691406, z = 38.004173278809},
+		Tier = 5,
+		Trailer = "tr4"
+	},
 }
 
 RegisterNetEvent("trucker:set")
