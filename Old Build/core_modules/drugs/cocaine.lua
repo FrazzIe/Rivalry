@@ -16,8 +16,8 @@ local Cocaine = {
 		Handle = nil,
 	},
 	Pay = {
-		Min = 70,
-		Max = 90,
+		Min = 75,
+		Max = 100,
 	},
 	Harvesting = false,
 	Cooldown = 0,
