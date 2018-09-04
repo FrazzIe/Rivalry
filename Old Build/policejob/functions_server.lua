@@ -382,7 +382,7 @@ TriggerEvent("core:addGroupCommand", "runserial", "emergency", function(source, 
 		if args[1] == "p" or args[1] == "v" or args[1] == "vehicle" or args[1] == "person" then
 			if args[1] == "p" or args[1] == "person" then
 				if tonumber(args[2]) then
-					exports['GHMattiMySQL']:QueryResultAsync("SELECT CONCAT(characters.first_name, ' ', characters.last_name) AS 'name' FROM weapons INNER JOIN characters ON weapons.owner = characters.character_id WHERE id=@id", {["@id"] = tonumber(args[1])}, function(owner)
+					exports['GHMattiMySQL']:QueryResultAsync("SELECT CONCAT(characters.first_name, ' ', characters.last_name) AS 'name' FROM weapons INNER JOIN characters ON weapons.owner = characters.character_id WHERE id=@id", {["@id"] = tonumber(args[2])}, function(owner)
 						if owner[1] ~= nil then
 							TriggerClientEvent("chatMessage", source, "Dispatch", {0, 255, 0}, "The weapon with serial number ^3"..tonumber(args[2]).."^0 belongs to "..owner[1].name)
 						else
@@ -394,7 +394,7 @@ TriggerEvent("core:addGroupCommand", "runserial", "emergency", function(source, 
 				end
 			else
 				if tonumber(args[2]) then
-					exports['GHMattiMySQL']:QueryResultAsync("SELECT CONCAT(characters.first_name, ' ', characters.last_name) AS 'name' FROM vehicle_weapon_inventory INNER JOIN characters ON vehicle_weapon_inventory.owner = characters.character_id WHERE id=@id", {["@id"] = tonumber(args[1])}, function(owner)
+					exports['GHMattiMySQL']:QueryResultAsync("SELECT CONCAT(characters.first_name, ' ', characters.last_name) AS 'name' FROM vehicle_weapon_inventory INNER JOIN characters ON vehicle_weapon_inventory.owner = characters.character_id WHERE id=@id", {["@id"] = tonumber(args[2])}, function(owner)
 						if owner[1] ~= nil then
 							TriggerClientEvent("chatMessage", source, "Dispatch", {0, 255, 0}, "The weapon with serial number ^3"..tonumber(args[2]).."^0 belongs to "..owner[1].name)
 						else
