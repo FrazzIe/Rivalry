@@ -61,7 +61,7 @@ cars = {
         {name = "Panto", price = 2500, model = "panto"},
         {name = "Prairie", price = 6000, model = "prairie"},
         {name = "Rhapsody", price = 2500, model = "rhapsody"},
-        {name = "Issi Classic", price = 11000, model = "issi3"},
+        {name = "Issi Classic", price = 15000, model = "issi3"},
     }},
     {title = "Coupes", vehicles = {
         {name = "Cognoscenti Cabrio", price = 218400, model = "cogcabrio"},

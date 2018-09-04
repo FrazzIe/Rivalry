@@ -60,7 +60,7 @@ insurance = {
     ["panto"] = 2500,
     ["prairie"] = 6000,
     ["rhapsody"] = 2500,
-    ["issi3"] = 11000,
+    ["issi3"] = 15000,
 
     ["cogcabrio"] = 218400,
     ["exemplar"] = 173000,
