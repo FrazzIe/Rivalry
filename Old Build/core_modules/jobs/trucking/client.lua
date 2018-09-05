@@ -611,14 +611,16 @@ Citizen.CreateThread(function()
 							if Vdist(pos.x, pos.y, pos.z, possibleTierMissions[trucker_job].Destination.x, possibleTierMissions[trucker_job].Destination.y, possibleTierMissions[trucker_job].Destination.z) < 20 then
 								RenderMarker(25, possibleTierMissions[trucker_job].Destination.x, possibleTierMissions[trucker_job].Destination.y, possibleTierMissions[trucker_job].Destination.z, 6.0, 6.0, 6.5, 0, 255, 0, 255)
 								if Vdist(pos.x, pos.y, pos.z, possibleTierMissions[trucker_job].Destination.x, possibleTierMissions[trucker_job].Destination.y, possibleTierMissions[trucker_job].Destination.z) < 6 then
-									DisplayHelpText("Press ~INPUT_CONTEXT~ to complete the delivery!")
-									if IsControlJustPressed(1, 51) then
-										local distance = Vdist(pos.x, pos.y, pos.z, locations.truck.x, locations.truck.y, locations.truck.z)
-										TriggerServerEvent("trucker:complete", possibleTierMissions[trucker_job].Tier, distance)
-										DestroyVehicle(trucker_trailer)
-										trucker_trailer = nil
-										trucker_job = nil
-										possibleTierMissions = {}
+									if Vdist(GetEntityCoords(trucker_trailer, false), possibleTierMissions[trucker_job].Destination.x, possibleTierMissions[trucker_job].Destination.y, possibleTierMissions[trucker_job].Destination.z) < 10 then
+										DisplayHelpText("Press ~INPUT_CONTEXT~ to complete the delivery!")
+										if IsControlJustPressed(1, 51) then
+											local distance = Vdist(pos.x, pos.y, pos.z, locations.truck.x, locations.truck.y, locations.truck.z)
+											TriggerServerEvent("trucker:complete", possibleTierMissions[trucker_job].Tier, distance)
+											DestroyVehicle(trucker_trailer)
+											trucker_trailer = nil
+											trucker_job = nil
+											possibleTierMissions = {}
+										end
 									end
 								end
 							end
