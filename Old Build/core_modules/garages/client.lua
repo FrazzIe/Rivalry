@@ -550,7 +550,7 @@ Citizen.CreateThread(function()
                 DrawMarker(25, v.x, v.y, v.z - 1, 0, 0, 0, 0, 0, 0, 1.5001, 1.5001, 0.7555, 1555, 90, 10,150, 0, 0, 0,0)
                 if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 1.0)then
                     if (incircle == false) then
-                        DisplayHelpText("Press ~INPUT_CONTEXT~ to buy an insurance!")
+                        DisplayHelpText("Press ~INPUT_CONTEXT~ to buy insurance!")
                     end
                     incircle = true
                     if IsControlJustReleased(1, 51) and IsPedInAnyVehicle(GetPlayerPed(-1), true) == false then
@@ -772,7 +772,6 @@ end
 --==============================================================================================================================--
 --==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--
 function claimMenu()
-    Citizen.Wait(0)
     Menu.SetupMenu("claim_menu","Insurance Claims")
     Menu.Switch(nil,"claim_menu")
     for i = 1,#user_vehicles do

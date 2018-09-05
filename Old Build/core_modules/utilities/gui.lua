@@ -84,13 +84,15 @@ function Menu.Switch(prevmenu, menu)
 end
 
 function Menu.DisplayCurMenu()
-	if not (curMenu == "") then
+	if not (curMenu == "" and curMenu == nil) then
 		menuOpen = true
-		Menu.Title(Menus[curMenu].title or "")
-		for k,v in pairs(Menus[curMenu].options) do
-			v()
+		if Menus[curMenu] then
+			Menu.Title(Menus[curMenu].title or "")
+			for k,v in pairs(Menus[curMenu].options) do
+				v()
+			end
+			Menu.updateSelection()
 		end
-		Menu.updateSelection()
 	end
 end
 
