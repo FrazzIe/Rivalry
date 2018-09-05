@@ -7,9 +7,9 @@ function RenderMarker(Type, X, Y, Z, SX, SY, SZ, R, G, B, A, BobUpAndDown)
 end
 
 function GetVehicleInDirectionSphere(Entity, EntityCoords, Offset)
-    local rayHandle = StartShapeTestCapsule(EntityCoords.x, EntityCoords.y, EntityCoords.z, Offset.x, Offset.y, Offset.z, 2.0, 2, Entity, 7)
-    local _, _, _, _, vehicle = GetShapeTestResult(rayHandle)
-    return vehicle
+	local rayHandle = StartShapeTestCapsule(EntityCoords.x, EntityCoords.y, EntityCoords.z, Offset.x, Offset.y, Offset.z, 2.0, 2, Entity, 7)
+	local _, _, _, _, vehicle = GetShapeTestResult(rayHandle)
+	return vehicle
 end
 
 Mechanic = {
@@ -28,8 +28,41 @@ Mechanic = {
 					Position = nil,
 				},
 				Closest = nil,
+				Help = true,
+				Dimensions = nil,
 				Controls = function(self, Ped, Coordinates)
+					local AttachedVehicle = GetEntityAttachedTo(self.Closest.Handle)
+					local TargetVehicle = nil
 
+					if AttachedVehicle == 0 then
+						TargetVehicle = GetVehicleInDirectionSphere(self.Closest.Handle, self.Closest.Position, self.Target.Position)
+					end
+
+					RenderMarker(25, self.Control.Position.x, self.Control.Position.y, self.Control.Position.z, 0.5, 0.5, 1.0, 255, 0, 0, 100)
+
+					if self.Help and TargetVehicle ~= 0 then
+						DrawEntityBoundingBox(TargetVehicle, 0, 255, 0, 255)
+					end
+
+					if Vdist(Coordinates.x, Coordinates.y, Coordinates.z, self.Control.Position.x, self.Control.Position.y, self.Control.Position.z) < 1 then
+						Utilities.DisplayHelpText("Press ~INPUT_CONTEXT~ to tow\nPress ~INPUT_INTERACTION_MENU~ for help")
+
+						if IsControlJustPressed(0, 51) then
+							if AttachedVehicle ~= 0 then
+								local DropPointOffset = GetOffsetFromEntityInWorldCoords(self.Closest.Handle, 0.0, -10.0, 0.0)
+
+								DetachEntity(AttachedVehicle, false, false)
+								SetEntityCoords(AttachedVehicle, DropPointOffset.x, DropPointOffset.y, DropPointOffset.z, 1, 0, 0, 1)
+								PlaceObjectOnGroundProperly(AttachedVehicle)
+							elseif TargetVehicle ~= 0 then
+								AttachEntityToEntity(TargetVehicle, self.Closest.Handle, GetEntityBoneIndexByName(self.Closest.Handle, "bodyshell"), 0, -2.2, 0.4 - self.Dimensions[1], 0, 0, 0, 1, 1, 0, 1, 0, 1)
+							end
+						end
+
+						if IsControlJustPressed(0, 244) then
+							self.Help = not self.Help
+						end
+					end
 				end
 			},
 			{
@@ -46,6 +79,7 @@ Mechanic = {
 				LastHandle = nil,
 				Height = 0.5,
 				Help = true,
+				Dimensions = nil,
 				Controls = function(self, Ped, Coordinates)
 					if self.LastHandle ~= self.Closest.Handle then
 						SetTowTruckCraneHeight(self.Closest.Handle, self.Height)
@@ -109,6 +143,7 @@ Mechanic = {
 				LastHandle = nil,
 				Height = 0.5,
 				Help = true,
+				Dimensions = nil,
 				Controls = function(self, Ped, Coordinates)
 					if self.LastHandle ~= self.Closest.Handle then
 						SetTowTruckCraneHeight(self.Closest.Handle, self.Height)
@@ -393,6 +428,7 @@ end
 Citizen.CreateThread(function()
 	for Index = 1, #Mechanic.Data.Vehicles do
 		Mechanic.Data.Vehicles[Index].ModelHash = GetHashKey(Mechanic.Data.Vehicles[Index].Model)
+		Mechanic.Data.Vehicles[Index].Dimensions = table.pack(GetModelDimensions(Mechanic.Data.Vehicles[Index].ModelHash))
 	end
 
 	while true do
