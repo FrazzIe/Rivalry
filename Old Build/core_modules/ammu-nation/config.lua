@@ -159,7 +159,7 @@ Blackmarket_Weapons = {
 		{Weapon = "WEAPON_MICROSMG", Name = "Micro SMG", Cost = 3500},
 		--{Weapon = "WEAPON_SMG", Name = "MP5", Cost = 1},
 		--{Weapon = "WEAPON_ASSAULTSMG", Name = "Assault SMG", Cost = 1},
-		--{Weapon = "WEAPON_GUSENBERG", Name = "Gusenberg Sweeper", Cost = 110000},
+		{Weapon = "WEAPON_GUSENBERG", Name = "Gusenberg Sweeper", Cost = 14000},
 		--{Weapon = "WEAPON_COMBATMG", Name = "Combat MG", Cost = 1},
 		--{Weapon = "WEAPON_MG", Name = "MG", Cost = 1},
 	}},
