@@ -65,7 +65,7 @@ Mechanic = {
 							self.Help = not self.Help
 						end
 					end
-				end
+				end,
 			},
 			{
 				Model = "towtruck",
@@ -129,7 +129,7 @@ Mechanic = {
 							self.Help = not self.Help
 						end
 					end
-				end
+				end,
 			},
 			{
 				Model = "towtruck2",
@@ -193,7 +193,7 @@ Mechanic = {
 							self.Help = not self.Help
 						end
 					end
-				end
+				end,
 			},
 		},
 	},
