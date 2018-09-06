@@ -20,21 +20,21 @@ Mechanic = {
 			{
 				Model = "flatbed",
 				Control = {
-					Offset = {-1.4882982969284, -3.1126073908806, 0.0},
+					Offset = {-1.4982982969284, -5.1126073908806, 0.0},
 					Position = nil,
 				},
 				Target = {
-					Offset = {0.0, -6.1126073908806, 0.0},
+					Offset = {0.0, -8.1126073908806, 0.0},
 					Position = nil,
 				},
 				Closest = nil,
 				Help = true,
 				Dimensions = nil,
+				AttachedVehicle = 0,
 				Controls = function(self, Ped, Coordinates)
-					local AttachedVehicle = GetEntityAttachedTo(self.Closest.Handle)
 					local TargetVehicle = nil
 
-					if AttachedVehicle == 0 then
+					if self.AttachedVehicle == 0 then
 						TargetVehicle = GetVehicleInDirectionSphere(self.Closest.Handle, self.Closest.Position, self.Target.Position)
 					end
 
@@ -48,14 +48,16 @@ Mechanic = {
 						Utilities.DisplayHelpText("Press ~INPUT_CONTEXT~ to tow\nPress ~INPUT_INTERACTION_MENU~ for help")
 
 						if IsControlJustPressed(0, 51) then
-							if AttachedVehicle ~= 0 then
+							if self.AttachedVehicle ~= 0 then
 								local DropPointOffset = GetOffsetFromEntityInWorldCoords(self.Closest.Handle, 0.0, -10.0, 0.0)
 
-								DetachEntity(AttachedVehicle, false, false)
-								SetEntityCoords(AttachedVehicle, DropPointOffset.x, DropPointOffset.y, DropPointOffset.z, 1, 0, 0, 1)
-								PlaceObjectOnGroundProperly(AttachedVehicle)
+								DetachEntity(self.AttachedVehicle, false, false)
+								SetEntityCoords(self.AttachedVehicle, DropPointOffset.x, DropPointOffset.y, DropPointOffset.z, 1, 0, 0, 1)
+								PlaceObjectOnGroundProperly(self.AttachedVehicle)
+
+								self.AttachedVehicle = 0
 							elseif TargetVehicle ~= 0 then
-								AttachEntityToEntity(TargetVehicle, self.Closest.Handle, GetEntityBoneIndexByName(self.Closest.Handle, "bodyshell"), 0, -2.2, 0.4 - self.Dimensions[1], 0, 0, 0, 1, 1, 0, 1, 0, 1)
+								AttachEntityToEntity(TargetVehicle, self.Closest.Handle, GetEntityBoneIndexByName(self.Closest.Handle, "bodyshell"), 0, -2.2, 0.4 - table.pack(GetModelDimensions(GetEntityModel(TargetVehicle)))[1].z, 0, 0, 0, 1, 1, 0, 1, 0, 1)
 							end
 						end
 
@@ -276,6 +278,18 @@ function Utilities.GetNearestVehicleAtCoords(X, Y, Z, Radius, Alive, ExcludePlay
 	return NearestVehicle
 end
 
+function Utilities.GetVehicleAttachedToVehicle(AttachedVehicle)
+	for Vehicle in Utilities.EnumerateVehicles() do
+		if DoesEntityExist(Vehicle) then
+			if GetEntityAttachedTo(Vehicle) == AttachedVehicle then
+				return Vehicle
+			end
+		end
+	end
+
+	return 0
+end
+
 function Utilities.DisplayHelpText(Str)
 	BeginTextCommandDisplayHelp("STRING")
 	AddTextComponentString(Str or "")
@@ -428,7 +442,6 @@ end
 Citizen.CreateThread(function()
 	for Index = 1, #Mechanic.Data.Vehicles do
 		Mechanic.Data.Vehicles[Index].ModelHash = GetHashKey(Mechanic.Data.Vehicles[Index].Model)
-		Mechanic.Data.Vehicles[Index].Dimensions = table.pack(GetModelDimensions(Mechanic.Data.Vehicles[Index].ModelHash))
 	end
 
 	while true do
@@ -442,6 +455,10 @@ Citizen.CreateThread(function()
 				if DoesEntityExist(Mechanic.Data.Vehicles[Index].Closest.Handle) then
 					Mechanic.Data.Vehicles[Index].Target.Position = GetOffsetFromEntityInWorldCoords(Mechanic.Data.Vehicles[Index].Closest.Handle, table.unpack(Mechanic.Data.Vehicles[Index].Target.Offset))
 					Mechanic.Data.Vehicles[Index].Control.Position = GetOffsetFromEntityInWorldCoords(Mechanic.Data.Vehicles[Index].Closest.Handle, table.unpack(Mechanic.Data.Vehicles[Index].Control.Offset))
+
+					if Mechanic.Data.Vehicles[Index].AttachedVehicle ~= nil then
+						Mechanic.Data.Vehicles[Index].AttachedVehicle = Utilities.GetVehicleAttachedToVehicle(Mechanic.Data.Vehicles[Index].Closest.Handle)
+					end
 				end
 			end
 		end
