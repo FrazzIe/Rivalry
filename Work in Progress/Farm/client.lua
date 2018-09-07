@@ -2,26 +2,13 @@ Farm = {
 	Data = {
 		IsFarmer = false,
 		OnDuty = false,
-		Crops = {
-			{
-				Model = "prop_veg_crop_02",
-				Time = 0,
-			},
-			{
-				Model = "prop_veg_crop_03_cab",
-				Time = 0,
-			},
-			{
-				Model = "prop_veg_crop_03_pump",
-				Time = 0,
-			},
-			{
-				Model = "prop_veg_crop_orange",
-				Time = 0,
-			},
-		},
 		Fields = {
 			{
+				Crop = {
+					Model = "prop_veg_crop_02",
+					Radius = 0,
+					Time = 0,
+				},
 				Path = {
 					{x = 2139.2197265625, y = 5204.58984375, z = 57.967384338379, h = 222.92823791504},
 					{x = 2152.6196289063, y = 5190.1821289063, z = 57.658283233643, h = 227.56965637207},
@@ -71,6 +58,11 @@ Farm = {
 				Raked = false,
 			},
 			{
+				Crop = {
+					Model = "prop_veg_crop_03_cab",
+					Radius = 0,
+					Time = 0,
+				},
 				Path = {
 					{x = 2296.9221191406, y = 5166.50390625, z = 57.732807159424, h = 225.7225189209},
 					{x = 2312.9211425781, y = 5151.1772460938, z = 52.917407989502, h = 219.95747375488},
@@ -104,6 +96,11 @@ Farm = {
 				Raked = false,
 			},
 			{
+				Crop = {
+					Model = "prop_veg_crop_03_pump",
+					Radius = 0,
+					Time = 0,
+				},
 				Path = {
 					{x = 2224.0725097656, y = 5134.5766601563, z = 55.525844573975, h = 222.88114929199},
 					{x = 2242.9431152344, y = 5115.8095703125, z = 52.961898803711, h = 224.09133911133},
@@ -138,6 +135,11 @@ Farm = {
 				Raked = false,
 			},
 			{
+				Crop = {
+					Model = "prop_veg_crop_orange",
+					Radius = 0,
+					Time = 0,
+				},
 				Path = {
 					{x = 2196.16796875, y = 5111.0830078125, z = 49.759414672852, h = 223.78047180176},
 					{x = 2214.8884277344, y = 5091.5107421875, z = 49.642162322998, h = 224.22483825684},
@@ -178,8 +180,21 @@ Farm = {
 			},
 		},
 		Planted = {},
+		Scenario = "WORLD_HUMAN_GARDENER_PLANT",
 	},
 }
+
+function Utilities.DisplayHelpText(Str)
+	BeginTextCommandDisplayHelp("STRING")
+	AddTextComponentString(Str or "")
+	EndTextCommandDisplayHelp(0, 0, 0, -1)
+end
+
+function Utilities.RenderMarker(Type, X, Y, Z, SX, SY, SZ, R, G, B, A, BobUpAndDown)
+	if tonumber(X) and tonumber(Y) and tonumber(Z) then
+		DrawMarker(Type, X, Y, Z - 0.9, 0, 0, 0, 0, 0, 0, SX or 0, SY or 0, SZ or 0, R or 255, G or 255, B or 255, A or 255, BobUpAndDown or false, 0, 2, 0, 0, 0, 0)
+	end
+end
 
 function IsLeft(point0, point1, point2)
 	return (((point1.x - point0.x) * (point2.y - point0.y)) - ((point2.x - point0.x) * (point1.y - point0.y)))
@@ -187,7 +202,9 @@ end
 
 function IsPointInPolygon(point, points)
 	local winding_number = 0
+
 	table.insert(points, points[1])
+
 	for i = 1, #points - 1, 1 do
 		if points[i].y <= point.y then
 			if points[i+1].y > point.y then
@@ -203,8 +220,49 @@ function IsPointInPolygon(point, points)
 			end
 		end
 	end
+
 	table.remove(points, #points)
+
 	return winding_number
+end
+
+function Farm:CreateCrop(Field, PlayerPosiiton)
+	RequestModel(Field.Crop.ModelHash)
+
+	while not HasModelLoaded(Field.Crop.ModelHash) do
+		Citizen.Wait(0)
+	end
+
+	table.insert(Farm.Data.Planted, {
+		Handle = CreateObject(Field.Crop.ModelHash, PlayerPosiiton.x, PlayerPosiiton.y, PlayerPosiiton.z, true, false, false),
+		Time = Field.Crop.Time,
+	})
+end
+
+function Farm:IsCropOwnedByPlayer(Crop)
+	for Index = 1, #Farm.Data.Planted do
+		if Crop == Farm.Data.Planted[Index].Handle then
+			return true
+		end
+	end
+	return false
+end
+
+function Farm:IsPlayerNearCrop(Field, PlayerPosition)
+	local ClosestCrop = GetClosestObjectOfType(PlayerPosition.x, PlayerPosition.y, PlayerPosition.z, Field.Crop.Radius, Field.Crop.ModelHash, false, false, false)
+	return (ClosestCrop ~= 0) and true or false, ClosestCrop
+end
+
+function Farm:IsPlayerInField(Field, PlayerPosition)
+	if Vdist(Field.Centre.x, Field.Centre.y, 0, PlayerPosition.x, PlayerPosition.y, 0) < Field.Longest then
+		if IsPointInPolygon(PlayerPosition, Field.Points) ~= 0 then
+			return true
+		else
+			return false
+		end
+	else
+		return false
+	end
 end
 
 function Farm:ManagePlantedCrops()
@@ -213,9 +271,60 @@ function Farm:ManagePlantedCrops()
 	end
 end
 
+function Farm:ManageFields(PlayerPed, PlayerPosition)
+	for Index = 1, #Farm.Data.Fields do
+		if self:IsPlayerInField(Farm.Data.Fields[Index], PlayerPosition) then
+			if Farm.Data.Fields[Index].Raked then
+				Farm.Data.Fields[Index].CurrentPath = 1
+
+				if not IsPedInAnyVehicle(PlayerPed, false) then
+					local NearCrop, ClosestCrop = self:IsPlayerNearCrop(Farm.Data.Fields[Index], PlayerPosition)
+
+					if NearCrop then
+						if self:IsCropOwnedByPlayer(ClosestCrop) then
+
+						end
+					else
+						if not IsPedUsingScenario(PlayerPed, Farm.Data.Scenario) then
+							Utilities.DisplayHelpText("Press ~INPUT_CONTEXT~ to plant a seed!")
+							if IsControlJustPressed(1, 51) then
+								Citizen.CreateThread(function()
+									TaskStartScenarioInPlace(PlayerPed, Farm.Data.Scenario, 0, false)
+									Citizen.Wait(4000)
+									ClearPedTasks(PlayerPed)
+									self:CreateCrop(Farm.Data.Fields[Index], PlayerPosition)
+								end
+							end
+						else
+							Utilities.DisplayHelpText("Planting seed...")
+						end
+					end
+				end
+			else
+				if Farm.Data.Fields[Index].CurrentPath ~= #Farm.Data.Fields[Index].Path then
+					if IsPedInAnyVehicle(PlayerPed, false) then
+						local PlayerVehicle = GetVehiclePedIsUsing(PlayerPed)
+						if DoesEntityExist(PlayerVehicle) then
+							RenderMarker(25, Farm.Data.Fields[Index].Path[Farm.Data.Fields[Index].CurrentPath].x, Farm.Data.Fields[Index].Path[Farm.Data.Fields[Index].CurrentPath].y, Farm.Data.Fields[Index].Path[Farm.Data.Fields[Index].CurrentPath].z, 1.5, 1.5, 2.0, 255, 0, 0, 100)
+
+							if Vdist(PlayerPosition.x, PlayerPosition.y, PlayerPosition.z, Farm.Data.Fields[Index].Path[Farm.Data.Fields[Index].CurrentPath].x, Farm.Data.Fields[Index].Path[Farm.Data.Fields[Index].CurrentPath].y, Farm.Data.Fields[Index].Path[Farm.Data.Fields[Index].CurrentPath].z) < 1.5 then
+								Utilties.Subtitle("Raked patch ~g~"..Farm.Data.Fields[Index].CurrentPath.." of ~b~"..#Farm.Data.Fields[Index].CurrentPath.."!")
+								Farm.Data.Fields[Index].CurrentPath = Farm.Data.Fields[Index].CurrentPath + 1
+							end
+						end
+					end
+				else
+					Farm.Data.Fields[Index].Raked = true
+					TriggerServerEvent("Farm.Raked", Index)
+				end
+			end
+		end
+	end
+end
+
 Citizen.CreateThread(function()
-	for Index = 1, #Farm.Data.Plants do
-		Farm.Data.Plants[Index].ModelHash = GetHashKey(Farm.Data.Plants[Index].Model)
+	for Index = 1, #Farm.Data.Fields do
+		Farm.Data.Fields[Index].Crop.ModelHash = GetHashKey(Farm.Data.Fields[Index].Crop.Model)
 	end
 
 	while true do
