@@ -31,22 +31,22 @@ Store = {
     }},
     {Category = "Drink", Items = {
         {Name = "Water", Id = 6, Cost = 3, Max = 100},
-        {Name = "Vodka", Id = 41, Cost = 45, Max = 100},
+        {Name = "Vodka", Id = 41, Cost = 10, Max = 100},
         {Name = "Irn Bru", Id = 17, Cost = 4, Max = 100},
         {Name = "Coffee", Id = 18, Cost = 5, Max = 100},
     }},
     {Category = "Tools", Items = {
-    	{Name = "Phone", Id = 200, Cost = 500, Max = 1},
-        {Name = "Repair kit", Id = 37, Cost = 150, Max = 10},
+    	{Name = "Phone", Id = 200, Cost = 250, Max = 1},
+        {Name = "Repair kit", Id = 37, Cost = 45, Max = 10},
     }},
     {Category = "Medical", Items = {
         {Name = "Medkit", Id = 34, Cost = 50, Max = 10},
     }},
     {Category = "Illegal", Items = {
-        {Name = "Lockpick", Id=36, Cost = 25, Max = 10},
-        {Name = "Hotwire kit", Id=46, Cost = 150, Max = 5},
-        {Name = "Body Armor", Id=39, Cost = 450, Max = 5},
-        {Name = "Handcuffs", Id=44, Cost = 50, Max = 3},
+        {Name = "Lockpick", Id=36, Cost = 10, Max = 10},
+        {Name = "Hotwire kit", Id=46, Cost = 50, Max = 5},
+        {Name = "Body Armor", Id=39, Cost = 300, Max = 5},
+        {Name = "Handcuffs", Id=44, Cost = 30, Max = 3},
     }},
 }
 for k,v in pairs(Store) do
