@@ -327,7 +327,11 @@ Citizen.CreateThread(function()
                             end
                         end
                     else
-                        RemoveWeaponFromPed(PlayerPed, currentWeapon)
+                        if Weaponstring ~= "WEAPON_ANIMAL" then
+                        	RemoveWeaponFromPed(PlayerPed, currentWeapon)
+                        elseif Weaponstring == "WEAPON_ANIMAL" and IsPedHuman(PlayerPed) then
+                        	RemoveWeaponFromPed(PlayerPed, currentWeapon)
+                        end
                     end
                 end
             end

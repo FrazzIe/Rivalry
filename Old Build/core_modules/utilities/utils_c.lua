@@ -688,9 +688,12 @@ AddEventHandler('paramedic:updateactiveMedics',function(activeCount)
 end)
 
 Citizen.CreateThread(function()
+    local chop = GetHashKey("a_c_chop")
+    local husky = GetHashKey("a_c_husky")
     while true do
-         Citizen.Wait(0)
-        if GetEntityModel(PlayerPedId()) == 1318032802 then
+        Citizen.Wait(0)
+        local PlayerModel = GetEntityModel(PlayerPedId())
+        if PlayerModel == chop or PlayerModel == husky then
             RestorePlayerStamina(PlayerId(), 1.0)
         end
     end
