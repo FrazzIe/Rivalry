@@ -256,7 +256,7 @@ function Utilities.GetNearestVehicleAtCoords(X, Y, Z, Radius, Alive, ExcludePlay
 	if tonumber(X) and tonumber(Y) and tonumber(Z) then
 		if tonumber(Radius) then
 			for Vehicle in Utilities.EnumerateVehicles() do
-				if DoesEntityExist(Vehicle) and not (Alive and false or IsEntityDead(Vehicle)) and not (ExcludePlayer and false or (Vehicle == PlayerVehicle)) and (Model and false or IsVehicleModel(Vehicle, Model)) then
+				if DoesEntityExist(Vehicle) and not (Alive and false or IsEntityDead(Vehicle)) and not (ExcludePlayer and false or (Vehicle == PlayerVehicle)) and (Model and IsVehicleModel(Vehicle, Model) or true) then
 					local VehiclePosition = GetEntityCoords(Vehicle, false)
 					local Distance = Vdist(X, Y, Z, VehiclePosition.x, VehiclePosition.y, VehiclePosition.z)
 					if Distance <= Radius then
