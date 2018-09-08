@@ -309,16 +309,14 @@ end)
 
 AddEventHandler("police:fix_vehicle", function()
 	if not IsPedSittingInAnyVehicle(PlayerPedId()) then
-		local pos = GetEntityCoords(PlayerPedId(), false)
-		local entityWorld = GetOffsetFromEntityInWorldCoords(PlayerPedId(), 0.0, 5.0, 0.0)
-		local rayHandle = CastRayPointToPoint(pos.x, pos.y, pos.z, entityWorld.x, entityWorld.y, entityWorld.z, 10, PlayerPedId(), 0)
-		local _, _, _, _, vehicleHandle = GetRaycastResult(rayHandle)
-
-		if vehicleHandle ~= nil then
+        local PlayerPosition = GetEntityCoords(PlayerPedId(), false)
+        local NearestVehicle = GetNearestVehicleAtCoords(PlayerPosition.x, PlayerPosition.y, PlayerPosition.z, 2.0, false, true)
+        
+        if DoesEntityExist(NearestVehicle.Handle) then
 			TaskPlayAnim(PlayerPedId(), "mini@repair","fixing_a_player", 8.0, 0.0, -1, 1, 0, 0, 0, 0)  
 			Citizen.Wait(20000)
 			ClearPedTasks(PlayerPedId())
-			SetVehicleFixed(vehicleHandle)
+			SetVehicleFixed(NearestVehicle.Handle)
 		else
 			Notify("Couldn't find a vehicle!", 2500)
 		end
@@ -329,13 +327,11 @@ end)
 
 AddEventHandler("police:clean_vehicle", function()
 	if not IsPedSittingInAnyVehicle(PlayerPedId()) then
-		local pos = GetEntityCoords(PlayerPedId(), false)
-		local entityWorld = GetOffsetFromEntityInWorldCoords(PlayerPedId(), 0.0, 5.0, 0.0)
-		local rayHandle = CastRayPointToPoint(pos.x, pos.y, pos.z, entityWorld.x, entityWorld.y, entityWorld.z, 10, PlayerPedId(), 0)
-		local _, _, _, _, vehicleHandle = GetRaycastResult(rayHandle)
-
-		if vehicleHandle ~= nil then
-			SetVehicleDirtLevel(vehicleHandle, 0)
+        local PlayerPosition = GetEntityCoords(PlayerPedId(), false)
+        local NearestVehicle = GetNearestVehicleAtCoords(PlayerPosition.x, PlayerPosition.y, PlayerPosition.z, 2.0, false, true)
+        
+        if DoesEntityExist(NearestVehicle.Handle) then
+			SetVehicleDirtLevel(NearestVehicle.Handle, 0)
 			Notify("Vehicle cleaned!", 2500)
 		else
 			Notify("Couldn't find a vehicle!", 2500)
@@ -348,13 +344,11 @@ AddEventHandler("police:clean_vehicle", function()
 end)
 
 AddEventHandler("police:check_plate", function()
-	local pos = GetEntityCoords(PlayerPedId(), false)
-	local entityWorld = GetOffsetFromEntityInWorldCoords(PlayerPedId(), 0.0, 5.0, 0.0)
-	local rayHandle = CastRayPointToPoint(pos.x, pos.y, pos.z, entityWorld.x, entityWorld.y, entityWorld.z, 10, PlayerPedId(), 0)
-	local _, _, _, _, vehicleHandle = GetRaycastResult(rayHandle)
+    local PlayerPosition = GetEntityCoords(PlayerPedId(), false)
+    local NearestVehicle = GetNearestVehicleAtCoords(PlayerPosition.x, PlayerPosition.y, PlayerPosition.z, 2.0, false, true)
 
-	if vehicleHandle ~= nil then
-		TriggerServerEvent("police:check_plate", GetVehicleNumberPlateText(vehicleHandle))
+    if DoesEntityExist(NearestVehicle.Handle) then
+		TriggerServerEvent("police:check_plate", GetVehicleNumberPlateText(NearestVehicle.Handle))
 	else
 		Notify("Couldn't find a vehicle!", 2500)
 	end
@@ -370,12 +364,11 @@ end)
 
 AddEventHandler("police:menu_vehicle_search_execute", function(type)
 	exports.ui:open()
-	local pos = GetEntityCoords(PlayerPedId(), false)
-	local entityWorld = GetOffsetFromEntityInWorldCoords(PlayerPedId(), 0.0, 5.0, 0.0)
-	local rayHandle = CastRayPointToPoint(pos.x, pos.y, pos.z, entityWorld.x, entityWorld.y, entityWorld.z, 10, PlayerPedId(), 0)
-	local _, _, _, _, vehicleHandle = GetRaycastResult(rayHandle)
-	if vehicleHandle ~= nil then
-		TriggerServerEvent("police:search_vehicle", GetVehicleNumberPlateText(vehicleHandle), type)
+    local PlayerPosition = GetEntityCoords(PlayerPedId(), false)
+    local NearestVehicle = GetNearestVehicleAtCoords(PlayerPosition.x, PlayerPosition.y, PlayerPosition.z, 2.0, false, true)
+
+	if DoesEntityExist(NearestVehicle.Handle) then
+		TriggerServerEvent("police:search_vehicle", GetVehicleNumberPlateText(NearestVehicle.Handle), type)
 	else
 		Notify("Couldn't find a vehicle!", 2500)
 	end
@@ -392,12 +385,11 @@ end)
 
 AddEventHandler("police:menu_vehicle_seize_execute", function(type)
 	exports.ui:open()
-	local pos = GetEntityCoords(PlayerPedId(), false)
-	local entityWorld = GetOffsetFromEntityInWorldCoords(PlayerPedId(), 0.0, 5.0, 0.0)
-	local rayHandle = CastRayPointToPoint(pos.x, pos.y, pos.z, entityWorld.x, entityWorld.y, entityWorld.z, 10, PlayerPedId(), 0)
-	local _, _, _, _, vehicleHandle = GetRaycastResult(rayHandle)
-	if vehicleHandle ~= nil then
-		TriggerServerEvent("police:seize_vehicle", GetVehicleNumberPlateText(vehicleHandle), type)
+    local PlayerPosition = GetEntityCoords(PlayerPedId(), false)
+    local NearestVehicle = GetNearestVehicleAtCoords(PlayerPosition.x, PlayerPosition.y, PlayerPosition.z, 2.0, false, true)
+
+    if DoesEntityExist(NearestVehicle.Handle) then
+		TriggerServerEvent("police:seize_vehicle", GetVehicleNumberPlateText(NearestVehicle.Handle), type)
 	else
 		Notify("Couldn't find a vehicle!", 2500)
 	end
@@ -406,13 +398,11 @@ end)
 RegisterNetEvent("police:menu_vehicle_impound")
 AddEventHandler("police:menu_vehicle_impound", function(_amount)
     if isInService then
-    	local pos = GetEntityCoords(PlayerPedId(), false)
-    	local entityWorld = GetOffsetFromEntityInWorldCoords(PlayerPedId(), 0.0, 5.0, 0.0)
-    	local rayHandle = CastRayPointToPoint(pos.x, pos.y, pos.z, entityWorld.x, entityWorld.y, entityWorld.z, 10, PlayerPedId(), 0)
-    	local _, _, _, _, vehicleHandle = GetRaycastResult(rayHandle)
+        local PlayerPosition = GetEntityCoords(PlayerPedId(), false)
+        local NearestVehicle = GetNearestVehicleAtCoords(PlayerPosition.x, PlayerPosition.y, PlayerPosition.z, 2.0, false, true)
 
-    	if vehicleHandle ~= nil then
-    		TriggerServerEvent("police:impound", GetVehicleNumberPlateText(vehicleHandle), _amount)
+        if DoesEntityExist(NearestVehicle.Handle) then
+    		TriggerServerEvent("police:impound", GetVehicleNumberPlateText(NearestVehicle.Handle), _amount)
             DestroyVehicle(vehicleHandle)
     	else
     		Notify("Couldn't find a vehicle!", 2500)
@@ -425,7 +415,6 @@ AddEventHandler("police:menu_placeables", function()
 	exports.ui:open()
 	exports.ui:addOption("Toggle spikes", [[TriggerEvent("Spikes.Create", 3)]])
 	exports.ui:addOption("Toggle camera", [[TriggerEvent("PortableRadar.Create")]])
-	exports.ui:addOption("Toggle cones", [[TriggerEvent("police:DeployC")]])
 	exports.ui:back([[TriggerEvent("police:menu")]])
 end)
 --[[ Missions ]]--

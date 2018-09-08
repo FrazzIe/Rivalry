@@ -1,3 +1,80 @@
+local entityEnumerator = {
+    __gc = function(enum)
+        if enum.destructor and enum.handle then
+            enum.destructor(enum.handle)
+        end
+        enum.destructor = nil
+        enum.handle = nil
+    end
+}
+
+function EnumerateEntities(initFunc, moveFunc, disposeFunc)
+    return coroutine.wrap(function()
+        local iter, id = initFunc()
+        if not id or id == 0 then
+            disposeFunc(iter)
+            return
+        end
+    
+        local enum = {handle = iter, destructor = disposeFunc}
+        setmetatable(enum, entityEnumerator)
+    
+        local next = true
+        repeat
+            coroutine.yield(id)
+            next, id = moveFunc(iter)
+        until not next
+    
+        enum.destructor, enum.handle = nil, nil
+        disposeFunc(iter)
+    end)
+end
+
+function EnumerateObjects()
+    return EnumerateEntities(FindFirstObject, FindNextObject, EndFindObject)
+end
+
+function EnumeratePeds()
+    return EnumerateEntities(FindFirstPed, FindNextPed, EndFindPed)
+end
+
+function EnumerateVehicles()
+    return EnumerateEntities(FindFirstVehicle, FindNextVehicle, EndFindVehicle)
+end
+
+function EnumeratePickups()
+    return EnumerateEntities(FindFirstPickup, FindNextPickup, EndFindPickup)
+end
+
+function GetNearestVehicleAtCoords(X, Y, Z, Radius, Alive, ExcludePlayer, Model)
+    local NearestVehicles = {}
+    local NearestVehicle = {Handle = nil, Position = nil, Distance = nil}
+    local PlayerVehicle = GetVehiclePedIsIn(PlayerPedId(), false)
+    if tonumber(X) and tonumber(Y) and tonumber(Z) then
+        if tonumber(Radius) then
+            for Vehicle in EnumerateVehicles() do
+                if DoesEntityExist(Vehicle) and not (Alive and false or IsEntityDead(Vehicle)) and not (ExcludePlayer and false or (Vehicle == PlayerVehicle)) and (Model and false or IsVehicleModel(Vehicle, Model)) then
+                    local VehiclePosition = GetEntityCoords(Vehicle, false)
+                    local Distance = Vdist(X, Y, Z, VehiclePosition.x, VehiclePosition.y, VehiclePosition.z)
+                    if Distance <= Radius then
+                        table.insert(NearestVehicles, {Handle = Vehicle, Position = VehiclePosition, Distance = Distance})
+                    end
+                end
+            end
+
+            for Index = 1, #NearestVehicles, 1 do
+                if NearestVehicles[Index] then
+                    if Index == 1 then NearestVehicle = NearestVehicles[Index] end
+                    if Vdist(X, Y, Z, NearestVehicle.Position.x, NearestVehicle.Position.y, NearestVehicle.Position.z) > Vdist(X, Y, Z, NearestVehicles[Index].Position.x, NearestVehicles[Index].Position.y, NearestVehicles[Index].Position.z) then
+                        NearestVehicle = NearestVehicles[Index]
+                    end
+                end
+            end
+        end
+    end
+    return NearestVehicle
+end
+
 function string.starts(String, Start)
     return string.sub(String, 1, string.len(Start)) == Start
 end
