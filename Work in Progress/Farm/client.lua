@@ -63,7 +63,7 @@ Farm = {
 					{x = 2194.17, y = 5152.88, z = 54.8},
 				},
 				Blip = {
-					Name = "Strawberry Field"
+					Name = "Strawberry Field",
 					Coordinates = {x = 2144.7333984375, y = 5163.5629882813, z = 53.567691802979, h = 321.29647827148},
 					Sprite = 162,
 					Colour = 59,
@@ -124,7 +124,7 @@ Farm = {
 					{x = 2100.84, y = 4917.95, z = 41.32},
 				},
 				Blip = {
-					Name = "Cabbage Field"
+					Name = "Cabbage Field",
 					Coordinates = {x = 2057.3491210938, y = 4927.9052734375, z = 40.961162567139, h = 43.524127960205},
 					Sprite = 162,
 					Colour = 2,
@@ -180,7 +180,7 @@ Farm = {
 					{x = 2061.86, y = 4878.13, z = 43.12},
 				},
 				Blip = {
-					Name = "Pumpkin Field"
+					Name = "Pumpkin Field",
 					Coordinates = {x = 2019.2624511719, y = 4890.7119140625, z = 42.697128295898, h = 44.916187286377},
 					Sprite = 162,
 					Colour = 64,
@@ -227,7 +227,7 @@ Farm = {
 					{x = 2307.73, y = 5085.09, z = 46.7},
 				},
 				Blip = {
-					Name = "Orange Field"
+					Name = "Orange Field",
 					Coordinates = {x = 2308.2817382813, y = 5123.6552734375, z = 49.650482177734, h = 37.763072967529},
 					Sprite = 162,
 					Colour = 47,
