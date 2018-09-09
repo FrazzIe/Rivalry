@@ -48,11 +48,15 @@ Citizen.CreateThread(function()
 		if Player.Ped ~= PlayerPedId() then
 			Player.Ped = PlayerPedId()
 		end
+		
 		Player.Coordinates = GetEntityCoords(Player.Ped, false)
 		Player.Heading = GetEntityHeading(Player.Ped)
 		Player.Vehicle.Current = GetVehiclePedIsIn(Player.Ped, false)
 		Player.Vehicle.Last = GetVehiclePedIsIn(Player.Ped, true)
 		Player.Vehicle.Using = GetVehiclePedIsUsing(Player.Ped)
+
+		ClearAreaOfCops(Player.Coordinates, 400.0)
+
 		if not Player.Ready then Player.Ready = true end
 	end
 end)
