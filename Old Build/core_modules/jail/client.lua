@@ -50,7 +50,7 @@ AddEventHandler("jail:jail", function(JailTime)
                 end
                 if JailTime % 30 == 0 then
                     exports.pNotify:SendNotification({text = JailTime/60 .." more months until release.",type = "error",timeout = 3000,layout = "centerRight",queue = "left"})
-                    TriggerServerEvent("jail:update", JailTime)
+                    TriggerServerEvent("jail:update", JailTime/60)
                 end
                 Citizen.Wait(500)
                 local coords = GetEntityCoords(PlayerPedId(), true)

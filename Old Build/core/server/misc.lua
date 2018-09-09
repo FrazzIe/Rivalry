@@ -105,6 +105,7 @@ end)
 
 RegisterServerEvent("jail:update")
 AddEventHandler("jail:update", function(time)
+	if tonumber(time) then time = math.floor(time) else time = 0 end
 	local source = source
 	if Characters[source] ~= nil then
 		Characters[source].set("jail_time", time)
