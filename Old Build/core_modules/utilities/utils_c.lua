@@ -692,6 +692,9 @@ Citizen.CreateThread(function()
     local husky = GetHashKey("a_c_husky")
     while true do
         Citizen.Wait(0)
+        SetPedDensityMultiplierThisFrame(0.9999999)
+        SetVehicleDensityMultiplierThisFrame(0.08)
+        
         local PlayerModel = GetEntityModel(PlayerPedId())
         if PlayerModel == chop or PlayerModel == husky then
             RestorePlayerStamina(PlayerId(), 1.0)
