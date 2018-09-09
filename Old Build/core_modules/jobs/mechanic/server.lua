@@ -12,7 +12,7 @@ AddEventHandler("Mechanic:Initialise", function(source, identifier, character_id
 	end)
 end)
 
-TriggerEvent("core:addGroupCommand", "mechanicadd", "admin", function(source, args, rawCommand, data, power, group)
+TriggerEvent("core:addGroupCommand", "mechanicadd", "command", function(source, args, rawCommand, data, power, group)
 	local source = source
 	if(#args < 2) then
 		TriggerClientEvent('chatMessage', source, 'SYSTEM', {255, 0, 0}, "Usage : /mechanicadd [ID] [RANK]")	
@@ -39,7 +39,7 @@ TriggerEvent("core:addGroupCommand", "mechanicadd", "admin", function(source, ar
 	end
 end, {help = "Add a player to the Whitelisted Mechanic", params = {{name = "id", help = "The id of the player"},{name = "rank", help = "Worker | Boss"}}})
 
-TriggerEvent("core:addGroupCommand", "mechanicrem", "admin", function(source, args, rawCommand, data, power, group)
+TriggerEvent("core:addGroupCommand", "mechanicrem", "command", function(source, args, rawCommand, data, power, group)
 	local source = source
 	if(not args[1]) then
 		TriggerClientEvent('chatMessage', source, 'SYSTEM', {255, 0, 0}, "Usage : /mechanicrem [ID]")	
@@ -61,7 +61,7 @@ TriggerEvent("core:addGroupCommand", "mechanicrem", "admin", function(source, ar
 	end
 end, {help = "Remove a player from the Whitelisted Mechanic", params = {{name = "id", help = "The id of the player"}}})
 
-TriggerEvent("core:addGroupCommand", "mechanicpromote", "admin", function(source, args, rawCommand, data, power, group)
+TriggerEvent("core:addGroupCommand", "mechanicpromote", "command", function(source, args, rawCommand, data, power, group)
 	local source = source
 	if(#args < 2) then
 		TriggerClientEvent('chatMessage', source, 'SYSTEM', {255, 0, 0}, "Usage : /mechanicpromote [ID] [RANK]")	
@@ -102,7 +102,7 @@ TriggerEvent("core:addGroupCommand", "mechanicpromote", "admin", function(source
 	end
 end, {help = "Promote to Whitelisted Mechanic", params = {{name = "id", help = "The id of the player"},{name = "rank", help = "Worker | Boss"}}})
 
-TriggerEvent("core:addGroupCommand", "mechanicdemote", "admin", function(source, args, rawCommand, data, power, group)
+TriggerEvent("core:addGroupCommand", "mechanicdemote", "command", function(source, args, rawCommand, data, power, group)
 	local source = source
 	if(#args < 2) then
 		TriggerClientEvent('chatMessage', source, 'SYSTEM', {255, 0, 0}, "Usage : /mechanicdemote [ID] [RANK]")	
