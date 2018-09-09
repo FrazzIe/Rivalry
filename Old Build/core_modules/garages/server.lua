@@ -618,7 +618,7 @@ function updateCar(source, data)
             ["@mod7"] = data.mod7,
             ["@mod8"] = data.mod8,
             ["@mod9"] = data.mod9,
-            ["@mod10"] = data.mod1,
+            ["@mod10"] = data.mod10,
             ["@mod11"] = data.mod11,
             ["@mod12"] = data.mod12,
             ["@mod13"] = data.mod13,

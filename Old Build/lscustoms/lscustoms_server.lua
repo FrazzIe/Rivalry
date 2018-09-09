@@ -135,7 +135,7 @@ AddEventHandler("LSC:finished", function(veh)
 			["@mod7"] = mods[7].mod,
 			["@mod8"] = mods[8].mod,
 			["@mod9"] = mods[9].mod,
-			["@mod10"] = mods[1].mod,
+			["@mod10"] = mods[10].mod,
 			["@mod11"] = mods[11].mod,
 			["@mod12"] = mods[12].mod,
 			["@mod13"] = mods[13].mod,

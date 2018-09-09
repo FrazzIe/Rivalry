@@ -201,8 +201,8 @@ local function DriveInGarage()
 		LSCMenu:addSubMenu("CATEGORIES", "categories",nil, false)
 		LSCMenu.categories.buttons = {}
 		--Calculate price for vehicle repair and add repair  button
-
-		LSCMenu:addPurchase("Repair vehicle", (1.5 * (((GetVehiclePetrolTankHealth(veh) * 0.1) + (GetVehicleBodyHealth(veh) * 0.5) + (GetVehicleEngineHealth(veh) * 0.5))/100)) , "Full body repair and engine service.")
+		local repaircost = math.floor((1.5 * (((GetVehiclePetrolTankHealth(veh) * 0.1) + (GetVehicleBodyHealth(veh) * 0.5) + (GetVehicleEngineHealth(veh) * 0.5))/100)))
+		LSCMenu:addPurchase("Repair vehicle", (repaircost > 800 and repaircost or 800), "Full body repair and engine service.")
 		
 		--Setup table for vehicle with all mods, colors etc.
 		SetVehicleModKit(veh,0)	
