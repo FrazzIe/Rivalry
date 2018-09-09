@@ -35,7 +35,7 @@ else
 					for Player, _ in pairs(PanicPlayers) do
 						local PlayerId = GetPlayerFromServerId(Player)
 						if NetworkIsPlayerActive(PlayerId) then
-							local PedId = GetPlayerPed(PedId)
+							local PedId = GetPlayerPed(PlayerId)
 							if DoesEntityExist(PedId) then
 								if not PanicBlips[Player] then
 									PanicBlips[Player] = AddBlipForEntity(PedId)
