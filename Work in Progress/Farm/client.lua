@@ -6,7 +6,7 @@ Farm = {
 			{
 				Crop = {
 					Model = "prop_veg_crop_02",
-					ZOffset = 1.2,
+					OffsetZ = 1.2,
 					Radius = 0,
 					Time = 0,
 				},
@@ -73,7 +73,7 @@ Farm = {
 			{
 				Crop = {
 					Model = "prop_veg_crop_03_cab",
-					ZOffset = 1,
+					OffsetZ = 1,
 					Radius = 0,
 					Time = 0,
 				},
@@ -134,7 +134,7 @@ Farm = {
 			{
 				Crop = {
 					Model = "prop_veg_crop_03_pump",
-					ZOffset = 1,
+					OffsetZ = 1,
 					Radius = 0,
 					Time = 0,
 				},
@@ -190,7 +190,7 @@ Farm = {
 			{
 				Crop = {
 					Model = "prop_veg_crop_orange",
-					ZOffset = 1.5,
+					OffsetZ = 1.5,
 					Radius = 0,
 					Time = 0,
 				},
@@ -266,21 +266,10 @@ end
 function GetByteCount(str)
     local bytes = 0
 
-    for c in str:gmatch("[%z\1-\127\194-\244][\128-\191]*") do
-        local a,b,c,d = c:byte(1, -1)
-        if a ~= nil then
-            bytes = bytes + 1
-        end
-        if b ~= nil then
-            bytes = bytes + 1
-        end
-        if c ~= nil then
-            bytes = bytes + 1
-        end
-        if d ~= nil then
-            bytes = bytes + 1
-        end
+    for char in str:gmatch("[%z\1-\127\194-\244][\128-\191]*") do
+        bytes = bytes + #table.pack(char:byte(1, -1))
     end
+
     return bytes
 end
 
@@ -303,7 +292,6 @@ function Utilities.Subtitle(Message, Duration)
 
 	BeginTextCommandPrint("STRING")
 
-	local Index = 1
 	for Index = 1, MessageLength, MaxStringLength do
 		AddTextComponentSubstringPlayerName(string.sub(Message, Index, math.min(MaxStringLength, MessageLength - Index)))
 	end
@@ -348,7 +336,7 @@ function Farm:CreateCrop(Field, PlayerPosiiton)
 		Citizen.Wait(0)
 	end
 
-	local Crop = CreateObject(Field.Crop.ModelHash, PlayerPosiiton.x, PlayerPosiiton.y, PlayerPosiiton.z - Field.Crop.ZOffset, true, false, false)
+	local Crop = CreateObject(Field.Crop.ModelHash, PlayerPosiiton.x, PlayerPosiiton.y, PlayerPosiiton.z - Field.Crop.OffsetZ, true, false, false)
 
 	FreezeEntityPosition(Crop, true)
 
