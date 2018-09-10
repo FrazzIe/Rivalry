@@ -7,8 +7,8 @@ Farm = {
 				Crop = {
 					Model = "prop_veg_crop_02",
 					OffsetZ = 1.2,
-					Radius = 0,
-					Time = 0,
+					Radius = 1.0,
+					Time = 10,
 				},
 				Path = {
 					{x = 2139.2197265625, y = 5204.58984375, z = 57.967384338379, h = 222.92823791504},
@@ -74,8 +74,15 @@ Farm = {
 				Crop = {
 					Model = "prop_veg_crop_03_cab",
 					OffsetZ = 1,
-					Radius = 0,
-					Time = 0,
+					Radius = 1.0,
+					Time = 10,
+					Stage = {
+						"Cotyledons",
+						"Seedling",
+						"6-8 true leaf",
+						"9-12 true leaf",
+						"Ready",
+					}
 				},
 				Path = {
 					{x = 2045.6480712891, y = 4963.841796875, z = 41.097553253174, h = 222.77256774902},
@@ -135,8 +142,8 @@ Farm = {
 				Crop = {
 					Model = "prop_veg_crop_03_pump",
 					OffsetZ = 1,
-					Radius = 0,
-					Time = 0,
+					Radius = 1.0,
+					Time = 10,
 				},
 				Path = {
 					{x = 2006.7590332031, y = 4923.978515625, z = 42.887752532959, h = 225.39208984375},
@@ -191,8 +198,8 @@ Farm = {
 				Crop = {
 					Model = "prop_veg_crop_orange",
 					OffsetZ = 1.5,
-					Radius = 0,
-					Time = 0,
+					Radius = 2.0,
+					Time = 10,
 				},
 				Path = {
 					{x = 2296.9221191406, y = 5166.50390625, z = 57.732807159424, h = 225.7225189209},
@@ -273,6 +280,60 @@ function GetByteCount(str)
     return bytes
 end
 
+function Utilities.Display3DText(Text, X, Y, Z, Font, Scale, R, G, B, A, Alignment, DropShadow, Outline, WordWrap)
+	local MaxStringLength = 99
+	local MessageLength = GetByteCount(Text)
+    local IsOnScreen, ScreenX, ScreenY = World3dToScreen2d(X, Y, Z)
+    local GameplayCameraCoordinates = GetGameplayCamCoords()
+    local Distance = GetDistanceBetweenCoords(GameplayCameraCoordinates.x, GameplayCameraCoordinates.y, GameplayCameraCoordinates.z, X, Y, Z, 1)
+    local FOV = (1 / GetGameplayCamFov()) * 100
+    local TextScale = (((1 / Distance) * 2) * FOV) * Scale
+
+    if IsOnScreen then
+    	SetTextFont(Font or 0)
+        SetTextScale(TextScale, TextScale)
+        SetTextColour(tonumber(R) or 255, tonumber(G) or 255, tonumber(B) or 255, tonumber(A) or 255)
+
+	    if DropShadow then
+	        SetTextDropShadow()
+	    end
+
+	    if Outline then
+	        SetTextOutline()
+	    end
+
+	    if Alignment ~= nil then
+	        if Alignment == 1 or Alignment == "Center" or Alignment == "Centre" then
+	            SetTextCentre(true)
+	        elseif Alignment == 2 or Alignment == "Right" then
+	            SetTextRightJustify(true)
+	        end
+	    end
+
+	    if tonumber(WordWrap) and tonumber(WordWrap) ~= 0 then
+	        if Alignment == 1 or Alignment == "Center" or Alignment == "Centre" then
+	        	SetTextWrap(X - ((WordWrap/1920)/2), X + ((WordWrap/1920)/2))
+	        elseif Alignment == 2 or Alignment == "Right" then
+	        	SetTextWrap(0, X)
+	        else
+	        	SetTextWrap(X, X + (WordWrap/1920))
+	        end
+	    else
+	        if Alignment == 2 or Alignment == "Right" then
+	        	SetTextWrap(0, X)
+	        end
+	    end
+
+        BeginTextCommandDisplayText("STRING")
+
+		for Index = 0, MessageLength, MaxStringLength do
+			AddTextComponentSubstringPlayerName(string.sub(Text, Index, math.min(MaxStringLength, MessageLength - Index)))
+		end
+
+        EndTextCommandDisplayText(ScreenX, ScreenY)
+    end
+end
+
 function Utilities.DisplayHelpText(Str)
 	BeginTextCommandDisplayHelp("STRING")
 	AddTextComponentString(Str or "")
@@ -292,7 +353,7 @@ function Utilities.Subtitle(Message, Duration)
 
 	BeginTextCommandPrint("STRING")
 
-	for Index = 1, MessageLength, MaxStringLength do
+	for Index = 0, MessageLength, MaxStringLength do
 		AddTextComponentSubstringPlayerName(string.sub(Message, Index, math.min(MaxStringLength, MessageLength - Index)))
 	end
 
@@ -329,6 +390,12 @@ function IsPointInPolygon(point, points)
 	return winding_number
 end
 
+function Farm:GetCropDetails(Field, Crop)
+	local Percentage = math.floor((Crop.Time/Field.Crop.Time) * 100)
+	local Stage = (Percentage >= 100) and 5 or ((Percentage >= 80) and 4 or ((Percentage >= 70) and 3 or ((Percentage >= 50) and 2 or 1)))
+	return Percentage, Field.Crop.Stage[Stage] or "Seed"
+end
+
 function Farm:CreateCrop(Field, PlayerPosiiton)
 	RequestModel(Field.Crop.ModelHash)
 
@@ -343,6 +410,7 @@ function Farm:CreateCrop(Field, PlayerPosiiton)
 	table.insert(Farm.Data.Planted, {
 		Handle = Crop,
 		Time = Field.Crop.Time,
+		Position = {x = PlayerPosiiton.x, y = PlayerPosiiton.y, z = PlayerPosiiton.z - Field.Crop.OffsetZ},
 	})
 
 end
@@ -350,10 +418,10 @@ end
 function Farm:IsCropOwnedByPlayer(Crop)
 	for Index = 1, #Farm.Data.Planted do
 		if Crop == Farm.Data.Planted[Index].Handle then
-			return true
+			return true, Farm.Data.Planted[Index]
 		end
 	end
-	return false
+	return false, nil
 end
 
 function Farm:IsPlayerNearCrop(Field, PlayerPosition)
@@ -389,8 +457,12 @@ function Farm:ManageFields(PlayerPed, PlayerPosition)
 					local NearCrop, ClosestCrop = self:IsPlayerNearCrop(Farm.Data.Fields[Index], PlayerPosition)
 
 					if NearCrop then
-						if self:IsCropOwnedByPlayer(ClosestCrop) then
+						local IsOwned, Crop = self:IsCropOwnedByPlayer(ClosestCrop)
 
+						if IsOwned then
+							local Percentage, Stage = self:GetCropDetails(Farm.Data.Fields[Index], Crop)
+
+							Utilities.Display3DText("["..Percentage.."%] - "..Stage, Crop.Position.x, Crop.Position.y, Crop.Position.z + Farm.Data.Fields[Index].Crop.OffsetZ, 0, 0.2, 255, 255, 255, 255, "Centre", true, true)
 						end
 					else
 						if not IsPedUsingScenario(PlayerPed, Farm.Data.Scenario) then
