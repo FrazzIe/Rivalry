@@ -624,7 +624,7 @@ Emote.Add("binoculars", "Binoculars", "Misc", {}, {}, {"WORLD_HUMAN_BINOCULARS"}
 end)
 
 Emote.Add("typing", "Typing", "Misc", {"anim@amb@warehouse@laptop@"}, {"idle_a"}, {}, {}, function(self)
-	TaskPlayAnim(PlayerPedId(), self.Dictionaries[1] , self.Animations[1] , 8.0, -8.0, -1, 0, 0, false, false, false)
+	TaskPlayAnim(PlayerPedId(), self.Dictionaries[1] , self.Animations[1] , 4.0, -4, -1, 1, 0, false, false, false)
 end)
 
 Emote.Add("slumped", "Slumped", "Misc", {}, {}, {"WORLD_HUMAN_BUM_SLUMPED"}, {}, function(self)
