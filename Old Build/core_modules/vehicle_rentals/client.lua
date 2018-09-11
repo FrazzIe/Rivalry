@@ -98,6 +98,7 @@ RegisterNetEvent("carRental:bought")
 AddEventHandler("carRental:bought", function(data)
     WarMenu.CloseMenu()
     isCarRentalOpen = false
+    isBoatRentalOpen = false
     if DoesEntityExist(currentPreview.entity) then
         Citizen.InvokeNative(0xEA386986E786A54F, Citizen.PointerValueIntInitialized(currentPreview.entity))
     end

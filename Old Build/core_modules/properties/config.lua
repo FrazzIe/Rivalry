@@ -3656,14 +3656,14 @@ properties = {
 				expire = 1 --Default (don't touch)
 			},
 			[43] = {
-				property_name = "Elgin Avenue Mechanic Shop", -- Name of the property (used as the title of the menu)
+				property_name = "Convenience Store 18", -- Name of the property (used as the title of the menu)
 				locked = false, --Default (don't touch)
 				owner =  {
 					identifier = "no", --Default (don't touch)
 					char_id = 0, --Default (don't touch)
 					id = 0, --Default (don't touch)
 				},
-				coordinates = {x = 548.54443359375, y = -191.01976013184, z = 54.481353759766, h = 178.2611541748}, -- The location of the property
+				coordinates = {x = 527.58654785156, y = -151.77828979492, z = 57.286720275879, h = 41.76794052124}, -- The location of the property
 				rent = 3200, --How much it costs to rent the property (PER DAY)
 				income = 250, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
 				storage = {

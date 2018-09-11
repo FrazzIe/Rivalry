@@ -82,7 +82,7 @@ AddEventHandler("keys:give", function(plate, target)
 	local source = source
 	if keys_users[source][plate] then
 		if keys_users[target] then
-			Notify(GetIdentity(source).." gave you keys to a vehilce!", 3000, target)
+			Notify(GetIdentity(source).." gave you keys to a vehicle!", 3000, target)
 			Notify("You gave your vehicle keys to "..GetIdentity(target).."!", 3000, source)
 			keys_users[source][plate] = nil
 			keys_users[target][plate] = target
