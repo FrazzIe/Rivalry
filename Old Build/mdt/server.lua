@@ -4,11 +4,11 @@ AddEventHandler("police:search-table", function(firstnamev, lastnamev)
        local first_name = firstnamev
        local last_name = lastnamev
        exports['GHMattiMySQL']:QueryResultAsync("SELECT * FROM characters WHERE (first_name = @first_name)", {["@first_name"] = first_name}, function(search)
-	   if(search[1] == nil) then
-	        TriggerClientEvent("police:load-searchtable", source, {"Not", "In", "The", "Database"}, openUI)
-	   else
-	        TriggerClientEvent("police:load-searchtable", source, search, openUI )
-	   end
+       if(search[1] == nil) then
+            TriggerClientEvent("police:load-searchtable", source, {"Not", "In", "The", "Database"}, openUI)
+       else
+            TriggerClientEvent("police:load-searchtable", source, search, openUI )
+       end
     end)
 end)
 
@@ -25,6 +25,14 @@ AddEventHandler("ems:search-table", function(firstnamev)
     end)
 end)
 
+RegisterServerEvent('ems:loadslip')
+AddEventHandler('ems:loadslip', function(id)
+    local source = source
+    exports['GHMattiMySQL']:QueryResultAsync("SELECT * FROM ems_records WHERE (id = @id)", {["@id"] = id}, function(report)
+        TriggerClientEvent( "ems:loadselectreport", source, report[1], openUI)
+    end)
+end)
+
 RegisterServerEvent("police:loadplayerdata")
 AddEventHandler("police:loadplayerdata", function(lastname, firstname)
     local source = source
@@ -35,9 +43,9 @@ AddEventHandler("police:loadplayerdata", function(lastname, firstname)
     local weapons_license = nil
     local drivers_license = nil
     exports['GHMattiMySQL']:QueryResultAsync("SELECT * FROM characters WHERE (first_name = @first_name) AND (last_name = @last_name)", {["@first_name"] = first_name, ["@last_name"] = last_name}, function(character)
-    	character_id = character[1].character_id
-    	weapons_license = character[1].weapon_license
-    	drivers_license = character[1].drivers_license
+        character_id = character[1].character_id
+        weapons_license = character[1].weapon_license
+        drivers_license = character[1].drivers_license
     end)
     exports['GHMattiMySQL']:QueryResultAsync("SELECT * FROM police_warrants WHERE (offender_name = @offender_name)", {["@offender_name"] = offender_name}, function(warrants)
         exports['GHMattiMySQL']:QueryResultAsync("SELECT * FROM police_arrests WHERE (offender_name = @offender_name)", {["@offender_name"] = offender_name}, function(arrests)
@@ -87,7 +95,7 @@ AddEventHandler("police:loadarrestdata", function(firstname, lastname)
     local first_name = firstname
     local last_name = lastname
     local offender_name = first_name.." "..last_name
-    exports['GHMattiMySQL']:QueryResultAsync("SELECT * FROM characters WHERE (first_name = @first_name) AND (last_name = @last_name)", {["@first_name"] = first_name, ["@last_name"] = last_name}, function(character)
+    exports['GHMattiMySQL']:QueryResultAsync("SELECT * FROM characters WHERE (firstname = @first_name) AND (lastname = @last_name)", {["@first_name"] = first_name, ["@last_name"] = last_name}, function(character)
         exports['GHMattiMySQL']:QueryResultAsync("SELECT * FROM police_arrests WHERE (offender_name = @offender_name)", {["@offender_name"] = offender_name}, function(arrests)
             TriggerClientEvent( "police:loadarrestdata-client", source, arrests )
         end)
@@ -97,8 +105,9 @@ end)
 RegisterServerEvent("ems:reportsload")
 AddEventHandler("ems:reportsload", function(firstname, lastname)
     local source = source
-    local patient_name = firstname.." "..lastname
-    exports['GHMattiMySQL']:QueryResultAsync("SELECT * FROM ems_records WHERE (patient_name = @patient_name)", {["@patient_name"] = patient_name}, function(records)
+    local first_name = firstname
+    local last_name = lastname
+    exports['GHMattiMySQL']:QueryResultAsync("SELECT * FROM ems_records WHERE (firstname = @first_name) AND (lastname = @last_name)", {["@first_name"] = first_name, ["@last_name"] = last_name}, function(records)
         TriggerClientEvent( "ems:loadreports", source, records )
     end)
 end)
@@ -131,15 +140,19 @@ AddEventHandler("police:new-arrest", function(officer_name, offender_first_name,
 end)
 
 RegisterServerEvent("ems:submit-report")
-AddEventHandler("ems:submit-report", function(patient, medic, injuries, description, hospital)
+AddEventHandler("ems:submit-report", function(firstname, lastname, age, gender, date, location, injuries, treatment, parasign, docsign)
     local source = source; timestamp = os.time();
-    local record = exports['GHMattiMySQL']:QueryResult("INSERT INTO ems_records ( `hospital`, `timestamp`, `medic_name`, `patient_name`, `injuries`, `results` ) VALUES ( @hospital, @timestamp, @medic_name, @patient_name, @injuries, @results ); SELECT * FROM ems_records WHERE `id` = (SELECT LAST_INSERT_ID());", { 
-        ['@hospital'] = hospital,
-        ['@timestamp'] = timestamp,
-        ['@medic_name'] = medic,
-        ['@patient_name'] = patient,
+    local record = exports['GHMattiMySQL']:QueryResult("INSERT INTO ems_records ( `firstname`, `lastname`, `age`, `gender`, `date`, `location`, `description`, `treatment`, `parasign`, `docsign` ) VALUES ( @firstname, @lastname, @age, @gender, @date, @location, @injuries, @treatment, @parasign, @docsign ); SELECT * FROM ems_records WHERE `id` = (SELECT LAST_INSERT_ID());", { 
+        ['@firstname'] = firstname,
+        ['@lastname'] = lastname,
+        ['@age'] = age,
+        ['@gender'] = gender,
+        ['@date'] = timestamp,
+        ['@location'] = location,
         ['@injuries'] = injuries,
-        ['@results'] = description,
+        ['@treatment'] = treatment,
+        ['@parasign'] = parasign,
+        ['@docsign'] = docsign,
     })
     TriggerClientEvent("ems:new-record", -1, record)
 end)
@@ -158,14 +171,14 @@ AddEventHandler("police:new-citation", function(officer_name, offender_first_nam
 end)
 
 function setNotepad(character_id, notes)
-	notepad = exports['GHMattiMySQL']:QueryAsync("UPDATE police_notepad SET `notes` = @notes WHERE ( `character_id` = @character_id );", { 
+    notepad = exports['GHMattiMySQL']:QueryAsync("UPDATE police_notepad SET `notes` = @notes WHERE ( `character_id` = @character_id );", { 
         ['@notes'] = notes,
         ['@character_id'] = character_id,
     })
 end
 
 function insertNotepad(character_id, notes)
-	notepad = exports['GHMattiMySQL']:QueryAsync("INSERT INTO police_notepad ( `character_id`,`notes` ) VALUES ( @character_id, @notes ); SELECT * FROM police_notepad WHERE `id` = (SELECT LAST_INSERT_ID());", { 
+    notepad = exports['GHMattiMySQL']:QueryAsync("INSERT INTO police_notepad ( `character_id`,`notes` ) VALUES ( @character_id, @notes ); SELECT * FROM police_notepad WHERE `id` = (SELECT LAST_INSERT_ID());", { 
         ['@character_id'] = character_id,
         ['@notes'] = notes,
     })
@@ -220,18 +233,18 @@ end)
 
 RegisterServerEvent("police:edit-notepad")
 AddEventHandler("police:edit-notepad", function(firstname, lastname, notesv)
-	local source = source
-	local first_name, last_name, notes = firstname, lastname, notesv
-	local character_id = 0
-	exports['GHMattiMySQL']:QueryResultAsync("SELECT * FROM characters WHERE (first_name = @first_name) AND (last_name = @last_name)", {["@first_name"] = first_name, ["@last_name"] = last_name}, function(character)
-    	character_id = character[1].character_id
-    	exports['GHMattiMySQL']:QueryResultAsync("SELECT * FROM police_notepad WHERE (character_id = @character_id)", {["@character_id"] = character_id}, function(notepad)
-	    	if(notepad[1]==nil)then
-	    		insertNotepad(character_id, notes)
-		    else
-		    	setNotepad(character_id, notes)
-		    end
-	    end)
+    local source = source
+    local first_name, last_name, notes = firstname, lastname, notesv
+    local character_id = 0
+    exports['GHMattiMySQL']:QueryResultAsync("SELECT * FROM characters WHERE (first_name = @first_name) AND (last_name = @last_name)", {["@first_name"] = first_name, ["@last_name"] = last_name}, function(character)
+        character_id = character[1].character_id
+        exports['GHMattiMySQL']:QueryResultAsync("SELECT * FROM police_notepad WHERE (character_id = @character_id)", {["@character_id"] = character_id}, function(notepad)
+            if(notepad[1]==nil)then
+                insertNotepad(character_id, notes)
+            else
+                setNotepad(character_id, notes)
+            end
+        end)
     end)
 end)
 
@@ -253,7 +266,7 @@ AddEventHandler("ems:edit-notepad", function(firstname, lastname, notesv)
 end)
 
 function updateWarrant(description, charge, newdescription)
-	warrant = exports['GHMattiMySQL']:QueryAsync("UPDATE police_warrants SET `location` = @charges WHERE ( `notes` = @description );", { 
+    warrant = exports['GHMattiMySQL']:QueryAsync("UPDATE police_warrants SET `location` = @charges WHERE ( `notes` = @description );", { 
         ['@charges'] = charge,
         ['@description'] = description,
     })
@@ -265,14 +278,14 @@ end
 
 RegisterServerEvent('police:edit-warrant')
 AddEventHandler('police:edit-warrant', function(description, charges, newdescription)
-	local source = source
-	local desc, charge, ndesc = description, charges, newdescription
-	exports['GHMattiMySQL']:QueryResultAsync("SELECT * FROM police_warrants WHERE (notes = @desc)", {["@desc"] = desc}, function(warrant)
+    local source = source
+    local desc, charge, ndesc = description, charges, newdescription
+    exports['GHMattiMySQL']:QueryResultAsync("SELECT * FROM police_warrants WHERE (notes = @desc)", {["@desc"] = desc}, function(warrant)
         if(warrant[1]==nil)then
-	    	
-		else
-		    updateWarrant(desc, charge, ndesc)
-		end
+            
+        else
+            updateWarrant(desc, charge, ndesc)
+        end
     end)
 end)
 

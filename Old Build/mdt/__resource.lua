@@ -16,6 +16,7 @@ files {
 	'html/assets/img/lspd.png',
 	'html/assets/img/doj.png',
 	'html/assets/img/lsfd.png',
+	'html/assets/img/report.png',
 }
 
 client_script 'client.lua'

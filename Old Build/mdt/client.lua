@@ -37,21 +37,7 @@ function closeGui()
 	SetPlayerControl(PlayerId(), 1, 0)
 end
 
-
 local currentSuspect = {}
-RegisterNetEvent('police:AutoFill')
-AddEventHandler('police:AutoFill', function(currentSuspectCharges, currentSuspectv)
-  local charges = {}
-  local time = 0
-  local cost = 0
-  currentSuspect = currentSuspectv
-  for key, val in pairs(currentSuspectCharges) do            
-	  charges[#charges+1] = (" [" .. currentSuspectCharges[key].count .. "x] " .. key .. "")
-	  time = time + currentSuspectCharges[key].time
-	  cost = cost + currentSuspectCharges[key].cost
-  end
-  autofill = {charges = table.concat(charges), time = time, cost = cost}
-end)
 
 RegisterNetEvent('open:newmdt')
 AddEventHandler('open:newmdt', function()
@@ -130,15 +116,15 @@ RegisterNUICallback('emsreportsload', function(data, cb)
 end)
 
 RegisterNUICallback('autofillArrest', function(data, cb)
- 	TriggerEvent('police:AutoFillEvent')
-	SendNUIMessage({openSection = "autofill_arrests", charges = autofill.charges, fine = autofill.cost, officer_name = currentOfficer, offender_name = currentSuspect.name, sentence = autofill.time})
+ 	autofill = exports.policejob:AutoFill()
+	SendNUIMessage({openSection = "autofill_arrests", charges = autofill.charges, fine = autofill.cost, officer_name = autofill.officer, offender_name = autofill.name, sentence = autofill.time})
 	cb('ok')
 	autofill = {}
 end)
 
 RegisterNUICallback('autofillCitations', function(data, cb)
-	TriggerEvent('police:AutoFillEvent')
-	SendNUIMessage({openSection = "autofill_citations", charges = autofill.charges, fine = autofill.cost, officer_name = currentOfficer, offender_name = currentSuspect.name})
+	autofill = exports.policejob:AutoFill()
+	SendNUIMessage({openSection = "autofill_citations", charges = autofill.charges, fine = autofill.cost, officer_name = autofill.officer, offender_name = autofill.name})
 	cb('ok')
 	autofill = {}
 end)
@@ -172,11 +158,6 @@ end)
 
 RegisterNUICallback('submit-arrest', function(data, cb)
 	TriggerServerEvent('police:new-arrest', data.officer_name, data.firstname, data.lastname, data.charges, data.fine, data.sentence)
-	cb('ok')
-end)
-
-RegisterNUICallback('submitpatientreport', function(data ,cb)
-	TriggerServerEvent('ems:submit-report', data.patient, data.medic, data.injuries, data.description, data.hospital)
 	cb('ok')
 end)
 
@@ -232,6 +213,16 @@ end)
 
 RegisterNUICallback('edit-warrant', function(data, cb)
 	TriggerServerEvent('police:edit-warrant', data.description, data.charges, data.newdescription)
+	cb('ok')
+end)
+
+RegisterNUICallback('loadmedicalslip', function(data, cb)
+	TriggerServerEvent('ems:loadslip', tonumber(data.id))
+	cb('ok')
+end)
+
+RegisterNUICallback('submitmedicalreport', function(data, cb)
+	TriggerServerEvent('ems:submit-report', data.firstname, data.lastname, data.age, data.gender, data.date, data.location, data.injuries, data.treatment, data.parasign, data.docsign)
 	cb('ok')
 end)
 
@@ -355,6 +346,11 @@ end)
 RegisterNetEvent('police:loadreport')
 AddEventHandler('police:loadreport', function(report)
 	SendNUIMessage({openSection = "loadReport", reportfullname = report.r1, reportage = report.r2, reportphonenumber = report.r3, reportdate = report.r4, reporttime = report.r5, reportpolice = report.r6, reportlocation = report.r7, reportdescription = report.r8, reportwchecky = report.r9, reportwcheckn = report.r10, reportdetails = report.r11, reportinjury = report.r12, reportmedicaly = report.r13, reportmedicaln = report.r14, reportmedicalr = report.r15, reportmedicalon = report.r16, reportmedicaluc = report.r17, reportmedicaler = report.r18, reportmedicalother = report.r19, reportofficername = report.r20, reportsignature = report.r21, reportcompleted = report.r22})
+end)
+
+RegisterNetEvent('ems:loadselectreport')
+AddEventHandler('ems:loadselectreport', function(report)
+	SendNUIMessage({openSection = "loadSelectedReport", firstname = report.firstname, lastname = report.lastname, age = report.age, gender = report.gender, date = report.date, location = report.location, description = report.description, treatment = report.treatment, parasign = report.parasign, docsign = report.docsign})
 end)
 --[[
 =================================================================================================================================================================================================================================================
