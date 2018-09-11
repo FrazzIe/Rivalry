@@ -8,7 +8,6 @@ Farm = {
 					Model = "prop_veg_crop_02",
 					OffsetZ = 1.2,
 					Radius = 1.0,
-					Time = 10,
 				},
 				Path = {
 					{x = 2139.2197265625, y = 5204.58984375, z = 57.967384338379, h = 222.92823791504},
@@ -75,12 +74,11 @@ Farm = {
 					Model = "prop_veg_crop_03_cab",
 					OffsetZ = 1,
 					Radius = 1.0,
-					Time = 10,
 					Stage = {
 						"Cotyledons",
 						"Seedling",
-						"6-8 true leaf",
-						"9-12 true leaf",
+						"6-8 True Leaf",
+						"9-12 True Leaf",
 						"Ready",
 					}
 				},
@@ -143,7 +141,6 @@ Farm = {
 					Model = "prop_veg_crop_03_pump",
 					OffsetZ = 1,
 					Radius = 1.0,
-					Time = 10,
 				},
 				Path = {
 					{x = 2006.7590332031, y = 4923.978515625, z = 42.887752532959, h = 225.39208984375},
@@ -199,7 +196,6 @@ Farm = {
 					Model = "prop_veg_crop_orange",
 					OffsetZ = 1.5,
 					Radius = 2.0,
-					Time = 10,
 				},
 				Path = {
 					{x = 2296.9221191406, y = 5166.50390625, z = 57.732807159424, h = 225.7225189209},
@@ -251,6 +247,7 @@ Farm = {
 				Model = "raketrailer",
 			},
 		},
+		Time = 0,
 	},
 }
 
@@ -312,15 +309,15 @@ function Utilities.Display3DText(Text, X, Y, Z, Font, Scale, R, G, B, A, Alignme
 
 	    if tonumber(WordWrap) and tonumber(WordWrap) ~= 0 then
 	        if Alignment == 1 or Alignment == "Center" or Alignment == "Centre" then
-	        	SetTextWrap(X - ((WordWrap/1920)/2), X + ((WordWrap/1920)/2))
+	        	SetTextWrap(ScreenX - ((WordWrap/1920)/2), ScreenX + ((WordWrap/1920)/2))
 	        elseif Alignment == 2 or Alignment == "Right" then
-	        	SetTextWrap(0, X)
+	        	SetTextWrap(0, ScreenX)
 	        else
-	        	SetTextWrap(X, X + (WordWrap/1920))
+	        	SetTextWrap(ScreenX, ScreenX + (WordWrap/1920))
 	        end
 	    else
 	        if Alignment == 2 or Alignment == "Right" then
-	        	SetTextWrap(0, X)
+	        	SetTextWrap(0, ScreenX)
 	        end
 	    end
 
@@ -391,12 +388,13 @@ function IsPointInPolygon(point, points)
 end
 
 function Farm:GetCropDetails(Field, Crop)
-	local Percentage = math.floor((Crop.Time/Field.Crop.Time) * 100)
-	local Stage = (Percentage >= 100) and 5 or ((Percentage >= 80) and 4 or ((Percentage >= 70) and 3 or ((Percentage >= 50) and 2 or 1)))
-	return Percentage, Field.Crop.Stage[Stage] or "Seed"
+	local Percentage = math.floor(((Farm.Data.Time - Crop.Time.Start) / (Crop.Time.End - Crop.Time.Start)) * 100)
+	local Stage = (Percentage >= 100) and 6 or ((Percentage >= 80) and 5 or ((Percentage >= 70) and 4 or ((Percentage >= 50) and 3 or ((Percentage >= 30) and 2 or 1)))
+
+	return (Percentage < 0) and 0 or (Percentage > 100) and 100 or Percentage, Field.Crop.Stage[Stage] or "Seed"
 end
 
-function Farm:CreateCrop(Field, PlayerPosiiton)
+function Farm:CreateCrop(Index, Field, PlayerPosiiton)
 	RequestModel(Field.Crop.ModelHash)
 
 	while not HasModelLoaded(Field.Crop.ModelHash) do
@@ -407,12 +405,11 @@ function Farm:CreateCrop(Field, PlayerPosiiton)
 
 	FreezeEntityPosition(Crop, true)
 
-	table.insert(Farm.Data.Planted, {
+	TriggerServerEvent("Farm.Plant", Index, {
 		Handle = Crop,
-		Time = Field.Crop.Time,
+		Time = {Start = 0, End = 0},
 		Position = {x = PlayerPosiiton.x, y = PlayerPosiiton.y, z = PlayerPosiiton.z - Field.Crop.OffsetZ},
 	})
-
 end
 
 function Farm:IsCropOwnedByPlayer(Crop)
@@ -441,9 +438,13 @@ function Farm:IsPlayerInField(Field, PlayerPosition)
 	end
 end
 
-function Farm:ManagePlantedCrops()
+function Farm:DisplayPlantedCropsInfo(PlayerPed, PlayerPosition, Field)
 	for Index = 1, #Farm.Data.Planted do
-		Farm.Data.Planted[Index].Time = Farm.Data.Planted[Index].Time - 1
+		if Vdist(PlayerPosition.x, PlayerPosition.y, PlayerPosition.z, Farm.Data.Planted[Index].Position.x, Farm.Data.Planted[Index].Position.y, Farm.Data.Planted[Index].Position.z) < 5 then
+			local Percentage, Stage = self:GetCropDetails(Field, Farm.Data.Planted[Index])
+
+			Utilities.Display3DText("["..Percentage.."%] - "..Stage, Farm.Data.Planted[Index].Position.x, Farm.Data.Planted[Index].Position.y, Farm.Data.Planted[Index].Position.z + Field.Crop.OffsetZ, 0, 0.4, 255, 255, 255, 255, "Centre", true, true)
+		end
 	end
 end
 
@@ -454,6 +455,8 @@ function Farm:ManageFields(PlayerPed, PlayerPosition)
 				Farm.Data.Fields[Index].CurrentPath = 1
 
 				if not IsPedInAnyVehicle(PlayerPed, false) then
+					self:DisplayPlantedCropsInfo(PlayerPed, PlayerPosition, Farm.Data.Fields[Index])
+
 					local NearCrop, ClosestCrop = self:IsPlayerNearCrop(Farm.Data.Fields[Index], PlayerPosition)
 
 					if NearCrop then
@@ -462,7 +465,6 @@ function Farm:ManageFields(PlayerPed, PlayerPosition)
 						if IsOwned then
 							local Percentage, Stage = self:GetCropDetails(Farm.Data.Fields[Index], Crop)
 
-							Utilities.Display3DText("["..Percentage.."%] - "..Stage, Crop.Position.x, Crop.Position.y, Crop.Position.z + Farm.Data.Fields[Index].Crop.OffsetZ, 0, 0.2, 255, 255, 255, 255, "Centre", true, true)
 						end
 					else
 						if not IsPedUsingScenario(PlayerPed, Farm.Data.Scenario) then
@@ -472,7 +474,7 @@ function Farm:ManageFields(PlayerPed, PlayerPosition)
 									TaskStartScenarioInPlace(PlayerPed, Farm.Data.Scenario, 0, false)
 									Citizen.Wait(4000)
 									ClearPedTasks(PlayerPed)
-									self:CreateCrop(Farm.Data.Fields[Index], PlayerPosition)
+									self:CreateCrop(Index, Farm.Data.Fields[Index], PlayerPosition)
 								end)
 							end
 						else
@@ -526,10 +528,18 @@ Citizen.CreateThread(function()
 end)
 
 RegisterNetEvent("Farm.Sync")
-AddEventHandler("Farm.Sync", function(FarmSync)
-	for Index = 1, #FarmSync.Fields do
-		Farm.Data.Fields[Index].Raked = FarmSync.Fields[Index].Raked
+AddEventHandler("Farm.Sync", function(FieldSync, PlayerSync, TimeSync, PlantSync)
+	for Index = 1, #FieldSync do
+		Farm.Data.Fields[Index].Raked = FieldSync[Index].Raked
 	end
 
-	Farm.Data.Players = FarmSync.Players
+	Farm.Data.Players = PlayerSync
+
+	if TimeSync ~= nil then
+		Farm.Data.Time = TimeSync
+	end
+
+	if PlantSync ~= nil then
+		Farm.Data.Planted = PlantSync
+	end
 end)
