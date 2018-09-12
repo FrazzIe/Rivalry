@@ -318,6 +318,7 @@ local weaponstable = {
     "WEAPON_DBSHOTGUN",
     "WEAPON_PISTOL_MK2",
     "WEAPON_VINTAGEPISTOL",
+    "WEAPON_SNSPISTOL",
 }
 
 local riflestable = {
