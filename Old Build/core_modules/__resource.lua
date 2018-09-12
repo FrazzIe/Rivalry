@@ -26,7 +26,7 @@ client_script 'New/Wrappers/Client/NativeUI.lua'
 client_script "New/Player/Client/Main.lua"
 client_script "New/Player/Client/Emotes.lua"
 client_script "New/Player/Client/Commands.lua"
-client_script "New/Player/Client/Surrender.lua"
+--client_script "New/Player/Client/Surrender.lua"
 
 server_script "New/Player/Server/Commands.lua"
 
