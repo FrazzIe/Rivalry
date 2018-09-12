@@ -4,6 +4,7 @@ Farm = {
 			Crop = {
 				Minimum = 150,
 				Maximum = 300,
+				Item = 0,
 			},
 			Interval = 60,
 			Time = 0,
@@ -13,6 +14,7 @@ Farm = {
 			Crop = {
 				Minimum = 150,
 				Maximum = 300,
+				Item = 0,
 			},
 			Interval = 60,
 			Time = 0,
@@ -22,6 +24,7 @@ Farm = {
 			Crop = {
 				Minimum = 150,
 				Maximum = 300,
+				Item = 0,
 			},
 			Interval = 60,
 			Time = 0,
@@ -31,6 +34,7 @@ Farm = {
 			Crop = {
 				Minimum = 150,
 				Maximum = 300,
+				Item = 0,
 			},
 			Interval = 60,
 			Time = 0,
@@ -80,4 +84,25 @@ AddEventHandler("Farm.Plant", function(Index, Crop)
 	table.insert(Farm.Planted[Source], Crop)
 
 	TriggerClientEvent("Farm.Sync", Source, Farm.Fields, Farm.Players, os.time(), Farm.Planted[Source])
+end)
+
+RegisterServerEvent("Farm.Harvest")
+AddEventHandler("Farm.Harvest", function(FieldIndex, CropIndex)
+	local Source = source
+	local Time = os.time()
+	local Crop = Farm.Planted[Source][CropIndex]
+
+	if Crop then
+		local Percentage = math.floor(((Time - Crop.Time.Start) / (Crop.Time.End - Crop.Time.Start)) * 100)
+		local Stage = (Percentage >= 100) and 5 or ((Percentage >= 80) and 4 or ((Percentage >= 70) and 3 or ((Percentage >= 50) and 2 or 1)))
+		local Item = Farm.Fields[Index].Crop.Item
+		local Quantity = (Stage == 5) and 5 or (Stage - 1)
+
+		if Stage >= 2 then
+			table.remove(Farm.Planted[Source], CropIndex)
+			
+			TriggerEvent("inventory:add_server", Source, Item, Quantity)
+			TriggerClientEvent("Farm.Sync", Source, Farm.Fields, Farm.Players, os.time(), Farm.Planted[Source])
+		end
+	end
 end)

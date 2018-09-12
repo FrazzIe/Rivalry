@@ -253,6 +253,30 @@ Farm = {
 
 Utilities = {}
 
+function DestroyObject(Handle)
+	Citizen.CreateThread(function()
+		local Handle = Handle
+		local Start = GetGameTimer()
+
+		NetworkRequestControlOfEntity(Handle)
+
+		while not NetworkHasControlOfEntity(Handle) and Start + 5000 > GetGameTimer() do
+			Citizen.Wait(0)
+		end
+
+		if IsEntityAttachedToAnyObject(Handle) or IsEntityAttachedToAnyPed(Handle) or IsEntityAttachedToAnyVehicle(Handle) then
+			 DetachEntity(Handle, 0, false)
+		end
+		
+		DeleteObject(Handle)
+		SetEntityAsNoLongerNeeded(Handle)
+
+		if DoesEntityExist(Handle) then
+			SetEntityCoords(Handle, 601.28948974609, -4396.9853515625, 384.98565673828)
+		end
+	end)
+end
+
 function CreateBlip(Str, Sprite, Colour, X, Y, Z, Scale, ShortRange)
 	if tonumber(X) and tonumber(Y) and tonumber(Z) then
 		local Blip = AddBlipForCoord(X, Y, Z)
@@ -389,7 +413,7 @@ end
 
 function Farm:GetCropDetails(Field, Crop)
 	local Percentage = math.floor(((Farm.Data.Time - Crop.Time.Start) / (Crop.Time.End - Crop.Time.Start)) * 100)
-	local Stage = (Percentage >= 100) and 6 or ((Percentage >= 80) and 5 or ((Percentage >= 70) and 4 or ((Percentage >= 50) and 3 or ((Percentage >= 30) and 2 or 1)))
+	local Stage = (Percentage >= 100) and 5 or ((Percentage >= 80) and 4 or ((Percentage >= 70) and 3 or ((Percentage >= 50) and 2 or 1)))
 
 	return (Percentage < 0) and 0 or (Percentage > 100) and 100 or Percentage, Field.Crop.Stage[Stage] or "Seed"
 end
@@ -412,13 +436,21 @@ function Farm:CreateCrop(Index, Field, PlayerPosiiton)
 	})
 end
 
+function Farm:RemoveCrop(FieldIndex, CropIndex)
+	if Farm.Data.Planted[Index] then
+		DestroyObject(Farm.Data.Planted[Index].Handle)
+
+		TriggerServerEvent("Farm.Harvest", FieldIndex, CropIndex)
+	end
+end
+
 function Farm:IsCropOwnedByPlayer(Crop)
 	for Index = 1, #Farm.Data.Planted do
 		if Crop == Farm.Data.Planted[Index].Handle then
-			return true, Farm.Data.Planted[Index]
+			return true, Farm.Data.Planted[Index], Index
 		end
 	end
-	return false, nil
+	return false, nil, nil
 end
 
 function Farm:IsPlayerNearCrop(Field, PlayerPosition)
@@ -460,11 +492,28 @@ function Farm:ManageFields(PlayerPed, PlayerPosition)
 					local NearCrop, ClosestCrop = self:IsPlayerNearCrop(Farm.Data.Fields[Index], PlayerPosition)
 
 					if NearCrop then
-						local IsOwned, Crop = self:IsCropOwnedByPlayer(ClosestCrop)
+						local IsOwned, Crop, CropIndex = self:IsCropOwnedByPlayer(ClosestCrop)
 
 						if IsOwned then
 							local Percentage, Stage = self:GetCropDetails(Farm.Data.Fields[Index], Crop)
 
+							if Stage >= 2 then
+								if not IsPedUsingScenario(PlayerPed, Farm.Data.Scenario) then
+									Utilities.DisplayHelpText("Press ~INPUT_CONTEXT~ to harvest!")
+									if IsControlJustPressed(1, 51) then
+										Citizen.CreateThread(function()
+											TaskStartScenarioInPlace(PlayerPed, Farm.Data.Scenario, 0, false)
+											Citizen.Wait(4000)
+											ClearPedTasks(PlayerPed)
+											self:RemoveCrop(Index, CropIndex)
+										end)
+									end
+								else
+									Utilities.DisplayHelpText("Harvesting...")
+								end
+							else
+								Utilities.DisplayHelpText("It's too early to harvest!")
+							end
 						end
 					else
 						if not IsPedUsingScenario(PlayerPed, Farm.Data.Scenario) then
