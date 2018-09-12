@@ -110,6 +110,7 @@ function Emotes.Stop()
 				DestroyObject(Emotes.Active[Index].Objects[Object])
 			end
 			Emotes.Active[Index].Objects = {}
+			Emotes.Active[Index].Playing = false
 		end
 	end
 
@@ -631,9 +632,39 @@ Emote.Add("cpr", "CPR", "Misc", {"mini@cpr@char_a@cpr_str"}, {"cpr_pumpchest"}, 
 	TaskPlayAnim(PlayerPedId(), self.Dictionaries[1] , self.Animations[1] , 4.0, -4, -1, 1, 0, false, false, false)
 end)
 
-Emote.Add("surrender", "Surrender", "Misc", {}, {}, {}, {}, function(self)
-	TriggerEvent('SurrenderAnimation')
-end)
+Emote.Add("surrender", "Surrender", "Misc", {"random@arrests@busted", "random@arrests"}, {"enter", "exit", "idle_a", "kneeling_arrest_get_up"}, {}, {}, function(self)
+	Citizen.CreateThread(function()
+		local PlayExitAnimation = true
+		while self.Playing do
+			Citizen.Wait(0)
+
+			local PlayerPed = PlayerPedId()
+
+			if not IsPedSittingInAnyVehicle(PlayerPed) and stance ~= "prone" and not cuffable and not IsEntityDead(PlayerPed) and not exports.policejob:getIsCuffed() and not isCuffed() then
+				IsStanceAllowed = false
+				if not IsEntityPlayingAnim(PlayerPed, self.Dictionaries[1], self.Animations[1], 3) and not IsEntityPlayingAnim(PlayerPed, self.Dictionaries[1], self.Animations[3], 3) then
+					ClearPedTasks(PlayerPed)
+					TaskPlayAnim(PlayerPed, self.Dictionaries[1], self.Animations[1], 4.0, -4, -1, 21, 0, 0, 0, 0)
+					Citizen.Wait(1650)
+					TaskPlayAnim(PlayerPed, self.Dictionaries[1], self.Animations[3], 4.0, -4, -1, 15, 0, 0, 0, 0)
+				end
+			else
+				self.Playing = false
+				PlayExitAnimation = false
+			end
+		end
+
+		if PlayExitAnimation then
+			TaskPlayAnim(PlayerPed, self.Dictionaries[1], self.Animations[2], 4.0, -4, -1, 15, 0, 0, 0, 0)
+			Citizen.Wait(1950)
+			TaskPlayAnim(PlayerPed, self.Dictionaries[2], self.Animations[4], 4.0, -4, -1, 15, 0, 0, 0, 0)
+			Citizen.Wait(2250)
+			ClearPedTasksImmediately(PlayerPed)
+		end
+		
+		IsStanceAllowed = true
+	end
+end
 
 Emote.Add("slumped", "Slumped", "Misc", {}, {}, {"WORLD_HUMAN_BUM_SLUMPED"}, {}, function(self)
 	TaskStartScenarioInPlace(PlayerPedId(), self.Scenarios[1], 0, false)
@@ -735,6 +766,7 @@ for Index = 1, #Emotes.Sorted do
 		local SubItem = NativeUI.CreateItem(Emotes.Sorted[Index].Items[Item].Name, "")
 		SubItem.Activated = function(ParentMenu, SelectedItem)
 			Emotes.Stop()
+			Emotes.Sorted[Index].Items[Item].Playing = true
 			Emotes.Sorted[Index].Items[Item]:Play(Emotes.Sorted[Index].Items[Item])
 			table.insert(Emotes.Active, Emotes.Sorted[Index].Items[Item])
 		end
