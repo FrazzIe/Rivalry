@@ -21,7 +21,7 @@ AddAnimDictionary(Animations.Surrender.Dictionary)
 AddAnimDictionary(Animations.Kneeling.Start.Dictionary)
 AddAnimDictionary(Animations.Kneeling.End.Dictionary)
 
-Citizen.CreateThread(function()
+--[[Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(0)
         if IsControlJustPressed(1, 323) and not Player.Cuffs.Active then
@@ -34,26 +34,27 @@ Citizen.CreateThread(function()
             end
         end
 	end
-end)
+end)--]]
 
-Citizen.CreateThread(function()
-	while true do
+AddEventHandler('SurrenderAnimation', function()
+	Citizen.CreateThread(function()
+		Player.OnKnees = false
+		while true do
 		Citizen.Wait(0)
-		if IsControlJustPressed(0, 289) and not Player.Cuffs.Active then
 			if not IsPedSittingInAnyVehicle(Player.Ped) and not Player.Stance.Proned and not Player.Stance.HandsUp and not Player.OnKnees and not Player.Dead then
 				Player.OnKnees = true
 				ClearPedTasks(Player.Ped)
 				TaskPlayAnim(Player.Ped, Animations.Kneeling.Start.Dictionary, Animations.Kneeling.Start.Enter, 4.0, -4, -1, 21, 0, 0, 0, 0)
 				Citizen.Wait(1650)
 				TaskPlayAnim(Player.Ped, Animations.Kneeling.Start.Dictionary, Animations.Kneeling.Start.Idle, 4.0, -4, -1, 15, 0, 0, 0, 0)
-			elseif Player.OnKnees then
+			--[[elseif Player.OnKnees then
 				Player.OnKnees = false
 				TaskPlayAnim(Player.Ped, Animations.Kneeling.Start.Dictionary, Animations.Kneeling.Start.Exit, 4.0, -4, -1, 15, 0, 0, 0, 0)
 				Citizen.Wait(1950)
 				TaskPlayAnim(Player.Ped, Animations.Kneeling.End.Dictionary, Animations.Kneeling.End.Animation, 4.0, -4, -1, 15, 0, 0, 0, 0)
 				Citizen.Wait(2250)
-				ClearPedTasksImmediately(Player.Ped)
+				ClearPedTasksImmediately(Player.Ped)--]]
 			end
 		end
-	end
+	end)
 end)

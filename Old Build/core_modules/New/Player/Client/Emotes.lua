@@ -627,8 +627,12 @@ Emote.Add("typing", "Typing", "Misc", {"anim@amb@warehouse@laptop@"}, {"idle_a"}
 	TaskPlayAnim(PlayerPedId(), self.Dictionaries[1] , self.Animations[1] , 4.0, -4, -1, 1, 0, false, false, false)
 end)
 
-Emote.Add("cpr", "CPR", "Misc", {"mini@cpr@char_a@cpr_def"}, {"cpr_pumpchest_idle"}, {}, {}, function(self)
+Emote.Add("cpr", "CPR", "Misc", {"mini@cpr@char_a@cpr_str"}, {"cpr_pumpchest"}, {}, {}, function(self)
 	TaskPlayAnim(PlayerPedId(), self.Dictionaries[1] , self.Animations[1] , 4.0, -4, -1, 1, 0, false, false, false)
+end)
+
+Emote.Add("surrender", "Surrender", "Misc", {}, {}, {}, {}, function(self)
+	TriggerEvent('SurrenderAnimation')
 end)
 
 Emote.Add("slumped", "Slumped", "Misc", {}, {}, {"WORLD_HUMAN_BUM_SLUMPED"}, {}, function(self)
