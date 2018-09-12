@@ -693,7 +693,7 @@ Citizen.CreateThread(function()
     while true do
         Citizen.Wait(0)
         SetPedDensityMultiplierThisFrame(0.9999999)
-        SetVehicleDensityMultiplierThisFrame(0.04)
+        SetVehicleDensityMultiplierThisFrame(0.4)
         
         local PlayerModel = GetEntityModel(PlayerPedId())
         if PlayerModel == chop or PlayerModel == husky then
