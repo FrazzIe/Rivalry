@@ -663,8 +663,8 @@ Emote.Add("surrender", "Surrender", "Misc", {"random@arrests@busted", "random@ar
 		end
 		
 		IsStanceAllowed = true
-	end
-end
+	end)
+end)
 
 Emote.Add("slumped", "Slumped", "Misc", {}, {}, {"WORLD_HUMAN_BUM_SLUMPED"}, {}, function(self)
 	TaskStartScenarioInPlace(PlayerPedId(), self.Scenarios[1], 0, false)
