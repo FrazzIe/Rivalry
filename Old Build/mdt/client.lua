@@ -162,7 +162,7 @@ RegisterNUICallback('submit-arrest', function(data, cb)
 end)
 
 RegisterNUICallback('submit-citation', function(data, cb)
-	TriggerServerEvent('police:new-citation', data.officer_name, data.firstname, data.lastname, data.charges, data.fine)
+	TriggerServerEvent('police:new-citation', data.officer_name, data.firstname, data.lastname, data.charges, data.fine, data.plate, data.model, data.color, data.street, data.city)
 	cb('ok')
 end)
 
@@ -218,6 +218,11 @@ end)
 
 RegisterNUICallback('loadmedicalslip', function(data, cb)
 	TriggerServerEvent('ems:loadslip', tonumber(data.id))
+	cb('ok')
+end)
+
+RegisterNUICallback('loadcitationslip', function(data, cb)
+	TriggerServerEvent('police:loadcitationslip', tonumber(data.id))
 	cb('ok')
 end)
 
@@ -287,7 +292,7 @@ end)
 RegisterNetEvent('police:new-arrest')
 AddEventHandler('police:new-arrest', function(entry)
 	table.insert(arrests, entry[1])
-	if isInService then
+	if exports.policejob:getIsInService() then
 		PlaySound(-1, "Whoosh_1s_L_to_R", "MP_LOBBY_SOUNDS", 0, 0, 1)
 		TriggerEvent('customNotification', "New Arrest Entry")
 	end
@@ -305,16 +310,16 @@ end)
 RegisterNetEvent('police:new-citation')
 AddEventHandler('police:new-citation', function(entry)
 	table.insert(arrests, entry[1])
-	if isInService then
+	if exports.policejob:getIsInService() then
 		PlaySound(-1, "Whoosh_1s_L_to_R", "MP_LOBBY_SOUNDS", 0, 0, 1)
-		TriggerEvent('customNotification', "New Arrest Entry")
+		TriggerEvent('customNotification', "New Traffic Ticket Entry")
 	end
 end)
 
 RegisterNetEvent('police:new-warrant')
 AddEventHandler('police:new-warrant', function(entry)
 	table.insert(warrants, entry[1])
-	if isInService then
+	if exports.policejob:getIsInService() then
 		PlaySound(-1, "Whoosh_1s_L_to_R", "MP_LOBBY_SOUNDS", 0, 0, 1)
 		TriggerEvent('customNotification', "New Warrant Entry")
 	end
@@ -323,7 +328,7 @@ end)
 RegisterNetEvent('police:edit-notepad')
 AddEventHandler('police:edit-notepad', function(entry)
 	table.insert(notepad, entry[1])
-	if isInService then
+	if exports.policejob:getIsInService() then
 		PlaySound(-1, "Whoosh_1s_L_to_R", "MP_LOBBY_SOUNDS", 0, 0, 1)
 	end
 end)
@@ -351,6 +356,11 @@ end)
 RegisterNetEvent('ems:loadselectreport')
 AddEventHandler('ems:loadselectreport', function(report)
 	SendNUIMessage({openSection = "loadSelectedReport", firstname = report.firstname, lastname = report.lastname, age = report.age, gender = report.gender, date = report.date, location = report.location, description = report.description, treatment = report.treatment, parasign = report.parasign, docsign = report.docsign})
+end)
+
+RegisterNetEvent('police:loadselectcitation')
+AddEventHandler('police:loadselectcitation', function(report)
+	SendNUIMessage({openSection = "loadSelectedCitation", name = report.offender_name, id = report.id, date = report.timestamp, plate = report.plate, model = report.model, color = report.color, street = report.street, city = report.city, charges = report.violations, fine = report.fine, officer_name = report.officer_name })
 end)
 --[[
 =================================================================================================================================================================================================================================================

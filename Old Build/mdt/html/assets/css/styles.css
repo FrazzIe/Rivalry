@@ -12,6 +12,11 @@
   overflow:scroll;
 }
 
+p{
+  overflow-x:hidden;
+  overflow-y:hidden;
+}
+
 .custom-tab {
   background-color:#ffffff;
   width:100%;
@@ -104,11 +109,11 @@ html{
 }
 
 #playerarrestrow {
-	overflow-y:hidden;
+  overflow-y:hidden;
 }
 
 #playerticketsrow {
-	overflow-y:hidden;
+  overflow-y:hidden;
 }
 
 textarea {

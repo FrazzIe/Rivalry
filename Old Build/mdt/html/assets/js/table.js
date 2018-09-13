@@ -20,6 +20,7 @@ var homepage = '#homepage'
 var lastnamev = ""
 var warrants = '#selectedwarrant'
 var warrantsedit = '#warrantsedit'
+var citationview = '#ViewCitation'
 
 function openMDT(){ 
     $('body').css("display", "block");
@@ -64,6 +65,7 @@ $(addArrestRow).hide();
 $(addCitationRow).hide();
 $(notepadRow).hide();
 $(homepage).hide();
+$(citationview).hide();
 $('body').hide();
 $('#WarrantHeader').hide();
 $('#WarrantRowOne').hide();
@@ -90,6 +92,7 @@ function closeAllPoliceNoFooter() {
     $(addCitationRow).hide();
     $(notepadRow).hide();
     $(homepage).hide();
+    $(citationview).hide();
     $('#WarrantHeader').hide();
     $('#WarrantRowOne').hide();
     $('#WarrantRowTwo').hide();
@@ -117,6 +120,7 @@ function closeAllPoliceWithFooter() {
     $(addCitationRow).hide();
     $(notepadRow).hide();
     $(homepage).hide();
+    $(citationview).hide();
     $('#WarrantHeader').hide();
     $('#WarrantRowOne').hide();
     $('#WarrantRowTwo').hide();
@@ -131,9 +135,18 @@ function closeAllPoliceWithFooter() {
         var cell_value = $(event.target).text();
         showPopup(cell_value)    
     });
-    $("#playerticketsrow").delegate('.cell-which-triggers-popup', 'click', function(event){
-        var cell_value = $(event.target).text();
-        showPopup(cell_value)    
+    $("#playerticketsrow").delegate('#playerticketsrow2', 'click', function(event){
+        var $row = jQuery(this).closest('tr');
+        var $columns = $row.find('td');
+
+        var values = [];
+
+        jQuery.each($columns, function(i, item) {
+            values.push(item.innerHTML);
+        });
+        
+        cell_value = values[0]
+        $.post('http://mdt/loadcitationslip', JSON.stringify({id: cell_value})); 
     });
     $(".row-which-fills-table").click(function(event){
         var $row = jQuery(this).closest('tr');
@@ -237,6 +250,7 @@ function closeAllPoliceWithFooter() {
         $(addArrestRow).hide();
         $(addCitationRow).hide();
         $(notepadRow).hide();
+        $(citationview).hide();
     };
 
       document.onkeyup = function (data) {
@@ -247,6 +261,7 @@ function closeAllPoliceWithFooter() {
         if (data.which == 27 ) {
           $('#SelectedMedicalReport').hide();
           $('#SelectedMedicalReport2').hide();
+          $(citationview).hide();
         }
       };
 
@@ -326,7 +341,12 @@ function closeAllPoliceWithFooter() {
             var citationoffender_last_name = jQuery("#citation-lastname").val();
             var citationcharges = jQuery("#citation-charges").val();
             var citationfine = jQuery("#citation-fine").val();
-            $.post('http://mdt/submit-citation', JSON.stringify({officer_name: citationofficername, firstname: citationoffender_first_name, lastname: citationoffender_last_name, charges: citationcharges, fine: citationfine}));
+            var citationplate = jQuery("#citation-plate").val();
+            var citationmodel = jQuery("#citation-model").val();
+            var citationcolor = jQuery("#citation-color").val();
+            var citationstreet = jQuery("#citation-street").val();
+            var citationcity = jQuery("#citation-city").val();
+            $.post('http://mdt/submit-citation', JSON.stringify({officer_name: citationofficername, firstname: citationoffender_first_name, lastname: citationoffender_last_name, charges: citationcharges, fine: citationfine, plate: citationplate, model: citationmodel, color: citationcolor, street: citationstreet, city: citationcity}));
     });
     $("#warrant-add").click(function(event){
         closeWarrants();
@@ -462,7 +482,7 @@ function closeAllPoliceWithFooter() {
         for(let i in items) {
             let item = items[i];
             var dateVal ="/Date(" + (item.timestamp * 1000) + ")/"; var date = new Date( parseFloat( dateVal.substr(6 ))); let timestamp = (date.getMonth() + 1) + "/" +    date.getDate() + "/" + date.getFullYear() + " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds()                
-            $('#playerticketsrow').append('<tr id = "playerticketszz"><td>' + timestamp + '</td><td>' + item.officer_name + '</td><td class="cell-which-triggers-popup">' + item.violations + '</td><td>'  + item.fine + '</td></tr>');
+            $('#playerticketsrow').append('<tr id = "playerticketsrow2"><td>' + item.id + '</td><td>' + timestamp + '</td><td>'  + "$" + item.fine + '</td></tr>');
         }
     }
     function PlayerVehicles(items) {
@@ -488,6 +508,22 @@ function closeAllPoliceWithFooter() {
             let item = items[i]
             $('#reportsdirectory').append(('<tr id = "reportstable"><td>' + item.id + '</td><td>' + item.r20 + '</td><td>' + item.r4 + '</td></tr>'))
         }
+    }
+
+    function fillCitationSlip(name, id, datez, plate, model, color, street, city, charges, fine, officer_name){
+        var dateVal ="/Date(" + (datez * 1000) + ")/"; var date = new Date( parseFloat( dateVal.substr(6 ))); let timestamp = (date.getMonth() + 1) + "/" +    date.getDate() + "/" + date.getFullYear() + " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds()    
+        $('p#citationname').text(name);
+        $('p#citationid').text(id);
+        $('p#citationdate').text(date);
+        $('p#citiationplate').text(plate);
+        $('p#citationmodel').text(model);
+        $('p#citationcolor').text(color);
+        $('p#citationstreet').text(street);
+        $('p#citationcity').text(city);
+        $('p#citationcharges').text(charges);
+        $('p#citationfine').text("$" + fine);
+        $('p#citationsignature').text(officer_name);
+        $(citationview).show();
     }
 
     function showPopup(your_variable) {
@@ -556,6 +592,11 @@ function closeAllPoliceWithFooter() {
         $('#citation-lastname').text("");
         $('#citation-charges').text("");
         $('#citation-fine').text("");
+        $('#citation-plate').text("");
+        $('#citation-model').text("");
+        $('#citation-color').text("");
+        $('#citation-street').text("");
+        $('#citation-city').text("");
     }
     if(item.openSection == "openNotepad") {
         $("#notepad").empty();
@@ -678,6 +719,9 @@ function closeAllPoliceWithFooter() {
         $('#reportofficername').val(item.reportofficername);
         $('#reportsignature').val(item.reportsignature);
         $('#reportcompleted').val(item.reportcompleted);
+    }
+    if(item.openSection == "loadSelectedCitation"){
+        fillCitationSlip(item.name, item.id, item.date, item.plate, item.model, item.color, item.street, item.city, item.charges, item.fine, item.officer_name)
     }
   });
 

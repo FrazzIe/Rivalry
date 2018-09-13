@@ -33,6 +33,14 @@ AddEventHandler('ems:loadslip', function(id)
     end)
 end)
 
+RegisterServerEvent('police:loadcitationslip')
+AddEventHandler('police:loadcitationslip', function(id)
+    local source = source
+    exports['GHMattiMySQL']:QueryResultAsync("SELECT * FROM police_violations WHERE (id = @id)", {["@id"] = id}, function(report)
+        TriggerClientEvent( "police:loadselectcitation", source, report[1], openUI)
+    end)
+end)
+
 RegisterServerEvent("police:loadplayerdata")
 AddEventHandler("police:loadplayerdata", function(lastname, firstname)
     local source = source
@@ -158,14 +166,19 @@ AddEventHandler("ems:submit-report", function(firstname, lastname, age, gender, 
 end)
 
 RegisterServerEvent("police:new-citation")
-AddEventHandler("police:new-citation", function(officer_name, offender_first_name, offender_last_name, charges, fine)
+AddEventHandler("police:new-citation", function(officer_name, offender_first_name, offender_last_name, charges, fine, plate, model, color, street, city)
     local source = source; timestamp = os.time();
-    local citation = exports['GHMattiMySQL']:QueryResult("INSERT INTO police_violations ( `timestamp`,`officer_name`,`offender_name`,`fine`,`violations` ) VALUES ( @timestamp, @officer_name, @offender_name, @fine, @violations ); SELECT * FROM police_violations WHERE `id` = (SELECT LAST_INSERT_ID());", { 
+    local citation = exports['GHMattiMySQL']:QueryResult("INSERT INTO police_violations ( `timestamp`,`officer_name`,`offender_name`,`fine`,`violations`,`plate`,`model`,`color`,`street`,`city` ) VALUES ( @timestamp, @officer_name, @offender_name, @fine, @violations, @plate, @model, @color, @street, @city ); SELECT * FROM police_violations WHERE `id` = (SELECT LAST_INSERT_ID());", { 
         ['@timestamp'] = timestamp,
         ['@officer_name'] = officer_name,
         ['@offender_name'] = offender_first_name.." "..offender_last_name,
         ['@fine'] = fine,
         ['@violations'] = charges,
+        ['@plate'] = plate,
+        ['@model'] = model,
+        ['@color'] = color,
+        ['@street'] = street,
+        ['@city'] = city,
     })
     TriggerClientEvent("police:new-citation", -1, citation)
 end)

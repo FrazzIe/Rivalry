@@ -128,14 +128,13 @@
                                     <table class="table table-bordered table-sm">
                                         <thead>
                                             <tr>
+                                                <th>ID</th>
                                                 <th>Date</th>
-                                                <th>Officer</th>
-                                                <th>Charges</th>
                                                 <th>Fine</th>
                                             </tr>
                                         </thead>
                                         <tbody id = "playerticketsrow">
-                                            <tr>
+                                            <tr id = "playerticketsrow2">
                                             </tr>
                                         </tbody>
                                     </table>
@@ -174,7 +173,7 @@
                         <div class="row" id="AddCitationRow">
                             <div class="col"><small class="form-text text-muted">Suspects First Name</small><input id = "citation-firstname" type="text"><small class="form-text text-muted">Suspects Last Name</small><input id = "citation-lastname" type="text"><small class="form-text text-muted">Officer</small><input id = "citation-officer_name" type="text"><small class="form-text text-muted">Charges</small><textarea id = "citation-charges" class="form-control-lg"
                                     rows="6" cols="40" wrap="hard" spellcheck="true"></textarea></div>
-                            <div class="col"><small class="form-text text-muted">Fine</small><input id = "citation-fine" type="text"></div>
+                            <div class="col"><small class="form-text text-muted">Fine</small><input id = "citation-fine" type="text"><small class="form-text text-muted">Vehicle Plate</small><input id = "citation-plate" type="text"><small class="form-text text-muted">Vehicle Model</small><input id = "citation-model" type="text"><small class="form-text text-muted">Color</small><input id = "citation-color" type="text"><small class="form-text text-muted">Street</small><input id = "citation-street" type="text"><small class="form-text text-muted">City</small><input id = "citation-city" type="text"></div>
                             <div class="col-xl-12 offset-xl-0"><button id = citation-submit class="btn btn-primary active btn-block" type="button" style="margin-top:9px;background-color:rgb(241,241,241);color:rgb(0,0,0);">Submit</button></div>
                             <div class="col-xl-12 offset-xl-0"><button id = citation-autofill class="btn btn-primary active btn-block" type="button" style="margin-top:9px;background-color:rgb(241,241,241);color:rgb(0,0,0);">Autofill</button></div>
                         </div>
@@ -183,9 +182,21 @@
                              <div class="col-xl-12 offset-xl-0"><button id = notepad-submit class="btn btn-primary active btn-block" type="button" style="margin-top:9px;background-color:rgb(241,241,241);color:rgb(0,0,0);">Submit</button></div>
                         </div>
                     </div>
-                    <div class="col"><dialog id="myDialog">
-                        <p></p>
-                    </dialog></div>
+                    <div class="row" id = "ViewCitation" style="margin-top:-442px;margin-left:586px">
+                        <div class="col-xl-5 offset-xl-0"><img src="assets/img/citation.png" class="d-flex"/>
+                            <p id="citationname" style="margin-top:-404px;margin-left:70px;width:225px;height:26px;">---------</p>
+                            <p id="citationid" style="margin-top:-42px;margin-left:314px;width:128px;height:26px;">---------</p>
+                            <p id="citationdate" style="margin-top:-76px;margin-left:379px;width:65px;height:13px;font-size:8px;">---------</p>
+                            <p id="citiationplate" style="margin-top:70px;margin-left:71px;width:370px;">---------</p>
+                            <p id="citationmodel" style="margin-top:-10px;margin-left:66px;width:229px;">---------</p>
+                            <p id="citationcolor" style="margin-top:-40px;margin-left:339px;width:100px;height:27px;">---------</p>
+                            <p id="citationstreet" style="margin-top:23px;margin-left:94px;width:347px;height:27px;">---------</p>
+                            <p id="citationcity" style="margin-top:-14px;margin-left:59px;width:384px;height:27px;">---------</p>
+                            <p id="citationcharges" style="margin-top:25px;margin-left:35px;width:406px;height:52px;font-size:11px;">---------</p>
+                            <p id="citationfine" style="margin-top:15px;margin-left:324px;width:115px;height:21px;font-size:16px;">---------</p>
+                            <p id="citationsignature" style="margin-top:35px;margin-left:124px;width:320px;height:21px;font-size:16px;">---------</p>
+                        </div>
+                    </div>
                 </div>
                 <div class="row" id="selectedwarrant" style="padding:15px;padding-top:62px;">
                     <div class="col" style="background-color:#ffffff;color:rgb(0,0,0);font-family:'Abhaya Libre', serif;border-style:groove;">
