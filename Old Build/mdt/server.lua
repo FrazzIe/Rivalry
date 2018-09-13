@@ -183,6 +183,37 @@ AddEventHandler("police:new-citation", function(officer_name, offender_first_nam
     TriggerClientEvent("police:new-citation", -1, citation)
 end)
 
+RegisterServerEvent("police:addannouncement")
+AddEventHandler("police:addannouncement", function(officer, description)
+    local source = source
+    local announcement = exports['GHMattiMySQL']:QueryResult("INSERT INTO police_announcements ( `officer`, `description` ) VALUES ( @officer, @description ); SELECT * FROM police_announcements WHERE `id` = (SELECT LAST_INSERT_ID());", { 
+        ['@officer'] = officer,
+        ['@description'] = description,
+    })
+    TriggerClientEvent("police:new-announcement", -1, announcement)
+end)
+
+RegisterServerEvent("police:addbolo")
+AddEventHandler("police:addbolo", function(name, description)
+    local source = source
+    local bolo = exports['GHMattiMySQL']:QueryResult("INSERT INTO police_bolos ( `name`, `description` ) VALUES ( @name, @description ); SELECT * FROM police_bolos WHERE `id` = (SELECT LAST_INSERT_ID());", { 
+        ['@name'] = name,
+        ['@description'] = description,
+    })
+    TriggerClientEvent("police:new-bolo", -1, bolo)
+end)
+
+RegisterServerEvent("police:addevent")
+AddEventHandler("police:addevent", function(date, time, description)
+    local source = source
+    local event = exports['GHMattiMySQL']:QueryResult("INSERT INTO police_events ( `date`, `time`, `description` ) VALUES ( @date, @time, @description ); SELECT * FROM police_events WHERE `id` = (SELECT LAST_INSERT_ID());", { 
+        ['@date'] = date,
+        ['@time'] = time,
+        ['@description'] = description,
+    })
+    TriggerClientEvent("police:new-event", -1, event)
+end)
+
 function setNotepad(character_id, notes)
     notepad = exports['GHMattiMySQL']:QueryAsync("UPDATE police_notepad SET `notes` = @notes WHERE ( `character_id` = @character_id );", { 
         ['@notes'] = notes,
@@ -310,6 +341,60 @@ AddEventHandler("police:load-warrants", function(openUI)
             TriggerClientEvent("police:loads-warrants", source, {}, openUI)
         else
             TriggerClientEvent("police:loads-warrants", source, warrants, openUI)
+        end
+    end)
+end)
+
+RegisterServerEvent("police:load-announcements")
+AddEventHandler("police:load-announcements", function(openUI)
+    local source = source
+    exports['GHMattiMySQL']:QueryResultAsync("SELECT * FROM police_announcements", {}, function(announcements)
+        if(announcements[1] == nil) then
+            TriggerClientEvent("police:loads-announcements", source, {}, openUI)
+        else
+            TriggerClientEvent("police:loads-announcements", source, announcements, openUI)
+        end
+    end)
+end)
+
+RegisterServerEvent('police:deleteannouncement')
+AddEventHandler('police:deleteannouncement', function(id)
+    local source = source
+    exports['GHMattiMySQL']:QueryAsync("DELETE FROM police_announcements WHERE id=@id", { ['@id'] = id})
+end)
+
+RegisterServerEvent('police:deletebolo')
+AddEventHandler('police:deletebolo', function(id)
+    local source = source
+    exports['GHMattiMySQL']:QueryAsync("DELETE FROM police_bolos WHERE id=@id", { ['@id'] = id})
+end)
+
+RegisterServerEvent('police:deleteevent')
+AddEventHandler('police:deleteevent', function(id)
+    local source = source
+    exports['GHMattiMySQL']:QueryAsync("DELETE FROM police_events WHERE id=@id", { ['@id'] = id})
+end)
+
+RegisterServerEvent("police:load-bolos")
+AddEventHandler("police:load-bolos", function(openUI)
+    local source = source
+    exports['GHMattiMySQL']:QueryResultAsync("SELECT * FROM police_bolos", {}, function(bolos)
+        if(bolos[1] == nil) then
+            TriggerClientEvent("police:loads-bolos", source, {}, openUI)
+        else
+            TriggerClientEvent("police:loads-bolos", source, bolos, openUI)
+        end
+    end)
+end)
+
+RegisterServerEvent("police:load-events")
+AddEventHandler("police:load-events", function(openUI)
+    local source = source
+    exports['GHMattiMySQL']:QueryResultAsync("SELECT * FROM police_events", {}, function(events)
+        if(events[1] == nil) then
+            TriggerClientEvent("police:loads-events", source, {}, openUI)
+        else
+            TriggerClientEvent("police:loads-events", source, events, openUI)
         end
     end)
 end)

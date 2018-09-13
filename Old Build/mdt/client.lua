@@ -5,6 +5,9 @@ local arrests = {}
 local tickets = {}
 local warrants = {}
 local vehicles = {}
+local announcements = {}
+local bolos = {}
+local events = {}
 local notepad = {}
 local loadplayerdata = {}
 local autofill = {}
@@ -88,14 +91,29 @@ RegisterNUICallback('emsopen', function(data, cb)
 	cb('ok')
 end)
 
+RegisterNUICallback('loadannouncements', function(data, cb)
+	TriggerServerEvent('police:load-announcements', data)
+  cb('ok')
+end)
+
+RegisterNUICallback('loadbolos', function(data, cb)
+	TriggerServerEvent('police:load-bolos', data)
+  cb('ok')
+end)
+
+RegisterNUICallback('loadevents', function(data, cb)
+	TriggerServerEvent('police:load-events', data)
+  cb('ok')
+end)
+
 RegisterNUICallback('search', function(data, cb)
-	TriggerServerEvent('police:search-table', data.firstname, data.lastname)
+	TriggerServerEvent('police:search-table', data)
   cb('ok')
 end)
 
 RegisterNUICallback('emssearch', function(data, cb)
-	TriggerServerEvent('ems:search-table', data.firstname)
-  cb('ok')
+	TriggerServerEvent('ems:search-table', data.firstname, data.lastname)
+  	cb('ok')
 end)
 
 RegisterNUICallback('player', function(data, cb)
@@ -108,6 +126,24 @@ RegisterNUICallback('emsplayer', function(data, cb)
 	TriggerServerEvent('ems:loadplayerdata', data.lastname, data.firstname)
 	firstname, lastname = data.firstname, data.lastname
   	cb('ok')
+end)
+
+RegisterNUICallback('deleteannouncement', function(data, cb)
+	print(data.id)
+	TriggerServerEvent('police:deleteannouncement', tonumber(data.id))
+	cb('ok')
+end)
+
+RegisterNUICallback('deletebolo', function(data, cb)
+	print(data.id)
+	TriggerServerEvent('police:deletebolo', tonumber(data.id))
+	cb('ok')
+end)
+
+RegisterNUICallback('deleteevent', function(data, cb)
+	print(data.id)
+	TriggerServerEvent('police:deleteevent', tonumber(data.id))
+	cb('ok')
 end)
 
 RegisterNUICallback('emsreportsload', function(data, cb)
@@ -163,6 +199,21 @@ end)
 
 RegisterNUICallback('submit-citation', function(data, cb)
 	TriggerServerEvent('police:new-citation', data.officer_name, data.firstname, data.lastname, data.charges, data.fine, data.plate, data.model, data.color, data.street, data.city)
+	cb('ok')
+end)
+
+RegisterNUICallback('addannouncement', function(data, cb)
+	TriggerServerEvent('police:addannouncement', data.officer, data.description)
+	cb('ok')
+end)
+
+RegisterNUICallback('addbolo', function(data, cb)
+	TriggerServerEvent('police:addbolo', data.name, data.description)
+	cb('ok')
+end)
+
+RegisterNUICallback('addevent', function(data, cb)
+	TriggerServerEvent('police:addevent', data.date, data.time, data.description)
 	cb('ok')
 end)
 
@@ -264,6 +315,21 @@ AddEventHandler("police:loads-warrants", function(warrants)
 	SendNUIMessage({openSection = "loadwarrants", list = warrants})
 end)
 
+RegisterNetEvent("police:loads-announcements")
+AddEventHandler("police:loads-announcements", function(announcements)
+	SendNUIMessage({openSection = "loadAnnouncements", list = announcements})
+end)
+
+RegisterNetEvent("police:loads-bolos")
+AddEventHandler("police:loads-bolos", function(bolos)
+	SendNUIMessage({openSection = "loadBolos", list = bolos})
+end)
+
+RegisterNetEvent("police:loads-events")
+AddEventHandler("police:loads-events", function(events)
+	SendNUIMessage({openSection = "loadEvents", list = events})
+end)
+
 RegisterNetEvent('police:selectedwarrant')
 AddEventHandler('police:selectedwarrant', function(warrant)
 	SendNUIMessage({openSection = "loadselectedwarrant", timestamp = warrant.timestamp, officer_name = warrant.officer_name, offender_name = warrant.offender_name, notes = warrant.notes, location = warrant.location})
@@ -313,6 +379,33 @@ AddEventHandler('police:new-citation', function(entry)
 	if exports.policejob:getIsInService() then
 		PlaySound(-1, "Whoosh_1s_L_to_R", "MP_LOBBY_SOUNDS", 0, 0, 1)
 		TriggerEvent('customNotification', "New Traffic Ticket Entry")
+	end
+end)
+
+RegisterNetEvent('police:new-announcement')
+AddEventHandler('police:new-announcement', function(entry)
+	table.insert(announcements, entry[1])
+	if exports.policejob:getIsInService() then
+		PlaySound(-1, "Whoosh_1s_L_to_R", "MP_LOBBY_SOUNDS", 0, 0, 1)
+		TriggerEvent('customNotification', "New Announcement Posted")
+	end
+end)
+
+RegisterNetEvent('police:new-bolo')
+AddEventHandler('police:new-bolo', function(entry)
+	table.insert(bolos, entry[1])
+	if exports.policejob:getIsInService() then
+		PlaySound(-1, "Whoosh_1s_L_to_R", "MP_LOBBY_SOUNDS", 0, 0, 1)
+		TriggerEvent('customNotification', "New BOLO Posted")
+	end
+end)
+
+RegisterNetEvent('police:new-event')
+AddEventHandler('police:new-event', function(entry)
+	table.insert(events, entry[1])
+	if exports.policejob:getIsInService() then
+		PlaySound(-1, "Whoosh_1s_L_to_R", "MP_LOBBY_SOUNDS", 0, 0, 1)
+		TriggerEvent('customNotification', "New Event Posted")
 	end
 end)
 

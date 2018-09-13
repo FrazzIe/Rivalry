@@ -12,11 +12,6 @@
   overflow:scroll;
 }
 
-p{
-  overflow-x:hidden;
-  overflow-y:hidden;
-}
-
 .custom-tab {
   background-color:#ffffff;
   width:100%;
@@ -41,6 +36,21 @@ body{ height:100%;
 
 html{
   height:100%;
+}
+
+#AppendAnnounc {
+  overflow-x:hidden;
+  overflow-y:auto;
+}
+
+#AppendBolos {
+  overflow-x:hidden;
+  overflow-y:auto;
+}
+
+#AppendEvents {
+  overflow-x:hidden;
+  overflow-y:auto;
 }
 
 .custom-tab button {
