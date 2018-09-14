@@ -2,6 +2,11 @@ Farm = {
 	Data = {
 		IsFarmer = false,
 		OnDuty = false,
+		Locations = {
+			Service = {},
+			Tractor = {},
+			Rake = {},
+		},
 		Fields = {
 			{
 				Crop = {
@@ -240,6 +245,7 @@ Farm = {
 		},
 		Planted = {},
 		Players = {},
+		Blips = {},
 		Scenario = "WORLD_HUMAN_GARDENER_PLANT",
 		Vehicle = {
 			Model = "tractor2",
@@ -248,6 +254,7 @@ Farm = {
 			},
 		},
 		Time = 0,
+		Limit = 12,
 	},
 }
 
@@ -517,14 +524,16 @@ function Farm:ManageFields(PlayerPed, PlayerPosition)
 						end
 					else
 						if not IsPedUsingScenario(PlayerPed, Farm.Data.Scenario) then
-							Utilities.DisplayHelpText("Press ~INPUT_CONTEXT~ to plant a seed!")
-							if IsControlJustPressed(1, 51) then
-								Citizen.CreateThread(function()
-									TaskStartScenarioInPlace(PlayerPed, Farm.Data.Scenario, 0, false)
-									Citizen.Wait(4000)
-									ClearPedTasks(PlayerPed)
-									self:CreateCrop(Index, Farm.Data.Fields[Index], PlayerPosition)
-								end)
+							if #Farm.Data.Planted < Farm.Data.Limit then
+								Utilities.DisplayHelpText("Press ~INPUT_CONTEXT~ to plant a seed!")
+								if IsControlJustPressed(1, 51) then
+									Citizen.CreateThread(function()
+										TaskStartScenarioInPlace(PlayerPed, Farm.Data.Scenario, 0, false)
+										Citizen.Wait(4000)
+										ClearPedTasks(PlayerPed)
+										self:CreateCrop(Index, Farm.Data.Fields[Index], PlayerPosition)
+									end)
+								end
 							end
 						else
 							Utilities.DisplayHelpText("Planting seed...")
@@ -559,6 +568,39 @@ function Farm:ManageFields(PlayerPed, PlayerPosition)
 	end
 end
 
+function Farm:ManageActivity(PlayerPed, PlayerPosition)
+	local Distance = Vdist(PlayerPosition.x, PlayerPosition.y, PlayerPosition.z, self.Data.Locations.Service.x, self.Data.Locations.Service.y, self.Data.Locations.Service.z)
+	if Distance < 20 then
+		Utilities.RenderMarker(25,  self.Data.Locations.Service.x, self.Data.Locations.Service.y, self.Data.Locations.Service.z), 1.5, 1.5, 2.0, 255, 0, 0, 100)
+
+		if Distance < 1.5 then
+			Utilities.DisplayHelpText("Press ~INPUT_CONTEXT~ to go "..(self.Data.OnDuty and "~g~on duty" or "~r~off duty").."~w~!")
+			if IsControlJustPressed(1, 51) then
+				self.Data.OnDuty = not self.Data.OnDuty
+
+				if self.Data.OnDuty then
+					for Index = 1, #Farm.Data.Fields do
+						table.insert(Farm.Blips, CreateBlip(Farm.Data.Fields[Index].Blip.Name, Farm.Data.Fields[Index].Blip.Sprite, Farm.Data.Fields[Index].Blip.Colour, Farm.Data.Fields[Index].Blip.x, Farm.Data.Fields[Index].Blip.y, Farm.Data.Fields[Index].Blip.z))
+					end
+				else
+					for Index = 1, #Farm.Data.Blips do
+						RemoveBlip(Farm.Data.Blips[Index])
+					end
+
+					for Index = 1, #Farm.Data.Planted do
+						DestroyObject(Farm.Data.Planted.Handle)
+					end
+
+					Farm.Data.Blips = {}
+					Farm.Data.Planted = {}
+				end
+
+				TriggerServerEvent("Farm.Activity", self.Data.OnDuty)
+			end
+		end
+	end
+end
+
 Citizen.CreateThread(function()
 	for Index = 1, #Farm.Data.Fields do
 		Farm.Data.Fields[Index].Crop.ModelHash = GetHashKey(Farm.Data.Fields[Index].Crop.Model)
@@ -572,6 +614,7 @@ Citizen.CreateThread(function()
 		local PlayerPed = PlayerPedId()
 		local PlayerPosition = GetEntityCoords(PlayerPed, false)
 
+		Farm:ManageActivity(PlayerPed, PlayerPosition)
 		Farm:ManageFields(PlayerPed, PlayerPosition)
 	end
 end)

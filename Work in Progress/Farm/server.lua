@@ -106,3 +106,14 @@ AddEventHandler("Farm.Harvest", function(FieldIndex, CropIndex)
 		end
 	end
 end)
+
+RegisterServerEvent("Farm.Activity")
+AddEventHandler("Farm.Activity", function(Status)
+	local Source = source
+
+	Farm.Planted[Source] = {}
+	Farm.Players[Source] = Status
+
+	TriggerClientEvent("Farm.Sync", Source, Farm.Fields, Farm.Players, os.time(), Farm.Planted[Source])
+	TriggerClientEvent("Farm.Sync", -1, Farm.Fields, Farm.Players, os.time())
+end)
