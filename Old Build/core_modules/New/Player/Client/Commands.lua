@@ -250,7 +250,7 @@ AddEventHandler("core:ready", function()
     end, false, {Help = "Toggle shotgun",  Params = {}})
 
 	Chat.Command("panic", function(source, args, rawCommand)
-        if exports.policejob:getIsInService() or exports.policejob:getIsInService() then
+        if exports.policejob:getIsInService() or exports.emsjob:getIsInService() then
             if exports["phone"]:PlayerHasPhone() then
                 if not exports.policejob:getIsCuffed() then
                 	local Position = GetEntityCoords(PlayerPedId(), false)
