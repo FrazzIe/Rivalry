@@ -244,7 +244,7 @@ AddEventHandler('rconCommand', function(commandName, args)
 		end
 	elseif commandName:lower() == "rban" then
 		if #args < 7 then
-			RconPrint("ban [username] [steam:id] [license:id] [time] [s|m|h] [permanent (true|false)] [reason]\n")
+			RconPrint("rban [username] [steam:id] [license:id] [time] [s|m|h] [permanent (true|false)] [reason]\n")
 			CancelEvent()
 		else
 			if tostring(args[1]) == nil or tostring(args[1]) == "" then
