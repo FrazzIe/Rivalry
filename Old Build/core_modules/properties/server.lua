@@ -618,7 +618,7 @@ AddEventHandler("properties:rent", function(property_type, property_variant, pro
 						properties[property_type][property_variant][property_id]["owner"]["identifier"] = "no"
 						properties[property_type][property_variant][property_id]["owner"]["char_id"] = 0
 						properties[property_type][property_variant][property_id]["owner"]["id"] = 0
-						exports["GHMattiMySQL"]:QueryAsync("UPDATE properties_"..property_type.."_"..property_variant.." SET `identifier`=@identifier, `character_id`=NULL WHERE id = @property_id", {["@identifier"] = "no", ["@property_id"] = property_id})
+						exports["GHMattiMySQL"]:Query("UPDATE properties_"..property_type.."_"..property_variant.." SET `identifier`=@identifier, `character_id`=NULL WHERE id = @property_id", {["@identifier"] = "no", ["@property_id"] = property_id})
 					end
 					TriggerClientEvent("properties:sync", -1, properties)
 					if os.time() > (tonumber(properties[property_type][property_variant][property_id]["expire"]) + (time_to_pay_rent*60*60)) or os.time() > tonumber(properties[property_type][property_variant][property_id]["expire"]) then
@@ -643,7 +643,7 @@ AddEventHandler("properties:rent", function(property_type, property_variant, pro
 									properties[property_type][property_variant][property_id]["owner"]["identifier"] = user.get("steam")
 									properties[property_type][property_variant][property_id]["owner"]["char_id"] = user.get("characterID")
 									properties[property_type][property_variant][property_id]["owner"]["id"] = source
-									exports["GHMattiMySQL"]:QueryAsync("UPDATE properties_"..property_type.."_"..property_variant.." SET `identifier`=@identifier, `character_id`=@character_id, `expire`=@expire WHERE `id` = @property_id", {["@identifier"] = user.get("steam"), ["@character_id"] = user.get("characterID"), ["@expire"] = new_expire_time, ["@property_id"] = property_id})
+									exports["GHMattiMySQL"]:Query("UPDATE properties_"..property_type.."_"..property_variant.." SET `identifier`=@identifier, `character_id`=@character_id, `expire`=@expire WHERE `id` = @property_id", {["@identifier"] = user.get("steam"), ["@character_id"] = user.get("characterID"), ["@expire"] = new_expire_time, ["@property_id"] = property_id})
 									TriggerClientEvent("properties:sync", -1, properties)
 								elseif user.get("bank") >= rent_cost then
 									user.removeBank(rent_cost)
@@ -653,7 +653,7 @@ AddEventHandler("properties:rent", function(property_type, property_variant, pro
 									properties[property_type][property_variant][property_id]["owner"]["identifier"] = user.get("steam")
 									properties[property_type][property_variant][property_id]["owner"]["char_id"] = user.get("characterID")
 									properties[property_type][property_variant][property_id]["owner"]["id"] = source
-									exports["GHMattiMySQL"]:QueryAsync("UPDATE properties_"..property_type.."_"..property_variant.." SET `identifier`=@identifier, `character_id`=@character_id, `expire`=@expire WHERE `id` = @property_id", {["@identifier"] = user.get("steam"), ["@character_id"] = user.get("characterID"), ["@expire"] = new_expire_time, ["@property_id"] = property_id})
+									exports["GHMattiMySQL"]:Query("UPDATE properties_"..property_type.."_"..property_variant.." SET `identifier`=@identifier, `character_id`=@character_id, `expire`=@expire WHERE `id` = @property_id", {["@identifier"] = user.get("steam"), ["@character_id"] = user.get("characterID"), ["@expire"] = new_expire_time, ["@property_id"] = property_id})
 									TriggerClientEvent("properties:sync", -1, properties)
 								else
 									Notify("Insufficient funds", 3000, source)
@@ -667,7 +667,7 @@ AddEventHandler("properties:rent", function(property_type, property_variant, pro
 									properties[property_type][property_variant][property_id]["owner"]["identifier"] = user.get("steam")
 									properties[property_type][property_variant][property_id]["owner"]["char_id"] = user.get("characterID")
 									properties[property_type][property_variant][property_id]["owner"]["id"] = source
-									exports["GHMattiMySQL"]:QueryAsync("UPDATE properties_"..property_type.."_"..property_variant.." SET `identifier`=@identifier, `character_id`=@character_id, `expire`=@expire WHERE `id` = @property_id", {["@identifier"] = user.get("steam"), ["@character_id"] = user.get("characterID"), ["@expire"] = new_expire_time, ["@property_id"] = property_id})
+									exports["GHMattiMySQL"]:Query("UPDATE properties_"..property_type.."_"..property_variant.." SET `identifier`=@identifier, `character_id`=@character_id, `expire`=@expire WHERE `id` = @property_id", {["@identifier"] = user.get("steam"), ["@character_id"] = user.get("characterID"), ["@expire"] = new_expire_time, ["@property_id"] = property_id})
 									TriggerClientEvent("properties:sync", -1, properties)
 								elseif user.get("bank") >= rent_cost then
 									user.removeBank(rent_cost)
@@ -677,7 +677,7 @@ AddEventHandler("properties:rent", function(property_type, property_variant, pro
 									properties[property_type][property_variant][property_id]["owner"]["identifier"] = user.get("steam")
 									properties[property_type][property_variant][property_id]["owner"]["char_id"] = user.get("characterID")
 									properties[property_type][property_variant][property_id]["owner"]["id"] = source
-									exports["GHMattiMySQL"]:QueryAsync("UPDATE properties_"..property_type.."_"..property_variant.." SET `identifier`=@identifier, `character_id`=@character_id, `expire`=@expire WHERE `id` = @property_id", {["@identifier"] = user.get("steam"), ["@character_id"] = user.get("characterID"), ["@expire"] = new_expire_time, ["@property_id"] = property_id})
+									exports["GHMattiMySQL"]:Query("UPDATE properties_"..property_type.."_"..property_variant.." SET `identifier`=@identifier, `character_id`=@character_id, `expire`=@expire WHERE `id` = @property_id", {["@identifier"] = user.get("steam"), ["@character_id"] = user.get("characterID"), ["@expire"] = new_expire_time, ["@property_id"] = property_id})
 									TriggerClientEvent("properties:sync", -1, properties)
 								else
 									Notify("Insufficient funds", 3000, source)
