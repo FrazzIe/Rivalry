@@ -24,6 +24,7 @@ var citationview = '#ViewCitation'
 var newevent = '#NewEvent'
 var newannouncement = '#NewAnnouncement'
 var newbolo = '#NewBOLO'
+var arrestview = '#ViewArrest'
 var isDeleting = false
 
 function openMDT(){ 
@@ -73,6 +74,7 @@ $('#ViewAnnounc').show();
 $('#ViewEvent').show();
 $(homepage).hide();
 $(citationview).hide();
+$(arrestview).hide();
 $(newannouncement).hide();
 $(newbolo).hide();
 $(newevent).hide();
@@ -106,6 +108,7 @@ function closeAllPoliceNoFooter() {
     $(notepadRow).hide();
     $(homepage).hide();
     $(citationview).hide();
+    $(arrestview).hide();
     $(newannouncement).hide();
     $(newbolo).hide();
     $(newevent).hide();
@@ -140,6 +143,7 @@ function closeAllPoliceWithFooter() {
     $(notepadRow).hide();
     $(homepage).hide();
     $(citationview).hide();
+    $(arrestview).hide();
     $(newannouncement).hide();
     $(newbolo).hide();
     $(newevent).hide();
@@ -156,9 +160,18 @@ function closeAllPoliceWithFooter() {
     $('#SubmitEventBtn').hide();
 };
 
-    $("#playerarrestrow").delegate('.cell-which-triggers-popup', 'click', function(event){
-        var cell_value = $(event.target).text();
-        showPopup(cell_value)    
+    $("#playerarrestrow").delegate('#playerarrestrow2', 'click', function(event){
+        var $row = jQuery(this).closest('tr');
+        var $columns = $row.find('td');
+
+        var values = [];
+
+        jQuery.each($columns, function(i, item) {
+            values.push(item.innerHTML);
+        });
+        
+        cell_value = values[0]
+        $.post('http://mdt/loadarrestslip', JSON.stringify({id: cell_value}));  
     });
     $("#playerticketsrow").delegate('#playerticketsrow2', 'click', function(event){
         var $row = jQuery(this).closest('tr');
@@ -184,7 +197,6 @@ function closeAllPoliceWithFooter() {
         });
         
         fillRow(values[0], values[1], values[2], values[3])
-        jQuery("#SelectedWarrant").show();
     });
 
     $("#reportsdirectory").delegate('#reportstable', 'click', function(event){
@@ -205,16 +217,10 @@ function closeAllPoliceWithFooter() {
     $("#WarrantRowOne").delegate('#playerwarrant', 'click', function(event){
         var $col = jQuery(this).closest('div')
         var $warrant = $col.find('p')
-
-        var values = [];
-
-        jQuery.each($warrant, function(i, item) {
-            values.push(item.innerHTML);
-        });
         
-        var namev = values[0]
+        var idv = jQuery($warrant).attr("id");
 
-        $.post('http://mdt/load-warrant', JSON.stringify({name: namev}))
+        $.post('http://mdt/load-warrant', JSON.stringify({id: idv}))
     });
 
     $("#playertablez").delegate('.playerrow', 'click', function(event){
@@ -328,6 +334,19 @@ function closeAllPoliceWithFooter() {
         }
     });
 
+    $("#WarrantRowOne").delegate(".playerwarrant", 'click', function(event){
+        if(isDeleting==true){
+            var $col = jQuery(this).closest('div')
+            var $warrant = $col.find('p')
+            
+            var idv = jQuery($warrant).attr("id");
+            if(confirm("Are you sure you want to delete this?")){
+                $.post('http://mdt/deletewarrant', JSON.stringify({id: idv}));
+                isDeleting = false
+            }
+        }
+    });
+
     $("#AppendBolos").delegate(".bolo", 'click', function(event){
         if(isDeleting==true){
             var idz = jQuery(this).attr("id");
@@ -397,6 +416,8 @@ function closeAllPoliceWithFooter() {
           $('#SelectedMedicalReport').hide();
           $('#SelectedMedicalReport2').hide();
           $(citationview).hide();
+          $(arrestview).hide();
+          $('#selectedwarrant').hide();
         }
       };
 
@@ -471,11 +492,12 @@ function closeAllPoliceWithFooter() {
     $("#arrest-submit").click(function(event){
             var arrestofficername = jQuery("#arrest-officer_name").val();
             var arrestoffender_first_name = jQuery("#arrest-firstname").val();
+            var arrestdescription = jQuery("#arrest-description").val();
             var arrestoffender_last_name = jQuery("#arrest-lastname").val();
             var arrestcharges = jQuery("#arrest-charges").val();
             var arrestfine = jQuery("#arrest-fine").val();
             var arrestsentence = jQuery("#arrest-sentence").val();
-            $.post('http://mdt/submit-arrest', JSON.stringify({officer_name: arrestofficername, firstname: arrestoffender_first_name, lastname: arrestoffender_last_name, charges: arrestcharges, fine: arrestfine, sentence: arrestsentence}));
+            $.post('http://mdt/submit-arrest', JSON.stringify({officer_name: arrestofficername, firstname: arrestoffender_first_name, lastname: arrestoffender_last_name, description: arrestdescription, charges: arrestcharges, fine: arrestfine, sentence: arrestsentence}));
     });
     $("#citation-submit").click(function(event){
             var citationofficername = jQuery("#citation-officer_name").val();
@@ -496,17 +518,23 @@ function closeAllPoliceWithFooter() {
     });
     $("#submit-warrant").click(function(event){
         closeWarrants();
-        var newwarrantdate = jQuery('#newwarrantdate').val();
-        var newwarrantofficer = jQuery('#newwarrantofficer').val();
-        var newwarrantname = jQuery('#newwarrantname').val();
-        var newwarrantdescription = jQuery('#newwarrantdescription').val();
-        var newwarrantcharges = jQuery('#newwarrantcharges').val();
-        $.post('http://mdt/submit-warrant', JSON.stringify({timestamp: newwarrantdate,officer_name: newwarrantofficer,offender_name: newwarrantname,location: newwarrantdescription,notes: newwarrantcharges}));
+        var w1 = jQuery('#warranteditfirstname').val();
+        var w2 = jQuery('#warranteditlastname').val();
+        var w3 = jQuery('#warranteditdescription').val();
+        var w4 = jQuery('#warranteditofficer').val();
+        var w5 = jQuery('#warranteditreason').val();
+        var w6 = jQuery('#warranteditevidence').val();
+        var w7 = jQuery('#warranteditsignature').val();
+        var w8 = jQuery('#warranteditheader').val();
+        $.post('http://mdt/submit-warrant', JSON.stringify({firstname: w1, lastname: w2, description: w3, officer: w4, reason: w5, evidence: w6, signature: w7, header: w8}));
         $('#warrantsedit').hide();
+    });
+    $("#delete-warrant").click(function(event){
+        isDeleting = true
     });
     $("#warrant-remove").click(function(){
 	    if (confirm('Are you sure you want permanently delete this warrant?') === true) {
-	      $.post('http://mdt/warrantDelete', JSON.stringify({desc: $("#selectedwarrantdescription").val()}));
+	      $.post('http://mdt/warrantDelete', JSON.stringify({desc: $("#warrantid").val()}));
 	    }
   	});
     $("#notepad-submit").click(function(event){
@@ -593,14 +621,20 @@ function closeAllPoliceWithFooter() {
     	$('#report-submit').show();
     });
 
-    function fillWarrant(datez, officer, suspect, description, charges) {
-    	var dateVal ="/Date(" + (datez * 1000) + ")/"; var date = new Date( parseFloat( dateVal.substr(6 ))); let timestamp = (date.getMonth() + 1) + "/" +    date.getDate() + "/" + date.getFullYear() + " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds()    
-        jQuery('#selectedwarrantdate').val(timestamp);
-        jQuery('#selectedwarrantofficer').val(officer);
-        jQuery('#selectedwarrantname').text(suspect);
-        jQuery('#selectedwarrantdescription').text(description);
-        jQuery('#selectedwarrantcharges').text(charges);
+    function fillWarrant(offender_name, id, description, datez, officer, reason, evidence, signature) {
         $('#selectedwarrant').show();
+        var splitString = offender_name.split(" ");
+    	var dateVal ="/Date(" + (datez * 1000) + ")/"; var date = new Date( parseFloat( dateVal.substr(6 ))); let timestamp = (date.getMonth() + 1) + "/" +    date.getDate() + "/" + date.getFullYear()
+        jQuery('p#warrantfirstname').text(splitString[0]);
+        jQuery('p#warrantlastname').text(splitString[1]);
+        jQuery('p#warrantid').text(id);
+        jQuery('p#warrantdescription').text(description);
+        jQuery('p#warrantdate').text(timestamp);
+        jQuery('p#warrantposting').text(officer);
+        jQuery('p#warrantreason').text(reason);
+        jQuery('p#warrantevidence').text(evidence);
+        jQuery('p#warrantsignature').text(officer);
+        jQuery('p#warrantheader').text(offender_name)
         closeWarrants();
     }
 
@@ -617,8 +651,7 @@ function closeAllPoliceWithFooter() {
         for(let i in items) {
             let item = items[i];
             var dateVal ="/Date(" + (item.timestamp * 1000) + ")/"; var date = new Date( parseFloat( dateVal.substr(6 ))); let timestamp = (date.getMonth() + 1) + "/" +    date.getDate() + "/" + date.getFullYear() + " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds()    
-            $('#playerarrestrow').append('<tr id = "playerarrestszz"><td>' + timestamp + '</td><td>' + item.officer_name + '</td><td class="cell-which-triggers-popup">' + item.charges + '</td><td>'  + item.fine + '</td><td>' + item.sentence + '</td></tr>');
-        }
+            $('#playerarrestrow').append('<tr id = "playerarrestrow2"><td>' + item.id + '</td><td>' + timestamp + '</td><td>'  + "$" + item.fine + '</td><td>' + item.sentence + " Months" + '</td></tr>');        }
     }
     function PlayerTickets(items) {
         for(let i in items) {
@@ -630,13 +663,19 @@ function closeAllPoliceWithFooter() {
     function PlayerVehicles(items) {
         for(let i in items) {
             let item = items[i];
-             $('#playervehiclesrow').append('<tr id = "playervehicleszz"><td>' + item.model + '</td><td>' + item.plate + '</td><td>' + item.state + '</td></tr>');
+            if(item.state.match("~g~")) {
+                var stored = item.state.slice(3);
+            }
+            if(item.state.match("~r~")) {
+                var stored = item.state.slice(3);
+            }
+            $('#playervehiclesrow').append('<tr id = "playervehicleszz"><td>' + item.model.charAt(0).toUpperCase() + item.model.substr(1) + '</td><td>' + item.plate + '</td><td>' + stored + '</td></tr>');
         }
     }
     function LoadWarrants(items) {
         for(let i in items) {
             let item = items[i];
-            $('#WarrantRowOne').append('<div class="col-md-4 playerwarrant" id = "playerwarrant" style="background-color:#ffffff;border:groove;"><p class="text-center">'+ item.offender_name +'</p></div>');
+            $('#WarrantRowOne').append('<div class="col-md-4 playerwarrant" id = "playerwarrant" style="background-color:#ffffff;border:groove;"><p class="text-center" id="' + item.id + '">'+ item.offender_name +'</p></div>');
         }
     }
     function PlayerNotepad(items){
@@ -674,7 +713,7 @@ function closeAllPoliceWithFooter() {
     }
 
     function fillCitationSlip(name, id, datez, plate, model, color, street, city, charges, fine, officer_name){
-        var dateVal ="/Date(" + (datez * 1000) + ")/"; var date = new Date( parseFloat( dateVal.substr(6 ))); let timestamp = (date.getMonth() + 1) + "/" +    date.getDate() + "/" + date.getFullYear() + " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds()    
+        var dateVal ="/Date(" + (datez * 1000) + ")/"; var date = new Date( parseFloat( dateVal.substr(6 ))); let timestamp = (date.getMonth() + 1) + "/" +    date.getDate() + "/" + date.getFullYear()    
         $('p#citationname').text(name);
         $('p#citationid').text(id);
         $('p#citationdate').text(date);
@@ -689,9 +728,20 @@ function closeAllPoliceWithFooter() {
         $(citationview).show();
     }
 
-    function showPopup(your_variable) {
-        jQuery("#myDialog").text(your_variable);
-        document.getElementById("myDialog").showModal();
+    function fillArrestSlip(offender_name, id, description, datez, officer, charges, jail, fine, officersignature){
+        var splitString = offender_name.split(" ");
+        var dateVal ="/Date(" + (datez * 1000) + ")/"; var date = new Date( parseFloat( dateVal.substr(6 ))); let timestamp = (date.getMonth() + 1) + "/" +    date.getDate() + "/" + date.getFullYear()    
+        $('p#arrestfirstname').text(splitString[0]);
+        $('p#arrestlastname').text(splitString[1]);
+        $('p#arrestid').text(id);
+        $('p#arrestdescription').text(description);
+        $('p#arrestdate').text(timestamp);
+        $('p#arrestofficer').text(officer);
+        $('p#arrestcharges').text(charges);
+        $('p#arrestjail').text(jail + " Months");
+        $('p#arrestfine').text("$" + fine);
+        $('p#arrestofficersignature').text(officer)
+        $(arrestview).show();
     }
 
     function LoadInformation(warrants, arrests, citations, citizenid, firstname, lastname, weapons, drivers) {
@@ -745,6 +795,7 @@ function closeAllPoliceWithFooter() {
         $('#arrest-officer_name').text("");
         $('#arrest-firstname').text("");
         $('#arrest-lastname').text("");
+        $('#arrest-description').text("");
         $('#arrest-charges').text("");
         $('#arrest-fine').text("");
         $('#arrest-sentence').text("");
@@ -776,9 +827,9 @@ function closeAllPoliceWithFooter() {
     }
     if(item.openSection == "loadReports"){
     	loadReports(item.list)
-    }
+    } 
     if(item.openSection == "loadselectedwarrant") {
-        fillWarrant(item.timestamp, item.officer_name, item.offender_name, item.notes, item.location);
+        fillWarrant(item.offender_name, item.id, item.description, item.datez, item.officer, item.reason, item.evidence, item.signature);
     }
     if(item.openSection == "autofill_arrests"){
         var splitString = item.offender_name.split(" ");
@@ -885,6 +936,10 @@ function closeAllPoliceWithFooter() {
     }
     if(item.openSection == "loadSelectedCitation"){
         fillCitationSlip(item.name, item.id, item.date, item.plate, item.model, item.color, item.street, item.city, item.charges, item.fine, item.officer_name)
+    }
+
+    if(item.openSection == "loadSelectedArrest"){
+        fillArrestSlip(item.name, item.id, item.description, item.date, item.officer, item.charges, item.jail, item.fine, item.signature)
     }
 
     if(item.openSection == "loadAnnouncements"){

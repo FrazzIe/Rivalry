@@ -55,7 +55,7 @@
                 </div>
                 <div class="row" id="playertable" style="background-color:#ffffff;margin:20px;">
                     <div class="col">
-                        <div class="table-responsive float-left">
+                        <div id = "tableplayer" class="table-responsive float-left" style="max-width:100%;height:415px;">
                             <table class="table table-sm">
                                 <thead>
                                     <tr>
@@ -94,28 +94,27 @@
                 <div class="row" id="tabs" style="background-color:#ffffff;margin:20px;">
                     <div class="col-4" style="padding-right:0px;padding-left:0px;">
                         <div class="custom-tab"><button class="custom-tab-active" id = Arrests type="button">Arrests</button>
-        <button id = Tickets type="button">Tickets</button>
-        <button id = Vehicles type="button">Vehicles</button>
-        <button id = AddArrest type="button">Add Arrest</button>
-        <button id = AddCitation type="button">Add Citation</button>
-        <button id = Notepad type="button">Profile Notepad</button></div>
+                        <button id = Tickets type="button">Tickets</button>
+                        <button id = Vehicles type="button">Vehicles</button>
+                        <button id = AddArrest type="button">Add Arrest</button>
+                        <button id = AddCitation type="button">Add Citation</button>
+                        <button id = Notepad type="button">Profile Notepad</button></div>
                     </div>
                     <div class="col-8" style="background-color:#f1f1f1;">
                         <div class="row" id="ArrestsRow">
                             <div class="col">
-                                <div class="table-responsive table-borderless" style="max-width:100%;">
+                                <div id = "tablearrests" class="table-responsive table-borderless" style="max-width:100%;height:400px">
                                     <table class="table table-bordered table-sm">
                                         <thead>
                                             <tr>
+                                            	<th>ID</th>
                                                 <th>Date</th>
                                                 <th>Officer</th>
-                                                <th>Charges</th>
-                                                <th>Fine</th>
                                                 <th>Time Served</th>
                                             </tr>
                                         </thead>
                                         <tbody id = "playerarrestrow">
-                                            <tr>
+                                            <tr id = "playerarrestrow2">
                                             </tr>
                                         </tbody>
                                     </table>
@@ -124,8 +123,8 @@
                         </div>
                         <div class="row" id="TicketsRow">
                             <div class="col">
-                                <div class="table-responsive table-borderless" style="max-width:100%;">
-                                    <table class="table table-bordered table-sm">
+                                <div id = "tabletickets" class="table-responsive table-borderless" style="max-width:100%;height:400px;">
+                                    <table id = "tabletickets" class="table table-bordered table-sm">
                                         <thead>
                                             <tr>
                                             	<th>ID</th>
@@ -143,7 +142,7 @@
                         </div>
                         <div class="row" id="VehiclesRow">
                             <div class="col">
-                                <div class="table-responsive table-borderless" style="max-width:100%;">
+                                <div id = "tablevehicles" class="table-responsive table-borderless" style="max-width:100%;height:400px;">
                                     <table class="table table-bordered table-sm">
                                         <thead>
                                             <tr>
@@ -161,7 +160,7 @@
                             </div>
                         </div>
                         <div class="row" id="AddArrestRow">
-                            <div class="col"><small class="form-text text-muted">Suspects First Name</small><input id = "arrest-firstname" type="text"><small class="form-text text-muted">Suspects Last Name</small><input id = "arrest-lastname" type="text"><small class="form-text text-muted">Arresting Officer</small><input id = "arrest-officer_name" type="text"><small class="form-text text-muted">Charges</small><textarea id = "arrest-charges" class="form-control-lg"
+                            <div class="col"><small class="form-text text-muted">Suspects First Name</small><input id = "arrest-firstname" type="text"><small class="form-text text-muted">Suspects Last Name</small><input id = "arrest-lastname" type="text"><small class="form-text text-muted">Arresting Officer</small><input id = "arrest-officer_name" type="text"><small class="form-text text-muted">Description</small><input id = "arrest-description" type="text"><small class="form-text text-muted">Charges</small><textarea id = "arrest-charges" class="form-control-lg"
                                     rows="6" cols="40" wrap="hard" spellcheck="true"></textarea></div>
                             <div class="col"><small class="form-text text-muted">Fine</small><input id = "arrest-fine" type="text"><small class="form-text text-muted">Time Served</small><input id = "arrest-sentence" type="text"><small class="form-text text-muted">Bail</small>
                                 <div class="form-check"><input class="form-check-input" type="checkbox" id="formCheck-1"><label class="form-check-label" for="formCheck-1">Yes</label></div>
@@ -178,7 +177,7 @@
                             <div class="col-xl-12 offset-xl-0"><button id = citation-autofill class="btn btn-primary active btn-block" type="button" style="margin-top:9px;background-color:rgb(241,241,241);color:rgb(0,0,0);">Autofill</button></div>
                         </div>
                         <div class="row" id="NotepadRow">
-                            <div class="col"><small class="form-text text-muted">Notepad:&nbsp;</small><textarea id = "notepad" class="d-flex" wrap="hard" autofocus=""></textarea></div>
+                            <div class="col"><small class="form-text text-muted">Notepad:&nbsp;</small><textarea style="width:683px;height:319px;resize:none;" id = "notepad" class="d-flex" wrap="hard" autofocus="" style = ""></textarea></div>
                              <div class="col-xl-12 offset-xl-0"><button id = notepad-submit class="btn btn-primary active btn-block" type="button" style="margin-top:9px;background-color:rgb(241,241,241);color:rgb(0,0,0);">Submit</button></div>
                         </div>
                     </div>
@@ -197,47 +196,45 @@
 					        <p id="citationsignature" style="margin-top:35px;margin-left:124px;width:320px;height:21px;font-size:16px;">---------</p>
 					    </div>
 					</div>
+                    <div class="row" id = "ViewArrest" style="margin-top:-542px;margin-left:600px">
+					    <div class="col-xl-5 offset-xl-0"><img src="assets/img/arrestreport.png" class="d-flex"/>
+					    	<p id="arrestfirstname" style="margin-top:-435px;margin-left:197px;font-size:12px;width:222px;">---------</p>
+					        <p id="arrestlastname" style="margin-top:-14px;margin-left:197px;font-size:12px;width:222px;">---------</p>
+					        <p id="arrestid" style="margin-top:-14px;margin-left:197px;font-size:12px;width:222px;">---------</p>
+					        <p id="arrestdescription" style="margin-top:-14px;margin-left:197px;font-size:12px;width:222px;height:46px;">---------</p>
+					        <p id="arrestdate"style="margin-top:48px;margin-left:311px;font-size:12px;width:111px;height:19px;">---------</p>
+					        <p id="arrestofficer" style="margin-top:-15px;margin-left:198px;font-size:12px;width:222px;height:19px;">---------</p>
+					        <p id="arrestcharges" style="margin-top:16px;margin-left:33px;font-size:12px;width:388px;height:86px;">---------</p>
+					        <p id="arrestjail" style="margin-top:-13px;margin-left:197px;font-size:12px;width:222px;height:19px;">---------</p>
+					        <p id="arrestfine" style="margin-top:-15px;margin-left:311px;font-size:12px;width:111px;height:19px;">---------</p>
+					        <p id="arrestofficersignature" style="margin-top:22px;margin-left:143px;font-size:12px;width:286px;height:19px;">---------</p>
+					    </div>
+					</div>
                 </div>
-                <div class="row" id="selectedwarrant" style="padding:15px;padding-top:62px;">
-                    <div class="col" style="background-color:#ffffff;color:rgb(0,0,0);font-family:'Abhaya Libre', serif;border-style:groove;">
-                        <div class="justify-content-center align-items-center align-content-center">
-                            <p class="text-center" style="font-size:41px;margin:9px;letter-spacing:26px;">WANTED</p>
-                        </div>
-                    </div>
-                    <div class="col-xl-7" style="background-color:#ffffff;border-style:groove;">
-                        <div class="justify-content-center align-items-center align-content-center">
-                            <p class="text-center" id="selectedwarrantname" style="font-size:41px;margin:9px;letter-spacing:2px;">INSERT SUSPECTS NAME HERE</p>
-                        </div>
-                    </div>
-                    <div class="col-xl-9 offset-xl-0" style="background-color:#ffffff;border-style:groove;height:615px;"><small class="form-text text-monospace d-inline-flex" style="font-size:25px;color:rgb(0,0,0);margin:12px;width:71px;">Date:</small><input type="text" value="6/27/18" readonly class="form-control-plaintext d-inline-flex" id="selectedwarrantdate" style="width:84%;margin:5px;padding:3px;font-size:25px;color:rgb(0,0,0);"
-                        /><small class="form-text text-monospace d-inline-flex" style="font-size:25px;color:rgb(0,0,0);margin:12px;">Officer:</small><input type="text" value="Potato Officer" readonly class="form-control-plaintext d-inline-flex" id="selectedwarrantofficer" style="width:75%;font-size:25px;padding-right:0px;"
-                        /><small class="form-text text-monospace d-inline-flex" style="font-size:25px;color:rgb(0,0,0);margin:12px;">Description:</small><textarea wrap="hard" readonly id="selectedwarrantdescription" style="height:34%;width:100%;"></textarea><small class="form-text text-monospace d-flex"
-                            style="font-size:25px;color:rgb(0,0,0);margin:12px;">Charges:</small><textarea wrap="hard" readonly id="selectedwarrantcharges" style="height:24%;width:100%;"></textarea></div>
-                    <div class="col" style="background-color:#ffffff;border-style:groove;height:615px;"><button class="btn btn-primary btn-block btn-lg" id = "warrant-remove" type="button" style="background-color:rgb(101,127,152);border-radius:0px;">Delete</button><!-- <button class="btn btn-primary btn-block btn-lg" type="button" id = "warranteditbtn" style="background-color:rgb(101,127,152);border-radius:0px;margin:0px;">Edit</button>
-                        <button
-                            class="btn btn-primary btn-block btn-lg" type="button" id = "warrantsubmitchanges" style="background-color:rgb(101,127,152);border-radius:0px;margin:0px;">Submit Changes</button> -->
-                    </div>
+                <div class="row" id="selectedwarrant">
+                    <div class="row">
+					    <div class="col-xl-12 offset-xl-6 justify-content-center align-items-center align-content-center flex-wrap"><img src="assets/img/warrant.png"/>
+					        <p id = "warrantfirstname" style="margin-top:-516px;margin-left:246px;font-size:12px;width:222px;">---------</p>
+					        <p id = "warrantlastname" style="margin-top:-8px;margin-left:246px;font-size:12px;width:211px;">---------</p>
+					        <p id = "warrantid" style="margin-top:-11px;margin-left:246px;font-size:12px;width:222px;">---------</p>
+					        <p id = "warrantdescription" style="margin-top:-9px;margin-left:246px;font-size:12px;width:276px;height:53px;">---------</p>
+					        <p id = "warrantdate" style="margin-top:65px;margin-left:388px;font-size:12px;width:135px;height:19px;">---------</p>
+					        <p id = "warrantposting" style="margin-top:-10px;margin-left:247px;font-size:12px;width:222px;height:19px;">---------</p>
+					        <p id = "warrantreason" style="margin-top:24px;margin-left:43px;font-size:12px;width:474px;height:101px;">---------</p>
+					        <p id = "warrantevidence" style="margin-top:-6px;margin-left:246px;font-size:12px;width:278px;height:19px;">---------</p>
+					        <p id = "warrantsignature" style="margin-top:34px;margin-left:163px;font-size:12px;width:371px;height:19px;">---------</p>
+					        <p id = "warrantheader" class="text-monospace text-center" style="margin-top:-562px;margin-left:-2px;width:574px;font-size:26px;">---------</p>
+					    </div>
+					</div>
                 </div>
-                <div class="row" id="warrantsedit" style="padding:15px;padding-top:62px;">
-                    <div class="col" style="background-color:#ffffff;color:rgb(0,0,0);font-family:'Abhaya Libre', serif;border-style:groove;">
-                        <div class="justify-content-center align-items-center align-content-center">
-                            <p class="text-center" style="font-size:41px;margin:9px;letter-spacing:26px;">WANTED</p>
-                        </div>
-                    </div>
-                    <div class="col-xl-7" style="background-color:#ffffff;border-style:groove;">
-                        <div class="justify-content-center align-items-center align-content-center">
-                            <small class="form-text text-monospace d-inline-flex" style="font-size:25px;color:rgb(0,0,0);margin:12px;width:71px;">Suspect Name</small><input type="text" value="" class="form-control-plaintext d-inline-flex" id="newwarrantname" style="width:84%;margin:5px;padding:3px;font-size:25px;color:rgb(0,0,0);"
-                        />
-                        </div>
-                    </div>
-                    <div class="col-xl-9 offset-xl-0" style="background-color:#ffffff;border-style:groove;height:615px;"><small class="form-text text-monospace d-inline-flex" style="font-size:25px;color:rgb(0,0,0);margin:12px;width:71px;">Date:</small><input type="text" value="" class="form-control-plaintext d-inline-flex" id="newwarrantdate" style="width:84%;margin:5px;padding:3px;font-size:25px;color:rgb(0,0,0);"
-                        /><small class="form-text text-monospace d-inline-flex" style="font-size:25px;color:rgb(0,0,0);margin:12px;">Officer:</small><input type="text" value="" class="form-control-plaintext d-inline-flex" id="newwarrantofficer" style="width:75%;font-size:25px;padding-right:0px;"
-                        /><small class="form-text text-monospace d-inline-flex" style="font-size:25px;color:rgb(0,0,0);margin:12px;">Description:</small><textarea wrap="hard" id="newwarrantdescription" style="height:34%;width:100%;"></textarea><small class="form-text text-monospace d-flex"
-                            style="font-size:25px;color:rgb(0,0,0);margin:12px;">Charges:</small><textarea wrap="hard" id="newwarrantcharges" style="height:24%;width:100%;"></textarea></div>
-                    <div class="col" style="background-color:#ffffff;border-style:groove;height:615px;">
-                        <button
-                            class="btn btn-primary btn-block btn-lg" id="submit-warrant" style="background-color:rgb(101,127,152);border-radius:0px;margin:0px;">Submit Warrant</button>
-                    </div>
+                <div id = "warrantsedit" class="row no-gutters">
+                    <div class="col-xl-7 offset-xl-3 d-inline-flex"><img src="assets/img/warrant.png" /><input id = "warranteditfirstname" type="text" class="d-flex" style="margin-top:359px;height:19px;font-size:11px;margin-left:-326px;width:280px;" /><input id = "warranteditlastname" type="text" class="d-flex" style="margin-top:385px;height:19px;font-size:11px;margin-left:-280px;width:280px;"
+                        /><input id = "warranteditid" readonly placeholder="Will auto fill" type="text" class="d-flex" style="margin-top:409px;height:19px;font-size:11px;margin-left:-280px;width:280px;" /><input id = "warranteditdescription" type="text" class="d-flex" style="margin-top:433px;height:55px;font-size:11px;margin-left:-280px;width:280px;" /><input id = "warranteditdate" 
+                            type="text" class="d-flex" readonly placeholder="Will autofill" style="margin-top:552px;height:19px;font-size:11px;margin-left:-139px;width:138px;" /><input id = "warranteditofficer" type="text" class="d-flex" style="margin-top:576px;height:19px;font-size:11px;margin-left:-279px;width:279px;" /><input id = "warranteditreason" type="text"
+                            class="d-flex" style="margin-top:619px;height:106px;font-size:11px;margin-left:-485px;width:485px;" /><input id = "warranteditevidence" type="text" class="d-flex" style="margin-top:731px;height:19px;font-size:11px;margin-left:-279px;width:279px;" /><input id = "warranteditsignature" type="text" class="d-flex"
+                            style="margin-top:784px;height:19px;font-size:11px;margin-left:-354px;width:366px;" /><input id = "warranteditheader" type="text" style="height:29px;margin-left:-455px;margin-top:255px;width:411px;font-size:26px;" /></div>
+                            <button
+                            class="btn btn-primary btn-block btn-lg" id="submit-warrant" style="background-color:rgb(101,127,152);border-radius:0px;margin:0px;width:572px;margin-left:278px;">Submit Warrant</button>
                 </div>
             <div class="row no-gutters" id = "reportst" style="width:auto;height:auto;background-color:#ffffff;">
                 <div class="col">
@@ -361,7 +358,7 @@
                     
                 </div>
                 <div class="row no-gutters" id="WarrantRowTwo" style="margin-bottom:16px;">
-                    <div class="col-xl-12 offset-xl-0"><button id = "warrant-add" class="btn btn-primary active btn-block" type="button" style="margin-top:9px;background-color:rgb(241,241,241);color:rgb(0,0,0);">New Warrant</button></div>
+                    <div class="col-xl-12 offset-xl-0"><button id = "warrant-add" class="btn btn-primary active btn-block" type="button" style="margin-top:9px;background-color:rgb(241,241,241);color:rgb(0,0,0);">New Warrant</button><button id = "delete-warrant" class="btn btn-primary active btn-block" type="button" style="margin-top:9px;background-color:rgb(241,241,241);color:rgb(0,0,0);">Delete Warrant</button></div>
                 </div>
                 <div class="row no-gutters" id="WarrantRowThree" style="margin-bottom:16px;">
 

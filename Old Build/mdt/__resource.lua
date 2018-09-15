@@ -18,6 +18,8 @@ files {
 	'html/assets/img/lsfd.png',
 	'html/assets/img/report.png',
 	'html/assets/img/citation.png',
+	'html/assets/img/arrestreport.png',
+	'html/assets/img/warrant.png',
 }
 
 client_script 'client.lua'

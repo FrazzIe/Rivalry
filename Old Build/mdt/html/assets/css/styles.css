@@ -31,6 +31,75 @@
   position: center;
 }
 
+#citationcharges{
+  overflow-x:hidden;
+  overflow-y:hidden;
+}
+
+#arrestcharges {
+  overflow-y:auto;
+  overflow-x:hidden;
+  overflow-wrap:break-word;
+}
+
+#arrestdescription {
+  overflow-y:auto;
+  overflow-x:hidden;
+  overflow-wrap:break-word;
+}
+
+#mdinjuries {
+  overflow-x:hidden;
+  overflow-y:auto;
+}
+
+#mdtreatment {
+  overflow-x:hidden;
+  overflow-y:auto;
+}
+
+#warrantreason {
+  overflow-y:auto;
+  overflow-x:hidden;
+  overflow-wrap:break-word;
+}
+
+#warrantdescription {
+  overflow-y:auto;
+  overflow-x:hidden;
+  overflow-wrap:break-word;
+}
+
+#tableplayer {
+  overflow-y:auto;
+  overflow-x:hidden;
+  overflow-wrap:break-word;
+}
+
+#notepad {
+  overflow-y:auto;
+  overflow-x:hidden;
+  overflow-wrap:break-word;
+}
+
+#tabletickets{
+  overflow-y:auto;
+  overflow-x:hidden;
+  overflow-wrap:break-word;
+}
+
+#tablearrests{
+  overflow-y:auto;
+  overflow-x:hidden;
+  overflow-wrap:break-word;
+}
+
+#tablevehicles{
+  overflow-y:auto;
+  overflow-x:hidden;
+  overflow-wrap:break-word;
+}
+
 body{ height:100%;
   margin:0 auto; }
 

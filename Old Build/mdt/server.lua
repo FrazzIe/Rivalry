@@ -41,6 +41,14 @@ AddEventHandler('police:loadcitationslip', function(id)
     end)
 end)
 
+RegisterServerEvent('police:loadarrestslip')
+AddEventHandler('police:loadarrestslip', function(id)
+    local source = source
+    exports['GHMattiMySQL']:QueryResultAsync("SELECT * FROM police_arrests WHERE (id = @id)", {["@id"] = id}, function(arrest)
+        TriggerClientEvent( "police:loadselectarrest", source, arrest[1], openUI)
+    end)
+end)
+
 RegisterServerEvent("police:loadplayerdata")
 AddEventHandler("police:loadplayerdata", function(lastname, firstname)
     local source = source
@@ -103,7 +111,7 @@ AddEventHandler("police:loadarrestdata", function(firstname, lastname)
     local first_name = firstname
     local last_name = lastname
     local offender_name = first_name.." "..last_name
-    exports['GHMattiMySQL']:QueryResultAsync("SELECT * FROM characters WHERE (firstname = @first_name) AND (lastname = @last_name)", {["@first_name"] = first_name, ["@last_name"] = last_name}, function(character)
+    exports['GHMattiMySQL']:QueryResultAsync("SELECT * FROM characters WHERE (first_name = @first_name) AND (last_name = @last_name)", {["@first_name"] = first_name, ["@last_name"] = last_name}, function(character)
         exports['GHMattiMySQL']:QueryResultAsync("SELECT * FROM police_arrests WHERE (offender_name = @offender_name)", {["@offender_name"] = offender_name}, function(arrests)
             TriggerClientEvent( "police:loadarrestdata-client", source, arrests )
         end)
@@ -134,15 +142,16 @@ AddEventHandler("police:loadticketsdata", function(firstname, lastname)
 end)
 
 RegisterServerEvent("police:new-arrest")
-AddEventHandler("police:new-arrest", function(officer_name, offender_first_name, offender_last_name, charges, fine, sentence)
+AddEventHandler("police:new-arrest", function(officer_name, offender_first_name, offender_last_name, description, charges, fine, sentence)
     local source = source; timestamp = os.time();
-    local arrest = exports['GHMattiMySQL']:QueryResult("INSERT INTO police_arrests ( `timestamp`, `officer_name`, `offender_name`, `charges`, `fine`, `sentence` ) VALUES ( @timestamp, @officer_name, @offender_name, @charges, @fine, @sentence ); SELECT * FROM police_arrests WHERE `id` = (SELECT LAST_INSERT_ID());", { 
+    local arrest = exports['GHMattiMySQL']:QueryResult("INSERT INTO police_arrests ( `timestamp`, `officer_name`, `offender_name`, `description`, `charges`, `fine`, `sentence` ) VALUES ( @timestamp, @officer_name, @offender_name, @description, @charges, @fine, @sentence ); SELECT * FROM police_arrests WHERE `id` = (SELECT LAST_INSERT_ID());", { 
         ['@timestamp'] = timestamp,
         ['@officer_name'] = officer_name,
         ['@offender_name'] = offender_first_name.." "..offender_last_name,
         ['@sentence'] = sentence,
         ['@fine'] = fine,
         ['@charges'] = charges,
+        ['@description'] = description,
     })
     TriggerClientEvent("police:new-arrest", -1, arrest)
 end)
@@ -363,6 +372,13 @@ AddEventHandler('police:deleteannouncement', function(id)
     exports['GHMattiMySQL']:QueryAsync("DELETE FROM police_announcements WHERE id=@id", { ['@id'] = id})
 end)
 
+RegisterServerEvent('police:deletewarrant')
+AddEventHandler('police:deletewarrant', function(id)
+    local source = source
+    exports['GHMattiMySQL']:QueryAsync("DELETE FROM police_warrants WHERE id=@id", { ['@id'] = id})
+end)
+
+
 RegisterServerEvent('police:deletebolo')
 AddEventHandler('police:deletebolo', function(id)
     local source = source
@@ -400,10 +416,9 @@ AddEventHandler("police:load-events", function(openUI)
 end)
 
 RegisterServerEvent("police:selwarrants")
-AddEventHandler("police:selwarrants", function(namev)
+AddEventHandler("police:selwarrants", function(id)
     local source = source
-    local offender_name = namev
-    exports['GHMattiMySQL']:QueryResultAsync("SELECT * FROM police_warrants WHERE (offender_name = @offender_name)", {["@offender_name"] = offender_name}, function(warrant)
+    exports['GHMattiMySQL']:QueryResultAsync("SELECT * FROM police_warrants WHERE (id = @id)", {["@id"] = id}, function(warrant)
         TriggerClientEvent( "police:selectedwarrant", source, warrant[1] )
     end)
 end)
@@ -460,14 +475,15 @@ AddEventHandler("police:loadreport", function(idv)
 end)
 
 RegisterServerEvent("police:new-warrant")
-AddEventHandler("police:new-warrant", function(date, officer_name, offender_name, location, notes)
+AddEventHandler("police:new-warrant", function(firstname, lastname, description, officer, notes, evidence, signature, header)
     local source = source; timestamp = os.time();
-    local warrant = exports['GHMattiMySQL']:QueryResult("INSERT INTO police_warrants (`timestamp`,`officer_name`,`offender_name`,`location`,`notes`) VALUES (@timestamp,@officer_name,@offender_name,@location,@notes); SELECT * FROM police_warrants WHERE `id` = (SELECT LAST_INSERT_ID());", { 
+    local warrant = exports['GHMattiMySQL']:QueryResult("INSERT INTO police_warrants (`timestamp`,`officer_name`,`offender_name`,`description`,`notes`, `evidence`) VALUES (@timestamp,@officer_name,@offender_name,@description,@notes,@evidence); SELECT * FROM police_warrants WHERE `id` = (SELECT LAST_INSERT_ID());", { 
         ['@timestamp'] = timestamp,
-        ['@officer_name'] = officer_name,
-        ['@offender_name'] = offender_name,
-        ['@location'] = location,
+        ['@officer_name'] = officer,
+        ['@offender_name'] = firstname.." "..lastname,
+        ['@description'] = description,
         ['@notes'] = notes,
+        ['@evidence'] = evidence,
     })
     TriggerClientEvent("police:new-warrant", -1, warrant)
 end)

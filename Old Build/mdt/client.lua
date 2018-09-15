@@ -13,6 +13,7 @@ local loadplayerdata = {}
 local autofill = {}
 local PlayerPed = PlayerPedId()
 local emsrecord = {}
+local name = {}
 
 -- Open Gui and Focus NUI
 function openGui()
@@ -107,7 +108,7 @@ RegisterNUICallback('loadevents', function(data, cb)
 end)
 
 RegisterNUICallback('search', function(data, cb)
-	TriggerServerEvent('police:search-table', data)
+	TriggerServerEvent('police:search-table', data.firstname)
   cb('ok')
 end)
 
@@ -131,6 +132,12 @@ end)
 RegisterNUICallback('deleteannouncement', function(data, cb)
 	print(data.id)
 	TriggerServerEvent('police:deleteannouncement', tonumber(data.id))
+	cb('ok')
+end)
+
+RegisterNUICallback('deletewarrant', function(data, cb)
+	print(data.id)
+	TriggerServerEvent('police:deletewarrant', tonumber(data.id))
 	cb('ok')
 end)
 
@@ -193,7 +200,7 @@ RegisterNUICallback('vehicles', function(data, cb)
 end)
 
 RegisterNUICallback('submit-arrest', function(data, cb)
-	TriggerServerEvent('police:new-arrest', data.officer_name, data.firstname, data.lastname, data.charges, data.fine, data.sentence)
+	TriggerServerEvent('police:new-arrest', data.officer_name, data.firstname, data.lastname, data.description, data.charges, data.fine, data.sentence)
 	cb('ok')
 end)
 
@@ -233,7 +240,7 @@ RegisterNUICallback('load-notepad', function(data, cb)
 end)
 
 RegisterNUICallback('submit-warrant', function(data, cb)
-	TriggerServerEvent('police:new-warrant', data.timestamp, data.officer_name, data.offender_name, data.location, data.notes)
+	TriggerServerEvent('police:new-warrant', data.firstname, data.lastname, data.description, data.officer, data.reason, data.evidence, data.signature, data.header)
 	cb('ok')
 end)
 
@@ -243,7 +250,7 @@ RegisterNUICallback('warrantload', function(data, cb)
 end)
 
 RegisterNUICallback('load-warrant', function(data, cb)
-	TriggerServerEvent('police:selwarrants', data.name)
+	TriggerServerEvent('police:selwarrants', tonumber(data.id))
 	cb('ok')
 end)
 
@@ -274,6 +281,11 @@ end)
 
 RegisterNUICallback('loadcitationslip', function(data, cb)
 	TriggerServerEvent('police:loadcitationslip', tonumber(data.id))
+	cb('ok')
+end)
+
+RegisterNUICallback('loadarrestslip', function(data, cb)
+	TriggerServerEvent("police:loadarrestslip", tonumber(data.id))
 	cb('ok')
 end)
 
@@ -332,7 +344,7 @@ end)
 
 RegisterNetEvent('police:selectedwarrant')
 AddEventHandler('police:selectedwarrant', function(warrant)
-	SendNUIMessage({openSection = "loadselectedwarrant", timestamp = warrant.timestamp, officer_name = warrant.officer_name, offender_name = warrant.offender_name, notes = warrant.notes, location = warrant.location})
+	SendNUIMessage({openSection = "loadselectedwarrant", offender_name = warrant.offender_name, id = warrant.id, description = warrant.description, datez = warrant.timestamp, officer = warrant.officer_name, reason = warrant.notes, evidence = warrant.evidence, signature = warrant.officer_name})
 end)
 
 RegisterNetEvent("police:load-searchtable")
@@ -454,6 +466,12 @@ end)
 RegisterNetEvent('police:loadselectcitation')
 AddEventHandler('police:loadselectcitation', function(report)
 	SendNUIMessage({openSection = "loadSelectedCitation", name = report.offender_name, id = report.id, date = report.timestamp, plate = report.plate, model = report.model, color = report.color, street = report.street, city = report.city, charges = report.violations, fine = report.fine, officer_name = report.officer_name })
+end)
+
+RegisterNetEvent('police:loadselectarrest')
+AddEventHandler('police:loadselectarrest', function(arrest)
+	SendNUIMessage({openSection = "loadSelectedArrest", name = arrest.offender_name, id = arrest.id, description = arrest.description, date = arrest.timestamp, officer = arrest.officer_name, charges = arrest.charges, jail = arrest.sentence, fine = arrest.fine, signature = arrest.officersignature})
+	name = {}
 end)
 --[[
 =================================================================================================================================================================================================================================================
