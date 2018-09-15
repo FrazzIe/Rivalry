@@ -88,6 +88,18 @@
   overflow-wrap:break-word;
 }
 
+#tableems{
+  overflow-y:auto;
+  overflow-x:hidden;
+  overflow-wrap:break-word;
+}
+
+#patientnotepadval{
+  overflow-y:auto;
+  overflow-x:hidden;
+  overflow-wrap:break-word;
+}
+
 #tablearrests{
   overflow-y:auto;
   overflow-x:hidden;
