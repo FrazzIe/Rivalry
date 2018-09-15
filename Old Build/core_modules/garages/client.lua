@@ -667,7 +667,7 @@ function garage()
                 table.insert(slots, ""..i)
             end
             if(Menu.GarageArray("Slots:", slots, garageposition,function(cb) garageposition = cb end)) then
-                currentgaragecost = tostring(tonumber(currentgarage.cost) + slotprice * (garageposition - 1))
+                currentgaragecost = tostring(tonumber(currentgarage.cost) + (slotprice * (garageposition - 1)))
             end         
         end)
     else
@@ -850,7 +850,7 @@ function GarageOptions()
 end
 
 function subGarageOptions(garage)
-    local currentgaragecost = 1000
+    local currentgaragecost = 500
     Menu.SetupMenu("subgarage_options_menu",emplacement_garage[garage.garage_id].gname)
     Menu.Switch("garage_options_menu","subgarage_options_menu")
     currentOption = 0
