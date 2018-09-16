@@ -285,6 +285,7 @@ Farm = {
 		},
 		Time = 0,
 		Limit = 12,
+		ClosestCrop = nil,
 	},
 }
 
@@ -490,18 +491,6 @@ function Farm:IsCropOwnedByPlayer(FieldIndex, Crop)
 	return false, nil, nil
 end
 
-function Farm:IsPlayerNearCrop(Field, PlayerPosition)
-	local ClosestCrop = GetClosestObjectOfType(PlayerPosition.x, PlayerPosition.y, PlayerPosition.z, Field.Crop.Radius, Field.Crop.ModelHash, false, false, false)
-	return (ClosestCrop ~= 0) and true or false, ClosestCrop
-end
-
-function Farm:DisplayPlantedCropsInfo(PlayerPed, PlayerPosition, FieldIndex)
-	for Index = 1, #Farm.Data.Planted[FieldIndex] do
-		local Percentage, Stage, StageStr = self:GetCropDetails(Farm.Data.Fields[FieldIndex], Farm.Data.Planted[Index])
-		Utilities.Display3DText("["..Percentage.."%] - "..StageStr, Farm.Data.Planted[Index].Position.x, Farm.Data.Planted[Index].Position.y, Farm.Data.Planted[Index].Position.z + Farm.Data.Fields[FieldIndex].Crop.OffsetZ, 0, 0.4, 255, 255, 255, 255, "Centre", true, true)
-	end
-end
-
 function Farm:ManageFieldActivity(PlayerPosition)
 	for Index = 1, #Farm.Data.Fields do
 		if Vdist(Farm.Data.Fields[Index].Centre.x, Farm.Data.Fields[Index].Centre.y, 0, PlayerPosition.x, PlayerPosition.y, 0) < Farm.Data.Fields[Index].Longest then
@@ -523,15 +512,13 @@ function Farm:ManageFields(PlayerPed, PlayerPosition)
 				Farm.Data.Fields[Index].CurrentPath = 1
 
 				if not IsPedInAnyVehicle(PlayerPed, false) then
-					self:DisplayPlantedCropsInfo(PlayerPed, PlayerPosition, Index)
-
-					local NearCrop, ClosestCrop = self:IsPlayerNearCrop(Farm.Data.Fields[Index], PlayerPosition)
-
-					if NearCrop then
-						local IsOwned, Crop, CropIndex = self:IsCropOwnedByPlayer(Index, ClosestCrop)
+					if Farm.Data.ClosestCrop ~= 0 then
+						local IsOwned, Crop, CropIndex = self:IsCropOwnedByPlayer(Index, Farm.Data.ClosestCrop)
 
 						if IsOwned then
 							local Percentage, Stage, StageStr = self:GetCropDetails(Farm.Data.Fields[Index], Crop)
+
+							Utilities.Display3DText("["..Percentage.."%] - "..StageStr, Farm.Data.Planted[Index][CropIndex].Position.x, Farm.Data.Planted[Index][CropIndex].Position.y, Farm.Data.Planted[Index][CropIndex].Position.z + Farm.Data.Fields[Index].Crop.OffsetZ, 0, 0.4, 255, 255, 255, 255, "Centre", true, true)
 
 							if Stage >= 2 then
 								if not IsPedUsingScenario(PlayerPed, Farm.Data.Scenario) then
@@ -623,9 +610,7 @@ function Farm:ManageActivity(PlayerPed, PlayerPosition)
 					end
 
 					Farm.Data.Blips = {}
-					Farm.Data.Planted = {
-						{}, {}, {}, {}
-					}
+					Farm.Data.Planted = {{}, {}, {}, {}}
 				end
 
 				TriggerServerEvent("Farm.Activity", self.Data.OnDuty)
@@ -641,10 +626,19 @@ Citizen.CreateThread(function()
 
 		Farm:ManageFieldActivity(PlayerPosition)
 
+		for Index = 1, #Farm.Data.Fields do
+			if Farm.Data.Fields[Index].Active then
+				if Farm.Data.Fields[Index].Raked then
+					if not IsPedInAnyVehicle(PlayerPed, false) then
+						Farm.Data.ClosestCrop = GetClosestObjectOfType(PlayerPosition.x, PlayerPosition.y, PlayerPosition.z, Farm.Data.Fields[Index].Crop.Radius, Farm.Data.Fields[Index].Crop.ModelHash, false, false, false)
+					end
+				end
+			end
+		end
+
 		Citizen.Wait(1000)
 	end
 end)
-
 
 Citizen.CreateThread(function()
 	for Index = 1, #Farm.Data.Fields do

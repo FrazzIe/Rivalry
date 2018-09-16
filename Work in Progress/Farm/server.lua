@@ -111,7 +111,7 @@ RegisterServerEvent("Farm.Activity")
 AddEventHandler("Farm.Activity", function(Status)
 	local Source = source
 
-	Farm.Planted[Source] = {}
+	Farm.Planted[Source] = {{},{},{},{}}
 	Farm.Players[Source] = Status
 
 	TriggerClientEvent("Farm.Sync", Source, Farm.Fields, Farm.Players, os.time(), Farm.Planted[Source])
