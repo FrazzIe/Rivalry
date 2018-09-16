@@ -713,10 +713,10 @@ function closeAllPoliceWithFooter() {
     }
 
     function fillCitationSlip(name, id, datez, plate, model, color, street, city, charges, fine, officer_name){
-        var dateVal ="/Date(" + (datez * 1000) + ")/"; var date = new Date( parseFloat( dateVal.substr(6 ))); let timestamp = (date.getMonth() + 1) + "/" +    date.getDate() + "/" + date.getFullYear()    
+        var dateVal ="/Date(" + (datez * 1000) + ")/"; var date = new Date( parseFloat( dateVal.substr(6 ))); let timestamp = (date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear()    
         $('p#citationname').text(name);
         $('p#citationid').text(id);
-        $('p#citationdate').text(date);
+        $('p#citationdate').text(timestamp);
         $('p#citiationplate').text(plate);
         $('p#citationmodel').text(model);
         $('p#citationcolor').text(color);
@@ -1081,7 +1081,7 @@ function closeAllPoliceWithFooter() {
     }
 
     function FillSlip(firstname, lastname, age, gender, datez, location, description, treatment, parasign, docsign){
-        var dateVal ="/Date(" + (datez * 1000) + ")/"; var date = new Date( parseFloat( dateVal.substr(6 ))); let timestamp = (date.getMonth() + 1) + "/" +    date.getDate() + "/" + date.getFullYear() + " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds()    
+        var dateVal ="/Date(" + (datez * 1000) + ")/"; var date = new Date( parseFloat( dateVal.substr(6 ))); let timestamp = (date.getMonth() + 1) + "/" +    date.getDate() + "/" + date.getFullYear()    
         $('p#mdfirstname').text(firstname);
         $('p#mdlastname').text(lastname);
         $('p#mdage').text(age);

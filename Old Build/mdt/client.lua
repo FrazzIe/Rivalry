@@ -10,10 +10,10 @@ local bolos = {}
 local events = {}
 local notepad = {}
 local loadplayerdata = {}
-local autofill = {}
 local PlayerPed = PlayerPedId()
 local emsrecord = {}
 local name = {}
+local chargestable = {}
 
 -- Open Gui and Focus NUI
 function openGui()
@@ -158,18 +158,24 @@ RegisterNUICallback('emsreportsload', function(data, cb)
 	cb('ok')
 end)
 
+
+RegisterNetEvent('AutoFillCharges')
+AddEventHandler('AutoFillCharges', function(table)
+	chargestable = table
+end)
+
 RegisterNUICallback('autofillArrest', function(data, cb)
- 	autofill = exports.policejob:AutoFill()
+	local autofill = chargestable
 	SendNUIMessage({openSection = "autofill_arrests", charges = autofill.charges, fine = autofill.cost, officer_name = autofill.officer, offender_name = autofill.name, sentence = autofill.time})
+	chargestable = {}
 	cb('ok')
-	autofill = {}
 end)
 
 RegisterNUICallback('autofillCitations', function(data, cb)
-	autofill = exports.policejob:AutoFill()
+	local autofill = chargestable
 	SendNUIMessage({openSection = "autofill_citations", charges = autofill.charges, fine = autofill.cost, officer_name = autofill.officer, offender_name = autofill.name})
+	chargestable = {}
 	cb('ok')
-	autofill = {}
 end)
 
 RegisterNUICallback('arrests', function(data, cb)
