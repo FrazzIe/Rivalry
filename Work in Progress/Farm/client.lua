@@ -3,7 +3,7 @@ Farm = {
 		IsFarmer = false,
 		OnDuty = false,
 		Locations = {
-			Service = {},
+			Service = {x = 2243.458984375, y = 5154.3515625, z = 57.887111663818, h = 147.62580871582},
 			Tractor = {},
 			Rake = {},
 		},
@@ -13,6 +13,13 @@ Farm = {
 					Model = "prop_veg_crop_02",
 					OffsetZ = 1.2,
 					Radius = 1.0,
+					Stage = {
+						"1",
+						"2",
+						"3",
+						"4",
+						"Ready",
+					},
 				},
 				Path = {
 					{x = 2139.2197265625, y = 5204.58984375, z = 57.967384338379, h = 222.92823791504},
@@ -73,6 +80,7 @@ Farm = {
 					Colour = 59,
 				},
 				Raked = false,
+				Active = false,
 			},
 			{
 				Crop = {
@@ -85,7 +93,7 @@ Farm = {
 						"6-8 True Leaf",
 						"9-12 True Leaf",
 						"Ready",
-					}
+					},
 				},
 				Path = {
 					{x = 2045.6480712891, y = 4963.841796875, z = 41.097553253174, h = 222.77256774902},
@@ -140,12 +148,20 @@ Farm = {
 					Colour = 2,
 				},
 				Raked = false,
+				Active = false,
 			},
 			{
 				Crop = {
 					Model = "prop_veg_crop_03_pump",
 					OffsetZ = 1,
 					Radius = 1.0,
+					Stage = {
+						"1",
+						"2",
+						"3",
+						"4",
+						"Ready",
+					},
 				},
 				Path = {
 					{x = 2006.7590332031, y = 4923.978515625, z = 42.887752532959, h = 225.39208984375},
@@ -195,12 +211,20 @@ Farm = {
 					Colour = 64,
 				},
 				Raked = false,
+				Active = false,
 			},
 			{
 				Crop = {
 					Model = "prop_veg_crop_orange",
 					OffsetZ = 1.5,
 					Radius = 2.0,
+					Stage = {
+						"1",
+						"2",
+						"3",
+						"4",
+						"Ready",
+					},
 				},
 				Path = {
 					{x = 2296.9221191406, y = 5166.50390625, z = 57.732807159424, h = 225.7225189209},
@@ -241,9 +265,15 @@ Farm = {
 					Colour = 47,
 				},
 				Raked = false,
+				Active = false,
 			},
 		},
-		Planted = {},
+		Planted = {
+			{},
+			{},
+			{},
+			{},
+		},
 		Players = {},
 		Blips = {},
 		Scenario = "WORLD_HUMAN_GARDENER_PLANT",
@@ -422,7 +452,7 @@ function Farm:GetCropDetails(Field, Crop)
 	local Percentage = math.floor(((Farm.Data.Time - Crop.Time.Start) / (Crop.Time.End - Crop.Time.Start)) * 100)
 	local Stage = (Percentage >= 100) and 5 or ((Percentage >= 80) and 4 or ((Percentage >= 70) and 3 or ((Percentage >= 50) and 2 or 1)))
 
-	return (Percentage < 0) and 0 or (Percentage > 100) and 100 or Percentage, Field.Crop.Stage[Stage] or "Seed"
+	return (Percentage < 0) and 0 or (Percentage > 100) and 100 or Percentage, Stage, Field.Crop.Stage[Stage] or "Seed"
 end
 
 function Farm:CreateCrop(Index, Field, PlayerPosiiton)
@@ -444,17 +474,17 @@ function Farm:CreateCrop(Index, Field, PlayerPosiiton)
 end
 
 function Farm:RemoveCrop(FieldIndex, CropIndex)
-	if Farm.Data.Planted[Index] then
-		DestroyObject(Farm.Data.Planted[Index].Handle)
+	if Farm.Data.Planted[FieldIndex][CropIndex] then
+		DestroyObject(Farm.Data.Planted[FieldIndex][CropIndex].Handle)
 
 		TriggerServerEvent("Farm.Harvest", FieldIndex, CropIndex)
 	end
 end
 
-function Farm:IsCropOwnedByPlayer(Crop)
-	for Index = 1, #Farm.Data.Planted do
-		if Crop == Farm.Data.Planted[Index].Handle then
-			return true, Farm.Data.Planted[Index], Index
+function Farm:IsCropOwnedByPlayer(FieldIndex, Crop)
+	for Index = 1, #Farm.Data.Planted[FieldIndex] do
+		if Crop == Farm.Data.Planted[FieldIndex][Index].Handle then
+			return true, Farm.Data.Planted[FieldIndex][Index], Index
 		end
 	end
 	return false, nil, nil
@@ -465,44 +495,43 @@ function Farm:IsPlayerNearCrop(Field, PlayerPosition)
 	return (ClosestCrop ~= 0) and true or false, ClosestCrop
 end
 
-function Farm:IsPlayerInField(Field, PlayerPosition)
-	if Vdist(Field.Centre.x, Field.Centre.y, 0, PlayerPosition.x, PlayerPosition.y, 0) < Field.Longest then
-		if IsPointInPolygon(PlayerPosition, Field.Points) ~= 0 then
-			return true
-		else
-			return false
-		end
-	else
-		return false
+function Farm:DisplayPlantedCropsInfo(PlayerPed, PlayerPosition, FieldIndex)
+	for Index = 1, #Farm.Data.Planted[FieldIndex] do
+		local Percentage, Stage, StageStr = self:GetCropDetails(Farm.Data.Fields[FieldIndex], Farm.Data.Planted[Index])
+		Utilities.Display3DText("["..Percentage.."%] - "..StageStr, Farm.Data.Planted[Index].Position.x, Farm.Data.Planted[Index].Position.y, Farm.Data.Planted[Index].Position.z + Farm.Data.Fields[FieldIndex].Crop.OffsetZ, 0, 0.4, 255, 255, 255, 255, "Centre", true, true)
 	end
 end
 
-function Farm:DisplayPlantedCropsInfo(PlayerPed, PlayerPosition, Field)
-	for Index = 1, #Farm.Data.Planted do
-		if Vdist(PlayerPosition.x, PlayerPosition.y, PlayerPosition.z, Farm.Data.Planted[Index].Position.x, Farm.Data.Planted[Index].Position.y, Farm.Data.Planted[Index].Position.z) < 5 then
-			local Percentage, Stage = self:GetCropDetails(Field, Farm.Data.Planted[Index])
-
-			Utilities.Display3DText("["..Percentage.."%] - "..Stage, Farm.Data.Planted[Index].Position.x, Farm.Data.Planted[Index].Position.y, Farm.Data.Planted[Index].Position.z + Field.Crop.OffsetZ, 0, 0.4, 255, 255, 255, 255, "Centre", true, true)
+function Farm:ManageFieldActivity(PlayerPosition)
+	for Index = 1, #Farm.Data.Fields do
+		if Vdist(Farm.Data.Fields[Index].Centre.x, Farm.Data.Fields[Index].Centre.y, 0, PlayerPosition.x, PlayerPosition.y, 0) < Farm.Data.Fields[Index].Longest then
+			if IsPointInPolygon(PlayerPosition, Farm.Data.Fields[Index].Points) ~= 0 then
+				Farm.Data.Fields[Index].Active = true
+			else
+				Farm.Data.Fields[Index].Active = false
+			end
+		else
+			Farm.Data.Fields[Index].Active = false
 		end
 	end
 end
 
 function Farm:ManageFields(PlayerPed, PlayerPosition)
 	for Index = 1, #Farm.Data.Fields do
-		if self:IsPlayerInField(Farm.Data.Fields[Index], PlayerPosition) then
+		if Farm.Data.Fields[Index].Active then
 			if Farm.Data.Fields[Index].Raked then
 				Farm.Data.Fields[Index].CurrentPath = 1
 
 				if not IsPedInAnyVehicle(PlayerPed, false) then
-					self:DisplayPlantedCropsInfo(PlayerPed, PlayerPosition, Farm.Data.Fields[Index])
+					self:DisplayPlantedCropsInfo(PlayerPed, PlayerPosition, Index)
 
 					local NearCrop, ClosestCrop = self:IsPlayerNearCrop(Farm.Data.Fields[Index], PlayerPosition)
 
 					if NearCrop then
-						local IsOwned, Crop, CropIndex = self:IsCropOwnedByPlayer(ClosestCrop)
+						local IsOwned, Crop, CropIndex = self:IsCropOwnedByPlayer(Index, ClosestCrop)
 
 						if IsOwned then
-							local Percentage, Stage = self:GetCropDetails(Farm.Data.Fields[Index], Crop)
+							local Percentage, Stage, StageStr = self:GetCropDetails(Farm.Data.Fields[Index], Crop)
 
 							if Stage >= 2 then
 								if not IsPedUsingScenario(PlayerPed, Farm.Data.Scenario) then
@@ -524,7 +553,7 @@ function Farm:ManageFields(PlayerPed, PlayerPosition)
 						end
 					else
 						if not IsPedUsingScenario(PlayerPed, Farm.Data.Scenario) then
-							if #Farm.Data.Planted < Farm.Data.Limit then
+							if #Farm.Data.Planted[Index] < Farm.Data.Limit then
 								Utilities.DisplayHelpText("Press ~INPUT_CONTEXT~ to plant a seed!")
 								if IsControlJustPressed(1, 51) then
 									Citizen.CreateThread(function()
@@ -571,16 +600,16 @@ end
 function Farm:ManageActivity(PlayerPed, PlayerPosition)
 	local Distance = Vdist(PlayerPosition.x, PlayerPosition.y, PlayerPosition.z, self.Data.Locations.Service.x, self.Data.Locations.Service.y, self.Data.Locations.Service.z)
 	if Distance < 20 then
-		Utilities.RenderMarker(25,  self.Data.Locations.Service.x, self.Data.Locations.Service.y, self.Data.Locations.Service.z), 1.5, 1.5, 2.0, 255, 0, 0, 100)
+		Utilities.RenderMarker(25, self.Data.Locations.Service.x, self.Data.Locations.Service.y, self.Data.Locations.Service.z, 1.5, 1.5, 2.0, 255, 0, 0, 100)
 
 		if Distance < 1.5 then
-			Utilities.DisplayHelpText("Press ~INPUT_CONTEXT~ to go "..(self.Data.OnDuty and "~g~on duty" or "~r~off duty").."~w~!")
+			Utilities.DisplayHelpText("Press ~INPUT_CONTEXT~ to go "..(self.Data.OnDuty and "~r~off duty" or "~g~on duty").."~w~!")
 			if IsControlJustPressed(1, 51) then
 				self.Data.OnDuty = not self.Data.OnDuty
 
 				if self.Data.OnDuty then
 					for Index = 1, #Farm.Data.Fields do
-						table.insert(Farm.Blips, CreateBlip(Farm.Data.Fields[Index].Blip.Name, Farm.Data.Fields[Index].Blip.Sprite, Farm.Data.Fields[Index].Blip.Colour, Farm.Data.Fields[Index].Blip.x, Farm.Data.Fields[Index].Blip.y, Farm.Data.Fields[Index].Blip.z))
+						table.insert(Farm.Data.Blips, CreateBlip(Farm.Data.Fields[Index].Blip.Name, Farm.Data.Fields[Index].Blip.Sprite, Farm.Data.Fields[Index].Blip.Colour, Farm.Data.Fields[Index].Blip.Coordinates.x, Farm.Data.Fields[Index].Blip.Coordinates.y, Farm.Data.Fields[Index].Blip.Coordinates.z))
 					end
 				else
 					for Index = 1, #Farm.Data.Blips do
@@ -588,11 +617,15 @@ function Farm:ManageActivity(PlayerPed, PlayerPosition)
 					end
 
 					for Index = 1, #Farm.Data.Planted do
-						DestroyObject(Farm.Data.Planted.Handle)
+						for Crop = 1, #Farm.Data.Planted[Index] do
+							DestroyObject(Farm.Data.Planted[Index][Crop].Handle)
+						end
 					end
 
 					Farm.Data.Blips = {}
-					Farm.Data.Planted = {}
+					Farm.Data.Planted = {
+						{}, {}, {}, {}
+					}
 				end
 
 				TriggerServerEvent("Farm.Activity", self.Data.OnDuty)
@@ -600,6 +633,18 @@ function Farm:ManageActivity(PlayerPed, PlayerPosition)
 		end
 	end
 end
+
+Citizen.CreateThread(function()
+	while true do
+		local PlayerPed = PlayerPedId()
+		local PlayerPosition = GetEntityCoords(PlayerPed, false)
+
+		Farm:ManageFieldActivity(PlayerPosition)
+
+		Citizen.Wait(1000)
+	end
+end)
+
 
 Citizen.CreateThread(function()
 	for Index = 1, #Farm.Data.Fields do
