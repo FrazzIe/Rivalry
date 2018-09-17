@@ -18,42 +18,42 @@ local secondsRemaining = 0
 local stores = {
 	["paleto_twentyfourseven"] = {
 		position = { ['x'] = 1730.35949707031, ['y'] = 6416.7001953125, ['z'] = 35.0372161865234 },
-		reward = 750,
+		reward = 1000,
 		nameofstore = "24/7 (Paleto Bay)",
 		time = 120,
 		lastrobbed = 0
 	},
 	["sandyshores_twentyfourseven"] = {
 		position = { ['x'] = 1960.4197998047, ['y'] = 3742.9755859375, ['z'] = 32.343738555908 },
-		reward = 750750,
+		reward = 1000,
 		nameofstore = "24/7 (Sandy Shores)",
 		time = 120,
 		lastrobbed = 0
 	},
 	["bar_one"] = {
 		position = { ['x'] = 1986.1240234375, ['y'] = 3053.8747558594, ['z'] = 47.215171813965 },
-		reward = 750,
+		reward = 2000,
 		nameofstore = "Yellow Jack. (Sandy Shores)",
 		time = 120,
 		lastrobbed = 0
 	},
 	["littleseoul_twentyfourseven"] = {
 		position = { ['x'] = -709.17022705078, ['y'] = -904.21722412109, ['z'] = 19.215591430664 },
-		reward = 750,
+		reward = 2000,
 		nameofstore = "24/7 (Little Seoul)",
 		time = 120,
 		lastrobbed = 0
 	},
 	["palomino_twentyfourseven"] = {
 		position = { ['x'] = 2553.1997070313, ['y'] = 383.5231628418, ['z'] = 108.62293243408 },
-		reward = 750,
+		reward = 1000,
 		nameofstore = "24/7 (Palomino Fwy)",
 		time = 120,
 		lastrobbed = 0
 	},
 	["richman_twentyfourseven"] = {
 		position = { ['x'] = -1826.9853515625, ['y'] = 797.06665039063, ['z'] = 138.17137145996 },
-		reward = 750,
+		reward = 1000,
 		nameofstore = "24/7 (Richman Glen)",
 		time = 120,
 		lastrobbed = 0
