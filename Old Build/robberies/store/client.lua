@@ -31,7 +31,7 @@ local stores = {
 		lastrobbed = 0
 	},
 	["bar_one"] = {
-		position = { ['x'] = 1986.1240234375, ['y'] = 3053.8747558594, ['z'] = 47.215171813965 },
+		position = { ['x'] = 1987.2840576172, ['y'] = 3050.7956542969, ['z'] = 47.215110778809 },
 		reward = 2000,
 		nameofstore = "Yellow Jack. (Sandy Shores)",
 		time = 120,
