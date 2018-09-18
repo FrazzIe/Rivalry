@@ -95,7 +95,7 @@ local trucker_destinations = { --trailers models that are good: trailers, traile
 		Trailer = "trailers3"
 	},
 	{
-		Destination = {x = 15.56547164917, y = -1341.5375976563, z = 29.285680770874},
+		Destination = {x = -24.754581451416, y = -1354.4033203125, z = 29.153381347656},
 		Tier = 2,
 		Trailer = "trailers3"
 	},
