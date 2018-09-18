@@ -74,7 +74,7 @@ cfg = {
 				1.0,		--	17: Service
 				0.50,		--	18: Emergency
 				0.25,		--	19: Military
-				1.0,		--	20: Commercial
+				0.25,		--	20: Commercial
 				1.0			--	21: Trains
 	}
 }
