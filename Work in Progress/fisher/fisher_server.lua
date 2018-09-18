@@ -68,6 +68,7 @@ AddEvenHandler('updatePrices', function(mostSoldFish, leastSoldFish)
 		if prices[mostSoldFish] <= 500 and prices[leastSoldFish] >= 25 then
 			prices[mostSoldFish] = prices[mostSoldFish] - 25
 			prices[leastSoldFish] = prices[leastSoldFish] + 25
+		end
 	end
 end)
 
