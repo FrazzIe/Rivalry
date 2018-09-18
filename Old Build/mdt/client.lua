@@ -108,7 +108,7 @@ RegisterNUICallback('loadevents', function(data, cb)
 end)
 
 RegisterNUICallback('search', function(data, cb)
-	TriggerServerEvent('police:search-table', data.firstname)
+	TriggerServerEvent('police:search-table', data.firstname, data.lastname)
   cb('ok')
 end)
 
@@ -118,8 +118,7 @@ RegisterNUICallback('emssearch', function(data, cb)
 end)
 
 RegisterNUICallback('player', function(data, cb)
-	TriggerServerEvent('police:loadplayerdata', data.lastname, data.firstname)
-	firstname, lastname = data.firstname, data.lastname
+	TriggerServerEvent('police:loadplayerdata', tonumber(data.id))
   	cb('ok')
 end)
 
@@ -198,7 +197,7 @@ end)
 
 RegisterNUICallback('vehicles', function(data, cb)
 	if (#vehicles == 0) then
-		TriggerServerEvent('police:loadvehiclesdata', data.firstname, data.lastname)
+		TriggerServerEvent('police:loadvehiclesdata', tonumber(data.id))
 	else
 		SendNUIMessage({openSection = "playervehicles", list = vehicles})
 	end
@@ -241,7 +240,7 @@ RegisterNUICallback('emsnotepad', function(data, cb)
 end)
 
 RegisterNUICallback('load-notepad', function(data, cb)
-	TriggerServerEvent('police:load-notepad', data.firstname, data.lastname)
+	TriggerServerEvent('police:load-notepad', tonumber(data.id))
 	cb('ok')
 end)
 

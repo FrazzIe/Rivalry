@@ -50,20 +50,21 @@ AddEventHandler('police:loadarrestslip', function(id)
 end)
 
 RegisterServerEvent("police:loadplayerdata")
-AddEventHandler("police:loadplayerdata", function(lastname, firstname)
+AddEventHandler("police:loadplayerdata", function(id)
     local source = source
-    local first_name = firstname
-    local last_name = lastname
-    local offender_name = first_name.." "..last_name
-    local character_id = 0
+    local offender_name = ""
+    local character_id = id
     local weapons_license = nil
     local drivers_license = nil
-    exports['GHMattiMySQL']:QueryResultAsync("SELECT * FROM characters WHERE (first_name = @first_name) AND (last_name = @last_name)", {["@first_name"] = first_name, ["@last_name"] = last_name}, function(character)
-        character_id = character[1].character_id
+    local first_name, last_name = "",""
+    exports['GHMattiMySQL']:QueryResultAsync("SELECT * FROM characters WHERE (character_id = @character)", {["@character_id"] = id}, function(character)
         weapons_license = character[1].weapon_license
         drivers_license = character[1].drivers_license
+        offender_name = character[1].first_name.." "..character[1].last_name
+        first_name = character[1].first_name
+        last_name = character[1].last_name
     end)
-    exports['GHMattiMySQL']:QueryResultAsync("SELECT * FROM police_warrants WHERE (offender_name = @offender_name)", {["@offender_name"] = offender_name}, function(warrants)
+    --[[exports['GHMattiMySQL']:QueryResultAsync("SELECT * FROM police_warrants WHERE (offender_name = @offender_name)", {["@offender_name"] = offender_name}, function(warrants)
         exports['GHMattiMySQL']:QueryResultAsync("SELECT * FROM police_arrests WHERE (offender_name = @offender_name)", {["@offender_name"] = offender_name}, function(arrests)
             exports['GHMattiMySQL']:QueryResultAsync("SELECT * FROM police_violations WHERE (offender_name = @offender_name)", {["@offender_name"] = offender_name}, function(tickets)
                 exports['GHMattiMySQL']:QueryResultAsync("SELECT * FROM police_notepad WHERE (character_id = @character_id)", {["@character_id"] = character_id}, function(notes)
@@ -75,6 +76,11 @@ AddEventHandler("police:loadplayerdata", function(lastname, firstname)
                 end)
             end)
         end)
+    end)--]]
+    exports['GHMattiMySQL']:QueryResultAsync("SELECT * FROM police_warrants WHERE (offender_name = @offender_name) UNION SELECT * FROM police_arrests WHERE (offender_name = @offender_name) UNION SELECT * FROM police_violations WHERE (offender_name = @offender_name) UNION SELECT * FROM vehicles WHERE (character_id = @character_id) UNION SELECT * FROM police_notepad WHERE (character_id = @character_id)", {["@offender_name"] = offender_name}, function(values)
+        TriggerClientEvent( "police:loadplayerdata-client", source, first_name, last_name, character_id, #values[1], #values[2], #vales[3], weapons_license, drivers_license )
+        TriggerClientEvent( "police:loadvehiclesdata-client", source, values[4] )
+        TriggerClientEvent('client:load-notepad', source, vales[5]) 
     end)
 end)
 

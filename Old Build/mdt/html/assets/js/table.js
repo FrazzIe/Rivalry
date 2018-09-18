@@ -235,12 +235,13 @@ function closeAllPoliceWithFooter() {
         
         firstnamev = values[2]
         lastnamev = values[1]
+        idv = values[0]
         
-        $.post('http://mdt/player', JSON.stringify({lastname: lastnamev, firstname: firstnamev}));
+        $.post('http://mdt/player', JSON.stringify({id: idv}));
         $.post('http://mdt/arrests', JSON.stringify({lastname: lastnamev, firstname: firstnamev}));
         $.post('http://mdt/tickets', JSON.stringify({lastname: lastnamev, firstname: firstnamev}));
-        $.post('http://mdt/vehicles', JSON.stringify({lastname: lastnamev, firstname: firstnamev}));
-        $.post('http://mdt/load-notepad', JSON.stringify({firstname: firstnamev, lastname: lastnamev}));
+        $.post('http://mdt/vehicles', JSON.stringify({id: idv}));
+        $.post('http://mdt/load-notepad', JSON.stringify({id: idv}));
     });
 
     $("#searchplayer").click(function(event){
