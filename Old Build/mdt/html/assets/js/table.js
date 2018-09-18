@@ -238,10 +238,10 @@ function closeAllPoliceWithFooter() {
         idv = values[0]
         
         $.post('http://mdt/player', JSON.stringify({id: idv}));
-        /*$.post('http://mdt/arrests', JSON.stringify({lastname: lastnamev, firstname: firstnamev}));
+        $.post('http://mdt/arrests', JSON.stringify({lastname: lastnamev, firstname: firstnamev}));
         $.post('http://mdt/tickets', JSON.stringify({lastname: lastnamev, firstname: firstnamev}));
         $.post('http://mdt/vehicles', JSON.stringify({id: idv}));
-        $.post('http://mdt/load-notepad', JSON.stringify({id: idv}));*/
+        $.post('http://mdt/load-notepad', JSON.stringify({id: idv}));
     });
 
     $("#searchplayer").click(function(event){
@@ -534,10 +534,10 @@ function closeAllPoliceWithFooter() {
         isDeleting = true
     });
     $("#warrant-remove").click(function(){
-	    if (confirm('Are you sure you want permanently delete this warrant?') === true) {
-	      $.post('http://mdt/warrantDelete', JSON.stringify({desc: $("#warrantid").val()}));
-	    }
-  	});
+        if (confirm('Are you sure you want permanently delete this warrant?') === true) {
+          $.post('http://mdt/warrantDelete', JSON.stringify({desc: $("#warrantid").val()}));
+        }
+    });
     $("#notepad-submit").click(function(event){
             var notepadtext = $("#notepad").val();
             var firstnamecheck = $("#playerfirstname").html();
@@ -552,80 +552,80 @@ function closeAllPoliceWithFooter() {
     });
     $('#report-submit').click(function(event){
         if (confirm('Are you sure you want to submit this report?') === true) {
-        	var reportfullname = $('#reportfullname').val();
-        	var reportage = $('#reportage').val();
-        	var reportphonenumber = $('#reportphonenumber').val();
-        	var reportdate = $('#reportdate').val();
-        	var reporttime = $('#reporttime').val();
-        	var reportpolice = $('#reportpolice').val();
-        	var reportlocation = $('#reportlocation').val();
-        	var reportdescription = $('#reportdescription').val();
-        	var reportwchecky = $('#reportwchecky').is(":checked");
-        	var reportwcheckn = $('#reportwcheckn').is(":checked");
-        	var reportdetails = $('#reportdetails').val();
-        	var reportinjury = $('#reportinjury').val();
-        	var reportmedicaly = $('#reportmedicaly').is(":checked");
-        	var reportmedicaln = $('#reportmedicaln').is(":checked");
-        	var reportmedicalr = $('#reportmedicalr').is(":checked");
-        	var reportmedicalon = $('#reportmedicalon').is(":checked");
-        	var reportmedicaluc = $('#reportmedicaluc').is(":checked");
-        	var reportmedicaler = $('#reportmedicaler').is(":checked");
-        	var reportmedicalother = $('#reportmedicalother').is(":checked");
-        	var reportofficername = $('#reportofficername').val();
-        	var reportsignature = $('#reportsignature').val();
-        	var reportcompleted = $('#reportcompleted').val();
+            var reportfullname = $('#reportfullname').val();
+            var reportage = $('#reportage').val();
+            var reportphonenumber = $('#reportphonenumber').val();
+            var reportdate = $('#reportdate').val();
+            var reporttime = $('#reporttime').val();
+            var reportpolice = $('#reportpolice').val();
+            var reportlocation = $('#reportlocation').val();
+            var reportdescription = $('#reportdescription').val();
+            var reportwchecky = $('#reportwchecky').is(":checked");
+            var reportwcheckn = $('#reportwcheckn').is(":checked");
+            var reportdetails = $('#reportdetails').val();
+            var reportinjury = $('#reportinjury').val();
+            var reportmedicaly = $('#reportmedicaly').is(":checked");
+            var reportmedicaln = $('#reportmedicaln').is(":checked");
+            var reportmedicalr = $('#reportmedicalr').is(":checked");
+            var reportmedicalon = $('#reportmedicalon').is(":checked");
+            var reportmedicaluc = $('#reportmedicaluc').is(":checked");
+            var reportmedicaler = $('#reportmedicaler').is(":checked");
+            var reportmedicalother = $('#reportmedicalother').is(":checked");
+            var reportofficername = $('#reportofficername').val();
+            var reportsignature = $('#reportsignature').val();
+            var reportcompleted = $('#reportcompleted').val();
             $(reports).hide();
             $.post('http://mdt/submit-report', JSON.stringify({r1: reportfullname, r2: reportage, r3: reportphonenumber, r4: reportdate, r5: reporttime, r6: reportpolice, r7: reportlocation, r8: reportdescription, r9: reportwchecky, r10: reportwcheckn, r11: reportdetails, r12: reportinjury, r13: reportmedicaly, r14: reportmedicaln, r15: reportmedicalr, r16: reportmedicalon, r17: reportmedicaluc, r18: reportmedicaler, r19: reportmedicalother, r20: reportofficername, r21: reportsignature, r22: reportcompleted}));
         }
     });
     var olddescription = ""
     $('#warranteditbtn').click(function(event){
-    	$('#selectedwarrantdescription').attr("readonly", false); 
-    	$('#selectedwarrantcharges').attr("readonly", false); 
-    	olddescription = jQuery('#selectedwarrantdescription').val();
+        $('#selectedwarrantdescription').attr("readonly", false); 
+        $('#selectedwarrantcharges').attr("readonly", false); 
+        olddescription = jQuery('#selectedwarrantdescription').val();
     });
     $('#warrantsubmitchanges').click(function(event){ 
-    	var editdesc = jQuery('#selectedwarrantdescription').val();
+        var editdesc = jQuery('#selectedwarrantdescription').val();
         var editcharge = jQuery('#selectedwarrantcharges').val();
-    	$.post('http://mdt/edit-warrant', JSON.stringify({description: olddescription, charges: editcharge, newdescription: editdesc}));
-    	$('#selectedwarrantdescription').text("" ); 
-    	$('#selectedwarrantcharges').text(" ");
-    	$('#selectedwarrantdescription').attr("readonly", true); 
-    	$('#selectedwarrantcharges').attr("readonly", true);
+        $.post('http://mdt/edit-warrant', JSON.stringify({description: olddescription, charges: editcharge, newdescription: editdesc}));
+        $('#selectedwarrantdescription').text("" ); 
+        $('#selectedwarrantcharges').text(" ");
+        $('#selectedwarrantdescription').attr("readonly", true); 
+        $('#selectedwarrantcharges').attr("readonly", true);
     });
     $('#report-new').click(function(event){
-    	$(reports).hide();
-    	$('#reportst').hide();
-    	$('#reportfullname').val("");
-    	$('#reportage').val("");
-    	$('#reportphonenumber').val("");
-    	$('#reportdate').val("");
-    	$('#reporttime').val("");
-    	$('#reportpolice').val("");
-    	$('#reportlocation').val("");
-    	$('#reportdescription').val("");
-    	$('#reportwchecky').prop('checked', false);
-    	$('#reportwcheckn').prop('checked', false);
-    	$('#reportdetails').val("");
-    	$('#reportinjury').val("");
-    	$('#reportmedicaly').prop('checked', false);
-    	$('#reportmedicaln').prop('checked', false);
-    	$('#reportmedicalr').prop('checked', false);
-    	$('#reportmedicalon').prop('checked', false);
-    	$('#reportmedicaluc').prop('checked', false);
-    	$('#reportmedicaler').prop('checked', false);
-    	$('#reportmedicalother').prop('checked', false);
-    	$('#reportofficername').val("");
-    	$('#reportsignature').val("");
-    	$('#reportcompleted').val(""); 
-    	$(reports).show();
-    	$('#report-submit').show();
+        $(reports).hide();
+        $('#reportst').hide();
+        $('#reportfullname').val("");
+        $('#reportage').val("");
+        $('#reportphonenumber').val("");
+        $('#reportdate').val("");
+        $('#reporttime').val("");
+        $('#reportpolice').val("");
+        $('#reportlocation').val("");
+        $('#reportdescription').val("");
+        $('#reportwchecky').prop('checked', false);
+        $('#reportwcheckn').prop('checked', false);
+        $('#reportdetails').val("");
+        $('#reportinjury').val("");
+        $('#reportmedicaly').prop('checked', false);
+        $('#reportmedicaln').prop('checked', false);
+        $('#reportmedicalr').prop('checked', false);
+        $('#reportmedicalon').prop('checked', false);
+        $('#reportmedicaluc').prop('checked', false);
+        $('#reportmedicaler').prop('checked', false);
+        $('#reportmedicalother').prop('checked', false);
+        $('#reportofficername').val("");
+        $('#reportsignature').val("");
+        $('#reportcompleted').val(""); 
+        $(reports).show();
+        $('#report-submit').show();
     });
 
     function fillWarrant(offender_name, id, description, datez, officer, reason, evidence, signature) {
         $('#selectedwarrant').show();
         var splitString = offender_name.split(" ");
-    	var dateVal ="/Date(" + (datez * 1000) + ")/"; var date = new Date( parseFloat( dateVal.substr(6 ))); let timestamp = (date.getMonth() + 1) + "/" +    date.getDate() + "/" + date.getFullYear()
+        var dateVal ="/Date(" + (datez * 1000) + ")/"; var date = new Date( parseFloat( dateVal.substr(6 ))); let timestamp = (date.getMonth() + 1) + "/" +    date.getDate() + "/" + date.getFullYear()
         jQuery('p#warrantfirstname').text(splitString[0]);
         jQuery('p#warrantlastname').text(splitString[1]);
         jQuery('p#warrantid').text(id);
@@ -643,10 +643,10 @@ function closeAllPoliceWithFooter() {
 
     function PlayerSearch(items) {
         $('#playertablez').empty();
-	    for(let i in items) {
+        for(let i in items) {
             let item = items[i];
-        	$('#playertablez').append('<tr id = "playersearchzz" class="playerrow"><td>' + item.character_id + '</td><td>' + item.last_name + '</td><td>' + item.first_name + '</td><td>'  + jobs[item.job_id] + '</td></tr>')
-	    }
+            $('#playertablez').append('<tr id = "playersearchzz" class="playerrow"><td>' + item.character_id + '</td><td>' + item.last_name + '</td><td>' + item.first_name + '</td><td>'  + jobs[item.job_id] + '</td></tr>')
+        }
     }
     function PlayerArrests(items) {
         for(let i in items) {
@@ -686,10 +686,10 @@ function closeAllPoliceWithFooter() {
         }
     }
     function loadReports(items){
-    	for(let i in items) {
-    		let item = items[i]
-    		$('#reportsdirectory').append(('<tr id = "reportstable"><td>' + item.id + '</td><td>' + item.r20 + '</td><td>' + item.r4 + '</td></tr>'))
-    	}
+        for(let i in items) {
+            let item = items[i]
+            $('#reportsdirectory').append(('<tr id = "reportstable"><td>' + item.id + '</td><td>' + item.r20 + '</td><td>' + item.r4 + '</td></tr>'))
+        }
     }
 
     function loadAnnouncements(items){
@@ -753,14 +753,14 @@ function closeAllPoliceWithFooter() {
         jQuery("#playerfirstname").text(firstname);
         jQuery("#playerlastname").text(lastname);
         if (weapons === "true"){
-        	jQuery("#playerweaponsl").text("True");
+            jQuery("#playerweaponsl").text("True");
         } else{
-        	jQuery("#playerweaponsl").text("False");
+            jQuery("#playerweaponsl").text("False");
         }
         if (drivers === "true"){
-        	jQuery("#playerdriversl").text("Active");
+            jQuery("#playerdriversl").text("Active");
         } else{
-        	jQuery("#playerdriversl").text("Suspended");
+            jQuery("#playerdriversl").text("Suspended");
         }
     }
 
@@ -827,7 +827,7 @@ function closeAllPoliceWithFooter() {
         LoadWarrants(item.list);
     }
     if(item.openSection == "loadReports"){
-    	loadReports(item.list)
+        loadReports(item.list)
     } 
     if(item.openSection == "loadselectedwarrant") {
         fillWarrant(item.offender_name, item.id, item.description, item.datez, item.officer, item.reason, item.evidence, item.signature);
@@ -850,90 +850,90 @@ function closeAllPoliceWithFooter() {
         $('#citation-fine').text(item.fine);
     }
     if(item.openSection == "loadReport"){
-    	$(reports).show();
-    	$('#reportst').hide();
+        $(reports).show();
+        $('#reportst').hide();
 
-    	$('#reportfullname').val("");
-    	$('#reportage').val("");
-    	$('#reportphonenumber').val("");
-    	$('#reportdate').val("");
-    	$('#reporttime').val("");
-    	$('#reportpolice').val("");
-    	$('#reportlocation').val("");
-    	$('#reportdescription').val("");
-    	$('#reportwchecky').prop('checked', false);
-    	$('#reportwcheckn').prop('checked', false);
-    	$('#reportdetails').val("");
-    	$('#reportinjury').val("");
-    	$('#reportmedicaly').prop('checked', false);
-    	$('#reportmedicaln').prop('checked', false);
-    	$('#reportmedicalr').prop('checked', false);
-    	$('#reportmedicalon').prop('checked', false);
-    	$('#reportmedicaluc').prop('checked', false);
-    	$('#reportmedicaler').prop('checked', false);
-    	$('#reportmedicalother').prop('checked', false);
-    	$('#reportofficername').val("");
-    	$('#reportsignature').val("");
-    	$('#reportcompleted').val(""); 
+        $('#reportfullname').val("");
+        $('#reportage').val("");
+        $('#reportphonenumber').val("");
+        $('#reportdate').val("");
+        $('#reporttime').val("");
+        $('#reportpolice').val("");
+        $('#reportlocation').val("");
+        $('#reportdescription').val("");
+        $('#reportwchecky').prop('checked', false);
+        $('#reportwcheckn').prop('checked', false);
+        $('#reportdetails').val("");
+        $('#reportinjury').val("");
+        $('#reportmedicaly').prop('checked', false);
+        $('#reportmedicaln').prop('checked', false);
+        $('#reportmedicalr').prop('checked', false);
+        $('#reportmedicalon').prop('checked', false);
+        $('#reportmedicaluc').prop('checked', false);
+        $('#reportmedicaler').prop('checked', false);
+        $('#reportmedicalother').prop('checked', false);
+        $('#reportofficername').val("");
+        $('#reportsignature').val("");
+        $('#reportcompleted').val(""); 
 
-    	$('#reportfullname').val(item.reportfullname);
-    	$('#reportage').val(item.reportage);
-    	$('#reportphonenumber').val(item.reportphonenumber);
-    	$('#reportdate').val(item.reportdate);
-    	$('#reporttime').val(item.reporttime);
-    	$('#reportpolice').val(item.reportpolice);
-    	$('#reportlocation').val(item.reportlocation);
-    	$('#reportdescription').val(item.reportdescription);
-    	if(item.reportwchecky == 0){
-    		$('#reportwchecky').prop('checked', false);
-    	} else {
-    		$('#reportwchecky').prop('checked', true);
-    	}
-    	if(item.reportwcheckn == 0){
-    		$('#reportwcheckn').prop('checked', false);
-    	} else {
-    		$('#reportwcheckn').prop('checked', true);
-    	}
-    	$('#reportdetails').val(item.reportdetails);
-    	$('#reportinjury').val(item.reportinjury);
-    	if(item.reportmedicaly == 0){
-    		$('#reportmedicaly').prop('checked', false);
-    	} else {
-    		$('#reportmedicaly').prop('checked', true);
-    	}
-    	if(item.reportmedicaln == 0){
-    		$('#reportmedicaln').prop('checked', false);
-    	} else {
-    		$('#reportmedicaln').prop('checked', true);
-    	}
-    	if(item.reportmedicalr == 0){
-    		$('#reportmedicalr').prop('checked', false);
-    	} else {
-    		$('#reportmedicalr').prop('checked', true);
-    	}
-    	if(item.reportmedicalon == 0){
-    		$('#reportmedicalon').prop('checked', false);
-    	} else {
-    		$('#reportmedicalon').prop('checked', true);
-    	}
-    	if(item.reportmedicaluc == 0){
-    		$('#reportmedicaluc').prop('checked', false);
-    	} else {
-    		$('#reportmedicaluc').prop('checked', true);
-    	}
-    	if(item.reportmedicaler == 0){
-    		$('#reportmedicaler').prop('checked', false);
-    	} else {
-    		$('#reportmedicaler').prop('checked', true);
-    	}
-    	if(item.reportmedicalother == 0){
-    		$('#reportmedicalother').prop('checked', false);
-    	} else {
-    		$('#reportmedicalother').prop('checked', true);
-    	}
-    	$('#reportofficername').val(item.reportofficername);
-    	$('#reportsignature').val(item.reportsignature);
-    	$('#reportcompleted').val(item.reportcompleted);
+        $('#reportfullname').val(item.reportfullname);
+        $('#reportage').val(item.reportage);
+        $('#reportphonenumber').val(item.reportphonenumber);
+        $('#reportdate').val(item.reportdate);
+        $('#reporttime').val(item.reporttime);
+        $('#reportpolice').val(item.reportpolice);
+        $('#reportlocation').val(item.reportlocation);
+        $('#reportdescription').val(item.reportdescription);
+        if(item.reportwchecky == 0){
+            $('#reportwchecky').prop('checked', false);
+        } else {
+            $('#reportwchecky').prop('checked', true);
+        }
+        if(item.reportwcheckn == 0){
+            $('#reportwcheckn').prop('checked', false);
+        } else {
+            $('#reportwcheckn').prop('checked', true);
+        }
+        $('#reportdetails').val(item.reportdetails);
+        $('#reportinjury').val(item.reportinjury);
+        if(item.reportmedicaly == 0){
+            $('#reportmedicaly').prop('checked', false);
+        } else {
+            $('#reportmedicaly').prop('checked', true);
+        }
+        if(item.reportmedicaln == 0){
+            $('#reportmedicaln').prop('checked', false);
+        } else {
+            $('#reportmedicaln').prop('checked', true);
+        }
+        if(item.reportmedicalr == 0){
+            $('#reportmedicalr').prop('checked', false);
+        } else {
+            $('#reportmedicalr').prop('checked', true);
+        }
+        if(item.reportmedicalon == 0){
+            $('#reportmedicalon').prop('checked', false);
+        } else {
+            $('#reportmedicalon').prop('checked', true);
+        }
+        if(item.reportmedicaluc == 0){
+            $('#reportmedicaluc').prop('checked', false);
+        } else {
+            $('#reportmedicaluc').prop('checked', true);
+        }
+        if(item.reportmedicaler == 0){
+            $('#reportmedicaler').prop('checked', false);
+        } else {
+            $('#reportmedicaler').prop('checked', true);
+        }
+        if(item.reportmedicalother == 0){
+            $('#reportmedicalother').prop('checked', false);
+        } else {
+            $('#reportmedicalother').prop('checked', true);
+        }
+        $('#reportofficername').val(item.reportofficername);
+        $('#reportsignature').val(item.reportsignature);
+        $('#reportcompleted').val(item.reportcompleted);
     }
     if(item.openSection == "loadSelectedCitation"){
         fillCitationSlip(item.name, item.id, item.date, item.plate, item.model, item.color, item.street, item.city, item.charges, item.fine, item.officer_name)
