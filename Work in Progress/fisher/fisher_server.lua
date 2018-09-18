@@ -58,14 +58,16 @@ AddEvenHandler('updatePrices', function(mostSoldFish, leastSoldFish)
 	local time = os.time()
 	if(previousTime == 0)then
 		previousTime = time
-		prices[mostSoldFish] = prices[mostSoldFish] + 25
-		prices[leastSoldFish] = prices[leastSoldFish] - 25
+		prices[mostSoldFish] = prices[mostSoldFish] - 25
+		prices[leastSoldFish] = prices[leastSoldFish] + 25
 	elseif previousTime - time <= -7200 then
 		prices = {50,50,50,50,150,175,200,225,250,275}
-		prices[mostSoldFish] = prices[mostSoldFish] + 25
-		prices[leastSoldFish] = prices[leastSoldFish] - 25
+		prices[mostSoldFish] = prices[mostSoldFish] - 25
+		prices[leastSoldFish] = prices[leastSoldFish] + 25
 	else
-
+		if prices[mostSoldFish] <= 500 and prices[leastSoldFish] >= 25 then
+			prices[mostSoldFish] = prices[mostSoldFish] - 25
+			prices[leastSoldFish] = prices[leastSoldFish] + 25
 	end
 end)
 
