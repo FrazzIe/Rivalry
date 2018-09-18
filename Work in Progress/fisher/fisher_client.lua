@@ -537,17 +537,17 @@ end
 
 	Store = {
 	    {Items = {
-	    	[1] = {Name = "Snook", Id = 21, price = priceSnook, Max = 100},
-	        [2] = {Name = "Pompano", Id = 50, price = pricePompano, Max = 100},
-	        [3] = {Name = "Snapper", Id = 52, price = priceSnapper, Max = 100},
-	        [4] = {Name = "Redfish", Id = 54, price = priceRedfish, Max = 100},
-	        [5] = {Name = "Bass", Id = 56, price = priceBass, Max = 100},
-	        [6] = {Name = "Mackerel", Id = 58, price = priceMackerel, Max = 100},
-	        [7] = {Name = "Herring", Id = 60, price = priceHerring, Max = 100},
-	        [8] = {Name = "Salmon", Id = 62, price = priceSalmon, Max = 100},
-	        [9] = {Name = "Barracuda", Id = 64, price = priceBarracuda, Max = 100},
-	        [10] = {Name = "Tuna", Id = 66, price = priceTuna, Max = 100},
-	        [11] = {Name = "Yellowtail", Id = 68, price = priceYellowtail, Max = 100},
+	    	[1] = {Name = "Snook", Id = 21, price = priceSnook, Max = 100, sold = 0},
+	        [2] = {Name = "Pompano", Id = 50, price = pricePompano, Max = 100, sold = 0},
+	        [3] = {Name = "Snapper", Id = 52, price = priceSnapper, Max = 100, sold = 0},
+	        [4] = {Name = "Redfish", Id = 54, price = priceRedfish, Max = 100, sold = 0},
+	        [5] = {Name = "Bass", Id = 56, price = priceBass, Max = 100, sold = 0},
+	        [6] = {Name = "Mackerel", Id = 58, price = priceMackerel, Max = 100, sold = 0},
+	        [7] = {Name = "Herring", Id = 60, price = priceHerring, Max = 100, sold = 0},
+	        [8] = {Name = "Salmon", Id = 62, price = priceSalmon, Max = 100, sold = 0},
+	        [9] = {Name = "Barracuda", Id = 64, price = priceBarracuda, Max = 100, sold = 0},
+	        [10] = {Name = "Tuna", Id = 66, price = priceTuna, Max = 100, sold = 0},
+	        [11] = {Name = "Yellowtail", Id = 68, price = priceYellowtail, Max = 100, sold = 0},
 	    }},
 	}
 
@@ -613,7 +613,8 @@ end
 							if WarMenu.IsMenuOpened(j.Name) then
 								if WarMenu.Button("Sell "..currentItemIndex.." "..j.Name.."(s)", "$"..j.price*currentItemIndex) then
 									TriggerEvent('inventory:removeQty', j.Id, currentItemIndex)
-									TriggerServerEvent('mission:completed', j.price*currentItemIndex)
+									TriggerServerEvent('soldFish', currentItemIndex)
+									j.sold = j.sold + 1
 								end
 								if WarMenu.ComboBox("Quantity", j.Quantity, currentItemIndex, selectedItemIndex, function(currentIndex, selectedIndex)
 									currentItemIndex = currentIndex
@@ -625,9 +626,9 @@ end
 						end
 					end
 					TriggerServerEvent("fish:initialise", source)
-					TriggerServerEvent("fluxiateMarket", tableOfFish)
                 elseif(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) > 1.0)then
                 	if WarMenu.IsMenuOpened("Fish") then
+                		TriggerServerEvent("fluxiateMarket", Stores.Items)
                 		WarMenu.CloseMenu()
                 	end
                 end
