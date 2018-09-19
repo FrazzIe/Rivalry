@@ -8,12 +8,77 @@ Fishing = {
 		},
 		Pier = {
 			{
-
+				{
+					id=316, x = -3428.0222167969, y = 967.11779785156, z = 8.3466835021973, distanceBetweenCoords=3.5, distanceMarker=3.5, defaultTime=10000, name="Pier Fishing and Boat Rental"
+				},
+				{
+					id=316, x = -279.17889404297, y = 6637.1352539063, z = 7.5514869689941, distanceBetweenCoords=3.5, distanceMarker=3.5, defaultTime=10000,
+				},
+				{
+					id=316, x = 711.97161865234, y = 4100.2075195313, z = 35.785236358643, distanceBetweenCoords=3.5, distanceMarker=3.5, defaultTime=10000, name="Pier Fishing and Boat Rental"
+				},
 			},
 		},
 		DeepSea = {
-			{
-
+			[1] = {
+				id=404,
+				x = 3991.8015136719,
+				y = 2428.513671875,
+				z = 2.90869140625,
+				distanceBetweenCoords=20.5,
+				distanceMarker=20.5,
+				defaultTime=10000,
+				name="Deep Sea Fishing"
+			},
+			[2] = {
+				id=404,
+				x = 3069.6108398438,
+				y = -2130.59375,
+				z = 3.9801769256592,
+				distanceBetweenCoords=20.5,
+				distanceMarker=20.5,
+				defaultTime=10000,
+				name="Deep Sea Fishing"
+			},
+			[3] = {
+				id=404,
+				x = -2301.1547851563,
+				y = -1236.6251220703,
+				z = 4.5,
+				distanceBetweenCoords=20.5,
+				distanceMarker=20.5,
+				defaultTime=10000,
+				name="Deep Sea Fishing"
+			},
+			[4] = {
+				id=404,
+				x = -3516.1176757813,
+				y = 2906.3083496094,
+				z = 7.090615272522,
+				distanceBetweenCoords=20.5,
+				distanceMarker=20.5,
+				defaultTime=10000,
+				name="Deep Sea Fishing"
+			},
+			[5] = {
+				id=404,
+				x = -1787.2473144531,
+				y = 6095.6254882813,
+				z = 2.2088184356689,
+				distanceBetweenCoords=20.5,
+				distanceMarker=20.5,
+				defaultTime=10000,
+				name="Deep Sea Fishing"
+			},
+			[6] = {
+				id=404,
+				x = 1251.6247558594,
+				y = 7330.8481445313,
+				z = 3.8822541236877,
+				distanceBetweenCoords=20.5,
+				distanceMarker=20.5,
+				defaultTime=10000,
+				name="Deep Sea Fishing"
 			},
 		},
 		Bar = {
@@ -67,6 +132,66 @@ Fishing = {
 	},
 }
 
+--Functions
+function startFishing(typeOfFishing)
+	IsFishing = true
+	RunCodeOnly1Time = true
+	BarAnimation = 0
+	if FishingRodInHand == false then
+		FishRod = AttachEntityToPed('prop_fishing_rod_01',60309, 0,0,0, 0,0,0)
+	end
+	FishingRodInHand = true
+	while IsFishing do
+		local time = 4*3000
+		TaskStandStill(GetPed(), time+7000)
+		PlayAnim(GetPed(),'amb@world_human_stand_fishing@base','base',4,3000)
+		Citizen.Wait(time)
+		CFish = true
+		IsFishing = false
+	end
+	while CFish do
+		Citizen.Wait(1)
+		FishGUI(true)
+		if RunCodeOnly1Time then
+			Faketimer = 1
+			PlayAnim(GetPed(),'amb@world_human_stand_fishing@idle_a','idle_c',1,0) -- 10sec
+			RunCodeOnly1Time = false
+		end
+		if TimerAnimation <= 0 then
+			CFish = false
+			TimerAnimation = 0.1
+			StopAnimTask(GetPed(), 'amb@world_human_stand_fishing@idle_a','idle_c',2.0)
+			Citizen.Wait(200)
+		end
+		if IsControlJustPressed(1, Caught_KEY) then
+			if BarAnimation >= SuccessLimit then
+				CFish = false
+				TimerAnimation = 0.1
+				StopAnimTask(GetPed(), 'amb@world_human_stand_fishing@idle_a','idle_c',2.0)
+				Citizen.Wait(200)
+				DetachEntity(FishRod, true, true)
+				DeleteEntity(FishRod)
+				if(typeOfFishing == "Deep") then
+					TriggerServerEvent('Fisher:serverRequest', "GetPoissonDeep", math.random(1,6))
+				else
+					TriggerServerEvent('Fisher:serverRequest', "GetPoisson", math.random(1,6))
+
+				end
+			else
+				CFish = false
+				TimerAnimation = 0.1
+				StopAnimTask(GetPed(), 'amb@world_human_stand_fishing@idle_a','idle_c',2.0)
+				Citizen.Wait(200)
+				TriggerEvent('chatMessage', "The fish slipped away! You need to be more focused!")
+				DetachEntity(FishRod, true, true)
+				DeleteEntity(FishRod)
+			end
+		end
+	else
+		FishingRodInHand = false
+	end
+end
+-- Networking Events
 	RegisterNetEvent('fisher:set')
 	AddEventHandler("fisher:set", function(_isFisher)
 		Fishing.Data.isFisher = false
@@ -92,68 +217,39 @@ Fishing = {
 
 	Citizen.CreateThread(function()
 		CreateBlip("Jetsam Trucking", 477, 21, locations.service.x, locations.service.y, locations.service.z)
-		
-
-	end)
-
-	--[[if isInServiceFisher and GetDistanceBetweenCoords(GetEntityCoords(PlayerPedId()), inRangeXD, inRangeYD, inRangeZD, true) <= inRangeDistanceBetweenCoordsD then
-		SetTextEntry_2("STRING")
-		AddTextComponentString("Press ~g~E~s~ to cast your fishing rod")
-		DrawSubtitleTimed(2000, 1)
-		if IsControlJustPressed(1, StartFishing_KEY) then
-			IsFishing = true
-			RunCodeOnly1Time = true
-			BarAnimation = 0
-			if FishingRodInHand == false then
-				FishRod = AttachEntityToPed('prop_fishing_rod_01',60309, 0,0,0, 0,0,0)
-			end
-			FishingRodInHand = true
-		end
-		while IsFishing do
-			local time = 4*3000
-			TaskStandStill(GetPed(), time+7000)
-			PlayAnim(GetPed(),'amb@world_human_stand_fishing@base','base',4,3000)
-			Citizen.Wait(time)
-			CFish = true
-			IsFishing = false
-		end
-		while CFish do
-			Citizen.Wait(1)
-			FishGUI(true)
-			if RunCodeOnly1Time then
-				Faketimer = 1
-				PlayAnim(GetPed(),'amb@world_human_stand_fishing@idle_a','idle_c',1,0) -- 10sec
-				RunCodeOnly1Time = false
-			end
-			if TimerAnimation <= 0 then
-				CFish = false
-				TimerAnimation = 0.1
-				StopAnimTask(GetPed(), 'amb@world_human_stand_fishing@idle_a','idle_c',2.0)
-				Citizen.Wait(200)
-			end
-			if IsControlJustPressed(1, Caught_KEY) then
-				if BarAnimation >= SuccessLimit then
-					CFish = false
-					TimerAnimation = 0.1
-					StopAnimTask(GetPed(), 'amb@world_human_stand_fishing@idle_a','idle_c',2.0)
-					Citizen.Wait(200)
-					DetachEntity(FishRod, true, true)
-					DeleteEntity(FishRod)
-					TriggerServerEvent('Fisher:serverRequest', "GetPoissonDeep")								
-				else
-					CFish = false
-					TimerAnimation = 0.1
-					StopAnimTask(GetPed(), 'amb@world_human_stand_fishing@idle_a','idle_c',2.0)
-					Citizen.Wait(200)
-					TriggerEvent('chatMessage', "The fish slipped away! You need to be more focused!")
-					DetachEntity(FishRod, true, true)
-					DeleteEntity(FishRod)
+		while true do
+			Citizen.Wait(0)
+			local ped = PlayerPedId()
+			local pos = GetEntityCoords(ped, false)
+			if Fishing.Data.isFisher then
+				if(Vdist(pos.x, pos.y, pos.z, Fishing.Data.Location.Service) < 10) then
+					DrawMarker(25, Fishing.Data.Location.Service.x, Fishing.Data.Location.Service.y, Fishing.Data.Location.Service.z, 1.0, 1.0, 1.5, 0, 255, 0, 255)
+					if Vdist(pos.x, pos.y, pos.z, Fishing.Data.Location.Service) < 1 then
+						DisplayHelpTesk("Press ~INPUT_CONTEXT~ to sign on duty!")
+						if(IsControlJustPressed(1,51)) then
+							Fishing.Data.OnDuty = not Fishing.Data.OnDuty
+						end
+					end	
+				end
+				if Fishing.Data.OnDuty then
+					while i = 1, i < #Fishing.Data.Piers do
+						if(Vdist(pos.x, pos.y, pos.z, Fishing.Data.Pier[i]) < 5) then
+							DisplayHelpText("Press ~INPUT_CONTEXT~ to start fishing!")
+							if	(IsControlJustPressed(1,51)) then
+								startFishing("Pier")
+							end
+						end
+						if(Vdist(post.x, pos.y, pos.z, Fishing.Data.Pier[i]))then
+							DisplayHelpText("Press ~INPUT_CONTEXT~ to start fishing!")
+							if IsControlJustPressed(1,51) then
+								startFishing("Deep")
+							end
+						end
+					end
 				end
 			end
 		end
-	else
-		FishingRodInHand = false
-	end--]]
+	end)
 
 	for k,v in pairs(Store) do
 		for i,j in pairs(v.Items) do
@@ -162,83 +258,83 @@ Fishing = {
 		end
 	end
 
-Citizen.CreateThread(function()
-	while true do
-		Citizen.Wait(0)
-        local pos = GetEntityCoords(PlayerPedId(), false)
-        for k,v in ipairs(fishmarkets) do
-            if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 15.0)then
-            	DrawMarker(25,v.x, v.y, v.z-1, 0, 0, 0, 0, 0, 0, 2.001, 2.0001, 0.5001, 0, 155, 255, 200, 0, 0, 0, 0)
-                if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 1.0)then
-					if IsControlJustPressed(1, 51) then
-						if not WarMenu.IsMenuOpened("FishSell") then
-							if not WarMenu.DoesMenuExist("FishSell") then
-								WarMenu.CreateMenu("FishSell", "Fish Market")
-								WarMenu.SetSpriteTitle("FishSell", "shopui_title_conveniencestore")
-								WarMenu.SetSubTitle("FishSell", "Hello, what are you coming to sell today?")
-								WarMenu.SetMenuX("FishSell", 0.6)
-								WarMenu.SetMenuY("FishSell", 0.15)
-								WarMenu.SetTitleBackgroundColor("FishSell", 0, 107, 87)
-								for k,v in pairs(Store) do
-									WarMenu.CreateSubMenu(v.Category, "FishSell", v.Category.." SECTION")
-									for i,j in pairs(v.Items) do
-										WarMenu.CreateSubMenu(j.Name, v.Category, j.Name)
+	Citizen.CreateThread(function()
+		while true do
+			Citizen.Wait(0)
+			local pos = GetEntityCoords(PlayerPedId(), false)
+			for k,v in ipairs(fishmarkets) do
+				if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 15.0)then
+					DrawMarker(25,v.x, v.y, v.z-1, 0, 0, 0, 0, 0, 0, 2.001, 2.0001, 0.5001, 0, 155, 255, 200, 0, 0, 0, 0)
+					if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 1.0)then
+						if IsControlJustPressed(1, 51) then
+							if not WarMenu.IsMenuOpened("FishSell") then
+								if not WarMenu.DoesMenuExist("FishSell") then
+									WarMenu.CreateMenu("FishSell", "Fish Market")
+									WarMenu.SetSpriteTitle("FishSell", "shopui_title_conveniencestore")
+									WarMenu.SetSubTitle("FishSell", "Hello, what are you coming to sell today?")
+									WarMenu.SetMenuX("FishSell", 0.6)
+									WarMenu.SetMenuY("FishSell", 0.15)
+									WarMenu.SetTitleBackgroundColor("FishSell", 0, 107, 87)
+									for k,v in pairs(Store) do
+										WarMenu.CreateSubMenu(v.Category, "FishSell", v.Category.." SECTION")
+										for i,j in pairs(v.Items) do
+											WarMenu.CreateSubMenu(j.Name, v.Category, j.Name)
+										end
 									end
-								end
-								WarMenu.OpenMenu("FishSell")
-							else
-								currentItemIndex = 1
-								WarMenu.OpenMenu("FishSell")
-							end
-						else
-							WarMenu.CloseMenu()
-						end		
-					end
-					if WarMenu.IsMenuOpened("FishSell") then
-						for k,v in pairs(Store) do
-							WarMenu.MenuButton(v.Category, v.Category)
-						end
-						if WarMenu.Button("Close") then
-							WarMenu.CloseMenu()
-						end
-						WarMenu.Display()
-					end
-					for k,v in pairs(Store) do
-						if WarMenu.IsMenuOpened(v.Category) then
-							for i,j in pairs(v.Items) do
-								if WarMenu.MenuButton(j.Name, j.Name) then
+									WarMenu.OpenMenu("FishSell")
+								else
 									currentItemIndex = 1
+									WarMenu.OpenMenu("FishSell")
 								end
+							else
+								WarMenu.CloseMenu()
+							end		
+						end
+						if WarMenu.IsMenuOpened("FishSell") then
+							for k,v in pairs(Store) do
+								WarMenu.MenuButton(v.Category, v.Category)
+							end
+							if WarMenu.Button("Close") then
+								WarMenu.CloseMenu()
 							end
 							WarMenu.Display()
 						end
-					end
-					for k,v in pairs(Store) do
-						for i,j in pairs(v.Items) do
-							if WarMenu.IsMenuOpened(j.Name) then
-								if WarMenu.Button("Sell "..currentItemIndex.." "..j.Name.."(s)", "$"..j.price*currentItemIndex) then
-									TriggerEvent('inventory:removeQty', j.Id, currentItemIndex)
-									TriggerServerEvent('soldFish', currentItemIndex)
-									j.sold = j.sold + 1
-								end
-								if WarMenu.ComboBox("Quantity", j.Quantity, currentItemIndex, selectedItemIndex, function(currentIndex, selectedIndex)
-									currentItemIndex = currentIndex
-									selectedItemIndex = selectedIndex
-								end) then
+						for k,v in pairs(Store) do
+							if WarMenu.IsMenuOpened(v.Category) then
+								for i,j in pairs(v.Items) do
+									if WarMenu.MenuButton(j.Name, j.Name) then
+										currentItemIndex = 1
+									end
 								end
 								WarMenu.Display()
 							end
 						end
+						for k,v in pairs(Store) do
+							for i,j in pairs(v.Items) do
+								if WarMenu.IsMenuOpened(j.Name) then
+									if WarMenu.Button("Sell "..currentItemIndex.." "..j.Name.."(s)", "$"..j.price*currentItemIndex) then
+										TriggerEvent('inventory:removeQty', j.Id, currentItemIndex)
+										TriggerServerEvent('sellFish', currentItemIndex)
+										j.sold = j.sold + 1
+									end
+									if WarMenu.ComboBox("Quantity", j.Quantity, currentItemIndex, selectedItemIndex, function(currentIndex, selectedIndex)
+										currentItemIndex = currentIndex
+										selectedItemIndex = selectedIndex
+									end) then
+									end
+									WarMenu.Display()
+								end
+							end
+						end
+					elseif(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) > 1.0)then
+						if WarMenu.IsMenuOpened("FishSell") then
+							WarMenu.CloseMenu()
+						end
 					end
-                elseif(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) > 1.0)then
-                	if WarMenu.IsMenuOpened("FishSell") then
-                		WarMenu.CloseMenu()
-                	end
-                end
-            end
+				end
+			end
 		end
-	end
-end)
+	end)
 
 Citizen.CreateThread(function() -- Thread for  timer
 	while true do 

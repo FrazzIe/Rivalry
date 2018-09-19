@@ -9,7 +9,7 @@
 	end)
 
 	RegisterServerEvent('Fisher:serverRequest')
-	AddEventHandler('Fisher:serverRequest', function (typeRequest)
+	AddEventHandler('Fisher:serverRequest', function (typeRequest, index)
 		local source = tonumber(source)
 		TriggerEvent("inventory:getuser", source, function(inventory)
 			if typeRequest == "GetPoisson" then
@@ -40,6 +40,7 @@
 				end
 				TriggerClientEvent('Fisher:drawSellFilet', source, data)
 			end
+			inventory.addItem(possiblevalues[index])
 		end)
 	end)
 		
