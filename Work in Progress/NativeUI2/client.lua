@@ -359,9 +359,9 @@ function NativeUI.GoUp(Menu, Options)
 				end
 			else
 				if Menu.Index == 1 then
-					Menu.Pagination.Minimum = 1
-					Menu.Pagination.Maximum = Menu.Pagination.Total
-					Menu.Index = Menu.Pagination.Total
+					Menu.Pagination.Minimum = Options - (Menu.Pagination.Total - 1)
+					Menu.Pagination.Maximum = Options
+					Menu.Index = Options
 				else
 					Menu.Index = Menu.Index - 1
 				end
@@ -469,20 +469,20 @@ function NativeUI.Controls(Menu)
 								Menu.Controls.Left.Pressed = true
 
 								Citizen.CreateThread(function()
-									Menu.Controls.Left.Activated = true
+									Menu.Controls.Left.Active = true
 
 									Citizen.Wait(1)
 
-									Menu.Controls.Left.Activated = false
+									Menu.Controls.Left.Active = false
 
 									Citizen.Wait(174)
 										
 									while Menu.Controls.Left.Enabled and IsControlPressed(Menu.Controls.Left.Keys[Index][1], Menu.Controls.Left.Keys[Index][2]) do
-										Menu.Controls.Left.Activated = true
+										Menu.Controls.Left.Active = true
 
 										Citizen.Wait(1)
 
-										Menu.Controls.Left.Activated = false
+										Menu.Controls.Left.Active = false
 
 										Citizen.Wait(124)
 									end
@@ -537,10 +537,22 @@ function NativeUI.Controls(Menu)
 								Menu.Controls.Select.Pressed = true
 
 								Citizen.CreateThread(function()
-									Citizen.Wait(175)
+									Menu.Controls.Select.Active = true
+
+									Citizen.Wait(1)
+
+									Menu.Controls.Select.Active = false
+
+									Citizen.Wait(174)
 										
 									while Menu.Controls.Select.Enabled and IsControlPressed(Menu.Controls.Select.Keys[Index][1], Menu.Controls.Select.Keys[Index][2]) do
-										Citizen.Wait(125)
+										Menu.Controls.Select.Active = true
+
+										Citizen.Wait(1)
+
+										Menu.Controls.Select.Active = false
+
+										Citizen.Wait(124)
 									end
 
 									Menu.Controls.Select.Pressed = false
@@ -649,7 +661,7 @@ function NativeUI.Description(Menu)
 				ScreenDrawPositionEnd()
 			end
 
-			NativeUI.ItemOffset = NativeUI.ItemOffset + DescriptionHeight
+			NativeUI.ItemOffset = NativeUI.ItemOffset + Menu.DescriptionHeight
 		end
 	end
 end
@@ -673,8 +685,9 @@ function NativeUI.Button(Menu, Label, Description, RightLabel, LeftBadge, RightB
 		if Menu() == "Menu" then
 			local Option = NativeUI.Options + 1			
 			local Selected = Menu.Index == Option
+			local Hovered = false
 
-			if Menu.Pagination.Min <= Option and Menu.Pagination.Max >= Option then
+			if Menu.Pagination.Minimum <= Option and Menu.Pagination.Maximum >= Option then
 				local SafeZone = {X = 0, Y = 0}
 				
 				if Menu.Safezone then
@@ -684,7 +697,8 @@ function NativeUI.Button(Menu, Label, Description, RightLabel, LeftBadge, RightB
 					ScreenDrawPositionRatio(0, 0, 0, 0)
 				end
 
-				local Hovered = IsMouseInBounds(Menu.X + SafeZone.X, Menu.Y + NativeUI.Settings.Items.Button.Rectangle.Y + SafeZone.Y + NativeUI.ItemOffset, NativeUI.Settings.Items.Button.Rectangle.Width + Menu.WidthOffset, NativeUI.Settings.Items.Button.Rectangle.Height)
+				Hovered = IsMouseInBounds(Menu.X + SafeZone.X, Menu.Y + NativeUI.Settings.Items.Button.Rectangle.Y + SafeZone.Y + NativeUI.ItemOffset, NativeUI.Settings.Items.Button.Rectangle.Width + Menu.WidthOffset, NativeUI.Settings.Items.Button.Rectangle.Height)
+				
 				local LeftBadgeOffset = ((LeftBadge == NativeUI.BadgeStyle.None or tonumber(LeftBadge) == nil) and 0 or 27)
 				local RightBadgeOffset =  ((RightBadge == NativeUI.BadgeStyle.None or tonumber(RightBadge) == nil) and 0 or 27)
 
@@ -740,6 +754,10 @@ function NativeUI.Button(Menu, Label, Description, RightLabel, LeftBadge, RightB
 
 			NativeUI.Options = NativeUI.Options + 1
 
+			if Selected and Menu.Controls.Select.Active then
+				NativeUI.PlaySound(NativeUI.Settings.Audio.Library, NativeUI.Settings.Audio.Select)
+			end
+
 			Callback(Hovered, Selected, (Menu.Controls.Select.Active and Selected))
 		end
 	end
@@ -750,8 +768,9 @@ function NativeUI.Checkbox(Menu, Label, Description, Checked, Enabled, Callback)
 		if Menu() == "Menu" then
 			local Option = NativeUI.Options + 1			
 			local Selected = Menu.Index == Option
+			local Hovered = false
 
-			if Menu.Pagination.Min <= Option and Menu.Pagination.Max >= Option then
+			if Menu.Pagination.Minimum <= Option and Menu.Pagination.Maximum >= Option then
 
 				local SafeZone = {X = 0, Y = 0}
 				
@@ -762,7 +781,7 @@ function NativeUI.Checkbox(Menu, Label, Description, Checked, Enabled, Callback)
 					ScreenDrawPositionRatio(0, 0, 0, 0)
 				end
 
-				local Hovered = IsMouseInBounds(Menu.X + SafeZone.X, Menu.Y + NativeUI.Settings.Items.Button.Rectangle.Y + SafeZone.Y + NativeUI.ItemOffset, NativeUI.Settings.Items.Button.Rectangle.Width + Menu.WidthOffset, NativeUI.Settings.Items.Button.Rectangle.Height)
+				Hovered = IsMouseInBounds(Menu.X + SafeZone.X, Menu.Y + NativeUI.Settings.Items.Button.Rectangle.Y + SafeZone.Y + NativeUI.ItemOffset, NativeUI.Settings.Items.Button.Rectangle.Width + Menu.WidthOffset, NativeUI.Settings.Items.Button.Rectangle.Height)
 
 				if Hovered and not Selected then
 					NativeUI.RenderRectangle(Menu.X, Menu.Y + NativeUI.Settings.Items.Button.Rectangle.Y + NativeUI.ItemOffset,  NativeUI.Settings.Items.Button.Rectangle.Width + Menu.WidthOffset, NativeUI.Settings.Items.Button.Rectangle.Height, 255, 255, 255, 20)
@@ -810,7 +829,13 @@ function NativeUI.Checkbox(Menu, Label, Description, Checked, Enabled, Callback)
 
 			NativeUI.Options = NativeUI.Options + 1
 
-			Callback(Hovered, Selected, (Menu.Controls.Select.Active and Selected), (Menu.Controls.Select.Active and Selected) and not Checked or Checked)
+			if Selected and Menu.Controls.Select.Active then
+				NativeUI.PlaySound(NativeUI.Settings.Audio.Library, NativeUI.Settings.Audio.Select)
+
+				Checked = not Checked
+			end
+
+			Callback(Hovered, Selected, (Menu.Controls.Select.Active and Selected), Checked)
 		end
 	end
 end
@@ -820,8 +845,9 @@ function NativeUI.List(Menu, Label, Items, Index, Description, Enabled, Callback
 		if Menu() == "Menu" then
 			local Option = NativeUI.Options + 1			
 			local Selected = Menu.Index == Option
+			local Hovered = false
 
-			if Menu.Pagination.Min <= Option and Menu.Pagination.Max >= Option then
+			if Menu.Pagination.Minimum <= Option and Menu.Pagination.Maximum >= Option then
 
 				local SafeZone = {X = 0, Y = 0}
 
@@ -832,7 +858,8 @@ function NativeUI.List(Menu, Label, Items, Index, Description, Enabled, Callback
 					ScreenDrawPositionRatio(0, 0, 0, 0)
 				end
 
-				local Hovered = IsMouseInBounds(Menu.X + SafeZone.X, Menu.Y + NativeUI.Settings.Items.Button.Rectangle.Y + SafeZone.Y + NativeUI.ItemOffset, NativeUI.Settings.Items.Button.Rectangle.Width + Menu.WidthOffset, NativeUI.Settings.Items.Button.Rectangle.Height)
+				Hovered = IsMouseInBounds(Menu.X + SafeZone.X, Menu.Y + NativeUI.Settings.Items.Button.Rectangle.Y + SafeZone.Y + NativeUI.ItemOffset, NativeUI.Settings.Items.Button.Rectangle.Width + Menu.WidthOffset, NativeUI.Settings.Items.Button.Rectangle.Height)
+				
 				local ListText = (type(Items[Index]) == "table") and tostring(Items[Index].Name) or tostring(Items[Index]) or "NIL"
 				local TextOffset = MeasureStringWidth(ListText, 0, 0.35)
 
@@ -884,18 +911,26 @@ function NativeUI.List(Menu, Label, Items, Index, Description, Enabled, Callback
 
 			NativeUI.Options = NativeUI.Options + 1
 
-			if Selected and Mouse.Controls.Left.Active and not Mouse.Controls.Right.Active then
+			if Selected and Menu.Controls.Left.Active and not Menu.Controls.Right.Active then
 				Index = Index - 1
 
 				if Index < 1 then
 					Index = #Items
 				end
-			elseif Selected and Mouse.Controls.Right.Active and not Mouse.Controls.Left.Active then
+
+				NativeUI.PlaySound(NativeUI.Settings.Audio.Library, NativeUI.Settings.Audio.LeftRight)
+			elseif Selected and Menu.Controls.Right.Active and not Menu.Controls.Left.Active then
 				Index = Index + 1
 
 				if Index > #Items then
 					Index = 1
 				end
+
+				NativeUI.PlaySound(NativeUI.Settings.Audio.Library, NativeUI.Settings.Audio.LeftRight)
+			end
+
+			if Selected and Menu.Controls.Select.Active then
+				NativeUI.PlaySound(NativeUI.Settings.Audio.Library, NativeUI.Settings.Audio.Select)
 			end
 
 			Callback(Hovered, Selected, (Menu.Controls.Select.Active and Selected), Index)
@@ -908,8 +943,9 @@ function NativeUI.Slider(Menu, Label, Items, Index, Description, Divider, Enable
 		if Menu() == "Menu" then
 			local Option = NativeUI.Options + 1			
 			local Selected = Menu.Index == Option
+			local Hovered = false
 
-			if Menu.Pagination.Min <= Option and Menu.Pagination.Max >= Option then
+			if Menu.Pagination.Minimum <= Option and Menu.Pagination.Maximum >= Option then
 
 				local SafeZone = {X = 0, Y = 0}
 				
@@ -920,7 +956,7 @@ function NativeUI.Slider(Menu, Label, Items, Index, Description, Divider, Enable
 					ScreenDrawPositionRatio(0, 0, 0, 0)
 				end
 
-				local Hovered = IsMouseInBounds(Menu.X + SafeZone.X, Menu.Y + NativeUI.Settings.Items.Button.Rectangle.Y + SafeZone.Y + NativeUI.ItemOffset, NativeUI.Settings.Items.Button.Rectangle.Width + Menu.WidthOffset, NativeUI.Settings.Items.Button.Rectangle.Height)
+				Hovered = IsMouseInBounds(Menu.X + SafeZone.X, Menu.Y + NativeUI.Settings.Items.Button.Rectangle.Y + SafeZone.Y + NativeUI.ItemOffset, NativeUI.Settings.Items.Button.Rectangle.Width + Menu.WidthOffset, NativeUI.Settings.Items.Button.Rectangle.Height)
 
 				if Hovered and not Selected then
 					NativeUI.RenderRectangle(Menu.X, Menu.Y + NativeUI.Settings.Items.Button.Rectangle.Y + NativeUI.ItemOffset,  NativeUI.Settings.Items.Button.Rectangle.Width + Menu.WidthOffset, NativeUI.Settings.Items.Button.Rectangle.Height, 255, 255, 255, 20)
@@ -969,18 +1005,26 @@ function NativeUI.Slider(Menu, Label, Items, Index, Description, Divider, Enable
 
 			NativeUI.Options = NativeUI.Options + 1
 
-			if Selected and Mouse.Controls.Left.Active and not Mouse.Controls.Right.Active then
+			if Selected and Menu.Controls.Left.Active and not Menu.Controls.Right.Active then
 				Index = Index - 1
 
 				if Index < 1 then
 					Index = #Items
 				end
-			elseif Selected and Mouse.Controls.Right.Active and not Mouse.Controls.Left.Active then
+
+				NativeUI.PlaySound(NativeUI.Settings.Audio.Library, NativeUI.Settings.Audio.LeftRight)
+			elseif Selected and Menu.Controls.Right.Active and not Menu.Controls.Left.Active then
 				Index = Index + 1
 
 				if Index > #Items then
 					Index = 1
 				end
+
+				NativeUI.PlaySound(NativeUI.Settings.Audio.Library, NativeUI.Settings.Audio.LeftRight)
+			end
+
+			if Selected and Menu.Controls.Select.Active then
+				NativeUI.PlaySound(NativeUI.Settings.Audio.Library, NativeUI.Settings.Audio.Select)
 			end
 
 			Callback(Hovered, Selected, (Menu.Controls.Select.Active and Selected), Index)
@@ -993,8 +1037,9 @@ function NativeUI.Progress(Menu, Label, Items, Index, Description, Counter, Enab
 		if Menu() == "Menu" then
 			local Option = NativeUI.Options + 1			
 			local Selected = Menu.Index == Option
+			local Hovered = false
 
-			if Menu.Pagination.Min <= Option and Menu.Pagination.Max >= Option then
+			if Menu.Pagination.Minimum <= Option and Menu.Pagination.Maximum >= Option then
 
 				local SafeZone = {X = 0, Y = 0}
 
@@ -1005,7 +1050,8 @@ function NativeUI.Progress(Menu, Label, Items, Index, Description, Counter, Enab
 					ScreenDrawPositionRatio(0, 0, 0, 0)
 				end
 
-				local Hovered = IsMouseInBounds(Menu.X + SafeZone.X, Menu.Y + NativeUI.Settings.Items.Button.Rectangle.Y + SafeZone.Y + NativeUI.ItemOffset, NativeUI.Settings.Items.Button.Rectangle.Width + Menu.WidthOffset, NativeUI.Settings.Items.Progress.Height)
+				Hovered = IsMouseInBounds(Menu.X + SafeZone.X, Menu.Y + NativeUI.Settings.Items.Button.Rectangle.Y + SafeZone.Y + NativeUI.ItemOffset, NativeUI.Settings.Items.Button.Rectangle.Width + Menu.WidthOffset, NativeUI.Settings.Items.Progress.Height)
+				
 				local ProgressText = (Counter and Index.."/"..#Items or (type(Items[Index]) == "table") and tostring(Items[Index].Name) or tostring(Items[Index]))
 
 				if Hovered and not Selected then
@@ -1042,13 +1088,13 @@ function NativeUI.Progress(Menu, Label, Items, Index, Description, Counter, Enab
 					else
 						NativeUI.RenderRectangle(Menu.X + NativeUI.Settings.Items.Progress.Background.X, Menu.Y + NativeUI.Settings.Items.Progress.Background.Y + NativeUI.ItemOffset,  NativeUI.Settings.Items.Progress.Background.Width + Menu.WidthOffset, NativeUI.Settings.Items.Progress.Background.Height, 240, 240, 240, 255)
 					end
-
-					NativeUI.ItemOffset = NativeUI.ItemOffset + NativeUI.Settings.Items.Progress.Height
 				end
 
 				if Menu.Safezone then
 					ScreenDrawPositionEnd()
 				end
+
+				NativeUI.ItemOffset = NativeUI.ItemOffset + NativeUI.Settings.Items.Progress.Height
 			end
 
 			if Selected and Menu.Description ~= Description then
@@ -1058,20 +1104,28 @@ function NativeUI.Progress(Menu, Label, Items, Index, Description, Counter, Enab
 
 			NativeUI.Options = NativeUI.Options + 1
 
-			if Selected and Mouse.Controls.Left.Active and not Mouse.Controls.Right.Active then
+			if Selected and Menu.Controls.Left.Active and not Menu.Controls.Right.Active then
 				Index = Index - 1
 
 				if Index < 1 then
 					Index = #Items
 				end
-			elseif Selected and Mouse.Controls.Right.Active and not Mouse.Controls.Left.Active then
+
+				NativeUI.PlaySound(NativeUI.Settings.Audio.Library, NativeUI.Settings.Audio.LeftRight)
+			elseif Selected and Menu.Controls.Right.Active and not Menu.Controls.Left.Active then
 				Index = Index + 1
 
 				if Index > #Items then
 					Index = 1
 				end
+
+				NativeUI.PlaySound(NativeUI.Settings.Audio.Library, NativeUI.Settings.Audio.LeftRight)
 			end
-			
+
+			if Selected and Menu.Controls.Select.Active then
+				NativeUI.PlaySound(NativeUI.Settings.Audio.Library, NativeUI.Settings.Audio.Select)
+			end
+
 			Callback(Hovered, Selected, (Menu.Controls.Select.Active and Selected), Index)
 		end
 	end
