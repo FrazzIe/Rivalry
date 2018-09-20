@@ -91,8 +91,8 @@ local drug_zones = {
 }
 local joint_id, weed_id = 8, 4
 local weed_pay = {
-    min = 40,
-    max = 60,
+    min = 66,
+    max = 99,
 }
 local weed_plants = {
     [1] = {x = 2215.85, y = 5575.36, z = 53.69, start_time = 0, end_time = 0},
