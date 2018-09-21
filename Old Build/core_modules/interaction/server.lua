@@ -40,12 +40,16 @@ AddEventHandler("interaction:givemoney", function(amount, target)
     local source = tonumber(source)
     TriggerEvent('core:getuser', source, function(user)
         if user.get("wallet") >= tonumber(amount) then
-            user.removeWallet(math.floor(amount))
-            TriggerEvent('core:getuser', tonumber(target), function(user2) 
-                user2.addWallet(math.floor(amount)) 
-                TriggerClientEvent("pNotify:SendNotification", source, {text = "You gave "..user2.get("first_name").." "..user2.get("last_name").." <span style='color:lime'>$</span>"..amount.."!",type = "error",queue = "left",timeout = 5000,layout = "centerRight"})
-            end)
-            TriggerClientEvent("pNotify:SendNotification", tonumber(target), {text = user.get("first_name").." "..user.get("last_name").." has gave you <span style='color:lime'>$</span>"..amount.."!",type = "error",queue = "left",timeout = 5000,layout = "centerRight"})   
+            if user.get("timeplayed") > 7200 then
+                user.removeWallet(math.floor(amount))
+                TriggerEvent('core:getuser', tonumber(target), function(user2) 
+                    user2.addWallet(math.floor(amount)) 
+                    TriggerClientEvent("pNotify:SendNotification", source, {text = "You gave "..user2.get("first_name").." "..user2.get("last_name").." <span style='color:lime'>$</span>"..amount.."!",type = "error",queue = "left",timeout = 5000,layout = "centerRight"})
+                end)
+                TriggerClientEvent("pNotify:SendNotification", tonumber(target), {text = user.get("first_name").." "..user.get("last_name").." has gave you <span style='color:lime'>$</span>"..amount.."!",type = "error",queue = "left",timeout = 5000,layout = "centerRight"})   
+            else
+                TriggerClientEvent("pNotify:SendNotification", source, {text = "You must have at least 2 hours playtime to transfer money!",type = "error",queue = "left",timeout = 3000,layout = "centerRight"})
+            end
         else
             TriggerClientEvent("pNotify:SendNotification", source, {text = "You do not have enough money!",type = "error",queue = "left",timeout = 3000,layout = "centerRight"})
         end
