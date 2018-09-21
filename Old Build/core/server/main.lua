@@ -15,6 +15,7 @@ Users = {}
 UGroup = {}
 UPower = {}
 Characters = {}
+MDTCharacters = {}
 CharacterNames = {}
 Identifiers = {}
 Config = {
@@ -94,5 +95,8 @@ AddEventHandler("playerDropped", function(reason)
     end
     if CharacterNames[source] ~= nil then
         CharacterNames[source] = nil
+    end
+    if MDTCharacters[source] then
+        MDTCharacters[source] = nil
     end
 end)

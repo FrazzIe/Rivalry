@@ -38,3 +38,4 @@ server_scripts {
 export 'GetCharacterName'
 export 'GetPower'
 export 'GetGroup'
+export 'GetMdtData'

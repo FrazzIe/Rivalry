@@ -17,6 +17,7 @@ UGroup = {}
 UPower = {}
 Characters = {}
 CharacterNames = {}
+MDTCharacters = {}
 
 local loggedIn = false
 local timeplayed = 0
@@ -104,13 +105,26 @@ function GetGroup(id)
 	end
 end
 
+function GetMdtData()
+	local Data = {}
+	
+	for _, value in pairs(MDTCharacters) do
+		if value ~= nil then
+			table.insert(Data, value)
+		end
+	end
+
+	return Data
+end
+
 RegisterNetEvent("core:sync")
-AddEventHandler("core:sync", function(_Characters, _CharactersNames, _Users, _UPower, _UGroup)
+AddEventHandler("core:sync", function(_Characters, _CharactersNames, _Users, _UPower, _UGroup, _MDTCharacters)
 	Characters = _Characters
 	CharacterNames = _CharactersNames
 	Users = _Users
 	UGroup = _UGroup
 	UPower = _UPower
+	MDTCharacters = _MDTCharacters
 end)
 
 AddEventHandler("playerSpawned", function()

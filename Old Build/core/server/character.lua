@@ -59,6 +59,7 @@ function setupCharacter(source, data)
     TriggerClientEvent("core:updateMoney", self["source"], self["bank"], "bank", "set", math.floor(tonumber(self["bank"])))
 
     CharacterNames[self["source"]] = self["first_name"].." "..self["last_name"]
+    MDTCharacters[self["source"]] = {data["character_id"], self["first_name"], self["last_name"]}
 
     local method = {}
 
@@ -372,8 +373,8 @@ AddEventHandler("core:selectCharacter", function(data)
                 TriggerClientEvent("core:login", source, Characters[source].get("lastcoords"), Characters[source].get("timeplayed"))
                 TriggerEvent("core:loaded", source, Characters[source], Users[source].get("power"), Users[source].get("group"))
                 TriggerClientEvent("core:loaded", source, Characters[source], Users[source].get("power"), Users[source].get("group"))
-                TriggerClientEvent("core:sync", -1, Characters, CharacterNames, Users, UPower, UGroup)
-                TriggerEvent("core:sync", Characters, CharacterNames, Users, UPower, UGroup)
+                TriggerClientEvent("core:sync", -1, Characters, CharacterNames, Users, UPower, UGroup, MDTCharacters)
+                TriggerEvent("core:sync", Characters, CharacterNames, Users, UPower, UGroup, MDTCharacters)
 
                 TriggerEvent("police:initialise", source, identifier, tonumber(data.character_id))
                 TriggerEvent("paramedic:initialise", source, identifier, tonumber(data.character_id))
