@@ -31,7 +31,7 @@ local previousMissionZ = 0
 local whoCalledX = 0
 local whoCalledY = 0
 local whoCalledZ = 0
-
+local previous_mission_coords = nil
 
 function getMechanicIsInService()
     return inService
@@ -692,7 +692,7 @@ end
 --restart metiers
 function jobsSystem()
     if inService == false then
-        return 
+        return
     end
     
     local myPed = GetPlayerPed(-1)
@@ -926,7 +926,9 @@ function updateMenuMission()
             item.name = item.name .. ' (current mission)'
             item.TextColor = {39, 174, 96, 255}
         end
-        table.insert(items, item)
+        if m.id ~= GetPlayerServerId(PlayerId()) then
+            table.insert(items, item)
+        end
     end
     if currentMissions ~= nil then
         table.insert(items, {name = 'Finish Mission', event = "mechanic:finish_mission", mission = ""})
@@ -937,64 +939,46 @@ end
 RegisterNetEvent('mechanic:MissionAccept')
 AddEventHandler('mechanic:MissionAccept', function (mission)
     currentMissions = mission
-    missionXCoord = mission.pos[1]
-    missionYCoord = mission.pos[2]
-    missionZCoord = mission.pos[3]
     SetNewWaypoint(mission.pos[1], mission.pos[2])
-    currentBlip= AddBlipForCoord(mission.pos[1], mission.pos[2], mission.pos[3])
+    currentBlip = AddBlipForCoord(mission.pos[1], mission.pos[2], mission.pos[3])
     SetBlipSprite(currentBlip, 446)
     SetBlipColour(currentBlip, 5)
     SetBlipAsShortRange(currentBlip, true)
-    --SetBlipFlashes(currentBlip,1)
     BeginTextCommandSetBlipName("STRING")
     AddTextComponentString(TEXT.Blip)
     EndTextCommandSetBlipName(currentBlip)
     SetBlipAsMissionCreatorBlip(currentBlip, true)
-
 end)
-
-local distance = 0
-local distanceP = 0
-local checkDistance = 0 
 
 Citizen.CreateThread(function()
     while true do
-      Citizen.Wait(0)
-        local coords = GetEntityCoords(PlayerPedId())
-        distance = Vdist(coords.x, coords.y, coords.z, missionXCoord, missionYCoord, missionZCoord)
-        distanceP = Vdist(missionXCoord, missionYCoord, missionZCoord, previousMissionX, previousMissionY, previousMissionZ)
-        checkDistance = Vdist(coords.x, coords.y, coords.z, whoCalledX, whoCalledY, whoCalledZ)
-        if(distance < 10 and distanceP > 50 and checkDistance > 50) then
-            TriggerEvent('mechanic:finish_mission')
-            previousMissionX = missionXCoord
-            previousMissionY = missionYCoord
-            previousMissionZ = missionZCoord
-            RemoveBlip(currentBlip)
+        Citizen.Wait(1000)
+        if currentMissions ~= nil then
+            local PlayerPosition = GetEntityCoords(PlayerPedId(), false)
+            if GetDistanceBetweenCoords(PlayerPosition.x, PlayerPosition.y, PlayerPosition.z, currentMissions.pos[1], currentMissions.pos[2], currentMissions.pos[3], true) < 10 then
+                TriggerEvent("mechanic:finish_mission")
+            end
         end
     end
 end)
 
-Citizen.CreateThread(function()
-        while true do
-        Citizen.Wait(180000)
-        previousMissionX = 0
-        previousMissionY = 0
-        previousMissionZ = 0
-    end
-end)
-
-
 AddEventHandler("mechanic:finish_mission", function()
     if currentMissions ~= nil then
+        if previous_mission_coords ~= nil then
+            if GetDistanceBetweenCoords(currentMissions.pos[1], currentMissions.pos[2], currentMissions.pos[3], previous_mission_coords[1], previous_mission_coords[2], previous_mission_coords[3], true) > 30 then
+                TriggerServerEvent("mechanic:PayPlayer")
+            end
+            
+            previous_mission_coords = currentMissions.pos
+        else
+            previous_mission_coords = currentMissions.pos
+            TriggerServerEvent("mechanic:PayPlayer")
+        end
+
         TriggerServerEvent('mechanic:FinishMission', currentMissions.id)
+        currentMissions = nil
     end
     
-    local distanceP = Vdist(missionXCoord, missionYCoord, missionZCoord, previousMissionX, previousMissionY, previousMissionZ)
-    currentMissions = nil
-    if(distanceP > 50  and checkDistance > 50 )then
-        TriggerServerEvent('mechanic:PayPlayer')
-        RemoveBlip(currentBlip)
-    end
     if currentBlip ~= nil then
         RemoveBlip(currentBlip)
     end
@@ -1046,9 +1030,6 @@ end)
 function needMechanic(type)
     local myPed = GetPlayerPed(-1)
     local myCoord = GetEntityCoords(myPed)
-    whoCalledX = myCoord.x
-    whoCalledY = myCoord.y
-    whoCalledZ = myCoord.z
     TriggerServerEvent('mechanic:Call', myCoord.x, myCoord.y, myCoord.z, type)
 end
 
@@ -1074,7 +1055,6 @@ end)
 
 RegisterNetEvent('mechanic:callMechanic')
 AddEventHandler('mechanic:callMechanic',function(type)
-    print(type)
     needMechanic(type)
 end)
 
