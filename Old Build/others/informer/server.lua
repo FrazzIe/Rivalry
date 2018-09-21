@@ -31,7 +31,7 @@ AddEventHandler("informer:cleancoke", function()
 		local price = 5000
 		if (tonumber(user.get("wallet")) >= tonumber(price)) then
 			user.removeWallet(price)
-			TriggerClientEvent('chatMessage', source, 'Informer ', {0, 255, 100}, "It used to be in Paleto Bay but the LSPD detectives found it.. they moved the operation into the city near some gay bar." )
+			TriggerClientEvent('chatMessage', source, 'Informer ', {0, 255, 100}, "top left, scaffolding?? i think? or was it top right" )
 		else
 			TriggerClientEvent('chatMessage', source, 'Informer ', {0, 255, 100}, "Information isn't free, get your bread up!")
 		end
