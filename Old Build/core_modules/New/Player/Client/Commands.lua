@@ -54,7 +54,7 @@ AddEventHandler("core:ready", function()
             else
                 local Emote = Emotes.Find(args[1]:lower())
                 if Emote then
-                    Emotes.Stop() 
+                    Emotes.Stop()
                     Emote.Playing = true
                     Emote:Play(Emote)
                     table.insert(Emotes.Active, Emote)

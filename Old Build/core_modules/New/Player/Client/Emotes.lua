@@ -109,9 +109,11 @@ function Emotes.Stop()
 				DetachEntity(Emotes.Active[Index].Objects[Object], true, false)
 				DestroyObject(Emotes.Active[Index].Objects[Object])
 			end
+
 			Emotes.Active[Index].Objects = {}
-			Emotes.Active[Index].Playing = false
 		end
+		
+		Emotes.Active[Index].Playing = false
 	end
 
 	Emotes.Active = {}
@@ -634,32 +636,24 @@ end)
 
 Emote.Add("surrender", "Surrender", "Misc", {"random@arrests@busted", "random@arrests"}, {"enter", "exit", "idle_a", "kneeling_arrest_get_up"}, {}, {}, function(self)
 	Citizen.CreateThread(function()
-		local PlayExitAnimation = true
 		while self.Playing do
 			Citizen.Wait(0)
 
-			local PlayerPed = PlayerPedId()
+			if self.Playing then
+				local PlayerPed = PlayerPedId()
 
-			if not IsPedSittingInAnyVehicle(PlayerPed) and stance ~= "prone" and not cuffable and not IsEntityDead(PlayerPed) and not exports.policejob:getIsCuffed() and not isCuffed() then
-				IsStanceAllowed = false
-				if not IsEntityPlayingAnim(PlayerPed, self.Dictionaries[1], self.Animations[1], 3) and not IsEntityPlayingAnim(PlayerPed, self.Dictionaries[1], self.Animations[3], 3) then
-					ClearPedTasks(PlayerPed)
-					TaskPlayAnim(PlayerPed, self.Dictionaries[1], self.Animations[1], 4.0, -4, -1, 21, 0, 0, 0, 0)
-					Citizen.Wait(1650)
-					TaskPlayAnim(PlayerPed, self.Dictionaries[1], self.Animations[3], 4.0, -4, -1, 15, 0, 0, 0, 0)
+				if not IsPedSittingInAnyVehicle(PlayerPed) and stance ~= "prone" and not cuffable and not IsEntityDead(PlayerPed) and not exports.policejob:getIsCuffed() and not isCuffed() then
+					IsStanceAllowed = false
+					if not IsEntityPlayingAnim(PlayerPed, self.Dictionaries[1], self.Animations[1], 3) and not IsEntityPlayingAnim(PlayerPed, self.Dictionaries[1], self.Animations[3], 3) then
+						ClearPedTasks(PlayerPed)
+						TaskPlayAnim(PlayerPed, self.Dictionaries[1], self.Animations[1], 4.0, -4, -1, 21, 0, 0, 0, 0)
+						Citizen.Wait(1650)
+						TaskPlayAnim(PlayerPed, self.Dictionaries[1], self.Animations[3], 4.0, -4, -1, 15, 0, 0, 0, 0)
+					end
+				else
+					self.Playing = false
 				end
-			else
-				self.Playing = false
-				PlayExitAnimation = false
 			end
-		end
-
-		if PlayExitAnimation then
-			TaskPlayAnim(PlayerPed, self.Dictionaries[1], self.Animations[2], 4.0, -4, -1, 15, 0, 0, 0, 0)
-			Citizen.Wait(1950)
-			TaskPlayAnim(PlayerPed, self.Dictionaries[2], self.Animations[4], 4.0, -4, -1, 15, 0, 0, 0, 0)
-			Citizen.Wait(2250)
-			ClearPedTasksImmediately(PlayerPed)
 		end
 		
 		IsStanceAllowed = true
