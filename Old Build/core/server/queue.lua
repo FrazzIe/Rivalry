@@ -74,14 +74,13 @@ Config.Priority = {
     ["steam:110000100BF705A"] = 599, -- Schwank (Zach)
     ["steam:110000102e9a6e2"] = 598, -- Sessh (Mechanic Boss)
     ["steam:11000010512aeff"] = 597, -- Julien 
-    ["steam:11000011457b97e"] = 596, -- Jay Stylz
-    ["steam:110000111c7701f"] = 595, -- Chaz
-    ["steam:11000011102bde4"] = 594, -- Kenn
-    ["steam:1100001032aa2a1"] = 593, -- Austin James (Mechanic)
-    ["steam:11000010048d646"] = 592, -- Tsury
-    ["steam:110000104c5b700"] = 591, -- DarkLaiX
-    ["steam:11000010e0f809e"] = 590, -- FateProphecy
-    ["steam:1100001047e1d3d"] = 589, -- Hank
+    ["steam:110000101d67662"] = 596, -- Incsypops
+    ["steam:11000011457b97e"] = 595, -- Jay Stylz
+    ["steam:110000111c7701f"] = 594, -- Chaz
+    ["steam:11000011102bde4"] = 593, -- Kenn
+    ["steam:1100001032aa2a1"] = 592, -- Austin James (Mechanic)
+    ["steam:11000010048d646"] = 591, -- Tsury
+    ["steam:1100001047e1d3d"] = 590, -- Hank
 }
 
 Config.RequireSteam = true
