@@ -18,6 +18,7 @@ Config.Priority = {
     ["steam:110000106e0c14b"] = 995, -- Ructar
     ["steam:1100001341a1664"] = 994, -- Lamar
     ["steam:110000115c8520b"] = 993, -- Jinia
+    ["steam:110000114e5c4ee"] = 992, -- Poppy Winslow (Mechanic)
 --[People Frazzle Likes]--
     ["steam:1100001074e86ec"] = 900, -- RoundishKungFu/Kelly Price
     ["steam:110000110e35616"] = 899, -- Ryleigh Wolfhart
@@ -72,7 +73,7 @@ Config.Priority = {
     ["steam:1100001199d626f"] = 600, -- Miinion (Aubrey)
     ["steam:110000100BF705A"] = 599, -- Schwank (Zach)
     ["steam:110000103d70c3f"] = 598, -- Jet Blue (Lawyer)
-    ["steam:110000114e5c4ee"] = 597, -- Poppy Winslow (Mechanic)
+    ["steam:110000102e9a6e2"] = 597, -- Sessh (Mechanic Boss)
     ["steam:11000010512aeff"] = 596, -- Julien 
     ["steam:11000011457b97e"] = 595, -- Jay Stylz
     ["steam:110000111c7701f"] = 594, -- Chaz
