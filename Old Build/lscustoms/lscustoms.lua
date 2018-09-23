@@ -399,7 +399,7 @@ local function DriveInGarage()
 					end
 				end
 				scol:addSubMenu("MATTE", "Matte", nil,true)
-				for n, c in pairs(LSC_Config.prices.chrome2.colors) do
+				for n, c in pairs(LSC_Config.prices.matte2.colors) do
 					local btn = scol.Matte:addPurchase(c.name,LSC_Config.prices.matte2.price)btn.colorindex = c.colorindex
 					if btn.colorindex == myveh.color[2] then
 						btn.purchased = true
@@ -419,8 +419,13 @@ local function DriveInGarage()
 						btn.purchased = true
 					end
 				end
-		
-		
+			pcol = respray:addSubMenu("PEARLESCENT COLORS", "Pearlescent color", nil,true)
+			for n, c in pairs(LSC_Config.prices.classic3.colors) do
+				local btn = pcol:addPurchase(c.name,LSC_Config.prices.classic3.price)btn.colorindex = c.colorindex
+				if btn.colorindex == myveh.extracolor[1] then
+					btn.purchased = true
+				end
+			end
 		LSCMenu.categories:addSubMenu("WHEELS", "Wheels", "Custom rims, tires and colors.",true)
 			wtype = LSCMenu.categories.Wheels:addSubMenu("WHEEL TYPE", "Wheel type", "Custom rims in all styles and sizes.",true)
 				if IsThisModelABike(GetEntityModel(veh)) then
@@ -759,6 +764,12 @@ function LSCMenu:onSelectedIndexChanged(name, button)
 	CheckPurchases(m)
 	m = m.name:lower()
 	p = p:lower()
+
+	if m == "pearlescent color" and p == "respray" then
+		SetVehicleColours(veh,myveh.color[1],myveh.color[2])
+		SetVehicleExtraColours(veh, button.colorindex, myveh.extracolor[2])
+	end
+
 	--set up temporary shitt, or in other words show preview of selected mod
 	if m == "chrome" or m ==  "classic" or m ==  "matte" or m ==  "metals" then
 		if p == "primary color" then
@@ -770,10 +781,10 @@ function LSCMenu:onSelectedIndexChanged(name, button)
 	elseif m == "metallic" then
 		if p == "primary color" then
 			SetVehicleColours(veh,button.colorindex,myveh.color[2])
-			SetVehicleExtraColours(veh, myveh.color[2], myveh.extracolor[2])
+			SetVehicleExtraColours(veh, myveh.extracolor[1], myveh.extracolor[2])
 		else
 			SetVehicleColours(veh,myveh.color[1],button.colorindex)
-			SetVehicleExtraColours(veh, button.colorindex, myveh.extracolor[2])				
+			SetVehicleExtraColours(veh, myveh.extracolor[1], myveh.extracolor[2])				
 		end
 	elseif m == "wheel color" then
 		SetVehicleExtraColours(veh,myveh.extracolor[1], button.colorindex)
@@ -825,7 +836,14 @@ AddEventHandler("LSC:buttonSelected", function(name, button, canpurchase)
 	end
 	
 	mname = m.name:lower()
+
 	--Bunch of button shitt, that gets executed if button is selected + goes through checks
+	if mname == "pearlescent color" and m.parent == "Respray" then
+		if button.name == "Stock" or button.purchased or CanPurchase(price, canpurchase) then
+			myveh.extracolor[1] = button.colorindex
+		end
+	end
+
 	if mname == "chrome" or mname ==  "classic" or mname ==  "matte" or mname ==  "metals" then
 		if m.parent == "Primary color" then
 			if button.name == "Stock" or button.purchased or CanPurchase(price, canpurchase) then
@@ -1123,6 +1141,19 @@ end
 --Bunch of checks
 function CheckPurchases(m)
 	name = m.name:lower()
+
+	if name == "pearlescent color" and m.parent == "Respray" then
+		for i,b in pairs(m.buttons) do
+			if b.purchased and b.colorindex ~= myveh.extracolor[1] then
+				if b.purchased ~= nil then b.purchased = false end
+				b.sprite = nil
+			elseif b.purchased == false and b.colorindex == myveh.extracolor[1] then
+				if b.purchased ~= nil then b.purchased = true end
+				b.sprite = "garage"
+			end
+		end
+	end
+
 	if name == "chrome" or name ==  "classic" or name ==  "matte" or name ==  "metals" then
 		if m.parent == "Primary color" then
 			for i,b in pairs(m.buttons) do
@@ -1134,12 +1165,22 @@ function CheckPurchases(m)
 					b.sprite = "garage"
 				end
 			end
-		else
+		elseif m.parent == "Secondary color" then
 			for i,b in pairs(m.buttons) do
-				if b.purchased and (b.colorindex ~= myveh.color[1] or myveh.extracolor[1] ~= myveh.color[2]) then
+				if b.purchased and b.colorindex ~= myveh.color[2] then
 					if b.purchased ~= nil then b.purchased = false end
 					b.sprite = nil
-				elseif b.purchased == false and b.colorindex == myveh.color[1] and myveh.extracolor[1] == myveh.color[2] then
+				elseif b.purchased == false and b.colorindex == myveh.color[2] then
+					if b.purchased ~= nil then b.purchased = true end
+					b.sprite = "garage"
+				end
+			end			
+		else
+			for i,b in pairs(m.buttons) do
+				if b.purchased and (b.colorindex ~= myveh.color[1]) then
+					if b.purchased ~= nil then b.purchased = false end
+					b.sprite = nil
+				elseif b.purchased == false and b.colorindex == myveh.color[1] then
 					if b.purchased ~= nil then b.purchased = true end
 					b.sprite = "garage"
 				end
@@ -1156,12 +1197,22 @@ function CheckPurchases(m)
 					b.sprite = "garage"
 				end
 			end
-		else
+		elseif m.parent == "Secondary color" then
 			for i,b in pairs(m.buttons) do
-				if b.purchased and (b.colorindex ~= myveh.color[2] or myveh.extracolor[1] ~= b.colorindex) then
+				if b.purchased and b.colorindex ~= myveh.color[2] then
 					if b.purchased ~= nil then b.purchased = false end
 					b.sprite = nil
-				elseif b.purchased == false and b.colorindex == myveh.color[2] and myveh.extracolor[1] == b.colorindex then
+				elseif b.purchased == false and b.colorindex == myveh.color[2] then
+					if b.purchased ~= nil then b.purchased = true end
+					b.sprite = "garage"
+				end
+			end	
+		else
+			for i,b in pairs(m.buttons) do
+				if b.purchased and (b.colorindex ~= myveh.color[2]) then
+					if b.purchased ~= nil then b.purchased = false end
+					b.sprite = nil
+				elseif b.purchased == false and b.colorindex == myveh.color[2] then
 					if b.purchased ~= nil then b.purchased = true end
 					b.sprite = "garage"
 				end

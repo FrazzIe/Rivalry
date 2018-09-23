@@ -417,7 +417,7 @@ AddEventHandler("carshop:bought",function(data)
         SetNetworkIdCanMigrate(id, true)
 
         SetVehicleColours(veh, data.primary_colour, data.secondary_colour)
-        SetVehicleExtraColours(veh, tonumber(data.primary_colour), tonumber(data.wheel_colour))
+        SetVehicleExtraColours(veh, tonumber(data.pearlescent_colour), tonumber(data.wheel_colour))
         SetVehicleNumberPlateTextIndex(veh, data.plate_colour)
         SetVehicleNumberPlateText(veh, data.plate)
         SetVehicleNeonLightsColour(veh, tonumber(data.neon_colour[1]), tonumber(data.neon_colour[2]), tonumber(data.neon_colour[3]))

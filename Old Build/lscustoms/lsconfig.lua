@@ -149,6 +149,10 @@ LSC_Config.prices = {
 		price = 2500
 	},
 
+	classic3 = {
+		colors = colors,
+		price = 250
+	},
 ------Neon layout------
 	neonlayout = {
 		{name = "Front,Back and Sides", price = 60},
