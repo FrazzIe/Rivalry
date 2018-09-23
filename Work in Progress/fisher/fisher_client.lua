@@ -20,65 +20,23 @@ Fishing = {
 			},
 		},
 		DeepSea = {
-			[1] = {
-				id=404,
-				x = 3991.8015136719,
-				y = 2428.513671875,
-				z = 2.90869140625,
-				distanceBetweenCoords=20.5,
-				distanceMarker=20.5,
-				defaultTime=10000,
-				name="Deep Sea Fishing"
+			{ 
+			 	id=404, x = 3991.8015136719, y = 2428.513671875, z = 2.90869140625, distanceBetweenCoords=20.5, distanceMarker=20.5, defaultTime=10000, name="Deep Sea Fishing"
 			},
-			[2] = {
-				id=404,
-				x = 3069.6108398438,
-				y = -2130.59375,
-				z = 3.9801769256592,
-				distanceBetweenCoords=20.5,
-				distanceMarker=20.5,
-				defaultTime=10000,
-				name="Deep Sea Fishing"
+			{
+				id=404, x = 3069.6108398438, y = -2130.59375, z = 3.9801769256592, distanceBetweenCoords=20.5, distanceMarker=20.5, defaultTime=10000, name="Deep Sea Fishing"
 			},
-			[3] = {
-				id=404,
-				x = -2301.1547851563,
-				y = -1236.6251220703,
-				z = 4.5,
-				distanceBetweenCoords=20.5,
-				distanceMarker=20.5,
-				defaultTime=10000,
-				name="Deep Sea Fishing"
+			{
+				id=404, x = -2301.1547851563, y = -1236.6251220703, z = 4.5, distanceBetweenCoords=20.5, distanceMarker=20.5, defaultTime=10000, name="Deep Sea Fishing"
 			},
-			[4] = {
-				id=404,
-				x = -3516.1176757813,
-				y = 2906.3083496094,
-				z = 7.090615272522,
-				distanceBetweenCoords=20.5,
-				distanceMarker=20.5,
-				defaultTime=10000,
-				name="Deep Sea Fishing"
+			{
+				id=404, x = -3516.1176757813, y = 2906.3083496094, z = 7.090615272522, distanceBetweenCoords=20.5, distanceMarker=20.5, defaultTime=10000, name="Deep Sea Fishing"
 			},
-			[5] = {
-				id=404,
-				x = -1787.2473144531,
-				y = 6095.6254882813,
-				z = 2.2088184356689,
-				distanceBetweenCoords=20.5,
-				distanceMarker=20.5,
-				defaultTime=10000,
-				name="Deep Sea Fishing"
+			{
+				id=404, x = -1787.2473144531, y = 6095.6254882813, z = 2.2088184356689, distanceBetweenCoords=20.5, distanceMarker=20.5, defaultTime=10000, name="Deep Sea Fishing"
 			},
-			[6] = {
-				id=404,
-				x = 1251.6247558594,
-				y = 7330.8481445313,
-				z = 3.8822541236877,
-				distanceBetweenCoords=20.5,
-				distanceMarker=20.5,
-				defaultTime=10000,
-				name="Deep Sea Fishing"
+			{
+				id=404, x = 1251.6247558594, y = 7330.8481445313, z = 3.8822541236877, distanceBetweenCoords=20.5, distanceMarker=20.5, defaultTime=10000, name="Deep Sea Fishing"
 			},
 		},
 		Bar = {
@@ -132,6 +90,7 @@ Fishing = {
 	},
 }
 
+local peds = {}
 --Functions
 function startFishing(typeOfFishing)
 	IsFishing = true
@@ -171,11 +130,11 @@ function startFishing(typeOfFishing)
 				Citizen.Wait(200)
 				DetachEntity(FishRod, true, true)
 				DeleteEntity(FishRod)
-				if(typeOfFishing == "Deep") then
-					TriggerServerEvent('Fisher:serverRequest', "GetPoissonDeep", math.random(1,6))
+				GetPedNearbyPeds(PlayerPedId(), peds)
+				if( typeOfFishing == "Deep")
+					TriggerServerEvent('caughtFish', "Deep", #peds)
 				else
-					TriggerServerEvent('Fisher:serverRequest', "GetPoisson", math.random(1,6))
-
+					TriggerServerEvent('caughtFish', "Pier", #peds)
 				end
 			else
 				CFish = false
@@ -216,7 +175,7 @@ end
 	end)
 
 	Citizen.CreateThread(function()
-		CreateBlip("Jetsam Trucking", 477, 21, locations.service.x, locations.service.y, locations.service.z)
+		CreateBlip("Turtle Head Fishing", 477, 21, locations.service.x, locations.service.y, locations.service.z)
 		while true do
 			Citizen.Wait(0)
 			local ped = PlayerPedId()
@@ -239,7 +198,7 @@ end
 								startFishing("Pier")
 							end
 						end
-						if(Vdist(post.x, pos.y, pos.z, Fishing.Data.Pier[i]))then
+						if(Vdist(post.x, pos.y, pos.z, Fishing.Data.Deep[i]))then
 							DisplayHelpText("Press ~INPUT_CONTEXT~ to start fishing!")
 							if IsControlJustPressed(1,51) then
 								startFishing("Deep")

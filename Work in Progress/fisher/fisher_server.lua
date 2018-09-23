@@ -8,39 +8,35 @@
 		TriggerClientEvent('Fisher:getCar2', source)
 	end)
 
-	RegisterServerEvent('Fisher:serverRequest')
-	AddEventHandler('Fisher:serverRequest', function (typeRequest, index)
+	local pierFish = {21, 50, 52, 53, 56}
+	local deepFish = {58, 60, 62, 64, 66, 68}
+	local allFish = {21, 50, 52, 54, 56, 58, 60, 62, 64, 66, 68}
+
+	RegisterServerEvent('caughtFish')
+	AddEventHandler('caughtFish', function (typeRequest, nearbyPlayers)
 		local source = tonumber(source)
 		TriggerEvent("inventory:getuser", source, function(inventory)
-			if typeRequest == "GetPoisson" then
-				local possibleValues = {21, 50, 52, 53, 56}
-				local data = {}
-				for k, v in ipairs(possibleValues) do
-					if(inventory[v])then
-						table.insert(data, inventory[v].quantity)
+			if(typeRequest == "Deep")then
+				local index = math.random()
+				local fish = deepFish[index]
+				if(nearbyPlayers >= 4)
+					probability = 0.8
+				elseif(nearbyPlayers == 3)
+					probability = 0.6
+				elseif(nearbyPlayers == 2)
+					probability = 0.4
+				else
+					probability = 0.2
+				end
+				local lastIndex = #deepFish
+				for i = 1, i < lastIndex do
+					if(num < probability - 1)then
+						
 					end
 				end
-				TriggerClientEvent('Fisher:drawGetPoisson', source, data)
-			elseif typeRequest == "GetPoissonDeep" then
-				local possibleValues = {58, 60, 62, 64, 66, 68}
-				local data = {}
-				for k, v in ipairs(possibleValues) do
-					if(inventory[v])then
-						table.insert(data, inventory[v].quantity)
-					end
-				end
-				TriggerClientEvent('Fisher:drawGetPoissonDeep',source, data)
-			elseif typeRequest == "SellFilet" then
-				local possibleValues = {21, 50, 52, 54, 56, 58, 60, 62, 64, 66, 68}
-				local data = {}
-				for k, v in ipairs(possibleValues) do
-					if(inventory[v])then
-						table.insert(data, inventory[v].quantity)
-					end
-				end
-				TriggerClientEvent('Fisher:drawSellFilet', source, data)
+			else
+			
 			end
-			inventory.addItem(possiblevalues[index])
 		end)
 	end)
 		
