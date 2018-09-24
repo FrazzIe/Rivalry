@@ -19,11 +19,11 @@
 			if(typeRequest == "Deep")then
 				local index = math.random()
 				local fish = deepFish[index]
-				if(nearbyPlayers >= 4)
+				if(nearbyPlayers >= 4) then
 					probability = 0.8
-				elseif(nearbyPlayers == 3)
+				elseif(nearbyPlayers == 3) then
 					probability = 0.6
-				elseif(nearbyPlayers == 2)
+				elseif(nearbyPlayers == 2) then
 					probability = 0.4
 				else
 					probability = 0.2
@@ -51,7 +51,7 @@ end)
 local prices = {50,50,50,50,150,175,200,225,250,275}
 local previousTime = 0
 RegisterServerEvent('updatePrices')
-AddEvenHandler('updatePrices', function(mostSoldFish, leastSoldFish)
+AddEventHandler('updatePrices', function(mostSoldFish, leastSoldFish)
 	local time = os.time()
 	if(previousTime == 0)then
 		previousTime = time

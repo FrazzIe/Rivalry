@@ -87,6 +87,11 @@ Fishing = {
 		Vehicles ={
 			Model = "tug"
 		},
+		fishmarkets = {
+			{ x = -1833.9466552734, y = -1174.2725830078, z = 14.304770469666 },
+			{ x = 1695.7716064453, y = 4785.1059570313, z = 42.006546020508 },
+			{ x = 95.625076293945, y = 6363.8999023438, z = 31.375881195068 },
+		},
 	},
 }
 
@@ -112,7 +117,7 @@ function startFishing(typeOfFishing)
 		Citizen.Wait(1)
 		FishGUI(true)
 		if RunCodeOnly1Time then
-			Faketimer = 1
+			Fishing.Data.Bar.Faketimer = 1
 			PlayAnim(GetPed(),'amb@world_human_stand_fishing@idle_a','idle_c',1,0) -- 10sec
 			RunCodeOnly1Time = false
 		end
@@ -131,7 +136,7 @@ function startFishing(typeOfFishing)
 				DetachEntity(FishRod, true, true)
 				DeleteEntity(FishRod)
 				GetPedNearbyPeds(PlayerPedId(), peds)
-				if( typeOfFishing == "Deep")
+				if( typeOfFishing == "Deep") then
 					TriggerServerEvent('caughtFish', "Deep", #peds)
 				else
 					TriggerServerEvent('caughtFish', "Pier", #peds)
@@ -145,15 +150,15 @@ function startFishing(typeOfFishing)
 				DetachEntity(FishRod, true, true)
 				DeleteEntity(FishRod)
 			end
+		else
+			FishingRodInHand = false
 		end
-	else
-		FishingRodInHand = false
 	end
 end
 -- Networking Events
 	RegisterNetEvent('fisher:set')
 	AddEventHandler("fisher:set", function(_isFisher)
-		Fishing.Data.isFisher = false
+		Fishing.Data.isFisher = true
 		Fishing.Data.OnDuty = _isFisher
 	end)
 
@@ -175,15 +180,15 @@ end
 	end)
 
 	Citizen.CreateThread(function()
-		CreateBlip("Turtle Head Fishing", 477, 21, locations.service.x, locations.service.y, locations.service.z)
+		CreateBlip("Turtle Head Fishing", 477, 21, Fishing.Data.Locations.Service.x, Fishing.Data.Locations.Service.y, Fishing.Data.Locations.Service.z)
 		while true do
 			Citizen.Wait(0)
 			local ped = PlayerPedId()
 			local pos = GetEntityCoords(ped, false)
 			if Fishing.Data.isFisher then
-				if(Vdist(pos.x, pos.y, pos.z, Fishing.Data.Location.Service) < 10) then
-					DrawMarker(25, Fishing.Data.Location.Service.x, Fishing.Data.Location.Service.y, Fishing.Data.Location.Service.z, 1.0, 1.0, 1.5, 0, 255, 0, 255)
-					if Vdist(pos.x, pos.y, pos.z, Fishing.Data.Location.Service) < 1 then
+				if(Vdist(pos.x, pos.y, pos.z, Fishing.Data.Locations.Service.x, Fishing.Data.Locations.Service.y, Fishing.Data.Locations.Service.z) < 10) then
+					DrawMarker(25, Fishing.Data.Locations.Service.x, Fishing.Data.Locations.Service.y, Fishing.Data.Locations.Service.z, 1.0, 1.0, 1.5, 0, 255, 0, 255)
+					if Vdist(pos.x, pos.y, pos.z, Fishing.Data.Locations.Service) < 1 then
 						DisplayHelpTesk("Press ~INPUT_CONTEXT~ to sign on duty!")
 						if(IsControlJustPressed(1,51)) then
 							Fishing.Data.OnDuty = not Fishing.Data.OnDuty
@@ -191,7 +196,7 @@ end
 					end	
 				end
 				if Fishing.Data.OnDuty then
-					while i = 1, i < #Fishing.Data.Piers do
+					for i = 1, i < #Fishing.Data.Piers do
 						if(Vdist(pos.x, pos.y, pos.z, Fishing.Data.Pier[i]) < 5) then
 							DisplayHelpText("Press ~INPUT_CONTEXT~ to start fishing!")
 							if	(IsControlJustPressed(1,51)) then
@@ -210,7 +215,7 @@ end
 		end
 	end)
 
-	for k,v in pairs(Store) do
+	for k,v in pairs(Fishing.Data.Store) do
 		for i,j in pairs(v.Items) do
 			j.Quantity = {}
 			for index = 1, j.Max do j.Quantity[#j.Quantity+1] = tostring(index) end
@@ -221,7 +226,7 @@ end
 		while true do
 			Citizen.Wait(0)
 			local pos = GetEntityCoords(PlayerPedId(), false)
-			for k,v in ipairs(fishmarkets) do
+			for k,v in ipairs(Fishing.Data.fishmarkets) do
 				if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 15.0)then
 					DrawMarker(25,v.x, v.y, v.z-1, 0, 0, 0, 0, 0, 0, 2.001, 2.0001, 0.5001, 0, 155, 255, 200, 0, 0, 0, 0)
 					if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 1.0)then
@@ -298,6 +303,6 @@ end
 Citizen.CreateThread(function() -- Thread for  timer
 	while true do 
 		Citizen.Wait(1000)
-		Faketimer = Faketimer + 1 
+		Fishing.Data.Bar.Faketimer = Fishing.Data.Bar.Faketimer + 1 
 	end 
 end)
