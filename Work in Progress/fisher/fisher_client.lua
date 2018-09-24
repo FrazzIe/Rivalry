@@ -189,7 +189,7 @@ end
 				if(Vdist(pos.x, pos.y, pos.z, Fishing.Data.Locations.Service.x, Fishing.Data.Locations.Service.y, Fishing.Data.Locations.Service.z) < 10) then
 					DrawMarker(25, Fishing.Data.Locations.Service.x, Fishing.Data.Locations.Service.y, Fishing.Data.Locations.Service.z, 1.0, 1.0, 1.5, 0, 255, 0, 255)
 					if Vdist(pos.x, pos.y, pos.z, Fishing.Data.Locations.Service.x, Fishing.Data.Locations.Service.y, Fishing.Data.Locations.Service.z) < 1 then
-						DisplayHelpTesk("Press ~INPUT_CONTEXT~ to sign on duty!")
+						DisplayHelpText("Press ~INPUT_CONTEXT~ to sign on duty!")
 						if(IsControlJustPressed(1,51)) then
 							Fishing.Data.OnDuty = not Fishing.Data.OnDuty
 						end
