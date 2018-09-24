@@ -107,31 +107,30 @@ function startFishing(typeOfFishing)
 	FishingRodInHand = true
 	while IsFishing do
 		local time = 4*3000
-		TaskStandStill(GetPed(), time+7000)
-		PlayAnim(GetPed(),'amb@world_human_stand_fishing@base','base',4,3000)
+		TaskStandStill(PlayerPedId(), time+7000)
+		TaskPlayAnim(PlayerPedId(),'amb@world_human_stand_fishing@base','base', 4.0, -4, -1, 1, 0, false, false, false)
 		Citizen.Wait(time)
 		CFish = true
 		IsFishing = false
 	end
 	while CFish do
 		Citizen.Wait(1)
-		FishGUI(true)
 		if RunCodeOnly1Time then
 			Fishing.Data.Bar.Faketimer = 1
-			PlayAnim(GetPed(),'amb@world_human_stand_fishing@idle_a','idle_c',1,0) -- 10sec
+			TaskPlayAnim(PlayerPedId(),'amb@world_human_stand_fishing@idle_a','idle_c', 4.0, -4, -1, 1, 0, false, false, false)
 			RunCodeOnly1Time = false
 		end
 		if TimerAnimation <= 0 then
 			CFish = false
 			TimerAnimation = 0.1
-			StopAnimTask(GetPed(), 'amb@world_human_stand_fishing@idle_a','idle_c',2.0)
+			StopAnimTask(PlayerPedId(), 'amb@world_human_stand_fishing@idle_a','idle_c', 2.0)
 			Citizen.Wait(200)
 		end
 		if IsControlJustPressed(1, Caught_KEY) then
 			if BarAnimation >= SuccessLimit then
 				CFish = false
 				TimerAnimation = 0.1
-				StopAnimTask(GetPed(), 'amb@world_human_stand_fishing@idle_a','idle_c',2.0)
+				StopAnimTask(PlayerPedId(), 'amb@world_human_stand_fishing@idle_a','idle_c', 4.0, -4, -1, 1, 0, false, false, false)
 				Citizen.Wait(200)
 				DetachEntity(FishRod, true, true)
 				DeleteEntity(FishRod)
@@ -144,7 +143,7 @@ function startFishing(typeOfFishing)
 			else
 				CFish = false
 				TimerAnimation = 0.1
-				StopAnimTask(GetPed(), 'amb@world_human_stand_fishing@idle_a','idle_c',2.0)
+				StopAnimTask(PlayerPedId(), 'amb@world_human_stand_fishing@idle_a','idle_c', 2.0)
 				Citizen.Wait(200)
 				TriggerEvent('chatMessage', "The fish slipped away! You need to be more focused!")
 				DetachEntity(FishRod, true, true)
