@@ -3,7 +3,7 @@ Fishing = {
 		IsFisher = false,
 		OnDuty = false,
 		Locations = {
-			Service = {x = 2243.458984375, y = 5154.3515625, z = 57.887111663818, h = 147.62580871582},
+			Service = {x = -257.85943603516, y = 6144.1479492188, z = 31.525817871094, h = 217.2476348877},
 			Boat = {},
 		},
 		Pier = {
@@ -180,7 +180,7 @@ end
 	end)
 
 	Citizen.CreateThread(function()
-		CreateBlip("Turtle Head Fishing", 477, 21, Fishing.Data.Locations.Service.x, Fishing.Data.Locations.Service.y, Fishing.Data.Locations.Service.z)
+		CreateBlip("Turtle Head Fishing", 356, 68, Fishing.Data.Locations.Service.x, Fishing.Data.Locations.Service.y, Fishing.Data.Locations.Service.z)
 		while true do
 			Citizen.Wait(0)
 			local ped = PlayerPedId()
@@ -196,14 +196,16 @@ end
 					end	
 				end
 				if Fishing.Data.OnDuty then
-					for i = 1, i < #Fishing.Data.Piers do
-						if(Vdist(pos.x, pos.y, pos.z, Fishing.Data.Pier[i]) < 5) then
+					for k, v in ipairs(Fishing.Data.Pier) do
+						if Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) then
 							DisplayHelpText("Press ~INPUT_CONTEXT~ to start fishing!")
 							if	(IsControlJustPressed(1,51)) then
 								startFishing("Pier")
 							end
 						end
-						if(Vdist(post.x, pos.y, pos.z, Fishing.Data.Deep[i]))then
+					end
+					for k, v in ipairs(Fishing.Data.DeepSea) do
+						if Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) then
 							DisplayHelpText("Press ~INPUT_CONTEXT~ to start fishing!")
 							if IsControlJustPressed(1,51) then
 								startFishing("Deep")
