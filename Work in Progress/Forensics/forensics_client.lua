@@ -14,13 +14,11 @@ end)
 
 RegisterNetEvent('police:forensics_return')
 AddEventHandler('police:forensics_return', function(id)
-	print("Results: Serial Number")
 	Chat_Message("Results", "^0Results: The bullet has noticeable markings to a weapon in the Los Santos Ballistics Database. The bullet matches to a weapon with the Serial Number "..id, 255, 0, 0, true)
 end)
 
 RegisterNetEvent('police:forensics_weapon')
 AddEventHandler('police:forensics_weapon', function(gun)
-	print("Results: Weapon Name")
 	Chat_Message("Results", "^0Results: The bullet traces back to a "..gun, 255, 0, 0, true)
 end)
 
@@ -55,6 +53,7 @@ Citizen.CreateThread(function()
 						if IsControlJustPressed(1, 51) then
 							TaskPlayAnim(PlayerPedId(), "mp_common", "givetake1_a", 100.0, 200.0, 0.3, 16, 0.2, 0, 0, 0)
 							TriggerServerEvent('police:forensicssync', v, "pickedupevidence", "add", k)
+							TriggerServerEvent('police:forensicssync', v, "wepevidence", "remove", k)
 						end
 					end
 				end
@@ -79,9 +78,11 @@ Citizen.CreateThread(function()
 					if probability >= 60 then
 						Chat_Message("Results", "^0The bullet was not able to provide any links to a type of gun.", 255, 0, 0, true)
 					elseif probability < 60 and probability > 20 then
-						TriggerServerEvent('police:forensics', Weaponhashes[picked_evidence[selectedEvidence].gun], PlayerPedId(), "WeaponName")
+						local gunhash = picked_evidence[selectedEvidence].gun
+						local gun = Weaponhashes[gunhash]
+						TriggerServerEvent('police:forensicssyncevidence', "nameofweapon", gun, PlayerPedId())
 					else
-						TriggerServerEvent('police:forensics', picked_evidence[selectedEvidence].gun, picked_evidence[selectedEvidence].ped, "Weapon")
+						TriggerServerEvent('police:forensicssyncevidence', "weapon", picked_evidence[selectedEvidence].gun, picked_evidence[selectedEvidence].ped)
 					end
 					TriggerServerEvent('police:forensicssync', picked_evidence[selectedEvidence], "pickedupevidence", "remove", selectedEvidence)
 					selectedEvidence = 0
