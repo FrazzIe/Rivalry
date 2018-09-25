@@ -1,3 +1,5 @@
+selectedEvidence = 0
+
 function Chat_Message(Author, Message, R, G, B, Multiline, Template)
 	local Data = {
 		color = {tonumber(R) or 255, tonumber(G) or 255,tonumber(B) or 255},
@@ -70,21 +72,6 @@ AddEventHandler("playerSpawned", function()
 		end
 	end, false, {Help = "Toggle spike strips",  Params = {}})
 
-	Chat_Command("liftprint", function(source, args, rawCommand)
-		if isInService then
-			local pos = GetEntityCoords(PlayerPedId(), false)
-			local entityWorld = GetOffsetFromEntityInWorldCoords(PlayerPedId(), 0.0, 5.0, 0.0)
-			local rayHandle = CastRayPointToPoint(pos.x, pos.y, pos.z, entityWorld.x, entityWorld.y, entityWorld.z, 10, PlayerPedId(), 0)
-			local _, _, _, _, vehicleHandle = GetRaycastResult(rayHandle)
-			if DoesEntityExist(vehicleHandle) then
-				local plate = GetVehicleNumberPlateText(vehicleHandle)
-				TriggerServerEvent("police:lift_print", plate)
-			else
-				Notify("Couldn't find a vehicle!", 2500)
-			end			
-		end
-	end, false, {Help = "Lift a print from a vehicle",  Params = {}})
-
 	Chat_Command("speedtrap", function(source, args, rawCommand)
 		if isInService then
 			TriggerEvent("PortableRadar.Create")
@@ -131,7 +118,7 @@ AddEventHandler("playerSpawned", function()
 		if isInService then
 			TriggerEvent("police:menu_vehicle_impound", 5000)
 		end
-	end, false, {Help = "Impound, costs the owner 5k",  Params = {}})
+	end, false, {Help = "Impound, costs the owner $500",  Params = {}})
 
 	Chat_Command("force", function(source, args, rawCommand)
 		local InServiceParamedic = exports["emsjob"]:getIsInService()
@@ -164,6 +151,16 @@ AddEventHandler("playerSpawned", function()
 			end
 		end
 	end, false, {Help = "Test someone for gun residue", Params = {}})
+
+	Chat_Command("evidence", function(source, args, rawCommand)
+		if isInService then
+			if (args[1] ~= 0) then
+				selectedEvidence = tonumber(args[1])
+			else
+				Notify("Zero is a invalid input!")
+			end
+		end
+	end, false, {Help = "Selected  Evidence", Params = {{name = "number", help = "integer"}}})
 
 	Chat_Command("search", function(source, args, rawCommand)
 		if args[2] then
