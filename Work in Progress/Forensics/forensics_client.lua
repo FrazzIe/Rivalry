@@ -140,11 +140,11 @@ end)
 
 RegisterNetEvent('police:print_results')
 AddEventHandler('police:print_results', function(type, firstname, lastname)
-	if type = "sucesss" then
+	if type == "sucesss" then
 		Chat_Message("Results", "^0The fingerprint matches to someone who has been arrested | Name: "..firstname.." "..lastname, 255, 0, 0, true)
 
 	end
-	if type = "nomatch" then
+	if type == "nomatch" then
 		Chat_Message("Results", "^0The fingerprint doesn't match anything within the database!", 255, 0, 0, true)
 	end
 end)
