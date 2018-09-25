@@ -6,14 +6,16 @@ local picked_evidence = {}
 RegisterServerEvent('police:forensicssyncevidence')
 AddEventHandler('police:forensicssyncevidence', function(type, gun, ped)
 	local source = source
+	local weapons = {}
 	if type == "weapon" then
-		TriggerEvent("inventory:getuser", ped, function(_weapon)
-			for k, v in ipairs(_weapon) do
-				if GetHashKey(v.model) == gun then
-					TriggerClientEvent('police:forensics_return', source, v.id)
+		TriggerEvent("weapon:getuser", ped, function(_weapon)
+			for k,v in pairs(_weapon) do
+				if v.model == gun then
+					table.insert(weapons, v.id)
 				end
 			end
 		end)
+		TriggerClientEvent('police:forensics_return', source, weapons)
 	end
 	if type == "nameofweapon" then
 		TriggerClientEvent('police:forensics_weapon', source, Weapons_names[gun])

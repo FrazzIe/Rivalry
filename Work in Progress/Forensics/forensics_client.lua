@@ -13,8 +13,12 @@ AddEventHandler('police:forensicssync_client', function(type, data)
 end)
 
 RegisterNetEvent('police:forensics_return')
-AddEventHandler('police:forensics_return', function(id)
-	Chat_Message("Results", "^0Results: The bullet has noticeable markings to a weapon in the Los Santos Ballistics Database. The bullet matches to a weapon with the Serial Number "..id, 255, 0, 0, true)
+AddEventHandler('police:forensics_return', function(table)
+	if #table >= 1 then
+		Chat_Message("Results", "The bullet has noticeable markings to a weapon in the Los Santos Ballistics Database. The bullet matches to a weapon with the Serial Number "..table[1].id, 255, 0, 0, true)
+	else
+		Chat_Message("Results", "The bullet seems to have came from a weapon not registered in the Los Santos Ballistics Database",255, 0, 0, true))
+	end
 end)
 
 RegisterNetEvent('police:forensics_weapon')
@@ -33,7 +37,7 @@ Citizen.CreateThread(function()
 			local coords = GetEntityCoords(PlayerPedId(), false)
 			local street, crossing = GetStreetNameAtCoord(coords.x, coords.y, coords.z)
 			local evidence = {
-				ped = PlayerPedId(),
+				ped = PlayerId(),
 				x = coords.x,
 				y = coords.y,
 				z = coords.z,
@@ -72,17 +76,19 @@ Citizen.CreateThread(function()
 					while selectedEvidence < 1 do
 						Citizen.Wait(0)
 					end
-					Notify("Examining Bllistics Evidence...", 10000)
+					Notify("Examining Ballistics Evidence...", 10000)
 					Citizen.Wait(10000)
 					local probability = math.random(1, 100)
 					if probability >= 60 then
 						Chat_Message("Results", "^0The bullet was not able to provide any links to a type of gun.", 255, 0, 0, true)
 					elseif probability < 60 and probability > 20 then
 						local gunhash = picked_evidence[selectedEvidence].gun
-						local gun = Weaponhashes[gunhash]
-						TriggerServerEvent('police:forensicssyncevidence', "nameofweapon", gun, PlayerPedId())
+						local gun = Weaponhashes[tostring(gunhash)]
+						TriggerServerEvent('police:forensicssyncevidence', "nameofweapon", gun, GetPlayerServerId(picked_evidence[selectedEvidence].ped))
 					else
-						TriggerServerEvent('police:forensicssyncevidence', "weapon", picked_evidence[selectedEvidence].gun, picked_evidence[selectedEvidence].ped)
+						local gunhash = picked_evidence[selectedEvidence].gun
+						local gun = Weaponhashes[tostring(gunhash)]
+						TriggerServerEvent('police:forensicssyncevidence', "weapon", gun, GetPlayerServerId(picked_evidence[selectedEvidence].ped))
 					end
 					TriggerServerEvent('police:forensicssync', picked_evidence[selectedEvidence], "pickedupevidence", "remove", selectedEvidence)
 					selectedEvidence = 0
