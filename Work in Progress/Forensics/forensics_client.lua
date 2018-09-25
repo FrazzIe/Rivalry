@@ -82,7 +82,7 @@ Citizen.CreateThread(function()
 			if Vdist(coords.x, coords.y, coords.z, microscope.x, microscope.y, microscope.z) < 1 then
 				DisplayHelpText("Press ~INPUT_CONTEXT~ to use the microscope!")
 				if IsControlJustPressed(1, 51) then
-					Notify("Please select a piece of evidence through this list! Use /evidence [number]", 7400)
+					Notify("Please select a piece of evidence through this list! Use /evidence wep [number]", 7400)
 					for k, v in ipairs(picked_evidence) do
 						if #picked_evidence < 1 then
 							Chat_Message("Evidence Locker", "^0Is empty!")
@@ -138,6 +138,17 @@ AddEventHandler('police:vehicleswab', function(swabedcar)
 	Chat_Message("Results", "^0You collected "..count.." fingerprint(s).", 255, 0, 0, true)
 end)
 
+RegisterNetEvent('police:print_results')
+AddEventHandler('police:print_results', function(type, firstname, lastname)
+	if type = "sucesss" then
+		Chat_Message("Results", "^0The fingerprint matches to someone who has been arrested | Name: "..firstname.." "..lastname, 255, 0, 0, true)
+
+	end
+	if type = "nomatch" then
+		Chat_Message("Results", "^0The fingerprint doesn't match anything within the database!", 255, 0, 0, true)
+	end
+end)
+
 Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(0)
@@ -158,6 +169,28 @@ Citizen.CreateThread(function()
 					end
 				else
 					TriggerServerEvent('police:forensicssync', fingerprint, "fpevidence", "add", 0)
+				end
+			end
+		end
+		if isInService then
+			local coords = GetEntityCoords(PlayerPedId(), false)
+			if Vdist(computer.x, computer.y, computer.z, coords.x, coords.y, coords.z) < 1 then
+				DisplayHelpText('Press ~INPUT_CONTEXT~ to use the computer!')
+				if IsControlJustPressed(1, 51) then
+					Notify("Please select a piece of evidence through this list! Use /evidence fp [number]")
+					for k, v in ipairs( collectedprint ) do
+						if #collectedprint < 1 then
+							Chat_Message("Evidence Locker", "^0Is empty!")
+						else
+							Chat_Message("Evidence Locker", "^0["..k.."] - Plate: "..v.plate)
+						end
+					end
+					while selectedEvidenceFP < 1 do
+						Citizen.Wait(0)
+					end
+					Notify("Examining Fingerprint, Cross Referencing with Los Santos Fingerprint Database", 60000)
+					Citizen.Wait(60000)
+					TriggerServerEvent('police:checkprint', collectedprint[selectedEvidenceFP], GetPlayerServerId(collectedprint[selectedEvidenceFP].ped))
 				end
 			end
 		end

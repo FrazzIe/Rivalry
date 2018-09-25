@@ -1,4 +1,5 @@
 selectedEvidence = 0
+selectedEvidenceFP = 0
 
 function Chat_Message(Author, Message, R, G, B, Multiline, Template)
 	local Data = {
@@ -154,8 +155,13 @@ AddEventHandler("playerSpawned", function()
 
 	Chat_Command("evidence", function(source, args, rawCommand)
 		if isInService then
-			if (args[1] ~= 0) then
-				selectedEvidence = tonumber(args[1])
+			if (args[2] ~= 0) and (args[1] == "wep") then
+				selectedEvidence = tonumber(args[2])
+			else
+				Notify("Zero is a invalid input!")
+			end
+			if (args[2] ~= 0) and (args[1] == "fp") then
+				selectedEvidenceFP = tonumber(args[2])
 			else
 				Notify("Zero is a invalid input!")
 			end

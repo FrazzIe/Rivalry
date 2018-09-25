@@ -61,3 +61,22 @@ AddEventHandler('police:forensicssync', function(data, type, type2, key)
 		TriggerClientEvent('police:forensicssync_client', source, "pickedfp" ,swab_fingerprints)
 	end
 end)
+
+RegisterServerEvent('police:checkprint')
+AddEventHandler('police:checkprint', function(evidence, player)
+	local source = source
+	local character_id = 0
+	local firstname, lastname = "",""
+	TriggerEvent("core:getuser", player, function(user)
+		character_id = user.get("character_id")
+		firstname = user.get("first_name")
+		lastname = user.get("last_name")
+	end)
+	exports['GHMattiMySQL']:QueryResultAsync("SELECT COUNT(*) FROM mdt_arrest WHERE offender_character_id=@character_id", {["@character_id"] = character_id}, function(value)
+		if (value[1] > 0) then
+			TriggerClientEvent('police:print_results', source, "sucesss" ,firstname, lastname)
+		else
+			TriggerClientEvent('police:print_results', source, "nomatch", firstname, lastname)
+		end
+	end)
+end)
