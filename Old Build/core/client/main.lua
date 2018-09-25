@@ -331,7 +331,7 @@ Citizen.CreateThread(function()
 				exports.pNotify:SendNotification({text = "Someone came in range and the process was cancelled!", type = "error", queue = "left", timeout = 3000, layout = "centerRight"})
 			elseif IsEntityDead(PlayerPedId()) then
 				time = -1
-				exports.pNotify:SendNotification({text = "You are in a coma.", type = "error", queue = "left", timeout = 3000, layout = "centerRight"})
+				exports.pNotify:SendNotification({text = "You've been severely injured and need medical assistance", type = "error", queue = "left", timeout = 3000, layout = "centerRight"})
 			end
 		end
 	end

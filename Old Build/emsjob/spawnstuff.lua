@@ -82,13 +82,13 @@ end)
 
 AddEventHandler('baseevents:onPlayerDied', function(playerId, reasonID)
 	TriggerEvent("paramedic:coma")
-	SendNotification('You are in a coma')
+	SendNotification("You've been severely injured and need medical assistance")
 end)
 
 AddEventHandler('baseevents:onPlayerKilled', function(playerId, playerKill, reasonID)
 	TriggerEvent("paramedic:coma")
 	
-	SendNotification('You are in a coma')
+	SendNotification("You've been severely injured and need medical assistance")
 end)
 
 RegisterNetEvent('paramedic:respawnCheck')
