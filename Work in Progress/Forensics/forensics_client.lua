@@ -17,7 +17,7 @@ AddEventHandler('police:forensics_return', function(table)
 	if #table >= 1 then
 		Chat_Message("Results", "The bullet has noticeable markings to a weapon in the Los Santos Ballistics Database. The bullet matches to a weapon with the Serial Number "..table[1].id, 255, 0, 0, true)
 	else
-		Chat_Message("Results", "The bullet seems to have came from a weapon not registered in the Los Santos Ballistics Database",255, 0, 0, true))
+		Chat_Message("Results", "The bullet seems to have came from a weapon not registered in the Los Santos Ballistics Database",255, 0, 0, true)
 	end
 end)
 
