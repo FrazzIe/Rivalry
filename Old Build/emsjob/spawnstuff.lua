@@ -74,6 +74,7 @@ Citizen.CreateThread(function()
 		Citizen.Wait(0)
 		if secondsRemaining > 0 then
 			drawRespawnTxt("~g~"..secondsRemaining.."~w~ seconds until you can respawn!",6,1.0,0.5,0.75,0.6,255,255,255,255)
+			drawRespawnTxt("~w~ Use your phone (F2) for Life Alert or /911 to call for help!",6,1.0,0.5,0.78,0.6,255,255,255,255)
 		elseif secondsRemaining == 0 then
 			drawRespawnTxt("You can respawn using your phone",6,1.0,0.5,0.75,0.6,255,255,255,255)
 		end
