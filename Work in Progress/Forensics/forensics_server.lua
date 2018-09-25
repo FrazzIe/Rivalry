@@ -2,6 +2,9 @@ local wepevidence = {}
 local fpevidence = {}
 local bloodevidence = {}
 local picked_evidence = {}
+local fingerprints = {}
+local swab_fingerprints = {}
+
 
 RegisterServerEvent('police:forensicssyncevidence')
 AddEventHandler('police:forensicssyncevidence', function(type, gun, ped)
@@ -33,7 +36,6 @@ AddEventHandler('police:forensicssync', function(data, type, type2, key)
 		table.remove(wepevidence, key)
 		TriggerClientEvent('police:forensicssync_client', source, "wep" ,wepevidence)
 	end
-
 	if type == "pickedupevidence" and  type2 == "add" then
 		table.insert(picked_evidence, data)
 		TriggerClientEvent('police:forensicssync_client', source, "pickedupevidence" ,picked_evidence)
@@ -41,5 +43,21 @@ AddEventHandler('police:forensicssync', function(data, type, type2, key)
 	if type == "pickedupevidence" and type2 == "remove" then
 		table.remove(picked_evidence, key)
 		TriggerClientEvent('police:forensicssync_client', source, "pickedupevidence" ,picked_evidence)
+	end
+	if type == "fpevidence" and  type2 == "add" then
+		table.insert(fpevidence, data)
+		TriggerClientEvent('police:forensicssync_client', source, "fpevidence" ,fpevidence)
+	end
+	if type == "fpevidence" and type2 == "remove" then
+		table.remove(fpevidence, key)
+		TriggerClientEvent('police:forensicssync_client', source, "fpevidence" ,fpevidence)
+	end
+	if type == "pickedfp" and  type2 == "add" then
+		table.insert(swab_fingerprints, data)
+		TriggerClientEvent('police:forensicssync_client', source, "pickedfp" ,swab_fingerprints)
+	end
+	if type == "pickedfp" and type2 == "remove" then
+		table.remove(swab_fingerprints, key)
+		TriggerClientEvent('police:forensicssync_client', source, "pickedfp" ,swab_fingerprints)
 	end
 end)

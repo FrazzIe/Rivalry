@@ -162,6 +162,20 @@ AddEventHandler("playerSpawned", function()
 		end
 	end, false, {Help = "Selected  Evidence", Params = {{name = "number", help = "integer"}}})
 
+	Chat_Command("swab", function(source, args, rawCommand)
+		if isInService then
+			local pos = GetEntityCoords(PlayerPedId(), false)
+			local entityWorld = GetOffsetFromEntityInWorldCoords(PlayerPedId(), 0.0, 5.0, 0.0)
+			local rayHandle = CastRayPointToPoint(pos.x, pos.y, pos.z, entityWorld.x, entityWorld.y, entityWorld.z, 10, PlayerPedId(), 0)
+			local _, _, _, _, vehicleHandle = GetRaycastResult(rayHandle)
+			if vehicleHandle ~= nil then
+				TriggerClientEvent("police:vehicleswab", GetVehicleNumberPlateText(vehicleHandle))
+			else
+				Notify("Couldn't find a vehicle!", 2500)
+			end
+		end
+	end, false, {Help = "Selected  Evidence", Params = {{name = "number", help = "integer"}}})
+
 	Chat_Command("search", function(source, args, rawCommand)
 		if args[2] then
 			if args[1] == "p" or args[1] == "v" or args[1] == "vehicle" or args[1] == "person" then
