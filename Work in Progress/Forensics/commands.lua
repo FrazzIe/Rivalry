@@ -154,19 +154,20 @@ AddEventHandler("playerSpawned", function()
 	end, false, {Help = "Test someone for gun residue", Params = {}})
 
 	Chat_Command("evidence", function(source, args, rawCommand)
-		if isInService then
-			if (args[2] ~= 0) and (args[1] == "wep") then
-				selectedEvidence = tonumber(args[2])
-			else
-				Notify("Zero is a invalid input!")
-			end
-			if (args[2] ~= 0) and (args[1] == "fp") then
-				selectedEvidenceFP = tonumber(args[2])
-			else
-				Notify("Zero is a invalid input!")
+		if args[2] then
+			if args[1] == "fp" or args[1] == "wep" then
+				if isInService then
+					if args[1] == "wep" and tonumber(args[2]) ~= 0 then
+						selectedEvidence = tonumber(args[2])
+					elseif args[1] == "fp" and tonumber(args[2]) ~= 0 then
+						selectedEvidenceFP = tonumber(args[2])
+					else
+						Notify("Zero is a invalid input!")
+					end
+				end
 			end
 		end
-	end, false, {Help = "Selected  Evidence", Params = {{name = "number", help = "integer"}}})
+	end, false, {Help = "Selected  Evidence", Params = {{name = "type", help = "wep | fp"},{name = "number", help = "integer"}}})
 
 	Chat_Command("swab", function(source, args, rawCommand)
 		if isInService then
@@ -175,12 +176,12 @@ AddEventHandler("playerSpawned", function()
 			local rayHandle = CastRayPointToPoint(pos.x, pos.y, pos.z, entityWorld.x, entityWorld.y, entityWorld.z, 10, PlayerPedId(), 0)
 			local _, _, _, _, vehicleHandle = GetRaycastResult(rayHandle)
 			if vehicleHandle ~= nil then
-				TriggerClientEvent("police:vehicleswab", GetVehicleNumberPlateText(vehicleHandle))
+				TriggerEvent("police:vehicleswab", GetVehicleNumberPlateText(vehicleHandle))
 			else
 				Notify("Couldn't find a vehicle!", 2500)
 			end
 		end
-	end, false, {Help = "Selected  Evidence", Params = {{name = "number", help = "integer"}}})
+	end, false, {Help = "Selected  Evidence", Params = {}})
 
 	Chat_Command("search", function(source, args, rawCommand)
 		if args[2] then

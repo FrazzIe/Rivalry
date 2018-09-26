@@ -2,7 +2,8 @@ all_evidence = {}
 picked_evidence = {}
 fingerprints = {}
 collectedprint = {}
-microscope = {x = 435.41537475586, y = -973.22076416016, z = 35.466178894043, h = 356.96154785156},
+microscope = {x = 435.41537475586, y = -973.22076416016, z = 35.466178894043, h = 356.96154785156}
+computer = {x = 436.85647583008, y = -973.30206298828, z = 35.466178894043, h = 355.48767089844}
 
 -- Sync Event
 RegisterNetEvent('police:forensicssync_client')
@@ -16,7 +17,7 @@ AddEventHandler('police:forensicssync_client', function(type, data)
 	if( type == "fpevidence" ) then
 		fingerprints = data
 	end
-	if( type == "pickedfp" ) then
+	if( type == "pickedupfp" ) then
 		collectedprint = data
 	end
 end)
@@ -83,10 +84,10 @@ Citizen.CreateThread(function()
 				DisplayHelpText("Press ~INPUT_CONTEXT~ to use the microscope!")
 				if IsControlJustPressed(1, 51) then
 					Notify("Please select a piece of evidence through this list! Use /evidence wep [number]", 7400)
-					for k, v in ipairs(picked_evidence) do
-						if #picked_evidence < 1 then
-							Chat_Message("Evidence Locker", "^0Is empty!")
-						else
+					if #picked_evidence < 1 then
+						Chat_Message("Evidence Locker", "^0Is empty!")
+					else
+						for k, v in ipairs(picked_evidence) do
 							Chat_Message("Evidence Locker", "^0["..k.."] - "..GetStreetNameFromHashKey(v.location))
 						end
 					end
@@ -130,9 +131,9 @@ AddEventHandler('police:vehicleswab', function(swabedcar)
 		if swabedcar == v.plate then
 			count = count + 1
 			Notify("You are currently swabbing the vehicle!", 60000)
+			Citizen.Wait(60000)
 			TriggerServerEvent('police:forensicssync', v, "pickedupfp", "add", k)
 			TriggerServerEvent('police:forensicssync', v, "fpevidence", "remove", k)
-			Citizen.Wait(60000)
 		end
 	end
 	Chat_Message("Results", "^0You collected "..count.." fingerprint(s).", 255, 0, 0, true)
@@ -154,21 +155,25 @@ Citizen.CreateThread(function()
 		Citizen.Wait(0)
 		if IsPedSittingInAnyVehicle(PlayerPedId()) then
 			local handle = GetVehiclePedIsIn(PlayerPedId(), false)
-			local plate = GetVehicleNumberPlateTextIndex(handle)
+			local plate = GetVehicleNumberPlateText(handle)
 			local ped = PlayerPedId()
 			if GetPedDrawableVariation(PlayerPedId(), 3) < 16 then
 				local fingerprint = {
-					player = ped
+					player = PlayerId(),
 					plate = plate
 				}
-				if #fingerprints > 1 then
+				if #fingerprints >= 1 then
 					for k, v in ipairs(fingerprints) do
-						if v.ped ~= ped and v.plate ~= plate then
+						if v.player ~= ped and v.plate ~= plate then
 							TriggerServerEvent('police:forensicssync', fingerprint, "fpevidence", "add", 0)
+							Citizen.Wait(2000)
+						else
+							TriggerServerEvent('police:forensicssync', fingerprint, "fpevidence", "remove", k)
 						end
 					end
 				else
 					TriggerServerEvent('police:forensicssync', fingerprint, "fpevidence", "add", 0)
+					Citizen.Wait(2000)
 				end
 			end
 		end
@@ -178,10 +183,10 @@ Citizen.CreateThread(function()
 				DisplayHelpText('Press ~INPUT_CONTEXT~ to use the computer!')
 				if IsControlJustPressed(1, 51) then
 					Notify("Please select a piece of evidence through this list! Use /evidence fp [number]")
-					for k, v in ipairs( collectedprint ) do
-						if #collectedprint < 1 then
-							Chat_Message("Evidence Locker", "^0Is empty!")
-						else
+					if #collectedprint < 1 then
+						Chat_Message("Evidence Locker", "^0Is empty!")
+					else
+						for k, v in ipairs( collectedprint ) do
 							Chat_Message("Evidence Locker", "^0["..k.."] - Plate: "..v.plate)
 						end
 					end
@@ -190,7 +195,9 @@ Citizen.CreateThread(function()
 					end
 					Notify("Examining Fingerprint, Cross Referencing with Los Santos Fingerprint Database", 60000)
 					Citizen.Wait(60000)
-					TriggerServerEvent('police:checkprint', collectedprint[selectedEvidenceFP], GetPlayerServerId(collectedprint[selectedEvidenceFP].ped))
+					local playerv = collectedprint[selectedEvidenceFP].player
+					TriggerServerEvent('police:checkprint', GetPlayerServerId(playerv), selectedEvidenceFP)
+					selectedEvidenceFP = 0
 				end
 			end
 		end
