@@ -132,6 +132,7 @@ function setupCharacter(source, data)
             self["bank"] = self["bank"] + math.floor(tonumber(value))
             update("characters", "bank='"..self["bank"].."'", self["characterID"])
             TriggerClientEvent("core:updateMoney", self["source"], self["bank"], "bank", "add", math.floor(tonumber(value)))
+            TriggerClientEvent("banking:updateBalance", self["source"], self["bank"])
         end
     end
 
@@ -140,6 +141,7 @@ function setupCharacter(source, data)
             self["bank"] = self["bank"] - math.floor(tonumber(value))
             update("characters", "bank='"..self["bank"].."'", self["characterID"])
             TriggerClientEvent("core:updateMoney", self["source"], self["bank"], "bank", "remove", math.floor(tonumber(value)))
+            TriggerClientEvent("banking:updateBalance", self["source"], self["bank"])
         end
     end
 
