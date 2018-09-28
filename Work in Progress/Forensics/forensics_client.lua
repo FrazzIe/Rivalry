@@ -2,9 +2,16 @@ all_evidence = {}
 picked_evidence = {}
 fingerprints = {}
 collectedprint = {}
-microscope = {x = 435.41537475586, y = -973.22076416016, z = 35.466178894043, h = 356.96154785156}
-computer = {x = 436.85647583008, y = -973.30206298828, z = 35.466178894043, h = 355.48767089844}
-
+bloodevidence = {}
+collectedblood = {}
+microscope = {x = 461.35046386719, y = -1007.7575073242, z = 32.819652557373, h = 86.325080871582}
+computer = {x = 460.87170410156, y = -1002.9169311523, z = 32.809814453125, h = 86.314888000488}
+local steps = {
+	step1 = true,
+	step2 = false,
+	step3 = false,
+	step4 = false,
+}
 -- Sync Event
 RegisterNetEvent('police:forensicssync_client')
 AddEventHandler('police:forensicssync_client', function(type, data)
@@ -19,6 +26,12 @@ AddEventHandler('police:forensicssync_client', function(type, data)
 	end
 	if( type == "pickedupfp" ) then
 		collectedprint = data
+	end
+	if ( type == "pickedupblood" ) then
+		collectedblood = data
+	end
+	if( type == "blood" ) then
+		bloodevidence = data
 	end
 end)
 
@@ -51,18 +64,30 @@ Citizen.CreateThread(function()
 		while not HasAnimDictLoaded("mp_common") do
 			Citizen.Wait(0)
 		end
-		if IsPedShooting(PlayerPedId()) then
+		if IsPedShooting(PlayerPedId()) and IsWeaponValid(GetSelectedPedWeapon(PlayerPedId())) and GetAmmoInPedWeapon(PlayerPedId(), GetSelectedPedWeapon(PlayerPedId())) > 0 then
 			local coords = GetEntityCoords(PlayerPedId(), false)
 			local street, crossing = GetStreetNameAtCoord(coords.x, coords.y, coords.z)
 			local evidence = {
-				ped = PlayerId(),
+				ped = GetPlayerServerId(PlayerId()),
 				x = coords.x,
 				y = coords.y,
 				z = coords.z,
 				gun = GetSelectedPedWeapon(PlayerPedId()),
 				location = street
 			}
-			TriggerServerEvent('police:forensicssync', evidence, "wepevidence", "add", 0)
+			if #all_evidence >= 1 then
+				for k, v in ipairs(picked_evidence) do
+					for a, b in ipairs(picked_evidence) do
+						if(v.ped ~= b.ped and Vdist(v.x, v.y, v.z, b.x, b.y, b.z) > 20) then
+							TriggerServerEvent('police:forensicssync', evidence, "wepevidence", "add", 0)
+							Citizen.Wait(1000)
+						end
+					end
+				end
+			else
+				TriggerServerEvent('police:forensicssync', evidence, "wepevidence", "add", 0)
+				Citizen.Wait(1000)
+			end
 		end
 
 		if isInService then
@@ -102,11 +127,11 @@ Citizen.CreateThread(function()
 					elseif probability < 60 and probability > 20 then
 						local gunhash = picked_evidence[selectedEvidence].gun
 						local gun = Weaponhashes[tostring(gunhash)]
-						TriggerServerEvent('police:forensicssyncevidence', "nameofweapon", gun, GetPlayerServerId(picked_evidence[selectedEvidence].ped))
+						TriggerServerEvent('police:forensicssyncevidence', "nameofweapon", gun, picked_evidence[selectedEvidence].ped)
 					else
 						local gunhash = picked_evidence[selectedEvidence].gun
 						local gun = Weaponhashes[tostring(gunhash)]
-						TriggerServerEvent('police:forensicssyncevidence', "weapon", gun, GetPlayerServerId(picked_evidence[selectedEvidence].ped))
+						TriggerServerEvent('police:forensicssyncevidence', "weapon", gun, picked_evidence[selectedEvidence].ped)
 					end
 					TriggerServerEvent('police:forensicssync', picked_evidence[selectedEvidence], "pickedupevidence", "remove", selectedEvidence)
 					selectedEvidence = 0
@@ -126,12 +151,18 @@ ___________.__                                         .__  __
 
 RegisterNetEvent('police:vehicleswab')
 AddEventHandler('police:vehicleswab', function(swabedcar)
+	RequestAnimDict("anim@amb@business@meth@meth_monitoring_no_work@")
+		while not HasAnimDictLoaded("anim@amb@business@meth@meth_monitoring_no_work@") do
+			Wait(0)
+		end
 	local count = 0
 	for k, v in ipairs(fingerprints) do
 		if swabedcar == v.plate then
+			TaskPlayAnim(PlayerPedId(), "anim@amb@business@meth@meth_monitoring_no_work@", "cleaning_inside_with_brush_rag", 100.0, 200.0, 0.3, 16, 0.2, 0, 0, 0)
 			count = count + 1
-			Notify("You are currently swabbing the vehicle!", 60000)
-			Citizen.Wait(60000)
+			Notify("You are currently swabbing the vehicle!", 10000)
+			Citizen.Wait(10000)
+			ClearPedTasks(PlayerPedId())
 			TriggerServerEvent('police:forensicssync', v, "pickedupfp", "add", k)
 			TriggerServerEvent('police:forensicssync', v, "fpevidence", "remove", k)
 		end
@@ -200,6 +231,117 @@ Citizen.CreateThread(function()
 					selectedEvidenceFP = 0
 				end
 			end
+			--[[if Vdist(gloves.x, gloves.y, gloves.z, coords.x, coords.y, < 1) then
+				DisplayHelpText('Press ~INPUT_CONTEXT~ to use this!')
+				if IsControlJustPressed(1,51) then
+					if isMale(PlayerPedId()) then
+						SetPedDrawableVariation(3, x)
+					else
+						SetPedDrawableVariation(3, y)
+					end
+				end
+			end--]]
 		end
 	end
 end)
+
+--[[RegisterNetEvent('police:dna_results')
+AddEventHandler('police:dna_results', function(result, firstname, lastname)
+	if result == "sucess" then
+		Chat_Message("The results from your DNA Test seem to match one from the Los Santos PD Crime Database. Name: "..firstname.." "..lastname, 255, 0, 0, true)
+	end
+	if result = "nomatch" then
+		Chat_Message("The results come back to a unique DNA Profile, but doesn't match anyone in the Los Santos PD Crime Database.", 255, 0, 0, true)
+	end
+end)
+
+Citizen.CreateThread(function()
+	while true do
+		Citizen.Wait(0)
+		RequestAnimDict("mp_common")
+		while not HasAnimDictLoaded("mp_common") do
+			Citizen.Wait(0)
+		end
+		local coords = GetEntityCoords(PlayerPedId(), false)
+		if PedIsInjured(PlayerPedId()) then
+			ApplyPedBloodByZone(PlayerPedId(), coords.x, coords.y, coords.z)
+			local blood = {
+				ped = PlayerId(),
+				x = coords.x,
+				y = coords.y,
+				z = coords.z
+			}
+			if #bloodevidence < 1 then
+				for k, v in ipairs(bloodevidence) do
+					if v.ped ~= PlayerId() and Vdist(coords.x, coords.y, coords.z, v.x, v.y, v.z) > 50 then
+						TriggerServerEvent('police:forensicssync', blood, "blood", "add", 0)
+						Citizen.Wait(2000)
+					else
+						TriggerServerEvent('police:forensicssync', "", "blood", "remove", k)
+					end
+				end
+			else
+				TriggerServerEvent('police:forensicssync', blood, "blood", "add", 0)
+				Citizen.Wait(4000)
+			end
+		end
+		if isInService then
+			for k, v in ipairs(bloodevidence) do
+				if Vdist(coords.x, coords.y, coords.z, v.x, v.y, v.z) < 10 then
+					DrawMarker()
+					if Vdist(coords.x, coords.y, coords.z, v.x, v.y, v.z) < 1then
+						DisplayHelpText("Press ~INPUT_CONTEXT~ to collect samples of blood evidence")
+						if IsControlJustPressed(1,51) then
+							TriggerServerEvent('police:forensicssync', "", "blood", "remove", k)
+							TriggerServerEvent('police:forensicssync', v, "pickedupblood", "add", k)
+							TaskPlayAnim(PlayerPedId(), "mp_common", "givetake1_a", 100.0, 200.0, 0.3, 16, 0.2, 0, 0, 0)
+							Citizen.Wait(2000)					
+						end
+					end
+				end
+			end
+			if Vdist(coords.x, coords.y, coords.z, microscope.x, microscope.y, microscope.z) < 1 then
+				DisplayHelpText("Press ~INPUT_CONTEXT~ to use the microscope")
+				if IsControlJustPressed(1, 51) then
+					Notify("Please select a piece of evidence through this list! Use /evidence blood [number]", 7400)
+					while selectedEvidenceB do
+						Citizen.Wait(0)
+					end
+					if selectedEvidenceB > 0 then
+						Notify("Please take the sample over to the chemical desk!")
+						if Vdist(coords.x, coords.y, coords.z, lab.x, lab.y, lab.z) < 1 and steps.step1 == true then
+							DisplayHelpText("Press ~INPUT_CONTEXT~ to use the lab desk!")
+							if IsControlJustPressed(1,51) then
+								Notify("You are currently pouring enzymes into a flask to seperate the strands of DNA!")
+								Citizen.Wait(60000)
+								steps.step2 = true
+								steps.step1 = false
+							end
+						end
+						if Vdist(coords.x, coords.y, coords.z, --[[FINISH THIS]]--) < 1 and steps.step2 == true then
+							--DisplayHelpText("Press ~INPUT_ CONTEXT~ to add the DNA Stands to a Gel Based Polymer!")
+							--if IsControlJustPressed(1,51) then
+								--Ciitzen.Wait(60000)
+								--steps.step3 = true
+								--steps.step2 = false
+							--end
+						--end
+						--if Vdist(coords.x, coords.y, coords.z, --[[FINISH THIS]]) < 1 and steps.step3 == true then
+						--DisplayHelpText("Press ~INPUT_CONTEXT~ to add a electrical current to the Gel!")
+							--if IsControlJustPressed(1,51) then
+							--	Citizen.Wait(60000)
+							--	steps.step4 = true
+							--	steps.step3 = false
+							--end
+						--end
+						--if steps.step4 == true then
+							--Notify("Your DNA Evidence is being processed!", 600000)
+							--Citizen.Wait(600000)
+							--TriggerServerEvent('police:forensics_dna', --[[FINISH THIS]])
+						--end
+					--end
+				--end
+			--end
+		--end
+	--end
+--end)--]]
