@@ -44,6 +44,7 @@ Config.Priority = {
     ["steam:110000100a775e1"] = 782, -- Kyle
     ["steam:110000104a8dd05"] = 781, -- Jayce the Salt Lord
     ["steam:1100001029cb44c"] = 780, -- Roach
+    ["steam:110000105e2219c"] = 779, -- Daquan
 --[PD, EMS, DOJ]--
     ["steam:110000104c9acb6"] = 700, -- Tyler Reagan (PD High Command)
     ["steam:11000010b420b88"] = 699, -- Jordan (PD High Command)

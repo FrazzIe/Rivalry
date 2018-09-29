@@ -124,43 +124,45 @@ AddEventHandler("phone:initialise",function(source, identifier, character_id)
 						})
 						user_phone[source] = {}
 						user_phone[source].phone_number = new_number
+						user_phone[source].contacts = {}
+						user_phone[source].contact_names = {}
+						user_phone[source].messages = {}
+						user_phone[source].messages.sent = {}
+						user_phone[source].messages.received = {}
+						user_phone[source].messages.sorted = {}
+
 						phone_numbers_playerids[identifier] = source
 						phone_numbers_online[user_phone[source].phone_number] = true
+
 						TriggerEvent("phone:set", source, true)
-						TriggerEvent("phone:setup", source, identifier, character_id, user_phone[source].phone_number)
+						TriggerClientEvent("phone:initialise", source, user_phone[source])
 					end
 				end
 			end)
 		else
 			user_phone[source] = {}
 			user_phone[source].phone_number = phone_number[1].phone_number
+			user_phone[source].contacts = {}
+			user_phone[source].contact_names = {}
+			user_phone[source].messages = {}
+			user_phone[source].messages.sent = {}
+			user_phone[source].messages.received = {}
+			user_phone[source].messages.sorted = {}
+
 			phone_numbers_playerids[identifier] = source
 			phone_numbers_online[user_phone[source].phone_number] = true
+
+			exports["GHMattiMySQL"]:QueryResultAAsync("SELECT * FROM phone_contacts WHERE character_id=@character_id", {["@character_id"] = character_id}), function(Contacts)
+				exports["GHMattiMySQL"]:QueryResultAsync("SELECT * FROM phone_messages WHERE (source_identifier=@identifier) AND (source_number=@phone_number) AND (owner=@identifier)", {['@identifier'] = identifier, ["@phone_number"] = phone_number}, function(SentMessages)
+					exports["GHMattiMySQL"]:QueryResultAsync("SELECT * FROM phone_messages WHERE (target_identifier=@identifier) AND (target_number=@phone_number) AND (owner=@identifier)", {['@identifier'] = identifier, ["@phone_number"] = phone_number}, function(ReceivedMessages)
+
+					end)
+				end)
+			end)
 			TriggerEvent("phone:set", source, true)
-			TriggerEvent("phone:setup", source, identifier, character_id, user_phone[source].phone_number)
+			TriggerClientEvent("phone:initialise", source, user_phone[source])
 		end
 	end)
-end)
-
-RegisterServerEvent("phone:setup")
-AddEventHandler("phone:setup", function(source, identifier, character_id, phone_number)
-	local source = source
-	local user_contacts = exports["GHMattiMySQL"]:QueryResult("SELECT * FROM phone_contacts WHERE character_id=@character_id", {["@character_id"] = character_id})
-	user_phone[source]["contacts"] = user_contacts
-	user_phone[source]["contact_names"] = {}
-	for k,v in pairs(user_contacts) do
-		user_phone[source]["contact_names"][v.phone_number] = v.first_name.." "..v.last_name
-	end
-
-	user_phone[source].messages = {}
-	local messages_sent = exports["GHMattiMySQL"]:QueryResult("SELECT * FROM phone_messages WHERE (source_identifier=@identifier) AND (source_number=@phone_number) AND (owner=@identifier)", {['@identifier'] = identifier, ["@phone_number"] = phone_number})
-	user_phone[source].messages.sent = messages_sent
-	user_phone[source].messages.sorted = {}
-
-	local messages_received = exports["GHMattiMySQL"]:QueryResult("SELECT * FROM phone_messages WHERE (target_identifier=@identifier) AND (target_number=@phone_number) AND (owner=@identifier)", {['@identifier'] = identifier, ["@phone_number"] = phone_number})
-	user_phone[source].messages.received = messages_received
-	
-	TriggerClientEvent("phone:initialise", source, user_phone[source])
 end)
 
 RegisterServerEvent("phone:setup_complete")

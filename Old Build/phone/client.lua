@@ -148,6 +148,11 @@ end)
 RegisterNetEvent("phone:initialise")
 AddEventHandler("phone:initialise", function(_phone)
 	user_phone = _phone
+
+	for k,v in pairs(user_contacts) do
+		user_phone.contact_names[v.phone_number] = v.first_name.." "..v.last_name
+	end
+
 	for k,v in pairs(user_phone.messages.sent) do
 		user_phone.messages.sorted[v.target_number] = {}
 		for i,j in pairs(user_phone.messages.sent) do
@@ -156,6 +161,7 @@ AddEventHandler("phone:initialise", function(_phone)
 			end
 		end
 	end
+	
 	for k,v in pairs(user_phone.messages.received) do
 		if not user_phone.messages.sorted[v.source_number] then
 			user_phone.messages.sorted[v.source_number] = {}
@@ -166,6 +172,7 @@ AddEventHandler("phone:initialise", function(_phone)
 			end
 		end
 	end
+
 	TriggerServerEvent("phone:setup_complete", user_phone)
 end)
 
