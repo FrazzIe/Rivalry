@@ -42,8 +42,10 @@ AddEventHandler('police:forensicssync', function(data, type, type2, key)
 		TriggerClientEvent('police:forensicssync_client', -1, "pickedupevidence" ,picked_evidence)
 	end
 	if type == "pickedupevidence" and type2 == "remove" then
-		table.remove(picked_evidence, key)
-		TriggerClientEvent('police:forensicssync_client', -1, "pickedupevidence" ,picked_evidence)
+		if key <= #picked_evidence then
+			table.remove(picked_evidence, key)
+			TriggerClientEvent('police:forensicssync_client', -1, "pickedupevidence" ,picked_evidence)
+		end
 	end
 	if type == "fpevidence" and  type2 == "add" then
 		table.insert(fpevidence, data)
@@ -58,8 +60,22 @@ AddEventHandler('police:forensicssync', function(data, type, type2, key)
 		TriggerClientEvent('police:forensicssync_client', -1, "pickedupfp" ,swab_fingerprints)
 	end
 	if type == "pickedupfp" and type2 == "remove" then
-		table.remove(swab_fingerprints, key)
-		TriggerClientEvent('police:forensicssync_client', -1, "pickedupfp" ,swab_fingerprints)
+		if key <= #swab_fingerprints then
+			table.remove(swab_fingerprints, key)
+			TriggerClientEvent('police:forensicssync_client', -1, "pickedupfp" ,swab_fingerprints)
+		end
+	end
+	if type == "wep" then
+		TriggerClientEvent("chatMessage", source, "", {16, 102, 158}, "Forensics Evidence(Ballistics):")
+		for k, v in ipairs(picked_evidence) do
+			TriggerClientEvent("chatMessage", source, "Evidence", {16, 102, 158}, "["..k.."] - "..v.location)
+		end
+	end
+	if type == "fp" then
+		TriggerClientEvent("chatMessage", source, "", {16, 102, 158}, "Forensics Evidence(Fingerprints):")
+		for k, v in ipairs(swab_fingerprints) do
+			TriggerClientEvent("chatMessage", source, "Evidence", {16, 102, 158}, "["..k.."] - "..v.plate)
+		end
 	end
 	--[[if type == "blood" and type2 = "add" then
 		table.insert(bloodevidence, data)

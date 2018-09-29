@@ -169,6 +169,36 @@ AddEventHandler("playerSpawned", function()
 		end
 	end, false, {Help = "Selected  Evidence", Params = {{name = "type", help = "wep | fp"},{name = "number", help = "integer"}}})
 
+	Chat_Command("showevidence", function(source, args, rawCommand)
+		if args[1] == "fp" or args[1] == "wep" then
+			if isInService then
+				if args[1] == "wep"  then
+					TriggerServerEvent('police:forensicssync', "wep", "wep", "wep", "wep")
+				elseif args[1] == "fp" then
+					TriggerServerEvent('police:forensicssync', "fp", "fp", "fp", "fp")
+				else
+					Notify("Invalid input!")
+				end
+			end
+		end
+	end, false, {Help = "Show  Evidence", Params = {{name = "type", help = "wep | fp"}}})
+
+	Chat_Command("removeevidence", function(source, args, rawCommand)
+		if args[2] then
+			if args[1] == "fp" or args[1] == "wep" then
+				if isInService then
+					if args[1] == "wep" and tonumber(args[2]) ~= 0 then
+						TriggerServerEvent('police:forensicssync', "", "pickedupevidence", "remove", tonumber(args[2]))
+					elseif args[1] == "fp" and tonumber(args[2]) ~= 0 then
+						TriggerServerEvent('police:forensicssync', "", "pickedupfp", "remove", tonumber(args[2]))
+					else
+						Notify("Zero is a invalid input!")
+					end
+				end
+			end
+		end
+	end, false, {Help = "Remove Evidence", Params = {{name = "type", help = "wep | fp"},{name = "number", help = "integer"}}})
+
 	Chat_Command("swab", function(source, args, rawCommand)
 		if isInService then
 			local pos = GetEntityCoords(PlayerPedId(), false)
