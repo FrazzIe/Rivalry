@@ -40,6 +40,20 @@ AddEventHandler("playerDropped", function()
     end
 end)
 
+AddEventHandler("onServerResourceStart", function(resource)
+	if resource == GetCurrentResourceName() then
+		exports["GHMattiMySQL"]:QueryResultAsync("SELECT * from phone", {}, function(all_phone_numbers)
+			if all_phone_numbers[1] == nil then
+			else
+				for k,v in pairs(all_phone_numbers) do
+					phone_numbers[v.phone_number] = v.identifier
+					phone_numbers_online[v.phone_number] = false
+				end
+			end
+		end)
+	end
+end)
+
 AddEventHandler("phone:set", function(source, value)
 	TriggerEvent("core:getuser", source, function(user)
 		if user ~= nil then
@@ -92,20 +106,9 @@ AddEventHandler("core:switch", function(source)
     user_phone[source] = nil
 end)
 
-exports["GHMattiMySQL"]:QueryResultAsync("SELECT * from phone", {}, function(all_phone_numbers)
-	if all_phone_numbers[1] == nil then
-	else
-		for k,v in pairs(all_phone_numbers) do
-			phone_numbers[v.phone_number] = v.identifier
-			phone_numbers_online[v.phone_number] = false
-		end
-	end
-end)
-
 RegisterServerEvent("phone:initialise")
 AddEventHandler("phone:initialise",function(source, identifier, character_id)
-	local source = source
-	exports["GHMattiMySQL"]:QueryResultAsync("SELECT * FROM phone WHERE (identifier=@identifier) AND (character_id=@character_id)", {['@identifier'] = identifier, ["@character_id"] = character_id}, function(phone_number)
+	exports["GHMattiMySQL"]:QueryResultAsync("SELECT phone_number FROM phone WHERE (identifier=@identifier) AND (character_id=@character_id) LIMIT 1", {['@identifier'] = identifier, ["@character_id"] = character_id}, function(phone_number)
 		if phone_number[1] == nil then
 			Citizen.CreateThread(function()
 				math.randomseed(os.time())
@@ -140,27 +143,26 @@ AddEventHandler("phone:initialise",function(source, identifier, character_id)
 				end
 			end)
 		else
-			user_phone[source] = {}
-			user_phone[source].phone_number = phone_number[1].phone_number
-			user_phone[source].contacts = {}
-			user_phone[source].contact_names = {}
-			user_phone[source].messages = {}
-			user_phone[source].messages.sent = {}
-			user_phone[source].messages.received = {}
-			user_phone[source].messages.sorted = {}
+			exports["GHMattiMySQL"]:QueryResultAsync("SELECT * FROM phone_contacts WHERE character_id=@character_id", {["@character_id"] = character_id}, function(Contacts)
+				exports["GHMattiMySQL"]:QueryResultAsync("SELECT * FROM phone_messages WHERE (source_identifier=@identifier) AND (source_number=@phone_number) AND (owner=@identifier)", {['@identifier'] = identifier, ["@phone_number"] = phone_number[1].phone_number}, function(SentMessages)
+					exports["GHMattiMySQL"]:QueryResultAsync("SELECT * FROM phone_messages WHERE (target_identifier=@identifier) AND (target_number=@phone_number) AND (owner=@identifier)", {['@identifier'] = identifier, ["@phone_number"] = phone_number[1].phone_number}, function(ReceivedMessages)
+						user_phone[source] = {}
+						user_phone[source].phone_number = phone_number[1].phone_number
+						user_phone[source].contacts = Contacts
+						user_phone[source].contact_names = {}
+						user_phone[source].messages = {}
+						user_phone[source].messages.sent = SentMessages
+						user_phone[source].messages.received = ReceivedMessages
+						user_phone[source].messages.sorted = {}
 
-			phone_numbers_playerids[identifier] = source
-			phone_numbers_online[user_phone[source].phone_number] = true
+						phone_numbers_playerids[identifier] = source
+						phone_numbers_online[user_phone[source].phone_number] = true
 
-			exports["GHMattiMySQL"]:QueryResultAAsync("SELECT * FROM phone_contacts WHERE character_id=@character_id", {["@character_id"] = character_id}, function(Contacts)
-				exports["GHMattiMySQL"]:QueryResultAsync("SELECT * FROM phone_messages WHERE (source_identifier=@identifier) AND (source_number=@phone_number) AND (owner=@identifier)", {['@identifier'] = identifier, ["@phone_number"] = phone_number}, function(SentMessages)
-					exports["GHMattiMySQL"]:QueryResultAsync("SELECT * FROM phone_messages WHERE (target_identifier=@identifier) AND (target_number=@phone_number) AND (owner=@identifier)", {['@identifier'] = identifier, ["@phone_number"] = phone_number}, function(ReceivedMessages)
-
+						TriggerEvent("phone:set", source, true)
+						TriggerClientEvent("phone:initialise", source, user_phone[source])
 					end)
 				end)
 			end)
-			TriggerEvent("phone:set", source, true)
-			TriggerClientEvent("phone:initialise", source, user_phone[source])
 		end
 	end)
 end)
