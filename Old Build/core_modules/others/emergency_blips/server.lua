@@ -73,7 +73,7 @@ AddEventHandler("EmergencyBlips.Panic", function(Type, Street)
 
 	local Message = Type.." "..EmergencyPlayers[Source][3]..(EmergencyPlayers[Source][2] and " is in distress at " or " is no longer in distress at ")..Street
 
-	for Player, Data in (EmergencyPlayers) do
+	for Player, Data in pairs(EmergencyPlayers) do
 		Chat.Message(Player, "10-13", Message, 255, 0, 0, true, "panic")
 	end
 

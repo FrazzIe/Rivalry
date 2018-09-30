@@ -32,11 +32,11 @@ end
 function SetEmergencyBlipProperties(Blip, Colour, Name)
 	SetBlipSprite(Blip, 1)
 	SetBlipColour(Blip, Colour)
-	SetBlipAsShortRange(Blip, true)
+	SetBlipAsShortRange(Blip, false)
 	SetBlipScale(Blip, 0.85)
 	ShowHeadingIndicatorOnBlip(Blip, true)
 	HideNumberOnBlip(Blip)
-	
+
 	BeginTextCommandSetBlipName("STRING")
 	AddTextComponentString(Name)
 	EndTextCommandSetBlipName(Blip)
@@ -76,9 +76,9 @@ Citizen.CreateThread(function()
 						local PedId = GetPlayerPed(PlayerId)
 						if DoesEntityExist(PedId) then
 							local PlayerBlip = GetBlipFromEntity(PedId)
-							local BlipColour = GetEmergencyBlipColour(Data[1], Data[2]))
-							
-							if PlayerBlip then
+							local BlipColour = GetEmergencyBlipColour(Data[1], Data[2])
+
+							if DoesBlipExist(PlayerBlip) then
 								if not EmergencyBlips[Player] then
 									EmergencyBlips[Player] = PlayerBlip
 									SetEmergencyBlipProperties(EmergencyBlips[Player], BlipColour, Data[3])
