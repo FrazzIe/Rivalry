@@ -398,7 +398,7 @@ Attachments = {
 
 }
 Attachments_Cost = {
-    ["Suppressor"] = math.random(15000, 17760),
+    ["Suppressor"] = math.random(1000, 2000),
     ["Flashlight"] = math.random(300, 872),
     ["Extended clip"] = math.random(1900, 2178),
     ["Scope"] = math.random(1000, 1472),
