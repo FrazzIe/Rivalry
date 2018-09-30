@@ -109,38 +109,6 @@ Chat.Command("dispatch", function(source, args, rawCommand)
 	end
 end, false, {Help = "Respond back towards a call.", Params = {{name = "id", help = "The caller ID"}, {name = "message", help = "Message to send to the caller"}}})
 
-RegisterServerEvent("dispatch:panic.button")
-AddEventHandler("dispatch:panic.button", function(Message)
-	local source = source
-	for id, dept in pairs(emergency_users) do
-		if dept ~= nil then
-			Chat.Message(id, "10-13", Message, 255, 0, 0, true, "panic")
-		end
-	end
-end)
-
-RegisterServerEvent("dispatch:ten-thirteen")
-AddEventHandler("dispatch:ten-thirteen", function(street_name)
-	local source = source
-	for id, dept in pairs(emergency_users) do
-		if dept ~= nil then
-			TriggerClientEvent("chatMessage", id, "10-13", {255, 0, 0}, "^7Officer down at "..street_name)
-			TriggerClientEvent("dispatch:add_ten-thirteen", id, source)
-		end
-	end
-end)
-
---[[RegisterServerEvent("dispatch:panicbutton")
-AddEventHandler("dispatch:panicbutton", function(street_name)
-	local source = source
-	for id, dept in pairs(emergency_users) do
-		if dept ~= nil then
-			TriggerClientEvent("chatMessage", id, "Panic Button", {255, 0, 0}, "^7Officer in distress at "..street_name)
-			TriggerClientEvent("dispatch:add_panic-button", id, source)
-		end
-	end
-end)--]]
-
 RegisterServerEvent("dispatch:ten-thirtytwo")
 AddEventHandler("dispatch:ten-thirtytwo", function(coords, street_name)
 	for id, dept in pairs(emergency_users) do

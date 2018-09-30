@@ -80,12 +80,6 @@ Citizen.CreateThread(function()
 			end
 		end
 
-		if not IsEntityDead(PlayerPed) then
-			if ten_thirteen_pressed then
-				ten_thirteen_pressed = false
-			end
-		end
-
 		if IsPedSittingInAnyVehicle(PlayerPed) then
 			local CurrentVehicle = GetVehiclePedIsIn(PlayerPed, false)
 			if GetPedInVehicleSeat(CurrentVehicle, -1) == PlayerPed then
@@ -188,8 +182,8 @@ AddEventHandler("interaction:main", function()
 	exports.ui:reset()
 	exports.ui:open()
 	if IsEntityDead(PlayerPedId()) then
-		if exports.policejob:getIsCop() then if exports.policejob:getIsInService() then if exports["phone"]:PlayerHasPhone() then if not ten_thirteen_pressed then exports.ui:addOption("10-13", [[TriggerEvent("dispatch:ten-thirteen")]]) end end end end
-		if exports.emsjob:getIsParamedic() then if exports.emsjob:getIsInService() then if exports["phone"]:PlayerHasPhone() then if not ten_thirteen_pressed then exports.ui:addOption("10-13", [[TriggerEvent("dispatch:ten-thirteen")]]) end end end end
+		if exports.policejob:getIsCop() then if exports.policejob:getIsInService() then if exports["phone"]:PlayerHasPhone() then exports.ui:addOption("10-13", [[TriggerEvent("EmergencyBlips.Panic")]]) end end end
+		if exports.emsjob:getIsParamedic() then if exports.emsjob:getIsInService() then if exports["phone"]:PlayerHasPhone() then exports.ui:addOption("10-13", [[TriggerEvent("EmergencyBlips.Panic")]]) end end end
 		exports.ui:addOption("Life Alert", "phone:lifealert","phone")		
 	else
 		if exports.policejob:getIsCop() then if exports.policejob:getIsInService() then exports.ui:addOption("Police", [[TriggerEvent("police:menu")]]) end end

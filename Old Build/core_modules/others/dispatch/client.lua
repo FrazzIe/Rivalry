@@ -264,7 +264,6 @@ local ten_thirtyone_timer = 10 --Minutes --Gunshots
 local ten_thirtytwo_timer = 10 --Minutes --Car Lockpicking
 local ten_thirtytwo_2_timer = 10 --Minutes --Property lockpicking
 local ten_ninety_timer = 10
-local panicbutton_timer = 10 --Minutes --Panic Button
 
 local function willNPCreport(type)
 	local pos = GetEntityCoords(PlayerPedId(), false)
@@ -280,88 +279,6 @@ local function willNPCreport(type)
 		end
 	end
 end
-
-ten_thirteen_pressed = false
-AddEventHandler("dispatch:ten-thirteen", function(_source)
-	ten_thirteen_pressed = true
-	local pos = GetEntityCoords(PlayerPedId(), false)
-	local street, crossing = GetStreetNameAtCoord(pos.x, pos.y, pos.z)
-	TriggerServerEvent("dispatch:ten-thirteen", GetStreetNameFromHashKey(street))
-end)
-
-panic_button_pressed = false
-RegisterNetEvent("dispatch:panicbutton")
---[[AddEventHandler("dispatch:panicbutton", function(_source)
-    panic_button_pressed = true
-    local pos = GetEntityCoords(PlayerPedId(), false)
-    local street, crossing = GetStreetNameAtCoord(pos.x, pos.y, pos.z)
-    TriggerServerEvent("dispatch:panicbutton", GetStreetNameFromHashKey(street))
-end)--]]
-
---[[RegisterNetEvent("dispatch:add_panic-button")
-AddEventHandler("dispatch:add_panic-button", function(_source)
-    if PlayerId ~= GetPlayerFromServerId(_source) then
-        Citizen.CreateThread(function()
-            local player_id = GetPlayerFromServerId(_source)
-            local officer_panic = true
-            local panic_blip = nil
-            local endTime = GetGameTimer() + ((panicbutton_timer * 60)/ 0.001)
-            while officer_panic and endTime > GetGameTimer() do
-                Citizen.Wait(0)
-                if not DoesBlipExist(panic_blip) then
-                    panic_blip = AddBlipForEntity(GetPlayerPed(player_id))
-                    SetBlipSprite(panic_blip, 480)
-                    SetBlipColour(panic_blip, 1)
-                    SetBlipAsShortRange(panic_blip, true)
-                    SetBlipScale(panic_blip, 0.85)
-                    BeginTextCommandSetBlipName("STRING")
-                    AddTextComponentString("Panic Button")
-                    EndTextCommandSetBlipName(panic_blip)
-                end
-            officer_panic = false
-            RemoveBlip(player_blip)
-        end)
-    end
-end)--]]
-
-RegisterNetEvent("dispatch:add_ten-thirteen")
-AddEventHandler("dispatch:add_ten-thirteen", function(_source)
-	if PlayerId ~= GetPlayerFromServerId(_source) then
-		Citizen.CreateThread(function()
-			local player_id = GetPlayerFromServerId(_source)
-			local officer_down = true
-			local player_blip = nil
-			while officer_down do
-				Citizen.Wait(0)
-				if NetworkIsPlayerActive(player_id) then
-					if DoesEntityExist(GetPlayerPed(player_id)) then
-						if IsEntityDead(GetPlayerPed(player_id)) then
-							if not DoesBlipExist(player_blip) then
-								player_blip = AddBlipForEntity(GetPlayerPed(player_id))
-								SetBlipSprite(player_blip, 1)
-								SetBlipColour(player_blip, 1)
-								SetBlipAsShortRange(player_blip, true)
-								SetBlipScale(player_blip, 0.85)
-								BeginTextCommandSetBlipName("STRING")
-								AddTextComponentString("10-13")
-								EndTextCommandSetBlipName(player_blip)
-							end
-						else
-							officer_down = false
-							RemoveBlip(player_blip)
-						end
-					else
-						officer_down = false
-						RemoveBlip(player_blip)
-					end
-				else
-					officer_down = false
-					RemoveBlip(player_blip)
-				end
-			end
-		end)
-	end
-end)
 
 Citizen.CreateThread(function()
 	local lastpos = {x = 0.0, y = 0.0, z = 0.0}
