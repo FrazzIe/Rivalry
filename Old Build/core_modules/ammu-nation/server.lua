@@ -100,7 +100,7 @@ Weapons = {
 	["GADGET_PARACHUTE"] = 500,
 }
 Attachments_Cost = {
-	["Suppressor"] = {15000, 17760},
+	["Suppressor"] = {1000, 2000},
 	["Flashlight"] = {300, 872},
 	["Extended clip"] = {1900, 2178},
 	["Scope"] = {1000, 1472},
