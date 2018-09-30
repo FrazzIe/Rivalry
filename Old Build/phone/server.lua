@@ -152,7 +152,7 @@ AddEventHandler("phone:initialise",function(source, identifier, character_id)
 			phone_numbers_playerids[identifier] = source
 			phone_numbers_online[user_phone[source].phone_number] = true
 
-			exports["GHMattiMySQL"]:QueryResultAAsync("SELECT * FROM phone_contacts WHERE character_id=@character_id", {["@character_id"] = character_id}), function(Contacts)
+			exports["GHMattiMySQL"]:QueryResultAAsync("SELECT * FROM phone_contacts WHERE character_id=@character_id", {["@character_id"] = character_id}, function(Contacts)
 				exports["GHMattiMySQL"]:QueryResultAsync("SELECT * FROM phone_messages WHERE (source_identifier=@identifier) AND (source_number=@phone_number) AND (owner=@identifier)", {['@identifier'] = identifier, ["@phone_number"] = phone_number}, function(SentMessages)
 					exports["GHMattiMySQL"]:QueryResultAsync("SELECT * FROM phone_messages WHERE (target_identifier=@identifier) AND (target_number=@phone_number) AND (owner=@identifier)", {['@identifier'] = identifier, ["@phone_number"] = phone_number}, function(ReceivedMessages)
 
