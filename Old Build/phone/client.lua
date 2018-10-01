@@ -149,7 +149,7 @@ RegisterNetEvent("phone:initialise")
 AddEventHandler("phone:initialise", function(_phone)
 	user_phone = _phone
 
-	for k,v in pairs(user_contacts) do
+	for k,v in pairs(user_phone.contacts) do
 		user_phone.contact_names[v.phone_number] = v.first_name.." "..v.last_name
 	end
 
