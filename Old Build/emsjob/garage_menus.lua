@@ -45,7 +45,7 @@ cars = {
     {name = "SUV", model = "emssuv", type = "", rank = "paramedic"},
     {name = "CVPI", model = "emscar", type = "", rank = "lieutenant"},
     {name = "Schafter", model = "emscar2", type = "", rank = "lieutenant"},
-    {name = "Van", model = "emsvan", type = "", rank = "specialist"},
+    {name = "Van", model = "emsvan", type = "", rank = "doctor"},
     {name = "Contender", model = "lguard2", type = "", rank = "specialist"},
 }
 
