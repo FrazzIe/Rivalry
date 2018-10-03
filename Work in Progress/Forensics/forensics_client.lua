@@ -57,6 +57,22 @@ AddEventHandler('police:forensics_weapon', function(gun)
 	Chat_Message("Results", "^0Results: The bullet traces back to a "..gun, 255, 0, 0, true)
 end)
 
+RegisterNetEvent("police:bleachvehicle")
+AddEventHandler("police:bleachvehicle", function(vplate)
+	RequestAnimDict("timetable@floyd@clean_kitchen@idle_a")
+	while not HasAnimDictLoaded("timetable@floyd@clean_kitchen@idle_a") do
+		Wait(0)
+	end
+	TaskPlayAnim(PlayerPedId(), "timetable@floyd@clean_kitchen@idle_a", "idle_a", 100.0, 200.0, 0.3, 16, 0.2, 0, 0, 0)
+	for k, v in ipairs(fingerprints) do
+		if v.plate == vplate then
+			TriggerServerEvent('police:forensicssync', "", "fpevidence", "remove", k)
+		end
+	end
+	Wait(10000)
+	Notify("Vehicle has been cleaned of all fingerprints!")
+end)
+
 Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(0)
@@ -94,7 +110,7 @@ Citizen.CreateThread(function()
 			local coords = GetEntityCoords(PlayerPedId(), false)
 			for k, v in ipairs(all_evidence) do
 				if Vdist(coords.x, coords.y, coords.z, v.x, v.y, v.z) < 10 then
-					DrawMarker(25, v.x, v.y, v.z-0.9, 0, 0, 0, 0, 0, 0, 1.0, 1.0, 1.5, 0, 0, 255, 155, 0, 0, 2, 0, 0, 0, 0)
+					DrawMarker(25, v.x, v.y, v.z-0.9, 0, 0, 0, 0, 0, 0, 0.5, 0.5, 1.0, 0, 0, 255, 25, 0, 0, 2, 0, 0, 0, 0)
 					if Vdist(coords.x, coords.y, coords.z, v.x, v.y, v.z) < 1 then
 						DisplayHelpText("Press ~INPUT_CONTEXT~ to pick up evidence!")
 						if IsControlJustPressed(1, 51) then
