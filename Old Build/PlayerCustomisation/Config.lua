@@ -2019,7 +2019,7 @@ PlayerCustomisation.Reference = {
 					[7] = {
 						Name = "The Militia",
 						Value = {						
-							Drawable = {45,0,11,4,30,0,25,5,0,0,0,4},
+							Drawable = {45,0,11,4,30,0,25,6,0,0,0,4},
 							Texture = {0,0,0,0,1,0,0,4,240,0,0,14},
 							Palette = {0,0,0,0,0,0,0,0,0,0,0,0},
 						},
@@ -2441,7 +2441,7 @@ PlayerCustomisation.Reference = {
 					[2] = {
 						Name = "The Comfort",
 						Value = {						
-							Drawable = {45,0,10,2,2,0,2,5,0,0,0,2},
+							Drawable = {45,0,10,2,2,0,2,6,0,0,0,2},
 							Texture = {0,0,0,0,2,0,14,4,240,0,0,6},
 							Palette = {0,0,0,0,0,0,0,0,0,0,0,0},
 						},
@@ -2449,7 +2449,7 @@ PlayerCustomisation.Reference = {
 					[3] = {
 						Name = "The Laid Back",
 						Value = {						
-							Drawable = {45,0,10,2,3,0,16,5,0,0,0,3},
+							Drawable = {45,0,10,2,3,0,16,6,0,0,0,3},
 							Texture = {0,0,0,0,7,0,1,4,240,0,0,10},
 							Palette = {0,0,0,0,0,0,0,0,0,0,0,0},
 						},
