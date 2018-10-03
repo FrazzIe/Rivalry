@@ -733,12 +733,12 @@ Emote.Add("sit3", "Stupor", "Misc", {}, {}, {"WORLD_HUMAN_STUPOR"}, {}, function
 	TaskStartScenarioInPlace(PlayerPedId(), self.Scenarios[1], 0, false)
 end)
 
-Emote.Add("hips", "Hands On Hips", "Misc", {"amb@code_human_police_investigate@base"}, {"base"}, {}, {}, function(self)
+Emote.Add("gangsign", "Gang Sign", "Misc", {"mp_player_int_uppergang_sign_a"}, {"mp_player_int_gang_sign_a"}, {}, {}, function(self)
 	TaskPlayAnim(PlayerPedId(), self.Dictionaries[1] , self.Animations[1] , -4.0, 4.0, -1, 49, 0, false, false, false)
 end)
 
-Emote.Add("gangsign", "Gang Sign", "Misc", {"mp_player_int_uppergang_sign_a"}, {"mp_player_int_gang_sign_a"}, {}, {}, function(self)
-	TaskPlayAnim(PlayerPedId(), self.Dictionaries[1] , self.Animations[1] , -4.0, 4.0, -1, 49, 0, false, false, false)
+Emote.Add("holster", "Hold Holster", "Job", {"reaction@intimidation@cop@unarmed"}, {"intro"}, {}, {}, function(self)
+	TaskPlayAnim(PlayerPedId(), self.Dictionaries[1] , self.Animations[1] , 8.0, 8.0, -1, 50, 0, false, false, false)
 end)
 
 local StopItem = NativeUI.CreateItem("~r~Stop Emote", "")
