@@ -23,7 +23,7 @@ Citizen.CreateThread(function()
 end)
 
 Citizen.CreateThread(function()
-	local dict = "anim@heists@prison_heiststation@cop_reactions"
+	local dict = "amb@code_human_police_investigate@base"
 
 	RequestAnimDict(dict)
 	while not HasAnimDictLoaded(dict) do
@@ -35,7 +35,7 @@ Citizen.CreateThread(function()
 		if IsControlJustPressed(1, 74) then
 			local PlayerPed = PlayerPedId()
 			if not handsup and not IsPedSittingInAnyVehicle(PlayerPed) then
-				TaskPlayAnim(PlayerPed, dict, "cop_a_idle", 8.0, 8.0, -1, 50, 0, false, false, false)
+				TaskPlayAnim(PlayerPed, dict, "base", -4.0, 4.0, -1, 49, 0, false, false, false)
 				handsup = true
 			else
 				handsup = false
