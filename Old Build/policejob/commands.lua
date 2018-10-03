@@ -211,4 +211,33 @@ AddEventHandler("playerSpawned", function()
 			end
 		end
 	end, false, {Help = "Seize stuff", Params = {{name = "target", help = "p | person | v | vehicle"}, {name = "type", help = "weapons | wl (weapons license) | dl (drivers license) | inventory | wallet | phone"}}})
+
+	Chat_Command("highvis", function(source, args, rawCommand)
+			if isInService then
+				RequestAnimDict("switch@franklin@getting_ready")
+				while not HasAnimDictLoaded("switch@franklin@getting_ready") do
+					Wait(0)
+				end
+				TaskPlayAnim(PlayerPedId(), "switch@franklin@getting_ready", "002334_02_fras_v2_11_getting_dressed_exit", 4.0, -4, -1, 1, 0, false, false, false)
+				Wait(500)
+				if not vestOn then
+					vestOn = true
+					if IsPedMale(PlayerPedId()) then
+						SetPedComponentVariation(PlayerPedId(), 9, 0, 0, 0)
+					elseif not IsPedMale(PlayerPedId()) then
+						SetPedComponentVariation(PlayerPedId(), 9, 0, 0, 0)
+					end
+				else
+					vestOn = false
+					if IsPedMale(PlayerPedId()) then
+						SetPedComponentVariation(PlayerPedId(), 9, 18, 0, 0)
+					elseif not IsPedMale(PlayerPedId()) then
+						SetPedComponentVariation(PlayerPedId(), 9, 21, 0, 0)
+					end
+				end
+				Wait(1700)
+				ClearPedTasks(PlayerPedId())
+			end
+	end, false, {Help = "Put on vest!", Params = {}})
+
 end)
