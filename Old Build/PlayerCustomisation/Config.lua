@@ -1581,7 +1581,7 @@ PlayerCustomisation.Reference = {
 					[2] = {
 						Name = "The Aficionado",
 						Value = {						
-							Drawable = {0,0,37,12,26,0,22,0,38,0,16,35},
+							Drawable = {0,0,37,12,26,0,22,0,38,0,16,28},
 							Texture = {0,0,0,0,11,0,8,0,0,0,0,0},
 							Palette = {0,0,0,0,0,0,0,0,0,0,0,0},
 						},
@@ -1597,7 +1597,7 @@ PlayerCustomisation.Reference = {
 					[4] = {
 						Name = "The Elitist",
 						Value = {						
-							Drawable = {0,0,37,0,26,0,23,0,43,0,0,35},
+							Drawable = {0,0,37,0,26,0,23,0,43,0,0,23},
 							Texture = {0,0,0,0,7,0,6,0,3,0,0,3},
 							Palette = {0,0,0,0,0,0,0,0,0,0,0,0},
 						},
@@ -1613,8 +1613,8 @@ PlayerCustomisation.Reference = {
 					[6] = {
 						Name = "The Natural",
 						Value = {						
-							Drawable = {0,0,37,12,26,0,22,0,38,0,0,35},
-							Texture = {0,0,0,0,6,0,0,0,1,0,0,2},
+							Drawable = {0,0,37,12,26,0,22,0,38,0,0,59},
+							Texture = {0,0,0,0,6,0,0,0,1,0,0,0},
 							Palette = {0,0,0,0,0,0,0,0,0,0,0,0},
 						},
 					},
@@ -1713,7 +1713,7 @@ PlayerCustomisation.Reference = {
 					[2] = {
 						Name = "The Sharp Gray Suit",
 						Value = {						
-							Drawable = {0,0,0,6,25,0,11,0,32,0,0,31},
+							Drawable = {0,0,0,6,24,0,11,0,32,0,0,31},
 							Texture = {0,0,0,0,1,0,12,0,0,0,0,1},
 							Palette = {0,0,0,0,0,0,0,0,0,0,0,0},
 						},
@@ -1737,8 +1737,8 @@ PlayerCustomisation.Reference = {
 					[5] = {
 						Name = "The Grind",
 						Value = {						
-							Drawable = {0,0,0,0,10,0,21,21,15,0,0,26},
-							Texture = {0,0,0,0,0,0,0,11,0,0,0,2},
+							Drawable = {0,0,0,0,10,0,21,21,15,0,0,13},
+							Texture = {0,0,0,0,0,0,0,11,0,0,0,0},
 							Palette = {0,0,0,0,0,0,0,0,0,0,0,0},
 						},
 					},
@@ -1819,7 +1819,7 @@ PlayerCustomisation.Reference = {
 					[7] = {
 						Name = "The Athlete",
 						Value = {						
-							Drawable = {0,0,3,0,18,0,9,0,0,37,0,39},
+							Drawable = {0,0,3,0,18,0,9,0,0,37,0,47},
 							Texture = {0,0,0,0,1,0,7,0,240,0,0,0},
 							Palette = {0,0,0,0,0,0,0,0,0,0,0,0},
 						},
@@ -1837,7 +1837,7 @@ PlayerCustomisation.Reference = {
 					[1] = {
 						Name = "The Ironic",
 						Value = {						
-							Drawable = {0,0,53,0,26,0,20,11,93,0,0,40},
+							Drawable = {0,0,53,0,26,0,20,11,94,0,0,28},
 							Texture = {0,0,0,0,9,0,0,2,1,0,0,0},
 							Palette = {0,0,0,0,0,0,0,0,0,0,0,0},
 						},
@@ -1877,7 +1877,7 @@ PlayerCustomisation.Reference = {
 					[6] = {
 						Name = "The Animal",
 						Value = {						
-							Drawable = {0,0,53,4,26,0,15,23,10,0,0,35},
+							Drawable = {0,0,53,4,26,0,15,23,10,0,0,23},
 							Texture = {0,0,0,0,9,0,0,7,10,0,0,4},
 							Palette = {0,0,0,0,0,0,0,0,0,0,0,0},
 						},
@@ -1885,7 +1885,7 @@ PlayerCustomisation.Reference = {
 					[7] = {
 						Name = "The Dork",
 						Value = {						
-							Drawable = {0,0,53,4,3,0,23,22,26,0,0,35},
+							Drawable = {0,0,53,4,3,0,23,22,26,0,0,23},
 							Texture = {0,0,0,0,3,0,2,6,6,0,0,2},
 							Palette = {0,0,0,0,0,0,0,0,0,0,0,0},
 						},
@@ -2077,8 +2077,8 @@ PlayerCustomisation.Reference = {
 					[6] = {
 						Name = "The Leopard",
 						Value = {						
-							Drawable = {45,0,4,5,24,0,42,0,13,0,0,25},
-							Texture = {0,0,0,0,8,0,2,0,0,0,0,9},
+							Drawable = {45,0,4,5,24,0,42,0,13,0,0,35},
+							Texture = {0,0,0,0,8,0,2,0,0,0,0,4},
 							Palette = {0,0,0,0,0,0,0,0,0,0,0,0},
 						},
 					},
@@ -2276,15 +2276,15 @@ PlayerCustomisation.Reference = {
 						Name = "The Boardroom",
 						Value = {						
 							Drawable = {0,0,0,0,6,0,42,6,16,0,0,6},
-							Texture = {0,0,0,0,2,0,3,4,2,0,0,2},
+							Texture = {0,0,0,0,2,0,3,2,2,0,0,2},
 							Palette = {0,0,0,0,0,0,0,0,0,0,0,0},
 						},
 					},
 					[7] = {
 						Name = "The Campaign",
 						Value = {						
-							Drawable = {0,0,0,0,7,0,20,6,13,0,0,25},
-							Texture = {0,0,0,0,0,0,0,0,0,0,0,2},
+							Drawable = {0,0,0,0,7,0,20,6,13,0,0,24},
+							Texture = {0,0,0,0,0,0,0,0,0,0,0,0},
 							Palette = {0,0,0,0,0,0,0,0,0,0,0,0},
 						},
 					},
@@ -2309,7 +2309,7 @@ PlayerCustomisation.Reference = {
 					[2] = {
 						Name = "The Jogger",
 						Value = {						
-							Drawable = {45,0,4,15,2,0,10,3,2,0,0,11},
+							Drawable = {45,0,4,15,2,0,10,3,3,0,0,11},
 							Texture = {0,0,0,0,2,0,2,3,0,0,0,0},
 							Palette = {0,0,0,0,0,0,0,0,0,0,0,0},
 						},
@@ -2317,7 +2317,7 @@ PlayerCustomisation.Reference = {
 					[3] = {
 						Name = "The Olympian",
 						Value = {						
-							Drawable = {45,0,4,14,12,0,10,3,2,0,0,14},
+							Drawable = {45,0,4,14,12,0,10,3,3,0,0,14},
 							Texture = {0,0,0,0,8,0,3,4,0,0,0,10},
 							Palette = {0,0,0,0,0,0,0,0,0,0,0,0},
 						},
@@ -2325,7 +2325,7 @@ PlayerCustomisation.Reference = {
 					[4] = {
 						Name = "The Energize",
 						Value = {						
-							Drawable = {45,0,4,7,14,0,11,0,2,0,0,10},
+							Drawable = {45,0,4,7,14,0,11,0,3,0,0,10},
 							Texture = {0,0,0,0,9,0,0,0,0,0,0,0},
 							Palette = {0,0,0,0,0,0,0,0,0,0,0,0},
 						},
@@ -2333,7 +2333,7 @@ PlayerCustomisation.Reference = {
 					[5] = {
 						Name = "The Ball Girl",
 						Value = {						
-							Drawable = {45,0,4,14,14,0,3,3,2,0,0,14},
+							Drawable = {45,0,4,14,14,0,3,3,3,0,0,14},
 							Texture = {0,0,0,0,8,0,1,5,0,0,0,0},
 							Palette = {0,0,0,0,0,0,0,0,0,0,0,0},
 						},
