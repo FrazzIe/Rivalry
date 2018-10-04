@@ -7,37 +7,17 @@ Fishing = {
 			Boat = {},
 		},
 		Pier = {
-			{
-				{
-					id=316, x = -3428.0222167969, y = 967.11779785156, z = 8.3466835021973, distanceBetweenCoords=3.5, distanceMarker=3.5, defaultTime=10000, name="Pier Fishing and Boat Rental"
-				},
-				{
-					id=316, x = -279.17889404297, y = 6637.1352539063, z = 7.5514869689941, distanceBetweenCoords=3.5, distanceMarker=3.5, defaultTime=10000,
-				},
-				{
-					id=316, x = 711.97161865234, y = 4100.2075195313, z = 35.785236358643, distanceBetweenCoords=3.5, distanceMarker=3.5, defaultTime=10000, name="Pier Fishing and Boat Rental"
-				},
-			},
+			[1] = {id=316, x = -3428.0222167969, y = 967.11779785156, z = 8.3466835021973, distanceBetweenCoords=3.5, distanceMarker=3.5, defaultTime=10000, name="Pier Fishing and Boat Rental"},
+			[2] = {id=316, x = -279.17889404297, y = 6637.1352539063, z = 7.5514869689941, distanceBetweenCoords=3.5, distanceMarker=3.5, defaultTime=10000, name="Pier Fishing and Boat Rental"},
+			[3] = {id=316, x = 711.97161865234, y = 4100.2075195313, z = 35.785236358643, distanceBetweenCoords=3.5, distanceMarker=3.5, defaultTime=10000, name="Pier Fishing and Boat Rental"},
 		},
 		DeepSea = {
-			{ 
-			 	id=404, x = 3991.8015136719, y = 2428.513671875, z = 2.90869140625, distanceBetweenCoords=20.5, distanceMarker=20.5, defaultTime=10000, name="Deep Sea Fishing"
-			},
-			{
-				id=404, x = 3069.6108398438, y = -2130.59375, z = 3.9801769256592, distanceBetweenCoords=20.5, distanceMarker=20.5, defaultTime=10000, name="Deep Sea Fishing"
-			},
-			{
-				id=404, x = -2301.1547851563, y = -1236.6251220703, z = 4.5, distanceBetweenCoords=20.5, distanceMarker=20.5, defaultTime=10000, name="Deep Sea Fishing"
-			},
-			{
-				id=404, x = -3516.1176757813, y = 2906.3083496094, z = 7.090615272522, distanceBetweenCoords=20.5, distanceMarker=20.5, defaultTime=10000, name="Deep Sea Fishing"
-			},
-			{
-				id=404, x = -1787.2473144531, y = 6095.6254882813, z = 2.2088184356689, distanceBetweenCoords=20.5, distanceMarker=20.5, defaultTime=10000, name="Deep Sea Fishing"
-			},
-			{
-				id=404, x = 1251.6247558594, y = 7330.8481445313, z = 3.8822541236877, distanceBetweenCoords=20.5, distanceMarker=20.5, defaultTime=10000, name="Deep Sea Fishing"
-			},
+		 	[1] = {id=404, x = 3991.8015136719, y = 2428.513671875, z = 2.90869140625, distanceBetweenCoords=20.5, distanceMarker=20.5, defaultTime=10000, name="Deep Sea Fishing"},
+			[2] = {id=404, x = 3069.6108398438, y = -2130.59375, z = 3.9801769256592, distanceBetweenCoords=20.5, distanceMarker=20.5, defaultTime=10000, name="Deep Sea Fishing"},
+			[3] = {id=404, x = -2301.1547851563, y = -1236.6251220703, z = 4.5, distanceBetweenCoords=20.5, distanceMarker=20.5, defaultTime=10000, name="Deep Sea Fishing"},
+			[4] = {id=404, x = -3516.1176757813, y = 2906.3083496094, z = 7.090615272522, distanceBetweenCoords=20.5, distanceMarker=20.5, defaultTime=10000, name="Deep Sea Fishing"},
+			[5] = {id=404, x = -1787.2473144531, y = 6095.6254882813, z = 2.2088184356689, distanceBetweenCoords=20.5, distanceMarker=20.5, defaultTime=10000, name="Deep Sea Fishing"},
+			[6] = {id=404, x = 1251.6247558594, y = 7330.8481445313, z = 3.8822541236877, distanceBetweenCoords=20.5, distanceMarker=20.5, defaultTime=10000, name="Deep Sea Fishing"},
 		},
 		Bar = {
 			StartFishing_KEY = 51,
@@ -95,45 +75,104 @@ Fishing = {
 	},
 }
 
+function text(x,y,scale,text)
+    SetTextFont(0)
+    SetTextProportional(0)
+    SetTextScale(scale, scale)
+    SetTextColour(255,255,255,255)
+    SetTextDropShadow(0,0,0,0,255)
+    SetTextEdge(2, 0, 0, 0, 255)
+    SetTextEntry("STRING")
+    AddTextComponentString(text)
+    DrawText(x, y)
+end
+function FishGUI(bool)
+	if not bool then return end
+	DrawRect(PosX,PosY+0.005,TimerAnimation,0.005,255,255,0,255)
+	DrawRect(PosX,PosY,0.1,0.01,0,0,0,255)
+	TimerAnimation = TimerAnimation - 0.0001025
+	if BarAnimation >= SuccessLimit then
+		DrawRect(PosX,PosY,BarAnimation,0.01,102,255,102,150)
+	else
+		DrawRect(PosX,PosY,BarAnimation,0.01,255,51,51,150)
+	end
+	if BarAnimation <= 0 then
+		up = true
+	end
+	if BarAnimation >= PosY then
+		up = false
+	end
+	if not up then
+		BarAnimation = BarAnimation - AnimationSpeed
+	else
+		BarAnimation = BarAnimation + AnimationSpeed
+	end
+end
+function PlayAnim(ped,base,sub,nr,time) 
+	Citizen.CreateThread(function() 
+		RequestAnimDict(base) 
+		while not HasAnimDictLoaded(base) do 
+			Citizen.Wait(1) 
+		end
+		if IsEntityPlayingAnim(ped, base, sub, 3) then
+			ClearPedSecondaryTask(ped) 
+		else 
+			for i = 1,nr do 
+				TaskPlayAnim(ped, base, sub, 8.0, -8, -1, 16, 0, 0, 0, 0) 
+				Citizen.Wait(time) 
+			end 
+		end 
+	end) 
+end
+function AttachEntityToPed(prop,bone_ID,x,y,z,RotX,RotY,RotZ)
+	BoneID = GetPedBoneIndex(GetPed(), bone_ID)
+	obj = CreateObject(GetHashKey(prop),  1729.73,  6403.90,  34.56,  true,  true,  true)
+	vX,vY,vZ = table.unpack(GetEntityCoords(GetPed()))
+	xRot, yRot, zRot = table.unpack(GetEntityRotation(GetPed(),2))
+	AttachEntityToEntity(obj,  GetPed(),  BoneID, x,y,z, RotX,RotY,RotZ,  false, false, false, false, 2, true)
+	return obj
+end
+
 local peds = {}
 --Functions
 function startFishing(typeOfFishing)
-	IsFishing = true
-	RunCodeOnly1Time = true
-	BarAnimation = 0
-	if FishingRodInHand == false then
-		FishRod = AttachEntityToPed('prop_fishing_rod_01',60309, 0,0,0, 0,0,0)
+	Fishing.Data.Bar.RunCodeOnly1Time = true
+	FishGUI(true)
+	Fishing.Data.Bar.BarAnimation = 0
+	if Fishing.Data.Bar.FishingRodInHand == false then
+		Fishing.Data.Bar.FishRod = CreateObject(GetHashKey("prop_fishing_rod_01"), 0.0, 0.0, 0.0, true, false, true)
+		AttachEntityToEntity(Fishing.Data.Bar.FishRod, PlayerPedId(), 60309, 0,0,0, 0,0,0)
 	end
-	FishingRodInHand = true
-	while IsFishing do
+	Fishing.Data.Bar.FishingRodInHand = true
+	while Fishing.Data.Bar.IsFishing == true do
 		local time = 4*3000
 		TaskStandStill(PlayerPedId(), time+7000)
 		TaskPlayAnim(PlayerPedId(),'amb@world_human_stand_fishing@base','base', 4.0, -4, -1, 1, 0, false, false, false)
 		Citizen.Wait(time)
-		CFish = true
-		IsFishing = false
+		Fishing.Data.Bar.CFish = true
+		Fishing.Data.Bar.IsFishing = false
 	end
-	while CFish do
+	while Fishing.Data.Bar.CFish == true do
 		Citizen.Wait(1)
 		if RunCodeOnly1Time then
 			Fishing.Data.Bar.Faketimer = 1
 			TaskPlayAnim(PlayerPedId(),'amb@world_human_stand_fishing@idle_a','idle_c', 4.0, -4, -1, 1, 0, false, false, false)
-			RunCodeOnly1Time = false
+			Fishing.Data.Bar.RunCodeOnly1Time = false
 		end
-		if TimerAnimation <= 0 then
-			CFish = false
-			TimerAnimation = 0.1
+		if Fishing.Data.Bar.TimerAnimation <= 0 then
+			Fishing.Data.Bar.CFish = false
+			Fishing.Data.Bar.TimerAnimation = 0.1
 			StopAnimTask(PlayerPedId(), 'amb@world_human_stand_fishing@idle_a','idle_c', 2.0)
 			Citizen.Wait(200)
 		end
-		if IsControlJustPressed(1, Caught_KEY) then
-			if BarAnimation >= SuccessLimit then
-				CFish = false
-				TimerAnimation = 0.1
+		if IsControlJustPressed(1, Fishing.Data.Bar.Caught_KEY) then
+			if Fishing.Data.Bar.BarAnimation >= Fishing.Data.Bar.SuccessLimit then
+				Fishing.Data.Bar.CFish = false
+				Fishing.Data.Bar.TimerAnimation = 0.1
 				StopAnimTask(PlayerPedId(), 'amb@world_human_stand_fishing@idle_a','idle_c', 4.0, -4, -1, 1, 0, false, false, false)
 				Citizen.Wait(200)
-				DetachEntity(FishRod, true, true)
-				DeleteEntity(FishRod)
+				DetachEntity(Fishing.Data.Bar.FishRod, true, true)
+				DeleteEntity(Fishing.Data.Bar.FishRod)
 				GetPedNearbyPeds(PlayerPedId(), peds)
 				if( typeOfFishing == "Deep") then
 					TriggerServerEvent('caughtFish', "Deep", #peds)
@@ -141,16 +180,16 @@ function startFishing(typeOfFishing)
 					TriggerServerEvent('caughtFish', "Pier", #peds)
 				end
 			else
-				CFish = false
-				TimerAnimation = 0.1
+				Fishing.Data.Bar.CFish = false
+				Fishing.Data.Bar.TimerAnimation = 0.1
 				StopAnimTask(PlayerPedId(), 'amb@world_human_stand_fishing@idle_a','idle_c', 2.0)
 				Citizen.Wait(200)
 				TriggerEvent('chatMessage', "The fish slipped away! You need to be more focused!")
-				DetachEntity(FishRod, true, true)
-				DeleteEntity(FishRod)
+				DetachEntity(Fishing.Data.Bar.FishRod, true, true)
+				DeleteEntity(Fishing.Data.Bar.FishRod)
 			end
 		else
-			FishingRodInHand = false
+			Fishing.Data.Bar.FishingRodInHand = false
 		end
 	end
 end
@@ -196,17 +235,19 @@ end
 				end
 				if Fishing.Data.OnDuty then
 					for k, v in ipairs(Fishing.Data.Pier) do
-						if Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) then
+						if Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 10 then
 							DisplayHelpText("Press ~INPUT_CONTEXT~ to start fishing!")
 							if	(IsControlJustPressed(1,51)) then
+								Fishing.Data.Bar.IsFishing = true
 								startFishing("Pier")
 							end
 						end
 					end
 					for k, v in ipairs(Fishing.Data.DeepSea) do
-						if Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) then
+						if Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 50 then
 							DisplayHelpText("Press ~INPUT_CONTEXT~ to start fishing!")
 							if IsControlJustPressed(1,51) then
+								Fishing.Data.Bar.IsFishing = true
 								startFishing("Deep")
 							end
 						end
@@ -304,6 +345,6 @@ end
 Citizen.CreateThread(function() -- Thread for  timer
 	while true do 
 		Citizen.Wait(1000)
-		Fishing.Data.Bar.Faketimer = Fishing.Data.Bar.Faketimer + 1 
+		Fishing.Data.Bar.Faketimer = Fishing.Data.Bar.Faketimer + 1 + 0 + 0 + 0
 	end 
 end)
