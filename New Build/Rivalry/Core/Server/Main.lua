@@ -3,8 +3,6 @@ Core = {
 	Players = {},
 	Settings = {
 		Character = {
-			Cash = 5000,
-			Counterfeit = 0,
 			Bank = 0,
 			Position = {x = 0.0, y = 0.0, z = 0.0},
 			Job = 0,
@@ -57,8 +55,6 @@ function Core.SetupCharacter(Data)
 	Character.Timestamp = Data.timestamp
 	Character.Playtime = Data.playtime
 
-	Character.Cash = Data.cash
-	Character.Counterfeit = Data.counterfeit
 	Character.Bank = Data.bank
 
 	Character.Job = Data.job
@@ -202,8 +198,6 @@ AddEventHandler("Core.Character.Create", function(Data)
 		["@lastplayed"] = Lastplayed,
 		["@timestamp"] = Timestamp,
 		["@playtime"] = 0,
-		["@cash"] = Core.Settings.Character.Cash,
-		["@counterfeit"] = Core.Settings.Character.Counterfeit,
 		["@bank"] = Core.Settings.Character.Bank,
 		["@job"] = Core.Settings.Character.Job,
 		["@weapon_license"] = Utilities.BoolToNumber(Core.Settings.Character.Licenses.Weapon),
@@ -222,8 +216,6 @@ AddEventHandler("Core.Character.Create", function(Data)
 			lastplayed = Lastplayed,
 			timestamp = Timestamp,
 			playtime = 0,
-			cash = Core.Settings.Character.Cash,
-			counterfeit = Core.Settings.Character.Counterfeit,
 			bank = Core.Settings.Character.Bank,
 			job = Core.Settings.Character.Job,
 			weapon_license = Utilities.BoolToNumber(Core.Settings.Character.Licenses.Weapon),
