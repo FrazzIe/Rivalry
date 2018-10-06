@@ -6,7 +6,7 @@ exports("AddGroup", function(Id)
 			Core.Groups[Id] = {}
 		end
 	end
-end
+end)
 
 exports("AddGroupInherit", function(TargetGroup, InheritGroup)
 	if Core.Groups[TargetGroup] and Core.Groups[InheritGroup] then
@@ -15,7 +15,7 @@ exports("AddGroupInherit", function(TargetGroup, InheritGroup)
 			ExecuteCommand("add_principal group."..TargetGroup.." group."..InheritGroup)
 		end
 	end
-end
+end)
 
 exports("RemoveGroupInherit", function(TargetGroup, InheritGroup)
 	if Core.Groups[TargetGroup] and Core.Groups[InheritGroup] then
@@ -24,7 +24,7 @@ exports("RemoveGroupInherit", function(TargetGroup, InheritGroup)
 			ExecuteCommand("remove_principal group."..TargetGroup.." group."..InheritGroup)
 		end
 	end
-end
+end)
 
 exports("AddGroupCommand", function(Command, Group, Callback, Suggestions)
 	if type(Command) ~= "string" and type(Command) ~= "table" then
@@ -70,7 +70,7 @@ exports("AddGroupCommand", function(Command, Group, Callback, Suggestions)
 		
 		ExecuteCommand("add_ace group."..Group.." command."..Command.." allow")
 	end  
-end
+end)
 
 exports("CanGroupTargetGroup", function(SourceGroup, TargetGroup)
 	if Core.Groups[SourceGroup] and Core.Groups[TargetGroup] then
@@ -84,7 +84,7 @@ exports("CanGroupTargetGroup", function(SourceGroup, TargetGroup)
 			return false
 		end
 	end
-end
+end)
 
 -- Power
 
@@ -100,7 +100,7 @@ exports("CanPlayerTargetPlayer", function(SourcePlayer, TargetPlayer)
 			return false
 		end
 	end
-end
+end)
 
 -- User Get
 
@@ -114,7 +114,7 @@ exports("GetPlayerUserId", function(Player)
 	else
 		return nil
 	end
-end
+end)
 
 exports("GetPlayerSteam", function(Player)
 	if Core.Players[Player] then
@@ -126,7 +126,7 @@ exports("GetPlayerSteam", function(Player)
 	else
 		return nil
 	end
-end
+end)
 
 exports("GetPlayerSteam64", function(Player)
 	if Core.Players[Player] then
@@ -138,7 +138,7 @@ exports("GetPlayerSteam64", function(Player)
 	else
 		return nil
 	end
-end
+end)
 
 exports("GetPlayerSteam32", function(Player)
 	if Core.Players[Player] then
@@ -150,7 +150,7 @@ exports("GetPlayerSteam32", function(Player)
 	else
 		return nil
 	end
-end
+end)
 
 exports("GetPlayerLicense", function(Player)
 	if Core.Players[Player] then
@@ -162,7 +162,7 @@ exports("GetPlayerLicense", function(Player)
 	else
 		return nil
 	end
-end
+end)
 
 exports("GetPlayerIP", function(Player)
 	if Core.Players[Player] then
@@ -174,7 +174,7 @@ exports("GetPlayerIP", function(Player)
 	else
 		return nil
 	end
-end
+end)
 
 exports("GetPlayerUsername", function(Player)
 	if Core.Players[Player] then
@@ -186,7 +186,7 @@ exports("GetPlayerUsername", function(Player)
 	else
 		return nil
 	end
-end
+end)
 
 exports("GetPlayerPlaytime", function(Player)
 	if Core.Players[Player] then
@@ -198,7 +198,7 @@ exports("GetPlayerPlaytime", function(Player)
 	else
 		return nil
 	end
-end
+end)
 
 exports("GetPlayerTimestamp", function(Player)
 	if Core.Players[Player] then
@@ -210,7 +210,7 @@ exports("GetPlayerTimestamp", function(Player)
 	else
 		return nil
 	end
-end
+end)
 
 exports("GetPlayerPower", function(Player)
 	if Core.Players[Player] then
@@ -234,7 +234,7 @@ exports("GetPlayerGroup", function(Player)
 	else
 		return nil
 	end
-end
+end)
 
 -- Character Get
 
@@ -248,7 +248,7 @@ exports("GetPlayerCharacterId", function(Player)
 	else
 		return nil
 	end
-end
+end)
 
 exports("GetPlayerBank", function(Player)
 	if Core.Players[Player] then
@@ -260,7 +260,7 @@ exports("GetPlayerBank", function(Player)
 	else
 		return nil
 	end
-end
+end)
 
 exports("GetPlayerJob", function(Player)
 	if Core.Players[Player] then
@@ -272,7 +272,7 @@ exports("GetPlayerJob", function(Player)
 	else
 		return nil
 	end
-end
+end)
 
 exports("GetPlayerFirstname", function(Player)
 	if Core.Players[Player] then
@@ -284,7 +284,7 @@ exports("GetPlayerFirstname", function(Player)
 	else
 		return nil
 	end
-end
+end)
 
 exports("GetPlayerLastname", function(Player)
 	if Core.Players[Player] then
@@ -296,7 +296,7 @@ exports("GetPlayerLastname", function(Player)
 	else
 		return nil
 	end
-end
+end)
 
 exports("GetPlayerName", function(Player)
 	if Core.Players[Player] then
@@ -308,7 +308,7 @@ exports("GetPlayerName", function(Player)
 	else
 		return nil
 	end
-end
+end)
 
 exports("GetPlayerGender", function(Player)
 	if Core.Players[Player] then
@@ -320,7 +320,7 @@ exports("GetPlayerGender", function(Player)
 	else
 		return nil
 	end
-end
+end)
 
 exports("GetPlayerPosition", function(Player)
 	if Core.Players[Player] then
@@ -332,7 +332,7 @@ exports("GetPlayerPosition", function(Player)
 	else
 		return nil
 	end
-end
+end)
 
 exports("GetPlayerCharacterPlaytime", function(Player)
 	if Core.Players[Player] then
@@ -344,7 +344,7 @@ exports("GetPlayerCharacterPlaytime", function(Player)
 	else
 		return nil
 	end
-end
+end)
 
 exports("GetPlayerCharacterTimestamp", function(Player)
 	if Core.Players[Player] then
@@ -356,7 +356,7 @@ exports("GetPlayerCharacterTimestamp", function(Player)
 	else
 		return nil
 	end
-end
+end)
 
 exports("GetPlayerJailtime", function(Player)
 	if Core.Players[Player] then
@@ -368,7 +368,7 @@ exports("GetPlayerJailtime", function(Player)
 	else
 		return nil
 	end
-end
+end)
 
 exports("GetPlayerWeaponLicense", function(Player)
 	if Core.Players[Player] then
@@ -380,7 +380,7 @@ exports("GetPlayerWeaponLicense", function(Player)
 	else
 		return nil
 	end
-end
+end)
 
 exports("GetPlayerDriversLicense", function(Player)
 	if Core.Players[Player] then
@@ -392,7 +392,7 @@ exports("GetPlayerDriversLicense", function(Player)
 	else
 		return nil
 	end
-end
+end)
 
 -- Set User
 
@@ -419,7 +419,7 @@ exports("SetPlayerPlaytime", function(Player, Amount)
 	else
 		Log.Error("Unable to set player "..Player.."'s playtime as the amount "..tostring(Amount).." wasn't a number value")
 	end
-end
+end)
 
 exports("SetPlayerPower", function(Player, Power)
 	if type(Amount) == "number" then
@@ -444,7 +444,7 @@ exports("SetPlayerPower", function(Player, Power)
 	else
 		Log.Error("Unable to set player "..Player.."'s power as the value "..tostring(Power).." wasn't a number value")
 	end
-end
+end)
 
 exports("SetPlayerGroup", function(Player, Group)
 	if type(Group) == "string" then
@@ -473,7 +473,7 @@ exports("SetPlayerGroup", function(Player, Group)
 	else
 		Log.Error("Unable to set player "..Player.."'s group as the value "..tostring(Group).." wasn't a string")
 	end
-end
+end)
 
 -- Set Character
 
@@ -500,7 +500,7 @@ exports("SetPlayerBank", function(Player, Amount)
 	else
 		Log.Error("Unable to set player "..Player.."'s bank as the amount "..tostring(Amount).." wasn't a number value")
 	end
-end
+end)
 
 exports("SetPlayerJob", function(Player, Id)
 	if type(Id) == "number" then
@@ -525,7 +525,7 @@ exports("SetPlayerJob", function(Player, Id)
 	else
 		Log.Error("Unable to set player "..Player.."'s job as the amount "..tostring(Id).." wasn't a number value")
 	end
-end
+end)
 
 exports("SetPlayerFirstname", function(Player, Str)
 	if type(Str) == "string" then
@@ -551,7 +551,7 @@ exports("SetPlayerFirstname", function(Player, Str)
 	else
 		Log.Error("Unable to set player "..Player.."'s forename as the value "..tostring(Str).." wasn't a string value")
 	end
-end
+end)
 
 exports("SetPlayerLastname", function(Player, Str)
 	if type(Str) == "string" then
@@ -577,7 +577,7 @@ exports("SetPlayerLastname", function(Player, Str)
 	else
 		Log.Error("Unable to set player "..Player.."'s surname as the value "..tostring(Str).." wasn't a string value")
 	end
-end
+end)
 
 exports("SetPlayerGender", function(Player, Str)
 	if type(Str) == "string" then
@@ -602,7 +602,7 @@ exports("SetPlayerGender", function(Player, Str)
 	else
 		Log.Error("Unable to set player "..Player.."'s gender as the value "..tostring(Str).." wasn't a string value")
 	end
-end
+end)
 
 exports("SetPlayerPosition", function(Player, X, Y, Z)
 	if type(X) == "number" or type(Y) == "number" or type(Z) == "number" then
@@ -637,7 +637,7 @@ exports("SetPlayerPosition", function(Player, X, Y, Z)
 			Log.Error("Unable to set player "..Player.."'s position to to "..tostring(X)..", "..tostring(Y)..", "..tostring(Z))
 		end
 	end
-end
+end)
 
 exports("SetPlayerCharacterPlaytime", function(Player, Amount)
 	if type(Amount) == "number" then
@@ -662,7 +662,7 @@ exports("SetPlayerCharacterPlaytime", function(Player, Amount)
 	else
 		Log.Error("Unable to set player "..Player.."'s playtime as the amount "..tostring(Amount).." wasn't a number value")
 	end
-end
+end)
 
 exports("SetPlayerJailtime", function(Player, Amount)
 	if type(Amount) == "number" then
@@ -687,7 +687,7 @@ exports("SetPlayerJailtime", function(Player, Amount)
 	else
 		Log.Error("Unable to set player "..Player.."'s jailtime as the amount "..tostring(Amount).." wasn't a number value")
 	end
-end
+end)
 
 exports("SetPlayerWeaponLicense", function(Player, Bool)
 	if type(Bool) == "boolean" then
@@ -712,7 +712,7 @@ exports("SetPlayerWeaponLicense", function(Player, Bool)
 	else
 		Log.Error("Unable to set player "..Player.."'s weapon license as the amount "..tostring(Bool).." wasn't a number value")
 	end
-end
+end)
 
 exports("SetPlayerDriversLicense", function(Player, Bool)
 	if type(Bool) == "boolean" then
@@ -737,4 +737,4 @@ exports("SetPlayerDriversLicense", function(Player, Bool)
 	else
 		Log.Error("Unable to set player "..Player.."'s drivers license as the amount "..tostring(Bool).." wasn't a number value")
 	end
-end
+end)
