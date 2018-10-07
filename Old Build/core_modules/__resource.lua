@@ -156,6 +156,8 @@ server_script 'others/environment/server.lua'
 
 client_script 'others/pdpeds/client.lua'
 
+client_script 'others/recoil/client.lua'
+
 --Interaction --Big point of interest
 client_script 'interaction/main.lua'
 server_script 'interaction/server.lua'
