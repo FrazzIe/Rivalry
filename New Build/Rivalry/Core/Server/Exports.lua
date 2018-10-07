@@ -222,7 +222,7 @@ exports("GetPlayerPower", function(Player)
 	else
 		return nil
 	end
-end
+end)
 
 exports("GetPlayerGroup", function(Player)
 	if Core.Players[Player] then
@@ -409,7 +409,7 @@ exports("SetPlayerPlaytime", function(Player, Amount)
 					["@playtime"] = Core.Players[Player].User.Playtime,
 				})
 
-				TriggerClientEvent("Core.Sync", -1, Core)
+				TriggerClientEvent("Core.Sync", -1, {Groups = Core.Groups, Players = Core.Players})
 			else
 				Log.Error("Unable to set player "..Player.."'s playtime to "..tostring(Amount))
 			end
@@ -434,7 +434,7 @@ exports("SetPlayerPower", function(Player, Power)
 					["@power"] = Core.Players[Player].User.Power,
 				})
 
-				TriggerClientEvent("Core.Sync", -1, Core)
+				TriggerClientEvent("Core.Sync", -1, {Groups = Core.Groups, Players = Core.Players})
 			else
 				Log.Error("Unable to set player "..Player.."'s power to "..tostring(Power))
 			end
@@ -460,7 +460,7 @@ exports("SetPlayerGroup", function(Player, Group)
 						["@group"] = Core.Players[Player].User.Group,
 					})
 
-					TriggerClientEvent("Core.Sync", -1, Core)
+					TriggerClientEvent("Core.Sync", -1, {Groups = Core.Groups, Players = Core.Players})
 				else
 					Log.Error("Unable to set player "..Player.."'s group to "..tostring(Group))
 				end
@@ -490,7 +490,7 @@ exports("SetPlayerBank", function(Player, Amount)
 					["@bank"] = Core.Players[Player].Character.Bank,
 				})
 
-				TriggerClientEvent("Core.Sync", -1, Core)
+				TriggerClientEvent("Core.Sync", -1, {Groups = Core.Groups, Players = Core.Players})
 			else
 				Log.Error("Unable to set player "..Player.."'s bank to "..tostring(Amount))
 			end
@@ -515,7 +515,7 @@ exports("SetPlayerJob", function(Player, Id)
 					["@job"] = Core.Players[Player].Character.Job,
 				})
 
-				TriggerClientEvent("Core.Sync", -1, Core)
+				TriggerClientEvent("Core.Sync", -1, {Groups = Core.Groups, Players = Core.Players})
 			else
 				Log.Error("Unable to set player "..Player.."'s job to "..tostring(Id))
 			end
@@ -541,7 +541,7 @@ exports("SetPlayerFirstname", function(Player, Str)
 					["@firstname"] = Core.Players[Player].Character.Firstname,
 				})
 
-				TriggerClientEvent("Core.Sync", -1, Core)
+				TriggerClientEvent("Core.Sync", -1, {Groups = Core.Groups, Players = Core.Players})
 			else
 				Log.Error("Unable to set player "..Player.."'s forename to "..tostring(Str))
 			end
@@ -567,7 +567,7 @@ exports("SetPlayerLastname", function(Player, Str)
 					["@lastname"] = Core.Players[Player].Character.Lastname,
 				})
 
-				TriggerClientEvent("Core.Sync", -1, Core)
+				TriggerClientEvent("Core.Sync", -1, {Groups = Core.Groups, Players = Core.Players})
 			else
 				Log.Error("Unable to set player "..Player.."'s surname to "..tostring(Str))
 			end
@@ -592,7 +592,7 @@ exports("SetPlayerGender", function(Player, Str)
 					["@gender"] = Core.Players[Player].Character.Gender,
 				})
 
-				TriggerClientEvent("Core.Sync", -1, Core)
+				TriggerClientEvent("Core.Sync", -1, {Groups = Core.Groups, Players = Core.Players})
 			else
 				Log.Error("Unable to set player "..Player.."'s gender to "..tostring(Str))
 			end
@@ -629,7 +629,7 @@ exports("SetPlayerPosition", function(Player, X, Y, Z)
 					["@position_z"] = Core.Players[Player].Character.Position.z,
 				})
 
-				TriggerClientEvent("Core.Sync", -1, Core)
+				TriggerClientEvent("Core.Sync", -1, {Groups = Core.Groups, Players = Core.Players})
 			else
 				Log.Error("Unable to set player "..Player.."'s position to to "..tostring(X)..", "..tostring(Y)..", "..tostring(Z))
 			end
@@ -652,7 +652,7 @@ exports("SetPlayerCharacterPlaytime", function(Player, Amount)
 					["@playtime"] = Core.Players[Player].Character.Playtime,
 				})
 
-				TriggerClientEvent("Core.Sync", -1, Core)
+				TriggerClientEvent("Core.Sync", -1, {Groups = Core.Groups, Players = Core.Players})
 			else
 				Log.Error("Unable to set player "..Player.."'s playtime to "..tostring(Amount))
 			end
@@ -677,7 +677,7 @@ exports("SetPlayerJailtime", function(Player, Amount)
 					["@jail_time"] = Core.Players[Player].Character.Jailtime,
 				})
 
-				TriggerClientEvent("Core.Sync", -1, Core)
+				TriggerClientEvent("Core.Sync", -1, {Groups = Core.Groups, Players = Core.Players})
 			else
 				Log.Error("Unable to set player "..Player.."'s jailtime to "..tostring(Amount))
 			end
@@ -702,7 +702,7 @@ exports("SetPlayerWeaponLicense", function(Player, Bool)
 					["@weapon_license"] = Utilities.BoolToNumber(Core.Players[Player].Character.Licenses.Weapon),
 				})
 
-				TriggerClientEvent("Core.Sync", -1, Core)
+				TriggerClientEvent("Core.Sync", -1, {Groups = Core.Groups, Players = Core.Players})
 			else
 				Log.Error("Unable to set player "..Player.."'s weapon license to "..tostring(Bool))
 			end
@@ -727,7 +727,7 @@ exports("SetPlayerDriversLicense", function(Player, Bool)
 					["@drivers_license"] = Utilities.BoolToNumber(Core.Players[Player].Character.Licenses.Drivers),
 				})
 
-				TriggerClientEvent("Core.Sync", -1, Core)
+				TriggerClientEvent("Core.Sync", -1, {Groups = Core.Groups, Players = Core.Players})
 			else
 				Log.Error("Unable to set player "..Player.."'s drivers license to "..tostring(Bool))
 			end
