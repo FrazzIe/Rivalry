@@ -54,7 +54,7 @@ local Recoil = {
 	[317205821] = 0.2, -- AUTO SHOTGUN
 	
 	-- THROWABLES
-	d
+	
 	[1198879012] = 0.9, -- FLARE GUN
 	
 	-- MELEE
