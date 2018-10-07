@@ -458,7 +458,7 @@ function Utilities.UsingController()
 end
 
 function Utilities.Atan(Value)
-	return Value / ( 1+ (Value * Value / (3 + (4 * Value * Value) / (5 + (9 * Value * Value) / (7 + (16 * Value * Value) / (9 + (25 * Value * Value) / (11 + (36 * Value * Value) / (13 + (49 * Value * Value) / (15 + (64 * Value * Value) / (17 + (81 * Value * Value)))))))))))
+	return Value / ( 1 + (Value * Value / (3 + (4 * Value * Value) / (5 + (9 * Value * Value) / (7 + (16 * Value * Value) / (9 + (25 * Value * Value) / (11 + (36 * Value * Value) / (13 + (49 * Value * Value) / (15 + (64 * Value * Value) / (17 + (81 * Value * Value)))))))))))
 end
 
 function Utilities.Atan2(Y, X)

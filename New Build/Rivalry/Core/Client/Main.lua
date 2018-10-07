@@ -10,15 +10,9 @@ Citizen.CreateThread(function()
 	local LastPosition, LastUpdate = nil, 0
 
 	while true do
-		Citizen.Wait(1000)
-		
-		Player.Playtime = Player.Playtime + 1
+		Citizen.Wait(60000)
 
-		if (LastUpdate + 60) == Player.Playtime then
-			LastUpdate = Player.Playtime
-			
-			TriggerServerEvent("Core.Update", Player.Playtime, Player.Coordinates)
-		end
+		TriggerServerEvent("Core.Update", Player.Playtime, Player.Coordinates)
 	end
 end)
 
@@ -35,5 +29,6 @@ end)
 
 RegisterNetEvent("Core.Sync")
 AddEventHandler("Core.Sync", function(Data)
-	Core = Data
+	Core.Groups = Data.Groups
+	Core.Players = Data.Players
 end)

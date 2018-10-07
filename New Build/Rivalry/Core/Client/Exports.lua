@@ -1,4 +1,4 @@
-function Export_CanGroupTargetGroup(SourceGroup, TargetGroup)
+exports("CanGroupTargetGroup", function(SourceGroup, TargetGroup)
 	if Core.Groups[SourceGroup] and Core.Groups[TargetGroup] then
 		if Core.Groups[SourceGroup][TargetGroup] then
 			if not Core.Groups[TargetGroup][SourceGroup] then
@@ -10,11 +10,11 @@ function Export_CanGroupTargetGroup(SourceGroup, TargetGroup)
 			return false
 		end
 	end
-end
+end)
 
 -- Power
 
-function Export_CanPlayerTargetPlayer(SourcePlayer, TargetPlayer)
+exports("CanPlayerTargetPlayer", function(SourcePlayer, TargetPlayer)
 	if Core.Players[SourcePlayer] and Core.Players[TargetPlayer] then
 		if Core.Players[SourcePlayer].User and Core.Players[TargetPlayer].User then
 			if Core.Players[SourcePlayer].User.Power > Core.Players[TargetPlayer].User.Power then
@@ -26,11 +26,11 @@ function Export_CanPlayerTargetPlayer(SourcePlayer, TargetPlayer)
 			return false
 		end
 	end
-end
+end)
 
 -- User Get
 
-function Export_GetPlayerUserId(Player)
+exports("GetPlayerUserId", function(Player)
 	if Core.Players[Player] then
 		if Core.Players[Player].User then
 			return Core.Players[Player].User.Id
@@ -40,9 +40,9 @@ function Export_GetPlayerUserId(Player)
 	else
 		return nil
 	end
-end
+end)
 
-function Export_GetPlayerSteam(Player)
+exports("GetPlayerSteam", function(Player)
 	if Core.Players[Player] then
 		if Core.Players[Player].User then
 			return Core.Players[Player].User.Steam
@@ -52,9 +52,9 @@ function Export_GetPlayerSteam(Player)
 	else
 		return nil
 	end
-end
+end)
 
-function Export_GetPlayerSteam64(Player)
+exports("GetPlayerSteam64", function(Player)
 	if Core.Players[Player] then
 		if Core.Players[Player].User then
 			return Core.Players[Player].User.Steam64
@@ -64,9 +64,9 @@ function Export_GetPlayerSteam64(Player)
 	else
 		return nil
 	end
-end
+end)
 
-function Export_GetPlayerSteam32(Player)
+exports("GetPlayerSteam32", function(Player)
 	if Core.Players[Player] then
 		if Core.Players[Player].User then
 			return Core.Players[Player].User.Steam32
@@ -76,9 +76,9 @@ function Export_GetPlayerSteam32(Player)
 	else
 		return nil
 	end
-end
+end)
 
-function Export_GetPlayerLicense(Player)
+exports("GetPlayerLicense", function(Player)
 	if Core.Players[Player] then
 		if Core.Players[Player].User then
 			return Core.Players[Player].User.License
@@ -88,9 +88,9 @@ function Export_GetPlayerLicense(Player)
 	else
 		return nil
 	end
-end
+end)
 
-function Export_GetPlayerIP(Player)
+exports("GetPlayerIP", function(Player)
 	if Core.Players[Player] then
 		if Core.Players[Player].User then
 			return Core.Players[Player].User.IP
@@ -100,9 +100,9 @@ function Export_GetPlayerIP(Player)
 	else
 		return nil
 	end
-end
+end)
 
-function Export_GetPlayerUsername(Player)
+exports("GetPlayerUsername", function(Player)
 	if Core.Players[Player] then
 		if Core.Players[Player].User then
 			return Core.Players[Player].User.Username
@@ -112,9 +112,9 @@ function Export_GetPlayerUsername(Player)
 	else
 		return nil
 	end
-end
+end)
 
-function Export_GetPlayerPlaytime(Player)
+exports("GetPlayerPlaytime", function(Player)
 	if Core.Players[Player] then
 		if Core.Players[Player].User then
 			return Core.Players[Player].User.Playtime
@@ -124,9 +124,9 @@ function Export_GetPlayerPlaytime(Player)
 	else
 		return nil
 	end
-end
+end)
 
-function Export_GetPlayerTimestamp(Player)
+exports("GetPlayerTimestamp", function(Player)
 	if Core.Players[Player] then
 		if Core.Players[Player].User then
 			return Core.Players[Player].User.Timestamp
@@ -136,9 +136,9 @@ function Export_GetPlayerTimestamp(Player)
 	else
 		return nil
 	end
-end
+end)
 
-function Export_GetPlayerPower(Player)
+exports("GetPlayerPower", function(Player)
 	if Core.Players[Player] then
 		if Core.Players[Player].User then
 			return Core.Players[Player].User.Power
@@ -148,9 +148,9 @@ function Export_GetPlayerPower(Player)
 	else
 		return nil
 	end
-end
+end)
 
-function Export_GetPlayerGroup(Player)
+exports("GetPlayerGroup", function(Player)
 	if Core.Players[Player] then
 		if Core.Players[Player].User then
 			return Core.Players[Player].User.Group
@@ -160,11 +160,11 @@ function Export_GetPlayerGroup(Player)
 	else
 		return nil
 	end
-end
+end)
 
 -- Character Get
 
-function Export_GetPlayerCharacterId(Player)
+exports("GetPlayerCharacterId", function(Player)
 	if Core.Players[Player] then
 		if Core.Players[Player].Character then
 			return Core.Players[Player].Character.Id
@@ -174,9 +174,9 @@ function Export_GetPlayerCharacterId(Player)
 	else
 		return nil
 	end
-end
+end)
 
-function Export_GetPlayerCash(Player)
+exports("GetPlayerCash", function(Player)
 	if Core.Players[Player] then
 		if Core.Players[Player].Character then
 			return Core.Players[Player].Character.Cash
@@ -186,9 +186,9 @@ function Export_GetPlayerCash(Player)
 	else
 		return nil
 	end
-end
+end)
 
-function Export_GetPlayerCounterfeit(Player)
+exports("GetPlayerCounterfeit", function(Player)
 	if Core.Players[Player] then
 		if Core.Players[Player].Character then
 			return Core.Players[Player].Character.Counterfeit
@@ -198,9 +198,9 @@ function Export_GetPlayerCounterfeit(Player)
 	else
 		return nil
 	end
-end
+end)
 
-function Export_GetPlayerBank(Player)
+exports("GetPlayerBank", function(Player)
 	if Core.Players[Player] then
 		if Core.Players[Player].Character then
 			return Core.Players[Player].Character.Bank
@@ -210,9 +210,9 @@ function Export_GetPlayerBank(Player)
 	else
 		return nil
 	end
-end
+end)
 
-function Export_GetPlayerJob(Player)
+exports("GetPlayerJob", function(Player)
 	if Core.Players[Player] then
 		if Core.Players[Player].Character then
 			return Core.Players[Player].Character.Job
@@ -222,9 +222,9 @@ function Export_GetPlayerJob(Player)
 	else
 		return nil
 	end
-end
+end)
 
-function Export_GetPlayerFirstname(Player)
+exports("GetPlayerFirstname", function(Player)
 	if Core.Players[Player] then
 		if Core.Players[Player].Character then
 			return Core.Players[Player].Character.Firstname
@@ -234,9 +234,9 @@ function Export_GetPlayerFirstname(Player)
 	else
 		return nil
 	end
-end
+end)
 
-function Export_GetPlayerLastname(Player)
+exports("GetPlayerLastname", function(Player)
 	if Core.Players[Player] then
 		if Core.Players[Player].Character then
 			return Core.Players[Player].Character.Lastname
@@ -246,9 +246,9 @@ function Export_GetPlayerLastname(Player)
 	else
 		return nil
 	end
-end
+end)
 
-function Export_GetPlayerName(Player)
+exports("GetPlayerName", function(Player)
 	if Core.Players[Player] then
 		if Core.Players[Player].Character then
 			return Core.Players[Player].Character.Name
@@ -258,9 +258,9 @@ function Export_GetPlayerName(Player)
 	else
 		return nil
 	end
-end
+end)
 
-function Export_GetPlayerGender(Player)
+exports("GetPlayerGender", function(Player)
 	if Core.Players[Player] then
 		if Core.Players[Player].Character then
 			return Core.Players[Player].Character.Gender
@@ -270,9 +270,9 @@ function Export_GetPlayerGender(Player)
 	else
 		return nil
 	end
-end
+end)
 
-function Export_GetPlayerPosition(Player)
+exports("GetPlayerPosition", function(Player)
 	if Core.Players[Player] then
 		if Core.Players[Player].Character then
 			return Core.Players[Player].Character.Position
@@ -282,9 +282,9 @@ function Export_GetPlayerPosition(Player)
 	else
 		return nil
 	end
-end
+end)
 
-function Export_GetPlayerCharacterPlaytime(Player)
+exports("GetPlayerCharacterPlaytime", function(Player)
 	if Core.Players[Player] then
 		if Core.Players[Player].Character then
 			return Core.Players[Player].Character.Playtime
@@ -294,9 +294,9 @@ function Export_GetPlayerCharacterPlaytime(Player)
 	else
 		return nil
 	end
-end
+end)
 
-function Export_GetPlayerCharacterTimestamp(Player)
+exports("GetPlayerCharacterTimestamp", function(Player)
 	if Core.Players[Player] then
 		if Core.Players[Player].Character then
 			return Core.Players[Player].Character.Timestamp
@@ -306,9 +306,9 @@ function Export_GetPlayerCharacterTimestamp(Player)
 	else
 		return nil
 	end
-end
+end)
 
-function Export_GetPlayerJailtime(Player)
+exports("GetPlayerJailtime", function(Player)
 	if Core.Players[Player] then
 		if Core.Players[Player].Character then
 			return Core.Players[Player].Character.Jailtime
@@ -318,9 +318,9 @@ function Export_GetPlayerJailtime(Player)
 	else
 		return nil
 	end
-end
+end)
 
-function Export_GetPlayerWeaponLicense(Player)
+exports("GetPlayerWeaponLicense", function(Player)
 	if Core.Players[Player] then
 		if Core.Players[Player].Character then
 			return Core.Players[Player].Character.Licenses.Weapon
@@ -330,9 +330,9 @@ function Export_GetPlayerWeaponLicense(Player)
 	else
 		return nil
 	end
-end
+end)
 
-function Export_GetPlayerDriversLicense(Player)
+exports("GetPlayerDriversLicense", function(Player)
 	if Core.Players[Player] then
 		if Core.Players[Player].Character then
 			return Core.Players[Player].Character.Licenses.Drivers
@@ -342,4 +342,4 @@ function Export_GetPlayerDriversLicense(Player)
 	else
 		return nil
 	end
-end
+end)
