@@ -25,7 +25,7 @@ Fishing = {
 			SuccessLimit = 0.09,
 			AnimationSpeed = 0.0015,
 			ShowChatMSG = true,
-			IsFishing = false,
+			IsFishing = true,
 			FishingRodInHand = false,
 			CFish = false,
 			BarAnimation = 0,
@@ -35,6 +35,7 @@ Fishing = {
 			PosY = 0.1,
 		 	TimerAnimation = 0.1,
 			whichgarage = 0,
+			FishRod = "prop_fishing_rod_01",
 		},
 		Price = {
 			priceSnook = 50,
@@ -88,24 +89,24 @@ function text(x,y,scale,text)
 end
 function FishGUI(bool)
 	if not bool then return end
-	DrawRect(PosX,PosY+0.005,TimerAnimation,0.005,255,255,0,255)
-	DrawRect(PosX,PosY,0.1,0.01,0,0,0,255)
-	TimerAnimation = TimerAnimation - 0.0001025
-	if BarAnimation >= SuccessLimit then
-		DrawRect(PosX,PosY,BarAnimation,0.01,102,255,102,150)
+	DrawRect(Fishing.Data.Bar.PosX,Fishing.Data.Bar.PosY+0.005,Fishing.Data.Bar.TimerAnimation,0.005,255,255,0,255)
+	DrawRect(Fishing.Data.Bar.PosX,Fishing.Data.Bar.PosY,0.1,0.01,0,0,0,255)
+	Fishing.Data.Bar.TimerAnimation = Fishing.Data.Bar.TimerAnimation - 0.0001025
+	if Fishing.Data.Bar.BarAnimation >= Fishing.Data.Bar.SuccessLimit then
+		DrawRect(Fishing.Data.Bar.PosX,Fishing.Data.Bar.PosY,Fishing.Data.Bar.BarAnimation,0.01,102,255,102,150)
 	else
-		DrawRect(PosX,PosY,BarAnimation,0.01,255,51,51,150)
+		DrawRect(Fishing.Data.Bar.PosX,Fishing.Data.Bar.PosY,Fishing.Data.Bar.BarAnimation,0.01,255,51,51,150)
 	end
-	if BarAnimation <= 0 then
+	if Fishing.Data.Bar.BarAnimation <= 0 then
 		up = true
 	end
-	if BarAnimation >= PosY then
+	if Fishing.Data.Bar.BarAnimation >= Fishing.Data.Bar.PosY then
 		up = false
 	end
 	if not up then
-		BarAnimation = BarAnimation - AnimationSpeed
+		Fishing.Data.Bar.BarAnimation = Fishing.Data.Bar.BarAnimation - Fishing.Data.Bar.AnimationSpeed
 	else
-		BarAnimation = BarAnimation + AnimationSpeed
+		Fishing.Data.Bar.BarAnimation = Fishing.Data.Bar.BarAnimation + Fishing.Data.Bar.AnimationSpeed
 	end
 end
 function PlayAnim(ped,base,sub,nr,time) 
@@ -125,26 +126,23 @@ function PlayAnim(ped,base,sub,nr,time)
 	end) 
 end
 function AttachEntityToPed(prop,bone_ID,x,y,z,RotX,RotY,RotZ)
-	BoneID = GetPedBoneIndex(GetPed(), bone_ID)
 	obj = CreateObject(GetHashKey(prop),  1729.73,  6403.90,  34.56,  true,  true,  true)
-	vX,vY,vZ = table.unpack(GetEntityCoords(GetPed()))
-	xRot, yRot, zRot = table.unpack(GetEntityRotation(GetPed(),2))
-	AttachEntityToEntity(obj,  GetPed(),  BoneID, x,y,z, RotX,RotY,RotZ,  false, false, false, false, 2, true)
+	vX,vY,vZ = table.unpack(GetEntityCoords(PlayerPedId()))
+	xRot, yRot, zRot = table.unpack(GetEntityRotation(PlayerPedId(),2))
+	AttachEntityToEntity(obj, PlayerPedId(), bone_ID, x,y,z, RotX,RotY,RotZ,  false, false, false, false, 2, true)
 	return obj
 end
 
 local peds = {}
 --Functions
 function startFishing(typeOfFishing)
-	Fishing.Data.Bar.RunCodeOnly1Time = true
 	FishGUI(true)
-	Fishing.Data.Bar.BarAnimation = 0
+	Fishing.Data.Bar.IsFishing = true
 	if Fishing.Data.Bar.FishingRodInHand == false then
-		Fishing.Data.Bar.FishRod = CreateObject(GetHashKey("prop_fishing_rod_01"), 0.0, 0.0, 0.0, true, false, true)
-		AttachEntityToEntity(Fishing.Data.Bar.FishRod, PlayerPedId(), 60309, 0,0,0, 0,0,0)
+		AttachEntityToPed(Fishing.Data.Bar.FishRod, 60309, 0,0,0, 0,0,0)
 	end
 	Fishing.Data.Bar.FishingRodInHand = true
-	while Fishing.Data.Bar.IsFishing == true do
+	if Fishing.Data.Bar.IsFishing == true then
 		local time = 4*3000
 		TaskStandStill(PlayerPedId(), time+7000)
 		TaskPlayAnim(PlayerPedId(),'amb@world_human_stand_fishing@base','base', 4.0, -4, -1, 1, 0, false, false, false)
@@ -152,9 +150,9 @@ function startFishing(typeOfFishing)
 		Fishing.Data.Bar.CFish = true
 		Fishing.Data.Bar.IsFishing = false
 	end
-	while Fishing.Data.Bar.CFish == true do
+	if Fishing.Data.Bar.CFish == true then
 		Citizen.Wait(1)
-		if RunCodeOnly1Time then
+		if Fishing.Data.Bar.RunCodeOnly1Time then
 			Fishing.Data.Bar.Faketimer = 1
 			TaskPlayAnim(PlayerPedId(),'amb@world_human_stand_fishing@idle_a','idle_c', 4.0, -4, -1, 1, 0, false, false, false)
 			Fishing.Data.Bar.RunCodeOnly1Time = false
@@ -173,7 +171,7 @@ function startFishing(typeOfFishing)
 				Citizen.Wait(200)
 				DetachEntity(Fishing.Data.Bar.FishRod, true, true)
 				DeleteEntity(Fishing.Data.Bar.FishRod)
-				GetPedNearbyPeds(PlayerPedId(), peds)
+				PlayerPedIdNearbyPeds(PlayerPedId(), peds)
 				if( typeOfFishing == "Deep") then
 					TriggerServerEvent('caughtFish', "Deep", #peds)
 				else
