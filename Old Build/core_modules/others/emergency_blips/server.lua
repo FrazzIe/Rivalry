@@ -66,11 +66,12 @@ AddEventHandler("police:setService", function(inService)
 end)
 
 RegisterServerEvent("EmergencyBlips.Panic")
-AddEventHandler("EmergencyBlips.Panic", function(Type, Street)
+AddEventHandler("EmergencyBlips.Panic", function(Street)
 	local Source = source
 
 	EmergencyPlayers[Source][2] = not EmergencyPlayers[Source][2]
 
+	local Type = ((EmergencyPlayers[Source][1] == 2) and "^7Officer" or "^7Medic")
 	local Message = Type.." "..EmergencyPlayers[Source][3]..(EmergencyPlayers[Source][2] and " is in distress at " or " is no longer in distress at ")..Street
 
 	for Player, Data in pairs(EmergencyPlayers) do
@@ -78,4 +79,43 @@ AddEventHandler("EmergencyBlips.Panic", function(Type, Street)
 	end
 
 	TriggerClientEvent("EmergencyBlips.Sync", -1, EmergencyPlayers)
+end)
+
+RegisterServerEvent("EmergencyBlips.Remove")
+AddEventHandler("EmergencyBlips.Remove", function(Street, Target)
+	local Source = source
+	local Id = ((Target ~= nil) and Target or Source)
+
+	if EmergencyPlayers[Id] then
+		local Type = ((EmergencyPlayers[Id][1] == 2) and "^7Officer" or "^7Medic")
+		local Message = Type.." "..EmergencyPlayers[Id][3].."'s tracker was turned off at "..Street
+
+		EmergencyPlayers[Id] = nil
+
+		for Player, Data in pairs(EmergencyPlayers) do
+			Chat.Message(Player, "10-13", Message, 255, 0, 0, true, "panic")
+		end
+
+		TriggerClientEvent("EmergencyBlips.Sync", -1, EmergencyPlayers)
+	end
+end)
+
+RegisterServerEvent("EmergencyBlips.Add")
+AddEventHandler("EmergencyBlips.Add", function(Street, EmergencyType)
+	local Source = source
+
+	if not EmergencyPlayers[Source] then
+		TriggerEvent("core:getname", Source, function(Name)
+			EmergencyPlayers[Source] = {EmergencyType, false, Name or "Unknown?"}
+
+			local Type = ((EmergencyPlayers[Source][1] == 2) and "^7Officer" or "^7Medic")
+			local Message = Type.." "..EmergencyPlayers[Source][3].."'s tracker was turned on at "..Street
+			
+			for Player, Data in pairs(EmergencyPlayers) do
+				Chat.Message(Player, "10-13", Message, 255, 0, 0, true, "panic")
+			end
+
+			TriggerClientEvent("EmergencyBlips.Sync", -1, EmergencyPlayers)
+		end)
+	end
 end)

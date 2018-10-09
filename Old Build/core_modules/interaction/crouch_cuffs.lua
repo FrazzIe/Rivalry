@@ -431,6 +431,9 @@ AddEventHandler("interaction:rob", function()
 					exports.ui:addOption("Weapons", "interaction:rob_weapons", target_id)
 					exports.ui:addOption("Money", "interaction:rob_money", target_id)
 					exports.ui:addOption("Phone", "interaction:rob_phone", target_id)
+					if EmergencyPlayers[target_id] then
+						exports.ui:addOption("Turn off tracker", "interaction:remove_tracker", target_id)
+					end
 					exports.ui:back([[TriggerEvent("interaction:actions_emotes")]])			
     			end
     		else
@@ -441,6 +444,27 @@ AddEventHandler("interaction:rob", function()
     	end
     else
         Messages(5)
+    end
+end)
+
+AddEventHandler("interaction:remove_tracker", function(target_id)
+    if handcuffs[target_id] then
+    	local player_pos, target_pos = GetEntityCoords(PlayerPedId(), false), GetEntityCoords(GetPlayerPed(GetPlayerFromServerId(target_id)), false)
+    	if handcuffs[target_id].cuffed and handcuffs[target_id].keyholder == GetPlayerServerId(PlayerId()) then
+    		if GetDistanceBetweenCoords(player_pos.x, player_pos.y, player_pos.z, target_pos.x, target_pos.y, target_pos.z, true) < 3 then
+    			local Position = GetEntityCoords(PlayerPedId(), false)
+				local Street, Crossing = GetStreetNameAtCoord(Position.x, Position.y, Position.z)
+				EmergencyPlayers[target_id] = nil
+    			TriggerServerEvent("EmergencyBlips.Remove", GetStreetNameFromHashKey(Street), target_id)
+    			TriggerEvent("interaction:rob")
+	    	else
+	    		Notify("You're not close enough to the target!", 3000)
+	    	end
+	    else
+	    	Notify("The target is handcuffed, but you do not have the keys!", 3000)
+    	end
+    else
+    	Notify("The target is not handcuffed!", 3000)
     end
 end)
 
@@ -472,7 +496,7 @@ AddEventHandler("interaction:rob_inventory_options", function(data)
 	exports.ui:reset()
 	exports.ui:open("rob_inventory")
     if handcuffs[data.target_id] then
-    	local player_pos, target_pos = GetEntityCoords(PlayerPedId(), false), GetEntityCoords(GetPlayerPed(GetPlayerFromServerId(target_id)), false)
+    	local player_pos, target_pos = GetEntityCoords(PlayerPedId(), false), GetEntityCoords(GetPlayerPed(GetPlayerFromServerId(data.target_id)), false)
     	if handcuffs[data.target_id].cuffed and handcuffs[data.target_id].keyholder == GetPlayerServerId(PlayerId()) then
     		if GetDistanceBetweenCoords(player_pos.x, player_pos.y, player_pos.z, target_pos.x, target_pos.y, target_pos.z, true) < 3 then
 	    		if server_weapons[data.target_id] and inventories[data.target_id] then
@@ -493,7 +517,7 @@ end)
 
 AddEventHandler("interaction:rob_inventory_take", function(data)
     if handcuffs[data.target_id] then
-    	local player_pos, target_pos = GetEntityCoords(PlayerPedId(), false), GetEntityCoords(GetPlayerPed(GetPlayerFromServerId(target_id)), false)
+    	local player_pos, target_pos = GetEntityCoords(PlayerPedId(), false), GetEntityCoords(GetPlayerPed(GetPlayerFromServerId(data.target_id)), false)
     	if handcuffs[data.target_id].cuffed and handcuffs[data.target_id].keyholder == GetPlayerServerId(PlayerId()) then
     		if GetDistanceBetweenCoords(player_pos.x, player_pos.y, player_pos.z, target_pos.x, target_pos.y, target_pos.z, true) < 3 then
 	    		if server_weapons[data.target_id] and inventories[data.target_id] then
@@ -523,7 +547,7 @@ end)
 
 AddEventHandler("interaction:rob_inventory_destroy", function(data)
     if handcuffs[data.target_id] then
-    	local player_pos, target_pos = GetEntityCoords(PlayerPedId(), false), GetEntityCoords(GetPlayerPed(GetPlayerFromServerId(target_id)), false)
+    	local player_pos, target_pos = GetEntityCoords(PlayerPedId(), false), GetEntityCoords(GetPlayerPed(GetPlayerFromServerId(data.target_id)), false)
     	if handcuffs[data.target_id].cuffed and handcuffs[data.target_id].keyholder == GetPlayerServerId(PlayerId()) then
     		if GetDistanceBetweenCoords(player_pos.x, player_pos.y, player_pos.z, target_pos.x, target_pos.y, target_pos.z, true) < 3 then
 	    		if server_weapons[data.target_id] and inventories[data.target_id] then
@@ -584,7 +608,7 @@ AddEventHandler("interaction:rob_weapons_options", function(data)
 	exports.ui:reset()
 	exports.ui:open("rob_weapons")
     if handcuffs[data.target_id] then
-    	local player_pos, target_pos = GetEntityCoords(PlayerPedId(), false), GetEntityCoords(GetPlayerPed(GetPlayerFromServerId(target_id)), false)
+    	local player_pos, target_pos = GetEntityCoords(PlayerPedId(), false), GetEntityCoords(GetPlayerPed(GetPlayerFromServerId(data.target_id)), false)
     	if handcuffs[data.target_id].cuffed and handcuffs[data.target_id].keyholder == GetPlayerServerId(PlayerId()) then
     		if GetDistanceBetweenCoords(player_pos.x, player_pos.y, player_pos.z, target_pos.x, target_pos.y, target_pos.z, true) < 3 then
 	    		if server_weapons[data.target_id] and inventories[data.target_id] then
@@ -605,7 +629,7 @@ end)
 
 AddEventHandler("interaction:rob_weapons_take", function(data)
     if handcuffs[data.target_id] then
-    	local player_pos, target_pos = GetEntityCoords(PlayerPedId(), false), GetEntityCoords(GetPlayerPed(GetPlayerFromServerId(target_id)), false)
+    	local player_pos, target_pos = GetEntityCoords(PlayerPedId(), false), GetEntityCoords(GetPlayerPed(GetPlayerFromServerId(data.target_id)), false)
     	if handcuffs[data.target_id].cuffed and handcuffs[data.target_id].keyholder == GetPlayerServerId(PlayerId()) then
     		if GetDistanceBetweenCoords(player_pos.x, player_pos.y, player_pos.z, target_pos.x, target_pos.y, target_pos.z, true) < 3 then
 	    		if server_weapons[data.target_id] and inventories[data.target_id] then
@@ -626,7 +650,7 @@ end)
 
 AddEventHandler("interaction:rob_weapons_destroy", function(data)
     if handcuffs[data.target_id] then
-    	local player_pos, target_pos = GetEntityCoords(PlayerPedId(), false), GetEntityCoords(GetPlayerPed(GetPlayerFromServerId(target_id)), false)
+    	local player_pos, target_pos = GetEntityCoords(PlayerPedId(), false), GetEntityCoords(GetPlayerPed(GetPlayerFromServerId(data.target_id)), false)
     	if handcuffs[data.target_id].cuffed and handcuffs[data.target_id].keyholder == GetPlayerServerId(PlayerId()) then
     		if GetDistanceBetweenCoords(player_pos.x, player_pos.y, player_pos.z, target_pos.x, target_pos.y, target_pos.z, true) < 3 then
 	    		if server_weapons[data.target_id] and inventories[data.target_id] then

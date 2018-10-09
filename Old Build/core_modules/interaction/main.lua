@@ -182,8 +182,22 @@ AddEventHandler("interaction:main", function()
 	exports.ui:reset()
 	exports.ui:open()
 	if IsEntityDead(PlayerPedId()) then
-		if exports.policejob:getIsCop() then if exports.policejob:getIsInService() then if exports["phone"]:PlayerHasPhone() then exports.ui:addOption("10-13", [[TriggerEvent("EmergencyBlips.Panic")]]) end end end
-		if exports.emsjob:getIsParamedic() then if exports.emsjob:getIsInService() then if exports["phone"]:PlayerHasPhone() then exports.ui:addOption("10-13", [[TriggerEvent("EmergencyBlips.Panic")]]) end end end
+		if exports.policejob:getIsCop() or exports.emsjob:getIsParamedic() then 
+			if exports.policejob:getIsInService() or exports.emsjob:getIsInService() then 
+				if HasTracker() then
+					exports.ui:addOption("10-13", [[TriggerEvent("EmergencyBlips.Panic")]])
+				end 
+
+				if not exports.policejob:getIsCuffed() and not isCuffed() then
+					if HasTracker() then
+						exports.ui:addOption("Turn tracker off", [[TriggerEvent("interaction:tracker2")]])
+					else
+						exports.ui:addOption("Turn tracker on", [[TriggerEvent("interaction:tracker2")]])
+					end
+				end
+			end
+		end
+
 		exports.ui:addOption("Life Alert", "phone:lifealert","phone")		
 	else
 		if exports.policejob:getIsCop() then if exports.policejob:getIsInService() then exports.ui:addOption("Police", [[TriggerEvent("police:menu")]]) end end
@@ -191,7 +205,7 @@ AddEventHandler("interaction:main", function()
 		if DOJ.IsDOJ then if DOJ.Active then exports.ui:addOption("DOJ", [[TriggerEvent("DOJ:Menu")]]) end end
 		if exports.others:getIsInService() then exports.ui:addOption("Taxi", [[TriggerEvent("taxi:menu")]]) end
 		if exports.jobs:getMechanicIsInService() then exports.ui:addOption("Mechanic", [[TriggerEvent("mechanic:menu")]]) end
-		exports.ui:addOption("Actions / Emotes", [[TriggerEvent("interaction:actions_emotes")]])
+		exports.ui:addOption("Actions", [[TriggerEvent("interaction:actions_emotes")]])
 		if not IsJailed and not exports.policejob:getIsCuffed() and not isCuffed() then
 			exports.ui:addOption("Inventory", [[TriggerEvent("inventory:open")]])
 			exports.ui:addOption("Vehicle", [[TriggerEvent("interaction:vehicle")]])
@@ -209,8 +223,48 @@ AddEventHandler("interaction:actions_emotes", function()
 	exports.ui:open()
 	exports.ui:addOption("Rob", [[TriggerEvent("interaction:rob")]])
 	exports.ui:addOption("Escort", [[TriggerEvent("interaction:drag_execute")]])
-	--exports.ui:addOption("Emotes", [[TriggerEvent("interaction:emotes")]])
+	if exports.policejob:getIsCop() or exports.emsjob:getIsParamedic() then 
+		if exports.policejob:getIsInService() or exports.emsjob:getIsInService() then 
+			if not exports.policejob:getIsCuffed() and not isCuffed() then
+				if HasTracker() then
+					exports.ui:addOption("Turn tracker off", [[TriggerEvent("interaction:tracker")]])
+				else
+					exports.ui:addOption("Turn tracker on", [[TriggerEvent("interaction:tracker")]])
+				end
+			end
+		end
+	end
 	exports.ui:back([[TriggerEvent("interaction:main")]])
+end)
+
+AddEventHandler("interaction:tracker", function(TurnOn)
+	local ServerId = GetPlayerServerId(PlayerId())
+	local Position = GetEntityCoords(PlayerPedId(), false)
+	local Street, Crossing = GetStreetNameAtCoord(Position.x, Position.y, Position.z)
+
+	if not HasTracker() then
+		EmergencyPlayers[ServerId] = {1, false, "Unknown?"}
+		TriggerServerEvent("EmergencyBlips.Add", GetStreetNameFromHashKey(Street), (exports.emsjob:getIsInService() and 1 or 2))
+	else
+		EmergencyPlayers[ServerId] = nil
+		TriggerServerEvent("EmergencyBlips.Remove", GetStreetNameFromHashKey(Street))
+	end
+	TriggerEvent("interaction:actions_emotes")
+end)
+
+AddEventHandler("interaction:tracker2", function(TurnOn)
+	local ServerId = GetPlayerServerId(PlayerId())
+	local Position = GetEntityCoords(PlayerPedId(), false)
+	local Street, Crossing = GetStreetNameAtCoord(Position.x, Position.y, Position.z)
+
+	if not HasTracker() then
+		EmergencyPlayers[ServerId] = {1, false, "Unknown?"}
+		TriggerServerEvent("EmergencyBlips.Add", GetStreetNameFromHashKey(Street), (exports.emsjob:getIsInService() and 1 or 2))
+	else
+		EmergencyPlayers[ServerId] = nil
+		TriggerServerEvent("EmergencyBlips.Remove", GetStreetNameFromHashKey(Street))
+	end
+	TriggerEvent("interaction:main")
 end)
 
 AddEventHandler("interaction:drag_execute", function()

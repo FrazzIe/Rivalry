@@ -12,8 +12,17 @@
 	Copy, re-release, re-distribute it without my written permission.
 --]]
 
-local EmergencyPlayers = {}
+EmergencyPlayers = {}
+
 local EmergencyBlips = {}
+
+function HasTracker()
+	if EmergencyPlayers[GetPlayerServerId(PlayerId())] then
+		return true
+	else
+		return false
+	end
+end
 
 function GetEmergencyBlipColour(Type, Panic)
 	if Panic then
@@ -47,13 +56,17 @@ AddEventHandler("core:ready", function()
 	Chat.Command("panic", function(source, args, rawCommand)
 		if exports.policejob:getIsInService() or exports.emsjob:getIsInService() then
 			if exports["phone"]:PlayerHasPhone() then
-				if not exports.policejob:getIsCuffed() then
-					local Position = GetEntityCoords(PlayerPedId(), false)
-					local Street, Crossing = GetStreetNameAtCoord(Position.x, Position.y, Position.z)
+				if HasTracker() then
+					if not exports.policejob:getIsCuffed() then
+						local Position = GetEntityCoords(PlayerPedId(), false)
+						local Street, Crossing = GetStreetNameAtCoord(Position.x, Position.y, Position.z)
 
-					TriggerServerEvent("EmergencyBlips.Panic", (exports.policejob:getIsInService() and "^7Officer" or "^7Medic"), GetStreetNameFromHashKey(Street))
+						TriggerServerEvent("EmergencyBlips.Panic", (exports.policejob:getIsInService() and "^7Officer" or "^7Medic"), GetStreetNameFromHashKey(Street))
+					else
+						Chat.Message("INFO", "You are handcuffed, you cannot reach the button!", 255, 0, 0, true)
+					end
 				else
-					Chat.Message("INFO", "You are handcuffed, you cannot reach the button!", 255, 0, 0, true)
+					Chat.Message("INFO", "Your tracker must be activated!", 255, 0, 0, true)
 				end
 			else
 				Chat.Message("INFO", "You must have a phone!", 255, 0, 0, true)
@@ -132,5 +145,6 @@ end)
 AddEventHandler("EmergencyBlips.Panic", function()
 	local Position = GetEntityCoords(PlayerPedId(), false)
 	local Street, Crossing = GetStreetNameAtCoord(Position.x, Position.y, Position.z)
-	TriggerServerEvent("EmergencyBlips.Panic", (exports.policejob:getIsInService() and "^7Officer" or "^7Medic"), GetStreetNameFromHashKey(Street))
+
+	TriggerServerEvent("EmergencyBlips.Panic", GetStreetNameFromHashKey(Street))
 end)
