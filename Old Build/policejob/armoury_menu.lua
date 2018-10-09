@@ -23,7 +23,6 @@ local armoury = {
 guns = {
     {name = "Pistol", model = "WEAPON_PISTOL"},
     {name = "Knife", model = "WEAPON_KNIFE"},
-    {name = "Flare", model = "WEAPON_FLARE"},
     {name = "Stun Gun", model = "WEAPON_STUNGUN"},
     {name = "Flashlight", model = "WEAPON_FLASHLIGHT"},
     {name = "Nightstick", model = "WEAPON_NIGHTSTICK"},

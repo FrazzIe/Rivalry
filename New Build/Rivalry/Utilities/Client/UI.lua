@@ -1,22 +1,8 @@
 UI = {
 	Data = {},
-	Metatables = {
-		Rectangle = setmetatable({}, UI.Metatables.Rectangle),
-		Text = setmetatable({}, UI.Metatables.Text),
-		Sprite = setmetatable({}, UI.Metatables.Sprite),
-	},
 }
 
-UI.Metatables.Rectangle.__index = UI.Metatables.Rectangle
-UI.Metatables.Rectangle.__call = function() return "Rectangle" end
-
-UI.Metatables.Text.__index = UI.Metatables.Text
-UI.Metatables.Text.__call = function() return "Text" end
-
-UI.Metatables.Sprite.__index = UI.Metatables.Sprite
-UI.Metatables.Sprite.__call = function() return "Sprite" end
-
-UI.Data.BadgeStyle = {
+UI.BadgeStyle = {
 	None = 0,
 	BronzeMedal = 1,
 	GoldMedal = 2,
@@ -303,15 +289,10 @@ UI.Colours = {
     Stunt2 = {224, 50, 50, 255},
 }
 
-function UI.FormatXWYH(Value, Value2)
-    return Value/1920, Value2/1080
-end
-
 function UI.IsMouseInBounds(X, Y, Width, Height)
-    local MX, MY = Utilities.RoundNumber(GetControlNormal(0, 239) * 1920), Utilities.RoundNumber(GetControlNormal(0, 240) * 1080)
-    MX, MY = UI.FormatXWYH(MX, MY)
-    X, Y = UI.FormatXWYH(X, Y)
-    Width, Height = UI.FormatXWYH(Width, Height)
+    local MX, MY = math.round(GetControlNormal(0, 239) * 1920)/1920, math.round(GetControlNormal(0, 240) * 1080)/1080
+    X, Y = X/1920, Y/1080
+    Width, Height = Width/1920, Height/1080
     return (MX >= X and MX <= X + Width) and (MY > Y and MY < Y + Height)
 end
 
@@ -328,84 +309,34 @@ end
 
 function UI.GetCharacterCount(str)
     local characters = 0
-    for c in str:gmatch("[%z\1-\127\194-\244][\128-\191]*") do
-        local a = c:byte(1, -1)
-        if a ~= nil then
-            characters = characters + 1
-        end
+
+    for character in str:gmatch("[%z\1-\127\194-\244][\128-\191]*") do
+        characters = characters + 1
     end
+
     return characters
 end
 
 function UI.GetByteCount(str)
     local bytes = 0
 
-    for c in str:gmatch("[%z\1-\127\194-\244][\128-\191]*") do
-        local a,b,c,d = c:byte(1, -1)
-        if a ~= nil then
-            bytes = bytes + 1
-        end
-        if b ~= nil then
-            bytes = bytes + 1
-        end
-        if c ~= nil then
-            bytes = bytes + 1
-        end
-        if d ~= nil then
-            bytes = bytes + 1
-        end
+    for character in str:gmatch("[%z\1-\127\194-\244][\128-\191]*") do
+        bytes = bytes + #table.pack(character:byte(1, -1))
     end
+
     return bytes
 end
 
-function UI.AddLongStringForAscii(str)
-    local maxbytelength = 99
-    for i = 0, UI.GetCharacterCount(str), 99 do
-        AddTextComponentSubstringPlayerName(string.sub(str, i, math.min(maxbytelength, GetCharacterCount(str) - i))) --needs changed
-    end
-end
-
-function UI.AddLongStringForUtf8(str)
-    local maxbytelength = 99
-    local bytecount = GetByteCount(str)
-
-    if bytecount < maxbytelength then
-        AddTextComponentSubstringPlayerName(str)
-        return
-    end
-
-    local startIndex = 0
-
-    for i = 0, UI.GetCharacterCount(str), 1 do
-        local length = i - startIndex
-        if UI.GetByteCount(string.sub(str, startIndex, length)) > maxbytelength then
-            AddTextComponentSubstringPlayerName(string.sub(str, startIndex, length - 1))
-            i = i - 1
-            startIndex = startIndex + (length - 1)
-        end
-    end
-    AddTextComponentSubstringPlayerName(string.sub(str, startIndex, UI.GetCharacterCount(str) - startIndex))
-end 
-
-function UI.AddLongString(str)
-    local bytecount = UI.GetByteCount(str)
-    if bytecount == UI.GetCharacterCount(str) then
-        UI.AddLongStringForAscii(str)
-    else
-        UI.AddLongStringForUtf8(str)
-    end
-end
-
-function UI.MeasureStringWidthNoConvert(str, font, scale)
+function UI.GetStringWidthNoConvert(str, font, scale)
     BeginTextCommandWidth("STRING")
-    UI.AddLongString(str)
+    AddTextComponentSubstringPlayerName(str)
     SetTextFont(font or 0)
     SetTextScale(1.0, scale or 0)
     return EndTextCommandGetWidth(true)
 end
 
-function UI.MeasureStringWidth(str, font, scale)
-    return UI.MeasureStringWidthNoConvert(str, font, scale) * 1920
+function UI.GetStringWidth(str, font, scale)
+    return UI.GetStringWidthNoConvert(str, font, scale) * 1920
 end
 
 function UI.GetBadgeTexture(Badge, Selected)
@@ -432,62 +363,28 @@ function UI.GetBadgeColour(Badge, Selected)
     end
 end
 
-function UI.Rectangle(X, Y, Width, Height, R, G, B, A)
-    local _Rectangle = {
-        X = tonumber(X) or 0,
-        Y = tonumber(Y) or 0,
-        Width = tonumber(Width) or 0,
-        Height = tonumber(Height) or 0,
-        _Colour = {R = tonumber(R) or 255, G = tonumber(G) or 255, B = tonumber(B) or 255, A = tonumber(A) or 255},
-    }
-    return setmetatable(_Rectangle, UI.Metatables.Rectangle)
-end
+function UI.RenderSprite(TextureDictionary, TextureName, X, Y, Width, Height, Heading, R, G, B, A)
+    local X, Y, Width, Height = (tonumber(X) or 0)/1920, (tonumber(Y) or 0)/1080, (tonumber(Width) or 0)/1920, (tonumber(Height) or 0)/1080
 
-function UI.Text(Text, X, Y, Scale, R, G, B, A, Font, Alignment, DropShadow, Outline, WordWrap)
-    local _Text = {
-        _Text = tostring(Text) or "",
-        X = tonumber(X) or 0,
-        Y = tonumber(Y) or 0,
-        Scale = tonumber(Scale) or 0,
-        _Colour = {R = tonumber(R) or 255, G = tonumber(G) or 255, B = tonumber(B) or 255, A = tonumber(A) or 255},
-        Font = tonumber(Font) or 0,
-        Alignment = Alignment or nil,
-        DropShadow = Dropshadow or nil,
-        Outline = Outline or nil,
-        WordWrap = tonumber(WordWrap) or 0,
-    }
-    return setmetatable(_Text, UI.Metatables.Text)
-end
+    if not HasStreamedTextureDictLoaded(TextureDictionary) then
+        RequestStreamedTextureDict(TextureDictionary, true)
+    end
 
-function UI.Sprite(TxtDictionary, TxtName, X, Y, Width, Height, Heading, R, G, B, A)
-    local _Sprite = {
-        TxtDictionary = tostring(TxtDictionary),
-        TxtName = tostring(TxtName),
-        X = tonumber(X) or 0,
-        Y = tonumber(Y) or 0,
-        Width = tonumber(Width) or 0, 
-        Height = tonumber(Height) or 0,
-        Heading = tonumber(Heading) or 0,
-        _Colour = {R = tonumber(R) or 255, G = tonumber(G) or 255, B = tonumber(B) or 255, A = tonumber(A) or 255},
-    }
-    return setmetatable(_Sprite, UI.Metatables.Sprite)
+    DrawSprite(TextureDictionary, TextureName, X + Width * 0.5, Y + Height * 0.5, Width, Height, Heading or 0, tonumber(R) or 255, tonumber(G) or 255, tonumber(B) or 255, tonumber(A) or 255)
 end
 
 function UI.RenderRectangle(X, Y, Width, Height, R, G, B, A)
-    X, Y, Width, Height = X or 0, Y or 0, Width or 0, Height or 0
-
-    X, Y = UI.FormatXWYH(X, Y)
-    Width, Height = UI.FormatXWYH(Width, Height)
+    local X, Y, Width, Height = (tonumber(X) or 0)/1920, (tonumber(Y) or 0)/1080, (tonumber(Width) or 0)/1920, (tonumber(Height) or 0)/1080
 
     DrawRect(X + Width * 0.5, Y + Height * 0.5, Width, Height, tonumber(R) or 255, tonumber(G) or 255, tonumber(B) or 255, tonumber(A) or 255)
 end
 
 function UI.RenderText(Text, X, Y, Font, Scale, R, G, B, A, Alignment, DropShadow, Outline, WordWrap)
-    Text = tostring(Text)
-    X, Y = UI.FormatXWYH(X, Y)
+    local Text, X, Y = tostring(Text), (tonumber(X) or 0)/1920, (tonumber(Y) or 0)/1080
+
     SetTextFont(Font or 0)
     SetTextScale(1.0, Scale or 0)
-    SetTextColour(R or 255, G or 255, B or 255, A or 255)
+    SetTextColour(tonumber(R) or 255, tonumber(G) or 255, tonumber(B) or 255, tonumber(A) or 255)
 
     if DropShadow then
         SetTextDropShadow()
@@ -502,183 +399,66 @@ function UI.RenderText(Text, X, Y, Font, Scale, R, G, B, A, Alignment, DropShado
             SetTextCentre(true)
         elseif Alignment == 2 or Alignment == "Right" then
             SetTextRightJustify(true)
+        end
+    end
+
+    if tonumber(WordWrap) and tonumber(WordWrap) ~= 0 then
+        if Alignment == 1 or Alignment == "Center" or Alignment == "Centre" then
+            SetTextWrap(X - ((WordWrap/1920)/2), X + ((WordWrap/1920)/2))
+        elseif Alignment == 2 or Alignment == "Right" then
+            SetTextWrap(0, X)
+        else
+            SetTextWrap(X, X + (WordWrap/1920))
+        end
+    else
+        if Alignment == 2 or Alignment == "Right" then
             SetTextWrap(0, X)
         end
     end
 
-    if tonumber(WordWrap) then
-        if tonumber(WordWrap) ~= 0 then
-            WordWrap, _ = UI.FormatXWYH(WordWrap, 0)
-            SetTextWrap(WordWrap, X - WordWrap)
-        end
-    end
-
     BeginTextCommandDisplayText("STRING")
-    UI.AddLongString(Text)
+    AddTextComponentSubstringPlayerName(Text) 
     EndTextCommandDisplayText(X, Y)
 end
 
-function UI.RenderSprite(TxtDictionary, TxtName, X, Y, Width, Height, Heading, R, G, B, A)
-    if not HasStreamedTextureDictLoaded(tostring(TxtDictionary) or "") then
-        RequestStreamedTextureDict(tostring(TxtDictionary) or "", true)
-    end
+function UI.GetLineCount(Text, X, Y, Font, Scale, R, G, B, A, Alignment, DropShadow, Outline, WordWrap)
+    local Text, X, Y = tostring(Text), (tonumber(X) or 0)/1920, (tonumber(Y) or 0)/1080
 
-    X, Y, Width, Height = X or 0, Y or 0, Width or 0, Height or 0
+    SetTextFont(Font or 0)
+    SetTextScale(1.0, Scale or 0)
+    SetTextColour(tonumber(R) or 255, tonumber(G) or 255, tonumber(B) or 255, tonumber(A) or 255)
 
-    X, Y = UI.FormatXWYH(X, Y)
-    Width, Height = UI.FormatXWYH(Width, Height)
-
-    DrawSprite(tostring(TxtDictionary) or "", tostring(TxtName) or "", X + Width * 0.5, Y + Height * 0.5, Width, Height, tonumber(Heading) or 0, tonumber(R) or 255, tonumber(G) or 255, tonumber(B) or 255, tonumber(A) or 255)
-end
-
---[[ 
-	Metatable stuff
-]]--
-
-function UI.Metatables.Rectangle:Position(X, Y)
-    if tonumber(X) and tonumber(Y) then
-        self.X = tonumber(X)
-        self.Y = tonumber(Y)
-    else
-        return {X = self.X, Y = self.Y}
-    end
-end
-
-function UI.Metatables.Rectangle:Size(Width, Height)
-    if tonumber(Width) and tonumber(Height) then
-        self.Width = tonumber(Width)
-        self.Height = tonumber(Height)
-    else
-        return {Width = self.Width, Height = self.Height}
-    end
-end
-
-function UI.Metatables.Rectangle:Colour(R, G, B, A)
-    if tonumber(R) or tonumber(G) or tonumber(B) or tonumber(A) then
-        self._Colour.R = tonumber(R) or 255
-        self._Colour.B = tonumber(B) or 255
-        self._Colour.G = tonumber(G) or 255
-        self._Colour.A = tonumber(A) or 255
-    else
-        return self._Colour
-    end
-end
-
-function UI.Metatables.Rectangle:Draw()
-    local Position = self:Position()
-    local Size = self:Size()
-
-    Size.Width, Size.Height = UI.FormatXWYH(Size.Width, Size.Height)
-    Position.X, Position.Y = UI.FormatXWYH(Position.X, Position.Y)
-
-    DrawRect(Position.X + Size.Width * 0.5, Position.Y + Size.Height * 0.5, Size.Width, Size.Height, self._Colour.R, self._Colour.G, self._Colour.B, self._Colour.A)
-end
-
-function UI.Metatables.Text:Position(X, Y)
-    if tonumber(X) and tonumber(Y) then
-        self.X = tonumber(X)
-        self.Y = tonumber(Y)
-    else
-        return {X = self.X, Y = self.Y}
-    end
-end
-
-function UI.Metatables.Text:Colour(R, G, B, A)
-    if tonumber(R) and tonumber(G) and tonumber(B) and tonumber(A) then
-        self._Colour.R = tonumber(R)
-        self._Colour.B = tonumber(B)
-        self._Colour.G = tonumber(G)
-        self._Colour.A = tonumber(A)
-    else
-        return self._Colour
-    end
-end
-
-function UI.Metatables.Text:Text(Text)
-    if tostring(Text) and Text ~= nil then
-        self._Text = tostring(Text)
-    else
-        return self._Text
-    end
-end
-
-function UI.Metatables.Text:Draw()
-    local Position = self:Position()
-
-    Position.X, Position.Y = UI.FormatXWYH(Position.X, Position.Y)
-
-    SetTextFont(self.Font)
-    SetTextScale(1.0, self.Scale)
-    SetTextColour(self._Colour.R, self._Colour.G, self._Colour.B, self._Colour.A)
-
-    if self.DropShadow then
+    if DropShadow then
         SetTextDropShadow()
     end
 
-    if self.Outline then
+    if Outline then
         SetTextOutline()
     end
 
-    if self.Alignment ~= nil then
-        if self.Alignment == 1 or self.Alignment == "Center" or self.Alignment == "Centre" then
+    if Alignment ~= nil then
+        if Alignment == 1 or Alignment == "Center" or Alignment == "Centre" then
             SetTextCentre(true)
-        elseif self.Alignment == 2 or self.Alignment == "Right" then
+        elseif Alignment == 2 or Alignment == "Right" then
             SetTextRightJustify(true)
-            SetTextWrap(0, Position.X)
         end
     end
 
-    if tonumber(self.WordWrap) then
-        if tonumber(self.WordWrap) ~= 0 then
-        	local WordWrap, _ = UI.FormatXWYH(self.WordWrap, 0)
-        	SetTextWrap(WordWrap, Position.X - WordWrap)
+    if tonumber(WordWrap) and tonumber(WordWrap) ~= 0 then
+        if Alignment == 1 or Alignment == "Center" or Alignment == "Centre" then
+            SetTextWrap(X - ((WordWrap/1920)/2), X + ((WordWrap/1920)/2))
+        elseif Alignment == 2 or Alignment == "Right" then
+            SetTextWrap(0, X)
+        else
+            SetTextWrap(X, X + (WordWrap/1920))
+        end
+    else
+        if Alignment == 2 or Alignment == "Right" then
+            SetTextWrap(0, X)
         end
     end
 
-    BeginTextCommandDisplayText("STRING")
-    UI.AddLongString(self._Text)
-    EndTextCommandDisplayText(Position.X, Position.Y)
-end
-
-function UI.Metatables.Sprite:Position(X, Y)
-    if tonumber(X) and tonumber(Y) then
-        self.X = tonumber(X)
-        self.Y = tonumber(Y)
-    else
-        return {X = self.X, Y = self.Y}
-    end
-end
-
-function UI.Metatables.Sprite:Size(Width, Height)
-    if tonumber(Width) and tonumber(Width) then
-        self.Width = tonumber(Width)
-        self.Height = tonumber(Height)
-    else
-        return {Width = self.Width, Height = self.Height}
-    end
-end
-
-function UI.Metatables.Sprite:Colour(R, G, B, A)
-    if tonumber(R) or tonumber(G) or tonumber(B) or tonumber(A) then
-        self._Colour.R = tonumber(R) or 255
-        self._Colour.B = tonumber(B) or 255
-        self._Colour.G = tonumber(G) or 255
-        self._Colour.A = tonumber(A) or 255
-    else
-        return self._Colour
-    end
-end
-
-function UI.Metatables.Sprite:Draw()
-    if not HasStreamedTextureDictLoaded(self.TxtDictionary) then
-        RequestStreamedTextureDict(self.TxtDictionary, true)
-    end
-
-    local Position = self:Position()
-    local Size = self:Size()
-
-    Size.Width, Size.Height = UI.FormatXWYH(Size.Width, Size.Height)
-    Position.X, Position.Y = UI.FormatXWYH(Position.X, Position.Y)
-
-    DrawSprite(self.TxtDictionary, self.TxtName, Position.X + Size.Width * 0.5, Position.Y + Size.Height * 0.5, Size.Width, Size.Height, self.Heading, self._Colour.R, self._Colour.G, self._Colour.B, self._Colour.A)
+    BeginTextCommandLineCount("STRING")
+    AddTextComponentSubstringPlayerName(Text)
+    return GetTextScreenLineCount(X, Y)
 end

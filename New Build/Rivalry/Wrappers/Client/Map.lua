@@ -1,7 +1,14 @@
 local Map = {
 	Ipl = {
 		Request = {
-			"shr_int", -- Simeons Dealership
+			"DT1_05_HC_REMOVE", -- FIB Building Fountain Texture
+			"dt1_21_prop_lift", 
+			"dt1_21_prop_lift_on", -- The Mile High Club Skyscraper Construction Site @ Pillbox Hill
+			"dt1_03_gr_closed", -- Low Power St - Tunnel Roof Fence
+			"ferris_finale_anim", 
+			"ferris_finale_anim_lod", -- Del Perro Pier - Ferris Wheel
+			"shr_int",
+			"shr_int_lod", -- Simeons Dealership
 			"TrevorsTrailerTrash", -- Trevors trailer
 			--"trevorstrailertidy", -- Trash or Tidy. Only choose one
 			"post_hiest_unload", --Heist Jewel: -637.20159 -239.16250 38.1

@@ -1,199 +1,199 @@
 -- Groups
 
 function Core.AddGroup(Id)
-	exports["Rivalry"]:Export_AddGroup(Id)
+	exports["Rivalry"]:AddGroup(Id)
 end
 
 function Core.AddGroupInherit(TargetGroup, InheritGroup)
-	exports["Rivalry"]:Export_AddGroupInherit(TargetGroup, InheritGroup)
+	exports["Rivalry"]:AddGroupInherit(TargetGroup, InheritGroup)
 end
 
 function Core.RemoveGroupInherit(TargetGroup, InheritGroup)
-	exports["Rivalry"]:Export_RemoveGroupInherit(TargetGroup, InheritGroup)
+	exports["Rivalry"]:RemoveGroupInherit(TargetGroup, InheritGroup)
 end
 
 function Core.AddGroupCommand(Command, Group, Callback, Suggestions)
- 	exports["Rivalry"]:Export_AddGroupCommand(Command, Group, Callback, Suggestions)
+ 	exports["Rivalry"]:AddGroupCommand(Command, Group, Callback, Suggestions)
 end
 
 function Core.CanGroupTargetGroup(SourceGroup, TargetGroup)
-	return exports["Rivalry"]:Export_CanGroupTargetGroup(SourceGroup, TargetGroup)
+	return exports["Rivalry"]:CanGroupTargetGroup(SourceGroup, TargetGroup)
 end
 
 -- Power
 
 function Core.CanPlayerTargetPlayer(SourcePlayer, TargetPlayer)
-	return exports["Rivalry"]:Export_CanPlayerTargetPlayer(SourcePlayer, TargetPlayer)
+	return exports["Rivalry"]:CanPlayerTargetPlayer(SourcePlayer, TargetPlayer)
 end
 
 -- User Get
 
 function Core.GetPlayerUserId(Player)
-	return exports["Rivalry"]:Export_GetPlayerUserId(Player)
+	return exports["Rivalry"]:GetPlayerUserId(Player)
 end
 
 function Core.GetPlayerSteam(Player)
-	return exports["Rivalry"]:Export_GetPlayerSteam(Player)
+	return exports["Rivalry"]:GetPlayerSteam(Player)
 end
 
 function Core.GetPlayerSteam64(Player)
-	return exports["Rivalry"]:Export_GetPlayerSteam64(Player)
+	return exports["Rivalry"]:GetPlayerSteam64(Player)
 end
 
 function Core.GetPlayerSteam32(Player)
-	return exports["Rivalry"]:Export_GetPlayerSteam32(Player)
+	return exports["Rivalry"]:GetPlayerSteam32(Player)
 end
 
 function Core.GetPlayerLicense(Player)
-	return exports["Rivalry"]:Export_GetPlayerLicense(Player)
+	return exports["Rivalry"]:GetPlayerLicense(Player)
 end
 
 function Core.GetPlayerIP(Player)
-	return exports["Rivalry"]:Export_GetPlayerIP(Player)
+	return exports["Rivalry"]:GetPlayerIP(Player)
 end
 
 function Core.GetPlayerUsername(Player)
-	return exports["Rivalry"]:Export_GetPlayerUsername(Player)
+	return exports["Rivalry"]:GetPlayerUsername(Player)
 end
 
 function Core.GetPlayerPlaytime(Player)
-	return exports["Rivalry"]:Export_GetPlayerPlaytime(Player)
+	return exports["Rivalry"]:GetPlayerPlaytime(Player)
 end
 
 function Core.GetPlayerTimestamp(Player)
-	return exports["Rivalry"]:Export_GetPlayerTimestamp(Player)
+	return exports["Rivalry"]:GetPlayerTimestamp(Player)
 end
 
 function Core.GetPlayerPower(Player)
-	return exports["Rivalry"]:Export_GetPlayerPower(Player)
+	return exports["Rivalry"]:GetPlayerPower(Player)
 end
 
 function Core.GetPlayerGroup(Player)
-	return exports["Rivalry"]:Export_GetPlayerGroup(Player)
+	return exports["Rivalry"]:GetPlayerGroup(Player)
 end
 
 -- Character Get
 
 function Core.GetPlayerCharacterId(Player)
-	return exports["Rivalry"]:Export_GetPlayerCharacterId(Player)
+	return exports["Rivalry"]:GetPlayerCharacterId(Player)
 end
 
 function Core.GetPlayerCash(Player)
-	return exports["Rivalry"]:Export_GetPlayerCash(Player)
+	return exports["Rivalry"]:GetPlayerCash(Player)
 end
 
 function Core.GetPlayerCounterfeit(Player)
-	return exports["Rivalry"]:Export_GetPlayerCounterfeit(Player)
+	return exports["Rivalry"]:GetPlayerCounterfeit(Player)
 end
 
 function Core.GetPlayerBank(Player)
-	return exports["Rivalry"]:Export_GetPlayerBank(Player)
+	return exports["Rivalry"]:GetPlayerBank(Player)
 end
 
 function Core.GetPlayerJob(Player)
-	return exports["Rivalry"]:Export_GetPlayerJob(Player)
+	return exports["Rivalry"]:GetPlayerJob(Player)
 end
 
 function Core.GetPlayerFirstname(Player)
-	return exports["Rivalry"]:Export_GetPlayerFirstname(Player)
+	return exports["Rivalry"]:GetPlayerFirstname(Player)
 end
 
 function Core.GetPlayerLastname(Player)
-	return exports["Rivalry"]:Export_GetPlayerLastname(Player)
+	return exports["Rivalry"]:GetPlayerLastname(Player)
 end
 
 function Core.GetPlayerName(Player)
-	return exports["Rivalry"]:Export_GetPlayerName(Player)
+	return exports["Rivalry"]:GetPlayerName(Player)
 end
 
 function Core.GetPlayerGender(Player)
-	return exports["Rivalry"]:Export_GetPlayerGender(Player)
+	return exports["Rivalry"]:GetPlayerGender(Player)
 end
 
 function Core.GetPlayerPosition(Player)
-	return exports["Rivalry"]:Export_GetPlayerPosition(Player)
+	return exports["Rivalry"]:GetPlayerPosition(Player)
 end
 
 function Core.GetPlayerCharacterPlaytime(Player)
-	return exports["Rivalry"]:Export_GetPlayerCharacterPlaytime(Player)
+	return exports["Rivalry"]:GetPlayerCharacterPlaytime(Player)
 end
 
 function Core.GetPlayerCharacterTimestamp(Player)
-	return exports["Rivalry"]:Export_GetPlayerCharacterTimestamp(Player)
+	return exports["Rivalry"]:GetPlayerCharacterTimestamp(Player)
 end
 
 function Core.GetPlayerJailtime(Player)
-	return exports["Rivalry"]:Export_GetPlayerJailtime(Player)
+	return exports["Rivalry"]:GetPlayerJailtime(Player)
 end
 
 function Core.GetPlayerWeaponLicense(Player)
-	return exports["Rivalry"]:Export_GetPlayerWeaponLicense(Player)
+	return exports["Rivalry"]:GetPlayerWeaponLicense(Player)
 end
 
 function Core.GetPlayerDriversLicense(Player)
-	return exports["Rivalry"]:Export_GetPlayerDriversLicense(Player)
+	return exports["Rivalry"]:GetPlayerDriversLicense(Player)
 end
 
 -- Set User
 
 function Core.SetPlayerPlaytime(Player, Amount)
-	exports["Rivalry"]:Export_SetPlayerPlaytime(Player, Amount)
+	exports["Rivalry"]:SetPlayerPlaytime(Player, Amount)
 end
 
 function Core.SetPlayerPower(Player, Power)
-	exports["Rivalry"]:Export_SetPlayerPower(Player, Power)
+	exports["Rivalry"]:SetPlayerPower(Player, Power)
 end
 
 function Core.SetPlayerGroup(Player, Group)
-	exports["Rivalry"]:Export_SetPlayerGroup(Player, Group)
+	exports["Rivalry"]:SetPlayerGroup(Player, Group)
 end
 
 -- Set Character
 
 function Core.SetPlayerCash(Player, Amount)
-	exports["Rivalry"]:Export_SetPlayerCash(Player, Amount)
+	exports["Rivalry"]:SetPlayerCash(Player, Amount)
 end
 
 function Core.SetPlayerCounterfeit(Player, Amount)
-	exports["Rivalry"]:Export_SetPlayerCounterfeit(Player, Amount)
+	exports["Rivalry"]:SetPlayerCounterfeit(Player, Amount)
 end
 
 function Core.SetPlayerBank(Player, Amount)
-	exports["Rivalry"]:Export_SetPlayerBank(Player, Amount)
+	exports["Rivalry"]:SetPlayerBank(Player, Amount)
 end
 
 function Core.SetPlayerJob(Player, Id)
-	exports["Rivalry"]:Export_SetPlayerJob(Player, Id)
+	exports["Rivalry"]:SetPlayerJob(Player, Id)
 end
 
 function Core.SetPlayerFirstname(Player, Str)
-	exports["Rivalry"]:Export_SetPlayerFirstname(Player, Str)
+	exports["Rivalry"]:SetPlayerFirstname(Player, Str)
 end
 
 function Core.SetPlayerLastname(Player, Str)
-	exports["Rivalry"]:Export_SetPlayerlastname(Player, Str)
+	exports["Rivalry"]:SetPlayerlastname(Player, Str)
 end
 
 function Core.SetPlayerGender(Player, Str)
-	exports["Rivalry"]:Export_SetPlayerGender(Player, Str)
+	exports["Rivalry"]:SetPlayerGender(Player, Str)
 end
 
 function Core.SetPlayerPosition(Player, X, Y, Z)
-	exports["Rivalry"]:Export_SetPlayerPosition(Player, X, Y, Z)
+	exports["Rivalry"]:SetPlayerPosition(Player, X, Y, Z)
 end
 
 function Core.SetPlayerCharacterPlaytime(Player, Amount)
-	exports["Rivalry"]:Export_SetPlayerCharacterPlaytime(Player, Amount)
+	exports["Rivalry"]:SetPlayerCharacterPlaytime(Player, Amount)
 end
 
 function Core.SetPlayerJailtime(Player, Amount)
-	exports["Rivalry"]:Export_SetPlayerJailtime(Player, Amount)
+	exports["Rivalry"]:SetPlayerJailtime(Player, Amount)
 end
 
 function Core.SetPlayerWeaponLicense(Player, Bool)
-	exports["Rivalry"]:Export_SetPlayerWeaponLicense(Player, Bool)
+	exports["Rivalry"]:SetPlayerWeaponLicense(Player, Bool)
 end
 
 function Core.SetPlayerDriversLicense(Player, Bool)
-	exports["Rivalry"]:Export_SetPlayerDriversLicense(Player, Bool)
+	exports["Rivalry"]:SetPlayerDriversLicense(Player, Bool)
 end

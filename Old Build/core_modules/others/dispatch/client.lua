@@ -354,12 +354,14 @@ AddEventHandler("dispatch:lockpick", function()
 			lockpick_lastpos = pos
 			local street, crossing = GetStreetNameAtCoord(pos.x, pos.y, pos.z)
 			local vehicle = GetVehiclePedIsIn(PlayerPedId())
-			local model = string.gsub(GetVehicleName(GetEntityModel(vehicle)), "%f[%a].", string.upper)
+            if DoesEntityExist(vehicle) then
+    			local model = string.gsub(GetVehicleName(GetEntityModel(vehicle)), "%f[%a].", string.upper)
 
-			local plate =  GetVehicleNumberPlateText(vehicle)
-			local primary, secondary = GetVehicleColours(vehicle)
-			primary = colorNames[tostring(primary)] or ""
-			TriggerServerEvent("dispatch:ten-thirtyone", {x = pos.x, y = pos.y, z = pos.z}, GetStreetNameFromHashKey(street), model, plate, primary)
+    			local plate =  GetVehicleNumberPlateText(vehicle)
+    			local primary, secondary = GetVehicleColours(vehicle)
+    			primary = colorNames[tostring(primary)] or ""
+    			TriggerServerEvent("dispatch:ten-thirtyone", {x = pos.x, y = pos.y, z = pos.z}, GetStreetNameFromHashKey(street), model, plate, primary)
+            end
 		end
 	end
 end)

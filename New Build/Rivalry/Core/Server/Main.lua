@@ -3,8 +3,6 @@ Core = {
 	Players = {},
 	Settings = {
 		Character = {
-			Cash = 5000,
-			Counterfeit = 0,
 			Bank = 0,
 			Position = {x = 0.0, y = 0.0, z = 0.0},
 			Job = 0,
@@ -57,8 +55,6 @@ function Core.SetupCharacter(Data)
 	Character.Timestamp = Data.timestamp
 	Character.Playtime = Data.playtime
 
-	Character.Cash = Data.cash
-	Character.Counterfeit = Data.counterfeit
 	Character.Bank = Data.bank
 
 	Character.Job = Data.job
@@ -126,7 +122,7 @@ AddEventHandler("Core.Start", function()
 		DropPlayer(Source, "We were unable to retrieve the identifiers needed to load your characters!")
 	else
 		Core.Players[Source] = {}
-		exports["GHMattiMySQL"]:QueryResultAsync("SELECT * FROM User WHERE steam = @steam", {["@steam"] = Steam}, function(Result)
+		exports["GHMattiMySQL"]:QueryResultAsync("SELECT * FROM user WHERE steam = @steam", {["@steam"] = Steam}, function(Result)
 			if Result[1] ~= nil then
 				Core.Players[Source].User = Core.SetupUser(Result[1])
 
@@ -156,7 +152,7 @@ AddEventHandler("Core.Start", function()
 	            	TriggerEvent("Core.Ready.User", Source, Core.Players[Source].User)
 	            	TriggerClientEvent("Core.Ready.User", Source, Core.Players[Source].User)
 
-	            	TriggerClientEvent("Core.Sync", -1, Core)
+	            	TriggerClientEvent("Core.Sync", -1, {Groups = Core.Groups, Players = Core.Players})
 	            end, true)
 			end
 		end)
@@ -181,7 +177,7 @@ RegisterServerEvent("Core.Characters.Get")
 AddEventHandler("Core.Characters.Get", function()
 	local Source = source
 
-	exports["GHMattiMySQL"]:QueryResultAsync("SELECT * FROM Character WHERE steam = @steam", {["@steam"] = Core.GetPlayerSteam(Source) or Utilities.GetPlayerSteam(Source)}, function(Result)
+	exports["GHMattiMySQL"]:QueryResultAsync("SELECT * FROM character WHERE steam = @steam", {["@steam"] = Core.GetPlayerSteam(Source) or Utilities.GetPlayerSteam(Source)}, function(Result)
 		TriggerClientEvent("Core.Set.Characters", Source, Result)
 	end)
 end)
@@ -189,31 +185,29 @@ end)
 RegisterServerEvent("Core.Character.Create")
 AddEventHandler("Core.Character.Create", function(Data)
 	local Source = source
-	local Lastplayed, Timestamp =  os.time(), os.time()
+	local Lastplayed, Timestamp = os.time(), os.time()
 
 	exports["GHMattiMySQL"]:Insert("Character", {
-		["@firstname"] = Data.firstname,
-		["@lastname"] = Data.lastname,
-		["@gender"] = Data.gender,
-		["@dob"] = Data.dob,
-		["@position_x"] = Core.Settings.Character.Position.x,
-		["@position_y"] = Core.Settings.Character.Position.y,
-		["@position_z"] = Core.Settings.Character.Position.z,
-		["@lastplayed"] = Lastplayed,
-		["@timestamp"] = Timestamp,
-		["@playtime"] = 0,
-		["@cash"] = Core.Settings.Character.Cash,
-		["@counterfeit"] = Core.Settings.Character.Counterfeit,
-		["@bank"] = Core.Settings.Character.Bank,
-		["@job"] = Core.Settings.Character.Job,
-		["@weapon_license"] = Utilities.BoolToNumber(Core.Settings.Character.Licenses.Weapon),
-		["@drivers_license"] = Utilities.BoolToNumber(Core.Settings.Character.Licenses.Drivers),
-		["@jail_time"] = 0,
+		["first_name"] = Data.firstname,
+		["last_name"] = Data.lastname,
+		["gender"] = Data.gender,
+		["dob"] = Data.dob,
+		["position_x"] = Core.Settings.Character.Position.x,
+		["position_y"] = Core.Settings.Character.Position.y,
+		["position_z"] = Core.Settings.Character.Position.z,
+		["lastplayed"] = Lastplayed,
+		["timestamp"] = Timestamp,
+		["playtime"] = 0,
+		["bank"] = Core.Settings.Character.Bank,
+		["job"] = Core.Settings.Character.Job,
+		["weapon_license"] = Utilities.BoolToNumber(Core.Settings.Character.Licenses.Weapon),
+		["drivers_license"] = Utilities.BoolToNumber(Core.Settings.Character.Licenses.Drivers),
+		["jail_time"] = 0,
 	}, function(Id)
 		TriggerClientEvent("Core.Character.Create", Source, {
 			id = Id,
-			firstname = Data.firstname,
-			lastname = Data.lastname,
+			first_name = Data.first_name,
+			last_name = Data.last_name,
 			gender = Data.gender,
 			dob = Data.dob,
 			position_x = Core.Settings.Character.Position.x,
@@ -222,8 +216,6 @@ AddEventHandler("Core.Character.Create", function(Data)
 			lastplayed = Lastplayed,
 			timestamp = Timestamp,
 			playtime = 0,
-			cash = Core.Settings.Character.Cash,
-			counterfeit = Core.Settings.Character.Counterfeit,
 			bank = Core.Settings.Character.Bank,
 			job = Core.Settings.Character.Job,
 			weapon_license = Utilities.BoolToNumber(Core.Settings.Character.Licenses.Weapon),
@@ -237,10 +229,10 @@ RegisterServerEvent("Core.Character.Edit")
 AddEventHandler("Core.Character.Edit", function(Data)
 	local Source = source
 
-	exports["GHMattiMySQL"]:QueryAsync("UPDATE Character SET firstname=@firstname, lastname=@lastname, gender=@gender, dob=@dob WHERE id=@id", {
+	exports["GHMattiMySQL"]:QueryAsync("UPDATE character SET first_name=@first_name, last_name=@last_name, gender=@gender, dob=@dob WHERE id=@id", {
 		["@id"] = Data.id,
-		["@firstname"] = Data.firstname,
-		["@lastname"] = Data.lastname,
+		["@first_name"] = Data.firstname,
+		["@last_name"] = Data.lastname,
 		["@gender"] = Data.gender,
 		["@dob"] = Data.dob,
 	})
@@ -252,7 +244,7 @@ RegisterServerEvent("Core.Character.Delete")
 AddEventHandler("Core.Character.Delete", function(Data)
 	local Source = source
 
-	exports["GHMattiMySQL"]:QueryAsync("DELETE FROM Character WHERE id=@id", {
+	exports["GHMattiMySQL"]:QueryAsync("DELETE FROM character WHERE id=@id", {
 		["@id"] = Data.id,
 	})
 
@@ -263,7 +255,7 @@ RegisterServerEvent("Core.Character.Select")
 AddEventHandler("Core.Character.Select", function(Data)
 	local Source = source
 
-	exports["GHMattiMySQL"]:QueryResultAsync("SELECT * FROM Character WHERE id=@id", {
+	exports["GHMattiMySQL"]:QueryResultAsync("SELECT * FROM character WHERE id=@id", {
 		["@id"] = Data.id
 	}, function(Result)
 		if Result[1] ~= nil then
@@ -271,7 +263,7 @@ AddEventHandler("Core.Character.Select", function(Data)
 
 			TriggerEvent("Core.Ready.Character", Source)
 
-			TriggerClientEvent("Core.Sync", -1, Core)
+			TriggerClientEvent("Core.Sync", -1, {Groups = Core.Groups, Players = Core.Players})
 		end
 	end)
 end)
@@ -284,5 +276,5 @@ AddEventHandler("Core.Character.Switch", function(Data)
 
 	TriggerEvent("Core.Character.Switched", Source)
 	TriggerClientEvent("Core.Character.Switch", Source)
-	TriggerClientEvent("Core.Sync", -1, Core)
+	TriggerClientEvent("Core.Sync", -1, {Groups = Core.Groups, Players = Core.Players})
 end)
