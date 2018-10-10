@@ -54,17 +54,17 @@ Fishing = {
 		},
 		Store = {
 		    {Category = "Freshly Caught Fish", Items = {
-		    	[1] = {Name = "Snook", Id = 54, price = priceSnook, Max = 100, sold = 0},
-		        [2] = {Name = "Pompano", Id = 55, price = pricePompano, Max = 100, sold = 0},
-		        [3] = {Name = "Snapper", Id = 56, price = priceSnapper, Max = 100, sold = 0},
-		        [4] = {Name = "Redfish", Id = 57, price = priceRedfish, Max = 100, sold = 0},
-		        [5] = {Name = "Bass", Id = 58, price = priceBass, Max = 100, sold = 0},
-		        [6] = {Name = "Mackerel", Id = 59, price = priceMackerel, Max = 100, sold = 0},
-		        [7] = {Name = "Herring", Id = 60, price = priceHerring, Max = 100, sold = 0},
-		        [8] = {Name = "Salmon", Id = 61, price = priceSalmon, Max = 100, sold = 0},
-		        [9] = {Name = "Barracuda", Id = 62, price = priceBarracuda, Max = 100, sold = 0},
-		        [10] = {Name = "Tuna", Id = 63, price = priceTuna, Max = 100, sold = 0},
-		        [11] = {Name = "Yellowtail", Id = 64, price = priceYellowtail, Max = 100, sold = 0},
+		    	[1] = {Name = "Snook", Id = 54, price = Fishing.Data.Price.priceSnook, Max = 100, sold = 0},
+		        [2] = {Name = "Pompano", Id = 55, price = Fishing.Data.Price.pricePompano, Max = 100, sold = 0},
+		        [3] = {Name = "Snapper", Id = 56, price = Fishing.Data.Price.priceSnapper, Max = 100, sold = 0},
+		        [4] = {Name = "Redfish", Id = 57, price = Fishing.Data.Price.priceRedfish, Max = 100, sold = 0},
+		        [5] = {Name = "Bass", Id = 58, price = Fishing.Data.Price.priceBass, Max = 100, sold = 0},
+		        [6] = {Name = "Mackerel", Id = 59, price = Fishing.Data.Price.priceMackerel, Max = 100, sold = 0},
+		        [7] = {Name = "Herring", Id = 60, price = Fishing.Data.Price.priceHerring, Max = 100, sold = 0},
+		        [8] = {Name = "Salmon", Id = 61, price = Fishing.Data.Price.priceSalmon, Max = 100, sold = 0},
+		        [9] = {Name = "Barracuda", Id = 62, price = Fishing.Data.Price.priceBarracuda, Max = 100, sold = 0},
+		        [10] = {Name = "Tuna", Id = 63, price = Fishing.Data.Price.priceTuna, Max = 100, sold = 0},
+		        [11] = {Name = "Yellowtail", Id = 64, price = Fishing.Data.Price.priceYellowtail, Max = 100, sold = 0},
 		    }},
 		},
 		Vehicles ={
@@ -298,7 +298,7 @@ end
 								if not WarMenu.DoesMenuExist("FishSell") then
 									WarMenu.CreateMenu("FishSell", "Fish Market")
 									WarMenu.SetSpriteTitle("FishSell", "shopui_title_conveniencestore")
-									WarMenu.SetSubTitle("FishSell", "Hello, what are you coming to sell today?")
+									WarMenu.SetSubTitle("FishSell", "Welcome fellow fisher!")
 									WarMenu.SetMenuX("FishSell", 0.6)
 									WarMenu.SetMenuY("FishSell", 0.15)
 									WarMenu.SetTitleBackgroundColor("FishSell", 0, 107, 87)
