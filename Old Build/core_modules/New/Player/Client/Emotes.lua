@@ -582,7 +582,7 @@ Emote.Add("dogbeg", "Dog Beg", "Dog", {"creatures@rottweiler@tricks@"}, {"beg_lo
 	end
 end)
 
-Emote.Add("umbrelle", "Umbrella", "Misc", {"amb@code_human_wander_drinking@beer@male@base"}, {"static"}, {}, {}, function(self)
+Emote.Add("umbrella", "Umbrella", "Misc", {"amb@code_human_wander_drinking@beer@male@base"}, {"static"}, {}, {}, function(self)
 	local Model = GetHashKey("p_amb_brolly_01")
 	RequestModel(Model)
 	while not HasModelLoaded(Model) do
