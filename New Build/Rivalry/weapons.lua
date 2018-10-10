@@ -983,7 +983,7 @@ Weapons = {
 		{"COMPONENT_PUMPSHOTGUN_MK2_CAMO_10", "WCT_CAMO_10"},
 		{"COMPONENT_PUMPSHOTGUN_MK2_CAMO_IND_01", "WCT_CAMO_IND"},
 	},
-	GetComponents = {},
+	Attachments = {},
 	Tints = {
 		MK1 = {
 			"Black",
@@ -1036,7 +1036,7 @@ for WeaponIndex = 1, #Weapons.List do
 	local Weapon = Weapons.List[WeaponIndex]
 	local WeaponHash = GetHashKey(Weapons.List[WeaponIndex])
 
-	Weapons.GetComponents[Weapon] = {}
+	Weapons.Attachments[Weapon] = {}
 
 	for ComponentIndex = 1, #Weapons.Components do
 		local Component = Weapons.Components[ComponentIndex]
@@ -1049,7 +1049,7 @@ for WeaponIndex = 1, #Weapons.List do
 			end
 			
 			if DoesWeaponTakeWeaponComponent(WeaponHash, ComponentHashes[1]) then
-				table.insert(Weapons.GetComponents[Weapon], {
+				table.insert(Weapons.Attachments[Weapon], {
 					Name = GetLabelText(Component[2]),
 					Model = ComponentHashes,
 				})
@@ -1058,11 +1058,19 @@ for WeaponIndex = 1, #Weapons.List do
 			local ComponentHash = GetHashKey(Component[1])
 
 			if DoesWeaponTakeWeaponComponent(WeaponHash, ComponentHash) then
-				table.insert(Weapons.GetComponents[Weapon], {
+				table.insert(Weapons.Attachments[Weapon], {
 					Name = GetLabelText(Component[2]),
 					Model = ComponentHash,
 				})
 			end
 		end
+	end
+end
+
+function Weapons.GetTints(Weapon)
+	if string.find("_MK2") then
+		return Weapons.Tints.MK2
+	else
+		return Weapons.Tints.MK1
 	end
 end
