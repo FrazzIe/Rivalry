@@ -582,6 +582,128 @@ Emote.Add("dogbeg", "Dog Beg", "Dog", {"creatures@rottweiler@tricks@"}, {"beg_lo
 	end
 end)
 
+Emote.Add("umbrelle", "Umbrella", "Misc", {"amb@code_human_wander_drinking@beer@male@base"}, {"static"}, {}, {}, function(self)
+	local Model = GetHashKey("p_amb_brolly_01")
+	RequestModel(Model)
+	while not HasModelLoaded(Model) do
+		Citizen.Wait(250)
+	end
+
+    local object = CreateObject(Model, 0.01, 0, 0, true, false, false)
+
+    self:Object(object)
+
+    AttachEntityToEntity(object, PlayerPedId(), GetPedBoneIndex(PlayerPedId(), 28422),0.0,0.0,0.0,0.0,0.0,0.0,1,1,0,1,0,1)
+
+    SetModelAsNoLongerNeeded(Model)
+      
+    TaskPlayAnim(PlayerPedId(), self.Dictionaries[1], self.Animations[1], 8.0, 1.0, -1, 49, 0, 0, 0, 0)
+end)
+
+Emote.Add("phone", "Phone", "Misc", {"amb@world_human_mobile_film_shocking@male@base"}, {"base"}, {}, {}, function(self)
+	local Model = GetHashKey("prop_amb_phone")
+	RequestModel(Model)
+	while not HasModelLoaded(Model) do
+		Citizen.Wait(250)
+	end
+
+    local object = CreateObject(Model, 0.01, 0, 0, true, false, false)
+
+    self:Object(object)
+
+    UseParticleFxAssetNextCall("core")
+
+    AttachEntityToEntity(object, PlayerPedId(), GetPedBoneIndex(PlayerPedId(), 28422),-0.005,0.0,0.0,360.0,360.0,0.0,1,1,0,1,0,1)
+
+    SetModelAsNoLongerNeeded(Model)
+      
+    TaskPlayAnim(PlayerPedId(), self.Dictionaries[1], self.Animations[1], 8.0, 1.0, -1, 49, 0, 0, 0, 0)
+
+    Citizen.Wait(2000)
+
+    StartParticleFxLoopedOnEntity("ent_anim_paparazzi_flash", object, 0.0, 0.1, 0.0, 0.0, 0.0, 0.0, 2.0, 0.0, 0.0, 0.0)
+end)
+
+Emote.Add("bong", "Bong", "Misc", {"anim@safehouse@bong"}, {"bong_stage1"}, {}, {}, function(self)
+	local Model = GetHashKey("hei_heist_sh_bong_01")
+	RequestModel(Model)
+	while not HasModelLoaded(Model) do
+		Citizen.Wait(250)
+	end
+
+    local object = CreateObject(Model, 0.01, 0, 0, true, false, false)
+
+    self:Object(object)
+
+    AttachEntityToEntity(object, PlayerPedId(), GetPedBoneIndex(PlayerPedId(), 18905),0.10,-0.25,0.0,95.0,190.0,180.0,1,1,0,1,0,1)
+
+    SetModelAsNoLongerNeeded(Model)
+      
+    TaskPlayAnim(PlayerPedId(), self.Dictionaries[1], self.Animations[1], 8.0, 1.0, -1, 49, 0, 0, 0, 0)
+
+end)
+
+Emote.Add("camera", "Camera", "Misc", {"amb@world_human_paparazzi@male@idle_a"}, {"idle_c"}, {}, {}, function(self)
+	local Model = GetHashKey("prop_pap_camera_01")
+	RequestModel(Model)
+	while not HasModelLoaded(Model) do
+		Citizen.Wait(250)
+	end
+
+    local object = CreateObject(Model, 0.01, 0, 0, true, false, false)
+
+    self:Object(object)
+
+    UseParticleFxAssetNextCall("core")
+
+    AttachEntityToEntity(object, PlayerPedId(), GetPedBoneIndex(PlayerPedId(), 28422),-0.005,0.0,0.0,360.0,360.0,0.0,1,1,0,1,0,1)
+
+    SetModelAsNoLongerNeeded(Model)
+      
+    TaskPlayAnim(PlayerPedId(), self.Dictionaries[1], self.Animations[1], -4.0, 4.0, -1, 49, 0, false, false, false)
+
+    Citizen.Wait(1000)
+
+    StartParticleFxLoopedOnEntity("ent_anim_paparazzi_flash", object, 0.1, -0.1, 0.0, 0.0, 0.0, 0.0, 2.0, 0.0, 0.0, 0.0)
+    
+end)
+
+Emote.Add("crowd", "Crowd Control", "Misc", {"amb@code_human_police_crowd_control@base"}, {"base"}, {}, {}, function(self)
+	RequestAnimDict("amb@code_human_police_crowd_control@idle_a")
+	RequestAnimDict("amb@code_human_police_crowd_control@idle_b")
+	while not HasAnimDictLoaded("amb@code_human_police_crowd_control@idle_a") and HasAnimDictLoaded("amb@code_human_police_crowd_control@idle_b") do
+		Wait(0)
+	end
+    TaskPlayAnim(PlayerPedId(), self.Dictionaries[1], self.Animations[1], 8.0, 1.0, -1, 49, 0, 0, 0, 0 )
+    Wait(500)
+    TaskPlayAnim(PlayerPedId(), "amb@code_human_police_crowd_control@idle_a", "idle_b", 8.0, 1.0, -1, 49, 0, 0, 0, 0 )
+    Wait(11000)
+    TaskPlayAnim(PlayerPedId(), "amb@code_human_police_crowd_control@idle_b", "idle_e", 8.0, 1.0, -1, 49, 0, 0, 0, 0 )
+end)
+
+Emote.Add("attendant", "Attendant", "Misc", {"amb@world_human_car_park_attendant@male@base"}, {"base"}, {}, {}, function(self)
+	local Model = GetHashKey("prop_parking_wand_01")
+	RequestModel(Model)
+	while not HasModelLoaded(Model) do
+		Citizen.Wait(250)
+	end
+
+    local object = CreateObject(Model, 0.01, 0, 0, true, false, false)
+
+    self:Object(object)
+
+    AttachEntityToEntity(object, PlayerPedId(), GetPedBoneIndex(PlayerPedId(), 28422),-0.005,0.0,0.0,360.0,360.0,0.0,1,1,0,1,0,1)
+
+    SetModelAsNoLongerNeeded(Model)
+      
+    TaskPlayAnim(PlayerPedId(), self.Dictionaries[1], self.Animations[1], 8.0, 1.0, 5000, 49, 0, 0, 0, 0)
+
+end)
+
+Emote.Add("slowclap", "Slow Clap", "Misc", {"anim@mp_player_intupperslow_clap"}, {"idle_a"}, {}, {}, function(self)
+    TaskPlayAnim(PlayerPedId(), self.Dictionaries[1], self.Animations[1], 8.0, 1.0, 5000, 49, 0, 0, 0, 0 )
+end)
+
 Emote.Add("cigar", "Smoke Cigar", "Misc", {"amb@world_human_smoking@female@idle_a"}, {"idle_a"}, {}, {}, function(self)
 	local Model = GetHashKey("prop_cigar_02")
 	RequestModel(Model)

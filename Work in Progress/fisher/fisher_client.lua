@@ -36,6 +36,7 @@ Fishing = {
 		 	TimerAnimation = 0.1,
 			whichgarage = 0,
 			FishRod = "prop_fishing_rod_01",
+			up = false,
 		},
 		Price = {
 			priceSnook = 50,
@@ -98,12 +99,12 @@ function FishGUI(bool)
 		DrawRect(Fishing.Data.Bar.PosX,Fishing.Data.Bar.PosY,Fishing.Data.Bar.BarAnimation,0.01,255,51,51,150)
 	end
 	if Fishing.Data.Bar.BarAnimation <= 0 then
-		up = true
+		Fishing.Data.Bar.up = true
 	end
 	if Fishing.Data.Bar.BarAnimation >= Fishing.Data.Bar.PosY then
-		up = false
+		Fishing.Data.Bar.up = false
 	end
-	if not up then
+	if not Fishing.Data.Bar.up then
 		Fishing.Data.Bar.BarAnimation = Fishing.Data.Bar.BarAnimation - Fishing.Data.Bar.AnimationSpeed
 	else
 		Fishing.Data.Bar.BarAnimation = Fishing.Data.Bar.BarAnimation + Fishing.Data.Bar.AnimationSpeed
@@ -145,16 +146,17 @@ function startFishing(typeOfFishing)
 	if Fishing.Data.Bar.IsFishing == true then
 		local time = 4*3000
 		TaskStandStill(PlayerPedId(), time+7000)
-		TaskPlayAnim(PlayerPedId(),'amb@world_human_stand_fishing@base','base', 4.0, -4, -1, 1, 0, false, false, false)
+		PlayAnim(PlayerPedId(),'amb@world_human_stand_fishing@base','base', 1, 0)
 		Citizen.Wait(time)
 		Fishing.Data.Bar.CFish = true
 		Fishing.Data.Bar.IsFishing = false
+		FishGUI(true)
 	end
-	if Fishing.Data.Bar.CFish == true then
+	while Fishing.Data.Bar.CFish == true do
 		Citizen.Wait(1)
 		if Fishing.Data.Bar.RunCodeOnly1Time then
 			Fishing.Data.Bar.Faketimer = 1
-			TaskPlayAnim(PlayerPedId(),'amb@world_human_stand_fishing@idle_a','idle_c', 4.0, -4, -1, 1, 0, false, false, false)
+			PlayAnim(PlayerPedId(),'amb@world_human_stand_fishing@idle_a','idle_c', 1, 0)
 			Fishing.Data.Bar.RunCodeOnly1Time = false
 		end
 		if Fishing.Data.Bar.TimerAnimation <= 0 then
@@ -185,6 +187,7 @@ function startFishing(typeOfFishing)
 				TriggerEvent('chatMessage', "The fish slipped away! You need to be more focused!")
 				DetachEntity(Fishing.Data.Bar.FishRod, true, true)
 				DeleteEntity(Fishing.Data.Bar.FishRod)
+				FishGUI(false)
 			end
 		else
 			Fishing.Data.Bar.FishingRodInHand = false
