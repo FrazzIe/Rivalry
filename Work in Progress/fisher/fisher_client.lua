@@ -37,6 +37,7 @@ Fishing = {
 			whichgarage = 0,
 			FishRod = "prop_fishing_rod_01",
 			up = false,
+			obj = nil,
 		},
 		Price = {
 			priceSnook = 50,
@@ -53,17 +54,17 @@ Fishing = {
 		},
 		Store = {
 		    {Category = "Freshly Caught Fish", Items = {
-		    	[1] = {Name = "Snook", Id = 53, price = priceSnook, Max = 100, sold = 0},
-		        [2] = {Name = "Pompano", Id = 54, price = pricePompano, Max = 100, sold = 0},
-		        [3] = {Name = "Snapper", Id = 55, price = priceSnapper, Max = 100, sold = 0},
-		        [4] = {Name = "Redfish", Id = 56, price = priceRedfish, Max = 100, sold = 0},
-		        [5] = {Name = "Bass", Id = 57, price = priceBass, Max = 100, sold = 0},
-		        [6] = {Name = "Mackerel", Id = 58, price = priceMackerel, Max = 100, sold = 0},
-		        [7] = {Name = "Herring", Id = 59, price = priceHerring, Max = 100, sold = 0},
-		        [8] = {Name = "Salmon", Id = 60, price = priceSalmon, Max = 100, sold = 0},
-		        [9] = {Name = "Barracuda", Id = 61, price = priceBarracuda, Max = 100, sold = 0},
-		        [10] = {Name = "Tuna", Id = 62, price = priceTuna, Max = 100, sold = 0},
-		        [11] = {Name = "Yellowtail", Id = 63, price = priceYellowtail, Max = 100, sold = 0},
+		    	[1] = {Name = "Snook", Id = 54, price = priceSnook, Max = 100, sold = 0},
+		        [2] = {Name = "Pompano", Id = 55, price = pricePompano, Max = 100, sold = 0},
+		        [3] = {Name = "Snapper", Id = 56, price = priceSnapper, Max = 100, sold = 0},
+		        [4] = {Name = "Redfish", Id = 57, price = priceRedfish, Max = 100, sold = 0},
+		        [5] = {Name = "Bass", Id = 58, price = priceBass, Max = 100, sold = 0},
+		        [6] = {Name = "Mackerel", Id = 59, price = priceMackerel, Max = 100, sold = 0},
+		        [7] = {Name = "Herring", Id = 60, price = priceHerring, Max = 100, sold = 0},
+		        [8] = {Name = "Salmon", Id = 61, price = priceSalmon, Max = 100, sold = 0},
+		        [9] = {Name = "Barracuda", Id = 62, price = priceBarracuda, Max = 100, sold = 0},
+		        [10] = {Name = "Tuna", Id = 63, price = priceTuna, Max = 100, sold = 0},
+		        [11] = {Name = "Yellowtail", Id = 64, price = priceYellowtail, Max = 100, sold = 0},
 		    }},
 		},
 		Vehicles ={
@@ -76,6 +77,19 @@ Fishing = {
 		},
 	},
 }
+
+local peds = {}
+
+RegisterNetEvent('caughtFish:success')
+AddEventHandler('caughtFish:success', function(index)
+	for k, v in ipairs(Store) do
+		for a, b in ipairs(v.Items) do
+			if b.Id == index then
+				TriggerEvent('chatMessage', "You caught a "..b.Name)
+			end
+		end
+	end
+end)
 
 function text(x,y,scale,text)
     SetTextFont(0)
@@ -127,33 +141,34 @@ function PlayAnim(ped,base,sub,nr,time)
 	end) 
 end
 function AttachEntityToPed(prop,bone_ID,x,y,z,RotX,RotY,RotZ)
-	obj = CreateObject(GetHashKey(prop),  1729.73,  6403.90,  34.56,  true,  true,  true)
+	Fishing.Data.Bar.obj = CreateObject(GetHashKey(prop),  1729.73,  6403.90,  34.56,  true,  true,  true)
 	vX,vY,vZ = table.unpack(GetEntityCoords(PlayerPedId()))
 	xRot, yRot, zRot = table.unpack(GetEntityRotation(PlayerPedId(),2))
-	AttachEntityToEntity(obj, PlayerPedId(), bone_ID, x,y,z, RotX,RotY,RotZ,  false, false, false, false, 2, true)
-	return obj
+	AttachEntityToEntity(Fishing.Data.Bar.obj, PlayerPedId(), bone_ID, x,y,z, RotX,RotY,RotZ,  false, false, false, false, 2, true)
+	return Fishing.Data.Bar.obj
 end
 
 local peds = {}
 --Functions
 function startFishing(typeOfFishing)
-	FishGUI(true)
 	Fishing.Data.Bar.IsFishing = true
+	Fishing.Data.Bar.RunCodeOnly1Time = true
+	Fishing.Data.Bar.BarAnimation = 0
 	if Fishing.Data.Bar.FishingRodInHand == false then
-		AttachEntityToPed(Fishing.Data.Bar.FishRod, 60309, 0,0,0, 0,0,0)
+		AttachEntityToPed(Fishing.Data.Bar.FishRod, GetPedBoneIndex(PlayerPedId(), 60309), 0,0,0, 0,0,0)
 	end
 	Fishing.Data.Bar.FishingRodInHand = true
-	if Fishing.Data.Bar.IsFishing == true then
+	while Fishing.Data.Bar.IsFishing == true do
 		local time = 4*3000
 		TaskStandStill(PlayerPedId(), time+7000)
-		PlayAnim(PlayerPedId(),'amb@world_human_stand_fishing@base','base', 1, 0)
+		PlayAnim(PlayerPedId(),'amb@world_human_stand_fishing@base','base', 4,3000)
 		Citizen.Wait(time)
 		Fishing.Data.Bar.CFish = true
 		Fishing.Data.Bar.IsFishing = false
-		FishGUI(true)
 	end
 	while Fishing.Data.Bar.CFish == true do
 		Citizen.Wait(1)
+		FishGUI(true)
 		if Fishing.Data.Bar.RunCodeOnly1Time then
 			Fishing.Data.Bar.Faketimer = 1
 			PlayAnim(PlayerPedId(),'amb@world_human_stand_fishing@idle_a','idle_c', 1, 0)
@@ -164,6 +179,7 @@ function startFishing(typeOfFishing)
 			Fishing.Data.Bar.TimerAnimation = 0.1
 			StopAnimTask(PlayerPedId(), 'amb@world_human_stand_fishing@idle_a','idle_c', 2.0)
 			Citizen.Wait(200)
+			DeleteEntity(Fishing.Data.Bar.obj)
 		end
 		if IsControlJustPressed(1, Fishing.Data.Bar.Caught_KEY) then
 			if Fishing.Data.Bar.BarAnimation >= Fishing.Data.Bar.SuccessLimit then
@@ -171,9 +187,9 @@ function startFishing(typeOfFishing)
 				Fishing.Data.Bar.TimerAnimation = 0.1
 				StopAnimTask(PlayerPedId(), 'amb@world_human_stand_fishing@idle_a','idle_c', 4.0, -4, -1, 1, 0, false, false, false)
 				Citizen.Wait(200)
-				DetachEntity(Fishing.Data.Bar.FishRod, true, true)
-				DeleteEntity(Fishing.Data.Bar.FishRod)
-				PlayerPedIdNearbyPeds(PlayerPedId(), peds)
+				DetachEntity(Fishing.Data.Bar.obj, true, true)
+				DeleteEntity(Fishing.Data.Bar.obj)
+				peds = FindNearbyPlayers(15)
 				if( typeOfFishing == "Deep") then
 					TriggerServerEvent('caughtFish', "Deep", #peds)
 				else
@@ -185,8 +201,8 @@ function startFishing(typeOfFishing)
 				StopAnimTask(PlayerPedId(), 'amb@world_human_stand_fishing@idle_a','idle_c', 2.0)
 				Citizen.Wait(200)
 				TriggerEvent('chatMessage', "The fish slipped away! You need to be more focused!")
-				DetachEntity(Fishing.Data.Bar.FishRod, true, true)
-				DeleteEntity(Fishing.Data.Bar.FishRod)
+				DetachEntity(Fishing.Data.Bar.obj, true, true)
+				DeleteEntity(Fishing.Data.Bar.obj)
 				FishGUI(false)
 			end
 		else
@@ -226,9 +242,13 @@ end
 			local pos = GetEntityCoords(ped, false)
 			if Fishing.Data.isFisher then
 				if(Vdist(pos.x, pos.y, pos.z, Fishing.Data.Locations.Service.x, Fishing.Data.Locations.Service.y, Fishing.Data.Locations.Service.z) < 10) then
-					DrawMarker(25, Fishing.Data.Locations.Service.x, Fishing.Data.Locations.Service.y, Fishing.Data.Locations.Service.z, 0, 0, 0, 0, 0, 0, 1.0, 1.0, 1.5, 0, 0, 255, 155, 0, 0, 2, 0, 0, 0, 0)
+					DrawMarker(25, Fishing.Data.Locations.Service.x, Fishing.Data.Locations.Service.y, Fishing.Data.Locations.Service.z - 1, 0, 0, 0, 0, 0, 0, 1.0, 1.0, 1.5, 0, 0, 255, 155, 0, 0, 2, 0, 0, 0, 0)
 					if Vdist(pos.x, pos.y, pos.z, Fishing.Data.Locations.Service.x, Fishing.Data.Locations.Service.y, Fishing.Data.Locations.Service.z) < 1 then
-						DisplayHelpText("Press ~INPUT_CONTEXT~ to sign on duty!")
+						if Fishing.Data.OnDuty then
+							DisplayHelpText("Press ~INPUT_CONTEXT~ to sign off duty!")
+						else
+							DisplayHelpText("Press ~INPUT_CONTEXT~ to sign on duty!")
+						end
 						if(IsControlJustPressed(1,51)) then
 							Fishing.Data.OnDuty = not Fishing.Data.OnDuty
 						end

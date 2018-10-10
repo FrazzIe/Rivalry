@@ -8,34 +8,48 @@
 		TriggerClientEvent('Fisher:getCar2', source)
 	end)
 
-	local pierFish = {21, 50, 52, 53, 56}
-	local deepFish = {58, 60, 62, 64, 66, 68}
-	local allFish = {21, 50, 52, 54, 56, 58, 60, 62, 64, 66, 68}
+	local pierFish = {54, 55, 56, 57, 58}
+	local deepFish = {59, 60, 61, 62, 63, 64}
+	local allFish = {54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64}
 
 	RegisterServerEvent('caughtFish')
 	AddEventHandler('caughtFish', function (typeRequest, nearbyPlayers)
 		local source = tonumber(source)
 		TriggerEvent("inventory:getuser", source, function(inventory)
 			if(typeRequest == "Deep")then
-				local index = math.random()
-				local fish = deepFish[index]
+				local randomizer = 0
 				if(nearbyPlayers >= 4) then
-					probability = 0.8
+					randomizer = math.random(1,6) + 3
 				elseif(nearbyPlayers == 3) then
-					probability = 0.6
+					randomizer = math.random(1,6) + 2
 				elseif(nearbyPlayers == 2) then
-					probability = 0.4
+					randomizer = math.random(1,6) + 1
 				else
-					probability = 0.2
+					randomizer = math.random(1,6)
 				end
-				local lastIndex = #deepFish
-				for i = 1, i < lastIndex do
-					if(num < probability - 1)then
-						
-					end
+				if randomizer <= 6 then
+					TriggerEvent("inventory:add_server", source, deepFish[randomizer], 1)
+					TriggerClientEvent('caughtFish:success', deepFish[randomizer])
+				else
+					randomizer = 0
 				end
 			else
-			
+				local randomizer = 0
+				if(nearbyPlayers >= 4) then
+					randomizer = math.random(1,5) + 3
+				elseif(nearbyPlayers == 3) then
+					randomizer = math.random(1,5) + 2
+				elseif(nearbyPlayers == 2) then
+					randomizer = math.random(1,5) + 1
+				else
+					randomizer = math.random(1,5)
+				end
+				if randomizer <= 5 then
+					TriggerEvent("inventory:add_server", source, pierFish[randomizer], 1)
+					TriggerClientEvent('caughtFish:success', pierFish[randomizer])
+				else
+					randomizer = 0
+				end
 			end
 		end)
 	end)
