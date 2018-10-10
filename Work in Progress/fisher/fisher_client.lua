@@ -340,9 +340,13 @@ end
 							for i,j in pairs(v.Items) do
 								if WarMenu.IsMenuOpened(j.Name) then
 									if WarMenu.Button("Sell "..currentItemIndex.." "..j.Name.."(s)", "$"..j.price*currentItemIndex) then
-										TriggerEvent('inventory:removeQty', j.Id, currentItemIndex)
-										TriggerServerEvent('sellFish', currentItemIndex)
-										j.sold = j.sold + 1
+										if GetItemQuantity(j.Id) > 0 then
+											TriggerEvent('inventory:removeQty', j.Id, currentItemIndex)
+											TriggerServerEvent('sellFish', currentItemIndex)
+											j.sold = j.sold + 1
+										else
+											TriggerEvent('chatMessage', "You don't have that fish! Come back when you do!")
+										end
 									end
 									if WarMenu.ComboBox("Quantity", j.Quantity, currentItemIndex, selectedItemIndex, function(currentIndex, selectedIndex)
 										currentItemIndex = currentIndex
