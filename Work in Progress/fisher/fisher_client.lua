@@ -82,7 +82,7 @@ local peds = {}
 
 RegisterNetEvent('caughtFish:success')
 AddEventHandler('caughtFish:success', function(index)
-	for k, v in ipairs(Store) do
+	for k, v in ipairs(Fishing.Data.Store) do
 		for a, b in ipairs(v.Items) do
 			if b.Id == index then
 				TriggerEvent('chatMessage', "You caught a "..b.Name)
@@ -302,7 +302,7 @@ end
 									WarMenu.SetMenuX("FishSell", 0.6)
 									WarMenu.SetMenuY("FishSell", 0.15)
 									WarMenu.SetTitleBackgroundColor("FishSell", 0, 107, 87)
-									for k,v in pairs(Store) do
+									for k,v in pairs(Fishing.Data.Store) do
 										WarMenu.CreateSubMenu(v.Category, "FishSell", v.Category.." SECTION")
 										for i,j in pairs(v.Items) do
 											WarMenu.CreateSubMenu(j.Name, v.Category, j.Name)
@@ -318,7 +318,7 @@ end
 							end		
 						end
 						if WarMenu.IsMenuOpened("FishSell") then
-							for k,v in pairs(Store) do
+							for k,v in pairs(Fishing.Data.Store) do
 								WarMenu.MenuButton(v.Category, v.Category)
 							end
 							if WarMenu.Button("Close") then
@@ -326,7 +326,7 @@ end
 							end
 							WarMenu.Display()
 						end
-						for k,v in pairs(Store) do
+						for k,v in pairs(Fishing.Data.Store) do
 							if WarMenu.IsMenuOpened(v.Category) then
 								for i,j in pairs(v.Items) do
 									if WarMenu.MenuButton(j.Name, j.Name) then
@@ -336,7 +336,7 @@ end
 								WarMenu.Display()
 							end
 						end
-						for k,v in pairs(Store) do
+						for k,v in pairs(Fishing.Data.Store) do
 							for i,j in pairs(v.Items) do
 								if WarMenu.IsMenuOpened(j.Name) then
 									if WarMenu.Button("Sell "..currentItemIndex.." "..j.Name.."(s)", "$"..j.price*currentItemIndex) then
