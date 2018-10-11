@@ -54,7 +54,7 @@ AddEventHandler("core:ready", function()
             else
                 local Emote = Emotes.Find(args[1]:lower())
                 if Emote then
-                    Emotes.Stop()
+                    Emotes.Stop() 
                     Emote.Playing = true
                     Emote:Play(Emote)
                     table.insert(Emotes.Active, Emote)
@@ -79,6 +79,30 @@ AddEventHandler("core:ready", function()
             EmoteMenu:Visible(not EmoteMenu:Visible())
         end
     end, false, {Help = "Change the way you walk!", Params = {{name = "walk style", help = WalkStyles.GenerateDescription()}}})
+
+    Chat.Command({"v", "vest"}, function(source, args, fullCommand)
+        if args[1] then
+            RequestAnimDict("switch@franklin@getting_ready")
+            while not HasAnimDictLoaded("switch@franklin@getting_ready") do
+                Wait(0)
+            end
+            TaskPlayAnim(PlayerPedId(), "switch@franklin@getting_ready", "002334_02_fras_v2_11_getting_dressed_exit", 4.0, -4, -1, 1, 0, false, false, false)
+            Wait(500)
+            if IsPedMale(PlayerPedId()) then
+                if args[1] < 18 then
+                    SetPedComponentVariation(PlayerPedId(), 9, tonumber(args[1]), tonumber(args[2]), 0)
+                    Wait(1700)
+                    ClearPedTasks(PlayerPedId())
+                end
+            else
+                if args[1] < 18 then
+                    SetPedComponentVariation(PlayerPedId(), 9, tonumber(args[1]), tonumber(args[2]), 0)
+                    Wait(1700)
+                    ClearPedTasks(PlayerPedId())
+                end
+            end
+        end
+    end, false, {Help = "Change your vest!", Params = {{name = "drawableid", help = "number"}, {name = "textureid", help = "number"}}})
 
     Chat.Command("hat", function(source, args, fullCommand)
         if not Hat then
@@ -248,6 +272,26 @@ AddEventHandler("core:ready", function()
             Chat.Message("INFO", "You must be on duty use this command!", 255, 0, 0, true)
         end
     end, false, {Help = "Toggle shotgun",  Params = {}})
+
+	Chat.Command("panic", function(source, args, rawCommand)
+        if exports.policejob:getIsInService() or exports.emsjob:getIsInService() then
+            if exports["phone"]:PlayerHasPhone() then
+                if not exports.policejob:getIsCuffed() then
+                	local Position = GetEntityCoords(PlayerPedId(), false)
+					local Street, Crossing = GetStreetNameAtCoord(Position.x, Position.y, Position.z)
+
+                    TriggerServerEvent("Panic.Toggle", (exports.policejob:getIsInService() and "^7Officer" or "^7Medic"), GetStreetNameFromHashKey(Street))
+                else
+                    Chat.Message("INFO", "You are handcuffed, you cannot reach the button!", 255, 0, 0, true)
+                end
+            else
+                Chat.Message("INFO", "You must have a phone!", 255, 0, 0, true)
+            end
+        else
+            Chat.Message("INFO", "You must be on duty use this command!", 255, 0, 0, true)
+        end
+    end, false, {Help = "Toggle Panic Button",  Params = {}})
+
 end)
 
 Citizen.CreateThread(function()
