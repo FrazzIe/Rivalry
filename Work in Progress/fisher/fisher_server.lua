@@ -29,7 +29,7 @@
 				end
 				if randomizer <= 6 then
 					TriggerEvent("inventory:add_server", source, deepFish[randomizer], 1)
-					TriggerClientEvent('caughtFish:success', deepFish[randomizer])
+					TriggerClientEvent('caughtFish:success', source, deepFish[randomizer])
 				else
 					randomizer = 0
 				end
@@ -46,7 +46,7 @@
 				end
 				if randomizer <= 5 then
 					TriggerEvent("inventory:add_server", source, pierFish[randomizer], 1)
-					TriggerClientEvent('caughtFish:success', pierFish[randomizer])
+					TriggerClientEvent('caughtFish:success', source, pierFish[randomizer])
 				else
 					randomizer = 0
 				end
