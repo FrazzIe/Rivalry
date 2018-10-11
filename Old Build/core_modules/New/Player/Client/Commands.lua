@@ -80,6 +80,30 @@ AddEventHandler("core:ready", function()
         end
     end, false, {Help = "Change the way you walk!", Params = {{name = "walk style", help = WalkStyles.GenerateDescription()}}})
 
+    Chat.Command({"v", "vest"}, function(source, args, fullCommand)
+        if args[1] then
+            RequestAnimDict("switch@franklin@getting_ready")
+            while not HasAnimDictLoaded("switch@franklin@getting_ready") do
+                Wait(0)
+            end
+            TaskPlayAnim(PlayerPedId(), "switch@franklin@getting_ready", "002334_02_fras_v2_11_getting_dressed_exit", 4.0, -4, -1, 1, 0, false, false, false)
+            Wait(500)
+            if IsPedMale(PlayerPedId()) then
+                if args[1] < 18 then
+                    SetPedComponentVariation(PlayerPedId(), 9, tonumber(args[1]), tonumber(args[2]), 0)
+                    Wait(1700)
+                    ClearPedTasks(PlayerPedId())
+                end
+            else
+                if args[1] < 18 then
+                    SetPedComponentVariation(PlayerPedId(), 9, tonumber(args[1]), tonumber(args[2]), 0)
+                    Wait(1700)
+                    ClearPedTasks(PlayerPedId())
+                end
+            end
+        end
+    end, false, {Help = "Change your vest!", Params = {{name = "drawableid", help = "number"}, {name = "textureid", help = "number"}}})
+
     Chat.Command("hat", function(source, args, fullCommand)
         if not Hat then
             Hat = true
