@@ -89,13 +89,13 @@ AddEventHandler("core:ready", function()
             TaskPlayAnim(PlayerPedId(), "switch@franklin@getting_ready", "002334_02_fras_v2_11_getting_dressed_exit", 4.0, -4, -1, 1, 0, false, false, false)
             Wait(500)
             if IsPedMale(PlayerPedId()) then
-                if args[1] < 18 then
+                if tonumber(args[1]) < 36 then
                     SetPedComponentVariation(PlayerPedId(), 9, tonumber(args[1]), tonumber(args[2]), 0)
                     Wait(1700)
                     ClearPedTasks(PlayerPedId())
                 end
             else
-                if args[1] < 18 then
+                if tonumber(args[1]) < 36 then
                     SetPedComponentVariation(PlayerPedId(), 9, tonumber(args[1]), tonumber(args[2]), 0)
                     Wait(1700)
                     ClearPedTasks(PlayerPedId())
