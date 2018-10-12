@@ -1,7 +1,8 @@
 Fishing = {
 	Data = {
-		IsFisher = false,
+		IsFisher = true,
 		OnDuty = false,
+		Help = false,
 		Locations = {
 			Service = {x = -257.85943603516, y = 6144.1479492188, z = 31.525817871094, h = 217.2476348877},
 			Boat = {},
@@ -19,6 +20,7 @@ Fishing = {
 			[5] = {id=404, x = -1787.2473144531, y = 6095.6254882813, z = 2.2088184356689, distanceBetweenCoords=20.5, distanceMarker=20.5, defaultTime=10000, name="Deep Sea Fishing"},
 			[6] = {id=404, x = 1251.6247558594, y = 7330.8481445313, z = 3.8822541236877, distanceBetweenCoords=20.5, distanceMarker=20.5, defaultTime=10000, name="Deep Sea Fishing"},
 		},
+		Blips = {},
 		Bar = {
 			StartFishing_KEY = 51,
 			Caught_KEY = 201,
@@ -79,6 +81,111 @@ Fishing = {
 }
 
 local peds = {}
+
+function fisherBlips()
+	for k, v in ipairs(Fishing.Data.DeepSea) do
+		local blip = AddBlipForCoord(v.x, v.y, v.z)
+		SetBlipSprite(blip, 316)
+		SetBlipColour(blip, 11)
+		SetBlipAsShortRange(blip, true)
+		SetBlipScale(blip, 0.85)
+		BeginTextCommandSetBlipName("STRING")
+		AddTextComponentString("Deep Sea Fishing")
+		EndTextCommandSetBlipName(blip)
+		table.insert(Fishing.Data.Blips, blip)
+	end
+	for k, v in ipairs(Fishing.Data.Pier) do
+		local blip = AddBlipForCoord(v.x, v.y, v.z)
+		SetBlipSprite(blip, 316)
+		SetBlipColour(blip, 11)
+		SetBlipAsShortRange(blip, true)
+		SetBlipScale(blip, 0.85)
+		BeginTextCommandSetBlipName("STRING")
+		AddTextComponentString("Deep Sea Fishing")
+		EndTextCommandSetBlipName(blip)
+		table.insert(Fishing.Data.Blips, blip)
+	end
+end
+
+function removeBlips()
+	for k, v in ipairs(Fishing.Data.Blips) do
+		RemoveBlip(v)
+		table.remove(Fishing.Data.Blips, k)
+	end
+end
+
+local function drawHelpJobF()
+    local lines = {
+        { text = '~o~Fishing Information', isTitle = true, isCenter = true},
+        { text = '~g~Your job is to make a living by fishing.', isCenter = true, addY = 0.04},
+        { text = ' - Go to one of the fishing piers!'},
+        { text = ' - Fishing Rods are at the fishing locations'},
+        { text = ' - Once you are there, use "E" to interact and start fishing'},
+        { text = ' - If you cannot do that then you are not on duty'},
+        { text = ' - The type of fish you can catch from the piers'},
+        { text = ' - Snook, Pompano, Snapper, Redfish, Bass'},
+        { text = ' - The type of fish you can catch from the deep sea'},
+        { text = ' - Mackerel, Herring, Salmon, Barracuda, Tuna, Yellowtail'},
+        { text = ' - If you would like to fish out in the sea, you can rent a tug boat to do so'},
+        { text = ' - Remember to return the tug boat'},
+        
+        { text = '~b~How to fish: ', size = 0.4, addY = 0.04 },
+        { text = ' - Press "ENTER" when the bar reaches the edges of the bar'},
+        { text = ' - The bar will turn green when you can catch a fish'},
+        { text = ' - Hit "ENTER" at the right time and you will catch some fish'},
+        { text = ' - Hit "ENTER" too late, and the fish will escape'},
+        { text = ' - Oh, and fishing with people, will let you catch more rare fish'},
+        { text = '~b~ The Vehicles :', size = 0.4, addY = 0.04 },
+        { text = '~g~Tug Boat ~w~Slow and handy, allows to transport people, and fish safley'},
+        { text = '~d~If you find problems, use the forum to let us know', isCenter = true, addY = 0.06},
+        { text = '~b~Thank You & Good Fishing', isCenter = true},
+    }
+    DrawRect(0.5, 0.5, 0.48, 0.9, 0,0,0, 225)
+    local y = 0.06 - 0.025
+    local defaultAddY = 0.025
+    local addY = 0.025
+    for _, line in pairs(lines) do 
+        y = y + addY
+        local caddY = defaultAddY
+        local x = 0.275
+        local defaultSize = 0.32
+        local defaultFont = 8
+        if line.isTitle == true then
+            defaultFont = 1
+            defaultSize = 0.8
+            caddY = 0.06
+        end
+        SetTextFont(line.font or defaultFont)
+        SetTextScale(0.0,line.size or defaultSize)
+        SetTextCentre(line.isCenter == true)
+        if line.isCenter == true then
+            x = 0.5
+        end
+        SetTextDropShadow(0, 0, 0, 0, 0)
+        SetTextEdge(0, 0, 0, 0, 0)
+        SetTextColour(255, 255, 255, 255)
+        SetTextEntry("STRING")
+        AddTextComponentString(line.text)
+        DrawText(x, y)
+        addY = line.addY or caddY
+    end
+    --SetTextComponentFormat("STRING")
+    --AddTextComponentString('~INPUT_CELLPHONE_CANCEL~ ~g~Ferme l\'aide')
+    --DisplayHelpTextFromStringLabel(0, 0, 1, -1)
+
+end
+
+Citizen.CreateThread(function()
+    while true do
+        Citizen.Wait(0)
+        if Fishing.Data.Help == true then
+            drawHelpJobF()
+            if IsControlJustPressed(0, 177) then
+                Fishing.Data.Help = false
+            end
+        end
+    end
+end)
 
 RegisterNetEvent('caughtFish:success')
 AddEventHandler('caughtFish:success', function(index)
@@ -250,7 +357,13 @@ end
 							DisplayHelpText("Press ~INPUT_CONTEXT~ to sign on duty!")
 						end
 						if(IsControlJustPressed(1,51)) then
+							if Fishing.Data.OnDuty then
+								Fishing.Data.Help = false
+							else
+								Fishing.Data.Help = true
+							end
 							Fishing.Data.OnDuty = not Fishing.Data.OnDuty
+							fisherBlips()
 						end
 					end	
 				end
@@ -273,6 +386,8 @@ end
 							end
 						end
 					end
+				else
+					removeBlips()
 				end
 			end
 		end
