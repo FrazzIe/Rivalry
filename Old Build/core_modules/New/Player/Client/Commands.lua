@@ -81,7 +81,7 @@ AddEventHandler("core:ready", function()
     end, false, {Help = "Change the way you walk!", Params = {{name = "walk style", help = WalkStyles.GenerateDescription()}}})
 
     Chat.Command({"v", "vest"}, function(source, args, fullCommand)
-        if args[1] then
+        if args[1] and exports.policejob:getIsInService() then
             RequestAnimDict("switch@franklin@getting_ready")
             while not HasAnimDictLoaded("switch@franklin@getting_ready") do
                 Wait(0)
