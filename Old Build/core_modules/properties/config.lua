@@ -48,7 +48,7 @@ properties = {
 					char_id = 0, --Default (don't touch)
 					id = 0, --Default (don't touch)
 				},
-              coordinates = {x = -10.622609138489, y = -1428.7703857422, z = 31.101453781128, h = 323.42373657227}, -- The location of the property
+              			coordinates = {x = -10.622609138489, y = -1428.7703857422, z = 31.101453781128, h = 323.42373657227}, -- The location of the property
 				rent = 2500, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
@@ -310,7 +310,7 @@ properties = {
 						weapons = 3, --Max weapons the property can hold
 					},
 				},
-              robbing = {
+             			robbing = {
 					cooldown = 2700, --Robbery cooldown time in seconds
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
@@ -319,37 +319,37 @@ properties = {
 				},
 				expire = 1 --Default (don't touch)
 			},
-            [11] = {
-                property_name = "48 Magellen Avenue", -- Name of the property (used as the title of the menu)
-                locked = false, --Default (don't touch)
-                owner =  {
-                    identifier = "no", --Default (don't touch)
-                    char_id = 0, --Default (don't touch)
-                    id = 0, --Default (don't touch)
-                },
-                coordinates = {x = -1246.8986816406, y = -1358.9464111328, z = 7.820433139801, h = 195.0079498291}, -- The location of the property
-                rent = 500, --How much it costs to rent the property (PER DAY)
-                storage = {
-                    current = {
-                        cash = 0, --Default (don't touch)
-                        dirty = 0, --Default (don't touch)
-                        weapons = {}, --Default (don't touch)
-                    },
-                    max = {
+			[11] = {
+				property_name = "48 Magellen Avenue", -- Name of the property (used as the title of the menu)
+				locked = false, --Default (don't touch)
+				owner =  {
+				    identifier = "no", --Default (don't touch)
+				    char_id = 0, --Default (don't touch)
+				    id = 0, --Default (don't touch)
+				},
+				coordinates = {x = -1246.8986816406, y = -1358.9464111328, z = 7.820433139801, h = 195.0079498291}, -- The location of the property
+				rent = 500, --How much it costs to rent the property (PER DAY)
+				storage = {
+				    current = {
+					cash = 0, --Default (don't touch)
+					dirty = 0, --Default (don't touch)
+					weapons = {}, --Default (don't touch)
+				    },
+				    	max = {
 						cash = 10000, --Max cash the property can hold
 						dirty = 50000, --Max marked bills the property can hold
 						weapons = 3, --Max weapons the property can hold
 					},
-                },
-              robbing = {
-                    cooldown = 2700, --Robbery cooldown time in seconds
-                    last_robbed = 0, --Default (don't touch)
-                    being_robbed = false, --Default (don't touch)
-                    time = 180, --The total time the robber has to hack the vault
-                    max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
-                },
-                expire = 1 --Default (don't touch)
-            },
+                	},
+              		robbing = {
+                    		cooldown = 2700, --Robbery cooldown time in seconds
+                    		last_robbed = 0, --Default (don't touch)
+                    		being_robbed = false, --Default (don't touch)
+                    		time = 180, --The total time the robber has to hack the vault
+                    		max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+                		},
+                		expire = 1 --Default (don't touch)
+            		},
 			[12] = {
 				property_name = "328 Grove Street", -- Name of the property (used as the title of the menu)
 				locked = false, --Default (don't touch)
@@ -372,7 +372,7 @@ properties = {
 						weapons = 3, --Max weapons the property can hold
 					},
 				},
-              robbing = {
+              			robbing = {
 					cooldown = 2700, --Robbery cooldown time in seconds
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
@@ -403,7 +403,7 @@ properties = {
 						weapons = 3, --Max weapons the property can hold
 					},
 				},
-              robbing = {
+              			robbing = {
 					cooldown = 2700, --Robbery cooldown time in seconds
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
@@ -434,7 +434,7 @@ properties = {
 						weapons = 3, --Max weapons the property can hold
 					},
 				},
-              robbing = {
+              			robbing = {
 					cooldown = 2700, --Robbery cooldown time in seconds
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
@@ -465,7 +465,7 @@ properties = {
 						weapons = 3, --Max weapons the property can hold
 					},
 				},
-              robbing = {
+             			robbing = {
 					cooldown = 2700, --Robbery cooldown time in seconds
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
@@ -496,7 +496,7 @@ properties = {
 						weapons = 3, --Max weapons the property can hold
 					},
 				},
-              robbing = {
+              			robbing = {
 					cooldown = 2700, --Robbery cooldown time in seconds
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
@@ -527,7 +527,7 @@ properties = {
 						weapons = 3, --Max weapons the property can hold
 					},
 				},
-              robbing = {
+              			robbing = {
 					cooldown = 2700, --Robbery cooldown time in seconds
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
@@ -558,7 +558,7 @@ properties = {
 						weapons = 3, --Max weapons the property can hold
 					},
 				},
-              robbing = {
+              			robbing = {
 					cooldown = 2700, --Robbery cooldown time in seconds
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
@@ -589,7 +589,7 @@ properties = {
 						weapons = 3, --Max weapons the property can hold
 					},
 				},
-              robbing = {
+              			robbing = {
 					cooldown = 2700, --Robbery cooldown time in seconds
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
@@ -620,7 +620,7 @@ properties = {
 						weapons = 3, --Max weapons the property can hold
 					},
 				},
-              robbing = {
+              			robbing = {
 					cooldown = 2700, --Robbery cooldown time in seconds
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
@@ -651,7 +651,7 @@ properties = {
 						weapons = 3, --Max weapons the property can hold
 					},
 				},
-              robbing = {
+              			robbing = {
 					cooldown = 2700, --Robbery cooldown time in seconds
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
@@ -682,7 +682,7 @@ properties = {
 						weapons = 3, --Max weapons the property can hold
 					},
 				},
-              robbing = {
+              			robbing = {
 					cooldown = 2700, --Robbery cooldown time in seconds
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
@@ -713,7 +713,7 @@ properties = {
 						weapons = 3, --Max weapons the property can hold
 					},
 				},
-              robbing = {
+              			robbing = {
 					cooldown = 2700, --Robbery cooldown time in seconds
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
@@ -744,7 +744,7 @@ properties = {
 						weapons = 3, --Max weapons the property can hold
 					},
 				},
-              robbing = {
+              			robbing = {
 					cooldown = 2700, --Robbery cooldown time in seconds
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
@@ -775,7 +775,7 @@ properties = {
 						weapons = 3, --Max weapons the property can hold
 					},
 				},
-              robbing = {
+              			robbing = {
 					cooldown = 2700, --Robbery cooldown time in seconds
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
@@ -806,7 +806,7 @@ properties = {
 						weapons = 3, --Max weapons the property can hold
 					},
 				},
-              robbing = {
+              			robbing = {
 					cooldown = 2700, --Robbery cooldown time in seconds
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
@@ -837,7 +837,7 @@ properties = {
 						weapons = 3, --Max weapons the property can hold
 					},
 				},
-              robbing = {
+              			robbing = {
 					cooldown = 2700, --Robbery cooldown time in seconds
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
@@ -868,7 +868,7 @@ properties = {
 						weapons = 3, --Max weapons the property can hold
 					},
 				},
-              robbing = {
+              			robbing = {
 					cooldown = 2700, --Robbery cooldown time in seconds
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
@@ -899,7 +899,7 @@ properties = {
 						weapons = 3, --Max weapons the property can hold
 					},
 				},
-              robbing = {
+              			robbing = {
 					cooldown = 2700, --Robbery cooldown time in seconds
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
@@ -930,7 +930,7 @@ properties = {
 						weapons = 3, --Max weapons the property can hold
 					},
 				},
-              robbing = {
+              			robbing = {
 					cooldown = 2700, --Robbery cooldown time in seconds
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
@@ -961,7 +961,7 @@ properties = {
 						weapons = 3, --Max weapons the property can hold
 					},
 				},
-              robbing = {
+              			robbing = {
 					cooldown = 2700, --Robbery cooldown time in seconds
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
@@ -992,7 +992,7 @@ properties = {
 						weapons = 3, --Max weapons the property can hold
 					},
 				},
-              robbing = {
+              			robbing = {
 					cooldown = 2700, --Robbery cooldown time in seconds
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
@@ -1023,7 +1023,7 @@ properties = {
 						weapons = 3, --Max weapons the property can hold
 					},
 				},
-              robbing = {
+              			robbing = {
 					cooldown = 2700, --Robbery cooldown time in seconds
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
@@ -1054,7 +1054,7 @@ properties = {
 						weapons = 3, --Max weapons the property can hold
 					},
 				},
-              robbing = {
+		      		robbing = {
 					cooldown = 2700, --Robbery cooldown time in seconds
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
@@ -1085,7 +1085,7 @@ properties = {
 						weapons = 3, --Max weapons the property can hold
 					},
 				},
-              robbing = {
+              			robbing = {
 					cooldown = 2700, --Robbery cooldown time in seconds
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
@@ -1116,7 +1116,7 @@ properties = {
 						weapons = 3, --Max weapons the property can hold
 					},
 				},
-              robbing = {
+              			robbing = {
 					cooldown = 2700, --Robbery cooldown time in seconds
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
@@ -1147,7 +1147,7 @@ properties = {
 						weapons = 3, --Max weapons the property can hold
 					},
 				},
-              robbing = {
+              			robbing = {
 					cooldown = 2700, --Robbery cooldown time in seconds
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
@@ -1178,7 +1178,7 @@ properties = {
 						weapons = 3, --Max weapons the property can hold
 					},
 				},
-              robbing = {
+              			robbing = {
 					cooldown = 2700, --Robbery cooldown time in seconds
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
@@ -1209,7 +1209,7 @@ properties = {
 						weapons = 3, --Max weapons the property can hold
 					},
 				},
-              robbing = {
+              			robbing = {
 					cooldown = 2700, --Robbery cooldown time in seconds
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
@@ -1240,7 +1240,7 @@ properties = {
 						weapons = 3, --Max weapons the property can hold
 					},
 				},
-              robbing = {
+              			robbing = {
 					cooldown = 2700, --Robbery cooldown time in seconds
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
@@ -1271,7 +1271,7 @@ properties = {
 						weapons = 3, --Max weapons the property can hold
 					},
 				},
-              robbing = {
+              			robbing = {
 					cooldown = 2700, --Robbery cooldown time in seconds
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
@@ -1302,7 +1302,7 @@ properties = {
 						weapons = 3, --Max weapons the property can hold
 					},
 				},
-              robbing = {
+              			robbing = {
 					cooldown = 2700, --Robbery cooldown time in seconds
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
@@ -1333,7 +1333,7 @@ properties = {
 						weapons = 3, --Max weapons the property can hold
 					},
 				},
-              robbing = {
+              			robbing = {
 					cooldown = 2700, --Robbery cooldown time in seconds
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
@@ -1364,7 +1364,7 @@ properties = {
 						weapons = 3, --Max weapons the property can hold
 					},
 				},
-              robbing = {
+              			robbing = {
 					cooldown = 2700, --Robbery cooldown time in seconds
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
@@ -1395,7 +1395,7 @@ properties = {
 						weapons = 3, --Max weapons the property can hold
 					},
 				},
-              robbing = {
+              			robbing = {
 					cooldown = 2700, --Robbery cooldown time in seconds
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
@@ -1426,7 +1426,7 @@ properties = {
 						weapons = 3, --Max weapons the property can hold
 					},
 				},
-              robbing = {
+              			robbing = {
 					cooldown = 2700, --Robbery cooldown time in seconds
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
@@ -1457,7 +1457,7 @@ properties = {
 						weapons = 3, --Max weapons the property can hold
 					},
 				},
-              robbing = {
+              			robbing = {
 					cooldown = 2700, --Robbery cooldown time in seconds
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
@@ -1488,7 +1488,7 @@ properties = {
 						weapons = 3, --Max weapons the property can hold
 					},
 				},
-              robbing = {
+             			robbing = {
 					cooldown = 2700, --Robbery cooldown time in seconds
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
@@ -1519,7 +1519,7 @@ properties = {
 						weapons = 3, --Max weapons the property can hold
 					},
 				},
-              robbing = {
+              			robbing = {
 					cooldown = 2700, --Robbery cooldown time in seconds
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
@@ -1550,7 +1550,7 @@ properties = {
 						weapons = 3, --Max weapons the property can hold
 					},
 				},
-              robbing = {
+              			robbing = {
 					cooldown = 2700, --Robbery cooldown time in seconds
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
@@ -1581,7 +1581,7 @@ properties = {
 						weapons = 3, --Max weapons the property can hold
 					},
 				},
-              robbing = {
+              			robbing = {
 					cooldown = 2700, --Robbery cooldown time in seconds
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
@@ -1612,7 +1612,7 @@ properties = {
 						weapons = 3, --Max weapons the property can hold
 					},
 				},
-              robbing = {
+              			robbing = {
 					cooldown = 2700, --Robbery cooldown time in seconds
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
@@ -1643,7 +1643,7 @@ properties = {
 						weapons = 3, --Max weapons the property can hold
 					},
 				},
-              robbing = {
+              			robbing = {
 					cooldown = 2700, --Robbery cooldown time in seconds
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
@@ -1674,7 +1674,7 @@ properties = {
 						weapons = 3, --Max weapons the property can hold
 					},
 				},
-              robbing = {
+              			robbing = {
 					cooldown = 2700, --Robbery cooldown time in seconds
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
@@ -1705,7 +1705,7 @@ properties = {
 						weapons = 3, --Max weapons the property can hold
 					},
 				},
-              robbing = {
+              			robbing = {
 					cooldown = 2700, --Robbery cooldown time in seconds
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
@@ -1736,7 +1736,38 @@ properties = {
 						weapons = 3, --Max weapons the property can hold
 					},
 				},
-              robbing = {
+              			robbing = {
+					cooldown = 2700, --Robbery cooldown time in seconds
+					last_robbed = 0, --Default (don't touch)
+					being_robbed = false, --Default (don't touch)
+					time = 300, --The total time the robber has to hack the vault
+					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+				},
+				expire = 1 --Default (don't touch)
+			},
+			[57 = {
+				property_name = "34 Steele Way", -- Name of the property (used as the title of the menu)
+				locked = false, --Default (don't touch)
+				owner =  {
+					identifier = "no", --Default (don't touch)
+					char_id = 0, --Default (don't touch)
+					id = 0, --Default (don't touch)
+				},
+				coordinates = {x = -949.37628173828, y = 196.32981872559, z = 67.390480041504, h = 163.91000366211}, -- The location of the property
+				rent = 5000 --How much it costs to rent the property (PER DAY)
+				storage = {
+					current = {
+						cash = 0, --Default (don't touch)
+						dirty = 0, --Default (don't touch)
+						weapons = {}, --Default (don't touch)
+					},
+					max = {
+						cash = 10000, --Max cash the property can hold
+						dirty = 50000, -- Mark marked bills the property can hold
+						weapons = 5, --Max weapons the property can hold
+					},
+				},
+              			robbing = {
 					cooldown = 2700, --Robbery cooldown time in seconds
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
