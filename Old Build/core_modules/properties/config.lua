@@ -1776,7 +1776,7 @@ properties = {
 				},
 				expire = 1 --Default (don't touch)
 			},
-			[58 = {
+			[58] = {
 				property_name = "58 Portola Dr", -- Name of the property (used as the title of the menu)
 				locked = false, --Default (don't touch)
 				owner =  {
