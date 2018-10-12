@@ -1754,7 +1754,7 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {x = -949.37628173828, y = 196.32981872559, z = 67.390480041504, h = 163.91000366211}, -- The location of the property
-				rent = 5000 --How much it costs to rent the property (PER DAY)
+				rent = 5000, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
 						cash = 0, --Default (don't touch)
@@ -1785,7 +1785,7 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {x = -811.47985839844, y = 167.77639770508, z = 72.227897644043, h = 296.10760498047}, -- The location of the property
-				rent = 5000 --How much it costs to rent the property (PER DAY)
+				rent = 5000, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
 						cash = 0, --Default (don't touch)
