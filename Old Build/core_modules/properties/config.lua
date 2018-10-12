@@ -1745,7 +1745,7 @@ properties = {
 				},
 				expire = 1 --Default (don't touch)
 			},
-			[57 = {
+			[57] = {
 				property_name = "34 Steele Way", -- Name of the property (used as the title of the menu)
 				locked = false, --Default (don't touch)
 				owner =  {
