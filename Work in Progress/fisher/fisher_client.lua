@@ -105,6 +105,17 @@ function fisherBlips()
 		EndTextCommandSetBlipName(blip)
 		table.insert(Fishing.Data.Blips, blip)
 	end
+	for k, v in ipairs(Fishing.Data.fishmarkets) do
+		local blip = AddBlipForCoord(v.x, v.y, v.z)
+		SetBlipSprite(blip, 356)
+		SetBlipColour(blip, 11)
+		SetBlipAsShortRange(blip, true)
+		SetBlipScale(blip, 0.85)
+		BeginTextCommandSetBlipName("STRING")
+		AddTextComponentString("Fishing Market")
+		EndTextCommandSetBlipName(blip)
+		table.insert(Fishing.Data.Blips, blip)
+	end
 end
 
 function removeBlips()
@@ -209,6 +220,7 @@ function text(x,y,scale,text)
     AddTextComponentString(text)
     DrawText(x, y)
 end
+
 function FishGUI(bool)
 	if not bool then return end
 	DrawRect(Fishing.Data.Bar.PosX,Fishing.Data.Bar.PosY+0.005,Fishing.Data.Bar.TimerAnimation,0.005,255,255,0,255)
@@ -231,6 +243,7 @@ function FishGUI(bool)
 		Fishing.Data.Bar.BarAnimation = Fishing.Data.Bar.BarAnimation + Fishing.Data.Bar.AnimationSpeed
 	end
 end
+
 function PlayAnim(ped,base,sub,nr,time) 
 	Citizen.CreateThread(function() 
 		RequestAnimDict(base) 
@@ -247,6 +260,7 @@ function PlayAnim(ped,base,sub,nr,time)
 		end 
 	end) 
 end
+
 function AttachEntityToPed(prop,bone_ID,x,y,z,RotX,RotY,RotZ)
 	Fishing.Data.Bar.obj = CreateObject(GetHashKey(prop),  1729.73,  6403.90,  34.56,  true,  true,  true)
 	vX,vY,vZ = table.unpack(GetEntityCoords(PlayerPedId()))
@@ -320,8 +334,8 @@ end
 -- Networking Events
 	RegisterNetEvent('fisher:set')
 	AddEventHandler("fisher:set", function(_isFisher)
-		Fishing.Data.isFisher = true
-		Fishing.Data.OnDuty = _isFisher
+		Fishing.Data.OnDuty = false
+		Fishing.Data.IsFisher = _isFisher
 	end)
 
 	RegisterNetEvent('fisher:boat')
