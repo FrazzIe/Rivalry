@@ -471,7 +471,7 @@ end
 									if WarMenu.Button("Sell "..currentItemIndex.." "..j.Name.."(s)", "$"..j.price*currentItemIndex) then
 										if GetItemQuantity(j.Id) > 0 then
 											TriggerEvent('inventory:removeQty', j.Id, currentItemIndex)
-											TriggerServerEvent('sellFish', currentItemIndex)
+											TriggerServerEvent('sellFish', currentItemIndex, i)
 											j.sold = j.sold + 1
 											TriggerServerEvent('fluxiateMarket', Fishing.Data.Store.Items)
 										else
