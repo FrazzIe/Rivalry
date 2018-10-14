@@ -58,7 +58,7 @@ local doors = {
 		[15] = {x = 1867.9284667969, y = 3674.638671875, z = -116.77992248535, model = 871712474, heading = 30.000001907349, locked = true}, -- Sandy Jail Cell 4 Lockdown
 		[16] = {x = 1872.2075195313, y = 3676.9758300781, z = -116.7799911499, model = 871712474, heading = 30.000001907349, locked = true}, -- Sandy Jail Cell 5 Lockdown
 		[17] = {x = 423.20999145508, y = -998.20001220703, z = 30.799999237061, model = -1635579193, heading = 179.98808288574, locked = true}, -- Mission Row Wall Door
-		[18] = {x = -440.42999267578, y = 6006.08984375, z = -118.59999847412, model = -642608865, heading = 214.39831542969, locked = true}, -- Paleto Jail Cells 1
+		[18] = {x = -440.42999267578, y = 6006.08984375, z = -118.59999847412, model = -642608865, heading = 135.51921081543, locked = true}, -- Paleto Jail Cells 1
 		[19] = {x = -436.8454284668, y = 6002.5263671875, z = -118.59999847412, model = -642608865, heading = 135.51921081543, locked = true}, -- Paleto Jail Cells 2
 		[20] = {x = -433.29452514648, y = 5998.9741210938, z = -118.59999847412, model = -642608865, heading = 135.18885803223, locked = true}, -- -- Paleto Jail Cells 3
 		[21] = {x = 1785.7900390625, y = 2479.2099609375, z = -122.55000305176, model = -642608865, heading = 178.45016479492, locked = true}, -- Jail Cell 1
@@ -86,7 +86,7 @@ local doors = {
 		[43] = {x = 1708.8831787109, y = 2570.6899414063, z = -69.300003051758, model = -519068795, heading = 89.498870849609, locked = true}, -- Jail Armoury Door 1
 		[44] = {x = 2050.6770019531, y = 2963.6096191406, z = -67.152450561523, model = -147325430, heading = 54.999927520752, locked = true}, -- Interogation Room 1
 		[45] = {x = 2054.6921386719, y = 2969.34375, z = -67.152450561523, model = -147325430, heading = 54.999927520752, locked = true}, -- Interogation Room 2
-		[46] = {x = 2054.6967773438, y = 2980.51953125, z = -67.152450561523, model = -147325430, heading = 54.999927520752, locked = true}, -- Interogation Room 3
+		--[46] = {x = 2054.6967773438, y = 2980.51953125, z = -67.152450561523, model = -147325430, heading = 54.999927520752, locked = true}, -- Interogation Room 3
 		[47] = {x = 2051.3408203125, y = 2975.3820800781, z = -67.301872253418, model = -147325430, h = 54.999927520752, locked = true}, -- Interogation Room 4
 	},
 	double = {
