@@ -455,30 +455,30 @@ function NativeUI.Visible(Menu, Value)
 	end
 end
 
-function NativeUI.GoUp(Menu, Options)
-	if Menu ~= nil then
-		if Menu() then
-			if Options > Menu.Pagination.Total then
-				if Menu.Index <= Menu.Pagination.Minimum then
-					if Menu.Index == 1 then
-						Menu.Pagination.Minimum = Options - (Menu.Pagination.Total - 1)
-						Menu.Pagination.Maximum = Options
-						Menu.Index = Options
+function NativeUI.GoUp(Options)
+	if NativeUI.CurrentMenu ~= nil then
+		if NativeUI.CurrentMenu() then
+			if Options > NativeUI.CurrentMenu.Pagination.Total then
+				if NativeUI.CurrentMenu.Index <= NativeUI.CurrentMenu.Pagination.Minimum then
+					if NativeUI.CurrentMenu.Index == 1 then
+						NativeUI.CurrentMenu.Pagination.Minimum = Options - (NativeUI.CurrentMenu.Pagination.Total - 1)
+						NativeUI.CurrentMenu.Pagination.Maximum = Options
+						NativeUI.CurrentMenu.Index = Options
 					else
-						Menu.Pagination.Minimum = Menu.Pagination.Minimum - 1
-						Menu.Pagination.Maximum = Menu.Pagination.Maximum - 1
-						Menu.Index = Menu.Index - 1
+						NativeUI.CurrentMenu.Pagination.Minimum = NativeUI.CurrentMenu.Pagination.Minimum - 1
+						NativeUI.CurrentMenu.Pagination.Maximum = NativeUI.CurrentMenu.Pagination.Maximum - 1
+						NativeUI.CurrentMenu.Index = NativeUI.CurrentMenu.Index - 1
 					end
 				else
-					Menu.Index = Menu.Index - 1
+					NativeUI.CurrentMenu.Index = NativeUI.CurrentMenu.Index - 1
 				end
 			else
-				if Menu.Index == 1 then
-					Menu.Pagination.Minimum = Options - (Menu.Pagination.Total - 1)
-					Menu.Pagination.Maximum = Options
-					Menu.Index = Options
+				if NativeUI.CurrentMenu.Index == 1 then
+					NativeUI.CurrentMenu.Pagination.Minimum = Options - (NativeUI.CurrentMenu.Pagination.Total - 1)
+					NativeUI.CurrentMenu.Pagination.Maximum = Options
+					NativeUI.CurrentMenu.Index = Options
 				else
-					Menu.Index = Menu.Index - 1
+					NativeUI.CurrentMenu.Index = NativeUI.CurrentMenu.Index - 1
 				end
 			end
 
@@ -487,30 +487,30 @@ function NativeUI.GoUp(Menu, Options)
 	end
 end
 
-function NativeUI.GoDown(Menu, Options)
-	if Menu ~= nil then
-		if Menu() then
-			if Options > Menu.Pagination.Total then
-				if Menu.Index >= Menu.Pagination.Maximum then
-					if Menu.Index == Options then
-						Menu.Pagination.Minimum = 1
-						Menu.Pagination.Maximum = Menu.Pagination.Total
-						Menu.Index = 1
+function NativeUI.GoDown(Options)
+	if NativeUI.CurrentMenu ~= nil then
+		if NativeUI.CurrentMenu() then
+			if Options > NativeUI.CurrentMenu.Pagination.Total then
+				if NativeUI.CurrentMenu.Index >= NativeUI.CurrentMenu.Pagination.Maximum then
+					if NativeUI.CurrentMenu.Index == Options then
+						NativeUI.CurrentMenu.Pagination.Minimum = 1
+						NativeUI.CurrentMenu.Pagination.Maximum = NativeUI.CurrentMenu.Pagination.Total
+						NativeUI.CurrentMenu.Index = 1
 					else
-						Menu.Pagination.Maximum = Menu.Pagination.Maximum + 1
-						Menu.Pagination.Minimum = Menu.Pagination.Maximum - (Menu.Pagination.Total - 1)
-						Menu.Index = Menu.Index + 1
+						NativeUI.CurrentMenu.Pagination.Maximum = NativeUI.CurrentMenu.Pagination.Maximum + 1
+						NativeUI.CurrentMenu.Pagination.Minimum = NativeUI.CurrentMenu.Pagination.Maximum - (NativeUI.CurrentMenu.Pagination.Total - 1)
+						NativeUI.CurrentMenu.Index = NativeUI.CurrentMenu.Index + 1
 					end
 				else
-					Menu.Index = Menu.Index + 1
+					NativeUI.CurrentMenu.Index = NativeUI.CurrentMenu.Index + 1
 				end
 			else
-				if Menu.Index == Options then
-					Menu.Pagination.Minimum = 1
-					Menu.Pagination.Maximum = Menu.Pagination.Total
-					Menu.Index = 1
+				if NativeUI.CurrentMenu.Index == Options then
+					NativeUI.CurrentMenu.Pagination.Minimum = 1
+					NativeUI.CurrentMenu.Pagination.Maximum = NativeUI.CurrentMenu.Pagination.Total
+					NativeUI.CurrentMenu.Index = 1
 				else
-					Menu.Index = Menu.Index + 1
+					NativeUI.CurrentMenu.Index = NativeUI.CurrentMenu.Index + 1
 				end
 			end
 
@@ -519,221 +519,225 @@ function NativeUI.GoDown(Menu, Options)
 	end
 end
 
-function NativeUI.Controls(Menu)
-	if Menu.Open then
-		local Options = NativeUI.Options
+function NativeUI.Controls()
+	if NativeUI.CurrentMenu ~= nil then
+		if NativeUI.CurrentMenu() then
+			if NativeUI.CurrentMenu.Open then
+				local Options = NativeUI.Options
 
-		DisableAllControlActions(2)
+				DisableAllControlActions(2)
 
-        if Controller() then
-            for Index = 1, #Menu.Controls.Enabled.Controller do
-                EnableControlAction(Menu.Controls.Enabled.Controller[Index][1], Menu.Controls.Enabled.Controller[Index][2], true)
-            end
-        else
-            for Index = 1, #Menu.Controls.Enabled.Keyboard do
-                EnableControlAction(Menu.Controls.Enabled.Keyboard[Index][1], Menu.Controls.Enabled.Keyboard[Index][2], true)
-            end
-        end
+		        if Controller() then
+		            for Index = 1, #NativeUI.CurrentMenu.Controls.Enabled.Controller do
+		                EnableControlAction(NativeUI.CurrentMenu.Controls.Enabled.Controller[Index][1], NativeUI.CurrentMenu.Controls.Enabled.Controller[Index][2], true)
+		            end
+		        else
+		            for Index = 1, #NativeUI.CurrentMenu.Controls.Enabled.Keyboard do
+		                EnableControlAction(NativeUI.CurrentMenu.Controls.Enabled.Keyboard[Index][1], NativeUI.CurrentMenu.Controls.Enabled.Keyboard[Index][2], true)
+		            end
+		        end
 
-		if Menu.Controls.Up.Enabled then
-			for Index = 1, #Menu.Controls.Up.Keys do
-				if not Menu.Controls.Up.Pressed then
-					if IsDisabledControlJustPressed(Menu.Controls.Up.Keys[Index][1], Menu.Controls.Up.Keys[Index][2]) then
-						Menu.Controls.Up.Pressed = true
+				if NativeUI.CurrentMenu.Controls.Up.Enabled then
+					for Index = 1, #NativeUI.CurrentMenu.Controls.Up.Keys do
+						if not NativeUI.CurrentMenu.Controls.Up.Pressed then
+							if IsDisabledControlJustPressed(NativeUI.CurrentMenu.Controls.Up.Keys[Index][1], NativeUI.CurrentMenu.Controls.Up.Keys[Index][2]) then
+								NativeUI.CurrentMenu.Controls.Up.Pressed = true
 
-						Citizen.CreateThread(function()
-							NativeUI.GoUp(Menu, Options)
+								Citizen.CreateThread(function()
+									NativeUI.GoUp(Options)
 
-							Citizen.Wait(175)
+									Citizen.Wait(175)
 
-							while Menu.Controls.Up.Enabled and IsDisabledControlPressed(Menu.Controls.Up.Keys[Index][1], Menu.Controls.Up.Keys[Index][2]) do
-								NativeUI.GoUp(Menu, Options)
+									while NativeUI.CurrentMenu.Controls.Up.Enabled and IsDisabledControlPressed(NativeUI.CurrentMenu.Controls.Up.Keys[Index][1], NativeUI.CurrentMenu.Controls.Up.Keys[Index][2]) do
+										NativeUI.GoUp(Options)
 
-								Citizen.Wait(125)
+										Citizen.Wait(125)
+									end
+
+									NativeUI.CurrentMenu.Controls.Up.Pressed = false
+								end)
+
+								break
 							end
-
-							Menu.Controls.Up.Pressed = false
-						end)
-
-						break
+						end
 					end
 				end
-			end
-		end
 
-		if Menu.Controls.Down.Enabled then
-			for Index = 1, #Menu.Controls.Down.Keys do
-				if not Menu.Controls.Down.Pressed then
-					if IsDisabledControlJustPressed(Menu.Controls.Down.Keys[Index][1], Menu.Controls.Down.Keys[Index][2]) then
-						Menu.Controls.Down.Pressed = true
+				if NativeUI.CurrentMenu.Controls.Down.Enabled then
+					for Index = 1, #NativeUI.CurrentMenu.Controls.Down.Keys do
+						if not NativeUI.CurrentMenu.Controls.Down.Pressed then
+							if IsDisabledControlJustPressed(NativeUI.CurrentMenu.Controls.Down.Keys[Index][1], NativeUI.CurrentMenu.Controls.Down.Keys[Index][2]) then
+								NativeUI.CurrentMenu.Controls.Down.Pressed = true
 
-						Citizen.CreateThread(function()
-							NativeUI.GoDown(Menu, Options)
+								Citizen.CreateThread(function()
+									NativeUI.GoDown(Options)
 
-							Citizen.Wait(175)
-										
-							while Menu.Controls.Down.Enabled and IsDisabledControlPressed(Menu.Controls.Down.Keys[Index][1], Menu.Controls.Down.Keys[Index][2]) do
-								NativeUI.GoDown(Menu, Options)
-											
-								Citizen.Wait(125)
+									Citizen.Wait(175)
+												
+									while NativeUI.CurrentMenu.Controls.Down.Enabled and IsDisabledControlPressed(NativeUI.CurrentMenu.Controls.Down.Keys[Index][1], NativeUI.CurrentMenu.Controls.Down.Keys[Index][2]) do
+										NativeUI.GoDown(Options)
+													
+										Citizen.Wait(125)
+									end
+
+									NativeUI.CurrentMenu.Controls.Down.Pressed = false
+								end)
+
+								break
 							end
-
-							Menu.Controls.Down.Pressed = false
-						end)
-
-						break
+						end
 					end
 				end
-			end
-		end
 
-		if Menu.Controls.Left.Enabled then
-			for Index = 1, #Menu.Controls.Left.Keys do
-				if not Menu.Controls.Left.Pressed then
-					if IsDisabledControlJustPressed(Menu.Controls.Left.Keys[Index][1], Menu.Controls.Left.Keys[Index][2]) then
-						Menu.Controls.Left.Pressed = true
+				if NativeUI.CurrentMenu.Controls.Left.Enabled then
+					for Index = 1, #NativeUI.CurrentMenu.Controls.Left.Keys do
+						if not NativeUI.CurrentMenu.Controls.Left.Pressed then
+							if IsDisabledControlJustPressed(NativeUI.CurrentMenu.Controls.Left.Keys[Index][1], NativeUI.CurrentMenu.Controls.Left.Keys[Index][2]) then
+								NativeUI.CurrentMenu.Controls.Left.Pressed = true
 
-						Citizen.CreateThread(function()
-							Menu.Controls.Left.Active = true
+								Citizen.CreateThread(function()
+									NativeUI.CurrentMenu.Controls.Left.Active = true
 
-							Citizen.Wait(0.01)
+									Citizen.Wait(0.01)
 
-							Menu.Controls.Left.Active = false
+									NativeUI.CurrentMenu.Controls.Left.Active = false
 
-							Citizen.Wait(174.99)
-										
-							while Menu.Controls.Left.Enabled and IsDisabledControlPressed(Menu.Controls.Left.Keys[Index][1], Menu.Controls.Left.Keys[Index][2]) do
-								Menu.Controls.Left.Active = true
+									Citizen.Wait(174.99)
+												
+									while NativeUI.CurrentMenu.Controls.Left.Enabled and IsDisabledControlPressed(NativeUI.CurrentMenu.Controls.Left.Keys[Index][1], NativeUI.CurrentMenu.Controls.Left.Keys[Index][2]) do
+										NativeUI.CurrentMenu.Controls.Left.Active = true
 
-								Citizen.Wait(0.01)
+										Citizen.Wait(0.01)
 
-								Menu.Controls.Left.Active = false
+										NativeUI.CurrentMenu.Controls.Left.Active = false
 
-								Citizen.Wait(124.99)
+										Citizen.Wait(124.99)
+									end
+
+									NativeUI.CurrentMenu.Controls.Left.Pressed = false
+								end)
+
+								break
 							end
-
-							Menu.Controls.Left.Pressed = false
-						end)
-
-						break
+						end
 					end
 				end
-			end
-		end
 
-		if Menu.Controls.Right.Enabled then
-			for Index = 1, #Menu.Controls.Right.Keys do
-				if not Menu.Controls.Right.Pressed then
-					if IsDisabledControlJustPressed(Menu.Controls.Right.Keys[Index][1], Menu.Controls.Right.Keys[Index][2]) then
-						Menu.Controls.Right.Pressed = true
+				if NativeUI.CurrentMenu.Controls.Right.Enabled then
+					for Index = 1, #NativeUI.CurrentMenu.Controls.Right.Keys do
+						if not NativeUI.CurrentMenu.Controls.Right.Pressed then
+							if IsDisabledControlJustPressed(NativeUI.CurrentMenu.Controls.Right.Keys[Index][1], NativeUI.CurrentMenu.Controls.Right.Keys[Index][2]) then
+								NativeUI.CurrentMenu.Controls.Right.Pressed = true
 
-						Citizen.CreateThread(function()
-							Menu.Controls.Right.Active = true
+								Citizen.CreateThread(function()
+									NativeUI.CurrentMenu.Controls.Right.Active = true
 
-							Citizen.Wait(0.01)
+									Citizen.Wait(0.01)
 
-							Menu.Controls.Right.Active = false
+									NativeUI.CurrentMenu.Controls.Right.Active = false
 
-							Citizen.Wait(174.99)
-										
-							while Menu.Controls.Right.Enabled and IsDisabledControlPressed(Menu.Controls.Right.Keys[Index][1], Menu.Controls.Right.Keys[Index][2]) do
-								Menu.Controls.Right.Active = true
+									Citizen.Wait(174.99)
+												
+									while NativeUI.CurrentMenu.Controls.Right.Enabled and IsDisabledControlPressed(NativeUI.CurrentMenu.Controls.Right.Keys[Index][1], NativeUI.CurrentMenu.Controls.Right.Keys[Index][2]) do
+										NativeUI.CurrentMenu.Controls.Right.Active = true
 
-								Citizen.Wait(1)
+										Citizen.Wait(1)
 
-								Menu.Controls.Right.Active = false
+										NativeUI.CurrentMenu.Controls.Right.Active = false
 
-								Citizen.Wait(124.99)
+										Citizen.Wait(124.99)
+									end
+
+									NativeUI.CurrentMenu.Controls.Right.Pressed = false
+								end)
+
+								break
 							end
-
-							Menu.Controls.Right.Pressed = false
-						end)
-
-						break
+						end
 					end
 				end
-			end
-		end
 
-		if Menu.Controls.Select.Enabled then
-			for Index = 1, #Menu.Controls.Select.Keys do
-				if not Menu.Controls.Select.Pressed then
-					if IsDisabledControlJustPressed(Menu.Controls.Select.Keys[Index][1], Menu.Controls.Select.Keys[Index][2]) then
-						Menu.Controls.Select.Pressed = true
+				if NativeUI.CurrentMenu.Controls.Select.Enabled then
+					for Index = 1, #NativeUI.CurrentMenu.Controls.Select.Keys do
+						if not NativeUI.CurrentMenu.Controls.Select.Pressed then
+							if IsDisabledControlJustPressed(NativeUI.CurrentMenu.Controls.Select.Keys[Index][1], NativeUI.CurrentMenu.Controls.Select.Keys[Index][2]) then
+								NativeUI.CurrentMenu.Controls.Select.Pressed = true
 
-						Citizen.CreateThread(function()
-							Menu.Controls.Select.Active = true
+								Citizen.CreateThread(function()
+									NativeUI.CurrentMenu.Controls.Select.Active = true
 
-							Citizen.Wait(0.01)
+									Citizen.Wait(0.01)
 
-							Menu.Controls.Select.Active = false
+									NativeUI.CurrentMenu.Controls.Select.Active = false
 
-							Citizen.Wait(174.99)
-										
-							while Menu.Controls.Select.Enabled and IsDisabledControlPressed(Menu.Controls.Select.Keys[Index][1], Menu.Controls.Select.Keys[Index][2]) do
-								Menu.Controls.Select.Active = true
+									Citizen.Wait(174.99)
+												
+									while NativeUI.CurrentMenu.Controls.Select.Enabled and IsDisabledControlPressed(NativeUI.CurrentMenu.Controls.Select.Keys[Index][1], NativeUI.CurrentMenu.Controls.Select.Keys[Index][2]) do
+										NativeUI.CurrentMenu.Controls.Select.Active = true
 
-								Citizen.Wait(0.01)
+										Citizen.Wait(0.01)
 
-								Menu.Controls.Select.Active = false
+										NativeUI.CurrentMenu.Controls.Select.Active = false
 
-								Citizen.Wait(124.99)
+										Citizen.Wait(124.99)
+									end
+
+									NativeUI.CurrentMenu.Controls.Select.Pressed = false
+								end)
+
+								break
 							end
-
-							Menu.Controls.Select.Pressed = false
-						end)
-
-						break
+						end
 					end
 				end
-			end
-		end
 
-		if Menu.Controls.Click.Enabled then
-			for Index = 1, #Menu.Controls.Click.Keys do
-				if not Menu.Controls.Click.Pressed then
-					if IsDisabledControlJustPressed(Menu.Controls.Click.Keys[Index][1], Menu.Controls.Click.Keys[Index][2]) then
-						Menu.Controls.Click.Pressed = true
+				if NativeUI.CurrentMenu.Controls.Click.Enabled then
+					for Index = 1, #NativeUI.CurrentMenu.Controls.Click.Keys do
+						if not NativeUI.CurrentMenu.Controls.Click.Pressed then
+							if IsDisabledControlJustPressed(NativeUI.CurrentMenu.Controls.Click.Keys[Index][1], NativeUI.CurrentMenu.Controls.Click.Keys[Index][2]) then
+								NativeUI.CurrentMenu.Controls.Click.Pressed = true
 
-						Citizen.CreateThread(function()
-							Menu.Controls.Click.Active = true
+								Citizen.CreateThread(function()
+									NativeUI.CurrentMenu.Controls.Click.Active = true
 
-							Citizen.Wait(0.01)
+									Citizen.Wait(0.01)
 
-							Menu.Controls.Click.Active = false
+									NativeUI.CurrentMenu.Controls.Click.Active = false
 
-							Citizen.Wait(174.99)
-										
-							while Menu.Controls.Click.Enabled and IsDisabledControlPressed(Menu.Controls.Click.Keys[Index][1], Menu.Controls.Click.Keys[Index][2]) do
-								Menu.Controls.Click.Active = true
+									Citizen.Wait(174.99)
+												
+									while NativeUI.CurrentMenu.Controls.Click.Enabled and IsDisabledControlPressed(NativeUI.CurrentMenu.Controls.Click.Keys[Index][1], NativeUI.CurrentMenu.Controls.Click.Keys[Index][2]) do
+										NativeUI.CurrentMenu.Controls.Click.Active = true
 
-								Citizen.Wait(0.01)
+										Citizen.Wait(0.01)
 
-								Menu.Controls.Click.Active = false
+										NativeUI.CurrentMenu.Controls.Click.Active = false
 
-								Citizen.Wait(124.99)
+										Citizen.Wait(124.99)
+									end
+
+									NativeUI.CurrentMenu.Controls.Click.Pressed = false
+								end)
+
+								break
 							end
-
-							Menu.Controls.Click.Pressed = false
-						end)
-
-						break
+						end
 					end
 				end
-			end
-		end
 
-		if Menu.Controls.Back.Enabled then
-			for Index = 1, #Menu.Controls.Back.Keys do
-				if not Menu.Controls.Back.Pressed then
-					if IsDisabledControlJustPressed(Menu.Controls.Back.Keys[Index][1], Menu.Controls.Back.Keys[Index][2]) then
-						Menu.Controls.Back.Pressed = true
+				if NativeUI.CurrentMenu.Controls.Back.Enabled then
+					for Index = 1, #NativeUI.CurrentMenu.Controls.Back.Keys do
+						if not NativeUI.CurrentMenu.Controls.Back.Pressed then
+							if IsDisabledControlJustPressed(NativeUI.CurrentMenu.Controls.Back.Keys[Index][1], NativeUI.CurrentMenu.Controls.Back.Keys[Index][2]) then
+								NativeUI.CurrentMenu.Controls.Back.Pressed = true
 
-						NativeUI.Visible(Menu, false)
+								NativeUI.Visible(NativeUI.CurrentMenu, false)
 
-						Menu.Controls.Back.Pressed = false
+								NativeUI.CurrentMenu.Controls.Back.Pressed = false
 
-						break
+								break
+							end
+						end
 					end
 				end
 			end
@@ -741,53 +745,53 @@ function NativeUI.Controls(Menu)
 	end
 end
 
-function NativeUI.Title(Menu)
-	if Menu ~= nil then
-		if Menu() then
-			if not Menu.SafeZoneSize then
-				Menu.SafeZoneSize = {X = 0, Y = 0}
+function NativeUI.Title()
+	if NativeUI.CurrentMenu ~= nil then
+		if NativeUI.CurrentMenu() then
+			if not NativeUI.CurrentMenu.SafeZoneSize then
+				NativeUI.CurrentMenu.SafeZoneSize = {X = 0, Y = 0}
 
-				if Menu.Safezone then
-					Menu.SafeZoneSize = GetSafeZoneBounds()
+				if NativeUI.CurrentMenu.Safezone then
+					NativeUI.CurrentMenu.SafeZoneSize = GetSafeZoneBounds()
 
 					ScreenDrawPositionBegin(76, 84)
 					ScreenDrawPositionRatio(0, 0, 0, 0)
 				end
 			end
 
-			if Menu.Sprite then
-				NativeUI.RenderSprite(Menu.Sprite.Dictionary, Menu.Sprite.Texture, Menu.X, Menu.Y, NativeUI.Settings.Items.Title.Background.Width + Menu.WidthOffset, NativeUI.Settings.Items.Title.Background.Height)
+			if NativeUI.CurrentMenu.Sprite then
+				NativeUI.RenderSprite(NativeUI.CurrentMenu.Sprite.Dictionary, NativeUI.CurrentMenu.Sprite.Texture, NativeUI.CurrentMenu.X, NativeUI.CurrentMenu.Y, NativeUI.Settings.Items.Title.Background.Width + NativeUI.CurrentMenu.WidthOffset, NativeUI.Settings.Items.Title.Background.Height)
 			else
-				NativeUI.RenderRectangle(Menu.X, Menu.Y, NativeUI.Settings.Items.Title.Background.Width + Menu.WidthOffset, NativeUI.Settings.Items.Title.Background.Height, Menu.Rectangle.R, Menu.Rectangle.G, Menu.Rectangle.B, Menu.Rectangle.A)
+				NativeUI.RenderRectangle(NativeUI.CurrentMenu.X, NativeUI.CurrentMenu.Y, NativeUI.Settings.Items.Title.Background.Width + NativeUI.CurrentMenu.WidthOffset, NativeUI.Settings.Items.Title.Background.Height, NativeUI.CurrentMenu.Rectangle.R, NativeUI.CurrentMenu.Rectangle.G, NativeUI.CurrentMenu.Rectangle.B, NativeUI.CurrentMenu.Rectangle.A)
 			end
 
-			NativeUI.RenderText(Menu.Title, Menu.X + NativeUI.Settings.Items.Title.Text.X + (Menu.WidthOffset/2), Menu.Y + NativeUI.Settings.Items.Title.Text.Y, 1, NativeUI.Settings.Items.Title.Text.Scale, 255, 255, 255, 255, 1)
+			NativeUI.RenderText(NativeUI.CurrentMenu.Title, NativeUI.CurrentMenu.X + NativeUI.Settings.Items.Title.Text.X + (NativeUI.CurrentMenu.WidthOffset/2), NativeUI.CurrentMenu.Y + NativeUI.Settings.Items.Title.Text.Y, 1, NativeUI.Settings.Items.Title.Text.Scale, 255, 255, 255, 255, 1)
 
 			NativeUI.ItemOffset = NativeUI.ItemOffset + NativeUI.Settings.Items.Title.Background.Height
 		end
 	end
 end
 
-function NativeUI.Subtitle(Menu)
-	if Menu ~= nil then
-		if Menu() then
-			if not Menu.SafeZoneSize then
-				Menu.SafeZoneSize = {X = 0, Y = 0}
+function NativeUI.Subtitle()
+	if NativeUI.CurrentMenu ~= nil then
+		if NativeUI.CurrentMenu() then
+			if not NativeUI.CurrentMenu.SafeZoneSize then
+				NativeUI.CurrentMenu.SafeZoneSize = {X = 0, Y = 0}
 
-				if Menu.Safezone then
-					Menu.SafeZoneSize = GetSafeZoneBounds()
+				if NativeUI.CurrentMenu.Safezone then
+					NativeUI.CurrentMenu.SafeZoneSize = GetSafeZoneBounds()
 
 					ScreenDrawPositionBegin(76, 84)
 					ScreenDrawPositionRatio(0, 0, 0, 0)
 				end
 			end
 
-			if Menu.Subtitle ~= "" then
-				NativeUI.RenderRectangle(Menu.X, Menu.Y + NativeUI.ItemOffset, NativeUI.Settings.Items.Subtitle.Background.Width + Menu.WidthOffset,  NativeUI.Settings.Items.Subtitle.Background.Height + Menu.SubtitleHeight, 0, 0, 0, 255)
-				NativeUI.RenderText(Menu.Subtitle, Menu.X + NativeUI.Settings.Items.Subtitle.Text.X, Menu.Y + NativeUI.Settings.Items.Subtitle.Text.Y + NativeUI.ItemOffset, 0, NativeUI.Settings.Items.Subtitle.Text.Scale, 245, 245, 245, 255, nil, false, false, NativeUI.Settings.Items.Subtitle.Background.Width + Menu.WidthOffset)
+			if NativeUI.CurrentMenu.Subtitle ~= "" then
+				NativeUI.RenderRectangle(NativeUI.CurrentMenu.X, NativeUI.CurrentMenu.Y + NativeUI.ItemOffset, NativeUI.Settings.Items.Subtitle.Background.Width + NativeUI.CurrentMenu.WidthOffset,  NativeUI.Settings.Items.Subtitle.Background.Height + NativeUI.CurrentMenu.SubtitleHeight, 0, 0, 0, 255)
+				NativeUI.RenderText(NativeUI.CurrentMenu.Subtitle, NativeUI.CurrentMenu.X + NativeUI.Settings.Items.Subtitle.Text.X, NativeUI.CurrentMenu.Y + NativeUI.Settings.Items.Subtitle.Text.Y + NativeUI.ItemOffset, 0, NativeUI.Settings.Items.Subtitle.Text.Scale, 245, 245, 245, 255, nil, false, false, NativeUI.Settings.Items.Subtitle.Background.Width + NativeUI.CurrentMenu.WidthOffset)
 					
-				if Menu.Options >= Menu.Pagination.Total + 1 then
-					NativeUI.RenderText(Menu.PageCounterColour..Menu.Index.." / "..Menu.Options, Menu.X + NativeUI.Settings.Items.Subtitle.PreText.X + Menu.WidthOffset, Menu.Y + NativeUI.Settings.Items.Subtitle.PreText.Y + NativeUI.ItemOffset, 0, NativeUI.Settings.Items.Subtitle.PreText.Scale, 245, 245, 245, 255, 2)
+				if NativeUI.CurrentMenu.Options >= NativeUI.CurrentMenu.Pagination.Total + 1 then
+					NativeUI.RenderText(NativeUI.CurrentMenu.PageCounterColour..NativeUI.CurrentMenu.Index.." / "..NativeUI.CurrentMenu.Options, NativeUI.CurrentMenu.X + NativeUI.Settings.Items.Subtitle.PreText.X + NativeUI.CurrentMenu.WidthOffset, NativeUI.CurrentMenu.Y + NativeUI.Settings.Items.Subtitle.PreText.Y + NativeUI.ItemOffset, 0, NativeUI.Settings.Items.Subtitle.PreText.Scale, 245, 245, 245, 255, 2)
 				end
 
 				NativeUI.ItemOffset = NativeUI.ItemOffset + NativeUI.Settings.Items.Subtitle.Background.Height
@@ -796,14 +800,14 @@ function NativeUI.Subtitle(Menu)
 	end
 end
 
-function NativeUI.Background(Menu)
-	if Menu ~= nil then
-		if Menu() then
-			if not Menu.SafeZoneSize then
-				Menu.SafeZoneSize = {X = 0, Y = 0}
+function NativeUI.Background()
+	if NativeUI.CurrentMenu ~= nil then
+		if NativeUI.CurrentMenu() then
+			if not NativeUI.CurrentMenu.SafeZoneSize then
+				NativeUI.CurrentMenu.SafeZoneSize = {X = 0, Y = 0}
 
-				if Menu.Safezone then
-					Menu.SafeZoneSize = GetSafeZoneBounds()
+				if NativeUI.CurrentMenu.Safezone then
+					NativeUI.CurrentMenu.SafeZoneSize = GetSafeZoneBounds()
 
 					ScreenDrawPositionBegin(76, 84)
 					ScreenDrawPositionRatio(0, 0, 0, 0)
@@ -811,321 +815,321 @@ function NativeUI.Background(Menu)
 			end
 
 			SetUiLayer(0)
-			NativeUI.RenderSprite(NativeUI.Settings.Items.Background.Dictionary, NativeUI.Settings.Items.Background.Texture, Menu.X, Menu.Y + NativeUI.Settings.Items.Background.Y + Menu.SubtitleHeight, NativeUI.Settings.Items.Background.Width + Menu.WidthOffset, NativeUI.ItemOffset, 0, 0, 0, 255)
+			NativeUI.RenderSprite(NativeUI.Settings.Items.Background.Dictionary, NativeUI.Settings.Items.Background.Texture, NativeUI.CurrentMenu.X, NativeUI.CurrentMenu.Y + NativeUI.Settings.Items.Background.Y + NativeUI.CurrentMenu.SubtitleHeight, NativeUI.Settings.Items.Background.Width + NativeUI.CurrentMenu.WidthOffset, NativeUI.ItemOffset, 0, 0, 0, 255)
 			SetUiLayer(1)
 		end
 	end
 end
 
-function NativeUI.Description(Menu)
-	if Menu ~= nil then
-		if Menu() then
-			if not Menu.SafeZoneSize then
-				Menu.SafeZoneSize = {X = 0, Y = 0}
+function NativeUI.Description()
+	if NativeUI.CurrentMenu ~= nil then
+		if NativeUI.CurrentMenu() then
+			if not NativeUI.CurrentMenu.SafeZoneSize then
+				NativeUI.CurrentMenu.SafeZoneSize = {X = 0, Y = 0}
 
-				if Menu.Safezone then
-					Menu.SafeZoneSize = GetSafeZoneBounds()
+				if NativeUI.CurrentMenu.Safezone then
+					NativeUI.CurrentMenu.SafeZoneSize = GetSafeZoneBounds()
 
 					ScreenDrawPositionBegin(76, 84)
 					ScreenDrawPositionRatio(0, 0, 0, 0)
 				end
 			end
 
-			NativeUI.RenderRectangle(Menu.X, Menu.Y + NativeUI.Settings.Items.Description.Bar.Y + Menu.SubtitleHeight + NativeUI.ItemOffset,  NativeUI.Settings.Items.Description.Bar.Width + Menu.WidthOffset, NativeUI.Settings.Items.Description.Bar.Height, 0, 0, 0, 255)
-			NativeUI.RenderSprite(NativeUI.Settings.Items.Description.Background.Dictionary, NativeUI.Settings.Items.Description.Background.Texture, Menu.X, Menu.Y + NativeUI.Settings.Items.Description.Background.Y + Menu.SubtitleHeight + NativeUI.ItemOffset, NativeUI.Settings.Items.Description.Background.Width + Menu.WidthOffset, Menu.DescriptionHeight, 0, 0, 0, 255)
-			NativeUI.RenderText(Menu.Description, Menu.X + NativeUI.Settings.Items.Description.Text.X, Menu.Y + NativeUI.Settings.Items.Description.Text.Y + Menu.SubtitleHeight + NativeUI.ItemOffset, 0, NativeUI.Settings.Items.Description.Text.Scale, 255, 255, 255, 255, nil, false, false, NativeUI.Settings.Items.Description.Background.Width + Menu.WidthOffset)
+			NativeUI.RenderRectangle(NativeUI.CurrentMenu.X, NativeUI.CurrentMenu.Y + NativeUI.Settings.Items.Description.Bar.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset,  NativeUI.Settings.Items.Description.Bar.Width + NativeUI.CurrentMenu.WidthOffset, NativeUI.Settings.Items.Description.Bar.Height, 0, 0, 0, 255)
+			NativeUI.RenderSprite(NativeUI.Settings.Items.Description.Background.Dictionary, NativeUI.Settings.Items.Description.Background.Texture, NativeUI.CurrentMenu.X, NativeUI.CurrentMenu.Y + NativeUI.Settings.Items.Description.Background.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset, NativeUI.Settings.Items.Description.Background.Width + NativeUI.CurrentMenu.WidthOffset, NativeUI.CurrentMenu.DescriptionHeight, 0, 0, 0, 255)
+			NativeUI.RenderText(NativeUI.CurrentMenu.Description, NativeUI.CurrentMenu.X + NativeUI.Settings.Items.Description.Text.X, NativeUI.CurrentMenu.Y + NativeUI.Settings.Items.Description.Text.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset, 0, NativeUI.Settings.Items.Description.Text.Scale, 255, 255, 255, 255, nil, false, false, NativeUI.Settings.Items.Description.Background.Width + NativeUI.CurrentMenu.WidthOffset)
 
-			NativeUI.ItemOffset = NativeUI.ItemOffset + Menu.DescriptionHeight + NativeUI.Settings.Items.Description.Bar.Y
+			NativeUI.ItemOffset = NativeUI.ItemOffset + NativeUI.CurrentMenu.DescriptionHeight + NativeUI.Settings.Items.Description.Bar.Y
 		end
 	end
 end
 
-function NativeUI.Render(Menu)
-	if Menu ~= nil then
-		if Menu() then
+function NativeUI.Render()
+	if NativeUI.CurrentMenu ~= nil then
+		if NativeUI.CurrentMenu() then
 
-			if Menu.Safezone then
+			if NativeUI.CurrentMenu.Safezone then
 				ScreenDrawPositionEnd()
 			end
 
-			NativeUI.Controls(Menu)
+			NativeUI.Controls()
 
-			Menu.Options = NativeUI.Options
+			NativeUI.CurrentMenu.Options = NativeUI.Options
 
 			NativeUI.Options = 0
 			NativeUI.ItemOffset = 0
 
-			Menu.SafeZoneSize = nil
+			NativeUI.CurrentMenu.SafeZoneSize = nil
 		end
 	end
 end
 
-function NativeUI.Button(Menu, Label, Description, RightLabel, LeftBadge, RightBadge, Enabled, Callback)
-	if Menu ~= nil then
-		if Menu() then
+function NativeUI.Button(Label, Description, RightLabel, LeftBadge, RightBadge, Enabled, Callback)
+	if NativeUI.CurrentMenu ~= nil then
+		if NativeUI.CurrentMenu() then
 			local Option = NativeUI.Options + 1
 
-			if Menu.Pagination.Minimum <= Option and Menu.Pagination.Maximum >= Option then
-				local Selected = Menu.Index == Option
+			if NativeUI.CurrentMenu.Pagination.Minimum <= Option and NativeUI.CurrentMenu.Pagination.Maximum >= Option then
+				local Selected = NativeUI.CurrentMenu.Index == Option
 				local Hovered = false
 
-				if not Menu.SafeZoneSize then
-					Menu.SafeZoneSize = {X = 0, Y = 0}
+				if not NativeUI.CurrentMenu.SafeZoneSize then
+					NativeUI.CurrentMenu.SafeZoneSize = {X = 0, Y = 0}
 
-					if Menu.Safezone then
-						Menu.SafeZoneSize = GetSafeZoneBounds()
+					if NativeUI.CurrentMenu.Safezone then
+						NativeUI.CurrentMenu.SafeZoneSize = GetSafeZoneBounds()
 
 						ScreenDrawPositionBegin(76, 84)
 						ScreenDrawPositionRatio(0, 0, 0, 0)
 					end
 				end
 
-				Hovered = IsMouseInBounds(Menu.X + Menu.SafeZoneSize.X, Menu.Y + NativeUI.Settings.Items.Button.Rectangle.Y + Menu.SafeZoneSize.Y + Menu.SubtitleHeight + NativeUI.ItemOffset, NativeUI.Settings.Items.Button.Rectangle.Width + Menu.WidthOffset, NativeUI.Settings.Items.Button.Rectangle.Height)
+				Hovered = IsMouseInBounds(NativeUI.CurrentMenu.X + NativeUI.CurrentMenu.SafeZoneSize.X, NativeUI.CurrentMenu.Y + NativeUI.Settings.Items.Button.Rectangle.Y + NativeUI.CurrentMenu.SafeZoneSize.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset, NativeUI.Settings.Items.Button.Rectangle.Width + NativeUI.CurrentMenu.WidthOffset, NativeUI.Settings.Items.Button.Rectangle.Height)
 				
 				local LeftBadgeOffset = ((LeftBadge == NativeUI.BadgeStyle.None or tonumber(LeftBadge) == nil) and 0 or 27)
 				local RightBadgeOffset =  ((RightBadge == NativeUI.BadgeStyle.None or tonumber(RightBadge) == nil) and 0 or 27)
 
 				if Hovered and not Selected then
-					NativeUI.RenderRectangle(Menu.X, Menu.Y + NativeUI.Settings.Items.Button.Rectangle.Y + Menu.SubtitleHeight + NativeUI.ItemOffset,  NativeUI.Settings.Items.Button.Rectangle.Width + Menu.WidthOffset, NativeUI.Settings.Items.Button.Rectangle.Height, 255, 255, 255, 20)
+					NativeUI.RenderRectangle(NativeUI.CurrentMenu.X, NativeUI.CurrentMenu.Y + NativeUI.Settings.Items.Button.Rectangle.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset,  NativeUI.Settings.Items.Button.Rectangle.Width + NativeUI.CurrentMenu.WidthOffset, NativeUI.Settings.Items.Button.Rectangle.Height, 255, 255, 255, 20)
 					
-					if Menu.Controls.Click.Active then
-						Menu.Index = Option
+					if NativeUI.CurrentMenu.Controls.Click.Active then
+						NativeUI.CurrentMenu.Index = Option
 						NativeUI.PlaySound(NativeUI.Settings.Audio.Library, NativeUI.Settings.Audio.Error)
 					end
 				end
 
 				if Selected then
-					NativeUI.RenderSprite(NativeUI.Settings.Items.Button.SelectedSprite.Dictionary, NativeUI.Settings.Items.Button.SelectedSprite.Texture, Menu.X, Menu.Y + NativeUI.Settings.Items.Button.SelectedSprite.Y + Menu.SubtitleHeight + NativeUI.ItemOffset, NativeUI.Settings.Items.Button.SelectedSprite.Width + Menu.WidthOffset, NativeUI.Settings.Items.Button.SelectedSprite.Height)
+					NativeUI.RenderSprite(NativeUI.Settings.Items.Button.SelectedSprite.Dictionary, NativeUI.Settings.Items.Button.SelectedSprite.Texture, NativeUI.CurrentMenu.X, NativeUI.CurrentMenu.Y + NativeUI.Settings.Items.Button.SelectedSprite.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset, NativeUI.Settings.Items.Button.SelectedSprite.Width + NativeUI.CurrentMenu.WidthOffset, NativeUI.Settings.Items.Button.SelectedSprite.Height)
 				end
 
 				if LeftBadge ~= NativeUI.BadgeStyle.None and tonumber(LeftBadge) ~= nil then
-					NativeUI.RenderSprite(NativeUI.GetBadgeDictionary(LeftBadge, Selected), NativeUI.GetBadgeTexture(LeftBadge, Selected), Menu.X, Menu.Y + NativeUI.Settings.Items.Button.LeftBadge.Y + Menu.SubtitleHeight + NativeUI.ItemOffset, NativeUI.Settings.Items.Button.LeftBadge.Width, NativeUI.Settings.Items.Button.LeftBadge.Height, NativeUI.GetBadgeColour(LeftBadge, Selected))
+					NativeUI.RenderSprite(NativeUI.GetBadgeDictionary(LeftBadge, Selected), NativeUI.GetBadgeTexture(LeftBadge, Selected), NativeUI.CurrentMenu.X, NativeUI.CurrentMenu.Y + NativeUI.Settings.Items.Button.LeftBadge.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset, NativeUI.Settings.Items.Button.LeftBadge.Width, NativeUI.Settings.Items.Button.LeftBadge.Height, NativeUI.GetBadgeColour(LeftBadge, Selected))
 				end
 
 				if RightBadge ~= NativeUI.BadgeStyle.None and tonumber(RightBadge) ~= nil then
-					NativeUI.RenderSprite(NativeUI.GetBadgeDictionary(RightBadge, Selected), NativeUI.GetBadgeTexture(RightBadge, Selected), Menu.X + NativeUI.Settings.Items.Button.RightBadge.X + Menu.WidthOffset, Menu.Y + NativeUI.Settings.Items.Button.RightBadge.Y + Menu.SubtitleHeight + NativeUI.ItemOffset, NativeUI.Settings.Items.Button.RightBadge.Width, NativeUI.Settings.Items.Button.RightBadge.Height, NativeUI.GetBadgeColour(RightBadge, Selected))
+					NativeUI.RenderSprite(NativeUI.GetBadgeDictionary(RightBadge, Selected), NativeUI.GetBadgeTexture(RightBadge, Selected), NativeUI.CurrentMenu.X + NativeUI.Settings.Items.Button.RightBadge.X + NativeUI.CurrentMenu.WidthOffset, NativeUI.CurrentMenu.Y + NativeUI.Settings.Items.Button.RightBadge.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset, NativeUI.Settings.Items.Button.RightBadge.Width, NativeUI.Settings.Items.Button.RightBadge.Height, NativeUI.GetBadgeColour(RightBadge, Selected))
 				end
 
 				if Enabled == true or Enabled == nil then
 					if Selected then
 						if RightLabel ~= nil and RightLabel ~= "" then
-							NativeUI.RenderText(RightLabel, Menu.X + NativeUI.Settings.Items.Button.RightText.X - RightBadgeOffset + Menu.WidthOffset, Menu.Y + NativeUI.Settings.Items.Button.RightText.Y + Menu.SubtitleHeight + NativeUI.ItemOffset, 0, NativeUI.Settings.Items.Button.RightText.Scale, 0, 0, 0, 255, 2)
+							NativeUI.RenderText(RightLabel, NativeUI.CurrentMenu.X + NativeUI.Settings.Items.Button.RightText.X - RightBadgeOffset + NativeUI.CurrentMenu.WidthOffset, NativeUI.CurrentMenu.Y + NativeUI.Settings.Items.Button.RightText.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset, 0, NativeUI.Settings.Items.Button.RightText.Scale, 0, 0, 0, 255, 2)
 						end
 
-						NativeUI.RenderText(Label, Menu.X + NativeUI.Settings.Items.Button.Text.X + LeftBadgeOffset, Menu.Y + NativeUI.Settings.Items.Button.Text.Y + Menu.SubtitleHeight + NativeUI.ItemOffset, 0, NativeUI.Settings.Items.Button.Text.Scale, 0, 0, 0, 255)
+						NativeUI.RenderText(Label, NativeUI.CurrentMenu.X + NativeUI.Settings.Items.Button.Text.X + LeftBadgeOffset, NativeUI.CurrentMenu.Y + NativeUI.Settings.Items.Button.Text.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset, 0, NativeUI.Settings.Items.Button.Text.Scale, 0, 0, 0, 255)
 					else
 						if RightLabel ~= nil and RightLabel ~= "" then
-							NativeUI.RenderText(RightLabel, Menu.X + NativeUI.Settings.Items.Button.RightText.X - RightBadgeOffset + Menu.WidthOffset, Menu.Y + NativeUI.Settings.Items.Button.RightText.Y + Menu.SubtitleHeight + NativeUI.ItemOffset, 0, NativeUI.Settings.Items.Button.RightText.Scale, 245, 245, 245, 255, 2)
+							NativeUI.RenderText(RightLabel, NativeUI.CurrentMenu.X + NativeUI.Settings.Items.Button.RightText.X - RightBadgeOffset + NativeUI.CurrentMenu.WidthOffset, NativeUI.CurrentMenu.Y + NativeUI.Settings.Items.Button.RightText.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset, 0, NativeUI.Settings.Items.Button.RightText.Scale, 245, 245, 245, 255, 2)
 						end
 
-						NativeUI.RenderText(Label, Menu.X + NativeUI.Settings.Items.Button.Text.X + LeftBadgeOffset, Menu.Y + NativeUI.Settings.Items.Button.Text.Y + Menu.SubtitleHeight + NativeUI.ItemOffset, 0, NativeUI.Settings.Items.Button.Text.Scale, 245, 245, 245, 255)
+						NativeUI.RenderText(Label, NativeUI.CurrentMenu.X + NativeUI.Settings.Items.Button.Text.X + LeftBadgeOffset, NativeUI.CurrentMenu.Y + NativeUI.Settings.Items.Button.Text.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset, 0, NativeUI.Settings.Items.Button.Text.Scale, 245, 245, 245, 255)
 					end
 				else
 					if RightLabel ~= nil and RightLabel ~= "" then
-						NativeUI.RenderText(RightLabel, Menu.X + NativeUI.Settings.Items.Button.RightText.X - RightBadgeOffset + Menu.WidthOffset, Menu.Y + NativeUI.Settings.Items.Button.RightText.Y + Menu.SubtitleHeight + NativeUI.ItemOffset, 0, NativeUI.Settings.Items.Button.RightText.Scale, 163, 159, 148, 255, 2)
+						NativeUI.RenderText(RightLabel, NativeUI.CurrentMenu.X + NativeUI.Settings.Items.Button.RightText.X - RightBadgeOffset + NativeUI.CurrentMenu.WidthOffset, NativeUI.CurrentMenu.Y + NativeUI.Settings.Items.Button.RightText.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset, 0, NativeUI.Settings.Items.Button.RightText.Scale, 163, 159, 148, 255, 2)
 					end
 
-					NativeUI.RenderText(Label, Menu.X + NativeUI.Settings.Items.Button.Text.X + LeftBadgeOffset, Menu.Y + NativeUI.Settings.Items.Button.Text.Y + Menu.SubtitleHeight + NativeUI.ItemOffset, 0, NativeUI.Settings.Items.Button.Text.Scale, 163, 159, 148, 255)
+					NativeUI.RenderText(Label, NativeUI.CurrentMenu.X + NativeUI.Settings.Items.Button.Text.X + LeftBadgeOffset, NativeUI.CurrentMenu.Y + NativeUI.Settings.Items.Button.Text.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset, 0, NativeUI.Settings.Items.Button.Text.Scale, 163, 159, 148, 255)
 				end
 
 				NativeUI.ItemOffset = NativeUI.ItemOffset + NativeUI.Settings.Items.Button.Rectangle.Height
 
-				if Selected and Menu.Description ~= Description then
-					Menu.Description = Description or ""
+				if Selected and NativeUI.CurrentMenu.Description ~= Description then
+					NativeUI.CurrentMenu.Description = Description or ""
 
-					local DescriptionLineCount = NativeUI.GetLineCount(Menu.Description, Menu.X + NativeUI.Settings.Items.Description.Text.X, Menu.Y + NativeUI.Settings.Items.Description.Text.Y + Menu.SubtitleHeight + NativeUI.ItemOffset, 0, NativeUI.Settings.Items.Description.Text.Scale, 255, 255, 255, 255, nil, false, false, NativeUI.Settings.Items.Description.Background.Width + Menu.WidthOffset)
+					local DescriptionLineCount = NativeUI.GetLineCount(NativeUI.CurrentMenu.Description, NativeUI.CurrentMenu.X + NativeUI.Settings.Items.Description.Text.X, NativeUI.CurrentMenu.Y + NativeUI.Settings.Items.Description.Text.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset, 0, NativeUI.Settings.Items.Description.Text.Scale, 255, 255, 255, 255, nil, false, false, NativeUI.Settings.Items.Description.Background.Width + NativeUI.CurrentMenu.WidthOffset)
 					
 					if DescriptionLineCount > 1 then
-						Menu.DescriptionHeight = NativeUI.Settings.Items.Description.Background.Height * DescriptionLineCount
+						NativeUI.CurrentMenu.DescriptionHeight = NativeUI.Settings.Items.Description.Background.Height * DescriptionLineCount
 					else
-						Menu.DescriptionHeight = NativeUI.Settings.Items.Description.Background.Height + 7
+						NativeUI.CurrentMenu.DescriptionHeight = NativeUI.Settings.Items.Description.Background.Height + 7
 					end
 				end
 
 				NativeUI.Options = NativeUI.Options + 1
 
-				if Selected and (Menu.Controls.Select.Active or (Hovered and Menu.Controls.Click.Active)) then
+				if Selected and (NativeUI.CurrentMenu.Controls.Select.Active or (Hovered and NativeUI.CurrentMenu.Controls.Click.Active)) then
 					NativeUI.PlaySound(NativeUI.Settings.Audio.Library, NativeUI.Settings.Audio.Select)
 				end
 
-				Callback(Hovered, Selected, ((Menu.Controls.Select.Active or (Hovered and Menu.Controls.Click.Active)) and Selected))
+				Callback(Hovered, Selected, ((NativeUI.CurrentMenu.Controls.Select.Active or (Hovered and NativeUI.CurrentMenu.Controls.Click.Active)) and Selected))
 			end
 		end
 	end
 end
 
-function NativeUI.Checkbox(Menu, Label, Description, Checked, Enabled, Callback)
-	if Menu ~= nil then
-		if Menu() then
+function NativeUI.Checkbox(Label, Description, Checked, Enabled, Callback)
+	if NativeUI.CurrentMenu ~= nil then
+		if NativeUI.CurrentMenu() then
 			local Option = NativeUI.Options + 1
 
-			if Menu.Pagination.Minimum <= Option and Menu.Pagination.Maximum >= Option then	
-				local Selected = Menu.Index == Option
+			if NativeUI.CurrentMenu.Pagination.Minimum <= Option and NativeUI.CurrentMenu.Pagination.Maximum >= Option then	
+				local Selected = NativeUI.CurrentMenu.Index == Option
 				local Hovered = false
 
-				if not Menu.SafeZoneSize then
-					Menu.SafeZoneSize = {X = 0, Y = 0}
+				if not NativeUI.CurrentMenu.SafeZoneSize then
+					NativeUI.CurrentMenu.SafeZoneSize = {X = 0, Y = 0}
 
-					if Menu.Safezone then
-						Menu.SafeZoneSize = GetSafeZoneBounds()
+					if NativeUI.CurrentMenu.Safezone then
+						NativeUI.CurrentMenu.SafeZoneSize = GetSafeZoneBounds()
 
 						ScreenDrawPositionBegin(76, 84)
 						ScreenDrawPositionRatio(0, 0, 0, 0)
 					end
 				end
 
-				Hovered = IsMouseInBounds(Menu.X + Menu.SafeZoneSize.X, Menu.Y + NativeUI.Settings.Items.Button.Rectangle.Y + Menu.SafeZoneSize.Y + Menu.SubtitleHeight + NativeUI.ItemOffset, NativeUI.Settings.Items.Button.Rectangle.Width + Menu.WidthOffset, NativeUI.Settings.Items.Button.Rectangle.Height)
+				Hovered = IsMouseInBounds(NativeUI.CurrentMenu.X + NativeUI.CurrentMenu.SafeZoneSize.X, NativeUI.CurrentMenu.Y + NativeUI.Settings.Items.Button.Rectangle.Y + NativeUI.CurrentMenu.SafeZoneSize.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset, NativeUI.Settings.Items.Button.Rectangle.Width + NativeUI.CurrentMenu.WidthOffset, NativeUI.Settings.Items.Button.Rectangle.Height)
 
 				if Hovered and not Selected then
-					NativeUI.RenderRectangle(Menu.X, Menu.Y + NativeUI.Settings.Items.Button.Rectangle.Y + Menu.SubtitleHeight + NativeUI.ItemOffset,  NativeUI.Settings.Items.Button.Rectangle.Width + Menu.WidthOffset, NativeUI.Settings.Items.Button.Rectangle.Height, 255, 255, 255, 20)
+					NativeUI.RenderRectangle(NativeUI.CurrentMenu.X, NativeUI.CurrentMenu.Y + NativeUI.Settings.Items.Button.Rectangle.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset,  NativeUI.Settings.Items.Button.Rectangle.Width + NativeUI.CurrentMenu.WidthOffset, NativeUI.Settings.Items.Button.Rectangle.Height, 255, 255, 255, 20)
 
-					if Menu.Controls.Click.Active then
-						Menu.Index = Option
+					if NativeUI.CurrentMenu.Controls.Click.Active then
+						NativeUI.CurrentMenu.Index = Option
 						NativeUI.PlaySound(NativeUI.Settings.Audio.Library, NativeUI.Settings.Audio.Error)
-						 Menu.Controls.Click.Active = false
+						 NativeUI.CurrentMenu.Controls.Click.Active = false
 					end
 				end
 
 				if Selected then
-					NativeUI.RenderSprite(NativeUI.Settings.Items.Button.SelectedSprite.Dictionary, NativeUI.Settings.Items.Button.SelectedSprite.Texture, Menu.X, Menu.Y + NativeUI.Settings.Items.Button.SelectedSprite.Y + Menu.SubtitleHeight + NativeUI.ItemOffset, NativeUI.Settings.Items.Button.SelectedSprite.Width + Menu.WidthOffset, NativeUI.Settings.Items.Button.SelectedSprite.Height)
+					NativeUI.RenderSprite(NativeUI.Settings.Items.Button.SelectedSprite.Dictionary, NativeUI.Settings.Items.Button.SelectedSprite.Texture, NativeUI.CurrentMenu.X, NativeUI.CurrentMenu.Y + NativeUI.Settings.Items.Button.SelectedSprite.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset, NativeUI.Settings.Items.Button.SelectedSprite.Width + NativeUI.CurrentMenu.WidthOffset, NativeUI.Settings.Items.Button.SelectedSprite.Height)
 				end
 
 				if Enabled == true or Enabled == nil then
 					if Selected then
-						NativeUI.RenderText(Label, Menu.X + NativeUI.Settings.Items.Button.Text.X, Menu.Y + NativeUI.Settings.Items.Button.Text.Y + Menu.SubtitleHeight + NativeUI.ItemOffset, 0, NativeUI.Settings.Items.Button.Text.Scale, 0, 0, 0, 255)
+						NativeUI.RenderText(Label, NativeUI.CurrentMenu.X + NativeUI.Settings.Items.Button.Text.X, NativeUI.CurrentMenu.Y + NativeUI.Settings.Items.Button.Text.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset, 0, NativeUI.Settings.Items.Button.Text.Scale, 0, 0, 0, 255)
 					else
-						NativeUI.RenderText(Label, Menu.X + NativeUI.Settings.Items.Button.Text.X, Menu.Y + NativeUI.Settings.Items.Button.Text.Y + Menu.SubtitleHeight + NativeUI.ItemOffset, 0, NativeUI.Settings.Items.Button.Text.Scale, 245, 245, 245, 255)
+						NativeUI.RenderText(Label, NativeUI.CurrentMenu.X + NativeUI.Settings.Items.Button.Text.X, NativeUI.CurrentMenu.Y + NativeUI.Settings.Items.Button.Text.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset, 0, NativeUI.Settings.Items.Button.Text.Scale, 245, 245, 245, 255)
 					end
 				else
-					NativeUI.RenderText(Label, Menu.X + NativeUI.Settings.Items.Button.Text.X, Menu.Y + NativeUI.Settings.Items.Button.Text.Y + Menu.SubtitleHeight + NativeUI.ItemOffset, 0, NativeUI.Settings.Items.Button.Text.Scale, 163, 159, 148, 255)
+					NativeUI.RenderText(Label, NativeUI.CurrentMenu.X + NativeUI.Settings.Items.Button.Text.X, NativeUI.CurrentMenu.Y + NativeUI.Settings.Items.Button.Text.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset, 0, NativeUI.Settings.Items.Button.Text.Scale, 163, 159, 148, 255)
 				end
 
 				if Selected then
 					if Checked then
-						NativeUI.RenderSprite(NativeUI.Settings.Items.Checkbox.Dictionary, NativeUI.Settings.Items.Checkbox.Textures[1], Menu.X + NativeUI.Settings.Items.Checkbox.X + Menu.WidthOffset, Menu.Y + NativeUI.Settings.Items.Checkbox.Y + Menu.SubtitleHeight + NativeUI.ItemOffset, NativeUI.Settings.Items.Checkbox.Width, NativeUI.Settings.Items.Checkbox.Height)
+						NativeUI.RenderSprite(NativeUI.Settings.Items.Checkbox.Dictionary, NativeUI.Settings.Items.Checkbox.Textures[1], NativeUI.CurrentMenu.X + NativeUI.Settings.Items.Checkbox.X + NativeUI.CurrentMenu.WidthOffset, NativeUI.CurrentMenu.Y + NativeUI.Settings.Items.Checkbox.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset, NativeUI.Settings.Items.Checkbox.Width, NativeUI.Settings.Items.Checkbox.Height)
 					else
-						NativeUI.RenderSprite(NativeUI.Settings.Items.Checkbox.Dictionary, NativeUI.Settings.Items.Checkbox.Textures[2], Menu.X + NativeUI.Settings.Items.Checkbox.X + Menu.WidthOffset, Menu.Y + NativeUI.Settings.Items.Checkbox.Y + Menu.SubtitleHeight + NativeUI.ItemOffset, NativeUI.Settings.Items.Checkbox.Width, NativeUI.Settings.Items.Checkbox.Height)
+						NativeUI.RenderSprite(NativeUI.Settings.Items.Checkbox.Dictionary, NativeUI.Settings.Items.Checkbox.Textures[2], NativeUI.CurrentMenu.X + NativeUI.Settings.Items.Checkbox.X + NativeUI.CurrentMenu.WidthOffset, NativeUI.CurrentMenu.Y + NativeUI.Settings.Items.Checkbox.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset, NativeUI.Settings.Items.Checkbox.Width, NativeUI.Settings.Items.Checkbox.Height)
 					end
 				else
 					if Checked then
-						NativeUI.RenderSprite(NativeUI.Settings.Items.Checkbox.Dictionary, NativeUI.Settings.Items.Checkbox.Textures[3], Menu.X + NativeUI.Settings.Items.Checkbox.X + Menu.WidthOffset, Menu.Y + NativeUI.Settings.Items.Checkbox.Y + Menu.SubtitleHeight + NativeUI.ItemOffset, NativeUI.Settings.Items.Checkbox.Width, NativeUI.Settings.Items.Checkbox.Height)
+						NativeUI.RenderSprite(NativeUI.Settings.Items.Checkbox.Dictionary, NativeUI.Settings.Items.Checkbox.Textures[3], NativeUI.CurrentMenu.X + NativeUI.Settings.Items.Checkbox.X + NativeUI.CurrentMenu.WidthOffset, NativeUI.CurrentMenu.Y + NativeUI.Settings.Items.Checkbox.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset, NativeUI.Settings.Items.Checkbox.Width, NativeUI.Settings.Items.Checkbox.Height)
 					else
-						NativeUI.RenderSprite(NativeUI.Settings.Items.Checkbox.Dictionary, NativeUI.Settings.Items.Checkbox.Textures[4], Menu.X + NativeUI.Settings.Items.Checkbox.X + Menu.WidthOffset, Menu.Y + NativeUI.Settings.Items.Checkbox.Y + Menu.SubtitleHeight + NativeUI.ItemOffset, NativeUI.Settings.Items.Checkbox.Width, NativeUI.Settings.Items.Checkbox.Height)
+						NativeUI.RenderSprite(NativeUI.Settings.Items.Checkbox.Dictionary, NativeUI.Settings.Items.Checkbox.Textures[4], NativeUI.CurrentMenu.X + NativeUI.Settings.Items.Checkbox.X + NativeUI.CurrentMenu.WidthOffset, NativeUI.CurrentMenu.Y + NativeUI.Settings.Items.Checkbox.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset, NativeUI.Settings.Items.Checkbox.Width, NativeUI.Settings.Items.Checkbox.Height)
 					end
 				end
 
 				NativeUI.ItemOffset = NativeUI.ItemOffset + NativeUI.Settings.Items.Button.Rectangle.Height
 			
-				if Selected and Menu.Description ~= Description then
-					Menu.Description = Description or ""
+				if Selected and NativeUI.CurrentMenu.Description ~= Description then
+					NativeUI.CurrentMenu.Description = Description or ""
 
-					local DescriptionLineCount = NativeUI.GetLineCount(Menu.Description, Menu.X + NativeUI.Settings.Items.Description.Text.X, Menu.Y + NativeUI.Settings.Items.Description.Text.Y + Menu.SubtitleHeight + NativeUI.ItemOffset, 0, NativeUI.Settings.Items.Description.Text.Scale, 255, 255, 255, 255, nil, false, false, NativeUI.Settings.Items.Description.Background.Width + Menu.WidthOffset)
+					local DescriptionLineCount = NativeUI.GetLineCount(NativeUI.CurrentMenu.Description, NativeUI.CurrentMenu.X + NativeUI.Settings.Items.Description.Text.X, NativeUI.CurrentMenu.Y + NativeUI.Settings.Items.Description.Text.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset, 0, NativeUI.Settings.Items.Description.Text.Scale, 255, 255, 255, 255, nil, false, false, NativeUI.Settings.Items.Description.Background.Width + NativeUI.CurrentMenu.WidthOffset)
 					
 					if DescriptionLineCount > 1 then
-						Menu.DescriptionHeight = NativeUI.Settings.Items.Description.Background.Height * DescriptionLineCount
+						NativeUI.CurrentMenu.DescriptionHeight = NativeUI.Settings.Items.Description.Background.Height * DescriptionLineCount
 					else
-						Menu.DescriptionHeight = NativeUI.Settings.Items.Description.Background.Height + 7
+						NativeUI.CurrentMenu.DescriptionHeight = NativeUI.Settings.Items.Description.Background.Height + 7
 					end
 				end
 
 				NativeUI.Options = NativeUI.Options + 1
 
-				if Selected and (Menu.Controls.Select.Active or (Hovered and Menu.Controls.Click.Active)) then
+				if Selected and (NativeUI.CurrentMenu.Controls.Select.Active or (Hovered and NativeUI.CurrentMenu.Controls.Click.Active)) then
 					NativeUI.PlaySound(NativeUI.Settings.Audio.Library, NativeUI.Settings.Audio.Select)
 
 					Checked = not Checked
 				end
 
-				Callback(Hovered, Selected, ((Menu.Controls.Select.Active or (Hovered and Menu.Controls.Click.Active)) and Selected), Checked)
+				Callback(Hovered, Selected, ((NativeUI.CurrentMenu.Controls.Select.Active or (Hovered and NativeUI.CurrentMenu.Controls.Click.Active)) and Selected), Checked)
 			end
 		end
 	end
 end
 
-function NativeUI.List(Menu, Label, Items, Index, Description, Enabled, Callback)
-	if Menu ~= nil then
-		if Menu() then
+function NativeUI.List(Label, Items, Index, Description, Enabled, Callback)
+	if NativeUI.CurrentMenu ~= nil then
+		if NativeUI.CurrentMenu() then
 			local Option = NativeUI.Options + 1
 
-			if Menu.Pagination.Minimum <= Option and Menu.Pagination.Maximum >= Option then		
-				local Selected = Menu.Index == Option
+			if NativeUI.CurrentMenu.Pagination.Minimum <= Option and NativeUI.CurrentMenu.Pagination.Maximum >= Option then		
+				local Selected = NativeUI.CurrentMenu.Index == Option
 				local Hovered = false
 				local LeftArrowHovered, RightArrowHovered = false, false
 
-				if not Menu.SafeZoneSize then
-					Menu.SafeZoneSize = {X = 0, Y = 0}
+				if not NativeUI.CurrentMenu.SafeZoneSize then
+					NativeUI.CurrentMenu.SafeZoneSize = {X = 0, Y = 0}
 
-					if Menu.Safezone then
-						Menu.SafeZoneSize = GetSafeZoneBounds()
+					if NativeUI.CurrentMenu.Safezone then
+						NativeUI.CurrentMenu.SafeZoneSize = GetSafeZoneBounds()
 
 						ScreenDrawPositionBegin(76, 84)
 						ScreenDrawPositionRatio(0, 0, 0, 0)
 					end
 				end
 
-				Hovered = IsMouseInBounds(Menu.X + Menu.SafeZoneSize.X, Menu.Y + NativeUI.Settings.Items.Button.Rectangle.Y + Menu.SafeZoneSize.Y + Menu.SubtitleHeight + NativeUI.ItemOffset, NativeUI.Settings.Items.Button.Rectangle.Width + Menu.WidthOffset, NativeUI.Settings.Items.Button.Rectangle.Height)
+				Hovered = IsMouseInBounds(NativeUI.CurrentMenu.X + NativeUI.CurrentMenu.SafeZoneSize.X, NativeUI.CurrentMenu.Y + NativeUI.Settings.Items.Button.Rectangle.Y + NativeUI.CurrentMenu.SafeZoneSize.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset, NativeUI.Settings.Items.Button.Rectangle.Width + NativeUI.CurrentMenu.WidthOffset, NativeUI.Settings.Items.Button.Rectangle.Height)
 				
 				local ListText = (type(Items[Index]) == "table") and tostring(Items[Index].Name) or tostring(Items[Index]) or "NIL"
 				local TextOffset = MeasureStringWidth(ListText, 0, 0.35)
 
 				if Hovered and not Selected then
-					NativeUI.RenderRectangle(Menu.X, Menu.Y + NativeUI.Settings.Items.Button.Rectangle.Y + Menu.SubtitleHeight + NativeUI.ItemOffset,  NativeUI.Settings.Items.Button.Rectangle.Width + Menu.WidthOffset, NativeUI.Settings.Items.Button.Rectangle.Height, 255, 255, 255, 20)
+					NativeUI.RenderRectangle(NativeUI.CurrentMenu.X, NativeUI.CurrentMenu.Y + NativeUI.Settings.Items.Button.Rectangle.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset,  NativeUI.Settings.Items.Button.Rectangle.Width + NativeUI.CurrentMenu.WidthOffset, NativeUI.Settings.Items.Button.Rectangle.Height, 255, 255, 255, 20)
 
-					if Menu.Controls.Click.Active then
-						Menu.Index = Option
+					if NativeUI.CurrentMenu.Controls.Click.Active then
+						NativeUI.CurrentMenu.Index = Option
 						NativeUI.PlaySound(NativeUI.Settings.Audio.Library, NativeUI.Settings.Audio.Error)
 					end				
 				end
 
 				if Selected then
-					NativeUI.RenderSprite(NativeUI.Settings.Items.Button.SelectedSprite.Dictionary, NativeUI.Settings.Items.Button.SelectedSprite.Texture, Menu.X, Menu.Y + NativeUI.Settings.Items.Button.SelectedSprite.Y + Menu.SubtitleHeight + NativeUI.ItemOffset, NativeUI.Settings.Items.Button.SelectedSprite.Width + Menu.WidthOffset, NativeUI.Settings.Items.Button.SelectedSprite.Height)
-					LeftArrowHovered = IsMouseInBounds(Menu.X + NativeUI.Settings.Items.List.LeftArrow.X - TextOffset + Menu.SafeZoneSize.X + Menu.WidthOffset, Menu.Y + NativeUI.Settings.Items.List.LeftArrow.Y + Menu.SafeZoneSize.Y + Menu.SubtitleHeight + NativeUI.ItemOffset, NativeUI.Settings.Items.List.LeftArrow.Width, NativeUI.Settings.Items.List.LeftArrow.Height)
-					RightArrowHovered = IsMouseInBounds(Menu.X + NativeUI.Settings.Items.List.RightArrow.X + Menu.SafeZoneSize.X + Menu.WidthOffset, Menu.Y + NativeUI.Settings.Items.List.RightArrow.Y + Menu.SafeZoneSize.Y + Menu.SubtitleHeight + NativeUI.ItemOffset, NativeUI.Settings.Items.List.RightArrow.Width, NativeUI.Settings.Items.List.RightArrow.Height)
+					NativeUI.RenderSprite(NativeUI.Settings.Items.Button.SelectedSprite.Dictionary, NativeUI.Settings.Items.Button.SelectedSprite.Texture, NativeUI.CurrentMenu.X, NativeUI.CurrentMenu.Y + NativeUI.Settings.Items.Button.SelectedSprite.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset, NativeUI.Settings.Items.Button.SelectedSprite.Width + NativeUI.CurrentMenu.WidthOffset, NativeUI.Settings.Items.Button.SelectedSprite.Height)
+					LeftArrowHovered = IsMouseInBounds(NativeUI.CurrentMenu.X + NativeUI.Settings.Items.List.LeftArrow.X - TextOffset + NativeUI.CurrentMenu.SafeZoneSize.X + NativeUI.CurrentMenu.WidthOffset, NativeUI.CurrentMenu.Y + NativeUI.Settings.Items.List.LeftArrow.Y + NativeUI.CurrentMenu.SafeZoneSize.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset, NativeUI.Settings.Items.List.LeftArrow.Width, NativeUI.Settings.Items.List.LeftArrow.Height)
+					RightArrowHovered = IsMouseInBounds(NativeUI.CurrentMenu.X + NativeUI.Settings.Items.List.RightArrow.X + NativeUI.CurrentMenu.SafeZoneSize.X + NativeUI.CurrentMenu.WidthOffset, NativeUI.CurrentMenu.Y + NativeUI.Settings.Items.List.RightArrow.Y + NativeUI.CurrentMenu.SafeZoneSize.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset, NativeUI.Settings.Items.List.RightArrow.Width, NativeUI.Settings.Items.List.RightArrow.Height)
 				end
 
 				if Enabled == true or Enabled == nil then
 					if Selected then
-						NativeUI.RenderText(Label, Menu.X + NativeUI.Settings.Items.Button.Text.X, Menu.Y + NativeUI.Settings.Items.Button.Text.Y + Menu.SubtitleHeight + NativeUI.ItemOffset, 0, NativeUI.Settings.Items.Button.Text.Scale, 0, 0, 0, 255)
+						NativeUI.RenderText(Label, NativeUI.CurrentMenu.X + NativeUI.Settings.Items.Button.Text.X, NativeUI.CurrentMenu.Y + NativeUI.Settings.Items.Button.Text.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset, 0, NativeUI.Settings.Items.Button.Text.Scale, 0, 0, 0, 255)
 
-						NativeUI.RenderSprite(NativeUI.Settings.Items.List.LeftArrow.Dictionary, NativeUI.Settings.Items.List.LeftArrow.Texture, Menu.X + NativeUI.Settings.Items.List.LeftArrow.X - TextOffset + Menu.WidthOffset, Menu.Y + NativeUI.Settings.Items.List.LeftArrow.Y + Menu.SubtitleHeight + NativeUI.ItemOffset, NativeUI.Settings.Items.List.LeftArrow.Width, NativeUI.Settings.Items.List.LeftArrow.Height, 0, 0, 0, 0, 255)
-						NativeUI.RenderSprite(NativeUI.Settings.Items.List.RightArrow.Dictionary, NativeUI.Settings.Items.List.RightArrow.Texture, Menu.X + NativeUI.Settings.Items.List.RightArrow.X + Menu.WidthOffset, Menu.Y + NativeUI.Settings.Items.List.RightArrow.Y + Menu.SubtitleHeight + NativeUI.ItemOffset, NativeUI.Settings.Items.List.RightArrow.Width, NativeUI.Settings.Items.List.RightArrow.Height, 0, 0, 0, 0, 255)
+						NativeUI.RenderSprite(NativeUI.Settings.Items.List.LeftArrow.Dictionary, NativeUI.Settings.Items.List.LeftArrow.Texture, NativeUI.CurrentMenu.X + NativeUI.Settings.Items.List.LeftArrow.X - TextOffset + NativeUI.CurrentMenu.WidthOffset, NativeUI.CurrentMenu.Y + NativeUI.Settings.Items.List.LeftArrow.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset, NativeUI.Settings.Items.List.LeftArrow.Width, NativeUI.Settings.Items.List.LeftArrow.Height, 0, 0, 0, 0, 255)
+						NativeUI.RenderSprite(NativeUI.Settings.Items.List.RightArrow.Dictionary, NativeUI.Settings.Items.List.RightArrow.Texture, NativeUI.CurrentMenu.X + NativeUI.Settings.Items.List.RightArrow.X + NativeUI.CurrentMenu.WidthOffset, NativeUI.CurrentMenu.Y + NativeUI.Settings.Items.List.RightArrow.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset, NativeUI.Settings.Items.List.RightArrow.Width, NativeUI.Settings.Items.List.RightArrow.Height, 0, 0, 0, 0, 255)
 						
-						NativeUI.RenderText(ListText, Menu.X + NativeUI.Settings.Items.List.Text.X + Menu.WidthOffset, Menu.Y + NativeUI.Settings.Items.List.Text.Y + Menu.SubtitleHeight + NativeUI.ItemOffset, 0, NativeUI.Settings.Items.List.Text.Scale, 0, 0, 0, 255, 2)
+						NativeUI.RenderText(ListText, NativeUI.CurrentMenu.X + NativeUI.Settings.Items.List.Text.X + NativeUI.CurrentMenu.WidthOffset, NativeUI.CurrentMenu.Y + NativeUI.Settings.Items.List.Text.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset, 0, NativeUI.Settings.Items.List.Text.Scale, 0, 0, 0, 255, 2)
 					else
-						NativeUI.RenderText(Label, Menu.X + NativeUI.Settings.Items.Button.Text.X, Menu.Y + NativeUI.Settings.Items.Button.Text.Y + Menu.SubtitleHeight + NativeUI.ItemOffset, 0, NativeUI.Settings.Items.Button.Text.Scale, 245, 245, 245, 255)
+						NativeUI.RenderText(Label, NativeUI.CurrentMenu.X + NativeUI.Settings.Items.Button.Text.X, NativeUI.CurrentMenu.Y + NativeUI.Settings.Items.Button.Text.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset, 0, NativeUI.Settings.Items.Button.Text.Scale, 245, 245, 245, 255)
 						
-						NativeUI.RenderText(ListText, Menu.X + NativeUI.Settings.Items.List.Text.X + 15 + Menu.WidthOffset, Menu.Y + NativeUI.Settings.Items.List.Text.Y + Menu.SubtitleHeight + NativeUI.ItemOffset, 0, NativeUI.Settings.Items.List.Text.Scale, 245, 245, 245, 255, 2)
+						NativeUI.RenderText(ListText, NativeUI.CurrentMenu.X + NativeUI.Settings.Items.List.Text.X + 15 + NativeUI.CurrentMenu.WidthOffset, NativeUI.CurrentMenu.Y + NativeUI.Settings.Items.List.Text.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset, 0, NativeUI.Settings.Items.List.Text.Scale, 245, 245, 245, 255, 2)
 					end
 				else
-					NativeUI.RenderText(Label, Menu.X + NativeUI.Settings.Items.Button.Text.X, Menu.Y + NativeUI.Settings.Items.Button.Text.Y + Menu.SubtitleHeight + NativeUI.ItemOffset, 0, NativeUI.Settings.Items.Button.Text.Scale, 163, 159, 148, 255)
+					NativeUI.RenderText(Label, NativeUI.CurrentMenu.X + NativeUI.Settings.Items.Button.Text.X, NativeUI.CurrentMenu.Y + NativeUI.Settings.Items.Button.Text.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset, 0, NativeUI.Settings.Items.Button.Text.Scale, 163, 159, 148, 255)
 					
 					if Selected then
-						NativeUI.RenderSprite(NativeUI.Settings.Items.List.LeftArrow.Dictionary, NativeUI.Settings.Items.List.LeftArrow.Texture, Menu.X + NativeUI.Settings.Items.List.LeftArrow.X - TextOffset + Menu.WidthOffset, Menu.Y + NativeUI.Settings.Items.List.LeftArrow.Y + Menu.SubtitleHeight + NativeUI.ItemOffset, NativeUI.Settings.Items.List.LeftArrow.Width, NativeUI.Settings.Items.List.LeftArrow.Height, 0, 163, 159, 148, 255)
-						NativeUI.RenderSprite(NativeUI.Settings.Items.List.RightArrow.Dictionary, NativeUI.Settings.Items.List.RightArrow.Texture, Menu.X + NativeUI.Settings.Items.List.RightArrow.X + Menu.WidthOffset, Menu.Y + NativeUI.Settings.Items.List.RightArrow.Y + Menu.SubtitleHeight + NativeUI.ItemOffset, NativeUI.Settings.Items.List.RightArrow.Width, NativeUI.Settings.Items.List.RightArrow.Height, 0, 163, 159, 148, 255)
+						NativeUI.RenderSprite(NativeUI.Settings.Items.List.LeftArrow.Dictionary, NativeUI.Settings.Items.List.LeftArrow.Texture, NativeUI.CurrentMenu.X + NativeUI.Settings.Items.List.LeftArrow.X - TextOffset + NativeUI.CurrentMenu.WidthOffset, NativeUI.CurrentMenu.Y + NativeUI.Settings.Items.List.LeftArrow.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset, NativeUI.Settings.Items.List.LeftArrow.Width, NativeUI.Settings.Items.List.LeftArrow.Height, 0, 163, 159, 148, 255)
+						NativeUI.RenderSprite(NativeUI.Settings.Items.List.RightArrow.Dictionary, NativeUI.Settings.Items.List.RightArrow.Texture, NativeUI.CurrentMenu.X + NativeUI.Settings.Items.List.RightArrow.X + NativeUI.CurrentMenu.WidthOffset, NativeUI.CurrentMenu.Y + NativeUI.Settings.Items.List.RightArrow.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset, NativeUI.Settings.Items.List.RightArrow.Width, NativeUI.Settings.Items.List.RightArrow.Height, 0, 163, 159, 148, 255)
 
-						NativeUI.RenderText(ListText, Menu.X + NativeUI.Settings.Items.List.Text.X + Menu.WidthOffset, Menu.Y + NativeUI.Settings.Items.List.Text.Y + Menu.SubtitleHeight + NativeUI.ItemOffset, 0, NativeUI.Settings.Items.List.Text.Scale, 163, 159, 148, 255, 2)
+						NativeUI.RenderText(ListText, NativeUI.CurrentMenu.X + NativeUI.Settings.Items.List.Text.X + NativeUI.CurrentMenu.WidthOffset, NativeUI.CurrentMenu.Y + NativeUI.Settings.Items.List.Text.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset, 0, NativeUI.Settings.Items.List.Text.Scale, 163, 159, 148, 255, 2)
 					else
-						NativeUI.RenderText(ListText, Menu.X + NativeUI.Settings.Items.List.Text.X + 15 + Menu.WidthOffset, Menu.Y + NativeUI.Settings.Items.List.Text.Y + Menu.SubtitleHeight + NativeUI.ItemOffset, 0, NativeUI.Settings.Items.List.Text.Scale, 163, 159, 148, 255, 2)
+						NativeUI.RenderText(ListText, NativeUI.CurrentMenu.X + NativeUI.Settings.Items.List.Text.X + 15 + NativeUI.CurrentMenu.WidthOffset, NativeUI.CurrentMenu.Y + NativeUI.Settings.Items.List.Text.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset, 0, NativeUI.Settings.Items.List.Text.Scale, 163, 159, 148, 255, 2)
 					end
 				end
 
 				NativeUI.ItemOffset = NativeUI.ItemOffset + NativeUI.Settings.Items.Button.Rectangle.Height
 
-				if Selected and Menu.Description ~= Description then
-					Menu.Description = Description or ""
+				if Selected and NativeUI.CurrentMenu.Description ~= Description then
+					NativeUI.CurrentMenu.Description = Description or ""
 
-					local DescriptionLineCount = NativeUI.GetLineCount(Menu.Description, Menu.X + NativeUI.Settings.Items.Description.Text.X, Menu.Y + NativeUI.Settings.Items.Description.Text.Y + Menu.SubtitleHeight + NativeUI.ItemOffset, 0, NativeUI.Settings.Items.Description.Text.Scale, 255, 255, 255, 255, nil, false, false, NativeUI.Settings.Items.Description.Background.Width + Menu.WidthOffset)
+					local DescriptionLineCount = NativeUI.GetLineCount(NativeUI.CurrentMenu.Description, NativeUI.CurrentMenu.X + NativeUI.Settings.Items.Description.Text.X, NativeUI.CurrentMenu.Y + NativeUI.Settings.Items.Description.Text.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset, 0, NativeUI.Settings.Items.Description.Text.Scale, 255, 255, 255, 255, nil, false, false, NativeUI.Settings.Items.Description.Background.Width + NativeUI.CurrentMenu.WidthOffset)
 					
 					if DescriptionLineCount > 1 then
-						Menu.DescriptionHeight = NativeUI.Settings.Items.Description.Background.Height * DescriptionLineCount
+						NativeUI.CurrentMenu.DescriptionHeight = NativeUI.Settings.Items.Description.Background.Height * DescriptionLineCount
 					else
-						Menu.DescriptionHeight = NativeUI.Settings.Items.Description.Background.Height + 7
+						NativeUI.CurrentMenu.DescriptionHeight = NativeUI.Settings.Items.Description.Background.Height + 7
 					end
 				end
 
 				NativeUI.Options = NativeUI.Options + 1
 
-				if Selected and (Menu.Controls.Left.Active or (Menu.Controls.Click.Active and LeftArrowHovered)) and not (Menu.Controls.Right.Active or (Menu.Controls.Click.Active and RightArrowHovered)) then
+				if Selected and (NativeUI.CurrentMenu.Controls.Left.Active or (NativeUI.CurrentMenu.Controls.Click.Active and LeftArrowHovered)) and not (NativeUI.CurrentMenu.Controls.Right.Active or (NativeUI.CurrentMenu.Controls.Click.Active and RightArrowHovered)) then
 					Index = Index - 1
 
 					if Index < 1 then
@@ -1133,7 +1137,7 @@ function NativeUI.List(Menu, Label, Items, Index, Description, Enabled, Callback
 					end
 
 					NativeUI.PlaySound(NativeUI.Settings.Audio.Library, NativeUI.Settings.Audio.LeftRight)
-				elseif Selected and (Menu.Controls.Right.Active or (Menu.Controls.Click.Active and RightArrowHovered)) and not (Menu.Controls.Left.Active or (Menu.Controls.Click.Active and LeftArrowHovered)) then
+				elseif Selected and (NativeUI.CurrentMenu.Controls.Right.Active or (NativeUI.CurrentMenu.Controls.Click.Active and RightArrowHovered)) and not (NativeUI.CurrentMenu.Controls.Left.Active or (NativeUI.CurrentMenu.Controls.Click.Active and LeftArrowHovered)) then
 					Index = Index + 1
 
 					if Index > #Items then
@@ -1143,31 +1147,31 @@ function NativeUI.List(Menu, Label, Items, Index, Description, Enabled, Callback
 					NativeUI.PlaySound(NativeUI.Settings.Audio.Library, NativeUI.Settings.Audio.LeftRight)
 				end
 
-				if Selected and (Menu.Controls.Select.Active or ((Hovered and Menu.Controls.Click.Active) and (not LeftArrowHovered and not RightArrowHovered))) then
+				if Selected and (NativeUI.CurrentMenu.Controls.Select.Active or ((Hovered and NativeUI.CurrentMenu.Controls.Click.Active) and (not LeftArrowHovered and not RightArrowHovered))) then
 					NativeUI.PlaySound(NativeUI.Settings.Audio.Library, NativeUI.Settings.Audio.Select)
 				end
 
-				Callback(Hovered, Selected, ((Menu.Controls.Select.Active or ((Hovered and Menu.Controls.Click.Active) and (not LeftArrowHovered and not RightArrowHovered))) and Selected), Index)
+				Callback(Hovered, Selected, ((NativeUI.CurrentMenu.Controls.Select.Active or ((Hovered and NativeUI.CurrentMenu.Controls.Click.Active) and (not LeftArrowHovered and not RightArrowHovered))) and Selected), Index)
 			end
 		end
 	end
 end
 
-function NativeUI.Slider(Menu, Label, Items, Index, Description, Divider, Enabled, Callback)
-	if Menu ~= nil then
-		if Menu() then
+function NativeUI.Slider(Label, Items, Index, Description, Divider, Enabled, Callback)
+	if NativeUI.CurrentMenu ~= nil then
+		if NativeUI.CurrentMenu() then
 			local Option = NativeUI.Options + 1
 
-			if Menu.Pagination.Minimum <= Option and Menu.Pagination.Maximum >= Option then
-				local Selected = Menu.Index == Option
+			if NativeUI.CurrentMenu.Pagination.Minimum <= Option and NativeUI.CurrentMenu.Pagination.Maximum >= Option then
+				local Selected = NativeUI.CurrentMenu.Index == Option
 				local Hovered = false
 				local LeftArrowHovered, RightArrowHovered = false, false
 
-				if not Menu.SafeZoneSize then
-					Menu.SafeZoneSize = {X = 0, Y = 0}
+				if not NativeUI.CurrentMenu.SafeZoneSize then
+					NativeUI.CurrentMenu.SafeZoneSize = {X = 0, Y = 0}
 
-					if Menu.Safezone then
-						Menu.SafeZoneSize = GetSafeZoneBounds()
+					if NativeUI.CurrentMenu.Safezone then
+						NativeUI.CurrentMenu.SafeZoneSize = GetSafeZoneBounds()
 
 						ScreenDrawPositionBegin(76, 84)
 						ScreenDrawPositionRatio(0, 0, 0, 0)
@@ -1176,65 +1180,65 @@ function NativeUI.Slider(Menu, Label, Items, Index, Description, Divider, Enable
 
 			
 
-				Hovered = IsMouseInBounds(Menu.X + Menu.SafeZoneSize.X, Menu.Y + NativeUI.Settings.Items.Button.Rectangle.Y + Menu.SafeZoneSize.Y + Menu.SubtitleHeight + NativeUI.ItemOffset, NativeUI.Settings.Items.Button.Rectangle.Width + Menu.WidthOffset, NativeUI.Settings.Items.Button.Rectangle.Height)
+				Hovered = IsMouseInBounds(NativeUI.CurrentMenu.X + NativeUI.CurrentMenu.SafeZoneSize.X, NativeUI.CurrentMenu.Y + NativeUI.Settings.Items.Button.Rectangle.Y + NativeUI.CurrentMenu.SafeZoneSize.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset, NativeUI.Settings.Items.Button.Rectangle.Width + NativeUI.CurrentMenu.WidthOffset, NativeUI.Settings.Items.Button.Rectangle.Height)
 
 				if Hovered and not Selected then
-					NativeUI.RenderRectangle(Menu.X, Menu.Y + NativeUI.Settings.Items.Button.Rectangle.Y + Menu.SubtitleHeight + NativeUI.ItemOffset,  NativeUI.Settings.Items.Button.Rectangle.Width + Menu.WidthOffset, NativeUI.Settings.Items.Button.Rectangle.Height, 255, 255, 255, 20)
+					NativeUI.RenderRectangle(NativeUI.CurrentMenu.X, NativeUI.CurrentMenu.Y + NativeUI.Settings.Items.Button.Rectangle.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset,  NativeUI.Settings.Items.Button.Rectangle.Width + NativeUI.CurrentMenu.WidthOffset, NativeUI.Settings.Items.Button.Rectangle.Height, 255, 255, 255, 20)
 					
-					if Menu.Controls.Click.Active then
-						Menu.Index = Option
+					if NativeUI.CurrentMenu.Controls.Click.Active then
+						NativeUI.CurrentMenu.Index = Option
 						NativeUI.PlaySound(NativeUI.Settings.Audio.Library, NativeUI.Settings.Audio.Error)
 					end
 				end
 
 				if Selected then
-					NativeUI.RenderSprite(NativeUI.Settings.Items.Button.SelectedSprite.Dictionary, NativeUI.Settings.Items.Button.SelectedSprite.Texture, Menu.X, Menu.Y + NativeUI.Settings.Items.Button.SelectedSprite.Y + Menu.SubtitleHeight + NativeUI.ItemOffset, NativeUI.Settings.Items.Button.SelectedSprite.Width + Menu.WidthOffset, NativeUI.Settings.Items.Button.SelectedSprite.Height)
-					LeftArrowHovered = IsMouseInBounds(Menu.X + NativeUI.Settings.Items.Slider.LeftArrow.X + Menu.SafeZoneSize.X + Menu.WidthOffset, Menu.Y + NativeUI.Settings.Items.Slider.LeftArrow.Y + Menu.SafeZoneSize.Y + Menu.SubtitleHeight + NativeUI.ItemOffset, NativeUI.Settings.Items.Slider.LeftArrow.Width, NativeUI.Settings.Items.Slider.LeftArrow.Height)
-					RightArrowHovered = IsMouseInBounds(Menu.X + NativeUI.Settings.Items.Slider.RightArrow.X + Menu.SafeZoneSize.X + Menu.WidthOffset, Menu.Y + NativeUI.Settings.Items.Slider.RightArrow.Y + Menu.SafeZoneSize.Y + Menu.SubtitleHeight + NativeUI.ItemOffset, NativeUI.Settings.Items.Slider.RightArrow.Width, NativeUI.Settings.Items.Slider.RightArrow.Height)
+					NativeUI.RenderSprite(NativeUI.Settings.Items.Button.SelectedSprite.Dictionary, NativeUI.Settings.Items.Button.SelectedSprite.Texture, NativeUI.CurrentMenu.X, NativeUI.CurrentMenu.Y + NativeUI.Settings.Items.Button.SelectedSprite.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset, NativeUI.Settings.Items.Button.SelectedSprite.Width + NativeUI.CurrentMenu.WidthOffset, NativeUI.Settings.Items.Button.SelectedSprite.Height)
+					LeftArrowHovered = IsMouseInBounds(NativeUI.CurrentMenu.X + NativeUI.Settings.Items.Slider.LeftArrow.X + NativeUI.CurrentMenu.SafeZoneSize.X + NativeUI.CurrentMenu.WidthOffset, NativeUI.CurrentMenu.Y + NativeUI.Settings.Items.Slider.LeftArrow.Y + NativeUI.CurrentMenu.SafeZoneSize.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset, NativeUI.Settings.Items.Slider.LeftArrow.Width, NativeUI.Settings.Items.Slider.LeftArrow.Height)
+					RightArrowHovered = IsMouseInBounds(NativeUI.CurrentMenu.X + NativeUI.Settings.Items.Slider.RightArrow.X + NativeUI.CurrentMenu.SafeZoneSize.X + NativeUI.CurrentMenu.WidthOffset, NativeUI.CurrentMenu.Y + NativeUI.Settings.Items.Slider.RightArrow.Y + NativeUI.CurrentMenu.SafeZoneSize.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset, NativeUI.Settings.Items.Slider.RightArrow.Width, NativeUI.Settings.Items.Slider.RightArrow.Height)
 				end
 
 				if Enabled == true or Enabled == nil then
 					if Selected then
-						NativeUI.RenderText(Label, Menu.X + NativeUI.Settings.Items.Button.Text.X, Menu.Y + NativeUI.Settings.Items.Button.Text.Y + Menu.SubtitleHeight + NativeUI.ItemOffset, 0, NativeUI.Settings.Items.Button.Text.Scale, 0, 0, 0, 255)
+						NativeUI.RenderText(Label, NativeUI.CurrentMenu.X + NativeUI.Settings.Items.Button.Text.X, NativeUI.CurrentMenu.Y + NativeUI.Settings.Items.Button.Text.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset, 0, NativeUI.Settings.Items.Button.Text.Scale, 0, 0, 0, 255)
 
-						NativeUI.RenderSprite(NativeUI.Settings.Items.Slider.LeftArrow.Dictionary, NativeUI.Settings.Items.Slider.LeftArrow.Texture, Menu.X + NativeUI.Settings.Items.Slider.LeftArrow.X + Menu.WidthOffset, Menu.Y + NativeUI.Settings.Items.Slider.LeftArrow.Y + Menu.SubtitleHeight + NativeUI.ItemOffset, NativeUI.Settings.Items.Slider.LeftArrow.Width, NativeUI.Settings.Items.Slider.LeftArrow.Height, 0, 0, 0, 0, 255)
-						NativeUI.RenderSprite(NativeUI.Settings.Items.Slider.RightArrow.Dictionary, NativeUI.Settings.Items.Slider.RightArrow.Texture, Menu.X + NativeUI.Settings.Items.Slider.RightArrow.X + Menu.WidthOffset, Menu.Y + NativeUI.Settings.Items.Slider.RightArrow.Y + Menu.SubtitleHeight + NativeUI.ItemOffset, NativeUI.Settings.Items.Slider.RightArrow.Width, NativeUI.Settings.Items.Slider.RightArrow.Height, 0, 0, 0, 0, 255)
+						NativeUI.RenderSprite(NativeUI.Settings.Items.Slider.LeftArrow.Dictionary, NativeUI.Settings.Items.Slider.LeftArrow.Texture, NativeUI.CurrentMenu.X + NativeUI.Settings.Items.Slider.LeftArrow.X + NativeUI.CurrentMenu.WidthOffset, NativeUI.CurrentMenu.Y + NativeUI.Settings.Items.Slider.LeftArrow.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset, NativeUI.Settings.Items.Slider.LeftArrow.Width, NativeUI.Settings.Items.Slider.LeftArrow.Height, 0, 0, 0, 0, 255)
+						NativeUI.RenderSprite(NativeUI.Settings.Items.Slider.RightArrow.Dictionary, NativeUI.Settings.Items.Slider.RightArrow.Texture, NativeUI.CurrentMenu.X + NativeUI.Settings.Items.Slider.RightArrow.X + NativeUI.CurrentMenu.WidthOffset, NativeUI.CurrentMenu.Y + NativeUI.Settings.Items.Slider.RightArrow.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset, NativeUI.Settings.Items.Slider.RightArrow.Width, NativeUI.Settings.Items.Slider.RightArrow.Height, 0, 0, 0, 0, 255)
 					else
-						NativeUI.RenderText(Label, Menu.X + NativeUI.Settings.Items.Button.Text.X, Menu.Y + NativeUI.Settings.Items.Button.Text.Y + Menu.SubtitleHeight + NativeUI.ItemOffset, 0, NativeUI.Settings.Items.Button.Text.Scale, 245, 245, 245, 255)
+						NativeUI.RenderText(Label, NativeUI.CurrentMenu.X + NativeUI.Settings.Items.Button.Text.X, NativeUI.CurrentMenu.Y + NativeUI.Settings.Items.Button.Text.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset, 0, NativeUI.Settings.Items.Button.Text.Scale, 245, 245, 245, 255)
 					end
 				else
-					NativeUI.RenderText(Label, Menu.X + NativeUI.Settings.Items.Button.Text.X, Menu.Y + NativeUI.Settings.Items.Button.Text.Y + Menu.SubtitleHeight + NativeUI.ItemOffset, 0, NativeUI.Settings.Items.Button.Text.Scale, 163, 159, 148, 255)
+					NativeUI.RenderText(Label, NativeUI.CurrentMenu.X + NativeUI.Settings.Items.Button.Text.X, NativeUI.CurrentMenu.Y + NativeUI.Settings.Items.Button.Text.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset, 0, NativeUI.Settings.Items.Button.Text.Scale, 163, 159, 148, 255)
 
 					if Selected then
-						NativeUI.RenderSprite(NativeUI.Settings.Items.Slider.LeftArrow.Dictionary, NativeUI.Settings.Items.Slider.LeftArrow.Texture, Menu.X + NativeUI.Settings.Items.Slider.LeftArrow.X + Menu.WidthOffset, Menu.Y + NativeUI.Settings.Items.Slider.LeftArrow.Y + Menu.SubtitleHeight + NativeUI.ItemOffset, NativeUI.Settings.Items.Slider.LeftArrow.Width, NativeUI.Settings.Items.Slider.LeftArrow.Height, 163, 159, 148, 255)
-						NativeUI.RenderSprite(NativeUI.Settings.Items.Slider.RightArrow.Dictionary, NativeUI.Settings.Items.Slider.RightArrow.Texture, Menu.X + NativeUI.Settings.Items.Slider.RightArrow.X + Menu.WidthOffset, Menu.Y + NativeUI.Settings.Items.Slider.RightArrow.Y + Menu.SubtitleHeight + NativeUI.ItemOffset, NativeUI.Settings.Items.Slider.RightArrow.Width, NativeUI.Settings.Items.Slider.RightArrow.Height, 163, 159, 148, 255)
+						NativeUI.RenderSprite(NativeUI.Settings.Items.Slider.LeftArrow.Dictionary, NativeUI.Settings.Items.Slider.LeftArrow.Texture, NativeUI.CurrentMenu.X + NativeUI.Settings.Items.Slider.LeftArrow.X + NativeUI.CurrentMenu.WidthOffset, NativeUI.CurrentMenu.Y + NativeUI.Settings.Items.Slider.LeftArrow.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset, NativeUI.Settings.Items.Slider.LeftArrow.Width, NativeUI.Settings.Items.Slider.LeftArrow.Height, 163, 159, 148, 255)
+						NativeUI.RenderSprite(NativeUI.Settings.Items.Slider.RightArrow.Dictionary, NativeUI.Settings.Items.Slider.RightArrow.Texture, NativeUI.CurrentMenu.X + NativeUI.Settings.Items.Slider.RightArrow.X + NativeUI.CurrentMenu.WidthOffset, NativeUI.CurrentMenu.Y + NativeUI.Settings.Items.Slider.RightArrow.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset, NativeUI.Settings.Items.Slider.RightArrow.Width, NativeUI.Settings.Items.Slider.RightArrow.Height, 163, 159, 148, 255)
 					end
 				end
 
-				NativeUI.RenderRectangle(Menu.X + NativeUI.Settings.Items.Slider.Background.X + Menu.WidthOffset, Menu.Y + NativeUI.Settings.Items.Slider.Background.Y + Menu.SubtitleHeight + NativeUI.ItemOffset,  NativeUI.Settings.Items.Slider.Background.Width, NativeUI.Settings.Items.Slider.Background.Height, 4, 32, 57, 255)
-				NativeUI.RenderRectangle(Menu.X + NativeUI.Settings.Items.Slider.Slider.X + (((NativeUI.Settings.Items.Slider.Background.Width - NativeUI.Settings.Items.Slider.Slider.Width)/(#Items - 1)) * (Index - 1)) + Menu.WidthOffset, Menu.Y + NativeUI.Settings.Items.Slider.Slider.Y + Menu.SubtitleHeight + NativeUI.ItemOffset,  NativeUI.Settings.Items.Slider.Slider.Width, NativeUI.Settings.Items.Slider.Slider.Height, 57, 116, 200, 255)
+				NativeUI.RenderRectangle(NativeUI.CurrentMenu.X + NativeUI.Settings.Items.Slider.Background.X + NativeUI.CurrentMenu.WidthOffset, NativeUI.CurrentMenu.Y + NativeUI.Settings.Items.Slider.Background.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset,  NativeUI.Settings.Items.Slider.Background.Width, NativeUI.Settings.Items.Slider.Background.Height, 4, 32, 57, 255)
+				NativeUI.RenderRectangle(NativeUI.CurrentMenu.X + NativeUI.Settings.Items.Slider.Slider.X + (((NativeUI.Settings.Items.Slider.Background.Width - NativeUI.Settings.Items.Slider.Slider.Width)/(#Items - 1)) * (Index - 1)) + NativeUI.CurrentMenu.WidthOffset, NativeUI.CurrentMenu.Y + NativeUI.Settings.Items.Slider.Slider.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset,  NativeUI.Settings.Items.Slider.Slider.Width, NativeUI.Settings.Items.Slider.Slider.Height, 57, 116, 200, 255)
 				
 				if Divider then
-					NativeUI.RenderRectangle(Menu.X + NativeUI.Settings.Items.Slider.Divider.X + Menu.WidthOffset, Menu.Y + NativeUI.Settings.Items.Slider.Divider.Y + Menu.SubtitleHeight + NativeUI.ItemOffset,  NativeUI.Settings.Items.Slider.Divider.Width, NativeUI.Settings.Items.Slider.Divider.Height, 245, 245, 245, 255)
+					NativeUI.RenderRectangle(NativeUI.CurrentMenu.X + NativeUI.Settings.Items.Slider.Divider.X + NativeUI.CurrentMenu.WidthOffset, NativeUI.CurrentMenu.Y + NativeUI.Settings.Items.Slider.Divider.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset,  NativeUI.Settings.Items.Slider.Divider.Width, NativeUI.Settings.Items.Slider.Divider.Height, 245, 245, 245, 255)
 				end
 
 				NativeUI.ItemOffset = NativeUI.ItemOffset + NativeUI.Settings.Items.Button.Rectangle.Height
 
-				if Selected and Menu.Description ~= Description then
-					Menu.Description = Description or ""
+				if Selected and NativeUI.CurrentMenu.Description ~= Description then
+					NativeUI.CurrentMenu.Description = Description or ""
 
-					local DescriptionLineCount = NativeUI.GetLineCount(Menu.Description, Menu.X + NativeUI.Settings.Items.Description.Text.X, Menu.Y + NativeUI.Settings.Items.Description.Text.Y + Menu.SubtitleHeight + NativeUI.ItemOffset, 0, NativeUI.Settings.Items.Description.Text.Scale, 255, 255, 255, 255, nil, false, false, NativeUI.Settings.Items.Description.Background.Width + Menu.WidthOffset)
+					local DescriptionLineCount = NativeUI.GetLineCount(NativeUI.CurrentMenu.Description, NativeUI.CurrentMenu.X + NativeUI.Settings.Items.Description.Text.X, NativeUI.CurrentMenu.Y + NativeUI.Settings.Items.Description.Text.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset, 0, NativeUI.Settings.Items.Description.Text.Scale, 255, 255, 255, 255, nil, false, false, NativeUI.Settings.Items.Description.Background.Width + NativeUI.CurrentMenu.WidthOffset)
 					
 					if DescriptionLineCount > 1 then
-						Menu.DescriptionHeight = NativeUI.Settings.Items.Description.Background.Height * DescriptionLineCount
+						NativeUI.CurrentMenu.DescriptionHeight = NativeUI.Settings.Items.Description.Background.Height * DescriptionLineCount
 					else
-						Menu.DescriptionHeight = NativeUI.Settings.Items.Description.Background.Height + 7
+						NativeUI.CurrentMenu.DescriptionHeight = NativeUI.Settings.Items.Description.Background.Height + 7
 					end
 				end
 
 				NativeUI.Options = NativeUI.Options + 1
 
-				if Selected and (Menu.Controls.Left.Active or (Menu.Controls.Click.Active and LeftArrowHovered)) and not (Menu.Controls.Right.Active or (Menu.Controls.Click.Active and RightArrowHovered)) then
+				if Selected and (NativeUI.CurrentMenu.Controls.Left.Active or (NativeUI.CurrentMenu.Controls.Click.Active and LeftArrowHovered)) and not (NativeUI.CurrentMenu.Controls.Right.Active or (NativeUI.CurrentMenu.Controls.Click.Active and RightArrowHovered)) then
 					Index = Index - 1
 
 					if Index < 1 then
@@ -1242,7 +1246,7 @@ function NativeUI.Slider(Menu, Label, Items, Index, Description, Divider, Enable
 					end
 
 					NativeUI.PlaySound(NativeUI.Settings.Audio.Library, NativeUI.Settings.Audio.LeftRight)
-				elseif Selected and (Menu.Controls.Right.Active or (Menu.Controls.Click.Active and RightArrowHovered)) and not (Menu.Controls.Left.Active or (Menu.Controls.Click.Active and LeftArrowHovered)) then
+				elseif Selected and (NativeUI.CurrentMenu.Controls.Right.Active or (NativeUI.CurrentMenu.Controls.Click.Active and RightArrowHovered)) and not (NativeUI.CurrentMenu.Controls.Left.Active or (NativeUI.CurrentMenu.Controls.Click.Active and LeftArrowHovered)) then
 					Index = Index + 1
 
 					if Index > #Items then
@@ -1252,100 +1256,100 @@ function NativeUI.Slider(Menu, Label, Items, Index, Description, Divider, Enable
 					NativeUI.PlaySound(NativeUI.Settings.Audio.Library, NativeUI.Settings.Audio.LeftRight)
 				end
 
-				if Selected and (Menu.Controls.Select.Active or ((Hovered and Menu.Controls.Click.Active) and (not LeftArrowHovered and not RightArrowHovered))) then
+				if Selected and (NativeUI.CurrentMenu.Controls.Select.Active or ((Hovered and NativeUI.CurrentMenu.Controls.Click.Active) and (not LeftArrowHovered and not RightArrowHovered))) then
 					NativeUI.PlaySound(NativeUI.Settings.Audio.Library, NativeUI.Settings.Audio.Select)
 				end
 
-				Callback(Hovered, Selected, ((Menu.Controls.Select.Active or ((Hovered and Menu.Controls.Click.Active) and (not LeftArrowHovered and not RightArrowHovered))) and Selected), Index)
+				Callback(Hovered, Selected, ((NativeUI.CurrentMenu.Controls.Select.Active or ((Hovered and NativeUI.CurrentMenu.Controls.Click.Active) and (not LeftArrowHovered and not RightArrowHovered))) and Selected), Index)
 			end
 		end
 	end
 end
 
-function NativeUI.Progress(Menu, Label, Items, Index, Description, Counter, Enabled, Callback)
-	if Menu ~= nil then
-		if Menu() then
+function NativeUI.Progress(Label, Items, Index, Description, Counter, Enabled, Callback)
+	if NativeUI.CurrentMenu ~= nil then
+		if NativeUI.CurrentMenu() then
 			local Option = NativeUI.Options + 1	
 
-			if Menu.Pagination.Minimum <= Option and Menu.Pagination.Maximum >= Option then		
-				local Selected = Menu.Index == Option
+			if NativeUI.CurrentMenu.Pagination.Minimum <= Option and NativeUI.CurrentMenu.Pagination.Maximum >= Option then		
+				local Selected = NativeUI.CurrentMenu.Index == Option
 				local Hovered = false
 				local ProgressHovered = false
 
-				if not Menu.SafeZoneSize then
-					Menu.SafeZoneSize = {X = 0, Y = 0}
+				if not NativeUI.CurrentMenu.SafeZoneSize then
+					NativeUI.CurrentMenu.SafeZoneSize = {X = 0, Y = 0}
 
-					if Menu.Safezone then
-						Menu.SafeZoneSize = GetSafeZoneBounds()
+					if NativeUI.CurrentMenu.Safezone then
+						NativeUI.CurrentMenu.SafeZoneSize = GetSafeZoneBounds()
 
 						ScreenDrawPositionBegin(76, 84)
 						ScreenDrawPositionRatio(0, 0, 0, 0)
 					end
 				end
 
-				Hovered = IsMouseInBounds(Menu.X + Menu.SafeZoneSize.X, Menu.Y + NativeUI.Settings.Items.Button.Rectangle.Y + Menu.SafeZoneSize.Y + Menu.SubtitleHeight + NativeUI.ItemOffset, NativeUI.Settings.Items.Button.Rectangle.Width + Menu.WidthOffset, NativeUI.Settings.Items.Progress.Height)
+				Hovered = IsMouseInBounds(NativeUI.CurrentMenu.X + NativeUI.CurrentMenu.SafeZoneSize.X, NativeUI.CurrentMenu.Y + NativeUI.Settings.Items.Button.Rectangle.Y + NativeUI.CurrentMenu.SafeZoneSize.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset, NativeUI.Settings.Items.Button.Rectangle.Width + NativeUI.CurrentMenu.WidthOffset, NativeUI.Settings.Items.Progress.Height)
 					
 				local ProgressText = (Counter and Index.."/"..#Items or (type(Items[Index]) == "table") and tostring(Items[Index].Name) or tostring(Items[Index]))
 
 				if Hovered and not Selected then
-					NativeUI.RenderRectangle(Menu.X, Menu.Y + NativeUI.Settings.Items.Button.Rectangle.Y + Menu.SubtitleHeight + NativeUI.ItemOffset,  NativeUI.Settings.Items.Button.Rectangle.Width + Menu.WidthOffset, NativeUI.Settings.Items.Progress.Height, 255, 255, 255, 20)
+					NativeUI.RenderRectangle(NativeUI.CurrentMenu.X, NativeUI.CurrentMenu.Y + NativeUI.Settings.Items.Button.Rectangle.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset,  NativeUI.Settings.Items.Button.Rectangle.Width + NativeUI.CurrentMenu.WidthOffset, NativeUI.Settings.Items.Progress.Height, 255, 255, 255, 20)
 
-					if Menu.Controls.Click.Active then
-						Menu.Index = Option
+					if NativeUI.CurrentMenu.Controls.Click.Active then
+						NativeUI.CurrentMenu.Index = Option
 						NativeUI.PlaySound(NativeUI.Settings.Audio.Library, NativeUI.Settings.Audio.Error)
 					end
 				end
 
 				if Selected then
-					NativeUI.RenderSprite(NativeUI.Settings.Items.Button.SelectedSprite.Dictionary, NativeUI.Settings.Items.Button.SelectedSprite.Texture, Menu.X, Menu.Y + NativeUI.Settings.Items.Button.SelectedSprite.Y + Menu.SubtitleHeight + NativeUI.ItemOffset, NativeUI.Settings.Items.Button.SelectedSprite.Width + Menu.WidthOffset, NativeUI.Settings.Items.Progress.Height)
-					ProgressHovered = IsMouseInBounds(Menu.X + NativeUI.Settings.Items.Progress.Bar.X + Menu.SafeZoneSize.X, Menu.Y + NativeUI.Settings.Items.Progress.Bar.Y + Menu.SafeZoneSize.Y + Menu.SubtitleHeight + NativeUI.ItemOffset - 12, NativeUI.Settings.Items.Progress.Bar.Width + Menu.WidthOffset, NativeUI.Settings.Items.Progress.Bar.Height + 24)
+					NativeUI.RenderSprite(NativeUI.Settings.Items.Button.SelectedSprite.Dictionary, NativeUI.Settings.Items.Button.SelectedSprite.Texture, NativeUI.CurrentMenu.X, NativeUI.CurrentMenu.Y + NativeUI.Settings.Items.Button.SelectedSprite.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset, NativeUI.Settings.Items.Button.SelectedSprite.Width + NativeUI.CurrentMenu.WidthOffset, NativeUI.Settings.Items.Progress.Height)
+					ProgressHovered = IsMouseInBounds(NativeUI.CurrentMenu.X + NativeUI.Settings.Items.Progress.Bar.X + NativeUI.CurrentMenu.SafeZoneSize.X, NativeUI.CurrentMenu.Y + NativeUI.Settings.Items.Progress.Bar.Y + NativeUI.CurrentMenu.SafeZoneSize.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset - 12, NativeUI.Settings.Items.Progress.Bar.Width + NativeUI.CurrentMenu.WidthOffset, NativeUI.Settings.Items.Progress.Bar.Height + 24)
 				end
 
 				if Enabled == true or Enabled == nil then
 					if Selected then
-						NativeUI.RenderText(ProgressText, Menu.X + NativeUI.Settings.Items.Button.RightText.X + Menu.WidthOffset, Menu.Y + NativeUI.Settings.Items.Button.RightText.Y + Menu.SubtitleHeight + NativeUI.ItemOffset, 0, NativeUI.Settings.Items.Button.RightText.Scale, 0, 0, 0, 255, 2)
+						NativeUI.RenderText(ProgressText, NativeUI.CurrentMenu.X + NativeUI.Settings.Items.Button.RightText.X + NativeUI.CurrentMenu.WidthOffset, NativeUI.CurrentMenu.Y + NativeUI.Settings.Items.Button.RightText.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset, 0, NativeUI.Settings.Items.Button.RightText.Scale, 0, 0, 0, 255, 2)
 
-						NativeUI.RenderText(Label, Menu.X + NativeUI.Settings.Items.Button.Text.X, Menu.Y + NativeUI.Settings.Items.Button.Text.Y + Menu.SubtitleHeight + NativeUI.ItemOffset, 0, NativeUI.Settings.Items.Button.Text.Scale, 0, 0, 0, 255)
+						NativeUI.RenderText(Label, NativeUI.CurrentMenu.X + NativeUI.Settings.Items.Button.Text.X, NativeUI.CurrentMenu.Y + NativeUI.Settings.Items.Button.Text.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset, 0, NativeUI.Settings.Items.Button.Text.Scale, 0, 0, 0, 255)
 
-						NativeUI.RenderRectangle(Menu.X + NativeUI.Settings.Items.Progress.Background.X, Menu.Y + NativeUI.Settings.Items.Progress.Background.Y + Menu.SubtitleHeight + NativeUI.ItemOffset,  NativeUI.Settings.Items.Progress.Background.Width + Menu.WidthOffset, NativeUI.Settings.Items.Progress.Background.Height, 0, 0, 0, 255)
-						NativeUI.RenderRectangle(Menu.X + NativeUI.Settings.Items.Progress.Bar.X, Menu.Y + NativeUI.Settings.Items.Progress.Bar.Y + Menu.SubtitleHeight + NativeUI.ItemOffset, ((Index/#Items) * (NativeUI.Settings.Items.Progress.Bar.Width + Menu.WidthOffset)), NativeUI.Settings.Items.Progress.Bar.Height, 240, 240, 240, 255)
+						NativeUI.RenderRectangle(NativeUI.CurrentMenu.X + NativeUI.Settings.Items.Progress.Background.X, NativeUI.CurrentMenu.Y + NativeUI.Settings.Items.Progress.Background.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset,  NativeUI.Settings.Items.Progress.Background.Width + NativeUI.CurrentMenu.WidthOffset, NativeUI.Settings.Items.Progress.Background.Height, 0, 0, 0, 255)
+						NativeUI.RenderRectangle(NativeUI.CurrentMenu.X + NativeUI.Settings.Items.Progress.Bar.X, NativeUI.CurrentMenu.Y + NativeUI.Settings.Items.Progress.Bar.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset, ((Index/#Items) * (NativeUI.Settings.Items.Progress.Bar.Width + NativeUI.CurrentMenu.WidthOffset)), NativeUI.Settings.Items.Progress.Bar.Height, 240, 240, 240, 255)
 					else
-						NativeUI.RenderText(ProgressText, Menu.X + NativeUI.Settings.Items.Button.RightText.X + Menu.WidthOffset, Menu.Y + NativeUI.Settings.Items.Button.RightText.Y + Menu.SubtitleHeight + NativeUI.ItemOffset, 0, NativeUI.Settings.Items.Button.RightText.Scale, 245, 245, 245, 255, 2)
+						NativeUI.RenderText(ProgressText, NativeUI.CurrentMenu.X + NativeUI.Settings.Items.Button.RightText.X + NativeUI.CurrentMenu.WidthOffset, NativeUI.CurrentMenu.Y + NativeUI.Settings.Items.Button.RightText.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset, 0, NativeUI.Settings.Items.Button.RightText.Scale, 245, 245, 245, 255, 2)
 
-						NativeUI.RenderText(Label, Menu.X + NativeUI.Settings.Items.Button.Text.X, Menu.Y + NativeUI.Settings.Items.Button.Text.Y + Menu.SubtitleHeight + NativeUI.ItemOffset, 0, NativeUI.Settings.Items.Button.Text.Scale, 245, 245, 245, 255)
+						NativeUI.RenderText(Label, NativeUI.CurrentMenu.X + NativeUI.Settings.Items.Button.Text.X, NativeUI.CurrentMenu.Y + NativeUI.Settings.Items.Button.Text.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset, 0, NativeUI.Settings.Items.Button.Text.Scale, 245, 245, 245, 255)
 
-						NativeUI.RenderRectangle(Menu.X + NativeUI.Settings.Items.Progress.Background.X, Menu.Y + NativeUI.Settings.Items.Progress.Background.Y + Menu.SubtitleHeight + NativeUI.ItemOffset,  NativeUI.Settings.Items.Progress.Background.Width + Menu.WidthOffset, NativeUI.Settings.Items.Progress.Background.Height, 240, 240, 240, 255)
-						NativeUI.RenderRectangle(Menu.X + NativeUI.Settings.Items.Progress.Bar.X, Menu.Y + NativeUI.Settings.Items.Progress.Bar.Y + Menu.SubtitleHeight + NativeUI.ItemOffset, ((Index/#Items) * (NativeUI.Settings.Items.Progress.Bar.Width + Menu.WidthOffset)), NativeUI.Settings.Items.Progress.Bar.Height, 0, 0, 0, 255)
+						NativeUI.RenderRectangle(NativeUI.CurrentMenu.X + NativeUI.Settings.Items.Progress.Background.X, NativeUI.CurrentMenu.Y + NativeUI.Settings.Items.Progress.Background.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset,  NativeUI.Settings.Items.Progress.Background.Width + NativeUI.CurrentMenu.WidthOffset, NativeUI.Settings.Items.Progress.Background.Height, 240, 240, 240, 255)
+						NativeUI.RenderRectangle(NativeUI.CurrentMenu.X + NativeUI.Settings.Items.Progress.Bar.X, NativeUI.CurrentMenu.Y + NativeUI.Settings.Items.Progress.Bar.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset, ((Index/#Items) * (NativeUI.Settings.Items.Progress.Bar.Width + NativeUI.CurrentMenu.WidthOffset)), NativeUI.Settings.Items.Progress.Bar.Height, 0, 0, 0, 255)
 					end
 				else
-					NativeUI.RenderText(ProgressText, Menu.X + NativeUI.Settings.Items.Button.RightText.X + Menu.WidthOffset, Menu.Y + NativeUI.Settings.Items.Button.RightText.Y + Menu.SubtitleHeight + NativeUI.ItemOffset, 0, NativeUI.Settings.Items.Button.RightText.Scale, 163, 159, 148, 255, 2)
+					NativeUI.RenderText(ProgressText, NativeUI.CurrentMenu.X + NativeUI.Settings.Items.Button.RightText.X + NativeUI.CurrentMenu.WidthOffset, NativeUI.CurrentMenu.Y + NativeUI.Settings.Items.Button.RightText.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset, 0, NativeUI.Settings.Items.Button.RightText.Scale, 163, 159, 148, 255, 2)
 
-					NativeUI.RenderText(Label, Menu.X + NativeUI.Settings.Items.Button.Text.X, Menu.Y + NativeUI.Settings.Items.Button.Text.Y + Menu.SubtitleHeight + NativeUI.ItemOffset, 0, NativeUI.Settings.Items.Button.Text.Scale, 163, 159, 148, 255)				
+					NativeUI.RenderText(Label, NativeUI.CurrentMenu.X + NativeUI.Settings.Items.Button.Text.X, NativeUI.CurrentMenu.Y + NativeUI.Settings.Items.Button.Text.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset, 0, NativeUI.Settings.Items.Button.Text.Scale, 163, 159, 148, 255)				
 						
 					if Selected then
-						NativeUI.RenderRectangle(Menu.X + NativeUI.Settings.Items.Progress.Background.X, Menu.Y + NativeUI.Settings.Items.Progress.Background.Y + Menu.SubtitleHeight + NativeUI.ItemOffset,  NativeUI.Settings.Items.Progress.Background.Width + Menu.WidthOffset, NativeUI.Settings.Items.Progress.Background.Height, 0, 0, 0, 255)
+						NativeUI.RenderRectangle(NativeUI.CurrentMenu.X + NativeUI.Settings.Items.Progress.Background.X, NativeUI.CurrentMenu.Y + NativeUI.Settings.Items.Progress.Background.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset,  NativeUI.Settings.Items.Progress.Background.Width + NativeUI.CurrentMenu.WidthOffset, NativeUI.Settings.Items.Progress.Background.Height, 0, 0, 0, 255)
 					else
-						NativeUI.RenderRectangle(Menu.X + NativeUI.Settings.Items.Progress.Background.X, Menu.Y + NativeUI.Settings.Items.Progress.Background.Y + Menu.SubtitleHeight + NativeUI.ItemOffset,  NativeUI.Settings.Items.Progress.Background.Width + Menu.WidthOffset, NativeUI.Settings.Items.Progress.Background.Height, 240, 240, 240, 255)
+						NativeUI.RenderRectangle(NativeUI.CurrentMenu.X + NativeUI.Settings.Items.Progress.Background.X, NativeUI.CurrentMenu.Y + NativeUI.Settings.Items.Progress.Background.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset,  NativeUI.Settings.Items.Progress.Background.Width + NativeUI.CurrentMenu.WidthOffset, NativeUI.Settings.Items.Progress.Background.Height, 240, 240, 240, 255)
 					end
 				end
 
 				NativeUI.ItemOffset = NativeUI.ItemOffset + NativeUI.Settings.Items.Progress.Height
 
-				if Selected and Menu.Description ~= Description then
-					Menu.Description = Description or ""
+				if Selected and NativeUI.CurrentMenu.Description ~= Description then
+					NativeUI.CurrentMenu.Description = Description or ""
 
-					local DescriptionLineCount = NativeUI.GetLineCount(Menu.Description, Menu.X + NativeUI.Settings.Items.Description.Text.X, Menu.Y + NativeUI.Settings.Items.Description.Text.Y + Menu.SubtitleHeight + NativeUI.ItemOffset, 0, NativeUI.Settings.Items.Description.Text.Scale, 255, 255, 255, 255, nil, false, false, NativeUI.Settings.Items.Description.Background.Width + Menu.WidthOffset)
+					local DescriptionLineCount = NativeUI.GetLineCount(NativeUI.CurrentMenu.Description, NativeUI.CurrentMenu.X + NativeUI.Settings.Items.Description.Text.X, NativeUI.CurrentMenu.Y + NativeUI.Settings.Items.Description.Text.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset, 0, NativeUI.Settings.Items.Description.Text.Scale, 255, 255, 255, 255, nil, false, false, NativeUI.Settings.Items.Description.Background.Width + NativeUI.CurrentMenu.WidthOffset)
 						
 					if DescriptionLineCount > 1 then
-						Menu.DescriptionHeight = NativeUI.Settings.Items.Description.Background.Height * DescriptionLineCount
+						NativeUI.CurrentMenu.DescriptionHeight = NativeUI.Settings.Items.Description.Background.Height * DescriptionLineCount
 					else
-						Menu.DescriptionHeight = NativeUI.Settings.Items.Description.Background.Height + 7
+						NativeUI.CurrentMenu.DescriptionHeight = NativeUI.Settings.Items.Description.Background.Height + 7
 					end
 				end
 
 				NativeUI.Options = NativeUI.Options + 1
 
-				if Selected and Menu.Controls.Left.Active and not Menu.Controls.Right.Active then
+				if Selected and NativeUI.CurrentMenu.Controls.Left.Active and not NativeUI.CurrentMenu.Controls.Right.Active then
 					Index = Index - 1
 
 					if Index < 1 then
@@ -1353,7 +1357,7 @@ function NativeUI.Progress(Menu, Label, Items, Index, Description, Counter, Enab
 					end
 
 					NativeUI.PlaySound(NativeUI.Settings.Audio.Library, NativeUI.Settings.Audio.LeftRight)
-				elseif Selected and Menu.Controls.Right.Active and not Menu.Controls.Left.Active then
+				elseif Selected and NativeUI.CurrentMenu.Controls.Right.Active and not NativeUI.CurrentMenu.Controls.Left.Active then
 					Index = Index + 1
 
 					if Index > #Items then
@@ -1363,11 +1367,11 @@ function NativeUI.Progress(Menu, Label, Items, Index, Description, Counter, Enab
 					NativeUI.PlaySound(NativeUI.Settings.Audio.Library, NativeUI.Settings.Audio.LeftRight)
 				end
 
-				if Selected and (Menu.Controls.Select.Active or ((Hovered and Menu.Controls.Click.Active) and not ProgressHovered)) then
+				if Selected and (NativeUI.CurrentMenu.Controls.Select.Active or ((Hovered and NativeUI.CurrentMenu.Controls.Click.Active) and not ProgressHovered)) then
 					NativeUI.PlaySound(NativeUI.Settings.Audio.Library, NativeUI.Settings.Audio.Select)
-				elseif Selected and (Hovered and Menu.Controls.Click.Active and ProgressHovered) then
-					local Progress = (math.round(GetControlNormal(0, 239) * 1920) - Menu.SafeZoneSize.X) - NativeUI.Settings.Items.Progress.Bar.X
-					local Barsize = NativeUI.Settings.Items.Progress.Bar.Width + Menu.WidthOffset
+				elseif Selected and (Hovered and NativeUI.CurrentMenu.Controls.Click.Active and ProgressHovered) then
+					local Progress = (math.round(GetControlNormal(0, 239) * 1920) - NativeUI.CurrentMenu.SafeZoneSize.X) - NativeUI.Settings.Items.Progress.Bar.X
+					local Barsize = NativeUI.Settings.Items.Progress.Bar.Width + NativeUI.CurrentMenu.WidthOffset
 
 					if Progress > Barsize then
 						Progress = Barsize
@@ -1382,19 +1386,19 @@ function NativeUI.Progress(Menu, Label, Items, Index, Description, Counter, Enab
 					end
 				end
 
-				Callback(Hovered, Selected, ((Menu.Controls.Select.Active or ((Hovered and Menu.Controls.Click.Active) and not ProgressHovered)) and Selected), Index)
+				Callback(Hovered, Selected, ((NativeUI.CurrentMenu.Controls.Select.Active or ((Hovered and NativeUI.CurrentMenu.Controls.Click.Active) and not ProgressHovered)) and Selected), Index)
 			end
 		end
 	end
 end
 
-function NativeUI.GridPanel(Menu, X, Y, TopText, BottomText, LeftText, RightText, Callback)
-	if Menu ~= nil then
-		if Menu() then
-			local Hovered = IsMouseInBounds(Menu.X + NativeUI.Settings.Panels.Grid.Grid.X + Menu.SafeZoneSize.X + 20, Menu.Y + NativeUI.Settings.Panels.Grid.Grid.Y + Menu.SafeZoneSize.Y + Menu.SubtitleHeight + NativeUI.ItemOffset + 20, NativeUI.Settings.Panels.Grid.Grid.Width + Menu.WidthOffset - 40, NativeUI.Settings.Panels.Grid.Grid.Height - 40)
+function NativeUI.GridPanel(X, Y, TopText, BottomText, LeftText, RightText, Callback)
+	if NativeUI.CurrentMenu ~= nil then
+		if NativeUI.CurrentMenu() then
+			local Hovered = IsMouseInBounds(NativeUI.CurrentMenu.X + NativeUI.Settings.Panels.Grid.Grid.X + NativeUI.CurrentMenu.SafeZoneSize.X + 20, NativeUI.CurrentMenu.Y + NativeUI.Settings.Panels.Grid.Grid.Y + NativeUI.CurrentMenu.SafeZoneSize.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset + 20, NativeUI.Settings.Panels.Grid.Grid.Width + NativeUI.CurrentMenu.WidthOffset - 40, NativeUI.Settings.Panels.Grid.Grid.Height - 40)
 			local Selected = false
-			local CircleX = Menu.X + NativeUI.Settings.Panels.Grid.Grid.X + (Menu.WidthOffset/2) + 20
-			local CircleY = Menu.Y + NativeUI.Settings.Panels.Grid.Grid.Y + Menu.SubtitleHeight + NativeUI.ItemOffset + 20
+			local CircleX = NativeUI.CurrentMenu.X + NativeUI.Settings.Panels.Grid.Grid.X + (NativeUI.CurrentMenu.WidthOffset/2) + 20
+			local CircleY = NativeUI.CurrentMenu.Y + NativeUI.Settings.Panels.Grid.Grid.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset + 20
 
 			if X < 0.0 or X > 1.0 then
 				X = 0.0
@@ -1407,38 +1411,38 @@ function NativeUI.GridPanel(Menu, X, Y, TopText, BottomText, LeftText, RightText
 			CircleX = CircleX + ((NativeUI.Settings.Panels.Grid.Grid.Width - 40) * X) - (NativeUI.Settings.Panels.Grid.Circle.Width/2)
 			CircleY = CircleY + ((NativeUI.Settings.Panels.Grid.Grid.Height - 40) * Y) - (NativeUI.Settings.Panels.Grid.Circle.Height/2)
 
-			NativeUI.RenderSprite(NativeUI.Settings.Panels.Grid.Background.Dictionary, NativeUI.Settings.Panels.Grid.Background.Texture, Menu.X, Menu.Y + NativeUI.Settings.Panels.Grid.Background.Y + Menu.SubtitleHeight + NativeUI.ItemOffset, NativeUI.Settings.Panels.Grid.Background.Width + Menu.WidthOffset, NativeUI.Settings.Panels.Grid.Background.Height)
-			NativeUI.RenderSprite(NativeUI.Settings.Panels.Grid.Grid.Dictionary, NativeUI.Settings.Panels.Grid.Grid.Texture, Menu.X + NativeUI.Settings.Panels.Grid.Grid.X + (Menu.WidthOffset/2), Menu.Y + NativeUI.Settings.Panels.Grid.Grid.Y + Menu.SubtitleHeight + NativeUI.ItemOffset, NativeUI.Settings.Panels.Grid.Grid.Width, NativeUI.Settings.Panels.Grid.Grid.Height)
+			NativeUI.RenderSprite(NativeUI.Settings.Panels.Grid.Background.Dictionary, NativeUI.Settings.Panels.Grid.Background.Texture, NativeUI.CurrentMenu.X, NativeUI.CurrentMenu.Y + NativeUI.Settings.Panels.Grid.Background.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset, NativeUI.Settings.Panels.Grid.Background.Width + NativeUI.CurrentMenu.WidthOffset, NativeUI.Settings.Panels.Grid.Background.Height)
+			NativeUI.RenderSprite(NativeUI.Settings.Panels.Grid.Grid.Dictionary, NativeUI.Settings.Panels.Grid.Grid.Texture, NativeUI.CurrentMenu.X + NativeUI.Settings.Panels.Grid.Grid.X + (NativeUI.CurrentMenu.WidthOffset/2), NativeUI.CurrentMenu.Y + NativeUI.Settings.Panels.Grid.Grid.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset, NativeUI.Settings.Panels.Grid.Grid.Width, NativeUI.Settings.Panels.Grid.Grid.Height)
 			NativeUI.RenderSprite(NativeUI.Settings.Panels.Grid.Circle.Dictionary, NativeUI.Settings.Panels.Grid.Circle.Texture, CircleX, CircleY, NativeUI.Settings.Panels.Grid.Circle.Width, NativeUI.Settings.Panels.Grid.Circle.Height)
 			
-			NativeUI.RenderText(TopText or "", Menu.X + NativeUI.Settings.Panels.Grid.Text.Top.X + (Menu.WidthOffset/2), Menu.Y + NativeUI.Settings.Panels.Grid.Text.Top.Y + Menu.SubtitleHeight + NativeUI.ItemOffset, 0, NativeUI.Settings.Panels.Grid.Text.Top.Scale, 245, 245, 245, 255, 1)
-			NativeUI.RenderText(BottomText or "", Menu.X + NativeUI.Settings.Panels.Grid.Text.Bottom.X + (Menu.WidthOffset/2), Menu.Y + NativeUI.Settings.Panels.Grid.Text.Bottom.Y + Menu.SubtitleHeight + NativeUI.ItemOffset, 0, NativeUI.Settings.Panels.Grid.Text.Bottom.Scale, 245, 245, 245, 255, 1)
-			NativeUI.RenderText(LeftText or "", Menu.X + NativeUI.Settings.Panels.Grid.Text.Left.X + (Menu.WidthOffset/2), Menu.Y + NativeUI.Settings.Panels.Grid.Text.Left.Y + Menu.SubtitleHeight + NativeUI.ItemOffset, 0, NativeUI.Settings.Panels.Grid.Text.Left.Scale, 245, 245, 245, 255, 1)
-			NativeUI.RenderText(RightText or "", Menu.X + NativeUI.Settings.Panels.Grid.Text.Right.X + (Menu.WidthOffset/2), Menu.Y + NativeUI.Settings.Panels.Grid.Text.Right.Y + Menu.SubtitleHeight + NativeUI.ItemOffset, 0, NativeUI.Settings.Panels.Grid.Text.Right.Scale, 245, 245, 245, 255, 1)
+			NativeUI.RenderText(TopText or "", NativeUI.CurrentMenu.X + NativeUI.Settings.Panels.Grid.Text.Top.X + (NativeUI.CurrentMenu.WidthOffset/2), NativeUI.CurrentMenu.Y + NativeUI.Settings.Panels.Grid.Text.Top.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset, 0, NativeUI.Settings.Panels.Grid.Text.Top.Scale, 245, 245, 245, 255, 1)
+			NativeUI.RenderText(BottomText or "", NativeUI.CurrentMenu.X + NativeUI.Settings.Panels.Grid.Text.Bottom.X + (NativeUI.CurrentMenu.WidthOffset/2), NativeUI.CurrentMenu.Y + NativeUI.Settings.Panels.Grid.Text.Bottom.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset, 0, NativeUI.Settings.Panels.Grid.Text.Bottom.Scale, 245, 245, 245, 255, 1)
+			NativeUI.RenderText(LeftText or "", NativeUI.CurrentMenu.X + NativeUI.Settings.Panels.Grid.Text.Left.X + (NativeUI.CurrentMenu.WidthOffset/2), NativeUI.CurrentMenu.Y + NativeUI.Settings.Panels.Grid.Text.Left.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset, 0, NativeUI.Settings.Panels.Grid.Text.Left.Scale, 245, 245, 245, 255, 1)
+			NativeUI.RenderText(RightText or "", NativeUI.CurrentMenu.X + NativeUI.Settings.Panels.Grid.Text.Right.X + (NativeUI.CurrentMenu.WidthOffset/2), NativeUI.CurrentMenu.Y + NativeUI.Settings.Panels.Grid.Text.Right.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset, 0, NativeUI.Settings.Panels.Grid.Text.Right.Scale, 245, 245, 245, 255, 1)
 
 			if Hovered then
 				if IsDisabledControlPressed(0, 24) then
 					Selected = true
 
-					CircleX = math.round(GetControlNormal(0, 239) * 1920) - Menu.SafeZoneSize.X - (NativeUI.Settings.Panels.Grid.Circle.Width/2)
-					CircleY = math.round(GetControlNormal(0, 240) * 1080) - Menu.SafeZoneSize.Y - (NativeUI.Settings.Panels.Grid.Circle.Height/2)
+					CircleX = math.round(GetControlNormal(0, 239) * 1920) - NativeUI.CurrentMenu.SafeZoneSize.X - (NativeUI.Settings.Panels.Grid.Circle.Width/2)
+					CircleY = math.round(GetControlNormal(0, 240) * 1080) - NativeUI.CurrentMenu.SafeZoneSize.Y - (NativeUI.Settings.Panels.Grid.Circle.Height/2)
 
 
 
-					if CircleX > (Menu.X + NativeUI.Settings.Panels.Grid.Grid.X + (Menu.WidthOffset/2) + 20 + NativeUI.Settings.Panels.Grid.Grid.Width - 40) then
-						CircleX = Menu.X + NativeUI.Settings.Panels.Grid.Grid.X + (Menu.WidthOffset/2) + 20 + NativeUI.Settings.Panels.Grid.Grid.Width - 40
-					elseif CircleX < (Menu.X + NativeUI.Settings.Panels.Grid.Grid.X + 20 - (NativeUI.Settings.Panels.Grid.Circle.Width/2)) then
-						CircleX = Menu.X + NativeUI.Settings.Panels.Grid.Grid.X + 20 - (NativeUI.Settings.Panels.Grid.Circle.Width/2)
+					if CircleX > (NativeUI.CurrentMenu.X + NativeUI.Settings.Panels.Grid.Grid.X + (NativeUI.CurrentMenu.WidthOffset/2) + 20 + NativeUI.Settings.Panels.Grid.Grid.Width - 40) then
+						CircleX = NativeUI.CurrentMenu.X + NativeUI.Settings.Panels.Grid.Grid.X + (NativeUI.CurrentMenu.WidthOffset/2) + 20 + NativeUI.Settings.Panels.Grid.Grid.Width - 40
+					elseif CircleX < (NativeUI.CurrentMenu.X + NativeUI.Settings.Panels.Grid.Grid.X + 20 - (NativeUI.Settings.Panels.Grid.Circle.Width/2)) then
+						CircleX = NativeUI.CurrentMenu.X + NativeUI.Settings.Panels.Grid.Grid.X + 20 - (NativeUI.Settings.Panels.Grid.Circle.Width/2)
 					end
 
-					if CircleY > (Menu.Y + NativeUI.Settings.Panels.Grid.Grid.Y + Menu.SubtitleHeight + NativeUI.ItemOffset + 20 + NativeUI.Settings.Panels.Grid.Grid.Height - 40) then
-						CircleY = Menu.Y + NativeUI.Settings.Panels.Grid.Grid.Y + Menu.SubtitleHeight + NativeUI.ItemOffset + 20 + NativeUI.Settings.Panels.Grid.Grid.Height - 40
-					elseif CircleY < (Menu.Y + NativeUI.Settings.Panels.Grid.Grid.Y + Menu.SubtitleHeight + NativeUI.ItemOffset + 20 - (NativeUI.Settings.Panels.Grid.Circle.Height/2)) then
-						CircleY = Menu.Y + NativeUI.Settings.Panels.Grid.Grid.Y + Menu.SubtitleHeight + NativeUI.ItemOffset + 20 - (NativeUI.Settings.Panels.Grid.Circle.Height/2)
+					if CircleY > (NativeUI.CurrentMenu.Y + NativeUI.Settings.Panels.Grid.Grid.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset + 20 + NativeUI.Settings.Panels.Grid.Grid.Height - 40) then
+						CircleY = NativeUI.CurrentMenu.Y + NativeUI.Settings.Panels.Grid.Grid.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset + 20 + NativeUI.Settings.Panels.Grid.Grid.Height - 40
+					elseif CircleY < (NativeUI.CurrentMenu.Y + NativeUI.Settings.Panels.Grid.Grid.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset + 20 - (NativeUI.Settings.Panels.Grid.Circle.Height/2)) then
+						CircleY = NativeUI.CurrentMenu.Y + NativeUI.Settings.Panels.Grid.Grid.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset + 20 - (NativeUI.Settings.Panels.Grid.Circle.Height/2)
 					end
 
-					X = math.round((CircleX - (Menu.X + NativeUI.Settings.Panels.Grid.Grid.X + (Menu.WidthOffset/2) + 20) + (NativeUI.Settings.Panels.Grid.Circle.Width/2)) / (NativeUI.Settings.Panels.Grid.Grid.Width - 40), 2)
-					Y = math.round((CircleY - (Menu.Y + NativeUI.Settings.Panels.Grid.Grid.Y + Menu.SubtitleHeight + NativeUI.ItemOffset + 20) + (NativeUI.Settings.Panels.Grid.Circle.Height/2)) / (NativeUI.Settings.Panels.Grid.Grid.Height - 40), 2)
+					X = math.round((CircleX - (NativeUI.CurrentMenu.X + NativeUI.Settings.Panels.Grid.Grid.X + (NativeUI.CurrentMenu.WidthOffset/2) + 20) + (NativeUI.Settings.Panels.Grid.Circle.Width/2)) / (NativeUI.Settings.Panels.Grid.Grid.Width - 40), 2)
+					Y = math.round((CircleY - (NativeUI.CurrentMenu.Y + NativeUI.Settings.Panels.Grid.Grid.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset + 20) + (NativeUI.Settings.Panels.Grid.Circle.Height/2)) / (NativeUI.Settings.Panels.Grid.Grid.Height - 40), 2)
 
 					if X > 1.0 then X = 1.0 end
 					if Y > 1.0 then Y = 1.0 end
@@ -1456,26 +1460,26 @@ function NativeUI.GridPanel(Menu, X, Y, TopText, BottomText, LeftText, RightText
 	end
 end
 
-function NativeUI.ColourPanel(Menu, Title, Colours, MinimumIndex, CurrentIndex, Callback)
-	if Menu ~= nil then
-		if Menu() then
+function NativeUI.ColourPanel(Title, Colours, MinimumIndex, CurrentIndex, Callback)
+	if NativeUI.CurrentMenu ~= nil then
+		if NativeUI.CurrentMenu() then
 			local Maximum = (#Colours > 9) and 9 or #Colours
-			local Hovered = IsMouseInBounds(Menu.X + NativeUI.Settings.Panels.Colour.Box.X + Menu.SafeZoneSize.X + (Menu.WidthOffset/2), Menu.Y + NativeUI.Settings.Panels.Colour.Box.Y + Menu.SafeZoneSize.Y + Menu.SubtitleHeight + NativeUI.ItemOffset, (NativeUI.Settings.Panels.Colour.Box.Width * Maximum), NativeUI.Settings.Panels.Colour.Box.Height)
-			local LeftArrowHovered = IsMouseInBounds(Menu.X + NativeUI.Settings.Panels.Colour.LeftArrow.X + Menu.SafeZoneSize.X + (Menu.WidthOffset/2), Menu.Y + NativeUI.Settings.Panels.Colour.LeftArrow.Y + Menu.SafeZoneSize.Y + Menu.SubtitleHeight + NativeUI.ItemOffset, NativeUI.Settings.Panels.Colour.LeftArrow.Width, NativeUI.Settings.Panels.Colour.LeftArrow.Height) 
-			local RightArrowHovered = IsMouseInBounds(Menu.X + NativeUI.Settings.Panels.Colour.RightArrow.X + Menu.SafeZoneSize.X + (Menu.WidthOffset/2), Menu.Y + NativeUI.Settings.Panels.Colour.RightArrow.Y + Menu.SafeZoneSize.Y + Menu.SubtitleHeight + NativeUI.ItemOffset, NativeUI.Settings.Panels.Colour.RightArrow.Width, NativeUI.Settings.Panels.Colour.RightArrow.Height) 
+			local Hovered = IsMouseInBounds(NativeUI.CurrentMenu.X + NativeUI.Settings.Panels.Colour.Box.X + NativeUI.CurrentMenu.SafeZoneSize.X + (NativeUI.CurrentMenu.WidthOffset/2), NativeUI.CurrentMenu.Y + NativeUI.Settings.Panels.Colour.Box.Y + NativeUI.CurrentMenu.SafeZoneSize.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset, (NativeUI.Settings.Panels.Colour.Box.Width * Maximum), NativeUI.Settings.Panels.Colour.Box.Height)
+			local LeftArrowHovered = IsMouseInBounds(NativeUI.CurrentMenu.X + NativeUI.Settings.Panels.Colour.LeftArrow.X + NativeUI.CurrentMenu.SafeZoneSize.X + (NativeUI.CurrentMenu.WidthOffset/2), NativeUI.CurrentMenu.Y + NativeUI.Settings.Panels.Colour.LeftArrow.Y + NativeUI.CurrentMenu.SafeZoneSize.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset, NativeUI.Settings.Panels.Colour.LeftArrow.Width, NativeUI.Settings.Panels.Colour.LeftArrow.Height) 
+			local RightArrowHovered = IsMouseInBounds(NativeUI.CurrentMenu.X + NativeUI.Settings.Panels.Colour.RightArrow.X + NativeUI.CurrentMenu.SafeZoneSize.X + (NativeUI.CurrentMenu.WidthOffset/2), NativeUI.CurrentMenu.Y + NativeUI.Settings.Panels.Colour.RightArrow.Y + NativeUI.CurrentMenu.SafeZoneSize.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset, NativeUI.Settings.Panels.Colour.RightArrow.Width, NativeUI.Settings.Panels.Colour.RightArrow.Height) 
 			local Selected = false
 
-			NativeUI.RenderSprite(NativeUI.Settings.Panels.Colour.Background.Dictionary, NativeUI.Settings.Panels.Colour.Background.Texture, Menu.X, Menu.Y + NativeUI.Settings.Panels.Colour.Background.Y + Menu.SubtitleHeight + NativeUI.ItemOffset, NativeUI.Settings.Panels.Colour.Background.Width + Menu.WidthOffset, NativeUI.Settings.Panels.Colour.Background.Height)
-			NativeUI.RenderSprite(NativeUI.Settings.Panels.Colour.LeftArrow.Dictionary, NativeUI.Settings.Panels.Colour.LeftArrow.Texture, Menu.X + NativeUI.Settings.Panels.Colour.LeftArrow.X + (Menu.WidthOffset/2), Menu.Y + NativeUI.Settings.Panels.Colour.LeftArrow.Y + Menu.SubtitleHeight + NativeUI.ItemOffset, NativeUI.Settings.Panels.Colour.LeftArrow.Width, NativeUI.Settings.Panels.Colour.LeftArrow.Height)
-			NativeUI.RenderSprite(NativeUI.Settings.Panels.Colour.RightArrow.Dictionary, NativeUI.Settings.Panels.Colour.RightArrow.Texture, Menu.X + NativeUI.Settings.Panels.Colour.RightArrow.X + (Menu.WidthOffset/2), Menu.Y + NativeUI.Settings.Panels.Colour.RightArrow.Y + Menu.SubtitleHeight + NativeUI.ItemOffset, NativeUI.Settings.Panels.Colour.RightArrow.Width, NativeUI.Settings.Panels.Colour.RightArrow.Height)
+			NativeUI.RenderSprite(NativeUI.Settings.Panels.Colour.Background.Dictionary, NativeUI.Settings.Panels.Colour.Background.Texture, NativeUI.CurrentMenu.X, NativeUI.CurrentMenu.Y + NativeUI.Settings.Panels.Colour.Background.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset, NativeUI.Settings.Panels.Colour.Background.Width + NativeUI.CurrentMenu.WidthOffset, NativeUI.Settings.Panels.Colour.Background.Height)
+			NativeUI.RenderSprite(NativeUI.Settings.Panels.Colour.LeftArrow.Dictionary, NativeUI.Settings.Panels.Colour.LeftArrow.Texture, NativeUI.CurrentMenu.X + NativeUI.Settings.Panels.Colour.LeftArrow.X + (NativeUI.CurrentMenu.WidthOffset/2), NativeUI.CurrentMenu.Y + NativeUI.Settings.Panels.Colour.LeftArrow.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset, NativeUI.Settings.Panels.Colour.LeftArrow.Width, NativeUI.Settings.Panels.Colour.LeftArrow.Height)
+			NativeUI.RenderSprite(NativeUI.Settings.Panels.Colour.RightArrow.Dictionary, NativeUI.Settings.Panels.Colour.RightArrow.Texture, NativeUI.CurrentMenu.X + NativeUI.Settings.Panels.Colour.RightArrow.X + (NativeUI.CurrentMenu.WidthOffset/2), NativeUI.CurrentMenu.Y + NativeUI.Settings.Panels.Colour.RightArrow.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset, NativeUI.Settings.Panels.Colour.RightArrow.Width, NativeUI.Settings.Panels.Colour.RightArrow.Height)
 
-			NativeUI.RenderRectangle(Menu.X + NativeUI.Settings.Panels.Colour.SelectedRectangle.X + (NativeUI.Settings.Panels.Colour.Box.Width * (CurrentIndex - MinimumIndex)) + (Menu.WidthOffset/2), Menu.Y + NativeUI.Settings.Panels.Colour.SelectedRectangle.Y + Menu.SubtitleHeight + NativeUI.ItemOffset, NativeUI.Settings.Panels.Colour.SelectedRectangle.Width, NativeUI.Settings.Panels.Colour.SelectedRectangle.Height, 245, 245, 245, 255)
+			NativeUI.RenderRectangle(NativeUI.CurrentMenu.X + NativeUI.Settings.Panels.Colour.SelectedRectangle.X + (NativeUI.Settings.Panels.Colour.Box.Width * (CurrentIndex - MinimumIndex)) + (NativeUI.CurrentMenu.WidthOffset/2), NativeUI.CurrentMenu.Y + NativeUI.Settings.Panels.Colour.SelectedRectangle.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset, NativeUI.Settings.Panels.Colour.SelectedRectangle.Width, NativeUI.Settings.Panels.Colour.SelectedRectangle.Height, 245, 245, 245, 255)
 
 			for Index = 1, Maximum do
-				NativeUI.RenderRectangle(Menu.X + NativeUI.Settings.Panels.Colour.Box.X + (NativeUI.Settings.Panels.Colour.Box.Width * (Index - 1)) + (Menu.WidthOffset/2), Menu.Y + NativeUI.Settings.Panels.Colour.Box.Y + Menu.SubtitleHeight + NativeUI.ItemOffset, NativeUI.Settings.Panels.Colour.Box.Width, NativeUI.Settings.Panels.Colour.Box.Height, table.unpack(Colours[MinimumIndex + Index - 1]))
+				NativeUI.RenderRectangle(NativeUI.CurrentMenu.X + NativeUI.Settings.Panels.Colour.Box.X + (NativeUI.Settings.Panels.Colour.Box.Width * (Index - 1)) + (NativeUI.CurrentMenu.WidthOffset/2), NativeUI.CurrentMenu.Y + NativeUI.Settings.Panels.Colour.Box.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset, NativeUI.Settings.Panels.Colour.Box.Width, NativeUI.Settings.Panels.Colour.Box.Height, table.unpack(Colours[MinimumIndex + Index - 1]))
 			end
 
-			NativeUI.RenderText((Title and Title or "").." ("..CurrentIndex.." of "..#Colours..")", Menu.X + NativeUI.Settings.Panels.Grid.Text.Top.X + (Menu.WidthOffset/2), Menu.Y + NativeUI.Settings.Panels.Grid.Text.Top.Y + Menu.SubtitleHeight + NativeUI.ItemOffset, 0, NativeUI.Settings.Panels.Grid.Text.Top.Scale, 245, 245, 245, 255, 1)
+			NativeUI.RenderText((Title and Title or "").." ("..CurrentIndex.." of "..#Colours..")", NativeUI.CurrentMenu.X + NativeUI.Settings.Panels.Grid.Text.Top.X + (NativeUI.CurrentMenu.WidthOffset/2), NativeUI.CurrentMenu.Y + NativeUI.Settings.Panels.Grid.Text.Top.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset, 0, NativeUI.Settings.Panels.Grid.Text.Top.Scale, 245, 245, 245, 255, 1)
 			
 			if Hovered or LeftArrowHovered or RightArrowHovered then
 				if NativeUI.Settings.Controls.Click.Active then
@@ -1501,7 +1505,7 @@ function NativeUI.ColourPanel(Menu, Title, Colours, MinimumIndex, CurrentIndex, 
 						end
 					elseif Hovered then
 						for Index = 1, Maximum do
-							if IsMouseInBounds(Menu.X + NativeUI.Settings.Panels.Colour.Box.X + (NativeUI.Settings.Panels.Colour.Box.Width * (Index - 1)) + Menu.SafeZoneSize.X + (Menu.WidthOffset/2), Menu.Y + NativeUI.Settings.Panels.Colour.Box.Y + Menu.SafeZoneSize.Y + Menu.SubtitleHeight + NativeUI.ItemOffset, NativeUI.Settings.Panels.Colour.Box.Width, NativeUI.Settings.Panels.Colour.Box.Height) then
+							if IsMouseInBounds(NativeUI.CurrentMenu.X + NativeUI.Settings.Panels.Colour.Box.X + (NativeUI.Settings.Panels.Colour.Box.Width * (Index - 1)) + NativeUI.CurrentMenu.SafeZoneSize.X + (NativeUI.CurrentMenu.WidthOffset/2), NativeUI.CurrentMenu.Y + NativeUI.Settings.Panels.Colour.Box.Y + NativeUI.CurrentMenu.SafeZoneSize.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset, NativeUI.Settings.Panels.Colour.Box.Width, NativeUI.Settings.Panels.Colour.Box.Height) then
 								CurrentIndex = MinimumIndex + Index - 1
 							end
 						end
@@ -1520,10 +1524,10 @@ function NativeUI.ColourPanel(Menu, Title, Colours, MinimumIndex, CurrentIndex, 
 	end
 end
 
-function NativeUI.PercentagePanel(Menu, Percent, HeaderText, MinText, MaxText, Callback)
-	if Menu ~= nil then
-		if Menu() then
-			local Hovered = IsMouseInBounds(Menu.X + NativeUI.Settings.Panels.Percentage.Bar.X + Menu.SafeZoneSize.X, Menu.Y + NativeUI.Settings.Panels.Percentage.Bar.Y + Menu.SafeZoneSize.Y + Menu.SubtitleHeight + NativeUI.ItemOffset - 4, NativeUI.Settings.Panels.Percentage.Bar.Width + Menu.WidthOffset, NativeUI.Settings.Panels.Percentage.Bar.Height + 8)
+function NativeUI.PercentagePanel(Percent, HeaderText, MinText, MaxText, Callback)
+	if NativeUI.CurrentMenu ~= nil then
+		if NativeUI.CurrentMenu() then
+			local Hovered = IsMouseInBounds(NativeUI.CurrentMenu.X + NativeUI.Settings.Panels.Percentage.Bar.X + NativeUI.CurrentMenu.SafeZoneSize.X, NativeUI.CurrentMenu.Y + NativeUI.Settings.Panels.Percentage.Bar.Y + NativeUI.CurrentMenu.SafeZoneSize.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset - 4, NativeUI.Settings.Panels.Percentage.Bar.Width + NativeUI.CurrentMenu.WidthOffset, NativeUI.Settings.Panels.Percentage.Bar.Height + 8)
 			local Selected = false
 			local Progress = NativeUI.Settings.Panels.Percentage.Bar.Width
 
@@ -1535,19 +1539,19 @@ function NativeUI.PercentagePanel(Menu, Percent, HeaderText, MinText, MaxText, C
 
 			Progress = Progress * Percent
 
-			NativeUI.RenderSprite(NativeUI.Settings.Panels.Percentage.Background.Dictionary, NativeUI.Settings.Panels.Percentage.Background.Texture, Menu.X, Menu.Y + NativeUI.Settings.Panels.Percentage.Background.Y + Menu.SubtitleHeight + NativeUI.ItemOffset, NativeUI.Settings.Panels.Percentage.Background.Width + Menu.WidthOffset, NativeUI.Settings.Panels.Percentage.Background.Height)
-			NativeUI.RenderRectangle(Menu.X + NativeUI.Settings.Panels.Percentage.Bar.X + (Menu.WidthOffset/2), Menu.Y + NativeUI.Settings.Panels.Percentage.Bar.Y + Menu.SubtitleHeight + NativeUI.ItemOffset, NativeUI.Settings.Panels.Percentage.Bar.Width, NativeUI.Settings.Panels.Percentage.Bar.Height, 87, 87, 87, 255)
-			NativeUI.RenderRectangle(Menu.X + NativeUI.Settings.Panels.Percentage.Bar.X + (Menu.WidthOffset/2), Menu.Y + NativeUI.Settings.Panels.Percentage.Bar.Y + Menu.SubtitleHeight + NativeUI.ItemOffset, Progress, NativeUI.Settings.Panels.Percentage.Bar.Height, 245, 245, 245, 255)
+			NativeUI.RenderSprite(NativeUI.Settings.Panels.Percentage.Background.Dictionary, NativeUI.Settings.Panels.Percentage.Background.Texture, NativeUI.CurrentMenu.X, NativeUI.CurrentMenu.Y + NativeUI.Settings.Panels.Percentage.Background.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset, NativeUI.Settings.Panels.Percentage.Background.Width + NativeUI.CurrentMenu.WidthOffset, NativeUI.Settings.Panels.Percentage.Background.Height)
+			NativeUI.RenderRectangle(NativeUI.CurrentMenu.X + NativeUI.Settings.Panels.Percentage.Bar.X + (NativeUI.CurrentMenu.WidthOffset/2), NativeUI.CurrentMenu.Y + NativeUI.Settings.Panels.Percentage.Bar.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset, NativeUI.Settings.Panels.Percentage.Bar.Width, NativeUI.Settings.Panels.Percentage.Bar.Height, 87, 87, 87, 255)
+			NativeUI.RenderRectangle(NativeUI.CurrentMenu.X + NativeUI.Settings.Panels.Percentage.Bar.X + (NativeUI.CurrentMenu.WidthOffset/2), NativeUI.CurrentMenu.Y + NativeUI.Settings.Panels.Percentage.Bar.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset, Progress, NativeUI.Settings.Panels.Percentage.Bar.Height, 245, 245, 245, 255)
 
-			NativeUI.RenderText(HeaderText or "Opacity", Menu.X + NativeUI.Settings.Panels.Percentage.Text.Middle.X + (Menu.WidthOffset/2), Menu.Y + NativeUI.Settings.Panels.Percentage.Text.Middle.Y + Menu.SubtitleHeight + NativeUI.ItemOffset, 0, NativeUI.Settings.Panels.Percentage.Text.Middle.Scale, 245, 245, 245, 255, 1)
-			NativeUI.RenderText(MinText or "0%", Menu.X + NativeUI.Settings.Panels.Percentage.Text.Left.X + (Menu.WidthOffset/2), Menu.Y + NativeUI.Settings.Panels.Percentage.Text.Left.Y + Menu.SubtitleHeight + NativeUI.ItemOffset, 0, NativeUI.Settings.Panels.Percentage.Text.Left.Scale, 245, 245, 245, 255, 1)
-			NativeUI.RenderText(MaxText or "100%", Menu.X + NativeUI.Settings.Panels.Percentage.Text.Right.X + (Menu.WidthOffset/2), Menu.Y + NativeUI.Settings.Panels.Percentage.Text.Right.Y + Menu.SubtitleHeight + NativeUI.ItemOffset, 0, NativeUI.Settings.Panels.Percentage.Text.Right.Scale, 245, 245, 245, 255, 1)
+			NativeUI.RenderText(HeaderText or "Opacity", NativeUI.CurrentMenu.X + NativeUI.Settings.Panels.Percentage.Text.Middle.X + (NativeUI.CurrentMenu.WidthOffset/2), NativeUI.CurrentMenu.Y + NativeUI.Settings.Panels.Percentage.Text.Middle.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset, 0, NativeUI.Settings.Panels.Percentage.Text.Middle.Scale, 245, 245, 245, 255, 1)
+			NativeUI.RenderText(MinText or "0%", NativeUI.CurrentMenu.X + NativeUI.Settings.Panels.Percentage.Text.Left.X + (NativeUI.CurrentMenu.WidthOffset/2), NativeUI.CurrentMenu.Y + NativeUI.Settings.Panels.Percentage.Text.Left.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset, 0, NativeUI.Settings.Panels.Percentage.Text.Left.Scale, 245, 245, 245, 255, 1)
+			NativeUI.RenderText(MaxText or "100%", NativeUI.CurrentMenu.X + NativeUI.Settings.Panels.Percentage.Text.Right.X + (NativeUI.CurrentMenu.WidthOffset/2), NativeUI.CurrentMenu.Y + NativeUI.Settings.Panels.Percentage.Text.Right.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset, 0, NativeUI.Settings.Panels.Percentage.Text.Right.Scale, 245, 245, 245, 255, 1)
 
 			if Hovered then
 				if IsDisabledControlPressed(0, 24) then
 					Selected = true
 
-					Progress = math.round(GetControlNormal(0, 239) * 1920) - Menu.SafeZoneSize.X - (Menu.X + NativeUI.Settings.Panels.Percentage.Bar.X + (Menu.WidthOffset/2))
+					Progress = math.round(GetControlNormal(0, 239) * 1920) - NativeUI.CurrentMenu.SafeZoneSize.X - (NativeUI.CurrentMenu.X + NativeUI.Settings.Panels.Percentage.Bar.X + (NativeUI.CurrentMenu.WidthOffset/2))
 
 					if Progress < 0 then
 						Progress = 0
@@ -1570,9 +1574,9 @@ function NativeUI.PercentagePanel(Menu, Percent, HeaderText, MinText, MaxText, C
 	end
 end
 
-function NativeUI.HeritageWindow(Menu, Mum, Dad)
-	if Menu ~= nil then
-		if Menu() then
+function NativeUI.HeritageWindow(Mum, Dad)
+	if NativeUI.CurrentMenu ~= nil then
+		if NativeUI.CurrentMenu() then
 			if Mum < 0 or Mum > 21 then
 				Mum = 0
 			end
@@ -1593,9 +1597,9 @@ function NativeUI.HeritageWindow(Menu, Mum, Dad)
 				Dad = "male_"..Dad
 			end
 
-			NativeUI.RenderSprite(NativeUI.Settings.Windows.Heritage.Background.Dictionary, NativeUI.Settings.Windows.Heritage.Background.Texture, Menu.X + (Menu.WidthOffset/2), Menu.Y + Menu.SubtitleHeight + NativeUI.ItemOffset, NativeUI.Settings.Windows.Heritage.Background.Width, NativeUI.Settings.Windows.Heritage.Background.Height)
-			NativeUI.RenderSprite(NativeUI.Settings.Windows.Heritage.Dad.Dictionary, Dad, Menu.X + NativeUI.Settings.Windows.Heritage.Dad.X + (Menu.WidthOffset/2), Menu.Y + Menu.SubtitleHeight + NativeUI.ItemOffset, NativeUI.Settings.Windows.Heritage.Dad.Width, NativeUI.Settings.Windows.Heritage.Dad.Height)
-			NativeUI.RenderSprite(NativeUI.Settings.Windows.Heritage.Mum.Dictionary, Mum, Menu.X + NativeUI.Settings.Windows.Heritage.Mum.X + (Menu.WidthOffset/2), Menu.Y + Menu.SubtitleHeight + NativeUI.ItemOffset, NativeUI.Settings.Windows.Heritage.Mum.Width, NativeUI.Settings.Windows.Heritage.Mum.Height)
+			NativeUI.RenderSprite(NativeUI.Settings.Windows.Heritage.Background.Dictionary, NativeUI.Settings.Windows.Heritage.Background.Texture, NativeUI.CurrentMenu.X + (NativeUI.CurrentMenu.WidthOffset/2), NativeUI.CurrentMenu.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset, NativeUI.Settings.Windows.Heritage.Background.Width, NativeUI.Settings.Windows.Heritage.Background.Height)
+			NativeUI.RenderSprite(NativeUI.Settings.Windows.Heritage.Dad.Dictionary, Dad, NativeUI.CurrentMenu.X + NativeUI.Settings.Windows.Heritage.Dad.X + (NativeUI.CurrentMenu.WidthOffset/2), NativeUI.CurrentMenu.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset, NativeUI.Settings.Windows.Heritage.Dad.Width, NativeUI.Settings.Windows.Heritage.Dad.Height)
+			NativeUI.RenderSprite(NativeUI.Settings.Windows.Heritage.Mum.Dictionary, Mum, NativeUI.CurrentMenu.X + NativeUI.Settings.Windows.Heritage.Mum.X + (NativeUI.CurrentMenu.WidthOffset/2), NativeUI.CurrentMenu.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset, NativeUI.Settings.Windows.Heritage.Mum.Width, NativeUI.Settings.Windows.Heritage.Mum.Height)
 
 			NativeUI.ItemOffset = NativeUI.ItemOffset + NativeUI.Settings.Windows.Heritage.Background.Height
 		end
@@ -1603,7 +1607,7 @@ function NativeUI.HeritageWindow(Menu, Mum, Dad)
 end
 
 Citizen.CreateThread(function()
-	local NewMenu = NativeUI.CreateMenu("Title", "Subtitle", 0, 0)
+	local NewMenu = NativeUI.CreateMenu("Title", "Subtitle", 1920/2 - (431/2) - 100, 0)
 	NewMenu.Safezone = true
 	NewMenu.WidthOffset = 100
 	local Indexes = {1,1,2,1,1,1}
@@ -1619,91 +1623,67 @@ Citizen.CreateThread(function()
 			NativeUI.Visible(NewMenu, not NativeUI.Visible(NewMenu))
 		end
 
-		if NativeUI.Visible(NewMenu) then
+		if NativeUI.Visible() then
 			ShowCursorThisFrame()
 
-			NativeUI.Title(NewMenu)
-			NativeUI.Subtitle(NewMenu)
+			NativeUI.Title()
+			NativeUI.Subtitle()
 
-			NativeUI.HeritageWindow(NewMenu, Mum, Dad)
+			NativeUI.HeritageWindow(Mum, Dad)
 
-			NativeUI.List(NewMenu, "List", {1, 2, 3}, Indexes[1], "Save your current settings. All saving is done on the client side, if you re-install windows you will lose your settings. Settings are shared across all servers using vMenu.", true, function(Hovered, Active, Selected, Index)
+			NativeUI.List("List", {1, 2, 3}, Indexes[1], "Save your current settings. All saving is done on the client side, if you re-install windows you will lose your settings. Settings are shared across all servers using vMenu.", true, function(Hovered, Active, Selected, Index)
 				Indexes[1] = Index
 			end)
 
-			NativeUI.List(NewMenu, "List", {0, 0, 0}, Indexes[2], "Save your current settings. All saving is done on the client side, if you re-install windows you will lose your settings. Settings are shared across all servers using vMenu.", true, function(Hovered, Active, Selected, Index)
+			NativeUI.List("List", {0, 0, 0}, Indexes[2], "Save your current settings. All saving is done on the client side, if you re-install windows you will lose your settings. Settings are shared across all servers using vMenu.", true, function(Hovered, Active, Selected, Index)
 				Indexes[2] = Index
 			end)
 
-			NativeUI.Button(NewMenu, "HelloHello", "LMAO", "WorldWorld", NativeUI.BadgeStyle.BronzeMedal, NativeUI.BadgeStyle.GoldMedal, true, function(Hovered, Active, Selected)
+			NativeUI.Button("HelloHello", "LMAO", "WorldWorld", NativeUI.BadgeStyle.BronzeMedal, NativeUI.BadgeStyle.GoldMedal, true, function(Hovered, Active, Selected)
 				if Selected then Citizen.Trace("Ello") end
 			end)
 
-			NativeUI.Button(NewMenu, "Hello", "LMAO", "World", NativeUI.BadgeStyle.BronzeMedal, nil, false, function(Hovered, Active, Selected)
+			NativeUI.Button("Hello", "LMAO", "World", NativeUI.BadgeStyle.BronzeMedal, nil, false, function(Hovered, Active, Selected)
 				if Selected then Citizen.Trace("Ello2") end
 			end)
 
-			NativeUI.Checkbox(NewMenu, "Meep", "LMAO", Checkedboxes[1], true, function(Hovered, Active, Selected, Checked)
+			NativeUI.Checkbox("Meep", "LMAO", Checkedboxes[1], true, function(Hovered, Active, Selected, Checked)
 				if Selected then
 					Checkedboxes[1] = Checked
 				end
 			end)
 
-			NativeUI.Checkbox(NewMenu, "Meep", "LMAO", Checkedboxes[2], true, function(Hovered, Active, Selected, Checked)
+			NativeUI.Checkbox("Meep", "LMAO", Checkedboxes[2], true, function(Hovered, Active, Selected, Checked)
 				if Selected then
 					Checkedboxes[2] = Checked
 				end
 			end)
 
-			NativeUI.Checkbox(NewMenu, "Meep", "LMAO", Checkedboxes[3], false, function(Hovered, Active, Selected, Checked)
+			NativeUI.Checkbox("Meep", "LMAO", Checkedboxes[3], false, function(Hovered, Active, Selected, Checked)
 				if Selected then
 					Checkedboxes[3] = Checked
 				end
 			end)
-
-			NativeUI.Slider(NewMenu, "Meep", {1, 2, 3}, Indexes[3], "LMAO", true, true, function(Hovered, Active, Selected, Index)
-				Indexes[3] = Index
-			end)
-
-			NativeUI.Slider(NewMenu, "Meep", {1, 2, 3}, Indexes[3], "LMAO", true, true, function(Hovered, Active, Selected, Index)
-				Indexes[3] = Index
-			end)
-
-			NativeUI.Slider(NewMenu, "Meep", {1, 2, 3}, Indexes[3], "LMAO", true, true, function(Hovered, Active, Selected, Index)
-				Indexes[3] = Index
-			end)
-
-			NativeUI.Slider(NewMenu, "Meep", {1, 2, 3}, Indexes[3], "LMAO", true, true, function(Hovered, Active, Selected, Index)
-				Indexes[3] = Index
-			end)
-
-			NativeUI.Slider(NewMenu, "Meep", {1, 2, 3}, Indexes[3], "LMAO", true, true, function(Hovered, Active, Selected, Index)
-				Indexes[3] = Index
-			end)
-
-			NativeUI.Slider(NewMenu, "Meep", {1, 2, 3}, Indexes[3], "LMAO", true, true, function(Hovered, Active, Selected, Index)
-				Indexes[3] = Index
-			end)
 			
-			NativeUI.Background(NewMenu)
+			NativeUI.Background()
 
-			NativeUI.Description(NewMenu)
+			NativeUI.Description()
 
-			NativeUI.GridPanel(NewMenu, Grid.X, Grid.Y, "TopText", "BottomText", "LeftText", "RightText", function(Hovered, Active, X, Y)
+			NativeUI.GridPanel(Grid.X, Grid.Y, "TopText", "BottomText", "LeftText", "RightText", function(Hovered, Active, X, Y)
 				Grid.X = X
 				Grid.Y = Y
 			end)
 
-			NativeUI.PercentagePanel(NewMenu, Percentage, nil, nil, nil, function(Hovered, Active, Percent)
+			NativeUI.PercentagePanel(Percentage, nil, nil, nil, function(Hovered, Active, Percent)
 				Percentage = Percent
 			end)
 
-			NativeUI.ColourPanel(NewMenu, "Colour", {{255, 0, 0}, {0, 255, 0}, {255, 255, 0}, {0, 255, 255}, {255, 0, 0}, {0, 255, 0}, {255, 255, 0}, {0, 255, 255}, {255, 255, 0}, {0, 255, 255}}, Colour[1], Colour[2], function(Hovered, Active, MinimumIndex, CurrentIndex)
+			NativeUI.ColourPanel("Colour", {{255, 0, 0}, {0, 255, 0}, {255, 255, 0}, {0, 255, 255}, {255, 0, 0}, {0, 255, 0}, {255, 255, 0}, {0, 255, 255}, {255, 255, 0}, {0, 255, 255}}, Colour[1], Colour[2], function(Hovered, Active, MinimumIndex, CurrentIndex)
 				Colour[1] = MinimumIndex
 				Colour[2] = CurrentIndex
 			end)
 
-			NativeUI.Render(NewMenu)
+			NativeUI.Render()
 		end
 	end
 end)
