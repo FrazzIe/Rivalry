@@ -34,7 +34,11 @@ AddEventHandler('police:forensicssync', function(data, type, type2, key)
 		TriggerClientEvent('police:forensicssync_client', -1, "wep" ,wepevidence)
 	end
 	if type == "wepevidence" and type2 == "remove" then
-		table.remove(wepevidence, key)
+		if #wepevidence <= 1 then
+			wepevidence = {}
+		else
+			table.remove(wepevidence, key)
+		end
 		TriggerClientEvent('police:forensicssync_client', -1, "wep" ,wepevidence)
 	end
 	if type == "pickedupevidence" and  type2 == "add" then
@@ -42,7 +46,10 @@ AddEventHandler('police:forensicssync', function(data, type, type2, key)
 		TriggerClientEvent('police:forensicssync_client', -1, "pickedupevidence" ,picked_evidence)
 	end
 	if type == "pickedupevidence" and type2 == "remove" then
-		if key <= #picked_evidence then
+		if #picked_evidence < 1 then
+			picked_evidence = {}
+			TriggerClientEvent('police:forensicssync_client', -1, "pickedupevidence" ,picked_evidence)
+		else
 			table.remove(picked_evidence, key)
 			TriggerClientEvent('police:forensicssync_client', -1, "pickedupevidence" ,picked_evidence)
 		end
@@ -52,7 +59,11 @@ AddEventHandler('police:forensicssync', function(data, type, type2, key)
 		TriggerClientEvent('police:forensicssync_client', -1, "fpevidence" ,fpevidence)
 	end
 	if type == "fpevidence" and type2 == "remove" then
-		table.remove(fpevidence, key)
+		if #fpevidence < 1 then
+			fpevidence = {}
+		else
+			table.remove(fpevidence, key)
+		end
 		TriggerClientEvent('police:forensicssync_client', -1, "fpevidence" ,fpevidence)
 	end
 	if type == "pickedupfp" and  type2 == "add" then
@@ -60,7 +71,10 @@ AddEventHandler('police:forensicssync', function(data, type, type2, key)
 		TriggerClientEvent('police:forensicssync_client', -1, "pickedupfp" ,swab_fingerprints)
 	end
 	if type == "pickedupfp" and type2 == "remove" then
-		if key <= #swab_fingerprints then
+		if #swab_fingerprints < 1 then
+			swab_fingerprints = {}
+			TriggerClientEvent('police:forensicssync_client', -1, "pickedupfp" ,swab_fingerprints)
+		else
 			table.remove(swab_fingerprints, key)
 			TriggerClientEvent('police:forensicssync_client', -1, "pickedupfp" ,swab_fingerprints)
 		end
