@@ -106,7 +106,7 @@ bone_config = {
 		rotation = {x = 0.0, y = 75.0, z = 0.0}, 
 		model = "w_sg_doublebarrel"
 	},--]]
-	["WEAPON_SNIPERRIFLE"] = {
+	--[[["WEAPON_SNIPERRIFLE"] = {
 		bone = 24818,
 		coordinates = {x = 0.1, y = -0.15, z = 0.0}, 
 		rotation = {x = 0.0, y = 0.0, z = 0.0},
@@ -123,7 +123,7 @@ bone_config = {
 		coordinates = {x = 0.1, y = -0.15, z = 0.0}, 
 		rotation = {x = 0.0, y = 0.0, z = 0.0}, 
 		model = "w_sr_marksmanrifle"
-	},
+	},--]]
 	["WEAPON_BATTLEAXE"] = {
 		bone = 24818,
 		coordinates = {x = -0.1, y = -0.15, z = 0.07},
