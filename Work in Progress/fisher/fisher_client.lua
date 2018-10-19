@@ -473,7 +473,7 @@ end
 											TriggerEvent('inventory:removeQty', j.Id, currentItemIndex)
 											TriggerServerEvent('sellFish', currentItemIndex, i)
 											j.sold = j.sold + 1
-											TriggerServerEvent('fluxiateMarket', Fishing.Data.Store.Items)
+											TriggerServerEvent('fluxiateMarket', v.Items)
 										else
 											TriggerEvent('chatMessage', "You don't have that fish! Come back when you do!")
 										end

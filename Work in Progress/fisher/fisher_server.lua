@@ -84,11 +84,12 @@ AddEventHandler('updatePrices', function(mostSoldFish, leastSoldFish)
 end)
 
 RegisterServerEvent('fluxiateMarket')
-AddEventHandler('fluxiateMarket', function(table)
+AddEventHandler('fluxiateMarket', function(_table)
 	local source = source
 	local queryTable = {}
+	local table = _table
 	exports['GHMattiMySQL']:QueryResultAsync("SELECT * FROM fish_market WHERE (id = @id)", {["@id"] = 1}, function(search)
-		table.insert(queryTable, search[1])	
+		queryTable = search
 	end)
 
 	fish = exports['GHMattiMySQL']:QueryAsync("UPDATE fish_market SET (`Snook`, `Pompano`, `Snapper`, `Redfish`, `Bass`, `Mackerel`, `Herring`, `Salmon`, `Barracuda`, `Tuna`, `Yellowfish`) = @Snook, @Pompano, @Snapper, @Redfish, @Bass, @Mackerel, @Herring, @Salmon, @Barracuda, @Tuna, @Yellowfish) WHERE ( `id` = @id );", { 
