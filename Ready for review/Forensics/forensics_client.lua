@@ -92,9 +92,9 @@ Citizen.CreateThread(function()
 				location = street
 			}
 			if #all_evidence >= 1 then
-				for k, v in ipairs(picked_evidence) do
-					for a, b in ipairs(picked_evidence) do
-						if(v.ped == b.ped and Vdist(v.x, v.y, v.z, b.x, b.y, b.z) > 15) then
+				for k, v in ipairs(all_evidence) do
+					for a, b in ipairs(all_evidence) do
+						if(v.ped ~= b.ped and Vdist(v.x, v.y, v.z, b.x, b.y, b.z) > 15) then
 							TriggerServerEvent('police:forensicssync', evidence, "wepevidence", "add", 0)
 							Citizen.Wait(1000)
 						end
