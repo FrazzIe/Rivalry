@@ -66,19 +66,21 @@ local prices = {50,50,50,50,150,175,200,225,250,275}
 local previousTime = 0
 RegisterServerEvent('updatePrices')
 AddEventHandler('updatePrices', function(mostSoldFish, leastSoldFish)
-	local time = os.time()
-	if(previousTime == 0)then
-		previousTime = time
-		prices[mostSoldFish] = prices[mostSoldFish] - 25
-		prices[leastSoldFish] = prices[leastSoldFish] + 25
-	elseif previousTime - time <= -7200 then
-		prices = {50,50,50,50,150,175,200,225,250,275}
-		prices[mostSoldFish] = prices[mostSoldFish] - 25
-		prices[leastSoldFish] = prices[leastSoldFish] + 25
-	else
-		if prices[mostSoldFish] <= 500 and prices[leastSoldFish] >= 25 then
+	if mostSoldFish ~= 0 and leastSoldFish ~= 0 then
+		local time = os.time()
+		if(previousTime == 0)then
+			previousTime = time
 			prices[mostSoldFish] = prices[mostSoldFish] - 25
 			prices[leastSoldFish] = prices[leastSoldFish] + 25
+		elseif previousTime - time <= -7200 then
+			prices = {50,50,50,50,150,175,200,225,250,275}
+			prices[mostSoldFish] = prices[mostSoldFish] - 25
+			prices[leastSoldFish] = prices[leastSoldFish] + 25
+		else
+			if prices[mostSoldFish] <= 500 and prices[leastSoldFish] >= 25 then
+				prices[mostSoldFish] = prices[mostSoldFish] - 25
+				prices[leastSoldFish] = prices[leastSoldFish] + 25
+			end
 		end
 	end
 end)
@@ -106,14 +108,14 @@ AddEventHandler('fluxiateMarket', function(_table)
 	    	['@id'] = 1,
 		})
 
-		local mostSoldFish = math.max(unpack(fish))
-		local leastSoldFish = math.min(unpack(fish))
 		for k, v in ipairs(fish) do
-			if mostSoldFish == v then
-				mostSoldFishIndex = k
-			end
-			if leastSoldFish == v then
-				leastSoldFishIndex = k
+			for a, b in ipairs(fish) do
+				if v > b then
+					mostSoldFishIndex = k
+				end
+				if v < b then
+					leastSoldFishIndex = k
+				end
 			end
 		end
 		TriggerEvent('updatePrices', mostSoldFishIndex, leastSoldFishIndex)
