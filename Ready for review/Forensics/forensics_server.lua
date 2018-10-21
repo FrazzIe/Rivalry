@@ -10,16 +10,14 @@ local collectedblood = {}
 RegisterServerEvent('police:forensicssyncevidence')
 AddEventHandler('police:forensicssyncevidence', function(type, gun, ped)
 	local source = source
-	local weapons = {}
+	local id = nil
 	if type == "weapon" then
 		TriggerEvent("weapon:getuser", ped, function(_weapon)
 			for k,v in pairs(_weapon) do
-				if v.model == gun then
-					table.insert(weapons, v.id)
-				end
+				id = v.id
 			end
 		end)
-		TriggerClientEvent('police:forensics_return', source, weapons)
+		TriggerClientEvent('police:forensics_return', source, id)
 	end
 	if type == "nameofweapon" then
 		TriggerClientEvent('police:forensics_weapon', source, Weapons_names[gun])
@@ -46,20 +44,19 @@ AddEventHandler('police:forensicssync', function(data, type, type2, key)
 		TriggerClientEvent('police:forensicssync_client', -1, "pickedupevidence" ,picked_evidence)
 	end
 	if type == "pickedupevidence" and type2 == "remove" then
-		if #picked_evidence < 1 then
+		if #picked_evidence <= 1 then
 			picked_evidence = {}
-			TriggerClientEvent('police:forensicssync_client', -1, "pickedupevidence" ,picked_evidence)
 		else
 			table.remove(picked_evidence, key)
-			TriggerClientEvent('police:forensicssync_client', -1, "pickedupevidence" ,picked_evidence)
 		end
+		TriggerClientEvent('police:forensicssync_client', -1, "pickedupevidence" ,picked_evidence)
 	end
 	if type == "fpevidence" and  type2 == "add" then
 		table.insert(fpevidence, data)
 		TriggerClientEvent('police:forensicssync_client', -1, "fpevidence" ,fpevidence)
 	end
 	if type == "fpevidence" and type2 == "remove" then
-		if #fpevidence < 1 then
+		if #fpevidence <= 1 then
 			fpevidence = {}
 		else
 			table.remove(fpevidence, key)
@@ -71,13 +68,12 @@ AddEventHandler('police:forensicssync', function(data, type, type2, key)
 		TriggerClientEvent('police:forensicssync_client', -1, "pickedupfp" ,swab_fingerprints)
 	end
 	if type == "pickedupfp" and type2 == "remove" then
-		if #swab_fingerprints < 1 then
+		if #swab_fingerprints <= 1 then
 			swab_fingerprints = {}
-			TriggerClientEvent('police:forensicssync_client', -1, "pickedupfp" ,swab_fingerprints)
 		else
 			table.remove(swab_fingerprints, key)
-			TriggerClientEvent('police:forensicssync_client', -1, "pickedupfp" ,swab_fingerprints)
 		end
+		TriggerClientEvent('police:forensicssync_client', -1, "pickedupfp" ,swab_fingerprints)
 	end
 	if type == "wep" then
 		TriggerClientEvent("chatMessage", source, "", {16, 102, 158}, "Forensics Evidence(Ballistics):")
@@ -110,20 +106,15 @@ AddEventHandler('police:forensicssync', function(data, type, type2, key)
 end)
 
 RegisterServerEvent('police:checkprint')
-AddEventHandler('police:checkprint', function(evidence, player, key)
+AddEventHandler('police:checkprint', function(name)
 	local source = source
-	local character_id = 0
-	local firstname, lastname = "",""
-	TriggerEvent("core:getuser", player, function(user)
-		character_id = user.get("characterID")
-		firstname = user.get("first_name")
-		lastname = user.get("last_name")
-	end)
-	exports['GHMattiMySQL']:QueryResultAsync("SELECT * FROM mdt_arrest WHERE offender_character_id=@character_id", {["@character_id"] = character_id}, function(value)
+	--local character_id = 0
+	--exports['GHMattiMySQL']:QueryResultAsync("SELECT * FROM mdt_arrest WHERE offender_character_id=@character_id", {["@character_id"] = character_id}, function(value)
+	exports['GHMattiMySQL']:QueryResultAsync("SELECT * FROM police_arrests WHERE offender_name=@offender_name", {["@offender_name"] = name}, function(value)
 		if (#value > 0) then
-			TriggerClientEvent('police:print_results', source, "sucesss" ,firstname, lastname)
+			TriggerClientEvent('police:print_results', source, "sucesss" , name)
 		else
-			TriggerClientEvent('police:print_results', source, "nomatch", firstname, lastname)
+			TriggerClientEvent('police:print_results', source, "nomatch", name)
 		end
 	end)
 	TriggerEvent('police:forensicssync', "", "pickedupfp", "remove", key)

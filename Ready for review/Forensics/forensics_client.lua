@@ -44,9 +44,9 @@ __________        .__  .__  .__          __  .__         ___________     .__    
         \/      \/                  \/               \/          \/              \/    \/     \/     \/    \/ 
 --]]
 RegisterNetEvent('police:forensics_return')
-AddEventHandler('police:forensics_return', function(table)
-	if #table >= 1 then
-		Chat_Message("Results", "The bullet has noticeable markings to a weapon in the Los Santos Ballistics Database. The bullet matches to a weapon with the Serial Number "..table[1].id, 255, 0, 0, true)
+AddEventHandler('police:forensics_return', function(id)
+	if id ~= nil then
+		Chat_Message("Results", "The bullet has noticeable markings to a weapon in the Los Santos Ballistics Database. The bullet matches to a weapon with the Serial Number "..id, 255, 0, 0, true)
 	else
 		Chat_Message("Results", "The bullet seems to have came from a weapon not registered in the Los Santos Ballistics Database",255, 0, 0, true)
 	end
@@ -138,9 +138,7 @@ Citizen.CreateThread(function()
 					Notify("Examining Ballistics Evidence...", 10000)
 					Citizen.Wait(10000)
 					local probability = math.random(1, 100)
-					if probability >= 60 then
-						Chat_Message("Results", "^0The bullet was not able to provide any links to a type of gun.", 255, 0, 0, true)
-					elseif probability < 60 and probability > 20 then
+					if probability > 50 then
 						local gunhash = picked_evidence[selectedEvidence].gun
 						local gun = Weaponhashes[tostring(gunhash)]
 						TriggerServerEvent('police:forensicssyncevidence', "nameofweapon", gun, picked_evidence[selectedEvidence].ped)
@@ -191,9 +189,9 @@ AddEventHandler('police:vehicleswab', function(swabedcar)
 end)
 
 RegisterNetEvent('police:print_results')
-AddEventHandler('police:print_results', function(type, firstname, lastname)
+AddEventHandler('police:print_results', function(type, name)
 	if type == "sucesss" then
-		Chat_Message("Results", "^0The fingerprint matches to someone who has been arrested | Name: "..firstname.." "..lastname, 255, 0, 0, true)
+		Chat_Message("Results", "^0The fingerprint matches to someone who has been arrested | Name: "..name, 255, 0, 0, true)
 
 	end
 	if type == "nomatch" then
@@ -210,7 +208,7 @@ Citizen.CreateThread(function()
 			local ped = PlayerPedId()
 			if GetPedDrawableVariation(PlayerPedId(), 3) < 16 then
 				local fingerprint = {
-					player = PlayerId(),
+					player = exports.core:GetCharacterName(GetPlayerServerId(PlayerId())),
 					plate = plate
 				}
 				if #fingerprints >= 1 then
@@ -246,8 +244,7 @@ Citizen.CreateThread(function()
 					end
 					Notify("Examining Fingerprint, Cross Referencing with Los Santos Fingerprint Database", 60000)
 					Citizen.Wait(60000)
-					local playerv = collectedprint[selectedEvidenceFP].player
-					TriggerServerEvent('police:checkprint', GetPlayerServerId(playerv), selectedEvidenceFP)
+					TriggerServerEvent('police:checkprint', collectedprint[selectedEvidenceFP].player)
 					selectedEvidenceFP = 0
 				end
 			end
