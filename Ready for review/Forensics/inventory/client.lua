@@ -710,7 +710,7 @@ function Messages(value)
     elseif value == 5 then
         Notify("There is no player near you!")
     elseif value == 6 then
-        Notify("You mkust be facing the car you wish to bleach!")
+        Notify("You must be facing the car you wish to bleach!")
     end
 end
 --==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--
