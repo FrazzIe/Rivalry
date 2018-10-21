@@ -1,8 +1,6 @@
+local IsFisher, OnDuty, Help = true, false, false
 Fishing = {
 	Data = {
-		IsFisher = true,
-		OnDuty = false,
-		Help = false,
 		Locations = {
 			Service = {x = -257.85943603516, y = 6144.1479492188, z = 31.525817871094, h = 217.2476348877},
 			Boat = {},
@@ -189,10 +187,10 @@ end
 Citizen.CreateThread(function()
     while true do
         Citizen.Wait(0)
-        if Fishing.Data.Help == true then
+        if Help == true then
             drawHelpJobF()
             if IsControlJustPressed(0, 177) then
-                Fishing.Data.Help = false
+                Help = false
             end
         end
     end
@@ -334,8 +332,8 @@ end
 -- Networking Events
 	RegisterNetEvent('fisher:set')
 	AddEventHandler("fisher:set", function(_isFisher)
-		Fishing.Data.OnDuty = false
-		Fishing.Data.IsFisher = _isFisher
+		OnDuty = false
+		IsFisher = _isFisher
 	end)
 
 	RegisterNetEvent('fisher:boat')
@@ -361,27 +359,27 @@ end
 			Citizen.Wait(0)
 			local ped = PlayerPedId()
 			local pos = GetEntityCoords(ped, false)
-			if Fishing.Data.isFisher then
+			if isFisher then
 				if(Vdist(pos.x, pos.y, pos.z, Fishing.Data.Locations.Service.x, Fishing.Data.Locations.Service.y, Fishing.Data.Locations.Service.z) < 10) then
 					DrawMarker(25, Fishing.Data.Locations.Service.x, Fishing.Data.Locations.Service.y, Fishing.Data.Locations.Service.z - 1, 0, 0, 0, 0, 0, 0, 1.0, 1.0, 1.5, 0, 0, 255, 155, 0, 0, 2, 0, 0, 0, 0)
 					if Vdist(pos.x, pos.y, pos.z, Fishing.Data.Locations.Service.x, Fishing.Data.Locations.Service.y, Fishing.Data.Locations.Service.z) < 1 then
-						if Fishing.Data.OnDuty then
+						if OnDuty then
 							DisplayHelpText("Press ~INPUT_CONTEXT~ to sign off duty!")
 						else
 							DisplayHelpText("Press ~INPUT_CONTEXT~ to sign on duty!")
 						end
 						if(IsControlJustPressed(1,51)) then
-							if Fishing.Data.OnDuty then
-								Fishing.Data.Help = false
+							if OnDuty then
+								Help = false
 							else
-								Fishing.Data.Help = true
+								Help = true
 							end
-							Fishing.Data.OnDuty = not Fishing.Data.OnDuty
+							OnDuty = not OnDuty
 							fisherBlips()
 						end
 					end	
 				end
-				if Fishing.Data.OnDuty then
+				if OnDuty then
 					for k, v in ipairs(Fishing.Data.Pier) do
 						if Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 10 then
 							DisplayHelpText("Press ~INPUT_CONTEXT~ to start fishing!")

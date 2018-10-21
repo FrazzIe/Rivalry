@@ -86,45 +86,38 @@ end)
 RegisterServerEvent('fluxiateMarket')
 AddEventHandler('fluxiateMarket', function(_table)
 	local source = source
-	local queryTable = {}
 	local table = _table
-	exports['GHMattiMySQL']:QueryResultAsync("SELECT * FROM fish_market WHERE (id = @id)", {["@id"] = 1}, function(search)
-		queryTable = search
-	end)
-
-	fish = exports['GHMattiMySQL']:QueryAsync("UPDATE fish_market SET (`Snook`, `Pompano`, `Snapper`, `Redfish`, `Bass`, `Mackerel`, `Herring`, `Salmon`, `Barracuda`, `Tuna`, `Yellowfish`) = @Snook, @Pompano, @Snapper, @Redfish, @Bass, @Mackerel, @Herring, @Salmon, @Barracuda, @Tuna, @Yellowfish) WHERE ( `id` = @id );", { 
-	    ['@Snook'] = table[1].sold + queryTable.Snook,
-	    ['@Pompano'] = table[2].sold + queryTable.Pompano,
-	    ['@Snapper'] = table[3].sold + queryTable.Snapper,
-	    ['@Redfish'] = table[4].sold + queryTable.Redfish,
-	    ['@Bass'] = table[5].sold + queryTable.Bass,
-	    ['@Mackerel'] = table[6].sold + queryTable.Mackerel,
-	    ['@Herring'] = table[7].sold + queryTable.Herring,
-	    ['@Salmon'] = table[8].sold + queryTable.Salmon,
-	    ['@Barracuda'] = table[9].sold + queryTable.Barracuda,
-	    ['@Tuna'] = table[10].sold + queryTable.Tuna,
-	    ['@Yellowfish'] = table[11].sold + queryTable.Yellowfish,
-	    ['@id'] = 1,
-	})
-
 	local values = {}
-
-	for i = 1, #fish do
-		table.insert(values, fish[i])
-	end
-	local mostSoldFish = math.max(unpack(fish))
-	local leastSoldFish = math.min(unpack(fish))
 	local mostSoldFishIndex = 0
 	local leastSoldFishIndex = 0
-	for i = 1, #fish do 
-		if mostSoldFish == fish[i] then
-			mostSoldFishIndex = i
+	exports['GHMattiMySQL']:QueryResultAsync("SELECT * FROM fish_market WHERE (id = @id)", {["@id"] = 1}, function(queryTable)
+		fish = exports['GHMattiMySQL']:QueryAsync("UPDATE fish_market SET (`Snook`, `Pompano`, `Snapper`, `Redfish`, `Bass`, `Mackerel`, `Herring`, `Salmon`, `Barracuda`, `Tuna`, `Yellowfish`) = @Snook, @Pompano, @Snapper, @Redfish, @Bass, @Mackerel, @Herring, @Salmon, @Barracuda, @Tuna, @Yellowfish) WHERE ( `id` = @id );", { 
+		    ['@Snook'] = table[1].sold + queryTable[1].Snook,
+		    ['@Pompano'] = table[2].sold + queryTable[1].Pompano,
+		    ['@Snapper'] = table[3].sold + queryTable[1].Snapper,
+		    ['@Redfish'] = table[4].sold + queryTable[1].Redfish,
+		    ['@Bass'] = table[5].sold + queryTable[1].Bass,
+		    ['@Mackerel'] = table[6].sold + queryTable[1].Mackerel,
+		    ['@Herring'] = table[7].sold + queryTable[1].Herring,
+		    ['@Salmon'] = table[8].sold + queryTable[1].Salmon,
+		    ['@Barracuda'] = table[9].sold + queryTable[1].Barracuda,
+		    ['@Tuna'] = table[10].sold + queryTable[1].Tuna,
+		    ['@Yellowfish'] = table[11].sold + queryTable[1].Yellowfish,
+	    	['@id'] = 1,
+		})
+
+		local mostSoldFish = math.max(unpack(fish))
+		local leastSoldFish = math.min(unpack(fish))
+		for k, v in ipairs(fish) do
+			if mostSoldFish == v then
+				mostSoldFishIndex = k
+			end
+			if leastSoldFish == v then
+				leastSoldFishIndex = k
+			end
 		end
-		if leastSoldFish == fish[i] then
-			leastSoldFishIndex = i
-		end
-	end
-	TriggerEvent('updatePrices', mostSoldFishIndex, leastSoldFishIndex)
+		TriggerEvent('updatePrices', mostSoldFishIndex, leastSoldFishIndex)
+	end)
 end)
 
 RegisterServerEvent('sellFish')
