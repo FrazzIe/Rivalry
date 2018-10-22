@@ -55,13 +55,7 @@ UI.Data.BadgeTexture = {
 }
 
 UI.Data.BadgeDictionary = {
-    [0] = function(Selected)
-        if Selected then
-            return "commonmenu"
-        else
-            return "commonmenu"
-        end
-    end,
+    [0] = function(Selected) if Selected then return "commonmenu" else return "commonmenu" end end,
 }
 
 UI.Data.BadgeColour = {

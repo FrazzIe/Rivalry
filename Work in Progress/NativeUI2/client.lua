@@ -1,3 +1,11 @@
+function math.round(num, numDecimalPlaces)
+	return tonumber(string.format("%." .. (numDecimalPlaces or 0) .. "f", num))
+end
+
+function string.starts(String, Start)
+	return string.sub(String, 1, string.len(Start)) == Start
+end
+
 NativeUI = {}
 NativeUI.Menus = setmetatable({}, NativeUI.Menus)
 NativeUI.Menus.__call = function() return true end
@@ -218,9 +226,113 @@ NativeUI.Settings = {
 		},
 	},
 }
+NativeUI.BadgeStyle = {
+	None = 1,
+	BronzeMedal = 2,
+	GoldMedal = 3,
+	SilverMedal = 4,
+	Alert = 5,
+	Crown = 6,
+	Ammo = 7,
+	Armour = 8,
+	Barber = 9,
+	Clothes = 10,
+	Franklin = 11,
+	Bike = 12,
+	Car = 13,
+	Gun = 14,
+	Heart = 15,
+	Makeup = 16,
+	Mask = 17,
+	Michael = 18,
+	Star = 19,
+	Tattoo = 20,
+	Trevor = 21, 
+	Lock = 22,
+	Tick = 23
+}
+NativeUI.BadgeTexture = {
+    [1] = function() return "" end,
+    [2] = function() return "mp_medal_bronze" end,
+    [3] = function() return "mp_medal_gold" end,
+    [4] = function() return "medal_silver" end,
+    [5] = function() return "mp_alerttriangle" end,
+    [6] = function() return "mp_hostcrown" end,
+    [7] = function(Selected) if Selected then return "shop_ammo_icon_b" else return "shop_ammo_icon_a" end end,
+    [8] = function(Selected) if Selected then return "shop_armour_icon_b" else return "shop_armour_icon_a" end end,
+    [9] = function(Selected) if Selected then return "shop_barber_icon_b" else return "shop_barber_icon_a"  end end,
+    [10] = function(Selected) if Selected then return "shop_clothing_icon_b" else return "shop_clothing_icon_a" end end,
+    [11] = function(Selected) if Selected then return "shop_franklin_icon_b" else return "shop_franklin_icon_a" end end,
+    [12] = function(Selected) if Selected then return "shop_garage_bike_icon_b" else return "shop_garage_bike_icon_a" end end,
+    [13] = function(Selected) if Selected then return "shop_garage_icon_b" else return "shop_garage_icon_a" end end,
+    [14] = function(Selected) if Selected then return "shop_gunclub_icon_b" else return "shop_gunclub_icon_a" end end,
+    [15] = function(Selected) if Selected then return "shop_health_icon_b" else return "shop_health_icon_a" end end,
+    [16] = function(Selected) if Selected then return "shop_makeup_icon_b" else return "shop_makeup_icon_a" end end,
+    [17] = function(Selected) if Selected then return "shop_mask_icon_b" else return "shop_mask_icon_a" end end,
+    [18] = function(Selected) if Selected then return "shop_michael_icon_b" else return "shop_michael_icon_a" end end,
+    [19] = function() return "shop_new_star" end,
+    [20] = function(Selected) if Selected then return "shop_tattoos_icon_b" else return "shop_tattoos_icon_a" end end,
+    [21] = function(Selected) if Selected then return "shop_trevor_icon_b" else return "shop_trevor_icon_a" end end,
+    [22] = function() return "shop_lock" end,
+    [23] = function() return "shop_tick_icon" end,
+}
+NativeUI.BadgeDictionary = {
+	[1] = function(Selected) if Selected then return "commonmenu" else return "commonmenu" end end,
+}
+NativeUI.BadgeColour = {
+    [6] = function(Selected) if Selected then return 0, 0, 0, 255 else return 255, 255, 255, 255 end end,
+    [22] = function(Selected) if Selected then return 0, 0, 0, 255 else return 255, 255, 255, 255 end end,
+    [23] = function(Selected) if Selected then return 0, 0, 0, 255 else return 255, 255, 255, 255 end end,
+}
 
-function string.starts(String, Start)
-	return string.sub(String, 1, string.len(Start)) == Start
+function NativeUI.IsMouseInBounds(X, Y, Width, Height)
+	local MX, MY = math.round(GetControlNormal(0, 239) * 1920)/1920, math.round(GetControlNormal(0, 240) * 1080)/1080
+    X, Y = X/1920, Y/1080
+    Width, Height = Width/1920, Height/1080
+	return (MX >= X and MX <= X + Width) and (MY > Y and MY < Y + Height)
+end
+
+function NativeUI.GetSafeZoneBounds()
+	local SafeSize = GetSafeZoneSize()
+	SafeSize = math.round(SafeSize, 2)
+	SafeSize = (SafeSize * 100) - 90
+	SafeSize = 10 - SafeSize
+
+	local W, H = 1920, 1080
+
+	return {X = math.round(SafeSize * ((W/H) * 5.4)), Y = math.round(SafeSize * 5.4)}
+end
+
+function NativeUI.MeasureStringWidth(str, font, scale)
+    BeginTextCommandWidth("STRING")
+    AddTextComponentSubstringPlayerName(str)
+    SetTextFont(font or 0)
+    SetTextScale(1.0, scale or 0)
+    return EndTextCommandGetWidth(true) * 1920
+end
+
+function NativeUI.GetBadgeTexture(Badge, Selected)
+	if NativeUI.BadgeTexture[Badge] then
+		return NativeUI.BadgeTexture[Badge](Selected)
+	else
+		return ""
+	end
+end
+
+function NativeUI.GetBadgeDictionary(Badge, Selected)
+	if NativeUI.BadgeDictionary[Badge] then
+		return NativeUI.BadgeDictionary[Badge](Selected)
+	else
+		return "commonmenu"
+	end
+end
+
+function NativeUI.GetBadgeColour(Badge, Selected)
+	if NativeUI.BadgeColour[Badge] then
+		return NativeUI.BadgeColour[Badge](Selected)
+	else
+		return 255, 255, 255, 255
+	end
 end
 
 function NativeUI.PlaySound(Library, Sound, IsLooped)
@@ -533,7 +645,7 @@ function NativeUI.Controls()
 
 				DisableAllControlActions(2)
 
-		        if Controller() then
+		        if not IsInputDisabled(2) then
 		            for Index = 1, #NativeUI.CurrentMenu.Controls.Enabled.Controller do
 		                EnableControlAction(NativeUI.CurrentMenu.Controls.Enabled.Controller[Index][1], NativeUI.CurrentMenu.Controls.Enabled.Controller[Index][2], true)
 		            end
@@ -753,7 +865,7 @@ function NativeUI.Title()
 				NativeUI.CurrentMenu.SafeZoneSize = {X = 0, Y = 0}
 
 				if NativeUI.CurrentMenu.Safezone then
-					NativeUI.CurrentMenu.SafeZoneSize = GetSafeZoneBounds()
+					NativeUI.CurrentMenu.SafeZoneSize = NativeUI.GetSafeZoneBounds()
 
 					ScreenDrawPositionBegin(76, 84)
 					ScreenDrawPositionRatio(0, 0, 0, 0)
@@ -780,7 +892,7 @@ function NativeUI.Subtitle()
 				NativeUI.CurrentMenu.SafeZoneSize = {X = 0, Y = 0}
 
 				if NativeUI.CurrentMenu.Safezone then
-					NativeUI.CurrentMenu.SafeZoneSize = GetSafeZoneBounds()
+					NativeUI.CurrentMenu.SafeZoneSize = NativeUI.GetSafeZoneBounds()
 
 					ScreenDrawPositionBegin(76, 84)
 					ScreenDrawPositionRatio(0, 0, 0, 0)
@@ -808,7 +920,7 @@ function NativeUI.Background()
 				NativeUI.CurrentMenu.SafeZoneSize = {X = 0, Y = 0}
 
 				if NativeUI.CurrentMenu.Safezone then
-					NativeUI.CurrentMenu.SafeZoneSize = GetSafeZoneBounds()
+					NativeUI.CurrentMenu.SafeZoneSize = NativeUI.GetSafeZoneBounds()
 
 					ScreenDrawPositionBegin(76, 84)
 					ScreenDrawPositionRatio(0, 0, 0, 0)
@@ -833,15 +945,15 @@ function NativeUI.Navigation()
 					NativeUI.CurrentMenu.SafeZoneSize = {X = 0, Y = 0}
 
 					if NativeUI.CurrentMenu.Safezone then
-						NativeUI.CurrentMenu.SafeZoneSize = GetSafeZoneBounds()
+						NativeUI.CurrentMenu.SafeZoneSize = NativeUI.GetSafeZoneBounds()
 
 						ScreenDrawPositionBegin(76, 84)
 						ScreenDrawPositionRatio(0, 0, 0, 0)
 					end
 				end
 
-				UpHovered = IsMouseInBounds(NativeUI.CurrentMenu.X + NativeUI.CurrentMenu.SafeZoneSize.X, NativeUI.CurrentMenu.Y + NativeUI.CurrentMenu.SafeZoneSize.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset, NativeUI.Settings.Items.Navigation.Rectangle.Width + NativeUI.CurrentMenu.WidthOffset, NativeUI.Settings.Items.Navigation.Rectangle.Height)
-				DownHovered = IsMouseInBounds(NativeUI.CurrentMenu.X + NativeUI.CurrentMenu.SafeZoneSize.X, NativeUI.CurrentMenu.Y + NativeUI.Settings.Items.Navigation.Rectangle.Height + NativeUI.CurrentMenu.SafeZoneSize.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset, NativeUI.Settings.Items.Navigation.Rectangle.Width + NativeUI.CurrentMenu.WidthOffset, NativeUI.Settings.Items.Navigation.Rectangle.Height)
+				UpHovered = NativeUI.IsMouseInBounds(NativeUI.CurrentMenu.X + NativeUI.CurrentMenu.SafeZoneSize.X, NativeUI.CurrentMenu.Y + NativeUI.CurrentMenu.SafeZoneSize.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset, NativeUI.Settings.Items.Navigation.Rectangle.Width + NativeUI.CurrentMenu.WidthOffset, NativeUI.Settings.Items.Navigation.Rectangle.Height)
+				DownHovered = NativeUI.IsMouseInBounds(NativeUI.CurrentMenu.X + NativeUI.CurrentMenu.SafeZoneSize.X, NativeUI.CurrentMenu.Y + NativeUI.Settings.Items.Navigation.Rectangle.Height + NativeUI.CurrentMenu.SafeZoneSize.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset, NativeUI.Settings.Items.Navigation.Rectangle.Width + NativeUI.CurrentMenu.WidthOffset, NativeUI.Settings.Items.Navigation.Rectangle.Height)
 
 				if NativeUI.CurrentMenu.Controls.Click.Active then
 					if UpHovered then
@@ -878,7 +990,7 @@ function NativeUI.Description()
 				NativeUI.CurrentMenu.SafeZoneSize = {X = 0, Y = 0}
 
 				if NativeUI.CurrentMenu.Safezone then
-					NativeUI.CurrentMenu.SafeZoneSize = GetSafeZoneBounds()
+					NativeUI.CurrentMenu.SafeZoneSize = NativeUI.GetSafeZoneBounds()
 
 					ScreenDrawPositionBegin(76, 84)
 					ScreenDrawPositionRatio(0, 0, 0, 0)
@@ -952,14 +1064,14 @@ function NativeUI.Button(Label, Description, RightLabel, LeftBadge, RightBadge, 
 					NativeUI.CurrentMenu.SafeZoneSize = {X = 0, Y = 0}
 
 					if NativeUI.CurrentMenu.Safezone then
-						NativeUI.CurrentMenu.SafeZoneSize = GetSafeZoneBounds()
+						NativeUI.CurrentMenu.SafeZoneSize = NativeUI.GetSafeZoneBounds()
 
 						ScreenDrawPositionBegin(76, 84)
 						ScreenDrawPositionRatio(0, 0, 0, 0)
 					end
 				end
 
-				Hovered = IsMouseInBounds(NativeUI.CurrentMenu.X + NativeUI.CurrentMenu.SafeZoneSize.X, NativeUI.CurrentMenu.Y + NativeUI.Settings.Items.Button.Rectangle.Y + NativeUI.CurrentMenu.SafeZoneSize.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset, NativeUI.Settings.Items.Button.Rectangle.Width + NativeUI.CurrentMenu.WidthOffset, NativeUI.Settings.Items.Button.Rectangle.Height)
+				Hovered = NativeUI.IsMouseInBounds(NativeUI.CurrentMenu.X + NativeUI.CurrentMenu.SafeZoneSize.X, NativeUI.CurrentMenu.Y + NativeUI.Settings.Items.Button.Rectangle.Y + NativeUI.CurrentMenu.SafeZoneSize.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset, NativeUI.Settings.Items.Button.Rectangle.Width + NativeUI.CurrentMenu.WidthOffset, NativeUI.Settings.Items.Button.Rectangle.Height)
 				
 				local LeftBadgeOffset = ((LeftBadge == NativeUI.BadgeStyle.None or tonumber(LeftBadge) == nil) and 0 or 27)
 				local RightBadgeOffset =  ((RightBadge == NativeUI.BadgeStyle.None or tonumber(RightBadge) == nil) and 0 or 27)
@@ -1021,8 +1133,6 @@ function NativeUI.Button(Label, Description, RightLabel, LeftBadge, RightBadge, 
 					end
 				end
 
-				NativeUI.Options = NativeUI.Options + 1
-
 				Callback(Hovered, Selected, ((NativeUI.CurrentMenu.Controls.Select.Active or (Hovered and NativeUI.CurrentMenu.Controls.Click.Active)) and Selected))
 
 				if Selected and (NativeUI.CurrentMenu.Controls.Select.Active or (Hovered and NativeUI.CurrentMenu.Controls.Click.Active)) then
@@ -1035,6 +1145,8 @@ function NativeUI.Button(Label, Description, RightLabel, LeftBadge, RightBadge, 
 					end
 				end
 			end
+
+			NativeUI.Options = NativeUI.Options + 1
 		end
 	end
 end
@@ -1052,14 +1164,14 @@ function NativeUI.Checkbox(Label, Description, Checked, Enabled, Callback)
 					NativeUI.CurrentMenu.SafeZoneSize = {X = 0, Y = 0}
 
 					if NativeUI.CurrentMenu.Safezone then
-						NativeUI.CurrentMenu.SafeZoneSize = GetSafeZoneBounds()
+						NativeUI.CurrentMenu.SafeZoneSize = NativeUI.GetSafeZoneBounds()
 
 						ScreenDrawPositionBegin(76, 84)
 						ScreenDrawPositionRatio(0, 0, 0, 0)
 					end
 				end
 
-				Hovered = IsMouseInBounds(NativeUI.CurrentMenu.X + NativeUI.CurrentMenu.SafeZoneSize.X, NativeUI.CurrentMenu.Y + NativeUI.Settings.Items.Button.Rectangle.Y + NativeUI.CurrentMenu.SafeZoneSize.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset, NativeUI.Settings.Items.Button.Rectangle.Width + NativeUI.CurrentMenu.WidthOffset, NativeUI.Settings.Items.Button.Rectangle.Height)
+				Hovered = NativeUI.IsMouseInBounds(NativeUI.CurrentMenu.X + NativeUI.CurrentMenu.SafeZoneSize.X, NativeUI.CurrentMenu.Y + NativeUI.Settings.Items.Button.Rectangle.Y + NativeUI.CurrentMenu.SafeZoneSize.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset, NativeUI.Settings.Items.Button.Rectangle.Width + NativeUI.CurrentMenu.WidthOffset, NativeUI.Settings.Items.Button.Rectangle.Height)
 
 				if Hovered and not Selected then
 					NativeUI.RenderRectangle(NativeUI.CurrentMenu.X, NativeUI.CurrentMenu.Y + NativeUI.Settings.Items.Button.Rectangle.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset,  NativeUI.Settings.Items.Button.Rectangle.Width + NativeUI.CurrentMenu.WidthOffset, NativeUI.Settings.Items.Button.Rectangle.Height, 255, 255, 255, 20)
@@ -1113,8 +1225,6 @@ function NativeUI.Checkbox(Label, Description, Checked, Enabled, Callback)
 					end
 				end
 
-				NativeUI.Options = NativeUI.Options + 1
-
 				if Selected and (NativeUI.CurrentMenu.Controls.Select.Active or (Hovered and NativeUI.CurrentMenu.Controls.Click.Active)) then
 					NativeUI.PlaySound(NativeUI.Settings.Audio.Library, NativeUI.Settings.Audio.Select)
 
@@ -1123,6 +1233,8 @@ function NativeUI.Checkbox(Label, Description, Checked, Enabled, Callback)
 
 				Callback(Hovered, Selected, ((NativeUI.CurrentMenu.Controls.Select.Active or (Hovered and NativeUI.CurrentMenu.Controls.Click.Active)) and Selected), Checked)
 			end
+
+			NativeUI.Options = NativeUI.Options + 1
 		end
 	end
 end
@@ -1141,17 +1253,17 @@ function NativeUI.List(Label, Items, Index, Description, Enabled, Callback)
 					NativeUI.CurrentMenu.SafeZoneSize = {X = 0, Y = 0}
 
 					if NativeUI.CurrentMenu.Safezone then
-						NativeUI.CurrentMenu.SafeZoneSize = GetSafeZoneBounds()
+						NativeUI.CurrentMenu.SafeZoneSize = NativeUI.GetSafeZoneBounds()
 
 						ScreenDrawPositionBegin(76, 84)
 						ScreenDrawPositionRatio(0, 0, 0, 0)
 					end
 				end
 
-				Hovered = IsMouseInBounds(NativeUI.CurrentMenu.X + NativeUI.CurrentMenu.SafeZoneSize.X, NativeUI.CurrentMenu.Y + NativeUI.Settings.Items.Button.Rectangle.Y + NativeUI.CurrentMenu.SafeZoneSize.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset, NativeUI.Settings.Items.Button.Rectangle.Width + NativeUI.CurrentMenu.WidthOffset, NativeUI.Settings.Items.Button.Rectangle.Height)
+				Hovered = NativeUI.IsMouseInBounds(NativeUI.CurrentMenu.X + NativeUI.CurrentMenu.SafeZoneSize.X, NativeUI.CurrentMenu.Y + NativeUI.Settings.Items.Button.Rectangle.Y + NativeUI.CurrentMenu.SafeZoneSize.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset, NativeUI.Settings.Items.Button.Rectangle.Width + NativeUI.CurrentMenu.WidthOffset, NativeUI.Settings.Items.Button.Rectangle.Height)
 				
 				local ListText = (type(Items[Index]) == "table") and tostring(Items[Index].Name) or tostring(Items[Index]) or "NIL"
-				local TextOffset = MeasureStringWidth(ListText, 0, 0.35)
+				local TextOffset = NativeUI.MeasureStringWidth(ListText, 0, 0.35)
 
 				if Hovered and not Selected then
 					NativeUI.RenderRectangle(NativeUI.CurrentMenu.X, NativeUI.CurrentMenu.Y + NativeUI.Settings.Items.Button.Rectangle.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset,  NativeUI.Settings.Items.Button.Rectangle.Width + NativeUI.CurrentMenu.WidthOffset, NativeUI.Settings.Items.Button.Rectangle.Height, 255, 255, 255, 20)
@@ -1164,8 +1276,8 @@ function NativeUI.List(Label, Items, Index, Description, Enabled, Callback)
 
 				if Selected then
 					NativeUI.RenderSprite(NativeUI.Settings.Items.Button.SelectedSprite.Dictionary, NativeUI.Settings.Items.Button.SelectedSprite.Texture, NativeUI.CurrentMenu.X, NativeUI.CurrentMenu.Y + NativeUI.Settings.Items.Button.SelectedSprite.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset, NativeUI.Settings.Items.Button.SelectedSprite.Width + NativeUI.CurrentMenu.WidthOffset, NativeUI.Settings.Items.Button.SelectedSprite.Height)
-					LeftArrowHovered = IsMouseInBounds(NativeUI.CurrentMenu.X + NativeUI.Settings.Items.List.LeftArrow.X - TextOffset + NativeUI.CurrentMenu.SafeZoneSize.X + NativeUI.CurrentMenu.WidthOffset, NativeUI.CurrentMenu.Y + NativeUI.Settings.Items.List.LeftArrow.Y + NativeUI.CurrentMenu.SafeZoneSize.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset, NativeUI.Settings.Items.List.LeftArrow.Width, NativeUI.Settings.Items.List.LeftArrow.Height)
-					RightArrowHovered = IsMouseInBounds(NativeUI.CurrentMenu.X + NativeUI.Settings.Items.List.RightArrow.X + NativeUI.CurrentMenu.SafeZoneSize.X + NativeUI.CurrentMenu.WidthOffset, NativeUI.CurrentMenu.Y + NativeUI.Settings.Items.List.RightArrow.Y + NativeUI.CurrentMenu.SafeZoneSize.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset, NativeUI.Settings.Items.List.RightArrow.Width, NativeUI.Settings.Items.List.RightArrow.Height)
+					LeftArrowHovered = NativeUI.IsMouseInBounds(NativeUI.CurrentMenu.X + NativeUI.Settings.Items.List.LeftArrow.X - TextOffset + NativeUI.CurrentMenu.SafeZoneSize.X + NativeUI.CurrentMenu.WidthOffset, NativeUI.CurrentMenu.Y + NativeUI.Settings.Items.List.LeftArrow.Y + NativeUI.CurrentMenu.SafeZoneSize.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset, NativeUI.Settings.Items.List.LeftArrow.Width, NativeUI.Settings.Items.List.LeftArrow.Height)
+					RightArrowHovered = NativeUI.IsMouseInBounds(NativeUI.CurrentMenu.X + NativeUI.Settings.Items.List.RightArrow.X + NativeUI.CurrentMenu.SafeZoneSize.X + NativeUI.CurrentMenu.WidthOffset, NativeUI.CurrentMenu.Y + NativeUI.Settings.Items.List.RightArrow.Y + NativeUI.CurrentMenu.SafeZoneSize.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset, NativeUI.Settings.Items.List.RightArrow.Width, NativeUI.Settings.Items.List.RightArrow.Height)
 				end
 
 				if Enabled == true or Enabled == nil then
@@ -1208,7 +1320,6 @@ function NativeUI.List(Label, Items, Index, Description, Enabled, Callback)
 					end
 				end
 
-				NativeUI.Options = NativeUI.Options + 1
 
 				if Selected and (NativeUI.CurrentMenu.Controls.Left.Active or (NativeUI.CurrentMenu.Controls.Click.Active and LeftArrowHovered)) and not (NativeUI.CurrentMenu.Controls.Right.Active or (NativeUI.CurrentMenu.Controls.Click.Active and RightArrowHovered)) then
 					Index = Index - 1
@@ -1234,6 +1345,8 @@ function NativeUI.List(Label, Items, Index, Description, Enabled, Callback)
 
 				Callback(Hovered, Selected, ((NativeUI.CurrentMenu.Controls.Select.Active or ((Hovered and NativeUI.CurrentMenu.Controls.Click.Active) and (not LeftArrowHovered and not RightArrowHovered))) and Selected), Index)
 			end
+
+			NativeUI.Options = NativeUI.Options + 1
 		end
 	end
 end
@@ -1252,7 +1365,7 @@ function NativeUI.Slider(Label, Items, Index, Description, Divider, Enabled, Cal
 					NativeUI.CurrentMenu.SafeZoneSize = {X = 0, Y = 0}
 
 					if NativeUI.CurrentMenu.Safezone then
-						NativeUI.CurrentMenu.SafeZoneSize = GetSafeZoneBounds()
+						NativeUI.CurrentMenu.SafeZoneSize = NativeUI.GetSafeZoneBounds()
 
 						ScreenDrawPositionBegin(76, 84)
 						ScreenDrawPositionRatio(0, 0, 0, 0)
@@ -1261,7 +1374,7 @@ function NativeUI.Slider(Label, Items, Index, Description, Divider, Enabled, Cal
 
 			
 
-				Hovered = IsMouseInBounds(NativeUI.CurrentMenu.X + NativeUI.CurrentMenu.SafeZoneSize.X, NativeUI.CurrentMenu.Y + NativeUI.Settings.Items.Button.Rectangle.Y + NativeUI.CurrentMenu.SafeZoneSize.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset, NativeUI.Settings.Items.Button.Rectangle.Width + NativeUI.CurrentMenu.WidthOffset, NativeUI.Settings.Items.Button.Rectangle.Height)
+				Hovered = NativeUI.IsMouseInBounds(NativeUI.CurrentMenu.X + NativeUI.CurrentMenu.SafeZoneSize.X, NativeUI.CurrentMenu.Y + NativeUI.Settings.Items.Button.Rectangle.Y + NativeUI.CurrentMenu.SafeZoneSize.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset, NativeUI.Settings.Items.Button.Rectangle.Width + NativeUI.CurrentMenu.WidthOffset, NativeUI.Settings.Items.Button.Rectangle.Height)
 
 				if Hovered and not Selected then
 					NativeUI.RenderRectangle(NativeUI.CurrentMenu.X, NativeUI.CurrentMenu.Y + NativeUI.Settings.Items.Button.Rectangle.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset,  NativeUI.Settings.Items.Button.Rectangle.Width + NativeUI.CurrentMenu.WidthOffset, NativeUI.Settings.Items.Button.Rectangle.Height, 255, 255, 255, 20)
@@ -1274,8 +1387,8 @@ function NativeUI.Slider(Label, Items, Index, Description, Divider, Enabled, Cal
 
 				if Selected then
 					NativeUI.RenderSprite(NativeUI.Settings.Items.Button.SelectedSprite.Dictionary, NativeUI.Settings.Items.Button.SelectedSprite.Texture, NativeUI.CurrentMenu.X, NativeUI.CurrentMenu.Y + NativeUI.Settings.Items.Button.SelectedSprite.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset, NativeUI.Settings.Items.Button.SelectedSprite.Width + NativeUI.CurrentMenu.WidthOffset, NativeUI.Settings.Items.Button.SelectedSprite.Height)
-					LeftArrowHovered = IsMouseInBounds(NativeUI.CurrentMenu.X + NativeUI.Settings.Items.Slider.LeftArrow.X + NativeUI.CurrentMenu.SafeZoneSize.X + NativeUI.CurrentMenu.WidthOffset, NativeUI.CurrentMenu.Y + NativeUI.Settings.Items.Slider.LeftArrow.Y + NativeUI.CurrentMenu.SafeZoneSize.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset, NativeUI.Settings.Items.Slider.LeftArrow.Width, NativeUI.Settings.Items.Slider.LeftArrow.Height)
-					RightArrowHovered = IsMouseInBounds(NativeUI.CurrentMenu.X + NativeUI.Settings.Items.Slider.RightArrow.X + NativeUI.CurrentMenu.SafeZoneSize.X + NativeUI.CurrentMenu.WidthOffset, NativeUI.CurrentMenu.Y + NativeUI.Settings.Items.Slider.RightArrow.Y + NativeUI.CurrentMenu.SafeZoneSize.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset, NativeUI.Settings.Items.Slider.RightArrow.Width, NativeUI.Settings.Items.Slider.RightArrow.Height)
+					LeftArrowHovered = NativeUI.IsMouseInBounds(NativeUI.CurrentMenu.X + NativeUI.Settings.Items.Slider.LeftArrow.X + NativeUI.CurrentMenu.SafeZoneSize.X + NativeUI.CurrentMenu.WidthOffset, NativeUI.CurrentMenu.Y + NativeUI.Settings.Items.Slider.LeftArrow.Y + NativeUI.CurrentMenu.SafeZoneSize.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset, NativeUI.Settings.Items.Slider.LeftArrow.Width, NativeUI.Settings.Items.Slider.LeftArrow.Height)
+					RightArrowHovered = NativeUI.IsMouseInBounds(NativeUI.CurrentMenu.X + NativeUI.Settings.Items.Slider.RightArrow.X + NativeUI.CurrentMenu.SafeZoneSize.X + NativeUI.CurrentMenu.WidthOffset, NativeUI.CurrentMenu.Y + NativeUI.Settings.Items.Slider.RightArrow.Y + NativeUI.CurrentMenu.SafeZoneSize.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset, NativeUI.Settings.Items.Slider.RightArrow.Width, NativeUI.Settings.Items.Slider.RightArrow.Height)
 				end
 
 				if Enabled == true or Enabled == nil then
@@ -1317,8 +1430,6 @@ function NativeUI.Slider(Label, Items, Index, Description, Divider, Enabled, Cal
 					end
 				end
 
-				NativeUI.Options = NativeUI.Options + 1
-
 				if Selected and (NativeUI.CurrentMenu.Controls.Left.Active or (NativeUI.CurrentMenu.Controls.Click.Active and LeftArrowHovered)) and not (NativeUI.CurrentMenu.Controls.Right.Active or (NativeUI.CurrentMenu.Controls.Click.Active and RightArrowHovered)) then
 					Index = Index - 1
 
@@ -1343,6 +1454,8 @@ function NativeUI.Slider(Label, Items, Index, Description, Divider, Enabled, Cal
 
 				Callback(Hovered, Selected, ((NativeUI.CurrentMenu.Controls.Select.Active or ((Hovered and NativeUI.CurrentMenu.Controls.Click.Active) and (not LeftArrowHovered and not RightArrowHovered))) and Selected), Index)
 			end
+
+			NativeUI.Options = NativeUI.Options + 1
 		end
 	end
 end
@@ -1361,14 +1474,14 @@ function NativeUI.Progress(Label, Items, Index, Description, Counter, Enabled, C
 					NativeUI.CurrentMenu.SafeZoneSize = {X = 0, Y = 0}
 
 					if NativeUI.CurrentMenu.Safezone then
-						NativeUI.CurrentMenu.SafeZoneSize = GetSafeZoneBounds()
+						NativeUI.CurrentMenu.SafeZoneSize = NativeUI.GetSafeZoneBounds()
 
 						ScreenDrawPositionBegin(76, 84)
 						ScreenDrawPositionRatio(0, 0, 0, 0)
 					end
 				end
 
-				Hovered = IsMouseInBounds(NativeUI.CurrentMenu.X + NativeUI.CurrentMenu.SafeZoneSize.X, NativeUI.CurrentMenu.Y + NativeUI.Settings.Items.Button.Rectangle.Y + NativeUI.CurrentMenu.SafeZoneSize.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset, NativeUI.Settings.Items.Button.Rectangle.Width + NativeUI.CurrentMenu.WidthOffset, NativeUI.Settings.Items.Progress.Height)
+				Hovered = NativeUI.IsMouseInBounds(NativeUI.CurrentMenu.X + NativeUI.CurrentMenu.SafeZoneSize.X, NativeUI.CurrentMenu.Y + NativeUI.Settings.Items.Button.Rectangle.Y + NativeUI.CurrentMenu.SafeZoneSize.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset, NativeUI.Settings.Items.Button.Rectangle.Width + NativeUI.CurrentMenu.WidthOffset, NativeUI.Settings.Items.Progress.Height)
 					
 				local ProgressText = (Counter and Index.."/"..#Items or (type(Items[Index]) == "table") and tostring(Items[Index].Name) or tostring(Items[Index]))
 
@@ -1383,7 +1496,7 @@ function NativeUI.Progress(Label, Items, Index, Description, Counter, Enabled, C
 
 				if Selected then
 					NativeUI.RenderSprite(NativeUI.Settings.Items.Button.SelectedSprite.Dictionary, NativeUI.Settings.Items.Button.SelectedSprite.Texture, NativeUI.CurrentMenu.X, NativeUI.CurrentMenu.Y + NativeUI.Settings.Items.Button.SelectedSprite.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset, NativeUI.Settings.Items.Button.SelectedSprite.Width + NativeUI.CurrentMenu.WidthOffset, NativeUI.Settings.Items.Progress.Height)
-					ProgressHovered = IsMouseInBounds(NativeUI.CurrentMenu.X + NativeUI.Settings.Items.Progress.Bar.X + NativeUI.CurrentMenu.SafeZoneSize.X, NativeUI.CurrentMenu.Y + NativeUI.Settings.Items.Progress.Bar.Y + NativeUI.CurrentMenu.SafeZoneSize.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset - 12, NativeUI.Settings.Items.Progress.Bar.Width + NativeUI.CurrentMenu.WidthOffset, NativeUI.Settings.Items.Progress.Bar.Height + 24)
+					ProgressHovered = NativeUI.IsMouseInBounds(NativeUI.CurrentMenu.X + NativeUI.Settings.Items.Progress.Bar.X + NativeUI.CurrentMenu.SafeZoneSize.X, NativeUI.CurrentMenu.Y + NativeUI.Settings.Items.Progress.Bar.Y + NativeUI.CurrentMenu.SafeZoneSize.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset - 12, NativeUI.Settings.Items.Progress.Bar.Width + NativeUI.CurrentMenu.WidthOffset, NativeUI.Settings.Items.Progress.Bar.Height + 24)
 				end
 
 				if Enabled == true or Enabled == nil then
@@ -1428,8 +1541,6 @@ function NativeUI.Progress(Label, Items, Index, Description, Counter, Enabled, C
 					end
 				end
 
-				NativeUI.Options = NativeUI.Options + 1
-
 				if Selected and NativeUI.CurrentMenu.Controls.Left.Active and not NativeUI.CurrentMenu.Controls.Right.Active then
 					Index = Index - 1
 
@@ -1469,6 +1580,8 @@ function NativeUI.Progress(Label, Items, Index, Description, Counter, Enabled, C
 
 				Callback(Hovered, Selected, ((NativeUI.CurrentMenu.Controls.Select.Active or ((Hovered and NativeUI.CurrentMenu.Controls.Click.Active) and not ProgressHovered)) and Selected), Index)
 			end
+
+			NativeUI.Options = NativeUI.Options + 1
 		end
 	end
 end
@@ -1476,7 +1589,7 @@ end
 function NativeUI.GridPanel(X, Y, TopText, BottomText, LeftText, RightText, Callback)
 	if NativeUI.CurrentMenu ~= nil then
 		if NativeUI.CurrentMenu() then
-			local Hovered = IsMouseInBounds(NativeUI.CurrentMenu.X + NativeUI.Settings.Panels.Grid.Grid.X + NativeUI.CurrentMenu.SafeZoneSize.X + 20, NativeUI.CurrentMenu.Y + NativeUI.Settings.Panels.Grid.Grid.Y + NativeUI.CurrentMenu.SafeZoneSize.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset + 20, NativeUI.Settings.Panels.Grid.Grid.Width + NativeUI.CurrentMenu.WidthOffset - 40, NativeUI.Settings.Panels.Grid.Grid.Height - 40)
+			local Hovered = NativeUI.IsMouseInBounds(NativeUI.CurrentMenu.X + NativeUI.Settings.Panels.Grid.Grid.X + NativeUI.CurrentMenu.SafeZoneSize.X + 20, NativeUI.CurrentMenu.Y + NativeUI.Settings.Panels.Grid.Grid.Y + NativeUI.CurrentMenu.SafeZoneSize.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset + 20, NativeUI.Settings.Panels.Grid.Grid.Width + NativeUI.CurrentMenu.WidthOffset - 40, NativeUI.Settings.Panels.Grid.Grid.Height - 40)
 			local Selected = false
 			local CircleX = NativeUI.CurrentMenu.X + NativeUI.Settings.Panels.Grid.Grid.X + (NativeUI.CurrentMenu.WidthOffset/2) + 20
 			local CircleY = NativeUI.CurrentMenu.Y + NativeUI.Settings.Panels.Grid.Grid.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset + 20
@@ -1545,9 +1658,9 @@ function NativeUI.ColourPanel(Title, Colours, MinimumIndex, CurrentIndex, Callba
 	if NativeUI.CurrentMenu ~= nil then
 		if NativeUI.CurrentMenu() then
 			local Maximum = (#Colours > 9) and 9 or #Colours
-			local Hovered = IsMouseInBounds(NativeUI.CurrentMenu.X + NativeUI.Settings.Panels.Colour.Box.X + NativeUI.CurrentMenu.SafeZoneSize.X + (NativeUI.CurrentMenu.WidthOffset/2), NativeUI.CurrentMenu.Y + NativeUI.Settings.Panels.Colour.Box.Y + NativeUI.CurrentMenu.SafeZoneSize.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset, (NativeUI.Settings.Panels.Colour.Box.Width * Maximum), NativeUI.Settings.Panels.Colour.Box.Height)
-			local LeftArrowHovered = IsMouseInBounds(NativeUI.CurrentMenu.X + NativeUI.Settings.Panels.Colour.LeftArrow.X + NativeUI.CurrentMenu.SafeZoneSize.X + (NativeUI.CurrentMenu.WidthOffset/2), NativeUI.CurrentMenu.Y + NativeUI.Settings.Panels.Colour.LeftArrow.Y + NativeUI.CurrentMenu.SafeZoneSize.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset, NativeUI.Settings.Panels.Colour.LeftArrow.Width, NativeUI.Settings.Panels.Colour.LeftArrow.Height) 
-			local RightArrowHovered = IsMouseInBounds(NativeUI.CurrentMenu.X + NativeUI.Settings.Panels.Colour.RightArrow.X + NativeUI.CurrentMenu.SafeZoneSize.X + (NativeUI.CurrentMenu.WidthOffset/2), NativeUI.CurrentMenu.Y + NativeUI.Settings.Panels.Colour.RightArrow.Y + NativeUI.CurrentMenu.SafeZoneSize.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset, NativeUI.Settings.Panels.Colour.RightArrow.Width, NativeUI.Settings.Panels.Colour.RightArrow.Height) 
+			local Hovered = NativeUI.IsMouseInBounds(NativeUI.CurrentMenu.X + NativeUI.Settings.Panels.Colour.Box.X + NativeUI.CurrentMenu.SafeZoneSize.X + (NativeUI.CurrentMenu.WidthOffset/2), NativeUI.CurrentMenu.Y + NativeUI.Settings.Panels.Colour.Box.Y + NativeUI.CurrentMenu.SafeZoneSize.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset, (NativeUI.Settings.Panels.Colour.Box.Width * Maximum), NativeUI.Settings.Panels.Colour.Box.Height)
+			local LeftArrowHovered = NativeUI.IsMouseInBounds(NativeUI.CurrentMenu.X + NativeUI.Settings.Panels.Colour.LeftArrow.X + NativeUI.CurrentMenu.SafeZoneSize.X + (NativeUI.CurrentMenu.WidthOffset/2), NativeUI.CurrentMenu.Y + NativeUI.Settings.Panels.Colour.LeftArrow.Y + NativeUI.CurrentMenu.SafeZoneSize.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset, NativeUI.Settings.Panels.Colour.LeftArrow.Width, NativeUI.Settings.Panels.Colour.LeftArrow.Height) 
+			local RightArrowHovered = NativeUI.IsMouseInBounds(NativeUI.CurrentMenu.X + NativeUI.Settings.Panels.Colour.RightArrow.X + NativeUI.CurrentMenu.SafeZoneSize.X + (NativeUI.CurrentMenu.WidthOffset/2), NativeUI.CurrentMenu.Y + NativeUI.Settings.Panels.Colour.RightArrow.Y + NativeUI.CurrentMenu.SafeZoneSize.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset, NativeUI.Settings.Panels.Colour.RightArrow.Width, NativeUI.Settings.Panels.Colour.RightArrow.Height) 
 			local Selected = false
 
 			NativeUI.RenderSprite(NativeUI.Settings.Panels.Colour.Background.Dictionary, NativeUI.Settings.Panels.Colour.Background.Texture, NativeUI.CurrentMenu.X, NativeUI.CurrentMenu.Y + NativeUI.Settings.Panels.Colour.Background.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset, NativeUI.Settings.Panels.Colour.Background.Width + NativeUI.CurrentMenu.WidthOffset, NativeUI.Settings.Panels.Colour.Background.Height)
@@ -1586,7 +1699,7 @@ function NativeUI.ColourPanel(Title, Colours, MinimumIndex, CurrentIndex, Callba
 						end
 					elseif Hovered then
 						for Index = 1, Maximum do
-							if IsMouseInBounds(NativeUI.CurrentMenu.X + NativeUI.Settings.Panels.Colour.Box.X + (NativeUI.Settings.Panels.Colour.Box.Width * (Index - 1)) + NativeUI.CurrentMenu.SafeZoneSize.X + (NativeUI.CurrentMenu.WidthOffset/2), NativeUI.CurrentMenu.Y + NativeUI.Settings.Panels.Colour.Box.Y + NativeUI.CurrentMenu.SafeZoneSize.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset, NativeUI.Settings.Panels.Colour.Box.Width, NativeUI.Settings.Panels.Colour.Box.Height) then
+							if NativeUI.IsMouseInBounds(NativeUI.CurrentMenu.X + NativeUI.Settings.Panels.Colour.Box.X + (NativeUI.Settings.Panels.Colour.Box.Width * (Index - 1)) + NativeUI.CurrentMenu.SafeZoneSize.X + (NativeUI.CurrentMenu.WidthOffset/2), NativeUI.CurrentMenu.Y + NativeUI.Settings.Panels.Colour.Box.Y + NativeUI.CurrentMenu.SafeZoneSize.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset, NativeUI.Settings.Panels.Colour.Box.Width, NativeUI.Settings.Panels.Colour.Box.Height) then
 								CurrentIndex = MinimumIndex + Index - 1
 							end
 						end
@@ -1608,7 +1721,7 @@ end
 function NativeUI.PercentagePanel(Percent, HeaderText, MinText, MaxText, Callback)
 	if NativeUI.CurrentMenu ~= nil then
 		if NativeUI.CurrentMenu() then
-			local Hovered = IsMouseInBounds(NativeUI.CurrentMenu.X + NativeUI.Settings.Panels.Percentage.Bar.X + NativeUI.CurrentMenu.SafeZoneSize.X, NativeUI.CurrentMenu.Y + NativeUI.Settings.Panels.Percentage.Bar.Y + NativeUI.CurrentMenu.SafeZoneSize.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset - 4, NativeUI.Settings.Panels.Percentage.Bar.Width + NativeUI.CurrentMenu.WidthOffset, NativeUI.Settings.Panels.Percentage.Bar.Height + 8)
+			local Hovered = NativeUI.IsMouseInBounds(NativeUI.CurrentMenu.X + NativeUI.Settings.Panels.Percentage.Bar.X + NativeUI.CurrentMenu.SafeZoneSize.X, NativeUI.CurrentMenu.Y + NativeUI.Settings.Panels.Percentage.Bar.Y + NativeUI.CurrentMenu.SafeZoneSize.Y + NativeUI.CurrentMenu.SubtitleHeight + NativeUI.ItemOffset - 4, NativeUI.Settings.Panels.Percentage.Bar.Width + NativeUI.CurrentMenu.WidthOffset, NativeUI.Settings.Panels.Percentage.Bar.Height + 8)
 			local Selected = false
 			local Progress = NativeUI.Settings.Panels.Percentage.Bar.Width
 
@@ -1738,7 +1851,7 @@ Citizen.CreateThread(function()
 	NewMenu.WidthOffset = 100
 
 	local NewMenu2 = NativeUI.CreateSubMenu(NewMenu, "Title2", "Subtitle2")
-
+	NewMenu2:SetSubtitle("LOLLLLLLLLLLLLLLLLLLLLLLLLLLL")
 	local Indexes = {1,1,2,1,1,1}
 	local Checkedboxes = {true, false, true}
 	local Grid = {X = 0.5, Y = 0.5}
@@ -1756,7 +1869,7 @@ Citizen.CreateThread(function()
 		if NativeUI.Visible(NewMenu) then
 			ShowCursorThisFrame()
 
-			NativeUI.Title()
+			--NativeUI.Title()
 			NativeUI.Subtitle()
 
 			--NativeUI.HeritageWindow(Mum, Dad)
@@ -1772,6 +1885,30 @@ Citizen.CreateThread(function()
 			NativeUI.Button("HelloHello", "LMAO", "WorldWorld", NativeUI.BadgeStyle.BronzeMedal, NativeUI.BadgeStyle.GoldMedal, true, function(Hovered, Active, Selected)
 				if Selected then Citizen.Trace("Ello") end
 			end, NewMenu2)
+
+			NativeUI.Button("Hello", "LMAO", "World", NativeUI.BadgeStyle.BronzeMedal, nil, false, function(Hovered, Active, Selected)
+				if Selected then Citizen.Trace("Ello2") end
+			end)
+
+			NativeUI.Button("Hello", "LMAO", "World", NativeUI.BadgeStyle.BronzeMedal, nil, false, function(Hovered, Active, Selected)
+				if Selected then Citizen.Trace("Ello2") end
+			end)
+
+			NativeUI.Button("Hello", "LMAO", "World", NativeUI.BadgeStyle.BronzeMedal, nil, false, function(Hovered, Active, Selected)
+				if Selected then Citizen.Trace("Ello2") end
+			end)
+
+			NativeUI.Button("Hello", "LMAO", "World", NativeUI.BadgeStyle.BronzeMedal, nil, false, function(Hovered, Active, Selected)
+				if Selected then Citizen.Trace("Ello2") end
+			end)
+
+			NativeUI.Button("Hello", "LMAO", "World", NativeUI.BadgeStyle.BronzeMedal, nil, false, function(Hovered, Active, Selected)
+				if Selected then Citizen.Trace("Ello2") end
+			end)
+
+			NativeUI.Button("Hello", "LMAO", "World", NativeUI.BadgeStyle.BronzeMedal, nil, false, function(Hovered, Active, Selected)
+				if Selected then Citizen.Trace("Ello2") end
+			end)
 
 			NativeUI.Button("Hello", "LMAO", "World", NativeUI.BadgeStyle.BronzeMedal, nil, false, function(Hovered, Active, Selected)
 				if Selected then Citizen.Trace("Ello2") end
@@ -1796,6 +1933,8 @@ Citizen.CreateThread(function()
 			end)
 			
 			NativeUI.Background()
+
+			NativeUI.Navigation()
 
 			NativeUI.Description()
 
@@ -1824,6 +1963,7 @@ Citizen.CreateThread(function()
 				if Selected then Citizen.Trace("Ello2") end
 			end)
 			NativeUI.Background()
+			NativeUI.Navigation()
 			NativeUI.Description()
 			NativeUI.Render()
 		end
