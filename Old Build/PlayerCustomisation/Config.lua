@@ -614,6 +614,15 @@ PlayerCustomisation.Locations = {
 			Marker = {x = 454.44635009766, y = -988.86938476563, z = 30.689607620239, h = 172.5439453125},
 			Banner = "shopui_title_midfashion",
 		},
+		[16] = { -- Pillbox Hospital
+			Blip = {
+				Name = "Clothing store",
+				Sprite = 73, 
+				Colour = 0,
+			},
+			Marker = {x = 319.60491943359, y = -580.68133544922, z = 43.3173828125, h = 338.38342285156},
+			Banner = "shopui_title_midfashion",
+		},
 	},
 	Barbers = {
 		[1] = {
@@ -890,6 +899,15 @@ PlayerCustomisation.Locations = {
 				Colour = 0,
 			},
 			Marker = {x = 451.21685791016, y = -991.98986816406, z = 30.689580917358, h = 313.52288818359},
+			Banner = "shopui_title_midfashion",
+		},
+		[17] = { -- Pillbox Hospital
+			Blip = {
+				Name = "Outfits",
+				Sprite = 366, 
+				Colour = 0,
+			},
+			Marker = {x = 318.93661499023, y = -577.39385986328, z = 43.317371368408, h = 250.49789428711},
 			Banner = "shopui_title_midfashion",
 		},
 	},
