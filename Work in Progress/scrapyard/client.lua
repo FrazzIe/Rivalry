@@ -21,6 +21,10 @@ local Scrap = {
 		    [8] = {name = "Silver Necklace", item_id = 73},
 		    [9] = {name = "Silver Earing", item_id = 74},
 		},
+		Container = {
+
+		},
+		Recycle = 
 	},
 }
 
@@ -59,14 +63,13 @@ function GetGroundHash(ped)
 end
 
 function startDetecting()
-	RequestAnimDict("WORLD_HUMAN_GARDENER_PLANT")
-	while not HasAnimDictLoaded("WORLD_HUMAN_GARDENER_PLANT") do
-		Wait(0)
-	end
+	isSearching = true
+	local anim = "WORLD_HUMAN_GARDENER_PLANT"
 	local randomnum = math.random(1,9)
-	TaskStartScenarioInPlace(PlayerPedId(), "WORLD_HUMAN_GARDENER_PLANT", 0, false)
-	Citizen.Wait(10000)
-	TriggerServerEvent('scrapyard:giveitem', Scrap.Data.Items[randomnum].item_id)
+	Notify("You are currently searching for metal objects!", 10000)
+	TaskStartScenarioInPlace(PlayerPedId(), anim, 0, false)
+	Wait(10000)
+	TriggerServerEvent('scrapyardgiveitem', Scrap.Data.Items[randomnum].item_id)
 	ClearPedTasks(PlayerPedId())
 	isSearching = false
 end
@@ -83,7 +86,7 @@ Citizen.CreateThread(function()
 		end
 		if IsScrap then
 			if Vdist(pos.x, pos.y, pos.z, Scrap.Data.Service.x, Scrap.Data.Service.y, Scrap.Data.Service.z) < 10 then
-				DrawMarker()
+				DrawMarker(25, Scrap.Data.Service.x, Scrap.Data.Service.y, Scrap.Data.Service.z - 1, 0, 0, 0, 0, 0, 0, 1.0, 1.0, 1.5, 0, 0, 255, 155, 0, 0, 2, 0, 0, 0, 0)
 				if Vdist(pos.x, pos.y, pos.z, Scrap.Data.Service.x, Scrap.Data.Service.y, Scrap.Data.Service.z) < 1 then
 					if OnDuty then
 						DisplayHelpText("Press ~INPUT_CONTEXT~ to sign off duty")
@@ -96,13 +99,114 @@ Citizen.CreateThread(function()
 				end
 			end
 			if OnDuty then
-				GetGroundHash(PlayerPedId())
-				if Scrap.Data.Sand == 2699818980 then
-					if GetItemQuantity(65) > 0 then
-						DisplayHelpText("Press ~INPUT_CONTEXT~ to use your metal detector.")
-						if IsControlJustPressed(1, 51) and isSearching == false then
-							startDetecting()
-							isSearching = true
+				if Vdist(pos.x pos.y, pos.z, Scrap.Data.Recycle.x, Scrap.Data.Recycle.y, Scrap.Data.Recycle.z) < 10 then
+					DrawMarker(25, Scrap.Data.Recycle.x, Scrap.Data.Recycle.y, Scrap.Data.Recycle.z - 1, 0, 0, 0, 0, 0, 0, 1.0, 1.0, 1.5, 0, 0, 255, 155, 0, 0, 2, 0, 0, 0, 0)
+					if Vdist(pos.x pos.y, pos.z, Scrap.Data.Recycle.x, Scrap.Data.Recycle.y, Scrap.Data.Recycle.z) < 1 then
+						DisplayHelpText("Press ~INPUT_CONTEXT~ to use the recycler!")
+						if IsControlJustPressed(1, 51) then
+							local timerequired = 1000
+							Notify("Please type /recycle [AMOUNT] in chat!", 10000)
+							for k, v in ipairs(Scrap.Data.Items) do
+								if GetItemQuantity(k.item_id) > 0 then
+									while recycleAmount < 1 do
+										Citizen.Wait(0)
+									end
+									if recycleAmount <= GetItemQuantity(k.item_id) then
+										timerequired = timerequired * recycleAmount
+										Notify("Recyling In Progress", timerequired)
+										while timerequired > 0 then
+											Citizen.Wait(1000)
+											TriggerEvent('inventory:removeQty', k.item_id, 1)
+											TriggerEvent('inventory:addQty', 75, 1)
+											timerequired = timerequired - 1000
+										end
+										recycleAmount = 0
+									else
+										Notify("You don't have the amount of "..k.name.." that you entered!", 7500)
+									end
+								else
+									Notify("You don't have any items that can be scrapped!", 7000)
+								end
+							end
+						end
+					end
+				end
+				if Vdist(pos.x, pos.y, pos.z, Scrap.Data.Chop.x, Scrap.Data.Chop.y, Scrap.Data.Chop.z) < 20 then
+					drawMarker(25, Scrap.Data.Chop.x, Scrap.Data.Chop.y, Scrap.Data.Chop.z, 3.0, 3.0, 3.5, 255, 255, 0, 255)
+					if Vdist(pos.x, pos.y, pos.z, Scrap.Data.Chop.x, Scrap.Data.Chop.y, Scrap.Data.Chop.z) < 2 then
+						if IsPedSittingInAnyVehicle(PlayerPedId()) then
+							local vehicle = GetVehiclePedIsIn(PlayerPedId(), false)
+							if GetPedInVehicleSeat(vehicle, -1) == PlayerPedId() then
+								DisplayHelpText("Press ~INPUT_CONTEXT~ to chop for clean money!\nPress ~INPUT_DETONATE~ to chop for dirty money!")
+								if IsControlJustPressed(1, 51) then
+									local owned = false
+									local playervehicle = false
+									for k,v in pairs(user_vehicles) do
+										if v.plate == GetVehicleNumberPlateText(vehicle) then
+											playervehicle = true
+											break
+										end
+									end
+									if not owned then
+										local class = GetVehicleClass(vehicle)
+									    for seat = -1, GetVehicleMaxNumberOfPassengers(vehicle) do
+									        if not IsVehicleSeatFree(vehicle, seat) then
+									            TaskLeaveVehicle(GetPedInVehicleSeat(vehicle, seat), vehicle, 0)
+									        end
+									    end
+									    NetworkRequestControlOfEntity(vehicle)
+									    while not NetworkHasControlOfEntity(vehicle) do
+									        Citizen.Wait(0)
+									    end
+									    SetEntityAsMissionEntity(vehicle, true, true)
+									    while IsPedInAnyVehicle(PlayerPedId(), true) do
+									        Citizen.Wait(0)
+									    end
+									    DestroyVehicle(vehicle)
+									    if playervehicle then
+											TriggerServerEvent("chopshop:pay", "clean", class)
+										else
+											TriggerServerEvent("chopshop:pay", "clean", 22)
+										end
+									else
+										Notify("We don't accept that type of vehicle!", 3000)
+									end
+								end
+								if IsControlJustPressed(1, 47) then
+									local owned = false
+									local playervehicle = false
+									for k,v in pairs(user_vehicles) do
+										if v.plate == GetVehicleNumberPlateText(vehicle) then
+											playervehicle = true
+											break
+										end
+									end
+									if not owned then
+										local class = GetVehicleClass(vehicle)
+									    for seat = -1, GetVehicleMaxNumberOfPassengers(vehicle) do
+									        if not IsVehicleSeatFree(vehicle, seat) then
+									            TaskLeaveVehicle(GetPedInVehicleSeat(vehicle, seat), vehicle, 0)
+									        end
+									    end
+									    NetworkRequestControlOfEntity(vehicle)
+									    while not NetworkHasControlOfEntity(vehicle) do
+									        Citizen.Wait(0)
+									    end
+									    SetEntityAsMissionEntity(vehicle, true, true)
+									    while IsPedInAnyVehicle(PlayerPedId(), true) do
+									        Citizen.Wait(0)
+									    end
+									    DestroyVehicle(vehicle)
+									    if playervehicle then
+											TriggerServerEvent("chopshop:pay", "dirty", class)
+										else
+											TriggerServerEvent("chopshop:pay", "dirty", 22)
+										end
+									else
+										Notify("We don't accept that type of vehicle!", 3000)
+									end
+								end
+							end
 						end
 					end
 				end

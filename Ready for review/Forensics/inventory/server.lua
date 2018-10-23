@@ -84,6 +84,17 @@ itemlist = {
     [62] = {name = "Barracuda", item_id = 62, canuse = 2, illegal = false},
     [63] = {name = "Tuna", item_id = 63, canuse = 2, illegal = false},
     [64] = {name = "Yellowtail", item_id = 64, canuse = 2, illegal = false},
+    [65] = {name = "Metal Detector", item_id = 65, canuse = 0, illegal = false},
+    [66] = {name = "Aluminum Can", item_id = 66, canuse = 0, illegal = false},
+    [67] = {name = "Copper Wire", item_id = 67, canuse = 0, illegal = false},
+    [68] = {name = "Light Iron", item_id = 68, canuse = 0, illegal = false},
+    [69] = {name = "Copper Tubing", item_id = 69, canuse = 0, illegal = false},
+    [70] = {name = "Brass Scrap", item_id = 70, canuse = 0, illegal = false},
+    [71] = {name = "Bronze Scrap", item_id = 71, canuse = 0, illegal = false},
+    [72] = {name = "Golden Ring", item_id = 72, canuse = 0, illegal = false},
+    [73] = {name = "Silver Necklace", item_id = 73, canuse = 0, illegal = false},
+    [74] = {name = "Silver Earing", item_id = 74, canuse = 0, illegal = false},
+
 }
 
 user_max = 100
