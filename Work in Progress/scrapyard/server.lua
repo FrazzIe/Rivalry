@@ -127,5 +127,46 @@ end)
 
 RegisterServerEvent('addScrap')
 AddEventHandler('addScrap', function(amount)
-	TriggerClientEvent('client:addScrap', -1, stockpile)
+	scrap = exports['GHMattiMySQL']:QueryAsync("UPDATE scrap_stockpile SET ('total') = (@total);", {
+		['@total'] = ['@total'] + amount
+	})
+	TriggerClientEvent('scrapyard:sync', scrap[1])
+end)
+
+local scrap = 300
+
+RegisterServerEvent('scrapyard:giveScrap')
+AddEventHandler('scrapyard:giveScrap', function(id, quantity)
+	local source = source
+	local user_quantity = getQuantity(source)
+	TriggerEvent("core:getuser", source, function(user)
+		if user_quantity >= 100 then
+			TriggerClientEvent("pNotify:SendNotification", source, {text = "You cannot hold anymore items!",type = "error",queue = "left",timeout = 2500,layout = "bottomCenter"})
+		elseif user_quantity + tonumber(quantity) >= 100 then
+			local available_space = 100 - user_quantity
+			if user.get("wallet") >= (scrap*available_space) then
+				user.removeWallet(scrap*available_space)
+				TriggerEvent("inventory:add_server", source, id, available_space)
+				TriggerClientEvent("pNotify:SendNotification", source, {text = "Successfully purchased "..available_space.." "..itemlist[id].name.."(s)!",type = "error",queue = "left",timeout = 2500,layout = "bottomCenter"})
+			elseif user.get("bank") >= (scrap*available_space) then
+				user.removeBank(scrap*available_space)
+				TriggerEvent("inventory:add_server", source, id, available_space)
+				TriggerClientEvent("pNotify:SendNotification", source, {text = "Successfully purchased "..available_space.." "..itemlist[id].name.."(s)!",type = "error",queue = "left",timeout = 2500,layout = "bottomCenter"})
+			else
+				TriggerClientEvent("pNotify:SendNotification", source, {text = "Insufficient funds!",type = "error",queue = "left",timeout = 2500,layout = "bottomCenter"})
+			end
+		else
+			if user.get("wallet") >= (scrap*tonumber(quantity)) then
+				user.removeWallet(scrap*tonumber(quantity))
+				TriggerEvent("inventory:add_server", source, id, tonumber(quantity))
+				TriggerClientEvent("pNotify:SendNotification", source, {text = "Successfully purchased "..quantity.." "..itemlist[id].name.."(s)!",type = "error",queue = "left",timeout = 2500,layout = "bottomCenter"})
+			elseif user.get("bank") >= (scrap*tonumber(quantity)) then
+				user.removeBank(scrap*tonumber(quantity))
+				TriggerEvent("inventory:add_server", source, id, tonumber(quantity))
+				TriggerClientEvent("pNotify:SendNotification", source, {text = "Successfully purchased "..quantity.." "..itemlist[id].name.."(s)!",type = "error",queue = "left",timeout = 2500,layout = "bottomCenter"})
+			else
+				TriggerClientEvent("pNotify:SendNotification", source, {text = "Insufficient funds!",type = "error",queue = "left",timeout = 2500,layout = "bottomCenter"})
+			end
+		end
+	end)
 end)

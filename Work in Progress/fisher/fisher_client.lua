@@ -467,7 +467,7 @@ end
 							for i,j in pairs(v.Items) do
 								if WarMenu.IsMenuOpened(j.Name) then
 									if WarMenu.Button("Sell "..currentItemIndex.." "..j.Name.."(s)", "$"..j.price*currentItemIndex) then
-										if GetItemQuantity(j.Id) > 0 then
+										if GetItemQuantity(j.Id) > 0 and currentItemIndex <= GetItemQuantity(j.Id) then
 											TriggerEvent('inventory:removeQty', j.Id, currentItemIndex)
 											TriggerServerEvent('sellFish', currentItemIndex, i)
 											j.sold = j.sold + 1

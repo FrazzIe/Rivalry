@@ -22,11 +22,20 @@ local Scrap = {
 		    [9] = {name = "Silver Earing", item_id = 74},
 		},
 		Container = {
-
+		    {Category = "Scrapyard Stockpile", Items = {
+		    	[1] = {Name = "Scrap", Id = 75, price = 300, Max = 20, sellprice = 150},
+		    }},
 		},
-		Recycle = 
+		Recycle = {},
 	},
-}
+},
+
+local Stockpile = {}
+
+RegisterNetEvent('scrapyard:sync')
+AddEventHandler('scrapyard:sync', function(table)
+	Stockpile = table
+end)
 
 RegisterNetEvent("scrapyard:set")
 AddEventHandler("scrapyard:set", function(_IsScrap)
@@ -53,25 +62,6 @@ function DeleteJobBlips()
 		RemoveBlip(v)
 		table.remove(Scrap.Data.Blips, k)
 	end
-end
-
-function GetGroundHash(ped)
-    local posped = GetEntityCoords(ped)
-    local num = StartShapeTestCapsule(posped.x,posped.y,posped.z+4,posped.x,posped.y,posped.z-2.0, 2, 1, ped, 7)
-    local arg1, arg2, arg3, arg4, arg5 = GetShapeTestResultEx(num)
-    Scrap.Data.Sand = arg5
-end
-
-function startDetecting()
-	isSearching = true
-	local anim = "WORLD_HUMAN_GARDENER_PLANT"
-	local randomnum = math.random(1,9)
-	Notify("You are currently searching for metal objects!", 10000)
-	TaskStartScenarioInPlace(PlayerPedId(), anim, 0, false)
-	Wait(10000)
-	TriggerServerEvent('scrapyardgiveitem', Scrap.Data.Items[randomnum].item_id)
-	ClearPedTasks(PlayerPedId())
-	isSearching = false
 end
 
 Citizen.CreateThread(function()
@@ -104,28 +94,10 @@ Citizen.CreateThread(function()
 					if Vdist(pos.x pos.y, pos.z, Scrap.Data.Recycle.x, Scrap.Data.Recycle.y, Scrap.Data.Recycle.z) < 1 then
 						DisplayHelpText("Press ~INPUT_CONTEXT~ to use the recycler!")
 						if IsControlJustPressed(1, 51) then
-							local timerequired = 1000
-							Notify("Please type /recycle [AMOUNT] in chat!", 10000)
 							for k, v in ipairs(Scrap.Data.Items) do
-								if GetItemQuantity(k.item_id) > 0 then
-									while recycleAmount < 1 do
-										Citizen.Wait(0)
-									end
-									if recycleAmount <= GetItemQuantity(k.item_id) then
-										timerequired = timerequired * recycleAmount
-										Notify("Recyling In Progress", timerequired)
-										while timerequired > 0 then
-											Citizen.Wait(1000)
-											TriggerEvent('inventory:removeQty', k.item_id, 1)
-											TriggerEvent('inventory:addQty', 75, 1)
-											timerequired = timerequired - 1000
-										end
-										recycleAmount = 0
-									else
-										Notify("You don't have the amount of "..k.name.." that you entered!", 7500)
-									end
-								else
-									Notify("You don't have any items that can be scrapped!", 7000)
+								if GetItemQuantity(v.item_id) > 0 then
+									TriggerEvent('inventory:removeQty', v.item_id, GetItemQuantity(v.item_id))
+									TriggerServerEvent('scrapyard:addStock', math.floor((GetItemQuantity(v.item_id)/10)))
 								end
 							end
 						end
@@ -214,3 +186,98 @@ Citizen.CreateThread(function()
 		end
 	end
 end)
+
+for k,v in pairs(Scrap.Data.Container) do
+		for i,j in pairs(v.Items) do
+			j.Quantity = {}
+			for index = 1, j.Max do j.Quantity[#j.Quantity+1] = tostring(index) end
+		end
+	end
+
+	Citizen.CreateThread(function()
+		while true do
+			Citizen.Wait(0)
+			local pos = GetEntityCoords(PlayerPedId(), false)
+			for k,v in ipairs(Scrap.Data.MarketLocation) do
+				if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 15.0)then
+					DrawMarker(25,v.x, v.y, v.z-1, 0, 0, 0, 0, 0, 0, 2.001, 2.0001, 0.5001, 0, 155, 255, 200, 0, 0, 0, 0)
+					if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 1.0)then
+						if IsControlJustPressed(1, 51) then
+							if not WarMenu.IsMenuOpened("ScrapMarket") then
+								if not WarMenu.DoesMenuExist("ScrapMarket") then
+									WarMenu.CreateMenu("ScrapMarket", "Scrap Stockpile")
+									WarMenu.SetSpriteTitle("ScrapMarket", "shopui_title_graphics_sale")
+									WarMenu.SetSubTitle("ScrapMarket", "Welcome to the Scrapyard!")
+									WarMenu.SetMenuX("ScrapMarket", 0.6)
+									WarMenu.SetMenuY("ScrapMarket", 0.15)
+									WarMenu.SetTitleBackgroundColor("ScrapMarket", 0, 107, 87)
+									for k,v in pairs(Scrap.Data.Container) do
+										WarMenu.CreateSubMenu(v.Category, "ScrapMarket", v.Category.." SECTION")
+										for i,j in pairs(v.Items) do
+											WarMenu.CreateSubMenu(j.Name, v.Category, j.Name)
+										end
+									end
+									WarMenu.OpenMenu("ScrapMarket")
+								else
+									currentItemIndex = 1
+									WarMenu.OpenMenu("ScrapMarket")
+								end
+							else
+								WarMenu.CloseMenu()
+							end		
+						end
+						if WarMenu.IsMenuOpened("ScrapMarket") then
+							for k,v in pairs(Scrap.Data.Container) do
+								WarMenu.MenuButton(v.Category, v.Category)
+							end
+							if WarMenu.Button("Close") then
+								WarMenu.CloseMenu()
+							end
+							WarMenu.Display()
+						end
+						for k,v in pairs(Scrap.Data.Container) do
+							if WarMenu.IsMenuOpened(v.Category) then
+								for i,j in pairs(v.Items) do
+									if WarMenu.MenuButton(j.Name, j.Name) then
+										currentItemIndex = 1
+									end
+								end
+								WarMenu.Display()
+							end
+						end
+						for k,v in pairs(Scrap.Data.Container) do
+							for i,j in pairs(v.Items) do
+								if WarMenu.IsMenuOpened(j.Name) then
+									if WarMenu.Button("Buy "..currentItemIndex.." "..j.Name.."(s)", "$"..j.price*currentItemIndex) then
+										if GetItemQuantity(j.Id) > 0 then
+											TriggerServerEvent('scrapyard:giveScrap', j.id, currentItemIndex)
+										else
+											TriggerEvent('chatMessage', "You don't have that amount of scrap!")
+										end
+									end
+									if WarMenu.Button("Sell "..currentItemIndex.." "..j.Name.."(s)", "$"..j.sellprice*currentItemIndex) then
+										if GetItemQuantity(j.Id) > 0 and currentItemIndex <= GetItemQuantity(j.Id) then
+											TriggerEvent('inventory:removeQty', j.Id, currentItemIndex)
+											TriggerServerEvent('addScrap', currentItemIndex)
+										else
+											TriggerEvent('chatMessage', "You don't have that amount of scrap!")
+										end
+									end
+									if WarMenu.ComboBox("Quantity", j.Quantity, currentItemIndex, selectedItemIndex, function(currentIndex, selectedIndex)
+										currentItemIndex = currentIndex
+										selectedItemIndex = selectedIndex
+									end) then
+									end
+									WarMenu.Display()
+								end
+							end
+						end
+					elseif(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) > 1.0)then
+						if WarMenu.IsMenuOpened("ScrapMarket") then
+							WarMenu.CloseMenu()
+						end
+					end
+				end
+			end
+		end
+	end)

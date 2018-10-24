@@ -65,22 +65,22 @@ Citizen.CreateThread(function()
 						local timerequired = 1000
 						Notify("Please type /recycle [AMOUNT] in chat!", 10000)
 						for k, v in ipairs(Metal.Data.Items) do
-							if GetItemQuantity(k.item_id) > 0 then
+							if GetItemQuantity(v.item_id) > 0 then
 								while recycleAmount < 1 do
 									Citizen.Wait(0)
 								end
-								if recycleAmount <= GetItemQuantity(k.item_id) then
+								if recycleAmount <= GetItemQuantity(v.item_id) then
 									timerequired = timerequired * recycleAmount
 									Notify("Recyling In Progress", timerequired)
 									while timerequired > 0 then
 										Citizen.Wait(1000)
-										TriggerEvent('inventory:removeQty', k.item_id, 1)
+										TriggerEvent('inventory:removeQty', v.item_id, 1)
 										TriggerEvent('inventory:addQty', 75, 1)
 										timerequired = timerequired - 1000
 									end
 									recycleAmount = 0
 								else
-									Notify("You don't have the amount of "..k.name.." that you entered!", 7500)
+									Notify("You don't have the amount of "..v.name.." that you entered!", 7500)
 								end
 							else
 								Notify("You don't have any items that can be scrapped!", 7000)
