@@ -79,6 +79,85 @@ Citizen.CreateThread(function()
 			SetEntityAsMissionEntity(entity, true, true)
 			DeleteEntity(entity)
 		end
+		if Vdist(pos.x, pos.y, pos.z, Scrap.Data.Chop.x, Scrap.Data.Chop.y, Scrap.Data.Chop.z) < 20 then
+			drawMarker(25, Scrap.Data.Chop.x, Scrap.Data.Chop.y, Scrap.Data.Chop.z, 3.0, 3.0, 3.5, 255, 255, 0, 255)
+			if Vdist(pos.x, pos.y, pos.z, Scrap.Data.Chop.x, Scrap.Data.Chop.y, Scrap.Data.Chop.z) < 2 then
+				if IsPedSittingInAnyVehicle(PlayerPedId()) then
+					local vehicle = GetVehiclePedIsIn(PlayerPedId(), false)
+					if GetPedInVehicleSeat(vehicle, -1) == PlayerPedId() then
+						DisplayHelpText("Press ~INPUT_CONTEXT~ to chop for clean money!\nPress ~INPUT_DETONATE~ to chop for dirty money!")
+						if IsControlJustPressed(1, 51) then
+							local owned = false
+							local playervehicle = false
+							for k,v in pairs(user_vehicles) do
+								if v.plate == GetVehicleNumberPlateText(vehicle) then
+									playervehicle = true
+									break
+								end
+							end
+							if not owned then
+								local class = GetVehicleClass(vehicle)
+							    for seat = -1, GetVehicleMaxNumberOfPassengers(vehicle) do
+							        if not IsVehicleSeatFree(vehicle, seat) then
+							            TaskLeaveVehicle(GetPedInVehicleSeat(vehicle, seat), vehicle, 0)
+							        end
+							    end
+							    NetworkRequestControlOfEntity(vehicle)
+							    while not NetworkHasControlOfEntity(vehicle) do
+							        Citizen.Wait(0)
+							    end
+							    SetEntityAsMissionEntity(vehicle, true, true)
+							    while IsPedInAnyVehicle(PlayerPedId(), true) do
+							        Citizen.Wait(0)
+							    end
+							    DestroyVehicle(vehicle)
+							    if playervehicle then
+									TriggerServerEvent("chopshop:pay", "clean", class)
+								else
+									TriggerServerEvent("chopshop:pay", "clean", 22)
+								end
+							else
+								Notify("We don't accept that type of vehicle!", 3000)
+							end
+						end
+						if IsControlJustPressed(1, 47) then
+							local owned = false
+							local playervehicle = false
+							for k,v in pairs(user_vehicles) do
+								if v.plate == GetVehicleNumberPlateText(vehicle) then
+									playervehicle = true
+									break
+								end
+							end
+							if not owned then
+								local class = GetVehicleClass(vehicle)
+							    for seat = -1, GetVehicleMaxNumberOfPassengers(vehicle) do
+							        if not IsVehicleSeatFree(vehicle, seat) then
+							            TaskLeaveVehicle(GetPedInVehicleSeat(vehicle, seat), vehicle, 0)
+							        end
+							    end
+							    NetworkRequestControlOfEntity(vehicle)
+							    while not NetworkHasControlOfEntity(vehicle) do
+							        Citizen.Wait(0)
+							    end
+							    SetEntityAsMissionEntity(vehicle, true, true)
+							    while IsPedInAnyVehicle(PlayerPedId(), true) do
+							        Citizen.Wait(0)
+							    end
+							    DestroyVehicle(vehicle)
+							    if playervehicle then
+									TriggerServerEvent("chopshop:pay", "dirty", class)
+								else
+									TriggerServerEvent("chopshop:pay", "dirty", 22)
+								end
+							else
+								Notify("We don't accept that type of vehicle!", 3000)
+							end
+						end
+					end
+				end
+			end
+		end
 		if IsScrap then
 			if Vdist(pos.x, pos.y, pos.z, Scrap.Data.Service.x, Scrap.Data.Service.y, Scrap.Data.Service.z) < 10 then
 				DrawMarker(25, Scrap.Data.Service.x, Scrap.Data.Service.y, Scrap.Data.Service.z - 1, 0, 0, 0, 0, 0, 0, 1.0, 1.0, 1.5, 0, 0, 255, 155, 0, 0, 2, 0, 0, 0, 0)
@@ -114,7 +193,7 @@ Citizen.CreateThread(function()
 						if IsPedSittingInAnyVehicle(PlayerPedId()) then
 							local vehicle = GetVehiclePedIsIn(PlayerPedId(), false)
 							if GetPedInVehicleSeat(vehicle, -1) == PlayerPedId() then
-								DisplayHelpText("Press ~INPUT_CONTEXT~ to chop for clean money!\nPress ~INPUT_DETONATE~ to chop for dirty money!")
+								DisplayHelpText("\nPress ~INPUT_CONTEXT~ to chop into scrap!")
 								if IsControlJustPressed(1, 51) then
 									local owned = false
 									local playervehicle = false
@@ -141,43 +220,9 @@ Citizen.CreateThread(function()
 									    end
 									    DestroyVehicle(vehicle)
 									    if playervehicle then
-											TriggerServerEvent("chopshop:pay", "clean", class)
+											TriggerServerEvent("chopshop:pay", "scrap", class)
 										else
-											TriggerServerEvent("chopshop:pay", "clean", 22)
-										end
-									else
-										Notify("We don't accept that type of vehicle!", 3000)
-									end
-								end
-								if IsControlJustPressed(1, 47) then
-									local owned = false
-									local playervehicle = false
-									for k,v in pairs(user_vehicles) do
-										if v.plate == GetVehicleNumberPlateText(vehicle) then
-											playervehicle = true
-											break
-										end
-									end
-									if not owned then
-										local class = GetVehicleClass(vehicle)
-									    for seat = -1, GetVehicleMaxNumberOfPassengers(vehicle) do
-									        if not IsVehicleSeatFree(vehicle, seat) then
-									            TaskLeaveVehicle(GetPedInVehicleSeat(vehicle, seat), vehicle, 0)
-									        end
-									    end
-									    NetworkRequestControlOfEntity(vehicle)
-									    while not NetworkHasControlOfEntity(vehicle) do
-									        Citizen.Wait(0)
-									    end
-									    SetEntityAsMissionEntity(vehicle, true, true)
-									    while IsPedInAnyVehicle(PlayerPedId(), true) do
-									        Citizen.Wait(0)
-									    end
-									    DestroyVehicle(vehicle)
-									    if playervehicle then
-											TriggerServerEvent("chopshop:pay", "dirty", class)
-										else
-											TriggerServerEvent("chopshop:pay", "dirty", 22)
+											TriggerServerEvent("chopshop:pay", "scrap", 22)
 										end
 									else
 										Notify("We don't accept that type of vehicle!", 3000)
