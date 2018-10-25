@@ -6,6 +6,8 @@ local Scrap = {
 		Doors = {
 			{x = -589.53009033203, y = -1621.603515625, z = 33.161777496338, h = 174.73043823242, model = 812467272},
 			{x = -590.82397460938, y = -1621.5015869141, z = 33.162761688232, h = 354.52551269531, model = 812467272},
+			{x = -1048.2850341797, y = -236.81707763672, z = 44.170997619629, h = 117.5, model = -1821777087},
+			{x = -1047.0837402344, y = -239.12460327148, z = 44.170997619629, h = 297.50003051758, model = -1821777087},
 		},
 		Blips = {},
 		Sand = 0,
@@ -26,7 +28,10 @@ local Scrap = {
 		    	[1] = {Name = "Scrap", Id = 75, price = 300, Max = 20, sellprice = 150},
 		    }},
 		},
-		Recycle = {},
+		Recycle = {x = -602.00280761719, y = -1602.7091064453, z = 30.405181884766, h = 266.00207519531},
+		MarketLocation = {x = -593.80462646484, y = -1608.1984863281, z = 27.010789871216, h = 353.60125732422},
+		Chop = {x = -525.25061035156, y = -1722.2807617188, z = 19.123287200928, h = 228.57734680176},
+		MetalObjects = {},
 	},
 },
 
@@ -182,6 +187,23 @@ Citizen.CreateThread(function()
 						end
 					end
 				end
+				--[[for k, v in ipairs(Scrap.Data.MetalObjects) do
+					local entity = GetClosestObjectOfType(pos.x, pos.y, pos.z, 1, v, 0, 1, 1)
+					if entity then
+						DisplayHelpText("Press ~INPUT_CONTEXT~ to pick up this item!")
+						if IsControlJustPressed(1, 51) then
+							RequestAnimDict("anim@heists@box_carry@")
+							while not HasAnimDictLoaded("anim@heists@box_carry@") do
+								Citizen.Wait(0)
+							end
+							TaskPlayAnim(PlayerPedId(), "anim@heists@box_carry@", "walk", -4.0, 4.0, -1, 49, 0, false, false, false)
+							if not IsEntityPlayingAnim(PlayerPedId(), "anim@heists@box_carry@", "walk", 0) then
+								TaskPlayAnim(PlayerPedId(), "anim@heists@box_carry@", "walk", -4.0, 4.0, -1, 49, 0, false, false, false)
+							end
+							AttachEntityToEntity(entity1, entity2, boneIndex, xPos, yPos, zPos, xRot, yRot, zRot, p9, useSoftPinning, collision, isPed, vertexIndex, fixedRot)
+						end
+					end
+				end--]]
 			end
 		end
 	end
