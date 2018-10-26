@@ -96,7 +96,7 @@ cars = {
         {name = "Comet SR", price = 165000, model = "comet5"},
         {name = "Coquette", price = 125000, model = "coquette"},
         {name = "Drift Tampa", price = 95000, model = "tampa2"},
-        {name = "Hotring Sabre", price = 42500, model = "hotring"}, -- Assault Pack
+        --{name = "Hotring Sabre", price = 42500, model = "hotring"}, -- Assault Pack
         {name = "Elegy RH8", price = 82000, model = "elegy2"},
         {name = "Elegy Retro Custom", price = 99000, model = "elegy"},
         {name = "Feltzer", price = 164000, model = "feltzer2"},
@@ -114,7 +114,7 @@ cars = {
         {name = "Massacro Race", price = 143500, model = "massacro2"},
         {name = "Neon", price = 135000, model = "neon"},
         {name = "Omnis", price = 51750, model = "omnis"},
-        {name = "Pariah", price = 35750, model = "pariah"},
+        --{name = "Pariah", price = 35750, model = "pariah"},
         {name = "Penumbra", price = 43900, model = "penumbra"},
         {name = "Rapid GT", price = 115000, model = "rapidgt"},
         {name = "Rapid GT Convertible", price = 130000, model = "rapidgt2"},
