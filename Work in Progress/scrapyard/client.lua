@@ -173,9 +173,9 @@ Citizen.CreateThread(function()
 				end
 			end
 			if OnDuty then
-				if Vdist(pos.x pos.y, pos.z, Scrap.Data.Recycle.x, Scrap.Data.Recycle.y, Scrap.Data.Recycle.z) < 10 then
+				if Vdist(pos.x, pos.y, pos.z, Scrap.Data.Recycle.x, Scrap.Data.Recycle.y, Scrap.Data.Recycle.z) < 10 then
 					DrawMarker(25, Scrap.Data.Recycle.x, Scrap.Data.Recycle.y, Scrap.Data.Recycle.z - 1, 0, 0, 0, 0, 0, 0, 1.0, 1.0, 1.5, 0, 0, 255, 155, 0, 0, 2, 0, 0, 0, 0)
-					if Vdist(pos.x pos.y, pos.z, Scrap.Data.Recycle.x, Scrap.Data.Recycle.y, Scrap.Data.Recycle.z) < 1 then
+					if Vdist(pos.x, pos.y, pos.z, Scrap.Data.Recycle.x, Scrap.Data.Recycle.y, Scrap.Data.Recycle.z) < 1 then
 						DisplayHelpText("Press ~INPUT_CONTEXT~ to use the recycler!")
 						if IsControlJustPressed(1, 51) then
 							for k, v in ipairs(Scrap.Data.Items) do
@@ -193,8 +193,76 @@ Citizen.CreateThread(function()
 						if IsPedSittingInAnyVehicle(PlayerPedId()) then
 							local vehicle = GetVehiclePedIsIn(PlayerPedId(), false)
 							if GetPedInVehicleSeat(vehicle, -1) == PlayerPedId() then
-								DisplayHelpText("\nPress ~INPUT_CONTEXT~ to chop into scrap!")
+								DisplayHelpText("Press ~INPUT_CONTEXT~ to chop for clean money!\nPress ~INPUT_DETONATE~ to chop for dirty money!\nPress ~INPUT_CONTEXT_SECONDARY~ to chop into scrap!")
+								if IsControlJustPressed(1, 47) then
+									local owned = false
+									local playervehicle = false
+									for k,v in pairs(user_vehicles) do
+										if v.plate == GetVehicleNumberPlateText(vehicle) then
+											playervehicle = true
+											break
+										end
+									end
+									if not owned then
+										local class = GetVehicleClass(vehicle)
+									    for seat = -1, GetVehicleMaxNumberOfPassengers(vehicle) do
+									        if not IsVehicleSeatFree(vehicle, seat) then
+									            TaskLeaveVehicle(GetPedInVehicleSeat(vehicle, seat), vehicle, 0)
+									        end
+									    end
+									    NetworkRequestControlOfEntity(vehicle)
+									    while not NetworkHasControlOfEntity(vehicle) do
+									        Citizen.Wait(0)
+									    end
+									    SetEntityAsMissionEntity(vehicle, true, true)
+									    while IsPedInAnyVehicle(PlayerPedId(), true) do
+									        Citizen.Wait(0)
+									    end
+									    DestroyVehicle(vehicle)
+									    if playervehicle then
+											TriggerServerEvent("chopshop:pay", "dirty", class)
+										else
+											TriggerServerEvent("chopshop:pay", "dirty", 22)
+										end
+									else
+										Notify("We don't accept that type of vehicle!", 3000)
+									end
+								end
 								if IsControlJustPressed(1, 51) then
+									local owned = false
+									local playervehicle = false
+									for k,v in pairs(user_vehicles) do
+										if v.plate == GetVehicleNumberPlateText(vehicle) then
+											playervehicle = true
+											break
+										end
+									end
+									if not owned then
+										local class = GetVehicleClass(vehicle)
+									    for seat = -1, GetVehicleMaxNumberOfPassengers(vehicle) do
+									        if not IsVehicleSeatFree(vehicle, seat) then
+									            TaskLeaveVehicle(GetPedInVehicleSeat(vehicle, seat), vehicle, 0)
+									        end
+									    end
+									    NetworkRequestControlOfEntity(vehicle)
+									    while not NetworkHasControlOfEntity(vehicle) do
+									        Citizen.Wait(0)
+									    end
+									    SetEntityAsMissionEntity(vehicle, true, true)
+									    while IsPedInAnyVehicle(PlayerPedId(), true) do
+									        Citizen.Wait(0)
+									    end
+									    DestroyVehicle(vehicle)
+									    if playervehicle then
+											TriggerServerEvent("chopshop:pay", "clean", class)
+										else
+											TriggerServerEvent("chopshop:pay", "clean", 22)
+										end
+									else
+										Notify("We don't accept that type of vehicle!", 3000)
+									end
+								end
+								if IsControlJustPressed(1, 52) then
 									local owned = false
 									local playervehicle = false
 									for k,v in pairs(user_vehicles) do

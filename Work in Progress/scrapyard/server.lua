@@ -129,10 +129,10 @@ end)
 
 RegisterServerEvent('addScrap')
 AddEventHandler('addScrap', function(amount)
-	scrap = exports['GHMattiMySQL']:QueryAsync("UPDATE scrap_stockpile SET ('total') = (@total);", {
-		['@total'] = ['@total'] + amount
-	})
-	TriggerClientEvent('scrapyard:sync', scrap[1])
+    exports['GHMattiMySQL']:QueryResultAsync("SELECT * FROM scrap_stockpile WHERE (`id` = @id)", {["@id"] = 1}, function(search)
+        scrap = exports['GHMattiMySQL']:QueryAsync("UPDATE scrap_stockpile SET `total` = @total WHERE `id` = @id;", {['@total'] = search[1].total + amount,['@id'] = 1})
+    end)
+	TriggerClientEvent('scrapyard:sync', scrap)
 end)
 
 local scrap = 300
