@@ -27,7 +27,6 @@ guns = {
     {name = "Flashlight", model = "WEAPON_FLASHLIGHT"},
     {name = "Nightstick", model = "WEAPON_NIGHTSTICK"},
     {name = "Combat Pistol", model = "WEAPON_COMBATPISTOL"},
-    {name = "Pistol MK2 (SASP)", model = "WEAPON_PISTOL_MK2"},
 }
 
 local options = {"Equip", "Remove"}
