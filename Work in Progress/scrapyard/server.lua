@@ -113,13 +113,13 @@ AddEventHandler("chopshop:pay", function(type, class)
 	if type == "dirty" then
 		if not chopshop_pay_dirty[class] then class = 2 end
 		TriggerEvent("core:getuser", source, function(user)
-			user.addWallet(chopshop_pay_dirty[class])
+			user.addDirty(chopshop_pay_dirty[class])
 			TriggerEvent('addScrap', chopshop_vehicle_scrap[class])
 		end)
 	elseif type == "clean" then
 		if not chopshop_pay_clean[class] then class = 2 end
 		TriggerEvent("core:getuser", source, function(user)
-			user.addDirty(chopshop_pay_clean[class])
+			user.addWallet(chopshop_pay_clean[class])
 			TriggerEvent('addScrap', chopshop_vehicle_scrap[class])
 		end)
 	elseif type == "scrap" then
