@@ -23,7 +23,7 @@ local stationGarage = {
 
 local stationHeliGarage = {
 	{name = "Police Helipad", sprite = 43, colour = 18, x=449.150207519531, y=-981.246459960938, z=43.6916275024414}, -- Mission row
-	{name = "Police Helipad", sprite = 43, colour = 18, x=-466.60003662109, y=5981.0639648438, z=33.205085754395, -- Paleto Bay
+	{name = "Police Helipad", sprite = 43, colour = 18, x=-466.60003662109, y=5981.0639648438, z=33.205085754395}, -- Paleto Bay
 	{name = "Police Helipad", sprite = 43, colour = 18, x=1889.5676269531, y=3705.4157714844, z=32.930965423584}, -- Sandy Shores
 	{name = "Police Helipad", sprite = 43, colour = 18, x=-1095.3184814453, y=-834.97686767578, z=37.675365447998}, -- San Andreas Ave
 }
