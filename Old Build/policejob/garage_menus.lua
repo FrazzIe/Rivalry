@@ -36,7 +36,7 @@ local boatGarage = {
 
 cars = {
     --{name = "Bulletproof CVPI LUL", model = "police7", type = "", rank = "cadet"},
-    {name = "Marked Transport", model = "policet", type = "", rank = "recruit"},
+    {name = "Marked Transport", model = "policet", type = "", rank = "cadet"},
     {name = "Marked City CVPI", model = "statep", type = "", rank = "recruit"},
     {name = "Marked 2016 Charger", model = "police2", type = "", rank = "recruit"},
     {name = "Marked City Taurus", model = "police", type = "", rank = "officer i"}, 
