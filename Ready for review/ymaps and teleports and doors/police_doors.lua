@@ -57,7 +57,7 @@ local doors = {
 		[14] = {x = 1857.5572509766, y = 3668.9914550781, z = -116.77988433838, model = -642608865, heading = 30.000001907349, locked = true}, -- Sandy Jail Cell 3
 		[15] = {x = 1867.9284667969, y = 3674.638671875, z = -116.77992248535, model = 871712474, heading = 30.000001907349, locked = true}, -- Sandy Jail Cell 4 Lockdown
 		[16] = {x = 1872.2075195313, y = 3676.9758300781, z = -116.7799911499, model = 871712474, heading = 30.000001907349, locked = true}, -- Sandy Jail Cell 5 Lockdown
-		[17] = {x = 423.20999145508, y = -998.20001220703, z = 30.799999237061, model = -1635579193, heading = 179.98808288574, locked = true}, -- Mission Row Wall Door
+--[[		[17] = {x = 423.20999145508, y = -998.20001220703, z = 30.799999237061, model = -1635579193, heading = 179.98808288574, locked = true}, -- Mission Row Wall Door
 		[18] = {x = -440.42999267578, y = 6006.08984375, z = -118.59999847412, model = -642608865, heading = 135.51921081543, locked = true}, -- Paleto Jail Cells 1
 		[19] = {x = -436.8454284668, y = 6002.5263671875, z = -118.59999847412, model = -642608865, heading = 135.51921081543, locked = true}, -- Paleto Jail Cells 2
 		[20] = {x = -433.29452514648, y = 5998.9741210938, z = -118.59999847412, model = -642608865, heading = 135.18885803223, locked = true}, -- -- Paleto Jail Cells 3
@@ -93,7 +93,7 @@ local doors = {
 		[50] = {x = 1799.6083984375, y = 2616.9753417969, z = 44.603248596191, model = 741314661, heading = 179.99998474121, locked = true}, -- Jail Gate 3
 		[51] = {x = 1797.7608642578, y = 2596.5649414063, z = 46.387306213379, model = -1156020871, heading = 179.99987792969, locked = true}, -- Jail Fence Door 1
 		[52] = {x = 1798.0900878906, y = 2591.6872558594, z = 46.417839050293, model = -1156020871, heading = 179.99987792969, locked = true}, -- Jail Fence Door 2
-	}, 
+	--]]}, 
 	double = {
 		[1] = {
 			["left"] = {x = 434.7479, y = -980.6184, z = 30.839260, model = -1215222675, heading = 270.18865966797, locked = false},
