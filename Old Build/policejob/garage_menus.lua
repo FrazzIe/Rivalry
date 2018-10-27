@@ -35,21 +35,17 @@ local boatGarage = {
 }
 
 cars = {
-    {name = "Marked City CVPI", model = "police7", type = "", rank = "cadet"},
-    {name = "Marked City Taurus", model = "police", type = "", rank = "officer i"}, 
-    {name = "Marked City Charger", model = "police2", type = "", rank = "officer i"},
-    {name = "Marked City Explorer", model = "police5", type = "", rank = "officer ii"},
-    {name = "Marked Ford Raptor", model = "fraptor", type = "", rank = "officer ii"},
-    {name = "Marked K9 Charger", model = "k9c", type = "", rank = "officer ii"},
-    {name = "Marked Motorcycle", model = "policebmw", type = "", rank = "officer i"},
+    --{name = "Bulletproof CVPI LUL", model = "police7", type = "", rank = "cadet"},
     {name = "Marked Transport", model = "policet", type = "", rank = "cadet"},
-    --{name = "Trooper Motorcycle", model = "policeb", type = "", rank = "trooper"},
-    --{name = "Trooper CVPI", model = "statep", type = "", rank = "trooper"},
-    --{name = "Trooper Charger", model = "statep2", type = "", rank = "trooper"},
-    --{name = "Trooper Hellcat", model = "statep4", type = "", rank = "trooper"},
-    --{name = "Park Ranger ATV", model = "ATV", type = "", rank = "officer i"},
+    {name = "Marked City CVPI", model = "statep", type = "", rank = "cadet"},
+    {name = "Marked 2016 Charger", model = "police2", type = "", rank = "recruit"},
+    {name = "Marked City Taurus", model = "police", type = "", rank = "officer i"}, 
+    {name = "Marked Motorcycle", model = "policebmw", type = "", rank = "officer i"},
+    {name = "Marked Ford Raptor", model = "fraptor", type = "", rank = "officer i"},
+    {name = "Marked 2014 Charger", model = "statep2", type = "", rank = "officer ii"},
+    {name = "Marked City Explorer", model = "police5", type = "", rank = "officer ii"},
+    {name = "Marked K9 Charger", model = "k9c", type = "", rank = "officer ii"},
     {name = "Interceptor Mustang", model = "2015polstang", type = "", rank = "officer ii"},
-    {name = "Interceptor GTR", model = "rmodpolice", type = "", rank = "officer ii"},
     {name = "Unmarked Panto", model = "upanto", type = "", rank = "detective"},
     {name = "Unmarked Buffalo", model = "fbi", type = "", rank = "detective"},
     {name = "Unmarked Stanier", model = "police4", type = "", rank = "detective"},
@@ -57,7 +53,6 @@ cars = {
     {name = "Unmarked Explorer", model = "uexplorer", type = "", rank = "detective"},
     {name = "Unmarked Suburban", model = "usuburban", type = "", rank = "lieutenant"},
     {name = "Unmarked Charger", model = "18charger", type = "", rank = "lieutenant"},
-    {name = "Unmarked Camaro", model = "ucamaro", type = "", rank = "lieutenant"},
 }
 
 heli = {
