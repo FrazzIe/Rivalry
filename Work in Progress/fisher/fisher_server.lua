@@ -99,7 +99,7 @@ local table = {
 	[11] = 0
 }
 
-RegisterServerEvent('fluxiateMarket')
+--[[RegisterServerEvent('fluxiateMarket')
 AddEventHandler('fluxiateMarket', function(id, sold, index)
 	local source = source
 	local mostSoldFishIndex = 0
@@ -109,7 +109,7 @@ AddEventHandler('fluxiateMarket', function(id, sold, index)
 			v = sold
 		end
 	end
-	exports['GHMattiMySQL']:QueryResultAsync("SELECT * FROM fish_market WHERE (id = @id)", {["@id"] = 1}, function(queryTable)
+	exports['GHMattiMySQL']:QueryResultAsync("SELECT * FROM fish_market WHERE (`id` = @id)", {["@id"] = 1}, function(queryTable)
 		fish = exports['GHMattiMySQL']:QueryAsync("UPDATE fish_market SET `Snook` = @Snook AND `Pompano` = @Pompano AND `Snapper` = @Snapper AND `Redfish` = @Redfish AND `Bass` = @Bass AND `Mackerel` = @Mackerel AND `Herring` = @Herring AND `Salmon` = '@Salmon' AND `Barracuda` = @Barracuda AND `Tuna` = @Tuna AND `Yellowfish` = @Yellowfish WHERE ( `id` = @id );", { 
 		    ['@Snook'] = table[1] + queryTable[1].Snook,
 		    ['@Pompano'] = table[2] + queryTable[1].Pompano,
@@ -127,17 +127,17 @@ AddEventHandler('fluxiateMarket', function(id, sold, index)
 
 		for k, v in ipairs(queryTable) do
 			for a, b in ipairs(queryTable) do
-				if v > b then
+				if v[1] > b[k] then
 					mostSoldFishIndex = k
 				end
-				if v < b then
+				if v[1] < b[k] then
 					leastSoldFishIndex = k
 				end
 			end
 		end
 		TriggerEvent('updatePrices', mostSoldFishIndex, leastSoldFishIndex)
 	end)
-end)
+end)--]]
 
 RegisterServerEvent('sellFish')
 AddEventHandler('sellFish', function(id, quantity)

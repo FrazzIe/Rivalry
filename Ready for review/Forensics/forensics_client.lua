@@ -179,10 +179,6 @@ AddEventHandler('police:vehicleswab', function(swabedcar)
 			ClearPedTasks(PlayerPedId())
 			TriggerServerEvent('police:forensicssync', v, "pickedupfp", "add", k)
 			TriggerServerEvent('police:forensicssync', v, "fpevidence", "remove", k)
-		else
-			TaskPlayAnim(PlayerPedId(), "timetable@floyd@clean_kitchen@idle_a", "idle_a", 100.0, 200.0, 0.3, 16, 0.2, 0, 0, 0)
-			Citizen.Wait(10000)
-			ClearPedTasks(PlayerPedId())
 		end
 	end
 	Chat_Message("Results", "^0You collected "..count.." fingerprint(s).", 255, 0, 0, true)
@@ -218,6 +214,7 @@ Citizen.CreateThread(function()
 							Citizen.Wait(2000)
 						else
 							TriggerServerEvent('police:forensicssync', fingerprint, "fpevidence", "remove", k)
+							Citizen.Wait(2000)
 						end
 					end
 				else
