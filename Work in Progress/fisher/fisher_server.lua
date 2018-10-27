@@ -85,31 +85,48 @@ AddEventHandler('updatePrices', function(mostSoldFish, leastSoldFish)
 	end
 end)
 
+local table = {
+	[1] = 0,
+	[2] = 0,
+	[3] = 0,
+	[4] = 0,
+	[5] = 0,
+	[6] = 0,
+	[7] = 0,
+	[8] = 0,
+	[9] = 0,
+	[10] = 0,
+	[11] = 0
+}
+
 RegisterServerEvent('fluxiateMarket')
-AddEventHandler('fluxiateMarket', function(_table)
+AddEventHandler('fluxiateMarket', function(id, sold, index)
 	local source = source
-	local table = _table
-	local values = {}
 	local mostSoldFishIndex = 0
 	local leastSoldFishIndex = 0
+	for k, v in ipairs(table) do
+		if index == k then
+			v = sold
+		end
+	end
 	exports['GHMattiMySQL']:QueryResultAsync("SELECT * FROM fish_market WHERE (id = @id)", {["@id"] = 1}, function(queryTable)
-		fish = exports['GHMattiMySQL']:QueryAsync("UPDATE fish_market SET (`Snook`, `Pompano`, `Snapper`, `Redfish`, `Bass`, `Mackerel`, `Herring`, `Salmon`, `Barracuda`, `Tuna`, `Yellowfish`) = @Snook, @Pompano, @Snapper, @Redfish, @Bass, @Mackerel, @Herring, @Salmon, @Barracuda, @Tuna, @Yellowfish) WHERE ( `id` = @id );", { 
-		    ['@Snook'] = table[1].sold + queryTable[1].Snook,
-		    ['@Pompano'] = table[2].sold + queryTable[1].Pompano,
-		    ['@Snapper'] = table[3].sold + queryTable[1].Snapper,
-		    ['@Redfish'] = table[4].sold + queryTable[1].Redfish,
-		    ['@Bass'] = table[5].sold + queryTable[1].Bass,
-		    ['@Mackerel'] = table[6].sold + queryTable[1].Mackerel,
-		    ['@Herring'] = table[7].sold + queryTable[1].Herring,
-		    ['@Salmon'] = table[8].sold + queryTable[1].Salmon,
-		    ['@Barracuda'] = table[9].sold + queryTable[1].Barracuda,
-		    ['@Tuna'] = table[10].sold + queryTable[1].Tuna,
-		    ['@Yellowfish'] = table[11].sold + queryTable[1].Yellowfish,
+		fish = exports['GHMattiMySQL']:QueryAsync("UPDATE fish_market SET `Snook` = @Snook AND `Pompano` = @Pompano AND `Snapper` = @Snapper AND `Redfish` = @Redfish AND `Bass` = @Bass AND `Mackerel` = @Mackerel AND `Herring` = @Herring AND `Salmon` = '@Salmon' AND `Barracuda` = @Barracuda AND `Tuna` = @Tuna AND `Yellowfish` = @Yellowfish WHERE ( `id` = @id );", { 
+		    ['@Snook'] = table[1] + queryTable[1].Snook,
+		    ['@Pompano'] = table[2] + queryTable[1].Pompano,
+		    ['@Snapper'] = table[3] + queryTable[1].Snapper,
+		    ['@Redfish'] = table[4] + queryTable[1].Redfish,
+		    ['@Bass'] = table[5] + queryTable[1].Bass,
+		    ['@Mackerel'] = table[6] + queryTable[1].Mackerel,
+		    ['@Herring'] = table[7] + queryTable[1].Herring,
+		    ['@Salmon'] = table[8] + queryTable[1].Salmon,
+		    ['@Barracuda'] = table[9] + queryTable[1].Barracuda,
+		    ['@Tuna'] = table[10] + queryTable[1].Tuna,
+		    ['@Yellowfish'] = table[11] + queryTable[1].Yellowfish,
 	    	['@id'] = 1,
 		})
 
-		for k, v in ipairs(fish) do
-			for a, b in ipairs(fish) do
+		for k, v in ipairs(queryTable) do
+			for a, b in ipairs(queryTable) do
 				if v > b then
 					mostSoldFishIndex = k
 				end
@@ -123,9 +140,13 @@ AddEventHandler('fluxiateMarket', function(_table)
 end)
 
 RegisterServerEvent('sellFish')
-AddEventHandler('sellFish', function(id, index)
+AddEventHandler('sellFish', function(id, quantity)
 	local source = source
 	TriggerEvent("core:getuser", source, function(user)
-		user.addWallet(prices[index])
+		for k, v in ipairs(allFish) do
+			if v == id then
+				user.addWallet(prices[k] * quantity)
+			end
+		end
     end)
 end)

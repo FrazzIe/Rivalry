@@ -331,9 +331,9 @@ function startFishing(typeOfFishing)
 end
 -- Networking Events
 	RegisterNetEvent('fisher:set')
-	AddEventHandler("fisher:set", function(_isFisher)
+	AddEventHandler("fisher:set", function(_IsFisher)
 		OnDuty = false
-		IsFisher = _isFisher
+		IsFisher = _IsFisher
 	end)
 
 	RegisterNetEvent('fisher:boat')
@@ -359,7 +359,7 @@ end
 			Citizen.Wait(0)
 			local ped = PlayerPedId()
 			local pos = GetEntityCoords(ped, false)
-			if isFisher then
+			if IsFisher then
 				if(Vdist(pos.x, pos.y, pos.z, Fishing.Data.Locations.Service.x, Fishing.Data.Locations.Service.y, Fishing.Data.Locations.Service.z) < 10) then
 					DrawMarker(25, Fishing.Data.Locations.Service.x, Fishing.Data.Locations.Service.y, Fishing.Data.Locations.Service.z - 1, 0, 0, 0, 0, 0, 0, 1.0, 1.0, 1.5, 0, 0, 255, 155, 0, 0, 2, 0, 0, 0, 0)
 					if Vdist(pos.x, pos.y, pos.z, Fishing.Data.Locations.Service.x, Fishing.Data.Locations.Service.y, Fishing.Data.Locations.Service.z) < 1 then
@@ -469,9 +469,9 @@ end
 									if WarMenu.Button("Sell "..currentItemIndex.." "..j.Name.."(s)", "$"..j.price*currentItemIndex) then
 										if GetItemQuantity(j.Id) > 0 and currentItemIndex <= GetItemQuantity(j.Id) then
 											TriggerEvent('inventory:removeQty', j.Id, currentItemIndex)
-											TriggerServerEvent('sellFish', currentItemIndex, i)
-											j.sold = j.sold + 1
-											TriggerServerEvent('fluxiateMarket', v.Items)
+											TriggerServerEvent('sellFish', j.Id, currentItemIndex)
+											j.sold = j.sold + currentItemIndex
+											TriggerServerEvent('fluxiateMarket', j.Id, j.sold, i)
 										else
 											TriggerEvent('chatMessage', "You don't have that fish! Come back when you do!")
 										end
