@@ -72,7 +72,7 @@ AddEventHandler('Fisher:setService', function (inService)
 	TriggerEvent('fish:initialise')
 end)
 
-local prices = {50, 60, 70, 80, 99, 175, 200, 225, 250, 275, 300}
+local prices = {20, 30, 40, 50, 60, 75, 85, 95, 105, 115, 125}
 local previousTime = 0
 RegisterServerEvent('updatePrices')
 AddEventHandler('updatePrices', function(mostSoldFish, leastSoldFish)
@@ -83,7 +83,7 @@ AddEventHandler('updatePrices', function(mostSoldFish, leastSoldFish)
 			prices[mostSoldFish] = prices[mostSoldFish] - 25
 			prices[leastSoldFish] = prices[leastSoldFish] + 25
 		elseif previousTime - time <= -7200 then
-			prices = {50,50,50,50,150,175,200,225,250,275}
+			prices = {20,30,40,50,60,75,85,95,105,115,125}
 			prices[mostSoldFish] = prices[mostSoldFish] - 25
 			prices[leastSoldFish] = prices[leastSoldFish] + 25
 		else
