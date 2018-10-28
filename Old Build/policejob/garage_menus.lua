@@ -47,7 +47,7 @@ cars = {
     {name = "Interceptor Mustang", model = "2015polstang", type = "", rank = "officer ii"},
     {name = "Unmarked Panto", model = "upanto", type = "", rank = "detective"},
     {name = "Unmarked Buffalo", model = "fbi", type = "", rank = "detective"},
-    {name = "Unmarked Stanier", model = "police4", type = "", rank = "detective"},
+    {name = "Unmarked CVPI", model = "police4", type = "", rank = "detective"},
     {name = "Unmarked Granger", model = "fbi2", type = "", rank = "detective"},
     {name = "Unmarked Explorer", model = "uexplorer", type = "", rank = "detective"},
     {name = "Unmarked Suburban", model = "usuburban", type = "", rank = "lieutenant"},

@@ -29,6 +29,7 @@ AddEventHandler('jobcenter:initialise', function(source, currentJob)
     end
 
 	TriggerClientEvent("trucker:set", source, (currentJob.id == 24))
+	TriggerClientEvent("fisher:set", source, (currentJob.id == 10))
 
 	TriggerClientEvent("jobcenter:updateJob", source, currentJob.name)
 end)
@@ -66,6 +67,7 @@ AddEventHandler('jobcenter:jobs', function(id)
         end
 
         TriggerClientEvent("trucker:set", source, (id == 24))
+        TriggerClientEvent("fisher:set", source, (id == 10))
 
 		TriggerClientEvent("jobcenter:updateJob", source, data.name)
 

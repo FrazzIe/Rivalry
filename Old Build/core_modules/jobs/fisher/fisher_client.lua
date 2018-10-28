@@ -337,9 +337,9 @@ function startFishing(typeOfFishing)
 end
 -- Networking Events
 	RegisterNetEvent('fisher:set')
-	AddEventHandler("fisher:set", function(_IsFisher)
+	AddEventHandler('fisher:set', function(var)
 		OnDuty = false
-		IsFisher = _IsFisher
+		IsFisher = var
 	end)
 
 	RegisterNetEvent('fisher:boat')
