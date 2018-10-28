@@ -64,6 +64,9 @@ server_script 'jail/server.lua'
 client_script 'jobs/trucking/client.lua'
 server_script 'jobs/trucking/server.lua'
 
+client_script 'jobs/fisher/fisher_client.lua'
+server_script 'jobs/fisher/fisher_server.lua'
+
 client_script 'jobs/doj/client.lua'
 client_script 'jobs/doj/shared.lua'
 server_script 'jobs/doj/server.lua'

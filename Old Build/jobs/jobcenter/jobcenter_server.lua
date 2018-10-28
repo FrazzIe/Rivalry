@@ -4,7 +4,7 @@ jobList = {
 	--{name="Miner", id=9},
 	--{name="bucheron", id=7},
 	--{name="Farmer", id=6},
-	--{name="Fisher", id=10},
+	{name="Fisher", id=10},
 	--{name="Brewer", id=12},
 	--{name="vigneron", id=13},
 	{name="emergency", id=15},

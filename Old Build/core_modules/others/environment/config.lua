@@ -29,3 +29,21 @@ Weather.Current, Weather.Types = "SUNNY", {
     "XMAS",
 }
 --]]
+
+Weather.SetTypes = {
+    "SUNNY",
+    "EXTRASUNNY", 
+    "CLEAR", 
+    "NEUTRAL", 
+    "SMOG", 
+    "FOGGY", 
+    "OVERCAST", 
+    "CLOUDS", 
+    "CLEARING", 
+    "RAIN", 
+    "THUNDER", 
+    "SNOW", 
+    "BLIZZARD", 
+    "SNOWLIGHT", 
+    "XMAS",
+}

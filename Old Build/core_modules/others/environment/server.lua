@@ -32,15 +32,15 @@ TriggerEvent("core:addGroupCommand", "weather", "staff", function(source, args, 
 	if not args[1] then
 		TriggerClientEvent('chatMessage', source, "^0[^1SYSTEM^0]", {255, 0, 0}, "^3/weather [type]")
 	else
-		for i = 1, #Weather.Types do
-			if Weather.Types[i] == args[1] then
+		for i = 1, #Weather.SetTypes do
+			if Weather.SetTypes[i] == args[1] then
 				Weather.Current = args[1]
 				TriggerClientEvent('chatMessage', source, "^0[^1SYSTEM^0]", {255, 0, 0}, "^4Weather changed!")
 				break
 			end
 		end
 	end
-end, {help = "Change the weather", params = {{name = "weather", help = table.concat(Weather.Types, " | ")}}})
+end, {help = "Change the weather", params = {{name = "weather", help = table.concat(Weather.SetTypes, " | ")}}})
 
 TriggerEvent("core:addGroupCommand", "time", "staff", function(source, args, rawCommand, data, power, group)
 	local source = source

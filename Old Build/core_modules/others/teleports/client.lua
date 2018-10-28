@@ -33,8 +33,8 @@ local teleports = {
         inside = {x = 326.88055419922, y = -594.34429931641, z = 43.291954040527, h = 70.852951049805},
     }, -- Upper pillbox to lower pillbox
     [9] = {
-        outside = {x = 465.30514526367, y = -990.0595703125, z = 24.914852142334, h = 272.66409301758},
-        inside = {x = 2151.1369628906, y = 2921.3303222656, z = -61.901874542236, h = 85.827827453614},
+        outside = {x = 465.40515136719, y = -990.03521728516, z = 24.914852142334, h = 88.645606994629},
+        inside = {x = 2033.7778320313, y = 2942.0805664063, z = -61.906349182129, h = 260.99813842773},
     },-- Interrogation Area
     [10] = {
         outside = {x = 319.71865844727, y = -573.68988037109, z = 43.317474365234, h = 62.312808990479},
@@ -112,8 +112,36 @@ local teleports = {
         outside = {x = -1829.2888183594, y = 801.29138183594, z = 138.41163635254, h = 39.63009262085},
         inside = {x = -1828.4725341797, y = 800.28326416016, z = 138.16339111328, h = 224.63505554199},
     },-- Richman Glen Gas Station 24/7
+    [29] = {
+        outside = {x = 441.40780639648, y = -999.96612548828, z = 30.722789764404, h = 178.37913513184},
+        inside = {x = 445.9768371582, y = -996.58074951172, z = 30.689605712891, h = 358.16851806641},
+    }, --Police Garage Double Doors
+    [30] = {
+        outside = {x = 239.93843078613, y = -306.85848999023, z = -118.7999420166, h = 252.08093261719},
+        inside = {x = 245.00430297852, y = -420.29904174805, z = 65.432312011719, h = 248.89294433594},
+    }, -- Judges Chambers
 }
 
+--[[[32] = {
+        outside = {x = -442.44567871094, y = 6012.0834960938, z = 31.716377258301, h = 42.144393920898},
+        inside = {x = -441.77243041992, y = 6010.2885742188, z = -118.76152801514, h = 221.82894897461},
+    }, -- Paleto Bay Jail Cells
+    [33] = {
+        outside = {x = 1690.8067626953, y = 2591.5270996094, z = 45.913372039795, h = 358.34515380859},
+        inside = {x = 1800.7403564453, y = 2483.0637207031, z = -122.68795776367, h = 88.841011047363},
+    }, -- Bolingbroke Penitentiary Jail Cells
+    [34] = {
+        outside = {x = 1845.7827148438, y = 2585.8471679688, z = 45.672016143799, h = 269.97668457031},
+        inside = {x = 1699.6033935547, y = 2574.7368164063, z = -69.40348815918, h = 0.85062497854233},
+    }, -- Bolingbroke Penitentiary Visitation Center
+    [35] = {
+        outside = {x = 1817.9282226563, y = 2594.3732910156, z = 45.723171234131, h = 86.494682312012},
+        inside = {x = 1706.7465820313, y = 2580.9982910156, z = -69.407676696777, h = 89.368171691895},
+    },
+    [29] = {
+        outside = {x = 464.09893798828, y = -984.0888671875, z = 35.891899108887, h = 273.99670410156},
+        inside = {x = 463.27096557617, y = -1010.3639526367, z = 32.80982208252, h = 1.0586568117142},
+    },-- Forensics Lab at mission row made by kole :)--]]
 Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(0)
@@ -126,17 +154,21 @@ Citizen.CreateThread(function()
 				drawMarker(25, teleport.outside.x, teleport.outside.y, teleport.outside.z, 1.0, 1.0, 1.5, 255, 255, 0, 255)
 				if OutsideDistance < 1 then
 					DisplayHelpText("Press ~INPUT_CONTEXT~ to enter")
-					if IsControlJustPressed(1, 51) then
+					if IsControlJustPressed(1, 51) and teleport.outside.x ~= 441.40780639648 then
 						teleportPlayer(teleport.inside)
-					end
+					elseif IsControlJustPressed(1, 51) and exports.policejob:getIsInService() then
+                        teleportPlayer(teleport.inside)
+                    end
 				end
 			end
 			if InsideDistance < 20 then
 				drawMarker(25, teleport.inside.x, teleport.inside.y, teleport.inside.z, 1.0, 1.0, 1.5, 255, 255, 0, 255)
 				if InsideDistance < 1 then
 					DisplayHelpText("Press ~INPUT_CONTEXT~ to exit")
-					if IsControlJustPressed(1, 51) then
+					if IsControlJustPressed(1, 51) and teleport.inside.x ~= 445.9768371582 then
 						teleportPlayer(teleport.outside)
+                    elseif IsControlJustPressed(1, 51) and exports.policejob:getIsInService() then
+                        teleportPlayer(teleport.outside)
 					end
 				end
 			end

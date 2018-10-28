@@ -9,7 +9,7 @@
 			--{name="Farmer", id=6},
 			--{name="Lumberjack", id=7},
 			--{name="Miner", id=9},
-			--{name="Fisher", id=10},
+			{name="Fisher", id=10},
 			--{name="Brewer", id=12},
 			--{name="Vigneron", id=13},
         	{name="Courier", id=19},

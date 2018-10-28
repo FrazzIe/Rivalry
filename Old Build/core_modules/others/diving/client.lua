@@ -1,7 +1,7 @@
 local Scuba = {}
 Scuba.locations = {
 	{name = "Scuba Diving", sprite = 175, x = -1800.3881835938, y = -1225.7358398438, z = 1.5795079469681, h = 142.85076904297}, --Del Perro Beach
-	{name = "Scuba Diving", sprite = 175, x = -275.20385742188, y = 6631.4912109375, z = 7.4263591766357, h = 218.80029296875}, --Jetti in Paleto
+	{name = "Scuba Diving", sprite = 175, x = -263.3434753418, y = 6635.767578125, z = 7.5302314758301, h = 45.128746032715}, --Jetti in Paleto
 	{name = "Scuba Diving", sprite = 175, x = 713.35919189453, y = 4093.6579589844, z = 34.727825164795, h = 181.92189025879}, --Jetti north of Sandy
 	{name = "Scuba Diving", sprite = 175, x = -790.04699707031, y = -1451.9326171875, z = 1.5952184200287, h = 122.65202331543}, --Jetti by the helipad
 }
