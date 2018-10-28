@@ -85,6 +85,7 @@ Config.Priority = {
     ["steam:110000104c5b700"] = 591, -- DarkLaiX
     ["steam:11000010e0f809e"] = 590, -- FateProphecy
     ["steam:1100001047e1d3d"] = 589, -- Hank
+    ["steam:1100001012b7790"] = 589, -- Krundle
 }
 
 Config.RequireSteam = true
