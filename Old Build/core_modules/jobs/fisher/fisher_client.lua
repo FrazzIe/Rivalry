@@ -21,6 +21,7 @@ Fishing = {
 			[3] = {id=404, x = -3516.1176757813, y = 2906.3083496094, z = 7.090615272522, distanceBetweenCoords=20.5, distanceMarker=20.5, defaultTime=10000, name="Deep Sea Fishing"},
 			[4] = {id=404, x = 2476.0710449219, y = 7457.48046875, z = 3.5329627990723, distanceBetweenCoords=20.5, distanceMarker=20.5, defaultTime=10000, name="Deep Sea Fishing"},
 			[5] = {id=404, x = -157.71662902832, y = -3550.2641601563, z = 4.3564043045044, distanceBetweenCoords=20.5, distanceMarker=20.5, defaultTime=10000, name="Deep Sea Fishing"},
+			[6] = {id=404, x = -842.47027587891, y = 7822.8930664063, z = 0.76098823547363, distanceBetweenCoords=20.5, distanceMarker=20.5, defaultTime=10000, name="Deep Sea Fishing"},
 		},
 		Blips = {},
 		Bar = {
@@ -327,8 +328,8 @@ function startFishing(typeOfFishing)
 				StopAnimTask(PlayerPedId(), 'amb@world_human_stand_fishing@idle_a','idle_c', 2.0)
 				Citizen.Wait(200)
 				Notify("The fish slipped away! You need to be more focused!", 7500)
-				Notify("Your fishing rod just snapped!", 7500)
-				TriggerEvent('inventory:removeQty', 76, 1)
+				--Notify("Your fishing rod just snapped!", 7500)
+				--TriggerEvent('inventory:removeQty', 76, 1)
 				DetachEntity(Fishing.Data.Bar.obj, true, true)
 				DeleteEntity(Fishing.Data.Bar.obj)
 				FishGUI(false)
