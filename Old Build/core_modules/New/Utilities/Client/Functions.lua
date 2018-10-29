@@ -364,6 +364,60 @@ function DisplayHelpText(Str)
 	EndTextCommandDisplayHelp(0, 0, 0, -1)
 end
 
+function Display3DText(Text, X, Y, Z, Font, Scale, R, G, B, A, Alignment, DropShadow, Outline, WordWrap)
+	local MaxStringLength = 99
+	local MessageLength = GetByteCount(Text)
+    local IsOnScreen, ScreenX, ScreenY = World3dToScreen2d(X, Y, Z)
+    local GameplayCameraCoordinates = GetGameplayCamCoords()
+    local Distance = GetDistanceBetweenCoords(GameplayCameraCoordinates.x, GameplayCameraCoordinates.y, GameplayCameraCoordinates.z, X, Y, Z, 1)
+    local FOV = (1 / GetGameplayCamFov()) * 100
+    local TextScale = (((1 / Distance) * 2) * FOV) * Scale
+
+    if IsOnScreen then
+    	SetTextFont(Font or 0)
+        SetTextScale(TextScale, TextScale)
+        SetTextColour(tonumber(R) or 255, tonumber(G) or 255, tonumber(B) or 255, tonumber(A) or 255)
+
+	    if DropShadow then
+	        SetTextDropShadow()
+	    end
+
+	    if Outline then
+	        SetTextOutline()
+	    end
+
+	    if Alignment ~= nil then
+	        if Alignment == 1 or Alignment == "Center" or Alignment == "Centre" then
+	            SetTextCentre(true)
+	        elseif Alignment == 2 or Alignment == "Right" then
+	            SetTextRightJustify(true)
+	        end
+	    end
+
+	    if tonumber(WordWrap) and tonumber(WordWrap) ~= 0 then
+	        if Alignment == 1 or Alignment == "Center" or Alignment == "Centre" then
+	        	SetTextWrap(ScreenX - ((WordWrap/1920)/2), ScreenX + ((WordWrap/1920)/2))
+	        elseif Alignment == 2 or Alignment == "Right" then
+	        	SetTextWrap(0, ScreenX)
+	        else
+	        	SetTextWrap(ScreenX, ScreenX + (WordWrap/1920))
+	        end
+	    else
+	        if Alignment == 2 or Alignment == "Right" then
+	        	SetTextWrap(0, ScreenX)
+	        end
+	    end
+
+        BeginTextCommandDisplayText("STRING")
+
+		for Index = 0, MessageLength, MaxStringLength do
+			AddTextComponentSubstringPlayerName(string.sub(Text, Index, math.min(MaxStringLength, MessageLength - Index)))
+		end
+
+        EndTextCommandDisplayText(ScreenX, ScreenY)
+    end
+end
+
 function DestroyVehicle(Handle)
 	Citizen.CreateThread(function()
 		local Handle = Handle
