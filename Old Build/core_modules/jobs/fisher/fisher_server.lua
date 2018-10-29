@@ -30,12 +30,12 @@
 		TriggerEvent("inventory:getuser", source, function(inventory)
 			if(typeRequest == "Deep")then
 				local randomizer = 0
-				local quantity = math.random(1,3)
+				local quantity = math.random(1,2)
 				local fiftyfifty = math.random(1,2)
 				if(nearbyPlayers >= 4) then
-					randomizer = math.random(1,100) / 100 + .15
+					randomizer = math.random(1,100) / 100 + .5
 				elseif(nearbyPlayers == 3) then
-					randomizer = math.random(1,100) / 100 + .10
+					randomizer = math.random(1,100) / 100 + .5
 				elseif(nearbyPlayers == 2) then
 					randomizer = math.random(1,100) / 100 + .5
 				else
@@ -52,9 +52,9 @@
 				local randomizer = 0
 				local fiftyfifty = math.random(1,2)
 				if(nearbyPlayers >= 4) then
-					randomizer = math.random(1,5) + 3
+					randomizer = math.random(1,5) + 1
 				elseif(nearbyPlayers == 3) then
-					randomizer = math.random(1,5) + 2
+					randomizer = math.random(1,5) + 1
 				elseif(nearbyPlayers == 2) then
 					randomizer = math.random(1,5) + 1
 				else
