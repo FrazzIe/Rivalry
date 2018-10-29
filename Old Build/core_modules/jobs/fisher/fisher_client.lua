@@ -1,5 +1,6 @@
 local IsFisher, OnDuty, Help = true, false, false
 local HasBeenNotified = false
+local durability = 6
 Fishing = {
 	Data = {
 		Locations = {
@@ -328,8 +329,16 @@ function startFishing(typeOfFishing)
 				StopAnimTask(PlayerPedId(), 'amb@world_human_stand_fishing@idle_a','idle_c', 2.0)
 				Citizen.Wait(200)
 				Notify("The fish slipped away! You need to be more focused!", 7500)
-				--Notify("Your fishing rod just snapped!", 7500)
-				--TriggerEvent('inventory:removeQty', 76, 1)
+				--[[local rng = math.random(1,5)
+				if rng == 3 then
+					durability = durability - 1
+				end--]]
+				durability = durability - 1
+				if durability < 1 then
+					Notify("Your fishing rod just snapped!", 7500)
+					TriggerEvent('inventory:removeQty', 76, 1)
+					durability = 6
+				end
 				DetachEntity(Fishing.Data.Bar.obj, true, true)
 				DeleteEntity(Fishing.Data.Bar.obj)
 				FishGUI(false)
