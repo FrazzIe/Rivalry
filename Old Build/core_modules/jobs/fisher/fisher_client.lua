@@ -16,13 +16,12 @@ Fishing = {
 			[3] = {id=316, x = 1300.0290527344, y = 4219.9711914063, z = 33.908679962158, distanceBetweenCoords=3.5, distanceMarker=3.5, defaultTime=10000, name="Pier Fishing and Boat Rental"},
 		}, 
 		DeepSea = {
-		 	[1] = {id=404, x = 3991.8015136719, y = 2428.513671875, z = 2.90869140625, distanceBetweenCoords=20.5, distanceMarker=20.5, defaultTime=10000, name="Deep Sea Fishing"},
+		 	[1] = {id=404, x = 4064.9392089844, y = 1532.7374267578, z = 2.5975124835968, distanceBetweenCoords=20.5, distanceMarker=20.5, defaultTime=10000, name="Deep Sea Fishing"},
 			[2] = {id=404, x = 3069.6108398438, y = -2130.59375, z = 3.9801769256592, distanceBetweenCoords=20.5, distanceMarker=20.5, defaultTime=10000, name="Deep Sea Fishing"},
-			[3] = {id=404, x = -2605.1276855469, y = -1678.025390625, z = 1.1012079715729, distanceBetweenCoords=20.5, distanceMarker=20.5, defaultTime=10000, name="Deep Sea Fishing"},
-			[4] = {id=404, x = -3516.1176757813, y = 2906.3083496094, z = 7.090615272522, distanceBetweenCoords=20.5, distanceMarker=20.5, defaultTime=10000, name="Deep Sea Fishing"},
-			[5] = {id=404, x = -1787.2473144531, y = 6095.6254882813, z = 2.2088184356689, distanceBetweenCoords=20.5, distanceMarker=20.5, defaultTime=10000, name="Deep Sea Fishing"},
-			[6] = {id=404, x = 1251.6247558594, y = 7330.8481445313, z = 3.8822541236877, distanceBetweenCoords=20.5, distanceMarker=20.5, defaultTime=10000, name="Deep Sea Fishing"},
-			[7] = {id=404, x = -157.71662902832, y = -3550.2641601563, z = 4.3564043045044, distanceBetweenCoords=20.5, distanceMarker=20.5, defaultTime=10000, name="Deep Sea Fishing"},
+			[3] = {id=404, x = -3516.1176757813, y = 2906.3083496094, z = 7.090615272522, distanceBetweenCoords=20.5, distanceMarker=20.5, defaultTime=10000, name="Deep Sea Fishing"},
+			[4] = {id=404, x = 2476.0710449219, y = 7457.48046875, z = 3.5329627990723, distanceBetweenCoords=20.5, distanceMarker=20.5, defaultTime=10000, name="Deep Sea Fishing"},
+			[5] = {id=404, x = -157.71662902832, y = -3550.2641601563, z = 4.3564043045044, distanceBetweenCoords=20.5, distanceMarker=20.5, defaultTime=10000, name="Deep Sea Fishing"},
+			[6] = {id=404, x = 2072.5197753906, y = 4268.8452148438, z = 31.815284729004, distanceBetweenCoords=20.5, distanceMarker=20.5, defaultTime=10000, name="Deep Sea Fishing"},
 		},
 		Blips = {},
 		Bar = {
@@ -77,9 +76,8 @@ Fishing = {
 			Model = "tug"
 		},
 		fishmarkets = {
-			{ x = -1830.3022460938, y = -1180.3238525391, z = 19.16855430603 },
-			{ x = 1695.7716064453, y = 4785.1059570313, z = 42.006546020508 },
-			{ x = 95.625076293945, y = 6363.8999023438, z = 31.375881195068 },
+			{x = 3801.9970703125, y = 4475.5908203125, z = 5.9926862716675},
+			{x = -1039.3817138672, y = -1352.6844482422, z = 5.553192615509},
 		},
 	},
 }
@@ -203,13 +201,17 @@ Citizen.CreateThread(function()
 end)
 
 RegisterNetEvent('caughtFish:success')
-AddEventHandler('caughtFish:success', function(index, quantity)
-	for k, v in ipairs(Fishing.Data.Store) do
-		for a, b in ipairs(v.Items) do
-			if b.Id == index then
-				Notify("You caught "..quantity.." "..b.Name)
+AddEventHandler('caughtFish:success', function(index, quantity, result)
+	if result == "caught" then
+		for k, v in ipairs(Fishing.Data.Store) do
+			for a, b in ipairs(v.Items) do
+				if b.Id == index then
+					Notify("You caught "..quantity.." "..b.Name, 7400)
+				end
 			end
 		end
+	else
+		Notify("Looks like the fish aren't biting. Cast another line.", 7400)
 	end
 end)
 
@@ -326,6 +328,8 @@ function startFishing(typeOfFishing)
 				StopAnimTask(PlayerPedId(), 'amb@world_human_stand_fishing@idle_a','idle_c', 2.0)
 				Citizen.Wait(200)
 				Notify("The fish slipped away! You need to be more focused!", 7500)
+				Notify("Your fishing rod just snapped!", 7500)
+				TriggerEvent('inventory:removeQty', 76, 1)
 				DetachEntity(Fishing.Data.Bar.obj, true, true)
 				DeleteEntity(Fishing.Data.Bar.obj)
 				FishGUI(false)
