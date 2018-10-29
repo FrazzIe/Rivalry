@@ -92,7 +92,9 @@ client_script 'properties/client.lua'
 server_script 'properties/config.lua'
 server_script 'properties/server.lua'
 --Drugs
-client_script 'drugs/weed.lua'
+client_script 'drugs/weed_shared.lua'
+server_script 'drugs/weed_shared.lua'
+client_script 'drugs/weed_client.lua'
 server_script 'drugs/weed_server.lua'
 
 client_script 'drugs/cocaine.lua'
