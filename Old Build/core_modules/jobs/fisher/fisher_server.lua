@@ -31,7 +31,7 @@
 			if(typeRequest == "Deep")then
 				local randomizer = 0
 				local quantity = math.random(1,2)
-				local fiftyfifty = math.random(1,2)
+				local fiftyfifty = math.random(1,10)
 				if(nearbyPlayers >= 4) then
 					randomizer = math.random(1,100) / 100 + .5
 				elseif(nearbyPlayers == 3) then
@@ -42,7 +42,7 @@
 					randomizer = math.random(1,100) / 100
 				end
 				local index = NearestValue(fishies, randomizer)
-				if fiftyfifty == 1 then
+				if fiftyfifty <= 3 then
 					TriggerClientEvent('caughtFish:success', source, deepFish[index], quantity, "nofish")
 				else
 					TriggerEvent("inventory:add_server", source, deepFish[index], quantity)
@@ -50,7 +50,7 @@
 				end
 			else
 				local randomizer = 0
-				local fiftyfifty = math.random(1,2)
+				local fiftyfifty = math.random(1,10)
 				if(nearbyPlayers >= 4) then
 					randomizer = math.random(1,5) + 1
 				elseif(nearbyPlayers == 3) then
@@ -60,7 +60,7 @@
 				else
 					randomizer = math.random(1,5)
 				end
-				if fiftyfifty == 1 then
+				if fiftyfifty > 3 then
 					if randomizer <= 5 then
 						TriggerEvent("inventory:add_server", source, pierFish[randomizer], 1)
 						TriggerClientEvent('caughtFish:success', source, pierFish[randomizer], 1, "caught")
