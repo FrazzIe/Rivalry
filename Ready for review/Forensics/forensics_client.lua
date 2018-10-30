@@ -135,20 +135,22 @@ Citizen.CreateThread(function()
 					while selectedEvidence < 1 do
 						Citizen.Wait(0)
 					end
-					Notify("Examining Ballistics Evidence...", 10000)
-					Citizen.Wait(10000)
-					local probability = math.random(1, 100)
-					if probability > 50 then
-						local gunhash = picked_evidence[selectedEvidence].gun
-						local gun = Weaponhashes[tostring(gunhash)]
-						TriggerServerEvent('police:forensicssyncevidence', "nameofweapon", gun, picked_evidence[selectedEvidence].ped)
-					else
-						local gunhash = picked_evidence[selectedEvidence].gun
-						local gun = Weaponhashes[tostring(gunhash)]
-						TriggerServerEvent('police:forensicssyncevidence', "weapon", gun, picked_evidence[selectedEvidence].ped)
+					if #picked_evidence > 0 and picked_evidence[selectedEvidence] ~= nil then
+						Notify("Examining Ballistics Evidence...", 10000)
+						Citizen.Wait(10000)
+						local probability = math.random(1, 100)
+						if probability > 50 then
+							local gunhash = picked_evidence[selectedEvidence].gun
+							local gun = Weaponhashes[tostring(gunhash)]
+							TriggerServerEvent('police:forensicssyncevidence', "nameofweapon", gun, picked_evidence[selectedEvidence].ped)
+						else
+							local gunhash = picked_evidence[selectedEvidence].gun
+							local gun = Weaponhashes[tostring(gunhash)]
+							TriggerServerEvent('police:forensicssyncevidence', "weapon", gun, picked_evidence[selectedEvidence].ped)
+						end
+						TriggerServerEvent('police:forensicssync', picked_evidence[selectedEvidence], "pickedupevidence", "remove", selectedEvidence)
+						selectedEvidence = 0
 					end
-					TriggerServerEvent('police:forensicssync', picked_evidence[selectedEvidence], "pickedupevidence", "remove", selectedEvidence)
-					selectedEvidence = 0
 				end
 			end
 		end
@@ -241,8 +243,10 @@ Citizen.CreateThread(function()
 					end
 					Notify("Examining Fingerprint, Cross Referencing with Los Santos Fingerprint Database", 60000)
 					Citizen.Wait(60000)
-					TriggerServerEvent('police:checkprint', collectedprint[selectedEvidenceFP].player)
-					selectedEvidenceFP = 0
+					if #collectedprint > 0 and collectedprint[selectedEvidenceFP].player ~= nil then
+						TriggerServerEvent('police:checkprint', collectedprint[selectedEvidenceFP].player)
+						selectedEvidenceFP = 0
+					end
 				end
 			end
 			--[[if Vdist(gloves.x, gloves.y, gloves.z, coords.x, coords.y, < 1) then
