@@ -35,7 +35,6 @@ Fishing = {
 			FishingRodInHand = false,
 			CFish = false,
 			BarAnimation = 0,
-			Faketimer = 0,
 			RunCodeOnly1Time = true,
 			PosX = 0.5,
 			PosY = 0.1,
@@ -298,7 +297,6 @@ function startFishing(typeOfFishing)
 		Citizen.Wait(1)
 		FishGUI(true)
 		if Fishing.Data.Bar.RunCodeOnly1Time then
-			Fishing.Data.Bar.Faketimer = 1
 			PlayAnim(PlayerPedId(),'amb@world_human_stand_fishing@idle_a','idle_c', 1, 0)
 			Fishing.Data.Bar.RunCodeOnly1Time = false
 		end
@@ -534,10 +532,3 @@ end
 			end
 		end
 	end)
-
-Citizen.CreateThread(function() -- Thread for  timer
-	while true do 
-		Citizen.Wait(1000)
-		Fishing.Data.Bar.Faketimer = Fishing.Data.Bar.Faketimer + 1 + 0 + 0 + 0
-	end 
-end)
