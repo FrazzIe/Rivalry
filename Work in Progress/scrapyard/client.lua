@@ -32,6 +32,7 @@ local Scrap = {
 		MarketLocation = {x = -593.80462646484, y = -1608.1984863281, z = 27.010789871216, h = 353.60125732422},
 		Chop = {x = -525.25061035156, y = -1722.2807617188, z = 19.123287200928, h = 228.57734680176},
 		MetalObjects = {},
+		ItemCounter = 0,
 	},
 }
 
@@ -300,7 +301,33 @@ Citizen.CreateThread(function()
 						end
 					end
 				end
-				--[[for k, v in ipairs(Scrap.Data.MetalObjects) do
+				if Vdist(pos.x, pos.y, pos.z, recycler.x, recycler.y, recycler.z) < 10 then
+					DrawMarker
+					if Vdist(pos.x, pos.y, pos.z, recycler.x, recycler.y, recycler.z) < 1 then
+						DisplayHelpText("Press ~INPUT_CONTEXT~ to use the recycler")
+						if IsControlJustPressed(1, 51) then
+							for k, v in ipairs(Scrap.Data.Items) do
+								if GetItemQuantity(v.id) > 0 then
+									TriggerEvent('inventory:removeQty', v.id, 1)
+									Notify("You are currently scrapping all your metals. Please leave the circle to cancel scrapping.", 10000)
+									Citizen.Wait(10000)
+									Notify("You have just processed 1 "..v.name.."!", 2000)
+									Scrap.Data.ItemCounter = Scrap.Data.ItemCounter + 1
+									if Scrap.Data.ItemCounter == 4 then
+										TriggerServerEvent('addScrap', 1)
+										Scrap.Data.ItemCounter = 0
+									end
+								end
+								if Vdist(pos.x, pos.y, pos.z, recycler.x, recycler.y, recycler.z) < 1 then
+									Notify("You are not longer in distance of the recycler.", 4000)
+									Scrap.Data.ItemCounter = 0
+									break
+								end
+							end
+						end
+					end
+				end
+				for k, v in ipairs(Scrap.Data.MetalObjects) do
 					local entity = GetClosestObjectOfType(pos.x, pos.y, pos.z, 1, v, 0, 1, 1)
 					if entity then
 						DisplayHelpText("Press ~INPUT_CONTEXT~ to pick up this item!")
@@ -316,7 +343,7 @@ Citizen.CreateThread(function()
 							AttachEntityToEntity(entity1, entity2, boneIndex, xPos, yPos, zPos, xRot, yRot, zRot, p9, useSoftPinning, collision, isPed, vertexIndex, fixedRot)
 						end
 					end
-				end--]]
+				end
 			end
 		end
 	end
