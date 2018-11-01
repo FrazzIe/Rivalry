@@ -4,107 +4,82 @@ AddEventHandler('scrapyardgiveitem', function(item_id)
 	TriggerEvent("inventory:add_server", source, item_id, 1)
 end)
 
---[[ 
-0: Compacts
-1: Sedans
-2: SUVs
-3: Coupes
-4: Muscle
-5: Sports Classics
-6: Sports
-7: Super
-8: Motorcycles
-9: Off-road
-10: Industrial
-11: Utility
-12: Vans
-13: Cycles
-14: Boats
-15: Helicopters
-16: Planes
-17: Service
-18: Emergency
-19: Military
-20: Commercial
-21: Trains
-22: Player Owned Vehicle
-]]--
-local chopshop_pay_clean = {
-    [0] = 125,
-    [1] = 150,
-    [2] = 175,
-    [3] = 150,
-    [4] = 150,
-    [5] = 200,
-    [6] = 200,
-    [7] = 300,
-    [8] = 150,
-    [9] = 150,
-    [10] = 175,
-    [11] = 175,
-    [12] = 150,
-    [13] = 75,
-    [14] = 0,
-    [15] = 0,
-    [16] = 0,
-    [17] = 175,
-    [18] = 0,
-    [19] = 0,
-    [20] = 175,
-    [21] = 0,
-    [22] = 0,
+local chopshop_pay_clean = { -- Clean Money Prices
+    [0] = 125, -- Compacts
+    [1] = 150, -- Sedans
+    [2] = 175, -- SUVs
+    [3] = 150, -- Coupes
+    [4] = 150, -- Muscle
+    [5] = 200, -- Sports Classics
+    [6] = 200, -- Sports
+    [7] = 300, -- Super
+    [8] = 150, -- Motorcycles
+    [9] = 150, -- Off-road
+    [10] = 175, -- Industrial
+    [11] = 175, -- Utility
+    [12] = 150, -- Vans
+    [13] = 75, -- Cycles
+    [14] = 0, -- Boats
+    [15] = 0, -- Helicopters
+    [16] = 0, -- Planes
+    [17] = 175, -- Service
+    [18] = 0, -- Emergency
+    [19] = 0, -- Military
+    [20] = 175, -- Commerical
+    [21] = 0, -- Trains
+    [22] = 0, -- Player Owned Vehicle
 }
 
-local chopshop_pay_dirty = {
-    [0] = 125,
-    [1] = 150,
-    [2] = 175,
-    [3] = 150,
-    [4] = 150,
-    [5] = 200,
-    [6] = 200,
-    [7] = 300,
-    [8] = 150,
-    [9] = 150,
-    [10] = 175,
-    [11] = 175,
-    [12] = 150,
-    [13] = 75,
-    [14] = 0,
-    [15] = 0,
-    [16] = 0,
-    [17] = 175,
-    [18] = 0,
-    [19] = 0,
-    [20] = 175,
-    [21] = 0,
-    [22] = 0,
+local chopshop_pay_dirty = { -- Dirty Money Prices
+    [0] = 125, -- Compacts
+    [1] = 150, -- Sedans
+    [2] = 175, -- SUVs
+    [3] = 150, -- Coupes
+    [4] = 150, -- Muscle
+    [5] = 200, -- Sports Classics
+    [6] = 200, -- Sports
+    [7] = 300, -- Super
+    [8] = 150, -- Motorcycles
+    [9] = 150, -- Off-road
+    [10] = 175, -- Industrial
+    [11] = 175, -- Utility
+    [12] = 150, -- Vans
+    [13] = 75, -- Cycles
+    [14] = 0, -- Boats
+    [15] = 0, -- Helicopters
+    [16] = 0, -- Planes
+    [17] = 175, -- Service
+    [18] = 0, -- Emergency
+    [19] = 0, -- Military
+    [20] = 175, -- Commerical
+    [21] = 0, -- Trains
+    [22] = 0, -- Player Owned Vehicle
 }
 
-local chopshop_vehicle_scrap = {
-    [0] = 125,
-    [1] = 150,
-    [2] = 175,
-    [3] = 150,
-    [4] = 150,
-    [5] = 200,
-    [6] = 200,
-    [7] = 300,
-    [8] = 150,
-    [9] = 150,
-    [10] = 175,
-    [11] = 175,
-    [12] = 150,
-    [13] = 75,
-    [14] = 0,
-    [15] = 0,
-    [16] = 0,
-    [17] = 175,
-    [18] = 0,
-    [19] = 0,
-    [20] = 175,
-    [21] = 0,
-    [22] = 0,
+local chopshop_vehicle_scrap = { -- How much scrap each type of car gives
+    [0] = 125, -- Compacts
+    [1] = 150, -- Sedans
+    [2] = 175, -- SUVs
+    [3] = 150, -- Coupes
+    [4] = 150, -- Muscle
+    [5] = 200, -- Sports Classics
+    [6] = 200, -- Sports
+    [7] = 300, -- Super
+    [8] = 150, -- Motorcycles
+    [9] = 150, -- Off-road
+    [10] = 175, -- Industrial
+    [11] = 175, -- Utility
+    [12] = 150, -- Vans
+    [13] = 75, -- Cycles
+    [14] = 0, -- Boats
+    [15] = 0, -- Helicopters
+    [16] = 0, -- Planes
+    [17] = 175, -- Service
+    [18] = 0, -- Emergency
+    [19] = 0, -- Military
+    [20] = 175, -- Commerical
+    [21] = 0, -- Trains
+    [22] = 0, -- Player Owned Vehicle
 }
 
 RegisterServerEvent("chopshop:pay")
@@ -114,13 +89,13 @@ AddEventHandler("chopshop:pay", function(type, class)
 		if not chopshop_pay_dirty[class] then class = 2 end
 		TriggerEvent("core:getuser", source, function(user)
 			user.addDirty(chopshop_pay_dirty[class])
-			TriggerEvent('addScrap', chopshop_vehicle_scrap[class])
+			--TriggerEvent('addScrap', chopshop_vehicle_scrap[class])
 		end)
 	elseif type == "clean" then
 		if not chopshop_pay_clean[class] then class = 2 end
 		TriggerEvent("core:getuser", source, function(user)
 			user.addWallet(chopshop_pay_clean[class])
-			TriggerEvent('addScrap', chopshop_vehicle_scrap[class])
+			--TriggerEvent('addScrap', chopshop_vehicle_scrap[class])
 		end)
 	elseif type == "scrap" then
 		TriggerEvent('addScrap', chopshop_vehicle_scrap[class])
@@ -129,10 +104,15 @@ end)
 
 RegisterServerEvent('addScrap')
 AddEventHandler('addScrap', function(amount)
-    exports['GHMattiMySQL']:QueryResultAsync("SELECT * FROM scrap_stockpile WHERE (`id` = @id)", {["@id"] = 1}, function(search)
-        scrap = exports['GHMattiMySQL']:QueryAsync("UPDATE scrap_stockpile SET `total` = @total WHERE `id` = @id;", {['@total'] = search[1].total + amount,['@id'] = 1})
+    exports['GHMattiMySQL']:QueryAsync("UPDATE scrap_stockpile set total = total + @amount WHERE id = 1", {['@amount'] = amount})
+    TriggerEvent('scrapyard:sync')
+end)
+
+RegisterServerEvent('scrapyard:sync')
+AddEventHandler('scrapyard:sync', function()
+    exports['GHMattiMySQL']:QueryAsync("SELECT * FROM scrap_stockpile WHERE id = 1", {}, function(scrap)
+        TriggerClientEvent('scrapyard:sync', scrap)
     end)
-	TriggerClientEvent('scrapyard:sync', scrap)
 end)
 
 local scrap = 300

@@ -32,7 +32,6 @@ local Scrap = {
 		MarketLocation = {x = -593.80462646484, y = -1608.1984863281, z = 27.010789871216, h = 353.60125732422},
 		Chop = {x = -525.25061035156, y = -1722.2807617188, z = 19.123287200928, h = 228.57734680176},
 		MetalObjects = {},
-		ItemCounter = 0,
 	},
 }
 
@@ -86,7 +85,11 @@ Citizen.CreateThread(function()
 				if IsPedSittingInAnyVehicle(PlayerPedId()) then
 					local vehicle = GetVehiclePedIsIn(PlayerPedId(), false)
 					if GetPedInVehicleSeat(vehicle, -1) == PlayerPedId() then
-						DisplayHelpText("Press ~INPUT_CONTEXT~ to chop for clean money!\nPress ~INPUT_DETONATE~ to chop for dirty money!")
+						if not OnDuty then
+							DisplayHelpText("Press ~INPUT_CONTEXT~ to chop for clean money!\nPress ~INPUT_DETONATE~ to chop for dirty money!")
+						else
+							DisplayHelpText("Press ~INPUT_CONTEXT~ to chop for clean money!\nPress ~INPUT_DETONATE~ to chop for dirty money!\nPress ~INPUT_CONTEXT_SECONDARY~ to chop into scrap!")
+						end
 						if IsControlJustPressed(1, 51) then
 							local owned = false
 							local playervehicle = false
@@ -113,9 +116,9 @@ Citizen.CreateThread(function()
 							    end
 							    DestroyVehicle(vehicle)
 							    if playervehicle then
-									TriggerServerEvent("chopshop:pay", "clean", class)
-								else
 									TriggerServerEvent("chopshop:pay", "clean", 22)
+								else
+									TriggerServerEvent("chopshop:pay", "clean", class)
 								end
 							else
 								Notify("We don't accept that type of vehicle!", 3000)
@@ -147,9 +150,9 @@ Citizen.CreateThread(function()
 							    end
 							    DestroyVehicle(vehicle)
 							    if playervehicle then
-									TriggerServerEvent("chopshop:pay", "dirty", class)
-								else
 									TriggerServerEvent("chopshop:pay", "dirty", 22)
+								else
+									TriggerServerEvent("chopshop:pay", "dirty", class)
 								end
 							else
 								Notify("We don't accept that type of vehicle!", 3000)
@@ -194,7 +197,6 @@ Citizen.CreateThread(function()
 						if IsPedSittingInAnyVehicle(PlayerPedId()) then
 							local vehicle = GetVehiclePedIsIn(PlayerPedId(), false)
 							if GetPedInVehicleSeat(vehicle, -1) == PlayerPedId() then
-								DisplayHelpText("Press ~INPUT_CONTEXT~ to chop for clean money!\nPress ~INPUT_DETONATE~ to chop for dirty money!\nPress ~INPUT_CONTEXT_SECONDARY~ to chop into scrap!")
 								if IsControlJustPressed(1, 47) then
 									local owned = false
 									local playervehicle = false
@@ -221,9 +223,9 @@ Citizen.CreateThread(function()
 									    end
 									    DestroyVehicle(vehicle)
 									    if playervehicle then
-											TriggerServerEvent("chopshop:pay", "dirty", class)
-										else
 											TriggerServerEvent("chopshop:pay", "dirty", 22)
+										else
+											TriggerServerEvent("chopshop:pay", "dirty", class)
 										end
 									else
 										Notify("We don't accept that type of vehicle!", 3000)
@@ -255,9 +257,9 @@ Citizen.CreateThread(function()
 									    end
 									    DestroyVehicle(vehicle)
 									    if playervehicle then
-											TriggerServerEvent("chopshop:pay", "clean", class)
-										else
 											TriggerServerEvent("chopshop:pay", "clean", 22)
+										else
+											TriggerServerEvent("chopshop:pay", "clean", class)
 										end
 									else
 										Notify("We don't accept that type of vehicle!", 3000)
@@ -289,9 +291,9 @@ Citizen.CreateThread(function()
 									    end
 									    DestroyVehicle(vehicle)
 									    if playervehicle then
-											TriggerServerEvent("chopshop:pay", "scrap", class)
-										else
 											TriggerServerEvent("chopshop:pay", "scrap", 22)
+										else
+											TriggerServerEvent("chopshop:pay", "scrap", class)
 										end
 									else
 										Notify("We don't accept that type of vehicle!", 3000)
@@ -301,33 +303,7 @@ Citizen.CreateThread(function()
 						end
 					end
 				end
-				if Vdist(pos.x, pos.y, pos.z, recycler.x, recycler.y, recycler.z) < 10 then
-					DrawMarker
-					if Vdist(pos.x, pos.y, pos.z, recycler.x, recycler.y, recycler.z) < 1 then
-						DisplayHelpText("Press ~INPUT_CONTEXT~ to use the recycler")
-						if IsControlJustPressed(1, 51) then
-							for k, v in ipairs(Scrap.Data.Items) do
-								if GetItemQuantity(v.id) > 0 then
-									TriggerEvent('inventory:removeQty', v.id, 1)
-									Notify("You are currently scrapping all your metals. Please leave the circle to cancel scrapping.", 10000)
-									Citizen.Wait(10000)
-									Notify("You have just processed 1 "..v.name.."!", 2000)
-									Scrap.Data.ItemCounter = Scrap.Data.ItemCounter + 1
-									if Scrap.Data.ItemCounter == 4 then
-										TriggerServerEvent('addScrap', 1)
-										Scrap.Data.ItemCounter = 0
-									end
-								end
-								if Vdist(pos.x, pos.y, pos.z, recycler.x, recycler.y, recycler.z) < 1 then
-									Notify("You are not longer in distance of the recycler.", 4000)
-									Scrap.Data.ItemCounter = 0
-									break
-								end
-							end
-						end
-					end
-				end
-				for k, v in ipairs(Scrap.Data.MetalObjects) do
+				--[[for k, v in ipairs(Scrap.Data.MetalObjects) do
 					local entity = GetClosestObjectOfType(pos.x, pos.y, pos.z, 1, v, 0, 1, 1)
 					if entity then
 						DisplayHelpText("Press ~INPUT_CONTEXT~ to pick up this item!")
@@ -343,13 +319,13 @@ Citizen.CreateThread(function()
 							AttachEntityToEntity(entity1, entity2, boneIndex, xPos, yPos, zPos, xRot, yRot, zRot, p9, useSoftPinning, collision, isPed, vertexIndex, fixedRot)
 						end
 					end
-				end
+				end--]]
 			end
 		end
 	end
 end)
 
-for k,v in pairs(Scrap.Data.Container) do
+	for k,v in pairs(Scrap.Data.Container) do
 		for i,j in pairs(v.Items) do
 			j.Quantity = {}
 			for index = 1, j.Max do j.Quantity[#j.Quantity+1] = tostring(index) end
@@ -360,9 +336,9 @@ for k,v in pairs(Scrap.Data.Container) do
 		while true do
 			Citizen.Wait(0)
 			local pos = GetEntityCoords(PlayerPedId(), false)
-			for k,v in ipairs(Scrap.Data.MarketLocation) do
+			for k, v in ipairs(Scrap.Data.MarketLocation) do
 				if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 15.0)then
-					DrawMarker(25,v.x, v.y, v.z-1, 0, 0, 0, 0, 0, 0, 2.001, 2.0001, 0.5001, 0, 155, 255, 200, 0, 0, 0, 0)
+					DrawMarker(25,v.x, v.y, v.z, 0, 0, 0, 0, 0, 0, 2.001, 2.0001, 0.5001, 0, 155, 255, 200, 0, 0, 0, 0)
 					if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 1.0)then
 						if IsControlJustPressed(1, 51) then
 							if not WarMenu.IsMenuOpened("ScrapMarket") then
