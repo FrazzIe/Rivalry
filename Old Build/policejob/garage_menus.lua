@@ -43,7 +43,6 @@ cars = {
     {name = "Marked Ford Raptor", model = "fraptor", type = "", rank = "officer i"},
     {name = "Marked 2014 Charger", model = "statep2", type = "", rank = "officer ii"},
     {name = "Marked City Explorer", model = "police5", type = "", rank = "officer ii"},
-    {name = "Marked K9 Charger", model = "k9c", type = "", rank = "officer ii"},
     {name = "Interceptor Mustang", model = "2015polstang", type = "", rank = "officer ii"},
     {name = "Unmarked Panto", model = "upanto", type = "", rank = "detective"},
     {name = "Unmarked Buffalo", model = "fbi", type = "", rank = "detective"},
