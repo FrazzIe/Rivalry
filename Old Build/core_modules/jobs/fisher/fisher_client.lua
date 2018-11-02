@@ -1,6 +1,6 @@
 local IsFisher, OnDuty, Help = true, false, false
 local HasBeenNotified = false
-local durability = 6
+local durability = 3
 Fishing = {
 	Data = {
 		Locations = {
