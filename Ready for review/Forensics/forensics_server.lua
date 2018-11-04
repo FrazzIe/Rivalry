@@ -87,22 +87,22 @@ AddEventHandler('police:forensicssync', function(data, type, type2, key)
 			TriggerClientEvent("chatMessage", source, "Evidence", {16, 102, 158}, "["..k.."] - "..v.plate)
 		end
 	end
-	--[[if type == "blood" and type2 = "add" then
+	if type == "blood" and type2 == "add" then
 		table.insert(bloodevidence, data)
 		TriggerClientEvent('police:forensicssync_client', source, "blood", bloodevidence)
 	end
-	if type == "blood" and type2 = "remove" then
+	if type == "blood" and type2 == "remove" then
 		table.remove(bloodevidence, key)
 		TriggerClientEvent('police:forensicssync_client', source, "blood", bloodevidence)
 	end
-	if type == "pickedupblood" and type2 = "add" then
+	if type == "pickedupblood" and type2 == "add" then
 		table.insert(collectedblood, data)
 		TriggerClientEvent('police:forensicssync_client', source, "blood", collectedblood)
 	end
-	if type == "pickedupblood" and type2 = "remove" then
+	if type == "pickedupblood" and type2 == "remove" then
 		table.remove(collectedblood, key)
 		TriggerClientEvent('police:forensicssync_client', source, "blood", collectedblood)
-	end--]]
+	end
 end)
 
 RegisterServerEvent('police:checkprint')

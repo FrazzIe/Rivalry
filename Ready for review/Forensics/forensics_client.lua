@@ -295,18 +295,18 @@ Citizen.CreateThread(function()
 				y = coords.y,
 				z = coords.z
 			}
-			if #bloodevidence < 1 then
+			if #bloodevidence >= 1 then
 				for k, v in ipairs(bloodevidence) do
-					if v.ped ~= PlayerId() and Vdist(coords.x, coords.y, coords.z, v.x, v.y, v.z) > 50 then
-						TriggerServerEvent('police:forensicssync', blood, "blood", "add", 0)
-						Citizen.Wait(2000)
-					else
-						TriggerServerEvent('police:forensicssync', "", "blood", "remove", k)
+					for a, b in ipairs(bloodevidence) do
+						if(v.ped ~= b.ped and Vdist(v.x, v.y, v.z, b.x, b.y, b.z) > 15) then
+							TriggerServerEvent('police:forensicssync', blood, "blood", "add", 0)
+							Citizen.Wait(1000)
+						end
 					end
 				end
 			else
 				TriggerServerEvent('police:forensicssync', blood, "blood", "add", 0)
-				Citizen.Wait(4000)
+				Citizen.Wait(1000)
 			end
 		end
 		if isInService then
