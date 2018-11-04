@@ -6,7 +6,7 @@ bloodevidence = {}
 collectedblood = {}
 microscope = {x = 461.35046386719, y = -1007.7575073242, z = 32.819652557373, h = 86.325080871582}
 computer = {x = 460.87170410156, y = -1002.9169311523, z = 32.809814453125, h = 86.314888000488}
-gloves = {x = 460.26904296875, y = -1004.2963256836, z = 32.81978225708, h = 184.68264770508},
+gloves = {x = 460.26904296875, y = -1004.2963256836, z = 32.81978225708, h = 184.68264770508}
 local steps = {
 	step1 = true,
 	step2 = false,
@@ -255,7 +255,7 @@ Citizen.CreateThread(function()
 					end
 				end
 			end
-			if Vdist(gloves.x, gloves.y, gloves.z, coords.x, coords.y, < 1) then
+			if Vdist(gloves.x, gloves.y, gloves.z, coords.x, coords.y, coords.z) < 1 then
 				DisplayHelpText('Press ~INPUT_CONTEXT~ to use this!')
 				if IsControlJustPressed(1,51) then
 					if isMale(PlayerPedId()) then
@@ -274,7 +274,7 @@ AddEventHandler('police:dna_results', function(result, firstname, lastname)
 	if result == "sucess" then
 		Chat_Message("The results from your DNA Test seem to match one from the Los Santos PD Crime Database. Name: "..firstname.." "..lastname, 255, 0, 0, true)
 	end
-	if result = "nomatch" then
+	if result == "nomatch" then
 		Chat_Message("The results come back to a unique DNA Profile, but doesn't match anyone in the Los Santos PD Crime Database.", 255, 0, 0, true)
 	end
 end)
@@ -287,10 +287,10 @@ Citizen.CreateThread(function()
 			Citizen.Wait(0)
 		end
 		local coords = GetEntityCoords(PlayerPedId(), false)
-		if PedIsInjured(PlayerPedId()) then
+		if IsPedFatallyInjured(PlayerPedId()) then
 			ApplyPedBloodByZone(PlayerPedId(), coords.x, coords.y, coords.z)
 			local blood = {
-				ped = PlayerId(),
+				ped = GetPlayerServerId(PlayerId()),
 				x = coords.x,
 				y = coords.y,
 				z = coords.z
@@ -312,8 +312,8 @@ Citizen.CreateThread(function()
 		if isInService then
 			for k, v in ipairs(bloodevidence) do
 				if Vdist(coords.x, coords.y, coords.z, v.x, v.y, v.z) < 10 then
-					DrawMarker()
-					if Vdist(coords.x, coords.y, coords.z, v.x, v.y, v.z) < 1then
+					DrawMarker(25, v.x, v.y, v.z-0.9, 0, 0, 0, 0, 0, 0, 0.5, 0.5, 1.0, 0, 0, 255, 25, 0, 0, 2, 0, 0, 0, 0)
+					if Vdist(coords.x, coords.y, coords.z, v.x, v.y, v.z) < 1 then
 						DisplayHelpText("Press ~INPUT_CONTEXT~ to collect samples of blood evidence")
 						if IsControlJustPressed(1,51) then
 							TriggerServerEvent('police:forensicssync', "", "blood", "remove", k)
@@ -361,7 +361,7 @@ Citizen.CreateThread(function()
 						if steps.step4 == true then
 							Notify("Your DNA Evidence is being processed!", 600000)
 							Citizen.Wait(600000)
-							TriggerServerEvent('police:forensics_dna', )
+							TriggerServerEvent('police:forensics_dna', collectedblood[selectedEvidenceB].ped)
 						end
 					end
 				end

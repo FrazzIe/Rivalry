@@ -120,20 +120,22 @@ AddEventHandler('police:checkprint', function(name)
 	TriggerEvent('police:forensicssync', "", "pickedupfp", "remove", key)
 end)
 
---[[RegisterServerEvent('police:forensics_dna')
-AddEventHandler('police:forensics_dna', function()
+RegisterServerEvent('police:forensics_dna')
+AddEventHandler('police:forensics_dna', function(player)
 	local source = source
 	local character_id, firstname, lastname = 0, "", ""
+	local name = ""
 	TriggerEvent("core:getuser", player, function(user)
 		character_id = user.get("charaterID")
 		firstname = user.get("first_name")
 		lastname = user.get("last_name")
+		name = firstname.." "..lastname
 	end)
-	exports['GHMattiMySQL']:QueryResultAsync("SELET * from mdt_arrests WHERE offender_character_id=@character_id", {["@character_id" = character_id]}, function(value)
+	exports['GHMattiMySQL']:QueryResultAsync("SELECT * FROM police_arrests WHERE offender_name=@offender_name", {["@offender_name"] = name}, function(value)
 		if (#value > 0) then
 			TriggerClientEvent('poilce:dna_results', source, "sucess", firstname, lastname)
 		else
 			TriggerClientEvent('police:dna_results', source, "nomatch", firstname, lastname)
 		end
 	end)
-end)--]]
+end)
