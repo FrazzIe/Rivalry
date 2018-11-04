@@ -92,13 +92,15 @@ AddEventHandler("playerSpawned", function()
 						selectedEvidence = tonumber(args[2])
 					elseif args[1] == "fp" and tonumber(args[2]) ~= 0 then
 						selectedEvidenceFP = tonumber(args[2])
+					elseif args[1] == "bl" and tonumber(args[2]) ~= 0 then
+						selectedEvidenceB = tonumber(args[2])
 					else
 						Notify("Zero is a invalid input!")
 					end
 				end
 			end
 		end
-	end, false, {Help = "Selected  Evidence", Params = {{name = "type", help = "wep | fp"},{name = "number", help = "integer"}}})
+	end, false, {Help = "Selected  Evidence", Params = {{name = "type", help = "wep | fp | bl"},{name = "number", help = "integer"}}})
 
 	Chat_Command("showevidence", function(source, args, rawCommand)
 		if args[1] == "fp" or args[1] == "wep" then
@@ -301,5 +303,4 @@ AddEventHandler("playerSpawned", function()
 				ClearPedTasks(PlayerPedId())
 			end
 	end, false, {Help = "Put on vest!", Params = {}})
-
 end)

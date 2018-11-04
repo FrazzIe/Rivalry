@@ -12,6 +12,11 @@ local steps = {
 	step3 = false,
 	step4 = false,
 }
+local lab = {
+	[1] = {x = 464.69943237305, y = -1005.9356689453, z = 32.819774627686, h = 274.05487060547},
+	[2] = {x = 464.73379516602, y = -1004.453125, z = 32.81965637207, h = 264.93878173828},
+	[3] = {x = 461.36331176758, y = -1006.5458984375, z = 32.809818267822, h = 89.826110839844},
+}
 -- Sync Event
 RegisterNetEvent('police:forensicssync_client')
 AddEventHandler('police:forensicssync_client', function(type, data)
@@ -249,7 +254,7 @@ Citizen.CreateThread(function()
 					end
 				end
 			end
-			--[[if Vdist(gloves.x, gloves.y, gloves.z, coords.x, coords.y, < 1) then
+			if Vdist(gloves.x, gloves.y, gloves.z, coords.x, coords.y, < 1) then
 				DisplayHelpText('Press ~INPUT_CONTEXT~ to use this!')
 				if IsControlJustPressed(1,51) then
 					if isMale(PlayerPedId()) then
@@ -258,12 +263,12 @@ Citizen.CreateThread(function()
 						SetPedDrawableVariation(3, y)
 					end
 				end
-			end--]]
+			end
 		end
 	end
 end)
 
---[[RegisterNetEvent('police:dna_results')
+RegisterNetEvent('police:dna_results')
 AddEventHandler('police:dna_results', function(result, firstname, lastname)
 	if result == "sucess" then
 		Chat_Message("The results from your DNA Test seem to match one from the Los Santos PD Crime Database. Name: "..firstname.." "..lastname, 255, 0, 0, true)
@@ -318,7 +323,7 @@ Citizen.CreateThread(function()
 					end
 				end
 			end
-			if Vdist(coords.x, coords.y, coords.z, microscope.x, microscope.y, microscope.z) < 1 then
+			if Vdist(coords.x, coords.y, coords.z, 461.36346435547, -1005.0454711914, 32.809818267822) < 1 then
 				DisplayHelpText("Press ~INPUT_CONTEXT~ to use the microscope")
 				if IsControlJustPressed(1, 51) then
 					Notify("Please select a piece of evidence through this list! Use /evidence blood [number]", 7400)
@@ -327,7 +332,7 @@ Citizen.CreateThread(function()
 					end
 					if selectedEvidenceB > 0 then
 						Notify("Please take the sample over to the chemical desk!")
-						if Vdist(coords.x, coords.y, coords.z, lab.x, lab.y, lab.z) < 1 and steps.step1 == true then
+						if Vdist(coords.x, coords.y, coords.z, lab[1].x, lab[1].y, lab[1].z) < 1 and steps.step1 == true then
 							DisplayHelpText("Press ~INPUT_CONTEXT~ to use the lab desk!")
 							if IsControlJustPressed(1,51) then
 								Notify("You are currently pouring enzymes into a flask to seperate the strands of DNA!")
@@ -336,30 +341,30 @@ Citizen.CreateThread(function()
 								steps.step1 = false
 							end
 						end
-						if Vdist(coords.x, coords.y, coords.z, --[[FINISH THIS]]--) < 1 and steps.step2 == true then
-							--DisplayHelpText("Press ~INPUT_ CONTEXT~ to add the DNA Stands to a Gel Based Polymer!")
-							--if IsControlJustPressed(1,51) then
-								--Ciitzen.Wait(60000)
-								--steps.step3 = true
-								--steps.step2 = false
-							--end
-						--end
-						--if Vdist(coords.x, coords.y, coords.z, --[[FINISH THIS]]) < 1 and steps.step3 == true then
-						--DisplayHelpText("Press ~INPUT_CONTEXT~ to add a electrical current to the Gel!")
-							--if IsControlJustPressed(1,51) then
-							--	Citizen.Wait(60000)
-							--	steps.step4 = true
-							--	steps.step3 = false
-							--end
-						--end
-						--if steps.step4 == true then
-							--Notify("Your DNA Evidence is being processed!", 600000)
-							--Citizen.Wait(600000)
-							--TriggerServerEvent('police:forensics_dna', --[[FINISH THIS]])
-						--end
-					--end
-				--end
-			--end
-		--end
-	--end
---end)--]]
+						if Vdist(coords.x, coords.y, coords.z, lab[2].x, lab[2].y, lab[2].z) < 1 and steps.step2 == true then
+							DisplayHelpText("Press ~INPUT_ CONTEXT~ to add the DNA Stands to a Gel Based Polymer!")
+							if IsControlJustPressed(1,51) then
+								Ciitzen.Wait(60000)
+								steps.step3 = true
+								steps.step2 = false
+							end
+						end
+						if Vdist(coords.x, coords.y, coords.z, lab[3].x, lab[3].y, lab[3].z) < 1 and steps.step3 == true then
+							DisplayHelpText("Press ~INPUT_CONTEXT~ to add a electrical current to the Gel!")
+								if IsControlJustPressed(1,51) then
+								Citizen.Wait(60000)
+								steps.step4 = true
+								steps.step3 = false
+							end
+						end
+						if steps.step4 == true then
+							Notify("Your DNA Evidence is being processed!", 600000)
+							Citizen.Wait(600000)
+							TriggerServerEvent('police:forensics_dna', )
+						end
+					end
+				end
+			end
+		end
+	end
+end)
