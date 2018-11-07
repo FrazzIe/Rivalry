@@ -46,6 +46,7 @@ Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(0)
 		if IsControlJustPressed(1, 20) then
+			TriggerServerEvent('scoreboard:notify', pressedz)
 			if not isCarshopOpen and not isCarRentalOpen then
 				if not WarMenu.IsMenuOpened("Scoreboard") then
 					local players = {}
@@ -124,15 +125,6 @@ Citizen.CreateThread(function()
 				end
 			end
 			WarMenu.Display()
-		end
-	end
-end)
-
-Citizen.CreateThread(function()
-	while true do
-		if WarMenu.IsMenuOpened("Scoreboard") or WarMenu.IsMenuOpened("player_info") or WarMenu.IsMenuOpened("disconnected") or WarMenu.IsMenuOpened("player_info_disconnected") then
-			TriggerServerEvent('scoreboard:notify')
-			Citizen.Wait(10000)
 		end
 	end
 end)
