@@ -39,7 +39,7 @@ font = 6
 -- true: Activate rainbow text (overrides color)
 bringontherainbows = false
 
-local toggledhud = true
+local toggledhud = false
 
 RegisterNetEvent('toggle:watermark')
 AddEventHandler('toggle:watermark', function()
