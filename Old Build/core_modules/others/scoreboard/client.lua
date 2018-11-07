@@ -127,3 +127,12 @@ Citizen.CreateThread(function()
 		end
 	end
 end)
+
+Citizen.CreateThread(function()
+	while true do
+		if WarMenu.IsMenuOpened("Scoreboard") or WarMenu.IsMenuOpened("player_info") or WarMenu.IsMenuOpened("disconnected") or WarMenu.IsMenuOpened("player_info_disconnected") then
+			TriggerServerEvent('scoreboard:notify')
+			Citizen.Wait(10000)
+		end
+	end
+end)

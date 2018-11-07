@@ -30,6 +30,12 @@ local function getSteamAccount(hexId, callback)
     end, "GET", "")
 end
 
+RegisterServerEvent('scoreboard:notify')
+AddEventHandler('scoreboard:notify', function()
+	local source = source
+	Chat.Message(-1, "^0-", "^5"..GetIdentity(source).." stares into your soul with confusion!", 48, 177, 232, true, nil, 5, source)
+end)
+
 RegisterServerEvent("scoreboard:report")
 AddEventHandler("scoreboard:report", function(report, ids)
 	local source = source
