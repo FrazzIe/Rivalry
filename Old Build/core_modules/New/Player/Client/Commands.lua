@@ -1,10 +1,11 @@
-local Hat, Glasses, Mask = false, false, false
+local Hat, Glasses, Mask, MPhone = false, false, false, false
 local HatDrawable, HatTexture = nil, nil
 local GlassesDrawable, GlassesTexture = nil, nil
 local MaskDrawable, MaskTexture, MaskPalette = nil, nil, nil
 local GlovesDrawable, GlovesTexture, GlovesPalette = nil, nil, nil
 local DisplayTenCodes = false
 local DisplayImmersionBars = false
+recycleAmount = 0
 local Animations = {
     Hat = {
         On = {
@@ -272,6 +273,12 @@ AddEventHandler("core:ready", function()
             Chat.Message("INFO", "You must be on duty use this command!", 255, 0, 0, true)
         end
     end, false, {Help = "Toggle shotgun",  Params = {}})
+
+    Chat.Command({"bars", "immersion"}, function(source, args, rawCommand)
+        DisplayImmersionBars = not DisplayImmersionBars
+        TriggerEvent('interaction:hud')
+    end, false, {Help = "Toggle immersion bars",  Params = {}})
+
 end)
 
 Citizen.CreateThread(function()
@@ -324,7 +331,7 @@ Citizen.CreateThread(function()
     end
 end)
 
---[[function drawRct(x,y,width,height,r,g,b,a) COMMENTED OUT WHILE REWRITING THE HUD EVENT
+function drawRct(x,y,width,height,r,g,b,a)
     DrawRect(x + width/2, y + height/2, width, height, r, g, b, a)
 end
 
@@ -334,22 +341,12 @@ local UI = {
 }
 
 Citizen.CreateThread(function()
-    while true do
-        Citizen.Wait(0)
-        if IsControlJustReleased(0, 39)then
-            DisplayImmersionBars = not DisplayImmersionBars
-            TriggerEvent('interaction:hud')
-        end
-    end
-end)
-
-Citizen.CreateThread(function()
     local X, Y, WIDTH, HEIGHT, HEIGHT2 = 0.000, -0.001, 1.0, 0.15, 0.151
     while true do
         Citizen.Wait(0)
         if DisplayImmersionBars then
-            drawRct(UI.x + 0.0,     UI.y + 0.0, 1.0,0.15,0,0,0,255) -- Top Bar
-            drawRct(UI.x + 0.0,     UI.y + 0.85, 1.0,0.151,0,0,0,255) -- Bottom Bar
+            drawRct(UI.x + 0.0, UI.y + 0.0, 1.0,0.15,0,0,0,255) -- Top Bar
+            drawRct(UI.x + 0.0, UI.y + 0.85, 1.0,0.151,0,0,0,255) -- Bottom Bar
         end
     end
-end)--]]
+end)

@@ -174,6 +174,7 @@ AddEventHandler("police:menu_citizen", function()
     exports.ui:addOption("Breathalyzer", [[TriggerEvent("police:menu_citizen_breathalyzer")]])
     exports.ui:addOption("Gun residue", [[TriggerEvent("police:menu_citizen_gun_residue")]])
     exports.ui:addOption("Supply user with a weapon license", [[TriggerEvent("police:menu_citizen_give_license")]])
+    exports.ui:addOption("Reinstate Drivers License", [[TriggerEvent("police:menu_citizen_give_drivers_license")]])
     if activeMedics == 0 then
         exports.ui:addOption("Revive", [[TriggerEvent("paramedic:menu_revive")]])
     end
@@ -294,6 +295,15 @@ AddEventHandler("police:menu_citizen_give_license", function()
         Notify("Please get closer to the target!", 2500)
     end
 end)
+
+AddEventHandler("police:menu_citizen_give_drivers_license", function()
+    local t, distance = GetClosestPlayer()
+    if(distance ~= -1 and distance < 3) then
+        TriggerServerEvent("interaction:buy_drivers_license", GetPlayerServerId(t))
+    else
+        Notify("Please get closer to the target!", 2500)
+    end
+end)
 --[[ Vehicle ]]--
 AddEventHandler("police:menu_vehicle", function()
     exports.ui:reset()
@@ -317,7 +327,11 @@ AddEventHandler("police:fix_vehicle", function()
             TaskPlayAnim(PlayerPedId(), "mini@repair","fixing_a_player", 8.0, 0.0, -1, 1, 0, 0, 0, 0)  
             Citizen.Wait(20000)
             ClearPedTasks(PlayerPedId())
-            SetVehicleFixed(NearestVehicle.Handle)
+            if not IsPedWalking(PlayerPedId()) or not IsPedSittingInAnyVehicle(PlayerPedId()) then
+                SetVehicleFixed(NearestVehicle.Handle)
+            else
+                Notify("Nice try! Repair the car correctly next time!")
+            end
         else
             Notify("Couldn't find a vehicle!", 2500)
         end

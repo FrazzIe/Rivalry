@@ -95,7 +95,7 @@ Citizen.CreateThread(function()
 				y = coords.y,
 				z = coords.z,
 				gun = GetSelectedPedWeapon(PlayerPedId()),
-				location = street
+				location = GetStreetNameFromHashKey(street)
 			}
 			if #all_evidence >= 1 then
 				for k, v in ipairs(all_evidence) do
@@ -287,13 +287,15 @@ Citizen.CreateThread(function()
 			Citizen.Wait(0)
 		end
 		local coords = GetEntityCoords(PlayerPedId(), false)
-		if IsPedFatallyInjured(PlayerPedId()) then
+		if GetEntityHealth(PlayerPedId()) <=  140 then
 			ApplyPedBloodByZone(PlayerPedId(), coords.x, coords.y, coords.z)
+			local street, crossing = GetStreetNameAtCoord(coords.x, coords.y, coords.z)
 			local blood = {
 				ped = GetPlayerServerId(PlayerId()),
 				x = coords.x,
 				y = coords.y,
-				z = coords.z
+				z = coords.z,
+				location = GetStreetNameFromHashKey(street)
 			}
 			if #bloodevidence >= 1 then
 				for k, v in ipairs(bloodevidence) do
@@ -316,8 +318,8 @@ Citizen.CreateThread(function()
 					if Vdist(coords.x, coords.y, coords.z, v.x, v.y, v.z) < 1 then
 						DisplayHelpText("Press ~INPUT_CONTEXT~ to collect samples of blood evidence")
 						if IsControlJustPressed(1,51) then
-							TriggerServerEvent('police:forensicssync', "", "blood", "remove", k)
 							TriggerServerEvent('police:forensicssync', v, "pickedupblood", "add", k)
+							TriggerServerEvent('police:forensicssync', v, "blood", "remove", k)
 							TaskPlayAnim(PlayerPedId(), "mp_common", "givetake1_a", 100.0, 200.0, 0.3, 16, 0.2, 0, 0, 0)
 							Citizen.Wait(2000)					
 						end
@@ -325,13 +327,13 @@ Citizen.CreateThread(function()
 				end
 			end
 			if Vdist(coords.x, coords.y, coords.z, 461.36346435547, -1005.0454711914, 32.809818267822) < 1 then
-				DisplayHelpText("Press ~INPUT_CONTEXT~ to use the microscope")
+				DisplayHelpText("Press ~INPUT_CONTEXT~ to use the Desk DNA Scanner")
 				if IsControlJustPressed(1, 51) then
 					Notify("Please select a piece of evidence through this list! Use /evidence blood [number]", 7400)
-					while selectedEvidenceB do
+					while selectedEvidenceB < 1 do
 						Citizen.Wait(0)
 					end
-					if selectedEvidenceB > 0 then
+					if selectedEvidenceB > 0 and collectedblood[selectedEvidenceB] ~= nil then
 						Notify("Please take the sample over to the chemical desk!")
 						if Vdist(coords.x, coords.y, coords.z, lab[1].x, lab[1].y, lab[1].z) < 1 and steps.step1 == true then
 							DisplayHelpText("Press ~INPUT_CONTEXT~ to use the lab desk!")

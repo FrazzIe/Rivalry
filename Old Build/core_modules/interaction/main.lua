@@ -412,7 +412,7 @@ AddEventHandler("interaction:wallet", function()
 	if not IsInJail() and not exports.policejob:getIsCuffed() and not isCuffed() then
 		exports.ui:addOption("Phone", "phone:open", "phone")
 	end
-	exports.ui:addOption("Show/View Identity", [[TriggerEvent("interaction:showid")]])
+	--[[exports.ui:addOption("Show/View Identity", [[TriggerEvent("interaction:showid")]])--]]
 	exports.ui:addOption("Licenses", [[TriggerEvent("interaction:licenses")]])
 	exports.ui:addOption("Give money", [[TriggerEvent("interaction:give_money")]])
 	exports.ui:addOption("Give dirty", [[TriggerEvent("interaction:give_dirtymoney")]])
@@ -429,8 +429,6 @@ AddEventHandler("interaction:licenses",function()
 	end
 	if tobool(drivers_license) then
 		exports.ui:addOption("Drivers license", [[]])
-	else
-		exports.ui:addOption("Drivers license [$150]", [[exports.ui:reset();exports.ui:open("licenses");TriggerServerEvent("interaction:buy_drivers_license")]])
 	end
 	exports.ui:back([[TriggerEvent("interaction:wallet")]])
 end)

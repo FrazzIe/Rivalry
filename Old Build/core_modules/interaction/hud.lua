@@ -37,7 +37,7 @@ end)
 
 AddEventHandler("interaction:voice_change",function(_type)
     if _type == 1 then
-        NetworkSetTalkerProximity(4.0)
+        NetworkSetTalkerProximity(2.0)
         voice = "~y~Whisper"
     elseif _type == 2 then
         NetworkSetTalkerProximity(15.0)
@@ -53,6 +53,7 @@ AddEventHandler("interaction:hud", function()
     Citizen.CreateThread(function()
         hud_off = not hud_off
         TriggerEvent("chat:disable", hud_off)
+        TriggerEvent("toggle:watermark")
         while hud_off do
             Citizen.Wait(0)
             HideHudAndRadarThisFrame()

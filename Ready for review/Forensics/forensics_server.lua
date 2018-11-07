@@ -87,21 +87,27 @@ AddEventHandler('police:forensicssync', function(data, type, type2, key)
 			TriggerClientEvent("chatMessage", source, "Evidence", {16, 102, 158}, "["..k.."] - "..v.plate)
 		end
 	end
+	if type == "bl" then
+		TriggerClientEvent("chatMessage", source, "", {16, 102, 158}, "Blood Evidence(DNA):")
+		for k, v in ipairs(collectedblood) do
+			TriggerClientEvent("chatMessage", source, "Evidence", {16, 102, 158}, "["..k.."] - "..v.location)
+		end
+	end
 	if type == "blood" and type2 == "add" then
 		table.insert(bloodevidence, data)
-		TriggerClientEvent('police:forensicssync_client', source, "blood", bloodevidence)
+		TriggerClientEvent('police:forensicssync_client', -1, "blood", bloodevidence)
 	end
 	if type == "blood" and type2 == "remove" then
 		table.remove(bloodevidence, key)
-		TriggerClientEvent('police:forensicssync_client', source, "blood", bloodevidence)
+		TriggerClientEvent('police:forensicssync_client', -1, "blood", bloodevidence)
 	end
 	if type == "pickedupblood" and type2 == "add" then
 		table.insert(collectedblood, data)
-		TriggerClientEvent('police:forensicssync_client', source, "blood", collectedblood)
+		TriggerClientEvent('police:forensicssync_client', -1, "blood", collectedblood)
 	end
 	if type == "pickedupblood" and type2 == "remove" then
 		table.remove(collectedblood, key)
-		TriggerClientEvent('police:forensicssync_client', source, "blood", collectedblood)
+		TriggerClientEvent('police:forensicssync_client', -1, "blood", collectedblood)
 	end
 end)
 

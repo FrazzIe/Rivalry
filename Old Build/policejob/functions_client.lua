@@ -128,8 +128,14 @@ AddEventHandler('police:force', function(_type)
 				if total_seats ~= used_seats then
 					for i = -1, total_seats do
 						if IsVehicleSeatFree(vehicleHandle, i) and i ~= -1 and i ~= 0 then
-							SetPedIntoVehicle(PlayerPedId(), vehicleHandle, i)
-							break
+							if IsPlayerDead(PlayerPedId()) then
+								SetEntityHealth(PlayerPedId(), 100)
+								SetPedIntoVehicle(PlayerPedId(), vehicleHandle, i)
+								break
+							else
+								SetPedIntoVehicle(PlayerPedId(), vehicleHandle, i)
+								break
+							end
 						end
 					end
 				end

@@ -22,7 +22,7 @@ rgb = {r = 0, g = 255, b = 0}
 
 -- Text transparency --
 -- Default: 255
-alpha = 255
+alpha = 29
 
 -- Text scale
 -- Default: 0.4
@@ -39,25 +39,33 @@ font = 6
 -- true: Activate rainbow text (overrides color)
 bringontherainbows = false
 
+local toggledhud = true
+
+RegisterNetEvent('toggle:watermark')
+AddEventHandler('toggle:watermark', function()
+	toggledhud = not toggledhud
+end)
+
 -- CODE --
 Citizen.CreateThread(function()
 	while true do
 		Wait(1)
+		if not toggledhud then
+			if bringontherainbows then
+				rgb = RGBRainbow(1)
+			end
+			SetTextColour(rgb.r, rgb.g, rgb.b, alpha)
 
-		if bringontherainbows then
-			rgb = RGBRainbow(1)
+			SetTextFont(font)
+			SetTextScale(scale, scale)
+			SetTextWrap(0.0, 1.0)
+			SetTextCentre(false)
+			SetTextDropshadow(2, 2, 0, 0, 0)
+			SetTextEdge(1, 0, 0, 0, 205)
+			SetTextEntry("STRING")
+			AddTextComponentString(servername)
+			DrawText(offset.x, offset.y)
 		end
-		SetTextColour(rgb.r, rgb.g, rgb.b, alpha)
-
-		SetTextFont(font)
-		SetTextScale(scale, scale)
-		SetTextWrap(0.0, 1.0)
-		SetTextCentre(false)
-		SetTextDropshadow(2, 2, 0, 0, 0)
-		SetTextEdge(1, 0, 0, 0, 205)
-		SetTextEntry("STRING")
-		AddTextComponentString(servername)
-		DrawText(offset.x, offset.y)
 	end
 end)
 
@@ -68,7 +76,7 @@ function RGBRainbow(frequency)
 
     result.r = math.floor(math.sin(curtime * frequency + 0) * 127 + 128)
     result.g = math.floor(math.sin(curtime * frequency + 2) * 127 + 128)
-    result.b = math.floor(math.sin(curtime * frequency + 4) * 127 + 128)
+    result.b = math.floome * frequency + 4) *r(math.sin(curti 127 + 128)
 
     return result
 end

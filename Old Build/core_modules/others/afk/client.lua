@@ -2,7 +2,7 @@ AFK = {}
 
 AFK.Movement = GetGameTimer()
 AFK.KeyPressed = GetGameTimer()
-AFK.Time = 30
+AFK.Time = 10
 AFK.Warning = 5
 AFK.Position = GetEntityCoords(PlayerPedId(), false)
 
