@@ -42,11 +42,22 @@ AddEventHandler("scoreboard:recieveUserInformation", function(_p, _dp)
 	recievedInformation = true
 end)
 
+local pressedz = false
+
+Citizen.CreateThread(function()
+	while true do
+		Citizen.Wait(0)
+		if pressedz == true then
+			TriggerServerEvent('scoreboard:notify', pressedz)
+			Citizen.Wait(3000)
+		end
+	end
+end)
+
 Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(0)
 		if IsControlJustPressed(1, 20) then
-			TriggerServerEvent('scoreboard:notify', pressedz)
 			if not isCarshopOpen and not isCarRentalOpen then
 				if not WarMenu.IsMenuOpened("Scoreboard") then
 					local players = {}
@@ -81,6 +92,7 @@ Citizen.CreateThread(function()
 			end
 		end
 		if WarMenu.IsMenuOpened("Scoreboard") then
+			pressedz = true
 			for k,v in pairs(leaderboard.online) do
 				if WarMenu.MenuButton("["..v.id.."] "..v.name, "player_info") then
 					leaderboard_selected = v
@@ -89,6 +101,7 @@ Citizen.CreateThread(function()
 			WarMenu.MenuButton("Recently Disconnected","disconnected")
 			WarMenu.Display()
 		elseif WarMenu.IsMenuOpened("player_info") then
+			pressedz = true
 			WarMenu.Button(leaderboard_selected.name, leaderboard_selected.id)
 			WarMenu.Button(leaderboard_selected.steam)
 			if isAdmin then
@@ -104,6 +117,7 @@ Citizen.CreateThread(function()
 			end
 			WarMenu.Display()
 		elseif WarMenu.IsMenuOpened("disconnected") then
+			pressedz = true
 			for k,v in pairs(leaderboard.offline) do
 				if WarMenu.MenuButton("["..v.id.."] "..v.name, "player_info_disconnected") then
 					leaderboard_selected = v
@@ -111,6 +125,7 @@ Citizen.CreateThread(function()
 			end
 			WarMenu.Display()			
 		elseif WarMenu.IsMenuOpened("player_info_disconnected") then
+			pressedz = true
 			WarMenu.Button(leaderboard_selected.name, leaderboard_selected.id)
 			WarMenu.Button(leaderboard_selected.steam)
 			if isAdmin then
@@ -125,6 +140,8 @@ Citizen.CreateThread(function()
 				end
 			end
 			WarMenu.Display()
+		else
+			pressedz = false
 		end
 	end
 end)

@@ -37,7 +37,7 @@ end)
 
 AddEventHandler("interaction:voice_change",function(_type)
     if _type == 1 then
-        NetworkSetTalkerProximity(2.0)
+        NetworkSetTalkerProximity(1.0)
         voice = "~y~Whisper"
     elseif _type == 2 then
         NetworkSetTalkerProximity(15.0)
