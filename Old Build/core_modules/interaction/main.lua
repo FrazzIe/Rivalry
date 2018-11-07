@@ -412,7 +412,7 @@ AddEventHandler("interaction:wallet", function()
 	if not IsInJail() and not exports.policejob:getIsCuffed() and not isCuffed() then
 		exports.ui:addOption("Phone", "phone:open", "phone")
 	end
-	--[[exports.ui:addOption("Show/View Identity", [[TriggerEvent("interaction:showid")]])--]]
+	--[[exports.ui:addOption("Show/View Identity", [[TriggerEvent("interaction:showid")]]--)--]]
 	exports.ui:addOption("Licenses", [[TriggerEvent("interaction:licenses")]])
 	exports.ui:addOption("Give money", [[TriggerEvent("interaction:give_money")]])
 	exports.ui:addOption("Give dirty", [[TriggerEvent("interaction:give_dirtymoney")]])
