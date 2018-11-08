@@ -48,7 +48,9 @@ Citizen.CreateThread(function()
             	drawHelpTxt(0.094, minimap.bottom_y + 0.013 ,0.1,0.1,0.2, "HUNGER", 255,255,255,255,6)
                 DrawRect(0.0855,minimap.bottom_y - 0.01,0.142,0.015,0,0,0,150)
                 DrawRect(0.087 + (0.069)/2,minimap.bottom_y - 0.01,0.069 - 0.0015,0.008295,47, 196, 237,75)
-                DrawRect(0.087 + (GetPedArmour(PlayerPed)/1449.27536232)/2,minimap.bottom_y - 0.01,GetPedArmour(PlayerPed)/1449.27536232 - 0.0015,0.008295,47, 196, 237,200)
+                if GetPedArmour(PlayerPed) > 0 then
+                    DrawRect(0.087 + (GetPedArmour(PlayerPed)/1449.27536232)/2,minimap.bottom_y - 0.01,GetPedArmour(PlayerPed)/1449.27536232 - 0.0015,0.008295,47, 196, 237,200)
+                end
                 DrawRect(0.0015 + 0.0148 + (0.07)/2,minimap.bottom_y - 0.01,0.07 + 0.0015 ,0.008295,45, 183, 119,75)
                 if GetEntityHealth(PlayerPed) > 100 then
                     DrawRect(0.0015+ 0.0148 + ((GetEntityHealth(PlayerPed) - 100)/1428.57142857)/2,minimap.bottom_y - 0.01,(GetEntityHealth(PlayerPed) - 100)/1428.57142857 + 0.0015,0.008295,45, 183, 119,200)
