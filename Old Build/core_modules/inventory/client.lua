@@ -168,7 +168,7 @@ AddEventHandler("inventory:vehicle_open", function()
         if vehicleHandle ~= nil then
             if DoesEntityExist(vehicleHandle) then
                 local plate = GetVehicleNumberPlateText(vehicleHandle)
-                if IsVehicleDoorFullyOpen(vehicleHandle, 5) then
+                if IsVehicleDoorFullyOpen(vehicleHandle, 5) == true or IsVehicleDoorFullyOpen(vehicleHandle, 6) == true then
                     if vehicle_inventory[plate] then
                         if keys_users[GetPlayerServerId(PlayerId())][plate] or vehicle_inventory[plate].locked == "false" then
                             if IsVehicleDoorFullyOpen(vehicleHandle, 5) then
@@ -320,7 +320,7 @@ AddEventHandler("inventory:vehicle_weapon_open", function()
         if vehicleHandle ~= nil then
             if DoesEntityExist(vehicleHandle) then
                 local plate = GetVehicleNumberPlateText(vehicleHandle)
-                if IsVehicleDoorFullyOpen(vehicleHandle, 5) then
+                if IsVehicleDoorFullyOpen(vehicleHandle, 5) == true or IsVehicleDoorFullyOpen(vehicleHandle, 6) == true then
                     if vehicle_weapon_inventory[plate] then
                         if keys_users[GetPlayerServerId(PlayerId())][plate] or vehicle_weapon_inventory[plate].locked == "false" then
                             exports.ui:reset()
