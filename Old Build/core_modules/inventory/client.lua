@@ -121,41 +121,43 @@ end)
 
 AddEventHandler("inventory:vehicle_open", function()
     if IsPedSittingInAnyVehicle(PlayerPedId()) then
-        local vehicleHandle = GetVehiclePedIsIn(PlayerPedId(), false)
-        local plate = GetVehicleNumberPlateText(vehicleHandle)
-        if vehicle_inventory[plate] then
-            if keys_users[GetPlayerServerId(PlayerId())][plate] or vehicle_inventory[plate].locked == "false" then
-                exports.ui:reset()
-                exports.ui:open("vehicle_inventory")
-                if keys_users[GetPlayerServerId(PlayerId())][plate] then
-                    if vehicle_inventory[plate].locked == "true" then
-                        exports.ui:addOption("Unlock trunk", "inventory:vehicle_lock", plate)
-                    else
-                        exports.ui:addOption("Lock trunk", "inventory:vehicle_lock", plate)
-                    end
-                end
-                exports.ui:addOption("Deposit", "inventory:vehicle_deposit", plate)
-                for k,v in pairs(vehicle_inventory[plate]) do
-                    if k ~= "locked" then
-                        exports.ui:addOption(v.quantity.." "..v.name, "inventory:vehicle_withdraw", v)
-                    end
-                end
-                exports.ui:back([[TriggerEvent("interaction:vehicle")]])
-            else
-                TriggerEvent("interaction:vehicle")
-                Notify("The trunk is locked!", 2500)
-            end
-        else
-            if keys_users[GetPlayerServerId(PlayerId())][plate] then
-                exports.ui:reset()
-                exports.ui:open("vehicle_inventory")
-                exports.ui:addOption("Deposit", "inventory:vehicle_deposit", plate)
-                exports.ui:back([[TriggerEvent("interaction:vehicle")]])
-            else
-                TriggerEvent("interaction:vehicle")
-                Notify("You don't have the keys to this vehicle!", 2500)
-            end
-        end
+        -- local vehicleHandle = GetVehiclePedIsIn(PlayerPedId(), false)
+        -- local plate = GetVehicleNumberPlateText(vehicleHandle)
+        -- if vehicle_inventory[plate] then
+        --     if keys_users[GetPlayerServerId(PlayerId())][plate] or vehicle_inventory[plate].locked == "false" then
+        --         exports.ui:reset()
+        --         exports.ui:open("vehicle_inventory")
+        --         if keys_users[GetPlayerServerId(PlayerId())][plate] then
+        --             if vehicle_inventory[plate].locked == "true" then
+        --                 exports.ui:addOption("Unlock trunk", "inventory:vehicle_lock", plate)
+        --             else
+        --                 exports.ui:addOption("Lock trunk", "inventory:vehicle_lock", plate)
+        --             end
+        --         end
+        --         exports.ui:addOption("Deposit", "inventory:vehicle_deposit", plate)
+        --         for k,v in pairs(vehicle_inventory[plate]) do
+        --             if k ~= "locked" then
+        --                 exports.ui:addOption(v.quantity.." "..v.name, "inventory:vehicle_withdraw", v)
+        --             end
+        --         end
+        --         exports.ui:back([[TriggerEvent("interaction:vehicle")]])
+        --     else
+        --         TriggerEvent("interaction:vehicle")
+        --         Notify("The trunk is locked!", 2500)
+        --     end
+        -- else
+        --     if keys_users[GetPlayerServerId(PlayerId())][plate] then
+        --         exports.ui:reset()
+        --         exports.ui:open("vehicle_inventory")
+        --         exports.ui:addOption("Deposit", "inventory:vehicle_deposit", plate)
+        --         exports.ui:back([[TriggerEvent("interaction:vehicle")]])
+        --     else
+        --         TriggerEvent("interaction:vehicle")
+        --         Notify("You don't have the keys to this vehicle!", 2500)
+        --     end
+        -- end
+        TriggerEvent("interaction:vehicle")
+        Notify("You can't deposit stuff while sitting in the vehicle!", 5000)
     else
         local pos = GetEntityCoords(PlayerPedId())
         local entityWorld = GetOffsetFromEntityInWorldCoords(PlayerPedId(), 0.0, 20.0, 0.0)
@@ -166,38 +168,48 @@ AddEventHandler("inventory:vehicle_open", function()
         if vehicleHandle ~= nil then
             if DoesEntityExist(vehicleHandle) then
                 local plate = GetVehicleNumberPlateText(vehicleHandle)
-                if vehicle_inventory[plate] then
-                    if keys_users[GetPlayerServerId(PlayerId())][plate] or vehicle_inventory[plate].locked == "false" then
-                        exports.ui:reset()
-                        exports.ui:open("vehicle_inventory")
-                        if keys_users[GetPlayerServerId(PlayerId())][plate] then
-                            if vehicle_inventory[plate].locked == "true" then
-                                exports.ui:addOption("Unlock trunk", "inventory:vehicle_lock", plate)
+                if IsVehicleDoorFullyOpen(vehicleHandle, 5) then
+                    if vehicle_inventory[plate] then
+                        if keys_users[GetPlayerServerId(PlayerId())][plate] or vehicle_inventory[plate].locked == "false" then
+                            if IsVehicleDoorFullyOpen(vehicleHandle, 5) then
+                                exports.ui:reset()
+                                exports.ui:open("vehicle_inventory")
+                                if keys_users[GetPlayerServerId(PlayerId())][plate] then
+                                    if vehicle_inventory[plate].locked == "true" then
+                                        exports.ui:addOption("Unlock trunk", "inventory:vehicle_lock", plate)
+                                    else
+                                        exports.ui:addOption("Lock trunk", "inventory:vehicle_lock", plate)
+                                    end
+                                end
+                                exports.ui:addOption("Deposit", "inventory:vehicle_deposit", plate)
+                                for k,v in pairs(vehicle_inventory[plate]) do
+                                    if k ~= "locked" then
+                                        exports.ui:addOption(v.quantity.." "..v.name, "inventory:vehicle_withdraw", v)
+                                    end
+                                end
+                                exports.ui:back([[TriggerEvent("interaction:vehicle")]])
                             else
-                                exports.ui:addOption("Lock trunk", "inventory:vehicle_lock", plate)
+                                TriggerEvent("interaction:vehicle")
+                                Notify("The trunk is not open!", 2500)
                             end
+                        else
+                            TriggerEvent("interaction:vehicle")
+                            Notify("The trunk is locked!", 2500)
                         end
-                        exports.ui:addOption("Deposit", "inventory:vehicle_deposit", plate)
-                        for k,v in pairs(vehicle_inventory[plate]) do
-                            if k ~= "locked" then
-                                exports.ui:addOption(v.quantity.." "..v.name, "inventory:vehicle_withdraw", v)
-                            end
-                        end
-                        exports.ui:back([[TriggerEvent("interaction:vehicle")]])
                     else
-                        TriggerEvent("interaction:vehicle")
-                        Notify("The trunk is locked!", 2500)
+                        if keys_users[GetPlayerServerId(PlayerId())][plate] then
+                            exports.ui:reset()
+                            exports.ui:open("vehicle_inventory")
+                            exports.ui:addOption("Deposit", "inventory:vehicle_deposit", plate)
+                            exports.ui:back([[TriggerEvent("interaction:vehicle")]])
+                        else
+                            TriggerEvent("interaction:vehicle")
+                            Notify("You don't have the keys to this vehicle!", 2500)
+                        end
                     end
                 else
-                    if keys_users[GetPlayerServerId(PlayerId())][plate] then
-                        exports.ui:reset()
-                        exports.ui:open("vehicle_inventory")
-                        exports.ui:addOption("Deposit", "inventory:vehicle_deposit", plate)
-                        exports.ui:back([[TriggerEvent("interaction:vehicle")]])
-                    else
-                        TriggerEvent("interaction:vehicle")
-                        Notify("You don't have the keys to this vehicle!", 2500)
-                    end
+                    TriggerEvent("interaction:vehicle")
+                    Notify("The trunk is not open!", 5000)
                 end
             else
                 TriggerEvent("interaction:vehicle")
@@ -257,45 +269,47 @@ end)
 
 AddEventHandler("inventory:vehicle_weapon_open", function()
     if IsPedSittingInAnyVehicle(PlayerPedId()) then
-        local vehicleHandle = GetVehiclePedIsIn(PlayerPedId(), false)
-        local plate = GetVehicleNumberPlateText(vehicleHandle)
-        if vehicle_weapon_inventory[plate] then
-            if keys_users[GetPlayerServerId(PlayerId())][plate] or vehicle_weapon_inventory[plate].locked == "false" then
-                exports.ui:reset()
-                exports.ui:open("vehicle_weapon_inventory")
-                if keys_users[GetPlayerServerId(PlayerId())][plate] then
-                    if vehicle_weapon_inventory[plate].locked == "true" then
-                        exports.ui:addOption("Unlock weapon container", "inventory:vehicle_weapon_lock", plate)
-                    else
-                        exports.ui:addOption("Lock weapon container", "inventory:vehicle_weapon_lock", plate)
-                    end
-                end
-                exports.ui:addOption("Deposit", "inventory:vehicle_weapon_deposit", plate)
-                for k,v in pairs(vehicle_weapon_inventory[plate].weapons) do
-                    if k ~= "locked" then
-                        if v.ammo ~= 0 then
-                            exports.ui:addOption(Weapons_names[v.model].." ["..v.ammo.."]", "inventory:vehicle_weapon_withdraw", {plate = plate, weapon = v, weapon_id = k})
-                        else
-                            exports.ui:addOption(Weapons_names[v.model], "inventory:vehicle_weapon_withdraw", {plate = plate, weapon = v, weapon_id = k})
-                        end
-                    end
-                end
-                exports.ui:back([[TriggerEvent("interaction:vehicle")]])
-            else
-                TriggerEvent("interaction:vehicle")
-                Notify("The weapon container is locked!", 2500)
-            end
-        else
-            if keys_users[GetPlayerServerId(PlayerId())][plate] then
-                exports.ui:reset()
-                exports.ui:open("vehicle_inventory")
-                exports.ui:addOption("Deposit", "inventory:vehicle_weapon_deposit", plate)
-                exports.ui:back([[TriggerEvent("interaction:vehicle")]])
-            else
-                TriggerEvent("interaction:vehicle")
-                Notify("You don't have the keys to this vehicle!", 2500)
-            end
-        end
+        -- local vehicleHandle = GetVehiclePedIsIn(PlayerPedId(), false)
+        -- local plate = GetVehicleNumberPlateText(vehicleHandle)
+        -- if vehicle_weapon_inventory[plate] then
+        --     if keys_users[GetPlayerServerId(PlayerId())][plate] or vehicle_weapon_inventory[plate].locked == "false" then
+        --         exports.ui:reset()
+        --         exports.ui:open("vehicle_weapon_inventory")
+        --         if keys_users[GetPlayerServerId(PlayerId())][plate] then
+        --             if vehicle_weapon_inventory[plate].locked == "true" then
+        --                 exports.ui:addOption("Unlock weapon container", "inventory:vehicle_weapon_lock", plate)
+        --             else
+        --                 exports.ui:addOption("Lock weapon container", "inventory:vehicle_weapon_lock", plate)
+        --             end
+        --         end
+        --         exports.ui:addOption("Deposit", "inventory:vehicle_weapon_deposit", plate)
+        --         for k,v in pairs(vehicle_weapon_inventory[plate].weapons) do
+        --             if k ~= "locked" then
+        --                 if v.ammo ~= 0 then
+        --                     exports.ui:addOption(Weapons_names[v.model].." ["..v.ammo.."]", "inventory:vehicle_weapon_withdraw", {plate = plate, weapon = v, weapon_id = k})
+        --                 else
+        --                     exports.ui:addOption(Weapons_names[v.model], "inventory:vehicle_weapon_withdraw", {plate = plate, weapon = v, weapon_id = k})
+        --                 end
+        --             end
+        --         end
+        --         exports.ui:back([[TriggerEvent("interaction:vehicle")]])
+        --     else
+        --         TriggerEvent("interaction:vehicle")
+        --         Notify("The weapon container is locked!", 2500)
+        --     end
+        -- else
+        --     if keys_users[GetPlayerServerId(PlayerId())][plate] then
+        --         exports.ui:reset()
+        --         exports.ui:open("vehicle_inventory")
+        --         exports.ui:addOption("Deposit", "inventory:vehicle_weapon_deposit", plate)
+        --         exports.ui:back([[TriggerEvent("interaction:vehicle")]])
+        --     else
+        --         TriggerEvent("interaction:vehicle")
+        --         Notify("You don't have the keys to this vehicle!", 2500)
+        --     end
+        -- end
+        TriggerEvent("interaction:vehicle")
+        Notify("You can't deposit stuff while sitting in the vehicle!", 5000)
     else
         local pos = GetEntityCoords(PlayerPedId())
         local entityWorld = GetOffsetFromEntityInWorldCoords(PlayerPedId(), 0.0, 20.0, 0.0)
@@ -306,42 +320,47 @@ AddEventHandler("inventory:vehicle_weapon_open", function()
         if vehicleHandle ~= nil then
             if DoesEntityExist(vehicleHandle) then
                 local plate = GetVehicleNumberPlateText(vehicleHandle)
-                if vehicle_weapon_inventory[plate] then
-                    if keys_users[GetPlayerServerId(PlayerId())][plate] or vehicle_weapon_inventory[plate].locked == "false" then
-                        exports.ui:reset()
-                        exports.ui:open("vehicle_inventory")
-                        if keys_users[GetPlayerServerId(PlayerId())][plate] then
-                            if vehicle_weapon_inventory[plate].locked == "true" then
-                                exports.ui:addOption("Unlock weapon container", "inventory:vehicle_weapon_lock", plate)
-                            else
-                                exports.ui:addOption("Lock weapon container", "inventory:vehicle_weapon_lock", plate)
-                            end
-                        end
-                        exports.ui:addOption("Deposit", "inventory:vehicle_weapon_deposit", plate)
-                        for k,v in pairs(vehicle_weapon_inventory[plate].weapons) do
-                            if k ~= "locked" then
-                                if v.ammo ~= 0 then
-                                    exports.ui:addOption(Weapons_names[v.model].." ["..v.ammo.."]", "inventory:vehicle_weapon_withdraw", {plate = plate, weapon = v, weapon_id = k})
+                if IsVehicleDoorFullyOpen(vehicleHandle, 5) then
+                    if vehicle_weapon_inventory[plate] then
+                        if keys_users[GetPlayerServerId(PlayerId())][plate] or vehicle_weapon_inventory[plate].locked == "false" then
+                            exports.ui:reset()
+                            exports.ui:open("vehicle_inventory")
+                            if keys_users[GetPlayerServerId(PlayerId())][plate] then
+                                if vehicle_weapon_inventory[plate].locked == "true" then
+                                    exports.ui:addOption("Unlock weapon container", "inventory:vehicle_weapon_lock", plate)
                                 else
-                                    exports.ui:addOption(Weapons_names[v.model], "inventory:vehicle_weapon_withdraw", {plate = plate, weapon = v, weapon_id = k})
+                                    exports.ui:addOption("Lock weapon container", "inventory:vehicle_weapon_lock", plate)
                                 end
                             end
+                            exports.ui:addOption("Deposit", "inventory:vehicle_weapon_deposit", plate)
+                            for k,v in pairs(vehicle_weapon_inventory[plate].weapons) do
+                                if k ~= "locked" then
+                                    if v.ammo ~= 0 then
+                                        exports.ui:addOption(Weapons_names[v.model].." ["..v.ammo.."]", "inventory:vehicle_weapon_withdraw", {plate = plate, weapon = v, weapon_id = k})
+                                    else
+                                        exports.ui:addOption(Weapons_names[v.model], "inventory:vehicle_weapon_withdraw", {plate = plate, weapon = v, weapon_id = k})
+                                    end
+                                end
+                            end
+                            exports.ui:back([[TriggerEvent("interaction:vehicle")]])
+                        else
+                            TriggerEvent("interaction:vehicle")
+                            Notify("The weapon container is locked!", 2500)
                         end
-                        exports.ui:back([[TriggerEvent("interaction:vehicle")]])
                     else
-                        TriggerEvent("interaction:vehicle")
-                        Notify("The weapon container is locked!", 2500)
+                        if keys_users[GetPlayerServerId(PlayerId())][plate] then
+                            exports.ui:reset()
+                            exports.ui:open("vehicle_inventory")
+                            exports.ui:addOption("Deposit", "inventory:vehicle_weapon_deposit", plate)
+                            exports.ui:back([[TriggerEvent("interaction:vehicle")]])
+                        else
+                            TriggerEvent("interaction:vehicle")
+                            Notify("You don't have the keys to this vehicle!", 2500)
+                        end
                     end
                 else
-                    if keys_users[GetPlayerServerId(PlayerId())][plate] then
-                        exports.ui:reset()
-                        exports.ui:open("vehicle_inventory")
-                        exports.ui:addOption("Deposit", "inventory:vehicle_weapon_deposit", plate)
-                        exports.ui:back([[TriggerEvent("interaction:vehicle")]])
-                    else
-                        TriggerEvent("interaction:vehicle")
-                        Notify("You don't have the keys to this vehicle!", 2500)
-                    end
+                    TriggerEvent("interaction:vehicle")
+                    Notify("The trunk is not open!", 5000)
                 end
             else
                 TriggerEvent("interaction:vehicle")
@@ -477,7 +496,11 @@ local function heal()
     Citizen.CreateThread(function()
         if not IsEntityDead(PlayerPedId()) then
             Citizen.Wait(200)
+            TaskPlayAnim(PlayerPedId(), armour_anim_dict, "002334_02_fras_v2_11_getting_dressed_exit", 4.0, -4, -1, 1, 0, false, false, false)
+            Citizen.Wait(500)
             SetEntityHealth(PlayerPedId(), 200)
+            Citizen.Wait(1700)
+            ClearPedTasks(PlayerPedId())
             exports.pNotify:SendNotification({text = "Medkit used!",type = "error",queue = "left",timeout = 3000,layout = "centerRight"})
             TriggerEvent("inventory:open")
         end
@@ -670,6 +693,16 @@ AddEventHandler("inventory:use",function(data)
             end
         elseif data.canuse == 8 then --Hotwire kit
             hotwire(data.item_id)
+        elseif data.canuse == 9 then --Bleach
+            local pos = GetEntityCoords(PlayerPedId(), false)
+            local entityWorld = GetOffsetFromEntityInWorldCoords(PlayerPedId(), 0.0, 5.0, 0.0)
+            local rayHandle = CastRayPointToPoint(pos.x, pos.y, pos.z, entityWorld.x, entityWorld.y, entityWorld.z, 10, PlayerPedId(), 0)
+            local _, _, _, _, vehicleHandle = GetRaycastResult(rayHandle)
+            if vehicleHandle ~= nil then
+                TriggerEvent("police:bleachvehicle", GetVehicleNumberPlateText(vehicleHandle))
+            else
+                Messages(6)
+            end
         elseif data.canuse == 10 then
             drugged = true
         end
@@ -695,6 +728,8 @@ function Messages(value)
         Notify("This item cannot be used!")
     elseif value == 5 then
         Notify("There is no player near you!")
+    elseif value == 6 then
+        Notify("You mkust be facing the car you wish to bleach!")
     end
 end
 --==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--
