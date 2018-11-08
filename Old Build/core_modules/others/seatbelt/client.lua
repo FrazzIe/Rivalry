@@ -21,7 +21,11 @@ Citizen.CreateThread(function()
 		if DoesEntityExist(Vehicle) then
 			local Model = GetEntityModel(Vehicle)
 			if IsThisModelACar(Model) or IsThisModelAQuadbike(Model) or IsThisModelABike(Model) then
-
+				if Seatbelt.Active then
+					drawText("~g~"..GetVehicleNumberPlateText(vehicle), 6, 0.889, 0.75, 0.5, 255, 255, 255, 255, false, true)
+				else
+					drawText("~r~"..GetVehicleNumberPlateText(vehicle), 6, 0.889, 0.75, 0.5, 255, 255, 255, 255, false, true)
+				end
 				Buffer.Speed[2] = Buffer.Speed[1] or 0.0
 				Buffer.Speed[1] = GetEntitySpeed(Vehicle) * 2.23694
 
