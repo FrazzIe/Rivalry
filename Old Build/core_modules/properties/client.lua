@@ -147,6 +147,7 @@ Citizen.CreateThread(function()
 								if v.owner.identifier == "no" then --If no one owns it
 									if WarMenu.Button("Rent for "..currentRentIndex.." days", "$"..v.rent*currentRentIndex) then
 										TriggerServerEvent("properties:rent", "houses", "normal", k, currentRentIndex)
+										TaskStartScenarioInPlace(PlayerPedId(), "PROP_HUMAN_ATM", 1, false)
 									end
 									if WarMenu.ComboBox("No. of Days", {"1","2","3","4","5","6","7"}, currentRentIndex, selectedRentIndex, function(currentIndex, selectedIndex)
 	                    					currentRentIndex = currentIndex
@@ -160,6 +161,7 @@ Citizen.CreateThread(function()
 									if GetCurrentServerTime() < (tonumber(v.expire) + (time_to_pay_rent*60*60)) and GetCurrentServerTime() > tonumber(v.expire) then
 										if WarMenu.Button("Rent for "..currentRentIndex.." days", "$"..v.rent*currentRentIndex) then
 											TriggerServerEvent("properties:rent", "houses", "normal", k, currentRentIndex)
+											TaskStartScenarioInPlace(PlayerPedId(), "PROP_HUMAN_ATM", 1, false)
 										end
 										if WarMenu.ComboBox("No. of Days", {"1","2","3","4","5","6","7"}, currentRentIndex, selectedRentIndex, function(currentIndex, selectedIndex)
 		                    					currentRentIndex = currentIndex
@@ -475,6 +477,7 @@ Citizen.CreateThread(function()
 								if v.owner.identifier == "no" then --If no one owns it
 									if WarMenu.Button("Rent for "..currentRentIndex.." days", "$"..v.rent*currentRentIndex) then
 										TriggerServerEvent("properties:rent", "houses", "enterable", k, currentRentIndex)
+										TaskStartScenarioInPlace(PlayerPedId(), "PROP_HUMAN_ATM", 1, false)
 									end
 									if WarMenu.ComboBox("No. of Days", {"1","2","3","4","5","6","7"}, currentRentIndex, selectedRentIndex, function(currentIndex, selectedIndex)
 	                    					currentRentIndex = currentIndex
@@ -488,6 +491,7 @@ Citizen.CreateThread(function()
 									if GetCurrentServerTime() < (tonumber(v.expire) + (time_to_pay_rent*60*60)) and GetCurrentServerTime() > tonumber(v.expire) then
 										if WarMenu.Button("Rent for "..currentRentIndex.." days", "$"..v.rent*currentRentIndex) then
 											TriggerServerEvent("properties:rent", "houses", "enterable", k, currentRentIndex)
+											TaskStartScenarioInPlace(PlayerPedId(), "PROP_HUMAN_ATM", 1, false)
 										end
 										if WarMenu.ComboBox("No. of Days", {"1","2","3","4","5","6","7"}, currentRentIndex, selectedRentIndex, function(currentIndex, selectedIndex)
 		                    					currentRentIndex = currentIndex
@@ -889,6 +893,7 @@ Citizen.CreateThread(function()
 								if v.owner.identifier == "no" then --If no one owns it
 									if WarMenu.Button("Rent for "..currentRentIndex.." days", "$"..v.rent*currentRentIndex) then
 										TriggerServerEvent("properties:rent", "businesses", "normal", k, currentRentIndex)
+										TaskStartScenarioInPlace(PlayerPedId(), "PROP_HUMAN_ATM", 1, false)
 									end
 									if WarMenu.ComboBox("No. of Days", {"1","2","3","4","5","6","7"}, currentRentIndex, selectedRentIndex, function(currentIndex, selectedIndex)
 	                    					currentRentIndex = currentIndex
@@ -902,6 +907,7 @@ Citizen.CreateThread(function()
 									if GetCurrentServerTime() < (tonumber(v.expire) + (time_to_pay_rent*60*60)) and GetCurrentServerTime() > tonumber(v.expire) then
 										if WarMenu.Button("Rent for "..currentRentIndex.." days", "$"..v.rent*currentRentIndex) then
 											TriggerServerEvent("properties:rent", "businesses", "normal", k, currentRentIndex)
+											TaskStartScenarioInPlace(PlayerPedId(), "PROP_HUMAN_ATM", 1, false)
 										end
 										if WarMenu.ComboBox("No. of Days", {"1","2","3","4","5","6","7"}, currentRentIndex, selectedRentIndex, function(currentIndex, selectedIndex)
 		                    					currentRentIndex = currentIndex
@@ -1220,6 +1226,7 @@ Citizen.CreateThread(function()
 								if v.owner.identifier == "no" then --If no one owns it
 									if WarMenu.Button("Rent for "..currentRentIndex.." days", "$"..v.rent*currentRentIndex) then
 										TriggerServerEvent("properties:rent", "businesses", "enterable", k, currentRentIndex)
+										TaskStartScenarioInPlace(PlayerPedId(), "PROP_HUMAN_ATM", 1, false)
 									end
 									if WarMenu.ComboBox("No. of Days", {"1","2","3","4","5","6","7"}, currentRentIndex, selectedRentIndex, function(currentIndex, selectedIndex)
 	                    					currentRentIndex = currentIndex
@@ -1233,6 +1240,7 @@ Citizen.CreateThread(function()
 									if GetCurrentServerTime() < (tonumber(v.expire) + (time_to_pay_rent*60*60)) and GetCurrentServerTime() > tonumber(v.expire) then
 										if WarMenu.Button("Rent for "..currentRentIndex.." days", "$"..v.rent*currentRentIndex) then
 											TriggerServerEvent("properties:rent", "businesses", "enterable", k, currentRentIndex)
+											TaskStartScenarioInPlace(PlayerPedId(), "PROP_HUMAN_ATM", 1, false)
 										end
 										if WarMenu.ComboBox("No. of Days", {"1","2","3","4","5","6","7"}, currentRentIndex, selectedRentIndex, function(currentIndex, selectedIndex)
 		                    					currentRentIndex = currentIndex
