@@ -20,10 +20,12 @@ local fualpha = 200
 Citizen.CreateThread(function()
     while true do
         Citizen.Wait(0)
+        local minimap = GetMinimapAnchor()
         if not hud_off then
             local PlayerPed = PlayerPedId()
-            DrawRect(0.0855,0.8,0.142,0.015,0,0,0,150)
             if(IsPedInAnyVehicle(PlayerPed, false))then
+                DisplayRadar(true)
+                DrawRect(0.0855,0.8,0.142,0.015,0,0,0,150)
     	        local cVeh = GetVehiclePedIsIn(PlayerPed, false)
     	        local currentfuel = DecorGetFloat(cVeh, "_Fuel_Level")
             	DrawRect(0.068 + (0.05175)/2,0.8,0.05175,0.008295,10,100,255,75)
@@ -36,12 +38,21 @@ Citizen.CreateThread(function()
     	        DrawRect(0.1215 + ((currentfuel/(GetVehicleHandlingFloat(cVeh, "CHandlingData", "fPetrolTankVolume")/0.0345))/2),0.8,currentfuel/(GetVehicleHandlingFloat(cVeh, "CHandlingData", "fPetrolTankVolume")/0.0345),0.008295,255, 206, 30,fualpha)
     	        drawHelpTxt(0.183,0.837 ,0.1,0.1,0.2, "FUEL", 255,255,255,255,6)
             else
-            	DrawRect(0.087 + (0.069)/2,0.8,0.069,0.008295,10,100,255,75)
-            	DrawRect(0.087 + (water/1449.27536232)/2,0.8,water/1449.27536232,0.008295,10,100,255,walpha)
-            	drawHelpTxt(0.165,0.837 ,0.1,0.1,0.2, "THIRST", 255,255,255,255,6)
-            	DrawRect(0.0148 + (0.07)/2,0.8,0.07,0.008295,255,165,0,75)
-            	DrawRect(0.0148 + (food/1428.57142857)/2,0.8,food/1428.57142857,0.008295,255,165,0,falpha)
-            	drawHelpTxt(0.094,0.837 ,0.1,0.1,0.2, "HUNGER", 255,255,255,255,6)
+                DrawRect(0.0855,minimap.bottom_y - 0.025,0.142,0.015,0,0,0,150)
+                DisplayRadar(false)
+            	DrawRect(0.087 + (0.069)/2,minimap.bottom_y - 0.024,0.069 - 0.0015,0.008295,10,100,255,75)
+            	DrawRect(0.087 + (water/1449.27536232)/2,minimap.bottom_y - 0.024,water/1449.27536232 - 0.0015,0.008295,10,100,255,walpha)
+            	drawHelpTxt(0.165, minimap.bottom_y + 0.013 ,0.1,0.1,0.2, "THIRST", 255,255,255,255,6)
+            	DrawRect(0.0015 + 0.0148 + (0.07)/2,minimap.bottom_y - 0.024,0.07 + 0.0015 ,0.008295,255,165,0,75)
+            	DrawRect(0.0015+ 0.0148 + (food/1428.57142857)/2,minimap.bottom_y - 0.024,food/1428.57142857 + 0.0015,0.008295,255,165,0,falpha)
+            	drawHelpTxt(0.094, minimap.bottom_y + 0.013 ,0.1,0.1,0.2, "HUNGER", 255,255,255,255,6)
+                DrawRect(0.0855,minimap.bottom_y - 0.01,0.142,0.015,0,0,0,150)
+                DrawRect(0.087 + (0.069)/2,minimap.bottom_y - 0.01,0.069 - 0.0015,0.008295,47, 196, 237,75)
+                DrawRect(0.087 + (GetPedArmour(PlayerPed)/1449.27536232)/2,minimap.bottom_y - 0.01,GetPedArmour(PlayerPed)/1449.27536232 - 0.0015,0.008295,47, 196, 237,200)
+                DrawRect(0.0015 + 0.0148 + (0.07)/2,minimap.bottom_y - 0.01,0.07 + 0.0015 ,0.008295,45, 183, 119,75)
+                if GetEntityHealth(PlayerPed) > 100 then
+                    DrawRect(0.0015+ 0.0148 + ((GetEntityHealth(PlayerPed) - 100)/1428.57142857)/2,minimap.bottom_y - 0.01,(GetEntityHealth(PlayerPed) - 100)/1428.57142857 + 0.0015,0.008295,45, 183, 119,200)
+                end
             end
         end
     end
