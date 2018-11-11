@@ -704,7 +704,7 @@ AddEventHandler("inventory:use",function(data)
                 Messages(6)
             end
         elseif data.canuse == 10 then
-            drugged = true
+            TaskStartScenarioInPlace(PlayerPedId(), "WORLD_HUMAN_DRUG_DEALER", 0, false)
         end
         removeQty(data.item_id,1)
     else

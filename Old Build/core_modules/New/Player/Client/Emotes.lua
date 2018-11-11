@@ -336,9 +336,9 @@ Emote.Add("cpa", "Carpark Attendent", "Job", {}, {}, {"WORLD_HUMAN_CAR_PARK_ATTE
 	TaskStartScenarioInPlace(PlayerPedId(), self.Scenarios[1], 0, false)
 end)
 
-Emote.Add("weed", "Drug Dealer", "Job", {}, {}, {"WORLD_HUMAN_DRUG_DEALER"}, {}, function(self)
+--[[Emote.Add("weed", "Drug Dealer", "Job", {}, {}, {"WORLD_HUMAN_DRUG_DEALER"}, {}, function(self)
 	TaskStartScenarioInPlace(PlayerPedId(), self.Scenarios[1], 0, false)
-end)
+end)--]]
 
 Emote.Add("prostitute", "Low Class Prostitute", "Job", {}, {}, {"WORLD_HUMAN_PROSTITUTE_LOW_CLASS"}, {}, function(self)
 	TaskStartScenarioInPlace(PlayerPedId(), self.Scenarios[1], 0, false)
