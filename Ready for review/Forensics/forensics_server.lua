@@ -103,11 +103,11 @@ AddEventHandler('police:forensicssync', function(data, type, type2, key)
 	end
 	if type == "pickedupblood" and type2 == "add" then
 		table.insert(collectedblood, data)
-		TriggerClientEvent('police:forensicssync_client', -1, "blood", collectedblood)
+		TriggerClientEvent('police:forensicssync_client', -1, "pickedupblood", collectedblood)
 	end
 	if type == "pickedupblood" and type2 == "remove" then
 		table.remove(collectedblood, key)
-		TriggerClientEvent('police:forensicssync_client', -1, "blood", collectedblood)
+		TriggerClientEvent('police:forensicssync_client', -1, "pickedupblood", collectedblood)
 	end
 end)
 

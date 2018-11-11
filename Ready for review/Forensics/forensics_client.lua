@@ -8,10 +8,10 @@ microscope = {x = 461.35046386719, y = -1007.7575073242, z = 32.819652557373, h 
 computer = {x = 460.87170410156, y = -1002.9169311523, z = 32.809814453125, h = 86.314888000488}
 gloves = {x = 460.26904296875, y = -1004.2963256836, z = 32.81978225708, h = 184.68264770508}
 local steps = {
-	step1 = true,
-	step2 = false,
-	step3 = false,
-	step4 = false,
+	[1] = true,
+	[2] = false,
+	[3] = false,
+	[4] = false,
 }
 local lab = {
 	[1] = {x = 464.69943237305, y = -1005.9356689453, z = 32.819774627686, h = 274.05487060547},
@@ -255,7 +255,7 @@ Citizen.CreateThread(function()
 					end
 				end
 			end
-			if Vdist(gloves.x, gloves.y, gloves.z, coords.x, coords.y, coords.z) < 1 then
+			--[[if Vdist(gloves.x, gloves.y, gloves.z, coords.x, coords.y, coords.z) < 1 then
 				DisplayHelpText('Press ~INPUT_CONTEXT~ to use this!')
 				if IsControlJustPressed(1,51) then
 					if isMale(PlayerPedId()) then
@@ -264,7 +264,7 @@ Citizen.CreateThread(function()
 						SetPedDrawableVariation(3, y)
 					end
 				end
-			end
+			end--]]
 		end
 	end
 end)
@@ -291,7 +291,7 @@ Citizen.CreateThread(function()
 			ApplyPedBloodByZone(PlayerPedId(), coords.x, coords.y, coords.z)
 			local street, crossing = GetStreetNameAtCoord(coords.x, coords.y, coords.z)
 			local blood = {
-				ped = GetPlayerServerId(PlayerId()),
+				player = exports.core:GetCharacterName(GetPlayerServerId(PlayerId())),
 				x = coords.x,
 				y = coords.y,
 				z = coords.z,
@@ -329,41 +329,48 @@ Citizen.CreateThread(function()
 			if Vdist(coords.x, coords.y, coords.z, 461.36346435547, -1005.0454711914, 32.809818267822) < 1 then
 				DisplayHelpText("Press ~INPUT_CONTEXT~ to use the Desk DNA Scanner")
 				if IsControlJustPressed(1, 51) then
-					Notify("Please select a piece of evidence through this list! Use /evidence blood [number]", 7400)
-					while selectedEvidenceB < 1 do
+					Notify("Please select a piece of evidence through this list! Use /evidence bl [number]", 7400)
+					if #collectedblood < 1 then
+						Chat_Message("Evidence Locker", "^0Is empty!")
+					else
+						for k, v in ipairs( collectedblood ) do
+							Chat_Message("Evidence Locker", "^0["..k.."] - "..v.location)
+						end
+					end
+					while selectedEvidenceBL < 1 do
 						Citizen.Wait(0)
 					end
-					if selectedEvidenceB > 0 and collectedblood[selectedEvidenceB] ~= nil then
-						Notify("Please take the sample over to the chemical desk!")
-						if Vdist(coords.x, coords.y, coords.z, lab[1].x, lab[1].y, lab[1].z) < 1 and steps.step1 == true then
+					if selectedEvidenceBL > 0 and collectedblood[selectedEvidenceBL].player ~= nil then
+						Notify("Please take the sample over to the chemical desk!", 2000)
+						if Vdist(coords.x, coords.y, coords.z, lab[1].x, lab[1].y, lab[1].z) < 1 and steps[1] == true then
 							DisplayHelpText("Press ~INPUT_CONTEXT~ to use the lab desk!")
 							if IsControlJustPressed(1,51) then
 								Notify("You are currently pouring enzymes into a flask to seperate the strands of DNA!")
 								Citizen.Wait(60000)
-								steps.step2 = true
-								steps.step1 = false
+								steps[2] = true
+								steps[1] = false
 							end
 						end
-						if Vdist(coords.x, coords.y, coords.z, lab[2].x, lab[2].y, lab[2].z) < 1 and steps.step2 == true then
+						if Vdist(coords.x, coords.y, coords.z, lab[2].x, lab[2].y, lab[2].z) < 1 and steps[2] == true then
 							DisplayHelpText("Press ~INPUT_ CONTEXT~ to add the DNA Stands to a Gel Based Polymer!")
 							if IsControlJustPressed(1,51) then
 								Ciitzen.Wait(60000)
-								steps.step3 = true
-								steps.step2 = false
+								steps[3] = true
+								steps[2] = false
 							end
 						end
-						if Vdist(coords.x, coords.y, coords.z, lab[3].x, lab[3].y, lab[3].z) < 1 and steps.step3 == true then
+						if Vdist(coords.x, coords.y, coords.z, lab[3].x, lab[3].y, lab[3].z) < 1 and steps[3] == true then
 							DisplayHelpText("Press ~INPUT_CONTEXT~ to add a electrical current to the Gel!")
 								if IsControlJustPressed(1,51) then
 								Citizen.Wait(60000)
-								steps.step4 = true
-								steps.step3 = false
+								steps[4] = true
+								steps[3] = false
 							end
 						end
-						if steps.step4 == true then
+						if steps[4] == true then
 							Notify("Your DNA Evidence is being processed!", 600000)
 							Citizen.Wait(600000)
-							TriggerServerEvent('police:forensics_dna', collectedblood[selectedEvidenceB].ped)
+							TriggerServerEvent('police:forensics_dna', collectedblood[selectedEvidenceBL].player)
 						end
 					end
 				end

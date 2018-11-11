@@ -24,7 +24,6 @@ Citizen.CreateThread(function()
         if not hud_off then
             local PlayerPed = PlayerPedId()
             if(IsPedInAnyVehicle(PlayerPed, false))then
-                DisplayRadar(true)
                 DrawRect(0.0855,0.8,0.142,0.015,0,0,0,150)
     	        local cVeh = GetVehiclePedIsIn(PlayerPed, false)
     	        local currentfuel = DecorGetFloat(cVeh, "_Fuel_Level")
@@ -39,7 +38,6 @@ Citizen.CreateThread(function()
     	        drawHelpTxt(0.183,0.837 ,0.1,0.1,0.2, "FUEL", 255,255,255,255,6)
             else
                 DrawRect(0.0855,minimap.bottom_y - 0.025,0.142,0.015,0,0,0,150)
-                DisplayRadar(false)
             	DrawRect(0.087 + (0.069)/2,minimap.bottom_y - 0.024,0.069 - 0.0015,0.008295,10,100,255,75)
             	DrawRect(0.087 + (water/1449.27536232)/2,minimap.bottom_y - 0.024,water/1449.27536232 - 0.0015,0.008295,10,100,255,walpha)
             	drawHelpTxt(0.165, minimap.bottom_y + 0.013 ,0.1,0.1,0.2, "THIRST", 255,255,255,255,6)
