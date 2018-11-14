@@ -23,9 +23,9 @@ end)
 RegisterNetEvent('prox_chatMessageLOOC')
 AddEventHandler('prox_chatMessageLOOC', function(id, name, message)
     if PlayerId() == GetPlayerFromServerId(id) then
-        TriggerEvent('chatMessage', "^0[LOOC]:", {77, 79, 79}, GetPlayerName(PlayerPedId()) ..": " .. message )
+        TriggerEvent('chatMessage', "^*[Local OOC] ^r"..GetPlayerName(GetPlayerFromServerId(id)), {193, 193, 193}, message )
     elseif GetDistanceBetweenCoords(GetEntityCoords(GetPlayerPed(PlayerId())), GetEntityCoords(GetPlayerPed(GetPlayerFromServerId(id))), true) < 50.00 then
-        TriggerEvent('chatMessage', "^0[LOOC]:", {77, 79, 79}, GetPlayerName(PlayerPedId()) ..": " .. message )
+        TriggerEvent('chatMessage', "^*[Local OOC] ^r"..GetPlayerName(GetPlayerFromServerId(id)), {193, 193, 193}, message )
     end
 end)
 
