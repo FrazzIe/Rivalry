@@ -11,13 +11,73 @@
 
     Copy, re-release, re-distribute it without my written permission.
 --]]
+local jobs = {
+    [1] = {x = 1669.3770751953, y = 2671.7741699219, z = 45.564891815186, h = 9.0001344680786},
+    [2] = {x = 1667.2628173828, y = 2671.7663574219, z = 45.564891815186, h = 6.1932606697083},
+    [3] = {x = 1650.880859375, y = 2650.6540527344, z = 45.564891815186, h = 92.09351348877},
+    [4] = {x = 1650.1315917969, y = 2652.2705078125, z = 45.564903259277, h = 94.331809997559},
+    [5] = {x = 1649.455078125, y = 2586.4304199219, z = 45.564888000488, h = 179.61512756348},
+    [6] = {x = 1675.7966308594, y = 2631.2055664063, z = 45.564880371094, h = 359.93759155273},
+    [7] = {x = 1717.2008056641, y = 2631.2712402344, z = 45.564903259277, h = 268.37365722656},
+    [8] = {x = 1758.4207763672, y = 2647.0783691406, z = 45.564903259277, h = 181.49214172363},
+    [9] = {x = 1755.3251953125, y = 2675.5888671875, z = 45.564922332764, h = 9.2969970703125},
+    [10] = {x = 1757.015625, y = 2676.6447753906, z = 45.564922332764, h = 11.364153862},
+    [11] = {x = 1723.6801757813, y = 2685.2116699219, z = 45.564937591553, h = 310.82119750977},
+    [12] = {x = 1725.4085693359, y = 2684.2580566406, z = 45.564937591553, h = 312.90051269531},
+    [13] = {x = 1726.5012207031, y = 2664.3308105469, z = 45.564926147461, h = 1.168328166008},
+}
 
---[[function Notify(Message, Time)
-    exports.pNotify:SendNotification({text = Message}, type = "error", timeout = Time or 3000,layout = "centerRight", queue = "left")
-end--]]
+local jailbreak = {x = 1720.6208496094, y = 2616.0678710938, z = 45.56485748291, h = 184.37046813965},
+
 IsJailed = false
 local removeSentence = false
-TriggerEvent('allPlayers')
+local isDoingJob = false
+local whosJailed = {}
+local isActive = false
+ 
+RegisterNetEvent("jail:sync_players")
+AddEventHandler("jail:sync_players", function(table)
+    whosJailed = table
+end)
+
+RegisterNetEvent("jailbreak:toggle")
+AddEventHandler("jailbreak:toggle", function()
+    Citizen.CreateThread(function()
+        while isActive do
+            Citizen.Wait(0)
+            Notify("You have just toggled the alarm! 10 minutes until completion!". 4000)
+            Citizen.Wait(600000)
+            TriggerServerEvent("jail:sync_players", jailedPlayers ,"removeall")
+        end
+    end)
+end)
+
+Citizen.CreateThread(function()
+    while true do
+        Citizen.Wait(0)
+        local ped = PlayerPedId()
+        local coords = GetEntityCoords(ped, false)
+        if Vdist(coords.x, coords.y, coords.z, jailbreak.x, jailbreak.y, jailbreak.z) < 10 then
+            drawMarker(25, jailbreak.x, jailbreak.y, jailbreak.z - 1.0, 1.0, 1.0, 1.5, 0, 255, 0, 255)
+            if Vdist(coords.x, coords.y, coords.z, jailbreak.x, jailbreak.y, jailbreak.z) < 1 then
+                if IsControlJustPressed(1, 51) then
+                    TriggerServerEvent('jailbreak:toggle')
+                    if isActive == false then
+                        isActive = true
+                    else
+                        Notify("Jailbreak has already been started!")
+                    end
+                end
+            end
+        else
+            if isActive == true then
+                isActive = false
+                Notify("Jailbreak failed! You have left the required radius!")
+            end
+        end
+    end
+end)
+
 RegisterNetEvent("jail:jail")
 AddEventHandler("jail:jail", function(JailTime)
     if IsJailed == true then
@@ -27,12 +87,14 @@ AddEventHandler("jail:jail", function(JailTime)
     if exports.policejob:getIsCuffed() then
         TriggerEvent('police:uncuff')
     end
-        if DoesEntityExist(PlayerPedId()) then
+    if DoesEntityExist(PlayerPedId()) then
+       
         Citizen.CreateThread(function()
-            TriggerServerEvent('saveJailedPlayers', GetPlayerName(PlayerPedId()))
             SetEntityCoords(PlayerPedId(), 1677.233, 2658.618, 45.216)
             IsJailed = true
             removeSentence = false
+            TriggerServerEvent("jail:jailedPlayers", GetPlayerServerId(PlayerId()), "add")
+            local randomizedJob = math.random(1,13)
             local invisible = false
             TriggerEvent("anticheat:set", "invincible", true, function(callback)
                 if callback then
@@ -44,20 +106,39 @@ AddEventHandler("jail:jail", function(JailTime)
             end)
             while invisible == false do Citizen.Wait(1) end
             while JailTime > 0 and not removeSentence do
+                local coords = GetEntityCoords(PlayerPedId(), true)
+                if Vdist(coords.x, coords.y, coords.z, jobs[randomizedJob].x, jobs[randomizedJob].y, jobs[randomizedJob].z) < 10 then
+                    drawMarker(25, jobs[randomizedJob].x, jobs[randomizedJob].y, jobs[randomizedJob].z - 1.0, 1.0, 1.0, 1.5, 0, 255, 0, 255)
+                    if Vdist(coords.x, coords.y, coords.z, jobs[randomizedJob].x, jobs[randomizedJob].y, jobs[randomizedJob].z) < 1 then
+                        DisplayHelpText("Press ~INPUT_CONTEXT~ to work!")
+                        if IsControlJustPressed(1, 51) then
+                            TaskStartScenarioInPlace(PlayerPedId(), "WORLD_HUMAN_WELDING", 0, true)
+                            isDoingJob = true
+                            while isDoingJob do
+                                if IsPedUsingScenario(PlayerPedId(), "WORLD_HUMAN_WELDING") then
+                                    Citizen.Wait(10000)
+                                    ClearPedTasks(PlayerPedId())
+                                    JailTime = JailTime - 60
+                                    isDoingJob = false
+                                else
+                                    TaskStartScenarioInPlace(PlayerPedId(), "WORLD_HUMAN_WELDING", 0, true)
+                                end
+                            end
+                        end
+                    end
+                end
                 RemoveAllPedWeapons(PlayerPedId(), true)
                 SetEntityInvincible(PlayerPedId(), true)
-                TriggerServerEvent('allPlayers', GetPlayerPed(-1))
                 TriggerEvent("fm:eat", 100)
                 TriggerEvent("fm:drink", 100)
                 if IsPedInAnyVehicle(PlayerPedId(), false) then
                     ClearPedTasksImmediately(PlayerPedId())
                 end
                 if JailTime % 30 == 0 then
-                    exports.pNotify:SendNotification({text = JailTime .." more seconds until release.",type = "error",timeout = 3000,layout = "centerRight",queue = "left"})
-                    TriggerServerEvent("jail:update", JailTime)
+                    exports.pNotify:SendNotification({text = JailTime/60 .." more months until release.",type = "error",timeout = 3000,layout = "centerRight",queue = "left"})
+                    TriggerServerEvent("jail:update", JailTime/60)
                 end
                 Citizen.Wait(500)
-                local coords = GetEntityCoords(PlayerPedId(), true)
                 local Distance = Vdist(1677.233, 2658.618, 45.216, coords['x'], coords['y'], coords['z'])
                 if Distance > 90 then
                     SetEntityCoords(PlayerPedId(), 1677.233, 2658.618, 45.216)
@@ -73,65 +154,11 @@ AddEventHandler("jail:jail", function(JailTime)
             SetEntityInvincible(PlayerPedId(), false)
             TriggerEvent("anticheat:set", "invincible", false, function(callback)
             end)
+            TriggerServerEvent("jail:jailedPlayers", GetPlayerServerId(PlayerId()), "remove")
             if not removeSentence then
                 TriggerServerEvent("jail:update", 0)
             end
         end)
-    end
-end)
-
-RegisterNetEvent("jail:break")
-AddEventHandler("jail:break", function()
-    removeSentance = true
-end)
-
-local table = {
-   {x = 1721.8665771484, y = 2615.828125, z = 45.564903259277},
-}
-
-Citizen.CreateThread(function()
-    while true do
-        Citizen.Wait(0)
-        for k, v in pairs(table) do
-            DrawMarker(25, v.x, v.y, v.z-1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 2.0, 2.0, 2.0, 255, 255, 255, 255, false, true, 2, false, false, false, false)
-        end
-    end
-end)
-local allPlayers = nil
-local jailBreakStarted = false
-
-Citizen.CreateThread(function()
-    while true do
-        Citizen.Wait(0)
-        local ped = PlayerPedId()
-        for k, v in pairs(table) do
-            local plyCoords = GetEntityCoords(ped, false)
-            local dist = Vdist(plyCoords.x, plyCoords.y, plyCoords.z, v.x, v.y, v.z)
-            local maxRadius = Vdist(plyCoords.x, plyCoords.y, plyCoords.z, v.x+100,v.y+100,v.z+100)
-            if(dist <= 3.5)then
-                if(IsControlJustPressed(1, 51))then
-                    exports.pNotify:SendNotification({text = "You just triggered the alarm at the prison! Cops have been notified!",type = "error",timeout = 5000,layout = "centerRight",queue = "left"})
-                    jailBreakStarted = true
-                    if(dist > maxRadius) then
-                        exports.pNotify:SendNotification({text = "Alarm System Canceled!",type = "error",timeout = 5000,layout = "centerRight",queue = "left"})
-                    end
-                    Citizen.Wait(300000)
-                    removeSentence = true
-                    TriggerServerEvent('releasePrisoners')
-                end
-            end
-        end
-    end
-end)
-
-local isCop = nil
-RegisterNetEvent('allPlayersCB')
-AddEventHandler('allPlayersCB', function(player)
-    for k, v in ipairs(player) do
-        if(exports.policejob:getIsCop() and exports.policejob:getIsInService() and jailBreakStarted == true)then
-            exports.pNotify:SendNotification({text = "DISPATCH: BREAK BREAK BREAK! PRISON BREAK IN PROGRESS! RESPOND AND IDENTIFY!",type = "error",timeout = 10000,layout = "centerRight",queue = "left"})
-            jailBreakStarted = false
-        end
     end
 end)
 

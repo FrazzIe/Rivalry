@@ -11,23 +11,51 @@
 
     Copy, re-release, re-distribute it without my written permission.
 --]]
-local database = {}
-AddEventHandler("jail:initialise", function(source, time)
-    local source = source
-    if tonumber(time) > 0 then
-        TriggerClientEvent("jail:jail", source , tonumber(time))
-        local data = {
-            player = GetPlayerName(source)
-        }
-        table.insert(database, data)
+local jailedPlayers = {}
+
+RegisterServerEvent("jail:jailedPlayers")
+AddEventHandler("jail:jailedPlayers", function(player, type)
+    if type == "true" then
+        table.insert(jailedPlayers, player)
+        TriggerClientEvent("jail:sync_players", -1,  jailedPlayers)
+    end
+    if type == "removeall" then
+        jailedPlayers = {}
+        for k, v in ipairs(jailedPlayers) do
+            TriggerEvent("core:getuser", v, function(user)
+                TriggerClientEvent("jail:jail", v , 0)
+                user.set("jail_time", 0)
+            end)
+        end
+        TriggerClientEvent("jail:sync_players", -1, jailedPlayers)
+    end
+    if type == "remove"
+        for k, v in ipairs(jailedPlayers) do
+            if v == player then
+                table.remove(jailedPlayers, k)
+                TriggerClientEvent("jail:sync_players", -1, jailedPlayers)
+            end
+        end
     end
 end)
 
-RegisterServerEvent('allPlayers')
-AddEventHandler('allPlayers', function(source)
-    local players = GetPlayers()
-    TriggerClientEvent('allPlayersCB', players)
+RegisterServerEvent('jailbreak:toggle')
+AddEventHandler('jailbreak:toggle', function()
+    local source = source
+    TriggerEvent("core:getuser", source, function(user)
+        if user.get("jail_time") <= 0 then
+            TriggerClientEvent("jailbreak:toggle")
+        end
+    end
 end)
+
+AddEventHandler("jail:initialise", function(source, time)
+    local source = source
+    if tonumber(time) > 0 then
+        TriggerClientEvent("jail:jail", source , tonumber(time) * 60)
+    end
+end)
+
 
 TriggerEvent("core:addGroupCommand", "jail", "emergency", function(source, args, rawCommand, data, power, group)
     if #args < 3 then
@@ -37,14 +65,10 @@ TriggerEvent("core:addGroupCommand", "jail", "emergency", function(source, args,
             if tonumber(args[2]) ~= nil then
                 if tostring(args[3]) ~= nil then
                     TriggerEvent("core:getuser", tonumber(tonumber(args[1])), function(target)
-                        TriggerClientEvent("pNotify:SendNotification", -1, {text = "<b style='color:red'>Alert</b> <br><span style='color:lime'>"..target.get("first_name").." "..target.get("last_name").."</span> has been jailed. <br> Time: <span style='color:lime'>".. tonumber(args[2]) .."</span> Seconds <br> Charges: <span style='color:lime'>".. table.concat(args, " ", 3) .."</span>", type = "error", queue = "left", timeout = 10000, layout = "bottomRight"})
-                        TriggerClientEvent("pNotify:SendNotification", tonumber(args[1]), {text = "Your weapons have been confiscated!",type = "error", queue = "left",timeout = 10000,layout = "bottomCenter"})
-                        TriggerClientEvent("jail:jail", tonumber(args[1]) , tonumber(args[2]))
-                        target.set("jail_time", tonumber(args[2]))
-                        local players = {
-                            player = tonumber(args[1]),
-                        }
-                        table.insert(database, players)
+                        TriggerClientEvent("pNotify:SendNotification", -1, {text = "<b style='color:red'>Alert</b> <br><span style='color:lime'>"..target.get("first_name").." "..target.get("last_name").."</span> has been jailed. <br> Time: <span style='color:lime'>".. tonumber(args[2]) .."</span> months <br> Charges: <span style='color:lime'>".. table.concat(args, " ", 3) .."</span>", type = "error", queue = "left", timeout = 15000, layout = "bottomRight"})
+                        TriggerClientEvent("pNotify:SendNotification", tonumber(args[1]), {text = "You have arrived at the San Andreas Bolingbroke Penitentiary...",type = "error", queue = "left",timeout = 10000,layout = "bottomCenter"})
+                        TriggerClientEvent("jail:jail", tonumber(args[1]) , tonumber(args[2]) * 60)
+                        target.set("jail_time", tonumber(args[2]) * 60)
                     end)
                 else
                     TriggerClientEvent('chatMessage', source, 'SYSTEM', {255, 0, 0}, "Usage : /jail [ID] [TIME] [REASON]") 
@@ -72,21 +96,3 @@ TriggerEvent("core:addGroupCommand", "unjail", "emergency", function(source, arg
         end
     end
 end,{help = "unjail a shitlord", params = {{name = "id", help = "The id of the shitlord"}}})
-
-RegisterNetEvent('saveJailedPlayers')
-AddEventHandler('saveJailedPlayers', function(source)
-    local players = {
-        player = source
-    }
-    table.insert(database, players)
-end)
-
-RegisterNetEvent('releasePrisoners')
-AddEventHandler('releasePrisoners', function()
-    for k, v in ipairs(database) do
-        TriggerEvent("core:getuser", v.player, function(target)
-            TriggerClientEvent("jail:unjail", v.player)
-            target.set("jail_time", 0)
-        end)
-    end
-end)

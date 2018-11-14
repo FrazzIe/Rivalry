@@ -140,7 +140,7 @@ AddEventHandler('baseevents:onPlayerKilled', function(attacker, data)
         }
     end
     logkill(attacker_info, victim_info)
-    TriggerClientEvent("killfeed", -1, "^1Attacker: ^0"..(GetPlayerName(attacker) or "["..attacker.."]").." / ^1Victim: ^0"..(GetPlayerName(victim) or "["..victim.."]").." / ^1Weapon: ^0"..(data.deathreason.Str or "Null").." / ^1In Vehicle: ^0"..tostring(data.deathreason.killerinveh).." / ^1Seat: ^0"..ResolveSeat(data.deathreason.killerinveh, data.killervehseat))
+    --TriggerClientEvent("killfeed", -1, "^1Attacker: ^0"..(GetPlayerName(attacker) or "["..attacker.."]").." / ^1Victim: ^0"..(GetPlayerName(victim) or "["..victim.."]").." / ^1Weapon: ^0"..(data.deathreason.Str or "Null").." / ^1In Vehicle: ^0"..tostring(data.deathreason.killerinveh).." / ^1Seat: ^0"..ResolveSeat(data.deathreason.killerinveh, data.killervehseat))
 end)
 
 RegisterServerEvent("killfeed")
