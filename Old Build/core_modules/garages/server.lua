@@ -365,6 +365,7 @@ local emplacement_garage = {
     [10] = {name="Personal Garage", colour=3, sprite=357, x=-833.24926757813,y=-392.95385742188,z=31.325246810913,id=10,gname="Weazel [10]",cost=4000,heading=225.0,maxslots=4}, -- Personal
     [11] = {name="Personal Garage", colour=3, sprite=357, x=-30.303638458252,y=2.1268248558044,z=71.200004577637,id=11,gname="Small Garage [11]",cost=2000,heading=150.0,maxslots=2}, -- Personal
     [12] = {name="Personal Garage", colour=3, sprite=357, x=-84.019691467285,y=-820.99694824219,z=36.028030395508,id=12,gname="Maze Tower [12]",cost=5000,heading=-365.0,maxslots=5}, -- Personal
+    [13] = {name="Personal Garage", colour=3, sprite=357, x=1958.3830566406,y=3767.013671875,z=32.208053619385,id=13,gname="Sandy Shores [13]",cost=3000,heading=29.273107528687,maxslots=3},
 }
 
 RegisterServerEvent("garage:initialise")
