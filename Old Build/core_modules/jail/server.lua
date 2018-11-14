@@ -46,7 +46,7 @@ AddEventHandler('jailbreak:toggle', function()
         if user.get("jail_time") <= 0 then
             TriggerClientEvent("jailbreak:toggle")
         end
-    end
+    end)
 end)
 
 AddEventHandler("jail:initialise", function(source, time)
