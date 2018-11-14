@@ -11,6 +11,44 @@
 
     Copy, re-release, re-distribute it without my written permission.
 --]]
+local jailedPlayers = {}
+
+RegisterServerEvent("jail:jailedPlayers")
+AddEventHandler("jail:jailedPlayers", function(player, type)
+    if type == "true" then
+        table.insert(jailedPlayers, player)
+        TriggerClientEvent("jail:sync_players", -1,  jailedPlayers)
+    end
+    if type == "removeall" then
+        jailedPlayers = {}
+        for k, v in ipairs(jailedPlayers) do
+            TriggerEvent("core:getuser", v, function(user)
+                TriggerClientEvent("jail:jail", v , 0)
+                user.set("jail_time", 0)
+            end)
+        end
+        TriggerClientEvent("jail:sync_players", -1, jailedPlayers)
+    end
+    if type == "remove" then
+        for k, v in ipairs(jailedPlayers) do
+            if v == player then
+                table.remove(jailedPlayers, k)
+                TriggerClientEvent("jail:sync_players", -1, jailedPlayers)
+            end
+        end
+    end
+end)
+
+RegisterServerEvent('jailbreak:toggle')
+AddEventHandler('jailbreak:toggle', function()
+    local source = source
+    TriggerEvent("core:getuser", source, function(user)
+        if user.get("jail_time") <= 0 then
+            TriggerClientEvent("jailbreak:toggle")
+        end
+    end
+end)
+
 AddEventHandler("jail:initialise", function(source, time)
     local source = source
     if tonumber(time) > 0 then
