@@ -14,11 +14,10 @@ Config.Priority = {
     ["steam:110000106e0c14b"] = 999, -- Ructar
     ["steam:1100001086dec91"] = 998, -- TenderQWERTY
     ["steam:110000106443c23"] = 997, -- Augustus Williams
-    ["steam:11000010bf7bb73"] = 996, -- AfriicanSnowball
-    ["steam:1100001341a1664"] = 995, -- Lamar
-    ["steam:110000115c8520b"] = 994, -- Jinia
-    ["steam:110000114e5c4ee"] = 993, -- MarshPBNJ
-    ["steam:1100001032aa2a1"] = 992, -- Austin James
+    ["steam:1100001341a1664"] = 996, -- Lamar
+    ["steam:110000115c8520b"] = 995, -- Jinia
+    ["steam:110000114e5c4ee"] = 994, -- MarshPBNJ
+    ["steam:1100001032aa2a1"] = 993, -- Austin James
 --[People Frazzle Likes]--
     ["steam:1100001074e86ec"] = 900, -- RoundishKungFu/Kelly Price
     ["steam:110000110e35616"] = 899, -- Ryleigh Wolfhart
@@ -50,6 +49,7 @@ Config.Priority = {
     ["steam:110000104e491d1"] = 779, -- VaderRP
     ["steam:110000100a775e1"] = 778, -- Kyle
 --[PD, EMS, DOJ]--
+    ["steam:11000010bf7bb73"] = 701, -- AfriicanSnowball
     ["steam:110000104c9acb6"] = 700, -- Tyler Reagan (PD High Command)
     ["steam:11000010036d96d"] = 699, -- Chris Miller (PD Command)
     ["steam:110000104f0fbb8"] = 698, -- Wayne DeMan (PD Command)
