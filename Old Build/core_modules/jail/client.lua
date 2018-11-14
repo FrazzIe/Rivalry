@@ -62,8 +62,9 @@ Citizen.CreateThread(function()
         local ped = PlayerPedId()
         local coords = GetEntityCoords(ped, false)
         if Vdist(coords.x, coords.y, coords.z, jailbreak.x, jailbreak.y, jailbreak.z) < 10 then
-            drawMarker(25, jailbreak.x, jailbreak.y, jailbreak.z - 1.0, 1.0, 1.0, 1.5, 0, 255, 0, 255)
+            drawMarker(25, jailbreak.x, jailbreak.y, jailbreak.z - 0.9, 1.0, 1.0, 1.5, 0, 255, 0, 255)
             if Vdist(coords.x, coords.y, coords.z, jailbreak.x, jailbreak.y, jailbreak.z) < 1 then
+                DisplayHelpText("Press ~INPUT_CONTEXT~ to start a jailbreak!")
                 if IsControlJustPressed(1, 51) then
                     TriggerServerEvent('jailbreak:toggle')
                     if isActive == false then
@@ -102,7 +103,7 @@ Citizen.CreateThread(function()
         Citizen.Wait(0)
         local coords = GetEntityCoords(PlayerPedId(), false)
         if Vdist(coords.x, coords.y, coords.z, jobs[randomizedJob].x, jobs[randomizedJob].y, jobs[randomizedJob].z) < 10 then
-            drawMarker(25, jobs[randomizedJob].x, jobs[randomizedJob].y, jobs[randomizedJob].z - 1.0, 1.0, 1.0, 1.5, 0, 255, 0, 255)
+            drawMarker(25, jobs[randomizedJob].x, jobs[randomizedJob].y, jobs[randomizedJob].z - 0.9, 1.0, 1.0, 1.5, 0, 255, 0, 255)
             if Vdist(coords.x, coords.y, coords.z, jobs[randomizedJob].x, jobs[randomizedJob].y, jobs[randomizedJob].z) < 1 then
                 DisplayHelpText("Press ~INPUT_CONTEXT~ to work!")
                 if IsControlJustPressed(1, 51) then
