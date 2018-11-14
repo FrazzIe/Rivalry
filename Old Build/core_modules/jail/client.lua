@@ -50,19 +50,19 @@ AddEventHandler("jailbreak:toggle", function()
         while isActive do
             Citizen.Wait(0)
             Notify("You have just toggled the alarm! 10 minutes until completion!", 4000)
-            Citizen.Wait(600000)
+            Citizen.Wait(10000)
             TriggerServerEvent("jail:sync_players", jailedPlayers ,"removeall")
         end
     end)
 end)
 
-Citizen.CreateThread(function()
+--[[Citizen.CreateThread(function()
     while true do
         Citizen.Wait(0)
         local ped = PlayerPedId()
         local coords = GetEntityCoords(ped, false)
         if Vdist(coords.x, coords.y, coords.z, jailbreak.x, jailbreak.y, jailbreak.z) < 10 then
-            drawMarker(25, jailbreak.x, jailbreak.y, jailbreak.z - 0.9, 1.0, 1.0, 1.5, 0, 255, 0, 255)
+            drawMarker(25, jailbreak.x, jailbreak.y, jailbreak.z - 0.1, 1.0, 1.0, 1.5, 0, 255, 0, 255)
             if Vdist(coords.x, coords.y, coords.z, jailbreak.x, jailbreak.y, jailbreak.z) < 1 then
                 DisplayHelpText("Press ~INPUT_CONTEXT~ to start a jailbreak!")
                 if IsControlJustPressed(1, 51) then
@@ -82,7 +82,7 @@ Citizen.CreateThread(function()
         end
     end
 end)
-
+--]]
 local function drawJobBlips(randomizedJob)
     if not DoesBlipExist(job_blip) then
         job_blip = AddBlipForCoord(jobs[randomizedJob].x, jobs[randomizedJob].y, jobs[randomizedJob].z)
@@ -103,7 +103,7 @@ Citizen.CreateThread(function()
         Citizen.Wait(0)
         local coords = GetEntityCoords(PlayerPedId(), false)
         if Vdist(coords.x, coords.y, coords.z, jobs[randomizedJob].x, jobs[randomizedJob].y, jobs[randomizedJob].z) < 10 then
-            drawMarker(25, jobs[randomizedJob].x, jobs[randomizedJob].y, jobs[randomizedJob].z - 0.9, 1.0, 1.0, 1.5, 0, 255, 0, 255)
+            drawMarker(25, jobs[randomizedJob].x, jobs[randomizedJob].y, jobs[randomizedJob].z - 0.1, 1.0, 1.0, 1.5, 0, 255, 0, 255)
             if Vdist(coords.x, coords.y, coords.z, jobs[randomizedJob].x, jobs[randomizedJob].y, jobs[randomizedJob].z) < 1 then
                 DisplayHelpText("Press ~INPUT_CONTEXT~ to work!")
                 if IsControlJustPressed(1, 51) then
@@ -139,7 +139,7 @@ AddEventHandler("jail:jail", function(JailTime)
             removeSentence = false
             randomizedJob = math.random(1,13)
             drawJobBlips(randomizedJob)
-            TriggerServerEvent("jail:jailedPlayers", GetPlayerServerId(PlayerId()), "add")
+            --TriggerServerEvent("jail:jailedPlayers", GetPlayerServerId(PlayerId()), "add")
             local invisible = false
             TriggerEvent("anticheat:set", "invincible", true, function(callback)
                 if callback then
@@ -185,7 +185,7 @@ AddEventHandler("jail:jail", function(JailTime)
             SetEntityInvincible(PlayerPedId(), false)
             TriggerEvent("anticheat:set", "invincible", false, function(callback)
             end)
-            TriggerServerEvent("jail:jailedPlayers", GetPlayerServerId(PlayerId()), "remove")
+            --TriggerServerEvent("jail:jailedPlayers", GetPlayerServerId(PlayerId()), "remove")
             if not removeSentence then
                 TriggerServerEvent("jail:update", 0)
             end
