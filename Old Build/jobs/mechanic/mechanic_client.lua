@@ -860,7 +860,7 @@ Citizen.CreateThread(function()
                                 TriggerServerEvent("police:impound", GetVehicleNumberPlateText(NearestVehicle.Handle), 0)
                                 DestroyVehicle(NearestVehicle.Handle)
                             else
-                                Notify("Couldn't find a vehicle! Make sure its within the marker!", 2500)
+                                exports.pNotify:SendNotification({text = "Unable to find a vehicle! Make sure its nearby!",type = "error",timeout = 5000,layout = "centerRight",queue = "left"})
                             end
                         end
                     end
