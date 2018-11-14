@@ -207,6 +207,38 @@ AddEventHandler("core:ready", function()
         end
     end, false, {Help = "Open/Close your hood!", Params = {}})
 
+    Chat.Command("door", function(source, args, fullCommand)
+        local pos = GetEntityCoords(PlayerPedId(), false)
+        local entityWorld = GetOffsetFromEntityInWorldCoords(PlayerPedId(), 0.0, 20.0, 0.0)
+        local rayHandle = CastRayPointToPoint(pos.x, pos.y, pos.z, entityWorld.x, entityWorld.y, entityWorld.z, 10, PlayerPedId(), 0)
+        local _, _, _, _, vehicleHandle = GetRaycastResult(rayHandle)
+        local door = nil
+        if args[1] == "fl" or args[1] == "fr" or args[1] == "bl" or args[1] == "br" then
+            if args[1] == "fl" then door = 0 end
+            if args[1] == "fr" then door = 1 end
+            if args[1] == "bl" then door = 2 end
+            if args[1] == "br" then door = 3 end
+            if vehicleHandle ~= nil and vehicleHandle ~= 0 then
+                local isopen = GetVehicleDoorAngleRatio(vehicleHandle, door)
+                local distanceToVeh = GetDistanceBetweenCoords(GetEntityCoords(PlayerPedId()), GetEntityCoords(vehicleHandle), 1)
+
+                if distanceToVeh <= 3.5 and DoesEntityExist(vehicleHandle) then
+                    if isopen == 0 then
+                        SetVehicleDoorOpen(vehicleHandle, door, 0, 0)
+                    else
+                        SetVehicleDoorShut(vehicleHandle, door, 0)
+                    end
+                else
+                    Notify("You must be near your vehicle to do that!")
+                end
+            else
+                Notify("No vehicle in range!")
+            end
+        else
+            Notify("Invalid Input!")
+        end
+    end, false, {Help = "Open/Close doors!", Params = {{name = "fl | fr | bl | br", help = "number"}}})
+
     Chat.Command("trunk", function(source, args, fullCommand)
         local pos = GetEntityCoords(PlayerPedId(), false)
         local entityWorld = GetOffsetFromEntityInWorldCoords(PlayerPedId(), 0.0, 20.0, 0.0)

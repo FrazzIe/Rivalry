@@ -149,6 +149,11 @@ local coords = {
         },
     },
 }
+
+local impoundlot = {
+    [1] = {x=401.05154418945, y=-1631.6422119141, z=29.291933059692},
+    [2] = {x=1727.1442871094, y=3710.8161621094, z=34.258625030518},
+}
 --====================================================================================
 --  Utils function
 --====================================================================================
@@ -459,7 +464,6 @@ local function gestionService()
             if dist2 <= 60 then
                 DrawMarker(1, posArenaRepair.x, posArenaRepair.y, posArenaRepair.z - 1.0, 0, 0, 0, 0, 0, 0, posArenaRepair.r, posArenaRepair.r, 1.0, 128, 0, 255, 128, 0, 0, 0, 0)
             end
-
         end
     end
 end
@@ -837,6 +841,34 @@ function deleteVehicle()
         myVehiculeEntity = nil
     end
 end
+
+Citizen.CreateThread(function()
+    while true do
+        Citizen.Wait(0)
+        if isInService then
+            local coords = GetEntityCoords(PlayerPedId(), false)
+            for k, v in ipairs(impoundlot) do
+                if Vdist(coords.x, coords.y, coords.z, v.x, v.y, v.z) < 20 then
+                    DrawMarker(25, v.x, v.y, v.z - 1.0, 0, 0, 0, 0, 0, 0, 10, 10, 1.0, 128, 0, 255, 128, 0, 0, 0, 0)
+                    if Vdist(coords.x, coords.y, coords.z, v.x, v.y, v.z) < 10 then
+                        if IsControlJustPressed(1, 51) then
+                            DisplayHelpText("Press ~INPUT_CONTEXT~ to impound the vehicle!")
+                            local PlayerPosition = GetEntityCoords(PlayerPedId(), false)
+                            local NearestVehicle = GetNearestVehicleAtCoords(v.x, v.y, v.z, 10.0)
+
+                            if DoesEntityExist(NearestVehicle.Handle) then
+                                TriggerServerEvent("police:impound", GetVehicleNumberPlateText(NearestVehicle.Handle), 0)
+                                DestroyVehicle(NearestVehicle.Handle)
+                            else
+                                Notify("Couldn't find a vehicle! Make sure its within the marker!", 2500)
+                            end
+                        end
+                    end
+                end
+            end
+        end
+    end
+end)
 
 Citizen.CreateThread(function()
     while true do

@@ -20,6 +20,15 @@ AddEventHandler('prox_chatMessage', function(id, name, message)
 	end
 end)
 
+RegisterNetEvent('prox_chatMessageLOOC')
+AddEventHandler('prox_chatMessageLOOC', function(id, name, message)
+    if PlayerId() == GetPlayerFromServerId(id) then
+        TriggerEvent('chatMessage', "^0[LOOC]:", {77, 79, 79}, GetPlayerName(PlayerPedId()) ..": " .. message )
+    elseif GetDistanceBetweenCoords(GetEntityCoords(GetPlayerPed(PlayerId())), GetEntityCoords(GetPlayerPed(GetPlayerFromServerId(id))), true) < 50.00 then
+        TriggerEvent('chatMessage', "^0[LOOC]:", {77, 79, 79}, GetPlayerName(PlayerPedId()) ..": " .. message )
+    end
+end)
+
 RegisterNetEvent("killfeed")
 AddEventHandler("killfeed", function(msg)
     TriggerServerEvent("killfeed", msg)

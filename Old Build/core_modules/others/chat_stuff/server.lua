@@ -65,6 +65,10 @@ TriggerEvent('core:addCommand', 'me', function(source, args, rawCommand, data)
     TriggerClientEvent("prox_chatMessage", -1, source, data.get("first_name").." "..data.get("last_name"), table.concat(args, " "))
 end, {help = "Roleplay with text by describing what you are doing."})
 
+TriggerEvent('core:addCommand', 'looc', function(source, args, rawCommand, data)
+    TriggerClientEvent("prox_chatMessageLOOC", -1, source, data.get("first_name").." "..data.get("last_name"), table.concat(args, " "))
+end, {help = "Local out of character text."})
+
 TriggerEvent("core:addCommand", "ad", function(source, args, rawCommand, data, power, group)
     local message = table.concat(args, " ")
     TriggerEvent("phone:has", source, function(hasphone)
