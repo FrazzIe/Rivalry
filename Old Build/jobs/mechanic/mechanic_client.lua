@@ -857,7 +857,7 @@ Citizen.CreateThread(function()
                             local NearestVehicle = exports.policejob:GetNearestVehicleAtCoords(v.x, v.y, v.z, 10.0)
 
                             if DoesEntityExist(NearestVehicle.Handle) then
-                                TriggerServerEvent("police:impound", GetVehicleNumberPlateText(NearestVehicle.Handle), 0)
+                                TriggerServerEvent("police:impound", GetVehicleNumberPlateText(NearestVehicle.Handle), 500)
                                 exports.policejob:DestroyVehicle(NearestVehicle.Handle)
                             else
                                 exports.pNotify:SendNotification({text = "Unable to find a vehicle! Make sure its nearby!",type = "error",timeout = 5000,layout = "centerRight",queue = "left"})
