@@ -510,6 +510,7 @@ end
 											j.sold = j.sold + currentItemIndex
 											TriggerServerEvent('fluxiateMarket', j.Id, j.sold, i)
 											Notify("You just sold "..currentItemIndex.. " "..j.Name.." for $"..j.price*currentItemIndex, 7500)
+											Citizen.Wait(2000)
 										else
 											Notify("I can't buy a fish you don't have!", 7000)
 										end
