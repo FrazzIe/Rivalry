@@ -377,11 +377,14 @@ Citizen.CreateThread(function()
     while true do
         Citizen.Wait(0)
         if DisplayImmersionBars then
-            drawRct(UI.x + 0.0, UI.y + 0.0, 1.0,0.15,0,0,0,255) -- Top Bar
-            drawRct(UI.x + 0.0, UI.y + 0.85, 1.0,0.151,0,0,0,255) -- Bottom Bar
+            DrawRect(0.5,0.0755,1.0,0.17,0,0,0,255) -- top
+            DrawRect(0.5,0.9245,1.0,0.17,0,0,0,255) -- bottom
         end
         if IsControlJustPressed(1, 194) and DisplayImmersionBars then
             DisplayImmersionBars = not DisplayImmersionBars
+            TriggerEvent('interaction:hud')
+        end
+        if IsControlJustPressed(1, 167) then
             TriggerEvent('interaction:hud')
         end
     end

@@ -152,3 +152,11 @@ AddEventHandler('mechanic:PayPlayer', function()
         end)
     end
 end)
+
+RegisterServerEvent('mechanic:payout')
+AddEventHandler('mechanic:payout', function(amount)
+	local source = source
+	TriggerEvent("core:getuser", source, function(user)
+        user.addWallet(amount)
+    end)
+end)

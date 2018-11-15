@@ -1,6 +1,6 @@
 selectedEvidence = 0
 selectedEvidenceFP = 0
-selectedEvidenceB = 0
+selectedEvidenceBL = 0
 function Chat_Message(Author, Message, R, G, B, Multiline, Template)
 	local Data = {
 		color = {tonumber(R) or 255, tonumber(G) or 255,tonumber(B) or 255},
@@ -94,7 +94,7 @@ AddEventHandler("playerSpawned", function()
 					elseif args[1] == "fp" and tonumber(args[2]) ~= 0 then
 						selectedEvidenceFP = tonumber(args[2])
 					elseif args[1] == "bl" and tonumber(args[2]) ~= 0 then
-						selectedEvidenceB = tonumber(args[2])
+						selectedEvidenceBL = tonumber(args[2])
 					else
 						Notify("Zero is a invalid input!")
 					end

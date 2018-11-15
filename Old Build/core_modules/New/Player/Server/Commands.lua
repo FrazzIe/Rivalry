@@ -11,9 +11,15 @@ Chat.Command({"pn", "phonenumber", "number"}, function(source, args, fullCommand
 end, false, {Help = "Share your phone number", Params = {}})
 
 Chat.Command("showid", function(source, args, fullCommand)
+    local license = ""
     TriggerEvent("core:getuser", source, function(user)
         if user ~= nil then
-            Chat.Message(-1, "", "^5First name^0: ^3"..user.get("first_name").."^0, ^5Last name^0: ^3"..user.get("last_name").."^0, ^5DOB^0: ^3"..user.get("dob").."^0, ^5Occupation^0: ^3"..user.get("job").name.."^0, ^5Drivers License^0: ^3"..user.get("drivers_license"), 48, 177, 232, true, "showid", 5, source)
+            if user.get("drivers_license") == "true" then
+                license = "Valid"
+            else
+                license = "Suspended"
+            end
+            Chat.Message(-1, "", "^5First name^0: ^3"..user.get("first_name").."^0, ^5Last name^0: ^3"..user.get("last_name").."^0, ^5DOB^0: ^3"..user.get("dob").."^0, ^5Occupation^0: ^3"..user.get("job").name.."^0, ^5Drivers License^0: ^3"..license, 48, 177, 232, true, "showid", 5, source)
         else
             Chat.Message(source, "INFO", "Unable share id? >.>", 255, 0, 0, true)
         end

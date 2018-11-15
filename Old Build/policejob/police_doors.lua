@@ -75,6 +75,10 @@ local doors = {
 			["left"] = {x = 443.0298, y = -994.5412, z = 30.8393, model = -131296141, heading = 270.0, locked = true},
 			["right"] = {x = 443.0298, y = -991.941, z = 30.8393, model = -131296141, heading = 90.0, locked = true},
 		}, -- Mission Row Police Station Briefing Doors
+	},
+	jaildoors = {
+		[1] = {x = 1818.5627441406, y = 2605.3168945313, z = 45.569450378418, h = 82.570022583008, model = 741314661},
+		[2] = {x = 1845.115234375, y = 2605.5734863281, z = 45.568618774414, h = 267.99041748047, model = 741314661},
 	}
 }
 
@@ -121,6 +125,10 @@ Citizen.CreateThread(function()
 					end
 				end
 			end
+		end
+		for k,v in pairs(doors.jaildoors) do
+			local entity = GetClosestObjectOfType(v.x, v.y, v.z, 1.0, v.model, false, false, false)
+			FreezeEntityPosition(entity, true)
 		end
 	end
 end)

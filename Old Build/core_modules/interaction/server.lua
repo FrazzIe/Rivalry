@@ -259,6 +259,7 @@ AddEventHandler("interaction:buy_drivers_license", function(target)
         user.set("drivers_license", "true")
         TriggerClientEvent("interaction:set_drivers_license", target, "true")
         Notify("Drivers license reinstated!", 3000, target)
+        Notify("You reinstated "..GetIdentity(target).."'s drivers license!", 3000, source)
     end)
 end)
 

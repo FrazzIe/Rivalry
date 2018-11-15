@@ -68,7 +68,7 @@ Citizen.CreateThread(function()
 	end
 end)
 
-Citizen.CreateThread(function()
+--[[Citizen.CreateThread(function()
 	local dict = "mp_player_intfinger"
 
 	RequestAnimDict(dict)
@@ -90,7 +90,7 @@ Citizen.CreateThread(function()
 			end
 		end
 	end
-end)
+end)--]]
 
 Citizen.CreateThread(function()
 	local dict = "anim@mp_player_intcelebrationmale@face_palm"

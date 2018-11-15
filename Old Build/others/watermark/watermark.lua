@@ -22,7 +22,7 @@ rgb = {r = 0, g = 255, b = 0}
 
 -- Text transparency --
 -- Default: 255
-alpha = 29
+alpha = 255
 
 -- Text scale
 -- Default: 0.4

@@ -13,6 +13,14 @@
 --]]
 local jailedPlayers = {}
 
+RegisterServerEvent('jail:payout')
+AddEventHandler('jail:payout', function(amount)
+    TriggerEvent("core:getuser", source, function(user)
+        user.addWallet(amount)
+        TriggerClientEvent("es_freeroam:notify", source, "CHAR_BANK_MAZE", 1, "Maze Bank", false, "~s~Payment Recieved: ~g~$~s~"..amount.."")
+    end)
+end)
+
 RegisterServerEvent("jail:jailedPlayers")
 AddEventHandler("jail:jailedPlayers", function(player, type)
     if type == "true" then

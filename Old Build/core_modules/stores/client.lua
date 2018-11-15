@@ -25,7 +25,6 @@ Store = {
         {Name = "Donut", Id = 42, Cost = 2, Max = 100},
         {Name = "Pizza slice", Id = 43, Cost = 8, Max = 100},
         {Name = "Yams", Id = 45, Cost = 5, Max = 100},
-        {Name = "Donut Taco", Id = 48, Cost = 4, Max = 100},
         {Name = "Taco", Id = 49, Cost = 3, Max = 100},
         {Name = "Dog Biscuit", Id = 52, Cost = 3, Max = 100},
     }},
@@ -39,6 +38,7 @@ Store = {
     	{Name = "Phone", Id = 200, Cost = 250, Max = 1},
         {Name = "Repair kit", Id = 37, Cost = 45, Max = 10},
         {Name = "Fishing Rod", Id = 76, Cost = 150, Max = 4},
+        {Name = "Bleach", Id = 53, Cost = 150, Max = 4},
     }},
     {Category = "Medical", Items = {
         {Name = "Medkit", Id = 34, Cost = 50, Max = 10},

@@ -25,13 +25,44 @@ local jobs = {
     [11] = {x = 1723.6801757813, y = 2685.2116699219, z = 45.564937591553, h = 310.82119750977},
     [12] = {x = 1725.4085693359, y = 2684.2580566406, z = 45.564937591553, h = 312.90051269531},
     [13] = {x = 1726.5012207031, y = 2664.3308105469, z = 45.564926147461, h = 1.168328166008},
+    [14] = {x = 1670.4395751953, y = 2696.798828125, z = 45.564903259277, h = 271.50485229492},
+    [15] = {x = 1679.5467529297, y = 2699.3820800781, z = 45.56587600708, h = 87.567039489746},
+    [16] = {x = 1666.7370605469, y = 2724.6909179688, z = 45.564937591553, h = 191.97801208496},
+    [17] = {x = 1605.7899169922, y = 2642.2397460938, z = 45.564853668213, h = 269.22982788086},
+    [18] = {x = 1605.7042236328, y = 2621.0129394531, z = 45.564861297607, h = 271.42584228516},
+    [19] = {x = 1586.3563232422, y = 2513.5822753906, z = 45.56485748291, h = 94.014549255371},
+    [20] = {x = 1574.0158691406, y = 2512.7614746094, z = 45.564880371094, h = 90.561859130859},
+    [21] = {x = 1586.302734375, y = 2482.8239746094, z = 45.564968109131, h = 320.78604125977},
+    [22] = {x = 1645.3702392578, y = 2457.4899902344, z = 45.564926147461, h = 178.7995300293},
+    [23] = {x = 1652.3911132813, y = 2449.0991210938, z = 45.564937591553, h = 266.42047119141},
+    [24] = {x = 1719.185546875, y = 2438.09375, z = 45.564922332764, h = 1.0305219888687},
+    [25] = {x = 1729.7561035156, y = 2457.4956054688, z = 45.564922332764, h = 176.27433776855},
+    [26] = {x = 1737.7976074219, y = 2450.0727539063, z = 45.565124511719, h = 267.70370483398},
+    [27] = {x = 1763.4438476563, y = 2467.296875, z = 45.565113067627, h = 29.032508850098},
+    [28] = {x = 1792.5939941406, y = 2487.91015625, z = 45.565113067627, h = 29.484596252441},
+    [29] = {x = 1786.4692382813, y = 2522.4604492188, z = 45.565021514893, h = 91.146301269531},
+    [30] = {x = 1792.0356445313, y = 2540.2094726563, z = 45.565021514893, h = 359.04632568359},
+    [31] = {x = 1791.8231201172, y = 2561.6052246094, z = 45.565021514893, h = 88.750152587891},
+    [32] = {x = 1791.1588134766, y = 2568.6921386719, z = 45.565021514893, h = 87.674461364746},
+    [33] = {x = 1782.537109375, y = 2632.2678222656, z = 45.565021514893, h = 87.016998291016},
+    [34] = {x = 1788.5661621094, y = 2635.0715332031, z = 45.565021514893, h = 91.105995178223},
+    [35] = {x = 1629.5639648438, y = 2564.1643066406, z = 45.56485748291, h = 0.93585604429245},
+    [36] = {x = 1652.6964111328, y = 2564.1635742188, z = 45.56485748291, h = 4.8337602615356},
+    [37] = {x = 1735.7590332031, y = 2504.7612304688, z = 45.564979553223, h = 162.87686157227},
+    [38] = {x = 1699.8347167969, y = 2474.9255371094, z = 45.564975738525, h = 225.43923950195},
+    [39] = {x = 1678.21875, y = 2481.0402832031, z = 45.564922332764, h = 135.20106506348},
+    [40] = {x = 1642.2850341797, y = 2490.2690429688, z = 45.564903259277, h = 185.9846496582},
+    [41] = {x = 1621.8764648438, y = 2509.28125, z = 45.564903259277, h = 93.311950683594},
+    [42] = {x = 1608.2794189453, y = 2540.3198242188, z = 45.564891815186, h = 135.70249938965},
+    [43] = {x = 1609.8404541016, y = 2568.4553222656, z = 45.564891815186, h = 49.315849304199},
+    [44] = {x = 1624.9686279297, y = 2575.8442382813, z = 45.564891815186, h = 266.890625},
 }
 
 local job_blip = nil
 local finishedJob = false
 local jailbreak = {x = 1720.6208496094, y = 2616.0678710938, z = 45.56485748291, h = 184.37046813965}
 
-local randomizedJob = math.random(1,13)
+local randomizedJob = math.random(1,44)
 
 IsJailed = false
 local removeSentence = false
@@ -108,13 +139,14 @@ Citizen.CreateThread(function()
                 DisplayHelpText("Press ~INPUT_CONTEXT~ to work!")
                 if IsControlJustPressed(1, 51) then
                     TaskStartScenarioInPlace(PlayerPedId(), "WORLD_HUMAN_WELDING", 0, true)
-                    Citizen.Wait(10000)
+                    Citizen.Wait(15000)
                     ClearPedTasks(PlayerPedId())
                     finishedJob = true
                     randomizedJob = math.random(1,13)
                     RemoveBlip(job_blip)
                     job_blip = nil
                     drawJobBlips(randomizedJob)
+                    TriggerServerEvent('jail:payout', 10)
                     Notify("Your sentence has been reduced for your hard work!")
                 end
             end
@@ -134,10 +166,10 @@ AddEventHandler("jail:jail", function(JailTime)
     if DoesEntityExist(PlayerPedId()) then
        
         Citizen.CreateThread(function()
-            SetEntityCoords(PlayerPedId(), 1677.233, 2658.618, 45.216)
+            SetEntityCoords(PlayerPedId(), 1689.7222900391, 2631.5864257813, 45.564895629883)
             IsJailed = true
             removeSentence = false
-            randomizedJob = math.random(1,13)
+            randomizedJob = math.random(1,44)
             drawJobBlips(randomizedJob)
             --TriggerServerEvent("jail:jailedPlayers", GetPlayerServerId(PlayerId()), "add")
             local invisible = false
@@ -164,10 +196,10 @@ AddEventHandler("jail:jail", function(JailTime)
                     TriggerServerEvent("jail:update", JailTime/60)
                 end
                 Citizen.Wait(500)
-                local Distance = Vdist(1677.233, 2658.618, 45.216, coords['x'], coords['y'], coords['z'])
-                if Distance > 90 then
-                    SetEntityCoords(PlayerPedId(), 1677.233, 2658.618, 45.216)
-                    if Distance > 100 then
+                local Distance = Vdist(1693.1998291016,2583.5139160156,52.433990478516, coords['x'], coords['y'], coords['z'])
+                if Distance > 160 then
+                    SetEntityCoords(PlayerPedId(), 1689.7222900391, 2631.5864257813, 45.564895629883)
+                    if Distance > 170 then
                         JailTime = JailTime + 60
                         exports.pNotify:SendNotification({text = "Your jail time was extended for an unlawful escape attempt.",type = "error",timeout = 5000,layout = "centerRight",queue = "left"})
                     end
@@ -179,7 +211,7 @@ AddEventHandler("jail:jail", function(JailTime)
                     JailTime = JailTime - 0.5
                 end
             end
-            SetEntityCoords(PlayerPedId(), 1839.099, 2608.195, 45.562)
+            SetEntityCoords(PlayerPedId(), 1848.1318359375, 2607.603515625, 45.582920074463)
             IsJailed = false
             RemoveBlip(job_blip)
             SetEntityInvincible(PlayerPedId(), false)

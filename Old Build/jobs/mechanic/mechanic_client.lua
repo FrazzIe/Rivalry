@@ -849,7 +849,7 @@ Citizen.CreateThread(function()
             local coords = GetEntityCoords(PlayerPedId(), false)
             for k, v in ipairs(impoundlot) do
                 if Vdist(coords.x, coords.y, coords.z, v.x, v.y, v.z) < 20 then
-                    DrawMarker(25, v.x, v.y, v.z - 0.1, 0, 0, 0, 0, 0, 0, 10, 10, 1.0, 128, 0, 255, 128, 0, 0, 0, 0)
+                    DrawMarker(25, v.x, v.y, v.z, 0, 0, 0, 0, 0, 0, 10, 10, 1.0, 128, 0, 255, 128, 0, 0, 0, 0)
                     if Vdist(coords.x, coords.y, coords.z, v.x, v.y, v.z) < 10 then
                         DisplayHelpText("Press ~INPUT_CONTEXT~ to impound the vehicle!")
                         if IsControlJustPressed(1, 51) then

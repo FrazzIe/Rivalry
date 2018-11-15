@@ -45,6 +45,12 @@ AddEventHandler("DOJ:Menu", function()
 		exports.ui:addOption("Optional fine", [[TriggerEvent("DOJ:Fine")]])
 		exports.ui:back([[TriggerEvent("interaction:main")]])
 	end
+	if DOJ.Active and (DOJ.Rank == "assistant district attorney" or DOJ.Rank == "district attorney") then
+		exports.ui:reset()
+		exports.ui:open()
+		exports.ui:addOption("MDT", [[TriggerEvent("mdt:open")]])
+		exports.ui:back([[TriggerEvent("interaction:main")]])
+	end
 end)
 
 AddEventHandler("DOJ:Weapon", function()
