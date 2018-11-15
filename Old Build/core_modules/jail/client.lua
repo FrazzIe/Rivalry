@@ -220,6 +220,9 @@ AddEventHandler("jail:jail", function(JailTime)
             --TriggerServerEvent("jail:jailedPlayers", GetPlayerServerId(PlayerId()), "remove")
             if not removeSentence then
                 TriggerServerEvent("jail:update", 0)
+                if DoesBlipExist(RemoveBlip) then
+                    RemoveBlip(RemoveBlip)
+                end
             end
         end)
     end
