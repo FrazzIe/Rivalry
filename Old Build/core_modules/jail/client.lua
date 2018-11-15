@@ -133,21 +133,23 @@ Citizen.CreateThread(function()
     while true do
         Citizen.Wait(0)
         local coords = GetEntityCoords(PlayerPedId(), false)
-        if Vdist(coords.x, coords.y, coords.z, jobs[randomizedJob].x, jobs[randomizedJob].y, jobs[randomizedJob].z) < 10 then
-            drawMarker(25, jobs[randomizedJob].x, jobs[randomizedJob].y, jobs[randomizedJob].z - 0.1, 1.0, 1.0, 1.5, 0, 255, 0, 255)
-            if Vdist(coords.x, coords.y, coords.z, jobs[randomizedJob].x, jobs[randomizedJob].y, jobs[randomizedJob].z) < 1 then
-                DisplayHelpText("Press ~INPUT_CONTEXT~ to work!")
-                if IsControlJustPressed(1, 51) then
-                    TaskStartScenarioInPlace(PlayerPedId(), "WORLD_HUMAN_WELDING", 0, true)
-                    Citizen.Wait(15000)
-                    ClearPedTasks(PlayerPedId())
-                    finishedJob = true
-                    randomizedJob = math.random(1,13)
-                    RemoveBlip(job_blip)
-                    job_blip = nil
-                    drawJobBlips(randomizedJob)
-                    TriggerServerEvent('jail:payout', 10)
-                    Notify("Your sentence has been reduced for your hard work!")
+        if isJailed then
+            if Vdist(coords.x, coords.y, coords.z, jobs[randomizedJob].x, jobs[randomizedJob].y, jobs[randomizedJob].z) < 10 then
+                drawMarker(25, jobs[randomizedJob].x, jobs[randomizedJob].y, jobs[randomizedJob].z - 0.1, 1.0, 1.0, 1.5, 0, 255, 0, 255)
+                if Vdist(coords.x, coords.y, coords.z, jobs[randomizedJob].x, jobs[randomizedJob].y, jobs[randomizedJob].z) < 1 then
+                    DisplayHelpText("Press ~INPUT_CONTEXT~ to work!")
+                    if IsControlJustPressed(1, 51) then
+                        TaskStartScenarioInPlace(PlayerPedId(), "WORLD_HUMAN_WELDING", 0, true)
+                        Citizen.Wait(15000)
+                        ClearPedTasks(PlayerPedId())
+                        finishedJob = true
+                        randomizedJob = math.random(1,13)
+                        RemoveBlip(job_blip)
+                        job_blip = nil
+                        drawJobBlips(randomizedJob)
+                        TriggerServerEvent('jail:payout', 10)
+                        Notify("Your sentence has been reduced for your hard work!")
+                    end
                 end
             end
         end
