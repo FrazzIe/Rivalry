@@ -618,31 +618,35 @@ Citizen.CreateThread(function()
                 if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 1.0)then
                     DisplayHelpText("Press ~INPUT_CONTEXT~ to rent a vehicle!")
                     if IsControlJustReleased(1, 51) then -- INPUT_CELLPHONE_DOWN
-                        isCarRentalOpen = true
-                        currentMarker = {v.x,v.y,v.z}
-                        currentShop = v.inside
-                        currentExit = v.exit
-                        player_menu = false
-                        openCarRental()
-                        if not WarMenu.IsMenuOpened("Vehiclerentals") then
-                            if not WarMenu.DoesMenuExist("Vehiclerentals") then
-                                WarMenu.CreateMenu("Vehiclerentals", "Vehicle shop")
-                                WarMenu.SetSpriteTitle("Vehiclerentals", "shopui_title_ie_modgarage")
-                                WarMenu.SetSubTitle("Vehiclerentals", "CATEGORIES")
-                                WarMenu.SetMenuX("Vehiclerentals", 0.6)
-                                WarMenu.SetMenuY("Vehiclerentals", 0.15)
-                                for k,v in pairs(rental_cars) do
-                                    WarMenu.CreateSubMenu(v.title.."_RENTALS", "Vehiclerentals", v.title.." SECTION")
-                                    for i,j in pairs(v.vehicles) do
-                                        WarMenu.CreateSubMenu(j.name.."_RENTALS", v.title.."_RENTALS", j.name)
+                        if tobool(drivers_license) then
+                            isCarRentalOpen = true
+                            currentMarker = {v.x,v.y,v.z}
+                            currentShop = v.inside
+                            currentExit = v.exit
+                            player_menu = false
+                            openCarRental()
+                            if not WarMenu.IsMenuOpened("Vehiclerentals") then
+                                if not WarMenu.DoesMenuExist("Vehiclerentals") then
+                                    WarMenu.CreateMenu("Vehiclerentals", "Vehicle shop")
+                                    WarMenu.SetSpriteTitle("Vehiclerentals", "shopui_title_ie_modgarage")
+                                    WarMenu.SetSubTitle("Vehiclerentals", "CATEGORIES")
+                                    WarMenu.SetMenuX("Vehiclerentals", 0.6)
+                                    WarMenu.SetMenuY("Vehiclerentals", 0.15)
+                                    for k,v in pairs(rental_cars) do
+                                        WarMenu.CreateSubMenu(v.title.."_RENTALS", "Vehiclerentals", v.title.." SECTION")
+                                        for i,j in pairs(v.vehicles) do
+                                            WarMenu.CreateSubMenu(j.name.."_RENTALS", v.title.."_RENTALS", j.name)
+                                        end
                                     end
+                                    WarMenu.OpenMenu("Vehiclerentals")
+                                else
+                                    WarMenu.OpenMenu("Vehiclerentals")
                                 end
-                                WarMenu.OpenMenu("Vehiclerentals")
                             else
-                                WarMenu.OpenMenu("Vehiclerentals")
+                                WarMenu.CloseMenu()
                             end
                         else
-                            WarMenu.CloseMenu()
+                            Notify("You do not have a valid drivers license!", 2500)
                         end
                     end
                 end
