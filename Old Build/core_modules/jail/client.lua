@@ -112,8 +112,8 @@ end)
             end
         end
     end
-end)
---]]
+end)--]]
+
 local function drawJobBlips(randomizedJob)
     if not DoesBlipExist(job_blip) then
         job_blip = AddBlipForCoord(jobs[randomizedJob].x, jobs[randomizedJob].y, jobs[randomizedJob].z)
@@ -133,7 +133,7 @@ Citizen.CreateThread(function()
     while true do
         Citizen.Wait(0)
         local coords = GetEntityCoords(PlayerPedId(), false)
-        if isJailed then
+        if not removeSentence then
             if Vdist(coords.x, coords.y, coords.z, jobs[randomizedJob].x, jobs[randomizedJob].y, jobs[randomizedJob].z) < 10 then
                 drawMarker(25, jobs[randomizedJob].x, jobs[randomizedJob].y, jobs[randomizedJob].z - 0.1, 1.0, 1.0, 1.5, 0, 255, 0, 255)
                 if Vdist(coords.x, coords.y, coords.z, jobs[randomizedJob].x, jobs[randomizedJob].y, jobs[randomizedJob].z) < 1 then
@@ -151,6 +151,10 @@ Citizen.CreateThread(function()
                         Notify("Your sentence has been reduced for your hard work!")
                     end
                 end
+            end
+        else
+            if DoesBlipExist(job_blip) then
+                RemoveBlip(job_blip)
             end
         end
     end
@@ -222,9 +226,9 @@ AddEventHandler("jail:jail", function(JailTime)
             --TriggerServerEvent("jail:jailedPlayers", GetPlayerServerId(PlayerId()), "remove")
             if not removeSentence then
                 TriggerServerEvent("jail:update", 0)
-                if DoesBlipExist(RemoveBlip) then
+                --[[if DoesBlipExist(RemoveBlip) then
                     RemoveBlip(RemoveBlip)
-                end
+                end--]]
             end
         end)
     end
