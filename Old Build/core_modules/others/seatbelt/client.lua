@@ -9,6 +9,13 @@ function Seatbelt.CalculateForwardPosition(PlayerPed)
 	return {x = math.cos(Heading) * 2.0, y = math.sin(Heading) * 2.0}
 end
 
+local isHudOn = true
+
+RegisterNetEvent('toggle:seatbelt')
+AddEventHandler('toggle:seatbelt', function()
+	isHudOn = not isHudOn
+end)
+
 Citizen.CreateThread(function()
 	local Buffer = {
 		Speed = {},
@@ -21,17 +28,19 @@ Citizen.CreateThread(function()
 		if DoesEntityExist(Vehicle) then
 			local Model = GetEntityModel(Vehicle)
 			if IsThisModelACar(Model) or IsThisModelAQuadbike(Model) or IsThisModelABike(Model) then
-				if GetPedInVehicleSeat(Vehicle, -1) == PlayerPed then
-					if Seatbelt.Active then
-						drawText("~g~".."SB", 6, 0.959, 0.70, 0.5, 255, 255, 255, 255, false, true)
+				if isHudOn == true then
+					if GetPedInVehicleSeat(Vehicle, -1) == PlayerPed then
+						if Seatbelt.Active then
+							drawText("~g~".."SB", 6, 0.959, 0.70, 0.5, 255, 255, 255, 255, false, true)
+						else
+							drawText("~r~".."SB", 6, 0.959, 0.70, 0.5, 255, 255, 255, 255, false, true)
+						end
 					else
-						drawText("~r~".."SB", 6, 0.959, 0.70, 0.5, 255, 255, 255, 255, false, true)
-					end
-				else
-					if Seatbelt.Active then
-						drawText("~g~".."SB", 6, 0.16, 0.895, 0.5, 255, 255, 255, 255, false, true)
-					else
-						drawText("~r~".."SB", 6, 0.16, 0.895, 0.5, 255, 255, 255, 255, false, true)
+						if Seatbelt.Active then
+							drawText("~g~".."SB", 6, 0.16, 0.895, 0.5, 255, 255, 255, 255, false, true)
+						else
+							drawText("~r~".."SB", 6, 0.16, 0.895, 0.5, 255, 255, 255, 255, false, true)
+						end
 					end
 				end
 				Buffer.Speed[2] = Buffer.Speed[1] or 0.0

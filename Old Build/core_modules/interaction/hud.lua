@@ -55,6 +55,7 @@ AddEventHandler("interaction:hud", function()
         TriggerEvent("chat:disable", hud_off)
         TriggerEvent("toggle:watermark")
         TriggerEvent("toggle:timeandweather")
+        TriggerEvent("toggle:seatbelt")
         while hud_off do
             Citizen.Wait(0)
             HideHudAndRadarThisFrame()
