@@ -48,6 +48,7 @@ Config.Priority = {
     ["steam:11000010390c424"] = 780, -- Vinny
     ["steam:110000104e491d1"] = 779, -- VaderRP
     ["steam:110000100a775e1"] = 778, -- Kyle
+    ["steam:11000010536f0ff"] = 778, -- LordKebun (Mr. Chang)	
 --[PD, EMS, DOJ]--
     ["steam:11000010bf7bb73"] = 701, -- AfriicanSnowball
     ["steam:110000104c9acb6"] = 700, -- Tyler Reagan (PD High Command)
