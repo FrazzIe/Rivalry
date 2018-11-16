@@ -48,7 +48,8 @@ Config.Priority = {
     ["steam:11000010390c424"] = 780, -- Vinny
     ["steam:110000104e491d1"] = 779, -- VaderRP
     ["steam:110000100a775e1"] = 778, -- Kyle
-    ["steam:11000010536f0ff"] = 777, -- LordKebun (Mr. Chang)	
+    ["steam:11000010536f0ff"] = 777, -- LordKebun (Mr. Chang)
+    ["steam:11000010caf515a"] = 776, -- Taco
 --[PD, EMS, DOJ]--
     ["steam:11000010bf7bb73"] = 701, -- AfriicanSnowball
     ["steam:110000104c9acb6"] = 700, -- Tyler Reagan (PD High Command)
@@ -73,8 +74,7 @@ Config.Priority = {
     ["steam:11000010012c897"] = 681, -- Ryan Toronto (PD Extra)
     ["steam:11000010371b8ed"] = 680, -- Gill Dunley (PD Extra)
     ["steam:11000010a27e61c"] = 679, -- Julio (PD Extra)
-    ["steam:11000010a984400"] = 678, -- John Ramirez (PD Extra)
-    ["steam:1100001003ab893"] = 677, -- Kara Black (EMS Extra)
+    ["steam:1100001003ab893"] = 678, -- Kara Black (EMS Extra)
 --[Extras]--
     ["steam:110000100BF705A"] = 600, -- Schwank (Zach)
     ["steam:110000102e9a6e2"] = 599, -- Sessh (Mechanic Boss)
