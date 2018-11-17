@@ -11,574 +11,567 @@
 
 	Copy, re-release, re-distribute it without my written permission.
 --]]
-local has_phone = true
-local user_phone = {}
-local phone_open = false
-local current_page = ""
-local back_page = ""
+Phone = {
+	Data = {},
+	Conversation = {},
+	Open = false,
+	Page = {
+		Current = "",
+		Previous = "",
+	},
+	Call = {
+		Number = nil,
+		Channel = nil,
+		Answered = false,
+		Hold = false,
+		Caller = "",
+		Status = "",
+	},
+	Animations = {
+		Dictionary = {
+			Normal = "cellphone@",
+			Vehicle = "cellphone@in_car@ds",
+			Call = "cellphone@str",
+		},
+		Open = "cellphone_text_in",
+		Close = "cellphone_text_out",
+		Call = "cellphone_call_listen_a",
+	}
+}
 
-local current_call = nil
-local current_call_channel = nil
-local answered = false
-local caller = ""
-local onhold = false
-local call_status = ""
+Citizen.CreateThread(function()
+	for Type, Dictionary in pairs(Phone.Animations.Dictionary) do
+		RequestAnimDict(Dictionary)
 
-local controller = false
+		while not HasAnimDictLoaded(Dictionary) do
+			Citizen.Wait(150)
+		end
+	end
 
-local function drawNotification(text, icon, sender, subject)
+	Citizen.Trace("Phone: Loaded animations!")
+end)
+
+function Phone:DisplayNotification(Text, Icon, Sender, Subject)
 	SetNotificationTextEntry("STRING")
-	AddTextComponentString(text)
-	SetNotificationMessage(icon, icon, true, 1, sender, subject, text)
+	AddTextComponentString(Text)
+	SetNotificationMessage(Icon, Icon, true, 1, Sender, Subject, Text)
 	DrawNotification(false, true)
 end
 
-local function drawText(text, font, x , y, scale, r, g, b, a, shadow, outline)
-    SetTextColour(r,g,b,a)
-    SetTextFont(font)
-    SetTextScale(scale, scale)
-    if shadow then
-        SetTextDropShadow(2, 2, 0, 0, 0)
-    end    
-    if outline then
+function Phone:RenderText(Text, X, Y, Font, Scale, R, G, B, A, Alignment, DropShadow, Outline, WordWrap)
+	local Text, X, Y = tostring(Text), (tonumber(X) or 0)/1920, (tonumber(Y) or 0)/1080
+
+    SetTextFont(Font or 0)
+    SetTextScale(1.0, Scale or 0)
+    SetTextColour(tonumber(R) or 255, tonumber(G) or 255, tonumber(B) or 255, tonumber(A) or 255)
+
+    if DropShadow then
+        SetTextDropShadow()
+    end
+
+    if Outline then
         SetTextOutline()
     end
+
+    if Alignment ~= nil then
+        if Alignment == 1 or Alignment == "Center" or Alignment == "Centre" then
+            SetTextCentre(true)
+        elseif Alignment == 2 or Alignment == "Right" then
+            SetTextRightJustify(true)
+        end
+    end
+
+    if tonumber(WordWrap) and tonumber(WordWrap) ~= 0 then
+        if Alignment == 1 or Alignment == "Center" or Alignment == "Centre" then
+        	SetTextWrap(X - ((WordWrap/1920)/2), X + ((WordWrap/1920)/2))
+        elseif Alignment == 2 or Alignment == "Right" then
+        	SetTextWrap(0, X)
+        else
+        	SetTextWrap(X, X + (WordWrap/1920))
+        end
+    else
+        if Alignment == 2 or Alignment == "Right" then
+        	SetTextWrap(0, X)
+        end
+    end
+
     BeginTextCommandDisplayText("STRING")
-    AddTextComponentSubstringPlayerName(text)
-    EndTextCommandDisplayText(x,y)
+    AddTextComponentSubstringPlayerName(Text) 
+    EndTextCommandDisplayText(X, Y)
 end
 
-local function getMax(T)
-	local max = 0
-	for k,v in pairs(T) do
-		if k > max then
-			max = k
+function Phone:Toggle(Display)
+	local PlayerPed = PlayerPedId()
+	local Dead = IsEntityDead(PlayerPed)
+
+	if Display then
+		if self.Data.Has then
+			self.Open = true
+		else
+			self.Open = false
+		end
+	else
+		self.Open = false
+	end
+
+	self:Animation(PlayerPed, Dead)
+
+	if Dead and self.Open then
+		self.Page.Current = "lifealert"
+		self.Page.Back = ""
+
+		SendNUIMessage({lifealert = true, phone_number = self.Data.Number})
+	else
+		self.Page.Current = "home"
+		self.Page.Back = ""
+
+		SendNUIMessage({open_phone = self.Open, phone_number = self.Data.Number})
+	end
+
+	SetNuiFocus(self.Open, self.Open)
+end
+
+function Phone:Animation(PlayerPed, Dead)
+	if not Dead then
+		local Dictionary = self.Animations.Dictionary[(IsPedInAnyVehicle(PlayerPed, false) and "Vehicle" or "Normal")]
+
+		SetPedCurrentweapon(PlayerPed, "WEAPON_UNARMED", true)
+
+		if self.Open then
+			TaskPlayAnim(PlayerPed, Dictionary, self.Animations.Open, 4.0, -1, -1, 50, 0, false, false, false)
+		else
+			TaskPlayAnim(PlayerPed, Dictionary, self.Animations.Close, 4.0, -1, -1, 50, 0, false, false, false)
+			Citizen.Wait(700)
+			StopAnimTask(PlayerPed, Dictionary, self.Animations.Close, 1.0)
 		end
 	end
-	return max
 end
 
-local function tablelength(T)
-    local count = 0
-    for _ in pairs(T) do count = count + 1 end
-    return count
+function Phone:DoesConversationMessageExist(Id)
+	for Index = 1, #self.Conversation.Messages do
+		if self.Conversation.Messages[Index].id == Id then
+			return true
+		end
+	end
+
+	return false
 end
 
-local function openPhone()
-	if IsPlayerDead(PlayerId()) then
-		return
-	end
-	local dict = "cellphone@"
-	if IsPedInAnyVehicle(PlayerPedId(), false) then
-		dict = dict .. "in_car@ds"
+function Phone:GetLatestMessages()
+	local Messages = {}
+
+	for Number, Message in pairs(self.Data.Messages) do
+		table.insert(Messages, {sender = Phone.Data.ContactNames[Number] or Number, message = Message, phone_number = Number})
 	end
 
-	RequestAnimDict(dict)
-	while not HasAnimDictLoaded(dict) do
-		Citizen.Wait(100)
-	end
-
-	SetCurrentPedWeapon(PlayerPedId(), GetHashKey("WEAPON_UNARMED"), true)
-	TaskPlayAnim(GetPlayerPed(-1), dict, "cellphone_text_in", 4.0, -1, -1, 50, 0, false, false, false)
-end
-
-local function closePhone()
-	if IsPlayerDead(PlayerId()) then
-		return
-	end
-
-	local dict = "cellphone@"
-	if IsPedInAnyVehicle(PlayerPedId(), false) then
-		dict = dict .. "in_car@ds"
-	end
-
-	RequestAnimDict(dict)
-	while not HasAnimDictLoaded(dict) do
-		Citizen.Wait(100)
-	end
-
-	SetCurrentPedWeapon(PlayerPedId(), GetHashKey("WEAPON_UNARMED"), true)
-	TaskPlayAnim(PlayerPedId(), dict, "cellphone_text_out", 4.0, -1, -1, 50, 0, false, false, false)
-	Citizen.Wait(700)
-	StopAnimTask(PlayerPedId(), dict, "cellphone_text_out", 1.0)
-end
-
-local function Notify(Message, Time)
-	exports.pNotify:SendNotification({text = Message or "", type = "error", timeout = Time or 3000, layout = "centerRight", queue = "left"})
-end
-
-function PlayerHasPhone()
-	return has_phone
-end
-
-function PlayerSetPhone(value)
-	if type(value) == "boolean" then
-		has_phone = value
-	end
+	return Messages
 end
 
 Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(0)
-		if IsEntityDead(PlayerPedId()) then
-			if phone_open then
-				if current_page ~= "lifealert" then
-					phone_open = false
-					current_page = "home"
-					back_page = ""
-					SetNuiFocus(false, false)
-					SendNUIMessage({open_phone = false})
-					SetPlayerControl(PlayerId(), 1, 0)					
+		local PlayerPed = PlayerPedId()
+
+		if IsEntityDead(PlayerPed) then
+			if Phone.Open then
+				if Phone.Page.Current ~= "lifealert" then
+					Phone:Toggle(false)
 				end
 			end
 		end
 	end
 end)
 
-RegisterNetEvent("phone:set")
-AddEventHandler("phone:set", function(value)
-	PlayerSetPhone(value)
-end)
+RegisterNetEvent("Phone.Start")
+AddEventHandler("Phone.Start", function(Data)
+	local Messages = {}
 
-RegisterNetEvent("interaction:controller")
-AddEventHandler("interaction:controller", function()
-	controller = not controller
-end)
+	Data.ContactNames = {}
 
-RegisterNetEvent("phone:initialise")
-AddEventHandler("phone:initialise", function(_phone)
-	user_phone = _phone
-
-	for k,v in pairs(user_phone.contacts) do
-		user_phone.contact_names[v.phone_number] = v.first_name.." "..v.last_name
+	for Index = 1, #Data.Contacts do
+		Data.ContactNames[Data.Contacts[Index].phone_number] = Data.Contacts[Index].first_name.." "..Data.Contacts[Index].last_name
 	end
 
-	for k,v in pairs(user_phone.messages.sent) do
-		user_phone.messages.sorted[v.target_number] = {}
-		for i,j in pairs(user_phone.messages.sent) do
-			if v.target_number == j.target_number then
-				user_phone.messages.sorted[v.target_number][j.id] = j
-			end
-		end
-	end
-	
-	for k,v in pairs(user_phone.messages.received) do
-		if not user_phone.messages.sorted[v.source_number] then
-			user_phone.messages.sorted[v.source_number] = {}
-		end
-		for i,j in pairs(user_phone.messages.received) do
-			if v.source_number == j.source_number then
-				user_phone.messages.sorted[v.source_number][j.id] = j
-			end
-		end
+	for Index = 1, #Data.Messages do
+		Messages[Data.Messages[Index].receiver_number] = Data.Messages[Index].message
 	end
 
-	TriggerServerEvent("phone:setup_complete", user_phone)
+	Data.Messages = Messages
+
+	Phone.Data = Data
+
+	TriggerServerEvent("Phone.End", Data)
 end)
 
-RegisterNetEvent("phone:contact_add")
-AddEventHandler("phone:contact_add", function(_phone, duplicate)
-	user_phone = _phone
-	if phone_open then
-		if not duplicate then
-			if current_page == "contacts" then
-				SendNUIMessage({open_contacts = true, contacts = user_phone.contacts})
-			end
-		else
-			SendNUIMessage({alert = true, alert_message = "Error: this contact already exists!"})
+RegisterNetEvent("Phone.Contact.Add")
+AddEventHandler("Phone.Contact.Add", function(Data)
+	Phone.Data.Contacts = Data.Contacts
+
+	if Phone.Open then
+		if Phone.Page.Current == "contacts" then
+			SendNUIMessage({open_contacts = true, contacts = Data.Contacts})
 		end
 	end
 end)
 
-RegisterNetEvent("phone:message_add")
-AddEventHandler("phone:message_add", function(_phone, _ripnumber, _receiver, source_number, target_number)
-	user_phone = _phone
-	if _ripnumber then
-		if phone_open then
+RegisterNetEvent("Phone.Message.Add")
+AddEventHandler("Phone.Message.Add", function(Exists, Received, Number, Message, Data)
+	Phone.Data.Messages = Data
+	if not Exists then
+		if Phon.Open then
 			SendNUIMessage({alert = true, alert_message = "The message was not sent as the number does not exist!"})
 		end
-	end
-	if _receiver then
-		local sender = user_phone.contact_names[source_number] or source_number
-		drawNotification(user_phone.messages.received[tablelength(user_phone.messages.received)].message, "CHAR_CHAT_CALL", sender, "New message")
-		if phone_open then
-			if current_page == "sub_messages_"..source_number then
-				local sub_messages = {}
-				for i = 1, getMax(user_phone.messages.sorted[source_number]) do
-					if user_phone.messages.sorted[source_number][i] ~= nil then
-						table.insert(sub_messages, user_phone.messages.sorted[source_number][i])
-					end
-				end
-				SendNUIMessage({open_sub_messages = true, messages = sub_messages})
-			elseif current_page == "messages" then
-				local latest_messages = {}
-				for k,v in pairs(user_phone.messages.sorted) do
-					local latest_message = getMax(user_phone.messages.sorted[k])
-					local name = user_phone.contact_names[k] or k
-					if user_phone.messages.sorted[k][latest_message] then
-						table.insert(latest_messages, {id = latest_message, phone_number = k, sender = name, message = user_phone.messages.sorted[k][latest_message].message})
-					end
-				end
-				SendNUIMessage({open_messages = true, latest_messages = latest_messages})
-			end
-		end
 	else
-		local receiver = user_phone.contact_names[target_number] or target_number
-		drawNotification(user_phone.messages.sent[tablelength(user_phone.messages.sent)].message, "CHAR_CHAT_CALL", receiver, "Message sent")
-		if phone_open then
-			if current_page == "sub_messages_"..target_number then
-				local sub_messages = {}
-				for i = 1, getMax(user_phone.messages.sorted[target_number]) do
-					if user_phone.messages.sorted[target_number][i] ~= nil then
-						table.insert(sub_messages, user_phone.messages.sorted[target_number][i])
-					end
-				end
-				SendNUIMessage({open_sub_messages = true, messages = sub_messages})
-			elseif current_page == "messages" then
-				local latest_messages = {}
-				for k,v in pairs(user_phone.messages.sorted) do
-					local latest_message = getMax(user_phone.messages.sorted[k])
-					local name = user_phone.contact_names[k] or k
-					if user_phone.messages.sorted[k][latest_message] then
-						table.insert(latest_messages, {id = latest_message, phone_number = k, sender = name, message = user_phone.messages.sorted[k][latest_message].message})
-					end
-				end
-				SendNUIMessage({open_messages = true, latest_messages = latest_messages})
-			end
-		end
-	end
-end)
+		if Received then
+			local Sender = Phone.ContactNames[Number] or Number
 
-RegisterNetEvent("phone:call")
-AddEventHandler("phone:call", function(_message)
-	call_status = _message
-	if phone_open then
-		if current_page == "call" then
-			SendNUIMessage({open_dial = true, message = _message})
+			Phone:DisplayNotification(Message.message, "CHAR_CHAT_CALL", Sender, "New message")
+
+			if Phone.Open then
+				if Phone.Page.Current == "sub_messages_"..Number then
+					if Phone.Conversation then
+						if Phone.Conversation.Number == Number then
+							if Message.id then
+								if not Phone:DoesConversationMessageExist(Message.id) then
+									table.insert(Phone.Conversation.Messages, Message)
+								end
+							end
+						end
+
+						SendNUIMessage({open_sub_messages = true, messages = Phone.Conversation.Messages})
+					end
+				elseif current_page == "messages" then
+					SendNUIMessage({open_messages = true, latest_messages = GetLatestMessages()})
+				end
+			end
 		else
-			SendNUIMessage({update_call = true, message = _message})
+			local Receiver = Phone.ContactNames[Number] or Number
+
+			Phone:DisplayNotification(Message.message, "CHAR_CHAT_CALL", Receiver, "Message sent")
+
+			if Phone.Open then
+				if Phone.Page.Current == "sub_messages_"..Number then
+					if Phone.Conversation then
+						if Phone.Conversation.Number == Number then
+							if Message.id then
+								if not Phone:DoesConversationMessageExist(Message.id) then
+									table.insert(Phone.Conversation.Messages, Message)
+								end
+							end
+						end
+
+						SendNUIMessage({open_sub_messages = true, messages = Phone.Conversation.Messages})
+					end
+				elseif current_page == "messages" then
+					SendNUIMessage({open_messages = true, latest_messages = GetLatestMessages()})
+				end
+			end
 		end
-	else
-		SendNUIMessage({update_call = true, message = _message})
 	end
-	drawNotification("", "CHAR_CHAT_CALL", caller, _message)
 end)
 
-RegisterNetEvent("phone:request")
-AddEventHandler("phone:request", function(source_number, _source)
-	current_call = source_number
-	current_call_channel = source_number+10000000000
-	caller = user_phone.contact_names[source_number] or source_number
-	if exports.core_modules:IsInJail() or exports.policejob:getIsCuffed() or exports.core_modules:isCuffed() or not has_phone then
+RegisterNetEvent("Phone.Call.Status")
+AddEventHandler("Phone.Call.Status", function(Status)
+	Phone.Call.Status = Status
+
+	if Phone.Open then
+		if Phone.Page.Current == "call" then
+			SendNUIMessage({open_dial = true, message = Status})
+		else
+			SendNUIMessage({update_call = true, message = Status})
+		end
+	else
+		SendNUIMessage({update_call = true, message = Status})
+	end
+
+	Phone:DisplayNotification("", "CHAR_CHAT_CALL", Phone.Call.Caller, Status)
+end)
+
+RegisterNetEvent("Phone.Call.Request")
+AddEventHandler("Phone.Call.Request", function(Number, Source)
+	Phone.Call.Number = Number
+	Phone.Call.Channel = Number
+	Phone.Call.Caller = Phone.Data.ContactNames[Number] or Number
+
+	if exports.core_modules:IsInJail() or exports.policejob:getIsCuffed() or exports.core_modules:isCuffed() or not Phone.Data.Has then
 		SendNUIMessage({update_call = true, message = "The call was cancelled", start = false})
-		TriggerServerEvent("phone:cancel", current_call, current_call_channel)
-		current_call_channel = nil
-		current_call = nil
-		answered = false
+
+		TriggerServerEvent("Phone.Call.End", Phone.Call.Number, Phone.Call.Channel)
+
+		Phone.Call.Number = nil
+		Phone.Call.Channel = nil
+		Phone.Call.Answered = false
 	else
 		Citizen.CreateThread(function()
-			while current_call and not answered do
+			while Phone.Call.Number and not Phone.Call.Answered do
 				Citizen.Wait(500)
 				PlaySoundFrontend(-1, "Hack_Success", "DLC_HEIST_BIOLAB_PREP_HACKING_SOUNDS", true)
 				Citizen.Wait(750)
 				PlaySoundFrontend(-1, "Hack_Success", "DLC_HEIST_BIOLAB_PREP_HACKING_SOUNDS", true)
-				if exports.core_modules:IsInJail() or exports.policejob:getIsCuffed() or exports.core_modules:isCuffed() or not has_phone then
+
+				if exports.core_modules:IsInJail() or exports.policejob:getIsCuffed() or exports.core_modules:isCuffed() or not Phone.Data.Has then
 					SendNUIMessage({update_call = true, message = "The call was cancelled", start = false})
-					TriggerServerEvent("phone:cancel", current_call, current_call_channel)
-					current_call_channel = nil
-					current_call = nil
-					answered = false
+					
+					TriggerServerEvent("Phone.Call.End", Phone.Call.Number, Phone.Call.Channel)
+
+					Phone.Call.Number = nil
+					Phone.Call.Channel = nil
+					Phone.Call.Answered = false
 				end
 			end
 		end)
-		if phone_open then
-			if current_page == "call" then
-				SendNUIMessage({open_dial_answer = true, caller_id = caller, start = true})
+
+		if Phone.Open then
+			if Phone.Page.Current == "call" then
+				SendNUIMessage({open_dial_answer = true, caller_id = Phone.Call.Caller, start = true})
 			else
 				SendNUIMessage({update_call = true, message = "Dialing..", start = true})
 			end
 		else
 			SendNUIMessage({update_call = true, message = "Dialing..", start = true})
 		end
-		drawNotification("", "CHAR_CHAT_CALL", caller, "Incoming call")
+
+		Phone:DisplayNotification("", "CHAR_CHAT_CALL", Phone.Call.Caller, "Incoming call")
 	end
 end)
 
-RegisterNetEvent("phone:cancel")
-AddEventHandler("phone:cancel", function()
-	current_call = nil
-	current_call_channel = nil
-	answered = false
-	onhold = false
-	call_status = ""
-	if phone_open then
-		if current_page == "call" then
+RegisterNetEvent("Phone.Call.End")
+AddEventHandler("Phone.Call.End", function()
+	Phone.Call.Number = nil
+	Phone.Call.Channel = nil
+	Phone.Call.Answered = false
+	Phone.Call.Hold = false
+	Phone.Call.Status = ""
+
+	if Phone.Open then
+		if Phone.Page.Current == "call" then
 			SendNUIMessage({update_call = true, message = "The call was cancelled", start = false})
-			SendNUIMessage({open_call = true, contacts = user_phone.contacts})
+			SendNUIMessage({open_call = true, contacts = Phone.Data.Contacts})
 		else
 			SendNUIMessage({update_call = true, message = "The call was cancelled", start = false})
 		end
 	else
 		SendNUIMessage({update_call = true, message = "The call was cancelled", start = false})
 	end
-	drawNotification("", "CHAR_CHAT_CALL", caller, "Call ended")
+
+	Phone:DisplayNotification("", "CHAR_CHAT_CALL", Phone.Call.Caller, "Call ended")
+
+	Phone.Call.Caller = ""
+
 	NetworkSetVoiceChannel(nil)
 	NetworkClearVoiceChannel()
 	ClearPedTasks(PlayerPedId())
 end)
 
-RegisterNetEvent("phone:answer")
-AddEventHandler("phone:answer", function(_vc)
-	call_status = "Active"
-	current_call_channel = _vc+10000000000
-	NetworkSetVoiceChannel(_vc+10000000000)
-	if voice_channel == user_phone.phone_number then
-		if phone_open then
-			if current_page == "call" then
-				SendNUIMessage({open_dial = true, message = "Active"})
-			else
-				SendNUIMessage({update_call = true, message = "Active"})
-			end
-		else
-			SendNUIMessage({update_call = true, message = "Active"})
-		end
+RegisterNetEvent("Phone.Call.Answer")
+AddEventHandler("Phone.Call.Answer", function(Channel)
+	Phone.Call.Status = "Active"
+	Phone.Call.Channel = Channel
+	
+	NetworkSetVoiceChannel(tonumber(Channel))
+
+
+	if Phone.Open and Phone.Page.Current == "call" then
+		SendNUIMessage({open_dial = true, message = "Active"})
 	else
-		if phone_open then
-			if current_page == "call" then
-				SendNUIMessage({open_dial = true, message = "Active"})
-			else
-				SendNUIMessage({update_call = true, message = "Active"})
-			end
-		else
-			SendNUIMessage({update_call = true, message = "Active"})
+		SendNUIMessage({update_call = true, message = "Active"})
+	end
+end)
+
+RegisterNetEvent("Phone.Conversation.Set")
+AddEventHandler("Phone.Conversation.Set", function(Number, Messages)
+	Phone.Conversation.Number = Number
+	Phone.Conversation.Messages = Messages
+	
+	if Phone.Open then
+		if Phone.Page.Current == "loader" then
+			Phone.Page.Previous = "messages"
+			Phone.Page.Current = "sub_messages_"..Number
+
+			SendNUIMessage({open_sub_messages = true, messages = Messages})
 		end
 	end
-end)
-
-AddEventHandler("phone:open", function()
-	if not IsEntityDead(PlayerPedId()) then
-		if has_phone then
-			openPhone()
-			phone_open = true
-			back_page = ""
-			current_page = "home"
-			SendNUIMessage({open_phone = true, phone_number = user_phone.phone_number})
-			SetNuiFocus(true, true)
-		end
-	end
-end)
-
-AddEventHandler("phone:close", function()
-	phone_open = false
-	current_page = "home"
-	back_page = ""
-	SendNUIMessage({open_phone = false})
-	SetNuiFocus(false, false)
-	if not IsEntityDead(PlayerPedId()) then
-		closePhone()
-	end
-end)
-
-AddEventHandler("phone:lifealert", function()
-	phone_open = true
-	back_page = ""
-	current_page = "lifealert"
-	SetPlayerControl(PlayerId(), 0, 0)
-	SendNUIMessage({lifealert = true, officer = officer, phone_number = user_phone.phone_number})
-	SetNuiFocus(true, true)
 end)
 
 RegisterNUICallback("escape", function(data)
-	phone_open = false
-	current_page = "home"
-	back_page = ""
-	SendNUIMessage({open_phone = false})
-	SetPlayerControl(PlayerId(), 1, 0)
-	SetNuiFocus(false, false)
-	closePhone()
+	Phone:Toggle(false)
 end)
 
 RegisterNUICallback("back", function(data)
-	if back_page == "messages" then
-		back_page = "home"
-		current_page = "messages"
-		local latest_messages = {}
-		for k,v in pairs(user_phone.messages.sorted) do
-			local latest_message = getMax(user_phone.messages.sorted[k])
-			local name = user_phone.contact_names[k] or k
-			if user_phone.messages.sorted[k][latest_message] then
-				table.insert(latest_messages, {id = latest_message, phone_number = k, sender = name, message = user_phone.messages.sorted[k][latest_message].message})
-			end
-		end
-		SendNUIMessage({open_messages = true, latest_messages = latest_messages})
-	elseif back_page == "sub_messages" then
-		back_page = "messages"
-		current_page = "sub_messages_"..data.phone_number
-		local sub_messages = {}
-		for i = 1, getMax(user_phone.messages.sorted[data.phone_number]) do
-			if user_phone.messages.sorted[data.phone_number][i] ~= nil then
-				table.insert(sub_messages, user_phone.messages.sorted[data.phone_number][i])
-			end
-		end
-		SendNUIMessage({open_sub_messages = true, messages = sub_messages})
-	elseif back_page == "contacts" then
-		back_page = "home"
-		current_page = "contacts"
-		SendNUIMessage({open_contacts = true, contacts = user_phone.contacts})
-	elseif back_page == "new_messages" then
-		back_page = "home"
-		current_page = "new_message"
+	if Phone.Page.Previous == "messages" then
+		Phone.Page.Previous = "home"
+		Phone.Page.Current = "messages"
+		Phone.Conversation.Number = nil
+		Phone.Conversation.Messages = {}
+		
+		SendNUIMessage({open_messages = true, latest_messages = GetLatestMessages()})
+	elseif Phone.Page.Previous == "contacts" then
+		Phone.Page.Previous = "home"
+		Phone.Page.Current = "contacts"
+
+		SendNUIMessage({open_contacts = true, contacts = Phone.Data.Contacts})
+	elseif Phone.Page.Previous == "new_messages" then
+		Phone.Page.Previous = "home"
+		Phone.Page.Current = "new_message"
+
 		SendNUIMessage({open_new_messages = true})
-	elseif back_page == "home" then
-		back_page = ""
-		SendNUIMessage({open_phone = true, phone_number = user_phone.phone_number})
-	elseif back_page == "services" then
-		back_page = "home"
-		current_page = "services"
+	elseif Phone.Page.Previous == "home" then
+		Phone.Page.Previous = ""
+		SendNUIMessage({open_phone = true, phone_number = Phone.Data.Number})
+	elseif Phone.Page.Previous == "services" then
+		Phone.Page.Previous = "home"
+		Phone.Page.Current = "services"
+
 		SendNUIMessage({services = true})
-	elseif back_page == "service_police" then
-		back_page = "services"
-		current_page = "service_police"
+	elseif Phone.Page.Previous == "service_police" then
+		Phone.Page.Previous = "services"
+		Phone.Page.Current = "service_police"
+
 		SendNUIMessage({service_police = true})
-	elseif back_page == "service_ems" then
-		back_page = "services"
-		current_page = "service_ems"
+	elseif Phone.Page.Previous == "service_ems" then
+		Phone.Page.Previous = "services"
+		Phone.Page.Current = "service_ems"
+
 		SendNUIMessage({service_ems = true})
-	elseif back_page == "service_taxi" then
-		back_page = "services"
-		current_page = "service_taxi"
+	elseif Phone.Page.Previous == "service_taxi" then
+		Phone.Page.Previous = "services"
+		Phone.Page.Current = "service_taxi"
+
 		SendNUIMessage({service_taxi = true})
-	elseif back_page == "service_mechanic" then
-		back_page = "services"
-		current_page = "service_mechanic"
+	elseif Phone.Page.Previous == "service_mechanic" then
+		Phone.Page.Previous = "services"
+		Phone.Page.Current = "service_mechanic"
+
 		SendNUIMessage({service_mechanic = true})
-	elseif back_page == "other_services" then
-		back_page = "home"
-		current_page = "other_services"
+	elseif Phone.Page.Previous == "other_services" then
+		Phone.Page.Previous = "home"
+		Phone.Page.Current = "other_services"
+
 		SendNUIMessage({other_services = true})
 	else
-		phone_open = false
-		current_page = "home"
-		back_page = ""
-		SetNuiFocus(false, false)
-		SendNUIMessage({open_phone = false})
-		SetPlayerControl(PlayerId(), 1, 0)
-		closePhone()
+		Phone:Toggle(false)
 	end
 end)
 
 RegisterNUICallback("open", function(data)
 	if data.type == "messages" then
-		back_page = "home"
-		current_page = "messages"
-		local latest_messages = {}
-		for k,v in pairs(user_phone.messages.sorted) do
-			local latest_message = getMax(user_phone.messages.sorted[k])
-			local name = user_phone.contact_names[k] or k
-			if user_phone.messages.sorted[k][latest_message] then
-				table.insert(latest_messages, {id = latest_message, phone_number = k, sender = name, message = user_phone.messages.sorted[k][latest_message].message})
-			end
-		end
-		SendNUIMessage({open_messages = true, latest_messages = latest_messages})
-	elseif data.type == "sub_messages" then
-		back_page = "messages"
-		current_page = "sub_messages_"..data.phone_number
-		local sub_messages = {}
-		for i = 1, getMax(user_phone.messages.sorted[data.phone_number]) do
-			if user_phone.messages.sorted[data.phone_number][i] ~= nil then
-				table.insert(sub_messages, user_phone.messages.sorted[data.phone_number][i])
-			end
-		end
-		SendNUIMessage({open_sub_messages = true, messages = sub_messages})
+		Phone.Page.Previous = "home"
+		Phone.Page.Current = "messages"
+
+		SendNUIMessage({open_messages = true, latest_messages = GetLatestMessages()})
+	elseif data.type == "loader" then
+		Phone.Page.Previous = "messages"
+		Phone.Page.Current = "loader"
+
+		SendNUIMessage({open_loader = true})
+
+		TriggerServerEvent("Phone.Conversation.Get", data.phone_number)
 	elseif data.type == "contacts" then
-		back_page = "home"
-		current_page = "contacts"
-		SendNUIMessage({open_contacts = true, contacts = user_phone.contacts, add = data.add or false})
+		Phone.Page.Previous = "home"
+		Phone.Page.Current = "contacts"
+
+		SendNUIMessage({open_contacts = true, contacts = Phone.Data.Contacts, add = data.add or false})
 	elseif data.type == "new_messages" then
-		back_page = "home"
-		current_page = "new_message"
+		Phone.Page.Previous = "home"
+		Phone.Page.Current = "new_message"
+
 		SendNUIMessage({open_new_messages = true})
 	elseif data.type == "services" then
-		back_page = "home"
-		current_page = "services"
+		Phone.Page.Previous = "home"
+		Phone.Page.Current = "services"
+
 		SendNUIMessage({services = true})	
 	elseif data.type == "service_police" then
-		back_page = "services"
-		current_page = "service_police"
+		Phone.Page.Previous = "services"
+		Phone.Page.Current = "service_police"
+
 		SendNUIMessage({service_police = true})
 	elseif data.type == "service_ems" then
-		back_page = "services"
-		current_page = "service_ems"
+		Phone.Page.Previous = "services"
+		Phone.Page.Current = "service_ems"
+
 		SendNUIMessage({service_ems = true})
 	elseif data.type == "service_taxi" then
-		back_page = "services"
-		current_page = "service_taxi"
+		Phone.Page.Previous = "services"
+		Phone.Page.Current = "service_taxi"
+
 		SendNUIMessage({service_taxi = true})
 	elseif data.type == "service_mechanic" then
-		back_page = "services"
-		current_page = "service_mechanic"
+		Phone.Page.Previous = "services"
+		Phone.Page.Current = "service_mechanic"
+
 		SendNUIMessage({service_mechanic = true})
 	elseif data.type == "other_services" then
-		back_page = "home"
-		current_page = "other_services"
+		Phone.Page.Previous = "home"
+		Phone.Page.Current = "other_services"
+
 		SendNUIMessage({other_services = true})
 	elseif data.type == "other_service_helix" then
-		back_page = "other_services"
-		current_page = "other_service_helix"
+		Phone.Page.Previous = "other_services"
+		Phone.Page.Current = "other_service_helix"
+
 		SendNUIMessage({other_service_helix = true})
 	elseif data.type == "call" then
-		back_page = "home"
-		current_page = "call"
-		if current_call and answered then
-			SendNUIMessage({open_dial = true, message = current_message})
+		Phone.Page.Previous = "home"
+		Phone.Page.Current = "call"
+
+		if Phone.Call.Number and Phone.Call.Answered then
+			SendNUIMessage({open_dial = true, message = Phone.Call.Status})
 		elseif current_call and not answered then
-			SendNUIMessage({open_dial_answer = true, caller_id = caller})
+			SendNUIMessage({open_dial_answer = true, caller_id = Phone.Call.Caller})
 		else
-			SendNUIMessage({open_call = true, contacts = user_phone.contacts})
+			SendNUIMessage({open_call = true, contacts = Phone.Data.Contacts})
 		end
 	end
 end)
 
 RegisterNUICallback("add", function(data)
 	if data.type == "contact" then
-		TriggerServerEvent("phone:contact_add", data.phone_number, data.first_name, data.last_name)
+		TriggerServerEvent("Phone.Contact.Add", data.phone_number, data.first_name, data.last_name)
 	elseif data.type == "message" then
-		TriggerServerEvent("phone:message_add", data.phone_number, data.message)
+		TriggerServerEvent("Phone.Message.Add", data.phone_number, data.message)
 	end
 end)
 
 RegisterNUICallback("remove", function(data)
 	if data.type == "contact" then
-		for k,v in pairs(user_phone.contacts) do
-			if v.id == data.id then
-				user_phone.contact_names[v.phone_number] = nil
-				table.remove(user_phone.contacts, k)
+		for Index = 1, #Phone.Data.Contacts do
+			if Phone.Data.Contacts[Index].id == data.id then
+				Phone.Data.ContactsNames[Phone.Data.Contacts[Index].phone_number] = nil
+
+				table.remove(Phone.Data.Contacts, Index)
+
+				break
 			end
 		end
-		if phone_open then
-			if current_page == "contacts" then
-				SendNUIMessage({open_contacts = true, contacts = user_phone.contacts})
+
+		if Phone.Open then
+			if Phone.Page.Current == "contacts" then
+				SendNUIMessage({open_contacts = true, contacts = Phone.Data.Contacts})
 			end
 		end
-		TriggerServerEvent("phone:contact_remove", data.id, user_phone)
+
+		TriggerServerEvent("Phone.Contact.Remove", data.id, Phone.Data.Contacts)
 	elseif data.type == "messages" then
-		if user_phone.messages.sorted[data.phone_number] then
-			if user_phone.messages.sorted[data.phone_number][data.id] then
-				user_phone.messages.sorted[data.phone_number][data.id] = nil
+		if Phone.Conversation then
+			if Phone.Conversation.Messages then
+				for Index = 1, #Phone.Conversation.Messages do
+					if Phone.Conversation.Messages[Index].id == data.id then
+						table.remove(Phone.Conversation.Messages, Index)
+
+						break
+					end
+				end
 			end
 		end
-		local sub_messages = {}
-		for i = 1, getMax(user_phone.messages.sorted[data.phone_number]) do
-			if user_phone.messages.sorted[data.phone_number][i] ~= nil then
-				table.insert(sub_messages, user_phone.messages.sorted[data.phone_number][i])
+
+		if Phone.Open then
+			if Phone.Page.Current == "sub_messages_"..data.phone_number then
+				SendNUIMessage({open_sub_messages = true, messages = Phone.Conversation.Messages})
 			end
 		end
-		if phone_open then
-			if current_page == "sub_messages_"..data.phone_number then
-				SendNUIMessage({open_sub_messages = true, messages = sub_messages})
-			end
-		end
-		TriggerServerEvent("phone:message_remove", data.id, user_phone)
+
+		TriggerServerEvent("Phone.Message.Remove", data.id)
 	end
 end)
 
@@ -616,117 +609,122 @@ end)
 
 RegisterNUICallback("lifealert", function(data)
 	if data.type == "ambulance" then
-		if not has_phone then
+		if not Phone.Data.Has then
 			Notify("As you technically don't have your phone you can only respawn...", 3000)
 		else
 			TriggerEvent("paramedic:callAmbulance", "is in a coma!")
-			phone_open = false
-			current_page = "home"
-			back_page = ""
-			SetNuiFocus(false, false)
-			SendNUIMessage({open_phone = false})
-			SetPlayerControl(PlayerId(), 1, 0)
+			Phone:Toggle(false)
 		end
 	elseif data.type == "respawn" then
 		TriggerEvent("paramedic:respawnCheck")
-		phone_open = false
-		current_page = "home"
-		back_page = ""
-		SetNuiFocus(false, false)
-		SendNUIMessage({open_phone = false})
-		SetPlayerControl(PlayerId(), 1, 0)
+		Phone:Toggle(false)
 	end
 end)
 
 RegisterNUICallback("call", function(data)
 	if data.type == "start" then
-		current_call_channel = user_phone.phone_number
-		call_status = "Dialing..."
-		current_call = data.phone_number
-		answered = true
-		caller = user_phone.contact_names[data.phone_number] or data.phone_number
-		SendNUIMessage({open_dial = true, message = "Dialing...", start = true})
-		current_page = "call"
-		back_page = "home"
-		TriggerServerEvent("phone:call", data.phone_number)
+		Phone.Call.Number = Phone.Data.Number
+		Phone.Call.Channel = Phone.Data.Number
+		Phone.Call.Status = "Dialing..."
+		Phone.Call.Answered = true
+		Phone.Call.Caller = Phone.Data.ContactNames[data.phone_number] or data.phone_number
+
+		SendNUIMessage({open_dial = true, message = Phone.Call.Status, start = true})
+
+		Phone.Page.Current = "call"
+		Phone.Page.Previous = "home"
+
+		TriggerServerEvent("Phone.Call.Start", data.phone_number)
 	elseif data.type == "cancel" then
 		SendNUIMessage({open_dial = true, message = "The call was cancelled", start = false})
-		TriggerServerEvent("phone:cancel", current_call, current_call_channel)
-		current_call_channel = nil
-		current_call = nil
-		answered = false
-		current_page = "call"
-		back_page = "home"
+
+		TriggerServerEvent("Phone.Call.End", Phone.Call.Number, Phone.Call.Channel)
+
+		Phone.Call.Number = nil
+		Phone.Call.Channel = nil
+		Phone.Call.Answered = false
+		Phone.Call.Status = ""
+
+		Phone.Page.Current = "call"
+		Phone.Page.Back = "home"
 	elseif data.type == "answer" then
-		if not answered then
-			answered = true
-			if phone_open then
-				if current_page == "call" then
-					SendNUIMessage({open_dial = true, message = "Active"})
-				else
-					SendNUIMessage({update_call = true, message = "Active"})
-				end
+		if not Phone.Call.Answered then
+			Phone.Call.Answered = true
+			Phone.Call.Status = "Active"
+
+			if Phone.Open and Phone.Page.Current then
+				SendNUIMessage({open_dial = true, message = Phone.Call.Status})
 			else
-				SendNUIMessage({update_call = true, message = "Active"})
+				SendNUIMessage({update_call = true, message = Phone.Call.Status})
 			end
-			TriggerServerEvent("phone:answer", current_call)
+
+			TriggerServerEvent("Phone.Call.Answer", Phone.Call.Number)
 		end
 	end
 end)
 
 Citizen.CreateThread(function()
-	local first_tick = true
-	RequestAnimDict("cellphone@str")
-	while not HasAnimDictLoaded("cellphone@str") do
-		Citizen.Wait(1)
-	end
+	local FirstTick = true
 	while true do
 		Citizen.Wait(0)
-		if IsControlJustPressed(1, 289) and IsInputDisabled(2) and not controller and not IsPedFalling(PlayerPedId()) and not exports.core_modules:IsInJail() and not exports.policejob:getIsCuffed() and not exports.core_modules:isCuffed() then --F2
-			if IsEntityDead(PlayerPedId()) then
-				TriggerEvent("phone:lifealert")
-			else
-				if has_phone then
-					TriggerEvent("phone:open")
-				end
-			end
+		local PlayerPed = PlayerPedId()
+
+		if IsControlJustPressed(0, 289) and IsInputDisabled(2) and not IsPedFalling(PlayerPed) and not exports.core_modules:IsInJail() and not exports.policejob:getIsCuffed() and not exports.core_modules:isCuffed() then -- F2
+			Phone:Toggle(true)
 		end
-		if phone_open then
-            if first_tick then
-                first_tick = false
+
+		if Phone.Open then
+            if FirstTick then
+                FirstTick = false
+
                 TriggerEvent("chat:close")
             end
-			DisableControlAction(0, 245, phone_open)
+
+			DisableControlAction(0, 245, Phone.Open)
 		else
-			first_tick = true
+			FirstTick = true
 		end
-		if current_call and answered and current_call_channel then
-			if not onhold and not IsEntityPlayingAnim(GetPlayerPed(PlayerId()), "cellphone@str", "cellphone_call_listen_a", 3) then
-				TaskPlayAnim(GetPlayerPed(PlayerId()), "cellphone@str", "cellphone_call_listen_a", 8.0, -8, -1, 49, 0, 0, 0, 0)
-				SetCurrentPedWeapon(PlayerPedId(), GetHashKey("WEAPON_UNARMED"), true)
+
+		if Phone.Call.Number and Phone.Call.Answered and Phone.Call.Channel then
+			if not Phone.Call.Hold and not IsEntityPlayingAnim(PlayerPed, Phone.Animations.Dictionary.Call, Phone.Animations.Call, 3) then
+				TaskPlayAnim(PlayerPed, Phone.Animations.Dictionary.Call, Phone.Animations.Call, 8.0, -8, -1, 49, 0, 0, 0, 0)
+
+				SetCurrentPedWeapon(PlayerPed, "WEAPON_UNARMED", true)
 			end
-			if onhold then
-				drawText("[~y~F1~w~]Call with ~y~"..caller..": ~r~On hold ~w~/ ~b~"..call_status, 6, 0.015, 0.77, 0.35, 255, 255, 255, 255, false, true)
-			else
-				drawText("[~y~F1~w~]Call with ~y~"..caller..": ~g~Active ~w~/ ~b~"..call_status, 6, 0.015, 0.77, 0.35, 255, 255, 255, 255, false, true)
-			end
-			if IsControlJustPressed(1, 288) and IsInputDisabled(2) and not controller then --F1
-				if not onhold then
-					ClearPedTasks(PlayerPedId())
-					onhold = true
-					TriggerServerEvent("phone:onhold", current_call, true)
+
+			ScreenDrawPositionBegin(76, 84)
+			ScreenDrawPositionRatio(0, 0, 0, 0)
+			
+			Phone:RenderText("[~y~F1~w~]Call with ~y~"..Phone.Call.Caller..": "..(Phone.Call.Hold and "~r~On hold" or "~g~Active").."~w~/ ~b~"..Phone.Call.Status, 6, 0.0, 831.6, 0.35, 255, 255, 255, 255, nil, false, true)
+
+			ScreenDrawPositionEnd()
+
+			if IsControlJustPressed(0, 288) and IsInputDisabled(2) then -- F1
+				if not Phone.Call.Hold then
+					ClearPedTasks(PlayerPed)
+
+					Phone.Call.Hold = true
+
+					TriggerServerEvent("Phone.Call.Hold", Phone.Call.Number, true)
+
 					NetworkClearVoiceChannel()
 				else
-					onhold = false
-					TriggerServerEvent("phone:onhold", current_call, false)
-					NetworkSetVoiceChannel(current_call_channel)
+					Phone.Call.Hold = false
+
+					TriggerServerEvent("Phone.Call.Hold", Phone.Call.Number, false)
+
+					NetworkSetVoiceChannel(Phone.Call.Channel)
 				end
 			end
-			if IsEntityDead(PlayerPedId()) or not has_phone then
-				TriggerServerEvent("phone:cancel", current_call, current_call_channel)
-				current_call_channel = nil
-				current_call = nil
-				answered = false
+
+			if IsEntityDead(PlayerPed) or not Phone.Data.Has then
+				Phone:Toggle(false)
+
+				Phone.Call.Number = nil
+				Phone.Call.Channel = nil
+				Phone.Call.Answered = false
+				Phone.Call.Hold = false
+				Phone.Call.Status = ""
 			end
 		end
 	end

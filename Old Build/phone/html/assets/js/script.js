@@ -682,7 +682,7 @@ $(document).ready(function(){
                 selected_message_name = latest_message.sender;
                 selected_message_number = latest_message.phone_number;
                 $.post('http://phone/open', JSON.stringify({
-                    type: "sub_messages",
+                    type: "loader",
                     phone_number: latest_message.phone_number,
                 }));
             })
