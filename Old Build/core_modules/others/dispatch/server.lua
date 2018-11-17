@@ -113,7 +113,7 @@ RegisterServerEvent("dispatch:ten-thirtytwo")
 AddEventHandler("dispatch:ten-thirtytwo", function(coords, street_name)
 	for id, dept in pairs(emergency_users) do
 		if dept ~= nil and dept ~= "paramedic" then
-			TriggerClientEvent("chatMessage", id, "10-31", {255, 0, 0}, "^7Crime in progress (Shots fired) at "..street_name)
+			TriggerClientEvent("chatMessage", id, "10-31-S", {255, 0, 0}, "^7Crime in progress (Shots fired) at "..street_name)
 			TriggerClientEvent("dispatch:ten-thirtytwo", id, coords)
 		end
 	end
@@ -143,7 +143,7 @@ RegisterServerEvent("dispatch:ten-thirtyone")
 AddEventHandler("dispatch:ten-thirtyone", function(coords, street_name, model, plate)
 	for id, dept in pairs(emergency_users) do
 		if dept ~= nil and dept ~= "paramedic" then
-			TriggerClientEvent("chatMessage", id, "10-31", {255, 0, 0}, "^7Crime in Progress (possible Grand Theft Auto) at "..street_name..". Vehicle is a "..model.." with plate "..plate)
+			TriggerClientEvent("chatMessage", id, "10-31-G", {255, 0, 0}, "^7Crime in Progress (possible Grand Theft Auto) at "..street_name..". Vehicle is a "..model.." with plate "..plate)
 			TriggerClientEvent("dispatch:ten-thirtyone", id, coords)
 		end
 	end
@@ -153,7 +153,7 @@ RegisterServerEvent("dispatch:ten-thirtyone_2")
 AddEventHandler("dispatch:ten-thirtyone_2", function(coords, street_name)
 	for id, dept in pairs(emergency_users) do
 		if dept ~= nil and dept ~= "paramedic" then
-			TriggerClientEvent("chatMessage", id, "10-31", {255, 0, 0}, "^7Possible break-in reported at "..street_name)
+			TriggerClientEvent("chatMessage", id, "10-31-BE", {255, 0, 0}, "^7Possible break-in reported at "..street_name)
 			TriggerClientEvent("dispatch:ten-thirtyone_2", id, coords)
 		end
 	end
@@ -163,7 +163,7 @@ RegisterServerEvent("dispatch:ten-fifthteen")
 AddEventHandler("dispatch:ten-fifthteen", function(coords, street_name, gender)
 	for id, dept in pairs(emergency_users) do
 		if dept ~= nil and dept ~= "paramedic" then
-			TriggerClientEvent("chatMessage", id, "10-31", {255, 0, 0}, "^7Crime in Progress (CDS) at"..street_name..". Suspect was reported a "..gender)
+			TriggerClientEvent("chatMessage", id, "10-31-D", {255, 0, 0}, "^7Crime in Progress (CDS) at"..street_name..". Suspect was reported a "..gender)
 			TriggerClientEvent("dispatch:ten-fifthteen", id, coords)
 		end
 	end
