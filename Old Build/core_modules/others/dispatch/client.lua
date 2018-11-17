@@ -311,6 +311,59 @@ Citizen.CreateThread(function()
 	end
 end)
 
+Citizen.CreateThread(function()
+    local lastpos = {x = 0.0, y = 0.0, z =0.0}
+    while true do
+        Citizen.Wait(0)
+        if not exports.policejob:getIsInService() then
+            local PlayerPed = PlayerPedId()
+            if GetSelectedPedWeapon(PlayerPed) ~= GetHashKey("WEAPON_STUNGUN") or GetSelectedPedWeapon(PlayerPed) ~= GetHashKey("WEAPON_ANIMAL") or GetSelectedPedWeapon(PlayerPed) ~= GetHashKey("WEAPON_PETROLCAN") and IsPedArmed(PlayerPed, 7) then
+                local hasWeapon, currentWeapon = GetCurrentPedWeapon(PlayerPed, 1)
+                if currentWeapon ~= nil and not IsPedShooting(PlayerPed) then
+                    local WeaponStr = Weaponhashes[tostring(currentWeapon)]
+                    if WeaponStr then
+                        local Weaponhash = GetHashKey(WeaponStr)
+                        if not weapons_whitelist[WeaponStr] then
+                            local pos = GetEntityCoords(PlayerPed, false)
+                            if GetDistanceBetweenCoords(pos.x, pos.y, pos.z, lastpos.x, lastpos.y, lastpos.z, true) > 50 then
+                                if willNPCreport("gunshots") then
+                                    lastpos = pos
+                                    local street, crossing = GetStreetNameAtCoord(pos.x, pos.y, pos.z)
+                                    if IsPedMale(PlayerPed) then
+                                        TriggerServerEvent("dispatch:ten-thirtytwo:2", {x = pos.x, y = pos.y, z = pos.z}, GetStreetNameFromHashKey(street), "Male")
+                                    else
+                                        TriggerServerEvent("dispatch:ten-thirtytwo:2", {x = pos.x, y = pos.y, z = pos.z}, GetStreetNameFromHashKey(street), "Female")
+                                    end
+                                end
+                            end
+                        end
+                    end
+                end
+            end
+        end
+    end
+end)
+
+Citizen.CreateThread(function()
+    local lastpos = {x = 0.0, y = 0.0, z = 0.0}
+    while true do
+        Citizen.Wait(0)
+        if not exports.policejob:getIsInService() then
+            local PlayerPed = PlayerPedId()
+            if IsPedInMeleeCombat(PlayerPed) then
+                local pos = GetEntityCoords(PlayerPed, false)
+                if GetDistanceBetweenCoords(pos.x, pos.y, pos.z, lastpos.x, lastpos.y, lastpos.z, true) > 50 then
+                    if willNPCreport("gunshots") then
+                        lastpos = pos
+                        local street, crossing = GetStreetNameAtCoord(pos.x, pos.y, pos.z)
+                        TriggerServerEvent("dispatch:ten-thirtytwo:3", {x = pos.x, y = pos.y, z = pos.z}, GetStreetNameFromHashKey(street))
+                    end
+                end
+            end
+        end
+    end
+end)
+
 RegisterNetEvent("dispatch:ten-thirtytwo")
 AddEventHandler("dispatch:ten-thirtytwo", function(coords)
 	Citizen.CreateThread(function()
@@ -328,18 +381,80 @@ AddEventHandler("dispatch:ten-thirtytwo", function(coords)
 				SetBlipAsShortRange(ten_thirtytwo_blip, true)
 				SetBlipScale(ten_thirtytwo_blip, 0.85)
 				BeginTextCommandSetBlipName("STRING")
-				AddTextComponentString("10-32")
+				AddTextComponentString("10-31")
 				EndTextCommandSetBlipName(ten_thirtytwo_blip)
 			end
 			if not arrived then
 				if GetDistanceBetweenCoords(pos.x, pos.y, pos.z, coords.x, coords.y, coords.z, true) < 20 then
 					arrived = true
-					TriggerServerEvent("dispatch:pay", "10-32")
+					TriggerServerEvent("dispatch:pay", "10-31")
 				end
 			end
 		end
 		RemoveBlip(ten_thirtytwo_blip)
 	end)
+end)
+
+RegisterNetEvent("dispatch:ten-thirtytwo:2")
+AddEventHandler("dispatch:ten-thirtytwo:2", function(coords)
+    Citizen.CreateThread(function()
+        local ten_thirtytwo_blip = nil
+        local coords = coords
+        local endTime = GetGameTimer() + ((ten_thirtytwo_timer * 60)/ 0.001)
+        local arrived = false
+        while endTime > GetGameTimer() and not arrived do
+            Citizen.Wait(0)
+            local pos = GetEntityCoords(PlayerPedId(), false)
+            if not DoesBlipExist(ten_thirtytwo_blip) then
+                ten_thirtytwo_blip = AddBlipForCoord(coords.x, coords.y, coords.z)
+                SetBlipSprite(ten_thirtytwo_blip, 458)
+                SetBlipColour(ten_thirtytwo_blip, 28)
+                SetBlipAsShortRange(ten_thirtytwo_blip, true)
+                SetBlipScale(ten_thirtytwo_blip, 0.85)
+                BeginTextCommandSetBlipName("STRING")
+                AddTextComponentString("10-32")
+                EndTextCommandSetBlipName(ten_thirtytwo_blip)
+            end
+            if not arrived then
+                if GetDistanceBetweenCoords(pos.x, pos.y, pos.z, coords.x, coords.y, coords.z, true) < 20 then
+                    arrived = true
+                    TriggerServerEvent("dispatch:pay", "10-32")
+                end
+            end
+        end
+        RemoveBlip(ten_thirtytwo_blip)
+    end)
+end)
+
+RegisterNetEvent("dispatch:ten-thirtytwo:3")
+AddEventHandler("dispatch:ten-thirtytwo:3", function(coords)
+    Citizen.CreateThread(function()
+        local ten_thirtytwo_blip = nil
+        local coords = coords
+        local endTime = GetGameTimer() + ((ten_thirtytwo_timer * 60)/ 0.001)
+        local arrived = false
+        while endTime > GetGameTimer() and not arrived do
+            Citizen.Wait(0)
+            local pos = GetEntityCoords(PlayerPedId(), false)
+            if not DoesBlipExist(ten_thirtytwo_blip) then
+                ten_thirtytwo_blip = AddBlipForCoord(coords.x, coords.y, coords.z)
+                SetBlipSprite(ten_thirtytwo_blip, 458)
+                SetBlipColour(ten_thirtytwo_blip, 28)
+                SetBlipAsShortRange(ten_thirtytwo_blip, true)
+                SetBlipScale(ten_thirtytwo_blip, 0.85)
+                BeginTextCommandSetBlipName("STRING")
+                AddTextComponentString("10-31")
+                EndTextCommandSetBlipName(ten_thirtytwo_blip)
+            end
+            if not arrived then
+                if GetDistanceBetweenCoords(pos.x, pos.y, pos.z, coords.x, coords.y, coords.z, true) < 20 then
+                    arrived = true
+                    TriggerServerEvent("dispatch:pay", "10-31")
+                end
+            end
+        end
+        RemoveBlip(ten_thirtytwo_blip)
+    end)
 end)
 
 PossibleVehicles = {
@@ -432,13 +547,13 @@ AddEventHandler("dispatch:ten-fifthteen", function(coords)
 				SetBlipAsShortRange(ten_fifthteen_blip, true)
 				SetBlipScale(ten_fifthteen_blip, 0.85)
 				BeginTextCommandSetBlipName("STRING")
-				AddTextComponentString("10-15")
+				AddTextComponentString("10-31")
 				EndTextCommandSetBlipName(ten_fifthteen_blip)
 			end
 			if not arrived then
 				if GetDistanceBetweenCoords(pos.x, pos.y, pos.z, coords.x, coords.y, coords.z, true) < 20 then
 					arrived = true
-					TriggerServerEvent("dispatch:pay", "10-15")
+					TriggerServerEvent("dispatch:pay", "10-31")
 				end
 			end
 		end
