@@ -336,7 +336,7 @@ Citizen.CreateThread(function()
     local lastpos = {x = 0.0, y = 0.0, z =0.0}
     while true do
         Citizen.Wait(0)
-        if not exports.policejob:getIsInService() or not exports.emsjob:getIsInService() then
+        if not exports.policejob:getIsInService() then
             local PlayerPed = PlayerPedId()
             local hasWeapon, currentWeapon = GetCurrentPedWeapon(PlayerPed, 1)
             if IsPedArmed(PlayerPed, 4) then
