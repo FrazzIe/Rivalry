@@ -32,6 +32,7 @@ $(document).ready(function(){
         $(".services-page").css("display", "none");
         $(".other-services-page").css("display", "none");
         $(".lifealert-page").css("display", "none");
+        $(".loading-page").css("display", "none");
         //Service pages
         $(".services-police-page").css("display", "none");
         $(".services-ems-page").css("display", "none");
@@ -62,6 +63,7 @@ $(document).ready(function(){
         $(".services-page").css("display", "none");
         $(".other-services-page").css("display", "none");
         $(".lifealert-page").css("display", "none");
+        $(".loading-page").css("display", "none");
         //Service pages
         $(".services-police-page").css("display", "none");
         $(".services-ems-page").css("display", "none");
@@ -92,6 +94,7 @@ $(document).ready(function(){
         $(".services-page").css("display", "none");
         $(".other-services-page").css("display", "none");
         $(".lifealert-page").css("display", "none");
+        $(".loading-page").css("display", "none");
         //Service pages
         $(".services-police-page").css("display", "none");
         $(".services-ems-page").css("display", "none");
@@ -122,6 +125,7 @@ $(document).ready(function(){
         $(".services-page").css("display", "none");
         $(".other-services-page").css("display", "none");
         $(".lifealert-page").css("display", "none");
+        $(".loading-page").css("display", "none");
         //Service pages
         $(".services-police-page").css("display", "none");
         $(".services-ems-page").css("display", "none");
@@ -152,6 +156,7 @@ $(document).ready(function(){
         $(".services-page").css("display", "none");
         $(".other-services-page").css("display", "none");
         $(".lifealert-page").css("display", "none");
+        $(".loading-page").css("display", "none");
         //Service pages
         $(".services-police-page").css("display", "none");
         $(".services-ems-page").css("display", "none");
@@ -182,6 +187,7 @@ $(document).ready(function(){
         $(".services-page").css("display", "none");
         $(".other-services-page").css("display", "none");
         $(".lifealert-page").css("display", "none");
+        $(".loading-page").css("display", "none");
         //Service pages
         $(".services-police-page").css("display", "none");
         $(".services-ems-page").css("display", "none");
@@ -212,6 +218,7 @@ $(document).ready(function(){
         $(".services-page").css("display", "none");
         $(".other-services-page").css("display", "none");
         $(".lifealert-page").css("display", "none");
+        $(".loading-page").css("display", "none");
         //Service pages
         $(".services-police-page").css("display", "none");
         $(".services-ems-page").css("display", "none");
@@ -242,6 +249,7 @@ $(document).ready(function(){
         $(".services-page").css("display", "none");
         $(".other-services-page").css("display", "none");
         $(".lifealert-page").css("display", "none");
+        $(".loading-page").css("display", "none");
         //Service pages
         $(".services-police-page").css("display", "none");
         $(".services-ems-page").css("display", "none");
@@ -274,6 +282,7 @@ $(document).ready(function(){
         $(".services-page").css("display", "none");
         $(".other-services-page").css("display", "none");
         $(".lifealert-page").css("display", "none");
+        $(".loading-page").css("display", "none");
         //Service pages
         $(".services-police-page").css("display", "none");
         $(".services-ems-page").css("display", "none");
@@ -304,6 +313,7 @@ $(document).ready(function(){
         $(".services-page").css("display", "flex");
         $(".other-services-page").css("display", "none");
         $(".lifealert-page").css("display", "none");
+        $(".loading-page").css("display", "none");
         //Service pages
         $(".services-police-page").css("display", "none");
         $(".services-ems-page").css("display", "none");
@@ -334,6 +344,7 @@ $(document).ready(function(){
         $(".services-page").css("display", "none");
         $(".other-services-page").css("display", "none");
         $(".lifealert-page").css("display", "none");
+        $(".loading-page").css("display", "none");
         //Service pages
         $(".services-police-page").css("display", "flex");
         $(".services-ems-page").css("display", "none");
@@ -364,6 +375,7 @@ $(document).ready(function(){
         $(".services-page").css("display", "none");
         $(".other-services-page").css("display", "none");
         $(".lifealert-page").css("display", "none");
+        $(".loading-page").css("display", "none");
         //Service pages
         $(".services-police-page").css("display", "none");
         $(".services-ems-page").css("display", "flex");
@@ -394,6 +406,7 @@ $(document).ready(function(){
         $(".services-page").css("display", "none");
         $(".other-services-page").css("display", "none");
         $(".lifealert-page").css("display", "none");
+        $(".loading-page").css("display", "none");
         //Service pages
         $(".services-police-page").css("display", "none");
         $(".services-ems-page").css("display", "none");
@@ -424,6 +437,7 @@ $(document).ready(function(){
         $(".services-page").css("display", "none");
         $(".other-services-page").css("display", "none");
         $(".lifealert-page").css("display", "none");
+        $(".loading-page").css("display", "none");
         //Service pages
         $(".services-police-page").css("display", "none");
         $(".services-ems-page").css("display", "none");
@@ -454,6 +468,7 @@ $(document).ready(function(){
         $(".services-page").css("display", "none");
         $(".other-services-page").css("display", "none");
         $(".lifealert-page").css("display", "flex");
+        $(".loading-page").css("display", "none");
         //Service pages
         $(".services-police-page").css("display", "none");
         $(".services-ems-page").css("display", "none");
@@ -484,6 +499,7 @@ $(document).ready(function(){
         $(".services-page").css("display", "none");
         $(".other-services-page").css("display", "flex");
         $(".lifealert-page").css("display", "none");
+        $(".loading-page").css("display", "none");
         //Service pages
         $(".services-police-page").css("display", "none");
         $(".services-ems-page").css("display", "none");
@@ -513,6 +529,7 @@ $(document).ready(function(){
         $(".services-page").css("display", "none");
         $(".other-services-page").css("display", "none");
         $(".lifealert-page").css("display", "none");
+        $(".loading-page").css("display", "none");
         //Service pages
         $(".services-police-page").css("display", "none");
         $(".services-ems-page").css("display", "none");
@@ -524,6 +541,46 @@ $(document).ready(function(){
         $(".contact-page .view-contact").css("display", "none");
         $(".contact-page .add-contact").css("display", "none");
         
+    }
+
+    function loader_page() { //Hide everything but the loading page
+        
+        $(".vertical-center").css("display", "flex");
+        //Navigation
+        $(".nav-page").css("display", "flex");
+        //Main pages
+        $(".home-page").css("display", "none");
+        $(".call-page").css("display", "none");
+        $(".dial-page").css("display", "none");
+        $(".dial-page-answer").css("display", "none");
+        $(".contact-page").css("display", "none");
+        $(".messages-page").css("display", "none");
+        $(".sub-messages-page").css("display", "none");
+        $(".new-messages-page").css("display", "none");
+        $(".services-page").css("display", "none");
+        $(".other-services-page").css("display", "none");
+        $(".lifealert-page").css("display", "none");
+        $(".loading-page").css("display", "flex");
+        //Service pages
+        $(".services-police-page").css("display", "none");
+        $(".services-ems-page").css("display", "none");
+        $(".services-taxi-page").css("display", "none");
+        $(".services-mechanic-page").css("display", "none"); 
+        //Other Service pages
+        $(".other-services-helix-page").css("display", "none"); 
+        //Contact page stuff
+        $(".contact-page .view-contact").css("display", "none");
+        $(".contact-page .add-contact").css("display", "none");
+        
+    }
+
+    function formatPhoneNumber(phoneNumberString) {
+      var cleaned = ('' + phoneNumberString).replace(/\D/g, '')
+      var match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/)
+      if (match) {
+        return '(' + match[1] + ') ' + match[2] + '-' + match[3]
+      }
+      return 'Pester Frazzle if you see this: ' + phoneNumberString
     }
     //Call Page
     var selected_contact_id_call = -1;
@@ -560,7 +617,8 @@ $(document).ready(function(){
         var m = Math.floor(s/60); //Get remaining minutes
         s -= m*60;
         return h+":"+(m < 10 ? '0'+m : m)+":"+(s < 10 ? '0'+s : s); //zero padding on minutes and seconds
-    }    
+    }
+    
     //Dial Page
     function call_timer() {
         $('#call-duration-heading').text(secondsTimeSpanToHMS(Math.floor((new Date - start) / 1000)));
@@ -677,8 +735,8 @@ $(document).ready(function(){
         $("#latest-messages").empty()
         for (let i in _messages) {
             let latest_message = _messages[i];
-            $("#latest-messages").append("<div id='latest_message_" + latest_message.id + "_" + i + "' class='col-3 rounded' style='margin-top:5px;margin-bottom:5px;background-color:#007bff;margin-right:10px;margin-left:10px;max-height:200px;overflow-x: hidden;'><h5 style='color:#141414;'><span style='text-decoration: underline;'>" + latest_message.sender + "</span></h5><p style='color:rgb(255,255,255); word-wrap: break-word; width: inherit;'>" + latest_message.message + "</p></div>");
-            $("#latest_message_" + latest_message.id + "_" + i).click(function(){
+            $("#latest-messages").append("<div id='latest_message_" + i + "' class='col-3 rounded' style='margin-top:5px;margin-bottom:5px;background-color:#007bff;margin-right:10px;margin-left:10px;max-height:200px;overflow-x: hidden;'><h5 style='color:#141414;'><span style='text-decoration: underline;'>" + latest_message.sender + "</span></h5><p style='color:rgb(255,255,255); word-wrap: break-word; width: inherit;'>" + latest_message.message + "</p></div>");
+            $("#latest_message_" + i).click(function(){
                 selected_message_name = latest_message.sender;
                 selected_message_number = latest_message.phone_number;
                 $.post('http://phone/open', JSON.stringify({
@@ -699,7 +757,7 @@ $(document).ready(function(){
         for (let i in _messages) {
             let _message = _messages[i];
             if (selected_message_number == _message.source_number) {
-                $("#sub-messages-messages").append("<div class='row no-gutters justify-content-start'><div class='col-5 rounded' style='margin-top:5px;margin-bottom:5px;background-color:#007bff;margin-right:10px;margin-left:10px;'><div class='row'><div class='col'><button id='delete_message_" + _message.id + "' class='close'><span aria-hidden='true'>×</span></button></div></div><div class='row'><div class='col'><p class='text-center' style='color:rgb(255,255,255);word-wrap:break-word;width:95%;margin-left:2.5%;'>" + _message.message + "</p></div></div></div></div>")
+                $("#sub-messages-messages").append("<div class='row no-gutters justify-content-start'><div class='col-5 rounded' style='margin-top:5px;margin-bottom:5px;background-color:#007bff;margin-right:10px;margin-left:10px;'><div class='row'><div class='col'><p style=;margin-left:2.5%;>" + moment(_message.timestamp*1000).fromNow() +"</p></div><div class='col'><button id='delete_message_" + _message.id + "' class='close' style='margin-right:2.5%;'><span aria-hidden='true'>×</span></button></div></div><div class='row'><div class='col'><p class='text-center' style='color:rgb(255,255,255);word-wrap:break-word;width:95%;margin-left:2.5%;'>" + _message.message + "</p></div></div></div></div>")
                 $("#delete_message_" + _message.id).click(function(){
                     $.post('http://phone/remove', JSON.stringify({
                         type: "messages",
@@ -708,7 +766,7 @@ $(document).ready(function(){
                     }));
                 })
             } else {
-                $("#sub-messages-messages").append("<div class='row no-gutters justify-content-end'><div class='col-5 rounded' style='margin-top:5px;margin-bottom:5px;background-color:#28a745;margin-right:10px;margin-left:10px;'><div class='row'><div class='col'><button id='delete_message_" + _message.id + "' class='close'><span aria-hidden='true'>×</span></button></div></div><div class='row'><div class='col'><p class='text-center' style='color:rgb(255,255,255);word-wrap:break-word;width:95%;margin-left:2.5%;'>" + _message.message + "</p></div></div></div></div>")
+                $("#sub-messages-messages").append("<div class='row no-gutters justify-content-end'><div class='col-5 rounded' style='margin-top:5px;margin-bottom:5px;background-color:#28a745;margin-right:10px;margin-left:10px;'><div class='row'><div class='col'><p style=;margin-left:2.5%;>" + moment(_message.timestamp*1000).fromNow() +"</p></div><div class='col'><button id='delete_message_" + _message.id + "' class='close' style='margin-right:2.5%;'><span aria-hidden='true'>×</span></button></div></div><div class='row'><div class='col'><p class='text-center' style='color:rgb(255,255,255);word-wrap:break-word;width:95%;margin-left:2.5%;'>" + _message.message + "</p></div></div></div></div>")
                 $("#delete_message_" + _message.id).click(function(){
                     $.post('http://phone/remove', JSON.stringify({
                         type: "messages",
@@ -873,7 +931,7 @@ $(document).ready(function(){
         var item = event.data;
     
         if (item.open_phone === true) {
-            $("#phone-number-display").text(item.phone_number)
+            $("#phone-number-display").text(formatPhoneNumber(item.phone_number))
             home_page();
         } else if (item.open_phone === false) {
             close_phone();
@@ -985,6 +1043,10 @@ $(document).ready(function(){
         
         if (item.lifealert === true) {
             lifealert_page();
+        }
+        
+        if (item.open_loader == true) {
+            loader_page();
         }
     });
 

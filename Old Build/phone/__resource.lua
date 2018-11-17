@@ -8,6 +8,7 @@ files {
 	'html/assets/bootstrap/js/bootsrap.min.js',
 	'html/assets/js/jquery.min.js',
 	'html/assets/js/script.js',
+	'html/assets/js/moment.js',
 	'html/assets/css/styles.css',
 	'html/assets/img/ipad.png',
 }
