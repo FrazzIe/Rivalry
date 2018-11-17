@@ -50,6 +50,7 @@ Config.Priority = {
     ["steam:110000100a775e1"] = 778, -- Kyle
     ["steam:11000010536f0ff"] = 777, -- LordKebun (Mr. Chang)
     ["steam:11000010caf515a"] = 776, -- Taco
+    ["steam:1100001043fe250"] = 775, -- CurtisRyan_ (Curtis Swoleroid)
 --[PD, EMS, DOJ]--
     ["steam:11000010bf7bb73"] = 701, -- AfriicanSnowball
     ["steam:110000104c9acb6"] = 700, -- Tyler Reagan (PD High Command)
