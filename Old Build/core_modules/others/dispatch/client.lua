@@ -317,8 +317,8 @@ Citizen.CreateThread(function()
         Citizen.Wait(0)
         if not exports.policejob:getIsInService() then
             local PlayerPed = PlayerPedId()
-            if GetSelectedPedWeapon(PlayerPed) ~= GetHashKey("WEAPON_STUNGUN") or GetSelectedPedWeapon(PlayerPed) ~= GetHashKey("WEAPON_ANIMAL") or GetSelectedPedWeapon(PlayerPed) ~= GetHashKey("WEAPON_PETROLCAN") and IsPedArmed(PlayerPed, 7) then
-                local hasWeapon, currentWeapon = GetCurrentPedWeapon(PlayerPed, 1)
+            local hasWeapon, currentWeapon = GetCurrentPedWeapon(PlayerPed, 1)
+            if IsPedArmed(PlayerPed, 4) then
                 if currentWeapon ~= nil and not IsPedShooting(PlayerPed) then
                     local WeaponStr = Weaponhashes[tostring(currentWeapon)]
                     if WeaponStr then
@@ -407,7 +407,7 @@ AddEventHandler("dispatch:ten-thirtytwo:2", function(coords)
             local pos = GetEntityCoords(PlayerPedId(), false)
             if not DoesBlipExist(ten_thirtytwo_blip) then
                 ten_thirtytwo_blip = AddBlipForCoord(coords.x, coords.y, coords.z)
-                SetBlipSprite(ten_thirtytwo_blip, 458)
+                SetBlipSprite(ten_thirtytwo_blip, 110)
                 SetBlipColour(ten_thirtytwo_blip, 28)
                 SetBlipAsShortRange(ten_thirtytwo_blip, true)
                 SetBlipScale(ten_thirtytwo_blip, 0.85)
@@ -438,7 +438,7 @@ AddEventHandler("dispatch:ten-thirtytwo:3", function(coords)
             local pos = GetEntityCoords(PlayerPedId(), false)
             if not DoesBlipExist(ten_thirtytwo_blip) then
                 ten_thirtytwo_blip = AddBlipForCoord(coords.x, coords.y, coords.z)
-                SetBlipSprite(ten_thirtytwo_blip, 458)
+                SetBlipSprite(ten_thirtytwo_blip, 491)
                 SetBlipColour(ten_thirtytwo_blip, 28)
                 SetBlipAsShortRange(ten_thirtytwo_blip, true)
                 SetBlipScale(ten_thirtytwo_blip, 0.85)
