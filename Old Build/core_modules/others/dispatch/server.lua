@@ -133,7 +133,7 @@ RegisterServerEvent("dispatch:ten-thirtytwo:3")
 AddEventHandler("dispatch:ten-thirtytwo:3", function(coords, street_name, type)
 	for id, dept in pairs(emergency_users) do
 		if dept ~= nil and dept ~= "paramedic" then
-			TriggerClientEvent("chatMessage", id, "10-31", {255, 0, 0}, "^7"..type.." fight reported at "..street_name)
+			TriggerClientEvent("chatMessage", id, "10-10", {255, 0, 0}, "^7"..type.." fight reported at "..street_name)
 			TriggerClientEvent("dispatch:ten-thirtytwo:3", id, coords)
 		end
 	end
