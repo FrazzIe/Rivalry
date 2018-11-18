@@ -340,82 +340,38 @@ Citizen.CreateThread(function()
             local PlayerPed = PlayerPedId()
             local hasWeapon, currentWeapon = GetCurrentPedWeapon(PlayerPed, 1)
             if IsPedArmed(PlayerPed, 4) then
-                if currentWeapon ~= nil and not IsPedShooting(PlayerPed) then
-                    local WeaponStr = Weaponhashes[tostring(currentWeapon)]
-                    if WeaponStr then
-                        local Weaponhash = GetHashKey(WeaponStr)
-                        if not weapons_whitelist[WeaponStr] then
-                            local pos = GetEntityCoords(PlayerPed, false)
-                            if GetDistanceBetweenCoords(pos.x, pos.y, pos.z, lastpos.x, lastpos.y, lastpos.z, true) > 75 then
-                                local ped = GetClosestPed()
-                                local distance = GetDistanceBetweenCoords(GetEntityCoords(PlayerPed), GetEntityCoords(ped), true)
-                                if distance <= 45.0 then
-                                    if HasEntityClearLosToEntity(ped, PlayerPed, 17) then
-                                        if GetPedType(ped) == 26 or GetPedType(ped) == 4 or GetPedType(ped) == 5 then
-                                            lastpos = pos
-                                            local street, crossing = GetStreetNameAtCoord(pos.x, pos.y, pos.z)
-                                            if IsPedMale(PlayerPed) then
-                                                local random = math.random(1,100)
-                                                if random >= 50 then
-                                                    TriggerServerEvent("dispatch:ten-thirtytwo:2", {x = pos.x, y = pos.y, z = pos.z}, GetStreetNameFromHashKey(street), "Male")
-                                                end
-                                            else
-                                                local random = math.random(1,100)
-                                                if random >= 50 then
-                                                    TriggerServerEvent("dispatch:ten-thirtytwo:2", {x = pos.x, y = pos.y, z = pos.z}, GetStreetNameFromHashKey(street), "Female")
+                if IsPedInAnyVehicle(PlayerPed, false) == false then
+                    if currentWeapon ~= nil and not IsPedShooting(PlayerPed) then
+                        local WeaponStr = Weaponhashes[tostring(currentWeapon)]
+                        if WeaponStr then
+                            local Weaponhash = GetHashKey(WeaponStr)
+                            if not weapons_whitelist[WeaponStr] then
+                                local pos = GetEntityCoords(PlayerPed, false)
+                                if GetDistanceBetweenCoords(pos.x, pos.y, pos.z, lastpos.x, lastpos.y, lastpos.z, true) > 75 then
+                                    local ped = GetClosestPed()
+                                    local distance = GetDistanceBetweenCoords(GetEntityCoords(PlayerPed), GetEntityCoords(ped), true)
+                                    if distance <= 45.0 then
+                                        if HasEntityClearLosToEntity(ped, PlayerPed, 17) then
+                                            if GetPedType(ped) == 26 or GetPedType(ped) == 4 or GetPedType(ped) == 5 then
+                                                lastpos = pos
+                                                local street, crossing = GetStreetNameAtCoord(pos.x, pos.y, pos.z)
+                                                if IsPedMale(PlayerPed) then
+                                                    local random = math.random(1,100)
+                                                    if random >= 50 then
+                                                        TriggerServerEvent("dispatch:ten-thirtytwo:2", {x = pos.x, y = pos.y, z = pos.z}, GetStreetNameFromHashKey(street), "Male")
+                                                    end
+                                                else
+                                                    local random = math.random(1,100)
+                                                    if random >= 50 then
+                                                        TriggerServerEvent("dispatch:ten-thirtytwo:2", {x = pos.x, y = pos.y, z = pos.z}, GetStreetNameFromHashKey(street), "Female")
+                                                    end
                                                 end
                                             end
                                         end
                                     end
                                 end
                             end
-                        end
-                    end 
-                end
-            end
-        end
-    end
-end)
-
-Citizen.CreateThread(function()
-    local lastpos = {x = 0.0, y = 0.0, z = 0.0}
-    while true do
-        Citizen.Wait(0)
-        local hasWeapon, currentWeapon = GetCurrentPedWeapon(PlayerPed, 1)
-        if not exports.policejob:getIsInService() then
-            local PlayerPed = PlayerPedId()
-            local WeaponStr = Weaponhashes[tostring(currentWeapon)]
-            local Weaponhash = GetHashKey(WeaponStr)
-            if not knifes[WeaponStr] then
-                if IsPedInMeleeCombat(PlayerPed) then
-                    local pos = GetEntityCoords(PlayerPed, false)
-                    local ped = GetClosestPed()
-                    if ped ~= nil then
-                        if IsPedInCombat(ped, PlayerPed) == true then
-                            if GetDistanceBetweenCoords(pos.x, pos.y, pos.z, lastpos.x, lastpos.y, lastpos.z, true) > 50 then
-                                if willNPCreport("gunshots") then
-                                    lastpos = pos
-                                    local street, crossing = GetStreetNameAtCoord(pos.x, pos.y, pos.z)
-                                    TriggerServerEvent("dispatch:ten-thirtytwo:3", {x = pos.x, y = pos.y, z = pos.z}, GetStreetNameFromHashKey(street), "Fist")
-                                end
-                            end
-                        end
-                    end
-                end
-            else
-                if IsPedInMeleeCombat(PlayerPed) then
-                    local pos = GetEntityCoords(PlayerPed, false)
-                    local ped = GetClosestPed()
-                    if ped ~= nil then
-                        if IsPedInCombat(ped, PlayerPed) == true then
-                            if GetDistanceBetweenCoords(pos.x, pos.y, pos.z, lastpos.x, lastpos.y, lastpos.z, true) > 50 then
-                                if willNPCreport("gunshots") then
-                                    lastpos = pos
-                                    local street, crossing = GetStreetNameAtCoord(pos.x, pos.y, pos.z)
-                                    TriggerServerEvent("dispatch:ten-thirtytwo:3", {x = pos.x, y = pos.y, z = pos.z}, GetStreetNameFromHashKey(street), "Knife")
-                                end
-                            end
-                        end
+                        end 
                     end
                 end
             end
