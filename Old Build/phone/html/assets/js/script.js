@@ -721,7 +721,8 @@ $(document).ready(function(){
     //Message the contact
     $("#view-message-contact").click(function(){
         newmessage_page();
-        if isNumeric(parseInt(selected_contact.contact_number, 10)){
+        if (isNumeric(parseInt(selected_contact.contact_number, 10)))
+        {
             $("#new-message-phonenumber").val(formatPhoneNumber(parseInt(selected_contact.contact_number, 10)))
         } else {
             $("#new-message-phonenumber").val(selected_contact.contact_number);

@@ -30,9 +30,13 @@ end)
 TriggerEvent('core:addCommand', 'tweet', function(source, args, rawCommand, data)
     local message = table.concat(args, " ")
     local author = data.get("first_name").." "..data.get("last_name")
-    TriggerEvent("phone:has", source, function(hasphone)
-        if hasphone then
-            TriggerClientEvent("chat:addMessage", -1, {templateId = "tweet", color = {255, 255, 255}, multiline = true, args = {author, message}})
+    TriggerEvent("Phone.Get", source, function(Phone)
+        if Phone then
+            if Phone.Has then
+                TriggerClientEvent("chat:addMessage", -1, {templateId = "tweet", color = {255, 255, 255}, multiline = true, args = {author, message}})
+            else
+                TriggerClientEvent('chatMessage', source, "ERROR", {0, 255, 0}, "You don't have a phone!")
+            end
         else
             TriggerClientEvent('chatMessage', source, "ERROR", {0, 255, 0}, "You don't have a phone!")
         end
@@ -42,9 +46,13 @@ end, {help = "Post a tweet"})
 TriggerEvent('core:addCommand', 't', function(source, args, rawCommand, data)
     local message = table.concat(args, " ")
     local author = data.get("first_name").." "..data.get("last_name")
-    TriggerEvent("phone:has", source, function(hasphone)
-        if hasphone then
-            TriggerClientEvent("chat:addMessage", -1, {templateId = "tweet", color = {255, 255, 255}, multiline = true, args = {author, message}})
+    TriggerEvent("Phone.Get", source, function(Phone)
+        if Phone then
+            if Phone.Has then
+                TriggerClientEvent("chat:addMessage", -1, {templateId = "tweet", color = {255, 255, 255}, multiline = true, args = {author, message}})
+            else
+                TriggerClientEvent('chatMessage', source, "ERROR", {0, 255, 0}, "You don't have a phone!")
+            end
         else
             TriggerClientEvent('chatMessage', source, "ERROR", {0, 255, 0}, "You don't have a phone!")
         end
@@ -71,16 +79,20 @@ end, {help = "Local out of character text."})
 
 TriggerEvent("core:addCommand", "ad", function(source, args, rawCommand, data, power, group)
     local message = table.concat(args, " ")
-    TriggerEvent("phone:has", source, function(hasphone)
-        if data.get("bank") >= 1000 then
-            if hasphone then
-                data.removeBank(1000)
-                TriggerClientEvent('chatMessage', -1, "ADVERTISEMENT", {0, 255, 0}, message)
+    TriggerEvent("Phone.Get", source, function(Phone)
+        if Phone then
+            if Phone.Has then
+                if data.get("bank") >= 1000 then
+                    data.removeBank(1000)
+                    TriggerClientEvent('chatMessage', -1, "ADVERTISEMENT", {0, 255, 0}, message)
+                else
+                    TriggerClientEvent('chatMessage', source, "ADVERTISEMENT", {0, 255, 0}, "The cost for an ad is $1000")
+                end
             else
-                TriggerClientEvent('chatMessage', source, {0, 255, 0}, "You don't have a phone!")
+                TriggerClientEvent('chatMessage', source, "ERROR", {0, 255, 0}, "You don't have a phone!")
             end
         else
-            TriggerClientEvent('chatMessage', source, "ADVERTISEMENT", {0, 255, 0}, "The cost for an ad is $1000")
+            TriggerClientEvent('chatMessage', source, "ERROR", {0, 255, 0}, "You don't have a phone!")
         end
     end)
 end, {help = "Advertisment"})

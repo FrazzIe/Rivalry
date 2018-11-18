@@ -738,3 +738,16 @@ Citizen.CreateThread(function()
 		end
 	end
 end)
+
+RegisterNetEvent("Phone.Set")
+AddEventHandler("Phone.Set", function(Value)
+	Phone.Data.Has = Value
+
+	if not Phone.Data.Has and Phone.Open then
+		Phone:Toggle(false)
+	end
+end)
+
+function PlayerHasPhone()
+	return Phone.Data.Has
+end

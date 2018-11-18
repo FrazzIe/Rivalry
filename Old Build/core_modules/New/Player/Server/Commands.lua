@@ -5,9 +5,9 @@ function FormatPhoneNumber(value)
 end
 
 Chat.Command({"pn", "phonenumber", "number"}, function(source, args, fullCommand)
-    TriggerEvent("phone:number", source, function(phone_number)
-        if phone_number then
-            Chat.Message(-1, "^0-", "^5"..GetIdentity(source).."  ^0notes down "..FormatPhoneNumber(phone_number).." ^0and passes it to the nearest person", 48, 177, 232, true, nil, 5, source)
+    TriggerEvent("Phone.Get", source, function(Phone)
+        if Phone then
+            Chat.Message(-1, "^0-", "^5"..GetIdentity(source).."  ^0notes down "..FormatPhoneNumber(Phone.Number).." ^0and passes it to the nearest person", 48, 177, 232, true, nil, 5, source)
         else
             Chat.Message(source, "INFO", "Unable to get phone number? >.>", 255, 0, 0, true)
         end
