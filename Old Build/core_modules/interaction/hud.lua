@@ -31,6 +31,10 @@ function TurnOffHudElements(value)
     end
 end
 
+function HudElementsDisabled()
+    return hud_off
+end
+
 AddEventHandler('onClientMapStart', function()
     NetworkSetTalkerProximity(15.0)
 end)

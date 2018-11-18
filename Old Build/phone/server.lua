@@ -48,17 +48,17 @@ function Phone:FetchNumbers(Value)
 end
 
 function Phone:GeneratePhoneNumber()
-	local Random = math.round(999999999999 * (os.time() - self.Generator.Start) / self.Generator.End)
+	local Random = math.abs(math.round(999999999999 * (os.time() - self.Generator.Start) / self.Generator.End))
 
-	return self.Areacode .. FetchNumbers(random)
+	return self.Areacode .. Phone:FetchNumbers(Random)
 end
 
 AddEventHandler("playerDropped", function()
 	local Source = source
 
 	if Phone.Players[Source] then
+		Phone.PlayerIds[Phone.Players[Source].Number] = nil
 		Phone.Players[Source] = nil
-		Phone.PlayerIds[Source] = nil
 		Phone.Calls[Source] = nil
 	end
 end)
@@ -67,8 +67,8 @@ AddEventHandler("core:switch", function(source)
 	local Source = source
 
 	if Phone.Players[Source] then
+		Phone.PlayerIds[Phone.Players[Source].Number] = nil
 		Phone.Players[Source] = nil
-		Phone.PlayerIds[Source] = nil
 		Phone.Calls[Source] = nil
 	end
 end)
@@ -80,7 +80,7 @@ AddEventHandler("Phone.Get", function(Source, Callback)
 end)
 
 AddEventHandler("Phone.Start",function(Source, CharacterId)
-	exports["GHMattiMySQL"]:QueryResultAsync("SELECT phone_number FROM phone WHERE character_id=@character_id LIMIT 1", {["@character_id"] = CharacterId}, function(PhoneNumber)
+	exports["GHMattiMySQL"]:QueryResultAsync("SELECT * FROM phone WHERE character_id=@character_id LIMIT 1", {["@character_id"] = CharacterId}, function(PhoneNumber)
 		if PhoneNumber[1] == nil then
 			Citizen.CreateThread(function()
 				local Duplicate = true
@@ -89,7 +89,7 @@ AddEventHandler("Phone.Start",function(Source, CharacterId)
 				while Duplicate do
 					Citizen.Wait(0)
 
-					local NewPhoneNumber = GeneratePhoneNumber()
+					local NewPhoneNumber = Phone:GeneratePhoneNumber()
 
 					if not CheckingDuplicate then
 						CheckingDuplicate = true
@@ -122,7 +122,7 @@ AddEventHandler("Phone.Start",function(Source, CharacterId)
 			end)
 		else
 			exports["GHMattiMySQL"]:QueryResultAsync("SELECT * FROM phone_contacts WHERE phone_number=@phone_number", {["@phone_number"] = PhoneNumber[1].phone_number}, function(Contacts)
-				exports["GHMattiMySQL"]:QueryResultAsync("SELECT receiver_phone_number, (SELECT phone_messages.message FROM phone_messages WHERE phone_messages.conversation_id = phone_conversation.id ORDER BY id DESC LIMIT 1) As 'message' FROM phone_conversation WHERE owner_phone_number = @phone_number", {["@phone_number"] = PhoneNumber[1].phone_number}, function(Messages)
+				exports["GHMattiMySQL"]:QueryResultAsync("SELECT receiver_number, (SELECT phone_messages.message FROM phone_messages WHERE phone_messages.conversation_id = phone_conversation.id ORDER BY id DESC LIMIT 1) As 'message' FROM phone_conversation WHERE owner_number = @phone_number", {["@phone_number"] = PhoneNumber[1].phone_number}, function(Messages)
 					Phone.Players[Source] = {}
 					Phone.Players[Source].Has = number_to_bool(PhoneNumber[1].has)
 					Phone.Players[Source].Number = PhoneNumber[1].phone_number
@@ -151,16 +151,18 @@ RegisterServerEvent("Phone.Contact.Add")
 AddEventHandler("Phone.Contact.Add", function(Data)
 	local Source = source
 
-	if Phone.Players[Source] and Phone.PlayerIds[Source] then
+	if Phone.Players[Source] then
 		exports["GHMattiMySQL"]:Insert("phone_contacts", {
 			{
-				["character_id"] = Phone.PlayerIds[Source],
-				["phone_number"] = Data.phone_number,
+				["phone_number"] = Phone.Players[Source].Number,
+				["contact_number"] = Data.phone_number,
 				["first_name"] = Data.first_name,
 				["last_name"] = Data.last_name,
 			}
 		}, function(ContactID)
-			table.insert(Phone.Players[Source].Contacts, {id = ContactID, phone_number = Data.phone_number, first_name = Data.first_name, last_name = Data.last_name})
+			table.insert(Phone.Players[Source].Contacts, {id = ContactID, contact_number = Data.phone_number, first_name = Data.first_name, last_name = Data.last_name})
+
+			Phone.Players[Source].ContactNames[Data.phone_number] = Data.first_name.." "..Data.last_name
 
 			TriggerClientEvent("Phone.Contact.Add", Source, Phone.Players[Source])
 		end, true)
@@ -171,11 +173,10 @@ RegisterServerEvent("Phone.Contact.Remove")
 AddEventHandler("Phone.Contact.Remove", function(Id, Contacts)
 	local Source = source
 
-	if Phone.Players[Source] and Phone.PlayerIds[Source] then
+	if Phone.Players[Source] then
 		Phone.Players[Source].Contacts = Contacts
 		
-		exports["GHMattiMySQL"]:QueryAsync("DELETE FROM phone_contacts WHERE (character_id=@character_id) AND (id=@id)", {
-			["@character_id"] = Phone.PlayerIds[Source],
+		exports["GHMattiMySQL"]:QueryAsync("DELETE FROM phone_contacts WHERE (id=@id)", {
 			["@id"] = Id,
 		})
 	end
@@ -218,15 +219,16 @@ AddEventHandler("Phone.Message.Add", function(PhoneNumber, Message)
 
 						exports["GHMattiMySQL"]:Insert("phone_messages", {
 							{
-								["coversation_id"] = ConversationId,
+								["conversation_id"] = ConversationId,
+								["creator"] = Phone.Players[Source].Number,
 								["message"] = Message,
 							}
 						}, function(MessageId)
-							local NewMessage = {id = MessageId, message = Message, timestamp = CurrentTime}
+							local NewMessage = {id = MessageId, creator = Phone.Players[Source].Number, message = Message, timestamp = CurrentTime}
 
 							Phone.Players[Source].Messages[Target[1].phone_number] = Message
 
-							TriggerClientEvent("Phone.Message.Add", Source, true, false, Target[1].phone_number, NewMesssage, Phone.Players[Source])
+							TriggerClientEvent("Phone.Message.Add", Source, true, false, Target[1].phone_number, NewMessage, Phone.Players[Source])
 						end, true)
 					end, true)
 
@@ -238,7 +240,8 @@ AddEventHandler("Phone.Message.Add", function(PhoneNumber, Message)
 					}, function(ConversationId)
 						exports["GHMattiMySQL"]:Insert("phone_messages", {
 							{
-								["coversation_id"] = ConversationId,
+								["conversation_id"] = ConversationId,
+								["creator"] = Phone.Players[Source].Number,
 								["message"] = Message,
 							}
 						}, function(MessageId)
@@ -246,11 +249,11 @@ AddEventHandler("Phone.Message.Add", function(PhoneNumber, Message)
 								local TargetId = Phone.PlayerIds[Target[1].phone_number]
 								if Phone.Players[TargetId] then
 									if Phone.Players[TargetId].Number == Target[1].phone_number then
-										local NewMessage = {id = MessageId, message = Message, timestamp = CurrentTime}
+										local NewMessage = {id = MessageId, creator = Phone.Players[Source].Number, message = Message, timestamp = CurrentTime}
 
-										Phone.Players[TargetId].Messages[Target[1].phone_number] = Message
+										Phone.Players[TargetId].Messages[Phone.Players[Source].Number] = Message
 
-										TriggerClientEvent("Phone.Message.Add", TargetId, true, true, Target[1].phone_number, NewMesssage, Phone.Players[TargetId])
+										TriggerClientEvent("Phone.Message.Add", TargetId, true, true, Phone.Players[Source].Number, NewMessage, Phone.Players[TargetId])
 									end
 								end
 							end
@@ -263,14 +266,15 @@ AddEventHandler("Phone.Message.Add", function(PhoneNumber, Message)
 						exports["GHMattiMySQL"]:Insert("phone_messages", {
 							{
 								["conversation_id"] = SourceConversation,
+								["creator"] = Phone.Players[Source].Number,
 								["message"] = Message,
 							}
 						}, function(MessageId)
-							local NewMessage = {id = MessageId, message = Message, timestamp = CurrentTime}
+							local NewMessage = {id = MessageId, creator = Phone.Players[Source].Number, message = Message, timestamp = CurrentTime}
 
 							Phone.Players[Source].Messages[Target[1].phone_number] = Message
 
-							TriggerClientEvent("Phone.Message.Add", Source, true, false, Target[1].phone_number, NewMesssage, Phone.Players[Source])
+							TriggerClientEvent("Phone.Message.Add", Source, true, false, Target[1].phone_number, NewMessage, Phone.Players[Source])
 						end, true)
 					end
 
@@ -278,6 +282,7 @@ AddEventHandler("Phone.Message.Add", function(PhoneNumber, Message)
 						exports["GHMattiMySQL"]:Insert("phone_messages", {
 							{
 								["conversation_id"] = TargetConversation,
+								["creator"] = Phone.Players[Source].Number,
 								["message"] = Message,
 							}
 						}, function(MessageId)
@@ -285,11 +290,11 @@ AddEventHandler("Phone.Message.Add", function(PhoneNumber, Message)
 								local TargetId = Phone.PlayerIds[Target[1].phone_number]
 								if Phone.Players[TargetId] then
 									if Phone.Players[TargetId].Number == Target[1].phone_number then
-										local NewMessage = {id = MessageId, message = Message, timestamp = CurrentTime}
+										local NewMessage = {id = MessageId, creator = Phone.Players[Source].Number, message = Message, timestamp = CurrentTime}
 											
-										Phone.Players[TargetId].Messages[Target[1].phone_number] = Message
+										Phone.Players[TargetId].Messages[Phone.Players[Source].Number] = Message
 
-										TriggerClientEvent("Phone.Message.Add", TargetId, true, true, Target[1].phone_number, NewMesssage, Phone.Players[TargetId])
+										TriggerClientEvent("Phone.Message.Add", TargetId, true, true, Phone.Players[Source].Number, NewMessage, Phone.Players[TargetId])
 									end
 								end
 							end
@@ -317,8 +322,8 @@ AddEventHandler("Phone.Call.Start", function(TargetNumber, Channel)
 
 	if TargetId and Phone.Players[Source] then
 		if not Phone.Calls[TargetId] then
-			Phone.Calls[TargetId] = Phone.Players[Source].Number
-			Phone.Calls[Source] = Phone.Players[Source].Number
+			Phone.Calls[TargetId] = Channel
+			Phone.Calls[Source] = Channel
 
 			TriggerClientEvent("Phone.Call.Status", Source, "Dialing...")
 			TriggerClientEvent("Phone.Call.Request", TargetId, Phone.Players[Source].Number, Source)
@@ -326,8 +331,8 @@ AddEventHandler("Phone.Call.Start", function(TargetNumber, Channel)
 			TriggerClientEvent("Phone.Call.Status", Source, "Target is busy!")
 		end
 	else
-		TriggerClientEvent("Phone.Call.End", Source)
-		Phone.Calls[Source] = false
+		TriggerClientEvent("Phone.Call.Status", Source, "This users phone is switched off!")
+		Phone.Calls[Source] = nil
 	end
 end)
 
@@ -339,19 +344,22 @@ AddEventHandler("Phone.Call.End", function(TargetNumber, Channel)
 	if TargetId then
 		if Phone.Calls[TargetId] then
 			if Phone.Calls[TargetId] == Channel then
-				TriggerClientEvent("Phone.Call.End", Source, TargetNumber)
-				TriggerClientEvent("Phone.Call.End", TargetId, TargetNumber)
+				TriggerClientEvent("Phone.Call.End", Source)
+				TriggerClientEvent("Phone.Call.End", TargetId)
+
+				Phone.Calls[TargetId] = nil
+				Phone.Calls[Source] = nil
 			else
 				TriggerClientEvent("Phone.Call.End", Source)
-				Phone.Calls[Source] = false
+				Phone.Calls[Source] = nil
 			end
 		else
 			TriggerClientEvent("Phone.Call.End", Source)
-			Phone.Calls[Source] = false
+			Phone.Calls[Source] = nil
 		end
 	else
 		TriggerClientEvent("Phone.Call.End", Source)
-		Phone.Calls[Source] = false
+		Phone.Calls[Source] = nil
 	end
 end)
 
@@ -366,11 +374,11 @@ AddEventHandler("Phone.Call.Answer", function(TargetNumber)
 			TriggerClientEvent("Phone.Call.Answer", TargetId, TargetNumber)
 		else
 			TriggerClientEvent("Phone.Call.End", Source)
-			Phone.Calls[Source] = false
+			Phone.Calls[Source] = nil
 		end
 	else
 		TriggerClientEvent("Phone.Call.End", Source)
-		Phone.Calls[Source] = false
+		Phone.Calls[Source] = nil
 	end
 end)
 
@@ -398,7 +406,7 @@ AddEventHandler("Phone.Conversation.Get", function(TargetNumber)
 
 	if Phone.Players[Source] then
 		if Phone.Players[Source].Number then
-			exports["GHMattiMySQL"]:QueryResultAsync("SELECT phone_messages.id, phone_messages.message, UNIX_TIMESTAMP(phone_messages.timestamp) As 'timestamp' FROM phone_messages WHERE (conversation_id = (SELECT id FROM phone_conversation WHERE owner_number=@owner_number AND receiver_number=@receiver_number) AND (UNIX_TIMESTAMP(phone_messages.timestamp) < (UNIX_TIMESTAMP() + 2592000)))", {["@conversation"] = Conversation[1].id, ["@owner_number"] = Phone.Players[Source].Number, ["@receiver_number"] = TargetNumber}, function(Messages)
+			exports["GHMattiMySQL"]:QueryResultAsync("SELECT phone_messages.id, phone_messages.message, phone_messages.creator, UNIX_TIMESTAMP(phone_messages.timestamp) As 'timestamp' FROM phone_messages WHERE (conversation_id = (SELECT id FROM phone_conversation WHERE owner_number=@owner_number AND receiver_number=@receiver_number) AND (UNIX_TIMESTAMP(phone_messages.timestamp) < (UNIX_TIMESTAMP() + 2592000)))", {["@owner_number"] = Phone.Players[Source].Number, ["@receiver_number"] = TargetNumber}, function(Messages)
 				TriggerClientEvent("Phone.Conversation.Set", Source, TargetNumber, Messages)
 			end)
 		end

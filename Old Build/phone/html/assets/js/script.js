@@ -14,6 +14,18 @@
 $(document).ready(function(){
     var start = 0;
     var timer = 0;
+
+    function formatPhoneNumber(phoneNumberString) {
+      var cleaned = ('' + phoneNumberString).replace(/\D/g, '')
+      var match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/)
+      if (match) {
+        return '(' + match[1] + ') ' + match[2] + '-' + match[3]
+      }
+      return 'Pester Frazzle if you see this: ' + phoneNumberString
+    }
+    function isNumeric(num){
+      return !isNaN(num)
+    }
     //Hide and show elements
     function close_phone() { //Hide everything
         
@@ -43,7 +55,7 @@ $(document).ready(function(){
         //Contact page stuff
         $(".contact-page .view-contact").css("display", "none");
         $(".contact-page .add-contact").css("display", "none");
-        
+        $("#alert_modal").modal({show: false});
     }
     
     function home_page() { //Hide everything but the home page
@@ -574,14 +586,6 @@ $(document).ready(function(){
         
     }
 
-    function formatPhoneNumber(phoneNumberString) {
-      var cleaned = ('' + phoneNumberString).replace(/\D/g, '')
-      var match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/)
-      if (match) {
-        return '(' + match[1] + ') ' + match[2] + '-' + match[3]
-      }
-      return 'Pester Frazzle if you see this: ' + phoneNumberString
-    }
     //Call Page
     var selected_contact_id_call = -1;
     function contacts_sort_call(_contacts) {
@@ -658,7 +662,7 @@ $(document).ready(function(){
                 selected_contact = contact;
                 $("#view-first-name").val(contact.first_name);
                 $("#view-last-name").val(contact.last_name);
-                $("#view-phone-number").val(contact.phone_number);
+                $("#view-phone-number").val(contact.contact_number);
                 $(".contact-page .view-contact").css("display", "block");
                 $(".contact-page .add-contact").css("display", "none");
             })
@@ -717,7 +721,11 @@ $(document).ready(function(){
     //Message the contact
     $("#view-message-contact").click(function(){
         newmessage_page();
-        $("#new-message-phonenumber").val(selected_contact.phone_number);
+        if isNumeric(parseInt(selected_contact.contact_number, 10)){
+            $("#new-message-phonenumber").val(formatPhoneNumber(parseInt(selected_contact.contact_number, 10)))
+        } else {
+            $("#new-message-phonenumber").val(selected_contact.contact_number);
+        }
     })
     
     //Delete the contact
@@ -729,12 +737,13 @@ $(document).ready(function(){
     })
     
     //Messages page
-    
+
     //Latest messages list
     function add_messages_latest(_messages) {
         $("#latest-messages").empty()
         for (let i in _messages) {
             let latest_message = _messages[i];
+            
             $("#latest-messages").append("<div id='latest_message_" + i + "' class='col-3 rounded' style='margin-top:5px;margin-bottom:5px;background-color:#007bff;margin-right:10px;margin-left:10px;max-height:200px;overflow-x: hidden;'><h5 style='color:#141414;'><span style='text-decoration: underline;'>" + latest_message.sender + "</span></h5><p style='color:rgb(255,255,255); word-wrap: break-word; width: inherit;'>" + latest_message.message + "</p></div>");
             $("#latest_message_" + i).click(function(){
                 selected_message_name = latest_message.sender;
@@ -756,7 +765,7 @@ $(document).ready(function(){
         $("#sub-messages-messages").empty();
         for (let i in _messages) {
             let _message = _messages[i];
-            if (selected_message_number == _message.source_number) {
+            if (selected_message_number == _message.creator) {
                 $("#sub-messages-messages").append("<div class='row no-gutters justify-content-start'><div class='col-5 rounded' style='margin-top:5px;margin-bottom:5px;background-color:#007bff;margin-right:10px;margin-left:10px;'><div class='row'><div class='col'><p style=;margin-left:2.5%;>" + moment(_message.timestamp*1000).fromNow() +"</p></div><div class='col'><button id='delete_message_" + _message.id + "' class='close' style='margin-right:2.5%;'><span aria-hidden='true'>×</span></button></div></div><div class='row'><div class='col'><p class='text-center' style='color:rgb(255,255,255);word-wrap:break-word;width:95%;margin-left:2.5%;'>" + _message.message + "</p></div></div></div></div>")
                 $("#delete_message_" + _message.id).click(function(){
                     $.post('http://phone/remove', JSON.stringify({
@@ -1017,7 +1026,8 @@ $(document).ready(function(){
         }
 
         if (item.alert === true) {
-            alert(item.alert_message);   
+            $("#alert_modal_p").text(item.alert_message);
+            $("#alert_modal").modal({show: true, backdrop: false});
         }
         
         if (item.services === true) {

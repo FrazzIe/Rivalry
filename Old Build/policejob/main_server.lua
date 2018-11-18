@@ -157,38 +157,7 @@ addRank("cadet", "")
 AddEventHandler('police:initialise', function(source, identifier, character_id)
 	TriggerClientEvent("police:doors_sync", -1, doors)
 	TriggerClientEvent("police:setranks", source, ranks)
-    exports['GHMattiMySQL']:QueryResultAsync("SELECT * from police_models WHERE character_id=@character_id", {["@character_id"] = character_id}, function(result)
-    	if result[1] == nil then
-	        exports["GHMattiMySQL"]:QueryAsync("INSERT INTO police_models (`character_id`,`model`,`new`,`clothing_drawables`,`clothing_textures`,`clothing_palette`,`props_drawables`,`props_textures`,`overlays_drawables`,`overlays_opacity`,`overlays_colours`) VALUES (@character_id,@model,@new,@clothing_drawables,@clothing_textures,@clothing_palette,@props_drawables,@props_textures,@overlays_drawables,@overlays_opacity,@overlays_colours)", {
-	            ["@character_id"] = character_id,
-	            ["@model"] = "s_m_y_cop_01",
-	            ["@new"] = "true",
-	            ["@clothing_drawables"] = json.encode({0,0,0,0,0,0,0,0,0,0,0,0}),
-	            ["@clothing_textures"] = json.encode({2,0,1,1,0,0,0,0,0,0,0,0}),
-	            ["@clothing_palette"] = json.encode({0,0,0,0,0,0,0,0,0,0,0,0}),
-	            ["@props_drawables"] = json.encode({-1,-1,-1,-1,-1,-1,-1,-1}),
-	            ["@props_textures"] = json.encode({-1,-1,-1,-1,-1,-1,-1,-1}),
-	            ["@overlays_drawables"] = json.encode({-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1}),
-	            ["@overlays_opacity"] = json.encode({1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0}),
-	            ["@overlays_colours"] = json.encode({{colourType = 0, colour = 0},{colourType = 0, colour = 0},{colourType = 0, colour = 0},{colourType = 0, colour = 0},{colourType = 0, colour = 0},{colourType = 0, colour = 0},{colourType = 0, colour = 0},{colourType = 0, colour = 0},{colourType = 0, colour = 0},{colourType = 0, colour = 0},{colourType = 0, colour = 0},{colourType = 0, colour = 0},{colourType = 0, colour = 0}}),
-	        })
-	    	local models = {}
-	    	models.model = "s_m_y_cop_01"
-	    	models.new = "true"
-	    	models.clothing = { drawables = {0,0,0,0,0,0,0,0,0,0,0,0}, textures = {2,0,1,1,0,0,0,0,0,0,0,0}, palette = {0,0,0,0,0,0,0,0,0,0,0,0} }
-	    	models.props = { drawables = {-1,-1,-1,-1,-1,-1,-1,-1}, textures = {-1,-1,-1,-1,-1,-1,-1,-1} }
-	    	models.overlays = { drawables = {-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1}, opacity = {1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0}, colours = {{colourType = 0, colour = 0},{colourType = 0, colour = 0},{colourType = 0, colour = 0},{colourType = 0, colour = 0},{colourType = 0, colour = 0},{colourType = 0, colour = 0},{colourType = 0, colour = 0},{colourType = 0, colour = 0},{colourType = 0, colour = 0},{colourType = 0, colour = 0},{colourType = 0, colour = 0},{colourType = 0, colour = 0},{colourType = 0, colour = 0}} }
-	    	user_models[source] = models
-    	else
-	    	local models = {}
-	    	models.model = result[1].model
-	    	models.new = result[1].new
-	    	models.clothing = { drawables = json.decode(result[1].clothing_drawables), textures = json.decode(result[1].clothing_textures), palette = json.decode(result[1].clothing_palette) }
-	    	models.props = { drawables = json.decode(result[1].props_drawables), textures = json.decode(result[1].props_textures) }
-	    	models.overlays = { drawables = json.decode(result[1].overlays_drawables), opacity = json.decode(result[1].overlays_opacity), colours = json.decode(result[1].overlays_colours) }
-	    	user_models[source] = models
-	    end
-    end)
+
 	exports['GHMattiMySQL']:QueryResultAsync("SELECT * FROM police WHERE character_id=@character_id", {["@character_id"] = character_id}, function(officer)
 		if officer[1] == nil then
 			TriggerClientEvent("police:set", source, {}, false, true)

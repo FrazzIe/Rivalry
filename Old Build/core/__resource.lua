@@ -5,7 +5,7 @@ ui_page 'html/index.html'
 files {
 	'html/index.html',
 	'html/assets/bootstrap/css/bootstrap.min.css',
-	'html/assets/bootstrap/js/bootsrap.min.js',
+	'html/assets/bootstrap/js/bootstrap.min.js',
 	'html/assets/js/jquery.min.js',
 	'html/assets/js/moment.js',
 	'html/assets/js/moment-duration-format.js',

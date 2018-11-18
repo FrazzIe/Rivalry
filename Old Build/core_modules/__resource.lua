@@ -201,3 +201,4 @@ export 'SetPolice'
 export 'StanceAllowed'
 
 export 'TurnOffHudElements'
+export 'HudElementsDisabled'

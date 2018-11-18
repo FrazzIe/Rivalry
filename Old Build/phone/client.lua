@@ -114,8 +114,6 @@ function Phone:Toggle(Display)
 		self.Open = false
 	end
 
-	self:Animation(PlayerPed, Dead)
-
 	if Dead and self.Open then
 		self.Page.Current = "lifealert"
 		self.Page.Back = ""
@@ -129,13 +127,15 @@ function Phone:Toggle(Display)
 	end
 
 	SetNuiFocus(self.Open, self.Open)
+
+	self:Animation(PlayerPed, Dead)
 end
 
 function Phone:Animation(PlayerPed, Dead)
 	if not Dead then
 		local Dictionary = self.Animations.Dictionary[(IsPedInAnyVehicle(PlayerPed, false) and "Vehicle" or "Normal")]
 
-		SetPedCurrentweapon(PlayerPed, "WEAPON_UNARMED", true)
+		SetCurrentPedWeapon(PlayerPed, "WEAPON_UNARMED", true)
 
 		if self.Open then
 			TaskPlayAnim(PlayerPed, Dictionary, self.Animations.Open, 4.0, -1, -1, 50, 0, false, false, false)
@@ -189,7 +189,7 @@ AddEventHandler("Phone.Start", function(Data)
 	Data.ContactNames = {}
 
 	for Index = 1, #Data.Contacts do
-		Data.ContactNames[Data.Contacts[Index].phone_number] = Data.Contacts[Index].first_name.." "..Data.Contacts[Index].last_name
+		Data.ContactNames[Data.Contacts[Index].contact_number] = Data.Contacts[Index].first_name.." "..Data.Contacts[Index].last_name
 	end
 
 	for Index = 1, #Data.Messages do
@@ -200,12 +200,13 @@ AddEventHandler("Phone.Start", function(Data)
 
 	Phone.Data = Data
 
-	TriggerServerEvent("Phone.End", Data)
+	TriggerServerEvent("Phone.Finish", Data)
 end)
 
 RegisterNetEvent("Phone.Contact.Add")
 AddEventHandler("Phone.Contact.Add", function(Data)
 	Phone.Data.Contacts = Data.Contacts
+	Phone.Data.ContactNames = Data.ContactNames
 
 	if Phone.Open then
 		if Phone.Page.Current == "contacts" then
@@ -216,14 +217,15 @@ end)
 
 RegisterNetEvent("Phone.Message.Add")
 AddEventHandler("Phone.Message.Add", function(Exists, Received, Number, Message, Data)
-	Phone.Data.Messages = Data
 	if not Exists then
-		if Phon.Open then
+		if Phone.Open then
 			SendNUIMessage({alert = true, alert_message = "The message was not sent as the number does not exist!"})
 		end
 	else
+		Phone.Data.Messages = Data.Messages
+
 		if Received then
-			local Sender = Phone.ContactNames[Number] or Number
+			local Sender = Phone.Data.ContactNames[Number] or Number
 
 			Phone:DisplayNotification(Message.message, "CHAR_CHAT_CALL", Sender, "New message")
 
@@ -241,11 +243,11 @@ AddEventHandler("Phone.Message.Add", function(Exists, Received, Number, Message,
 						SendNUIMessage({open_sub_messages = true, messages = Phone.Conversation.Messages})
 					end
 				elseif current_page == "messages" then
-					SendNUIMessage({open_messages = true, latest_messages = GetLatestMessages()})
+					SendNUIMessage({open_messages = true, latest_messages = Phone:GetLatestMessages()})
 				end
 			end
 		else
-			local Receiver = Phone.ContactNames[Number] or Number
+			local Receiver = Phone.Data.ContactNames[Number] or Number
 
 			Phone:DisplayNotification(Message.message, "CHAR_CHAT_CALL", Receiver, "Message sent")
 
@@ -263,7 +265,7 @@ AddEventHandler("Phone.Message.Add", function(Exists, Received, Number, Message,
 						SendNUIMessage({open_sub_messages = true, messages = Phone.Conversation.Messages})
 					end
 				elseif current_page == "messages" then
-					SendNUIMessage({open_messages = true, latest_messages = GetLatestMessages()})
+					SendNUIMessage({open_messages = true, latest_messages = Phone:GetLatestMessages()})
 				end
 			end
 		end
@@ -288,12 +290,12 @@ AddEventHandler("Phone.Call.Status", function(Status)
 end)
 
 RegisterNetEvent("Phone.Call.Request")
-AddEventHandler("Phone.Call.Request", function(Number, Source)
+AddEventHandler("Phone.Call.Request", function(Number)
 	Phone.Call.Number = Number
-	Phone.Call.Channel = Number
+	Phone.Call.Channel = tonumber(Number)
 	Phone.Call.Caller = Phone.Data.ContactNames[Number] or Number
 
-	if exports.core_modules:IsInJail() or exports.policejob:getIsCuffed() or exports.core_modules:isCuffed() or not Phone.Data.Has then
+	if exports.core_modules:IsInJail() or exports.policejob:getIsCuffed() or exports.core_modules:isCuffed() or (not Phone.Data.Has) then
 		SendNUIMessage({update_call = true, message = "The call was cancelled", start = false})
 
 		TriggerServerEvent("Phone.Call.End", Phone.Call.Number, Phone.Call.Channel)
@@ -404,7 +406,7 @@ RegisterNUICallback("back", function(data)
 		Phone.Conversation.Number = nil
 		Phone.Conversation.Messages = {}
 		
-		SendNUIMessage({open_messages = true, latest_messages = GetLatestMessages()})
+		SendNUIMessage({open_messages = true, latest_messages = Phone:GetLatestMessages()})
 	elseif Phone.Page.Previous == "contacts" then
 		Phone.Page.Previous = "home"
 		Phone.Page.Current = "contacts"
@@ -458,7 +460,7 @@ RegisterNUICallback("open", function(data)
 		Phone.Page.Previous = "home"
 		Phone.Page.Current = "messages"
 
-		SendNUIMessage({open_messages = true, latest_messages = GetLatestMessages()})
+		SendNUIMessage({open_messages = true, latest_messages = Phone:GetLatestMessages()})
 	elseif data.type == "loader" then
 		Phone.Page.Previous = "messages"
 		Phone.Page.Current = "loader"
@@ -517,7 +519,7 @@ RegisterNUICallback("open", function(data)
 
 		if Phone.Call.Number and Phone.Call.Answered then
 			SendNUIMessage({open_dial = true, message = Phone.Call.Status})
-		elseif current_call and not answered then
+		elseif Phone.Call.Number and not Phone.Call.Answered then
 			SendNUIMessage({open_dial_answer = true, caller_id = Phone.Call.Caller})
 		else
 			SendNUIMessage({open_call = true, contacts = Phone.Data.Contacts})
@@ -527,7 +529,7 @@ end)
 
 RegisterNUICallback("add", function(data)
 	if data.type == "contact" then
-		TriggerServerEvent("Phone.Contact.Add", data.phone_number, data.first_name, data.last_name)
+		TriggerServerEvent("Phone.Contact.Add", data)
 	elseif data.type == "message" then
 		TriggerServerEvent("Phone.Message.Add", data.phone_number, data.message)
 	end
@@ -623,8 +625,8 @@ end)
 
 RegisterNUICallback("call", function(data)
 	if data.type == "start" then
-		Phone.Call.Number = Phone.Data.Number
-		Phone.Call.Channel = Phone.Data.Number
+		Phone.Call.Number = data.phone_number
+		Phone.Call.Channel = tonumber(Phone.Data.Number)
 		Phone.Call.Status = "Dialing..."
 		Phone.Call.Answered = true
 		Phone.Call.Caller = Phone.Data.ContactNames[data.phone_number] or data.phone_number
@@ -634,7 +636,7 @@ RegisterNUICallback("call", function(data)
 		Phone.Page.Current = "call"
 		Phone.Page.Previous = "home"
 
-		TriggerServerEvent("Phone.Call.Start", data.phone_number)
+		TriggerServerEvent("Phone.Call.Start", Phone.Call.Number, Phone.Call.Channel)
 	elseif data.type == "cancel" then
 		SendNUIMessage({open_dial = true, message = "The call was cancelled", start = false})
 
@@ -652,7 +654,7 @@ RegisterNUICallback("call", function(data)
 			Phone.Call.Answered = true
 			Phone.Call.Status = "Active"
 
-			if Phone.Open and Phone.Page.Current then
+			if Phone.Open and Phone.Page.Current == "call" then
 				SendNUIMessage({open_dial = true, message = Phone.Call.Status})
 			else
 				SendNUIMessage({update_call = true, message = Phone.Call.Status})
@@ -692,12 +694,19 @@ Citizen.CreateThread(function()
 				SetCurrentPedWeapon(PlayerPed, "WEAPON_UNARMED", true)
 			end
 
-			ScreenDrawPositionBegin(76, 84)
-			ScreenDrawPositionRatio(0, 0, 0, 0)
-			
-			Phone:RenderText("[~y~F1~w~]Call with ~y~"..Phone.Call.Caller..": "..(Phone.Call.Hold and "~r~On hold" or "~g~Active").."~w~/ ~b~"..Phone.Call.Status, 6, 0.0, 831.6, 0.35, 255, 255, 255, 255, nil, false, true)
+	
+			if not exports.core_modules:HudElementsDisabled() then
+				ScreenDrawPositionBegin(76, 84)
+				ScreenDrawPositionRatio(0, 0, 0, 0)
 
-			ScreenDrawPositionEnd()
+				if IsRadarEnabled() then
+					Phone:RenderText("[~y~F1~w~]Call with ~y~"..Phone.Call.Caller..": "..(Phone.Call.Hold and "~r~On hold" or "~g~Active").."~w~/~b~"..Phone.Call.Status, 0.0, 831.6, 6, 0.35, 255, 255, 255, 255, nil, false, true)
+				else
+					Phone:RenderText("[~y~F1~w~]Call with ~y~"..Phone.Call.Caller..": "..(Phone.Call.Hold and "~r~On hold" or "~g~Active").."~w~/~b~"..Phone.Call.Status, 0.0, 990, 6, 0.35, 255, 255, 255, 255, nil, false, true)
+				end
+
+				ScreenDrawPositionEnd()
+			end
 
 			if IsControlJustPressed(0, 288) and IsInputDisabled(2) then -- F1
 				if not Phone.Call.Hold then

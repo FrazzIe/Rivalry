@@ -1,3 +1,9 @@
+--[[
+Processing -> Quality Control 
+Return rate of 85% to 100%
+
+Selling -> Drive to stores, sell to a person in random quantities
+--]]
 Farm = {
 	Data = {
 		IsFarmer = false,
@@ -456,21 +462,22 @@ function Farm:GetCropDetails(Field, Crop)
 	return (Percentage < 0) and 0 or (Percentage > 100) and 100 or Percentage, Stage, Field.Crop.Stage[Stage] or "Seed"
 end
 
-function Farm:CreateCrop(Index, Field, PlayerPosiiton)
+function Farm:CreateCrop(Index, Field, PlayerPositon)
 	RequestModel(Field.Crop.ModelHash)
 
 	while not HasModelLoaded(Field.Crop.ModelHash) do
 		Citizen.Wait(0)
 	end
 
-	local Crop = CreateObject(Field.Crop.ModelHash, PlayerPosiiton.x, PlayerPosiiton.y, PlayerPosiiton.z - Field.Crop.OffsetZ, true, false, false)
+	local Crop = CreateObject(Field.Crop.ModelHash, PlayerPositon.x, PlayerPositon.y, PlayerPositon.z - Field.Crop.OffsetZ, true, false, false)
 
 	FreezeEntityPosition(Crop, true)
-
+	SetEntityInvincible(Crop, true)
+	
 	TriggerServerEvent("Farm.Plant", Index, {
 		Handle = Crop,
 		Time = {Start = 0, End = 0},
-		Position = {x = PlayerPosiiton.x, y = PlayerPosiiton.y, z = PlayerPosiiton.z - Field.Crop.OffsetZ},
+		Position = {x = PlayerPositon.x, y = PlayerPositon.y, z = PlayerPositon.z - Field.Crop.OffsetZ},
 	})
 end
 
@@ -672,5 +679,28 @@ AddEventHandler("Farm.Sync", function(FieldSync, PlayerSync, TimeSync, PlantSync
 
 	if PlantSync ~= nil then
 		Farm.Data.Planted = PlantSync
+	end
+end)
+
+local knock = {x = 2435.419921875, y = 4975.8427734375, z = 46.571422576904, h = 224.17088317871}
+local spawn = {x = 2445.0329589844, y = 4973.09375, z = 51.564868927002, h = 304.59930419922}
+local modelhash = 1822107721
+Citizen.CreateThread(function()
+	local doingit = false
+	while true do
+		Citizen.Wait(0)
+
+		local PlayerPed = PlayerPedId()
+		local PlayerPosition = GetEntityCoords(PlayerPed, false)
+
+		if Vdist(PlayerPosition.x, PlayerPosition.y, PlayerPosition.z, knock.x, knock.y, knock.z) < 1 then
+			if IsControlJustPressed(1, 51) then
+				if not doingit then
+					doingit = true
+					local ped = CreatePed(4, modelhash, spawn.x, spawn.y, spawn.z, spawn.h, false, false)
+					
+				end
+			end
+		end
 	end
 end)
