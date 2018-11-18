@@ -171,7 +171,7 @@ RegisterServerEvent("dispatch:ten-fifthteen")
 AddEventHandler("dispatch:ten-fifthteen", function(coords, street_name, gender)
 	for id, dept in pairs(emergency_users) do
 		if dept ~= nil and dept ~= "paramedic" then
-			TriggerClientEvent("chatMessage", id, "10-31-D", {255, 0, 0}, "^7Crime in Progress (CDS) at"..street_name..". Suspect was reported a "..gender)
+			TriggerClientEvent("chatMessage", id, "10-31-D", {255, 0, 0}, "^7Crime in Progress (CDS) at "..street_name..". Suspect was reported a "..gender)
 			TriggerClientEvent("dispatch:ten-fifthteen", id, coords)
 		end
 	end
