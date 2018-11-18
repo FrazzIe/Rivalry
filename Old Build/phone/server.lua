@@ -26,6 +26,10 @@ function number_to_bool(value)
 	return value == 1
 end
 
+function bool_to_number(value)
+	return value and 1 or 0
+end
+
 function math.round(num, numDecimalPlaces)
 	return tonumber(string.format("%." .. (numDecimalPlaces or 0) .. "f", num))
 end
@@ -76,6 +80,8 @@ end)
 AddEventHandler("Phone.Get", function(Source, Callback)
 	if Phone.Players[Source] then
 		Callback(Phone.Players[Source])
+	else
+		Callback(nil)
 	end
 end)
 
@@ -409,6 +415,18 @@ AddEventHandler("Phone.Conversation.Get", function(TargetNumber)
 			exports["GHMattiMySQL"]:QueryResultAsync("SELECT phone_messages.id, phone_messages.message, phone_messages.creator, UNIX_TIMESTAMP(phone_messages.timestamp) As 'timestamp' FROM phone_messages WHERE (conversation_id = (SELECT id FROM phone_conversation WHERE owner_number=@owner_number AND receiver_number=@receiver_number) AND (UNIX_TIMESTAMP(phone_messages.timestamp) < (UNIX_TIMESTAMP() + 2592000)))", {["@owner_number"] = Phone.Players[Source].Number, ["@receiver_number"] = TargetNumber}, function(Messages)
 				TriggerClientEvent("Phone.Conversation.Set", Source, TargetNumber, Messages)
 			end)
+		end
+	end
+end)
+
+RegisterServerEvent("Phone.Set")
+AddEventHandler("Phone.Set", function(Source, Value)
+	if Phone.Players[Source] then
+		if type(Value) == "boolean" then
+			Phone.Players[Source].Has = Value
+			exports["GHMattiMySQL"]:QueryAsync("UPDATE phone SET has=@has WHERE phone_number=@number", {["@number"] = Phone.Players[Source].Number, ["@has"] = bool_to_number(Value)})
+
+			TriggerClientEvent("Phone.Set", Source, Value)
 		end
 	end
 end)

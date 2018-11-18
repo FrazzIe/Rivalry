@@ -49,7 +49,7 @@ AddEventHandler("item:buy", function(id, quantity)
 	TriggerEvent("core:getuser", source, function(user)
 		if id == 200 then
 			if user.get("wallet") >= Store[id] then
-				TriggerEvent("phone:set", source, true)
+				TriggerEvent("Phone.Set", source, true)
 				user.removeWallet(Store[id])
 				Notify("Phone purchased!", 3000, source)
 			else

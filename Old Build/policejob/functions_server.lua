@@ -230,7 +230,7 @@ AddEventHandler('police:seize', function(target, type)
 		elseif type == "phone" then
 			TriggerClientEvent("pNotify:SendNotification", source, {text = "You seized their phone",type = "error",queue = "left",timeout = 3000,layout = "centerRight"})
 			TriggerClientEvent("pNotify:SendNotification", target, {text = "Your phone was confiscated!",type = "error",queue = "left",timeout = 3000,layout = "centerRight"})
-			TriggerClientEvent("phone:set", target, false)
+			TriggerClientEvent("Phone.Set", target, false)
 		end
 	else
 		TriggerEvent("core:ban", source, 99, "Script tampering", true, "Anticheat")

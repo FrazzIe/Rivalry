@@ -596,7 +596,7 @@ $(document).ready(function(){
             $("#contact_call_" + contact.id).click(function(){
                 $("#contact_call_" + selected_contact_id_call).removeClass("active");
                 $("#contact_call_" + contact.id).addClass("active");
-                $("#input_call_number").val(contact.phone_number)
+                $("#input_call_number").val(contact.contact_number)
             })
         }
     }
@@ -721,11 +721,7 @@ $(document).ready(function(){
     //Message the contact
     $("#view-message-contact").click(function(){
         newmessage_page();
-        if isNumeric(parseInt(selected_contact.contact_number, 10)){
-            $("#new-message-phonenumber").val(formatPhoneNumber(parseInt(selected_contact.contact_number, 10)))
-        } else {
-            $("#new-message-phonenumber").val(selected_contact.contact_number);
-        }
+        $("#new-message-phonenumber").val(selected_contact.contact_number);
     })
     
     //Delete the contact
@@ -1007,7 +1003,12 @@ $(document).ready(function(){
 
         if (item.open_sub_messages === true) {
             add_messages(item.messages);
-            $("#sub-messages-heading").text(selected_message_name);
+            if (isNumeric(parseInt(selected_contact.contact_number, 10)))
+            {
+                $("#sub-messages-heading").text(formatPhoneNumber(parseInt(selected_contact.contact_number, 10)))
+            } else {
+                $("#sub-messages-heading").text(selected_contact.contact_number);
+            }
             submessages_page();
             var scrollBottom = $("#sub-messages-messages").height() + 1500000000000000000;
             $("#sub-messages-messages").scrollTop(scrollBottom);
