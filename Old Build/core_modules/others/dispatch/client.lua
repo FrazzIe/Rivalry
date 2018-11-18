@@ -389,8 +389,9 @@ Citizen.CreateThread(function()
             if not knifes[WeaponStr] then
                 if IsPedInMeleeCombat(PlayerPed) then
                     local pos = GetEntityCoords(PlayerPed, false)
-                    if GetClosestPed() then
-                        if IsPedInCombat(ped, PlayerPed) == true or IsPedInCombat(ped, PlayerPed) == false then
+                    local ped = GetClosestPed()
+                    if ped ~= nil then
+                        if IsPedInCombat(ped, PlayerPed) == true then
                             if GetDistanceBetweenCoords(pos.x, pos.y, pos.z, lastpos.x, lastpos.y, lastpos.z, true) > 50 then
                                 if willNPCreport("gunshots") then
                                     lastpos = pos
@@ -404,8 +405,9 @@ Citizen.CreateThread(function()
             else
                 if IsPedInMeleeCombat(PlayerPed) then
                     local pos = GetEntityCoords(PlayerPed, false)
-                    if GetClosestPed(pos.x, pos.y, pos.z, 2.0) ~= nil then
-                        if IsPedInCombat(ped, PlayerPed) == true or IsPedInCombat(ped, PlayerPed) == false then
+                    local ped = GetClosestPed()
+                    if ped ~= nil then
+                        if IsPedInCombat(ped, PlayerPed) == true then
                             if GetDistanceBetweenCoords(pos.x, pos.y, pos.z, lastpos.x, lastpos.y, lastpos.z, true) > 50 then
                                 if willNPCreport("gunshots") then
                                     lastpos = pos
