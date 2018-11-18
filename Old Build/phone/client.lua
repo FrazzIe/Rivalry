@@ -539,7 +539,7 @@ RegisterNUICallback("remove", function(data)
 	if data.type == "contact" then
 		for Index = 1, #Phone.Data.Contacts do
 			if Phone.Data.Contacts[Index].id == data.id then
-				Phone.Data.ContactsNames[Phone.Data.Contacts[Index].phone_number] = nil
+				Phone.Data.ContactNames[Phone.Data.Contacts[Index].phone_number] = nil
 
 				table.remove(Phone.Data.Contacts, Index)
 

@@ -182,7 +182,7 @@ AddEventHandler("Phone.Contact.Remove", function(Id, Contacts)
 	if Phone.Players[Source] then
 		Phone.Players[Source].Contacts = Contacts
 		
-		exports["GHMattiMySQL"]:QueryAsync("DELETE FROM phone_contacts WHERE (id=@id)", {
+		exports["GHMattiMySQL"]:QueryAsync("DELETE FROM phone_contacts WHERE id=@id", {
 			["@id"] = Id,
 		})
 	end
