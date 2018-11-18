@@ -596,7 +596,7 @@ $(document).ready(function(){
             $("#contact_call_" + contact.id).click(function(){
                 $("#contact_call_" + selected_contact_id_call).removeClass("active");
                 $("#contact_call_" + contact.id).addClass("active");
-                $("#input_call_number").val(contact.phone_number)
+                $("#input_call_number").val(contact.contact_number)
             })
         }
     }
