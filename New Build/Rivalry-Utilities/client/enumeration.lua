@@ -1,4 +1,4 @@
-Utilities.Enumerator = {
+Utilities.Data.Enumerator = {
 	__gc = function(enum)
 		if enum.destructor and enum.handle then
 			enum.destructor(enum.handle)
@@ -17,7 +17,7 @@ function Utilities:EnumerateEntities(initFunc, moveFunc, disposeFunc)
 		end
 	
 		local enum = {handle = iter, destructor = disposeFunc}
-		setmetatable(enum, self.Enumerator)
+		setmetatable(enum, self.Data.Enumerator)
 	
 		local next = true
 		repeat
