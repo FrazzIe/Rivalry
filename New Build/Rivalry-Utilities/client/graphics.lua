@@ -447,11 +447,11 @@ function Utilities:GetStringWidthNoConvert(Str, Font, Scale)
     return EndTextCommandGetWidth(true)
 end
 
-function Utiltiies:GetStringWidth(Str, Font, Scale)
+function Utilities:GetStringWidth(Str, Font, Scale)
     return self:GetStringWidthNoConvert(Str, Font, Scale) * 1920
 end
 
-function Utiltiies:RenderSprite(TextureDictionary, TextureName, X, Y, Width, Height, Heading, R, G, B, A)
+function Utilities:RenderSprite(TextureDictionary, TextureName, X, Y, Width, Height, Heading, R, G, B, A)
     local X, Y, Width, Height = (tonumber(X) or 0)/1920, (tonumber(Y) or 0)/1080, (tonumber(Width) or 0)/1920, (tonumber(Height) or 0)/1080
 
     if not HasStreamedTextureDictLoaded(TextureDictionary) then
@@ -461,13 +461,13 @@ function Utiltiies:RenderSprite(TextureDictionary, TextureName, X, Y, Width, Hei
     DrawSprite(TextureDictionary, TextureName, X + Width * 0.5, Y + Height * 0.5, Width, Height, Heading or 0, tonumber(R) or 255, tonumber(G) or 255, tonumber(B) or 255, tonumber(A) or 255)
 end
 
-function Utiltiies:RenderRectangle(X, Y, Width, Height, R, G, B, A)
+function Utilities:RenderRectangle(X, Y, Width, Height, R, G, B, A)
     local X, Y, Width, Height = (tonumber(X) or 0)/1920, (tonumber(Y) or 0)/1080, (tonumber(Width) or 0)/1920, (tonumber(Height) or 0)/1080
 
     DrawRect(X + Width * 0.5, Y + Height * 0.5, Width, Height, tonumber(R) or 255, tonumber(G) or 255, tonumber(B) or 255, tonumber(A) or 255)
 end
 
-function Utiltiies:RenderText(Text, X, Y, Font, Scale, R, G, B, A, Alignment, DropShadow, Outline, WordWrap)
+function Utilities:RenderText(Text, X, Y, Font, Scale, R, G, B, A, Alignment, DropShadow, Outline, WordWrap)
     local Text, X, Y = tostring(Text), (tonumber(X) or 0)/1920, (tonumber(Y) or 0)/1080
 
     SetTextFont(Font or 0)
@@ -509,7 +509,7 @@ function Utiltiies:RenderText(Text, X, Y, Font, Scale, R, G, B, A, Alignment, Dr
     EndTextCommandDisplayText(X, Y)
 end
 
-function Utiltiies:GetLineCount(Text, X, Y, Font, Scale, R, G, B, A, Alignment, DropShadow, Outline, WordWrap)
+function Utilities:GetLineCount(Text, X, Y, Font, Scale, R, G, B, A, Alignment, DropShadow, Outline, WordWrap)
     local Text, X, Y = tostring(Text), (tonumber(X) or 0)/1920, (tonumber(Y) or 0)/1080
 
     SetTextFont(Font or 0)

@@ -56,3 +56,7 @@ function Utilities:GetPlayerIP(Source)
 
     return GetPlayerEndpoint(Source) or nil
 end
+
+exports("Get", function()
+    return Utilities
+end)

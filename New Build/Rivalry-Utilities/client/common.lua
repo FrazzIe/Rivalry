@@ -60,7 +60,7 @@ function Utilities:GetRandomIntegerPercentage()
 end
 
 function Utilities:GetRandomFloatPercentage()
-	return GetRandomFloatInRange(0, 101)
+	return GetRandomFloatInRange(0.0, 101.0)
 end
 
 function Utilities:RenderMarker(MarkerType, Position, Direction, Colour, BobUpAndDown)
@@ -101,7 +101,7 @@ function Utilities:GetHeadingFromCoordinates(Position, Position2)
 end
 
 function Utilities:GetVehicleAttachedToVehicle(AttachedVehicle)
-	for Vehicle in Utilities:EnumerateVehicles() do
+	for Vehicle in self:EnumerateVehicles() do
 		if DoesEntityExist(Vehicle) then
 			if GetEntityAttachedTo(Vehicle) == AttachedVehicle then
 				return Vehicle
@@ -111,3 +111,7 @@ function Utilities:GetVehicleAttachedToVehicle(AttachedVehicle)
 
 	return 0
 end
+
+exports("Get", function()
+	return Utilities
+end)
