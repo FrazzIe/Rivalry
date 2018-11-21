@@ -184,7 +184,7 @@ AddEventHandler("Fish.Sell", function(Ids)
 			for Index = 1, #Ids do
 				if user_inventory[Source][Ids[Index]] then
 					if user_inventory[Source][Ids[Index]].quantity > 0 then
-						Query = "DELETE FROM inventory WHERE (character_id="..character_id..") AND (item_id="..Ids[Index]..");"
+						Query = Query .. "DELETE FROM inventory WHERE (character_id="..character_id..") AND (item_id="..Ids[Index]..");"
 						User.addWallet(Prices[Ids[Index]] * user_inventory[Source][Ids[Index]].quantity)
 						user_inventory[Source][Ids[Index]] = nil
 					end
