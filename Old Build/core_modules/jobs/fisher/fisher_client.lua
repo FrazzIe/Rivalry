@@ -57,8 +57,8 @@ Fishing = {
 			priceTuna = 115,
 			priceYellowtail = 125,
 		},
-		Store = {
-		    {Category = "Freshly Caught Fish", Items = {
+		SellPoint = {
+			{
 		    	[1] = {Name = "Snook", Id = 54, price = 20, Max = 100, sold = 0},
 		        [2] = {Name = "Pompano", Id = 55, price = 30, Max = 100, sold = 0},
 		        [3] = {Name = "Snapper", Id = 56, price = 40, Max = 100, sold = 0},
@@ -70,14 +70,14 @@ Fishing = {
 		        [9] = {Name = "Barracuda", Id = 62, price = 105, Max = 100, sold = 0},
 		        [10] = {Name = "Tuna", Id = 63, price = 115, Max = 100, sold = 0},
 		        [11] = {Name = "Yellowtail", Id = 64, price = 125, Max = 100, sold = 0},
-		    }},
+		    },
 		},
 		Vehicles ={
 			Model = "tug"
 		},
 		fishmarkets = {
-			{x = 3801.9970703125, y = 4475.5908203125, z = 5.9926862716675},
-			{x = -1039.3817138672, y = -1352.6844482422, z = 5.553192615509},
+			vector3(3801.9970703125, 4475.5908203125, 5.9926862716675)
+			vector3(-1039.3817138672, -1352.6844482422, 5.553192615509),
 		},
 	},
 }
@@ -442,21 +442,18 @@ end
 		end
 	end)
 
-	for k,v in pairs(Fishing.Data.Store) do
-		for i,j in pairs(v.Items) do
-			j.Quantity = {}
-			for index = 1, j.Max do j.Quantity[#j.Quantity+1] = tostring(index) end
-		end
-	end
-
 	Citizen.CreateThread(function()
 		while true do
 			Citizen.Wait(0)
-			local pos = GetEntityCoords(PlayerPedId(), false)
-			for k,v in ipairs(Fishing.Data.fishmarkets) do
-				if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 15.0)then
-					DrawMarker(25,v.x, v.y, v.z-1, 0, 0, 0, 0, 0, 0, 2.001, 2.0001, 0.5001, 0, 155, 255, 200, 0, 0, 0, 0)
-					if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 1.0)then
+			local PlayerPed = PlayerPedId()
+			local PlayerPosition = GetEntityCoords(PlayerPed, false)
+
+			for Market = 1, #Fishing.Data.fishmarkets do
+				local Distance = #(Fishing.Data.fishmarkets[Market] - PlayerPosition)
+
+				if Distance < 15.0 then
+					DrawMarker(25, Fishing.Data.fishmarkets[Market], Fishing.Data.fishmarkets[Market], Fishing.Data.fishmarkets[Market] - 1, 0, 0, 0, 0, 0, 0, 2.001, 2.0001, 0.5001, 0, 155, 255, 200, 0, 0, 0, 0)
+					if Distance < 1.0 then
 						if IsControlJustPressed(1, 51) then
 							if not WarMenu.IsMenuOpened("FishSell") then
 								if not WarMenu.DoesMenuExist("FishSell") then
@@ -466,65 +463,41 @@ end
 									WarMenu.SetMenuX("FishSell", 0.6)
 									WarMenu.SetMenuY("FishSell", 0.15)
 									WarMenu.SetTitleBackgroundColor("FishSell", 0, 107, 87)
-									for k,v in pairs(Fishing.Data.Store) do
-										WarMenu.CreateSubMenu(v.Category, "FishSell", v.Category.." SECTION")
-										for i,j in pairs(v.Items) do
-											WarMenu.CreateSubMenu(j.Name, v.Category, j.Name)
-										end
-									end
 									WarMenu.OpenMenu("FishSell")
 								else
-									currentItemIndex = 1
 									WarMenu.OpenMenu("FishSell")
 								end
 							else
 								WarMenu.CloseMenu()
 							end		
 						end
+
 						if WarMenu.IsMenuOpened("FishSell") then
-							for k,v in pairs(Fishing.Data.Store) do
-								WarMenu.MenuButton(v.Category, v.Category)
+							local SellTotal = 0
+							local ItemIds = {}
+
+							for Index = 1, #Fishing.Data.SellPoint do
+								local ItemQuantity = GetItemQuantity(Fishing.Data.SellPoint[Index].Id)
+								if ItemQuantity > 0 then
+									if WarMenu.Button(Fishing.Data.SellPoint[Index].Name.."($"..Fishing.Data.SellPoint[Index].price..")", "$"..(Fishing.Data.SellPoint[Index].price * ItemQuantity))
+									end
+
+									SellTotal = SellTotal + (Fishing.Data.SellPoint[Index].price * ItemQuantity)
+									table.insert(ItemIds, Fishing.Data.SellPoint[Index].Id)
+								end
+
+								if SellTotal > 0 then
+									if WarMenu.Button("Sell", "$"..SellTotal) then
+										Notify("You just sold all your fish for $"..SellTotal)
+										TriggerServerEvent("Fish.Sell", ItemIds)
+										WarMenu.CloseMenu()
+									end
+								end
 							end
-							if WarMenu.Button("Close") then
-								WarMenu.CloseMenu()
-							end
+
 							WarMenu.Display()
 						end
-						for k,v in pairs(Fishing.Data.Store) do
-							if WarMenu.IsMenuOpened(v.Category) then
-								for i,j in pairs(v.Items) do
-									if WarMenu.MenuButton(j.Name, j.Name) then
-										currentItemIndex = 1
-									end
-								end
-								WarMenu.Display()
-							end
-						end
-						for k,v in pairs(Fishing.Data.Store) do
-							for i,j in pairs(v.Items) do
-								if WarMenu.IsMenuOpened(j.Name) then
-									if WarMenu.Button("Sell "..currentItemIndex.." "..j.Name.."(s)", "$"..j.price*currentItemIndex) then
-										if GetItemQuantity(j.Id) > 0 and currentItemIndex <= GetItemQuantity(j.Id) then
-											TriggerEvent('inventory:removeQty', j.Id, currentItemIndex)
-											TriggerServerEvent('sellFish', j.Id, currentItemIndex)
-											j.sold = j.sold + currentItemIndex
-											TriggerServerEvent('fluxiateMarket', j.Id, j.sold, i)
-											Notify("You just sold "..currentItemIndex.. " "..j.Name.." for $"..j.price*currentItemIndex, 7500)
-											Citizen.Wait(2000)
-										else
-											Notify("I can't buy a fish you don't have!", 7000)
-										end
-									end
-									if WarMenu.ComboBox("Quantity", j.Quantity, currentItemIndex, selectedItemIndex, function(currentIndex, selectedIndex)
-										currentItemIndex = currentIndex
-										selectedItemIndex = selectedIndex
-									end) then
-									end
-									WarMenu.Display()
-								end
-							end
-						end
-					elseif(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) > 1.0)then
+					elseif Distance > 1.0 then
 						if WarMenu.IsMenuOpened("FishSell") then
 							WarMenu.CloseMenu()
 						end

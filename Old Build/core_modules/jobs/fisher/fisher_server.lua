@@ -1,3 +1,17 @@
+local Prices = {
+	[54] = 20,
+	[55] = 30,
+	[56] = 40,
+	[57] = 50,
+	[58] = 60,
+	[59] = 75,
+	[60] = 85,
+	[61] = 95,
+	[62] = 105,
+	[63] = 115,
+	[64] = 125,
+}
+
 	RegisterServerEvent('Fisher:Car')
 	AddEventHandler('Fisher:Car', function()
 		TriggerClientEvent('Fisher:getCar',source)
@@ -159,14 +173,29 @@ AddEventHandler('fluxiateMarket', function(id, sold, index)
 	end)
 end)--]]
 
-RegisterServerEvent('sellFish')
-AddEventHandler('sellFish', function(id, quantity)
-	local source = source
-	TriggerEvent("core:getuser", source, function(user)
-		for k, v in ipairs(allFish) do
-			if v == id then
-				user.addWallet(prices[k] * quantity)
+RegisterServerEvent("Fish.Sell")
+AddEventHandler("Fish.Sell", function(Ids)
+	local Source = source
+	local Query = ""
+
+	TriggerEvent("core:getuser", Source, function(User)
+		if user_inventory[Source] then
+			local character_id = user.get("characterID")
+			for Index = 1, #Ids do
+				if user_inventory[Source][Ids[Index]] then
+					if user_inventory[Source][Ids[Index]].quantity > 0 then
+						Query = Query = "DELETE FROM inventory WHERE (character_id="..character_id..") AND (item_id="..Ids[Index]..");"
+						User.addWallet(Prices[Ids[Index]] * user_inventory[Source][Ids[Index]].quantity)
+						user_inventory[Source][Ids[Index]] = nil
+					end
+				end
+			end
+
+			if Query ~= "" then
+				exports["GHMattiMySQL"]:QueryAsync(Query)
+				TriggerClientEvent("inventory:updateitems", Source, user_inventory[source])
+				TriggerClientEvent("inventory:sync", -1, user_inventory)
 			end
 		end
-    end)
+	end)
 end)
