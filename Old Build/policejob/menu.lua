@@ -326,11 +326,7 @@ AddEventHandler("police:fix_vehicle", function()
             TaskPlayAnim(PlayerPedId(), "mini@repair","fixing_a_player", 8.0, 0.0, -1, 1, 0, 0, 0, 0)  
             Citizen.Wait(20000)
             ClearPedTasks(PlayerPedId())
-            if not IsPedWalking(PlayerPedId()) or not IsPedSittingInAnyVehicle(PlayerPedId()) then
-                SetVehicleFixed(NearestVehicle.Handle)
-            else
-                Notify("Nice try! Repair the car correctly next time!")
-            end
+            SetVehicleFixed(NearestVehicle.Handle)
         else
             Notify("Couldn't find a vehicle!", 2500)
         end
