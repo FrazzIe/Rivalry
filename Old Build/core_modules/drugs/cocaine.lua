@@ -199,7 +199,12 @@ Citizen.CreateThread(function()
 				if not isFull() then
 					DisplayHelpText("Press ~INPUT_CONTEXT~ to purchase dirty cocaine for $"..Cocaine.Cost.Dirty.." each!")
 					if IsControlJustPressed(1, 51) then
-						TriggerServerEvent("cocaine:purchase")
+						local Amount = tonumber(KeyboardInput("Enter amount:", 100, 3))
+						if Amount ~= nil and Amount > 0 then
+							TriggerServerEvent("cocaine:purchase", Amount)
+						else
+							Notify("Invalid amount entered!")
+						end
 					end
 				else
 					DisplayHelpText("Your inventory is full!")

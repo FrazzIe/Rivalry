@@ -42,13 +42,17 @@ AddEventHandler("cocaine:clean", function()
 end)
 
 RegisterServerEvent("cocaine:purchase")
-AddEventHandler("cocaine:purchase", function()
+AddEventHandler("cocaine:purchase", function(Amount)
     local source = source
     TriggerEvent("core:getuser", source, function(user)
-        if user.get("wallet") >= Cocaine.Cost.Dirty then
-            Notify("Dirty coke purchased!", 1500, source)
-            user.removeWallet(Cocaine.Cost.Dirty)
-            TriggerEvent("inventory:add_server", source, Cocaine.Items.Dirty, 1)
+        if (getQuantity(source) + Amount) <= user_max then
+            if user.get("wallet") >= (Cocaine.Cost.Dirty * Amount) then
+                Notify("Dirty coke purchased!", 1500, source)
+                user.removeWallet(Cocaine.Cost.Dirty * Amount)
+                TriggerEvent("inventory:add_server", source, Cocaine.Items.Dirty, Amount)
+            end
+        else
+            Notify("You do not have enough space!", 3000, source)
         end
     end)
 end)
