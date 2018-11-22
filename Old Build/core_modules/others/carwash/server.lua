@@ -11,7 +11,7 @@ AddEventHandler("carwash:pay", function(_vehicle)
 			user.removeBank(carwash_cost)
 			TriggerClientEvent("carwash:wash", source, _vehicle)
 		else
-			Notify("Insufficient funds!", source)
+			Notify("Insufficient funds!", 3500, source)
 		end
 	end)
 end)
