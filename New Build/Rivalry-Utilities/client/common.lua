@@ -112,6 +112,116 @@ function Utilities:GetVehicleAttachedToVehicle(AttachedVehicle)
 	return 0
 end
 
+function Utilities:Blip(Data)
+	local Blip = nil
+
+	if not Data.Entity and not Data.Coords and not Data.Pickup then
+		return nil
+	end
+
+	if Data.Entity then
+		Blip = AddBlipForEntity(Data.Entity)
+	elseif Data.Pickup then
+		Blip = AddBlipForPickup(Data.Pickup)
+	else
+		Blip = AddBlipForCoord(Coords.x, Coords.y, Coords.z)
+	end
+
+	if Data.Sprite then
+		SetBlipSprite(Blip, Data.Sprite) --[[ Set the blip sprite ]]--
+	end
+
+	if Data.Colour then
+		SetBlipColour(Blip, Data.Colour) --[[ Set the blip colour]]--
+	end
+
+	if Data.Alpha then
+		SetBlipAlpha(Blip, Data.Alpha) --[[ Set the alpha of the blip colour]]--
+	end
+
+	if Data.Scale then
+		SetBlipScale(Blip, Data.Scale) --[[ Set the blip size ]]--
+	end
+
+	if Data.ShortRange ~= nil then
+		SetBlipAsShortRange(Blip, Data.ShortRange) --[[ True to only display the blip as 'short range', false to display the blip from a longer distance ]]--
+	end
+
+	if Data.Bright ~= nil then
+		SetBlipBright(Blip, Data.Bright) --[[ Makes the blip brighter? maybe]]--
+	end
+
+	if Data.Category then
+		SetBlipCategory(Blip, Data.Category) --[[ 1: No text on blip or distance 2: Text on blip 3: No text, just distance, 4+: No text on blip or distance]]--
+	end
+
+	if Data.Friendly == nil or Data.Friendly == false then
+		if Data.Friend ~= nil then
+			SetBlipFriend(Blip, Data.Friend) --[[ Displays a blue half circle on the right of the blip ]]--
+		end
+
+		if Data.Crew ~= nil then
+			SetBlipCrew(Blip, Data.Crew) --[[ Displays a half circle on the left of the blip ]]--
+		end
+
+		if Data.Crew and Data.Colour2 then
+			SetBlipSecondaryColour(Blip, Colour2[1], Colour2[2], Colour2[3]) --[[ Sets the colour of the crew half circle]]--
+		end
+	else
+		SetBlipFriendly(Blip, true) --[[ Gives the blip a full blue hightlight ]]--
+	end
+
+	if Data.Fade then
+		SetBlipFade(Blip, Data.Fade[1], Data.Fade[2]) --[[ Fades the blip in preset intervals ]]--
+	end
+
+	if Data.Route ~= nil then
+		SetBlipRoute(Blip, Data.Route) --[[ Shows a route from the player to the blip ]]--
+
+		if Data.Route then
+			if Data.RouteColour then
+				SetBlipRouteColour(Blip, Data.RouteColour) --[[ Sets the colour of the route line ]]--
+			end
+		end
+	end
+
+	if Data.Cone ~= nil then
+		SetBlipShowCone(Blip, Data.Cone) --[[ Not sure ]]--
+	end
+
+	if Data.Shrink ~= nil then
+		SetBlipShrink(Blip, Data.Shrink) --[[ Blip shrinks when off the minimap ]]--
+	end
+
+	if Data.Heading ~= nil then
+		ShowHeadingIndicatorOnBlip(Blip, Data.Heading) --[[ Shows an arrow on the blip indicating the header of a player ]]--
+	end
+
+	if Data.Number ~= nil then
+		ShowNumberOnBlip(Blip, Data.Number) --[[ Shows a number on a blip ]]--
+	end
+
+	if Data.Tick ~= nil then
+		ShowTickOnBlip(Blip, Data.Tick) --[[ Displays green tick on blip ]]--
+	end
+
+	if Data.Display then
+		SetBlipDisplay(Blip, Data.Display) --[[ 8: Shows on radar, 3: Shows on main map, not radar (not selectable), 2: Shows on main map, radar, selectable ]]--
+	end
+
+	if Data.Text then
+		BeginTextCommandSetBlipName("STRING")
+		AddTextComponentSubstringPlayerName(Data.Text) --[[ Sets the blip text ]]--
+		EndTextCommandSetBlipName(Blip)
+	elseif Data.Label then
+		SetBlipNameFromTextFile(Blip, Data.Label) --[[ Sets blip text to a LabelText String ]]--
+	elseif Data.Player then
+		SetBlipNameToPlayerName(Blip, Data.Player) --[[ Sets blip text to a players name ]]--
+	end
+
+	return Blip
+end
+
 exports("Get", function()
 	return Utilities
 end)
