@@ -54,6 +54,7 @@ rental_cars = {
     ["dinghy"] = 350,
     ["dinghy2"] = 200,
     ["dinghy3"] = 425,
+    ["dinghy4"] = 300,
     ["jetmax"] = 300,
     ["speeder"] = 370,
     ["speeder2"] = 520,

@@ -37,7 +37,7 @@ keys = {[0] = "ControlNextCamera", [1] = "ControlLookLeftRight", [2] = "ControlL
 
 rental_cars = {
     {title = "Cars", vehicles = {
-        {name = "Punto", price = 80, model = "panto"},
+        {name = "Panto", price = 80, model = "panto"},
         {name = "Alpha", price = 900, model = "alpha"},
         {name = "Banshee", price = 2200, model = "banshee"},
         {name = "Buffalo", price = 200, model = "buffalo"},
