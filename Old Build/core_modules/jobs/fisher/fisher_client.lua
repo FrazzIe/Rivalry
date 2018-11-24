@@ -76,7 +76,7 @@ Fishing = {
 			Model = "tug"
 		},
 		fishmarkets = {
-			vector3(3801.9970703125, 4475.5908203125, 5.9926862716675)
+			vector3(3801.9970703125, 4475.5908203125, 5.9926862716675),
 			vector3(-1039.3817138672, -1352.6844482422, 5.553192615509),
 		},
 	},
@@ -479,7 +479,7 @@ end
 							for Index = 1, #Fishing.Data.SellPoint do
 								local ItemQuantity = GetItemQuantity(Fishing.Data.SellPoint[Index].Id)
 								if ItemQuantity > 0 then
-									if WarMenu.Button(Fishing.Data.SellPoint[Index].Name.."($"..Fishing.Data.SellPoint[Index].price..")", "$"..(Fishing.Data.SellPoint[Index].price * ItemQuantity))
+									if WarMenu.Button(Fishing.Data.SellPoint[Index].Name.."($"..Fishing.Data.SellPoint[Index].price..")", "$"..(Fishing.Data.SellPoint[Index].price * ItemQuantity)) then
 									end
 
 									SellTotal = SellTotal + (Fishing.Data.SellPoint[Index].price * ItemQuantity)
