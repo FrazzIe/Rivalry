@@ -1293,6 +1293,7 @@ PlayerCustomisation.Reference = {
 				{Name = "Neat Bun", Value = 76},
 				{Name = "Short Bob", Value = 77},
 			},
+			Hybrid = {},
 		},
 		Eyebrows = {
 			{Name = "None", Value = 255},
@@ -11162,7 +11163,16 @@ PlayerCustomisation.Reference = {
 					{Collection = "multiplayer_overlays", Decoration = "FM_Tat_F_043", Name = "TAT_FM_244"},
 				},
 			},
-			Hybrid = {},
+			Hybrid = {
+				{},
+				{},
+				{},
+				{},
+				{},
+				{},
+				{},
+				{},
+			},
 		},
 	},
 	Models = {
