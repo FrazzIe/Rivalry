@@ -198,7 +198,7 @@ AddEventHandler("interaction:main", function()
 			end
 		end
 
-		exports.ui:addOption("Life Alert", "phone:lifealert","phone")		
+		exports.ui:addOption("Life Alert", [[TriggerEvent("Phone.Open")]])		
 	else
 		if exports.policejob:getIsCop() then if exports.policejob:getIsInService() then exports.ui:addOption("Police", [[TriggerEvent("police:menu")]]) end end
 		if exports.emsjob:getIsParamedic() then if exports.emsjob:getIsInService() then exports.ui:addOption("Paramedic", [[TriggerEvent("paramedic:menu")]]) end end
@@ -410,9 +410,9 @@ AddEventHandler("interaction:wallet", function()
 	exports.ui:reset()
 	exports.ui:open()
 	if not IsInJail() and not exports.policejob:getIsCuffed() and not isCuffed() then
-		exports.ui:addOption("Phone", "phone:open", "phone")
+		exports.ui:addOption("Phone", [[TriggerEvent("Phone.Open")]])
 	end
-	--[[exports.ui:addOption("Show/View Identity", [[TriggerEvent("interaction:showid")]]--)--]]
+
 	exports.ui:addOption("Licenses", [[TriggerEvent("interaction:licenses")]])
 	exports.ui:addOption("Give money", [[TriggerEvent("interaction:give_money")]])
 	exports.ui:addOption("Give dirty", [[TriggerEvent("interaction:give_dirtymoney")]])

@@ -107,7 +107,7 @@ function Phone:Toggle(Display)
 	if Display then
 		if self.Data.Has then
 			self.Open = true
-		else
+		elseif not Dead then
 			self.Open = false
 		end
 	else
@@ -746,6 +746,16 @@ AddEventHandler("Phone.Set", function(Value)
 	if not Phone.Data.Has and Phone.Open then
 		Phone:Toggle(false)
 	end
+end)
+
+RegisterNetEvent("Phone.Open")
+AddEventHandler("Phone.Open", function()
+	Phone:Toggle(true)
+end)
+
+RegisterNetEvent("Phone.Close")
+AddEventHandler("Phone.Close", function()
+	Phone:Toggle(false)
 end)
 
 function PlayerHasPhone()
