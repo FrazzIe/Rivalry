@@ -1032,14 +1032,14 @@ Utilities.Data.Weapons = {
 	},
 }
 
-for WeaponIndex = 1, #Weapons.List do
-	local Weapon = Weapons.List[WeaponIndex]
-	local WeaponHash = GetHashKey(Weapons.List[WeaponIndex])
+for WeaponIndex = 1, #Utilities.Data.Weapons.List do
+	local Weapon = Utilities.Data.Weapons.List[WeaponIndex]
+	local WeaponHash = GetHashKey(Weapon)
 
-	Weapons.Attachments[Weapon] = {}
+	Utilities.Data.Weapons.Attachments[Weapon] = {}
 
-	for ComponentIndex = 1, #Weapons.Components do
-		local Component = Weapons.Components[ComponentIndex]
+	for ComponentIndex = 1, #Utilities.Data.Weapons.Components do
+		local Component = Utilities.Data.Weapons.Components[ComponentIndex]
 
 		if type(Component[1]) == "table" then
 			local ComponentHashes = {}
@@ -1049,7 +1049,7 @@ for WeaponIndex = 1, #Weapons.List do
 			end
 			
 			if DoesWeaponTakeWeaponComponent(WeaponHash, ComponentHashes[1]) then
-				table.insert(Weapons.Attachments[Weapon], {
+				table.insert(Utilities.Data.Weapons.Attachments[Weapon], {
 					Name = GetLabelText(Component[2]),
 					Model = ComponentHashes,
 				})
@@ -1058,7 +1058,7 @@ for WeaponIndex = 1, #Weapons.List do
 			local ComponentHash = GetHashKey(Component[1])
 
 			if DoesWeaponTakeWeaponComponent(WeaponHash, ComponentHash) then
-				table.insert(Weapons.Attachments[Weapon], {
+				table.insert(Utilities.Data.Weapons.Attachments[Weapon], {
 					Name = GetLabelText(Component[2]),
 					Model = ComponentHash,
 				})

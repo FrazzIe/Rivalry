@@ -10,6 +10,7 @@ client_scripts {
 	"client/destroy.lua",
 	"client/graphics.lua",
 	"client/weapons.lua",
+	"client/decorator.lua",
 	"client/common.lua",
 }
 

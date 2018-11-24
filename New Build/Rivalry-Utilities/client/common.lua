@@ -124,7 +124,7 @@ function Utilities:Blip(Data)
 	elseif Data.Pickup then
 		Blip = AddBlipForPickup(Data.Pickup)
 	else
-		Blip = AddBlipForCoord(Coords.x, Coords.y, Coords.z)
+		Blip = AddBlipForCoord(Data.Coords.x, Data.Coords.y, Data.Coords.z)
 	end
 
 	if Data.Sprite then
@@ -165,7 +165,7 @@ function Utilities:Blip(Data)
 		end
 
 		if Data.Crew and Data.Colour2 then
-			SetBlipSecondaryColour(Blip, Colour2[1], Colour2[2], Colour2[3]) --[[ Sets the colour of the crew half circle]]--
+			SetBlipSecondaryColour(Blip, Data.Colour2[1], Data.Colour2[2], Data.Colour2[3]) --[[ Sets the colour of the crew half circle]]--
 		end
 	else
 		SetBlipFriendly(Blip, true) --[[ Gives the blip a full blue hightlight ]]--
