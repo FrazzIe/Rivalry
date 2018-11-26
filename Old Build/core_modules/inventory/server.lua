@@ -96,6 +96,7 @@ itemlist = {
     [74] = {name = "Silver Earing", item_id = 74, canuse = 0, illegal = false},
     [75] = {name = "Metal Scrap", item_id = 75, canuse = 0, illegal = false},
     [76] = {name = "Fishing Rod", item_id = 76, canuse = 0, illegal = false},
+    [77] = {name = "Cigarette", item_id = 77, canuse = 11, illegal = false},
 }
 
 user_max = 100

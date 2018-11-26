@@ -49,6 +49,9 @@ Store = {
         {Name = "Body Armor", Id=39, Cost = 300, Max = 2},
         {Name = "Handcuffs", Id=44, Cost = 30, Max = 3},
     }},
+    {Category = "Misc", Items = {
+        {Name = "Cigarette", Id=77, Cost = 10, Max = 100},
+    }},
 }
 for k,v in pairs(Store) do
 	for i,j in pairs(v.Items) do

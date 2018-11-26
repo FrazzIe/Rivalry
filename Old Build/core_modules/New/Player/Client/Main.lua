@@ -90,3 +90,66 @@ Citizen.CreateThread(function()
 		end
 	end
 end)
+
+--[[local pressed = false
+
+Citizen.CreateThread(function()
+    while true do
+        Citizen.Wait(0)
+        local timer = 0
+        while IsControlPressed(1, 75) do
+            Citizen.Wait(0)
+            timer = timer + 1
+            if timer > 120 then
+                pressed = true
+                break
+            end
+        end
+        while not IsControlJustReleased(1, 75) do
+            Citizen.Wait(0)
+        end
+        pressed = false
+    end
+end)
+
+Citizen.CreateThread(function()
+	while true do
+		Citizen.Wait(0)
+		if IsPedInAnyVehicle(PlayerPedId(), false) then
+			local vehicle = GetVehiclePedIsIn(PlayerPedId(), false)
+			if not pressed then
+				if IsControlJustPressed(1, 75) then
+					SetVehicleEngineOn(vehicle, true, true, false)
+				end
+			else
+				SetVehicleEngineOn(vehicle, false, false, false)
+			end
+		end
+	end
+end)--]]
+
+Citizen.CreateThread(function()
+	while true do
+		Citizen.Wait(0)
+		if GetItemQuantity(8) > 20 then
+			local chance = math.random(1,100)
+			if chance > 50 then
+				TriggerServerEvent('drugs:sendMessage', "weed")
+				Citizen.Wait(60000)
+			else
+				Citizen.Wait(60000)
+			end
+		end
+	end
+end)
+--[[
+Citizen.CreateThread(function()
+	while true do
+		Citizen.Wait(0)
+		if isInJail() then
+			TriggerServerEvent('sync:jailedPlayers', GetPlayerServerId(PlayerId()))
+			Citizen.Wait(60000)
+			TriggerServerEvent('sync:jailedPlayersClearTable')
+		end
+	end
+end)--]]

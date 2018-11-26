@@ -161,7 +161,7 @@ Citizen.CreateThread(function()
 
             if IsPedSittingInAnyVehicle(PlayerPed) then
                 local vehicle = GetVehiclePedIsIn(PlayerPed, false)
-                if GetPedInVehicleSeat(vehicle, -1) == PlayerPed then
+                if GetPedInVehicleSeat(vehicle, -1) == PlayerPed or GetPedInVehicleSeat(vehicle, 0) == PlayerPed then
                     drawText("~y~"..GetVehicleNumberPlateText(vehicle), 6, 0.889, 0.85, 0.5, 255, 255, 255, 255, false, true)
                     --DrawHUDBar(GetEntityMaxHealth(PlayerPedId())/2, GetEntityHealth(PlayerPedId()), minimap.left_x - 0.0005, minimap.bottom_y - 0.01, 0.070, 0.008335, {}, {}, true, {}, 2)
                     --DrawHUDBar(GetEntityMaxHealth(PlayerPedId())/2, GetPedArmour(PlayerPedId()), minimap.left_x - 0.0005 + 0.070 + 0.0015 - 0.00015, minimap.bottom_y - 0.01, 0.070, 0.008335, {r = 45, g = 183, b = 119}, {r = 47, g = 196, b = 237}, true, {}, 1)

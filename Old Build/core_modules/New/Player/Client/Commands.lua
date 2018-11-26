@@ -160,10 +160,10 @@ AddEventHandler("core:ready", function()
     Chat.Command("gloves", function(source, args, fullCommand)
         if not Gloves then
             Gloves = true
-            GlovesDrawable, GlovesTexture, GlovesPalette = GetPedPropIndex(Player.Ped, 3), GetPedPropTextureIndex(Player.Ped, 3), GetPedPaletteVariation(Player.Ped, 3)
+            GlovesDrawable, GlovesTexture, GlovesPalette = GetPedDrawableVariation(Player.Ped, 3), GetPedTextureVariation(Player.Ped, 3), GetPedPaletteVariation(Player.Ped, 3)
             TaskPlayAnim(GetPlayerPed(-1), Animations.Gloves.Dictionary, Animations.Gloves.Off, 8.0, 8.0, -1, 50, 0, false, false, false)
             Citizen.Wait(1300)
-            SetPedComponentVariation(Player.Ped, 3, 17, 0, GlovesPalette)
+            SetPedComponentVariation(Player.Ped, 3, 0, 0, GlovesPalette)
             ClearPedTasks(Player.Ped)
         else
             Gloves = false

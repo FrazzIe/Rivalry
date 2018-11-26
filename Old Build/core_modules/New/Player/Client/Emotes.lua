@@ -815,13 +815,13 @@ Emote.Add("drink", "Drink", "Misc", {}, {}, {"WORLD_HUMAN_DRINKING"}, {}, functi
 	TaskStartScenarioInPlace(PlayerPedId(), self.Scenarios[1], 0, false)
 end)
 
-Emote.Add("smoke", "Smoke", "Misc", {}, {}, {"WORLD_HUMAN_SMOKING"}, {}, function(self)
+--[[Emote.Add("smoke", "Smoke", "Misc", {}, {}, {"WORLD_HUMAN_SMOKING"}, {}, function(self)
 	TaskStartScenarioInPlace(PlayerPedId(), self.Scenarios[1], 0, false)
 end)
 
 Emote.Add("smoke2", "Smoke Pot", "Misc", {}, {}, {"WORLD_HUMAN_SMOKING_POT"}, {}, function(self)
 	TaskStartScenarioInPlace(PlayerPedId(), self.Scenarios[1], 0, false)
-end)
+end)--]]
 
 Emote.Add("film", "Film With Phone", "Misc", {}, {}, {"WORLD_HUMAN_MOBILE_FILM_SHOCKING"}, {}, function(self)
 	TaskStartScenarioInPlace(PlayerPedId(), self.Scenarios[1], 0, false)

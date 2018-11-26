@@ -685,7 +685,9 @@ AddEventHandler("inventory:use",function(data)
                 Messages(6)
             end
         elseif data.canuse == 10 then --Joint
-            TaskStartScenarioInPlace(PlayerPedId(), "WORLD_HUMAN_DRUG_DEALER", 0, false)
+            TaskStartScenarioInPlace(PlayerPedId(), "WORLD_HUMAN_SMOKING_POT", 0, true)
+        elseif data.canuse == 11 then --Cigarette
+            TaskStartScenarioInPlace(PlayerPedId(), "WORLD_HUMAN_SMOKING", 0, true)
         end
         removeQty(data.item_id,1)
     else

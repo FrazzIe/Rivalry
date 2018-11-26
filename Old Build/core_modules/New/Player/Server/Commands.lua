@@ -29,3 +29,37 @@ Chat.Command("showid", function(source, args, fullCommand)
         end
     end)
 end, false, {Help = "Share your Identification", Params = {}})
+
+local jailed = {}
+
+RegisterServerEvent('drugs:sendMessage')
+AddEventHandler('drugs:sendMessage', function(type)
+    local source = source
+    if type == "weed" then
+        TriggerClientEvent("prox_chatMessageWeed", -1, source, "","**^*You smell a strong scent of Marijuana**")
+    end
+--[[    if type == "cocaine" then
+        TriggerClientEvent("prox_chatMessage", -1, source, GetIdentity(source)," has a strong stench of cocaine coming off there clothing.")
+    end--]]
+end)
+
+RegisterServerEvent('sync:jailedPlayers')
+AddEventHandler('sync:jailedPlayers', function(id)
+    local source = source
+    table.insert(jailed, id)
+end)
+
+RegisterServerEvent('sync:jailedPlayersClearTable')
+AddEventHandler('sync:jailedPlayersClearTable', function()
+    local source = source
+    jailed = {}
+end)
+
+--[[Chat.Command("whojail", function(source, args, fullCommand)
+    local source = source
+    Chat.Message(source, "CURRENTLY JAILED", "", 255, 0, 0, true)
+    for k, v in pairs(jailed) do
+        Chat.Message(source, "", "- "..GetIdentity(v), 255, 255, 255, true)
+    end
+    
+end, false, {Help = "Lists all people who are currently incarcerated", Params = {}})--]]

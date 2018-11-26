@@ -20,6 +20,15 @@ AddEventHandler('prox_chatMessage', function(id, name, message)
 	end
 end)
 
+RegisterNetEvent('prox_chatMessageWeed')
+AddEventHandler('prox_chatMessageWeed', function(id, name, message)
+    if PlayerId() == GetPlayerFromServerId(id) then
+        TriggerEvent('chatMessage', "^0", {255, 0, 0}, "^4 **You let off a strong scent of Marijuana**" )
+    elseif GetDistanceBetweenCoords(GetEntityCoords(GetPlayerPed(PlayerId())), GetEntityCoords(GetPlayerPed(GetPlayerFromServerId(id))), true) < 12.50 then
+        TriggerEvent('chatMessage', "^0", {255, 0, 0}, "^4"..message )
+    end
+end)
+
 RegisterNetEvent('prox_chatMessageLOOC')
 AddEventHandler('prox_chatMessageLOOC', function(id, name, message)
     if PlayerId() == GetPlayerFromServerId(id) then
