@@ -452,7 +452,7 @@ end
 				local Distance = #(Fishing.Data.fishmarkets[Market] - PlayerPosition)
 
 				if Distance < 15.0 then
-					DrawMarker(25, Fishing.Data.fishmarkets[Market], Fishing.Data.fishmarkets[Market], Fishing.Data.fishmarkets[Market] - 1, 0, 0, 0, 0, 0, 0, 2.001, 2.0001, 0.5001, 0, 155, 255, 200, 0, 0, 0, 0)
+					drawMarker(25, Fishing.Data.fishmarkets[Market], Fishing.Data.fishmarkets[Market], Fishing.Data.fishmarkets[Market] - 1, 2.001, 2.0001, 0.5001, 0, 155, 255, 200)
 					if Distance < 1.0 then
 						if IsControlJustPressed(1, 51) then
 							if not WarMenu.IsMenuOpened("FishSell") then
