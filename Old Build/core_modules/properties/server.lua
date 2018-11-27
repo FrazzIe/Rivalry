@@ -12,6 +12,23 @@ local time_to_pay_rent = 2 --Hours
 local required_cops = 2
 local properties_identifier, properties_char_id = {}, {}
 local properties_ready = false
+
+function str_to_bool(value)
+	if value == "true" then
+		return true
+	else
+		return false
+	end
+end
+
+function bool_to_str(value)
+	if value then
+		return "true"
+	else
+		return "false"
+	end
+end
+
 AddEventHandler("onServerResourceStart", function(resource)
 	if resource == GetCurrentResourceName() then
 		local houses_normal = exports["GHMattiMySQL"]:QueryResult("SELECT * FROM properties_houses_normal")
@@ -24,14 +41,14 @@ AddEventHandler("onServerResourceStart", function(resource)
 						properties["houses"]["normal"][v.id]["storage"]["current"]["cash"] = v.cash
 						properties["houses"]["normal"][v.id]["storage"]["current"]["dirty"] = v.dirty
 						properties["houses"]["normal"][v.id]["expire"] = tonumber(v["expire"])
-						properties["houses"]["normal"][v.id]["locked"] = tobool(v["locked"])
+						properties["houses"]["normal"][v.id]["locked"] = str_to_bool(v["locked"])
 					else
 						properties["houses"]["normal"][v.id]["owner"]["identifier"] = v.identifier
 						properties["houses"]["normal"][v.id]["owner"]["char_id"] = tonumber(v.character_id) or 0
 						properties["houses"]["normal"][v.id]["storage"]["current"]["cash"] = v.cash
 						properties["houses"]["normal"][v.id]["storage"]["current"]["dirty"] = v.dirty
 						properties["houses"]["normal"][v.id]["expire"] = tonumber(v["expire"])
-						properties["houses"]["normal"][v.id]["locked"] = tobool(v["locked"])
+						properties["houses"]["normal"][v.id]["locked"] = str_to_bool(v["locked"])
 
 						if properties_owned["houses"][v.identifier] then
 							if properties_owned["houses"][v.identifier][tostring(v.character_id)] then
@@ -57,16 +74,16 @@ AddEventHandler("onServerResourceStart", function(resource)
 						properties["houses"]["enterable"][v.id]["storage"]["current"]["cash"] = v.cash
 						properties["houses"]["enterable"][v.id]["storage"]["current"]["dirty"] = v.dirty
 						properties["houses"]["enterable"][v.id]["expire"] = tonumber(v["expire"])
-						properties["houses"]["enterable"][v.id]["locked"] = tobool(v["locked"])
-						properties["houses"]["enterable"][v.id]["storage"]["locked"] = tobool(v.vault_locked)
+						properties["houses"]["enterable"][v.id]["locked"] = str_to_bool(v["locked"])
+						properties["houses"]["enterable"][v.id]["storage"]["locked"] = str_to_bool(v.vault_locked)
 					else
 						properties["houses"]["enterable"][v.id]["owner"]["identifier"] = v.identifier
 						properties["houses"]["enterable"][v.id]["owner"]["char_id"] = tonumber(v.character_id) or 0
 						properties["houses"]["enterable"][v.id]["storage"]["current"]["cash"] = v.cash
 						properties["houses"]["enterable"][v.id]["storage"]["current"]["dirty"] = v.dirty
 						properties["houses"]["enterable"][v.id]["expire"] = tonumber(v["expire"])
-						properties["houses"]["enterable"][v.id]["locked"] = tobool(v["locked"])
-						properties["houses"]["enterable"][v.id]["storage"]["locked"] = tobool(v.vault_locked)
+						properties["houses"]["enterable"][v.id]["locked"] = str_to_bool(v["locked"])
+						properties["houses"]["enterable"][v.id]["storage"]["locked"] = str_to_bool(v.vault_locked)
 
 						if properties_owned["houses"][v.identifier] then
 							if properties_owned["houses"][v.identifier][tostring(v.character_id)] then
@@ -92,14 +109,14 @@ AddEventHandler("onServerResourceStart", function(resource)
 						properties["businesses"]["normal"][v.id]["storage"]["current"]["cash"] = v.cash
 						properties["businesses"]["normal"][v.id]["storage"]["current"]["dirty"] = v.dirty
 						properties["businesses"]["normal"][v.id]["expire"] = tonumber(v["expire"])
-						properties["businesses"]["normal"][v.id]["locked"] = tobool(v["locked"])
+						properties["businesses"]["normal"][v.id]["locked"] = str_to_bool(v["locked"])
 					else
 						properties["businesses"]["normal"][v.id]["owner"]["identifier"] = v.identifier
 						properties["businesses"]["normal"][v.id]["owner"]["char_id"] = tonumber(v.character_id) or 0
 						properties["businesses"]["normal"][v.id]["storage"]["current"]["cash"] = v.cash
 						properties["businesses"]["normal"][v.id]["storage"]["current"]["dirty"] = v.dirty
 						properties["businesses"]["normal"][v.id]["expire"] = tonumber(v["expire"])
-						properties["businesses"]["normal"][v.id]["locked"] = tobool(v["locked"])
+						properties["businesses"]["normal"][v.id]["locked"] = str_to_bool(v["locked"])
 
 						if properties_owned["businesses"][v.identifier] then
 							if properties_owned["businesses"][v.identifier][tostring(v.character_id)] then
@@ -126,16 +143,16 @@ AddEventHandler("onServerResourceStart", function(resource)
 						properties["businesses"]["enterable"][v.id]["storage"]["current"]["cash"] = v.cash
 						properties["businesses"]["enterable"][v.id]["storage"]["current"]["dirty"] = v.dirty
 						properties["businesses"]["enterable"][v.id]["expire"] = tonumber(v["expire"])
-						properties["businesses"]["enterable"][v.id]["locked"] = tobool(v["locked"])
-						properties["businesses"]["enterable"][v.id]["storage"]["locked"] = tobool(v.vault_locked)
+						properties["businesses"]["enterable"][v.id]["locked"] = str_to_bool(v["locked"])
+						properties["businesses"]["enterable"][v.id]["storage"]["locked"] = str_to_bool(v.vault_locked)
 					else
 						properties["businesses"]["enterable"][v.id]["owner"]["identifier"] = v.identifier
 						properties["businesses"]["enterable"][v.id]["owner"]["char_id"] = tonumber(v.character_id) or 0
 						properties["businesses"]["enterable"][v.id]["storage"]["current"]["cash"] = v.cash
 						properties["businesses"]["enterable"][v.id]["storage"]["current"]["dirty"] = v.dirty
 						properties["businesses"]["enterable"][v.id]["expire"] = tonumber(v["expire"])
-						properties["businesses"]["enterable"][v.id]["locked"] = tobool(v["locked"])
-						properties["businesses"]["enterable"][v.id]["storage"]["locked"] = tobool(v.vault_locked)
+						properties["businesses"]["enterable"][v.id]["locked"] = str_to_bool(v["locked"])
+						properties["businesses"]["enterable"][v.id]["storage"]["locked"] = str_to_bool(v.vault_locked)
 
 						if properties_owned["businesses"][v.identifier] then
 							if properties_owned["businesses"][v.identifier][tostring(v.character_id)] then
@@ -221,7 +238,7 @@ Citizen.CreateThread(function()
 									properties["businesses"]["normal"][businesses_normal[Index].id]["storage"]["current"]["cash"] = businesses_normal[Index].cash
 									properties["businesses"]["normal"][businesses_normal[Index].id]["storage"]["current"]["dirty"] = businesses_normal[Index].dirty
 									properties["businesses"]["normal"][businesses_normal[Index].id]["expire"] = tonumber(businesses_normal[Index]["expire"])
-									properties["businesses"]["normal"][businesses_normal[Index].id]["locked"] = tobool(businesses_normal[Index]["locked"])
+									properties["businesses"]["normal"][businesses_normal[Index].id]["locked"] = str_to_bool(businesses_normal[Index]["locked"])
 
 									if properties_owned["businesses"][businesses_normal[Index].identifier] then
 										if properties_owned["businesses"][businesses_normal[Index].identifier][tostring(businesses_normal[Index].character_id)] then
@@ -234,7 +251,7 @@ Citizen.CreateThread(function()
 									properties["businesses"]["normal"][businesses_normal[Index].id]["storage"]["current"]["cash"] = businesses_normal[Index].cash
 									properties["businesses"]["normal"][businesses_normal[Index].id]["storage"]["current"]["dirty"] = businesses_normal[Index].dirty
 									properties["businesses"]["normal"][businesses_normal[Index].id]["expire"] = tonumber(businesses_normal[Index]["expire"])
-									properties["businesses"]["normal"][businesses_normal[Index].id]["locked"] = tobool(businesses_normal[Index]["locked"])
+									properties["businesses"]["normal"][businesses_normal[Index].id]["locked"] = str_to_bool(businesses_normal[Index]["locked"])
 								end
 								
 								if properties["businesses"]["normal"][businesses_normal[Index].id]["owner"]["identifier"] ~= "no" then
@@ -280,8 +297,8 @@ Citizen.CreateThread(function()
 									properties["businesses"]["enterable"][businesses_enterable[Index].id]["storage"]["current"]["cash"] = businesses_enterable[Index].cash
 									properties["businesses"]["enterable"][businesses_enterable[Index].id]["storage"]["current"]["dirty"] = businesses_enterable[Index].dirty
 									properties["businesses"]["enterable"][businesses_enterable[Index].id]["expire"] = tonumber(businesses_enterable[Index]["expire"])
-									properties["businesses"]["enterable"][businesses_enterable[Index].id]["locked"] = tobool(businesses_enterable[Index]["locked"])
-									properties["businesses"]["enterable"][businesses_enterable[Index].id]["storage"]["locked"] = tobool(businesses_enterable[Index].vault_locked)
+									properties["businesses"]["enterable"][businesses_enterable[Index].id]["locked"] = str_to_bool(businesses_enterable[Index]["locked"])
+									properties["businesses"]["enterable"][businesses_enterable[Index].id]["storage"]["locked"] = str_to_bool(businesses_enterable[Index].vault_locked)
 
 									if properties_owned["businesses"][businesses_enterable[Index].identifier] then
 										if properties_owned["businesses"][businesses_enterable[Index].identifier][tostring(businesses_enterable[Index].character_id)] then
@@ -294,8 +311,8 @@ Citizen.CreateThread(function()
 									properties["businesses"]["enterable"][businesses_enterable[Index].id]["storage"]["current"]["cash"] = businesses_enterable[Index].cash
 									properties["businesses"]["enterable"][businesses_enterable[Index].id]["storage"]["current"]["dirty"] = businesses_enterable[Index].dirty
 									properties["businesses"]["enterable"][businesses_enterable[Index].id]["expire"] = tonumber(businesses_enterable[Index]["expire"])
-									properties["businesses"]["enterable"][businesses_enterable[Index].id]["locked"] = tobool(businesses_enterable[Index]["locked"])
-									properties["businesses"]["enterable"][businesses_enterable[Index].id]["storage"]["locked"] = tobool(businesses_enterable[Index].vault_locked)
+									properties["businesses"]["enterable"][businesses_enterable[Index].id]["locked"] = str_to_bool(businesses_enterable[Index]["locked"])
+									properties["businesses"]["enterable"][businesses_enterable[Index].id]["storage"]["locked"] = str_to_bool(businesses_enterable[Index].vault_locked)
 								end
 								if properties["businesses"]["enterable"][businesses_enterable[Index].id]["owner"]["identifier"] ~= "no" then
 									local amount_lost = 0
@@ -347,12 +364,12 @@ AddEventHandler("properties:deposit", function(property_type, property_variant, 
 					properties[property_type][property_variant][property_id]["storage"]["current"]["weapons"] = exports["GHMattiMySQL"]:QueryResult("SELECT * FROM properties_"..property_type.."_"..property_variant.."_weapons WHERE property_id=@property_id", { ["@property_id"] = property_id})
 					properties[property_type][property_variant][property_id]["owner"]["identifier"] = result[1].identifier
 					properties[property_type][property_variant][property_id]["owner"]["char_id"] = tonumber(result[1].character_id) or 0
-					properties[property_type][property_variant][property_id]["locked"] = tobool(result[1]["locked"])
+					properties[property_type][property_variant][property_id]["locked"] = str_to_bool(result[1]["locked"])
 					properties[property_type][property_variant][property_id]["expire"] = tonumber(result[1]["expire"])
 					properties[property_type][property_variant][property_id]["storage"]["current"]["cash"] = tonumber(result[1].cash)
 					properties[property_type][property_variant][property_id]["storage"]["current"]["dirty"] = tonumber(result[1].dirty)
 					if property_variant == "enterable" then
-						properties[property_type][property_variant][property_id]["storage"]["locked"] = tobool(result[1].vault_locked)
+						properties[property_type][property_variant][property_id]["storage"]["locked"] = str_to_bool(result[1].vault_locked)
 					end
 					if properties[property_type][property_variant][property_id]["owner"]["identifier"] == properties_identifier[source] and properties_char_id[source] == properties[property_type][property_variant][property_id]["owner"]["char_id"] then
 						properties[property_type][property_variant][property_id]["owner"]["id"] = source
@@ -479,12 +496,12 @@ AddEventHandler("properties:withdraw", function(property_type, property_variant,
 					properties[property_type][property_variant][property_id]["storage"]["current"]["weapons"] = exports["GHMattiMySQL"]:QueryResult("SELECT * FROM properties_"..property_type.."_"..property_variant.."_weapons WHERE property_id=@property_id", { ["@property_id"] = property_id})
 					properties[property_type][property_variant][property_id]["owner"]["identifier"] = result[1].identifier
 					properties[property_type][property_variant][property_id]["owner"]["character_id"] = tonumber(result[1].character_id)
-					properties[property_type][property_variant][property_id]["locked"] = tobool(result[1]["locked"])
+					properties[property_type][property_variant][property_id]["locked"] = str_to_bool(result[1]["locked"])
 					properties[property_type][property_variant][property_id]["expire"] = tonumber(result[1]["expire"])
 					properties[property_type][property_variant][property_id]["storage"]["current"]["cash"] = tonumber(result[1].cash)
 					properties[property_type][property_variant][property_id]["storage"]["current"]["dirty"] = tonumber(result[1].dirty)
 					if property_variant == "enterable" then
-						properties[property_type][property_variant][property_id]["storage"]["locked"] = tobool(result[1].vault_locked)
+						properties[property_type][property_variant][property_id]["storage"]["locked"] = str_to_bool(result[1].vault_locked)
 					end
 					if properties[property_type][property_variant][property_id]["owner"]["identifier"] == properties_identifier[source] and properties_char_id[source] == properties[property_type][property_variant][property_id]["owner"]["char_id"] then
 						properties[property_type][property_variant][property_id]["owner"]["id"] = source
@@ -596,12 +613,12 @@ AddEventHandler("properties:rent", function(property_type, property_variant, pro
 					properties[property_type][property_variant][property_id]["storage"]["current"]["weapons"] = exports["GHMattiMySQL"]:QueryResult("SELECT * FROM properties_"..property_type.."_"..property_variant.."_weapons WHERE property_id=@property_id", { ["@property_id"] = property_id})
 					properties[property_type][property_variant][property_id]["owner"]["identifier"] = result[1].identifier
 					properties[property_type][property_variant][property_id]["owner"]["char_id"] = tonumber(result[1].character_id)
-					properties[property_type][property_variant][property_id]["locked"] = tobool(result[1]["locked"])
+					properties[property_type][property_variant][property_id]["locked"] = str_to_bool(result[1]["locked"])
 					properties[property_type][property_variant][property_id]["expire"] = tonumber(result[1]["expire"])
 					properties[property_type][property_variant][property_id]["storage"]["current"]["cash"] = tonumber(result[1].cash)
 					properties[property_type][property_variant][property_id]["storage"]["current"]["dirty"] = tonumber(result[1].dirty)
 					if property_variant == "enterable" then
-						properties[property_type][property_variant][property_id]["storage"]["locked"] = tobool(result[1].vault_locked)
+						properties[property_type][property_variant][property_id]["storage"]["locked"] = str_to_bool(result[1].vault_locked)
 					end
 					if properties[property_type][property_variant][property_id]["owner"]["identifier"] == properties_identifier[source] and properties_char_id[source] == properties[property_type][property_variant][property_id]["owner"]["char_id"] then
 						properties[property_type][property_variant][property_id]["owner"]["id"] = source
@@ -701,11 +718,11 @@ AddEventHandler("properties:lock", function(property_type, property_variant, pro
 			if properties[property_type][property_variant][property_id] then
 				if lock_type == "door" then
 					properties[property_type][property_variant][property_id]["locked"] = lock_value
-					exports["GHMattiMySQL"]:QueryAsync("UPDATE properties_"..property_type.."_"..property_variant.." SET `locked`=@locked WHERE `id` = @property_id", {["@locked"] = tostring(lock_value), ["@property_id"] = property_id})
+					exports["GHMattiMySQL"]:QueryAsync("UPDATE properties_"..property_type.."_"..property_variant.." SET `locked`=@locked WHERE `id` = @property_id", {["@locked"] = bool_to_str(lock_value), ["@property_id"] = property_id})
 					TriggerClientEvent("properties:sync", -1, properties)
 				elseif lock_type == "vault" then
 					properties[property_type][property_variant][property_id]["storage"]["locked"] = lock_value
-					exports["GHMattiMySQL"]:QueryAsync("UPDATE properties_"..property_type.."_"..property_variant.." SET `vault_locked`=@locked WHERE `id` = @property_id", {["@locked"] = tostring(lock_value), ["@property_id"] = property_id})
+					exports["GHMattiMySQL"]:QueryAsync("UPDATE properties_"..property_type.."_"..property_variant.." SET `vault_locked`=@locked WHERE `id` = @property_id", {["@locked"] = bool_to_str(lock_value), ["@property_id"] = property_id})
 					TriggerClientEvent("properties:sync", -1, properties)
 				end
 			end
@@ -806,12 +823,12 @@ AddEventHandler("properties:fetch", function(property_type, property_variant, pr
 					properties[property_type][property_variant][property_id]["storage"]["current"]["weapons"] = exports["GHMattiMySQL"]:QueryResult("SELECT * FROM properties_"..property_type.."_"..property_variant.."_weapons WHERE property_id=@property_id", { ["@property_id"] = property_id})
 					properties[property_type][property_variant][property_id]["owner"]["identifier"] = result[1].identifier
 					properties[property_type][property_variant][property_id]["owner"]["char_id"] = tonumber(result[1].character_id)
-					properties[property_type][property_variant][property_id]["locked"] = tobool(result[1]["locked"])
+					properties[property_type][property_variant][property_id]["locked"] = str_to_bool(result[1]["locked"])
 					properties[property_type][property_variant][property_id]["expire"] = tonumber(result[1]["expire"])
 					properties[property_type][property_variant][property_id]["storage"]["current"]["cash"] = tonumber(result[1].cash)
 					properties[property_type][property_variant][property_id]["storage"]["current"]["dirty"] = tonumber(result[1].dirty)
 					if property_variant == "enterable" then
-						properties[property_type][property_variant][property_id]["storage"]["locked"] = tobool(result[1].vault_locked)
+						properties[property_type][property_variant][property_id]["storage"]["locked"] = str_to_bool(result[1].vault_locked)
 					end
 					if properties[property_type][property_variant][property_id]["owner"]["identifier"] == properties_identifier[source] and properties_char_id[source] == properties[property_type][property_variant][property_id]["owner"]["char_id"] then
 						properties[property_type][property_variant][property_id]["owner"]["id"] = source

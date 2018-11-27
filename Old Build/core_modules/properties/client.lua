@@ -130,11 +130,11 @@ Citizen.CreateThread(function()
 									end
 									if v.locked then
 										if WarMenu.Button("Unlock") then
-											TriggerServerEvent("properties:lock", "houses", "normal", k, "door", not(v.locked))
+											TriggerServerEvent("properties:lock", "houses", "normal", k, "door", false)
 										end
 									else
 										if WarMenu.Button("Lock") then
-											TriggerServerEvent("properties:lock", "houses", "normal", k, "door", not(v.locked))
+											TriggerServerEvent("properties:lock", "houses", "normal", k, "door", true)
 										end
 									end
 									WarMenu.MenuButton("Enter", "properties_menu_vault")
@@ -463,11 +463,11 @@ Citizen.CreateThread(function()
 									end
 									if v.locked then
 										if WarMenu.Button("Unlock") then
-											TriggerServerEvent("properties:lock", "houses", "enterable", k, "door", not(v.locked))
+											TriggerServerEvent("properties:lock", "houses", "enterable", k, "door", false)
 										end
 									else
 										if WarMenu.Button("Lock") then
-											TriggerServerEvent("properties:lock", "houses", "enterable", k, "door", not(v.locked))
+											TriggerServerEvent("properties:lock", "houses", "enterable", k, "door", true)
 										end
 									end
 									if WarMenu.Button("Enter") then
@@ -607,11 +607,11 @@ Citizen.CreateThread(function()
 							elseif v.owner.id == GetPlayerServerId(PlayerId()) then --If the person owns it
 								if v.locked then
 									if WarMenu.Button("Unlock") then
-										TriggerServerEvent("properties:lock", "houses", "enterable", k, "door", not(v.locked))
+										TriggerServerEvent("properties:lock", "houses", "enterable", k, "door", false)
 									end
 								else
 									if WarMenu.Button("Lock") then
-										TriggerServerEvent("properties:lock", "houses", "enterable", k, "door", not(v.locked))
+										TriggerServerEvent("properties:lock", "houses", "enterable", k, "door", true)
 									end
 								end
 								if WarMenu.Button("Exit") then
@@ -661,11 +661,11 @@ Citizen.CreateThread(function()
 								elseif v.owner.id == GetPlayerServerId(PlayerId()) then --If the person owns it
 									if v.storage.locked then
 										if WarMenu.Button("Unlock") then
-											TriggerServerEvent("properties:lock", "houses", "enterable", k, "vault", not(v.storage.locked))
+											TriggerServerEvent("properties:lock", "houses", "enterable", k, "vault", false)
 										end
 									else
 										if WarMenu.Button("Lock") then
-											TriggerServerEvent("properties:lock", "houses", "enterable", k, "vault", not(v.storage.locked))
+											TriggerServerEvent("properties:lock", "houses", "enterable", k, "vault", true)
 										end
 									end
 									if WarMenu.ComboBox("Cash ["..v.storage.current.cash.."/"..v.storage.max.cash.."]", {"Deposit", "Withdraw"}, currentMoneyIndex, selectedMoneyIndex, function(currentIndex, selectedIndex)
@@ -888,11 +888,11 @@ Citizen.CreateThread(function()
 									end
 									if v.locked then
 										if WarMenu.Button("Unlock") then
-											TriggerServerEvent("properties:lock", "businesses", "normal", k, "door", not(v.locked))
+											TriggerServerEvent("properties:lock", "businesses", "normal", k, "door", false)
 										end
 									else
 										if WarMenu.Button("Lock") then
-											TriggerServerEvent("properties:lock", "businesses", "normal", k, "door", not(v.locked))
+											TriggerServerEvent("properties:lock", "businesses", "normal", k, "door", true
 										end
 									end
 									WarMenu.MenuButton("Enter", "properties_menu_vault")
@@ -1217,11 +1217,11 @@ Citizen.CreateThread(function()
 									end
 									if v.locked then
 										if WarMenu.Button("Unlock") then
-											TriggerServerEvent("properties:lock", "businesses", "enterable", k, "door", not(v.locked))
+											TriggerServerEvent("properties:lock", "businesses", "enterable", k, "door", false)
 										end
 									else
 										if WarMenu.Button("Lock") then
-											TriggerServerEvent("properties:lock", "businesses", "enterable", k, "door", not(v.locked))
+											TriggerServerEvent("properties:lock", "businesses", "enterable", k, "door", true)
 										end
 									end
 									if WarMenu.Button("Enter") then
@@ -1360,11 +1360,11 @@ Citizen.CreateThread(function()
 							elseif v.owner.id == GetPlayerServerId(PlayerId()) then --If the person owns it
 								if v.locked then
 									if WarMenu.Button("Unlock") then
-										TriggerServerEvent("properties:lock", "businesses", "enterable", k, "door", not(v.locked))
+										TriggerServerEvent("properties:lock", "businesses", "enterable", k, "door", false)
 									end
 								else
 									if WarMenu.Button("Lock") then
-										TriggerServerEvent("properties:lock", "businesses", "enterable", k, "door", not(v.locked))
+										TriggerServerEvent("properties:lock", "businesses", "enterable", k, "door", true)
 									end
 								end
 								if WarMenu.Button("Exit") then
@@ -1413,11 +1413,11 @@ Citizen.CreateThread(function()
 								elseif v.owner.id == GetPlayerServerId(PlayerId()) then --If the person owns it
 									if v.storage.locked then
 										if WarMenu.Button("Unlock") then
-											TriggerServerEvent("properties:lock", "businesses", "enterable", k, "vault", not(v.storage.locked))
+											TriggerServerEvent("properties:lock", "businesses", "enterable", k, "vault", false)
 										end
 									else
 										if WarMenu.Button("Lock") then
-											TriggerServerEvent("properties:lock", "businesses", "enterable", k, "vault", not(v.storage.locked))
+											TriggerServerEvent("properties:lock", "businesses", "enterable", k, "vault", true)
 										end
 									end
 									if WarMenu.ComboBox("Cash ["..v.storage.current.cash.."/"..v.storage.max.cash.."]", {"Deposit", "Withdraw"}, currentMoneyIndex, selectedMoneyIndex, function(currentIndex, selectedIndex)
