@@ -892,7 +892,7 @@ Citizen.CreateThread(function()
 										end
 									else
 										if WarMenu.Button("Lock") then
-											TriggerServerEvent("properties:lock", "businesses", "normal", k, "door", true
+											TriggerServerEvent("properties:lock", "businesses", "normal", k, "door", true)
 										end
 									end
 									WarMenu.MenuButton("Enter", "properties_menu_vault")
