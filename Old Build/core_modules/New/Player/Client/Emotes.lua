@@ -744,9 +744,9 @@ Emote.Add("atm", "ATM", "Misc", {}, {}, {"PROP_HUMAN_ATM"}, {}, function(self)
 	TaskStartScenarioInPlace(PlayerPedId(), self.Scenarios[1], 0, false)
 end)
 
-Emote.Add("binoculars", "Binoculars", "Misc", {}, {}, {"WORLD_HUMAN_BINOCULARS"}, {}, function(self)
+--[[Emote.Add("binoculars", "Binoculars", "Misc", {}, {}, {"WORLD_HUMAN_BINOCULARS"}, {}, function(self)
 	TaskStartScenarioInPlace(PlayerPedId(), self.Scenarios[1], 0, false)
-end)
+end)--]]
 
 Emote.Add("typing", "Typing", "Misc", {"anim@amb@warehouse@laptop@"}, {"idle_a"}, {}, {}, function(self)
 	TaskPlayAnim(PlayerPedId(), self.Dictionaries[1] , self.Animations[1] , 4.0, -4, -1, 1, 0, false, false, false)

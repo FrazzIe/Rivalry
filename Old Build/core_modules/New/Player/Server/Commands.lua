@@ -14,6 +14,10 @@ Chat.Command({"pn", "phonenumber", "number"}, function(source, args, fullCommand
     end)
 end, false, {Help = "Share your phone number", Params = {}})
 
+Chat.Command({"bino", "binoculars"}, function(source, args, fullCommand)
+    TriggerClientEvent('toggle:binoculars', source)
+end, false, {Help = "Toggle's Binoculars", Params = {}})
+
 Chat.Command("showid", function(source, args, fullCommand)
     local license = ""
     TriggerEvent("core:getuser", source, function(user)
