@@ -1,5 +1,5 @@
 function Utilities:GetPlayerSteam(Source)
-    for Index = 0, GetNumPlayerIdentifiers(Source) do
+    for Index = 0, GetNumPlayerIdentifiers(Source) - 1 do
         local Identifier = GetPlayerIdentifier(Source, Index)
             
         if self:StartWith(Identifier, "steam:") then
@@ -34,7 +34,7 @@ function Utilities:GetPlayerSteam32(Source)
 end
 
 function Utilities:GetPlayerLicense(SourcePlayer)
-    for Index = 0, GetNumPlayerIdentifiers(Source) do
+    for Index = 0, GetNumPlayerIdentifiers(Source) - 1 do
         local Identifier = GetPlayerIdentifier(Source, Index)
 
         if self:StartWith(Identifier, "license:") then
@@ -46,7 +46,7 @@ function Utilities:GetPlayerLicense(SourcePlayer)
 end
 
 function Utilities:GetPlayerIP(Source)
-    for Index = 0, GetNumPlayerIdentifiers(Source) do
+    for Index = 0, GetNumPlayerIdentifiers(Source) - 1 do
         local Identifier = GetPlayerIdentifier(Source, Index)
 
         if self:StartWith(Identifier, "ip:") then
@@ -56,7 +56,3 @@ function Utilities:GetPlayerIP(Source)
 
     return GetPlayerEndpoint(Source) or nil
 end
-
-exports("Get", function()
-    return Utilities
-end)
