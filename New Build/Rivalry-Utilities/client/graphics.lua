@@ -352,7 +352,7 @@ function Utilities:GetBoundingBoxEdgeMatrix(Box)
 	}
 end
 
-function Utilities:GetBoundingBoxPolyMatrix(box)
+function Utilities:GetBoundingBoxPolyMatrix(Box)
 	return {
 		-- Bottom
 		{ Box[3], Box[2], Box[1] },
