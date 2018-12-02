@@ -17,7 +17,7 @@ Fishing = {
 			[3] = {id=316, x = 1300.0290527344, y = 4219.9711914063, z = 33.908679962158, distanceBetweenCoords=3.5, distanceMarker=3.5, defaultTime=10000, name="Pier Fishing and Boat Rental"},
 		}, 
 		DeepSea = {
-		 	[1] = {id=404, x = 4064.9392089844, y = 1532.7374267578, z = 2.5975124835968, distanceBetweenCoords=20.5, distanceMarker=20.5, defaultTime=10000, name="Deep Sea Fishing"},
+			[1] = {id=404, x = 4064.9392089844, y = 1532.7374267578, z = 2.5975124835968, distanceBetweenCoords=20.5, distanceMarker=20.5, defaultTime=10000, name="Deep Sea Fishing"},
 			[2] = {id=404, x = 3069.6108398438, y = -2130.59375, z = 3.9801769256592, distanceBetweenCoords=20.5, distanceMarker=20.5, defaultTime=10000, name="Deep Sea Fishing"},
 			[3] = {id=404, x = -3516.1176757813, y = 2906.3083496094, z = 7.090615272522, distanceBetweenCoords=20.5, distanceMarker=20.5, defaultTime=10000, name="Deep Sea Fishing"},
 			[4] = {id=404, x = 2476.0710449219, y = 7457.48046875, z = 3.5329627990723, distanceBetweenCoords=20.5, distanceMarker=20.5, defaultTime=10000, name="Deep Sea Fishing"},
@@ -38,7 +38,7 @@ Fishing = {
 			RunCodeOnly1Time = true,
 			PosX = 0.5,
 			PosY = 0.1,
-		 	TimerAnimation = 0.1,
+			TimerAnimation = 0.1,
 			whichgarage = 0,
 			FishRod = "prop_fishing_rod_01",
 			up = false,
@@ -58,19 +58,17 @@ Fishing = {
 			priceYellowtail = 125,
 		},
 		SellPoint = {
-			{
-		    	[1] = {Name = "Snook", Id = 54, price = 20, Max = 100, sold = 0},
-		        [2] = {Name = "Pompano", Id = 55, price = 30, Max = 100, sold = 0},
-		        [3] = {Name = "Snapper", Id = 56, price = 40, Max = 100, sold = 0},
-		        [4] = {Name = "Redfish", Id = 57, price = 50, Max = 100, sold = 0},
-		        [5] = {Name = "Bass", Id = 58, price = 60, Max = 100, sold = 0},
-		        [6] = {Name = "Mackerel", Id = 59, price = 75, Max = 100, sold = 0},
-		        [7] = {Name = "Herring", Id = 60, price = 85, Max = 100, sold = 0},
-		        [8] = {Name = "Salmon", Id = 61, price = 95, Max = 100, sold = 0},
-		        [9] = {Name = "Barracuda", Id = 62, price = 105, Max = 100, sold = 0},
-		        [10] = {Name = "Tuna", Id = 63, price = 115, Max = 100, sold = 0},
-		        [11] = {Name = "Yellowtail", Id = 64, price = 125, Max = 100, sold = 0},
-		    },
+			[1] = {Name = "Snook", Id = 54, price = 20, Max = 100, sold = 0},
+			[2] = {Name = "Pompano", Id = 55, price = 30, Max = 100, sold = 0},
+			[3] = {Name = "Snapper", Id = 56, price = 40, Max = 100, sold = 0},
+			[4] = {Name = "Redfish", Id = 57, price = 50, Max = 100, sold = 0},
+			[5] = {Name = "Bass", Id = 58, price = 60, Max = 100, sold = 0},
+			[6] = {Name = "Mackerel", Id = 59, price = 75, Max = 100, sold = 0},
+			[7] = {Name = "Herring", Id = 60, price = 85, Max = 100, sold = 0},
+			[8] = {Name = "Salmon", Id = 61, price = 95, Max = 100, sold = 0},
+			[9] = {Name = "Barracuda", Id = 62, price = 105, Max = 100, sold = 0},
+			[10] = {Name = "Tuna", Id = 63, price = 115, Max = 100, sold = 0},
+			[11] = {Name = "Yellowtail", Id = 64, price = 125, Max = 100, sold = 0},
 		},
 		Vehicles ={
 			Model = "tug"
@@ -128,76 +126,76 @@ function removeBlips()
 end
 
 local function drawHelpJobF()
-    local lines = {
-        { text = '~o~Fishing Information', isTitle = true, isCenter = true},
-        { text = '~g~Your job is to make a living by fishing.', isCenter = true, addY = 0.04},
-        { text = ' - Go to one of the fishing piers!'},
-        { text = ' - Make sure to buy fishing rods at your local general store'},
-        { text = ' - Once you are there, use "E" to interact and start fishing'},
-        { text = ' - If you cannot do that then you are not on duty'},
-        { text = ' - The type of fish you can catch from the piers'},
-        { text = ' - Snook, Pompano, Snapper, Redfish, Bass'},
-        { text = ' - The type of fish you can catch from the deep sea'},
-        { text = ' - Mackerel, Herring, Salmon, Barracuda, Tuna, Yellowtail'},
-        { text = ' - If you would like to fish out in the sea, you can rent a tug boat to do so'},
-        { text = ' - Remember to return the tug boat'},
-        
-        { text = '~b~How to fish: ', size = 0.4, addY = 0.04 },
-        { text = ' - Press "ENTER" when the bar reaches the edges of the bar'},
-        { text = ' - The bar will turn green when you can catch a fish'},
-        { text = ' - Hit "ENTER" at the right time and you will catch some fish'},
-        { text = ' - Hit "ENTER" too late, and the fish will escape'},
-        { text = ' - Fishing with friends gives a higher chance to catch rare fish!'},
-        { text = '~b~ Fishing Boats :', size = 0.4, addY = 0.04 },
-        { text = ' - Anything you can afford to rent!'},
-        { text = '~d~If you find problems, use the forum to let us know', isCenter = true, addY = 0.06},
-        { text = '~b~Thank You & Good Fishing', isCenter = true},
-    }
-    DrawRect(0.5, 0.5, 0.48, 0.9, 0,0,0, 225)
-    local y = 0.06 - 0.025
-    local defaultAddY = 0.025
-    local addY = 0.025
-    for _, line in pairs(lines) do 
-        y = y + addY
-        local caddY = defaultAddY
-        local x = 0.275
-        local defaultSize = 0.32
-        local defaultFont = 8
-        if line.isTitle == true then
-            defaultFont = 1
-            defaultSize = 0.8
-            caddY = 0.06
-        end
-        SetTextFont(line.font or defaultFont)
-        SetTextScale(0.0,line.size or defaultSize)
-        SetTextCentre(line.isCenter == true)
-        if line.isCenter == true then
-            x = 0.5
-        end
-        SetTextDropShadow(0, 0, 0, 0, 0)
-        SetTextEdge(0, 0, 0, 0, 0)
-        SetTextColour(255, 255, 255, 255)
-        SetTextEntry("STRING")
-        AddTextComponentString(line.text)
-        DrawText(x, y)
-        addY = line.addY or caddY
-    end
-    --SetTextComponentFormat("STRING")
-    --AddTextComponentString('~INPUT_CELLPHONE_CANCEL~ ~g~Ferme l\'aide')
-    --DisplayHelpTextFromStringLabel(0, 0, 1, -1)
+	local lines = {
+		{ text = '~o~Fishing Information', isTitle = true, isCenter = true},
+		{ text = '~g~Your job is to make a living by fishing.', isCenter = true, addY = 0.04},
+		{ text = ' - Go to one of the fishing piers!'},
+		{ text = ' - Make sure to buy fishing rods at your local general store'},
+		{ text = ' - Once you are there, use "E" to interact and start fishing'},
+		{ text = ' - If you cannot do that then you are not on duty'},
+		{ text = ' - The type of fish you can catch from the piers'},
+		{ text = ' - Snook, Pompano, Snapper, Redfish, Bass'},
+		{ text = ' - The type of fish you can catch from the deep sea'},
+		{ text = ' - Mackerel, Herring, Salmon, Barracuda, Tuna, Yellowtail'},
+		{ text = ' - If you would like to fish out in the sea, you can rent a tug boat to do so'},
+		{ text = ' - Remember to return the tug boat'},
+		
+		{ text = '~b~How to fish: ', size = 0.4, addY = 0.04 },
+		{ text = ' - Press "ENTER" when the bar reaches the edges of the bar'},
+		{ text = ' - The bar will turn green when you can catch a fish'},
+		{ text = ' - Hit "ENTER" at the right time and you will catch some fish'},
+		{ text = ' - Hit "ENTER" too late, and the fish will escape'},
+		{ text = ' - Fishing with friends gives a higher chance to catch rare fish!'},
+		{ text = '~b~ Fishing Boats :', size = 0.4, addY = 0.04 },
+		{ text = ' - Anything you can afford to rent!'},
+		{ text = '~d~If you find problems, use the forum to let us know', isCenter = true, addY = 0.06},
+		{ text = '~b~Thank You & Good Fishing', isCenter = true},
+	}
+	DrawRect(0.5, 0.5, 0.48, 0.9, 0,0,0, 225)
+	local y = 0.06 - 0.025
+	local defaultAddY = 0.025
+	local addY = 0.025
+	for _, line in pairs(lines) do 
+		y = y + addY
+		local caddY = defaultAddY
+		local x = 0.275
+		local defaultSize = 0.32
+		local defaultFont = 8
+		if line.isTitle == true then
+			defaultFont = 1
+			defaultSize = 0.8
+			caddY = 0.06
+		end
+		SetTextFont(line.font or defaultFont)
+		SetTextScale(0.0,line.size or defaultSize)
+		SetTextCentre(line.isCenter == true)
+		if line.isCenter == true then
+			x = 0.5
+		end
+		SetTextDropShadow(0, 0, 0, 0, 0)
+		SetTextEdge(0, 0, 0, 0, 0)
+		SetTextColour(255, 255, 255, 255)
+		SetTextEntry("STRING")
+		AddTextComponentString(line.text)
+		DrawText(x, y)
+		addY = line.addY or caddY
+	end
+	--SetTextComponentFormat("STRING")
+	--AddTextComponentString('~INPUT_CELLPHONE_CANCEL~ ~g~Ferme l\'aide')
+	--DisplayHelpTextFromStringLabel(0, 0, 1, -1)
 
 end
 
 Citizen.CreateThread(function()
-    while true do
-        Citizen.Wait(0)
-        if Help == true then
-            drawHelpJobF()
-            if IsControlJustPressed(0, 177) then
-                Help = false
-            end
-        end
-    end
+	while true do
+		Citizen.Wait(0)
+		if Help == true then
+			drawHelpJobF()
+			if IsControlJustPressed(0, 177) then
+				Help = false
+			end
+		end
+	end
 end)
 
 RegisterNetEvent('caughtFish:success')
@@ -216,15 +214,15 @@ AddEventHandler('caughtFish:success', function(index, quantity, result)
 end)
 
 function text(x,y,scale,text)
-    SetTextFont(0)
-    SetTextProportional(0)
-    SetTextScale(scale, scale)
-    SetTextColour(255,255,255,255)
-    SetTextDropShadow(0,0,0,0,255)
-    SetTextEdge(2, 0, 0, 0, 255)
-    SetTextEntry("STRING")
-    AddTextComponentString(text)
-    DrawText(x, y)
+	SetTextFont(0)
+	SetTextProportional(0)
+	SetTextScale(scale, scale)
+	SetTextColour(255,255,255,255)
+	SetTextDropShadow(0,0,0,0,255)
+	SetTextEdge(2, 0, 0, 0, 255)
+	SetTextEntry("STRING")
+	AddTextComponentString(text)
+	DrawText(x, y)
 end
 
 function FishGUI(bool)
@@ -452,8 +450,9 @@ end
 				local Distance = #(Fishing.Data.fishmarkets[Market] - PlayerPosition)
 
 				if Distance < 15.0 then
-					drawMarker(25, Fishing.Data.fishmarkets[Market], Fishing.Data.fishmarkets[Market], Fishing.Data.fishmarkets[Market] - 1, 2.001, 2.0001, 0.5001, 0, 155, 255, 200)
+					drawMarker(25, Fishing.Data.fishmarkets[Market].x, Fishing.Data.fishmarkets[Market].y, Fishing.Data.fishmarkets[Market].z, 2.001, 2.0001, 0.5001, 0, 155, 255, 200)
 					if Distance < 1.0 then
+						
 						if IsControlJustPressed(1, 51) then
 							if not WarMenu.IsMenuOpened("FishSell") then
 								if not WarMenu.DoesMenuExist("FishSell") then
@@ -479,19 +478,19 @@ end
 							for Index = 1, #Fishing.Data.SellPoint do
 								local ItemQuantity = GetItemQuantity(Fishing.Data.SellPoint[Index].Id)
 								if ItemQuantity > 0 then
-									if WarMenu.Button(Fishing.Data.SellPoint[Index].Name.."($"..Fishing.Data.SellPoint[Index].price..")", "$"..(Fishing.Data.SellPoint[Index].price * ItemQuantity)) then
+									if WarMenu.Button(Fishing.Data.SellPoint[Index].Name.." ($"..Fishing.Data.SellPoint[Index].price..")", "$"..(Fishing.Data.SellPoint[Index].price * ItemQuantity)) then
 									end
 
 									SellTotal = SellTotal + (Fishing.Data.SellPoint[Index].price * ItemQuantity)
 									table.insert(ItemIds, Fishing.Data.SellPoint[Index].Id)
 								end
-
-								if SellTotal > 0 then
-									if WarMenu.Button("Sell", "$"..SellTotal) then
-										Notify("You just sold all your fish for $"..SellTotal)
-										TriggerServerEvent("Fish.Sell", ItemIds)
-										WarMenu.CloseMenu()
-									end
+							end
+							
+							if SellTotal > 0 then
+								if WarMenu.Button("Sell", "$"..SellTotal) then
+									Notify("You just sold all your fish for $"..SellTotal)
+									TriggerServerEvent("Fish.Sell", ItemIds)
+									WarMenu.CloseMenu()
 								end
 							end
 

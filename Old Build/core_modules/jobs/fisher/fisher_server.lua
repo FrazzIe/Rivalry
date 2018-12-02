@@ -180,12 +180,14 @@ AddEventHandler("Fish.Sell", function(Ids)
 
 	TriggerEvent("core:getuser", Source, function(User)
 		if user_inventory[Source] then
-			local character_id = user.get("characterID")
+			local character_id = User.get("characterID")
+			local total = 0
+
 			for Index = 1, #Ids do
 				if user_inventory[Source][Ids[Index]] then
 					if user_inventory[Source][Ids[Index]].quantity > 0 then
 						Query = Query .. "DELETE FROM inventory WHERE (character_id="..character_id..") AND (item_id="..Ids[Index]..");"
-						User.addWallet(Prices[Ids[Index]] * user_inventory[Source][Ids[Index]].quantity)
+						total = total + (Prices[Ids[Index]] * user_inventory[Source][Ids[Index]].quantity)
 						user_inventory[Source][Ids[Index]] = nil
 					end
 				end
@@ -193,6 +195,7 @@ AddEventHandler("Fish.Sell", function(Ids)
 
 			if Query ~= "" then
 				exports["GHMattiMySQL"]:QueryAsync(Query)
+				User.addWallet(total)
 				TriggerClientEvent("inventory:updateitems", Source, user_inventory[source])
 				TriggerClientEvent("inventory:sync", -1, user_inventory)
 			end
