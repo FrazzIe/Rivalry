@@ -1,6 +1,10 @@
 Time, Weather = {}, {}
 Time.Hour, Time.Minute, Time.Second = 12, 0, 0
-Weather.Current, Weather.Types = "SUNNY", {
+Weather.Current, Weather.Types = "XMAS", {
+    "XMAS",
+}
+
+--[[Weather.Current, Weather.Types = "SUNNY", {
 	"SUNNY",
     "EXTRASUNNY", 
     "CLEAR", 
@@ -8,7 +12,7 @@ Weather.Current, Weather.Types = "SUNNY", {
     "FOGGY", 
     "OVERCAST", 
     "CLOUDS", 
-}
+}--]]
 
 --[[
 {

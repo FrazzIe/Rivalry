@@ -652,7 +652,7 @@ Citizen.CreateThread(function()
 end)
 
 AddEventHandler("inventory:use",function(data)
-    if data.canuse ~= 0 then
+    if data.canuse ~= 0 and data.canuse > 0 then
         if data.canuse == 1 then
             drink(data.item_id)
         elseif data.canuse == 2 then
@@ -690,6 +690,8 @@ AddEventHandler("inventory:use",function(data)
             TaskStartScenarioInPlace(PlayerPedId(), "WORLD_HUMAN_SMOKING", 0, true)
         end
         removeQty(data.item_id,1)
+    elseif data.canuse == -1 then
+        TriggerEvent('toggle:binoculars')
     else
         TriggerEvent("inventory:open")
         Messages(4)
