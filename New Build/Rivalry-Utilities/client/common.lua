@@ -221,7 +221,3 @@ function Utilities:Blip(Data)
 
 	return Blip
 end
-
-exports("Get", function()
-	return Utilities
-end)
