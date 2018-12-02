@@ -14,14 +14,14 @@
 mission_list = {}
 local charges = {
     {title="1st Degree Felonies", items = {
-        {charge="Aggravated Murder of LEO", time=40, cost=20000},
-        {charge="Attempted Murder of LEO", time=10, cost=15000},
-        {charge="Felony Murder", time=40, cost=20000},
-        {charge="Attempted Murder", time=12, cost=6000},
+        {charge="Aggravated Murder of LEO", time=30, cost=20000},
+        {charge="Attempted Murder of LEO", time=15, cost=10000},
+        {charge="Felony Murder", time=30, cost=15000},
+        {charge="Attempted Murder", time=10, cost=5000},
         {charge="Aggravated Kidnapping", time=8, cost=4000},
         {charge="Kidnapping", time=6, cost=3000},
-        {charge="Aggravated Armed Robbery", time=15, cost=12500},
-        {charge="Armed Bank Robbery", time=10, cost=10000},
+        {charge="Aggravated Armed Robbery", time=15, cost=7500},
+        {charge="Armed Bank Robbery", time=10, cost=5000},
         {charge="Grand Theft Auto", time=5, cost=2500},
         {charge="Racketeering", time=5, cost=2500},
     }},
