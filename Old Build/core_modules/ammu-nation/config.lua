@@ -531,7 +531,7 @@ Ammo = {
 	["WEAPON_PROXMINE"] = {Name = "Mine x ", Amount = 1, Cost = 75, Max = 5},
 	["WEAPON_PIPEBOMB"] = {Name = "Bomb x ", Amount = 1, Cost = 50, Max = 10},
 	["WEAPON_SNOWBALL"] = {Name = "Snowball x ", Amount = 1, Cost = 2, Max = 10},
-	["WEAPON_PETROLCAN"] = {Name = "Gas x 1ml", Amount = 1, Cost = 2, Max = 100},
+	["WEAPON_PETROLCAN"] = {Name = "Gas x 1ml", Amount = 45, Cost = 2, Max = 4500},
 
 }
 
