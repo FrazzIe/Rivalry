@@ -69,3 +69,12 @@ end
 function Utilities:Hex(value)
 	return tonumber(string.format("%X", tostring(value)))
 end
+
+function Utilities:Ordinal(value)
+    local ordinal, digit = {"st", "nd", "rd"}, string.sub(value, -1)
+    if tonumber(digit) > 0 and tonumber(digit) <= 3 and string.sub(value,-2) ~= 11 and string.sub(value,-2) ~= 12 and string.sub(value,-2) ~= 13 then
+        return value .. ordinal[tonumber(digit)]
+    else
+        return value .. "th"
+    end
+end
