@@ -33,7 +33,7 @@ function Utilities:GetPlayerSteam32(Source)
     end
 end
 
-function Utilities:GetPlayerLicense(SourcePlayer)
+function Utilities:GetPlayerLicense(Source)
     for Index = 0, GetNumPlayerIdentifiers(Source) - 1 do
         local Identifier = GetPlayerIdentifier(Source, Index)
 
