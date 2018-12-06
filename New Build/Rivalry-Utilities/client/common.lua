@@ -75,7 +75,7 @@ end
 
 function Utilities:GetCoordsInfrontOfEntityWithDistance(Entity, Distance, Heading)
 	if DoesEntityExist(Entity) then
-		local Coords = GetCoords(Entity, false)
+		local Coords = GetEntityCoords(Entity, false)
 		local Head = (GetEntityHeading(Entity) + (Heading or 0)) * math.pi / 180.0
 
 		return vector3(Coords.x + Distance * math.sin(-1.0 * Head), Coords.y + Distance * math.cos(-1.0 * Head), Coords.z)
