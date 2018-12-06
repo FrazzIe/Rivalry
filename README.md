@@ -56,3 +56,45 @@ RegisterNUICallback("callback-name", function(data, cb)
 	cb("ok")
 end)
 ```
+
+## __resource layout
+
+1. Manifest version
+2. Dependencies
+3. Shared scripts
+4. Client scripts
+5. Server scripts
+6. UI Page
+7. Files
+
+#### layout example
+
+```lua
+resource_manifest_version "05cfa83c-a124-4cfa-a768-c24a5811d8f9"
+
+dependencies {
+	"Rivalry-Utilities",
+	"jssql",
+}
+
+shared_scripts {
+	"@Rivalry-Utilities/shared.lua",
+}
+
+client_scripts {
+	"client/main.lua",
+}
+
+server_scripts {
+	"@Rivalry-Utilities/server/common.lua",
+	"server/queue.lua",
+}
+
+ui_page "index.html"
+
+files {
+	"file1",
+	"file2",
+}
+```
+
