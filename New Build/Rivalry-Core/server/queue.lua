@@ -18,7 +18,7 @@ Queue = {
 
 
 function Queue:PlayerCount()
-	return Utilities:GetTableLength(Queue.Players.Connected) + #Queue.Players.Connecting
+	return Utilities:GetTableLength(Queue.Players.Connected) + #self.Players.Connecting
 end
 
 function Queue:Identifiers(Source)
@@ -268,7 +268,7 @@ Citizen.CreateThread(function()
 			if not Player then
 				exports.jssql:execute("INSERT INTO players (`license`, `steam`, `ip`, `name`) VALUES (?, ?, ?, ?)", {Identifiers.license, Identifiers.steam, Identifiers.ip, Name})
 			else
-				exports.jssql:execute("UPDATE players SET license=?,ip=?,name=?", {Identifiers.license, Identifiers.ip, Name})
+				exports.jssql:execute("UPDATE players SET license=?,ip=?,name=? WHERE steam=?", {Identifiers.license, Identifiers.ip, Name, Identifiers.steam})
 			end
 
 			if Queue.Config.Whitelist and not (Queue.Config.Priority and Queue.Config.PriorityWhitelist) then
