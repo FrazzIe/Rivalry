@@ -7,10 +7,11 @@ function Utilities:GetClosestVehicle(Position, Radius, Dead, Model, ExcludedVehi
 			if (Dead and IsEntityDead(Vehicle) or true) then
 				if (Model and IsVehicleModel(Vehicle, Model) or true) then
 					if (ExcludedVehicle and (Vehicle ~= ExcludedVehicle) or true) then
-						local Distance = #(GetEntityCoords(Vehicle, false) - Position)
+						local VehiclePosition = GetEntityCoords(Vehicle, false)
+						local Distance = #(VehiclePosition - Position)
 
 						if Distance <= Radius then
-							table.insert(Vehicles, {Handle = Vehicle, Distance = Distance})
+							table.insert(Vehicles, {Handle = Vehicle, Distance = Distance, Position = VehiclePosition})
 						end
 					end
 				end
@@ -42,10 +43,11 @@ function Utilities:GetClosestPlayerVehicle(Position, Radius, Dead, Model, Exclud
 			if (Dead and IsEntityDead(Vehicle) or true) then
 				if (Model and IsVehicleModel(Vehicle, Model) or true) then
 					if (ExcludedVehicle and (Vehicle ~= ExcludedVehicle) or true) then
-						local Distance = #(GetEntityCoords(Vehicle, false) - Position)
+						local VehiclePosition = GetEntityCoords(Vehicle, false)
+						local Distance = #(VehiclePosition - Position)
 
 						if Distance <= Radius then
-							table.insert(Vehicles, {Handle = Vehicle, Distance = Distance, Player = GetPlayerServerId(Players[Index])})
+							table.insert(Vehicles, {Handle = Vehicle, Distance = Distance, Position = VehiclePosition, Player = GetPlayerServerId(Players[Index])})
 						end
 					end
 				end
@@ -75,10 +77,11 @@ function Utilities:GetClosestPed(Position, Radius, Dead, Model, ExcludedPed)
 			if (Dead and IsEntityDead(Ped) or true) then
 				if (Model and IsPedModel(Ped, Model) or true) then
 					if (ExcludedPed and (Ped ~= ExcludedPed) or true) then
-						local Distance = #(GetEntityCoords(Ped, false) - Position)
+						local PedPosition = GetEntityCoords(Ped, false)
+						local Distance = #(PedPosition - Position)
 
 						if Distance <= Radius then
-							table.insert(Peds, {Handle = Ped, Distance = Distance})
+							table.insert(Peds, {Handle = Ped, Distance = Distance, Position = PedPosition})
 						end
 					end
 				end
@@ -110,10 +113,11 @@ function Utilities:GetClosestPlayerPed(Position, Radius, Dead, Model, ExcludedPe
 			if (Dead and IsEntityDead(Ped) or true) then
 				if (Model and IsPedModel(Ped, Model) or true) then
 					if (ExcludedPed and (Ped ~= ExcludedPed) or true) then
-						local Distance = #(GetEntityCoords(Ped, false) - Position)
+						local PedPosition = GetEntityCoords(Ped, false)
+						local Distance = #(PedPosition - Position)
 
 						if Distance <= Radius then
-							table.insert(Peds, {Handle = Ped, Distance = Distance, Player = GetPlayerServerId(Players[Index])})
+							table.insert(Peds, {Handle = Ped, Distance = Distance, Position = PedPosition, Player = GetPlayerServerId(Players[Index])})
 						end
 					end
 				end
@@ -143,10 +147,11 @@ function Utilities:GetClosestObject(Position, Radius, Dead, Model, ExcludedObjec
 			if (Dead and IsEntityDead(Object) or true) then
 				if (Model and IsPedModel(Object, Model) or true) then
 					if (ExcludedPed and (Object ~= ExcludedObject) or true) then
-						local Distance = #(GetEntityCoords(Object, false) - Position)
+						local ObjectPosition = GetEntityCoords(Object, false)
+						local Distance = #(ObjectPosition - Position)
 
 						if Distance <= Radius then
-							table.insert(Objects, {Handle = Object, Distance = Distance})
+							table.insert(Objects, {Handle = Object, Distance = Distance, Position = ObjectPosition})
 						end
 					end
 				end
@@ -176,10 +181,11 @@ function Utilities:GetClosestPickup(Position, Radius, Dead, Model, ExcludedPicku
 			if (Dead and IsEntityDead(Pickup) or true) then
 				if (Model and IsPedModel(Pickup, Model) or true) then
 					if (ExcludedPickup and (Pickup ~= ExcludedPickup) or true) then
-						local Distance = #(GetEntityCoords(Pickup, false) - Position)
+						local PickupPosition = GetEntityCoords(Pickup, false)
+						local Distance = #(PickupPosition - Position)
 
 						if Distance <= Radius then
-							table.insert(Pickups, {Handle = Pickup, Distance = Distance})
+							table.insert(Pickups, {Handle = Pickup, Distance = Distance, Position = PickupPosition})
 						end
 					end
 				end
@@ -208,10 +214,11 @@ function Utilities:GetNearbyVehicles(Position, Radius, Dead, Model, ExcludedVehi
 			if (Dead and IsEntityDead(Vehicle) or true) then
 				if (Model and IsVehicleModel(Vehicle, Model) or true) then
 					if (ExcludedVehicle and (Vehicle ~= ExcludedVehicle) or true) then
-						local Distance = #(GetEntityCoords(Vehicle, false) - Position)
+						local VehiclePosition = GetEntityCoords(Vehicle, false)
+						local Distance = #(VehiclePosition - Position)
 
 						if Distance <= Radius then
-							table.insert(Vehicles, {Handle = Vehicle, Distance = Distance})
+							table.insert(Vehicles, {Handle = Vehicle, Distance = Distance, Position = VehiclePosition})
 						end
 					end
 				end
@@ -232,10 +239,11 @@ function Utilities:GetNearbyPlayerVehicles(Position, Radius, Dead, Model, Exclud
 			if (Dead and IsEntityDead(Vehicle) or true) then
 				if (Model and IsVehicleModel(Vehicle, Model) or true) then
 					if (ExcludedVehicle and (Vehicle ~= ExcludedVehicle) or true) then
-						local Distance = #(GetEntityCoords(Vehicle, false) - Position)
+						local VehiclePosition = GetEntityCoords(Vehicle, false)
+						local Distance = #(VehiclePosition - Position)
 
 						if Distance <= Radius then
-							table.insert(Vehicles, {Handle = Vehicle, Distance = Distance, Player = GetPlayerServerId(Players[Index])})
+							table.insert(Vehicles, {Handle = Vehicle, Distance = Distance, Position = VehiclePosition, Player = GetPlayerServerId(Players[Index])})
 						end
 					end
 				end
@@ -254,10 +262,11 @@ function Utilities:GetNearbyPeds(Position, Radius, Dead, Model, ExcludedPed)
 			if (Dead and IsEntityDead(Ped) or true) then
 				if (Model and IsPedModel(Ped, Model) or true) then
 					if (ExcludedPed and (Ped ~= ExcludedPed) or true) then
-						local Distance = #(GetEntityCoords(Ped, false) - Position)
+						local PedPosition = GetEntityCoords(Ped, false)
+						local Distance = #(PedPosition - Position)
 
 						if Distance <= Radius then
-							table.insert(Peds, {Handle = Ped, Distance = Distance})
+							table.insert(Peds, {Handle = Ped, Distance = Distance, Position = PedPosition})
 						end
 					end
 				end
@@ -278,10 +287,11 @@ function Utilities:GetNearbyPlayerPeds(Position, Radius, Dead, Model, ExcludedPe
 			if (Dead and IsEntityDead(Ped) or true) then
 				if (Model and IsPedModel(Ped, Model) or true) then
 					if (ExcludedPed and (Ped ~= ExcludedPed) or true) then
-						local Distance = #(GetEntityCoords(Ped, false) - Position)
+						local PedPosition = GetEntityCoords(Ped, false)
+						local Distance = #(PedPosition - Position)
 
 						if Distance <= Radius then
-							table.insert(Peds, {Handle = Ped, Distance = Distance, Player = GetPlayerServerId(Players[Index])})
+							table.insert(Peds, {Handle = Ped, Distance = Distance, Position = PedPosition, Player = GetPlayerServerId(Players[Index])})
 						end
 					end
 				end
@@ -300,10 +310,11 @@ function Utilities:GetNearbyObjects(Position, Radius, Dead, Model, ExcludedObjec
 			if (Dead and IsEntityDead(Object) or true) then
 				if (Model and IsPedModel(Object, Model) or true) then
 					if (ExcludedPed and (Object ~= ExcludedObject) or true) then
-						local Distance = #(GetEntityCoords(Object, false) - Position)
+						local ObjectPosition = GetEntityCoords(Object, false)
+						local Distance = #(ObjectPosition - Position)
 
 						if Distance <= Radius then
-							table.insert(Objects, {Handle = Object, Distance = Distance})
+							table.insert(Objects, {Handle = Object, Distance = Distance, Position = ObjectPosition})
 						end
 					end
 				end
@@ -322,10 +333,11 @@ function Utilities:GetNearbyPickups(Position, Radius, Dead, Model, ExcludedPicku
 			if (Dead and IsEntityDead(Pickup) or true) then
 				if (Model and IsPedModel(Pickup, Model) or true) then
 					if (ExcludedPickup and (Pickup ~= ExcludedPickup) or true) then
-						local Distance = #(GetEntityCoords(Pickup, false) - Position)
+						local PickupPosition = GetEntityCoords(Pickup, false)
+						local Distance = #(PickupPosition - Position)
 
 						if Distance <= Radius then
-							table.insert(Pickups, {Handle = Pickup, Distance = Distance})
+							table.insert(Pickups, {Handle = Pickup, Distance = Distance, Position = PickupPosition})
 						end
 					end
 				end

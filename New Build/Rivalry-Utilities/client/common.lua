@@ -75,7 +75,7 @@ end
 
 function Utilities:GetCoordsInfrontOfEntityWithDistance(Entity, Distance, Heading)
 	if DoesEntityExist(Entity) then
-		local Coords = GetEntityCoords(Entity, false)
+		local Coords = GetCoords(Entity, false)
 		local Head = (GetEntityHeading(Entity) + (Heading or 0)) * math.pi / 180.0
 
 		return vector3(Coords.x + Distance * math.sin(-1.0 * Head), Coords.y + Distance * math.cos(-1.0 * Head), Coords.z)
@@ -220,4 +220,11 @@ function Utilities:Blip(Data)
 	end
 
 	return Blip
+end
+
+function Utilities:GetVehicleInDirectionSphere(Entity, Coords, Offset)
+	local RayHandle = StartShapeTestCapsule(Coords.x, Coords.y, Coords.z, Offset.x, Offset.y, Offset.z, 2.0, 2, Entity, 7)
+	local _, _, _, _, Vehicle = GetShapeTestResult(RayHandle)
+	
+	return Vehicle
 end
