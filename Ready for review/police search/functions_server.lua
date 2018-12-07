@@ -97,6 +97,7 @@ AddEventHandler('police:search', function(target, type)
 			TriggerEvent("inventory:getuser", target, function(_inventory)
 				if _inventory ~= nil then
 					for k,v in pairs(_inventory) do
+						message = message .. "^3" .. v.quantity .. " ^0" .. v.name .. ", "
 					end
 					if message ~= "" then
 						TriggerClientEvent("chatMessage", source, "Items found in pockets: ", {16, 102, 158},"" .. message)
