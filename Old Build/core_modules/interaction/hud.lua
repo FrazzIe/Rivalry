@@ -22,6 +22,8 @@ local cops_callstatus, cops_active, cops_available = 0, 0, 0
 local paramedics_callstatus, paramedics_active, paramedics_available = 0, 0, 0
 local taxi_callstatus, taxi_active, taxi_available = 0, 0, 0
 local mechanic_callstatus, mechanic_active, mechanic_available = 0, 0, 0
+local ServiceTracker = {false, false, false, false}
+local Location = {Area = "", Street = "", Crossing = "", Direction = ""}
 
 function TurnOffHudElements(value)
     if value then
@@ -33,6 +35,35 @@ end
 
 function HudElementsDisabled()
     return hud_off
+end
+
+function degreesToIntercardinalDirection(dgr)
+    dgr = dgr % 360.0
+    
+    if (dgr >= 0.0 and dgr < 22.5) or dgr >= 337.5 then
+        return "N"
+    elseif dgr >= 22.5 and dgr < 67.5 then
+        return "NE"
+    elseif dgr >= 67.5 and dgr < 112.5 then
+        return "E"
+    elseif dgr >= 112.5 and dgr < 157.5 then
+        return "SE"
+    elseif dgr >= 157.5 and dgr < 202.5 then
+        return "S"
+    elseif dgr >= 202.5 and dgr < 247.5 then
+        return "SW"
+    elseif dgr >= 247.5 and dgr < 292.5 then
+        return "W"
+    elseif dgr >= 292.5 and dgr < 337.5 then
+        return "NW"
+    end
+end
+
+function GetLocation(PlayerPosition)
+    local Street, Crossing = GetStreetNameAtCoord(PlayerPosition.x, PlayerPosition.y, PlayerPosition.z)
+    local Area = GetNameOfZone(PlayerPosition.x, PlayerPosition.y, PlayerPosition.z)
+    
+    return GetLabelText(Area), GetStreetNameFromHashKey(Street), GetStreetNameFromHashKey(Crossing)
 end
 
 AddEventHandler('onClientMapStart', function()
@@ -69,15 +100,43 @@ end)
 
 Citizen.CreateThread(function()
     while true do
-        Citizen.Wait(0)
-        local minimap = GetMinimapAnchor()
-        if WarMenu.IsMenuOpened("Scoreboard") or WarMenu.IsMenuOpened("player_info") or WarMenu.IsMenuOpened("player_info_disconnected") or WarMenu.IsMenuOpened("disconnected") then
-            --[[
-            drawText("~g~$~w~"..wallet, 6, 0.16, 0.82, 0.50, 255, 255, 255, 255, false, true)
-            drawText("~r~$~w~"..dirty, 6, 0.16, 0.845, 0.50, 255, 255, 255, 255, false, true)
-            drawText("~b~$~w~"..bank, 6, 0.16, 0.87, 0.50, 255, 255, 255, 255, false, true)
-            --]]
+        local PlayerPed = PlayerPedId()
+        local PlayerPosition = GetEntityCoords(PlayerPed, false)
+        local PlayerHeading = GetEntityHeading(PlayerPed)
 
+        Location.Area, Location.Street, Location.Crossing = GetLocation(PlayerPosition)
+        Location.Direction = degreesToIntercardinalDirection(PlayerHeading - 360)
+
+        Citizen.Wait(500)
+    end
+end)
+
+Citizen.CreateThread(function()
+    while true do
+        Citizen.Wait(0)
+
+        if WarMenu.IsMenuOpened("Scoreboard") or WarMenu.IsMenuOpened("player_info") or WarMenu.IsMenuOpened("player_info_disconnected") or WarMenu.IsMenuOpened("disconnected") then
+            if exports.policejob and exports.emsjob and exports.others and exports.jobs then
+                if exports.policejob.getIsInService and exports.emsjob.getIsInService and exports.others.getIsInService and exports.jobs.getMechanicIsInService then
+                    ServiceTracker = {
+                        exports.policejob:getIsInService(),
+                        exports.emsjob:getIsInService(),
+                        exports.others:getIsInService(),
+                        exports.jobs:getMechanicIsInService(),
+                    }
+                end
+            end
+            
+            Citizen.Wait(1000)
+        end
+    end
+end)
+
+Citizen.CreateThread(function()
+    local minimap = GetMinimapAnchor()
+    while true do
+        Citizen.Wait(0)
+        if WarMenu.IsMenuOpened("Scoreboard") or WarMenu.IsMenuOpened("player_info") or WarMenu.IsMenuOpened("player_info_disconnected") or WarMenu.IsMenuOpened("disconnected") then
             drawText(job, 6, 0.16, 0.895, 0.50, 255, 255, 255, 255, false, true)
 
             drawText("~g~Status of calls", 6, 0.3, 0.795, 0.50, 255, 255, 255, 255, false, true)
@@ -138,22 +197,24 @@ Citizen.CreateThread(function()
                 end
             end
 
-            if exports.policejob:getIsInService() then
+            if ServiceTracker[1] then
                 drawText(police_information, 6, 0.6, 0.82, 0.50, 255, 255, 255, 255, false, true)
             end
-            if exports.emsjob:getIsInService() then
+            if ServiceTracker[2] then
                 drawText(paramedic_information, 6, 0.6, 0.845, 0.50, 255, 255, 255, 255, false, true)
             end
-            if exports.others:getIsInService() then
+            if ServiceTracker[3] then
                 drawText(taxi_information, 6, 0.6, 0.87, 0.50, 255, 255, 255, 255, false, true)
             end
-            if exports.jobs:getMechanicIsInService() then
+            if ServiceTracker[4] then
                 drawText(mechanic_information, 6, 0.6, 0.895, 0.50, 255, 255, 255, 255, false, true)
             end
         end
+
         if not hud_off then
             local PlayerPed = PlayerPedId()
-            if NetworkIsPlayerTalking(PlayerId()) then
+
+            if NetworkIsPlayerTalking(PlayerID) then
                 drawText("~o~>>"..voice, 6, 0.16, 0.92, 0.50, 255, 255, 255, 255, false, true)
             else
                 drawText(voice, 6, 0.16, 0.92, 0.50, 255, 255, 255, 255, false, true)
@@ -163,57 +224,28 @@ Citizen.CreateThread(function()
                 local vehicle = GetVehiclePedIsIn(PlayerPed, false)
                 if GetPedInVehicleSeat(vehicle, -1) == PlayerPed or GetPedInVehicleSeat(vehicle, 0) == PlayerPed then
                     drawText("~y~"..GetVehicleNumberPlateText(vehicle), 6, 0.889, 0.85, 0.5, 255, 255, 255, 255, false, true)
-                    --DrawHUDBar(GetEntityMaxHealth(PlayerPedId())/2, GetEntityHealth(PlayerPedId()), minimap.left_x - 0.0005, minimap.bottom_y - 0.01, 0.070, 0.008335, {}, {}, true, {}, 2)
-                    --DrawHUDBar(GetEntityMaxHealth(PlayerPedId())/2, GetPedArmour(PlayerPedId()), minimap.left_x - 0.0005 + 0.070 + 0.0015 - 0.00015, minimap.bottom_y - 0.01, 0.070, 0.008335, {r = 45, g = 183, b = 119}, {r = 47, g = 196, b = 237}, true, {}, 1)
-                DisplayRadar(true)
+                    DisplayRadar(true)
                 end
             else
                 DisplayRadar(false)
             end
-            
-            local pos = GetEntityCoords(PlayerPed)
-            local var1, var2 = GetStreetNameAtCoord(pos.x, pos.y, pos.z, Citizen.ResultAsInteger(), Citizen.ResultAsInteger())
 
-            for k,v in pairs(directions)do
-                direction = GetEntityHeading(PlayerPed)
-                if(math.abs(direction - k) < 22.5)then
-                    direction = v
-                    break
-                end
+
+            if Location.Crossing ~= "" and Location.Crossing ~= nil then
+                drawText("Crossing ~y~" .. Location.Crossing .. "~w~", 6, 0.18, 0.965, 0.4, 255, 255, 255, 255, false, true)
             end
 
-            local posme = GetEntityCoords(PlayerPed, false)
-
-            if(var2 ~= 0)then
-                drawText("Crossing ~y~" .. tostring(GetStreetNameFromHashKey(var2)) .. "~w~", 6, 0.18, 0.965, 0.4, 255, 255, 255, 255, false, true)
+            if Location.Street ~= "" and Location.Area ~= "" then
+                drawText("~b~" .. Location.Street .. " ~w~in ~y~" .. Location.Area, 6, 0.18, 0.945, 0.4, 255, 255, 255, 255, false, true)
             end
 
-            if(GetStreetNameFromHashKey(var1) and GetNameOfZone(pos.x, pos.y, pos.z))then
-                if(zones[GetNameOfZone(pos.x, pos.y, pos.z)] and tostring(GetStreetNameFromHashKey(var1)))then
-                    drawText("~b~" .. tostring(GetStreetNameFromHashKey(var1)) .. " ~w~in ~y~" .. zones[GetNameOfZone(pos.x, pos.y, pos.z)], 6, 0.18, 0.945, 0.4, 255, 255, 255, 255, false, true)
-                end
+            if #Location.Direction == 1 then
+                drawText(Location.Direction, 6, 0.16, 0.94, 0.9, 255, 255, 255, 255, false, true)
+            elseif #Location.Direction == 2 then
+                drawText(string.sub(Location.Direction, 1, 1), 6, 0.16, 0.94, 0.9, 255, 255, 255, 255, false, true)
+                drawText(string.sub(Location.Direction, 2), 6, 0.17, 0.95, 0.5, 255, 255, 255, 255, false, true)
             end
-
-            if(direction)then
-                if direction == nil then
-                else
-                    if type(direction) ~= "string" then
-                    else
-                        if #direction == nil then
-                        else
-                            if(#direction > 2)then
-                            else
-                                if(#direction == 1)then
-                                    drawText(direction, 6, 0.16, 0.94, 0.9, 255, 255, 255, 255, false, true)
-                                else
-                                    drawText(string.sub(direction, 1,1), 6, 0.16, 0.94, 0.9, 255, 255, 255, 255, false, true)
-                                    drawText(string.sub(direction, 2), 6, 0.17, 0.95, 0.5, 255, 255, 255, 255, false, true)
-                                end
-                            end
-                        end
-                    end
-                end
-            end            
+           
         end
     end
 end)
