@@ -12,34 +12,14 @@
     Copy, re-release, re-distribute it without my written permission.
 --]]
 local onlinePlayers, disconnectedPlayers = {}, {}
-local leaderboard = {
-	["online"] = {},
-	["offline"] = {},
-}
-local recievedInformation = false
+
+
 local leaderboard_selected = {}
-
-local function getLeaderboard()
-	local players = {}
-	for i = 0,32 do
-		if NetworkIsPlayerActive(i) then
-			table.insert(players, {id = GetPlayerServerId(i), name = GetPlayerName(i), steam = "Not found", license = "Not found", ip = "Not found"})
-		end
-	end
-	TriggerServerEvent("scoreboard:getUserInformation", players)
-
-	while not recievedInformation do
-		Citizen.Wait(0)
-	end
-	recievedInformation = false
-	return onlinePlayers, disconnectedPlayers
-end
 
 RegisterNetEvent("scoreboard:recieveUserInformation")
 AddEventHandler("scoreboard:recieveUserInformation", function(_p, _dp)
 	onlinePlayers = _p
 	disconnectedPlayers = _dp
-	recievedInformation = true
 end)
 
 local pressedz = false
@@ -49,7 +29,7 @@ Citizen.CreateThread(function()
 		Citizen.Wait(0)
 		if pressedz == true then
 			TriggerServerEvent('scoreboard:notify', pressedz)
-			Citizen.Wait(3000)
+			Citizen.Wait(10000)
 		end
 	end
 end)
@@ -68,11 +48,6 @@ Citizen.CreateThread(function()
 					end
 					TriggerServerEvent("scoreboard:getUserInformation", players)
 
-					while not recievedInformation do
-						Citizen.Wait(0)
-					end
-					recievedInformation = false
-					leaderboard["online"], leaderboard["offline"] = onlinePlayers, disconnectedPlayers
 					if not WarMenu.DoesMenuExist("Scoreboard") then
 						WarMenu.CreateMenu("Scoreboard", "Player list")
 						WarMenu.SetTitleBackgroundColor("Scoreboard", 0, 128, 255, 255)
@@ -83,6 +58,7 @@ Citizen.CreateThread(function()
 						WarMenu.CreateSubMenu("player_info", "Scoreboard", "Player Info")
 						WarMenu.CreateSubMenu("disconnected", "Scoreboard", "Disconnected Players")
 						WarMenu.CreateSubMenu("player_info_disconnected", "disconnected", "Player Info")
+						WarMenu.OpenMenu("Scoreboard")
 					else
 						WarMenu.OpenMenu("Scoreboard")
 					end
@@ -93,7 +69,7 @@ Citizen.CreateThread(function()
 		end
 		if WarMenu.IsMenuOpened("Scoreboard") then
 			pressedz = true
-			for k,v in pairs(leaderboard.online) do
+			for k,v in pairs(onlinePlayers) do
 				if WarMenu.MenuButton("["..v.id.."] "..v.steam, "player_info") then
 					leaderboard_selected = v
 				end
@@ -118,8 +94,8 @@ Citizen.CreateThread(function()
 			WarMenu.Display()
 		elseif WarMenu.IsMenuOpened("disconnected") then
 			pressedz = true
-			for k,v in pairs(leaderboard.offline) do
-				if WarMenu.MenuButton("["..v.id.."] "..v.name, "player_info_disconnected") then
+			for k,v in pairs(disconnectedPlayers) do
+				if WarMenu.MenuButton("["..v.id.."] "..v.steam, "player_info_disconnected") then
 					leaderboard_selected = v
 				end
 			end
