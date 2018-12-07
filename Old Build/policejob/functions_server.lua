@@ -97,10 +97,10 @@ AddEventHandler('police:search', function(target, type)
 			TriggerEvent("inventory:getuser", target, function(_inventory)
 				if _inventory ~= nil then
 					for k,v in pairs(_inventory) do
-						message = message .. v.quantity .. " | " .. v.name .. "<br>"
+						message = message .. "^3" .. v.quantity .. " ^0" .. v.name .. ", "
 					end
 					if message ~= "" then
-						TriggerClientEvent("pNotify:SendNotification", source, {text = message, type = "error",queue = "left",timeout = 10000,layout = "centerRight"})
+						TriggerClientEvent("chatMessage", source, "Items found in pockets: ", {16, 102, 158},"" .. message)
 					else
 						TriggerClientEvent("pNotify:SendNotification", source, {text = "No items found",type = "error",queue = "left",timeout = 2500,layout = "centerRight"})
 					end
@@ -121,23 +121,25 @@ AddEventHandler('police:search', function(target, type)
 		elseif type == "wl" then
 			TriggerEvent("core:getuser", target, function(_target)
 				if _target.get("weapon_license") == "true" then
-					TriggerClientEvent("pNotify:SendNotification", source, {text = "This person is licensed to carry firearms",type = "error",queue = "left",timeout = 3000,layout = "centerRight"})
+					TriggerClientEvent("chatMessage", source, "Weapons License:", {16, 102, 158}, " ^2Yes")
 				else
-					TriggerClientEvent("pNotify:SendNotification", source, {text = "This person does not have a license!",type = "error",queue = "left",timeout = 3000,layout = "centerRight"})
+					TriggerClientEvent("chatMessage", source, "Weapons License:", {16, 102, 158}, " ^1No")
 				end
 			end)
 		elseif type == "id" then
 			TriggerEvent('gc:takeIdentity', source, target)
 		elseif type == "wallet" then
 			TriggerEvent("core:getuser", target, function(_target)
-				TriggerClientEvent("pNotify:SendNotification", source, {text = "Cash: <span style='color:lime'>$</span><span style='color:white'>".._target.get("wallet").."</span><br>Dirty cash: <span style='color:lime'>$</span><span style='color:white'>".._target.get("dirty").."</span>",type = "error",queue = "left",timeout = 4000,layout = "centerRight"})
+				TriggerClientEvent("chatMessage", source, "Cash: ", {16, 102, 158}, "^2$^7" .._target.get("wallet"))
+				TriggerClientEvent("chatMessage", source, "Dirty: ", {16, 102, 158}, "^1$^7" .. _target.get("dirty"))
+				--TriggerClientEvent("pNotify:SendNotification", source, {text = "Cash: <span style='color:lime'>$</span><span style='color:white'>".._target.get("wallet").."</span><br>Dirty cash: <span style='color:lime'>$</span><span style='color:white'>".._target.get("dirty").."</span>",type = "error",queue = "left",timeout = 4000,layout = "centerRight"})
 			end)
 		elseif type == "dl" then
 			TriggerEvent("core:getuser", target, function(_target)
 				if _target.get("drivers_license") == "true" then
-					TriggerClientEvent("pNotify:SendNotification", source, {text = "This person is licensed to drive",type = "error",queue = "left",timeout = 3000,layout = "centerRight"})
+					TriggerClientEvent("chatMessage", source, "Drivers License:", {16, 102, 158}, " ^2Valid")
 				else
-					TriggerClientEvent("pNotify:SendNotification", source, {text = "This person does not have a license!",type = "error",queue = "left",timeout = 3000,layout = "centerRight"})
+					TriggerClientEvent("chatMessage", source, "Drivers License:", {16, 102, 158}, " ^1Suspended")
 				end
 			end)		
 		end
@@ -156,11 +158,11 @@ AddEventHandler('police:search_vehicle', function(target, type)
 				if _inventory ~= nil then
 					for k,v in pairs(_inventory) do
 						if k ~= "locked" then
-							message = message .. v.quantity .. " | " .. v.name .. "<br>"
+							message = message .. "^3" .. v.quantity .. " ^0" .. v.name .. ", "
 						end
 					end
 					if message ~= "" then
-						TriggerClientEvent("pNotify:SendNotification", source, {text = message,type = "error",queue = "left",timeout = 10000,layout = "centerRight"})
+						TriggerClientEvent("chatMessage", source, "Items found in vehicle: ", {16, 102, 158},"" .. message)
 					else
 						TriggerClientEvent("pNotify:SendNotification", source, {text = "No items found",type = "error",queue = "left",timeout = 2500,layout = "centerRight"})
 					end
