@@ -26,7 +26,6 @@ client_script 'New/Wrappers/Client/NativeUI.lua'
 client_script "New/Player/Client/Main.lua"
 client_script "New/Player/Client/Emotes.lua"
 client_script "New/Player/Client/Commands.lua"
---client_script "New/Player/Client/Surrender.lua"
 
 server_script "New/Player/Server/Commands.lua"
 
@@ -101,19 +100,7 @@ client_script 'drugs/cocaine.lua'
 server_script 'drugs/cocaine_server.lua'
 
 --Others
-
-client_script 'others/fuel/client.lua'
-server_script 'others/fuel/server.lua'
-
 client_script 'others/hunger/client.lua'
-
-client_script 'animations/client.lua'
-
---client_script 'others/alerts/client.lua'
---server_script 'others/alerts/server.lua'
-
-client_script 'others/chat_stuff/client.lua'
-server_script 'others/chat_stuff/server.lua'
 
 client_script 'others/scoreboard/client.lua'
 server_script 'others/scoreboard/server.lua'
@@ -126,45 +113,16 @@ server_script 'others/emergency_blips/server.lua'
 client_script 'others/dispatch/client.lua'
 server_script 'others/dispatch/server.lua'
 
-client_script 'others/carwash/client.lua'
-server_script 'others/carwash/server.lua'
-
-client_script 'others/seatbelt/client.lua'
-
-client_script 'others/deer_riding/client.lua'
-
---client_script 'others/chopshop/client.lua'
---server_script 'others/chopshop/server.lua'
-
-client_script 'others/rest_house/client.lua'
-server_script 'others/rest_house/server.lua'
-
-client_script 'others/attached_weapons/client.lua'
-
 client_script 'others/zones/client.lua'
 server_script 'others/zones/server.lua'
 
 client_script 'others/keys/client.lua'
 server_script 'others/keys/server.lua'
 
-client_script 'others/teleports/client.lua'
-
-client_script 'others/diving/client.lua'
-server_script 'others/diving/server.lua'
-
-client_script 'others/tackle/client.lua'
-server_script 'others/tackle/server.lua'
-
-client_script 'others/afk/client.lua'
-
 client_script 'others/environment/config.lua'
 client_script 'others/environment/client.lua'
 server_script 'others/environment/config.lua'
 server_script 'others/environment/server.lua'
-
-client_script 'others/pdpeds/client.lua'
-
-client_script 'others/recoil/client.lua'
 
 --Interaction --Big point of interest
 client_script 'interaction/main.lua'
