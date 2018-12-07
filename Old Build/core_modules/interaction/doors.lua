@@ -14,27 +14,15 @@
 --Door models: https://wiki.gtanet.work/index.php?title=Doors
 
 doors = {
-	single = {
-		[1] = {x = 0, y = 0, z = 0, model = 0, heading = 0.0, locked = false},
-	},
-	double = {
-		[1] = {
-			["left"] = {x = 0, y = 0, z = 0, model = 0, heading = 0.0, locked = false},
-			["right"] = {x = 0, y = 0, z = 0, model = 0, heading = 0.0, locked = false},
-		},
-	}
+	single = {},
+	double = {}
 }
 
 doors_locked = {
 	single = {
 		[1] = {x = -1002.4011230469, y = -477.61575317383, z = 50.027568817139, model = -2030220382, heading = 299.10842895508}, -- Property door (Movie studio)
 	},
-	double = {
-		[1] = {
-			["left"] = {x = 0, y = 0, z = 0, model = 0, heading = 0.0},
-			["right"] = {x = 0, y = 0, z = 0, model = 0, heading = 0.0},
-		},
-	}
+	double = {}
 }
 
 Citizen.CreateThread(function()
