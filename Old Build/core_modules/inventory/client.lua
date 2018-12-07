@@ -688,6 +688,12 @@ AddEventHandler("inventory:use",function(data)
             TaskStartScenarioInPlace(PlayerPedId(), "WORLD_HUMAN_SMOKING_POT", 0, true)
         elseif data.canuse == 11 then --Cigarette
             TaskStartScenarioInPlace(PlayerPedId(), "WORLD_HUMAN_SMOKING", 0, true)
+        elseif data.canuse == 12 then
+            local Emote = Emotes.Find("cigar")
+            Emotes.Stop()
+            Emote.Playing = true
+            Emote:Play(Emote)
+            table.insert(Emotes.Active, Emote)
         end
         removeQty(data.item_id,1)
     elseif data.canuse == -1 then

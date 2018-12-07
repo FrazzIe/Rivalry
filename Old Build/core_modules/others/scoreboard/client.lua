@@ -94,7 +94,7 @@ Citizen.CreateThread(function()
 		if WarMenu.IsMenuOpened("Scoreboard") then
 			pressedz = true
 			for k,v in pairs(leaderboard.online) do
-				if WarMenu.MenuButton("["..v.id.."] "..v.name, "player_info") then
+				if WarMenu.MenuButton("["..v.id.."] "..v.steam, "player_info") then
 					leaderboard_selected = v
 				end
 			end

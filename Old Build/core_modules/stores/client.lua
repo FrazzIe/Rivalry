@@ -52,6 +52,7 @@ Store = {
     }},
     {Category = "Misc", Items = {
         {Name = "Cigarette", Id=77, Cost = 10, Max = 100},
+        {Name = "Cigar", Id=79, Cost = 10, Max = 100},
     }},
 }
 for k,v in pairs(Store) do
