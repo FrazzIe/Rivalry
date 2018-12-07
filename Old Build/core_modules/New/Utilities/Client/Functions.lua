@@ -57,12 +57,13 @@ function GetPlayers()
 end
 
 function GetNearestVehicleAtCoords(X, Y, Z, Radius, Alive, ExcludePlayer)
+	local PlayerVehicle = GetVehiclePedIsIn(PlayerPedId(), false)
 	local NearestVehicles = {}
 	local NearestVehicle = {Handle = nil, Position = nil}
 	if tonumber(X) and tonumber(Y) and tonumber(Z) then
 		if tonumber(Radius) then
 			for Vehicle in EnumerateVehicles() do
-				if DoesEntityExist(Vehicle) and not (Alive and false or IsEntityDead(Vehicle)) and not (ExcludePlayer and false or (Vehicle == Player.Vehicle.Current)) then
+				if DoesEntityExist(Vehicle) and not (Alive and false or IsEntityDead(Vehicle)) and not (ExcludePlayer and false or (Vehicle == PlayerVehicle)) then
 					local VehiclePosition = GetEntityCoords(Vehicle, false)
 					if Vdist(X, Y, Z, VehiclePosition.x, VehiclePosition.y, VehiclePosition.z) <= Radius then
 						table.insert(NearestVehicles, {Handle = Vehicle, Position = VehiclePosition})
@@ -93,7 +94,7 @@ function GetNearestPedAtCoords(X, Y, Z, Radius, Alive, ExcludePlayer)
 	if tonumber(X) and tonumber(Y) and tonumber(Z) then
 		if tonumber(Radius) then
 			for Ped in EnumeratePeds() do
-				if DoesEntityExist(Ped) and not (Alive and false or IsEntityDead(Ped)) and not (ExcludePlayer and false or (Ped == Player.Ped)) then
+				if DoesEntityExist(Ped) and not (Alive and false or IsEntityDead(Ped)) and not (ExcludePlayer and false or (Ped == PlayerPedId())) then
 					local PedPosition = GetEntityCoords(Ped, false)
 					if Vdist(X, Y, Z, PedPosition.x, PedPosition.y, PedPosition.z) <= Radius then
 						table.insert(NearestPeds, {Handle = Ped, Position = PedPosition})
@@ -119,6 +120,7 @@ function GetNearestPedAtCoords(X, Y, Z, Radius, Alive, ExcludePlayer)
 end
 
 function GetNearestPlayerVehicleAtCoords(X, Y, Z, Radius, Alive, ExcludePlayer)
+	local PlayerVehicle = GetVehiclePedIsIn(PlayerPedId(), false)
 	local NearestVehicles = {}
 	local NearestVehicle = {Player = nil, Ped = nil, Vehicle = nil, Position = nil}
 	if tonumber(X) and tonumber(Y) and tonumber(Z) then
@@ -128,7 +130,7 @@ function GetNearestPlayerVehicleAtCoords(X, Y, Z, Radius, Alive, ExcludePlayer)
 				local TargetPed = GetPlayerPed(Players[Index])
 				if DoesEntityExist(TargetPed) then
 					local Vehicle = GetVehiclePedIsUsing(TargetPed)
-					if DoesEntityExist(Vehicle) and not (Alive and false or IsEntityDead(Vehicle)) and not (ExcludePlayer and false or (Vehicle == Player.Vehicle.Current)) then
+					if DoesEntityExist(Vehicle) and not (Alive and false or IsEntityDead(Vehicle)) and not (ExcludePlayer and false or (Vehicle == PlayerVehicle)) then
 						local VehiclePosition = GetEntityCoords(Vehicle, false)
 						if Vdist(X, Y, Z, VehiclePosition.x, VehiclePosition.y, VehiclePosition.z) <= Radius then
 							table.insert(NearestVehicles, {Player = Players[Index], Ped = TargetPed, Vehicle = Vehicle, Position = VehiclePosition})
@@ -162,7 +164,7 @@ function GetNearestPlayerAtCoords(X, Y, Z, Radius, Alive, ExcludePlayer)
 			local Players = GetPlayers()
 			for Index = 1, #Players do
 				local TargetPed = GetPlayerPed(Players[Index])
-				if DoesEntityExist(TargetPed) and not (Alive and false or IsEntityDead(TargetPed)) and not (ExcludePlayer and false or (TargetPed == Player.Ped)) then
+				if DoesEntityExist(TargetPed) and not (Alive and false or IsEntityDead(TargetPed)) and not (ExcludePlayer and false or (TargetPed == PlayerPedId())) then
 					local TargetPosition = GetEntityCoords(TargetPed, false)
 					if Vdist(X, Y, Z, TargetPosition.x, TargetPosition.y, TargetPosition.z) <= Radius then
 						table.insert(NearestPlayers, {Player = Players[Index], Ped = TargetPed, Position = TargetPosition})
@@ -184,7 +186,7 @@ function GetNearestPlayerAtCoords(X, Y, Z, Radius, Alive, ExcludePlayer)
 	else
 		Log.Warn("GetNearestPlayerAtCoords was given invalid coordinates!")
 	end
-	return NearestPlayer.Player, NearestPlayer.Ped, NearestPlayer.Position
+	return NearestPlayer.Player, NearestPlayerPedId(), NearestPlayer.Position
 end
 
 function GetNearbyObjects(X, Y, Z, Radius)
@@ -335,13 +337,13 @@ function TeleportPlayer(X, Y, Z, H)
 	    Citizen.CreateThread(function()
 	        DoScreenFadeOut(1000)
 	        while IsScreenFadingOut() do Citizen.Wait(0) end
-	        NetworkFadeOutEntity(Player.Ped, true, false)
+	        NetworkFadeOutEntity(PlayerPedId(), true, false)
 	        Citizen.Wait(1000)
-	        SetEntityCoords(Player.Ped, X, Y, Z)
-	        SetEntityHeading(Player.Ped, H or 90.0)
-	        NetworkFadeInEntity(Player.Ped, 0)
+	        SetEntityCoords(PlayerPedId(), X, Y, Z)
+	        SetEntityHeading(PlayerPedId(), H or 90.0)
+	        NetworkFadeInEntity(PlayerPedId(), 0)
 	        Citizen.Wait(1000)
-	        SimulatePlayerInputGait(Player.Id, 1.0, 100, 1.0, 1, 0)
+	        SimulatePlayerInputGait(PlayerId(), 1.0, 100, 1.0, 1, 0)
 	        DoScreenFadeIn(1000)
 	        while IsScreenFadingIn() do Citizen.Wait(0) end
 	    end)
