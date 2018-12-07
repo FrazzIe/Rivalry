@@ -97,10 +97,9 @@ AddEventHandler('police:search', function(target, type)
 			TriggerEvent("inventory:getuser", target, function(_inventory)
 				if _inventory ~= nil then
 					for k,v in pairs(_inventory) do
-						message = message .. v.quantity .. " " .. v.name .. " | "
 					end
 					if message ~= "" then
-						TriggerClientEvent("chatMessage", source, "Search", {16, 102, 158}, "Items found in pockets: "..message)
+						TriggerClientEvent("chatMessage", source, "Items found in pockets: ", {16, 102, 158},"" .. message)
 					else
 						TriggerClientEvent("pNotify:SendNotification", source, {text = "No items found",type = "error",queue = "left",timeout = 2500,layout = "centerRight"})
 					end
@@ -121,9 +120,9 @@ AddEventHandler('police:search', function(target, type)
 		elseif type == "wl" then
 			TriggerEvent("core:getuser", target, function(_target)
 				if _target.get("weapon_license") == "true" then
-					TriggerClientEvent("chatMessage", source, "Weapons License:", {16, 102, 158}, " Valid")
+					TriggerClientEvent("chatMessage", source, "Weapons License:", {16, 102, 158}, " ^2Yes")
 				else
-					TriggerClientEvent("chatMessage", source, "Weapons License:", {16, 102, 158}, " In-Valid")
+					TriggerClientEvent("chatMessage", source, "Weapons License:", {16, 102, 158}, " ^1No")
 				end
 			end)
 		elseif type == "id" then
@@ -137,9 +136,9 @@ AddEventHandler('police:search', function(target, type)
 		elseif type == "dl" then
 			TriggerEvent("core:getuser", target, function(_target)
 				if _target.get("drivers_license") == "true" then
-					TriggerClientEvent("chatMessage", source, "Drivers License:", {16, 102, 158}, " Valid")
+					TriggerClientEvent("chatMessage", source, "Drivers License:", {16, 102, 158}, " ^2Valid")
 				else
-					TriggerClientEvent("chatMessage", source, "Drivers License:", {16, 102, 158}, " In-Valid")
+					TriggerClientEvent("chatMessage", source, "Drivers License:", {16, 102, 158}, " ^1Suspended")
 				end
 			end)		
 		end
@@ -158,11 +157,11 @@ AddEventHandler('police:search_vehicle', function(target, type)
 				if _inventory ~= nil then
 					for k,v in pairs(_inventory) do
 						if k ~= "locked" then
-							message = message .. v.quantity .. " " .. v.name .. " | "
+							message = message .. "^3" .. v.quantity .. " ^0" .. v.name .. ", "
 						end
 					end
 					if message ~= "" then
-						TriggerClientEvent("chatMessage", source, "Search", {16, 102, 158}, "Items found in vehicle: "..message)
+						TriggerClientEvent("chatMessage", source, "Items found in vehicle: ", {16, 102, 158},"" .. message)
 					else
 						TriggerClientEvent("pNotify:SendNotification", source, {text = "No items found",type = "error",queue = "left",timeout = 2500,layout = "centerRight"})
 					end
