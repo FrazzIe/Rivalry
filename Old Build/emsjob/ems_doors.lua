@@ -13,107 +13,156 @@
 --]]
 --Door models: https://wiki.gtanet.work/index.php?title=Doors
 
-local function Draw3DText(x,y,z, text) -- some useful function, use it if you want!
-    local onScreen,_x,_y=World3dToScreen2d(x,y,z)
-    local px,py,pz=table.unpack(GetGameplayCamCoords())
-    local dist = GetDistanceBetweenCoords(px,py,pz, x,y,z, 1)
+local function RenderText(Text, X, Y, Font, Scale, R, G, B, A, Alignment, DropShadow, Outline, WordWrap)
+    local Text, X, Y = tostring(Text), (tonumber(X) or 0)/1920, (tonumber(Y) or 0)/1080
 
-    local scale = (1/dist)*2
-    local fov = (1/GetGameplayCamFov())*100
-    local scale = scale*fov
+    SetTextFont(Font or 0)
+    SetTextScale(1.0, Scale or 0)
+    SetTextColour(tonumber(R) or 255, tonumber(G) or 255, tonumber(B) or 255, tonumber(A) or 255)
 
-    if onScreen then
-        SetTextScale(0.0*scale, 0.3*scale)
-        SetTextFont(6)
-        SetTextProportional(1)
-        -- SetTextScale(0.0, 0.55)
-        SetTextColour(255, 255, 255, 255)
-        SetTextDropshadow(0, 0, 0, 0, 55)
-        SetTextEdge(2, 0, 0, 0, 150)
+    if DropShadow then
         SetTextDropShadow()
-        SetTextOutline()
-        SetTextEntry("STRING")
-        SetTextCentre(1)
-        AddTextComponentString(text)
-        DrawText(_x,_y)
     end
+
+    if Outline then
+        SetTextOutline()
+    end
+
+    if Alignment ~= nil then
+        if Alignment == 1 or Alignment == "Center" or Alignment == "Centre" then
+            SetTextCentre(true)
+        elseif Alignment == 2 or Alignment == "Right" then
+            SetTextRightJustify(true)
+        end
+    end
+
+    if tonumber(WordWrap) and tonumber(WordWrap) ~= 0 then
+        if Alignment == 1 or Alignment == "Center" or Alignment == "Centre" then
+            SetTextWrap(X - ((WordWrap/1920)/2), X + ((WordWrap/1920)/2))
+        elseif Alignment == 2 or Alignment == "Right" then
+            SetTextWrap(0, X)
+        else
+            SetTextWrap(X, X + (WordWrap/1920))
+        end
+    else
+        if Alignment == 2 or Alignment == "Right" then
+            SetTextWrap(0, X)
+        end
+    end
+
+    BeginTextCommandDisplayText("STRING")
+    AddTextComponentSubstringPlayerName(Text) 
+    EndTextCommandDisplayText(X, Y)
 end
 
 local doors = {
 	single = {
-		[1] = {x = 272.21752929688, y = -1361.5660400391, z = 24.551530838013, model = 1653893025, heading = 320.00003051758, locked = true}, -- Morgue, reception door
-		[2] = {x = 265.06137084961, y = -1363.3120117188, z = 24.551530838013, model = 1653893025, heading = 230.00003051758, locked = true}, -- Morgue, reception door 2
-		[3] = {x = 256.56033325195, y = -1377.4182128906, z = 39.737594604492, model = 374758529, heading = 4.9999651908875, locked = true}, -- Computing room, 3rd floor, door 1
-		[4] = {x = 261.21139526367, y = -1380.8220214844, z = 39.737594604492, model = 374758529, heading = 320.00003051758, locked = true}, -- Computing room, 3rd floor, door 2
-		[5] = {x = 236.77729797363, y = -1367.3142089844, z = 39.679546356201, model = 1859711902, heading = 95.08666229248, locked = true}, -- Medical office, 3rd floor
+		{coords = vector3(272.21752929688, -1361.5660400391, 24.551530838013), model = 1653893025, heading = 320.00003051758, locked = true}, -- Morgue, reception door
+		{coords = vector3(265.06137084961, -1363.3120117188, 24.551530838013), model = 1653893025, heading = 230.00003051758, locked = true}, -- Morgue, reception door 2
+		{coords = vector3(256.56033325195, -1377.4182128906, 39.737594604492), model = 374758529, heading = 4.9999651908875, locked = true}, -- Computing room, 3rd floor, door 1
+		{coords = vector3(261.21139526367, -1380.8220214844, 39.737594604492), model = 374758529, heading = 320.00003051758, locked = true}, -- Computing room, 3rd floor, door 2
+		{coords = vector3(236.77729797363, -1367.3142089844, 39.679546356201), model = 1859711902, heading = 95.08666229248, locked = true}, -- Medical office, 3rd floor
 	},
 	double = {
-		[1] = {
-			["left"] = {x = 325.05090332031, y = -588.92846679688, z = 43.344619750977, model = -770740285, heading = 160.00001525879, locked = false},
-			["right"] = {x = 327.2121887207, y = -589.71508789063, z = 43.344619750977, model = -770740285, heading = 340.00003051758, locked = false},
+		{
+			["left"] = {coords = vector3(325.05090332031, -588.92846679688, 43.344619750977), model = -770740285, heading = 160.00001525879, locked = false},
+			["right"] = {coords = vector3(327.2121887207, -589.71508789063, 43.344619750977), model = -770740285, heading = 340.00003051758, locked = false},
 		}, -- Inner Pillbox hospital doors
-		[2] = {
-			["left"] = {x = 249.54711914063, y = -1383.7418212891, z = 39.744342803955, model = 374758529, heading = 49.99995803833, locked = false},
-			["right"] = {x = 247.88844299316, y = -1385.7186279297, z = 39.744342803955, model = 374758529, heading = 229.99996948242, locked = false},
+		{
+			["left"] = {coords = vector3(249.54711914063, -1383.7418212891, 39.744342803955), model = 374758529, heading = 49.99995803833, locked = false},
+			["right"] = {coords = vector3(247.88844299316, -1385.7186279297, 39.744342803955), model = 374758529, heading = 229.99996948242, locked = false},
 		}, -- Computing room, 3rd floor, double doors
-		[3] = {
-			["left"] = {x = 239.21530151367, y = -1363.4578857422, z = 39.737594604492, model = 374758529, heading = 229.62672424316, locked = false},
-			["right"] = {x = 240.8713684082, y = -1361.4842529297, z = 39.737594604492, model = 374758529, heading = 49.889072418213, locked = false},
+		{
+			["left"] = {coords = vector3(239.21530151367, -1363.4578857422, 39.737594604492), model = 374758529, heading = 229.62672424316, locked = false},
+			["right"] = {coords = vector3(240.8713684082, -1361.4842529297, 39.737594604492), model = 374758529, heading = 49.889072418213, locked = false},
 		}, -- Documents room, 3rd floor
-		[4] = {
-			["left"] = {x = 250.10475158691, y = -1370.2286376953, z = 39.737594604492, model = 374758529, heading = 320.25872802734, locked = false},
-			["right"] = {x = 248.12802124023, y = -1368.5699462891, z = 39.737594604492, model = 374758529, heading = 140.00001525879, locked = false},
+		{
+			["left"] = {coords = vector3(250.10475158691, -1370.2286376953, 39.737594604492), model = 374758529, heading = 320.25872802734, locked = false},
+			["right"] = {coords = vector3(248.12802124023, -1368.5699462891, 39.737594604492), model = 374758529, heading = 140.00001525879, locked = false},
 		}, -- Forensics Lab, 3rd floor Middle doors
-		[5] = {
-			["left"] = {x = 245.19139099121, y = -1383.4554443359, z = 39.743377685547, model = 374758529, heading = 229.73471069336, locked = false},
-			["right"] = {x = 246.85006713867, y = -1381.4786376953, z = 39.743377685547, model = 374758529, heading = 50.25090026855, locked = false},
+		{
+			["left"] = {coords = vector3(245.19139099121, -1383.4554443359, 39.743377685547), model = 374758529, heading = 229.73471069336, locked = false},
+			["right"] = {coords = vector3(246.85006713867, -1381.4786376953, 39.743377685547), model = 374758529, heading = 50.25090026855, locked = false},
 		}, -- Forensics Lab, 3rd floor Left doors
-		[6] = {
-			["left"] = {x = 237.6615447998, y = -1373.7686767578, z = 39.744342803955, model = 374758529, heading = 50.000022888184, locked = false},
-			["right"] = {x = 236.00286865234, y = -1375.7454833984, z = 39.744342803955, model = 374758529, heading = 230.00003051758, locked = false},
+		{
+			["left"] = {coords = vector3(237.6615447998, -1373.7686767578, 39.744342803955), model = 374758529, heading = 50.000022888184, locked = false},
+			["right"] = {coords = vector3(236.00286865234, -1375.7454833984, 39.744342803955), model = 374758529, heading = 230.00003051758, locked = false},
 		}, -- Forensics Lab, 3rd floor Right doors
 	}
 }
 
 Citizen.CreateThread(function()
 	while true do
-		Citizen.Wait(0)
-		for k,v in pairs(doors.single) do
-			if v.locked then
-				local door = GetClosestObjectOfType(v.x, v.y, v.z, 0.5, v.model, false, false, false)
-				if door ~= nil and door ~= 0 then
-					SetEntityHeading(door, v.heading)
-				end
+		Citizen.Wait(2500)
+		for Index = 1, #doors.single do
+			if not DoesEntityExist(doors.single[Index].handle) then
+				doors.single[Index].handle = GetClosestObjectOfType(doors.single[Index].coords.x, doors.single[Index].coords.y, doors.single[Index].coords.z, 0.5, doors.single[Index].model, false, false, false)
 			end
-			if isParamedic or exports["policejob"]:getIsCop() then
-				local pos = GetEntityCoords(PlayerPedId(),false)
-				if GetDistanceBetweenCoords(pos.x, pos.y, pos.z, v.x, v.y, v.z, true) <= 1.2 then
-					local state = "Unlocked"
-					if v.locked then state = "Locked" end
-					Draw3DText(v.x, v.y, pos.z,"~o~[E]"..state)
-					if IsControlJustPressed(1, 51) then
-						TriggerServerEvent("paramedic:doors_lock", k, "single")
+		end
+
+		for Index = 1, #doors.double do
+			if not DoesEntityExist(doors.double[Index].left.handle) then
+				doors.double[Index].left.handle = GetClosestObjectOfType(doors.double[Index].left.coords.x, doors.double[Index].left.coords.y, doors.double[Index].left.coords.z, 0.5, doors.double[Index].left.model, false, false, false)
+			end
+
+			if not DoesEntityExist(doors.double[Index].right.handle) then
+				doors.double[Index].right.handle = GetClosestObjectOfType(doors.double[Index].right.coords.x, doors.double[Index].right.coords.y, doors.double[Index].right.coords.z, 0.5, doors.double[Index].right.model, false, false, false)
+			end
+		end
+	end
+end)
+
+Citizen.CreateThread(function()
+	while true do
+		Citizen.Wait(0)
+		if isParamedic or exports["policejob"]:getIsCop() then
+			local PlayerPed = PlayerPedId()
+			local PlayerPosition = GetEntityCoords(PlayerPed, false)
+
+			for Index = 1, #doors.single do
+				local Distance = #(doors.single[Index].coords - PlayerPosition)
+
+				if Distance <= 10.0 then
+					if doors.single[Index].locked then
+						if doors.single[Index].handle ~= nil and doors.single[Index].handle ~= 0 then
+							SetEntityHeading(doors.single[Index].handle, doors.single[Index].heading)
+						end
+					end
+
+					if Distance <= 1.2 then
+						SetDrawOrigin(doors.single[Index].coords.x, doors.single[Index].coords.y, PlayerPosition.z, 0)
+						RenderText("~o~[E]"..(doors.single[Index].locked and "Locked" or "Unlocked"), 0, 0, 6, 0.3, 255, 255, 255, 255, "Centre", true, true)
+						ClearDrawOrigin()
+
+						if IsControlJustPressed(1, 51) then
+							TriggerServerEvent("paramedic:doors_lock", Index, "single")
+						end
 					end
 				end
 			end
-		end
-		for k,v in pairs(doors.double) do
-			if v.left.locked and v.right.locked then
-				local leftdoor = GetClosestObjectOfType(v.left.x, v.left.y, v.left.z, 0.5, v.left.model, false, false, false)
-				local rightdoor = GetClosestObjectOfType(v.right.x, v.right.y, v.right.z, 0.5, v.right.model, false, false, false)
-				if rightdoor ~= nil and rightdoor ~= 0 and leftdoor ~= nil and leftdoor ~= 0 then
-					SetEntityHeading(leftdoor, v.left.heading)
-					SetEntityHeading(rightdoor, v.right.heading)
-				end
-			end
-			if isParamedic or exports["policejob"]:getIsCop() then
-				local pos = GetEntityCoords(PlayerPedId(),false)
-				if GetDistanceBetweenCoords(pos.x, pos.y, pos.z, v.left.x, v.left.y, v.left.z, true) <= 1.5 or GetDistanceBetweenCoords(pos.x, pos.y, pos.z, v.right.x, v.right.y, v.right.z, true) <= 1.5 then
-					local state = "Unlocked"
-					if v.left.locked then state = "Locked" end
-					Draw3DText(v.left.x, v.left.y, v.left.z,"~o~[E]"..state)
-					if IsControlJustPressed(1, 51) then
-						TriggerServerEvent("paramedic:doors_lock", k, "double")
+
+			for Index = 1, #doors.double do
+				local LeftDistance, RightDistance =  #(doors.double[Index].left.coords - PlayerPosition), #(doors.double[Index].right.coords - PlayerPosition)
+
+				if LeftDistance <= 10.0 or RightDistance <= 10.0 then
+					if doors.double[Index].left.locked then
+						if doors.double[Index].left.handle ~= nil and doors.double[Index].left.handle ~= 0 then
+							SetEntityHeading(doors.double[Index].left.handle, doors.double[Index].left.heading)
+						end
+
+						if doors.double[Index].right.handle ~= nil and doors.double[Index].right.handle ~= 0 then
+							SetEntityHeading(doors.double[Index].right.handle, doors.double[Index].right.heading)
+						end
+					end
+
+					if LeftDistance <= 1.2 or RightDistance <= 1.2 then
+						SetDrawOrigin(doors.double[Index].left.coords.x, doors.double[Index].left.coords.y, PlayerPosition.z, 0)
+						RenderText("~o~[E]"..(doors.double[Index].left.locked and "Locked" or "Unlocked"), 0, 0, 6, 0.3, 255, 255, 255, 255, "Centre", true, true)
+						ClearDrawOrigin()
+
+						if IsControlJustPressed(1, 51) then
+							TriggerServerEvent("paramedic:doors_lock", Index, "double")
+						end
 					end
 				end
 			end
@@ -123,5 +172,12 @@ end)
 
 RegisterNetEvent("paramedic:doors_sync")
 AddEventHandler("paramedic:doors_sync", function(_doors)
-	doors = _doors
+	for Index = 1, #doors.single do
+		doors.single[Index].locked = _doors.single[Index]
+	end
+
+	for Index = 1, #doors.double do
+		doors.double[Index].left.locked = _doors.double[Index].left
+		doors.double[Index].right.locked = _doors.double[Index].right
+	end
 end)

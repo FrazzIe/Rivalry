@@ -16,36 +16,36 @@ ranks = {}
 user_models = {}
 local doors = {
 	single = {
-		[1] = {x = 272.21752929688, y = -1361.5660400391, z = 24.551530838013, model = 1653893025, heading = 320.00003051758, locked = true}, -- Morgue, reception door
-		[2] = {x = 265.06137084961, y = -1363.3120117188, z = 24.551530838013, model = 1653893025, heading = 230.00003051758, locked = true}, -- Morgue, reception door 2
-		[3] = {x = 256.56033325195, y = -1377.4182128906, z = 39.737594604492, model = 374758529, heading = 4.9999651908875, locked = true}, -- Computing room, 3rd floor, door 1
-		[4] = {x = 261.21139526367, y = -1380.8220214844, z = 39.737594604492, model = 374758529, heading = 320.00003051758, locked = true}, -- Computing room, 3rd floor, door 2
-		[5] = {x = 236.77729797363, y = -1367.3142089844, z = 39.679546356201, model = 1859711902, heading = 95.08666229248, locked = true}, -- Medical office, 3rd floor
+		true, -- Morgue, reception door
+		true, -- Morgue, reception door 2
+		true, -- Computing room, 3rd floor, door 1
+		true, -- Computing room, 3rd floor, door 2
+		true, -- Medical office, 3rd floor
 	},
 	double = {
-		[1] = {
-			["left"] = {x = 325.05090332031, y = -588.92846679688, z = 43.344619750977, model = -770740285, heading = 160.00001525879, locked = true},
-			["right"] = {x = 327.2121887207, y = -589.71508789063, z = 43.344619750977, model = -770740285, heading = 340.00003051758, locked = true},
+		{
+			["left"] = false,
+			["right"] = false,
 		}, -- Inner Pillbox hospital doors
-		[2] = {
-			["left"] = {x = 249.54711914063, y = -1383.7418212891, z = 39.744342803955, model = 374758529, heading = 49.99995803833, locked = true},
-			["right"] = {x = 247.88844299316, y = -1385.7186279297, z = 39.744342803955, model = 374758529, heading = 229.99996948242, locked = true},
+		{
+			["left"] = false,
+			["right"] = false,
 		}, -- Computing room, 3rd floor, double doors
-		[3] = {
-			["left"] = {x = 239.21530151367, y = -1363.4578857422, z = 39.737594604492, model = 374758529, heading = 229.62672424316, locked = true},
-			["right"] = {x = 240.8713684082, y = -1361.4842529297, z = 39.737594604492, model = 374758529, heading = 49.889072418213, locked = true},
+		{
+			["left"] = false,
+			["right"] = false,
 		}, -- Documents room, 3rd floor
-		[4] = {
-			["left"] = {x = 250.10475158691, y = -1370.2286376953, z = 39.737594604492, model = 374758529, heading = 320.25872802734, locked = true},
-			["right"] = {x = 248.12802124023, y = -1368.5699462891, z = 39.737594604492, model = 374758529, heading = 140.00001525879, locked = true},
+		{
+			["left"] = false,
+			["right"] = false,
 		}, -- Forensics Lab, 3rd floor Middle doors
-		[5] = {
-			["left"] = {x = 245.19139099121, y = -1383.4554443359, z = 39.743377685547, model = 374758529, heading = 229.73471069336, locked = true},
-			["right"] = {x = 246.85006713867, y = -1381.4786376953, z = 39.743377685547, model = 374758529, heading = 50.25090026855, locked = true},
+		{
+			["left"] = false,
+			["right"] = false,
 		}, -- Forensics Lab, 3rd floor Left doors
-		[6] = {
-			["left"] = {x = 237.6615447998, y = -1373.7686767578, z = 39.744342803955, model = 374758529, heading = 50.000022888184, locked = true},
-			["right"] = {x = 236.00286865234, y = -1375.7454833984, z = 39.744342803955, model = 374758529, heading = 230.00003051758, locked = true},
+		{
+			["left"] = false,
+			["right"] = false,
 		}, -- Forensics Lab, 3rd floor Right doors
 	}
 }
@@ -271,11 +271,11 @@ RegisterServerEvent("paramedic:doors_lock")
 AddEventHandler("paramedic:doors_lock", function(doorid, type)
 	local source = source
 	if type == "single" then
-		doors.single[doorid].locked = not doors.single[doorid].locked
+		doors.single[doorid] = not doors.single[doorid]
 		TriggerClientEvent("paramedic:doors_sync", -1, doors)
 	elseif type == "double" then
-		doors.double[doorid]["left"].locked = not doors.double[doorid]["left"].locked
-		doors.double[doorid]["right"].locked = doors.double[doorid]["left"].locked
+		doors.double[doorid]["left"] = not doors.double[doorid]["left"]
+		doors.double[doorid]["right"] = doors.double[doorid]["left"]
 		TriggerClientEvent("paramedic:doors_sync", -1, doors)
 	end
 end)

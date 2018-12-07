@@ -16,46 +16,41 @@ cops = {}
 user_models = {}
 local doors = {
 	single = {
-		[1] = {x = 463.4782, y = -1003.538, z = 25.00599, model = -1033001619, heading = 0.0, locked = true}, -- Mission Row Door To Cells Back
-		[2] = {x = 461.8065, y = -994.4086, z = 25.06443, model = 631614199, heading = 270.0, locked = true}, -- Mission Row Cell Door 1
-		[3] = {x = 461.8065, y = -997.6583, z = 25.06443, model = 631614199, heading = 90.0, locked = true}, -- Mission Row Cell Door 2
-		[4] = {x = 461.8065, y = -1001.302, z = 25.06443, model = 631614199, heading = 90.0, locked = true}, -- Mission Row Cell Door 3
-		[5] = {x = 464.5701, y = -992.6641, z = 25.06443, model = 631614199, heading = 0.0, locked = true}, -- Mission Row Door To Cells Front
-		[6] = {x = 446.5728, y = -980.0106, z = 30.8393, model = -1320876379, heading = 180.00012207031, locked = true}, -- Mission Row Police Station Captan's Office Door
-		[7] = {x = 450.1041, y = -985.73840, z = 30.8393, model = 1557126584, heading = 89.661880493164, locked = true}, -- Mission Row Police Station Door To Locker Rooms
-		[8] = {x = 452.6248, y = -987.3626, z = 30.8393, model = -2023754432, heading = 179.75776672363, locked = true}, -- Mission Row Police Station Locker Room 1 Door
-		[9] = {x = 461.2865, y = -985.3206, z = 30.83926, model = 749848321, heading = 90.0, locked = true}, -- Mission Row Police Station Roof Access Door
-		[10] = {x = 464.3613, y = -984.678, z = 43.83443, model = -340230128, heading = 90.0, locked = true}, -- Mission Row Police Station Roof Door
-		[11] = {x = 1855.2312011719, y = 3683.5375976563, z = 34.266860961914, model = -1765048490, heading = 30.19642829895, locked = false}, -- Sandy Shores Main Door
-		[12] = {x = 1846.4598388672, y = 3662.5939941406, z = -116.789894104, model = -642608865, heading = 30.000001907349, locked = true}, -- Sandy Jail Cell 1
-		[13] = {x = 1852.0426025391, y = 3665.8259277344, z = -116.789894104, model = -642608865, heading = 30.000001907349, locked = true}, -- Sandy Jail Cell 2
-		[14] = {x = 1857.5572509766, y = 3668.9914550781, z = -116.77988433838, model = -642608865, heading = 30.000001907349, locked = true}, -- Sandy Jail Cell 3
-		[15] = {x = 1857.5572509766, y = 3668.9914550781, z = -116.77988433838, model = 871712474, heading = 30.000001907349, locked = true}, -- Sandy Jail Cell 4 Lockdown
-		[16] = {x = 1872.2075195313, y = 3676.9758300781, z = -116.7799911499, model = 871712474, heading = 30.000001907349, locked = true}, -- Sandy Jail Cell 5 Lockdown
+		true, -- Mission Row Door To Cells Back
+		true, -- Mission Row Cell Door 1
+		true, -- Mission Row Cell Door 2
+		true, -- Mission Row Cell Door 3
+		true, -- Mission Row Door To Cells Front
+		true, -- Mission Row Police Station Captan's Office Door
+		true, -- Mission Row Police Station Door To Locker Rooms
+		true, -- Mission Row Police Station Locker Room 1 Door
+		true, -- Mission Row Police Station Roof Access Door
+		true, -- Mission Row Police Station Roof Door
+		true, -- Sandy Shores Main Door
+		true, -- Sandy Jail Cell 1
+		true, -- Sandy Jail Cell 2
+		true, -- Sandy Jail Cell 3
+		true, -- Sandy Jail Cell 4 Lockdown
+		true, -- Sandy Jail Cell 5 Lockdown
 	},
-
 	double = {
-		[1] = {
-			["left"] = {x = 434.7479, y = -980.6184, z = 30.839260, model = -1215222675, heading = 270.18865966797, locked = false},
-			["right"] = {x = 434.7479, y = -983.2151, z = 30.83926, model = 320433149, heading = 270.39477539063, locked = false},
+		{
+			["left"] = false,
+			["right"] = false,
 		}, -- Mission Row Police Station Main Entrance
-		[2] = {
-			["left"] = {x = 467.3716, y = -1014.452, z = 26.53623, model = -2023754432, heading = 0.0, locked = true},
-			["right"] = {x = 469.9679, y = -1014.452, z = 26.53623, model = -2023754432, heading = 179.99998474121, locked = true},
+		{
+			["left"] = true,
+			["right"] = true,
 		}, -- Mission Row Police Station Back Entrance
-		[3] = {
-			["left"] = {x = 446.0079, y = -989.4454, z = 30.8393, model = 185711165, heading = 0.0, locked = true},
-			["right"] = {x = 443.4078, y = -989.4454, z = 30.8393, model = 185711165, heading = 179.99998474121, locked = true},
+		{
+			["left"] = true,
+			["right"] = true,
 		}, -- Mission Row Police Station Cell And Briefing Doors
-		[4] = {
-			["left"] = {x = 443.0298, y = -994.5412, z = 30.8393, model = -131296141, heading = 270.0, locked = true},
-			["right"] = {x = 443.0298, y = -991.941, z = 30.8393, model = -131296141, heading = 90.0, locked = true},
+		{
+			["left"] = true,
+			["right"] = true,
 		}, -- Mission Row Police Station Briefing Doors
 	},
-	jaildoors = {
-		[1] = {x = 1818.5627441406, y = 2605.3168945313, z = 45.569450378418, h = 82.570022583008, model = 741314661},
-		[2] = {x = 1845.115234375, y = 2605.5734863281, z = 45.568618774414, h = 267.99041748047, model = 741314661},
-	}
 }
 
 local function addRank(rank, inherit)
