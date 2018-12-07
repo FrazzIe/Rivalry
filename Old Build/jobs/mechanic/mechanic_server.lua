@@ -197,6 +197,17 @@ function closures_mechanic_server()
         return dispo
     end
 
+    RegisterServerEvent('mechanic:checkLicense')
+    AddEventHandler('mechanic:checkLicense', function()
+        local source = source
+        TriggerEvent('core:getuser', source, function(user)
+            if user.get("drivers_license") == "true" then
+                TriggerClientEvent('mechanic:updateLicense', source, true)
+            else
+                TriggerClientEvent('mechanic:updateLicense', source, false)
+            end
+        end)
+    end)
 
     RegisterServerEvent(preFixEventName .. ':takeService')
     AddEventHandler(preFixEventName .. ':takeService', function ()

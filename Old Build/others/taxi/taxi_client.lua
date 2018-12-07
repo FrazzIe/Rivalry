@@ -24,6 +24,7 @@ local previousMissionZ = 0
 local whoCalledX = 0
 local whoCalledY = 0
 local whoCalledZ = 0
+local drivers_license = false
 
 isTaxi = false
 
@@ -79,6 +80,12 @@ local coords = {
 --====================================================================================
 --  Utils function
 --====================================================================================
+
+RegisterNetEvent('taxi:updateLicense')
+AddEventHandler('taxi:updateLicense', function(license)
+    drivers_license = license
+end)
+
 function getIsInService()
     return inService
 end
@@ -203,6 +210,7 @@ local function gestionService()
             end
             if IsControlJustPressed(0, 51) then
                 toogleService()
+                TriggerServerEvent('taxi:checkLicense')
             end
         end
 
@@ -218,7 +226,11 @@ local function gestionService()
                 AddTextComponentString(TEXT.SpawnVehicle)
                 DisplayHelpTextFromStringLabel(0, 0, 1, -1)
                 if IsControlJustPressed(0, 51) then
-                    spawnVehicle(coordData.SpawnVehicle, VehicleModelKeyTaxi)
+                    if drivers_license == true then
+                        spawnVehicle(coordData.SpawnVehicle, VehicleModelKeyTaxi)
+                    else
+                        TriggerEvent("pNotify:SendNotification", {text = "You dont have a valid drivers license!",type = "error",queue = "left",timeout = 2500,layout = "bottomCenter"})
+                    end
                 end
             end
         end

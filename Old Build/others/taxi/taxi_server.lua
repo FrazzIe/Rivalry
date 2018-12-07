@@ -12,6 +12,18 @@ AddEventHandler('taxi:payPhone', function()
 	end)
 end)
 
+RegisterServerEvent('taxi:checkLicense')
+AddEventHandler('taxi:checkLicense', function()
+	local source = source
+	TriggerEvent('core:getuser', source, function(user)
+		if user.get("drivers_license") == "true" then
+			TriggerClientEvent('taxi:updateLicense', source, true)
+		else
+			TriggerClientEvent('taxi:updateLicense', source, false)
+		end
+	end)
+end)
+
 function closures_taxi_server()
 	local listMissions = {}
 	local listPersonnelActive = {}

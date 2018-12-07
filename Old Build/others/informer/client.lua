@@ -6,6 +6,7 @@ local options = {
 	{text="Harvest Cannabis",price=3000},
 	{text="Buy Dirty Cocaine",price=5000},
 	{text="Clean Dirty Cocaine",price=5000},
+	{text="Rest House",price=3000},
 }
 
 function InformerMenu()
@@ -29,6 +30,8 @@ function GetInformation(id)
 		TriggerServerEvent("informer:dirtycoke")
 	elseif id == 4 then
 		TriggerServerEvent("informer:cleancoke")
+	elseif id == 5 then
+		TriggerServerEvent("informer:resthouse")
 	end
 end
 

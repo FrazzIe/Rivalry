@@ -14,6 +14,7 @@ local visits = 1
 local l = 0
 local area = 0
 local onjob = false
+local drivers_license = false
 
 --these are all the delivery locations, sorted from close to GoPostal to far from it (so earn less for close runs, more for far ones)
 local destination = {
@@ -372,6 +373,11 @@ function drawTxt(text, font, centre, x, y, scale, r, g, b, a)
 	DrawText(x, y)
 end
 
+RegisterNetEvent('gopostal:updateLicense')
+AddEventHandler('gopostal:updateLicense', function(license)
+	drivers_license = license
+end)
+
 RegisterNetEvent("gopostal:deliveryfalse")
 AddEventHandler("gopostal:deliveryfalse", function()
 	SetNotificationTextEntry("STRING");
@@ -381,10 +387,14 @@ end)
 
 RegisterNetEvent("gopostal:deliverytrue")
 AddEventHandler("gopostal:deliverytrue", function()
-    SpawnVan()
-	SetNotificationTextEntry("STRING");
-	AddTextComponentString("~g~Have a good route" );
-	DrawNotification(false, true);
+	if drivers_license == true then
+	    SpawnVan()
+		SetNotificationTextEntry("STRING");
+		AddTextComponentString("~g~Have a good route" );
+		DrawNotification(false, true);
+	else
+		TriggerEvent("pNotify:SendNotification", {text = "You dont have a valid drivers license!",type = "error",queue = "left",timeout = 2500,layout = "bottomCenter"})
+	end
 end)
 
 Citizen.CreateThread(function()

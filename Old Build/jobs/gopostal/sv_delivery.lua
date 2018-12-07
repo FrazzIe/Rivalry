@@ -345,6 +345,11 @@ AddEventHandler('gopostal:checkjob', function()
 	TriggerEvent('core:getuser', source, function(user)
 		local job = user.get("job")
 		if job.id == 19 then --here you change the jobname (from your database)
+			if user.get("drivers_license") == "true" then
+				TriggerClientEvent('gopostal:updateLicense', source, true)
+			else
+				TriggerClientEvent('gopostal:updateLicense', source, false)
+			end
 			TriggerClientEvent('gopostal:deliverytrue', source)
 		else
 			TriggerClientEvent('gopostal:deliveryfalse', source)

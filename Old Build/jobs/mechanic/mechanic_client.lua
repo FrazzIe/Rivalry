@@ -32,6 +32,7 @@ local whoCalledX = 0
 local whoCalledY = 0
 local whoCalledZ = 0
 local previous_mission_coords = nil
+local drivers_license = false
 
 function getMechanicIsInService()
     return inService
@@ -157,6 +158,12 @@ local impoundlot = {
 --====================================================================================
 --  Utils function
 --====================================================================================
+
+RegisterNetEvent('mechanic:updateLicense')
+AddEventHandler('mechanic:updateLicense', function(license)
+    drivers_license = license
+end)
+
 local function showMessageInformation(message, duree)
     duree = duree or 2000
     ClearPrints()
@@ -438,6 +445,7 @@ local function gestionService()
             end
             if IsControlJustPressed(0, KEY_E) then
                 toogleService()
+                TriggerServerEvent('mechanic:checkLicense')
             end
         end
 
@@ -453,8 +461,12 @@ local function gestionService()
                 AddTextComponentString(TEXT.SpawnVehicle)
                 DisplayHelpTextFromStringLabel(0, 0, 1, -1)
                 if IsControlJustPressed(0, KEY_E) then
-                    spawnVehicleChoix = coordData.SpawnVehicle
-                    TriggerEvent("mechanic:menu_vehicle")
+                    if drivers_license == true then
+                        spawnVehicleChoix = coordData.SpawnVehicle
+                        TriggerEvent("mechanic:menu_vehicle")
+                    else
+                        TriggerEvent("pNotify:SendNotification", {text = "You dont have a valid drivers license!",type = "error",queue = "left",timeout = 2500,layout = "bottomCenter"})
+                    end
                 end
 
             end

@@ -532,7 +532,11 @@ Citizen.CreateThread(function()
 								DeleteVehicle(trucker_truck)
 								trucker_truck = nil
 							else
-								TriggerServerEvent("trucker:rent")
+								if tobool(drivers_license) then
+									TriggerServerEvent("trucker:rent")
+								else
+									Notify("You do not have a valid drivers license!", 2500)
+								end
 							end
 						end
 						if IsControlJustPressed(1, 47) then

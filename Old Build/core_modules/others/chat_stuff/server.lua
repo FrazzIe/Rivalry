@@ -20,12 +20,24 @@ AddEventHandler('chatMessage', function(source, author, message)
             TriggerEvent("core:getuser", source, function(character, user)
                 if user ~= nil then
                     local template = user.get("group") or "user"
-                    TriggerClientEvent("chat:addMessage", -1, {templateId = template, color = {30, 144, 255}, multiline = true, args = {"^0[^3"..source.."^0]^8"..author, message}})
+                    TriggerClientEvent("prox_chatMessageLOOC", -1, source, "", message)
                 end
             end)
         end
     end
 end)
+
+TriggerEvent('core:addCommand', 'ooc', function(source, args, rawCommand, data)
+    local message = table.concat(args, " ")
+    local author = GetPlayerName(source)
+    TriggerEvent("core:getuser", source, function(character, user)
+        if user ~= nil then
+            local template = user.get("group") or "user"
+            TriggerClientEvent("chat:addMessage", -1, {templateId = template, color = {30, 144, 255}, multiline = true, args = {"^0[^3"..source.."^0]^8"..author, message}})
+        end
+    end)
+
+end, {help = "Out of character chat"})
 
 TriggerEvent('core:addCommand', 'tweet', function(source, args, rawCommand, data)
     local message = table.concat(args, " ")
@@ -72,10 +84,6 @@ end, {help = "Returns Cash and Dirty Cash"})
 TriggerEvent('core:addCommand', 'me', function(source, args, rawCommand, data)
     TriggerClientEvent("prox_chatMessage", -1, source, data.get("first_name").." "..data.get("last_name"), table.concat(args, " "))
 end, {help = "Roleplay with text by describing what you are doing."})
-
-TriggerEvent('core:addCommand', 'looc', function(source, args, rawCommand, data)
-    TriggerClientEvent("prox_chatMessageLOOC", -1, source, data.get("first_name").." "..data.get("last_name"), table.concat(args, " "))
-end, {help = "Local out of character text."})
 
 TriggerEvent("core:addCommand", "ad", function(source, args, rawCommand, data, power, group)
     local message = table.concat(args, " ")
