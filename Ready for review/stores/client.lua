@@ -47,36 +47,32 @@ Hardware = {
         {Name = "Repair kit", Id = 37, Cost = 45, Max = 10},
         {Name = "Fishing Rod", Id = 76, Cost = 150, Max = 4},
         {Name = "Binoculars", Id = 78, Cost = 50, Max = 1},
-        --{Name = "Bleach", Id = 53, Cost = 50, Max = 4},
-    }},
-    {Category = "Illegal", Items = {
-        {Name = "Lockpick", Id=36, Cost = 10, Max = 10},
-        {Name = "Hotwire kit", Id=46, Cost = 50, Max = 5},
-        --{Name = "Body Armor", Id=39, Cost = 300, Max = 2},
         {Name = "Handcuffs", Id=44, Cost = 30, Max = 3},
+        --{Name = "Bleach", Id = 53, Cost = 50, Max = 4},
     }},
 }
 Mobile = {
-	{Category = "Phones", Items = {
-		{Name = "Phone", Id = 200, Cost = 250, Max = 1},
-	}},
+    {Category = "Phones", Items = {
+        {Name = "Phone", Id = 200, Cost = 250, Max = 1},
+    }},
 }
+
 for k,v in pairs(Convenience) do
 	for i,j in pairs(v.Items) do
 		j.Quantity = {}
 		for index = 1, j.Max do j.Quantity[#j.Quantity+1] = tostring(index) end
 	end
 end
-for k,b in pairs(Hardware) do
-	for i,k in pairs(b.Items) do
-		k.Quantity = {}
-		for index = 1, k.Max do k.Quantity[#k.Quantity+1] = tostring(index) end
+for k,v in pairs(Hardware) do
+	for i,j in pairs(v.Items) do
+		j.Quantity = {}
+		for index = 1, j.Max do j.Quantity[#j.Quantity+1] = tostring(index) end
 	end
 end
-for k,n in pairs(Mobile) do
-	for i,l in pairs(n.Items) do
-		l.Quantity = {}
-		for index = 1, l.Max do l.Quantity[#l.Quantity+1] = tostring(index) end
+for k,v in pairs(Mobile) do
+	for i,j in pairs(v.Items) do
+		j.Quantity = {}
+		for index = 1, j.Max do j.Quantity[#j.Quantity+1] = tostring(index) end
 	end
 end
 
@@ -115,9 +111,9 @@ stores = {
 		{name="Hardware store", sprite=402, scale=0.80, x = -1376.9276123047, y = -360.52212524414, z = 36.598972320557},
 	},
 	mobile = {
-		{name="iFruit", sprite=133, scale=0.60, colour = 2, x = -1082.3057861328, y = -248.31741333008, z = 37.763294219971},
-		{name="iFruit", sprite=133, scale=0.60, colour = 2, x = 386.09518432617, y = -1087.5192871094, z = 29.424922943115},
-		{name="iFruit", sprite=133, scale=0.60, colour = 2, x = -26.430027008057, y = 6472.890625, z = 31.488777160645},
+		{name="iFruit", sprite=133, scale=0.60, colour=2, x = -1440.7310791016, y = -174.25477600098, z = 47.709732055664},
+		{name="iFruit", sprite=133, scale=0.60, colour=2, x = 386.09518432617, y = -1087.5192871094, z = 29.424922943115},
+		{name="iFruit", sprite=133, scale=0.60, colour=2, x = -26.430027008057, y = 6472.890625, z = 31.488777160645},
 	},
 }
 
@@ -217,44 +213,36 @@ Citizen.CreateThread(function()
                 end
             end
 		end
-	end
-end)
-
--- HARDWARE
-
-Citizen.CreateThread(function()
-	while true do
-		Citizen.Wait(0)
-        local pos = GetEntityCoords(PlayerPedId(), false)
-        for k,v in ipairs(stores.hardware) do
+		-- Hardware
+		for k,v in ipairs(stores.hardware) do
             if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 15.0)then
                 DrawMarker(1, v.x, v.y, v.z - 1, 0, 0, 0, 0, 0, 0, 1.5001, 1.5001, 0.7555, 1555, 90, 10,150, 0, 0, 0,0)
                 if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 1.0)then
 					if IsControlJustPressed(1, 51) then
-						if not WarMenu.IsMenuOpened("Tools") then
-							if not WarMenu.DoesMenuExist("Tools") then
-								WarMenu.CreateMenu("Tools", "Hardware store")
-								WarMenu.SetSpriteTitle("Tools", "shopui_title_clubhousemod")
-								WarMenu.SetSubTitle("Tools", "CATEGORIES")
-								WarMenu.SetMenuX("Tools", 0.6)
-								WarMenu.SetMenuY("Tools", 0.15)
-								WarMenu.SetTitleBackgroundColor("Tools", 0, 107, 87)
+						if not WarMenu.IsMenuOpened("Tool") then
+							if not WarMenu.DoesMenuExist("Tool") then
+								WarMenu.CreateMenu("Tool", "Hardware store")
+								WarMenu.SetSpriteTitle("Tool", "shopui_title_clubhousemod")
+								WarMenu.SetSubTitle("Tool", "CATEGORIES")
+								WarMenu.SetMenuX("Tool", 0.6)
+								WarMenu.SetMenuY("Tool", 0.15)
+								WarMenu.SetTitleBackgroundColor("Tool", 0, 107, 87)
 								for k,v in pairs(Hardware) do
-									WarMenu.CreateSubMenu(v.Category, "Items", v.Category.." SECTION")
+									WarMenu.CreateSubMenu(v.Category, "Tool", v.Category.." SECTION")
 									for i,j in pairs(v.Items) do
 										WarMenu.CreateSubMenu(j.Name, v.Category, j.Name)
 									end
 								end
-								WarMenu.OpenMenu("Tools")
+								WarMenu.OpenMenu("Tool")
 							else
 								currentItemIndex = 1
-								WarMenu.OpenMenu("Items")
+								WarMenu.OpenMenu("Tool")
 							end
 						else
 							WarMenu.CloseMenu()
 						end		
 					end
-					if WarMenu.IsMenuOpened("Items") then
+					if WarMenu.IsMenuOpened("Tool") then
 						for k,v in pairs(Hardware) do
 							WarMenu.MenuButton(v.Category, v.Category)
 						end
@@ -274,12 +262,12 @@ Citizen.CreateThread(function()
 						end
 					end
 					for k,v in pairs(Hardware) do
-						for i,k in pairs(v.Items) do
-							if WarMenu.IsMenuOpened(k.Name) then
-								if WarMenu.Button("Buy "..currentItemIndex.." "..k.Name.."(s)", "$"..k.Cost*currentItemIndex) then
-									TriggerServerEvent("item:buy", k.Id, currentItemIndex)
+						for i,j in pairs(v.Items) do
+							if WarMenu.IsMenuOpened(j.Name) then
+								if WarMenu.Button("Buy "..currentItemIndex.." "..j.Name.."(s)", "$"..j.Cost*currentItemIndex) then
+									TriggerServerEvent("item:buy", j.Id, currentItemIndex)
 								end
-								if WarMenu.ComboBox("Quantity", k.Quantity, currentItemIndex, selectedItemIndex, function(currentIndex, selectedIndex)
+								if WarMenu.ComboBox("Quantity", j.Quantity, currentItemIndex, selectedItemIndex, function(currentIndex, selectedIndex)
 									currentItemIndex = currentIndex
 									selectedItemIndex = selectedIndex
 								end) then
@@ -289,49 +277,41 @@ Citizen.CreateThread(function()
 						end
 					end
                 elseif(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) > 1.0)then
-                	if WarMenu.IsMenuOpened("Tools") then
+                	if WarMenu.IsMenuOpened("Tool") then
                 		WarMenu.CloseMenu()
                 	end
                 end
             end
 		end
-	end
-end)
-
--- IFRUIT
-
-Citizen.CreateThread(function()
-	while true do
-		Citizen.Wait(0)
-        local pos = GetEntityCoords(PlayerPedId(), false)
-        for k,v in ipairs(stores.mobile) do
+		-- IFRUIT
+		for k,v in ipairs(stores.mobile) do
             if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 15.0)then
                 DrawMarker(1, v.x, v.y, v.z - 1, 0, 0, 0, 0, 0, 0, 1.5001, 1.5001, 0.7555, 1555, 90, 10,150, 0, 0, 0,0)
                 if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 1.0)then
 					if IsControlJustPressed(1, 51) then
-						if not WarMenu.IsMenuOpened("Phones") then
-							if not WarMenu.DoesMenuExist("Phones") then
-								WarMenu.CreateMenu("Phones", "iFruit")
-								WarMenu.SetSubTitle("Phones", "CATEGORIES")
-								WarMenu.SetMenuX("Phones", 0.6)
-								WarMenu.SetMenuY("Phones", 0.15)
-								WarMenu.SetTitleBackgroundColor("Phones", 0, 107, 87)
+						if not WarMenu.IsMenuOpened("ifruit") then
+							if not WarMenu.DoesMenuExist("ifruit") then
+								WarMenu.CreateMenu("ifruit", "iFruit")
+								WarMenu.SetSubTitle("ifruit", "CATEGORIES")
+								WarMenu.SetMenuX("ifruit", 0.6)
+								WarMenu.SetMenuY("ifruit", 0.15)
+								WarMenu.SetTitleBackgroundColor("ifruit", 0, 107, 87)
 								for k,v in pairs(Mobile) do
-									WarMenu.CreateSubMenu(v.Category, "Items", v.Category.." SECTION")
+									WarMenu.CreateSubMenu(v.Category, "ifruit", v.Category.." SECTION")
 									for i,j in pairs(v.Items) do
 										WarMenu.CreateSubMenu(j.Name, v.Category, j.Name)
 									end
 								end
-								WarMenu.OpenMenu("Phones")
+								WarMenu.OpenMenu("ifruit")
 							else
 								currentItemIndex = 1
-								WarMenu.OpenMenu("Items")
+								WarMenu.OpenMenu("ifruit")
 							end
 						else
 							WarMenu.CloseMenu()
 						end		
 					end
-					if WarMenu.IsMenuOpened("Items") then
+					if WarMenu.IsMenuOpened("ifruit") then
 						for k,v in pairs(Mobile) do
 							WarMenu.MenuButton(v.Category, v.Category)
 						end
@@ -351,12 +331,12 @@ Citizen.CreateThread(function()
 						end
 					end
 					for k,v in pairs(Mobile) do
-						for i,l in pairs(v.Items) do
-							if WarMenu.IsMenuOpened(l.Name) then
-								if WarMenu.Button("Buy "..currentItemIndex.." "..l.Name.."(s)", "$"..l.Cost*currentItemIndex) then
-									TriggerServerEvent("item:buy", l.Id, currentItemIndex)
+						for i,j in pairs(v.Items) do
+							if WarMenu.IsMenuOpened(j.Name) then
+								if WarMenu.Button("Buy "..currentItemIndex.." "..j.Name.."(s)", "$"..j.Cost*currentItemIndex) then
+									TriggerServerEvent("item:buy", j.Id, currentItemIndex)
 								end
-								if WarMenu.ComboBox("Quantity", l.Quantity, currentItemIndex, selectedItemIndex, function(currentIndex, selectedIndex)
+								if WarMenu.ComboBox("Quantity", j.Quantity, currentItemIndex, selectedItemIndex, function(currentIndex, selectedIndex)
 									currentItemIndex = currentIndex
 									selectedItemIndex = selectedIndex
 								end) then
@@ -366,7 +346,7 @@ Citizen.CreateThread(function()
 						end
 					end
                 elseif(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) > 1.0)then
-                	if WarMenu.IsMenuOpened("Phones") then
+                	if WarMenu.IsMenuOpened("ifruit") then
                 		WarMenu.CloseMenu()
                 	end
                 end
