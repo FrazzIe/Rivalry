@@ -63,8 +63,8 @@ function Utilities:GetRandomFloatPercentage()
 	return GetRandomFloatInRange(0.0, 101.0)
 end
 
-function Utilities:RenderMarker(MarkerType, Position, Direction, Colour, BobUpAndDown)
-	DrawMarker(MarkerType, Position.x, Position.y, Position.z - 0.9, 0, 0, 0, 0, 0, 0, Direction.x, Direction.y, Direction.z, Colour[1], Colour[2], Colour[3], BobUpAndDown or false, 0, 2, 0, 0, 0, 0)
+function Utilities:RenderMarker(MarkerType, X, Y, Z, Direction, Colour, BobUpAndDown)
+	DrawMarker(MarkerType, X, Y, Z - 0.9, 0, 0, 0, 0, 0, 0, Direction.x, Direction.y, Direction.z, Colour[1], Colour[2], Colour[3], Colour[4], BobUpAndDown or false, 0, 2, 0, 0, 0, 0)
 end
 
 function Utilities:DisplayHelpText(Text)
