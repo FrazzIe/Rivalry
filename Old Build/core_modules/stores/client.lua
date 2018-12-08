@@ -39,6 +39,7 @@ Store = {
         {Name = "Repair kit", Id = 37, Cost = 45, Max = 10},
         {Name = "Fishing Rod", Id = 76, Cost = 150, Max = 4},
         {Name = "Binoculars", Id = 78, Cost = 50, Max = 1},
+        {Name = "Handcuffs", Id=44, Cost = 30, Max = 3},
         --{Name = "Bleach", Id = 53, Cost = 50, Max = 4},
     }},
     {Category = "Medical", Items = {
