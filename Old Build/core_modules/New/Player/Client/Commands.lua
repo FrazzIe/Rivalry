@@ -71,7 +71,7 @@ AddEventHandler("core:ready", function()
     Chat.Command({"ws", "walkstyle"}, function(source, args, fullCommand)
         if args[1] then
             if args[1] == "reset" then 
-                ResetPedMovementClipset(Player.Ped, 1.0)
+                ResetPedMovementClipset(PlayerPedId(), 1.0)
             else
                 local WalkStyle = WalkStyles.Find(args[1]:lower())
                 if WalkStyle then
@@ -110,69 +110,69 @@ AddEventHandler("core:ready", function()
     Chat.Command("hat", function(source, args, fullCommand)
         if not Hat then
             Hat = true
-            HatDrawable, HatTexture = GetPedPropIndex(Player.Ped, 0), GetPedPropTextureIndex(Player.Ped, 0)
-            TaskPlayAnim(Player.Ped, Animations.Hat.Off.Dictionary, Animations.Hat.Off.Animation, 8.0, 8.0, -1, 50, 0, false, false, false)
+            HatDrawable, HatTexture = GetPedPropIndex(PlayerPedId(), 0), GetPedPropTextureIndex(PlayerPedId(), 0)
+            TaskPlayAnim(PlayerPedId(), Animations.Hat.Off.Dictionary, Animations.Hat.Off.Animation, 8.0, 8.0, -1, 50, 0, false, false, false)
             Citizen.Wait(800)
-            ClearPedProp(Player.Ped, 0)
+            ClearPedProp(PlayerPedId(), 0)
             Citizen.Wait(400)
-            ClearPedTasks(Player.Ped)
+            ClearPedTasks(PlayerPedId())
         else
             Hat = false
-            TaskPlayAnim(Player.Ped, Animations.Hat.On.Dictionary, Animations.Hat.On.Animation, 8.0, 8.0, -1, 50, 0, false, false, false)
+            TaskPlayAnim(PlayerPedId(), Animations.Hat.On.Dictionary, Animations.Hat.On.Animation, 8.0, 8.0, -1, 50, 0, false, false, false)
             Citizen.Wait(1300)
-            SetPedPropIndex(Player.Ped, 0, HatDrawable, HatTexture, true)
-            ClearPedTasks(Player.Ped)
+            SetPedPropIndex(PlayerPedId(), 0, HatDrawable, HatTexture, true)
+            ClearPedTasks(PlayerPedId())
         end
     end, false, {Help = "Put on/Take off your hat!", Params = {}})
 
     Chat.Command("glasses", function(source, args, fullCommand)
         if not Glasses then
             Glasses = true
-            GlassesDrawable, GlassesTexture = GetPedPropIndex(Player.Ped, 1), GetPedPropTextureIndex(Player.Ped, 1)
-            TaskPlayAnim(Player.Ped, Animations.Glasses.Dictionary, Animations.Glasses.Off, 8.0, 8.0, -1, 50, 0, false, false, false)
+            GlassesDrawable, GlassesTexture = GetPedPropIndex(PlayerPedId(), 1), GetPedPropTextureIndex(PlayerPedId(), 1)
+            TaskPlayAnim(PlayerPedId(), Animations.Glasses.Dictionary, Animations.Glasses.Off, 8.0, 8.0, -1, 50, 0, false, false, false)
             Citizen.Wait(1200)
-            ClearPedProp(Player.Ped, 1)
-            ClearPedTasks(Player.Ped)
+            ClearPedProp(PlayerPedId(), 1)
+            ClearPedTasks(PlayerPedId())
         else
             Glasses = false
-            TaskPlayAnim(Player.Ped, Animations.Glasses.Dictionary, Animations.Glasses.On, 8.0, 8.0, -1, 50, 0, false, false, false)
+            TaskPlayAnim(PlayerPedId(), Animations.Glasses.Dictionary, Animations.Glasses.On, 8.0, 8.0, -1, 50, 0, false, false, false)
             Citizen.Wait(4000)
-            SetPedPropIndex(Player.Ped, 1, GlassesDrawable, GlassesTexture, true)
-            ClearPedTasks(Player.Ped)
+            SetPedPropIndex(PlayerPedId(), 1, GlassesDrawable, GlassesTexture, true)
+            ClearPedTasks(PlayerPedId())
         end
     end, false, {Help = "Put on/Take off your glasses!", Params = {}})
 
     Chat.Command("mask", function(source, args, fullCommand)
         if not Mask then
             Mask = true
-            MaskDrawable, MaskTexture, MaskPalette = GetPedDrawableVariation(Player.Ped, 1), GetPedTextureVariation(Player.Ped, 1), GetPedPaletteVariation(Player.Ped, 1)
-            TaskPlayAnim(Player.Ped, Animations.Mask.Off.Dictionary, Animations.Mask.Off.Animation, 8.0, 8.0, -1, 50, 0, false, false, false)
+            MaskDrawable, MaskTexture, MaskPalette = GetPedDrawableVariation(PlayerPedId(), 1), GetPedTextureVariation(PlayerPedId(), 1), GetPedPaletteVariation(PlayerPedId(), 1)
+            TaskPlayAnim(PlayerPedId(), Animations.Mask.Off.Dictionary, Animations.Mask.Off.Animation, 8.0, 8.0, -1, 50, 0, false, false, false)
             Citizen.Wait(1000)
-            SetPedComponentVariation(Player.Ped, 1, 0, 0, MaskPalette)
-            ClearPedTasks(Player.Ped)
+            SetPedComponentVariation(PlayerPedId(), 1, 0, 0, MaskPalette)
+            ClearPedTasks(PlayerPedId())
         else
             Mask = false
-            TaskPlayAnim(Player.Ped, Animations.Mask.On.Dictionary, Animations.Mask.On.Animation, 8.0, 8.0, -1, 50, 0, false, false, false)
+            TaskPlayAnim(PlayerPedId(), Animations.Mask.On.Dictionary, Animations.Mask.On.Animation, 8.0, 8.0, -1, 50, 0, false, false, false)
             Citizen.Wait(500)
-            SetPedComponentVariation(Player.Ped, 1, MaskDrawable, MaskTexture, MaskPalette)
-            ClearPedTasks(Player.Ped)
+            SetPedComponentVariation(PlayerPedId(), 1, MaskDrawable, MaskTexture, MaskPalette)
+            ClearPedTasks(PlayerPedId())
         end
     end, false, {Help = "Put on/Take off your mask!", Params = {}})
 
     Chat.Command("gloves", function(source, args, fullCommand)
         if not Gloves then
             Gloves = true
-            GlovesDrawable, GlovesTexture, GlovesPalette = GetPedDrawableVariation(Player.Ped, 3), GetPedTextureVariation(Player.Ped, 3), GetPedPaletteVariation(Player.Ped, 3)
+            GlovesDrawable, GlovesTexture, GlovesPalette = GetPedDrawableVariation(PlayerPedId(), 3), GetPedTextureVariation(PlayerPedId(), 3), GetPedPaletteVariation(PlayerPedId(), 3)
             TaskPlayAnim(GetPlayerPed(-1), Animations.Gloves.Dictionary, Animations.Gloves.Off, 8.0, 8.0, -1, 50, 0, false, false, false)
             Citizen.Wait(1300)
-            SetPedComponentVariation(Player.Ped, 3, 0, 0, GlovesPalette)
-            ClearPedTasks(Player.Ped)
+            SetPedComponentVariation(PlayerPedId(), 3, 0, 0, GlovesPalette)
+            ClearPedTasks(PlayerPedId())
         else
             Gloves = false
             TaskPlayAnim(GetPlayerPed(-1), Animations.Gloves.Dictionary, Animations.Gloves.On, 8.0, 8.0, -1, 50, 0, false, false, false)
             Citizen.Wait(1300)
-            SetPedComponentVariation(Player.Ped, 3, GlovesDrawable, GlovesTexture, GlovesPalette)
-            ClearPedTasks(Player.Ped)
+            SetPedComponentVariation(PlayerPedId(), 3, GlovesDrawable, GlovesTexture, GlovesPalette)
+            ClearPedTasks(PlayerPedId())
         end
     end, false, {Help = "Put on/Take off your gloves!", Params = {}})
 

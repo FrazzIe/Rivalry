@@ -112,7 +112,8 @@ else
 		local SourcePlayer = GetPlayerPed(GetPlayerFromServerId(Source))
 		if DoesEntityExist(SourcePlayer) then
 			local SourceCoordinates = GetEntityCoords(SourcePlayer, false)
-			if GetDistanceBetweenCoords(SourceCoordinates.x, SourceCoordinates.y, SourceCoordinates.z, Player.Coordinates.x, Player.Coordinates.y, Player.Coordinates.z, true) <= Radius then
+			local PlayerPosition = GetEntityCoords(PlayerPedId(), false)
+			if GetDistanceBetweenCoords(SourceCoordinates.x, SourceCoordinates.y, SourceCoordinates.z, PlayerPosition.x, PlayerPosition.y, PlayerPosition.z, true) <= Radius then
 				TriggerEvent("chat:addMessage", Data)
 			end
 		end
