@@ -214,7 +214,7 @@ Citizen.CreateThread(function()
         if not hud_off then
             local PlayerPed = PlayerPedId()
 
-            if NetworkIsPlayerTalking(PlayerID) then
+            if NetworkIsPlayerTalking(PlayerId()) then
                 drawText("~o~>>"..voice, 6, 0.16, 0.92, 0.50, 255, 255, 255, 255, false, true)
             else
                 drawText(voice, 6, 0.16, 0.92, 0.50, 255, 255, 255, 255, false, true)
