@@ -387,7 +387,7 @@ end
 
 function Utilities:GetEntityBoundingBox(Entity)
 	local Model = GetEntityModel(Entity)
-	local Box = GetModelBoundingBox(Model)
+	local Box = self:GetModelBoundingBox(Model)
 
 	return Utilities.Data.map(Box, function (Corner)
 		return GetOffsetFromEntityInWorldCoords(Entity, Corner)
