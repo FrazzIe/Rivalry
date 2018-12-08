@@ -115,20 +115,22 @@ end)
 Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(0)
-		if isParamedic or exports["policejob"]:getIsCop() then
-			local PlayerPed = PlayerPedId()
-			local PlayerPosition = GetEntityCoords(PlayerPed, false)
 
-			for Index = 1, #doors.single do
-				local Distance = #(doors.single[Index].coords - PlayerPosition)
+		local PlayerPed = PlayerPedId()
+		local PlayerPosition = GetEntityCoords(PlayerPed, false)
+		local isCop = exports["policejob"]:getIsCop()
 
-				if Distance <= 10.0 then
-					if doors.single[Index].locked then
-						if doors.single[Index].handle ~= nil and doors.single[Index].handle ~= 0 then
-							SetEntityHeading(doors.single[Index].handle, doors.single[Index].heading)
-						end
+		for Index = 1, #doors.single do
+			local Distance = #(doors.single[Index].coords - PlayerPosition)
+
+			if Distance <= 10.0 then
+				if doors.single[Index].locked then
+					if doors.single[Index].handle ~= nil and doors.single[Index].handle ~= 0 then
+						SetEntityHeading(doors.single[Index].handle, doors.single[Index].heading)
 					end
+				end
 
+				if isParamedic or isCop then
 					if Distance <= 1.2 then
 						SetDrawOrigin(doors.single[Index].coords.x, doors.single[Index].coords.y, PlayerPosition.z, 0)
 						RenderText("~o~[E]"..(doors.single[Index].locked and "Locked" or "Unlocked"), 0, 0, 6, 0.3, 255, 255, 255, 255, "Centre", true, true)
@@ -140,21 +142,23 @@ Citizen.CreateThread(function()
 					end
 				end
 			end
+		end
 
-			for Index = 1, #doors.double do
-				local LeftDistance, RightDistance =  #(doors.double[Index].left.coords - PlayerPosition), #(doors.double[Index].right.coords - PlayerPosition)
+		for Index = 1, #doors.double do
+			local LeftDistance, RightDistance =  #(doors.double[Index].left.coords - PlayerPosition), #(doors.double[Index].right.coords - PlayerPosition)
 
-				if LeftDistance <= 10.0 or RightDistance <= 10.0 then
-					if doors.double[Index].left.locked then
-						if doors.double[Index].left.handle ~= nil and doors.double[Index].left.handle ~= 0 then
-							SetEntityHeading(doors.double[Index].left.handle, doors.double[Index].left.heading)
-						end
-
-						if doors.double[Index].right.handle ~= nil and doors.double[Index].right.handle ~= 0 then
-							SetEntityHeading(doors.double[Index].right.handle, doors.double[Index].right.heading)
-						end
+			if LeftDistance <= 10.0 or RightDistance <= 10.0 then
+				if doors.double[Index].left.locked then
+					if doors.double[Index].left.handle ~= nil and doors.double[Index].left.handle ~= 0 then
+						SetEntityHeading(doors.double[Index].left.handle, doors.double[Index].left.heading)
 					end
 
+					if doors.double[Index].right.handle ~= nil and doors.double[Index].right.handle ~= 0 then
+						SetEntityHeading(doors.double[Index].right.handle, doors.double[Index].right.heading)
+					end
+				end
+				
+				if isParamedic or isCop then
 					if LeftDistance <= 1.2 or RightDistance <= 1.2 then
 						SetDrawOrigin(doors.double[Index].left.coords.x, doors.double[Index].left.coords.y, PlayerPosition.z, 0)
 						RenderText("~o~[E]"..(doors.double[Index].left.locked and "Locked" or "Unlocked"), 0, 0, 6, 0.3, 255, 255, 255, 255, "Centre", true, true)
