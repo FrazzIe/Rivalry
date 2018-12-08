@@ -55,7 +55,7 @@ AddEventHandler("core:ready", function()
             else
                 local Emote = Emotes.Find(args[1]:lower())
                 if Emote then
-                    if Emote ~= "cigar" then
+                    if args[1]:lower() ~= "cigar" then
                         Emotes.Stop()
                         Emote.Playing = true
                         Emote:Play(Emote)
