@@ -14,5 +14,7 @@ client_scripts {
 	"@Rivalry-Utilities/client/distance.lua",
 	"@Rivalry-Utilities/client/graphics.lua",
 	"@Rivalry-Utilities/client/common.lua",
+	"@Rivalry-Utilities/client/destroy.lua",
 	"client.lua",
+	"bed.lua",
 }
