@@ -9,8 +9,10 @@ if not IsDuplicityVersion() then
 	Mechanic.Vehicles = {
 		["flatbed"] = {
 			Control = {
-				Offset = {-1.4982982969284, -5.1126073908806, 0.0},
+				Offset = vector3(-1.4982982969284, -5.1126073908806, 0.0),
 				Position = nil,
+				Direction = vector3(0.5, 0.5, 1.0),
+				Colour = {255, 0, 0, 100},
 			},
 			Target = {
 				Offset = {0.0, -8.1126073908806, 0.0},
@@ -23,8 +25,10 @@ if not IsDuplicityVersion() then
 		},
 		["towtruck"] = {
 			Control = {
-				Offset = {-1.4882982969284, -3.1126073908806, 0.0},
+				Offset = vector3(-1.4882982969284, -3.1126073908806, 0.0),
 				Position = nil,
+				Direction = vector3(0.5, 0.5, 1.0),
+				Colour = {255, 0, 0, 100},
 			},
 			Target = {
 				Offset = {0.0, -6.1126073908806, 0.0},
@@ -38,8 +42,10 @@ if not IsDuplicityVersion() then
 		},
 		["towtruck2"] = {
 			Control = {
-				Offset = {-1.1469407081604, -0.40072667598724, 0.0},
+				Offset = vector3(-1.1469407081604, -0.40072667598724, 0.0),
 				Position = nil,
+				Direction = vector3(0.5, 0.5, 1.0),
+				Colour = {255, 0, 0, 100},
 			},
 			Target = {
 				Offset = {0.0, -6.1126073908806, 0.0},
