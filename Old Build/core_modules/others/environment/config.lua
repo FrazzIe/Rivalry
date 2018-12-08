@@ -5,7 +5,6 @@ Weather.Current, Weather.Types = "CLOUDS", {
     "CLOUDS",
     "OVERCAST",
     "SNOW",
-    "BLIZZARD",
 }
 
 --[[Weather.Current, Weather.Types = "SUNNY", {
