@@ -70,6 +70,12 @@ bone_config = {
 		rotation = {x = 0.0, y = 0.0, z = 0.0},
 		model = "w_ar_carbinerifle"
 	},
+	["WEAPON_ASSAULTRIFLE"] = {
+		bone = 24818,
+		coordinates = {x = 0.09, y = -0.15, z = 0.1}, 
+		rotation = {x = 0.0, y = 0.0, z = 0.0},
+		model = "w_ar_assaultrifle"
+	},
 	["WEAPON_BULLPUPRIFLE"] = {
 		bone = 24818,
 		coordinates = {x = 0.09, y = -0.15, z = 0.1}, 
@@ -332,6 +338,7 @@ local riflestable = {
     "WEAPON_POOLCUE",
     "WEAPON_MICROSMG",
     "WEAPON_BULLPUPRIFLE",
+    "WEAPON_ASSAULTRIFLE",
 }
 
 function CheckWeapon(ped)
