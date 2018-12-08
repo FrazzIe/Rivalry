@@ -6,8 +6,15 @@ local car_washes = {
 }
 
 Citizen.CreateThread(function()
-	for k,v in pairs(car_washes) do
-		addBlip(v)
+	for k,item in pairs(car_washes) do
+	    item.blip = AddBlipForCoord(item.coords.x, item.coords.y, item.coords.z)
+	    SetBlipSprite(item.blip, item.sprite)
+	    SetBlipColour(item.blip, item.colour)
+	    SetBlipAsShortRange(item.blip, true)
+	    SetBlipScale(item.blip, 0.6)
+	    BeginTextCommandSetBlipName("STRING")
+	    AddTextComponentString(item.name)
+	    EndTextCommandSetBlipName(item.blip)
 	end
 	while true do
 		Citizen.Wait(0)
@@ -17,7 +24,7 @@ Citizen.CreateThread(function()
 		for index = 1, #car_washes do
 			local Distance = #(car_washes[index].coords - PlayerPosition)
 			if Distance < 20 then
-				drawMarker(25, v.x, v.y, v.z, 2.0, 2.0, 2.5, 255, 255, 0, 255)
+				drawMarker(25, car_washes[index].coords.x, car_washes[index].coords.y, car_washes[index].coords.z, 2.0, 2.0, 2.5, 255, 255, 0, 255)
 				if Distance < 2 then
 					if IsPedSittingInAnyVehicle(PlayerPed) then
 						local vehicle = GetVehiclePedIsIn(PlayerPed, false)
