@@ -24,7 +24,7 @@ Citizen.CreateThread(function()
 			local Distance = #(RestHouseMarkers[Index] - PlayerPosition)
 
 			if Distance < 11.5 then
-				DrawMarker(25, v.x, v.y, v.z - 1, 0, 0, 0, 0, 0, 0, 3.5001, 3.5001, 0.5001, 177, 0, 0,255, 0, 0, 0,0)
+				DrawMarker(25, RestHouseMarkers[Index].x, RestHouseMarkers[Index].y, RestHouseMarkers[Index].z - 1, 0, 0, 0, 0, 0, 0, 3.5001, 3.5001, 0.5001, 177, 0, 0,255, 0, 0, 0,0)
 				if Distance < 3.5 then
 					DisplayHelpText("Press ~INPUT_CONTEXT~ to recieve medical treatment!($2500 Dirty)")
 					if IsControlJustPressed(1, 51) then
