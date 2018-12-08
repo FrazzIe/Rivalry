@@ -11,6 +11,23 @@
 
 	Copy, re-release, re-distribute it without my written permission.
 --]]
+local currentItemIndex = 1
+local selectedItemIndex = 1
+local quantity = {}
+for k,v in pairs(Blackmarket_Weapons) do
+	if v.Category == "Illegal" then
+		for i,j in pairs(v.Items) do
+			j.Quantity = {}
+			for index = 1, j.Max do j.Quantity[#j.Quantity+1] = tostring(index) end
+		end
+	end
+end
+
+RegisterNetEvent("bm:armour")
+AddEventHandler("bm:armour", function()
+	SetPedArmour(PlayerPedId(), 100)
+end)
+
 weapon_license = "false"
 Citizen.CreateThread(function()
 	for k,v in pairs(ammu_nation.normal) do
@@ -161,7 +178,7 @@ Citizen.CreateThread(function()
 			if Distance < 15.0 then
 				DrawMarker(1, v.x, v.y, v.z - 1, 0, 0, 0, 0, 0, 0, 1.5001, 1.5001, 0.7555, 1555, 90, 10,150, 0, 0, 0,0)
 				if Distance < 1.0 then
-					DisplayHelpText("Press ~INPUT_CONTEXT~ to buy weapons!")
+					DisplayHelpText("Press ~INPUT_CONTEXT~ to buy illegal items!")
 					if IsControlJustPressed(1, 51) then
 						if not WarMenu.IsMenuOpened("Blackmarket_Weapons") then
 							if not WarMenu.DoesMenuExist("Blackmarket_Weapons") then
@@ -172,12 +189,19 @@ Citizen.CreateThread(function()
 								WarMenu.SetMenuY("Blackmarket_Weapons", 0.15)
 								for k,v in pairs(Blackmarket_Weapons) do
 									WarMenu.CreateSubMenu(v.Category.."_BLACKMARKET", "Blackmarket_Weapons", v.Category)
-									for i,j in pairs(v.Items) do
-										WarMenu.CreateSubMenu(j.Weapon.."_BLACKMARKET", v.Category.."_BLACKMARKET", j.Name.." UPGRADES")
+									if v.Category == "Illegal" then
+										for i,j in pairs(v.Items) do
+											WarMenu.CreateSubMenu(j.Name.."_BLACKMARKET", v.Category.."_BLACKMARKET", j.Name.." SHOPPING CART")
+										end
+									else
+										for i,j in pairs(v.Items) do
+											WarMenu.CreateSubMenu(j.Weapon.."_BLACKMARKET", v.Category.."_BLACKMARKET", j.Name.." UPGRADES")
+										end
 									end
 								end
 								WarMenu.OpenMenu("Blackmarket_Weapons")
 							else
+								currentItemIndex = 1
 								WarMenu.OpenMenu("Blackmarket_Weapons")
 							end
 						else
@@ -196,13 +220,21 @@ Citizen.CreateThread(function()
 					end
 					for k,v in pairs(Blackmarket_Weapons) do
 						if WarMenu.IsMenuOpened(v.Category.."_BLACKMARKET") then
-							for i,j in pairs(v.Items) do
-								if user_weapons[j.Weapon] ~= nil then
-									if WarMenu.MenuButton(j.Name, j.Weapon.."_BLACKMARKET") then
-									end
-								else
+							if v.Category == "Illegal" then
+								for i,j in pairs(v.Items) do
 									if WarMenu.Button(j.Name, "$"..j.Cost) then
-										TriggerServerEvent("weapon:buy_illegal", j.Weapon)
+										TriggerServerEvent("bmitem:buy", j.Id, 1)
+									end
+								end
+							else
+								for i,j in pairs(v.Items) do
+									if user_weapons[j.Weapon] ~= nil then
+										if WarMenu.MenuButton(j.Name, j.Weapon.."_BLACKMARKET") then
+										end
+									else
+										if WarMenu.Button(j.Name, "$"..j.Cost) then
+											TriggerServerEvent("weapon:buy_illegal", j.Weapon)
+										end
 									end
 								end
 							end

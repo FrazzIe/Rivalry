@@ -659,3 +659,46 @@ AddEventHandler("core:switch", function(source)
 	TriggerClientEvent("weapon:give", source)
 	TriggerClientEvent("weapon:sync", -1, user_weapons)
 end)
+
+local Store = {
+	[36] = 10,
+    [46] = 50,
+    [39] = 300,
+    [44] = 30,
+}
+
+RegisterServerEvent("bmitem:buy")
+AddEventHandler("bmitem:buy", function(id, quantity)
+	local source = source
+	local user_quantity = getQuantity(source)
+	TriggerEvent("core:getuser", source, function(user)
+		if user_quantity >= 100 then
+			TriggerClientEvent("pNotify:SendNotification", source, {text = "You cannot hold anymore items!",type = "error",queue = "left",timeout = 2500,layout = "bottomCenter"})
+		elseif user_quantity + tonumber(quantity) >= 100 then
+			local available_space = 100 - user_quantity
+			if user.get("dirty") >= (Store[id]*available_space) then
+				user.removeDirty(Store[id]*available_space)
+				if id ~= 39 then
+					TriggerEvent("inventory:add_server", source, id, available_space)
+				else
+					TriggerClientEvent("bm:armour", source)
+				end
+				TriggerClientEvent("pNotify:SendNotification", source, {text = "Successfully purchased "..available_space.." "..itemlist[id].name.."(s)!",type = "error",queue = "left",timeout = 2500,layout = "bottomCenter"})
+			else
+				TriggerClientEvent("pNotify:SendNotification", source, {text = "Insufficient funds!",type = "error",queue = "left",timeout = 2500,layout = "bottomCenter"})
+			end
+		else
+			if user.get("dirty") >= (Store[id]*tonumber(quantity)) then
+				user.removeDirty(Store[id]*tonumber(quantity))
+				if id ~= 39 then
+					TriggerEvent("inventory:add_server", source, id, tonumber(quantity))
+				else
+					TriggerClientEvent("bm:armour", source)
+				end
+				TriggerClientEvent("pNotify:SendNotification", source, {text = "Successfully purchased "..quantity.." "..itemlist[id].name.."(s)!",type = "error",queue = "left",timeout = 2500,layout = "bottomCenter"})
+			else
+				TriggerClientEvent("pNotify:SendNotification", source, {text = "Insufficient funds!",type = "error",queue = "left",timeout = 2500,layout = "bottomCenter"})
+			end
+		end
+	end)
+end)

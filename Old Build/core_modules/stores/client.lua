@@ -44,12 +44,6 @@ Store = {
     {Category = "Medical", Items = {
         {Name = "Medkit", Id = 34, Cost = 50, Max = 10},
     }},
-    {Category = "Illegal", Items = {
-        {Name = "Lockpick", Id=36, Cost = 10, Max = 10},
-        {Name = "Hotwire kit", Id=46, Cost = 50, Max = 5},
-        --{Name = "Body Armor", Id=39, Cost = 300, Max = 2},
-        {Name = "Handcuffs", Id=44, Cost = 30, Max = 3},
-    }},
     {Category = "Misc", Items = {
         {Name = "Cigarette", Id=77, Cost = 10, Max = 100},
         {Name = "Cigar", Id=79, Cost = 10, Max = 100},
