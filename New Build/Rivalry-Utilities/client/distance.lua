@@ -4,9 +4,9 @@ function Utilities:GetClosestVehicle(Position, Radius, Dead, Model, ExcludedVehi
 
 	for Vehicle in self:EnumerateVehicles() do
 		if DoesEntityExist(Vehicle) then
-			if (Dead and IsEntityDead(Vehicle) or true) then
-				if (Model and IsVehicleModel(Vehicle, Model) or true) then
-					if (ExcludedVehicle and (Vehicle ~= ExcludedVehicle) or true) then
+			if (not Dead and true or IsEntityDead(Vehicle)) then
+				if (not Model and true or IsVehicleModel(Vehicle, Model)) then
+					if (not ExcludedVehicle and true or (Vehicle ~= ExcludedVehicle)) then
 						local VehiclePosition = GetEntityCoords(Vehicle, false)
 						local Distance = #(VehiclePosition - Position)
 
@@ -40,9 +40,9 @@ function Utilities:GetClosestPlayerVehicle(Position, Radius, Dead, Model, Exclud
 	for Index = 1, #Players do
 		local Vehicle = GetVehiclePedIsIn(GetPlayerPed(Players[Index]), false)
 		if DoesEntityExist(Vehicle) then
-			if (Dead and IsEntityDead(Vehicle) or true) then
-				if (Model and IsVehicleModel(Vehicle, Model) or true) then
-					if (ExcludedVehicle and (Vehicle ~= ExcludedVehicle) or true) then
+			if (not Dead and true or IsEntityDead(Vehicle)) then
+				if (not Model and true or IsVehicleModel(Vehicle, Model)) then
+					if (not ExcludedVehicle and true or (Vehicle ~= ExcludedVehicle)) then
 						local VehiclePosition = GetEntityCoords(Vehicle, false)
 						local Distance = #(VehiclePosition - Position)
 
@@ -74,9 +74,9 @@ function Utilities:GetClosestPed(Position, Radius, Dead, Model, ExcludedPed)
 
 	for Ped in self:EnumeratePeds() do
 		if DoesEntityExist(Ped) then
-			if (Dead and IsEntityDead(Ped) or true) then
-				if (Model and IsPedModel(Ped, Model) or true) then
-					if (ExcludedPed and (Ped ~= ExcludedPed) or true) then
+			if (not Dead and true or IsEntityDead(Ped)) then
+				if (not Model and true or IsVehicleModel(Ped, Model)) then
+					if (not ExcludedPed and true or (Ped ~= ExcludedPed)) then
 						local PedPosition = GetEntityCoords(Ped, false)
 						local Distance = #(PedPosition - Position)
 
@@ -110,9 +110,9 @@ function Utilities:GetClosestPlayerPed(Position, Radius, Dead, Model, ExcludedPe
 	for Index = 1, #Players do
 		local Ped = GetPlayerPed(Players[Index])
 		if DoesEntityExist(Ped) then
-			if (Dead and IsEntityDead(Ped) or true) then
-				if (Model and IsPedModel(Ped, Model) or true) then
-					if (ExcludedPed and (Ped ~= ExcludedPed) or true) then
+			if (not Dead and true or IsEntityDead(Ped)) then
+				if (not Model and true or IsVehicleModel(Ped, Model)) then
+					if (not ExcludedPed and true or (Ped ~= ExcludedPed)) then
 						local PedPosition = GetEntityCoords(Ped, false)
 						local Distance = #(PedPosition - Position)
 
@@ -144,9 +144,9 @@ function Utilities:GetClosestObject(Position, Radius, Dead, Model, ExcludedObjec
 
 	for Object in self:EnumerateObjects() do
 		if DoesEntityExist(Object) then
-			if (Dead and IsEntityDead(Object) or true) then
-				if (Model and IsPedModel(Object, Model) or true) then
-					if (ExcludedPed and (Object ~= ExcludedObject) or true) then
+			if (not Dead and true or IsEntityDead(Object)) then
+				if (not Model and true or (GetEntityModel(Object) == Model)) then
+					if (not ExcludedObject and true or (Object ~= ExcludedObject)) then
 						local ObjectPosition = GetEntityCoords(Object, false)
 						local Distance = #(ObjectPosition - Position)
 
@@ -172,21 +172,19 @@ function Utilities:GetClosestObject(Position, Radius, Dead, Model, ExcludedObjec
 	return ClosestObject
 end
 
-function Utilities:GetClosestPickup(Position, Radius, Dead, Model, ExcludedPickup)
+function Utilities:GetClosestPickup(Position, Radius, Dead, ExcludedPickup)
 	local Pickups = {}
 	local ClosestPickup = {}
 
 	for Pickup in self:EnumeratePickups() do
 		if DoesEntityExist(Pickup) then
-			if (Dead and IsEntityDead(Pickup) or true) then
-				if (Model and IsPedModel(Pickup, Model) or true) then
-					if (ExcludedPickup and (Pickup ~= ExcludedPickup) or true) then
-						local PickupPosition = GetEntityCoords(Pickup, false)
-						local Distance = #(PickupPosition - Position)
+			if (not Dead and true or IsEntityDead(Pickup)) then
+				if (not ExcludedPickup and true or (Pickup ~= ExcludedPickup)) then
+					local PickupPosition = GetEntityCoords(Pickup, false)
+					local Distance = #(PickupPosition - Position)
 
-						if Distance <= Radius then
-							table.insert(Pickups, {Handle = Pickup, Distance = Distance, Position = PickupPosition})
-						end
+					if Distance <= Radius then
+						table.insert(Pickups, {Handle = Pickup, Distance = Distance, Position = PickupPosition})
 					end
 				end
 			end
@@ -211,9 +209,9 @@ function Utilities:GetNearbyVehicles(Position, Radius, Dead, Model, ExcludedVehi
 
 	for Vehicle in self:EnumerateVehicles() do
 		if DoesEntityExist(Vehicle) then
-			if (Dead and IsEntityDead(Vehicle) or true) then
-				if (Model and IsVehicleModel(Vehicle, Model) or true) then
-					if (ExcludedVehicle and (Vehicle ~= ExcludedVehicle) or true) then
+			if (not Dead and true or IsEntityDead(Vehicle)) then
+				if (not Model and true or IsVehicleModel(Vehicle, Model)) then
+					if (not ExcludedVehicle and true or (Vehicle ~= ExcludedVehicle)) then
 						local VehiclePosition = GetEntityCoords(Vehicle, false)
 						local Distance = #(VehiclePosition - Position)
 
@@ -236,9 +234,9 @@ function Utilities:GetNearbyPlayerVehicles(Position, Radius, Dead, Model, Exclud
 	for Index = 1, #Players do
 		local Vehicle = GetVehiclePedIsIn(GetPlayerPed(Players[Index]), false)
 		if DoesEntityExist(Vehicle) then
-			if (Dead and IsEntityDead(Vehicle) or true) then
-				if (Model and IsVehicleModel(Vehicle, Model) or true) then
-					if (ExcludedVehicle and (Vehicle ~= ExcludedVehicle) or true) then
+			if (not Dead and true or IsEntityDead(Vehicle)) then
+				if (not Model and true or IsVehicleModel(Vehicle, Model)) then
+					if (not ExcludedVehicle and true or (Vehicle ~= ExcludedVehicle)) then
 						local VehiclePosition = GetEntityCoords(Vehicle, false)
 						local Distance = #(VehiclePosition - Position)
 
@@ -259,9 +257,9 @@ function Utilities:GetNearbyPeds(Position, Radius, Dead, Model, ExcludedPed)
 
 	for Ped in self:EnumeratePeds() do
 		if DoesEntityExist(Ped) then
-			if (Dead and IsEntityDead(Ped) or true) then
-				if (Model and IsPedModel(Ped, Model) or true) then
-					if (ExcludedPed and (Ped ~= ExcludedPed) or true) then
+			if (not Dead and true or IsEntityDead(Ped)) then
+				if (not Model and true or IsVehicleModel(Ped, Model)) then
+					if (not ExcludedPed and true or (Ped ~= ExcludedPed)) then
 						local PedPosition = GetEntityCoords(Ped, false)
 						local Distance = #(PedPosition - Position)
 
@@ -284,9 +282,9 @@ function Utilities:GetNearbyPlayerPeds(Position, Radius, Dead, Model, ExcludedPe
 	for Index = 1, #Players do
 		local Ped = GetPlayerPed(Players[Index])
 		if DoesEntityExist(Ped) then
-			if (Dead and IsEntityDead(Ped) or true) then
-				if (Model and IsPedModel(Ped, Model) or true) then
-					if (ExcludedPed and (Ped ~= ExcludedPed) or true) then
+			if (not Dead and true or IsEntityDead(Ped)) then
+				if (not Model and true or IsVehicleModel(Ped, Model)) then
+					if (not ExcludedPed and true or (Ped ~= ExcludedPed)) then
 						local PedPosition = GetEntityCoords(Ped, false)
 						local Distance = #(PedPosition - Position)
 
@@ -307,9 +305,9 @@ function Utilities:GetNearbyObjects(Position, Radius, Dead, Model, ExcludedObjec
 
 	for Object in self:EnumerateObjects() do
 		if DoesEntityExist(Object) then
-			if (Dead and IsEntityDead(Object) or true) then
-				if (Model and IsPedModel(Object, Model) or true) then
-					if (ExcludedPed and (Object ~= ExcludedObject) or true) then
+			if (not Dead and true or IsEntityDead(Object)) then
+				if (not Model and true or (GetEntityModel(Object) == Model)) then
+					if (not ExcludedObject and true or (Object ~= ExcludedObject)) then
 						local ObjectPosition = GetEntityCoords(Object, false)
 						local Distance = #(ObjectPosition - Position)
 
@@ -330,15 +328,13 @@ function Utilities:GetNearbyPickups(Position, Radius, Dead, Model, ExcludedPicku
 
 	for Pickup in self:EnumeratePickups() do
 		if DoesEntityExist(Pickup) then
-			if (Dead and IsEntityDead(Pickup) or true) then
-				if (Model and IsPedModel(Pickup, Model) or true) then
-					if (ExcludedPickup and (Pickup ~= ExcludedPickup) or true) then
-						local PickupPosition = GetEntityCoords(Pickup, false)
-						local Distance = #(PickupPosition - Position)
+			if (not Dead and true or IsEntityDead(Pickup)) then
+				if (not ExcludedPickup and true or (Pickup ~= ExcludedPickup)) then
+					local PickupPosition = GetEntityCoords(Pickup, false)
+					local Distance = #(PickupPosition - Position)
 
-						if Distance <= Radius then
-							table.insert(Pickups, {Handle = Pickup, Distance = Distance, Position = PickupPosition})
-						end
+					if Distance <= Radius then
+						table.insert(Pickups, {Handle = Pickup, Distance = Distance, Position = PickupPosition})
 					end
 				end
 			end
