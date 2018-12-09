@@ -348,8 +348,8 @@ GoPostal = {
 		},
 		Vehicles = {
 			Model = "Boxville2",
-			Location = vector3(),
-			Spawn = vector3(),
+			Location = vector3(72.220001220703,114.37594604492,79.123878479004),
+			Spawn = vector3(67.081314086914,119.43117523193,79.103141784668),
 		},
 		Animations = {
 			Dictionary = "anim@heists@load_box",
@@ -387,7 +387,7 @@ end
 -- Threads --
 
 Citizen.CreateThread(function()
-	CreateBlip("GoPostal Depot", 473, 18, GoPostal.Data.Service)
+	CreateBlip("GoPostal Depot", 473, 18, GoPostal.Data.Service.x, GoPostal.Data.Service.y, GoPostal.Data.Service.z)
 	while true do
 		Citizen.Wait(0)
 		if IsGoPostal then
@@ -456,26 +456,27 @@ Citizen.CreateThread(function()
 					if DoesEntityExist(Package) then
 						local DistanceThree = #(GoPostal.Data.Job[GoPostalJob] - Pos)
 						if DistanceThree < 1 then
-							DisplayHelpText("Press ~INPUT_CONTEXT to place the package!")
+							DisplayHelpText("Press ~INPUT_CONTEXT~ to place the package!")
 							if IsControlJustPressed(1, 51) then
 								PlayAnimation(3)
-								DestoryObject(Package)
+								DestroyObject(Package)
 								TriggerServerEvent("GoPostal.Success", 150)
 							end
 						end
 					else
 						local VehicleCoords = vector3(GetEntityCoords(GoPostalTruck, false))
-						local Distance = vector3(VehicleCoords + (GetEntityForwardVector(GoPostalTruck) * -6.1125))
+						local Distance = vector3(VehicleCoords + (GetEntityForwardVector(GoPostalTruck) * -5.1125))
 						if #(Distance - Pos) < 1 then
 							DisplayHelpText("Press ~INPUT_CONTEXT~ to grab the package!")
 							if IsControlJustPressed(1, 51) then
-								local Model = "prop_cardbordbox_02a"
+								local Model = GetHashKey("prop_cardbordbox_02a")
 								RequestModel(Model)
 								while not HasModelLoaded(Model) do
 									Citizen.Wait(0)
 								end
-								GoPostalBag = CreateObject(Model, GoPostal.Data.Job[GoPostalJob].x, GoPostal.Data.Job[GoPostalJob].y, GoPostal.Data.Job[GoPostalJob].z, true, false, false)
-								AttachEntityToEntity(GoPostalBag, Ped, GetPedBoneIndex(Ped, 57005), 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, true, true, false, true, 1, true)
+								Package = CreateObject(Model,  0.01, 0, 0, true, false, false)
+								PlayAnimation(2)
+								AttachEntityToEntity(Package, Ped, GetPedBoneIndex(Ped, 57005), 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, true, true, false, true, 1, true)
 							end
 						end
 					end
@@ -512,7 +513,7 @@ AddEventHandler("GoPostal.Rent", function()
 		while not HasModelLoaded(Model) do
 			Citizen.Wait(0)
 		end
-		GoPostalTruck = CreateVehicle(Model, GoPostal.Data.Vehicles.Spawn.x, GoPostal.Data.Vehicles.Spawn.y, GoPostal.Data.Vehicles.Spawn.z, 357.81948852539, true, false)
+		GoPostalTruck = CreateVehicle(Model, GoPostal.Data.Vehicles.Spawn.x, GoPostal.Data.Vehicles.Spawn.y, GoPostal.Data.Vehicles.Spawn.z, 156.78520202637, true, false)
 		local plate = "GP"..GetVehicleNumberPlateText(GoPostalTruck)
 		SetVehicleNumberPlateText(GoPostalTruck, plate)
 		SetEntityInvincible(GoPostalTruck, false)
