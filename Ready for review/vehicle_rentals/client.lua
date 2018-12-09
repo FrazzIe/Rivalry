@@ -56,7 +56,7 @@ rental_cars = {
     {title = "Bicycles", vehicles = {
         {name = "BMX", price = 50, model = "bmx"},
         {name = "Scorcher", price = 65, model = "scorcher"},
-        {name = "TriBike", price = 85, model = "tribike3"},
+        {name = "TriBike", price = 100, model = "tribike3"},
     }},
     {title = "Motorcycles", vehicles = {
         {name = "Faggio", price =50, model = "faggio2"},
@@ -95,7 +95,9 @@ rental_bikes = {
     {title = "Bicycles", vehicles = {
         {name = "BMX", price = 50, model = "bmx"},
         {name = "Scorcher", price = 65, model = "scorcher"},
-        {name = "TriBike", price = 85, model = "tribike3"},
+        {name = "Cruiser", price = 80, model = "cruiser"},
+        {name = "Fixter", price = 85, model = "fixter"},
+        {name = "TriBike", price = 100, model = "tribike3"},
     }},
 }
 --==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--
@@ -488,9 +490,9 @@ emplacement_boatrentals = {
 }
 
 emplacement_bikerentals = {
-    {name="Bike Rental", colour=24, sprite=376, x=103.675, y=-1074.48, z=29.192,inside={99.155,-1077.035,29.23,263.27},exit={107.8070526123,-1080.6772460938,29.192901611328,344.16656494141}},
-    {name="Bike Rental", colour=24, sprite=376, x=-899.22, y=-153.433, z=41.884,inside={-899.31628417969,-159.10604858398,41.880271911621,22.391862869263},exit={-904.37634277344,-144.0929107666,41.88427734375,203.54544067383}},
-    {name="Bike Rental", colour=24, sprite=376, x=1034.23, y=-767.52, z=58.00,inside={1032.5434570313,-760.5400390625,57.869514465332,144.498046875},exit={1046.7537841797,-770.43103027344,58.022846221924,75.198081970215}},
+    {name="Bike Rental", colour=24, sprite=376, x = 267.71353149414, y = -1155.4066162109, z = 29.289632797241,inside={265.2625,-1162.127,29.198,350.732},exit={259.3308, -1155.7814, 29.2792, 96.0687}},
+    {name="Bike Rental", colour=24, sprite=376, x = -1107.1656494141, y = -1694.009765625, z = 4.3738880157471,inside={-1115.1658,-1687.5478,4.3701,298.179},exit={-1117.176,-1689.675,4.4190,42.0723}},
+    {name="Bike Rental", colour=24, sprite=376, x = 1120.1947021484, y = -639.56274414063, z = 56.812858581543,inside={1119.0881,-630.562,56.7625,204.4807},exit={1127.67,-645.1433,56.827,273.1855}},
 }
 
 Citizen.CreateThread(function()
