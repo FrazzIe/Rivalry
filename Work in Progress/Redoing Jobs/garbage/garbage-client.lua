@@ -144,10 +144,10 @@ Citizen.CreateThread(function()
 				end
 			end
 			if OnDuty then
-				local Distance = #(Garbage.Data.Vehicles.Location - Pos)
-				if Distance < 10 then
+				local DistanceTwo = #(Garbage.Data.Vehicles.Location - Pos)
+				if DistanceTwo < 10 then
 					DrawMarker(25, Garbage.Data.Vehicles.Location.x, Garbage.Data.Vehicles.Location.y, Garbage.Data.Vehicles.Location.z - 1, 0, 0, 0, 0, 0, 0, 1.0, 1.0, 1.5, 0, 0, 255, 155, 0, 0, 2, 0, 0, 0, 0)
-					if Distance < 1 then
+					if DistanceTwo < 1 then
 						if GarbageTruck then
 							DisplayHelpText("Press ~INPUT_CONTEXT~ to return your Garbage Truck!")
 						else
@@ -190,8 +190,8 @@ Citizen.CreateThread(function()
 						EndTextCommandSetBlipName(GarbageBlip)
 						SetBlipRoute(GarbageBlip, true)
 					end
-					local Distance = #(Garbage.Data.Dumpster[GarbageJob] - Pos)
-					if Distance < 3 then
+					local DistanceThree = #(Garbage.Data.Dumpster[GarbageJob] - Pos)
+					if DistanceThree < 3 then
 						DisplayHelpText("Press ~INPUT_CONTEXT~ to pick up the trash!")
 						if not IsPedInAnyVehicle(ped, false) then
 							if IsControlJustPressed(1, 51) then
