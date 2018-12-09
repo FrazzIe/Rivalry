@@ -468,7 +468,7 @@ Citizen.CreateThread(function()
 						local Distance = vector3(VehicleCoords + (GetEntityForwardVector(GoPostalTruck) * -6.1125))
 						if #(Distance - Pos) < 1 then
 							DisplayHelpText("Press ~INPUT_CONTEXT~ to grab the package!")
-							if IsControlJustPressed(1, 51) do
+							if IsControlJustPressed(1, 51) then
 								local Model = "prop_cardbordbox_02a"
 								RequestModel(Model)
 								while not HasModelLoaded(Model) do
