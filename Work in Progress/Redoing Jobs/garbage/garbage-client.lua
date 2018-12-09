@@ -3,10 +3,11 @@ local garbage_truck = nil
 local garbage_job = nil
 local garbage_blip = nil
 local garbagebag = nil
+local completed = 0
 Garbage = {
 	Data = {
 		Service = {
-			[1] = {x = -337.6367, y = -2786.992, z = 4.000239},
+			[1] = vector3(-322.11968994141,-1545.8243408203,31.019908905029),
 		},
 		Dumpster = {
 			[1] = vector3(-337.6367,-2786.992,4.000239),
@@ -75,8 +76,8 @@ Garbage = {
 		Blips = {},
 		Vehicles = {
 			Model = "Trash",
-			Location = {},
-			Spawn = {},
+			Location = vector3(-333.72787475586,-1530.5367431641,27.547882080078),
+			Spawn = vector3(-330.57705688477,-1527.9936523438,27.729866027832),
 		},
 		Animations = {
 			Dictionary = "missfbi4prepp1",
@@ -94,18 +95,19 @@ function startJob()
 	garbage_job = randomizer
 end
 
-function PlayAnimation(type)
+local function PlayAnimation(number)
 	Citizen.CreateThread(function()
 		local dictionary = Garbage.Data.Animations.Dictionary
+		RequestAnimDict(dictionary)
 		while not HasAnimDictLoaded(dictionary) do
 			Citizen.Wait(0)
 		end
-		if type == "pickup" then
+		if number == 1 then
 			TaskPlayAnim(PlayerPedId(), dictionary, Garbage.Data.Animations.PickUp, 8.0, 8.0, 800, 49, 0, false, false, false)
 			Citizen.Wait(800)
 			TaskPlayAnim(PlayerPedId(), dictionary, Garbage.Data.Animations.Idle, 8.0, 1.0, -1, 49, 0, 0, 0, 0)
 		end
-		if type = "throw" then
+		if number == 2 then
 			TaskPlayAnim(PlayerPedId(), dictionary, Garbage.Data.Animations.Throw, 8.0, 8.0, 800, 49, 0, false, false, false)
 		end
 	end)
@@ -127,7 +129,7 @@ AddEventHandler("garbage:rent", function()
 		while not HasModelLoaded(model) do
 			Citizen.Wait(0)
 		end
-		garbage_truck = CreateVehicle(model. Garbage.Data.Model.Spawn.x, Garbage.Data.Model.Spawn.y, Garbage.Data.Model.Spawn.z, Garbage.Data.Model.Spawn.h, true, false)
+		garbage_truck = CreateVehicle(model, Garbage.Data.Vehicles.Spawn.x, Garbage.Data.Vehicles.Spawn.y, Garbage.Data.Vehicles.Spawn.z, 357.81948852539, true, false)
 		local plate = "GB"..GetVehicleNumberPlateText(garbage_truck)
 		SetVehicleNumberPlateText(garbage_truck, plate)
 		SetEntityInvincible(garbage_truck, false)
@@ -163,94 +165,104 @@ Citizen.CreateThread(function()
 								Help = true
 							end
 							OnDuty = not OnDuty
-							garbageBlips()
 						end
 					end
 				end
 			end
 			if OnDuty then
-				for Index = 1, #Garbage.Data.Vehicles.Location do
-					if Vdist(pos.x, pos.y, pos.z, Garbage.Data.Vehicles.Location[Index].x, Garbage.Data.Vehicles.Location[Index].y, Garbage.Data.Vehicles.Location[Index].z) < 10 then
-						DrawMarker(25, Garbage.Data.Vehicles.Location[Index].x, Garbage.Data.Vehicles.Location[Index].y, Garbage.Data.Vehicles.Location[Index].z - 1, 0, 0, 0, 0, 0, 0, 1.0, 1.0, 1.5, 0, 0, 255, 155, 0, 0, 2, 0, 0, 0, 0)
-						if Vdist(pos.x, pos.y, pos.z, Garbage.Data.Vehicles.Location[Index].x, Garbage.Data.Vehicles.Location[Index].y, Garbage.Data.Vehicles.Location[Index].z) < 1 then
+				if Vdist(pos.x, pos.y, pos.z, Garbage.Data.Vehicles.Location.x, Garbage.Data.Vehicles.Location.y, Garbage.Data.Vehicles.Location.z) < 10 then
+					DrawMarker(25, Garbage.Data.Vehicles.Location.x, Garbage.Data.Vehicles.Location.y, Garbage.Data.Vehicles.Location.z - 1, 0, 0, 0, 0, 0, 0, 1.0, 1.0, 1.5, 0, 0, 255, 155, 0, 0, 2, 0, 0, 0, 0)
+					if Vdist(pos.x, pos.y, pos.z, Garbage.Data.Vehicles.Location.x, Garbage.Data.Vehicles.Location.y, Garbage.Data.Vehicles.Location.z) < 1 then
+						if garbage_truck then
+							DisplayHelpText("Press ~INPUT_CONTEXT~ to return your Garbage Truck!")
+						else
+							DisplayHelpText("Press ~INPUT_CONTEXT~ to claim your Garbage Truck!")
+						end
+						if IsControlJustPressed(1,51) then
 							if garbage_truck then
-								DisplayHelpText("Press ~INPUT_CONTEXT~ to return your Garbage Truck!")
+								SetEntityAsMissionEntity(garbage_truck, true, true)
+								DeleteVehicle(garbage_truck)
+								garbage_truck = nil
+								garbage_job = nil
 							else
-								DisplayHelpText("Press ~INPUT_CONTEXT~ to claim your Garbage Truck!")
-							end
-							if IsControlJustPressed(1,51) then
-								if garbage_truck then
-									SetEntityAsMissionEntity(garbage_truck, true, true)
-									DeleteVehicle(garbage_truck)
-									garbage_truck = nil
-									garbage_job = nil
+								if tobool(drivers_license) then
+									TriggerServerEvent("garbage:rent")
 								else
-									if tobool(drivers_license) then
-										TriggerServerEvent("garbage:rent")
-									else
-										Notify("You do not have a valid drivers license!", 2500)
-									end
+									Notify("You do not have a valid drivers license!", 2500)
 								end
 							end
 						end
 					end
-					if garbage_job and garbage_truck then
-						if IsEntityDead(garbage_truck) then
-							garbage_truck = nil
-							Notify("The garbage truck was destroyed, go get a new one!", 3000)
-						end
+				end
+				if garbage_job and garbage_truck then
+					if IsEntityDead(garbage_truck) then
+						garbage_truck = nil
+						Notify("The garbage truck was destroyed, go get a new one!", 3000)
 						if garbage_blip then
 							RemoveBlip(garbage_blip)
 							SetBlipRoute(garbage_blip, false)
 							garbage_blip = nil
 						end
-						if Vdist(pos.x, pos.y, pos.z, Garbage.Data.Dumpster[garbage_job].x, Garbage.Data.Dumpster[garbage_job].y, Garbage.Data.Dumpster[garbage_job].z) < 10 then
-							if Vdist(pos.x, pos.y, pos.z, Garbage.Data.Dumpster[garbage_job].x, Garbage.Data.Dumpster[garbage_job].y, Garbage.Data.Dumpster[garbage_job].z) < 1 then
-								DisplayHelpText("Press ~INPUT_CONTEXT~ to pick up the trash!")
-								if not IsPedInAnyVehicle(Ped, true) then
-									if IsControlJustPressed(1, 51) then
-										local model = "prop_cs_rub_binbag_01"
-										RequestModel(model)
-										while not HasModelLoaded(model) do
-											Citizen.Wait(0)
-										end
-										PlayAnimation("pickup")
-										Citizen.Wait(800)
-										garbagebag = CreateObject(model, Garbage.Data.Dumpster[garbage_job].x, Garbage.Data.Dumpster[garbage_job].y, Garbage.Data.Dumpster[garbage_job].z, true, false, false)
-										AttachEntityToEntity(garbagebag, Ped, GetPedBoneIndex(Ped, 28422), 0.02700003, 0.06399997, 0.3449997, 0.2150002, 2.226021, 0.8569925, useSoftPinning, collision, isPed, vertexIndex, fixedRot)
-										Notify("Throw the garbage in the back of the truck!", 1000)
-									end
-								else
-									Notify("Get out of the vehicle and pick it up!", 2500)
-								end
-							end
-						end
-						if DoesEntityExist(garbagebag) then
-							local coords = vector3(GetEntityCoords(garbage_truck, false))
-							if Vdist(pos.x, pos.y, pos.z, coords.x + 6, coords.y, coords.z + 1) < 1 then
-								DisplayHelpText("Press ~INPUT_CONTEXT~ to throw trash into the back!")
+					end
+					if not DoesBlipExist(garbage_blip) then
+						garbage_blip = AddBlipForCoord(Garbage.Data.Dumpster[garbage_job].x, Garbage.Data.Dumpster[garbage_job].y, Garbage.Data.Dumpster[garbage_job].z)
+						SetBlipSprite(garbage_blip, 1)
+						SetBlipColour(garbage_blip, 60)
+						SetBlipAsShortRange(garbage_blip, true)
+						SetBlipScale(garbage_blip, 0.85)
+						BeginTextCommandSetBlipName("STRING")
+						AddTextComponentString("Dumpster")
+						EndTextCommandSetBlipName(garbage_blip)
+						SetBlipRoute(garbage_blip, true)
+					end
+					if Vdist(pos.x, pos.y, pos.z, Garbage.Data.Dumpster[garbage_job].x, Garbage.Data.Dumpster[garbage_job].y, Garbage.Data.Dumpster[garbage_job].z) < 10 then
+						if Vdist(pos.x, pos.y, pos.z, Garbage.Data.Dumpster[garbage_job].x, Garbage.Data.Dumpster[garbage_job].y, Garbage.Data.Dumpster[garbage_job].z) < 3 then
+							DisplayHelpText("Press ~INPUT_CONTEXT~ to pick up the trash!")
+							if not IsPedInAnyVehicle(ped, false) then
 								if IsControlJustPressed(1, 51) then
-									PlayAnimation("throw")
-									Citizen.Wait(1000)
-									DetachEntity(garbagebag, true, true)
-									DestroyObject(garbagebag)
+									local model = GetHashKey("prop_cs_rub_binbag_01")
+									RequestModel(model)
+									while not HasModelLoaded(model) do
+										Citizen.Wait(0)
+									end
+									PlayAnimation(1)
+									Citizen.Wait(800)
+									garbagebag = CreateObject(model, Garbage.Data.Dumpster[garbage_job].x, Garbage.Data.Dumpster[garbage_job].y, Garbage.Data.Dumpster[garbage_job].z, true, false, false)
+									AttachEntityToEntity(garbagebag, ped, GetPedBoneIndex(ped, 28422), 0.02700003, 0.06399997, 0.3449997, 0.2150002, 2.226021, 0.8569925, true, true, false, true, 1, true)
+									Notify("Throw the garbage in the back of the truck!", 1000)
 								end
 							end
 						end
-					else
-						if garbage_blip then
-							RemoveBlip(garbage_blip)
-							SetBlipRoute(garbage_blip, false)
-							garbage_blip = nil
+					end
+					if DoesEntityExist(garbagebag) then
+						local coords = vector3(GetEntityCoords(garbage_truck, false))
+						local distance = vector3(coords + (GetEntityForwardVector(garbage_truck) * -6.1125))
+						if Vdist(pos.x, pos.y, pos.z, distance.x, distance.y, distance.z) < 2 then
+							DisplayHelpText("Press ~INPUT_CONTEXT~ to throw trash into the back!")
+							if IsControlJustPressed(1, 51) then
+								PlayAnimation(2)
+								Citizen.Wait(1000)
+								DestroyObject(garbagebag)
+								completed = completed + 1
+								TriggerServerEvent('garbage:success', 100)
+							end
 						end
+					end
+					if completed == 3 then
+						startJob()
+						RemoveBlip(garbage_blip)
+						SetBlipRoute(garbage_blip, false)
+						garbage_blip = nil
+						completed = 0
+					end
+				else
+					if garbage_blip then
+						RemoveBlip(garbage_blip)
+						SetBlipRoute(garbage_blip, false)
+						garbage_blip = nil
 					end
 				end
 			end
 		end
 	end
 end)
-
-
-
-{x = -55.491722106934, y = -1357.0255126953, z = 28.973825454712, h = 89.449516296387},
-{x = -49.503562927246, y = -1357.1291503906, z = 29.225595474243, h = 80.047325134277},
