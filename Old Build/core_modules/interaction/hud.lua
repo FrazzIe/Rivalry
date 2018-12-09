@@ -186,7 +186,7 @@ Citizen.CreateThread(function()
             if mechanic_callstatus == 0 then
                 drawText("~c~MECHANIC~w~: You currently don't have a call", 6, 0.3, 0.895, 0.50, 255, 255, 255, 255, false, true)
             elseif mechanic_callstatus == 1 then
-                drawText("~c~MECHANIC~w~: ~g~A mechanic will arrive at the location of the call", 6, 0.3, 0.87, 0.50, 255, 255, 255, 255, false, true)
+                drawText("~c~MECHANIC~w~: ~g~A mechanic will arrive at the location of the call", 6, 0.3, 0.895, 0.50, 255, 255, 255, 255, false, true)
             else
                 if mechanic_active == 0 then
                     drawText("~c~MECHANIC~w~: ~r~No mechanics are active", 6, 0.3, 0.895, 0.50, 255, 255, 255, 255, false, true)
