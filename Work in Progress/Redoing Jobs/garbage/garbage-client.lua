@@ -91,8 +91,8 @@ Garbage = {
 -- Functions --
 
 function StartJob()
-	randomizer = math.random(1, #Garbage.Data.Dumpster)
-	GarbageJob = randomizer
+	local Randomizer = math.random(1, #Garbage.Data.Dumpster)
+	GarbageJob = Randomizer
 end
 
 local function PlayAnimation(number)
