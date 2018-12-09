@@ -241,7 +241,7 @@ Citizen.CreateThread(function()
 	end
 end)
 
--- Threads --
+-- Events --
 
 RegisterNetEvent("Garbage.Set")
 AddEventHandler("Garbage.Set", function(_IsGarbage)
