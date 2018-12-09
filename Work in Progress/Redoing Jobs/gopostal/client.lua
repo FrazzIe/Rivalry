@@ -6,6 +6,7 @@ local Package = nil
 
 GoPostal = {	
 	Data = {
+		Service = vector3(78.803565979004,111.93710327148,81.168167114258),
 		Job = {
 			vector3(-11.7389554977417,-303.995056152344,45.5747222900391),
 			vector3(146.843276977539,-300.878265380859,45.3772392272949),
@@ -351,10 +352,10 @@ GoPostal = {
 			Spawn = vector3(),
 		},
 		Animations = {
-			Dictionary = "anim@heists@load_box"
-			Idle = "idle"
-			Lift = "lift_box"
-			Place = "load_box_1"
+			Dictionary = "anim@heists@load_box",
+			Idle = "idle",
+			Lift = "lift_box",
+			Place = "load_box_1",
 		},
 	},
 }
@@ -373,11 +374,11 @@ function PlayAnimation(number)
 		while not HasAnimDictLoaded(Dictionary) do
 			Citizen.Wait(0)
 		end
-		if number = 1 then
+		if number == 1 then
 			TaskPlayAnim(PlayerPedId(), Dictionary, GoPostal.Data.Animations.Idle, 8.0, 1.0, -1, 49, 0, 0, 0, 0)
-		elseif number = 2 then
+		elseif number == 2 then
 			TaskPlayAnim(PlayerPedId(), Dictioanry, GoPostal.Data.Animations.Lift, 8.0, 8.0, 2000, 49, 0, false, false, false)
-		elseif number = 3 then
+		elseif number == 3 then
 			TaskPlayAnim(PlayerPedId(), Dictionary, GoPostal.Data.Animations.Place, 8.0, 8.0, 2000, 49, 0, false, false, false)
 		end
 	end)
@@ -386,6 +387,7 @@ end
 -- Threads --
 
 Citizen.CreateThread(function()
+	CreateBlip("GoPostal Depot", 473, 18, GoPostal.Data.Service)
 	while true do
 		Citizen.Wait(0)
 		if IsGoPostal then
@@ -452,7 +454,7 @@ Citizen.CreateThread(function()
 						SetBlipRoute(GoPostalBlip, true)
 					end
 					if DoesEntityExist(Package) then
-						local DistanceThree = #(GoPostal.Data.Job.[GoPostalJob] - Pos)
+						local DistanceThree = #(GoPostal.Data.Job[GoPostalJob] - Pos)
 						if DistanceThree < 1 then
 							DisplayHelpText("Press ~INPUT_CONTEXT to place the package!")
 							if IsControlJustPressed(1, 51) then
@@ -472,7 +474,7 @@ Citizen.CreateThread(function()
 								while not HasModelLoaded(Model) do
 									Citizen.Wait(0)
 								end
-								GoPostalBag = CreateObject(Model, GoPostal.Data.Dumpster[GoPostalJob].x, GoPostal.Data.Dumpster[GoPostalJob].y, GoPostal.Data.Dumpster[GoPostalJob].z, true, false, false)
+								GoPostalBag = CreateObject(Model, GoPostal.Data.Job[GoPostalJob].x, GoPostal.Data.Job[GoPostalJob].y, GoPostal.Data.Job[GoPostalJob].z, true, false, false)
 								AttachEntityToEntity(GoPostalBag, Ped, GetPedBoneIndex(Ped, 57005), 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, true, true, false, true, 1, true)
 							end
 						end
