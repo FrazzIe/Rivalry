@@ -56,6 +56,8 @@ Config.Priority = {
     ["steam:11000010501b537"] = 773, -- Ramee
     ["steam:110000101cbce66"] = 772, -- Spaceboy
     ["steam:110000108defef3"] = 771, -- Sur Lee
+    ["steam:110000101dcfaa6"] = 770, -- FortyOne
+    ["steam:110000101dcfaa6"] = 769, -- brak1n
 --[PD, EMS, DOJ]--
     ["steam:11000010bf7bb73"] = 702, -- AfriicanSnowball
     ["steam:110000104c9acb6"] = 701, -- Tyler Reagan (PD High Command)
