@@ -3,8 +3,9 @@ local GoPostalTruck = nil
 local GoPostalBlip = nil
 local GoPostalJob = nil
 local Package = nil
+local Completed = false
 
-GoPostal = {	
+GoPostal = {
 	Data = {
 		Service = vector3(78.803565979004,111.93710327148,81.168167114258),
 		Job = {
@@ -352,10 +353,9 @@ GoPostal = {
 			Spawn = vector3(67.081314086914,119.43117523193,79.103141784668),
 		},
 		Animations = {
-			Dictionary = "anim@heists@load_box",
+			Dictionary = "anim@heists@box_carry@",
 			Idle = "idle",
-			Lift = "lift_box",
-			Place = "load_box_1",
+			Place = "PROP_HUMAN_BUM_BIN",
 		},
 	},
 }
@@ -369,17 +369,17 @@ end
 
 function PlayAnimation(number)
 	Citizen.CreateThread(function()
-		local Dictionary = GoPostal.Data.Animations.Dictionary
-		RequestAnimDict(Dictionary)
-		while not HasAnimDictLoaded(Dictionary) do
-			Citizen.Wait(0)
-		end
 		if number == 1 then
+			local Dictionary = GoPostal.Data.Animations.Dictionary
+			RequestAnimDict(Dictionary)
+			while not HasAnimDictLoaded(Dictionary) do
+				Citizen.Wait(0)
+			end
 			TaskPlayAnim(PlayerPedId(), Dictionary, GoPostal.Data.Animations.Idle, 8.0, 1.0, -1, 49, 0, 0, 0, 0)
-		elseif number == 2 then
-			TaskPlayAnim(PlayerPedId(), Dictioanry, GoPostal.Data.Animations.Lift, 8.0, 8.0, 2000, 49, 0, false, false, false)
 		elseif number == 3 then
-			TaskPlayAnim(PlayerPedId(), Dictionary, GoPostal.Data.Animations.Place, 8.0, 8.0, 2000, 49, 0, false, false, false)
+			TaskStartScenarioInPlace(PlayerPedId(), GoPostal.Data.Animations.Place, 0, true)
+			Citizen.Wait(2000)
+			ClearPedTasks(PlayerPedId())
 		end
 	end)
 end
@@ -387,7 +387,7 @@ end
 -- Threads --
 
 Citizen.CreateThread(function()
-	CreateBlip("GoPostal Depot", 473, 18, GoPostal.Data.Service.x, GoPostal.Data.Service.y, GoPostal.Data.Service.z)
+	CreateBlip("GoPostal Depot", 411, 18, GoPostal.Data.Service.x, GoPostal.Data.Service.y, GoPostal.Data.Service.z)
 	while true do
 		Citizen.Wait(0)
 		if IsGoPostal then
@@ -395,7 +395,7 @@ Citizen.CreateThread(function()
 			local Pos = GetEntityCoords(Ped, false)
 			local Distance = #(GoPostal.Data.Service - Pos)
 			if Distance < 10 then
-				DrawMarker(25, GoPostal.Data.Service.x, GoPostal.Data.Service.y, GoPostal.Data.Service.z - 1, 0, 0, 0, 0, 0, 0, 1.0, 1.0, 1.5, 0, 0, 255, 155, 0, 0, 2, 0, 0, 0, 0)
+				DrawMarker(25, GoPostal.Data.Service.x, GoPostal.Data.Service.y, GoPostal.Data.Service.z - 0.95, 0, 0, 0, 0, 0, 0, 1.0, 1.0, 1.5, 0, 0, 255, 155, 0, 0, 2, 0, 0, 0, 0)
 				if Distance < 1 then
 					if OnDuty then
 						DisplayHelpText("Press ~INPUT_CONTEXT~ to sign off duty!")
@@ -410,6 +410,7 @@ Citizen.CreateThread(function()
 			if OnDuty then
 				local Distance = #(GoPostal.Data.Vehicles.Location - Pos)
 				if Distance < 10 then
+					DrawMarker(25, GoPostal.Data.Vehicles.Location.x, GoPostal.Data.Vehicles.Location.y, GoPostal.Data.Vehicles.Location.z - 0.95, 0, 0, 0, 0, 0, 0, 1.0, 1.0, 1.5, 0, 0, 255, 155, 0, 0, 2, 0, 0, 0, 0)
 					if Distance < 1 then
 						if GoPostalTruck then
 							DisplayHelpText("Press ~INPUT_CONTEXT~ to return your vehicle!")
@@ -459,9 +460,14 @@ Citizen.CreateThread(function()
 							DisplayHelpText("Press ~INPUT_CONTEXT~ to place the package!")
 							if IsControlJustPressed(1, 51) then
 								PlayAnimation(3)
-								DestroyObject(Package)
-								TriggerServerEvent("GoPostal.Success", 150)
+								Citizen.Wait(3800)
+								DetachEntity(Package)
+								Notify("Please head to your next destination! You will get paid after we have checked with the home owner to see if the package was delivered correctly!", 10000)
 							end
+						end
+						if DistanceThree > 20 then
+							DestroyObject(Package)
+							Completed = true
 						end
 					else
 						local VehicleCoords = vector3(GetEntityCoords(GoPostalTruck, false))
@@ -475,10 +481,18 @@ Citizen.CreateThread(function()
 									Citizen.Wait(0)
 								end
 								Package = CreateObject(Model,  0.01, 0, 0, true, false, false)
-								PlayAnimation(2)
-								AttachEntityToEntity(Package, Ped, GetPedBoneIndex(Ped, 57005), 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, true, true, false, true, 1, true)
+								PlayAnimation(1)
+								AttachEntityToEntity(Package, Ped, GetPedBoneIndex(Ped, 60309), 0.025, 0.08, 0.255, -145.0, 290.0, 0.0, true, true, false, true, 1, true)
 							end
 						end
+					end
+					if Completed == true then
+						TriggerServerEvent("GoPostal.Success", 300)
+						StartJob()
+						RemoveBlip(GoPostalBlip)
+						SetBlipRoute(GoPostalBlip, false)
+						GoPostalBlip = nil
+						Completed = false
 					end
 				else
 					if GoPostalBlip then
