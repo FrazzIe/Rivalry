@@ -8,7 +8,9 @@ Citizen.CreateThread(function()
               SetRandomVehicleDensityMultiplierThisFrame(0.3)
               SetParkedVehicleDensityMultiplierThisFrame(0.3)
               SetScenarioPedDensityMultiplierThisFrame(0.03, 0.3)
-
+              for i = 1, 12 do
+                EnableDispatchService(i, false)
+              end
 		
 		-- These natives do not have to be called everyframe.
 		SetGarbageTrucks(1)
