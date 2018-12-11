@@ -8,8 +8,8 @@ Citizen.CreateThread(function()
               SetRandomVehicleDensityMultiplierThisFrame(0.3)
               SetParkedVehicleDensityMultiplierThisFrame(0.3)
               SetScenarioPedDensityMultiplierThisFrame(0.03, 0.3)
-              for i = 1, 12 do
-                EnableDispatchService(i, false)
+              for i = 1, 32 do
+                Citizen.InvokeNative(0xDC0F817884CDD856, i, false)
               end
 		
 		-- These natives do not have to be called everyframe.
