@@ -1,9 +1,9 @@
 Time, Weather = {}, {}
 Time.Hour, Time.Minute, Time.Second = 12, 0, 0
 Weather.Current, Weather.Types = "CLOUDS", {
-    "SNOWLIGHT",
     "CLOUDS",
     "OVERCAST",
+    "SNOWLIGHT",
 }
 
 --[[Weather.Current, Weather.Types = "SUNNY", {
