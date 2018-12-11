@@ -43,6 +43,7 @@ Config.Priority = {
     ["steam:110000105e2219c"] = 786, -- Daquan
     ["steam:11000010a89612b"] = 785, -- ZombieBarricades
     ["steam:110000109da40b2"] = 784, -- GeeFamous92
+    ["steam:11000010af28db3"] = 783, -- BlockByBlock
     ["steam:11000010390c424"] = 782, -- Vinny
     ["steam:110000104e491d1"] = 781, -- VaderRP
     ["steam:110000100a775e1"] = 780, -- Kyle
