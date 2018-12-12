@@ -42,3 +42,5 @@ client_script 'afk/client.lua'
 client_script 'pdpeds/client.lua'
 
 client_script 'recoil/client.lua'
+
+client_script 'density.lua'

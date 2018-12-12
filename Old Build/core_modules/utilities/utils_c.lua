@@ -198,13 +198,6 @@ function Draw3DText(x,y,z, text, _size) -- some useful function, use it if you w
 end
 
 Citizen.CreateThread(function()
-    for Index = 1, 15 do
-        if Index ~= 11 and Index ~= 15 then
-            EnableDispatchService(Index, false)
-        else
-            EnableDispatchService(Index, true)
-        end
-    end
     for _, item in pairs(extrablips) do
         addBlip(item)
     end
@@ -686,19 +679,4 @@ end)
 RegisterNetEvent('paramedic:updateactiveMedics')
 AddEventHandler('paramedic:updateactiveMedics',function(activeCount)
     activeMedics = activeCount
-end)
-
-Citizen.CreateThread(function()
-    local chop = GetHashKey("a_c_chop")
-    local husky = GetHashKey("a_c_husky")
-    while true do
-        Citizen.Wait(0)
-        SetPedDensityMultiplierThisFrame(0.9999999)
-        SetVehicleDensityMultiplierThisFrame(0.4)
-        
-        local PlayerModel = GetEntityModel(PlayerPedId())
-        if PlayerModel == chop or PlayerModel == husky then
-            RestorePlayerStamina(PlayerId(), 1.0)
-        end
-    end
 end)
