@@ -19,7 +19,7 @@ Citizen.CreateThread(function()
         SetPedDensityMultiplierThisFrame(0.9999999)
         SetVehicleDensityMultiplierThisFrame(0.4)
         
-        ClearAreaOfCops(Player.Coordinates, 400.0)
+        ClearAreaOfCops(PlayerPosition, 400.0)
 
         if PlayerModel == chop or PlayerModel == husky then
             RestorePlayerStamina(PlayerId(), 1.0)
