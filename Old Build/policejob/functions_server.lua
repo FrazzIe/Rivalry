@@ -15,6 +15,23 @@
 --==============================================================================================================================--
 --Cop blips
 inServiceCops = {}
+local FriskWeapons = {
+    ["WEAPON_PISTOL"] = "You feel a metal L shaped object near the persons waist.",
+    ["WEAPON_COMBATPISTOL"] = "You feel a metal L shaped object near the persons waist.",
+    ["WEAPON_PISTOL50"] = "You feel a large metal L shaped object near the persons waist.",
+    ["WEAPON_SNSPISTOL"] = "You feel a small metal L shaped object near the persons waist.",
+    ["WEAPON_VINTAGEPISTOL"] = "You feel a metal object with a long barrel near the person waist.",
+    ["WEAPON_STUNGUN"] = "You feel a thicc plastic object on their waist.",
+    ["WEAPON_KNIFE"] = "You feel a very sharp object, with a round base.",
+    ["WEAPON_NIGHTSTICK"] = "You feel a long L shaped object.",
+    ["WEAPON_HAMMER"] = "You feel a wooden handle, with a metal piece on top.",
+    ["WEAPON_BOTTLE"] = "You feel a very sharp glass object on them.",
+    ["WEAPON_DAGGER"] = "You feel a long sharp metal object near their waist.",
+    ["WEAPON_KNUCKLE"] = "You feel a round metal object, with large holes inside of it.",
+    ["WEAPON_FLASHLIGHT"] = "You feel a metal cylinder, with a round head near the persons waist.",
+    ["WEAPON_SWITCHBLADE"] = "You feel a small metal object in their pocket.",
+    ["WEAPON_DBSHOTGUN"] = "You feel a thicc metal object with 2 rounded barrels near their waist.",
+}
 
 RegisterServerEvent('police:setService')
 AddEventHandler('police:setService', function(inService)
@@ -84,6 +101,27 @@ AddEventHandler('police:force', function(target, type)
 		TriggerClientEvent('police:force', target, type)
 	else
 		TriggerEvent("core:ban", source, 99, "Script tampering", true, "Anticheat")
+	end
+end)
+--==============================================================================================================================--
+--Frisk
+RegisterServerEvent('police:frisk')
+AddEventHandler('police:frisk', function(target)
+	local source = source
+	if cops[source] then
+		TriggerEvent("weapon:getuser", target, function(_weapon)
+			if _weapon ~= nil then
+				if tablelength(_weapon) > 0 then
+					for k,v in pairs(_weapon) do
+						if FriskWeapons[k] then
+							TriggerClientEvent("chatMessage", source, "Frisk", {16, 102, 158}, FriskWeapons[k])
+						end
+					end
+				else
+					TriggerClientEvent("pNotify:SendNotification", source, {text = "You didn't feel anything funny", type = "error",queue = "left",timeout = 2500,layout = "centerRight"})
+				end
+			end
+		end)
 	end
 end)
 --==============================================================================================================================--

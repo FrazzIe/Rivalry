@@ -169,6 +169,7 @@ AddEventHandler("police:menu_citizen", function()
     exports.ui:addOption("Drag", [[TriggerEvent("police:menu_citizen_drag")]])
     exports.ui:addOption("Put in vehicle", [[TriggerEvent("police:menu_citizen_force", "in")]])
     exports.ui:addOption("Take out of vehicle", [[TriggerEvent("police:menu_citizen_force", "out")]])
+    exports.ui:addOption("Frisk", [[TriggerEvent("police:menu_citizen_frisk")]])
     exports.ui:addOption("Search", [[TriggerEvent("police:menu_citizen_search")]])
     exports.ui:addOption("Seize", [[TriggerEvent("police:menu_citizen_seize")]])
     exports.ui:addOption("Breathalyzer", [[TriggerEvent("police:menu_citizen_breathalyzer")]])
@@ -203,6 +204,16 @@ AddEventHandler("police:menu_citizen_force", function(type)
     local t, distance = GetClosestPlayer()
     if(distance ~= -1 and distance < 3) then
         TriggerServerEvent("police:force", GetPlayerServerId(t), type)
+    else
+        Notify("Please get closer to the target!", 2500)
+    end
+end)
+
+AddEventHandler("police:menu_citizen_frisk", function()
+    exports.ui:open()
+    local t, distance = GetClosestPlayer()
+    if(distance ~= -1 and distance < 3) then
+        TriggerServerEvent("police:frisk", GetPlayerServerId(t))
     else
         Notify("Please get closer to the target!", 2500)
     end

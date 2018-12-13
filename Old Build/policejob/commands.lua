@@ -219,6 +219,17 @@ AddEventHandler("playerSpawned", function()
 		end
 	end, false, {Help = "Test someone for gun residue", Params = {}})
 
+	Chat_Command("frisk", function(source, args, rawCommand)
+		if isInService then
+			local t, distance = GetClosestPlayer()
+			if(distance ~= -1 and distance < 3) then
+				TriggerServerEvent("police:frisk", GetPlayerServerId(t))
+			else
+				Notify("Please get closer to the target!", 2500)
+			end
+		end
+	end, false, {Help = "Frisk someone for weapons.", Params = {}})
+	
 	Chat_Command("search", function(source, args, rawCommand)
 		if args[2] then
 			if args[1] == "p" or args[1] == "v" or args[1] == "vehicle" or args[1] == "person" then
