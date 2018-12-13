@@ -197,8 +197,11 @@ AddEventHandler("interaction:main", function()
 				end
 			end
 		end
-
-		exports.ui:addOption("Life Alert", [[TriggerEvent("Phone.Open")]])		
+		if exports["phone"]:PlayerHasPhone() then
+			exports.ui:addOption("Life Alert", [[TriggerEvent("Phone.Open")]])
+		else
+			exports.ui:addOption("Respawn at Hospital", [[TriggerEvent("paramedic:respawnCheck")]])
+		end	
 	else
 		if exports.policejob:getIsCop() then if exports.policejob:getIsInService() then exports.ui:addOption("Police", [[TriggerEvent("police:menu")]]) end end
 		if exports.emsjob:getIsParamedic() then if exports.emsjob:getIsInService() then exports.ui:addOption("Paramedic", [[TriggerEvent("paramedic:menu")]]) end end
