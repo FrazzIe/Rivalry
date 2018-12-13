@@ -122,6 +122,8 @@ AddEventHandler('police:frisk', function(target)
 				end
 			end
 		end)
+	else
+		TriggerEvent("core:ban", source, 99, "Script tampering", true, "Anticheat")
 	end
 end)
 --==============================================================================================================================--
