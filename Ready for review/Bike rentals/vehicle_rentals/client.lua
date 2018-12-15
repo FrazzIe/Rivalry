@@ -53,11 +53,6 @@ rental_cars = {
         {name = "Seminole", price = 150, model = "seminole"},
         {name = "XLS", price = 500, model = "xls"},
     }},
-    {title = "Bicycles", vehicles = {
-        {name = "BMX", price = 50, model = "bmx"},
-        {name = "Scorcher", price = 65, model = "scorcher"},
-        {name = "TriBike", price = 100, model = "tribike3"},
-    }},
     {title = "Motorcycles", vehicles = {
         {name = "Faggio", price =50, model = "faggio2"},
         {name = "Enduro", price = 120, model = "enduro"},
@@ -493,6 +488,9 @@ emplacement_bikerentals = {
     {name="Bike Rental", colour=24, sprite=376, x = 267.71353149414, y = -1155.4066162109, z = 29.289632797241,inside={265.2625,-1162.127,29.198,350.732},exit={259.3308, -1155.7814, 29.2792, 96.0687}},
     {name="Bike Rental", colour=24, sprite=376, x = -1107.1656494141, y = -1694.009765625, z = 4.3738880157471,inside={-1115.1658,-1687.5478,4.3701,298.179},exit={-1117.176,-1689.675,4.4190,42.0723}},
     {name="Bike Rental", colour=24, sprite=376, x = 1120.1947021484, y = -639.56274414063, z = 56.812858581543,inside={1119.0881,-630.562,56.7625,204.4807},exit={1127.67,-645.1433,56.827,273.1855}},
+    {name="Bike Rental", colour=24, sprite=376, x = 215.65249633789, y = 2602.2810058594, z = 45.807624816895,inside={219.24458312988,2604.9868164063,45.917167663574},exit={212.89305114746,2609.2111816406,46.440719604492}},
+    {name="Bike Rental", colour=24, sprite=376, x = -815.24151611328, y = -202.28401184082, z = 37.489974975586,inside={-811.2578125,-192.07247924805,37.451000213623},exit={-820.65020751953,-197.5446472168,37.527271270752}},
+    {name="Bike Rental", colour=24, sprite=376, x = -248.24783325195, y = 6212.4838867188, z = 31.939023971558,inside={-249.33168029785,6220.3110351563,31.49614906311},exit={-258.21612548828,6205.6948242188,31.501895904541}},
 }
 
 Citizen.CreateThread(function()
@@ -912,7 +910,7 @@ Citizen.CreateThread(function()
                 if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 1.0)then
                     DisplayHelpText("Press ~INPUT_CONTEXT~ to rent a bike!")
                     if IsControlJustReleased(1, 51) then -- INPUT_CELLPHONE_DOWN
-                        isCarRentalOpen = true
+                        isBikeRentalOpen = true
                         currentMarker = {v.x,v.y,v.z}
                         currentShop = v.inside
                         currentExit = v.exit
