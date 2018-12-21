@@ -488,8 +488,8 @@ end)
 --==============================================================================================================================--
 --Gunshot residue test 
 
-DecorRegister("GSR_Active", 2)
-DecorSetBool(PlayerPedId(), "GSR_Active", false)
+DecorRegister("GSR_Active", 3)
+DecorSetInt(PlayerPedId(), "GSR_Active", 0)
 
 --==============================================================================================================================--
 --Charges
@@ -565,14 +565,17 @@ end)
 Citizen.CreateThread(function()
 	local AnimDict = "random@arrests"
 	local Anim1, Anim2 = "generic_radio_enter", "radio_chatter"
-	local GSR_LastShot = 0
-	local GSR_ExpireTime = 15 -- Minutes
-	local GSR_Whitelist = {
-		["WEAPON_BALL"]	= 1,
-		["WEAPON_PETROLCAN"] = 1,
-		["WEAPON_SNOWBALL"] = 1,
-		["WEAPON_STUNGUN"] = 1,
-		["WEAPON_FIREEXTINGUISHER"] = 1,
+	local GSR = {
+		Lastshot = 0,
+		Expiretime = 0,
+		Duration = 30 * 1000 * 60,
+		Whitelist = {
+			"WEAPON_BALL",
+			"WEAPON_PETROLCAN",
+			"WEAPON_SNOWBALL",
+			"WEAPON_STUNGUN",
+			"WEAPON_FIREEXTINGUISHER",
+		}
 	}
 
 	RequestAnimDict(AnimDict)
@@ -713,20 +716,48 @@ Citizen.CreateThread(function()
 				local WeaponStr = Weaponhashes[tostring(currentWeapon)]
 				if WeaponStr then
 					if GetAmmoInPedWeapon(PlayerPed, currentWeapon) > 0 then
-						if not GSR_Whitelist[WeaponStr] then
-							GSR_LastShot = GetGameTimer()
-							DecorSetBool(PlayerPed, "GSR_Active", true)
+						for Index = 1, #GSR.Whitelist do
+							if GSR.Whitelist[Index] == WeaponStr then
+								GSR.Lastshot = GetGameTimer()
+								GSR.Expiretime = GSR.Lastshot + GSR.Duration
+								DecorSetInt(PlayerPed, "GSR_Active", 3)
+							end
 						end
 					end
 				end
 			end
 		end
 
-		local isGSRactive = DecorGetBool(PlayerPed, "GSR_Active")
+	local GSR = {
+		Lastshot = 0,
+		Expiretime = 0,
+		Duration = 30,
+		Whitelist = {
+			"WEAPON_BALL",
+			"WEAPON_PETROLCAN",
+			"WEAPON_SNOWBALL",
+			"WEAPON_STUNGUN",
+			"WEAPON_FIREEXTINGUISHER",
+		}
+	}
+		local IsGSRActive = DecorGetInt(PlayerPed, "GSR_Active")
 
-		if isGSRactive then
-			if GSR_LastShot + (GSR_ExpireTime * 1000 * 60) <= GetGameTimer() then
-				DecorSetBool(PlayerPed, "GSR_Active", false)   
+		if IsGSRActive ~= 0 and IsGSRActive ~= nil then
+			local CurrentTime = GetGameTimer()
+
+			if GSR.Expiretime <= CurrentTime then
+				DecorSetInt(PlayerPed, "GSR_Active", 0)
+			else
+				local RemainingTime = GSR.Expiretime - CurrentTime
+				local RemainingPercentage = RemainingTime/GSR.Duration * 100
+
+				if RemainingPercentage >= 66.66 then
+					DecorSetInt(PlayerPed, "GSR_Active", 3)
+				elseif RemainingPercentage >= 33.33 then
+					DecorSetInt(PlayerPed, "GSR_Active", 2)
+				else
+					DecorSetInt(PlayerPed, "GSR_Active", 1)
+				end
 			end
 		end
 

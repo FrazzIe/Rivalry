@@ -287,11 +287,11 @@ AddEventHandler("police:menu_citizen_gun_residue", function()
     exports.ui:open()
     local t, distance = GetClosestPlayer()
     if(distance ~= -1 and distance < 3) then
-        isGSRactive = DecorGetBool(GetPlayerPed(t), "GSR_Active")
-        if isGSRactive then
-            Notify("Subject tested <b style='color:red'>Positive</b><br>They have discharged a firearm recently!", 3000)
+        local GSR = DecorGetInt(GetPlayerPed(t), "GSR_Active")
+        if GSR ~= 0 and GSR ~= nil then
+            Notify("Subject tested <b style='color:red'>Positive</b><br>"..((GSR == 1) and "Found a little residue" or ((GSR == 2) and "Found some residue" or "Found a lot of residue")).."!", 3000)
         else
-            Notify("Subject tested <b style='color:lime'>Negative</b><br>They haven't discharged a firearm recently!", 3000)
+            Notify("Subject tested <b style='color:lime'>Negative</b><br>Found no residue!", 3000)
         end
     else
         Notify("Please get closer to the target!", 2500)
