@@ -11,6 +11,7 @@ client_scripts {
 	"client/graphics.lua",
 	"client/weapons.lua",
 	"client/decorator.lua",
+	"client/animation.lua",
 	"client/common.lua",
 }
 

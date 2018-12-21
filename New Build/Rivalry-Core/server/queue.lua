@@ -274,7 +274,7 @@ Citizen.CreateThread(function()
 			if Queue.Config.Whitelist and not (Queue.Config.Priority and Queue.Config.PriorityWhitelist) then
 				Deferrals.update("Checking whitelist..")
 
-				if Player.whitelisted == 0 then
+				if Player.whitelisted ~= 1 then
 					Deferrals.done("Error: You must be whitelisted to play on rivalry, apply at rivalryrp.com!")
 
 					return
@@ -284,7 +284,7 @@ Citizen.CreateThread(function()
 			if Queue.Config.Priority and Queue.Config.PriorityWhitelist then
 				Deferrals.update("Checking whitelist..")
 
-				if Player.priority < 1 then
+				if Player.priority == nil or Player.priority < 1 then
 					Deferrals.done("Error: Priority whitelisting is active; you must have priority in the queue to join!")
 
 					return

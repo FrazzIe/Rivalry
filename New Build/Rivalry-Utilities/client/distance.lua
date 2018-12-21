@@ -117,7 +117,7 @@ function Utilities:GetClosestPlayerPed(Position, Radius, Dead, Model, ExcludedPe
 						local Distance = #(PedPosition - Position)
 
 						if Distance <= Radius then
-							table.insert(Peds, {Handle = Ped, Distance = Distance, Position = PedPosition, Player = GetPlayerServerId(Players[Index])})
+							table.insert(Peds, {Handle = Ped, Distance = Distance, Position = PedPosition, ClientId = Players[Index], ServerId = GetPlayerServerId(Players[Index])})
 						end
 					end
 				end

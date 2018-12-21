@@ -1,20 +1,20 @@
 resource_manifest_version "05cfa83c-a124-4cfa-a768-c24a5811d8f9"
 
 dependencies {
-	"Rivalry-Utilities",
+	"rivalry-utilities",
 }
 
 shared_scripts {
-	"@Rivalry-Utilities/shared.lua",
+	"@rivalry-utilities/shared.lua",
 	"config.lua",
 }
 
 client_scripts {
-	"@Rivalry-Utilities/client/enumeration.lua",
-	"@Rivalry-Utilities/client/distance.lua",
-	"@Rivalry-Utilities/client/graphics.lua",
-	"@Rivalry-Utilities/client/common.lua",
-	"@Rivalry-Utilities/client/destroy.lua",
+	"@rivalry-utilities/client/enumeration.lua",
+	"@rivalry-utilities/client/distance.lua",
+	"@rivalry-utilities/client/graphics.lua",
+	"@rivalry-utilities/client/common.lua",
+	"@rivalry-utilities/client/destroy.lua",
 	"client.lua",
 	"bed.lua",
 }

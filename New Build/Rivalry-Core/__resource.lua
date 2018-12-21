@@ -1,12 +1,12 @@
 resource_manifest_version "05cfa83c-a124-4cfa-a768-c24a5811d8f9"
 
 dependencies {
-	"Rivalry-Utilities",
+	"rivalry-utilities",
 	"jssql",
 }
 
 shared_scripts {
-	"@Rivalry-Utilities/shared.lua",
+	"@rivalry-utilities/shared.lua",
 }
 
 client_scripts {
@@ -14,6 +14,6 @@ client_scripts {
 }
 
 server_scripts {
-	"@Rivalry-Utilities/server/common.lua",
+	"@rivalry-utilities/server/common.lua",
 	"server/queue.lua",
 }
