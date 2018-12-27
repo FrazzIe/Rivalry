@@ -405,11 +405,14 @@ Citizen.CreateThread(function()
 			basiccheck()
 		end
 		if onjob == true then 
-			if GetDistanceBetweenCoords(destination[l].x,destination[l].y,destination[l].z, GetEntityCoords(GetPlayerPed(-1))) < 3.0 then
-				if IsVehicleModel(GetVehiclePedIsIn(GetPlayerPed(-1), true), GetHashKey("boxville2"))  then
-					drawTxt('Press ~g~E~s~ to deliver your ~b~ package', 2, 1, 0.5, 0.8, 0.6, 255, 255, 255, 255)
-					if (IsControlJustReleased(1, 38)) then
-						deliverysuccess()
+			if Vdist(destination[l].x,destination[l].y,destination[l].z, GetEntityCoords(GetPlayerPed(-1))) < 20.0 then
+				DrawMarker(25, destination[l].x,destination[l].y,destination[l].z - 0.3, 0, 0, 0, 0, 0, 0, 1.5001, 1.5001, 1.0001, 0, 0, 0,255, 0, 0, 0,0)
+				if GetDistanceBetweenCoords(destination[l].x,destination[l].y,destination[l].z, GetEntityCoords(GetPlayerPed(-1))) < 3.0 then
+					if IsVehicleModel(GetVehiclePedIsIn(GetPlayerPed(-1), true), GetHashKey("boxville2"))  then
+						drawTxt('Press ~g~E~s~ to deliver your ~b~ package', 2, 1, 0.5, 0.8, 0.6, 255, 255, 255, 255)
+						if (IsControlJustReleased(1, 38)) then
+							deliverysuccess()
+						end
 					end
 				end
 			end
