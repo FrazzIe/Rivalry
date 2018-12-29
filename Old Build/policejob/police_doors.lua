@@ -57,6 +57,10 @@ end
 
 local doors = {
 	single = {
+		{coords = vector3(471.04309, -987.978, 24.9137), model = 452874391, heading = 180.0, locked = true}, -- Mission Row Interrogation Cell Door 1
+		{coords = vector3(478.5546, -987.878, 25.0524), model = 452874391, heading = 180.0, locked = true}, -- Mission Row Interrogation Cell Door 2
+		{coords = vector3(474.4076, -987.878, 25.0675), model = -340230128, heading = 0.0, locked = true}, -- Mission Row Interrogation Observe
+		{coords = vector3(478.1655, -992.1209, 25.060), model = 452874391, heading = 0, locked = true}, -- Mission Row Mug Shot
 		{coords = vector3(463.4782, -1003.538, 25.00599), model = -1033001619, heading = 0.0, locked = true}, -- Mission Row Door To Cells Back
 		{coords = vector3(461.8065, -994.4086, 25.06443), model = 631614199, heading = 270.0, locked = true}, -- Mission Row Cell Door 1
 		{coords = vector3(461.8065, -997.6583, 25.06443), model = 631614199, heading = 90.0, locked = true}, -- Mission Row Cell Door 2
@@ -91,6 +95,10 @@ local doors = {
 			["left"] = {coords = vector3(443.0298, -994.5412, 30.8393), model = -131296141, heading = 270.0, locked = true},
 			["right"] = {coords = vector3(443.0298, -991.941, 30.8393), model = -131296141, heading = 90.0, locked = true},
 		}, -- Mission Row Police Station Briefing Doors
+		{
+			["left"] = {coords = vector3(465.65545, -988.7089, 25.063995), model = 185711165, heading = 90.0, locked = false},
+			["right"] = {coords = vector3(465.6554, -991.3040, 25.06399), model = 185711165, heading = 270.0, locked = false},
+		}, -- Mission Row Police Station Interrogation Main Doors
 	},
 }
 
