@@ -38,7 +38,7 @@ Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(0)
 		if IsControlJustPressed(1, 20) then
-			if not isCarshopOpen and not isCarRentalOpen then
+			if not isCarshopOpen and not isCarRentalOpen and not isBoatRentalOpen and not isBikeRentalOpen then
 				if not WarMenu.IsMenuOpened("Scoreboard") then
 					local players = {}
 					for i = 0,32 do

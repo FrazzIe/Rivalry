@@ -640,6 +640,14 @@ function Menu.updateSelection()
 				isCarRentalOpen = false
 				closeCarRental()
 			end
+			if isBoatRentalOpen then
+				isBoatRentalOpen = false
+				closeBoatRental()
+			end
+			if isBikeRentalOpen then
+				isBikeRentalOpen = false
+				closeBikeRental()
+			end
 			if isCustomsOpen then
 				isCustomsOpen = false 
 				closeCustoms()

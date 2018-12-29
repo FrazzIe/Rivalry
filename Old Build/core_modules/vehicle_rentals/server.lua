@@ -45,7 +45,9 @@ rental_cars = {
     --Bicycles
     ["bmx"] = 50,
     ["scorcher"] = 65,
-    ["tribike3"] = 85,
+    ["cruiser"] = 80,
+    ["fixter"] = 85,
+    ["tribike3"] = 100,
     --Motocycles
     ["faggio2"] = 50,
     ["enduro"] = 120,

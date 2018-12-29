@@ -140,7 +140,7 @@ Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(0)
 		local ped = PlayerPedId()
-		if not isCarshopOpen and not isCarRentalOpen and not isBoatRentalOpen and IsPedSittingInAnyVehicle(ped) then
+		if not isCarshopOpen and not isCarRentalOpen and not isBoatRentalOpen and not isBikeRentalOpen and IsPedSittingInAnyVehicle(ped) then
 			local vehicle = GetVehiclePedIsIn(ped, false)
 			local plate = GetVehicleNumberPlateText(vehicle)
 			local model = GetEntityModel(vehicle)

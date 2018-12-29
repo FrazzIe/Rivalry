@@ -21,7 +21,8 @@
 --                                                           Variables                                                          --
 --==============================================================================================================================--
 isCarRentalOpen = false
-isBoatRentalOpen = false                                                                                                       --
+isBoatRentalOpen = false
+isBikeRentalOpen = false                                                                                                       --
 local vehbool = false                                                                                                           --
 local currentShop = nil                                                                                                         --
 local currentMarker = nil                                                                                                       --
@@ -51,11 +52,6 @@ rental_cars = {
         {name = "Rocoto", price = 120, model = "rocoto"},
         {name = "Seminole", price = 150, model = "seminole"},
         {name = "XLS", price = 500, model = "xls"},
-    }},
-    {title = "Bicycles", vehicles = {
-        {name = "BMX", price = 50, model = "bmx"},
-        {name = "Scorcher", price = 65, model = "scorcher"},
-        {name = "TriBike", price = 85, model = "tribike3"},
     }},
     {title = "Motorcycles", vehicles = {
         {name = "Faggio", price =50, model = "faggio2"},
@@ -87,6 +83,16 @@ rental_boats = {
         {name = "Seashark", price = 550, model = "seashark"},
         {name = "Seashark2", price = 625, model = "seashark2"},
         {name = "Seashark3", price = 700, model = "seashark3"},
+    }},
+}
+
+rental_bikes = {
+    {title = "Bicycles", vehicles = {
+        {name = "BMX", price = 50, model = "bmx"},
+        {name = "Scorcher", price = 65, model = "scorcher"},
+        {name = "Cruiser", price = 80, model = "cruiser"},
+        {name = "Fixter", price = 85, model = "fixter"},
+        {name = "TriBike", price = 100, model = "tribike3"},
     }},
 }
 --==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--
@@ -285,6 +291,35 @@ function closeBoatRental()
     isBoatRentalOpen = false 
 end
 
+function openBikeRental()
+    TriggerEvent("anticheat:set", "invisible", true, function(callback)
+        if callback then
+            SetEntityVisible(GetPlayerPed(-1),false)
+        else
+            TriggerServerEvent("core:bug", "Line 192 in resource "..GetCurrentResourceName())
+            SetEntityVisible(GetPlayerPed(-1),false)
+        end
+    end)
+    FreezeEntityPosition(GetPlayerPed(-1),true)
+    local zcoord = Citizen.InvokeNative(0xC906A7DAB05C8D2B,currentShop[1],currentShop[2],currentShop[3],Citizen.PointerValueFloat(),0)
+    SetEntityCoords(GetPlayerPed(-1),currentShop[1],currentShop[2],zcoord)
+    SetEntityHeading(GetPlayerPed(-1),currentShop[4])
+end
+
+function closeBikeRental()
+    WarMenu.CloseMenu()
+    if DoesEntityExist(currentPreview.entity) then
+        Citizen.InvokeNative(0xEA386986E786A54F, Citizen.PointerValueIntInitialized(currentPreview.entity))
+    end
+    currentPreview = {model=0, entity=nil}
+    SetEntityCoords(GetPlayerPed(-1),currentMarker[1],currentMarker[2],currentMarker[3])
+    FreezeEntityPosition(GetPlayerPed(-1),false)
+    SetEntityVisible(GetPlayerPed(-1),true)
+    TriggerEvent("anticheat:set", "invisible", false, function(callback)
+    end)
+    isBikeRentalOpen = false 
+end
+
 --==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--
 --==============================================================================================================================--
 --                                                         Car Preview                                                          --
@@ -386,12 +421,60 @@ Citizen.CreateThread(function()
     end
 end)
 
+Citizen.CreateThread(function()
+    while true do
+        Citizen.Wait(0)
+        if isBikeRentalOpen then
+            for k,v in pairs(rental_bikes) do
+                if WarMenu.CurrentMenu() == v.title.."_RENTALS" then
+                    for i = 1, #currentCategory do
+                        if WarMenu.CurrentOption() == i then
+                            if currentPreview.model ~= currentCategory[i].model then
+                                if DoesEntityExist(currentPreview.entity) then
+                                    Citizen.InvokeNative(0xEA386986E786A54F, Citizen.PointerValueIntInitialized(currentPreview.entity))
+                                end
+                                local hash = GetHashKey(currentCategory[i].model)
+                                RequestModel(hash)
+                                while not HasModelLoaded(hash) do
+                                    Citizen.Wait(0)
+                                    drawLoadingTxt("~b~Loading...",0,1,0.5,0.5,1.5,255,255,255,255)
+                                    for i = 0, #keys - 1 do
+                                        DisableControlAction(1, i, true)
+                                    end
+                                end
+                                local veh = CreateVehicle(hash,currentShop[1],currentShop[2],currentShop[3],currentShop[4],false,false)
+                                while not DoesEntityExist(veh) do
+                                    Citizen.Wait(0)
+                                    drawLoadingTxt("~b~Loading...",0,1,0.5,0.5,1.5,255,255,255,255)
+                                    for i = 0, #keys - 1 do
+                                        DisableControlAction(1, i, true)
+                                    end
+                                end
+                                FreezeEntityPosition(veh,true)
+                                SetEntityInvincible(veh,true)
+                                SetVehicleDoorsLocked(veh,4)
+                                TaskWarpPedIntoVehicle(GetPlayerPed(-1),veh,-1)
+                                SetModelAsNoLongerNeeded(hash)
+                                for i = 0,24 do
+                                    SetVehicleModKit(veh,0)
+                                    RemoveVehicleMod(veh,i)
+                                end
+                                currentPreview = {model=currentCategory[i].model,entity=veh}
+                            end                 
+                        end
+                    end
+                end
+            end
+        end
+    end
+end)
+
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 --Press E to open/close menu in the red marker
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 emplacement_vehiclerentals = {
     {name="Vehicle rentals", colour=69, sprite=225, x=-904.39,y=-2337.38,z=6.71,inside={-905.96,-2333.15,6.71,62.16},exit={-913.41979980469,-2318.0380859375,6.7090878486633}},
-    {name="Vehicle rentals", colour=69, sprite=225, x = 1224.5212402344, y = 2727.7609863281, z = 38.004676818848,inside={1224.5212402344, 2727.7609863281, 38.004676818848},exit={1222.9229736328,2714.6872558594,38.005794525146,184.55676269531}},
+    {name="Vehicle rentals", colour=69, sprite=225, x = 1224.5212402344, y = 2727.7609863281, z = 38.004676818848,inside={1213.3233642578, 2721.5581054688, 38.00414276123},exit={1222.9229736328,2714.6872558594,38.005794525146,184.55676269531}},
     {name="Vehicle rentals", colour=69, sprite=225, x = -215.51065063477, y = 6218.5390625, z = 31.491468429565,inside={-205.63021850586, 6221.5771484375, 31.491050720215},exit={-214.88452148438, 6194.431640625, 31.488348007202, 129.13427734375}},
 }
 
@@ -399,6 +482,16 @@ emplacement_boatrentals = {
     {name="Boat rentals", colour=69, sprite=266, x = -803.02807617188, y = -1415.1254882813, z = 0.81553113460541,inside={-821.85522460938,-1440.8056640625,0.0093457698822021,173.33671569824},exit={-821.85522460938,-1440.8056640625,0.0093457698822021,173.33671569824}},
     {name="Boat rentals", colour=69, sprite=266, x = 712.12225341797, y = 4101.3256835938, z = (35.785194396973) - 0.5,inside={698.50482177734,4099.6259765625,30.311496734619,43.885768890381},exit={698.50482177734,4099.6259765625,30.311496734619,43.885768890381}},
     {name="Boat rentals", colour=69, sprite=266, x = -287.29446411133, y = 6628.7670898438, z = (7.170877456665) - 0.5,inside={-309.6123046875,6652.4213867188,0.67072486877441,35.311882019043},exit={-309.6123046875,6652.4213867188,0.67072486877441,35.311882019043}},
+}
+
+emplacement_bikerentals = {
+    {name="Bike Rental", colour=24, sprite=376, x = 267.71353149414, y = -1155.4066162109, z = 29.289632797241,inside={265.2625,-1162.127,29.198,350.732},exit={259.3308, -1155.7814, 29.2792, 96.0687}},
+    {name="Bike Rental", colour=24, sprite=376, x = -901.37957763672, y = -2339.1589355469, z = 6.7090272903442,inside={-897.02166748047,-2338.4504394531,6.7090334892273,50.641189575195},exit={-893.92456054688, -2328.0495605469, 6.7090353965759, 335.56338500977}},
+    {name="Bike Rental", colour=24, sprite=376, x = -1107.1656494141, y = -1694.009765625, z = 4.3738880157471,inside={-1115.1658,-1687.5478,4.3701,298.179},exit={-1117.176,-1689.675,4.4190,42.0723}},
+    {name="Bike Rental", colour=24, sprite=376, x = 1120.1947021484, y = -639.56274414063, z = 56.812858581543,inside={1119.0881,-630.562,56.7625,204.4807},exit={1127.67,-645.1433,56.827,273.1855}},
+    {name="Bike Rental", colour=24, sprite=376, x = 1234.1633300781, y = 2737.0393066406, z = 38.005393981934,inside={1231.4484863281,2723.0346679688,38.004127502441},exit={1236.7222900391,2719.9052734375,38.005332946777,183.39654541016}},
+    {name="Bike Rental", colour=24, sprite=376, x = -815.24151611328, y = -202.28401184082, z = 37.489974975586,inside={-811.2578125,-192.07247924805,37.451000213623},exit={-820.65020751953,-197.5446472168,37.527271270752}},
+    {name="Bike Rental", colour=24, sprite=376, x = -248.24783325195, y = 6212.4838867188, z = 31.939023971558,inside={-249.33168029785,6220.3110351563,31.49614906311},exit={-258.21612548828,6205.6948242188,31.501895904541}},
 }
 
 Citizen.CreateThread(function()
@@ -805,6 +898,202 @@ Citizen.CreateThread(function()
     end
 end)
 
+Citizen.CreateThread(function()
+    for _, item in pairs(emplacement_bikerentals) do
+        addBlip(item)
+    end
+    while true do
+        Citizen.Wait(0)
+        local pos = GetEntityCoords(GetPlayerPed(-1), true)
+        for k,v in ipairs(emplacement_bikerentals) do
+            if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 15.0)then
+                DrawMarker(1, v.x, v.y, v.z - 1, 0, 0, 0, 0, 0, 0, 1.5001, 1.5001, 0.5001, 177, 0, 0,255, 0, 0, 0,0)
+                if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 1.0)then
+                    DisplayHelpText("Press ~INPUT_CONTEXT~ to rent a bike!")
+                    if IsControlJustReleased(1, 51) then -- INPUT_CELLPHONE_DOWN
+                        isBikeRentalOpen = true
+                        currentMarker = {v.x,v.y,v.z}
+                        currentShop = v.inside
+                        currentExit = v.exit
+                        player_menu = false
+                        openBikeRental()
+                        if not WarMenu.IsMenuOpened("Bikerentals") then
+                            if not WarMenu.DoesMenuExist("Bikerentals") then
+                                WarMenu.CreateMenu("Bikerentals", "Bike shop")
+                                WarMenu.SetSpriteTitle("Bikerentals", "shopui_title_ie_modgarage")
+                                WarMenu.SetSubTitle("Bikerentals", "CATEGORIES")
+                                WarMenu.SetMenuX("Bikerentals", 0.6)
+                                WarMenu.SetMenuY("Bikerentals", 0.15)
+                                for k,v in pairs(rental_bikes) do
+                                        WarMenu.CreateSubMenu(v.title.."_RENTALS", "Bikerentals", v.title.." SECTION")
+                                        for i,j in pairs(v.vehicles) do
+                                            WarMenu.CreateSubMenu(j.name.."_RENTALS", v.title.."_RENTALS", j.name)
+                                        end
+                                    end
+                                WarMenu.OpenMenu("Bikerentals")
+                            else
+                                WarMenu.OpenMenu("Bikerentals")
+                            end
+                        else
+                            WarMenu.CloseMenu()
+                        end
+                    end
+                end
+                --if isCarRentalOpen then
+                    if WarMenu.IsMenuOpened("Bikerentals") then
+                        for k,v in pairs(rental_bikes) do
+                            if WarMenu.MenuButton(v.title, v.title.."_RENTALS") then
+                                currentCategory = v.vehicles
+                            end
+                        end
+                        if WarMenu.Button("Close") then
+                            WarMenu.CloseMenu()
+                            closeBikeRental()
+                        end
+                        WarMenu.Display()
+                    end
+                    for k,v in pairs(rental_bikes) do
+                        if WarMenu.IsMenuOpened(v.title.."_RENTALS") then
+                            for i,j in pairs(v.vehicles) do
+                                if WarMenu.Button(j.name, "$"..j.price) then
+                                    local veh = currentPreview.entity
+                                    local turbo
+                                    local tiresmoke
+                                    local xenon
+                                    local neon0
+                                    local neon1
+                                    local neon2
+                                    local neon3
+                                    local bulletproof
+                                    local custom_wheels
+                                    local custom_wheels2
+                                    local plate = GetVehicleNumberPlateText(veh)
+                                    local colors = table.pack(GetVehicleColours(veh))
+                                    local extra_colors = table.pack(GetVehicleExtraColours(veh))
+                                    local neoncolor = table.pack(GetVehicleNeonLightsColour(veh))
+                                    local smokecolor = table.pack(GetVehicleTyreSmokeColor(veh))
+
+                                    if IsToggleModOn(veh,18) then
+                                        turbo = "on"
+                                    else
+                                        turbo = "off"
+                                    end
+
+                                    if IsToggleModOn(veh,20) then
+                                        tiresmoke = "on"
+                                    else
+                                        tiresmoke = "off"
+                                    end
+
+                                    if IsToggleModOn(veh,22) then
+                                        xenon = "on"
+                                    else
+                                        xenon = "off"
+                                    end
+
+                                    if IsVehicleNeonLightEnabled(veh,0) then
+                                        neon0 = "on"
+                                    else
+                                        neon0 = "off"
+                                    end
+
+                                    if IsVehicleNeonLightEnabled(veh,1) then
+                                        neon1 = "on"
+                                    else
+                                        neon1 = "off"
+                                    end
+
+                                    if IsVehicleNeonLightEnabled(veh,2) then
+                                        neon2 = "on"
+                                    else
+                                        neon2 = "off"
+                                    end
+
+                                    if IsVehicleNeonLightEnabled(veh,3) then
+                                        neon3 = "on"
+                                    else
+                                        neon3 = "off"
+                                    end
+
+                                    if GetVehicleTyresCanBurst(veh) then
+                                        bulletproof = "off"
+                                    else
+                                        bulletproof = "on"
+                                    end
+
+                                    if GetVehicleModVariation(veh, 23) then
+                                        custom_wheels = "on"
+                                    else
+                                        custom_wheels = "off"
+                                    end
+
+                                    if GetVehicleModVariation(veh, 24) then
+                                        custom_wheels2 = "on"
+                                    else
+                                        custom_wheels2 = "off"
+                                    end
+
+                                    local data = {
+                                        garage_id = 1,
+                                        model = j.model,
+                                        name = j.name,
+                                        instance = veh,
+                                        plate = GetVehicleNumberPlateText(veh),
+                                        state = "~r~Missing",
+                                        primary_colour = colors[1],
+                                        secondary_colour = colors[2],
+                                        pearlescent_colour = extra_colors[1],
+                                        wheel_colour = extra_colors[2],
+                                        smoke_colour = {smokecolor[1],smokecolor[2],smokecolor[3]},
+                                        plate_colour = GetVehicleNumberPlateTextIndex(veh),
+                                        neon_colour = {neoncolor[1],neoncolor[2],neoncolor[3]},
+                                        tint_colour = GetVehicleWindowTint(veh),
+                                        tyre_smoke = tiresmoke,
+                                        xenon_lights = xenon,
+                                        turbo = turbo,
+                                        custom_wheels = custom_wheels,
+                                        custom_wheels2 = custom_wheels2,
+                                        bulletproof_wheels = bulletproof,
+                                        wheeltype = GetVehicleWheelType(veh),
+                                        neon0 = neon0,
+                                        neon1 = neon1,
+                                        neon2 = neon2,
+                                        neon3 = neon3,
+                                        engine_health = GetVehicleEngineHealth(veh),
+                                        petrol_health = GetVehiclePetrolTankHealth(veh),
+                                        body_health = GetVehicleBodyHealth(veh),
+                                        vehicle_health = GetEntityHealth(veh),
+                                        insurance = "false",
+                                    }
+
+                                    for i = 0, 8 do
+                                        data["mod"..i] = GetVehicleMod(veh, i)
+                                    end
+
+                                    for i = 10, 16 do
+                                        data["mod"..i] = GetVehicleMod(veh, i)
+                                    end
+
+                                    for i = 23, 46 do
+                                        data["mod"..i] = GetVehicleMod(veh, i)
+                                    end
+
+                                    data["mod48"] = GetVehicleMod(veh, 48)
+
+                                    TriggerServerEvent("carRental:buy", data)
+                                end
+                            end
+                            WarMenu.Display()
+                        end
+                    end
+                    if WarMenu.IsMenuAboutToBeClosed() then
+                        closeBikeRental()
+                    end
+                --end
+            end
+        end
+    end
+end)
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 --Useful functions
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
