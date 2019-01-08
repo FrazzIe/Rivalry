@@ -197,7 +197,7 @@ Blackmarket_Weapons = {
 	{Weapon = "WEAPON_WRENCH", Name = "Wrench", Cost = 30},
 	}},
 	{Category = "Shotguns", Items = {
-		{Weapon = "WEAPON_SAWNOFFSHOTGUN", Name = "Sawed-Off Shotgun", Cost = 900},
+		{Weapon = "WEAPON_SAWNOFFSHOTGUN", Name = "Sawed-Off Shotgun", Cost = 1900},
 		--{Weapon = "WEAPON_DBSHOTGUN", Name = "Double Barrel Shotgun", Cost = 1},
 		--{Weapon = "WEAPON_AUTOSHOTGUN", Name = "Sweeper Shotgun", Cost = 1},
 		--{Weapon = "WEAPON_PUMPSHOTGUN", Name = "Pump Shotgun", Cost = 1},
