@@ -123,6 +123,10 @@ Citizen.CreateThread(function()
                         Citizen.InvokeNative(0xEA386986E786A54F, Citizen.PointerValueIntInitialized(currentVehicle))
                     end
                 end
+                if GetVehicleClass(currentVehicle) == 16 and GetPedInVehicleSeat(currentVehicle, -1) == PlayerPed then
+                    SetEntityAsMissionEntity(currentVehicle, true, true)
+                    Citizen.InvokeNative(0xEA386986E786A54F, Citizen.PointerValueIntInitialized(currentVehicle))
+                end
             end
         end
     end
