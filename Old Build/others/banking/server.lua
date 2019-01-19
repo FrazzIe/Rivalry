@@ -84,9 +84,9 @@ AddEventHandler('bank:transfer', function(fromPlayer, toPlayer, amount)
 		  CancelEvent()
 		else
 			if(tonumber(rounded) >= 0) then
-			  if(tonumber(rounded) >= tonumber(user.get("bank"))) then
+			  if(tonumber(rounded) <= tonumber(user.get("bank"))) then
 				user.removeBank(rounded)
-				TriggerClientEvent("es_freeroam:notify", source, "CHAR_BANK_MAZE", 1, "Maze Bank", false, "Transferd: ~r~-$".. rounded .." ~n~~s~New Balance: ~g~$" .. user.get("bank"))
+				TriggerClientEvent("es_freeroam:notify", source, "CHAR_BANK_MAZE", 1, "Maze Bank", false, "Transfered: ~r~-$".. rounded .." ~n~~s~New Balance: ~g~$" .. user.get("bank"))
 				TriggerClientEvent("banking:updateBalance", source, user.get("bank"))
 				TriggerEvent('core:getuser', toPlayer, function(user2)
 					user2.addBank(rounded)
@@ -96,7 +96,7 @@ AddEventHandler('bank:transfer', function(fromPlayer, toPlayer, amount)
 				end)
 				CancelEvent()
 			  else
-				TriggerClientEvent('chatMessage', source, "", {0, 0, 200}, "^1Not enought money to complete^0")
+				TriggerClientEvent('chatMessage', source, "", {0, 0, 200}, "^1Not enough money to complete^0")
 				CancelEvent()
 			  end
 			else
