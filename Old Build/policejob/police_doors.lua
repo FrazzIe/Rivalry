@@ -148,7 +148,7 @@ Citizen.CreateThread(function()
 						ClearDrawOrigin()
 
 						if IsControlJustPressed(1, 51) then
-							TriggerServerEvent("paramedic:doors_lock", Index, "single")
+							TriggerServerEvent("police:doors_lock", Index, "single")
 						end
 					end
 				end
@@ -176,7 +176,7 @@ Citizen.CreateThread(function()
 						ClearDrawOrigin()
 
 						if IsControlJustPressed(1, 51) then
-							TriggerServerEvent("paramedic:doors_lock", Index, "double")
+							TriggerServerEvent("police:doors_lock", Index, "double")
 						end
 					end
 				end
@@ -185,8 +185,8 @@ Citizen.CreateThread(function()
 	end
 end)
 
-RegisterNetEvent("paramedic:doors_sync")
-AddEventHandler("paramedic:doors_sync", function(_doors)
+RegisterNetEvent("police:doors_sync")
+AddEventHandler("police:doors_sync", function(_doors)
 	for Index = 1, #doors.single do
 		doors.single[Index].locked = _doors.single[Index]
 	end
