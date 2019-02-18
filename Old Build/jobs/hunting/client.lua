@@ -87,7 +87,7 @@ AddEventHandler('hunting:drawSellViande', function (qte)
 		end
 		if qte > 0 then
 			TriggerEvent('inventory:removeQty',23, 1)
-			local salaire = math.random(30, 40)
+			local salaire = math.random(150, 300)
 			TriggerServerEvent('mission:completed', salaire)
 			ClearPrints()
 			SetTextEntry_2("STRING")
