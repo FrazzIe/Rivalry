@@ -132,7 +132,7 @@ function PlayConcaineAnimation(ped)
 			Citizen.Wait(0)
 		end
 		TaskPlayAnim(ped, "anim@amb@business@coc@coc_unpack_cut@", "fullcut_cycle_cokecutter", 5.0, -1, -1, 10, 0, false, false, false)
-		Citizen.Wait(31000)
+		Citizen.Wait(21000)
 		if IsEntityPlayingAnim(ped, "anim@amb@business@coc@coc_unpack_cut@", "fullcut_cycle_cokecutter", 3) then
 			ClearPedTasks(ped)
 			if GetItemQuantity(Cocaine.Items.Dirty) > 0 then
