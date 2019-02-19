@@ -16,6 +16,10 @@ cops = {}
 user_models = {}
 local doors = {
 	single = {
+		true, -- Mission Row Interrogation Cell Door 1
+		true, -- Mission Row Interrogation Cell Door 2
+		true, -- Mission Row Interrogation Observe
+		true, -- Mission Row Mug Shot
 		true, -- Mission Row Door To Cells Back
 		true, -- Mission Row Cell Door 1
 		true, -- Mission Row Cell Door 2
@@ -50,6 +54,10 @@ local doors = {
 			["left"] = true,
 			["right"] = true,
 		}, -- Mission Row Police Station Briefing Doors
+		{
+			["left"] = true,
+			["right"] = true,
+		}, -- Mission Row Police Station Interrogation Main Doors
 	},
 }
 
