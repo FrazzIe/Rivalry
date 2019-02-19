@@ -178,11 +178,11 @@ RegisterServerEvent("police:doors_lock")
 AddEventHandler("police:doors_lock", function(doorid, type)
 	local source = source
 	if type == "single" then
-		doors.single[doorid].locked = not doors.single[doorid].locked
+		doors.single[doorid] = not doors.single[doorid]
 		TriggerClientEvent("police:doors_sync", -1, doors)
 	elseif type == "double" then
-		doors.double[doorid]["left"].locked = not doors.double[doorid]["left"].locked
-		doors.double[doorid]["right"].locked = doors.double[doorid]["left"].locked
+		doors.double[doorid]["left"] = not doors.double[doorid]["left"]
+		doors.double[doorid]["right"] = doors.double[doorid]["left"]
 		TriggerClientEvent("police:doors_sync", -1, doors)
 	end
 end)
