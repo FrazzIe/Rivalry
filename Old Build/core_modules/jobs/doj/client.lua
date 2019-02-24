@@ -11,7 +11,7 @@ function DOJ.OnDuty()
 	return DOJ.Active
 end
 
-function DOJ.GetRank()
+function DOJgetrank()
 	return DOJ.Rank
 end
 
