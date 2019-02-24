@@ -287,7 +287,7 @@ Citizen.CreateThread(function()
 									Citizen.InvokeNative(0xAE3CBE5BF394C9C9, Citizen.PointerValueIntInitialized(entity[proie]))
 									AmountRecieved = math.random(1,3)
 									TriggerEvent('inventory:addQty',23, AmountRecieved)
-									drawHuntingTxt(drawHuntingTxt("You gathered " .. AmountRecieved .. " pieces of meat.",0,1,0.5,0.8,0.6,255,255,255,255)
+									drawHuntingTxt("You gathered " .. AmountRecieved .. " pieces of meat.",0,1,0.5,0.8,0.6,255,255,255,255)
 									entityRemoved[proie] = true
 									entitySpawned = false
 									proie = math.random(1,12)
