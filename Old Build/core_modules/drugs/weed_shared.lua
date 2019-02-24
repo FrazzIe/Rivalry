@@ -1,7 +1,7 @@
 Weed = {
 	Pay = {
-		Minimum = 66,
-		Maximum = 99,
+		Minimum = 100,
+		Maximum = 200,
 	},
 	Growthtime = {
 		Minimum = 120,
