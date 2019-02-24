@@ -285,7 +285,7 @@ Citizen.CreateThread(function()
 									Citizen.InvokeNative(0xAE3CBE5BF394C9C9, Citizen.PointerValueIntInitialized(entity[proie]))
 									AmountRecieved = math.random(1,3)
 									TriggerEvent('inventory:addQty',23, AmountRecieved)
-									exports.pNotify:SendNotification({text = "You gathered " .. AmountRecieved .. " pieces of meat.",type = "error",timeout = 7400,layout = "centerRight",queue = "left"})
+									exports.pNotify:SendNotification({text = "You gathered " .. AmountRecieved .. " pieces of meat.",type = "error",timeout = 3000,layout = "centerRight",queue = "left"})
 									entityRemoved[proie] = true
 									entitySpawned = false
 									proie = math.random(1,12)
