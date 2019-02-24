@@ -2,7 +2,7 @@ local car_washes = {
 	{name = "Car wash", sprite = 100, colour = 57, coords = vector3(-699.79278564453, -933.81256103516, 19.013898849487)},
 	{name = "Car wash", sprite = 100, colour = 57, coords = vector3(27.134170532227, -1391.93359375, 29.362623214722)},
 	{name = "Car wash", sprite = 100, colour = 57, coords = vector3(-74.021369934082, 6427.2153320313, 31.440073013306)},
-	{name = "Car wash", sprite = 100, colour = 57, coords = vector3({1206.0718994141, 2639.423828125, 37.812465667725})},
+	{name = "Car wash", sprite = 100, colour = 57, coords = vector3(1206.0718994141, 2639.423828125, 37.812465667725)},
 }
 
 Citizen.CreateThread(function()
