@@ -11,8 +11,8 @@ function DOJ.OnDuty()
 	return DOJ.Active
 end
 
-function DOJ.OnDuty()
-	return DOJ.Active
+function DOJ.GetRank()
+	return DOJ.Rank
 end
 
 Citizen.CreateThread(function()
