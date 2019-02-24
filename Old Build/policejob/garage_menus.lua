@@ -62,7 +62,8 @@ cars = {
 }
 
 heli = {
-	{name = "LSPD Chopper", model = "polmav", type = "helicopter", rank = "officer ii"},
+	{name = "LSPD Maverick", model = "polmav", type = "helicopter", rank = "officer ii"},
+	{name = "Ranger Buzzard", model = "buzzard", type = "helicopter", rank = "officer ii"},
 }
 
 boat = {
