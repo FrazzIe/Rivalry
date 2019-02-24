@@ -110,6 +110,7 @@ RegisterNetEvent("paramedic:weapons")
 AddEventHandler("paramedic:weapons", function()
     GiveWeaponToPed(PlayerPedId(), GetHashKey("WEAPON_FLASHLIGHT"), 250, 0, false)
     GiveWeaponToPed(PlayerPedId(), GetHashKey("WEAPON_STUNGUN"), 250, 0, false)
+    SetPedArmour(PlayerPedId(), 100)
 end)
 --==============================================================================================================================--
 --DOA
