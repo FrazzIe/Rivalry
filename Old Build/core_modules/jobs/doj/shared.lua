@@ -40,6 +40,7 @@ local function canTargetRank(user, target, callback)
 end
 
 addRank("chief justice", "")
+addRank("justice", "")
 addRank("judge", "")
 addRank("district attorney", "")
 addRank("assistant district attorney", "")

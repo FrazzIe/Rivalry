@@ -11,6 +11,10 @@ function DOJ.OnDuty()
 	return DOJ.Active
 end
 
+function DOJ.OnDuty()
+	return DOJ.Active
+end
+
 Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(0)

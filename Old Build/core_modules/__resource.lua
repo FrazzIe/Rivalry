@@ -156,6 +156,9 @@ export 'IsInZone'
 
 export 'ApplyTattoos'
 
+export 'DOJ.OnDuty'
+export 'DOJ.GetRank'
+
 export 'SetParamedic'
 export 'SetPolice'
 
