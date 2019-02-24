@@ -49,6 +49,8 @@ end
 local function canDelete(rank)
 	if rank == "chief of police" or rank == "colonel" or rank == "deputy chief of police" or rank == "lieutenant colonel" or rank == "captain" or rank == "director" or rank == "lieutenant" or rank == "trooper sergeant" or rank == "sergeant" or rank == "trooper" or rank == "detective" or rank == "officer ii" then
 		return true
+	elseif exports.core_modules:DOJ.GetRank() == 'chief justice' or exports.core_modules:DOJ.GetRank() == 'justice' or exports.core_modules:DOJ.GetRank() == 'judge' then
+		return true
 	else
 		return false
 	end
