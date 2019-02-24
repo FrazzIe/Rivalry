@@ -157,7 +157,6 @@ Citizen.CreateThread(function()
 												GetHashKey("a_c_coyote"),GetHashKey("a_c_coyote"),GetHashKey("a_c_boar"),GetHashKey("a_c_seagull")}
 								entitySpawned = false
 								remover = true
-								GiveWeaponToPed(GetPlayerPed(-1), GetHashKey("WEAPON_MUSKET"),250, true, true)
 								local hashSkin = GetHashKey("mp_m_freemode_01")
 								if(GetEntityModel(GetPlayerPed(-1)) == hashSkin) then
 									SetPedComponentVariation(GetPlayerPed(-1), 11, 7, 13, 2)  
@@ -212,7 +211,6 @@ Citizen.CreateThread(function()
 						else
 							isinjob = false
 							TriggerServerEvent("PlayerCustomisation.ModelType", "Default")
-							RemoveWeaponFromPed(GetPlayerPed(-1), GetHashKey("WEAPON_MUSKET"), true, true)
 							missionRunning = false
 							RemoveBlip(entityBlip[proie])
 							Citizen.InvokeNative(0xAE3CBE5BF394C9C9, Citizen.PointerValueIntInitialized(entity[proie]))
