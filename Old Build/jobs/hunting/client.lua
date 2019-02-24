@@ -272,7 +272,7 @@ Citizen.CreateThread(function()
 							end
 							
 							--Chat(entity[proie])
-							if (GetDistanceBetweenCoords( GetEntityCoords(GetPlayerPed(-1)),entityCoords[proie].x , entityCoords[proie].y , entityCoords[proie].z, true ) < 1 and entityAlive == false) then
+							if (GetDistanceBetweenCoords( GetEntityCoords(GetPlayerPed(-1)),entityCoords[proie].x , entityCoords[proie].y , entityCoords[proie].z, true ) < 2 and entityAlive == false) then
 								if IsPedInAnyVehicle(GetPlayerPed(-1), true) == false then
 									TaskStartScenarioInPlace(GetPlayerPed(-1), "CODE_HUMAN_MEDIC_KNEEL", 0, 1)
 									ClearPrints()
