@@ -424,16 +424,16 @@ $(document).ready(function(){  // Mouse Controls
   });
 
   $("#search_violations").bind('input', function(elem){
-    var search2 = elem.target.value.trim();
+    var search3 = elem.target.value.trim();
     $("#arrests").find("tr[id*='violation-']").each(function(i, el){  
-      if (search2.length === 0) {
+      if (search3.length === 0) {
           el.style.display = "table-row";
           return;
       }
       
       var offender_name = el.children[2].innerHTML;
-      var reg2 = new RegExp('(.*)' + search2 + '(.*)', 'ig');
-      if (!reg2.test(offender_name)) {
+      var reg3 = new RegExp('(.*)' + search3 + '(.*)', 'ig');
+      if (!reg3.test(offender_name)) {
         el.style.display = "none";
       }
     });
