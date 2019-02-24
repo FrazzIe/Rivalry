@@ -201,7 +201,7 @@ end)
 RegisterNetEvent('caughtFish:success')
 AddEventHandler('caughtFish:success', function(index, quantity, result)
 	if result == "caught" then
-		for k, v in ipairs(Fishing.Data.Store) do
+		for k, v in ipairs(Fishing.Data.SellPoint) do
 			for a, b in ipairs(v.Items) do
 				if b.Id == index then
 					Notify("You caught "..quantity.." "..b.Name, 7400)
