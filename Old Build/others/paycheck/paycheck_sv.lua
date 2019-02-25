@@ -70,7 +70,9 @@ AddEventHandler('paycheck:salary', function(rank)
 							salary = salary + v.Pay
 						end
 					end
-				end		    		
+				else
+		    		salary = salary + j.pay	    		
+		    	end	    		
 			else
 				salary = salary + j.pay		    	
 		 	end
