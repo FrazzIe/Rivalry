@@ -884,11 +884,11 @@ local Map = {
 				"Int01_ba_trophy10",
 				"Int01_ba_trophy11",
 				"ba_case9_forsale",
-				"ba_case9_dixon"
-				"ba_case9_madonna"
-				"ba_case9_solomun"
-				"ba_case9_taleofus"
-				"ba_barriers_case9"
+				"ba_case9_dixon",
+				"ba_case9_madonna",
+				"ba_case9_solomun",
+				"ba_case9_taleofus",
+				"ba_barriers_case9",
 			},
 			Colours = {
 				["Int01_ba_trophy01"] = 2,
