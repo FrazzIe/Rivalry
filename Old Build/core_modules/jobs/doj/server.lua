@@ -192,7 +192,7 @@ TriggerEvent("core:addGroupCommand", "dojdemote", "emergency", function(source, 
 			Notify("Player could not be found", 3000, source)
 		end
 	end
-end, {help = "Demote an Officer", params = {{name = "id", help = "The id of the player"},{name = "rank", help = "Paralegal | State Attorney | Assistant Distruct Attorney | District Attorney | Judge | Chief Justice"}}})
+end, {help = "Demote an Officer", params = {{name = "id", help = "The id of the player"},{name = "rank", help = "Paralegal | State Attorney | Assistant Distruct Attorney | District Attorney | Judge | Justice | Chief Justice"}}})
 
 RegisterServerEvent("DOJ:RequestFine")
 AddEventHandler("DOJ:RequestFine", function(sender, amount)
