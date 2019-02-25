@@ -7,7 +7,7 @@ Citizen.CreateThread(function ()
 		elseif export.emsjob:getIsInService() then
 			EmsRank = export.emsjob:getParamedicRank()
 			TriggerServerEvent('paycheck:salary', EmsRank)
-		elseif export.core_modules:DOJonduty() then
+		elseif export.core_modules:DOJisdoj() then
 			DojRank = export.core_modules:DOJgetrank()
 			TriggerServerEvent('paycheck:salary', DojRank)
 		else

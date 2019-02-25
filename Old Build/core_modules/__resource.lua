@@ -158,6 +158,7 @@ export 'ApplyTattoos'
 
 export 'DOJgetrank'
 export 'DOJonduty'
+export 'DOJisdoj'
 
 export 'SetParamedic'
 export 'SetPolice'
