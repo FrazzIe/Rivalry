@@ -130,6 +130,7 @@ local Map = {
 			"ex_sm_15_office_01c",	-- Old Spice Vintage
 			"ex_sm_15_office_03a",	-- Power Broker Ice
 			"ex_sm_15_office_03b",	-- Power Broker Convservati--]]
+			"ba_int_placement_ba_interior_0_dlc_int_01_ba_milo_",
 			"bkr_biker_interior_placement_interior_0_biker_dlc_int_01_milo", -- Biker
 			"bkr_biker_interior_placement_interior_1_biker_dlc_int_02_milo",			
 			"bkr_biker_interior_placement_interior_2_biker_dlc_int_ware01_milo",
@@ -216,6 +217,9 @@ local Map = {
 			"xm_hatches_terrain_lod",
 			"xm_mpchristmasadditions",
 			"xm_siloentranceclosed_x17",
+			"apa_v_mp_h_01_a",
+			"apa_v_mp_h_06_b",
+			"apa_v_mp_h_04_c",
 		},
 		Remove = {},
 	},
@@ -841,6 +845,70 @@ local Map = {
 				["set_lighting_tint_props"] = 1,
 				["set_floor_decal_1"] = 1,
 			},
+		},
+		[17] = { -- Nightclub DLC
+			Coordinates = {
+				{x = -1604.664, y = -3012.583, z = -78.000},
+			},
+			Props = {
+				"Int01_ba_clubname_01",
+				"Int01_ba_Style02",
+				"Int01_ba_style02_podium",
+				"Int01_ba_equipment_setup",
+				"Int01_ba_equipment_upgrade",
+				"Int01_ba_security_upgrade",
+				"Int01_ba_dj01",
+				"DJ_01_Lights_02",
+				"DJ_02_Lights_02",
+				"DJ_03_Lights_02",
+				"DJ_04_Lights_02",
+				"Int01_ba_bar_content",
+				"Int01_ba_trophy01",
+				"Int01_ba_deliverytruck",
+				"Int01_ba_dry_ice",
+				"Int01_ba_lightgrid_01",
+				"Int01_ba_trad_lights",
+				"Int01_ba_lightgrid_01",
+				"Int01_ba_dry_ice",
+				"int01_ba_lights_screen",
+				"Int01_ba_Screen",
+				"Int01_ba_trophy01",
+				"Int01_ba_trophy02",
+				"Int01_ba_trophy03",
+				"Int01_ba_trophy04",
+				"Int01_ba_trophy05",
+				"Int01_ba_trophy06",
+				"Int01_ba_trophy07",
+				"Int01_ba_trophy08",
+				"Int01_ba_trophy09",
+				"Int01_ba_trophy10",
+				"Int01_ba_trophy11",
+				"ba_case9_forsale",
+				"ba_case9_dixon"
+				"ba_case9_madonna"
+				"ba_case9_solomun"
+				"ba_case9_taleofus"
+				"ba_barriers_case9"
+			},
+			Colours = {
+				["Int01_ba_trophy01"] = 2,
+			},
+		},
+		[18] = { -- 3 New Apartments
+			Coordinates = {
+				{ x = -787.78050000, y = 334.92320000, z = 215.83840000},
+				{ x = -773.22580000, y = 322.82520000, z = 194.88620000},
+				{ x = -787.78050000, y = 334.92320000, z = 186.11340000},
+			},
+			Props = {
+				"Apart_Hi_Strip_A",
+				"Apart_Hi_Strip_B",
+				"Apart_Hi_Strip_C",
+				"Apart_Hi_Booze_A",
+				"Apart_Hi_Booze_B",
+				"Apart_Hi_Booze_C",
+			},
+			Colours = {},
 		}
 	},
 }
