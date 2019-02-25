@@ -5109,7 +5109,7 @@ properties = {
 				},
 				expire = 1 --Default (don't touch)
 			},
-			[6] = {
+			--[[[6] = {
 				property_name = "Galaxy Nightclub", -- Name of the property (used as the title of the menu)
 				locked = false, --Default (don't touch)
 				owner =  {
@@ -5149,7 +5149,7 @@ properties = {
 					last_picked = 0, --Default (don't touch)
 				},
 				expire = 1 --Default (don't touch)
-			},
+			},--]]
 		},
 	},
 }
