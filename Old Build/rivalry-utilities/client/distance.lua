@@ -137,14 +137,6 @@ function Utilities:GetClosestPlayerPed(Position, Radius, Dead, Model, ExcludedPe
 
 	ClosestPed = Peds[1]
 
-	for Index = 2, #Peds do
-		if Peds[Index] then
-			if ClosestPed.Distance > Peds[Index].Distance then
-				ClosestPed = Peds[Index]
-			end
-		end
-	end
-
 	return ClosestPed
 end
 

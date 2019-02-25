@@ -44,6 +44,17 @@ end)
 
 Citizen.CreateThread(function()
 	while true do
+		Citizen.Wait(60000)
+		local PlayerPed = PlayerPedId()
+		local PlayerHealth = GetEntityHealth(PlayerPed)
+		if PlayerHealth == GetEntityMaxHealth(PlayerPed) then
+			TriggerServerEvent("Health.Injury.Reset")
+		end
+	end
+end)
+
+Citizen.CreateThread(function()
+	while true do
 		Citizen.Wait(0)
 
 		if NetworkIsSessionStarted() then
@@ -62,11 +73,11 @@ RegisterCommand("checkinjuries", function(source, args, fullCommand)
 	local PlayerPed = PlayerPedId()
 	local ClosestPlayer = Utilities:GetClosestPlayerPed(GetEntityCoords(PlayerPed, false), 3.0, false, false, PlayerPed)
 
-	if ClosestPlayer.Player ~= nil then
+	if ClosestPlayer.Player ~= nil and ClosestPlayer ~= nil then
 		SetNuiFocus(true, true)
 		SendNUIMessage({["type"] = "DisplayInjuries", ["payload"] = {name = exports.core:GetCharacterName(GetPlayerServerId(Health.Player.Id)), injuries = Health.Injuries[ClosestPlayer.Player] or {}}})
 	else
-		
+		print("No player near you!")
 	end
 end, false)
 
