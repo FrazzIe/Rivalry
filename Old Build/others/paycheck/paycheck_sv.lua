@@ -44,10 +44,8 @@ AddEventHandler('paycheck:salary', function(rank)
 				local isInService = user.getSessionVar('policeInService')
 				if isInService then
 					for k, v in ipairs(PayCheck.Police) do
-						for a, b in ipairs(v.Items) do
-							if b.Rank == rank then
-								salary = salary + b.Pay
-							end
+						if v.Rank == rank then
+							salary = salary + v.Pay
 						end
 					end		    		
 		    	else
@@ -57,10 +55,8 @@ AddEventHandler('paycheck:salary', function(rank)
 				local isInService = user.getSessionVar('paramedicInService')
 				if isInService then
 					for k, v in ipairs(PayCheck.EMS) do
-						for a, b in ipairs(v.Items) do
-							if b.Rank == rank then
-								salary = salary + b.Pay
-							end
+						if v.Rank == rank then
+							salary = salary + v.Pay
 						end
 					end		    		
 		    	else
@@ -68,10 +64,8 @@ AddEventHandler('paycheck:salary', function(rank)
 		    	end
 		    elseif j.name == "DOJ" then
 				for k, v in ipairs(PayCheck.DOJ) do
-					for a, b in ipairs(v.Items) do
-						if b.Rank == rank then
-							salary = salary + b.Pay
-						end
+					if v.Rank == rank then
+						salary = salary + v.Pay
 					end
 				end		    		
 			else
