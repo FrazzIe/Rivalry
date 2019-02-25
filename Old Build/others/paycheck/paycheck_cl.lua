@@ -1,6 +1,6 @@
 Citizen.CreateThread(function ()
 	while true do
-	Citizen.Wait(1440000)
+	Citizen.Wait(900000)
 		if exports.policejob:getIsInService() then
 			PoliceRank = exports.policejob:getPoliceRank()
 			TriggerServerEvent('paycheck:salary', PoliceRank)
