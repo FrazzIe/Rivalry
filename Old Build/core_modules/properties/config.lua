@@ -5068,47 +5068,6 @@ properties = {
 				},
 				expire = 1 --Default (don't touch)
 			},
-			[6] = {
-				property_name = "Comedy Club", -- Name of the property (used as the title of the menu)
-				locked = false, --Default (don't touch)
-				owner =  {
-					identifier = "no", --Default (don't touch)
-					char_id = 0, --Default (don't touch)
-					id = 0, --Default (don't touch)
-				},
-				coordinates = {
-					outside = {x = -430.19445800781, y = 261.35784912109, z = 83.006500244141, h = 174.06776428223}, -- The marker outside (used for teleporting inside)
-					inside = {x = 382.8671875, y = -1001.1643066406, z = -98.999923706055, h = 86.972351074219}, -- The marker inside (used for teleporting outside)
-					vault = {x = 373.46896362305, y = -1003.3117675781, z = -98.999923706055, h = 95.507797241211}, -- The marker for the vault
-				},
-				rent = 8000, --How much it costs to rent the property (PER DAY)
-				income = 500, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
-				storage = {
-					locked = false, --Default (don't touch)
-					current = {
-						cash = 0, --Default (don't touch)
-						dirty = 0, --Default (don't touch)
-						weapons = {}, --Default (don't touch)
-					},
-					max = {
-						cash = 10000, --Max cash the property can hold
-						dirty = 10000, --Max marked bills the property can hold
-						weapons = 1, --Max weapons the property can hold
-					},
-				},
-				robbing = {
-					cooldown = 2700, --Robbery cooldown time in seconds
-					last_robbed = 0, --Default (don't touch)
-					being_robbed = false, --Default (don't touch)
-					time = 300, --The total time the robber has to hack the vault
-					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
-				},
-				lockpicking = {
-					cooldown = 300, --Colldown between lockpicking attempts
-					last_picked = 0, --Default (don't touch)
-				},
-				expire = 1 --Default (don't touch)
-			},
 			--[[[6] = {
 				property_name = "Galaxy Nightclub", -- Name of the property (used as the title of the menu)
 				locked = false, --Default (don't touch)
