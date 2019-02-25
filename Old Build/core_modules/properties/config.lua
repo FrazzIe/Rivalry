@@ -2369,7 +2369,7 @@ properties = {
 				},
 				expire = 1 --Default (don't touch)
 			},
-			[15] = {
+			--[[[15] = {
 				property_name = "Eclipse Towers Suite 3", -- Name of the property (used as the title of the menu)
 				locked = false, --Default (don't touch)
 				owner =  {
@@ -2488,7 +2488,7 @@ properties = {
 					last_picked = 0, --Default (don't touch)
 				},
 				expire = 1 --Default (don't touch)
-			},      
+			},      --]]
 		},
 	},
 	businesses = {
