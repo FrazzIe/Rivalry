@@ -12,5 +12,6 @@ Citizen.CreateThread(function ()
 			TriggerServerEvent('paycheck:salary', DojRank)
 		else
 			TriggerServerEvent('paycheck:salary')
+		end
 	end
 end)
