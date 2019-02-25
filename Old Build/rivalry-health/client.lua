@@ -69,7 +69,7 @@ AddEventHandler("Health.Sync", function(Injuries)
 	Health.Injuries = Injuries
 end)
 
-RegisterCommand("checkinjuries", function(source, args, fullCommand)
+RegisterCommand("ci", function(source, args, fullCommand)
 	local PlayerPed = PlayerPedId()
 	local ClosestPlayer = Utilities:GetClosestPlayerPed(GetEntityCoords(PlayerPed, false), 3.0, false, false, PlayerPed)
 
@@ -81,7 +81,7 @@ RegisterCommand("checkinjuries", function(source, args, fullCommand)
 	end
 end, false)
 
-RegisterCommand("myinjuries", function(source, args, fullCommand)
+RegisterCommand("mi", function(source, args, fullCommand)
 	SetNuiFocus(true, true)
 	SendNUIMessage({["type"] = "DisplayInjuries", ["payload"] = {name = exports.core:GetCharacterName(GetPlayerServerId(PlayerId())), injuries = Health.Injuries[Health.Player.Id] or {}}})
 end, false)
