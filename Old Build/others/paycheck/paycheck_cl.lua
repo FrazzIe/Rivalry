@@ -2,7 +2,7 @@ Citizen.CreateThread(function ()
 	while true do
 	Citizen.Wait(1440000)
 		if export.policejob:getIsInService() then
-			PoliceRank = export.policejob:ggetPoliceRank()
+			PoliceRank = export.policejob:getPoliceRank()
 			TriggerServerEvent('paycheck:salary', PoliceRank)
 		elseif export.emsjob:getIsInService() then
 			EmsRank = export.emsjob:getParamedicRank()
