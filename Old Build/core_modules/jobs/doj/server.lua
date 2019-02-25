@@ -12,6 +12,13 @@ AddEventHandler("DOJ:Initialise", function(source, identifier, character_id)
 	end)
 end)
 
+RegisterServerEvent('DOJ:setService')
+AddEventHandler('DOJ:setService', function (inService)
+	TriggerEvent('core:getuser', source , function (Player)
+		Player.setSessionVar('DOJInService', inService)
+	end)
+end)
+
 RegisterServerEvent("DOJ:Grant")
 AddEventHandler("DOJ:Grant", function(target, type)
 	local source = source

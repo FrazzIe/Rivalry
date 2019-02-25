@@ -63,9 +63,12 @@ AddEventHandler('paycheck:salary', function(rank)
 		    		salary = salary + j.pay.off		    		
 		    	end
 		    elseif j.name == "DOJ" then
-				for k, v in ipairs(PayCheck.DOJ) do
-					if v.Rank == rank then
-						salary = salary + v.Pay
+		    	local isInService = user.getSessionVar('DOJInService')
+		    	if isInService then
+					for k, v in ipairs(PayCheck.DOJ) do
+						if v.Rank == rank then
+							salary = salary + v.Pay
+						end
 					end
 				end		    		
 			else

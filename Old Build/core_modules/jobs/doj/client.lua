@@ -35,6 +35,7 @@ Citizen.CreateThread(function()
 						end
 						if IsControlJustPressed(1, 51) then
 							DOJ.Active = not DOJ.Active
+							TriggerServerEvent('DOJ:setService', DOJ.Active)
 						end
 					end
 				end
