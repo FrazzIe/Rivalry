@@ -22,7 +22,7 @@ jobs = {
     [20] = {id = 20, name = "Pool Cleaner", pay = 100}, 
     [21] = {id = 21, name = "Garbage Collector", pay = 100},
     [22] = {id = 22, name = "Tow", pay = 100},
-    [23] = {id = 23, name = "DOJ", pay = 2000},
+    [23] = {id = 23, name = "DOJ", pay = 250},
     [24] = {id = 24, name = "Trucker", pay = 100},
 }
 

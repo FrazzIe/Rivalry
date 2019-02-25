@@ -157,6 +157,7 @@ export 'IsInZone'
 export 'ApplyTattoos'
 
 export 'DOJgetrank'
+export 'DOJonduty'
 
 export 'SetParamedic'
 export 'SetPolice'

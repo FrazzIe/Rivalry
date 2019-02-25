@@ -7,7 +7,7 @@ DOJ.Locations = {
 	{x = 227.40411376953, y = -414.59469604492, z = -118.19954681396, h = 249.44790649414},
 }
 
-function DOJ.OnDuty()
+function DOJonduty()
 	return DOJ.Active
 end
 
