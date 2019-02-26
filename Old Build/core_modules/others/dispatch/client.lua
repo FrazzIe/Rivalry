@@ -427,13 +427,13 @@ AddEventHandler("dispatch:ten-thirtytwo-r", function(coords)
                 SetBlipAsShortRange(ten_thirtytwo_blip, true)
                 SetBlipScale(ten_thirtytwo_blip, 0.85)
                 BeginTextCommandSetBlipName("STRING")
-                AddTextComponentString("10-32")
+                AddTextComponentString("10-31")
                 EndTextCommandSetBlipName(ten_thirtytwo_blip)
             end
             if not arrived then
                 if GetDistanceBetweenCoords(pos.x, pos.y, pos.z, coords[1], coords[2], coords[3], true) < 20 then
                     arrived = true
-                    TriggerServerEvent("dispatch:pay", "10-32")
+                    TriggerServerEvent("dispatch:pay", "10-31")
                 end
             end
         end
