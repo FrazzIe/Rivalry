@@ -367,8 +367,8 @@ Citizen.CreateThread(function()
 								else
 									TriggerServerEvent("Rob:Sucessful", true)
 								end
-				  				local Street, Crossing = GetStreetNameAtCoord(PlayerPosition.x, PlayerPosition.y, PlayerPosition.z)
-				  				TriggerServerEvent("dispatch:ten-thirtytwo-r", PlayerPosition, GetStreetNameFromHashKey(Street))
+				  				local street, Crossing = GetStreetNameAtCoord(PlayerPosition.x, PlayerPosition.y, PlayerPosition.z)
+				  				TriggerServerEvent("dispatch:ten-thirtytwo-r", PlayerPosition, GetStreetNameFromHashKey(street))
 				  				table.insert(PreviouslyRobbed, TargetPed)
 				  				TaskSetBlockingOfNonTemporaryEvents(TargetPed, false)
 				  				FreezeEntityPosition(TargetPed, false)
@@ -394,8 +394,8 @@ Citizen.CreateThread(function()
 								else
 									TriggerServerEvent("Rob:Sucessful", true)
 								end
-				  				local Street, Crossing = GetStreetNameAtCoord(PlayerPosition.x, PlayerPosition.y, PlayerPosition.z)
-				  				TriggerServerEvent("dispatch:ten-thirtytwo-r", PlayerPosition, GetStreetNameFromHashKey(Street))
+				  				local street, Crossing = GetStreetNameAtCoord(PlayerPosition.x, PlayerPosition.y, PlayerPosition.z)
+				  				TriggerServerEvent("dispatch:ten-thirtytwo-r", PlayerPosition, GetStreetNameFromHashKey(street))
 				  				table.insert(PreviouslyRobbed, TargetPed)
 				  				TaskSetBlockingOfNonTemporaryEvents(TargetPed, false)
 				  				FreezeEntityPosition(TargetPed, false)
