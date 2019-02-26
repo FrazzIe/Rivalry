@@ -328,16 +328,16 @@ Citizen.CreateThread(function()
 		Citizen.Wait(0)
 		local PlayerPed = PlayerPedId()
 		local Aiming, TargetPed = GetEntityPlayerIsFreeAimingAt(PlayerId())
-		local Dictionary, AnimationName, AnimationName2 = "random@arrests@busted", "enter", "idle_a"
 		local PlayerPosition, TargetPedPosition = GetEntityCoords(PlayerPed, 0), GetEntityCoords(TargetPed, 0)
-		local HasTriggered = false
 		local PreviouslyRobbed = {}
+		local Dictionary, AnimationName, AnimationName2 = "random@arrests@busted", "enter", "idle_a"
+		local HasTriggered = false
 		RequestAnimDict(Dictionary)
 		while not HasAnimDictLoaded(Dictionary) do
 			Citizen.Wait(0)
 		end
 	 	if Aiming and TypeOfWeapon(GetSelectedPedWeapon(PlayerPed)) and not exports.policejob:getIsInService() and not IsPedShooting(PlayerPed) then
-	  		if DoesEntityExist(TargetPed) and IsEntityAPed(TargetPed) and not HasPlayerRecentlyRobbed(TargetPed, PreviouslyRobbed) and not IsPedAPlayer(TargetPed) then
+	  		if DoesEntityExist(TargetPed) and IsEntityAPed(TargetPed) and HasPlayerRecentlyRobbed(TargetPed, PreviouslyRobbed) and not IsPedAPlayer(TargetPed) then
 		  		if #(PlayerPosition - TargetPedPosition) < 5 then
 			  		TaskSetBlockingOfNonTemporaryEvents(TargetPed, true)
 			  		SetPedFleeAttributes(TargetPed, 0, 0)
