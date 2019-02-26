@@ -309,7 +309,7 @@ local Weapons = {
 }
 
 function HasPlayerRecentlyRobbed(TargetPed, Table)
-	for i = 0, #Table do
+	for i = 1, #Table do
 		if Table[i] == TargetPed then
 			return false
 		end
@@ -317,8 +317,8 @@ function HasPlayerRecentlyRobbed(TargetPed, Table)
 	return true
 end
 
-function TypeOfWeapon(PlayerPed, Weapon)
-	for i = 0, #Weapons do
+function TypeOfWeapon(Weapon)
+	for i = 1, #Weapons do
 		if Weapon == GetHashKey(Weapons[i]) then
 			return true
 		end
@@ -339,7 +339,7 @@ Citizen.CreateThread(function()
 		while not HasAnimDictLoaded(Dictionary) do
 			Citizen.Wait(0)
 		end
-	 	if Aiming and TypeOfWeapon(PlayerPed, GetSelectedPedWeapon(PlayerPed)) and not exports.policejob:getIsInService() and not IsPedShooting(PlayerPed) then
+	 	if Aiming and TypeOfWeapon(GetSelectedPedWeapon(PlayerPed)) and not exports.policejob:getIsInService() and not IsPedShooting(PlayerPed) then
 	  		if DoesEntityExist(TargetPed) and IsEntityAPed(TargetPed) and not HasPlayerRecentlyRobbed(TargetPed, PreviouslyRobbed) and not IsPedAPlayer(TargetPed) then
 		  		if #(PlayerPosition - TargetPedPosition) < 5 then
 			  		TaskSetBlockingOfNonTemporaryEvents(TargetPed, true)
