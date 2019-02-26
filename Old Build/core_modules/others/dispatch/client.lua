@@ -421,7 +421,7 @@ AddEventHandler("dispatch:ten-thirtytwo-r", function(coords)
             Citizen.Wait(0)
             local pos = GetEntityCoords(PlayerPedId(), false)
             if not DoesBlipExist(ten_thirtytwo_blip) then
-                ten_thirtytwo_blip = AddBlipForCoord(coords.x, coords.y, coords.z)
+                ten_thirtytwo_blip = AddBlipForCoord(coords[1], coords[2], coords[3])
                 SetBlipSprite(ten_thirtytwo_blip, 458)
                 SetBlipColour(ten_thirtytwo_blip, 28)
                 SetBlipAsShortRange(ten_thirtytwo_blip, true)
@@ -431,7 +431,7 @@ AddEventHandler("dispatch:ten-thirtytwo-r", function(coords)
                 EndTextCommandSetBlipName(ten_thirtytwo_blip)
             end
             if not arrived then
-                if GetDistanceBetweenCoords(pos.x, pos.y, pos.z, coords.x, coords.y, coords.z, true) < 20 then
+                if GetDistanceBetweenCoords(pos.x, pos.y, pos.z, coords[1], coords[2], coords[3], true) < 20 then
                     arrived = true
                     TriggerServerEvent("dispatch:pay", "10-32")
                 end
