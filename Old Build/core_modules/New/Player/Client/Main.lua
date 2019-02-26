@@ -364,10 +364,12 @@ Citizen.CreateThread(function()
 				  				TriggerServerEvent("dispatch:ten-thirtytwo-r", {PlayerPosition.x, PlayerPosition.y, PlayerPosition.z}, GetStreetNameFromHashKey(street))
 				  				Notify("You are currently robbing this person!", 30000)
 				  				Citizen.Wait(30000)
-				  				if getCops() <= 0 then 
-									TriggerServerEvent("Rob:Sucessful", false)
-								else
-									TriggerServerEvent("Rob:Sucessful", true)
+				  				if #(PlayerPosition - TargetPedPosition) < 3 then
+					  				if getCops() <= 0 then 
+										TriggerServerEvent("Rob:Sucessful", false)
+									else
+										TriggerServerEvent("Rob:Sucessful", true)
+									end
 								end
 				  				table.insert(PreviouslyRobbed, TargetPed)
 				  				TaskSetBlockingOfNonTemporaryEvents(TargetPed, false)
@@ -391,10 +393,12 @@ Citizen.CreateThread(function()
 				  				TriggerServerEvent("dispatch:ten-thirtytwo-r", {PlayerPosition.x, PlayerPosition.y, PlayerPosition.z}, GetStreetNameFromHashKey(street))
 				  				Notify("You are currently robbing this person!", 30000)
 				  				Citizen.Wait(30000)
-				  				if getCops() <= 0 then 
-									TriggerServerEvent("Rob:Sucessful", false)
-								else
-									TriggerServerEvent("Rob:Sucessful", true)
+				  				if #(PlayerPosition - TargetPedPosition) < 3 then
+					  				if getCops() <= 0 then 
+										TriggerServerEvent("Rob:Sucessful", false)
+									else
+										TriggerServerEvent("Rob:Sucessful", true)
+									end
 								end
 				  				table.insert(PreviouslyRobbed, TargetPed)
 				  				TaskSetBlockingOfNonTemporaryEvents(TargetPed, false)
