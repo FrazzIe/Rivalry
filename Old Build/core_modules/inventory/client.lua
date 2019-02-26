@@ -56,7 +56,7 @@ end)
 
 RegisterNetEvent("inventory:animation")
 AddEventHandler("inventory:animation", function(ped)
-    TaskPlayAnim(PlayerPedId(), put_in_car_dict, "givetake1_a", 100.0, 200.0, 0.3, 16, 0.2, 0, 0, 0)
+    TaskPlayAnim(ped, put_in_car_dict, "givetake1_a", 100.0, 200.0, 0.3, 16, 0.2, 0, 0, 0)
 end)
 
 RegisterNetEvent("inventory:updateitems_vehicle_weapon")
