@@ -360,6 +360,8 @@ Citizen.CreateThread(function()
 				  			DisplayHelpText("Press ~INPUT_CONTEXT~ to rob!")
 				  			if IsControlJustPressed(1,51) then
 				  				TaskPlayAnim(TargetPed, Dictionary, AnimationName2, 4.0, -4, -1, 1, 0, false, false, false)
+				  				street, crossing = GetStreetNameAtCoord(PlayerPosition.x, PlayerPosition.y, PlayerPosition.z)
+				  				TriggerServerEvent("dispatch:ten-thirtytwo-r", {PlayerPosition.x, PlayerPosition.y, PlayerPosition.z}, GetStreetNameFromHashKey(street))
 				  				Notify("You are currently robbing this person!", 30000)
 				  				Citizen.Wait(30000)
 				  				if getCops() <= 0 then 
@@ -367,8 +369,6 @@ Citizen.CreateThread(function()
 								else
 									TriggerServerEvent("Rob:Sucessful", true)
 								end
-				  				local street, Crossing = GetStreetNameAtCoord(PlayerPosition.x, PlayerPosition.y, PlayerPosition.z)
-				  				TriggerServerEvent("dispatch:ten-thirtytwo-r", PlayerPosition, GetStreetNameFromHashKey(street))
 				  				table.insert(PreviouslyRobbed, TargetPed)
 				  				TaskSetBlockingOfNonTemporaryEvents(TargetPed, false)
 				  				FreezeEntityPosition(TargetPed, false)
@@ -387,6 +387,8 @@ Citizen.CreateThread(function()
 				  			DisplayHelpText("Press ~INPUT_CONTEXT~ to rob!")
 				  			if IsControlJustPressed(1,51) then
 				  				TaskPlayAnim(TargetPed, Dictionary, AnimationName2, 4.0, -4, -1, 1, 0, false, false, false)
+				  				street, crossing = GetStreetNameAtCoord(PlayerPosition.x, PlayerPosition.y, PlayerPosition.z)
+				  				TriggerServerEvent("dispatch:ten-thirtytwo-r", {PlayerPosition.x, PlayerPosition.y, PlayerPosition.z}, GetStreetNameFromHashKey(street))
 				  				Notify("You are currently robbing this person!", 30000)
 				  				Citizen.Wait(30000)
 				  				if getCops() <= 0 then 
@@ -394,8 +396,6 @@ Citizen.CreateThread(function()
 								else
 									TriggerServerEvent("Rob:Sucessful", true)
 								end
-				  				local street, Crossing = GetStreetNameAtCoord(PlayerPosition.x, PlayerPosition.y, PlayerPosition.z)
-				  				TriggerServerEvent("dispatch:ten-thirtytwo-r", PlayerPosition, GetStreetNameFromHashKey(street))
 				  				table.insert(PreviouslyRobbed, TargetPed)
 				  				TaskSetBlockingOfNonTemporaryEvents(TargetPed, false)
 				  				FreezeEntityPosition(TargetPed, false)
