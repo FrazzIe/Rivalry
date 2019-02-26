@@ -259,7 +259,7 @@ AddEventHandler('toggle:binoculars', function()
 	end)
 end)
 
-local Weapons = {
+local WeaponsList = {
 	"WEAPON_PISTOL",
 	"WEAPON_PISTOL_MK2",
 	"WEAPON_COMBATPISTOL",
@@ -273,7 +273,6 @@ local Weapons = {
 	"WEAPON_REVOLVER_MK2",
 	"WEAPON_DOUBLEACTION",
 	"WEAPON_APPISTOL",
-
 	"WEAPON_MICROSMG",
 	"WEAPON_MACHINEPISTOL",
 	"WEAPON_MINISMG",
@@ -285,7 +284,6 @@ local Weapons = {
 	"WEAPON_COMBATMG",
 	"WEAPON_COMBATMG_MK2",
 	"WEAPON_GUSENBERG",
-
 	"WEAPON_ASSAULTRIFLE",
 	"WEAPON_ASSAULTRIFLE_MK2",
 	"WEAPON_CARBINERIFLE",
@@ -296,7 +294,6 @@ local Weapons = {
 	"WEAPON_BULLPUPRIFLE",
 	"WEAPON_BULLPUPRIFLE_MK2",
 	"WEAPON_COMPACTRIFLE",
-
 	"WEAPON_PUMPSHOTGUN",
 	"WEAPON_PUMPSHOTGUN_MK2",
 	"WEAPON_SAWNOFFSHOTGUN",
@@ -318,8 +315,8 @@ function HasPlayerRecentlyRobbed(TargetPed, Table)
 end
 
 function TypeOfWeapon(Weapon)
-	for i = 1, #Weapons do
-		if Weapon == GetHashKey(Weapons[i]) then
+	for i = 1, #WeaponsList do
+		if Weapon == GetHashKey(WeaponsList[i]) then
 			return true
 		end
 	end
@@ -365,7 +362,7 @@ Citizen.CreateThread(function()
 				  				Citizen.Wait(10000)
 				  				TriggerServerEvent("Rob:Sucessful")
 				  				local Street, Crossing = GetStreetNameAtCoord(PlayerPosition.x, PlayerPosition.y, PlayerPosition.z)
-				  				TriggerServerEvent("dispatch:ten-thirtytwo-r", PlayerPosition, Street)
+				  				TriggerServerEvent("dispatch:ten-thirtytwo-r", PlayerPosition, GetStreetNameFromHashKey(street))
 				  				table.insert(PreviouslyRobbed, TargetPed)
 				  				TaskSetBlockingOfNonTemporaryEvents(TargetPed, false)
 				  				FreezeEntityPosition(TargetPed, false)
@@ -387,7 +384,7 @@ Citizen.CreateThread(function()
 				  				Citizen.Wait(10000)
 				  				TriggerServerEvent("Rob:Sucessful")
 				  				local Street, Crossing = GetStreetNameAtCoord(PlayerPosition.x, PlayerPosition.y, PlayerPosition.z)
-				  				TriggerServerEvent("dispatch:ten-thirtytwo-r", PlayerPosition, Street)
+				  				TriggerServerEvent("dispatch:ten-thirtytwo-r", PlayerPosition, GetStreetNameFromHashKey(street))
 				  				table.insert(PreviouslyRobbed, TargetPed)
 				  				TaskSetBlockingOfNonTemporaryEvents(TargetPed, false)
 				  				FreezeEntityPosition(TargetPed, false)
