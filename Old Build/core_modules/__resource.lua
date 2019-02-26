@@ -28,6 +28,7 @@ client_script "New/Player/Client/Emotes.lua"
 client_script "New/Player/Client/Commands.lua"
 
 server_script "New/Player/Server/Commands.lua"
+server_script "New/Player/Server/Main.lua"
 
 client_script "New/Player/Shared/Panic.lua"
 server_script "New/Player/Shared/Panic.lua"
