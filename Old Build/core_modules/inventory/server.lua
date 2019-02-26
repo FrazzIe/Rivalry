@@ -186,6 +186,7 @@ AddEventHandler("inventory:take", function(item_id, quantity, target_id)
                                     })
                                     TriggerClientEvent("inventory:updateitems", source, user_inventory[source])
                                     TriggerClientEvent("inventory:sync", -1, user_inventory)
+                                    TriggerClientEvent("inventory:animation", source)
                                 else
                                     user_inventory[source][item_id]["quantity"] = user_inventory[source][item_id]["quantity"] + quantity
                                     exports["GHMattiMySQL"]:QueryAsync("UPDATE inventory SET quantity=@quantity WHERE (character_id=@character_id) AND (item_id=@item_id)", {
@@ -195,6 +196,7 @@ AddEventHandler("inventory:take", function(item_id, quantity, target_id)
                                     })
                                     TriggerClientEvent("inventory:updateitems", source, user_inventory[source])
                                     TriggerClientEvent("inventory:sync", -1, user_inventory)
+                                    TriggerClientEvent("inventory:animation", source)
                                 end
 
                                 Notify(user.get("first_name").." "..user.get("last_name").." stole "..quantity.." "..itemlist[item_id].name, 3000, target_id)
@@ -209,6 +211,7 @@ AddEventHandler("inventory:take", function(item_id, quantity, target_id)
                                     })
                                     TriggerClientEvent("inventory:updateitems", target_id, user_inventory[target_id])
                                     TriggerClientEvent("inventory:sync", -1, user_inventory)
+                                    TriggerClientEvent("inventory:animation", source)
                                 else
                                     user_inventory[target_id][item_id]["quantity"] = user_inventory[target_id][item_id]["quantity"] - quantity
                                     exports["GHMattiMySQL"]:QueryAsync("UPDATE inventory SET quantity=@quantity WHERE (character_id=@character_id) AND (item_id=@item_id)", {
@@ -218,6 +221,7 @@ AddEventHandler("inventory:take", function(item_id, quantity, target_id)
                                     })
                                     TriggerClientEvent("inventory:updateitems", target_id, user_inventory[target_id])
                                     TriggerClientEvent("inventory:sync", -1, user_inventory)
+                                    TriggerClientEvent("inventory:animation", source)
                                 end
 
                                 Notify("You stole "..quantity.." "..itemlist[item_id].name.." from "..user.get("first_name").." "..user.get("last_name"), 3000, source)

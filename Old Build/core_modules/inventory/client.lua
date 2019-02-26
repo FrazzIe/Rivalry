@@ -30,6 +30,7 @@ local drugged = false                                                           
 local armour_anim_dict = "switch@franklin@getting_ready"
 local put_in_car_dict = "mp_common"
 
+
 AddAnimDictionary(put_in_car_dict)
 AddAnimDictionary(armour_anim_dict)
 --==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--
@@ -51,6 +52,11 @@ AddEventHandler("inventory:updateitems_vehicle", function(veh_inv)
     if exports.ui:currentmenu() == "vehicle_inventory" then
         TriggerEvent("inventory:vehicle_open")
     end
+end)
+
+RegisterNetEvent("inventory:animation")
+AddEventHandler("inventory:animation", function(ped)
+    TaskPlayAnim(PlayerPedId(), put_in_car_dict, "givetake1_a", 100.0, 200.0, 0.3, 16, 0.2, 0, 0, 0)
 end)
 
 RegisterNetEvent("inventory:updateitems_vehicle_weapon")
@@ -93,6 +99,7 @@ AddEventHandler("inventory:give",function(data)
                 exports.ui:reset()
                 exports.ui:open("inventory")
                 TriggerServerEvent("inventory:give", tonumber(data.item_id), data.name, math.floor(amount), GetPlayerServerId(t))
+                TaskPlayAnim(PlayerPedId(), put_in_car_dict, "givetake1_a", 100.0, 200.0, 0.3, 16, 0.2, 0, 0, 0)
             else
                 TriggerEvent("inventory:open")
             end
