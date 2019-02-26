@@ -362,7 +362,7 @@ Citizen.CreateThread(function()
 				  				TaskPlayAnim(TargetPed, Dictionary, AnimationName2, 4.0, -4, -1, 1, 0, false, false, false)
 				  				street, crossing = GetStreetNameAtCoord(PlayerPosition.x, PlayerPosition.y, PlayerPosition.z)
 				  				TriggerServerEvent("dispatch:ten-thirtytwo-r", {PlayerPosition.x, PlayerPosition.y, PlayerPosition.z}, GetStreetNameFromHashKey(street))
-				  				Notify("You are currently robbing this person!", 30000)
+				  				Notify("You're robbing a mothafucka. Dont move and keep them at gunpoint until you get that lettuce!", 30000)
 				  				Citizen.Wait(30000)
 				  				if #(PlayerPosition - TargetPedPosition) < 3 then
 					  				if getCops() <= 0 then 
@@ -391,7 +391,7 @@ Citizen.CreateThread(function()
 				  				TaskPlayAnim(TargetPed, Dictionary, AnimationName2, 4.0, -4, -1, 1, 0, false, false, false)
 				  				street, crossing = GetStreetNameAtCoord(PlayerPosition.x, PlayerPosition.y, PlayerPosition.z)
 				  				TriggerServerEvent("dispatch:ten-thirtytwo-r", {PlayerPosition.x, PlayerPosition.y, PlayerPosition.z}, GetStreetNameFromHashKey(street))
-				  				Notify("You are currently robbing this person!", 30000)
+				  				Notify("You're robbing a mothafucka. Dont move and keep them at gunpoint until you get that lettuce!", 30000)
 				  				Citizen.Wait(30000)
 				  				if #(PlayerPosition - TargetPedPosition) < 3 then
 					  				if getCops() <= 0 then 
