@@ -282,6 +282,9 @@ Citizen.CreateThread(function()
 		end
 	 	if Aiming then
 	  		if DoesEntityExist(TargetPed) and IsEntityAPed(TargetPed) and HasPlayerRecentlyRobbed(TargetPed, PreviouslyRobbed) and not IsPedAPlayer(TargetPed) then
+		  		TaskSetBlockingOfNonTemporaryEvents(TargetPed, true)
+		  		SetPedFleeAttributes(TargetPed, 0, 0)
+		  		SetPedCombatAttributes(TargetPed, 17, 1)
 		  		if IsPedInAnyVehicle(TargetPed, 0) then
 		  			local Vehicle = GetVehiclePedIsIn(TargetPed)
 		  			TaskLeaveVehicle(TargetPed, Vehicle)
@@ -297,11 +300,13 @@ Citizen.CreateThread(function()
 				  				Citizen.Wait(10000)
 				  				TriggerServerEvent("Rob:Sucessful")
 				  				table.insert(PreviouslyRobbed, TargetPed)
+				  				TaskSetBlockingOfNonTemporaryEvents(TargetPed, false)
 				  				TaskReactAndFleePed(PlayerPed, TargetPed)
 				  			end
 				  		end
 			  		end
 		  		else
+		  			FreezeEntityPosition(TargetPed, true)
 		  			TaskPlayAnim(TargetPed, Dictionary, AnimationName, 4.0, -4, -1, 1, 0, false, false, false)
 		  			Citizen.Wait(1650)
 		  			TaskPlayAnim(TargetPed, Dictionary, AnimationName2, 4.0, -4, -1, 1, 0, false, false, false)
@@ -313,6 +318,7 @@ Citizen.CreateThread(function()
 				  				Citizen.Wait(10000)
 				  				TriggerServerEvent("Rob:Sucessful")
 				  				table.insert(PreviouslyRobbed, TargetPed)
+				  				TaskSetBlockingOfNonTemporaryEvents(TargetPed, false)
 				  				TaskReactAndFleePed(PlayerPed, TargetPed)
 				  			end
 				  		end
