@@ -186,6 +186,7 @@ AddEventHandler('police:search', function(target, type)
 	else
 		TriggerEvent("core:ban", source, 99, "Script tampering", true, "Anticheat")
 	end
+	TriggerClientEvent("chatMessage", target, "You are being searched.")
 end)
 
 RegisterServerEvent('police:search_vehicle')
