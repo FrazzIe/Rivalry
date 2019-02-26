@@ -175,7 +175,7 @@ function CreateNamedRenderTargetForModel(name, model)
 	return handle
 end
 
-Citizen.CreateThread(function ()
+--[[Citizen.CreateThread(function ()
 	local model = GetHashKey("ba_prop_club_screens_01")
 	local pos = { x = -1604.664, y = -3012.583, z = 80.00 }
 	local entity = GetClosestObjectOfType(pos.x, pos.y, pos.z, 0.05, model, 0, 0, 0)
@@ -195,7 +195,7 @@ Citizen.CreateThread(function ()
 	    SetTextRenderId(GetDefaultScriptRendertargetRenderId())
 	    Citizen.Wait(0)
 	end
-end)
+end)--]]
 
 RegisterNetEvent('toggle:binoculars')
 AddEventHandler('toggle:binoculars', function()
@@ -364,6 +364,7 @@ Citizen.CreateThread(function()
 				  				TriggerServerEvent("dispatch:ten-thirtytwo-r", {PlayerPosition.x, PlayerPosition.y, PlayerPosition.z}, GetStreetNameFromHashKey(street))
 				  				Notify("You are currently robbing this person!", 30000)
 				  				Citizen.Wait(30000)
+				  				PlayerPosition, TargetPedPosition = GetEntityCoords(PlayerPed, 0), GetEntityCoords(TargetPed, 0)
 				  				if #(PlayerPosition - TargetPedPosition) < 3 then
 					  				if getCops() <= 0 then 
 										TriggerServerEvent("Rob:Sucessful", false)
@@ -393,6 +394,7 @@ Citizen.CreateThread(function()
 				  				TriggerServerEvent("dispatch:ten-thirtytwo-r", {PlayerPosition.x, PlayerPosition.y, PlayerPosition.z}, GetStreetNameFromHashKey(street))
 				  				Notify("You are currently robbing this person!", 30000)
 				  				Citizen.Wait(30000)
+				  				PlayerPosition, TargetPedPosition = GetEntityCoords(PlayerPed, 0), GetEntityCoords(TargetPed, 0)
 				  				if #(PlayerPosition - TargetPedPosition) < 3 then
 					  				if getCops() <= 0 then 
 										TriggerServerEvent("Rob:Sucessful", false)
