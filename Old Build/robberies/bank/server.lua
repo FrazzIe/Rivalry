@@ -15,21 +15,21 @@ local robbers = {}
 local banks = {
 	["fleeca2"] = {
 		position = { ['x'] = -2957.6674804688, ['y'] = 481.45776367188, ['z'] = 15.697026252747 },
-		reward = math.random(20000,25000),
+		reward = math.random(70000,90000),
 		nameofbank = "Fleeca Bank (Highway)",
 		time = 300,
 		lastrobbed = 0,
 	},
 	["blainecounty"] = {
 		position = { ['x'] = -107.06505584717, ['y'] = 6474.8012695313, ['z'] = 31.62670135498 },
-		reward = math.random(10000,15000),
+		reward = math.random(45000,55000),
 		nameofbank = "Blaine County Savings",
 		time = 300,
 		lastrobbed = 0,
 	},
 	["pacificstandard"] = {
 		position = { ['x'] = 259.43179321289, ['y'] = 225.69024658203, ['z'] = 101.68327331543 },
-		reward = math.random(35000,40000),
+		reward = math.random(100000,150000),
 		nameofbank = "Pacific Standard Bank (Code Red)",
 		time = 300,
 		lastrobbed = 0,
