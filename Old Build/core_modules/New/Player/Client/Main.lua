@@ -339,7 +339,7 @@ Citizen.CreateThread(function()
 		while not HasAnimDictLoaded(Dictionary) do
 			Citizen.Wait(0)
 		end
-	 	if Aiming and TypeOfWeapon(PlayerPed, GetSelectedPedWeapon(PlayerPed)) and not exports.policejob:getIsInService() then
+	 	if Aiming and TypeOfWeapon(PlayerPed, GetSelectedPedWeapon(PlayerPed)) and not exports.policejob:getIsInService() and not IsPedShooting(PlayerPed) then
 	  		if DoesEntityExist(TargetPed) and IsEntityAPed(TargetPed) and not HasPlayerRecentlyRobbed(TargetPed, PreviouslyRobbed) and not IsPedAPlayer(TargetPed) then
 		  		if #(PlayerPosition - TargetPedPosition) < 5 then
 			  		TaskSetBlockingOfNonTemporaryEvents(TargetPed, true)
