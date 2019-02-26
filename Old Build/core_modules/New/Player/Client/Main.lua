@@ -341,7 +341,7 @@ Citizen.CreateThread(function()
 		end
 	 	if Aiming and TypeOfWeapon(PlayerPed, GetSelectedPedWeapon(PlayerPed)) and not exports.policejob:getIsInService() then
 	  		if DoesEntityExist(TargetPed) and IsEntityAPed(TargetPed) and not HasPlayerRecentlyRobbed(TargetPed, PreviouslyRobbed) and not IsPedAPlayer(TargetPed) then
-		  		if #(PlayerPosition - TargetPedPosition) < 5) then
+		  		if #(PlayerPosition - TargetPedPosition) < 5 then
 			  		TaskSetBlockingOfNonTemporaryEvents(TargetPed, true)
 			  		SetPedFleeAttributes(TargetPed, 0, 0)
 			  		SetPedCombatAttributes(TargetPed, 46, 1)
