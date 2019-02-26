@@ -127,6 +127,16 @@ AddEventHandler("dispatch:ten-thirtytwo", function(coords, street_name)
 	end
 end)
 
+RegisterServerEvent("dispatch:ten-thirtytwo-r")
+AddEventHandler("dispatch:ten-thirtytwo-r", function(coords, street_name)
+	for id, dept in pairs(emergency_users) do
+		if dept ~= nil and dept ~= "paramedic" then
+			TriggerClientEvent("chatMessage", id, "10-31-R", {255, 0, 0}, "^7Crime in progress (Armed Robbery) at "..street_name)
+			TriggerClientEvent("dispatch:ten-thirtytwo-r", id, coords)
+		end
+	end
+end)
+
 RegisterServerEvent("dispatch:ten-thirtytwo:2")
 AddEventHandler("dispatch:ten-thirtytwo:2", function(coords, street_name, gender)
 	for id, dept in pairs(emergency_users) do

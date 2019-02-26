@@ -410,6 +410,37 @@ AddEventHandler("dispatch:ten-thirtytwo", function(coords)
 	end)
 end)
 
+RegisterNetEvent("dispatch:ten-thirtytwo-r")
+AddEventHandler("dispatch:ten-thirtytwo-r", function(coords)
+    Citizen.CreateThread(function()
+        local ten_thirtytwo_blip = nil
+        local coords = coords
+        local endTime = GetGameTimer() + ((ten_thirtytwo_timer * 60)/ 0.001)
+        local arrived = false
+        while endTime > GetGameTimer() and not arrived do
+            Citizen.Wait(0)
+            local pos = GetEntityCoords(PlayerPedId(), false)
+            if not DoesBlipExist(ten_thirtytwo_blip) then
+                ten_thirtytwo_blip = AddBlipForCoord(coords.x, coords.y, coords.z)
+                SetBlipSprite(ten_thirtytwo_blip, 458)
+                SetBlipColour(ten_thirtytwo_blip, 28)
+                SetBlipAsShortRange(ten_thirtytwo_blip, true)
+                SetBlipScale(ten_thirtytwo_blip, 0.85)
+                BeginTextCommandSetBlipName("STRING")
+                AddTextComponentString("10-32")
+                EndTextCommandSetBlipName(ten_thirtytwo_blip)
+            end
+            if not arrived then
+                if GetDistanceBetweenCoords(pos.x, pos.y, pos.z, coords.x, coords.y, coords.z, true) < 20 then
+                    arrived = true
+                    TriggerServerEvent("dispatch:pay", "10-32")
+                end
+            end
+        end
+        RemoveBlip(ten_thirtytwo_blip)
+    end)
+end)
+
 RegisterNetEvent("dispatch:ten-thirtytwo:2")
 AddEventHandler("dispatch:ten-thirtytwo:2", function(coords)
     Citizen.CreateThread(function()

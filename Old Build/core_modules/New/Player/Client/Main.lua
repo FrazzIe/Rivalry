@@ -259,13 +259,71 @@ AddEventHandler('toggle:binoculars', function()
 	end)
 end)
 
+local Weapons = {
+	"WEAPON_PISTOL",
+	"WEAPON_PISTOL_MK2",
+	"WEAPON_COMBATPISTOL",
+	"WEAPON_PISTOL50",
+	"WEAPON_SNSPISTOL",
+	"WEAPON_SNSPISTOL_MK2",
+	"WEAPON_HEAVYPISTOL",
+	"WEAPON_VINTAGEPISTOL",
+	"WEAPON_MARKSMANPISTOL",
+	"WEAPON_REVOLVER",
+	"WEAPON_REVOLVER_MK2",
+	"WEAPON_DOUBLEACTION",
+	"WEAPON_APPISTOL",
+
+	"WEAPON_MICROSMG",
+	"WEAPON_MACHINEPISTOL",
+	"WEAPON_MINISMG",
+	"WEAPON_SMG",
+	"WEAPON_SMG_MK2",
+	"WEAPON_ASSAULTSMG",
+	"WEAPON_COMBATPDW",
+	"WEAPON_MG",
+	"WEAPON_COMBATMG",
+	"WEAPON_COMBATMG_MK2",
+	"WEAPON_GUSENBERG",
+
+	"WEAPON_ASSAULTRIFLE",
+	"WEAPON_ASSAULTRIFLE_MK2",
+	"WEAPON_CARBINERIFLE",
+	"WEAPON_CARBINERIFLE_MK2",
+	"WEAPON_ADVANCEDRIFLE",
+	"WEAPON_SPECIALCARBINE",
+	"WEAPON_SPECIALCARBINE_MK2",
+	"WEAPON_BULLPUPRIFLE",
+	"WEAPON_BULLPUPRIFLE_MK2",
+	"WEAPON_COMPACTRIFLE",
+
+	"WEAPON_PUMPSHOTGUN",
+	"WEAPON_PUMPSHOTGUN_MK2",
+	"WEAPON_SAWNOFFSHOTGUN",
+	"WEAPON_BULLPUPSHOTGUN",
+	"WEAPON_ASSAULTSHOTGUN",
+	"WEAPON_HEAVYSHOTGUN",
+	"WEAPON_MUSKET",
+	"WEAPON_DBSHOTGUN",
+	"WEAPON_AUTOSHOTGUN",
+}
+
 function HasPlayerRecentlyRobbed(TargetPed, Table)
 	for i = 0, #Table do
-		if Table[i] ==  TargetPed then
+		if Table[i] == TargetPed then
 			return false
 		end
 	end
 	return true
+end
+
+function TypeOfWeapon(PlayerPed, Weapon)
+	for i = 0, #Weapons do
+		if Weapon == GetHashKey(Weapons[i]) then
+			return true
+		end
+	end
+	return false
 end
 
 Citizen.CreateThread(function()
@@ -275,57 +333,70 @@ Citizen.CreateThread(function()
 		local Aiming, TargetPed = GetEntityPlayerIsFreeAimingAt(PlayerId())
 		local Dictionary, AnimationName, AnimationName2 = "random@arrests@busted", "enter", "idle_a"
 		local PlayerPosition, TargetPedPosition = GetEntityCoords(PlayerPed, 0), GetEntityCoords(TargetPed, 0)
+		local HasTriggered = false
 		local PreviouslyRobbed = {}
 		RequestAnimDict(Dictionary)
 		while not HasAnimDictLoaded(Dictionary) do
 			Citizen.Wait(0)
 		end
-	 	if Aiming then
-	  		if DoesEntityExist(TargetPed) and IsEntityAPed(TargetPed) and HasPlayerRecentlyRobbed(TargetPed, PreviouslyRobbed) and not IsPedAPlayer(TargetPed) then
-		  		TaskSetBlockingOfNonTemporaryEvents(TargetPed, true)
-		  		SetPedFleeAttributes(TargetPed, 0, 0)
-		  		SetPedCombatAttributes(TargetPed, 46, 1)
-		  		SetPedSeeingRange(TargetPed, 0.0)
-		  		SetPedHearingRange(TargetPed, 0.0)
-		  		SetPedAlertness(TargetPed, 0)
-		  		if IsPedInAnyVehicle(TargetPed, 0) then
-		  			local Vehicle = GetVehiclePedIsIn(TargetPed)
-		  			TaskLeaveVehicle(TargetPed, Vehicle)
-		  			Citizen.Wait(3000)
-		  			--TaskPlayAnim(TargetPed, Dictionary, AnimationName, 4.0, -4, -1, 21, 0, 0, 0, 0)
-		  			--Citizen.Wait(1650)
-			  		if not IsEntityPlayingAnim(TargetPed, Dictionary, AnimationName2) then
-			  			TaskPlayAnim(TargetPed, Dictionary, AnimationName2, 4.0, -4, -1, 15, 0, 0, 0, 0)
+	 	if Aiming and TypeOfWeapon(PlayerPed, GetSelectedPedWeapon(PlayerPed)) and not exports.policejob:getIsInService() then
+	  		if DoesEntityExist(TargetPed) and IsEntityAPed(TargetPed) and not HasPlayerRecentlyRobbed(TargetPed, PreviouslyRobbed) and not IsPedAPlayer(TargetPed) then
+		  		if #(PlayerPosition - TargetPedPosition) < 5) then
+			  		TaskSetBlockingOfNonTemporaryEvents(TargetPed, true)
+			  		SetPedFleeAttributes(TargetPed, 0, 0)
+			  		SetPedCombatAttributes(TargetPed, 46, 1)
+			  		SetPedSeeingRange(TargetPed, 0.0)
+			  		SetPedHearingRange(TargetPed, 0.0)
+			  		SetPedAlertness(TargetPed, 0)
+			  		if IsPedInAnyVehicle(TargetPed, 0) then
+			  			local Vehicle = GetVehiclePedIsIn(TargetPed)
+			  			TaskLeaveVehicle(TargetPed, Vehicle)
+			  			Citizen.Wait(3000)
+			  			if HasTriggered == false then
+			  				FreezeEntityPosition(TargetPed, true)
+			  				TaskPlayAnim(TargetPed, Dictionary, AnimationName2, 4.0, -4, -1, 1, 0, false, false, false)
+			  				HasTriggered = true
+			  			end
 			  			if #(PlayerPosition - TargetPedPosition) < 3 then
 				  			DisplayHelpText("Press ~INPUT_CONTEXT~ to rob!")
 				  			if IsControlJustPressed(1,51) then
-				  				Notify("You are currently robbing this person!", 10000)
-				  				Citizenn.Wait(10000)
-				  				TriggerServerEvent("Rob:Sucessful")
-				  				table.insert(PreviouslyRobbed, TargetPed)
-				  				TaskSetBlockingOfNonTemporaryEvents(TargetPed, false)
-				  				TaskReactAndFleePed(TargetPed, PlayerPed)
-				  			end
-				  		end
-			  		end
-		  		else
-		  			--TaskPlayAnim(TargetPed, Dictionary, AnimationName, 4.0, -4, -1, 21, 0, 0, 0, 0)
-		  			--Citizen.Wait(1650)
-		  			if not IsEntityPlayingAnim(TargetPed, Dictionary, AnimationName2) then
-		  				TaskPlayAnim(TargetPed, Dictionary, AnimationName2, 4.0, -4, -1, 15, 0, 0, 0, 0)
-			  			if #(PlayerPosition - TargetPedPosition) < 3 then
-				  			DisplayHelpText("Press ~INPUT_CONTEXT~ to rob!")
-				  			if IsControlJustPressed(1,51) then
+				  				TaskPlayAnim(TargetPed, Dictionary, AnimationName2, 4.0, -4, -1, 1, 0, false, false, false)
 				  				Notify("You are currently robbing this person!", 10000)
 				  				Citizen.Wait(10000)
 				  				TriggerServerEvent("Rob:Sucessful")
+				  				local Street, Crossing = GetStreetNameAtCoord(PlayerPosition.x, PlayerPosition.y, PlayerPosition.z)
+				  				TriggerServerEvent("dispatch:ten-thirtytwo-r", PlayerPosition, Street)
 				  				table.insert(PreviouslyRobbed, TargetPed)
 				  				TaskSetBlockingOfNonTemporaryEvents(TargetPed, false)
+				  				FreezeEntityPosition(TargetPed, false)
 				  				TaskReactAndFleePed(TargetPed, PlayerPed)
+				  				HasTriggered = false
+				  			end
+				  		end
+			  		else
+			  			if HasTriggered == false then
+			  				FreezeEntityPosition(TargetPed, true)
+		  					TaskPlayAnim(TargetPed, Dictionary, AnimationName2, 4.0, -4, -1, 1, 0, false, false, false)
+		  					HasTriggered = true
+		  				end
+			  			if #(PlayerPosition - TargetPedPosition) < 3 then
+				  			DisplayHelpText("Press ~INPUT_CONTEXT~ to rob!")
+				  			if IsControlJustPressed(1,51) then
+				  				TaskPlayAnim(TargetPed, Dictionary, AnimationName2, 4.0, -4, -1, 1, 0, false, false, false)
+				  				Notify("You are currently robbing this person!", 10000)
+				  				Citizen.Wait(10000)
+				  				TriggerServerEvent("Rob:Sucessful")
+				  				local Street, Crossing = GetStreetNameAtCoord(PlayerPosition.x, PlayerPosition.y, PlayerPosition.z)
+				  				TriggerServerEvent("dispatch:ten-thirtytwo-r", PlayerPosition, Street)
+				  				table.insert(PreviouslyRobbed, TargetPed)
+				  				TaskSetBlockingOfNonTemporaryEvents(TargetPed, false)
+				  				FreezeEntityPosition(TargetPed, false)
+				  				TaskReactAndFleePed(TargetPed, PlayerPed)
+				  				HasTriggered = false
 				  			end
 				  		end
 			  		end
-		  		end
+			  	end
 		  	end
 		end
 	end

@@ -23,4 +23,5 @@ RegisterServerEvent("Health.Injury.Reset")
 AddEventHandler("Health.Injury.Reset", function()
 	local Source = source
 	Health.Injuries[Source] = {}
+	TriggerClientEvent("Health.Sync", -1, Health.Injuries)
 end)
