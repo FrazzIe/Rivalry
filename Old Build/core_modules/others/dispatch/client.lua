@@ -422,7 +422,7 @@ AddEventHandler("dispatch:ten-thirtytwo-r", function(coords)
             local pos = GetEntityCoords(PlayerPedId(), false)
             if not DoesBlipExist(ten_thirtytwo_blip) then
                 ten_thirtytwo_blip = AddBlipForCoord(coords[1], coords[2], coords[3])
-                SetBlipSprite(ten_thirtytwo_blip, 458)
+                SetBlipSprite(ten_thirtytwo_blip, 480)
                 SetBlipColour(ten_thirtytwo_blip, 28)
                 SetBlipAsShortRange(ten_thirtytwo_blip, true)
                 SetBlipScale(ten_thirtytwo_blip, 0.85)
