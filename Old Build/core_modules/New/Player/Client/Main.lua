@@ -284,33 +284,35 @@ Citizen.CreateThread(function()
 	  		if DoesEntityExist(TargetPed) and IsEntityAPed(TargetPed) and HasPlayerRecentlyRobbed(TargetPed, PreviouslyRobbed) and not IsPedAPlayer(TargetPed) then
 		  		TaskSetBlockingOfNonTemporaryEvents(TargetPed, true)
 		  		SetPedFleeAttributes(TargetPed, 0, 0)
-		  		SetPedCombatAttributes(TargetPed, 17, 1)
+		  		SetPedCombatAttributes(TargetPed, 46, 1)
+		  		SetPedSeeingRange(TargetPed, 0.0)
+		  		SetPedHearingRange(TargetPed, 0.0)
+		  		SetPedAlertness(TargetPed, 0)
 		  		if IsPedInAnyVehicle(TargetPed, 0) then
 		  			local Vehicle = GetVehiclePedIsIn(TargetPed)
 		  			TaskLeaveVehicle(TargetPed, Vehicle)
 		  			Citizen.Wait(3000)
-		  			TaskPlayAnim(TargetPed, Dictionary, AnimationName, 4.0, -4, -1, 1, 0, false, false, false)
-		  			Citizen.Wait(1650)
-		  			TaskPlayAnim(TargetPed, Dictionary, AnimationName2, 4.0, -4, -1, 1, 0, false, false, false)
-			  		if IsEntityPlayingAnim(TargetPed, Dictionary, AnimationName2) then
+		  			--TaskPlayAnim(TargetPed, Dictionary, AnimationName, 4.0, -4, -1, 21, 0, 0, 0, 0)
+		  			--Citizen.Wait(1650)
+			  		if not IsEntityPlayingAnim(TargetPed, Dictionary, AnimationName2) then
+			  			TaskPlayAnim(TargetPed, Dictionary, AnimationName2, 4.0, -4, -1, 15, 0, 0, 0, 0)
 			  			if #(PlayerPosition - TargetPedPosition) < 3 then
 				  			DisplayHelpText("Press ~INPUT_CONTEXT~ to rob!")
 				  			if IsControlJustPressed(1,51) then
 				  				Notify("You are currently robbing this person!", 10000)
-				  				Citizen.Wait(10000)
+				  				Citizenn.Wait(10000)
 				  				TriggerServerEvent("Rob:Sucessful")
 				  				table.insert(PreviouslyRobbed, TargetPed)
 				  				TaskSetBlockingOfNonTemporaryEvents(TargetPed, false)
-				  				TaskReactAndFleePed(PlayerPed, TargetPed)
+				  				TaskReactAndFleePed(TargetPed, PlayerPed)
 				  			end
 				  		end
 			  		end
 		  		else
-		  			FreezeEntityPosition(TargetPed, true)
-		  			TaskPlayAnim(TargetPed, Dictionary, AnimationName, 4.0, -4, -1, 1, 0, false, false, false)
-		  			Citizen.Wait(1650)
-		  			TaskPlayAnim(TargetPed, Dictionary, AnimationName2, 4.0, -4, -1, 1, 0, false, false, false)
-		  			if IsEntityPlayingAnim(TargetPed, Dictionary, AnimationName2) then
+		  			--TaskPlayAnim(TargetPed, Dictionary, AnimationName, 4.0, -4, -1, 21, 0, 0, 0, 0)
+		  			--Citizen.Wait(1650)
+		  			if not IsEntityPlayingAnim(TargetPed, Dictionary, AnimationName2) then
+		  				TaskPlayAnim(TargetPed, Dictionary, AnimationName2, 4.0, -4, -1, 15, 0, 0, 0, 0)
 			  			if #(PlayerPosition - TargetPedPosition) < 3 then
 				  			DisplayHelpText("Press ~INPUT_CONTEXT~ to rob!")
 				  			if IsControlJustPressed(1,51) then
@@ -319,7 +321,7 @@ Citizen.CreateThread(function()
 				  				TriggerServerEvent("Rob:Sucessful")
 				  				table.insert(PreviouslyRobbed, TargetPed)
 				  				TaskSetBlockingOfNonTemporaryEvents(TargetPed, false)
-				  				TaskReactAndFleePed(PlayerPed, TargetPed)
+				  				TaskReactAndFleePed(TargetPed, PlayerPed)
 				  			end
 				  		end
 			  		end
