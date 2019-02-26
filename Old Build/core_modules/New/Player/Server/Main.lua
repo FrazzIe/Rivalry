@@ -6,5 +6,5 @@ AddEventHandler("Rob:Sucessful", function()
 	TriggerEvent("core:getuser", Source, function(User)
 		local RandomAmount = math.random(1, #Payouts)
 		User.addWallet(Payouts[RandomAmount])
-	end
+	end)
 end)

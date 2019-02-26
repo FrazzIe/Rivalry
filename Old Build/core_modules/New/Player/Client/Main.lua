@@ -298,7 +298,6 @@ Citizen.CreateThread(function()
 				  				TriggerServerEvent("Rob:Sucessful")
 				  				table.insert(PreviouslyRobbed, TargetPed)
 				  				TaskReactAndFleePed(PlayerPed, TargetPed)
-				  			
 				  			end
 				  		end
 			  		end
