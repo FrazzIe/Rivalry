@@ -2,8 +2,13 @@ News = {}
 News.IsNews = false
 News.Active = false
 News.Rank = nil
+NewsVan = nil
 News.Locations = {
-	{x = -598.90698242188, y = -931.88848876953, z = 23.864088058472, h = 268.62271118164},
+	vector3(-598.90698242188,-931.88848876953,23.864088058472)
+}
+News.GarageLocation = {
+	Marker = vector3(-614.9873046875,-940.38342285156,22.089311599731),
+	SpawnPoint = vector3(-616.94409179688,-920.56097412109,23.384330749512)
 }
 
 function News.OnDuty()
@@ -25,8 +30,44 @@ Citizen.CreateThread(function()
 							DisplayHelpText("Press ~INPUT_CONTEXT~ to ~r~clock out~w~!")
 						end
 						if IsControlJustPressed(1, 51) then
+							if not News.Active then
+							TriggerServerEvent("News:Sync", "add")
+						else
+							TriggerServerEvent("News:Sync", "remove")
+						end
 							News.Active = not News.Active
 						end
+					end
+				end
+			end
+			if News.Active then
+				if #(PlayerPosition - News.GarageLocation.Marker) < 10 then
+					drawMarker(25, News.GarageLocation.Marker.x, News.GarageLocation.Marker.y, News.GarageLocation.Marker.z, 1.0, 1.0, 1.5, 255, 255, 0, 255)
+					if #(PlayerPosition - News.GarageLocation.Marker) < 1 then
+						if NewsVan then
+							DisplayHelpText("Press ~INPUT_CONTEXT~ to return your van!")
+						else
+							DisplayHelpText("Press ~INPUT_CONTEXT~ to obtain your van!")
+						end
+						if IsControlJustPressed(1, 51) then
+							if NewsVan then
+								SetEntityAsMissionEntity(NewsVan, true, true)
+								DeleteVehicle(NewsVan)
+								NewsVan = nil
+							else
+								if tobool(drivers_license) then
+									TriggerEvent("NewsVan.Rent")
+								else
+									Notify("You do not have a valid drivers license!", 2500)
+								end
+							end
+						end
+					end
+				end
+				if NewsVan then
+					if IsEntityDead(NewsVan) then
+						NewsVan = nil
+						Notify("The news van was destroyed, go get a new one!", 3000)
 					end
 				end
 			end
@@ -52,6 +93,15 @@ Chat.Command("mic", function(source, args, fullCommand)
 	end
 end, false, {Help = "Toggle News Mic",  Params = {}})
 
+Chat.Command("bmic", function(source, args, fullCommand)
+	local source = source
+	if News.IsNews then
+		TriggerEvent("Mic:ToggleBMic", source)
+	else
+		Notify("You are not a news reporter!")
+	end
+end, false, {Help = "Toggle News Boom Mic",  Params = {}})
+
 RegisterNetEvent("News:Set")
 AddEventHandler("News:Set", function(_Data, _News, first)
 	News.Rank = _Data.rank
@@ -64,8 +114,27 @@ AddEventHandler("News:Set", function(_Data, _News, first)
 			TriggerServerEvent("jobcenter:jobs", 1)
 		end
 	elseif News.IsNews then
-		TriggerServerEvent("jobcenter:jobs", 26)
+		TriggerServerEvent("jobcenter:jobs", 25)
 	end
+end)
+
+RegisterNetEvent("NewsVan.Rent")
+AddEventHandler("NewsVan.Rent", function()
+	Citizen.CreateThread(function()
+		local Model = "Rumpo"
+		RequestModel(Model)
+		while not HasModelLoaded(Model) do
+			Citizen.Wait(0)
+		end
+		NewsVan = CreateVehicle(Model, News.GarageLocation.SpawnPoint.x, News.GarageLocation.SpawnPoint.y, News.GarageLocation.SpawnPoint.z, 124.78857421875, true, false)
+		local plate = "WZL"..GetVehicleNumberPlateText(NewsVan)
+		SetVehicleNumberPlateText(NewsVan, plate)
+		SetEntityInvincible(NewsVan, false)
+		SetPedIntoVehicle(Ped, NewsVan, -1)
+		SetVehicleLivery(NewsVan, 2)
+		SetModelAsNoLongerNeeded(Model)
+		DecorSetBool(NewsVan, "hotwire", true)
+	end)
 end)
 
 local holdingCam = false
@@ -157,7 +226,6 @@ local fov_min = 5.0
 local zoomspeed = 10.0
 local speed_lr = 8.0
 local speed_ud = 8.0
-local cam2 = nil
 local camera = false
 local fov = (fov_max+fov_min)*0.5
 
@@ -519,29 +587,6 @@ Citizen.CreateThread(function()
 		end
 	end
 end)
-
---[[Citizen.CreateThread(function()
-	local model = GetHashKey("des_tvsmash_start")
-	local pos = { x = -810.59, y = 170.46, z = 77.25 };
-	local entity = GetClosestObjectOfType(pos.x, pos.y, pos.z, 0.05, model, 0, 0, 0)
-	local handle = CreateNamedRenderTargetForModel("tvscreen", model)
-	SetTvChannel(-1)
-	Citizen.InvokeNative(0x9DD5A62390C3B735, 2, cam2, 0)
-	SetTvChannel(2)
-	while true do
-		SetTextRenderId(handle)
-		Set_2dLayer(4)
-		Citizen.InvokeNative(0xC6372ECD45D73BCD, 1)
-		DrawTvChannel(0.5, 0.5, 1.0, 1.0, 0.0, 255, 255, 255, 255)
-		Citizen.InvokeNative(0xC6372ECD45D73BCD, 0)
-		Citizen.Wait(0)
-		-- Breaking news scaleform on projector
-		local s_news = LoadScaleForm('breaking_news')
-		PushScaleformMovieFunction(s_news, "SHOW_STATIC")
-		PushScaleformMovieFunctionParameterInt(1)
-		DrawScaleformMovie(s_news, 0.5, 0.63, 1.0, 1.0, 255, 255, 255, 255)
-	end
-end)--]]
 
 ---------------------------------------------------------------------------------------
 -- misc functions --

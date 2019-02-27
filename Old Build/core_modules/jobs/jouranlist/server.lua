@@ -1,8 +1,9 @@
 News = {}
 News.Players = {}
+News.OnDutyPlayers = {}
 
 AddEventHandler("News:Initialise", function(source, identifier, character_id)
-	exports['GHMattiMySQL']:QueryResultAsync("SELECT * FROM news WHERE character_id=@character_id", {["@character_id"] = character_id}, function(result)
+	exports['GHMattiMySQL']:QueryResultAsync("SELECT * FROM newsreporter WHERE character_id=@character_id", {["@character_id"] = character_id}, function(result)
 		if result[1] == nil then
 			TriggerClientEvent("News:Set", source, {}, false, true)
 		else
@@ -10,6 +11,28 @@ AddEventHandler("News:Initialise", function(source, identifier, character_id)
 			TriggerClientEvent("News:Set", source, News.Players[source], true, true)
 		end
 	end)
+end)
+
+RegisterServerEvent("News:Sync")
+AddEventHandler("News:Sync", function(type)
+	local Source = source
+	if type == "remove" then
+		for Index = 1, #News.OnDutyPlayers do
+			if News.OnDutyPlayers[Index] == Source then
+				table.remove(News.OnDutyPlayers, Index)
+			end
+		end
+	end
+	if type == "add" then
+		table.insert(News.OnDutyPlayers, Source)
+	end
+end)
+
+RegisterServerEvent("News:Dispatch")
+AddEventHandler("News:Dispatch", function(street_name)
+	for k, v in ipairs(News.OnDutyPlayers) do
+		TriggerClientEvent("chatMessage", v, "NEWS", {255, 0, 0}, "^7Crime reported at "..street_name)
+	end
 end)
 
 TriggerEvent("core:addGroupCommand", "newsadd", "admin", function(source, args, rawCommand, data, power, group)
@@ -22,7 +45,7 @@ TriggerEvent("core:addGroupCommand", "newsadd", "admin", function(source, args, 
 			if News.Ranks[rank:lower()] ~= nil then
 				TriggerEvent("core:getuser", tonumber(args[1]), function(target)
 					News.Players[tonumber(args[1])] = nil
-					exports['GHMattiMySQL']:QueryAsync("DELETE FROM news WHERE character_id=@character_id; INSERT INTO News (`character_id`, `rank`) VALUES (@character_id, @rank)", {
+					exports['GHMattiMySQL']:QueryAsync("DELETE FROM newsreporter WHERE character_id=@character_id; INSERT INTO newsreporter (`character_id`, `rank`) VALUES (@character_id, @rank)", {
 						["@character_id"] = target.get("characterID"),
 						["@rank"] = rank:lower(),
 					})
@@ -48,7 +71,7 @@ TriggerEvent("core:addGroupCommand", "newsrem", "admin", function(source, args, 
 			if News.Players[tonumber(args[1])] ~= nil then
 				TriggerEvent("core:getuser", tonumber(args[1]), function(target)
 					News.Players[tonumber(args[1])] = nil
-					exports['GHMattiMySQL']:QueryAsync("DELETE FROM news WHERE character_id=@character_id", {["@character_id"] = target.get("characterID")})
+					exports['GHMattiMySQL']:QueryAsync("DELETE FROM newsreporter WHERE character_id=@character_id", {["@character_id"] = target.get("characterID")})
 					Notify("<b style='color:red'>Alert</b> <br><span style='color:lime'>"..target.get("first_name").." "..target.get("last_name").."</span> has been fired. <br> They are no longer an officer of the News!", 10000, tonumber(args[1]))
 					TriggerClientEvent("News:Set", tonumber(args[1]), News.Players[tonumber(args[1])], false)
 				end)
@@ -75,7 +98,7 @@ TriggerEvent("core:addGroupCommand", "newspromote", "emergency", function(source
 							if cb then
 								if canPromote(News.Players[source].rank) then
 									TriggerEvent("core:getuser", tonumber(args[1]), function(target)
-										exports['GHMattiMySQL']:QueryAsync("UPDATE news SET rank=@rank WHERE character_id=@character_id", {["@character_id"] = target.get("characterID"), ["@rank"] = rank:lower()})
+										exports['GHMattiMySQL']:QueryAsync("UPDATE newsreporter SET rank=@rank WHERE character_id=@character_id", {["@character_id"] = target.get("characterID"), ["@rank"] = rank:lower()})
 										News.Players[tonumber(args[1])].rank = rank:lower()
 										Notify("<b style='color:red'>Alert</b> <br><span style='color:lime'>You have been promoted!</span><br> You are now a "..rank, 10000, tonumber(args[1]))
 										TriggerClientEvent("News:Set", tonumber(args[1]), News.Players[tonumber(args[1])], true)
@@ -116,7 +139,7 @@ TriggerEvent("core:addGroupCommand", "newsdemote", "emergency", function(source,
 							if cb then
 								if canPromote(News.Players[source].rank) then
 									TriggerEvent("core:getuser", tonumber(args[1]), function(target)
-										exports['GHMattiMySQL']:QueryAsync("UPDATE news SET rank=@rank WHERE character_id=@character_id", {["@character_id"] = target.get("characterID"), ["@rank"] = rank:lower()})
+										exports['GHMattiMySQL']:QueryAsync("UPDATE newsreporter SET rank=@rank WHERE character_id=@character_id", {["@character_id"] = target.get("characterID"), ["@rank"] = rank:lower()})
 										News.Players[tonumber(args[1])].rank = rank:lower()
 										Notify("<b style='color:red'>Alert</b> <br><span style='color:lime'>You have been demoted!</span><br> You are now a "..rank, 10000, tonumber(args[1]))
 										TriggerClientEvent("News:Set", tonumber(args[1]), News.Players[tonumber(args[1])], true)

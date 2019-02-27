@@ -24,6 +24,7 @@ jobs = {
     [22] = {id = 22, name = "Tow", pay = 100},
     [23] = {id = 23, name = "DOJ", pay = 250},
     [24] = {id = 24, name = "Trucker", pay = 100},
+    [25] = {id = 25, name = "News Reporter", pay = 100},
 }
 
 function setupCharacter(source, data)
@@ -370,6 +371,7 @@ AddEventHandler("core:selectCharacter", function(data)
                 TriggerEvent("paramedic:initialise", source, identifier, tonumber(data.character_id))
                 TriggerEvent("DOJ:Initialise", source, identifier, tonumber(data.character_id))
                 TriggerEvent("Mechanic:Initialise", source, identifier, tonumber(data.character_id))
+                TriggerEvent("News:Initialise", source, identifier, tonumber(data.character_id))
                 TriggerClientEvent("weapon:set_license", source, Characters[source].get("weapon_license"))
                 TriggerEvent("jail:initialise", source, Characters[source].get("jail_time"))
                 TriggerEvent('jobcenter:initialise', source, Characters[source].get("job"))

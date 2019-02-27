@@ -72,6 +72,11 @@ client_script 'jobs/doj/shared.lua'
 server_script 'jobs/doj/server.lua'
 server_script 'jobs/doj/shared.lua'
 
+client_script 'jobs/jouranlist/client.lua'
+client_script 'jobs/jouranlist/shared.lua'
+server_script 'jobs/jouranlist/server.lua'
+server_script 'jobs/jouranlist/shared.lua'
+
 client_script 'jobs/mechanic/client.lua'
 client_script 'jobs/mechanic/shared.lua'
 server_script 'jobs/mechanic/server.lua'
