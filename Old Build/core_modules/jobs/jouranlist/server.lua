@@ -60,7 +60,7 @@ TriggerEvent("core:addGroupCommand", "newsadd", "admin", function(source, args, 
 			TriggerClientEvent('chatMessage', source, 'SYSTEM', {255, 0, 0}, "Usage : /Newsadd [ID] [RANK]")
 		end
 	end
-end, {help = "Add a player to the news team", params = {{name = "id", help = "The id of the player"},{name = "rank", help = "Jouranlist | Chief Journalist"}}})
+end, {help = "Add a player to the news team", params = {{name = "id", help = "The id of the player"},{name = "rank", help = "Jouranlist | Head Journalist"}}})
 
 TriggerEvent("core:addGroupCommand", "newsrem", "admin", function(source, args, rawCommand, data, power, group)
 	local source = source
@@ -123,7 +123,7 @@ TriggerEvent("core:addGroupCommand", "newspromote", "emergency", function(source
 			Notify("Player could not be found", 3000, source)
 		end
 	end
-end, {help = "Promote an journalist", params = {{name = "id", help = "The id of the player"},{name = "rank", help = "Journalist | Chief Journalist"}}})
+end, {help = "Promote an journalist", params = {{name = "id", help = "The id of the player"},{name = "rank", help = "Journalist | Head Journalist"}}})
 
 TriggerEvent("core:addGroupCommand", "newsdemote", "emergency", function(source, args, rawCommand, data, power, group)
 	local source = source
@@ -164,4 +164,4 @@ TriggerEvent("core:addGroupCommand", "newsdemote", "emergency", function(source,
 			Notify("Player could not be found", 3000, source)
 		end
 	end
-end, {help = "Demote an journalist", params = {{name = "id", help = "The id of the player"},{name = "rank", help = "Journalist | Chief Journalist"}}})
+end, {help = "Demote an journalist", params = {{name = "id", help = "The id of the player"},{name = "rank", help = "Journalist | Head Journalist"}}})

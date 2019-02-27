@@ -40,4 +40,4 @@ local function canTargetRank(user, target, callback)
 end
 
 addRank("journalist", "")
-addRank("chief journalist", "")
+addRank("head journalist", "")
