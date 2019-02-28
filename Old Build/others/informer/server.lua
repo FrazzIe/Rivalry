@@ -157,3 +157,17 @@ AddEventHandler("informer:resthouse", function()
 		end
 	end)
 end)
+
+RegisterServerEvent("informer:chopshop")
+AddEventHandler("informer:chopshop", function()
+	local source = tonumber(source)
+	TriggerEvent('core:getuser', source, function(user)
+		local price = 2000
+		if (tonumber(user.get("wallet")) >= tonumber(price)) then
+			user.removeWallet(price)
+			TriggerClientEvent('chatMessage', source, 'Informer ', {0, 255, 100}, "I heard there is a old recycling place out on Route 68! As well there is a old garage in Downtown Los Santos. Both places have been scraping cars illegaly!" )
+		else
+			TriggerClientEvent('chatMessage', source, 'Informer ', {0, 255, 100}, "Information isn't free, get your bread up!")
+		end
+	end)
+end)
