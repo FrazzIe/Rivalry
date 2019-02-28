@@ -473,7 +473,7 @@ AddEventHandler("interaction:give_money_ID",function(Amount, Id)
 	local PlayerPosition = GetEntityCoords(Ped, 0)
 	local Distance = #(PlayerPosition - TargetPosition)
 	if not exports.policejob:getIsCuffed() and not isCuffed() then
-		if not IsPlayerDead(Ped) then
+		if not IsPlayerDead(Ped) and not IsEntityDead(Ped) then
 			if Target ~= Ped and GetPlayerFromServerId(Id) ~= nil and Target ~= nil then
 			    if(Distance ~= -1 and Distance < 3) then
 					if Amount ~= nil then
@@ -507,7 +507,7 @@ AddEventHandler("interaction:give_dirtymoney_ID",function(Amount, Id)
 	local PlayerPosition = GetEntityCoords(Ped, 0)
 	local Distance = #(PlayerPosition - TargetPosition)
 	if not exports.policejob:getIsCuffed() and not isCuffed() then
-		if not IsPlayerDead(Ped) then
+		if not IsPlayerDead(Ped) and not IsEntityDead(Ped) then
 			if Target ~= Ped and GetPlayerFromServerId(Id) ~= nil and Target ~= nil then
 			    if(Distance ~= -1 and Distance < 3) then
 					if Amount ~= nil then
