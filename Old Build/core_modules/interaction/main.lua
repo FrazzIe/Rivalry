@@ -464,6 +464,75 @@ AddEventHandler("interaction:give_money",function()
     end
 end)
 
+--[[ Phone/Wallet Menu Functions ]]--
+RegisterNetEvent("interaction:give_money_ID")
+AddEventHandler("interaction:give_money_ID",function(Amount, Id)
+	local Target = GetPlayerPed(GetPlayerFromServerId(Id))
+	local Ped = PlayerPedId()
+	local TargetPosition = GetEntityCoords(Target, 0)
+	local PlayerPosition = GetEntityCoords(Ped, 0)
+	local Distance = #(PlayerPosition - TargetPosition)
+	if not exports.policejob:getIsCuffed() and not isCuffed() then
+		if not IsPlayerDead(Ped) then
+			if Target ~= Ped and GetPlayerFromServerId(Id) ~= nil and Target ~= nil then
+			    if(Distance ~= -1 and Distance < 3) then
+					if Amount ~= nil then
+						if math.floor(Amount) > 0 then
+			            	TriggerServerEvent("interaction:givemoney", math.floor(Amount), Id)
+			            else
+			            	TriggerEvent("interaction:wallet")
+			            end
+			        else
+			        	TriggerEvent("interaction:wallet")
+			        end
+			    else
+			        Messages(5)
+			    end
+			else
+				Notify("This player doesn't exist, and also can't be yourself!", 2500)
+			end
+		else
+			Notify("You can't give someone money while dead!", 2500)
+		end
+	else
+		Notify("You can't give money while restrained!", 2500)
+	end
+end)
+
+RegisterNetEvent("interaction:give_dirtymoney_ID")
+AddEventHandler("interaction:give_dirtymoney_ID",function(Amount, Id)
+	local Target = GetPlayerPed(GetPlayerFromServerId(Id))
+	local Ped = PlayerPedId()
+	local TargetPosition = GetEntityCoords(Target, 0)
+	local PlayerPosition = GetEntityCoords(Ped, 0)
+	local Distance = #(PlayerPosition - TargetPosition)
+	if not exports.policejob:getIsCuffed() and not isCuffed() then
+		if not IsPlayerDead(Ped) then
+			if Target ~= Ped and GetPlayerFromServerId(Id) ~= nil and Target ~= nil then
+			    if(Distance ~= -1 and Distance < 3) then
+					if Amount ~= nil then
+						if math.floor(Amount) > 0 then
+			            	TriggerServerEvent("interaction:givedmoney", math.floor(Amount), Id)
+			            else
+			            	TriggerEvent("interaction:wallet")
+			            end
+			        else
+			        	TriggerEvent("interaction:wallet")
+			        end
+			    else
+			        Messages(5)
+			    end
+			else
+				Notify("This player doesn't exist, and also can't be yourself!", 2500)
+			end
+		else
+			Notify("You can't give someone money while dead!", 2500)
+		end
+	else
+		Notify("You can't give money while restrained!", 2500)
+	end
+end)
+
 AddEventHandler("interaction:give_dirtymoney", function()
     local t, distance = GetClosestPlayer()
     if(distance ~= -1 and distance < 3) then

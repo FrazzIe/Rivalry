@@ -313,6 +313,18 @@ AddEventHandler("core:ready", function()
         TriggerEvent('interaction:hud')
     end, false, {Help = "Toggle immersion bars",  Params = {}})
 
+    Chat.Command({"gm", "givemoney"}, function(source, args, rawCommand)
+        local Amount = tonumber(args[1])
+        local Target = tonumber(args[2])
+        TriggerEvent('interaction:give_money_ID', Amount, Target)
+    end, false, {Help = "Give Money",  Params = {{name = "amount", help = "number"},{name = "id", help = "id"}}})
+
+    Chat.Command({"gdm", "givedirtymoney"}, function(source, args, rawCommand)
+        local Amount = tonumber(args[1])
+        local Target = tonumber(args[2])
+        TriggerEvent('interaction:give_dirtymoney_ID', Amount, Target)
+    end, false, {Help = "Give Dirty Money",  Params = {{name = "amount", help = "number"},{name = "id", help = "id"}}})
+
 end)
 
 Citizen.CreateThread(function()
