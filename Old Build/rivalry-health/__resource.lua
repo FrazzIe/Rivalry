@@ -10,8 +10,6 @@ shared_scripts {
 }
 
 client_scripts {
-	"shared.lua",
-	"@rivalry-utilities/shared.lua",
 	"@rivalry-utilities/client/weapons.lua",
 	"@rivalry-utilities/client/distance.lua",
 	"@rivalry-utilities/client/enumeration.lua",
@@ -19,8 +17,6 @@ client_scripts {
 }
 
 server_scripts {
-	"shared.lua",
-	"@rivalry-utilities/shared.lua",
 	"server.lua",
 }
 

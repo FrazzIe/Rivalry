@@ -5,7 +5,6 @@ shared_scripts {
 }
 
 client_scripts {
-	"shared.lua",
 	"client/enumeration.lua",
 	"client/distance.lua",
 	"client/destroy.lua",
@@ -17,6 +16,5 @@ client_scripts {
 }
 
 server_scripts {
-	"shared.lua",
 	"server/common.lua",
 }

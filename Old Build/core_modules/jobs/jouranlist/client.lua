@@ -16,6 +16,7 @@ function News.OnDuty()
 end
 
 Citizen.CreateThread(function()
+	CreateBlip("Weazel News", 590, 76, News.Locations[1].x, News.Locations[1].y, News.Locations[1].z)
 	while true do
 		Citizen.Wait(0)
 		if News.IsNews then
@@ -77,28 +78,28 @@ end)
 
 Chat.Command("cam", function(source, args, fullCommand)
 	local source = source
-	if News.IsNews then
+	if News.Active then
 		TriggerEvent("Cam:ToggleCam", source)
 	else
-		Notify("You are not a news reporter!")
+		Notify("You are not on duty as news reporter!")
 	end
 end, false, {Help = "Toggle News Camera",  Params = {}})
 
 Chat.Command("mic", function(source, args, fullCommand)
 	local source = source
-	if News.IsNews then
+	if News.Active then
 		TriggerEvent("Mic:ToggleMic", source)
 	else
-		Notify("You are not a news reporter!")
+		Notify("You are not on duty as news reporter!")
 	end
 end, false, {Help = "Toggle News Mic",  Params = {}})
 
 Chat.Command("bmic", function(source, args, fullCommand)
 	local source = source
-	if News.IsNews then
+	if News.Active then
 		TriggerEvent("Mic:ToggleBMic", source)
 	else
-		Notify("You are not a news reporter!")
+		Notify("You are not on duty as news reporter!")
 	end
 end, false, {Help = "Toggle News Boom Mic",  Params = {}})
 
@@ -147,8 +148,8 @@ local camModel = "prop_v_cam_01"
 local camanimDict = "missfinale_c2mcs_1"
 local camanimName = "fin_c2_mcs_1_camman"
 local micModel = "p_ing_microphonel_01"
-local micanimDict = "missheistdocksprep1hold_cellphone"
-local micanimName = "hold_cellphone"
+local micanimDict = "amb@world_human_aa_coffee@base"
+local micanimName = "base"
 local bmicModel = "prop_v_bmike_01"
 local bmicanimDict = "missfra1"
 local bmicanimName = "mcs2_crew_idle_m_boom"
