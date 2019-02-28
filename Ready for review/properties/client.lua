@@ -209,7 +209,9 @@ Citizen.CreateThread(function()
 												elseif WarMenu.Button("Search") then
 													WarMenu.Button("Cash:", "$"..v.storage.current.cash.."/$"..v.storage.max.cash)
 													WarMenu.Button("Dirty cash:", "$"..v.storage.current.dirty.."/$"..v.storage.max.dirty)
-													WarMenu.Button("Weapons:", tablelength(v.storage.current.weapons).."/"..v.storage.max.weapons)
+													for i,j in pairs(v.storage.current.weapons) do
+														WarMenu.Button(Weapons_names[j.model].." ["..j.ammo.."]")
+													end
 												elseif WarMenu.Button("Unlock")
 													TriggerServerEvent("properties:lock", "houses", "normal", k, "door", false)
 													Notify("Property has been unlocked", 3000)
@@ -242,7 +244,9 @@ Citizen.CreateThread(function()
 												elseif WarMenu.Button("Search") then
 													WarMenu.Button("Cash:", "$"..v.storage.current.cash.."/$"..v.storage.max.cash)
 													WarMenu.Button("Dirty cash:", "$"..v.storage.current.dirty.."/$"..v.storage.max.dirty)
-													WarMenu.Button("Weapons:", tablelength(v.storage.current.weapons).."/"..v.storage.max.weapons)
+													for i,j in pairs(v.storage.current.weapons) do
+														WarMenu.Button(Weapons_names[j.model].." ["..j.ammo.."]")
+													end
 												elseif WarMenu.Button("Unlock")
 													TriggerServerEvent("properties:lock", "houses", "normal", k, "door", false)
 													Notify("Property has been unlocked", 3000)
@@ -275,7 +279,9 @@ Citizen.CreateThread(function()
 												elseif WarMenu.Button("Search") then
 													WarMenu.Button("Cash:", "$"..v.storage.current.cash.."/$"..v.storage.max.cash)
 													WarMenu.Button("Dirty cash:", "$"..v.storage.current.dirty.."/$"..v.storage.max.dirty)
-													WarMenu.Button("Weapons:", tablelength(v.storage.current.weapons).."/"..v.storage.max.weapons)
+													for i,j in pairs(v.storage.current.weapons) do
+														WarMenu.Button(Weapons_names[j.model].." ["..j.ammo.."]")
+													end
 												elseif WarMenu.Button("Unlock")
 													TriggerServerEvent("properties:lock", "houses", "normal", k, "door", false)
 													Notify("Property has been unlocked", 3000)
@@ -609,7 +615,9 @@ Citizen.CreateThread(function()
 												elseif WarMenu.Button("Search") then
 													WarMenu.Button("Cash:", "$"..v.storage.current.cash.."/$"..v.storage.max.cash)
 													WarMenu.Button("Dirty cash:", "$"..v.storage.current.dirty.."/$"..v.storage.max.dirty)
-													WarMenu.Button("Weapons:", tablelength(v.storage.current.weapons).."/"..v.storage.max.weapons)
+													for i,j in pairs(v.storage.current.weapons) do
+														WarMenu.Button(Weapons_names[j.model].." ["..j.ammo.."]")
+													end
 												elseif WarMenu.Button("Unlock")
 													TriggerServerEvent("properties:lock", "houses", "normal", k, "door", false)
 													Notify("Property has been unlocked", 3000)
@@ -642,7 +650,9 @@ Citizen.CreateThread(function()
 												elseif WarMenu.Button("Search") then
 													WarMenu.Button("Cash:", "$"..v.storage.current.cash.."/$"..v.storage.max.cash)
 													WarMenu.Button("Dirty cash:", "$"..v.storage.current.dirty.."/$"..v.storage.max.dirty)
-													WarMenu.Button("Weapons:", tablelength(v.storage.current.weapons).."/"..v.storage.max.weapons)
+													for i,j in pairs(v.storage.current.weapons) do
+														WarMenu.Button(Weapons_names[j.model].." ["..j.ammo.."]")
+													end
 												elseif WarMenu.Button("Unlock")
 													TriggerServerEvent("properties:lock", "houses", "normal", k, "door", false)
 													Notify("Property has been unlocked", 3000)
@@ -675,7 +685,9 @@ Citizen.CreateThread(function()
 												elseif WarMenu.Button("Search") then
 													WarMenu.Button("Cash:", "$"..v.storage.current.cash.."/$"..v.storage.max.cash)
 													WarMenu.Button("Dirty cash:", "$"..v.storage.current.dirty.."/$"..v.storage.max.dirty)
-													WarMenu.Button("Weapons:", tablelength(v.storage.current.weapons).."/"..v.storage.max.weapons)
+													for i,j in pairs(v.storage.current.weapons) do
+														WarMenu.Button(Weapons_names[j.model].." ["..j.ammo.."]")
+													end
 												elseif WarMenu.Button("Unlock")
 													TriggerServerEvent("properties:lock", "houses", "normal", k, "door", false)
 													Notify("Property has been unlocked", 3000)
@@ -1094,7 +1106,9 @@ Citizen.CreateThread(function()
 												elseif WarMenu.Button("Search") then
 													WarMenu.Button("Cash:", "$"..v.storage.current.cash.."/$"..v.storage.max.cash)
 													WarMenu.Button("Dirty cash:", "$"..v.storage.current.dirty.."/$"..v.storage.max.dirty)
-													WarMenu.Button("Weapons:", tablelength(v.storage.current.weapons).."/"..v.storage.max.weapons)
+													for i,j in pairs(v.storage.current.weapons) do
+														WarMenu.Button(Weapons_names[j.model].." ["..j.ammo.."]")
+													end
 												elseif WarMenu.Button("Unlock")
 													TriggerServerEvent("properties:lock", "houses", "normal", k, "door", false)
 													Notify("Property has been unlocked", 3000)
@@ -1128,7 +1142,9 @@ Citizen.CreateThread(function()
 												elseif WarMenu.Button("Search") then
 													WarMenu.Button("Cash:", "$"..v.storage.current.cash.."/$"..v.storage.max.cash)
 													WarMenu.Button("Dirty cash:", "$"..v.storage.current.dirty.."/$"..v.storage.max.dirty)
-													WarMenu.Button("Weapons:", tablelength(v.storage.current.weapons).."/"..v.storage.max.weapons)
+													for i,j in pairs(v.storage.current.weapons) do
+														WarMenu.Button(Weapons_names[j.model].." ["..j.ammo.."]")
+													end
 												elseif WarMenu.Button("Unlock")
 													TriggerServerEvent("properties:lock", "houses", "normal", k, "door", false)
 													Notify("Property has been unlocked", 3000)
@@ -1162,7 +1178,9 @@ Citizen.CreateThread(function()
 												elseif WarMenu.Button("Search") then
 													WarMenu.Button("Cash:", "$"..v.storage.current.cash.."/$"..v.storage.max.cash)
 													WarMenu.Button("Dirty cash:", "$"..v.storage.current.dirty.."/$"..v.storage.max.dirty)
-													WarMenu.Button("Weapons:", tablelength(v.storage.current.weapons).."/"..v.storage.max.weapons)
+													for i,j in pairs(v.storage.current.weapons) do
+														WarMenu.Button(Weapons_names[j.model].." ["..j.ammo.."]")
+													end
 												elseif WarMenu.Button("Unlock")
 													TriggerServerEvent("properties:lock", "houses", "normal", k, "door", false)
 													Notify("Property has been unlocked", 3000)
@@ -1490,7 +1508,9 @@ Citizen.CreateThread(function()
 												elseif WarMenu.Button("Search") then
 													WarMenu.Button("Cash:", "$"..v.storage.current.cash.."/$"..v.storage.max.cash)
 													WarMenu.Button("Dirty cash:", "$"..v.storage.current.dirty.."/$"..v.storage.max.dirty)
-													WarMenu.Button("Weapons:", tablelength(v.storage.current.weapons).."/"..v.storage.max.weapons)
+													for i,j in pairs(v.storage.current.weapons) do
+														WarMenu.Button(Weapons_names[j.model].." ["..j.ammo.."]")
+													end
 												elseif WarMenu.Button("Unlock")
 													TriggerServerEvent("properties:lock", "houses", "normal", k, "door", false)
 													Notify("Property has been unlocked", 3000)
@@ -1524,7 +1544,9 @@ Citizen.CreateThread(function()
 												elseif WarMenu.Button("Search") then
 													WarMenu.Button("Cash:", "$"..v.storage.current.cash.."/$"..v.storage.max.cash)
 													WarMenu.Button("Dirty cash:", "$"..v.storage.current.dirty.."/$"..v.storage.max.dirty)
-													WarMenu.Button("Weapons:", tablelength(v.storage.current.weapons).."/"..v.storage.max.weapons)
+													for i,j in pairs(v.storage.current.weapons) do
+														WarMenu.Button(Weapons_names[j.model].." ["..j.ammo.."]")
+													end
 												elseif WarMenu.Button("Unlock")
 													TriggerServerEvent("properties:lock", "houses", "normal", k, "door", false)
 													Notify("Property has been unlocked", 3000)
@@ -1558,7 +1580,9 @@ Citizen.CreateThread(function()
 												elseif WarMenu.Button("Search") then
 													WarMenu.Button("Cash:", "$"..v.storage.current.cash.."/$"..v.storage.max.cash)
 													WarMenu.Button("Dirty cash:", "$"..v.storage.current.dirty.."/$"..v.storage.max.dirty)
-													WarMenu.Button("Weapons:", tablelength(v.storage.current.weapons).."/"..v.storage.max.weapons)
+													for i,j in pairs(v.storage.current.weapons) do
+														WarMenu.Button(Weapons_names[j.model].." ["..j.ammo.."]")
+													end
 												elseif WarMenu.Button("Unlock")
 													TriggerServerEvent("properties:lock", "houses", "normal", k, "door", false)
 													Notify("Property has been unlocked", 3000)
