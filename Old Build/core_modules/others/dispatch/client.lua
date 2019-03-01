@@ -776,7 +776,9 @@ end)
 
 RegisterNetEvent("trigger:animation")
 AddEventHandler("trigger:animation", function()
-    TaskStartScenarioInPlace(PlayerPedId(), "WORLD_HUMAN_STAND_MOBILE", 0, true)
-    Citizen.Wait(5000)
-    ClearPedTasks(PlayerPedId())
+    if not IsPedInAnyVehicle(PlayerPedId(), 0) then
+        TaskStartScenarioInPlace(PlayerPedId(), "WORLD_HUMAN_STAND_MOBILE", 0, true)
+        Citizen.Wait(5000)
+        ClearPedTasks(PlayerPedId())
+    end
 end)
