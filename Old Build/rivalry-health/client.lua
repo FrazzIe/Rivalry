@@ -75,7 +75,7 @@ RegisterCommand("ci", function(source, args, fullCommand)
 
 	if ClosestPlayer.Player ~= nil and ClosestPlayer ~= nil then
 		SetNuiFocus(true, true)
-		SendNUIMessage({["type"] = "DisplayInjuries", ["payload"] = {name = exports.core:GetCharacterName(GetPlayerServerId(Health.Player.Id)), injuries = Health.Injuries[ClosestPlayer.Player] or {}}})
+		SendNUIMessage({["type"] = "DisplayInjuries", ["payload"] = {name = exports.core:GetCharacterName(ClosestPlayer.Player), injuries = Health.Injuries[ClosestPlayer.Player] or {}}})
 	else
 		print("No player near you!")
 	end
