@@ -909,7 +909,14 @@ local Map = {
 				"Apart_Hi_Booze_C",
 			},
 			Colours = {},
-		}
+		},
+		[19] = { -- Lamars PD Interior
+			Coordinates = {
+				{x = 442.78, y = -984.02, z = 30.68},
+			},
+			Props = {},
+			Colours = {,}
+		},
 	},
 }
 
