@@ -304,11 +304,21 @@ function NativeUI.GetSafeZoneBounds()
 end
 
 function NativeUI.MeasureStringWidth(str, font, scale)
-    BeginTextCommandWidth("STRING")
+    BeginTextCommandWidth("CELL_EMAIL_BCON")
     AddTextComponentSubstringPlayerName(str)
     SetTextFont(font or 0)
     SetTextScale(1.0, scale or 0)
     return EndTextCommandGetWidth(true) * 1920
+end
+
+function NativeUI.GetCharacterCount(Str)
+    local Chars = 0
+
+    for Char in Str:gmatch("[%z\1-\127\194-\244][\128-\191]*") do
+        Chars = Chars + 1
+    end
+
+    return Chars
 end
 
 function NativeUI.GetBadgeTexture(Badge, Selected)
@@ -373,6 +383,20 @@ function NativeUI.RenderRectangle(X, Y, Width, Height, R, G, B, A)
 	DrawRect(X + Width * 0.5, Y + Height * 0.5, Width, Height, tonumber(R) or 255, tonumber(G) or 255, tonumber(B) or 255, tonumber(A) or 255)
 end
 
+function NativeUI.AddText(Text)
+	local Characters = NativeUI.GetCharacterCount(Text)
+
+	if Characters < 100 then
+		AddTextComponentSubstringPlayerName(Text)
+	else
+		local StringsNeeded = (Characters % 99 == 0) and Characters / 99 or (Characters / 99) + 1
+
+		for Index = 0, StringsNeeded do
+			AddTextComponentSubstringPlayerName(Text:sub(Index * 99, (Index * 99) + 99))
+		end
+	end
+end
+
 function NativeUI.RenderText(Text, X, Y, Font, Scale, R, G, B, A, Alignment, DropShadow, Outline, WordWrap)
 	local Text, X, Y = tostring(Text), (tonumber(X) or 0)/1920, (tonumber(Y) or 0)/1080
 
@@ -410,8 +434,8 @@ function NativeUI.RenderText(Text, X, Y, Font, Scale, R, G, B, A, Alignment, Dro
         end
     end
 
-    BeginTextCommandDisplayText("STRING")
-    AddTextComponentSubstringPlayerName(Text) 
+    BeginTextCommandDisplayText("CELL_EMAIL_BCON")
+    NativeUI.AddText(Text) 
     EndTextCommandDisplayText(X, Y)
 end
 
@@ -452,8 +476,8 @@ function NativeUI.GetLineCount(Text, X, Y, Font, Scale, R, G, B, A, Alignment, D
         end
     end
 
-	BeginTextCommandLineCount("STRING")
-	AddTextComponentSubstringPlayerName(Text)
+	BeginTextCommandLineCount("CELL_EMAIL_BCON")
+	NativeUI.AddText(Text)
 	return GetTextScreenLineCount(X, Y)
 end
 
