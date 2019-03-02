@@ -5,24 +5,24 @@ Fishing = {
 	Data = {
 		Locations = {
 			Service = {
-				[1] = {x = -184.28717041016, y = 6540.859375, z = 11.097846984863, h = 131.27699279785}, -- Paleto Pier
-				[2] = {x = -3277.7512207031, y = 965.70672607422, z = 8.3471603393555, h = 356.01812744141}, -- Great Ocean
-				[3] = {x = 1333.0826416016, y = 4325.9921875, z = 38.052536010742, h = 343.61395263672}, -- Sandy Shores
+				vector3(-184.28717041016,6540.859375,11.097846984863), -- Paleto Pier
+				vector3(-3277.7512207031,965.70672607422,8.3471603393555), -- Great Ocean
+				vector3(1333.0826416016,4325.9921875,38.052536010742), -- Sandy Shores
 			},
 			Boat = {},
 		},
 		Pier = {
-			[1] = {id=316, x = -3428.0222167969, y = 967.11779785156, z = 8.3466835021973, distanceBetweenCoords=3.5, distanceMarker=3.5, defaultTime=10000, name="Pier Fishing and Boat Rental"},
-			[2] = {id=316, x = -279.17889404297, y = 6637.1352539063, z = 7.5514869689941, distanceBetweenCoords=3.5, distanceMarker=3.5, defaultTime=10000, name="Pier Fishing and Boat Rental"},
-			[3] = {id=316, x = 1300.0290527344, y = 4219.9711914063, z = 33.908679962158, distanceBetweenCoords=3.5, distanceMarker=3.5, defaultTime=10000, name="Pier Fishing and Boat Rental"},
+			vector3(-3428.0222167969,967.11779785156,8.3466835021973),
+			vector3(-279.17889404297,6637.1352539063,7.5514869689941),
+			vector3(1300.0290527344,4219.9711914063,33.908679962158),
 		}, 
 		DeepSea = {
-			[1] = {id=404, x = 4064.9392089844, y = 1532.7374267578, z = 2.5975124835968, distanceBetweenCoords=20.5, distanceMarker=20.5, defaultTime=10000, name="Deep Sea Fishing"},
-			[2] = {id=404, x = 3069.6108398438, y = -2130.59375, z = 3.9801769256592, distanceBetweenCoords=20.5, distanceMarker=20.5, defaultTime=10000, name="Deep Sea Fishing"},
-			[3] = {id=404, x = -3516.1176757813, y = 2906.3083496094, z = 7.090615272522, distanceBetweenCoords=20.5, distanceMarker=20.5, defaultTime=10000, name="Deep Sea Fishing"},
-			[4] = {id=404, x = 2476.0710449219, y = 7457.48046875, z = 3.5329627990723, distanceBetweenCoords=20.5, distanceMarker=20.5, defaultTime=10000, name="Deep Sea Fishing"},
-			[5] = {id=404, x = -157.71662902832, y = -3550.2641601563, z = 4.3564043045044, distanceBetweenCoords=20.5, distanceMarker=20.5, defaultTime=10000, name="Deep Sea Fishing"},
-			[6] = {id=404, x = -842.47027587891, y = 7822.8930664063, z = 0.76098823547363, distanceBetweenCoords=20.5, distanceMarker=20.5, defaultTime=10000, name="Deep Sea Fishing"},
+			vector3(4064.9392089844,1532.7374267578,2.5975124835968),
+			vector3(3069.6108398438,-2130.59375,3.9801769256592),
+			vector3(-3516.1176757813,2906.3083496094,7.090615272522),
+			vector3(2476.0710449219,7457.48046875,3.5329627990723),
+			vector3(-157.71662902832,-3550.2641601563,4.3564043045044),
+			vector3(-842.47027587891,7822.8930664063,0.76098823547363),
 		},
 		Blips = {},
 		Bar = {
@@ -372,13 +372,13 @@ end
 		CreateBlip("Turtle Head Fishing", 356, 68, Fishing.Data.Locations.Service[3].x, Fishing.Data.Locations.Service[3].y, Fishing.Data.Locations.Service[3].z)
 		while true do
 			Citizen.Wait(0)
-			local ped = PlayerPedId()
-			local pos = GetEntityCoords(ped, false)
+			local Ped = PlayerPedId()
+			local PlayerPosition = GetEntityCoords(Ped, false)
 			if IsFisher then
-				for k, v in ipairs(Fishing.Data.Locations.Service) do
-					if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 10) then
-						DrawMarker(25, v.x, v.y, v.z - 1, 0, 0, 0, 0, 0, 0, 1.0, 1.0, 1.5, 0, 0, 255, 155, 0, 0, 2, 0, 0, 0, 0)
-						if Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 1 then
+				for Index = 1, #Fishing.Data.Locations.Service do
+					if #(PlayerPosition - Fishing.Data.Locations.Service[Index]) < 10 then
+						DrawMarker(25, Fishing.Data.Locations.Service[Index].x, Fishing.Data.Locations.Service[Index].y, Fishing.Data.Locations.Service[Index].z - 1, 0, 0, 0, 0, 0, 0, 1.0, 1.0, 1.5, 0, 0, 255, 155, 0, 0, 2, 0, 0, 0, 0)
+						if #(PlayerPosition - Fishing.Data.Locations.Service[Index]) < 1 then
 							if OnDuty then
 								DisplayHelpText("Press ~INPUT_CONTEXT~ to sign off duty!")
 							else
@@ -397,8 +397,8 @@ end
 					end
 				end
 				if OnDuty then
-					for k, v in ipairs(Fishing.Data.Pier) do
-						if Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 10 then
+					for Index = 1, #Fishing.Data.Pier do
+						if #(PlayerPosition - Fishing.Data.Pier[Index]) < 10 then
 							DisplayHelpText("Press ~INPUT_CONTEXT~ to start fishing!")
 							if (IsControlJustPressed(1,51)) then
 								Fishing.Data.Bar.IsFishing = true
@@ -414,8 +414,8 @@ end
 							end
 						end
 					end
-					for k, v in ipairs(Fishing.Data.DeepSea) do
-						if Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 100 then
+					for Index = 1, #Fishing.Data.DeepSea do
+						if #(PlayerPosition - Fishing.Data.DeepSea[Index]) < 100 then
 							DisplayHelpText("Press ~INPUT_CONTEXT~ to start fishing!")
 							if IsControlJustPressed(1,51) then
 								Fishing.Data.Bar.IsFishing = true

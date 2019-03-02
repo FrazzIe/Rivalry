@@ -276,7 +276,7 @@ local function GetClosestPed()
     local closestPed = 0
   
     for ped in EnumeratePeds() do
-        local distanceCheck = GetDistanceBetweenCoords(GetEntityCoords(PlayerPedId()), GetEntityCoords(ped), true)
+        local distanceCheck = #(GetEntityCoords(PlayerPedId(), false) - GetEntityCoords(ped, false))
         if distanceCheck <= 15.0 then
             closestPed = ped
             break
@@ -302,7 +302,7 @@ local function willNPCreport(type)
 end
 
 Citizen.CreateThread(function()
-	local lastpos = {x = 0.0, y = 0.0, z = 0.0}
+	local lastpos = vector3(0,0,0)
 	while true do
 		Citizen.Wait(0)
 		if not exports.policejob:getIsInService() then
@@ -316,11 +316,11 @@ Citizen.CreateThread(function()
 						if GetAmmoInPedWeapon(PlayerPed, Weaponhash) > 0 then
 							if not weapons_whitelist[WeaponStr] then
 								local pos = GetEntityCoords(PlayerPed, false)
-								if GetDistanceBetweenCoords(pos.x, pos.y, pos.z, lastpos.x, lastpos.y, lastpos.z, true) > 50 then
+								if #(Pos - lastpos) > 50 then
 									if willNPCreport("gunshots") then
 										lastpos = pos
 										local street, crossing = GetStreetNameAtCoord(pos.x, pos.y, pos.z)
-										TriggerServerEvent("dispatch:ten-thirtytwo", {x = pos.x, y = pos.y, z = pos.z}, GetStreetNameFromHashKey(street))
+										TriggerServerEvent("dispatch:ten-thirtytwo", pos, GetStreetNameFromHashKey(street))
                                         TriggerServerEvent("News:Dispatch", GetStreetNameFromHashKey(street))
 									end
 								end
@@ -334,7 +334,7 @@ Citizen.CreateThread(function()
 end)
 
 Citizen.CreateThread(function()
-    local lastpos = {x = 0.0, y = 0.0, z =0.0}
+    local lastpos = vector3(0,0,0)
     while true do
         Citizen.Wait(0)
         if not exports.policejob:getIsInService() then
@@ -348,9 +348,9 @@ Citizen.CreateThread(function()
                             local Weaponhash = GetHashKey(WeaponStr)
                             if not weapons_whitelist[WeaponStr] then
                                 local pos = GetEntityCoords(PlayerPed, false)
-                                if GetDistanceBetweenCoords(pos.x, pos.y, pos.z, lastpos.x, lastpos.y, lastpos.z, true) > 75 then
+                                if #(Pos - lastpos) > 75 then
                                     local ped = GetClosestPed()
-                                    local distance = GetDistanceBetweenCoords(GetEntityCoords(PlayerPed), GetEntityCoords(ped), true)
+                                    local distance = #(GetEntityCoords(PlayerPed, false) - GetEntityCoords(ped, false))
                                     if distance <= 45.0 then
                                         if HasEntityClearLosToEntity(ped, PlayerPed, 17) then
                                             if GetPedType(ped) == 26 or GetPedType(ped) == 4 or GetPedType(ped) == 5 then
@@ -359,13 +359,13 @@ Citizen.CreateThread(function()
                                                 if IsPedMale(PlayerPed) then
                                                     local random = math.random(1,100)
                                                     if random >= 50 then
-                                                        TriggerServerEvent("dispatch:ten-thirtytwo:2", {x = pos.x, y = pos.y, z = pos.z}, GetStreetNameFromHashKey(street), "Male")
+                                                        TriggerServerEvent("dispatch:ten-thirtytwo:2", pos, GetStreetNameFromHashKey(street), "Male")
                                                         TriggerServerEvent("News:Dispatch", GetStreetNameFromHashKey(street))
                                                     end
                                                 else
                                                     local random = math.random(1,100)
                                                     if random >= 50 then
-                                                        TriggerServerEvent("dispatch:ten-thirtytwo:2", {x = pos.x, y = pos.y, z = pos.z}, GetStreetNameFromHashKey(street), "Female")
+                                                        TriggerServerEvent("dispatch:ten-thirtytwo:2", pos, GetStreetNameFromHashKey(street), "Female")
                                                         TriggerServerEvent("News:Dispatch", GetStreetNameFromHashKey(street))
                                                     end
                                                 end
@@ -403,7 +403,7 @@ AddEventHandler("dispatch:ten-thirtytwo", function(coords)
 				EndTextCommandSetBlipName(ten_thirtytwo_blip)
 			end
 			if not arrived then
-				if GetDistanceBetweenCoords(pos.x, pos.y, pos.z, coords.x, coords.y, coords.z, true) < 20 then
+				if #(pos - coords) < 20 then
 					arrived = true
 					TriggerServerEvent("dispatch:pay", "10-31")
 				end
@@ -424,7 +424,7 @@ AddEventHandler("dispatch:ten-thirtytwo-r", function(coords)
             Citizen.Wait(0)
             local pos = GetEntityCoords(PlayerPedId(), false)
             if not DoesBlipExist(ten_thirtytwo_blip) then
-                ten_thirtytwo_blip = AddBlipForCoord(coords[1], coords[2], coords[3])
+                ten_thirtytwo_blip = AddBlipForCoord(coords.x, coords.y, coords.z)
                 SetBlipSprite(ten_thirtytwo_blip, 480)
                 SetBlipColour(ten_thirtytwo_blip, 28)
                 SetBlipAsShortRange(ten_thirtytwo_blip, true)
@@ -434,7 +434,7 @@ AddEventHandler("dispatch:ten-thirtytwo-r", function(coords)
                 EndTextCommandSetBlipName(ten_thirtytwo_blip)
             end
             if not arrived then
-                if GetDistanceBetweenCoords(pos.x, pos.y, pos.z, coords[1], coords[2], coords[3], true) < 20 then
+                if #(pos - coords) < 20 then
                     arrived = true
                     TriggerServerEvent("dispatch:pay", "10-31")
                 end
@@ -465,7 +465,7 @@ AddEventHandler("dispatch:ten-thirtytwo:2", function(coords)
                 EndTextCommandSetBlipName(ten_thirtytwo_blip)
             end
             if not arrived then
-                if GetDistanceBetweenCoords(pos.x, pos.y, pos.z, coords.x, coords.y, coords.z, true) < 20 then
+                if #(pos - coords) < 20 then
                     arrived = true
                     TriggerServerEvent("dispatch:pay", "10-32")
                 end
@@ -496,7 +496,7 @@ AddEventHandler("dispatch:ten-thirtytwo:3", function(coords)
                 EndTextCommandSetBlipName(ten_thirtytwo_blip)
             end
             if not arrived then
-                if GetDistanceBetweenCoords(pos.x, pos.y, pos.z, coords.x, coords.y, coords.z, true) < 20 then
+                if #(pos - coords) < 20 then
                     arrived = true
                     TriggerServerEvent("dispatch:pay", "10-31")
                 end
@@ -510,10 +510,10 @@ PossibleVehicles = {
 	""
 }
 
-local lockpick_lastpos = {x = 0.0, y = 0.0, z = 0.0}
+local lockpick_lastpos = vector3(0,0,0)
 AddEventHandler("dispatch:lockpick", function()
 	local pos = GetEntityCoords(PlayerPedId(), false)
-	if GetDistanceBetweenCoords(pos.x, pos.y, pos.z, lockpick_lastpos.x, lockpick_lastpos.y, lockpick_lastpos.z, true) > 25 then
+	if #(pos - lockpick_lastpos) > 25 then
 		if willNPCreport("vehicle") then
 			lockpick_lastpos = pos
 			local street, crossing = GetStreetNameAtCoord(pos.x, pos.y, pos.z)
@@ -524,7 +524,7 @@ AddEventHandler("dispatch:lockpick", function()
     			local plate =  GetVehicleNumberPlateText(vehicle)
     			local primary, secondary = GetVehicleColours(vehicle)
     			primary = colorNames[tostring(primary)] or ""
-    			TriggerServerEvent("dispatch:ten-thirtyone", {x = pos.x, y = pos.y, z = pos.z}, GetStreetNameFromHashKey(street), model, plate, primary)
+    			TriggerServerEvent("dispatch:ten-thirtyone", pos, GetStreetNameFromHashKey(street), model, plate, primary)
             end
 		end
 	end
@@ -551,7 +551,7 @@ AddEventHandler("dispatch:ten-thirtyone", function(coords)
 				EndTextCommandSetBlipName(ten_thirtyone_blip)
 			end
 			if not arrived then
-				if GetDistanceBetweenCoords(pos.x, pos.y, pos.z, coords.x, coords.y, coords.z, true) < 20 then
+				if #(pos - coords) < 20 then
 					arrived = true
 					TriggerServerEvent("dispatch:pay", "10-31")
 				end
@@ -561,20 +561,20 @@ AddEventHandler("dispatch:ten-thirtyone", function(coords)
 	end)
 end)
 
-local drugs_lastpos = {x = 0.0, y = 0.0, z = 0.0}
+local drugs_lastpos = vector3(0,0,0)
 AddEventHandler("dispatch:drug", function()
 	local pos = GetEntityCoords(PlayerPedId(), false)
-	if GetDistanceBetweenCoords(pos.x, pos.y, pos.z, drugs_lastpos.x, drugs_lastpos.y, drugs_lastpos.z, true) > 50 then
+	if #(pos - drugs_lastpos) > 50 then
 		if willNPCreport("drugs") then
 			drugs_lastpos = pos
 			local street, crossing = GetStreetNameAtCoord(pos.x, pos.y, pos.z)
 			local sex = IsPedMale(PlayerPedId())
 			if sex then
 				gender = "Male"
-			elseif not sex then
+			else
 				gender = "Female"
 			end
-			TriggerServerEvent("dispatch:ten-fifthteen", {x = pos.x, y = pos.y, z = pos.z}, GetStreetNameFromHashKey(street), gender)
+			TriggerServerEvent("dispatch:ten-fifthteen", pos, GetStreetNameFromHashKey(street), gender)
 		end
 	end
 end)
@@ -600,7 +600,7 @@ AddEventHandler("dispatch:ten-fifthteen", function(coords)
 				EndTextCommandSetBlipName(ten_fifthteen_blip)
 			end
 			if not arrived then
-				if GetDistanceBetweenCoords(pos.x, pos.y, pos.z, coords.x, coords.y, coords.z, true) < 20 then
+				if #(pos - coords) < 20 then
 					arrived = true
 					TriggerServerEvent("dispatch:pay", "10-31")
 				end
@@ -614,7 +614,7 @@ AddEventHandler("dispatch:lockpick_property", function()
 	local pos = GetEntityCoords(PlayerPedId(), false)
 	if willNPCreport("property_lock") then
 		local street, crossing = GetStreetNameAtCoord(pos.x, pos.y, pos.z)
-		TriggerServerEvent("dispatch:ten-thirtyone_2", {x = pos.x, y = pos.y, z = pos.z}, GetStreetNameFromHashKey(street))
+		TriggerServerEvent("dispatch:ten-thirtyone_2", pos, GetStreetNameFromHashKey(street))
         TriggerServerEvent("News:Dispatch", GetStreetNameFromHashKey(street))
 	end
 end)
@@ -640,7 +640,7 @@ AddEventHandler("dispatch:ten-thirtyone_2", function(coords)
 				EndTextCommandSetBlipName(ten_thirtyone_2_blip)
 			end
 			if not arrived then
-				if GetDistanceBetweenCoords(pos.x, pos.y, pos.z, coords.x, coords.y, coords.z, true) < 20 then
+				if #(pos - coords) < 20 then
 					arrived = true
 					TriggerServerEvent("dispatch:pay", "10-31")
 				end
@@ -654,7 +654,7 @@ RegisterNetEvent("dispatch:robbery")
 AddEventHandler("dispatch:robbery", function()
 	local pos = GetEntityCoords(PlayerPedId(), false)
 	local street, crossing = GetStreetNameAtCoord(pos.x, pos.y, pos.z)
-	TriggerServerEvent("dispatch:ten-ninety", {x = pos.x, y = pos.y, z = pos.z}, GetStreetNameFromHashKey(street))
+	TriggerServerEvent("dispatch:ten-ninety", pos, GetStreetNameFromHashKey(street))
     TriggerServerEvent("News:Dispatch", GetStreetNameFromHashKey(street))
 end)
 
@@ -679,7 +679,7 @@ AddEventHandler("dispatch:ten-ninety", function(coords)
 				EndTextCommandSetBlipName(ten_ninety_blip)
 			end
 			if not arrived then
-				if GetDistanceBetweenCoords(pos.x, pos.y, pos.z, coords.x, coords.y, coords.z, true) < 20 then
+				if #(pos - coords) < 20 then
 					arrived = true
 					TriggerServerEvent("dispatch:pay", "10-90")
 				end
@@ -732,7 +732,7 @@ AddEventHandler("dispatch:311", function(id, message)
 				EndTextCommandSetBlipName(user_call_311)
 			end
 			if not arrived then
-				if GetDistanceBetweenCoords(pos.x, pos.y, pos.z, coords.x, coords.y, coords.z, true) < 20 then
+				if #(pos - coords) < 20 then
 					arrived = true
 					TriggerServerEvent("dispatch:pay", "311")
 				end
@@ -764,7 +764,7 @@ AddEventHandler("dispatch:911", function(id, message)
 				EndTextCommandSetBlipName(user_call_911)
 			end
 			if not arrived then
-				if GetDistanceBetweenCoords(pos.x, pos.y, pos.z, coords.x, coords.y, coords.z, true) < 20 then
+				if #(pos - coords) < 20 then
 					arrived = true
 					TriggerServerEvent("dispatch:pay", "911")
 				end

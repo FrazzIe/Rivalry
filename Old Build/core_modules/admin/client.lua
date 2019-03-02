@@ -237,13 +237,13 @@ end)
 
 RegisterNetEvent("command:goblin")
 AddEventHandler("command:goblin", function()
-        Citizen.CreateThread(function()
-            local model = GetHashKey("goblin")
-            RequestModel(model)
-            while not HasModelLoaded(model) do
-                Citizen.Wait(250)
-            end
-            SetPlayerModel(PlayerId(), model)
-            SetModelAsNoLongerNeeded(model)
-        end)
+    Citizen.CreateThread(function()
+        local model = GetHashKey("goblin")
+        RequestModel(model)
+        while not HasModelLoaded(model) do
+            Citizen.Wait(250)
+        end
+        SetPlayerModel(PlayerId(), model)
+        SetModelAsNoLongerNeeded(model)
+    end)
 end)

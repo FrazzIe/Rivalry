@@ -79,7 +79,7 @@ end)
 
 Citizen.CreateThread(function()
 	while true do
-		Citizen.Wait(500)
+		Citizen.Wait(0)
 
 		if exports.policejob and exports.emsjob then
 			if exports.policejob:getIsInService() or exports.emsjob:getIsInService() then

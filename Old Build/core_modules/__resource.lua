@@ -19,9 +19,9 @@ client_script "New/Wrappers/Client/Blip.lua"
 client_script 'New/Utilities/Client/Functions.lua'
 server_script 'New/Utilities/Server/Functions.lua'
 
-client_script 'New/Utilities/Client/Drawing.lua'
+--client_script 'New/Utilities/Client/Drawing.lua'
 
-client_script 'New/Wrappers/Client/NativeUI.lua'
+--client_script 'New/Wrappers/Client/NativeUI.lua'
 
 client_script "New/Player/Client/Main.lua"
 client_script "New/Player/Client/Emotes.lua"
@@ -141,7 +141,6 @@ server_script 'interaction/server.lua'
 client_script 'interaction/hud.lua'
 client_script 'interaction/speedcontrol.lua'
 client_script 'interaction/crouch_cuffs.lua'
-client_script 'interaction/doors.lua'
 client_script 'interaction/head_display_talking.lua'
 
 --Exports

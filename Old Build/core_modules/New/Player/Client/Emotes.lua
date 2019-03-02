@@ -1,6 +1,6 @@
-local Pool = NativeUI.CreatePool()
+--[[local Pool = NativeUI.CreatePool()
 EmoteMenu = NativeUI.CreateMenu("Emotes", "", 1300, 300)
-Pool:Add(EmoteMenu)
+Pool:Add(EmoteMenu)--]]
 
 WalkStyles = {
 	List = {
@@ -863,7 +863,7 @@ Emote.Add("holster", "Hold Holster", "Job", {"reaction@intimidation@cop@unarmed"
 	TaskPlayAnim(PlayerPedId(), self.Dictionaries[1] , self.Animations[1] , 8.0, 8.0, -1, 50, 0, false, false, false)
 end)
 
-local StopItem = NativeUI.CreateItem("~r~Stop Emote", "")
+--[[local StopItem = NativeUI.CreateItem("~r~Stop Emote", "")
 StopItem.Activated = function(ParentMenu, SelectedItem)
 	Emotes.Stop()
 end
@@ -906,4 +906,4 @@ Citizen.CreateThread(function()
 		Citizen.Wait(0)
 		Pool:ProcessMenus()
 	end
-end)
+end)--]]

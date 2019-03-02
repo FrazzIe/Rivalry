@@ -30,43 +30,6 @@ Citizen.CreateThread(function()
 	end
 end)
 
---[[local pressed = false
-
-Citizen.CreateThread(function()
-    while true do
-        Citizen.Wait(0)
-        local timer = 0
-        while IsControlPressed(1, 75) do
-            Citizen.Wait(0)
-            timer = timer + 1
-            if timer > 120 then
-                pressed = true
-                break
-            end
-        end
-        while not IsControlJustReleased(1, 75) do
-            Citizen.Wait(0)
-        end
-        pressed = false
-    end
-end)
-
-Citizen.CreateThread(function()
-	while true do
-		Citizen.Wait(0)
-		if IsPedInAnyVehicle(PlayerPedId(), false) then
-			local vehicle = GetVehiclePedIsIn(PlayerPedId(), false)
-			if not pressed then
-				if IsControlJustPressed(1, 75) then
-					SetVehicleEngineOn(vehicle, true, true, false)
-				end
-			else
-				SetVehicleEngineOn(vehicle, false, false, false)
-			end
-		end
-	end
-end)--]]
-
 Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(0)
@@ -81,17 +44,6 @@ Citizen.CreateThread(function()
 		end
 	end
 end)
---[[
-Citizen.CreateThread(function()
-	while true do
-		Citizen.Wait(0)
-		if isInJail() then
-			TriggerServerEvent('sync:jailedPlayers', GetPlayerServerId(PlayerId()))
-			Citizen.Wait(60000)
-			TriggerServerEvent('sync:jailedPlayersClearTable')
-		end
-	end
-end)--]]
 
 local binoculars = false
 local fov_max = 70.0
@@ -361,7 +313,7 @@ Citizen.CreateThread(function()
 				  			if IsControlJustPressed(1,51) then
 				  				TaskPlayAnim(TargetPed, Dictionary, AnimationName2, 4.0, -4, -1, 1, 0, false, false, false)
 				  				street, crossing = GetStreetNameAtCoord(PlayerPosition.x, PlayerPosition.y, PlayerPosition.z)
-				  				TriggerServerEvent("dispatch:ten-thirtytwo-r", {PlayerPosition.x, PlayerPosition.y, PlayerPosition.z}, GetStreetNameFromHashKey(street))
+				  				TriggerServerEvent("dispatch:ten-thirtytwo-r", PlayerPosition, GetStreetNameFromHashKey(street))
 				  				Notify("You're robbing a mothafucka. Dont move and keep them at gunpoint until you get that lettuce!", 30000)
 				  				Citizen.Wait(30000)
 				  				PlayerPosition, TargetPedPosition = GetEntityCoords(PlayerPed, 0), GetEntityCoords(TargetPed, 0)
@@ -391,7 +343,7 @@ Citizen.CreateThread(function()
 				  			if IsControlJustPressed(1,51) then
 				  				TaskPlayAnim(TargetPed, Dictionary, AnimationName2, 4.0, -4, -1, 1, 0, false, false, false)
 				  				street, crossing = GetStreetNameAtCoord(PlayerPosition.x, PlayerPosition.y, PlayerPosition.z)
-				  				TriggerServerEvent("dispatch:ten-thirtytwo-r", {PlayerPosition.x, PlayerPosition.y, PlayerPosition.z}, GetStreetNameFromHashKey(street))
+				  				TriggerServerEvent("dispatch:ten-thirtytwo-r", PlayerPosition, GetStreetNameFromHashKey(street))
 				  				Notify("You're robbing a mothafucka. Dont move and keep them at gunpoint until you get that lettuce!", 30000)
 				  				Citizen.Wait(30000)
 				  				PlayerPosition, TargetPedPosition = GetEntityCoords(PlayerPed, 0), GetEntityCoords(TargetPed, 0)

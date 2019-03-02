@@ -59,6 +59,34 @@ end
 
 stores = {
 	normal = {
+	    vector3(1961.1140136719,3741.4494628906,32.34375),
+	    vector3(1392.4129638672,3604.47265625,34.980926513672),
+	    vector3(546.98962402344,2670.3176269531,42.156539916992),
+	    vector3(2556.2534179688,382.876953125,108.62294769287),
+	    vector3(-1821.9542236328,792.40191650391,138.13920593262),
+	    vector3(128.1410369873,-1286.1120605469,29.281036376953),
+	    vector3(-1223.6690673828,-906.67517089844,12.326356887817),
+	    vector3(-708.19256591797,-914.65264892578,19.215591430664),
+	    vector3(26.419162750244,-1347.5804443359,29.497024536133),
+	    vector3(1698.2891845703,4924.9555664063,42.063682556152),
+		vector3(-3241.7736816406,1001.5706176758,12.830716133118),
+		vector3(-3039.0744628906,586.18438720703,7.9089293479919),
+		vector3(1166.0941162109,2708.5534667969,38.157711029053),
+		vector3(1729.1783447266,6414.2421875,35.037223815918),
+		vector3(436.54379272461,-987.16961669922,30.689601898193),
+	    vector3(1135.67,-982.177,46.4158),
+	    vector3(-47.124,-1756.52,29.421),
+	    vector3(-1487.48,-378.918,40.1634),
+	    vector3(374.208,328.134,103.566),
+	    vector3(2676.99,3281.37,55.2412),
+	    vector3(-2967.86,391.037,15.0433),
+	    vector3(316.52230834961,-588.90661621094,43.291831970215),
+	    vector3(232.7077331543,-423.32092285156,-118.19955444336),
+	},
+}
+
+stores2 = {
+	normal = {
 	    {name="Convenience store", sprite=52, x=1961.1140136719, y=3741.4494628906,z=32.34375 },
 	    {name="Convenience store", sprite=52, x=1392.4129638672, y=3604.47265625, z=34.980926513672 },
 	    {name="Convenience store", sprite=52, x=546.98962402344, y=2670.3176269531, z=42.156539916992 },
@@ -86,16 +114,16 @@ stores = {
 }
 
 Citizen.CreateThread(function()
-	for k,v in pairs(stores.normal) do
+	for k,v in pairs(stores2.normal) do
 		addBlip(v)
 	end
 	while true do
 		Citizen.Wait(0)
         local pos = GetEntityCoords(PlayerPedId(), false)
-        for k,v in ipairs(stores.normal) do
-            if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 15.0)then
+        for Index = 1, #stores.normal do
+            if #(pos - stores.normal[Index]) < 15.0 then
                 DrawMarker(1, v.x, v.y, v.z - 1, 0, 0, 0, 0, 0, 0, 1.5001, 1.5001, 0.7555, 1555, 90, 10,150, 0, 0, 0,0)
-                if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 1.0)then
+                if #(pos - stores.normal[Index]) < 1.0 then
 					if IsControlJustPressed(1, 51) then
 						if not WarMenu.IsMenuOpened("Items") then
 							if not WarMenu.DoesMenuExist("Items") then
@@ -154,7 +182,7 @@ Citizen.CreateThread(function()
 							end
 						end
 					end
-                elseif(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) > 1.0)then
+                elseif #(pos - stores.normal[Index]) > 1.0 then
                 	if WarMenu.IsMenuOpened("Items") then
                 		WarMenu.CloseMenu()
                 	end

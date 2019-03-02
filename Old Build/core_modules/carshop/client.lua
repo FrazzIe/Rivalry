@@ -398,7 +398,7 @@ AddEventHandler("carshop:bought",function(data)
         Citizen.InvokeNative(0xEA386986E786A54F, Citizen.PointerValueIntInitialized(currentPreview.entity))
     end
     currentPreview = {model=0, entity=nil}
-    FreezeEntityPosition(GetPlayerPed(-1),false)
+    FreezeEntityPosition(PlayerPedId(),false)
     SetEntityVisible(PlayerPedId() ,true)
     TriggerEvent("anticheat:set", "invisible", false, function(callback)
     end)
@@ -504,7 +504,7 @@ AddEventHandler("carshop:bought",function(data)
         --SetVehiclePetrolTankHealth(veh, tonumber(data.petrol_health))
         --SetEntityHealth(veh, tonumber(data.vehicle_health))
         --SetVehicleBodyHealth(veh, tonumber(data.body_health))
-        TaskWarpPedIntoVehicle(GetPlayerPed(-1),veh,-1)
+        TaskWarpPedIntoVehicle(PlayerPedId(),veh,-1)
         SetModelAsNoLongerNeeded(model)
         SetEntityInvincible(veh, false)
     end)
@@ -518,16 +518,16 @@ end)
 function openCarshop()
     TriggerEvent("anticheat:set", "invisible", true, function(callback)
         if callback then
-            SetEntityVisible(GetPlayerPed(-1),false)
+            SetEntityVisible(PlayerPedId(),false)
         else
             TriggerServerEvent("core:bug", "Line 478 in resource "..GetCurrentResourceName())
-            SetEntityVisible(GetPlayerPed(-1),false)
+            SetEntityVisible(PlayerPedId(),false)
         end
     end)
-    FreezeEntityPosition(GetPlayerPed(-1),true)
+    FreezeEntityPosition(PlayerPedId(),true)
     local zcoord = Citizen.InvokeNative(0xC906A7DAB05C8D2B,currentShop[1],currentShop[2],currentShop[3],Citizen.PointerValueFloat(),0)
-    SetEntityCoords(GetPlayerPed(-1),currentShop[1],currentShop[2],zcoord)
-    SetEntityHeading(GetPlayerPed(-1),currentShop[4])
+    SetEntityCoords(PlayerPedId(),currentShop[1],currentShop[2],zcoord)
+    SetEntityHeading(PlayerPedId(),currentShop[4])
     isCarshopOpen = true
 end
 
@@ -538,9 +538,9 @@ function closeCarshop()
         Citizen.InvokeNative(0xEA386986E786A54F, Citizen.PointerValueIntInitialized(currentPreview.entity))
     end
     currentPreview = {model=0, entity=nil}
-    SetEntityCoords(GetPlayerPed(-1),currentMarker[1],currentMarker[2],currentMarker[3])
-    FreezeEntityPosition(GetPlayerPed(-1),false)
-    SetEntityVisible(GetPlayerPed(-1),true)
+    SetEntityCoords(PlayerPedId(),currentMarker[1],currentMarker[2],currentMarker[3])
+    FreezeEntityPosition(PlayerPedId(),false)
+    SetEntityVisible(PlayerPedId(),true)
     TriggerEvent("anticheat:set", "invisible", false, function(callback)
     end)
 end
@@ -582,7 +582,7 @@ Citizen.CreateThread(function()
                                 FreezeEntityPosition(veh,true)
                                 SetEntityInvincible(veh,true)
                                 SetVehicleDoorsLocked(veh,4)
-                                TaskWarpPedIntoVehicle(GetPlayerPed(-1),veh,-1)
+                                TaskWarpPedIntoVehicle(PlayerPedId(),veh,-1)
                                 SetModelAsNoLongerNeeded(hash)
                                 for i = 0,24 do
                                     SetVehicleModKit(veh,0)
@@ -610,7 +610,7 @@ Citizen.CreateThread(function()
     end
     while true do
         Citizen.Wait(0)
-        local pos = GetEntityCoords(GetPlayerPed(-1), true)
+        local pos = GetEntityCoords(PlayerPedId(), true)
         for k,v in ipairs(emplacement_vehicleshop) do
             if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 15.0)then
                 DrawMarker(25, v.x, v.y, v.z - 1, 0, 0, 0, 0, 0, 0, 1.5001, 1.5001, 0.5001, 177, 0, 0,255, 0, 0, 0,0)

@@ -1,7 +1,7 @@
 local Cocaine = {
 	Locations = {
-		Pickup = {x = -495.73739624023, y = -2911.3024902344, z = 6.0003871917725, h = 42.021656036377},
-		Van = {x = -488.9792175293, y = -2909.376953125, z = 6.000385761261, h = 316.95101928711},
+		Pickup = vector3(-495.73739624023,-2911.3024902344,6.0003871917725),
+		Van = vector3(-488.9792175293,-2909.376953125,6.000385761261),
 	},
 	Cost = {
 		Dirty = 50,
@@ -180,9 +180,9 @@ Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(0)
 		local PlayerPed = PlayerPedId()
-		local PlayerPosition = GetEntityCoords(PlayerPedId(), false)
-		local CokeDistance = GetDistanceBetweenCoords(PlayerPosition.x, PlayerPosition.y, PlayerPosition.z, Cocaine.Locations.Pickup.x, Cocaine.Locations.Pickup.y, Cocaine.Locations.Pickup.z, true)
-		local VanDistance = GetDistanceBetweenCoords(PlayerPosition.x, PlayerPosition.y, PlayerPosition.z, Cocaine.Locations.Van.x, Cocaine.Locations.Van.y, Cocaine.Locations.Van.z, true)
+		local PlayerPosition = GetEntityCoords(PlayerPed, false)
+		local CokeDistance = #(PlayerPosition - Cocaine.Locations.Pickup) 
+		local VanDistance = #(PlayerPosition - Cocaine.Locations.Van) 
 
 		if (IsInZone("coke") or IsInZone("coke2") or IsInZone("coke3")) and PlayerPosition.z <= -35.50 then
 			if GetItemQuantity(Cocaine.Items.Dirty) > 0 then
@@ -241,23 +241,22 @@ Citizen.CreateThread(function()
 end)
 
 Citizen.CreateThread(function()
-	RequestAnimDict("mp_common")
-	while not HasAnimDictLoaded("mp_common") do
-		Citizen.Wait(0)
-	end
-	local methbag_model = GetHashKey("prop_meth_bag_01")
 	while true do
 		Citizen.Wait(0)
 		local PlayerPed = PlayerPedId()
 		local PlayerPosition = GetEntityCoords(PlayerPed, false)
-		
-		if not IsPedSittingInAnyVehicle(PlayerPed) then
-			if GetItemQuantity(Cocaine.Items.Cocaine) > 0 then
+		RequestAnimDict("mp_common")
+		while not HasAnimDictLoaded("mp_common") do
+			Citizen.Wait(0)
+		end
+		local methbag_model = GetHashKey("prop_meth_bag_01")
+		if GetItemQuantity(Cocaine.Items.Cocaine) > 0 then
+			if not IsPedSittingInAnyVehicle(PlayerPed) then
 				for ped in EnumeratePeds() do
 					if DoesEntityExist(ped) then
 						if not IsEntityDead(ped) then
 							if not IsPedAPlayer(ped) and not DecorGetBool(ped, "isTrader") and not DecorGetBool(ped, "soldTo") and not IsPedAnAnimal(GetEntityModel(ped)) then
-								if Vdist2(PlayerPosition.x, PlayerPosition.y, PlayerPosition.z, GetEntityCoords(ped, false)) < 1 then
+								if #(PlayerPosition - GetEntityCoords(ped, false)) < 1 then
 									if Cocaine.Cooldown > 0 then
 										DisplayHelpText("Press ~INPUT_CONTEXT~ to sell cocaine! ["..Cocaine.Cooldown.."]")
 									else

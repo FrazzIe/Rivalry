@@ -4,7 +4,7 @@ DOJ.Active = false
 DOJ.Rank = nil
 DOJ.Position = nil
 DOJ.Locations = {
-	{x = 227.40411376953, y = -414.59469604492, z = -118.19954681396, h = 249.44790649414},
+	vector3(227.40411376953,-414.59469604492,-118.19954681396),
 }
 
 function DOJonduty()
@@ -23,11 +23,11 @@ Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(0)
 		if DOJ.IsDOJ then
-			DOJ.Position = GetEntityCoords(PlayerPedId(), false)
+			PlayerPosition = GetEntityCoords(PlayerPedId(), false)
 			for i = 1, #DOJ.Locations, 1 do
-				if GetDistanceBetweenCoords(DOJ.Position.x, DOJ.Position.y, DOJ.Position.z, DOJ.Locations[i].x, DOJ.Locations[i].y, DOJ.Locations[i].z, true) < 20 then
+				if #(PlayerPosition - DOJ.Locations[i]) < 20 then
 					drawMarker(25, DOJ.Locations[i].x, DOJ.Locations[i].y, DOJ.Locations[i].z, 1.0, 1.0, 1.5, 255, 255, 0, 255)
-					if GetDistanceBetweenCoords(DOJ.Position.x, DOJ.Position.y, DOJ.Position.z, DOJ.Locations[i].x, DOJ.Locations[i].y, DOJ.Locations[i].z, true) < 1 then
+					if #(PlayerPosition - DOJ.Locations[i]) < 1 then
 						if not DOJ.Active then
 							DisplayHelpText("Press ~INPUT_CONTEXT~ to ~g~clock in~w~!")
 						else
