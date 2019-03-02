@@ -47,10 +47,26 @@ AddEventHandler("inventory:updateitems", function(inv)
 end)
 
 RegisterNetEvent("inventory:updateitems_vehicle")
-AddEventHandler("inventory:updateitems_vehicle", function(veh_inv)
+AddEventHandler("inventory:updateitems_vehicle", function(plate, veh_inv)
+    vehicle_inventory[plate] = veh_inv
+    if exports.ui:currentmenu() == "vehicle_inventory" then
+        TriggerEvent("inventory:vehicle_open")
+    end
+end)
+
+RegisterNetEvent("inventory:updateitems_vehicle_initialise")
+AddEventHandler("inventory:updateitems_vehicle_initialise", function(veh_inv)
     vehicle_inventory = veh_inv
     if exports.ui:currentmenu() == "vehicle_inventory" then
         TriggerEvent("inventory:vehicle_open")
+    end
+end)
+
+RegisterNetEvent("inventory:updateitems_vehicle_weapon_initialise")
+AddEventHandler("inventory:updateitems_vehicle_weapon_initialise", function(veh_wep_inv)
+    vehicle_weapon_inventory = veh_wep_inv
+    if exports.ui:currentmenu() == "vehicle_weapon_inventory" then
+        TriggerEvent("inventory:vehicle_weapon_open")
     end
 end)
 
@@ -60,8 +76,8 @@ AddEventHandler("inventory:animation", function(ped)
 end)
 
 RegisterNetEvent("inventory:updateitems_vehicle_weapon")
-AddEventHandler("inventory:updateitems_vehicle_weapon", function(veh_wep_inv)
-    vehicle_weapon_inventory = veh_wep_inv
+AddEventHandler("inventory:updateitems_vehicle_weapon", function(plate, veh_wep_inv)
+    vehicle_weapon_inventory[plate] = veh_wep_inv
     if exports.ui:currentmenu() == "vehicle_weapon_inventory" then
         TriggerEvent("inventory:vehicle_weapon_open")
     end
@@ -222,7 +238,7 @@ AddEventHandler("inventory:vehicle_withdraw", function(data)
             exports.ui:reset()
             exports.ui:open("vehicle_inventory")
             TriggerServerEvent("inventory:vehicle_withdraw", math.floor(amount), data)
-            TaskPlayAnim(PlayerPedId(), put_in_car_dict, "givetake2_a", 100.0, 200.0, 0.3, 16, 0.2, 0, 0, 0)
+            --TaskPlayAnim(PlayerPedId(), put_in_car_dict, "givetake2_a", 100.0, 200.0, 0.3, 16, 0.2, 0, 0, 0)
         else
             TriggerEvent("inventory:vehicle_open")
         end
@@ -253,7 +269,7 @@ AddEventHandler("inventory:vehicle_deposited", function(data)
             exports.ui:reset()
             exports.ui:open("vehicle_inventory")
             TriggerServerEvent("inventory:vehicle_deposit", math.floor(amount), data.plate, data.item)
-            TaskPlayAnim(PlayerPedId(), put_in_car_dict, "givetake1_a", 100.0, 200.0, 0.3, 16, 0.2, 0, 0, 0)
+            --TaskPlayAnim(PlayerPedId(), put_in_car_dict, "givetake1_a", 100.0, 200.0, 0.3, 16, 0.2, 0, 0, 0)
         else
             TriggerEvent("inventory:vehicle_open")
         end

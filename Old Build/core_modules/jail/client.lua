@@ -104,9 +104,9 @@ end
 Citizen.CreateThread(function()
     while true do
         Citizen.Wait(0)
+        if not removeSentence then
         local Ped = PlayerPedId()
         local PlayerPosition = GetEntityCoords(Ped, false)
-        if not removeSentence then
             if #(PlayerPosition - jobs[randomizedJob]) < 10 then
                 drawMarker(25, jobs[randomizedJob].x, jobs[randomizedJob].y, jobs[randomizedJob].z - 0.1, 1.0, 1.0, 1.5, 0, 255, 0, 255)
                 if #(PlayerPosition - jobs[randomizedJob]) < 1 then

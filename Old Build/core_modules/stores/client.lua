@@ -122,7 +122,7 @@ Citizen.CreateThread(function()
         local pos = GetEntityCoords(PlayerPedId(), false)
         for Index = 1, #stores.normal do
             if #(pos - stores.normal[Index]) < 15.0 then
-                DrawMarker(1, v.x, v.y, v.z - 1, 0, 0, 0, 0, 0, 0, 1.5001, 1.5001, 0.7555, 1555, 90, 10,150, 0, 0, 0,0)
+                DrawMarker(1, stores.normal[Index].x, stores.normal[Index].y, stores.normal[Index].z - 1, 0, 0, 0, 0, 0, 0, 1.5001, 1.5001, 0.7555, 1555, 90, 10,150, 0, 0, 0,0)
                 if #(pos - stores.normal[Index]) < 1.0 then
 					if IsControlJustPressed(1, 51) then
 						if not WarMenu.IsMenuOpened("Items") then

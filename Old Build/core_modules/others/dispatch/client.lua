@@ -348,7 +348,7 @@ Citizen.CreateThread(function()
                             local Weaponhash = GetHashKey(WeaponStr)
                             if not weapons_whitelist[WeaponStr] then
                                 local pos = GetEntityCoords(PlayerPed, false)
-                                if #(Pos - lastpos) > 75 then
+                                if #(pos - lastpos) > 75 then
                                     local ped = GetClosestPed()
                                     local distance = #(GetEntityCoords(PlayerPed, false) - GetEntityCoords(ped, false))
                                     if distance <= 45.0 then

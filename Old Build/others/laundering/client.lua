@@ -478,7 +478,7 @@ Citizen.CreateThread(function()
 		local pos = GetEntityCoords(PlayerPedId(), true)
 		for Index = 1, #casino do
 			if #(pos - casino[Index].coords) < 15.0 then
-				DrawMarker(25, v.x, v.y, v.z - 0.9, 0, 0, 0, 0, 0, 0, 1.5001, 1.5001, 1.0001, 0, 0, 0,255, 0, 0, 0,0)
+				DrawMarker(25, casino[Index].coords.x, casino[Index].coords.y, casino[Index].coords.z - 0.9, 0, 0, 0, 0, 0, 0, 1.5001, 1.5001, 1.0001, 0, 0, 0,255, 0, 0, 0,0)
 				if #(pos - casino[Index].coords) < 1.0 then
 					DisplayHelpText("Press ~INPUT_CONTEXT~ to clean your money!($250 Dirty)")
 					if IsControlJustReleased(1, 51) then -- INPUT_CELLPHONE_DOWN

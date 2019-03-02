@@ -154,7 +154,7 @@ function CreateCocaineVan()
 		Citizen.Wait(0)
 	end
 
-	Cocaine.Vehicle.Handle = CreateVehicle(Model, Cocaine.Locations.Van.x, Cocaine.Locations.Van.y, Cocaine.Locations.Van.z, Cocaine.Locations.Van.h, true, false)
+	Cocaine.Vehicle.Handle = CreateVehicle(Model, Cocaine.Locations.Van.x, Cocaine.Locations.Van.y, Cocaine.Locations.Van.z, 316.04577636719, true, false)
 
 	while not DoesEntityExist(Cocaine.Vehicle.Handle) do
 		Citizen.Wait(0)

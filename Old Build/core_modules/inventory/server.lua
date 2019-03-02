@@ -145,8 +145,8 @@ AddEventHandler("inventory:initialise",function(source, identifier, character_id
         if inventory[1] == nil then
             user_inventory[source] = inventory
             TriggerClientEvent("inventory:updateitems", source, inventory)
-            TriggerClientEvent("inventory:updateitems_vehicle", source, vehicle_inventory)
-            TriggerClientEvent("inventory:updateitems_vehicle_weapon", source, vehicle_weapon_inventory)
+            TriggerClientEvent("inventory:updateitems_vehicle_initialise", source, vehicle_inventory)
+            TriggerClientEvent("inventory:updateitems_vehicle_weapon_initialise", source, vehicle_weapon_inventory)
             TriggerClientEvent("inventory:sync", -1, user_inventory)
         else
             local inventory_setup = {}
@@ -155,8 +155,8 @@ AddEventHandler("inventory:initialise",function(source, identifier, character_id
             end
             user_inventory[source] = inventory_setup
             TriggerClientEvent("inventory:updateitems", source, user_inventory[source])
-            TriggerClientEvent("inventory:updateitems_vehicle", source, vehicle_inventory)
-            TriggerClientEvent("inventory:updateitems_vehicle_weapon", source, vehicle_weapon_inventory)
+            TriggerClientEvent("inventory:updateitems_vehicle_initialise", source, vehicle_inventory)
+            TriggerClientEvent("inventory:updateitems_vehicle_weapon_initialise", source, vehicle_weapon_inventory)
             TriggerClientEvent("inventory:sync", -1, user_inventory)
         end
     end)
@@ -597,7 +597,7 @@ AddEventHandler("inventory:vehicle_withdraw", function(amount, data)
                                 ["@plate"] = data.plate, 
                                 ["@item_id"] = data.item_id,
                             })
-                            TriggerClientEvent("inventory:updateitems_vehicle", -1, vehicle_inventory)
+                            TriggerClientEvent("inventory:updateitems_vehicle", -1, data.plate, vehicle_inventory[data.plate])
                             TriggerClientEvent("inventory:sync", -1, user_inventory)
                         else
                             vehicle_inventory[data.plate][data.item_id].quantity = vehicle_inventory[data.plate][data.item_id].quantity - amount
@@ -606,7 +606,7 @@ AddEventHandler("inventory:vehicle_withdraw", function(amount, data)
                                 ["@item_id"] = data.item_id,
                                 ["@quantity"] = vehicle_inventory[data.plate][data.item_id].quantity
                             })
-                            TriggerClientEvent("inventory:updateitems_vehicle", -1, vehicle_inventory)
+                            TriggerClientEvent("inventory:updateitems_vehicle", -1, data.plate, vehicle_inventory[data.plate])
                             TriggerClientEvent("inventory:sync", -1, user_inventory)
                         end
 
@@ -641,7 +641,7 @@ AddEventHandler("inventory:vehicle_withdraw", function(amount, data)
                                 ["@plate"] = data.plate, 
                                 ["@item_id"] = data.item_id,
                             })
-                            TriggerClientEvent("inventory:updateitems_vehicle", -1, vehicle_inventory)
+                            TriggerClientEvent("inventory:updateitems_vehicle", -1, data.plate, vehicle_inventory[data.plate])
                             TriggerClientEvent("inventory:sync", -1, user_inventory)
                         else
                             vehicle_inventory[data.plate][data.item_id].quantity = vehicle_inventory[data.plate][data.item_id].quantity - quantity_available
@@ -650,7 +650,7 @@ AddEventHandler("inventory:vehicle_withdraw", function(amount, data)
                                 ["@item_id"] = data.item_id,
                                 ["@quantity"] = vehicle_inventory[data.plate][data.item_id].quantity
                             })
-                            TriggerClientEvent("inventory:updateitems_vehicle", -1, vehicle_inventory)
+                            TriggerClientEvent("inventory:updateitems_vehicle", -1, data.plate, vehicle_inventory[data.plate])
                             TriggerClientEvent("inventory:sync", -1, user_inventory)
                         end
 
@@ -687,7 +687,7 @@ AddEventHandler("inventory:vehicle_withdraw", function(amount, data)
                                 ["@plate"] = data.plate, 
                                 ["@item_id"] = data.item_id,
                             })
-                            TriggerClientEvent("inventory:updateitems_vehicle", -1, vehicle_inventory)
+                            TriggerClientEvent("inventory:updateitems_vehicle", -1, data.plate, vehicle_inventory[data.plate])
                         else
                             vehicle_inventory[data.plate][data.item_id].quantity = vehicle_inventory[data.plate][data.item_id].quantity - available_space
                             exports["GHMattiMySQL"]:QueryAsync("UPDATE vehicle_inventory SET quantity=@quantity WHERE (plate = @plate) AND (item_id=@item_id)", {
@@ -695,7 +695,7 @@ AddEventHandler("inventory:vehicle_withdraw", function(amount, data)
                                 ["@item_id"] = data.item_id,
                                 ["@quantity"] = vehicle_inventory[data.plate][data.item_id].quantity
                             })
-                            TriggerClientEvent("inventory:updateitems_vehicle", -1, vehicle_inventory)
+                            TriggerClientEvent("inventory:updateitems_vehicle", -1, data.plate, vehicle_inventory[data.plate])
                         end
 
                         Notify("Withdrew "..available_space.." "..itemlist[data.item_id].name.."(s)", 3000, source)
@@ -729,7 +729,7 @@ AddEventHandler("inventory:vehicle_withdraw", function(amount, data)
                                 ["@plate"] = data.plate, 
                                 ["@item_id"] = data.item_id,
                             })
-                            TriggerClientEvent("inventory:updateitems_vehicle", -1, vehicle_inventory)
+                            TriggerClientEvent("inventory:updateitems_vehicle", -1, data.plate, vehicle_inventory[data.plate])
                         else
                             vehicle_inventory[data.plate][data.item_id].quantity = vehicle_inventory[data.plate][data.item_id].quantity - quantity_available
                             exports["GHMattiMySQL"]:QueryAsync("UPDATE vehicle_inventory SET quantity=@quantity WHERE (plate = @plate) AND (item_id=@item_id)", {
@@ -737,7 +737,7 @@ AddEventHandler("inventory:vehicle_withdraw", function(amount, data)
                                 ["@item_id"] = data.item_id,
                                 ["@quantity"] = vehicle_inventory[data.plate][data.item_id].quantity
                             })
-                            TriggerClientEvent("inventory:updateitems_vehicle", -1, vehicle_inventory)
+                            TriggerClientEvent("inventory:updateitems_vehicle", -1, data.plate, vehicle_inventory[data.plate])
                         end
 
                         Notify("Withdrew "..quantity_available.." "..itemlist[data.item_id].name.."(s)", 3000, source)
@@ -771,7 +771,7 @@ AddEventHandler("inventory:vehicle_deposit", function(amount, plate, data)
                                     ["@canuse"] = itemlist[data.item_id].canuse,
                                     ["@locked"] = vehicle_inventory[plate].locked,
                                 })
-                                TriggerClientEvent("inventory:updateitems_vehicle", -1, vehicle_inventory)
+                                TriggerClientEvent("inventory:updateitems_vehicle", -1, plate, vehicle_inventory[plate])
                             else
                                 vehicle_inventory[plate][data.item_id].quantity = vehicle_inventory[plate][data.item_id].quantity + amount
                                 exports["GHMattiMySQL"]:QueryAsync("UPDATE vehicle_inventory SET quantity=@quantity WHERE (plate=@plate) AND (item_id=@item_id)", {
@@ -779,7 +779,7 @@ AddEventHandler("inventory:vehicle_deposit", function(amount, plate, data)
                                     ["@item_id"] = data.item_id, 
                                     ["@quantity"] = vehicle_inventory[plate][data.item_id].quantity
                                 })
-                                TriggerClientEvent("inventory:updateitems_vehicle", -1, vehicle_inventory)
+                                TriggerClientEvent("inventory:updateitems_vehicle", -1, plate, vehicle_inventory[plate])
                             end
 
                             if (user_inventory[source][data.item_id].quantity - amount) <= 0 then
@@ -815,7 +815,7 @@ AddEventHandler("inventory:vehicle_deposit", function(amount, plate, data)
                                     ["@canuse"] = itemlist[data.item_id].canuse,
                                     ["@locked"] = "true",
                                 })
-                                TriggerClientEvent("inventory:updateitems_vehicle", -1, vehicle_inventory)
+                                TriggerClientEvent("inventory:updateitems_vehicle", -1, plate, vehicle_inventory[plate])
                             else
                                 vehicle_inventory[plate][data.item_id].quantity = vehicle_inventory[plate][data.item_id].quantity + amount
                                 exports["GHMattiMySQL"]:QueryAsync("UPDATE vehicle_inventory SET quantity=@quantity WHERE (plate=@plate) AND (item_id=@item_id)", {
@@ -823,7 +823,7 @@ AddEventHandler("inventory:vehicle_deposit", function(amount, plate, data)
                                     ["@item_id"] = data.item_id, 
                                     ["@quantity"] = vehicle_inventory[plate][data.item_id].quantity
                                 })
-                                TriggerClientEvent("inventory:updateitems_vehicle", -1, vehicle_inventory)
+                                TriggerClientEvent("inventory:updateitems_vehicle", -1, plate, vehicle_inventory[plate])
                             end
 
                             if (user_inventory[source][data.item_id].quantity - amount) <= 0 then
@@ -860,7 +860,7 @@ AddEventHandler("inventory:vehicle_deposit", function(amount, plate, data)
                                     ["@canuse"] = itemlist[data.item_id].canuse,
                                     ["@locked"] = vehicle_inventory[plate].locked,
                                 })
-                                TriggerClientEvent("inventory:updateitems_vehicle", -1, vehicle_inventory)
+                                TriggerClientEvent("inventory:updateitems_vehicle", -1, plate, vehicle_inventory[plate])
                             else
                                 vehicle_inventory[plate][data.item_id].quantity =vehicle_inventory[plate][data.item_id].quantity + quantity_available
                                 exports["GHMattiMySQL"]:QueryAsync("UPDATE vehicle_inventory SET quantity=@quantity WHERE (plate=@plate) AND (item_id=@item_id)", {
@@ -868,7 +868,7 @@ AddEventHandler("inventory:vehicle_deposit", function(amount, plate, data)
                                     ["@item_id"] = data.item_id, 
                                     ["@quantity"] = vehicle_inventory[plate][data.item_id].quantity
                                 })
-                                TriggerClientEvent("inventory:updateitems_vehicle", -1, vehicle_inventory)
+                                TriggerClientEvent("inventory:updateitems_vehicle", -1, plate, vehicle_inventory[plate])
                             end
 
                             if (user_inventory[source][data.item_id].quantity - quantity_available) <= 0 then
@@ -904,7 +904,7 @@ AddEventHandler("inventory:vehicle_deposit", function(amount, plate, data)
                                     ["@canuse"] = itemlist[data.item_id].canuse,
                                     ["@locked"] = "true",
                                 })
-                                TriggerClientEvent("inventory:updateitems_vehicle", -1, vehicle_inventory)
+                                TriggerClientEvent("inventory:updateitems_vehicle", -1, plate, vehicle_inventory[plate])
                             else
                                 vehicle_inventory[plate][data.item_id].quantity =vehicle_inventory[plate][data.item_id].quantity + quantity_available
                                 exports["GHMattiMySQL"]:QueryAsync("UPDATE vehicle_inventory SET quantity=@quantity WHERE (plate=@plate) AND (item_id=@item_id)", {
@@ -912,7 +912,7 @@ AddEventHandler("inventory:vehicle_deposit", function(amount, plate, data)
                                     ["@item_id"] = data.item_id, 
                                     ["@quantity"] = vehicle_inventory[plate][data.item_id].quantity
                                 })
-                                TriggerClientEvent("inventory:updateitems_vehicle", -1, vehicle_inventory)
+                                TriggerClientEvent("inventory:updateitems_vehicle", -1, plate, vehicle_inventory[plate])
                             end
 
                             if (user_inventory[source][data.item_id].quantity - quantity_available) <= 0 then
@@ -951,7 +951,7 @@ AddEventHandler("inventory:vehicle_deposit", function(amount, plate, data)
                                     ["@canuse"] = itemlist[data.item_id].canuse,
                                     ["@locked"] = "true",
                                 })
-                                TriggerClientEvent("inventory:updateitems_vehicle", -1, vehicle_inventory)
+                                TriggerClientEvent("inventory:updateitems_vehicle", -1, plate, vehicle_inventory[plate])
                             else
                                 vehicle_inventory[plate][data.item_id].quantity =vehicle_inventory[plate][data.item_id].quantity + available_space
                                 exports["GHMattiMySQL"]:QueryAsync("UPDATE vehicle_inventory SET quantity=@quantity WHERE (plate=@plate) AND (item_id=@item_id)", {
@@ -959,7 +959,7 @@ AddEventHandler("inventory:vehicle_deposit", function(amount, plate, data)
                                     ["@item_id"] = data.item_id, 
                                     ["@quantity"] = vehicle_inventory[plate][data.item_id].quantity
                                 })
-                                TriggerClientEvent("inventory:updateitems_vehicle", -1, vehicle_inventory)
+                                TriggerClientEvent("inventory:updateitems_vehicle", -1, plate, vehicle_inventory[plate])
                             end
 
                             if (user_inventory[source][data.item_id].quantity - available_space) <= 0 then
@@ -995,7 +995,7 @@ AddEventHandler("inventory:vehicle_deposit", function(amount, plate, data)
                                     ["@canuse"] = itemlist[data.item_id].canuse,
                                     ["@locked"] = vehicle_inventory[plate].locked,
                                 })
-                                TriggerClientEvent("inventory:updateitems_vehicle", -1, vehicle_inventory)
+                                TriggerClientEvent("inventory:updateitems_vehicle", -1, plate, vehicle_inventory[plate])
                             else
                                 vehicle_inventory[plate][data.item_id].quantity =vehicle_inventory[plate][data.item_id].quantity + available_space
                                 exports["GHMattiMySQL"]:QueryAsync("UPDATE vehicle_inventory SET quantity=@quantity WHERE (plate=@plate) AND (item_id=@item_id)", {
@@ -1003,7 +1003,7 @@ AddEventHandler("inventory:vehicle_deposit", function(amount, plate, data)
                                     ["@item_id"] = data.item_id, 
                                     ["@quantity"] = vehicle_inventory[plate][data.item_id].quantity
                                 })
-                                TriggerClientEvent("inventory:updateitems_vehicle", -1, vehicle_inventory)
+                                TriggerClientEvent("inventory:updateitems_vehicle", -1, plate, vehicle_inventory[plate])
                             end
 
                             if (user_inventory[source][data.item_id].quantity - available_space) <= 0 then
@@ -1040,7 +1040,7 @@ AddEventHandler("inventory:vehicle_deposit", function(amount, plate, data)
                                     ["@canuse"] = itemlist[data.item_id].canuse,
                                     ["@locked"] = vehicle_inventory[plate].locked,
                                 })
-                                TriggerClientEvent("inventory:updateitems_vehicle", -1, vehicle_inventory)
+                                TriggerClientEvent("inventory:updateitems_vehicle", -1, plate, vehicle_inventory[plate])
                             else
                                 vehicle_inventory[plate][data.item_id].quantity = vehicle_inventory[plate][data.item_id].quantity + quantity_available
                                 exports["GHMattiMySQL"]:QueryAsync("UPDATE vehicle_inventory SET quantity=@quantity WHERE (plate=@plate) AND (item_id=@item_id)", {
@@ -1048,7 +1048,7 @@ AddEventHandler("inventory:vehicle_deposit", function(amount, plate, data)
                                     ["@item_id"] = data.item_id, 
                                     ["@quantity"] = vehicle_inventory[plate][data.item_id].quantity
                                 })
-                                TriggerClientEvent("inventory:updateitems_vehicle", -1, vehicle_inventory)
+                                TriggerClientEvent("inventory:updateitems_vehicle", -1, plate, vehicle_inventory[plate])
                             end
 
                             if (user_inventory[source][data.item_id].quantity - quantity_available) <= 0 then
@@ -1084,7 +1084,7 @@ AddEventHandler("inventory:vehicle_deposit", function(amount, plate, data)
                                     ["@canuse"] = itemlist[data.item_id].canuse,
                                     ["@locked"] = "true",
                                 })
-                                TriggerClientEvent("inventory:updateitems_vehicle", -1, vehicle_inventory)
+                                TriggerClientEvent("inventory:updateitems_vehicle", -1, plate, vehicle_inventory[plate])
                             else
                                 vehicle_inventory[plate][data.item_id].quantity = vehicle_inventory[plate][data.item_id].quantity + quantity_available
                                 exports["GHMattiMySQL"]:QueryAsync("UPDATE vehicle_inventory SET quantity=@quantity WHERE (plate=@plate) AND (item_id=@item_id)", {
@@ -1092,7 +1092,7 @@ AddEventHandler("inventory:vehicle_deposit", function(amount, plate, data)
                                     ["@item_id"] = data.item_id, 
                                     ["@quantity"] = vehicle_inventory[plate][data.item_id].quantity
                                 })
-                                TriggerClientEvent("inventory:updateitems_vehicle", -1, vehicle_inventory)
+                                TriggerClientEvent("inventory:updateitems_vehicle", -1, plate, vehicle_inventory[plate])
                             end
 
                             if (user_inventory[source][data.item_id].quantity - quantity_available) <= 0 then
@@ -1136,7 +1136,7 @@ AddEventHandler("inventory:vehicle_lock", function(plate)
             vehicle_inventory[plate].locked = "true"
         end
         exports["GHMattiMySQL"]:QueryAsync("UPDATE vehicle_inventory SET locked=@locked WHERE plate=@plate", {["@locked"] = vehicle_inventory[plate].locked, ["@plate"] = plate})
-        TriggerClientEvent("inventory:updateitems_vehicle", -1, vehicle_inventory)
+        TriggerClientEvent("inventory:updateitems_vehicle", -1, plate, vehicle_inventory[plate])
     else
         Notify("Currently syncing vehicle inventories, try again in a second", 3000, source)
     end
@@ -1172,7 +1172,7 @@ AddEventHandler("inventory:vehicle_weapon_deposit", function(plate, weapon)
                         }
                     }, function(weapon_id)
                         table.insert(vehicle_weapon_inventory[plate].weapons, { id = weapon_id, wid = weapon.id, plate = plate, sellprice = weapon.sellprice, model = weapon.model, ammo = weapon.ammo, suppressor = weapon.suppressor, flashlight = weapon.flashlight, extended_clip = weapon.extended_clip, scope = weapon.scope, grip = weapon.grip, advanced_scope = weapon.advanced_scope, skin = weapon.skin, locked = vehicle_weapon_inventory[plate].locked, owner = weapon.owner })
-                        TriggerClientEvent("inventory:updateitems_vehicle_weapon", -1, vehicle_weapon_inventory)
+                        TriggerClientEvent("inventory:updateitems_vehicle_weapon", -1, plate, vehicle_weapon_inventory[plate])
                         TriggerClientEvent("weapon:set", source, user_weapons[source])
                         TriggerClientEvent("weapon:give", source)
                         TriggerClientEvent("weapon:sync", -1, user_weapons)
@@ -1206,7 +1206,7 @@ AddEventHandler("inventory:vehicle_weapon_deposit", function(plate, weapon)
                         }
                     }, function(weapon_id)
                         table.insert(vehicle_weapon_inventory[plate].weapons, { id = weapon_id, wid = weapon.id, plate = plate, sellprice = weapon.sellprice, model = weapon.model, ammo = weapon.ammo, suppressor = weapon.suppressor, flashlight = weapon.flashlight, extended_clip = weapon.extended_clip, scope = weapon.scope, grip = weapon.grip, advanced_scope = weapon.advanced_scope, skin = weapon.skin, locked = vehicle_weapon_inventory[plate].locked, owner = weapon.owner })
-                        TriggerClientEvent("inventory:updateitems_vehicle_weapon", -1, vehicle_weapon_inventory)
+                        TriggerClientEvent("inventory:updateitems_vehicle_weapon", -1, plate, vehicle_weapon_inventory[plate])
                         TriggerClientEvent("weapon:set", source, user_weapons[source])
                         TriggerClientEvent("weapon:give", source)
                         TriggerClientEvent("weapon:sync", -1, user_weapons)
@@ -1253,7 +1253,7 @@ AddEventHandler("inventory:vehicle_weapon_withdraw", function(plate, weapon, wea
                             }
                         }, function(weapon_id)
                             user_weapons[source][weapon.model] = { id = weapon_id, character_id = user.get("characterID"), sellprice = weapon.sellprice, model = weapon.model, ammo = weapon.ammo, suppressor = weapon.suppressor, flashlight = weapon.flashlight, extended_clip = weapon.extended_clip, scope = weapon.scope, grip = weapon.grip, advanced_scope = weapon.advanced_scope, skin = weapon.skin, owner = weapon.owner }
-                            TriggerClientEvent("inventory:updateitems_vehicle_weapon", -1, vehicle_weapon_inventory)
+                            TriggerClientEvent("inventory:updateitems_vehicle_weapon", -1, plate, vehicle_weapon_inventory[plate])
                             TriggerClientEvent("weapon:set", source, user_weapons[source])
                             TriggerClientEvent("weapon:give", source)
                             TriggerClientEvent("weapon:sync", -1, user_weapons)
@@ -1281,7 +1281,7 @@ AddEventHandler("inventory:vehicle_weapon_lock", function(plate)
             vehicle_weapon_inventory[plate].locked = "true"
         end
         exports["GHMattiMySQL"]:QueryAsync("UPDATE vehicle_weapon_inventory SET locked=@locked WHERE plate=@plate", {["@locked"] = vehicle_weapon_inventory[plate].locked, ["@plate"] = plate})
-        TriggerClientEvent("inventory:updateitems_vehicle_weapon", -1, vehicle_weapon_inventory)
+        TriggerClientEvent("inventory:updateitems_vehicle_weapon", -1, plate, vehicle_weapon_inventory[plate])
     else
         Notify("Currently syncing vehicle inventories, try again in a second", 3000, source)
     end
@@ -1293,11 +1293,11 @@ AddEventHandler("inventory:delete_vehicle",function(plate, type)
         if type == "inventory" then
             exports["GHMattiMySQL"]:QueryAsync("DELETE FROM vehicle_inventory WHERE plate=@plate", {["@plate"] = plate})
             vehicle_inventory[plate] = {}
-            TriggerClientEvent("inventory:updateitems_vehicle", -1, vehicle_inventory)
+            TriggerClientEvent("inventory:updateitems_vehicle", -1, plate, vehicle_inventory[plate])
         elseif type == "weapons" then
             exports["GHMattiMySQL"]:QueryAsync("DELETE FROM vehicle_weapon_inventory WHERE plate=@plate", {["@plate"] = plate})
             vehicle_weapon_inventory[plate] = {}
-            TriggerClientEvent("inventory:updateitems_vehicle_weapon", -1, vehicle_weapon_inventory)
+            TriggerClientEvent("inventory:updateitems_vehicle_weapon", -1, plate, vehicle_weapon_inventory[plate])
         end
     else
         Notify("Currently syncing vehicle inventories, try again in a second", 3000, source)
@@ -1330,12 +1330,12 @@ AddEventHandler("inventory:seize_vehicle",function(plate, type)
                         end
                     end
                 end
-                TriggerClientEvent("inventory:updateitems_vehicle", -1, vehicle_inventory)
+                TriggerClientEvent("inventory:updateitems_vehicle", -1, plate, vehicle_inventory[plate])
             end
         elseif type == "weapons" then
             exports["GHMattiMySQL"]:QueryAsync("DELETE FROM vehicle_weapon_inventory WHERE plate=@plate", {["@plate"] = plate})
             vehicle_weapon_inventory[plate] = {}
-            TriggerClientEvent("inventory:updateitems_vehicle_weapon", -1, vehicle_weapon_inventory)
+            TriggerClientEvent("inventory:updateitems_vehicle_weapon", -1, plate, vehicle_weapon_inventory[plate])
         end
     else
         Notify("Currently syncing vehicle inventories, try again in a second", 3000, source)

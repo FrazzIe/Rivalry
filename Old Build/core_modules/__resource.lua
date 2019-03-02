@@ -19,9 +19,9 @@ client_script "New/Wrappers/Client/Blip.lua"
 client_script 'New/Utilities/Client/Functions.lua'
 server_script 'New/Utilities/Server/Functions.lua'
 
---client_script 'New/Utilities/Client/Drawing.lua'
+client_script 'New/Utilities/Client/Drawing.lua'
 
---client_script 'New/Wrappers/Client/NativeUI.lua'
+client_script 'New/Wrappers/Client/NativeUI.lua'
 
 client_script "New/Player/Client/Main.lua"
 client_script "New/Player/Client/Emotes.lua"

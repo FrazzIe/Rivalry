@@ -915,7 +915,7 @@ local Map = {
 				{x = 442.78, y = -984.02, z = 30.68},
 			},
 			Props = {},
-			Colours = {,}
+			Colours = {},
 		},
 	},
 }

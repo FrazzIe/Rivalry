@@ -39,5 +39,12 @@ local function canTargetRank(user, target, callback)
 	end
 end
 
-addRank("journalist", "")
-addRank("head journalist", "")
+addRank("intern", "")
+addRank("cameraman i", "")
+addRank("photographer i", "")
+addRank("journalist i", "")
+addRank("cameraman ii", "")
+addRank("photographer ii", "")
+addRank("journalist ii", "")
+addRank("lead reporter", "")
+addRank("chief executive", "")
