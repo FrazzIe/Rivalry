@@ -429,13 +429,13 @@ function basiccheck()
 					TriggerServerEvent('gopostal:checkjob', false)
 				end
 			else
-				drawTxt('Press ~g~E~s~ to get your~b~ van($500)', 2, 1, 0.5, 0.8, 0.6, 255, 255, 255, 255)
+				drawTxt('Press ~g~E~s~ to get your~b~ van for $500', 2, 1, 0.5, 0.8, 0.6, 255, 255, 255, 255)
 				if (IsControlJustReleased(1, 38)) then
 					TriggerServerEvent('gopostal:checkjob', true)
 				end
 			end	
 		else
-			drawTxt('Press ~g~E~s~ to get your~b~ van($500)', 2, 1, 0.5, 0.8, 0.6, 255, 255, 255, 255)
+			drawTxt('Press ~g~E~s~ to get your~b~ van for $500', 2, 1, 0.5, 0.8, 0.6, 255, 255, 255, 255)
 			if (IsControlJustReleased(1, 38)) then
 				TriggerServerEvent('gopostal:checkjob', true)
 			end

@@ -409,9 +409,9 @@ emplacement_selling = {
     {name="Sell vehicles", colour=1, sprite=225, x=-44.919033050537,y=-1082.6441650391,z=26.685247421265},
 }
 
-emplacement_claim = {    
+--[[emplacement_claim = {    
     {name="Claim Insurance", colour=3, sprite=467, x=-218.64384460449,y=-1162.3128662109,z=23.022277832031},
-}
+}--]]
 
 emplacement_garage_options = {    
     {name="Modify garages", colour=3, sprite=78, x=-55.156490325928,y=-1089.9210205078,z=26.322859191895},
@@ -516,9 +516,9 @@ Citizen.CreateThread(function()
     for _, item in pairs(emplacement_selling) do
         addBlip(item)
     end
-    for _, item in pairs(emplacement_claim) do
+--[[    for _, item in pairs(emplacement_claim) do
         addBlip(item)
-    end
+    end--]]
     for _, item in pairs(emplacement_garage_options) do
         addBlip(item)
     end
