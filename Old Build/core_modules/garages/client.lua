@@ -28,14 +28,14 @@ local currentgaragecost = nil                                                   
 local slotprice = 500                                                                                                        --
 local garageposition = 1                                                                                                        --                                                                                               
 local vehiclebool = false                                                                                                       --
-local insurancebool = false                                                                                                     --
+--local insurancebool = false                                                                                                     --
 garage_menu = false                                                                                                             --
 --==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--
 --==============================================================================================================================--
 --                                                         Configuration                                                        --
 --==============================================================================================================================--
 --==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--
-insurance = {
+--[[insurance = {
     ["cheburek"] = 0,
     ["ellie"] = 0,
     ["entity2"] = 0,
@@ -374,7 +374,7 @@ insurance = {
     ["zombiea"] = 6500,
     ["zombieb"] = 7500,
 
-}
+}--]]
 
 
 claimspots = {
@@ -440,11 +440,11 @@ AddEventHandler("garage:setgarages", function(data)
     user_garages = data
 end)
 
-RegisterNetEvent("garage:insurance")
+--[[RegisterNetEvent("garage:insurance")
 AddEventHandler("garage:insurance",function(index)
     user_vehicles[index].insurance = "true"
     garage_menu = false
-end)
+end)--]]
 
 RegisterNetEvent("garage:pay_impound")
 AddEventHandler("garage:pay_impound",function(index)
@@ -742,7 +742,7 @@ end
 --                                                        Buy Insurance                                                         --
 --==============================================================================================================================--
 --==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--
-function insuranceMenu()
+--[[function insuranceMenu()
     Menu.SetupMenu("insurance_menu","Insurance")
     Menu.Switch(nil,"insurance_menu")
     for i = 1,#user_vehicles do
@@ -764,7 +764,7 @@ function insuranceMenu()
             end
         end
     end
-end
+end--]]
 
 --==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--
 --==============================================================================================================================--
@@ -772,7 +772,7 @@ end
 --                                               Get your car back if its insured                                               --
 --==============================================================================================================================--
 --==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--
-function claimMenu()
+--[[function claimMenu()
     Menu.SetupMenu("claim_menu","Insurance Claims")
     Menu.Switch(nil,"claim_menu")
     for i = 1,#user_vehicles do
@@ -822,7 +822,7 @@ function claimMenu()
             end
         end
     end
-end
+end--]]
 --==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--
 --==============================================================================================================================--
 --                                                          Modify Menu                                                         --
