@@ -316,11 +316,11 @@ Citizen.CreateThread(function()
 						if GetAmmoInPedWeapon(PlayerPed, Weaponhash) > 0 then
 							if not weapons_whitelist[WeaponStr] then
 								local pos = GetEntityCoords(PlayerPed, false)
-								if #(Pos - lastpos) > 50 then
+								if #(pos - lastpos) > 50 then
 									if willNPCreport("gunshots") then
 										lastpos = pos
 										local street, crossing = GetStreetNameAtCoord(pos.x, pos.y, pos.z)
-										TriggerServerEvent("dispatch:ten-thirtytwo", pos, GetStreetNameFromHashKey(street))
+										TriggerServerEvent("dispatch:ten-thirtytwo", {pos.x, pos.y, pos.z}, GetStreetNameFromHashKey(street))
                                         TriggerServerEvent("News:Dispatch", GetStreetNameFromHashKey(street))
 									end
 								end
@@ -359,13 +359,13 @@ Citizen.CreateThread(function()
                                                 if IsPedMale(PlayerPed) then
                                                     local random = math.random(1,100)
                                                     if random >= 50 then
-                                                        TriggerServerEvent("dispatch:ten-thirtytwo:2", pos, GetStreetNameFromHashKey(street), "Male")
+                                                        TriggerServerEvent("dispatch:ten-thirtytwo:2", {pos.x, pos.y, pos.z}, GetStreetNameFromHashKey(street), "Male")
                                                         TriggerServerEvent("News:Dispatch", GetStreetNameFromHashKey(street))
                                                     end
                                                 else
                                                     local random = math.random(1,100)
                                                     if random >= 50 then
-                                                        TriggerServerEvent("dispatch:ten-thirtytwo:2", pos, GetStreetNameFromHashKey(street), "Female")
+                                                        TriggerServerEvent("dispatch:ten-thirtytwo:2", {pos.x, pos.y, pos.z}, GetStreetNameFromHashKey(street), "Female")
                                                         TriggerServerEvent("News:Dispatch", GetStreetNameFromHashKey(street))
                                                     end
                                                 end
@@ -524,7 +524,7 @@ AddEventHandler("dispatch:lockpick", function()
     			local plate =  GetVehicleNumberPlateText(vehicle)
     			local primary, secondary = GetVehicleColours(vehicle)
     			primary = colorNames[tostring(primary)] or ""
-    			TriggerServerEvent("dispatch:ten-thirtyone", pos, GetStreetNameFromHashKey(street), model, plate, primary)
+    			TriggerServerEvent("dispatch:ten-thirtyone", {pos.x, pos.y, pos.z}, GetStreetNameFromHashKey(street), model, plate, primary)
             end
 		end
 	end
@@ -574,7 +574,7 @@ AddEventHandler("dispatch:drug", function()
 			else
 				gender = "Female"
 			end
-			TriggerServerEvent("dispatch:ten-fifthteen", pos, GetStreetNameFromHashKey(street), gender)
+			TriggerServerEvent("dispatch:ten-fifthteen", {pos.x, pos.y, pos.z}, GetStreetNameFromHashKey(street), gender)
 		end
 	end
 end)
@@ -654,7 +654,7 @@ RegisterNetEvent("dispatch:robbery")
 AddEventHandler("dispatch:robbery", function()
 	local pos = GetEntityCoords(PlayerPedId(), false)
 	local street, crossing = GetStreetNameAtCoord(pos.x, pos.y, pos.z)
-	TriggerServerEvent("dispatch:ten-ninety", pos, GetStreetNameFromHashKey(street))
+	TriggerServerEvent("dispatch:ten-ninety", {pos.x, pos.y, pos.z}, GetStreetNameFromHashKey(street))
     TriggerServerEvent("News:Dispatch", GetStreetNameFromHashKey(street))
 end)
 
