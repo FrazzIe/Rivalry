@@ -27,12 +27,12 @@ Citizen.CreateThread(function()
 							if IsControlJustPressed(1, 51) then
 								local Owned = false
 								-- Uncomment if you want player cars non-chopable! --
-								--[[for k,v in pairs(user_vehicles) do
+								for k,v in pairs(user_vehicles) do
 									if v.plate == GetVehicleNumberPlateText(vehicle) then
 										Owned = true
 										break
 									end
-								end--]]
+								end
 								if not Owned then
 									local Class = GetVehicleClass(Vehicle)
 								    for Seat = -1, GetVehicleMaxNumberOfPassengers(Vehicle) do

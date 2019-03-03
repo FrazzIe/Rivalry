@@ -76,7 +76,7 @@ AddEventHandler('paycheck:salary', function(rank)
 			else
 				salary = salary + j.pay		    	
 		 	end
-		 	user.addWallet(salary)
+		 	user.addBank(salary)
 		 	TriggerClientEvent("es_freeroam:notify", source, "CHAR_BANK_MAZE", 1, "Maze Bank", false, "~g~$~s~Salary received : + "..salary.."")
 	 	end
 	end)

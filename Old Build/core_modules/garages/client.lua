@@ -401,9 +401,9 @@ emplacement_garage = {
     [13] = {name="Personal Garage", colour=3, sprite=357, x=1958.3830566406,y=3767.013671875,z=32.208053619385,id=13,gname="Sandy Shores [13]",cost=3000,heading=29.273107528687,maxslots=3},
 }
 
-emplacement_insurance = {
+--[[emplacement_insurance = {
     {name="Buy Insurance", colour=69, sprite=498, x=-32.958335876465,y=-1111.619140625,z=26.422338485718},
-}
+}--]]
 
 emplacement_selling = {
     {name="Sell vehicles", colour=1, sprite=225, x=-44.919033050537,y=-1082.6441650391,z=26.685247421265},
@@ -510,9 +510,9 @@ Citizen.CreateThread(function()
     for _, item in pairs(emplacement_garage) do
         addBlip(item)
     end
-    for _, item in pairs(emplacement_insurance) do
+--[[    for _, item in pairs(emplacement_insurance) do
         addBlip(item)
-    end
+    end--]]
     for _, item in pairs(emplacement_selling) do
         addBlip(item)
     end
@@ -546,7 +546,7 @@ Citizen.CreateThread(function()
                 end
             end
         end
-        for k,v in ipairs(emplacement_insurance) do
+        --[[for k,v in ipairs(emplacement_insurance) do
             if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 15.0)then
                 DrawMarker(25, v.x, v.y, v.z - 1, 0, 0, 0, 0, 0, 0, 1.5001, 1.5001, 0.7555, 1555, 90, 10,150, 0, 0, 0,0)
                 if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 1.0)then
@@ -564,8 +564,8 @@ Citizen.CreateThread(function()
                     garage_menu = false
                 end
             end
-        end
-        for k,v in ipairs(emplacement_claim) do
+        end--]]
+        --[[for k,v in ipairs(emplacement_claim) do
             if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 15.0)then
                 DrawMarker(25, v.x, v.y, v.z - 1, 0, 0, 0, 0, 0, 0, 1.5001, 1.5001, 0.7555, 1555, 90, 10,150, 0, 0, 0,0)
                 if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 1.0)then
@@ -583,7 +583,7 @@ Citizen.CreateThread(function()
                     garage_menu = false
                 end
             end
-        end
+        end--]]
         for k,v in ipairs(emplacement_garage_options) do
             if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 15.0)then
                 DrawMarker(25, v.x, v.y, v.z - 1, 0, 0, 0, 0, 0, 0, 3.5001, 3.5001, 0.7555, 1555, 90, 10,150, 0, 0, 0,0)
