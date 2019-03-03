@@ -26,6 +26,7 @@ Citizen.CreateThread(function()
 							DisplayHelpText("Press ~INPUT_CONTEXT~ to scrap this vehicle!")
 							if IsControlJustPressed(1, 51) then
 								local Owned = false
+								local Rental = false
 								-- Uncomment if you want player cars non-chopable! --
 								for k,v in pairs(user_vehicles) do
 									if v.plate == GetVehicleNumberPlateText(vehicle) then
@@ -33,7 +34,11 @@ Citizen.CreateThread(function()
 										break
 									end
 								end
-								if not Owned then
+								local Plate = GetVehicleNumberPlateText(Vehicle)
+								if string.sub(Plate, 1, 2) == "RR" then
+									Rental = true
+								end
+								if not Owned and not Rental then
 									local Class = GetVehicleClass(Vehicle)
 								    for Seat = -1, GetVehicleMaxNumberOfPassengers(Vehicle) do
 								        if not IsVehicleSeatFree(Vehicle, Seat) then
