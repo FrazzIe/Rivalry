@@ -20,11 +20,17 @@ AddEventHandler("News:Sync", function(type)
 		for Index = 1, #News.OnDutyPlayers do
 			if News.OnDutyPlayers[Index] == Source then
 				table.remove(News.OnDutyPlayers, Index)
+				TriggerEvent('core:getuser', Source , function (Player)
+					Player.setSessionVar('newsInService', false)
+				end)
 			end
 		end
 	end
 	if type == "add" then
 		table.insert(News.OnDutyPlayers, Source)
+		TriggerEvent('core:getuser', Source , function (Player)
+			Player.setSessionVar('newsInService', true)
+		end)
 	end
 end)
 

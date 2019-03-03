@@ -15,6 +15,14 @@ function News.OnDuty()
 	return News.Active
 end
 
+function NewsIsNews()
+	return News.IsNews
+end
+
+function NewsGetRank()
+	return News.Rank
+end
+
 Citizen.CreateThread(function()
 	CreateBlip("Weazel News", 590, 76, News.Locations[1].x, News.Locations[1].y, News.Locations[1].z)
 	while true do

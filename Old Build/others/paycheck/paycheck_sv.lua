@@ -31,6 +31,17 @@ PayCheck = {
 		[6] = {Rank = "state attorney", Pay = 1000},
 		[7] = {Rank = "paralegal", Pay = 1000},
 	},
+	DOJ = {
+		[1] = {Rank = "chief executive", Pay = 1000},
+		[2] = {Rank = "lead reporter", Pay = 900},
+		[3] = {Rank = "journalist ii", Pay = 750},
+		[4] = {Rank = "photographer ii", Pay = 750},
+		[5] = {Rank = "cameraman ii", Pay = 750},
+		[6] = {Rank = "journalist i", Pay = 600},
+		[7] = {Rank = "photographer i", Pay = 600},
+		[8] = {Rank = "cameraman i", Pay = 600},
+		[9] = {Rank = "intern", Pay = 500},
+	},
 }
 
 RegisterServerEvent('paycheck:salary')
@@ -72,7 +83,18 @@ AddEventHandler('paycheck:salary', function(rank)
 					end
 				else
 		    		salary = salary + j.pay	    		
-		    	end	    		
+		    	end	   
+		    elseif j.name == "News Reporter" then
+		    	local isInService = user.getSessionVar('newsInService')
+		    	if isInService then
+					for k, v in ipairs(PayCheck.News) do
+						if v.Rank == rank then
+							salary = salary + v.Pay
+						end
+					end
+				else
+		    		salary = salary + j.pay	    		
+		    	end	   		
 			else
 				salary = salary + j.pay		    	
 		 	end

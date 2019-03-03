@@ -169,6 +169,10 @@ export 'DOJgetrank'
 export 'DOJonduty'
 export 'DOJisdoj'
 
+export 'NewsGetRank'
+export 'News.OnDuty'
+export 'NewsIsNews'
+
 export 'SetParamedic'
 export 'SetPolice'
 
