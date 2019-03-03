@@ -71,6 +71,12 @@ server_script 'jobs/trucking/server.lua'
 client_script 'jobs/fisher/fisher_client.lua'
 server_script 'jobs/fisher/fisher_server.lua'
 
+client_script 'jobs/garbage/client.lua'
+server_script 'jobs/garbage/server.lua'
+
+client_script 'jobs/gopostal/client.lua'
+server_script 'jobs/gopostal/server.lua'
+
 client_script 'jobs/doj/client.lua'
 client_script 'jobs/doj/shared.lua'
 server_script 'jobs/doj/server.lua'

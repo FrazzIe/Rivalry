@@ -46,8 +46,8 @@ client_script {
 	'mechanic/mechanic_client.lua',
 	'mechanic/mechanic_Menu.lua',
 	'hunting/client.lua',
-	'gopostal/cl_delivery.lua',
-	'garbage/garbage-client.lua',
+	--'gopostal/cl_delivery.lua',
+	--'garbage/garbage-client.lua',
 	'pool/pool-client.lua',
 }
 
