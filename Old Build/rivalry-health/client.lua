@@ -91,14 +91,14 @@ RegisterNUICallback("close", function(data, cb)
 	cb("ok")
 end)
 
-	Citizen.CreateThread(function()
-		while true do
-			Citizen.Wait(0)
-			for i = 0,32 do
-				if NetworkIsPlayerActive(i) then
-					SetCanAttackFriendly(GetPlayerPed(i), true, true)
-					NetworkSetFriendlyFireOption(true)
-				end
+Citizen.CreateThread(function()
+	while true do
+		Citizen.Wait(0)
+		for i = 0,32 do
+			if NetworkIsPlayerActive(i) then
+				SetCanAttackFriendly(GetPlayerPed(i), true, true)
+				NetworkSetFriendlyFireOption(true)
 			end
 		end
-	end)
+	end
+end)
