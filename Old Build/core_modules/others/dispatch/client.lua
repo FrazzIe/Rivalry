@@ -321,7 +321,7 @@ Citizen.CreateThread(function()
 										lastpos = pos
 										local street, crossing = GetStreetNameAtCoord(pos.x, pos.y, pos.z)
 										TriggerServerEvent("dispatch:ten-thirtytwo", {x = pos.x, y = pos.y, z = pos.z}, GetStreetNameFromHashKey(street))
-                                        TriggerServerEvent("News:Dispatch", GetStreetNameFromHashKey(street))
+                                        TriggerServerEvent("News:Dispatch", GetStreetNameFromHashKey(street), GetStreetNameFromHashKey(crossing))
 									end
 								end
 							end
@@ -360,13 +360,13 @@ Citizen.CreateThread(function()
                                                     local random = math.random(1,100)
                                                     if random >= 50 then
                                                         TriggerServerEvent("dispatch:ten-thirtytwo:2", {x = pos.x, y = pos.y, z = pos.z}, GetStreetNameFromHashKey(street), "Male")
-                                                        TriggerServerEvent("News:Dispatch", GetStreetNameFromHashKey(street))
+                                                        TriggerServerEvent("News:Dispatch", GetStreetNameFromHashKey(street), GetStreetNameFromHashKey(crossing))
                                                     end
                                                 else
                                                     local random = math.random(1,100)
                                                     if random >= 50 then
                                                         TriggerServerEvent("dispatch:ten-thirtytwo:2", {x = pos.x, y = pos.y, z = pos.z}, GetStreetNameFromHashKey(street), "Female")
-                                                        TriggerServerEvent("News:Dispatch", GetStreetNameFromHashKey(street))
+                                                        TriggerServerEvent("News:Dispatch", GetStreetNameFromHashKey(street), GetStreetNameFromHashKey(crossing))
                                                     end
                                                 end
                                             end
@@ -621,7 +621,7 @@ AddEventHandler("dispatch:lockpick_property", function()
 	if willNPCreport("property_lock") then
 		local street, crossing = GetStreetNameAtCoord(pos.x, pos.y, pos.z)
 		TriggerServerEvent("dispatch:ten-thirtyone_2", pos, GetStreetNameFromHashKey(street))
-        TriggerServerEvent("News:Dispatch", GetStreetNameFromHashKey(street))
+        TriggerServerEvent("News:Dispatch", GetStreetNameFromHashKey(street), GetStreetNameFromHashKey(crossing))
 	end
 end)
 
@@ -662,7 +662,7 @@ AddEventHandler("dispatch:robbery", function()
 	local pos = GetEntityCoords(PlayerPedId(), false)
 	local street, crossing = GetStreetNameAtCoord(pos.x, pos.y, pos.z)
 	TriggerServerEvent("dispatch:ten-ninety", {x = pos.x, y = pos.y, z = pos.z}, GetStreetNameFromHashKey(street))
-    TriggerServerEvent("News:Dispatch", GetStreetNameFromHashKey(street))
+    TriggerServerEvent("News:Dispatch", GetStreetNameFromHashKey(street), GetStreetNameFromHashKey(crossing))
 end)
 
 RegisterNetEvent("dispatch:ten-ninety")

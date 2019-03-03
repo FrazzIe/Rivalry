@@ -35,9 +35,9 @@ AddEventHandler("News:Sync", function(type)
 end)
 
 RegisterServerEvent("News:Dispatch")
-AddEventHandler("News:Dispatch", function(street_name)
+AddEventHandler("News:Dispatch", function(street_name, crossing_name)
 	for k, v in ipairs(News.OnDutyPlayers) do
-		TriggerClientEvent("chatMessage", v, "NEWS", {255, 0, 0}, "^7Crime reported at "..street_name)
+		TriggerClientEvent("chatMessage", v, "NEWS", {255, 0, 0}, "^7Crime reported at "..street_name.." crossing "..crossing_name)
 	end
 end)
 
