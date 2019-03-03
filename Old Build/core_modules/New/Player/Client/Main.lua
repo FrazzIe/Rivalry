@@ -333,6 +333,7 @@ Citizen.CreateThread(function()
 				  				TaskReactAndFleePed(TargetPed, PlayerPed)
 				  				Citizen.Wait(30000)
 				  				HasTriggered = false
+				  				DeletePed(TargetPed)
 				  			end
 				  		end
 			  		else
@@ -365,6 +366,7 @@ Citizen.CreateThread(function()
 				  				TaskReactAndFleePed(TargetPed, PlayerPed)
 				  				Citizen.Wait(30000)
 				  				HasTriggered = false
+				  				DeletePed(TargetPed)
 				  			end
 				  		end
 			  		end
