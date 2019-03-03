@@ -40,10 +40,12 @@ Citizen.CreateThread(function()
 						end
 						if IsControlJustPressed(1, 51) then
 							if not News.Active then
-							TriggerServerEvent("News:Sync", "add")
-						else
-							TriggerServerEvent("News:Sync", "remove")
-						end
+								TriggerServerEvent("News:Sync", "add")
+								Notify("You are now on duty!", 2600)
+							else
+								TriggerServerEvent("News:Sync", "remove")
+								Notify("You are now off duty!", 2600)
+							end
 							News.Active = not News.Active
 						end
 					end
