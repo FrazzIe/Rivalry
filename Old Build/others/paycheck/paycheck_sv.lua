@@ -34,6 +34,7 @@ PayCheck = {
 	News = {
 		[1] = {Rank = "chief executive", Pay = 1000},
 		[2] = {Rank = "lead reporter", Pay = 900},
+		[2] = {Rank = "lead cameraman", Pay = 800},
 		[3] = {Rank = "journalist ii", Pay = 750},
 		[4] = {Rank = "photographer ii", Pay = 750},
 		[5] = {Rank = "cameraman ii", Pay = 750},
