@@ -24,7 +24,7 @@ jobs = {
     [22] = {id = 22, name = "Tow", pay = 100},
     [23] = {id = 23, name = "DOJ", pay = 250},
     [24] = {id = 24, name = "Trucker", pay = 100},
-    [25] = {id = 25, name = "News Reporter", pay = 100},
+    [25] = {id = 25, name = "News Reporter", pay = 250},
 }
 
 function setupCharacter(source, data)
