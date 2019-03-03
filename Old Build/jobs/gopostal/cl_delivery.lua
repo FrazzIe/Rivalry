@@ -426,18 +426,18 @@ function basiccheck()
 			if IsVehicleModel(GetVehiclePedIsIn(GetPlayerPed(-1), true), GetHashKey("boxville2")) then
 				drawTxt('Press ~g~E~s~ to restock your~b~ van', 2, 1, 0.5, 0.8, 0.6, 255, 255, 255, 255)
 				if (IsControlJustReleased(1, 38)) then
-					TriggerServerEvent('gopostal:checkjob')
+					TriggerServerEvent('gopostal:checkjob', false)
 				end
 			else
-				drawTxt('Press ~g~E~s~ to get your~b~ van', 2, 1, 0.5, 0.8, 0.6, 255, 255, 255, 255)
+				drawTxt('Press ~g~E~s~ to get your~b~ van($500)', 2, 1, 0.5, 0.8, 0.6, 255, 255, 255, 255)
 				if (IsControlJustReleased(1, 38)) then
-					TriggerServerEvent('gopostal:checkjob')
+					TriggerServerEvent('gopostal:checkjob', true)
 				end
 			end	
 		else
-			drawTxt('Press ~g~E~s~ to get your~b~ van', 2, 1, 0.5, 0.8, 0.6, 255, 255, 255, 255)
+			drawTxt('Press ~g~E~s~ to get your~b~ van($500)', 2, 1, 0.5, 0.8, 0.6, 255, 255, 255, 255)
 			if (IsControlJustReleased(1, 38)) then
-				TriggerServerEvent('gopostal:checkjob')
+				TriggerServerEvent('gopostal:checkjob', true)
 			end
 		end
 	else

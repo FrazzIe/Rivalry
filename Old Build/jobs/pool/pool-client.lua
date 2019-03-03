@@ -69,7 +69,7 @@ function ShowpoolBlips(bool)
 						DrawMarker(1,711.4304,-893.3711,23.05157-1, 0, 0, 0, 0, 0, 0, 2.0, 2.0, 1.5, 0, 0, 255, 155, 0, 0, 2, 0, 0, 0, 0)
 						currentlocation = b
 						if GetDistanceBetweenCoords(711.4304,-893.3711,23.05157,GetEntityCoords(LocalPed()),true) < 3 then
-							ShowInfoJobPool("Press ~INPUT_CONTEXT~ to get your ~b~Truck~w~.", 0)
+							ShowInfoJobPool("Press ~INPUT_CONTEXT~ to get your ~b~Truck($500)~w~.", 0)
 							inrange3 = true
 						end
 					end

@@ -340,19 +340,47 @@ local gopostal_destination = {
 }
 
 RegisterServerEvent('gopostal:checkjob')
-AddEventHandler('gopostal:checkjob', function()
+AddEventHandler('gopostal:checkjob', function(bool)
 	local source = tonumber(source)
 	TriggerEvent('core:getuser', source, function(user)
 		local job = user.get("job")
-		if job.id == 19 then --here you change the jobname (from your database)
-			if user.get("drivers_license") == "true" then
-				TriggerClientEvent('gopostal:updateLicense', source, true)
-			else
-				TriggerClientEvent('gopostal:updateLicense', source, false)
+		if bool then
+			if user.get("wallet") > 500 then
+				if job.id == 19 then --here you change the jobname (from your database)
+					if user.get("drivers_license") == "true" then
+						TriggerClientEvent('gopostal:updateLicense', source, true)
+					else
+						TriggerClientEvent('gopostal:updateLicense', source, false)
+					end
+					user.removeWallet(500)
+					TriggerClientEvent('gopostal:deliverytrue', source)
+				else
+					TriggerClientEvent('gopostal:deliveryfalse', source)
+				end
+			elseif user.get("bank") > 500 then
+				if job.id == 19 then --here you change the jobname (from your database)
+					if user.get("drivers_license") == "true" then
+						TriggerClientEvent('gopostal:updateLicense', source, true)
+					else
+						TriggerClientEvent('gopostal:updateLicense', source, false)
+					end
+					user.removeBank(500)
+					TriggerClientEvent('gopostal:deliverytrue', source)
+				else
+					TriggerClientEvent('gopostal:deliveryfalse', source)
+				end
 			end
-			TriggerClientEvent('gopostal:deliverytrue', source)
 		else
-			TriggerClientEvent('gopostal:deliveryfalse', source)
+			if job.id == 19 then --here you change the jobname (from your database)
+				if user.get("drivers_license") == "true" then
+					TriggerClientEvent('gopostal:updateLicense', source, true)
+				else
+					TriggerClientEvent('gopostal:updateLicense', source, false)
+				end
+				TriggerClientEvent('gopostal:deliverytrue', source)
+			else
+				TriggerClientEvent('gopostal:deliveryfalse', source)
+			end
 		end
 	end)
 end)

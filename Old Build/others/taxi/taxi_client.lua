@@ -31,7 +31,7 @@ isTaxi = false
 local TEXT = {
     PrendreService = '~INPUT_PICKUP~ Start taxi service',
     QuitterService = '~INPUT_PICKUP~  Stop taxi service',
-    SpawnVehicle = '~INPUT_PICKUP~ Recover your ~b~ service vehicle',
+    SpawnVehicle = '~INPUT_PICKUP~ Recover your ~b~ service vehicle(~b~$500)',
     SpawnVehicleImpossible = '~R~  Cannot spawn service vehicle',
    
     Blip = 'Course in progress',
@@ -227,7 +227,7 @@ local function gestionService()
                 DisplayHelpTextFromStringLabel(0, 0, 1, -1)
                 if IsControlJustPressed(0, 51) then
                     if drivers_license == true then
-                        spawnVehicle(coordData.SpawnVehicle, VehicleModelKeyTaxi)
+                        TriggerServerEvent("taxi:rent", coordData.SpawnVehicle, VehicleModelKeyTaxi)
                     else
                         TriggerEvent("pNotify:SendNotification", {text = "You dont have a valid drivers license!",type = "error",queue = "left",timeout = 2500,layout = "bottomCenter"})
                     end
@@ -237,6 +237,10 @@ local function gestionService()
     end
 end
 
+RegisterNetEvent('taxi:rent')
+AddEventHandler('taxi:rent', function(CoordData, Model)
+    spawnVehicle(CoordData, Model)
+end)
 --====================================================================================
 -- 
 --====================================================================================

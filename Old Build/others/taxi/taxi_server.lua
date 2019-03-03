@@ -12,6 +12,20 @@ AddEventHandler('taxi:payPhone', function()
 	end)
 end)
 
+RegisterServerEvent('taxi:rent')
+AddEventHandler('taxi:rent', function(coords, model)
+	local source = source
+	TriggerEvent('core:getuser', source, function(user)
+		if user.get("wallet") > 500 then
+			user.removeWallet(500)
+			TriggerClientEvent("taxi:rent", source, coords, model)
+		elseif user.get("bank") > 500 then
+			user.removeBank(500)
+			TriggerClientEvent("taxi:rent", source, coords, model)
+		end
+	end)
+end)
+
 RegisterServerEvent('taxi:checkLicense')
 AddEventHandler('taxi:checkLicense', function()
 	local source = source

@@ -323,6 +323,8 @@ Citizen.CreateThread(function()
 									else
 										TriggerServerEvent("Rob:Sucessful", true)
 									end
+								else
+									Notify("You ran too far from the individual! So you didn't get payed!", 2500)
 								end
 				  				table.insert(PreviouslyRobbed, TargetPed)
 				  				TaskSetBlockingOfNonTemporaryEvents(TargetPed, false)
@@ -353,6 +355,8 @@ Citizen.CreateThread(function()
 									else
 										TriggerServerEvent("Rob:Sucessful", true)
 									end
+								else
+									Notify("You ran too far from the individual! So you didn't get payed!", 2500)
 								end
 				  				table.insert(PreviouslyRobbed, TargetPed)
 				  				TaskSetBlockingOfNonTemporaryEvents(TargetPed, false)

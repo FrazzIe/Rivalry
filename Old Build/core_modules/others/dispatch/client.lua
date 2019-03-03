@@ -403,6 +403,7 @@ AddEventHandler("dispatch:ten-thirtytwo", function(coords)
 				EndTextCommandSetBlipName(ten_thirtytwo_blip)
 			end
 			if not arrived then
+                coords = vector3(coords.x, coords.y, coords.z)
 				if #(pos - coords) < 20 then
 					arrived = true
 					TriggerServerEvent("dispatch:pay", "10-31")
@@ -434,6 +435,7 @@ AddEventHandler("dispatch:ten-thirtytwo-r", function(coords)
                 EndTextCommandSetBlipName(ten_thirtytwo_blip)
             end
             if not arrived then
+                coords = vector3(coords.x, coords.y, coords.z)
                 if #(pos - coords) < 20 then
                     arrived = true
                     TriggerServerEvent("dispatch:pay", "10-31")
@@ -465,6 +467,7 @@ AddEventHandler("dispatch:ten-thirtytwo:2", function(coords)
                 EndTextCommandSetBlipName(ten_thirtytwo_blip)
             end
             if not arrived then
+                coords = vector3(coords.x, coords.y, coords.z)
                 if #(pos - coords) < 20 then
                     arrived = true
                     TriggerServerEvent("dispatch:pay", "10-32")
@@ -496,6 +499,7 @@ AddEventHandler("dispatch:ten-thirtytwo:3", function(coords)
                 EndTextCommandSetBlipName(ten_thirtytwo_blip)
             end
             if not arrived then
+                coords = vector3(coords.x, coords.y, coords.z)
                 if #(pos - coords) < 20 then
                     arrived = true
                     TriggerServerEvent("dispatch:pay", "10-31")
@@ -551,6 +555,7 @@ AddEventHandler("dispatch:ten-thirtyone", function(coords)
 				EndTextCommandSetBlipName(ten_thirtyone_blip)
 			end
 			if not arrived then
+                coords = vector3(coords.x, coords.y, coords.z)
 				if #(pos - coords) < 20 then
 					arrived = true
 					TriggerServerEvent("dispatch:pay", "10-31")
@@ -600,6 +605,7 @@ AddEventHandler("dispatch:ten-fifthteen", function(coords)
 				EndTextCommandSetBlipName(ten_fifthteen_blip)
 			end
 			if not arrived then
+                coords = vector3(coords.x, coords.y, coords.z)
 				if #(pos - coords) < 20 then
 					arrived = true
 					TriggerServerEvent("dispatch:pay", "10-31")
@@ -640,6 +646,7 @@ AddEventHandler("dispatch:ten-thirtyone_2", function(coords)
 				EndTextCommandSetBlipName(ten_thirtyone_2_blip)
 			end
 			if not arrived then
+                coords = vector3(coords.x, coords.y, coords.z)
 				if #(pos - coords) < 20 then
 					arrived = true
 					TriggerServerEvent("dispatch:pay", "10-31")
@@ -679,6 +686,7 @@ AddEventHandler("dispatch:ten-ninety", function(coords)
 				EndTextCommandSetBlipName(ten_ninety_blip)
 			end
 			if not arrived then
+                coords = vector3(coords.x, coords.y, coords.z)
 				if #(pos - coords) < 20 then
 					arrived = true
 					TriggerServerEvent("dispatch:pay", "10-90")
@@ -732,6 +740,7 @@ AddEventHandler("dispatch:311", function(id, message)
 				EndTextCommandSetBlipName(user_call_311)
 			end
 			if not arrived then
+                coords = vector3(coords.x, coords.y, coords.z)
 				if #(pos - coords) < 20 then
 					arrived = true
 					TriggerServerEvent("dispatch:pay", "311")
@@ -764,6 +773,7 @@ AddEventHandler("dispatch:911", function(id, message)
 				EndTextCommandSetBlipName(user_call_911)
 			end
 			if not arrived then
+                coords = vector3(coords.x, coords.y, coords.z)
 				if #(pos - coords) < 20 then
 					arrived = true
 					TriggerServerEvent("dispatch:pay", "911")
