@@ -127,7 +127,7 @@ function CreateNamedRenderTargetForModel(name, model)
 	return handle
 end
 
---[[Citizen.CreateThread(function ()
+Citizen.CreateThread(function ()
 	local model = GetHashKey("ba_prop_club_screens_01")
 	local pos = { x = -1604.664, y = -3012.583, z = 80.00 }
 	local entity = GetClosestObjectOfType(pos.x, pos.y, pos.z, 0.05, model, 0, 0, 0)
@@ -147,7 +147,7 @@ end
 	    SetTextRenderId(GetDefaultScriptRendertargetRenderId())
 	    Citizen.Wait(0)
 	end
-end)--]]
+end)
 
 RegisterNetEvent('toggle:binoculars')
 AddEventHandler('toggle:binoculars', function()
@@ -290,7 +290,8 @@ Citizen.CreateThread(function()
 			Citizen.Wait(0)
 		end
 	 	if Aiming and TypeOfWeapon(GetSelectedPedWeapon(PlayerPed)) and not exports.policejob:getIsInService() and not IsPedShooting(PlayerPed) then
-	  		if DoesEntityExist(TargetPed) and not IsEntityDead(TargetPed) and IsEntityAPed(TargetPed) and HasPlayerRecentlyRobbed(TargetPed, PreviouslyRobbed) and not IsPedAPlayer(TargetPed) then
+	 		local Model = GetEntityModel(TargetPed)
+	  		if DoesEntityExist(TargetPed) and not IsEntityDead(TargetPed) and IsEntityAPed(TargetPed) and HasPlayerRecentlyRobbed(TargetPed, PreviouslyRobbed) and not IsPedAPlayer(TargetPed) and not IsPedAnAnimal(Model) then
 		  		if #(PlayerPosition - TargetPedPosition) < 5 then
 			  		TaskSetBlockingOfNonTemporaryEvents(TargetPed, true)
 			  		SetPedFleeAttributes(TargetPed, 0, 0)
