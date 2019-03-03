@@ -31,7 +31,7 @@ PayCheck = {
 		[6] = {Rank = "state attorney", Pay = 1000},
 		[7] = {Rank = "paralegal", Pay = 1000},
 	},
-	DOJ = {
+	News = {
 		[1] = {Rank = "chief executive", Pay = 1000},
 		[2] = {Rank = "lead reporter", Pay = 900},
 		[3] = {Rank = "journalist ii", Pay = 750},
