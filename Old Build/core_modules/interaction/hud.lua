@@ -319,6 +319,8 @@ AddEventHandler('jobcenter:updateJob', function(job_name)
         job = "~g~Paramedic ~w~[ ~y~"..string.gsub(exports.emsjob:getParamedicRank() or "", "%f[%a].", string.upper).." ~w~]"
     elseif job_name == "DOJ" then
         job = "~c~DOJ ~w~[ ~y~"..string.gsub(DOJ.Rank or "", "%f[%a].", string.upper).." ~w~]"
+    elseif job_name == "News Reporter" then
+        job = "~c~News ~w~[ ~y~"..string.gsub(News.Rank or "", "%f[%a].", string.upper).." ~w~]"
     else
         job = "~w~"..job_name
     end

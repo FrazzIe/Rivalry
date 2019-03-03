@@ -504,7 +504,7 @@ Citizen.CreateThread(function()
 			local Ped = PlayerPedId()
 			local PlayerPosition = GetEntityCoords(Ped, false)
 			if #(PlayerPosition - delivery_points[l].coords) < 20 then
-				DrawMarker(25, delivery_points[l].x, delivery_points[l].y, delivery_points[l].z - 0.3, 0, 0, 0, 0, 0, 0, 2.5001, 2.5001, 2.0001, 0, 0, 0,255, 0, 0, 0,0)
+				DrawMarker(25, delivery_points[l].coords.x, delivery_points[l].coords.y, delivery_points[l].coords.z - 0.3, 0, 0, 0, 0, 0, 0, 2.5001, 2.5001, 2.0001, 0, 0, 0,255, 0, 0, 0,0)
 				if #(PlayerPosition - delivery_points[l].coords) < 1 then
 					if IsVehicleModel(GetVehiclePedIsIn(Ped, GetHashKey("pony")))  then
 						DisplayHelpText("Press ~INPUT_CONTEXT~ to deliver your ~b~ package", 2, 1, 0.5, 0.8, 0.6, 255, 255, 255, 255)
