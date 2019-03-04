@@ -45,7 +45,7 @@ Citizen.CreateThread(function()
 end)
 
 AddEventHandler("DOJ:Menu", function()
-	if DOJ.Active and (DOJ.Rank == "chief justice" or DOJ.Rank == "judge") then
+	if DOJ.Active and (DOJ.Rank == "chief justice" or DOJ.Rank == "judge" or DOJ.Rank == "justice") then
 		exports.ui:reset()
 		exports.ui:open()
 		exports.ui:addOption("MDT", [[TriggerEvent("mdt:open")]])
@@ -63,7 +63,7 @@ AddEventHandler("DOJ:Menu", function()
 end)
 
 AddEventHandler("DOJ:Weapon", function()
-	if DOJ.Active and (DOJ.Rank == "chief justice" or DOJ.Rank == "judge") then
+	if DOJ.Active and (DOJ.Rank == "chief justice" or DOJ.Rank == "judge" or DOJ.Rank == "justice") then
 		exports.ui:reset()
 		exports.ui:open()
 		exports.ui:addOption("Grant", [[TriggerEvent("DOJ:Grant", "weapon")]])
@@ -73,7 +73,7 @@ AddEventHandler("DOJ:Weapon", function()
 end)
 
 AddEventHandler("DOJ:Drivers", function()
-	if DOJ.Active and (DOJ.Rank == "chief justice" or DOJ.Rank == "judge") then
+	if DOJ.Active and (DOJ.Rank == "chief justice" or DOJ.Rank == "judge" or DOJ.Rank == "justice") then
 		exports.ui:reset()
 		exports.ui:open()
 		exports.ui:addOption("Grant", [[TriggerEvent("DOJ:Grant", "drivers")]])
