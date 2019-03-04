@@ -88,7 +88,7 @@ TriggerEvent("core:addGroupCommand", "dojadd", "admin", function(source, args, r
 			TriggerClientEvent('chatMessage', source, 'SYSTEM', {255, 0, 0}, "Usage : /dojadd [ID] [RANK]")
 		end
 	end
-end, {help = "Add a player to the department of justice", params = {{name = "id", help = "The id of the player"},{name = "rank", help = "Paralegal | State Attorney | Assistant Distruct Attorney | District Attorney | Judge | Justice | Chief Justice"}}})
+end, {help = "Add a player to the department of justice", params = {{name = "id", help = "The id of the player"},{name = "rank", help = "Paralegal | State Attorney | Assistant Distruct Attorney | District Attorney | Judge | Chief Justice"}}})
 
 TriggerEvent("core:addGroupCommand", "dojrem", "admin", function(source, args, rawCommand, data, power, group)
 	local source = source
@@ -151,7 +151,7 @@ TriggerEvent("core:addGroupCommand", "dojpromote", "emergency", function(source,
 			Notify("Player could not be found", 3000, source)
 		end
 	end
-end, {help = "Promote an officer", params = {{name = "id", help = "The id of the player"},{name = "rank", help = "Paralegal | State Attorney | Assistant Distruct Attorney | District Attorney | Judge | Justice |Chief Justice"}}})
+end, {help = "Promote an officer", params = {{name = "id", help = "The id of the player"},{name = "rank", help = "Paralegal | State Attorney | Assistant Distruct Attorney | District Attorney | Judge | Chief Justice"}}})
 
 TriggerEvent("core:addGroupCommand", "dojdemote", "emergency", function(source, args, rawCommand, data, power, group)
 	local source = source

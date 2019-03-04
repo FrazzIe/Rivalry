@@ -201,29 +201,6 @@ Citizen.CreateThread(function()
 										if WarMenu.Button("Check Owner") then
 											TriggerServerEvent("properties:check", "houses", "normal", k)
 										end
-									elseif DOJonduty() then
-										if DOJgetrank() == "chief justice" or DOJgetrank() == "justice" or DOJgetrank() == "judge" or DOJgetrank() == "district attorney" or or DOJgetrank() == "assistant district attorney" then
-											if WarMenu.CreateSubMenu("DOJ Options") then
-												if WarMenu.Button("Check Owner") then
-													TriggerServerEvent("properties:check", "houses", "normal", k)
-												elseif WarMenu.Button("Search") then
-													WarMenu.Button("Cash:", "$"..v.storage.current.cash.."/$"..v.storage.max.cash)
-													WarMenu.Button("Dirty cash:", "$"..v.storage.current.dirty.."/$"..v.storage.max.dirty)
-													for i,j in pairs(v.storage.current.weapons) do
-														WarMenu.Button(Weapons_names[j.model].." ["..j.ammo.."]")
-													end
-												elseif WarMenu.Button("Unlock")
-													TriggerServerEvent("properties:lock", "houses", "normal", k, "door", false)
-													Notify("Property has been unlocked", 3000)
-												elseif WarMenu.Button("Seize Inventory") then
-													TriggerServerEvent("properties:sieze", "houses", "normal", "inventory", k)
-													Notify("Items inside of the property have been seized", 3000)
-												elseif WarMenu.Button("Seize Property") then
-													TriggerServerEvent("properties:sieze", "houses", "normal", "property", k)
-													Notify("Property has been seized", 3000)
-												end
-											end
-										end
 									end
 								elseif v.owner.id == GetPlayerServerId(PlayerId()) then --If the person owns it
 									WarMenu.Button("Rent:", "$"..v.rent)
@@ -236,29 +213,6 @@ Citizen.CreateThread(function()
 										if WarMenu.Button("Check Owner") then
 											TriggerServerEvent("properties:check", "houses", "normal", k)
 										end
-									elseif DOJonduty() then
-										if DOJgetrank() == "chief justice" or DOJgetrank() == "justice" or DOJgetrank() == "judge" or DOJgetrank() == "district attorney" or or DOJgetrank() == "assistant district attorney" then
-											if WarMenu.CreateSubMenu("DOJ Options") then
-												if WarMenu.Button("Check Owner") then
-													TriggerServerEvent("properties:check", "houses", "normal", k)
-												elseif WarMenu.Button("Search") then
-													WarMenu.Button("Cash:", "$"..v.storage.current.cash.."/$"..v.storage.max.cash)
-													WarMenu.Button("Dirty cash:", "$"..v.storage.current.dirty.."/$"..v.storage.max.dirty)
-													for i,j in pairs(v.storage.current.weapons) do
-														WarMenu.Button(Weapons_names[j.model].." ["..j.ammo.."]")
-													end
-												elseif WarMenu.Button("Unlock")
-													TriggerServerEvent("properties:lock", "houses", "normal", k, "door", false)
-													Notify("Property has been unlocked", 3000)
-												elseif WarMenu.Button("Seize Inventory") then
-													TriggerServerEvent("properties:sieze", "houses", "normal", "inventory", k)
-													Notify("Items inside of the property have been seized", 3000)
-												elseif WarMenu.Button("Seize Property") then
-													TriggerServerEvent("properties:sieze", "houses", "normal", "property", k)
-													Notify("Property has been seized", 3000)
-												end
-											end
-										end
 									end
 								else --If someone owns it but it the person doesn't own it
 									WarMenu.Button("Rent:", "$"..v.rent)
@@ -270,29 +224,6 @@ Citizen.CreateThread(function()
 									if exports.policejob:getIsInService() then
 										if WarMenu.Button("Check Owner") then
 											TriggerServerEvent("properties:check", "houses", "normal", k)
-										end
-									elseif DOJonduty() then
-										if DOJgetrank() == "chief justice" or DOJgetrank() == "justice" or DOJgetrank() == "judge" or DOJgetrank() == "district attorney" or or DOJgetrank() == "assistant district attorney" then
-											if WarMenu.CreateSubMenu("DOJ Options") then
-												if WarMenu.Button("Check Owner") then
-													TriggerServerEvent("properties:check", "houses", "normal", k)
-												elseif WarMenu.Button("Search") then
-													WarMenu.Button("Cash:", "$"..v.storage.current.cash.."/$"..v.storage.max.cash)
-													WarMenu.Button("Dirty cash:", "$"..v.storage.current.dirty.."/$"..v.storage.max.dirty)
-													for i,j in pairs(v.storage.current.weapons) do
-														WarMenu.Button(Weapons_names[j.model].." ["..j.ammo.."]")
-													end
-												elseif WarMenu.Button("Unlock")
-													TriggerServerEvent("properties:lock", "houses", "normal", k, "door", false)
-													Notify("Property has been unlocked", 3000)
-												elseif WarMenu.Button("Seize Inventory") then
-													TriggerServerEvent("properties:sieze", "houses", "normal", "inventory", k)
-													Notify("Items inside of the property have been seized", 3000)
-												elseif WarMenu.Button("Seize Property") then
-													TriggerServerEvent("properties:sieze", "houses", "normal", "property", k)
-													Notify("Property has been seized", 3000)
-												end
-											end
 										end
 									end
 								end
@@ -607,29 +538,6 @@ Citizen.CreateThread(function()
 										if WarMenu.Button("Check Owner") then
 											TriggerServerEvent("properties:check", "houses", "enterable", k)
 										end
-									elseif DOJonduty() then
-										if DOJgetrank() == "chief justice" or DOJgetrank() == "justice" or DOJgetrank() == "judge" or DOJgetrank() == "district attorney" or or DOJgetrank() == "assistant district attorney" then
-											if WarMenu.CreateSubMenu("DOJ Options") then
-												if WarMenu.Button("Check Owner") then
-													TriggerServerEvent("properties:check", "houses", "normal", k)
-												elseif WarMenu.Button("Search") then
-													WarMenu.Button("Cash:", "$"..v.storage.current.cash.."/$"..v.storage.max.cash)
-													WarMenu.Button("Dirty cash:", "$"..v.storage.current.dirty.."/$"..v.storage.max.dirty)
-													for i,j in pairs(v.storage.current.weapons) do
-														WarMenu.Button(Weapons_names[j.model].." ["..j.ammo.."]")
-													end
-												elseif WarMenu.Button("Unlock")
-													TriggerServerEvent("properties:lock", "houses", "normal", k, "door", false)
-													Notify("Property has been unlocked", 3000)
-												elseif WarMenu.Button("Seize Inventory") then
-													TriggerServerEvent("properties:sieze", "houses", "normal", "inventory", k)
-													Notify("Items inside of the property have been seized", 3000)
-												elseif WarMenu.Button("Seize Property") then
-													TriggerServerEvent("properties:sieze", "houses", "normal", "property", k)
-													Notify("Property has been seized", 3000)
-												end
-											end
-										end
 									end
 								elseif v.owner.id == GetPlayerServerId(PlayerId()) then --If the person owns it
 									WarMenu.Button("Rent:", "$"..v.rent)
@@ -642,29 +550,6 @@ Citizen.CreateThread(function()
 										if WarMenu.Button("Check Owner") then
 											TriggerServerEvent("properties:check", "houses", "enterable", k)
 										end
-									elseif DOJonduty() then
-										if DOJgetrank() == "chief justice" or DOJgetrank() == "justice" or DOJgetrank() == "judge" or DOJgetrank() == "district attorney" or or DOJgetrank() == "assistant district attorney" then
-											if WarMenu.CreateSubMenu("DOJ Options") then
-												if WarMenu.Button("Check Owner") then
-													TriggerServerEvent("properties:check", "houses", "normal", k)
-												elseif WarMenu.Button("Search") then
-													WarMenu.Button("Cash:", "$"..v.storage.current.cash.."/$"..v.storage.max.cash)
-													WarMenu.Button("Dirty cash:", "$"..v.storage.current.dirty.."/$"..v.storage.max.dirty)
-													for i,j in pairs(v.storage.current.weapons) do
-														WarMenu.Button(Weapons_names[j.model].." ["..j.ammo.."]")
-													end
-												elseif WarMenu.Button("Unlock")
-													TriggerServerEvent("properties:lock", "houses", "normal", k, "door", false)
-													Notify("Property has been unlocked", 3000)
-												elseif WarMenu.Button("Seize Inventory") then
-													TriggerServerEvent("properties:sieze", "houses", "normal", "inventory", k)
-													Notify("Items inside of the property have been seized", 3000)
-												elseif WarMenu.Button("Seize Property") then
-													TriggerServerEvent("properties:sieze", "houses", "normal", "property", k)
-													Notify("Property has been seized", 3000)
-												end
-											end
-										end
 									end
 								else --If someone owns it but it the person doesn't own it
 									WarMenu.Button("Rent:", "$"..v.rent)
@@ -676,29 +561,6 @@ Citizen.CreateThread(function()
 									if exports.policejob:getIsInService() then
 										if WarMenu.Button("Check Owner") then
 											TriggerServerEvent("properties:check", "houses", "enterable", k)
-										end
-									elseif DOJonduty() then
-										if DOJgetrank() == "chief justice" or DOJgetrank() == "justice" or DOJgetrank() == "judge" or DOJgetrank() == "district attorney" or or DOJgetrank() == "assistant district attorney" then
-											if WarMenu.CreateSubMenu("DOJ Options") then
-												if WarMenu.Button("Check Owner") then
-													TriggerServerEvent("properties:check", "houses", "normal", k)
-												elseif WarMenu.Button("Search") then
-													WarMenu.Button("Cash:", "$"..v.storage.current.cash.."/$"..v.storage.max.cash)
-													WarMenu.Button("Dirty cash:", "$"..v.storage.current.dirty.."/$"..v.storage.max.dirty)
-													for i,j in pairs(v.storage.current.weapons) do
-														WarMenu.Button(Weapons_names[j.model].." ["..j.ammo.."]")
-													end
-												elseif WarMenu.Button("Unlock")
-													TriggerServerEvent("properties:lock", "houses", "normal", k, "door", false)
-													Notify("Property has been unlocked", 3000)
-												elseif WarMenu.Button("Seize Inventory") then
-													TriggerServerEvent("properties:sieze", "houses", "normal", "inventory", k)
-													Notify("Items inside of the property have been seized", 3000)
-												elseif WarMenu.Button("Seize Property") then
-													TriggerServerEvent("properties:sieze", "houses", "normal", "property", k)
-													Notify("Property has been seized", 3000)
-												end
-											end
 										end
 									end
 								end
@@ -1098,29 +960,6 @@ Citizen.CreateThread(function()
 										if WarMenu.Button("Check Owner") then
 											TriggerServerEvent("properties:check", "businesses", "normal", k)
 										end
-									elseif DOJonduty() then
-										if DOJgetrank() == "chief justice" or DOJgetrank() == "justice" or DOJgetrank() == "judge" or DOJgetrank() == "district attorney" or or DOJgetrank() == "assistant district attorney" then
-											if WarMenu.CreateSubMenu("DOJ Options") then
-												if WarMenu.Button("Check Owner") then
-													TriggerServerEvent("properties:check", "houses", "normal", k)
-												elseif WarMenu.Button("Search") then
-													WarMenu.Button("Cash:", "$"..v.storage.current.cash.."/$"..v.storage.max.cash)
-													WarMenu.Button("Dirty cash:", "$"..v.storage.current.dirty.."/$"..v.storage.max.dirty)
-													for i,j in pairs(v.storage.current.weapons) do
-														WarMenu.Button(Weapons_names[j.model].." ["..j.ammo.."]")
-													end
-												elseif WarMenu.Button("Unlock")
-													TriggerServerEvent("properties:lock", "houses", "normal", k, "door", false)
-													Notify("Property has been unlocked", 3000)
-												elseif WarMenu.Button("Seize Inventory") then
-													TriggerServerEvent("properties:sieze", "houses", "normal", "inventory", k)
-													Notify("Items inside of the property have been seized", 3000)
-												elseif WarMenu.Button("Seize Property") then
-													TriggerServerEvent("properties:sieze", "houses", "normal", "property", k)
-													Notify("Property has been seized", 3000)
-												end
-											end
-										end
 									end
 								elseif v.owner.id == GetPlayerServerId(PlayerId()) then --If the person owns it
 									WarMenu.Button("Rent:", "$"..v.rent)
@@ -1134,29 +973,6 @@ Citizen.CreateThread(function()
 										if WarMenu.Button("Check Owner") then
 											TriggerServerEvent("properties:check", "businesses", "normal", k)
 										end
-									elseif DOJonduty() then
-										if DOJgetrank() == "chief justice" or DOJgetrank() == "justice" or DOJgetrank() == "judge" or DOJgetrank() == "district attorney" or or DOJgetrank() == "assistant district attorney" then
-											if WarMenu.CreateSubMenu("DOJ Options") then
-												if WarMenu.Button("Check Owner") then
-													TriggerServerEvent("properties:check", "houses", "normal", k)
-												elseif WarMenu.Button("Search") then
-													WarMenu.Button("Cash:", "$"..v.storage.current.cash.."/$"..v.storage.max.cash)
-													WarMenu.Button("Dirty cash:", "$"..v.storage.current.dirty.."/$"..v.storage.max.dirty)
-													for i,j in pairs(v.storage.current.weapons) do
-														WarMenu.Button(Weapons_names[j.model].." ["..j.ammo.."]")
-													end
-												elseif WarMenu.Button("Unlock")
-													TriggerServerEvent("properties:lock", "houses", "normal", k, "door", false)
-													Notify("Property has been unlocked", 3000)
-												elseif WarMenu.Button("Seize Inventory") then
-													TriggerServerEvent("properties:sieze", "houses", "normal", "inventory", k)
-													Notify("Items inside of the property have been seized", 3000)
-												elseif WarMenu.Button("Seize Property") then
-													TriggerServerEvent("properties:sieze", "houses", "normal", "property", k)
-													Notify("Property has been seized", 3000)
-												end
-											end
-										end
 									end
 								else --If someone owns it but it the person doesn't own it
 									WarMenu.Button("Rent:", "$"..v.rent)
@@ -1169,29 +985,6 @@ Citizen.CreateThread(function()
 									if exports.policejob:getIsInService() then
 										if WarMenu.Button("Check Owner") then
 											TriggerServerEvent("properties:check", "businesses", "normal", k)
-										end
-									elseif DOJonduty() then
-										if DOJgetrank() == "chief justice" or DOJgetrank() == "justice" or DOJgetrank() == "judge" or DOJgetrank() == "district attorney" or or DOJgetrank() == "assistant district attorney" then
-											if WarMenu.CreateSubMenu("DOJ Options") then
-												if WarMenu.Button("Check Owner") then
-													TriggerServerEvent("properties:check", "houses", "normal", k)
-												elseif WarMenu.Button("Search") then
-													WarMenu.Button("Cash:", "$"..v.storage.current.cash.."/$"..v.storage.max.cash)
-													WarMenu.Button("Dirty cash:", "$"..v.storage.current.dirty.."/$"..v.storage.max.dirty)
-													for i,j in pairs(v.storage.current.weapons) do
-														WarMenu.Button(Weapons_names[j.model].." ["..j.ammo.."]")
-													end
-												elseif WarMenu.Button("Unlock")
-													TriggerServerEvent("properties:lock", "houses", "normal", k, "door", false)
-													Notify("Property has been unlocked", 3000)
-												elseif WarMenu.Button("Seize Inventory") then
-													TriggerServerEvent("properties:sieze", "houses", "normal", "inventory", k)
-													Notify("Items inside of the property have been seized", 3000)
-												elseif WarMenu.Button("Seize Property") then
-													TriggerServerEvent("properties:sieze", "houses", "normal", "property", k)
-													Notify("Property has been seized", 3000)
-												end
-											end
 										end
 									end
 								end
@@ -1500,29 +1293,6 @@ Citizen.CreateThread(function()
 										if WarMenu.Button("Check Owner") then
 											TriggerServerEvent("properties:check", "businesses", "enterable", k)
 										end
-									elseif DOJonduty() then
-										if DOJgetrank() == "chief justice" or DOJgetrank() == "justice" or DOJgetrank() == "judge" or DOJgetrank() == "district attorney" or or DOJgetrank() == "assistant district attorney" then
-											if WarMenu.CreateSubMenu("DOJ Options") then
-												if WarMenu.Button("Check Owner") then
-													TriggerServerEvent("properties:check", "houses", "normal", k)
-												elseif WarMenu.Button("Search") then
-													WarMenu.Button("Cash:", "$"..v.storage.current.cash.."/$"..v.storage.max.cash)
-													WarMenu.Button("Dirty cash:", "$"..v.storage.current.dirty.."/$"..v.storage.max.dirty)
-													for i,j in pairs(v.storage.current.weapons) do
-														WarMenu.Button(Weapons_names[j.model].." ["..j.ammo.."]")
-													end
-												elseif WarMenu.Button("Unlock")
-													TriggerServerEvent("properties:lock", "houses", "normal", k, "door", false)
-													Notify("Property has been unlocked", 3000)
-												elseif WarMenu.Button("Seize Inventory") then
-													TriggerServerEvent("properties:sieze", "houses", "normal", "inventory", k)
-													Notify("Items inside of the property have been seized", 3000)
-												elseif WarMenu.Button("Seize Property") then
-													TriggerServerEvent("properties:sieze", "houses", "normal", "property", k)
-													Notify("Property has been seized", 3000)
-												end
-											end
-										end
 									end
 								elseif v.owner.id == GetPlayerServerId(PlayerId()) then --If the person owns it
 									WarMenu.Button("Rent:", "$"..v.rent)
@@ -1536,29 +1306,6 @@ Citizen.CreateThread(function()
 										if WarMenu.Button("Check Owner") then
 											TriggerServerEvent("properties:check", "businesses", "enterable", k)
 										end
-									elseif DOJonduty() then
-										if DOJgetrank() == "chief justice" or DOJgetrank() == "justice" or DOJgetrank() == "judge" or DOJgetrank() == "district attorney" or or DOJgetrank() == "assistant district attorney" then
-											if WarMenu.CreateSubMenu("DOJ Options") then
-												if WarMenu.Button("Check Owner") then
-													TriggerServerEvent("properties:check", "houses", "normal", k)
-												elseif WarMenu.Button("Search") then
-													WarMenu.Button("Cash:", "$"..v.storage.current.cash.."/$"..v.storage.max.cash)
-													WarMenu.Button("Dirty cash:", "$"..v.storage.current.dirty.."/$"..v.storage.max.dirty)
-													for i,j in pairs(v.storage.current.weapons) do
-														WarMenu.Button(Weapons_names[j.model].." ["..j.ammo.."]")
-													end
-												elseif WarMenu.Button("Unlock")
-													TriggerServerEvent("properties:lock", "houses", "normal", k, "door", false)
-													Notify("Property has been unlocked", 3000)
-												elseif WarMenu.Button("Seize Inventory") then
-													TriggerServerEvent("properties:sieze", "houses", "normal", "inventory", k)
-													Notify("Items inside of the property have been seized", 3000)
-												elseif WarMenu.Button("Seize Property") then
-													TriggerServerEvent("properties:sieze", "houses", "normal", "property", k)
-													Notify("Property has been seized", 3000)
-												end
-											end
-										end
 									end
 								else --If someone owns it but it the person doesn't own it
 									WarMenu.Button("Rent:", "$"..v.rent)
@@ -1571,29 +1318,6 @@ Citizen.CreateThread(function()
 									if exports.policejob:getIsInService() then
 										if WarMenu.Button("Check Owner") then
 											TriggerServerEvent("properties:check", "businesses", "enterable", k)
-										end
-									elseif DOJonduty() then
-										if DOJgetrank() == "chief justice" or DOJgetrank() == "justice" or DOJgetrank() == "judge" or DOJgetrank() == "district attorney" or or DOJgetrank() == "assistant district attorney" then
-											if WarMenu.CreateSubMenu("DOJ Options") then
-												if WarMenu.Button("Check Owner") then
-													TriggerServerEvent("properties:check", "houses", "normal", k)
-												elseif WarMenu.Button("Search") then
-													WarMenu.Button("Cash:", "$"..v.storage.current.cash.."/$"..v.storage.max.cash)
-													WarMenu.Button("Dirty cash:", "$"..v.storage.current.dirty.."/$"..v.storage.max.dirty)
-													for i,j in pairs(v.storage.current.weapons) do
-														WarMenu.Button(Weapons_names[j.model].." ["..j.ammo.."]")
-													end
-												elseif WarMenu.Button("Unlock")
-													TriggerServerEvent("properties:lock", "houses", "normal", k, "door", false)
-													Notify("Property has been unlocked", 3000)
-												elseif WarMenu.Button("Seize Inventory") then
-													TriggerServerEvent("properties:sieze", "houses", "normal", "inventory", k)
-													Notify("Items inside of the property have been seized", 3000)
-												elseif WarMenu.Button("Seize Property") then
-													TriggerServerEvent("properties:sieze", "houses", "normal", "property", k)
-													Notify("Property has been seized", 3000)
-												end
-											end
 										end
 									end
 								end
