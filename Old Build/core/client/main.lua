@@ -211,6 +211,7 @@ AddEventHandler("core:login", function(coords, _timeplayed)
 
 	SetEntityVisible(PlayerPedId(), true)
 	SetPlayerInvincible(PlayerPedId(), false)
+	DisablePlayerVehicleRewards(PlayerPedId())
 
 	TriggerEvent("anticheat:set", "invisible", false, function(callback)
 	end)
