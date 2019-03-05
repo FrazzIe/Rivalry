@@ -11,7 +11,7 @@ News.GarageLocation = {
 	SpawnPoint = vector3(-616.94409179688,-920.56097412109,23.384330749512)
 }
 
-function News.OnDuty()
+function NewsOnDuty()
 	return News.Active
 end
 

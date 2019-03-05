@@ -176,7 +176,7 @@ export 'DOJonduty'
 export 'DOJisdoj'
 
 export 'NewsGetRank'
-export 'News.OnDuty'
+export 'NewsOnDuty'
 export 'NewsIsNews'
 
 export 'SetParamedic'
