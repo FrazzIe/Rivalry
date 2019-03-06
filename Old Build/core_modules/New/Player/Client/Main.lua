@@ -289,7 +289,7 @@ Citizen.CreateThread(function()
 		while not HasAnimDictLoaded(Dictionary) do
 			Citizen.Wait(0)
 		end
-	 	if Aiming and TypeOfWeapon(GetSelectedPedWeapon(PlayerPed)) and not exports.policejob:getIsInService() and not IsPedShooting(PlayerPed) then
+	 	if Aiming and TypeOfWeapon(GetSelectedPedWeapon(PlayerPed)) and not exports.policejob:getIsInService() and not IsPedShooting(PlayerPed) and not IsPedInAnyVehicle(PlayerPed, false) then
 	 		local Model = GetEntityModel(TargetPed)
 	  		if DoesEntityExist(TargetPed) and not IsEntityDead(TargetPed) and IsEntityAPed(TargetPed) and HasPlayerRecentlyRobbed(TargetPed, PreviouslyRobbed) and not IsPedAPlayer(TargetPed) and not IsPedAnAnimal(Model) then
 		  		if #(PlayerPosition - TargetPedPosition) < 5 then

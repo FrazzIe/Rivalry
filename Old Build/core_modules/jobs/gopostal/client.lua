@@ -384,6 +384,33 @@ function PlayAnimation(number)
 	end)
 end
 
+-- Events
+
+RegisterNetEvent("GoPostal.Set")
+AddEventHandler("GoPostal.Set", function(_IsGoPostal)
+	OnDuty = false
+	IsGoPostal = _IsGoPostal
+end)
+
+RegisterNetEvent("GoPostal.Rent")
+AddEventHandler("GoPostal.Rent", function()
+	Citizen.CreateThread(function()
+		local Model = GoPostal.Data.Vehicles.Model
+		RequestModel(Model)
+		while not HasModelLoaded(Model) do
+			Citizen.Wait(0)
+		end
+		GoPostalTruck = CreateVehicle(Model, GoPostal.Data.Vehicles.Spawn.x, GoPostal.Data.Vehicles.Spawn.y, GoPostal.Data.Vehicles.Spawn.z, 156.78520202637, true, false)
+		local plate = "GP"..GetVehicleNumberPlateText(GoPostalTruck)
+		SetVehicleNumberPlateText(GoPostalTruck, plate)
+		SetEntityInvincible(GoPostalTruck, false)
+		SetPedIntoVehicle(Ped, GoPostalTruck, -1)
+		SetModelAsNoLongerNeeded(Model)
+		DecorSetBool(GoPostalTruck, "hotwire", true)
+		StartJob()
+	end)
+end)
+
 -- Threads --
 
 Citizen.CreateThread(function()
@@ -425,7 +452,10 @@ Citizen.CreateThread(function()
 						if IsControlJustPressed(1, 51) then
 							if GoPostalTruck then
 								SetEntityAsMissionEntity(GoPostalTruck, true, true)
-								DeleteVehicle(GoPostalTruck)
+								DestroyVehicle(GoPostalTruck)
+								while DoesEntityExist(GoPostalTruck) do
+									Citizen.Wait(0)
+								end
 								GoPostalTruck = nil
 								GoPostalJob = nil
 							else
@@ -518,30 +548,4 @@ Citizen.CreateThread(function()
 			end
 		end
 	end
-end)
-
--- Events
-
-RegisterNetEvent("GoPostal.Set")
-AddEventHandler("GoPostal.Set", function(_IsGoPostal)
-	IsGoPostal = _IsGoPostal
-end)
-
-RegisterNetEvent("GoPostal.Rent")
-AddEventHandler("GoPostal.Rent", function()
-	Citizen.CreateThread(function()
-		local Model = GoPostal.Data.Vehicles.Model
-		RequestModel(Model)
-		while not HasModelLoaded(Model) do
-			Citizen.Wait(0)
-		end
-		GoPostalTruck = CreateVehicle(Model, GoPostal.Data.Vehicles.Spawn.x, GoPostal.Data.Vehicles.Spawn.y, GoPostal.Data.Vehicles.Spawn.z, 156.78520202637, true, false)
-		local plate = "GP"..GetVehicleNumberPlateText(GoPostalTruck)
-		SetVehicleNumberPlateText(GoPostalTruck, plate)
-		SetEntityInvincible(GoPostalTruck, false)
-		SetPedIntoVehicle(Ped, GoPostalTruck, -1)
-		SetModelAsNoLongerNeeded(Model)
-		DecorSetBool(GoPostalTruck, "hotwire", true)
-		StartJob()
-	end)
 end)

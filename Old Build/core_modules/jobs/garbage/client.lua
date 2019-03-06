@@ -77,7 +77,7 @@ Garbage = {
 		Vehicles = {
 			Model = "Trash",
 			Location = vector3(-333.72787475586,-1530.5367431641,27.547882080078),
-			Spawn = vector3(-330.57705688477,-1527.9936523438,27.729866027832),
+			Spawn = vector3(-327.861328125,-1523.2607421875,27.535457611084),
 		},
 		Animations = {
 			Dictionary = "missfbi4prepp1",
@@ -107,6 +107,34 @@ local function PlayAnimation(number)
 		end
 	end)
 end
+
+-- Events --
+
+RegisterNetEvent("Garbage.Set")
+AddEventHandler("Garbage.Set", function(_IsGarbage)
+	OnDuty = false
+	IsGarbage = _IsGarbage
+end)
+
+RegisterNetEvent("Garbage.Rent")
+AddEventHandler("Garbage.Rent", function()
+	Citizen.CreateThread(function()
+		local Model = Garbage.Data.Vehicles.Model
+		RequestModel(Model)
+		while not HasModelLoaded(Model) do
+			Citizen.Wait(0)
+		end
+		GarbageTruck = CreateVehicle(Model, Garbage.Data.Vehicles.Spawn.x, Garbage.Data.Vehicles.Spawn.y, Garbage.Data.Vehicles.Spawn.z, 269.92779541016, true, false)
+		local plate = "GB"..GetVehicleNumberPlateText(GarbageTruck)
+		SetVehicleNumberPlateText(GarbageTruck, plate)
+		SetEntityInvincible(GarbageTruck, false)
+		SetPedIntoVehicle(Ped, GarbageTruck, -1)
+		SetModelAsNoLongerNeeded(Model)
+		DecorSetBool(GarbageTruck, "hotwire", true)
+		local Randomizer = math.random(1, #Garbage.Data.Dumpster)
+		GarbageJob = Randomizer
+	end)
+end)
 
 -- Threads --
 
@@ -142,8 +170,8 @@ Citizen.CreateThread(function()
 			end
 			if OnDuty then
 				local DistanceTwo = #(Garbage.Data.Vehicles.Location - Pos)
-				if DistanceTwo < 10 then
-					DrawMarker(25, Garbage.Data.Vehicles.Location.x, Garbage.Data.Vehicles.Location.y, Garbage.Data.Vehicles.Location.z - 1, 0, 0, 0, 0, 0, 0, 1.0, 1.0, 1.5, 0, 0, 255, 155, 0, 0, 2, 0, 0, 0, 0)
+				if DistanceTwo < 20 then
+					DrawMarker(25, Garbage.Data.Vehicles.Location.x, Garbage.Data.Vehicles.Location.y, Garbage.Data.Vehicles.Location.z - 0.9, 0, 0, 0, 0, 0, 0, 1.0, 1.0, 1.5, 0, 0, 255, 155, 0, 0, 2, 0, 0, 0, 0)
 					if DistanceTwo < 1 then
 						if GarbageTruck then
 							DisplayHelpText("Press ~INPUT_CONTEXT~ to return your Garbage Truck!")
@@ -153,7 +181,10 @@ Citizen.CreateThread(function()
 						if IsControlJustPressed(1,51) then
 							if GarbageTruck then
 								SetEntityAsMissionEntity(GarbageTruck, true, true)
-								DeleteVehicle(GarbageTruck)
+								DestroyVehicle(GarbageTruck)
+								while DoesEntityExist(GarbageTruck) do
+									Citizen.Wait(0)
+								end
 								GarbageTruck = nil
 								GarbageJob = nil
 							else
@@ -239,32 +270,4 @@ Citizen.CreateThread(function()
 			end
 		end
 	end
-end)
-
--- Events --
-
-RegisterNetEvent("Garbage.Set")
-AddEventHandler("Garbage.Set", function(_IsGarbage)
-	OnDuty = false
-	IsGarbage = _IsGarbage
-end)
-
-RegisterNetEvent("Garbage.Rent")
-AddEventHandler("Garbage.Rent", function()
-	Citizen.CreateThread(function()
-		local Model = Garbage.Data.Vehicles.Model
-		RequestModel(Model)
-		while not HasModelLoaded(Model) do
-			Citizen.Wait(0)
-		end
-		GarbageTruck = CreateVehicle(Model, Garbage.Data.Vehicles.Spawn.x, Garbage.Data.Vehicles.Spawn.y, Garbage.Data.Vehicles.Spawn.z, 357.81948852539, true, false)
-		local plate = "GB"..GetVehicleNumberPlateText(GarbageTruck)
-		SetVehicleNumberPlateText(GarbageTruck, plate)
-		SetEntityInvincible(GarbageTruck, false)
-		SetPedIntoVehicle(Ped, GarbageTruck, -1)
-		SetModelAsNoLongerNeeded(Model)
-		DecorSetBool(GarbageTruck, "hotwire", true)
-		local Randomizer = math.random(1, #Garbage.Data.Dumpster)
-		GarbageJob = Randomizer
-	end)
 end)
