@@ -34,14 +34,14 @@ PayCheck = {
 	News = {
 		[1] = {Rank = "chief executive", Pay = 1000},
 		[2] = {Rank = "lead reporter", Pay = 900},
-		[2] = {Rank = "lead cameraman", Pay = 800},
-		[3] = {Rank = "journalist ii", Pay = 750},
-		[4] = {Rank = "photographer ii", Pay = 750},
-		[5] = {Rank = "cameraman ii", Pay = 750},
-		[6] = {Rank = "journalist i", Pay = 600},
-		[7] = {Rank = "photographer i", Pay = 600},
-		[8] = {Rank = "cameraman i", Pay = 600},
-		[9] = {Rank = "intern", Pay = 500},
+		[3] = {Rank = "lead cameraman", Pay = 800},
+		[4] = {Rank = "journalist ii", Pay = 750},
+		[5] = {Rank = "photographer ii", Pay = 750},
+		[6] = {Rank = "cameraman ii", Pay = 750},
+		[7] = {Rank = "journalist i", Pay = 600},
+		[8] = {Rank = "photographer i", Pay = 600},
+		[9] = {Rank = "cameraman i", Pay = 600},
+		[10] = {Rank = "intern", Pay = 500},
 	},
 }
 
