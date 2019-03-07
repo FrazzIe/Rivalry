@@ -20,7 +20,6 @@ Config.Priority = {
 --[People Frazzle Likes]--
     ["steam:110000115c8520b"] = 901, -- Jinia
     ["steam:1100001074e86ec"] = 900, -- RoundishKungFu/Kelly Price
-    ["steam:110000110e35616"] = 899, -- Ryleigh Wolfhart
     ["steam:11000010a408fb4"] = 898, -- grace
 --[People Noonab Likes]--
     ["steam:1100001045138b3"] = 880, -- Carbine
@@ -71,7 +70,6 @@ Config.Priority = {
     ["steam:1100001096a1e6f"] = 689, -- Zim Pontes (EMS High Command)          
     ["steam:1100001003ab893"] = 688, -- Kara Black (EMS Command)
     ["steam:11000011cb734e2"] = 687, -- Oscar King (EMS Command)
-    ["steam:110000119f99126"] = 686, -- Ace Danger (Gentle) (EMS Command)
     ["steam:1100001037a2490"] = 685, -- Hank Strickland (DA) 
     ["steam:11000010012c897"] = 684, -- Ryan Toronto (PD Extra)
     ["steam:110000100809b63"] = 683, -- Reginald Wattersmith (PD Extra)
@@ -80,6 +78,7 @@ Config.Priority = {
     ["steam:11000010467c91d"] = 680, -- Mason preacher (PD extra)
     ["steam:110000105e2219c"] = 679, -- Daquan
     ["steam:1100001340afc2b"] = 678, -- Frenchy (EMS command)
+    ["steam:110000110e35616"] = 677, -- Ryleigh Wolfhart
 
 --[Extras]--
     ["steam:110000100BF705A"] = 820, -- Schwank (Zach)
@@ -89,6 +88,7 @@ Config.Priority = {
     ["steam:110000104c5b700"] = 677, -- DarkLaiX
     ["steam:11000010e0f809e"] = 676, -- FateProphecy
     ["steam:1100001047e1d3d"] = 675, -- Hank
+    ["steam:110000119f99126"] = 674, -- Ace Danger (Gentle)
 
 }
 
