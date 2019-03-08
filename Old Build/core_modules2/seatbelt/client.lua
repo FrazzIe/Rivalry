@@ -4,9 +4,27 @@ local Seatbelt = {
 	Difference = 0.255,
 }
 
+function SeatbeltActive()
+	return Seatbelt.Active
+end
+
 function Seatbelt.CalculateForwardPosition(PlayerPed)
 	local Heading = (GetEntityHeading(PlayerPed) + 90.0) * 0.0174533
 	return {x = math.cos(Heading) * 2.0, y = math.sin(Heading) * 2.0}
+end
+
+function drawHelpTxt(x,y ,width,height,scale, text, r,g,b,a,font)
+    SetTextFont(font)
+    SetTextProportional(0)
+    SetTextScale(scale, scale)
+    SetTextColour(r, g, b, a)
+    SetTextDropShadow(0, 0, 0, 0,255)
+    SetTextEdge(1, 0, 0, 0, 255)
+    SetTextDropShadow()
+    SetTextOutline()
+    SetTextEntry("STRING")
+    AddTextComponentString(text)
+    DrawText(x - width/2, y - height/2 + 0.005)
 end
 
 local isHudOn = true
@@ -31,21 +49,6 @@ Citizen.CreateThread(function()
 			if DoesEntityExist(Vehicle) then
 				local Model = GetEntityModel(Vehicle)
 				if IsThisModelACar(Model) or IsThisModelAQuadbike(Model) or IsThisModelABike(Model) then
-					if isHudOn == true then
-						if GetPedInVehicleSeat(Vehicle, -1) == PlayerPed then
-							if Seatbelt.Active then
-								drawText("~g~".."SB", 6, 0.959, 0.70, 0.5, 255, 255, 255, 255, false, true)
-							else
-								drawText("~r~".."SB", 6, 0.959, 0.70, 0.5, 255, 255, 255, 255, false, true)
-							end
-						else
-							if Seatbelt.Active then
-								drawText("~g~".."SB", 6, 0.16, 0.895, 0.5, 255, 255, 255, 255, false, true)
-							else
-								drawText("~r~".."SB", 6, 0.16, 0.895, 0.5, 255, 255, 255, 255, false, true)
-							end
-						end
-					end
 					Buffer.Speed[2] = Buffer.Speed[1] or 0.0
 					Buffer.Speed[1] = GetEntitySpeed(Vehicle) * 2.23694
 

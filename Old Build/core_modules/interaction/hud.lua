@@ -14,7 +14,7 @@
 hud_off = false
 local wallet, dirty, bank = 0, 0, 0
 local job = "Unemployed"
-local voice = "~b~Normal"
+local voice = "Normal"
 local zones = { ['AIRP'] = "Los Santos International Airport", ['ALAMO'] = "Alamo Sea", ['ALTA'] = "Alta", ['ARMYB'] = "Fort Zancudo", ['BANHAMC'] = "Banham Canyon Dr", ['BANNING'] = "Banning", ['BEACH'] = "Vespucci Beach", ['BHAMCA'] = "Banham Canyon", ['BRADP'] = "Braddock Pass", ['BRADT'] = "Braddock Tunnel", ['BURTON'] = "Burton", ['CALAFB'] = "Calafia Bridge", ['CANNY'] = "Raton Canyon", ['CCREAK'] = "Cassidy Creek", ['CHAMH'] = "Chamberlain Hills", ['CHIL'] = "Vinewood Hills", ['CHU'] = "Chumash", ['CMSW'] = "Chiliad Mountain State Wilderness", ['CYPRE'] = "Cypress Flats", ['DAVIS'] = "Davis", ['DELBE'] = "Del Perro Beach", ['DELPE'] = "Del Perro", ['DELSOL'] = "La Puerta", ['DESRT'] = "Grand Senora Desert", ['DOWNT'] = "Downtown", ['DTVINE'] = "Downtown Vinewood", ['EAST_V'] = "East Vinewood", ['EBURO'] = "El Burro Heights", ['ELGORL'] = "El Gordo Lighthouse", ['ELYSIAN'] = "Elysian Island", ['GALFISH'] = "Galilee", ['GOLF'] = "GWC and Golfing Society", ['GRAPES'] = "Grapeseed", ['GREATC'] = "Great Chaparral", ['HARMO'] = "Harmony", ['HAWICK'] = "Hawick", ['HORS'] = "Vinewood Racetrack", ['HUMLAB'] = "Humane Labs and Research", ['JAIL'] = "Bolingbroke Penitentiary", ['KOREAT'] = "Little Seoul", ['LACT'] = "Land Act Reservoir", ['LAGO'] = "Lago Zancudo", ['LDAM'] = "Land Act Dam", ['LEGSQU'] = "Legion Square", ['LMESA'] = "La Mesa", ['LOSPUER'] = "La Puerta", ['MIRR'] = "Mirror Park", ['MORN'] = "Morningwood", ['MOVIE'] = "Richards Majestic", ['MTCHIL'] = "Mount Chiliad", ['MTGORDO'] = "Mount Gordo", ['MTJOSE'] = "Mount Josiah", ['MURRI'] = "Murrieta Heights", ['NCHU'] = "North Chumash", ['NOOSE'] = "N.O.O.S.E", ['OCEANA'] = "Pacific Ocean", ['PALCOV'] = "Paleto Cove", ['PALETO'] = "Paleto Bay", ['PALFOR'] = "Paleto Forest", ['PALHIGH'] = "Palomino Highlands", ['PALMPOW'] = "Palmer-Taylor Power Station", ['PBLUFF'] = "Pacific Bluffs", ['PBOX'] = "Pillbox Hill", ['PROCOB'] = "Procopio Beach", ['RANCHO'] = "Rancho", ['RGLEN'] = "Richman Glen", ['RICHM'] = "Richman", ['ROCKF'] = "Rockford Hills", ['RTRAK'] = "Redwood Lights Track", ['SANAND'] = "San Andreas", ['SANCHIA'] = "San Chianski Mountain Range", ['SANDY'] = "Sandy Shores", ['SKID'] = "Mission Row", ['SLAB'] = "Stab City", ['STAD'] = "Maze Bank Arena", ['STRAW'] = "Strawberry", ['TATAMO'] = "Tataviam Mountains", ['TERMINA'] = "Terminal", ['TEXTI'] = "Textile City", ['TONGVAH'] = "Tongva Hills", ['TONGVAV'] = "Tongva Valley", ['VCANA'] = "Vespucci Canals", ['VESP'] = "Vespucci", ['VINE'] = "Vinewood", ['WINDF'] = "Ron Alternates Wind Farm", ['WVINE'] = "West Vinewood", ['ZANCUDO'] = "Zancudo River", ['ZP_ORT'] = "Port of South Los Santos", ['ZQ_UAR'] = "Davis Quartz" }
 local directions = { [0] = 'N', [45] = 'NE', [90] = 'E', [135] = 'SE', [180] = 'S', [225] = 'SW', [270] = 'W', [315] = 'NW', [360] = 'N'} 
 local police_information, paramedic_information, taxi_information, mechanic_information = "~b~Police~w~: Open menu to update call information", "~r~Paramedic~w~: Open menu to update call information", "~y~Taxi~w~: Open menu to update call information", "~c~Mechanic~w~: Open menu to update call information"
@@ -40,22 +40,14 @@ end
 function degreesToIntercardinalDirection(dgr)
     dgr = dgr % 360.0
     
-    if (dgr >= 0.0 and dgr < 22.5) or dgr >= 337.5 then
-        return "N"
-    elseif dgr >= 22.5 and dgr < 67.5 then
-        return "NW"
-    elseif dgr >= 67.5 and dgr < 112.5 then
-        return "W"
-    elseif dgr >= 112.5 and dgr < 157.5 then
-        return "SW"
-    elseif dgr >= 157.5 and dgr < 202.5 then
-        return "S"
-    elseif dgr >= 202.5 and dgr < 247.5 then
-        return "SE"
-    elseif dgr >= 247.5 and dgr < 292.5 then
-        return "E"
-    elseif dgr >= 292.5 and dgr < 337.5 then
-        return "NE"
+    if (dgr >= 0.0 and dgr < 45) or dgr >= 315 then
+        return "North"
+    elseif dgr >= 45 and dgr < 135 then
+        return "West"
+    elseif dgr >= 135 and dgr < 225 then
+        return "South"
+    elseif dgr >= 225 and dgr < 315 then
+        return "East"
     end
 end
 
@@ -73,13 +65,13 @@ end)
 AddEventHandler("interaction:voice_change",function(_type)
     if _type == 1 then
         NetworkSetTalkerProximity(2.0)
-        voice = "~y~Whisper"
+        voice = "Whisper"
     elseif _type == 2 then
         NetworkSetTalkerProximity(15.0)
-        voice = "~b~Normal"
+        voice = "Normal"
     elseif _type == 3 then
         NetworkSetTalkerProximity(35.0)
-        voice = "~r~Shout"
+        voice = "Shout"
     end
 end)
 
@@ -137,7 +129,7 @@ Citizen.CreateThread(function()
     while true do
         Citizen.Wait(0)
         if WarMenu.IsMenuOpened("Scoreboard") or WarMenu.IsMenuOpened("player_info") or WarMenu.IsMenuOpened("player_info_disconnected") or WarMenu.IsMenuOpened("disconnected") then
-            drawText(job, 6, 0.16, 0.895, 0.50, 255, 255, 255, 255, false, true)
+            drawText(job, 6, 0.16, 0.875, 0.50, 255, 255, 255, 255, false, true)
 
             drawText("~g~Status of calls", 6, 0.3, 0.795, 0.50, 255, 255, 255, 255, false, true)
 
@@ -212,38 +204,35 @@ Citizen.CreateThread(function()
         end
 
         if not hud_off then
+
             local PlayerPed = PlayerPedId()
 
             if NetworkIsPlayerTalking(PlayerId()) then
-                drawText("~o~>>"..voice, 6, 0.16, 0.92, 0.50, 255, 255, 255, 255, false, true)
+                VoiceHud = ("~r~" .. voice)
             else
-                drawText(voice, 6, 0.16, 0.92, 0.50, 255, 255, 255, 255, false, true)
+                VoiceHud = voice
             end
 
             if IsPedSittingInAnyVehicle(PlayerPed) then
                 local vehicle = GetVehiclePedIsIn(PlayerPed, false)
                 if GetPedInVehicleSeat(vehicle, -1) == PlayerPed or GetPedInVehicleSeat(vehicle, 0) == PlayerPed then
-                    drawText("~y~"..GetVehicleNumberPlateText(vehicle), 6, 0.889, 0.85, 0.5, 255, 255, 255, 255, false, true)
                     DisplayRadar(true)
                 end
             else
                 DisplayRadar(false)
             end
+            --.. "  " .. string.sub(Weather.Current, 1, 1)..string.lower(string.sub(Weather.Current, 2, string.len(Weather.Current))) .. "  " Add Weather
+            drawHelpTxt(0.6601, 1.444, 1.0,1.0,0.45, CreateTimeString(Time.Hour, Time.Minute) .. "  " .. VoiceHud, 255, 255, 255, 250, 6)
 
+            if Location.Direction then
+                if Location.Street ~= "" and Location.Area ~= "" then
+                    if Location.Crossing ~= "" and Location.Crossing ~= nil then
+                        drawHelpTxt(0.6601, 1.466, 1.0 ,1.0 ,0.45, Location.Direction .. " | " .. Location.Street .. " | " .. Location.Crossing .. " | " .. Location.Area, 255, 255, 255, 250, 6)
+                    else
+                        drawHelpTxt(0.6601, 1.466, 1.0 ,1.0 ,0.45, Location.Direction .. " | " .. Location.Street .. " | " .. Location.Area, 255, 255, 255, 250, 6)
+                    end
 
-            if Location.Crossing ~= "" and Location.Crossing ~= nil then
-                drawText("Crossing ~y~" .. Location.Crossing .. "~w~", 6, 0.18, 0.965, 0.4, 255, 255, 255, 255, false, true)
-            end
-
-            if Location.Street ~= "" and Location.Area ~= "" then
-                drawText("~b~" .. Location.Street .. " ~w~in ~y~" .. Location.Area, 6, 0.18, 0.945, 0.4, 255, 255, 255, 255, false, true)
-            end
-
-            if #Location.Direction == 1 then
-                drawText(Location.Direction, 6, 0.16, 0.94, 0.9, 255, 255, 255, 255, false, true)
-            elseif #Location.Direction == 2 then
-                drawText(string.sub(Location.Direction, 1, 1), 6, 0.16, 0.94, 0.9, 255, 255, 255, 255, false, true)
-                drawText(string.sub(Location.Direction, 2), 6, 0.17, 0.95, 0.5, 255, 255, 255, 255, false, true)
+                end
             end
            
         end

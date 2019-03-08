@@ -385,7 +385,7 @@ AddEventHandler("interaction:vehicle_speedlock", function()
                                 if not hud_off then
                                     local x = 0.77
                                     if math.abs(speed) >= 100 then x = 0.768 else x = 0.77 end
-                                    drawText("~y~SPEED LOCKED TO "..math.abs(speed), 6, x, 0.789, 0.4, 255, 255, 255, 255, false, true)
+                                    drawHelpTxt(.66, 1.395, 1.0,1.0,0.45, "Speed locked at "..math.abs(speed), 255, 255, 255, 250, 6)
                                 end
                             else
                                 SetEntityMaxSpeed(LastVehicle, GetVehicleHandlingFloat(LastVehicle, "CHandlingData", "fInitialDriveMaxFlatVel"))

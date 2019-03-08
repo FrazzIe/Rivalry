@@ -121,7 +121,7 @@ client_script 'others/hunger/client.lua'
 client_script 'others/scoreboard/client.lua'
 server_script 'others/scoreboard/server.lua'
 
-client_script 'others/speedometer/speedometer.lua'
+--client_script 'others/speedometer/speedometer.lua'
 
 client_script 'others/emergency_blips/client.lua'
 server_script 'others/emergency_blips/server.lua'

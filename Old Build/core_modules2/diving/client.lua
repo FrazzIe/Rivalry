@@ -91,7 +91,7 @@ Citizen.CreateThread(function()
 		mask_equipped = true
 	end
 
-	function Scuba.has()
+	function ScubaHas()
 		if scubatank or scubamask then
 			return true
 		else
@@ -116,25 +116,25 @@ Citizen.CreateThread(function()
 		local ped = PlayerPedId()
 		local pos = GetEntityCoords(ped, false)
 
-		if underwater_time > 10 and Scuba.has() and not IsPedSwimmingUnderWater(ped) then
+		if underwater_time > 10 and ScubaHas() and not IsPedSwimmingUnderWater(ped) then
 			SetPedMaxTimeUnderwater(ped, underwater_time+0.0)
 		end
 
-		if GetPlayerUnderwaterTimeRemaining(PlayerId()) > 10 and not Scuba.has() then
+		if GetPlayerUnderwaterTimeRemaining(PlayerId()) > 10 and not ScubaHas() then
 			Scuba.reset(ped)
 		end
 
-		if Scuba.has() and ped ~= attached then
+		if ScubaHas() and ped ~= attached then
 			Scuba.reattach(ped)
 		end
 
-		if Scuba.has() and IsPedSwimmingUnderWater(ped) and not mask_equipped then
+		if ScubaHas() and IsPedSwimmingUnderWater(ped) and not mask_equipped then
 			Scuba.toggle(ped, not mask_equipped)
-		elseif Scuba.has() and not IsPedSwimmingUnderWater(ped) and mask_equipped then
+		elseif ScubaHas() and not IsPedSwimmingUnderWater(ped) and mask_equipped then
 			Scuba.toggle(ped, not mask_equipped)
 		end
 
-		while underwater_time > 10 and Scuba.has() and IsPedSwimmingUnderWater(ped) do
+		while underwater_time > 10 and ScubaHas() and IsPedSwimmingUnderWater(ped) do
 			underwater_time = underwater_time - 1
 			Citizen.Wait(1000)
 		end
@@ -144,13 +144,13 @@ Citizen.CreateThread(function()
 			if Distance < 20 then
 				drawMarker(25, Scuba.locations[i].x, Scuba.locations[i].y, Scuba.locations[i].z, 1.0, 1.0, 1.5, 255, 255, 0, 255)
 				if Distance < 1 then
-					if not Scuba.has() then
+					if not ScubaHas() then
 						DisplayHelpText("Press ~INPUT_CONTEXT~ to get a diving set for ~g~$~w~300 with 5 minutes of air!")
 					else
 						DisplayHelpText("Press ~INPUT_CONTEXT~ to return diving set!")
 					end
 					if IsControlJustPressed(1, 51) then
-						if Scuba.has() then
+						if ScubaHas() then
 							Scuba.delete()
 							Scuba.reset(ped)
 						else
@@ -170,7 +170,7 @@ end)
 
 RegisterNetEvent("diving:emergency")
 AddEventHandler("diving:emergency", function()
-	if Scuba.has() then
+	if ScubaHas() then
 		Scuba.delete()
 		Scuba.reset(PlayerPedId())
 	else

@@ -44,3 +44,6 @@ client_script 'pdpeds/client.lua'
 client_script 'recoil/client.lua'
 
 client_script 'density.lua'
+
+export 'SeatbeltActive'
+export 'ScubaHas'

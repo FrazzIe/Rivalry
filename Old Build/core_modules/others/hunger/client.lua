@@ -16,66 +16,128 @@ local food = 100
 local falpha = 200
 local walpha = 200
 local fualpha = 200
+local Oxygen = 100
 
 Citizen.CreateThread(function()
     while true do
         Citizen.Wait(0)
+        if GetEntityMaxHealth(GetPlayerPed(-1)) ~= 200 then
+            SetEntityMaxHealth(GetPlayerPed(-1), 200)
+            SetEntityHealth(GetPlayerPed(-1), 200)
+        end 
+        if Oxygen > 0 and not exports.core_modules2:ScubaHas() and IsPedSwimmingUnderWater(GetPlayerPed(-1)) then
+            Oxygen = Oxygen - 0.1
+        elseif Oxygen > 0 and exports.core_modules2:ScubaHas() and IsPedSwimmingUnderWater(GetPlayerPed(-1)) then
+            Oxygen = Oxygen - 0.00325
+        elseif not IsPedSwimmingUnderWater(PlayerPedId()) then
+            Oxygen = 100
+        end
         local minimap = GetMinimapAnchor()
         if not hud_off then
             local PlayerPed = PlayerPedId()
+            local Air = 0.070 * (Oxygen / 100)
+            local Hunger = 0.070 * (food / 100)
+            local Thirst = 0.070 * (water / 100)
+            local parmor = GetPedArmour(GetPlayerPed(-1))
+            local Armor = 0.070 * (parmor / 100)
+            local phealth = GetEntityHealth(GetPlayerPed(-1)) - 100
+            local Health = 0.070 * (phealth / 100)
+            if exports.core_modules2:SeatbeltActive() then
+                Seat = "~g~ BELT"
+            else
+                Seat = "~r~ BELT"
+            end
             if(IsPedInAnyVehicle(PlayerPed, false))then
                 local cVeh = GetVehiclePedIsIn(PlayerPed, false)
-                if GetPedInVehicleSeat(cVeh, -1) == PlayerPed or GetPedInVehicleSeat(cVeh, 0) == PlayerPed then
-                    DrawRect(0.0855,0.8,0.142,0.015,0,0,0,150)
-        	        local currentfuel = DecorGetFloat(cVeh, "_Fuel_Level")
-                	DrawRect(0.068 + (0.05175)/2,0.8,0.05175,0.008295,10,100,255,75)
-                	DrawRect(0.068 + (water/1932.3671497)/2,0.8,water/1932.3671497,0.008295,10,100,255,walpha)
-                	drawHelpTxt(0.138,0.837 ,0.1,0.1,0.2, "THIRST", 255,255,255,255,6)
-        	        DrawRect(0.0148 + (0.0525)/2,0.8,0.0525,0.008295,255,165,0,75)
-        	        DrawRect(0.0148 + (food/1904.76190476)/2,0.8,food/1904.76190476,0.008295,255,165,0,falpha)
-        	        drawHelpTxt(0.084,0.837 ,0.1,0.1,0.2, "HUNGER", 255,255,255,255,6)
-        	        DrawRect(0.1215 + (0.0345)/2,0.8,0.0345,0.008295,255, 206, 30,75)
-        	        DrawRect(0.1215 + ((currentfuel/(GetVehicleHandlingFloat(cVeh, "CHandlingData", "fPetrolTankVolume")/0.0345))/2),0.8,currentfuel/(GetVehicleHandlingFloat(cVeh, "CHandlingData", "fPetrolTankVolume")/0.0345),0.008295,255, 206, 30,fualpha)
-        	        drawHelpTxt(0.183,0.837 ,0.1,0.1,0.2, "FUEL", 255,255,255,255,6)
+                local Mph = GetEntitySpeed(GetVehiclePedIsIn(GetPlayerPed(-1), false)) * 2.236936
+                local Height = GetEntityHeightAboveGround(PlayerPedId())
+                local currentfuel = (DecorGetFloat(cVeh, "_Fuel_Level")*1.53846153846)
+                if GetVehicleClass(cVeh) == 15 or GetVehicleClass(cVeh) == 16 then
+                    drawHelpTxt(.66, 1.418, 1.0,1.0,0.55 , "~w~" .. math.ceil(Mph), 255, 255, 255, 250, 6)  -- Speed
+                    drawHelpTxt(0.676, 1.428, 1.0,1.0,0.3, "~w~ MPH", 255, 255, 255, 250, 6)  -- MPH
+                    drawHelpTxt(0.696, 1.418, 1.0,1.0,0.55 , "~w~" .. math.ceil(Height), 255, 255, 255, 250, 6)  -- Height
+                    drawHelpTxt(0.717, 1.428, 1.0,1.0,0.3, "~w~ FT", 255, 255, 255, 250, 6) -- FT
+                    drawRct(0.015, 0.967, 0.1405,0.03,0,0,0,150) -- main
+                    drawRct(0.015, 0.97, 0.070,0.01,68,102,68,200) -- Health Background
+                    drawRct(0.015, 0.97, Health,0.01,55,185,55,200) -- Health Main
+                    drawRct(0.0855, 0.97, 0.070,0.01,65,87,97,200) -- Armor Background
+                    drawRct(0.0855, 0.97, Armor,0.01,54,119,159,200) -- Armor Main
+                    drawRct(0.015, 0.983, 0.070,0.01,100,95,70,200) -- Hunger Background
+                    drawRct(0.015, 0.983, Hunger,0.01,180,162,53,200) -- Hunger Main
+                    drawRct(0.0855, 0.983, 0.070,0.01,83,115,124,200) -- Thirst Background
+                    drawRct(0.0855, 0.983, Thirst,0.01,95,156,178,200) -- Thirst Main
+                elseif GetVehicleClass(cVeh) == 14 then
+                    drawHelpTxt(.66, 1.418, 1.0,1.0,0.55 , "~w~" .. math.ceil(Mph), 255, 255, 255, 250, 6)  -- Speed
+                    drawHelpTxt(0.676, 1.428, 1.0,1.0,0.3, "~w~ MPH", 255, 255, 255, 250, 6)  -- MPH
+                    drawRct(0.015, 0.967, 0.1405,0.03,0,0,0,150) -- main
+                    drawRct(0.015, 0.97, 0.070,0.01,68,102,68,200) -- Health Background
+                    drawRct(0.015, 0.97, Health,0.01,55,185,55,200) -- Health Main
+                    drawRct(0.0855, 0.97, 0.070,0.01,65,87,97,200) -- Armor Background
+                    drawRct(0.0855, 0.97, Armor,0.01,54,119,159,200) -- Armor Main
+                    drawRct(0.015, 0.983, 0.070,0.01,100,95,70,200) -- Hunger Background
+                    drawRct(0.015, 0.983, Hunger,0.01,180,162,53,200) -- Hunger Main
+                    drawRct(0.0855, 0.983, 0.070,0.01,83,115,124,200) -- Thirst Background
+                    drawRct(0.0855, 0.983, Thirst,0.01,95,156,178,200) -- Thirst Main
                 else
-                    DrawRect(0.0855,minimap.bottom_y - 0.025,0.142,0.015,0,0,0,150)
-                    DrawRect(0.087 + (0.069)/2,minimap.bottom_y - 0.024,0.069 - 0.0015,0.008295,10,100,255,75)
-                    DrawRect(0.087 + (water/1449.27536232)/2,minimap.bottom_y - 0.024,water/1449.27536232 - 0.0015,0.008295,10,100,255,walpha)
-                    drawHelpTxt(0.165, minimap.bottom_y + 0.013 ,0.1,0.1,0.2, "THIRST", 255,255,255,255,6)
-                    DrawRect(0.0015 + 0.0148 + (0.07)/2,minimap.bottom_y - 0.024,0.07 + 0.0015 ,0.008295,255,165,0,75)
-                    DrawRect(0.0015+ 0.0148 + (food/1428.57142857)/2,minimap.bottom_y - 0.024,food/1428.57142857 + 0.0015,0.008295,255,165,0,falpha)
-                    drawHelpTxt(0.094, minimap.bottom_y + 0.013 ,0.1,0.1,0.2, "HUNGER", 255,255,255,255,6)
-                    DrawRect(0.0855,minimap.bottom_y - 0.01,0.142,0.015,0,0,0,150)
-                    DrawRect(0.087 + (0.069)/2,minimap.bottom_y - 0.01,0.069 - 0.0015,0.008295,47, 196, 237,75)
-                    if GetPedArmour(PlayerPed) > 0 then
-                        DrawRect(0.087 + (GetPedArmour(PlayerPed)/1449.27536232)/2,minimap.bottom_y - 0.01,GetPedArmour(PlayerPed)/1449.27536232 - 0.0015,0.008295,47, 196, 237,200)
-                    end
-                    DrawRect(0.0015 + 0.0148 + (0.07)/2,minimap.bottom_y - 0.01,0.07 + 0.0015 ,0.008295,45, 183, 119,75)
-                    if GetEntityHealth(PlayerPed) > 100 then
-                        DrawRect(0.0015+ 0.0148 + ((GetEntityHealth(PlayerPed) - 100)/1428.57142857)/2,minimap.bottom_y - 0.01,(GetEntityHealth(PlayerPed) - 100)/1428.57142857 + 0.0015,0.008295,45, 183, 119,200)
+                    if GetPedInVehicleSeat(cVeh, -1) == PlayerPed or GetPedInVehicleSeat(cVeh, 0) == PlayerPed then
+                        drawHelpTxt(.66, 1.418, 1.0,1.0,0.55 , "~w~" .. math.ceil(Mph), 255, 255, 255, 250, 6)  -- Speed
+                        drawHelpTxt(0.676, 1.428, 1.0,1.0,0.3, "~w~ MPH", 255, 255, 255, 250, 6)  -- MPH
+                        drawHelpTxt(0.696, 1.418, 1.0,1.0,0.55 , "~w~" .. math.ceil(currentfuel), 255, 255, 255, 250, 6)  -- Fuel Remaining
+                        drawHelpTxt(0.712, 1.428, 1.0,1.0,0.3, "~w~ FUEL", 255, 255, 255, 250, 6) -- Fuel
+                        drawHelpTxt(0.732, 1.422, 1.0,1.0,0.45, Seat, 255, 255, 255, 250, 6) -- Seatbelt
+                        drawRct(0.015, 0.967, 0.1405,0.03,0,0,0,150) -- main
+                        drawRct(0.015, 0.97, 0.070,0.01,68,102,68,200) -- Health Background
+                        drawRct(0.015, 0.97, Health,0.01,55,185,55,200) -- Health Main
+                        drawRct(0.0855, 0.97, 0.070,0.01,65,87,97,200) -- Armor Background
+                        drawRct(0.0855, 0.97, Armor,0.01,54,119,159,200) -- Armor Main
+                        drawRct(0.015, 0.983, 0.070,0.01,100,95,70,200) -- Hunger Background
+                        drawRct(0.015, 0.983, Hunger,0.01,180,162,53,200) -- Hunger Main
+                        drawRct(0.0855, 0.983, 0.070,0.01,83,115,124,200) -- Thirst Background
+                        drawRct(0.0855, 0.983, Thirst,0.01,95,156,178,200) -- Thirst Main
+                    else
+                        drawRct(0.015, 0.967, 0.1405,0.03,0,0,0,150) -- main
+                        drawRct(0.015, 0.97, 0.070,0.01,68,102,68,200) -- Health Background
+                        drawRct(0.015, 0.97, Health,0.01,55,185,55,200) -- Health Main
+                        drawRct(0.0855, 0.97, 0.070,0.01,65,87,97,200) -- Armor Background
+                        drawRct(0.0855, 0.97, Armor,0.01,54,119,159,200) -- Armor Main
+                        drawRct(0.015, 0.983, 0.070,0.01,100,95,70,200) -- Hunger Background
+                        drawRct(0.015, 0.983, Hunger,0.01,180,162,53,200) -- Hunger Main
+                        drawRct(0.0855, 0.983, 0.070,0.01,83,115,124,200) -- Thirst Background
+                        drawRct(0.0855, 0.983, Thirst,0.01,95,156,178,200) -- Thirst Main
                     end
                 end
+            elseif IsPedSwimmingUnderWater(PlayerPedId()) then
+                drawRct(0.015, 0.967, 0.1405,0.03,0,0,0,150) -- main
+                drawRct(0.015, 0.97, ((0.070*.66666)-.0001),0.01,68,102,68,200) -- Health Background
+                drawRct(0.015, 0.97, ((Health*.66666)-.0001),0.01,55,185,55,200) -- Health Main
+                drawRct(0.062, 0.97, ((0.070*.66666)-.0001),0.01,65,87,97,200) -- Armor Background
+                drawRct(0.062, 0.97, ((Armor*.66666)-.0001),0.01,54,119,159,200) -- Armor Main
+                drawRct(0.109, 0.97, ((0.070*.66666)-.0001),0.01,105,105,105,200) -- Oxygen Background
+                drawRct(0.109, 0.97, ((Air*.66666)-.0001),0.01,128,128,128,200) -- Oxygen Main
+                drawRct(0.015, 0.983, 0.070,0.01,100,95,70,200) -- Hunger Background
+                drawRct(0.015, 0.983, Hunger,0.01,180,162,53,200) -- Hunger Main
+                drawRct(0.0855, 0.983, 0.070,0.01,83,115,124,200) -- Thirst Background
+                drawRct(0.0855, 0.983, Thirst,0.01,95,156,178,200) -- Thirst Main
             else
-                DrawRect(0.0855,minimap.bottom_y - 0.025,0.142,0.015,0,0,0,150)
-            	DrawRect(0.087 + (0.069)/2,minimap.bottom_y - 0.024,0.069 - 0.0015,0.008295,10,100,255,75)
-            	DrawRect(0.087 + (water/1449.27536232)/2,minimap.bottom_y - 0.024,water/1449.27536232 - 0.0015,0.008295,10,100,255,walpha)
-            	drawHelpTxt(0.165, minimap.bottom_y + 0.013 ,0.1,0.1,0.2, "THIRST", 255,255,255,255,6)
-            	DrawRect(0.0015 + 0.0148 + (0.07)/2,minimap.bottom_y - 0.024,0.07 + 0.0015 ,0.008295,255,165,0,75)
-            	DrawRect(0.0015+ 0.0148 + (food/1428.57142857)/2,minimap.bottom_y - 0.024,food/1428.57142857 + 0.0015,0.008295,255,165,0,falpha)
-            	drawHelpTxt(0.094, minimap.bottom_y + 0.013 ,0.1,0.1,0.2, "HUNGER", 255,255,255,255,6)
-                DrawRect(0.0855,minimap.bottom_y - 0.01,0.142,0.015,0,0,0,150)
-                DrawRect(0.087 + (0.069)/2,minimap.bottom_y - 0.01,0.069 - 0.0015,0.008295,47, 196, 237,75)
-                if GetPedArmour(PlayerPed) > 0 then
-                    DrawRect(0.087 + (GetPedArmour(PlayerPed)/1449.27536232)/2,minimap.bottom_y - 0.01,GetPedArmour(PlayerPed)/1449.27536232 - 0.0015,0.008295,47, 196, 237,200)
-                end
-                DrawRect(0.0015 + 0.0148 + (0.07)/2,minimap.bottom_y - 0.01,0.07 + 0.0015 ,0.008295,45, 183, 119,75)
-                if GetEntityHealth(PlayerPed) > 100 then
-                    DrawRect(0.0015+ 0.0148 + ((GetEntityHealth(PlayerPed) - 100)/1428.57142857)/2,minimap.bottom_y - 0.01,(GetEntityHealth(PlayerPed) - 100)/1428.57142857 + 0.0015,0.008295,45, 183, 119,200)
-                end
+                drawRct(0.015, 0.967, 0.1405,0.03,0,0,0,150) -- main
+                drawRct(0.015, 0.97, 0.070,0.01,68,102,68,200) -- Health Background
+                drawRct(0.015, 0.97, Health,0.01,55,185,55,200) -- Health Main
+                drawRct(0.0855, 0.97, 0.070,0.01,65,87,97,200) -- Armor Background
+                drawRct(0.0855, 0.97, Armor,0.01,54,119,159,200) -- Armor Main
+                drawRct(0.015, 0.983, 0.070,0.01,100,95,70,200) -- Hunger Background
+                drawRct(0.015, 0.983, Hunger,0.01,180,162,53,200) -- Hunger Main
+                drawRct(0.0855, 0.983, 0.070,0.01,83,115,124,200) -- Thirst Background
+                drawRct(0.0855, 0.983, Thirst,0.01,95,156,178,200) -- Thirst Main
+
             end
         end
     end
 end)
+
+function drawRct(x,y,width,height,r,g,b,a)
+
+    DrawRect(x + width/2, y + height/2, width, height, r, g, b, a)
+end
 
 function drawHelpTxt(x,y ,width,height,scale, text, r,g,b,a,font)
     SetTextFont(font)
@@ -92,36 +154,36 @@ function drawHelpTxt(x,y ,width,height,scale, text, r,g,b,a,font)
 end
 
 AddEventHandler('playerSpawned', function(spawn)
-	food = 100
-	water = 100
+    food = 100
+    water = 100
 end)
 
 Citizen.CreateThread(function()
     while true do
-    	Citizen.Wait(0)
+        Citizen.Wait(0)
         if water < 20 then
-        	wateralpha = not wateralpha
-        	Wait(500)
-        	if wateralpha then
-        		walpha = 100
-        	else
-        		walpha = 200
-        	end
+            wateralpha = not wateralpha
+            Wait(500)
+            if wateralpha then
+                walpha = 100
+            else
+                walpha = 200
+            end
         end
     end
 end)
 
 Citizen.CreateThread(function()
     while true do
-    	Citizen.Wait(0)
+        Citizen.Wait(0)
         if food < 20 then
-        	foodalpha = not foodalpha
-        	Wait(500)
-        	if foodalpha then
-        		falpha = 100
-        	else
-        		falpha = 200
-        	end
+            foodalpha = not foodalpha
+            Wait(500)
+            if foodalpha then
+                falpha = 100
+            else
+                falpha = 200
+            end
         end
     end
 end)
@@ -140,13 +202,13 @@ Citizen.CreateThread(function()
                 food = food - 0.2
                 water = water - 0.1
             end
-    		Citizen.Wait(40000)
-    		if food < 20 or water < 20 then
-    			local newhealth = GetEntityHealth(GetPlayerPed(-1)) - 15
-    			SetEntityHealth(GetPlayerPed(-1), newhealth)
+            Citizen.Wait(40000)
+            if food < 20 or water < 20 then
+                local newhealth = GetEntityHealth(GetPlayerPed(-1)) - 15
+                SetEntityHealth(GetPlayerPed(-1), newhealth)
             end
         end
-	end
+    end
 end)
 
 Citizen.CreateThread(function()
@@ -164,24 +226,24 @@ end)
 
 RegisterNetEvent('fm:drink')
 AddEventHandler('fm:drink', function(v)
-	water = water + tonumber(v)
-	if water < 0 then
-		water = 0
-	end
-	if water > 100 then
-		water = 100
-	end
+    water = water + tonumber(v)
+    if water < 0 then
+        water = 0
+    end
+    if water > 100 then
+        water = 100
+    end
 end)
 
 RegisterNetEvent('fm:eat')
 AddEventHandler('fm:eat', function(v)
-	food = food + tonumber(v)
-	if food < 0 then
-		food = 0
-	end
-	if food > 100 then
-		food = 100
-	end
+    food = food + tonumber(v)
+    if food < 0 then
+        food = 0
+    end
+    if food > 100 then
+        food = 100
+    end
 end)
 
 function getBars()
