@@ -31,7 +31,7 @@ client_scripts {
 	"taxi/taxi_Menu.lua",
 	"taxi/taxi_client.lua",
 	"pointer/client.lua",
-	"watermark/watermark.lua",
+	--"watermark/watermark.lua",
 	"fuel/frfuel.net.dll",
 }
 
@@ -44,7 +44,7 @@ server_scripts {
 	"informer/server.lua",
 	"indicators/indicators_server.lua",
 	'taxi/taxi_server.lua',
-	"watermark/watermark_sv.lua",
+	--"watermark/watermark_sv.lua",
 }
 
 export 'getIsInService'
