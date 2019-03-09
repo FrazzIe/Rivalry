@@ -400,7 +400,7 @@ AddEventHandler("interaction:help", function()
                 "~b~Basic Information",
                 "~w~You cannot drive a car without its key",
                 "~w~Ammo is tracked, once you shoot a bullet it is gone",
-                "~w~Maximum of 3 weapons on your person at all times",
+                "~w~Maximum of 4 weapons on your person at all times",
                 "~w~Low hunger/thirst will kill you",
                 "~w~100 slots is the inventory limit per person and per vehicle",
                 "~w~The switch character range is 75 meters, if someone comes close it will cancel",
@@ -409,8 +409,10 @@ AddEventHandler("interaction:help", function()
                 "~w~You must purchase a weapons license from an LSPD Officer",
                 "~w~Your phone can be stolen/destroyed and you will have to buy a new one from the store",
                 "~w~Phone stuck on screen? Press F8 and type frozen and re-open the phone",
-                "~w~/e will bring up a menu where you can do an emote or change your walk style",
+                "~w~You can do an emote with /emote or /ws to change your walk style",
                 "~w~You can do /roll to roll a die, or /draw to draw a random playing card",
+                "~w~Green bar is your health, and the dark blue bar is your armor",
+                "~w~Yellow bar is your hunger, and the light blue bar is your thirst",
             }
 
             local add_y_c = 0.0
