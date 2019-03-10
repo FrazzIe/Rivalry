@@ -3,6 +3,53 @@ function math.round(num, numDecimalPlaces)
 	return tonumber(string.format("%." .. (numDecimalPlaces or 0) .. "f", num))
 end
 
+function logMoney(_target, _source, message)
+    PerformHttpRequest(GetConvar("bank_webhook", "https://discordapp.com/api/webhooks/554205260504236041/yo_CM5QRSHblteui7RwNxtgSLIjAwZPUtbsGga9vaBP2AaDCEWhsVDySzVzzI1kFnfcq"), function(err, text, headers) end, 'POST', json.encode(
+    {
+        username = "Log Bot",
+        embeds = {
+            {
+                title = "",
+                description = "",
+                fields = {
+                    {name = "Target name", value = _target.name},
+                    {name = "Target steam", value = _target.steam}, 
+                    {name = "What happened", value = message},
+                    {name = "Source name", value = _source.name},  
+                    {name = "Source steam", value = _source.steam}, 
+                },
+                color = "8190976",
+            }
+        },
+
+        content = ""
+
+    }), { ['Content-Type'] = 'application/json' })
+end
+
+function GetIdentity(id)
+	local name = ""
+	TriggerEvent("core:getname", id, function(_name) 
+        if _name then
+            name = _name
+        end
+	end)
+	return name
+end
+
+function getID(type, source)
+    for k,v in ipairs(GetPlayerIdentifiers(source)) do
+        if string.sub(tostring(v), 1, string.len("steam:")) == "steam:" and (type == "steam" or type == 1) then
+            return v
+        elseif string.sub(tostring(v), 1, string.len("license:")) == "license:" and (type == "license" or type == 2) then
+            return v
+        elseif string.sub(tostring(v), 1, string.len("ip:")) == "ip:" and (type == "ip" or type == 3) then
+            return v
+        end
+    end
+    return nil
+end
+
 RegisterServerEvent('bank:deposit')
 AddEventHandler('bank:deposit', function(amount)
 	local source = tonumber(source)
@@ -89,6 +136,9 @@ AddEventHandler('bank:transfer', function(fromPlayer, toPlayer, amount)
 				TriggerClientEvent("es_freeroam:notify", source, "CHAR_BANK_MAZE", 1, "Maze Bank", false, "Transfered: ~r~-$".. rounded .." ~n~~s~New Balance: ~g~$" .. user.get("bank"))
 				TriggerClientEvent("banking:updateBalance", source, user.get("bank"))
 				TriggerEvent('core:getuser', toPlayer, function(user2)
+					if amount >= 25000 then
+                        logMoney({steam = getID("steam", toPlayer), name = GetIdentity(toPlayer)},{steam = getID("steam", source), name = GetIdentity(source)},"Transferred $" .. math.floor(amount))
+                    end
 					user2.addBank(rounded)
 					TriggerClientEvent("es_freeroam:notify", tonumber(toPlayer), "CHAR_BANK_MAZE", 1, "Maze Bank", false, "Recieved: ~g~$".. rounded .." ~n~~s~New Balance: ~g~$" .. user2.get("bank"))
 					TriggerClientEvent("banking:updateBalance", tonumber(toPlayer), user2.get("bank"))
