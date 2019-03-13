@@ -78,6 +78,16 @@ Citizen.CreateThread(function()
                     drawRct(0.015, 0.983, Hunger,0.01,180,162,53,200) -- Hunger Main
                     drawRct(0.0855, 0.983, 0.070,0.01,83,115,124,200) -- Thirst Background
                     drawRct(0.0855, 0.983, Thirst,0.01,95,156,178,200) -- Thirst Main
+                elseif GetVehicleClass(cVeh) == 13 then
+                    drawRct(0.015, 0.967, 0.1405,0.03,0,0,0,150) -- main
+                    drawRct(0.015, 0.97, 0.070,0.01,68,102,68,200) -- Health Background
+                    drawRct(0.015, 0.97, Health,0.01,55,185,55,200) -- Health Main
+                    drawRct(0.0855, 0.97, 0.070,0.01,65,87,97,200) -- Armor Background
+                    drawRct(0.0855, 0.97, Armor,0.01,54,119,159,200) -- Armor Main
+                    drawRct(0.015, 0.983, 0.070,0.01,100,95,70,200) -- Hunger Background
+                    drawRct(0.015, 0.983, Hunger,0.01,180,162,53,200) -- Hunger Main
+                    drawRct(0.0855, 0.983, 0.070,0.01,83,115,124,200) -- Thirst Background
+                    drawRct(0.0855, 0.983, Thirst,0.01,95,156,178,200) -- Thirst Main
                 else
                     if GetPedInVehicleSeat(cVeh, -1) == PlayerPed or GetPedInVehicleSeat(cVeh, 0) == PlayerPed then
                         drawHelpTxt(.66, 1.418, 1.0,1.0,0.55 , "~w~" .. math.ceil(Mph), 255, 255, 255, 250, 6)  -- Speed
@@ -95,6 +105,7 @@ Citizen.CreateThread(function()
                         drawRct(0.0855, 0.983, 0.070,0.01,83,115,124,200) -- Thirst Background
                         drawRct(0.0855, 0.983, Thirst,0.01,95,156,178,200) -- Thirst Main
                     else
+                        drawHelpTxt(0.66, 1.422, 1.0,1.0,0.45, Seat, 255, 255, 255, 250, 6) -- Seatbelt
                         drawRct(0.015, 0.967, 0.1405,0.03,0,0,0,150) -- main
                         drawRct(0.015, 0.97, 0.070,0.01,68,102,68,200) -- Health Background
                         drawRct(0.015, 0.97, Health,0.01,55,185,55,200) -- Health Main
