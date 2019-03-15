@@ -620,10 +620,10 @@ Citizen.CreateThread(function()
 				if NetworkIsPlayerActive(Player) then
 					local OtherPed = GetPlayerPed(Player)
 					if OtherPed ~= PlayerPed then
-						SetEntityLocallyInvisible(OtherPed)
+						SetEntityVisible(OtherPed, false)
 						SetEntityNoCollisionEntity(PlayerPed, OtherPed, true)
 					else
-						SetEntityLocallyVisible(PlayerPed)
+						SetEntityVisible(PlayerPed, true)
 					end
 				end
 			end
@@ -633,10 +633,10 @@ Citizen.CreateThread(function()
 				if NetworkIsPlayerActive(Player) then
 					local OtherPed = GetPlayerPed(Player)
 					if OtherPed ~= PlayerPed then
-						SetEntityLocallyInvisible(OtherPed)
+						SetEntityVisible(OtherPed, false)
 						SetEntityNoCollisionEntity(PlayerPed, OtherPed, true)
 					else
-						SetEntityLocallyVisible(PlayerPed)
+						SetEntityVisible(PlayerPed, true)
 					end
 				end
 			end
