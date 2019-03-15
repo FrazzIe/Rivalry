@@ -266,7 +266,7 @@ Citizen.CreateThread(function()
 		local PlayerPosition = GetEntityCoords(PlayerPed, false)
 
 		for PlayerIndex = 0, 255 do
-			if NetworkIsPlayerActive(i) then
+			if NetworkIsPlayerActive(PlayerIndex) then
 				if PlayerId ~= PlayerIndex then
 					local OtherPed = GetPlayerPed(PlayerIndex)
 					if DoesEntityExist(OtherPed) then

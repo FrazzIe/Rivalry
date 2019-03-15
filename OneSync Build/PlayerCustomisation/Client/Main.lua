@@ -621,11 +621,9 @@ Citizen.CreateThread(function()
 					local OtherPed = GetPlayerPed(Player)
 					if OtherPed ~= PlayerPed then
 						SetEntityLocallyInvisible(OtherPed)
-						--SetLocalPlayerInvisibleLocally(OtherPed)
 						SetEntityNoCollisionEntity(PlayerPed, OtherPed, true)
 					else
 						SetEntityLocallyVisible(PlayerPed)
-						--SetLocalPlayerVisibleLocally(OtherPed)
 					end
 				end
 			end
