@@ -385,6 +385,7 @@ AddEventHandler("core:selectCharacter", function(data)
                 TriggerEvent("handcuffs:initialise", source)
                 TriggerEvent("doors:initialise", source)
                 TriggerEvent("weed:initialise", source)
+                TriggerEvent("garage:reload", source)
             else
                 if GetPlayerName(source) then
                     logError(GetPlayerName(source).." was kicked! | STEAM: "..identifier.." | CHAR ID: "..data.character_id.." | 2")

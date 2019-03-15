@@ -385,7 +385,7 @@ AddEventHandler("garage:initialise",function(source, identifier, character_id)
 end)
 
 RegisterServerEvent("garage:reload")
-AddEventHandler("garage:reload",function()
+AddEventHandler("garage:reload",function(source)
     local source = source
     TriggerEvent('core:getuser', source, function(user)
         if user ~= nil then
