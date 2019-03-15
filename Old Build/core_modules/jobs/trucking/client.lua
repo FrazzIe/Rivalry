@@ -455,20 +455,23 @@ AddEventHandler("trucker:rent", function()
 	end)
 end)
 
-local possibleTierMissions = {}
 local randomizer = nil
 local missionRandomizer = nil
 
 function checkTier(missionTier)
-	possibleTierMissions = {}
-	for k, v in ipairs(trucker_destinations) do
-		if v.Tier == missionTier then
-			table.insert(possibleTierMissions, v)
+	local possibleTierMissions = {}
+	for Index = 1, #trucker_destinations do
+		if trucker_destinations[Index].Tier == missionTier then
+			table.insert(possibleTierMissions, Index)
 		end
 	end
-	randomizer = math.random(1, #possibleTierMissions)
-	trucker_job = randomizer
-
+	if #possibleTierMissions ~= 0 then
+		local Randomizer = math.random(1, #possibleTierMissions)
+	else
+		local Randomizer = 1
+	end
+	local Index = possibleTierMissions[Randomizer]
+	trucker_job = Index
 	Notify("Tier "..missionTier.." has been selected!", 2500)
 end
 

@@ -16,7 +16,6 @@ Config.Priority = {
     ["steam:110000109805b30"] = 995, -- Alina (itsjenna)
     ["steam:110000102d4d1e7"] = 994, -- Lydia Zephyr
     ["steam:1100001032aa2a1"] = 993, -- Austin James
-    ["steam:11000011601baf6"] = 992, -- MysticModding
 --[People Frazzle Likes]--
     ["steam:110000115c8520b"] = 901, -- Jinia
     ["steam:1100001074e86ec"] = 900, -- RoundishKungFu/Kelly Price
@@ -56,16 +55,17 @@ Config.Priority = {
     ["steam:110000101dcfaa6"] = 773, -- FortyOne
     ["steam:11000010977a78e"] = 772, -- brak1n
 --[PD, EMS, DOJ]--
-    ["steam:11000010bf7bb73"] = 700, -- AfriicanSnowball
-    ["steam:110000104f0fbb8"] = 699, -- Wayne DeMan (PD Command)
-    ["steam:110000104c9acb6"] = 698, -- Tyler Reagan (PD High Command)
-    ["steam:110000102faf99e"] = 697, -- Lee Andersen (PD Command)
-    ["steam:11000010036d96d"] = 696, -- Chris Miller (PD Command)
-    ["steam:1100001073a42f9"] = 695, -- John Miller (PD Command)
+    ["steam:11000010bf7bb73"] = 701, -- AfriicanSnowball
+    ["steam:110000104f0fbb8"] = 700, -- Wayne DeMan (PD Command)
+    ["steam:110000104c9acb6"] = 699, -- Tyler Reagan (PD High Command)
+    ["steam:110000102faf99e"] = 698, -- Lee Andersen (PD Command)
+    ["steam:11000010036d96d"] = 697, -- Chris Miller (PD Command)
+    ["steam:1100001073a42f9"] = 696, -- John Miller (PD Command)
+    ["steam:11000010371b8ed"] = 695, -- Gill Dunley (PD Command)
     ["steam:1100001047aafc5"] = 694, -- Frank Moretti (PD Command) 
     ["steam:110000103d70c3f"] = 693, -- Leo Gold (PD Command)
-    ["steam:11000010371b8ed"] = 692, -- Gill Dunley (PD Command)
-    ["steam:11000010515be32"] = 691, -- Johnny Russo (ADA)
+    ["steam:11000010515be32"] = 692, -- Johnny Russo (ADA)
+    ["steam:11000010345d3df"] = 691, -- Eric Hobbs (PD Command)
     ["steam:110000106443c23"] = 690, -- Augustus Williams
     ["steam:1100001096a1e6f"] = 689, -- Zim Pontes (EMS High Command)          
     ["steam:1100001003ab893"] = 688, -- Kara Black (EMS Command)
@@ -79,7 +79,7 @@ Config.Priority = {
     ["steam:110000105e2219c"] = 679, -- Daquan
     ["steam:1100001340afc2b"] = 678, -- Frenchy (EMS command)
     ["steam:110000110e35616"] = 677, -- Ryleigh Wolfhart
-
+    ["steam:11000011601baf6"] = 676, -- MysticModding
 --[Extras]--
     ["steam:110000100BF705A"] = 820, -- Schwank (Zach)
     ["steam:110000101d67662"] = 819, -- Incsypops (Mechanic Manager)
