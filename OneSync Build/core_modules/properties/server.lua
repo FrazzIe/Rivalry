@@ -8,7 +8,8 @@ local max_properties_allowed = {
 }
 local robbers = {}
 local properties_income_interval = 30 --minutes
-local time_to_pay_rent = 2 --Hours
+local time_to_pay_house_rent = 2 --Hours
+local time_to_pay_businesses_rent = 8 --Hours
 local required_cops = 2
 local properties_identifier, properties_char_id = {}, {}
 local properties_ready = false
@@ -35,7 +36,7 @@ AddEventHandler("onServerResourceStart", function(resource)
 		for k,v in pairs(houses_normal) do
 			if v then
 				if v.id then
-					if os.time() > (tonumber(v["expire"]) + (time_to_pay_rent*60*60)) then
+					if os.time() > (tonumber(v["expire"]) + (time_to_pay_house_rent*60*60)) then
 						properties["houses"]["normal"][v.id]["owner"]["identifier"] = "no"
 						properties["houses"]["normal"][v.id]["owner"]["char_id"] = 0
 						properties["houses"]["normal"][v.id]["storage"]["current"]["cash"] = v.cash
@@ -68,7 +69,7 @@ AddEventHandler("onServerResourceStart", function(resource)
 		for k,v in pairs(houses_enterable) do
 			if v then
 				if v.id then
-					if os.time() > (tonumber(v["expire"]) + (time_to_pay_rent*60*60)) then
+					if os.time() > (tonumber(v["expire"]) + (time_to_pay_house_rent*60*60)) then
 						properties["houses"]["enterable"][v.id]["owner"]["identifier"] = "no"
 						properties["houses"]["enterable"][v.id]["owner"]["char_id"] = 0
 						properties["houses"]["enterable"][v.id]["storage"]["current"]["cash"] = v.cash
@@ -103,31 +104,23 @@ AddEventHandler("onServerResourceStart", function(resource)
 		for k,v in pairs(businesses_normal) do
 			if v then
 				if v.id then
-					if os.time() > (tonumber(v["expire"]) + (time_to_pay_rent*60*60)) then
-						properties["businesses"]["normal"][v.id]["owner"]["identifier"] = "no"
-						properties["businesses"]["normal"][v.id]["owner"]["char_id"] = 0
-						properties["businesses"]["normal"][v.id]["storage"]["current"]["cash"] = v.cash
-						properties["businesses"]["normal"][v.id]["storage"]["current"]["dirty"] = v.dirty
-						properties["businesses"]["normal"][v.id]["expire"] = tonumber(v["expire"])
-						properties["businesses"]["normal"][v.id]["locked"] = str_to_bool(v["locked"])
-					else
-						properties["businesses"]["normal"][v.id]["owner"]["identifier"] = v.identifier
-						properties["businesses"]["normal"][v.id]["owner"]["char_id"] = tonumber(v.character_id) or 0
-						properties["businesses"]["normal"][v.id]["storage"]["current"]["cash"] = v.cash
-						properties["businesses"]["normal"][v.id]["storage"]["current"]["dirty"] = v.dirty
-						properties["businesses"]["normal"][v.id]["expire"] = tonumber(v["expire"])
-						properties["businesses"]["normal"][v.id]["locked"] = str_to_bool(v["locked"])
+					properties["businesses"]["normal"][v.id]["owner"]["identifier"] = v.identifier
+					properties["businesses"]["normal"][v.id]["owner"]["char_id"] = tonumber(v.character_id) or 0
+					properties["businesses"]["normal"][v.id]["storage"]["current"]["cash"] = v.cash
+					properties["businesses"]["normal"][v.id]["storage"]["current"]["dirty"] = v.dirty
+					properties["businesses"]["normal"][v.id]["expire"] = tonumber(v["expire"])
+					properties["businesses"]["normal"][v.id]["locked"] = str_to_bool(v["locked"])
+					properties["businesses"]["normal"][v.id]["overdue"] = str_to_bool(v["overdue"])
 
-						if properties_owned["businesses"][v.identifier] then
-							if properties_owned["businesses"][v.identifier][tostring(v.character_id)] then
-								properties_owned["businesses"][v.identifier][tostring(v.character_id)] = properties_owned["businesses"][v.identifier][tostring(v.character_id)] + 1
-							else
-								properties_owned["businesses"][v.identifier][tostring(v.character_id)] = 1
-							end
+					if properties_owned["businesses"][v.identifier] then
+						if properties_owned["businesses"][v.identifier][tostring(v.character_id)] then
+							properties_owned["businesses"][v.identifier][tostring(v.character_id)] = properties_owned["businesses"][v.identifier][tostring(v.character_id)] + 1
 						else
-							properties_owned["businesses"][v.identifier] = {}
 							properties_owned["businesses"][v.identifier][tostring(v.character_id)] = 1
 						end
+					else
+						properties_owned["businesses"][v.identifier] = {}
+						properties_owned["businesses"][v.identifier][tostring(v.character_id)] = 1
 					end
 				end
 			end
@@ -137,14 +130,17 @@ AddEventHandler("onServerResourceStart", function(resource)
 		for k,v in pairs(businesses_enterable) do
 			if v then
 				if v.id then
-					if os.time() > (tonumber(v["expire"]) + (time_to_pay_rent*60*60)) then
-						properties["businesses"]["enterable"][v.id]["owner"]["identifier"] = "no"
-						properties["businesses"]["enterable"][v.id]["owner"]["char_id"] = 0
+					if os.time() > (tonumber(v["expire"]) + (time_to_pay_businesses_rent*60*60)) then
+						--properties["businesses"]["normal"][businesses_normal[Index].id]["owner"]["identifier"] = "no"
+						--properties["businesses"]["normal"][businesses_normal[Index].id]["owner"]["char_id"] = 0
+						properties["businesses"]["enterable"][v.id]["owner"]["identifier"] = v.identifier
+						properties["businesses"]["enterable"][v.id]["owner"]["char_id"] = tonumber(v.character_id) or 0
 						properties["businesses"]["enterable"][v.id]["storage"]["current"]["cash"] = v.cash
 						properties["businesses"]["enterable"][v.id]["storage"]["current"]["dirty"] = v.dirty
 						properties["businesses"]["enterable"][v.id]["expire"] = tonumber(v["expire"])
 						properties["businesses"]["enterable"][v.id]["locked"] = str_to_bool(v["locked"])
 						properties["businesses"]["enterable"][v.id]["storage"]["locked"] = str_to_bool(v.vault_locked)
+						properties["businesses"]["enterable"][v.id]["overdue"] = str_to_bool(v["overdue"])
 					else
 						properties["businesses"]["enterable"][v.id]["owner"]["identifier"] = v.identifier
 						properties["businesses"]["enterable"][v.id]["owner"]["char_id"] = tonumber(v.character_id) or 0
@@ -153,6 +149,7 @@ AddEventHandler("onServerResourceStart", function(resource)
 						properties["businesses"]["enterable"][v.id]["expire"] = tonumber(v["expire"])
 						properties["businesses"]["enterable"][v.id]["locked"] = str_to_bool(v["locked"])
 						properties["businesses"]["enterable"][v.id]["storage"]["locked"] = str_to_bool(v.vault_locked)
+						properties["businesses"]["enterable"][v.id]["overdue"] = str_to_bool(v["overdue"])
 
 						if properties_owned["businesses"][v.identifier] then
 							if properties_owned["businesses"][v.identifier][tostring(v.character_id)] then
@@ -232,28 +229,13 @@ Citizen.CreateThread(function()
 					if businesses_normal[Index] then
 						if businesses_normal[Index].id then
 							if properties["businesses"]["normal"][businesses_normal[Index].id] then
-								if os.time() > (tonumber(businesses_normal[Index].expire) + (time_to_pay_rent*60*60)) then
-									properties["businesses"]["normal"][businesses_normal[Index].id]["owner"]["identifier"] = "no"
-									properties["businesses"]["normal"][businesses_normal[Index].id]["owner"]["char_id"] = 0
-									properties["businesses"]["normal"][businesses_normal[Index].id]["storage"]["current"]["cash"] = businesses_normal[Index].cash
-									properties["businesses"]["normal"][businesses_normal[Index].id]["storage"]["current"]["dirty"] = businesses_normal[Index].dirty
-									properties["businesses"]["normal"][businesses_normal[Index].id]["expire"] = tonumber(businesses_normal[Index]["expire"])
-									properties["businesses"]["normal"][businesses_normal[Index].id]["locked"] = str_to_bool(businesses_normal[Index]["locked"])
-
-									if properties_owned["businesses"][businesses_normal[Index].identifier] then
-										if properties_owned["businesses"][businesses_normal[Index].identifier][tostring(businesses_normal[Index].character_id)] then
-											properties_owned["businesses"][businesses_normal[Index].identifier][tostring(businesses_normal[Index].character_id)] = properties_owned["businesses"][businesses_normal[Index].identifier][tostring(businesses_normal[Index].character_id)] - 1
-										end
-									end
-								else
-									properties["businesses"]["normal"][businesses_normal[Index].id]["owner"]["identifier"] = businesses_normal[Index].identifier
-									properties["businesses"]["normal"][businesses_normal[Index].id]["owner"]["char_id"] = tonumber(businesses_normal[Index].character_id) or 0
-									properties["businesses"]["normal"][businesses_normal[Index].id]["storage"]["current"]["cash"] = businesses_normal[Index].cash
-									properties["businesses"]["normal"][businesses_normal[Index].id]["storage"]["current"]["dirty"] = businesses_normal[Index].dirty
-									properties["businesses"]["normal"][businesses_normal[Index].id]["expire"] = tonumber(businesses_normal[Index]["expire"])
-									properties["businesses"]["normal"][businesses_normal[Index].id]["locked"] = str_to_bool(businesses_normal[Index]["locked"])
-								end
-								
+								properties["businesses"]["normal"][businesses_normal[Index].id]["owner"]["identifier"] = businesses_normal[Index].identifier
+								properties["businesses"]["normal"][businesses_normal[Index].id]["owner"]["char_id"] = tonumber(businesses_normal[Index].character_id) or 0
+								properties["businesses"]["normal"][businesses_normal[Index].id]["storage"]["current"]["cash"] = businesses_normal[Index].cash
+								properties["businesses"]["normal"][businesses_normal[Index].id]["storage"]["current"]["dirty"] = businesses_normal[Index].dirty
+								properties["businesses"]["normal"][businesses_normal[Index].id]["expire"] = tonumber(businesses_normal[Index]["expire"])
+								properties["businesses"]["normal"][businesses_normal[Index].id]["locked"] = str_to_bool(businesses_normal[Index]["locked"])
+								properties["businesses"]["normal"][businesses_normal[Index].id]["overdue"] = str_to_bool(businesses_normal[Index]["overdue"])
 								if properties["businesses"]["normal"][businesses_normal[Index].id]["owner"]["identifier"] ~= "no" then
 									local amount_lost = 0
 									if properties["businesses"]["normal"][businesses_normal[Index].id]["owner"]["id"] ~= 0 then
@@ -291,15 +273,17 @@ Citizen.CreateThread(function()
 					if businesses_enterable[Index] then
 						if businesses_enterable[Index].id then
 							if properties["businesses"]["enterable"][businesses_enterable[Index].id] then
-								if os.time() > (tonumber(businesses_enterable[Index]["expire"]) + (time_to_pay_rent*60*60)) then
-									properties["businesses"]["enterable"][businesses_enterable[Index].id]["owner"]["identifier"] = "no"
-									properties["businesses"]["enterable"][businesses_enterable[Index].id]["owner"]["char_id"] = 0
+								if os.time() > (tonumber(businesses_enterable[Index]["expire"]) + (time_to_pay_businesses_rent*60*60)) then
+									--properties["businesses"]["enterable"][businesses_enterable[Index].id]["owner"]["identifier"] = "no"
+									--properties["businesses"]["enterable"][businesses_enterable[Index].id]["owner"]["char_id"] = 0
+									properties["businesses"]["enterable"][businesses_enterable[Index].id]["owner"]["identifier"] = businesses_enterable[Index].identifier
+									properties["businesses"]["enterable"][businesses_enterable[Index].id]["owner"]["char_id"] = tonumber(businesses_enterable[Index].character_id) or 0
 									properties["businesses"]["enterable"][businesses_enterable[Index].id]["storage"]["current"]["cash"] = businesses_enterable[Index].cash
 									properties["businesses"]["enterable"][businesses_enterable[Index].id]["storage"]["current"]["dirty"] = businesses_enterable[Index].dirty
 									properties["businesses"]["enterable"][businesses_enterable[Index].id]["expire"] = tonumber(businesses_enterable[Index]["expire"])
 									properties["businesses"]["enterable"][businesses_enterable[Index].id]["locked"] = str_to_bool(businesses_enterable[Index]["locked"])
+									properties["businesses"]["enterable"][businesses_enterable[Index].id]["overdue"] = str_to_bool(businesses_enterable[Index]["overdue"])
 									properties["businesses"]["enterable"][businesses_enterable[Index].id]["storage"]["locked"] = str_to_bool(businesses_enterable[Index].vault_locked)
-
 									if properties_owned["businesses"][businesses_enterable[Index].identifier] then
 										if properties_owned["businesses"][businesses_enterable[Index].identifier][tostring(businesses_enterable[Index].character_id)] then
 											properties_owned["businesses"][businesses_enterable[Index].identifier][tostring(businesses_enterable[Index].character_id)] = properties_owned["businesses"][businesses_enterable[Index].identifier][tostring(businesses_enterable[Index].character_id)] - 1
@@ -311,8 +295,10 @@ Citizen.CreateThread(function()
 									properties["businesses"]["enterable"][businesses_enterable[Index].id]["storage"]["current"]["cash"] = businesses_enterable[Index].cash
 									properties["businesses"]["enterable"][businesses_enterable[Index].id]["storage"]["current"]["dirty"] = businesses_enterable[Index].dirty
 									properties["businesses"]["enterable"][businesses_enterable[Index].id]["expire"] = tonumber(businesses_enterable[Index]["expire"])
+									properties["businesses"]["enterable"][businesses_enterable[Index].id]["overdue"] = str_to_bool(businesses_enterable[Index]["overdue"])
 									properties["businesses"]["enterable"][businesses_enterable[Index].id]["locked"] = str_to_bool(businesses_enterable[Index]["locked"])
 									properties["businesses"]["enterable"][businesses_enterable[Index].id]["storage"]["locked"] = str_to_bool(businesses_enterable[Index].vault_locked)
+									properties["businesses"]["normal"][businesses_enterable[Index].id]["overdue"] = str_to_bool(businesses_enterable[Index]["overdue"])
 								end
 								if properties["businesses"]["enterable"][businesses_enterable[Index].id]["owner"]["identifier"] ~= "no" then
 									local amount_lost = 0
@@ -365,6 +351,7 @@ AddEventHandler("properties:deposit", function(property_type, property_variant, 
 					properties[property_type][property_variant][property_id]["owner"]["identifier"] = result[1].identifier
 					properties[property_type][property_variant][property_id]["owner"]["char_id"] = tonumber(result[1].character_id) or 0
 					properties[property_type][property_variant][property_id]["locked"] = str_to_bool(result[1]["locked"])
+					properties[property_type][property_variant][property_id]["overdue"] = str_to_bool(result[1]["overdue"])
 					properties[property_type][property_variant][property_id]["expire"] = tonumber(result[1]["expire"])
 					properties[property_type][property_variant][property_id]["storage"]["current"]["cash"] = tonumber(result[1].cash)
 					properties[property_type][property_variant][property_id]["storage"]["current"]["dirty"] = tonumber(result[1].dirty)
@@ -377,16 +364,28 @@ AddEventHandler("properties:deposit", function(property_type, property_variant, 
 					if properties[property_type][property_variant][property_id]["owner"]["identifier"] == properties_identifier[source] and properties_char_id[source] ~= properties[property_type][property_variant][property_id]["owner"]["char_id"] and properties[property_type][property_variant][property_id]["owner"]["id"] == source then
 						properties[property_type][property_variant][property_id]["owner"]["id"] = 0
 					end
-					if os.time() > (tonumber(properties[property_type][property_variant][property_id]["expire"]) + (time_to_pay_rent*60*60)) then
-						if properties_owned[property_type][properties[property_type][property_variant][property_id]["owner"]["identifier"]] then
-							if properties_owned[property_type][properties[property_type][property_variant][property_id]["owner"]["identifier"]][tostring(properties[property_type][property_variant][property_id]["owner"]["char_id"])] then
-								properties_owned[property_type][properties[property_type][property_variant][property_id]["owner"]["identifier"]][tostring(properties[property_type][property_variant][property_id]["owner"]["char_id"])] = properties_owned[property_type][properties[property_type][property_variant][property_id]["owner"]["identifier"]][tostring(properties[property_type][property_variant][property_id]["owner"]["char_id"])] - 1
+					if property_type == "houses" then
+						if os.time() > (tonumber(properties[property_type][property_variant][property_id]["expire"]) + (time_to_pay_house_rent*60*60)) then
+							if properties_owned[property_type][properties[property_type][property_variant][property_id]["owner"]["identifier"]] then
+								if properties_owned[property_type][properties[property_type][property_variant][property_id]["owner"]["identifier"]][tostring(properties[property_type][property_variant][property_id]["owner"]["char_id"])] then
+									properties_owned[property_type][properties[property_type][property_variant][property_id]["owner"]["identifier"]][tostring(properties[property_type][property_variant][property_id]["owner"]["char_id"])] = properties_owned[property_type][properties[property_type][property_variant][property_id]["owner"]["identifier"]][tostring(properties[property_type][property_variant][property_id]["owner"]["char_id"])] - 1
+								end
 							end
+							properties[property_type][property_variant][property_id]["owner"]["identifier"] = "no"
+							properties[property_type][property_variant][property_id]["owner"]["char_id"] = 0
+							properties[property_type][property_variant][property_id]["owner"]["id"] = 0
+							exports["GHMattiMySQL"]:QueryAsync("UPDATE properties_"..property_type.."_"..property_variant.." SET `identifier`=@identifier, `character_id`=NULL WHERE id = @property_id", {["@identifier"] = "no", ["@property_id"] = property_id})
 						end
-						properties[property_type][property_variant][property_id]["owner"]["identifier"] = "no"
-						properties[property_type][property_variant][property_id]["owner"]["char_id"] = 0
-						properties[property_type][property_variant][property_id]["owner"]["id"] = 0
-						exports["GHMattiMySQL"]:QueryAsync("UPDATE properties_"..property_type.."_"..property_variant.." SET `identifier`=@identifier, `character_id`=NULL WHERE id = @property_id", {["@identifier"] = "no", ["@property_id"] = property_id})
+					elseif property_type == "businesses" then
+						if os.time() > (tonumber(properties[property_type][property_variant][property_id]["expire"]) + (time_to_pay_businesses_rent*60*60)) then
+							if properties_owned[property_type][properties[property_type][property_variant][property_id]["owner"]["identifier"]] then
+								if properties_owned[property_type][properties[property_type][property_variant][property_id]["owner"]["identifier"]][tostring(properties[property_type][property_variant][property_id]["owner"]["char_id"])] then
+									properties_owned[property_type][properties[property_type][property_variant][property_id]["owner"]["identifier"]][tostring(properties[property_type][property_variant][property_id]["owner"]["char_id"])] = properties_owned[property_type][properties[property_type][property_variant][property_id]["owner"]["identifier"]][tostring(properties[property_type][property_variant][property_id]["owner"]["char_id"])] - 1
+								end
+							end
+							properties[property_type][property_variant][property_id]["overdue"] = true
+							exports["GHMattiMySQL"]:QueryAsync("UPDATE properties_"..property_type.."_"..property_variant.." SET `overdue`=@overdue WHERE id = @property_id", {["@overdue"] = "true", ["@property_id"] = property_id})
+						end
 					end
 					TriggerClientEvent("properties:sync", -1, properties)
 					if properties[property_type][property_variant][property_id]["owner"]["identifier"] ~= "no" then
@@ -497,6 +496,7 @@ AddEventHandler("properties:withdraw", function(property_type, property_variant,
 					properties[property_type][property_variant][property_id]["owner"]["identifier"] = result[1].identifier
 					properties[property_type][property_variant][property_id]["owner"]["character_id"] = tonumber(result[1].character_id)
 					properties[property_type][property_variant][property_id]["locked"] = str_to_bool(result[1]["locked"])
+					properties[property_type][property_variant][property_id]["overdue"] = str_to_bool(result[1]["overdue"])
 					properties[property_type][property_variant][property_id]["expire"] = tonumber(result[1]["expire"])
 					properties[property_type][property_variant][property_id]["storage"]["current"]["cash"] = tonumber(result[1].cash)
 					properties[property_type][property_variant][property_id]["storage"]["current"]["dirty"] = tonumber(result[1].dirty)
@@ -509,16 +509,23 @@ AddEventHandler("properties:withdraw", function(property_type, property_variant,
 					if properties[property_type][property_variant][property_id]["owner"]["identifier"] == properties_identifier[source] and properties_char_id[source] ~= properties[property_type][property_variant][property_id]["owner"]["char_id"] and properties[property_type][property_variant][property_id]["owner"]["id"] == source then
 						properties[property_type][property_variant][property_id]["owner"]["id"] = 0
 					end
-					if os.time() > (tonumber(properties[property_type][property_variant][property_id]["expire"]) + (time_to_pay_rent*60*60)) then
-						if properties_owned[property_type][properties[property_type][property_variant][property_id]["owner"]["identifier"]] then
-							if properties_owned[property_type][properties[property_type][property_variant][property_id]["owner"]["identifier"]][tostring(properties[property_type][property_variant][property_id]["owner"]["char_id"])] then
-								properties_owned[property_type][properties[property_type][property_variant][property_id]["owner"]["identifier"]][tostring(properties[property_type][property_variant][property_id]["owner"]["char_id"])] = properties_owned[property_type][properties[property_type][property_variant][property_id]["owner"]["identifier"]][tostring(properties[property_type][property_variant][property_id]["owner"]["char_id"])] - 1
+					if property_type == "houses" then
+						if os.time() > (tonumber(properties[property_type][property_variant][property_id]["expire"]) + (time_to_pay_house_rent*60*60)) then
+							if properties_owned[property_type][properties[property_type][property_variant][property_id]["owner"]["identifier"]] then
+								if properties_owned[property_type][properties[property_type][property_variant][property_id]["owner"]["identifier"]][tostring(properties[property_type][property_variant][property_id]["owner"]["char_id"])] then
+									properties_owned[property_type][properties[property_type][property_variant][property_id]["owner"]["identifier"]][tostring(properties[property_type][property_variant][property_id]["owner"]["char_id"])] = properties_owned[property_type][properties[property_type][property_variant][property_id]["owner"]["identifier"]][tostring(properties[property_type][property_variant][property_id]["owner"]["char_id"])] - 1
+								end
 							end
+							properties[property_type][property_variant][property_id]["owner"]["identifier"] = "no"
+							properties[property_type][property_variant][property_id]["owner"]["char_id"] = 0
+							properties[property_type][property_variant][property_id]["owner"]["id"] = 0
+							exports["GHMattiMySQL"]:QueryAsync("UPDATE properties_"..property_type.."_"..property_variant.." SET `identifier`=@identifier, `character_id`=NULL WHERE id = @property_id", {["@identifier"] = "no", ["@property_id"] = property_id})
 						end
-						properties[property_type][property_variant][property_id]["owner"]["identifier"] = "no"
-						properties[property_type][property_variant][property_id]["owner"]["char_id"] = 0
-						properties[property_type][property_variant][property_id]["owner"]["id"] = 0
-						exports["GHMattiMySQL"]:QueryAsync("UPDATE properties_"..property_type.."_"..property_variant.." SET `identifier`=@identifier, `character_id`=NULL WHERE id = @property_id", {["@identifier"] = "no", ["@property_id"] = property_id})
+					elseif property_type == "businesses" then
+						if os.time() > (tonumber(properties[property_type][property_variant][property_id]["expire"]) + (time_to_pay_businesses_rent*60*60)) then
+							properties[property_type][property_variant][property_id]["overdue"] = true
+							exports["GHMattiMySQL"]:QueryAsync("UPDATE properties_"..property_type.."_"..property_variant.." SET `overdue`=@overdue WHERE id = @property_id", {["@overdue"] = "true", ["@property_id"] = property_id})
+						end
 					end
 					TriggerClientEvent("properties:sync", -1, properties)
 					if properties[property_type][property_variant][property_id]["owner"]["identifier"] ~= "no" then
@@ -606,103 +613,201 @@ RegisterServerEvent("properties:rent")
 AddEventHandler("properties:rent", function(property_type, property_variant, property_id, days)
 	local source = source
 	Citizen.CreateThread(function()
-		if properties[property_type] then
-			if properties[property_type][property_variant] then
-				if properties[property_type][property_variant][property_id] then
-					local result = exports["GHMattiMySQL"]:QueryResult("SELECT * FROM properties_"..property_type.."_"..property_variant.." WHERE id=@property_id", { ["@property_id"] = property_id})
-					properties[property_type][property_variant][property_id]["storage"]["current"]["weapons"] = exports["GHMattiMySQL"]:QueryResult("SELECT * FROM properties_"..property_type.."_"..property_variant.."_weapons WHERE property_id=@property_id", { ["@property_id"] = property_id})
-					properties[property_type][property_variant][property_id]["owner"]["identifier"] = result[1].identifier
-					properties[property_type][property_variant][property_id]["owner"]["char_id"] = tonumber(result[1].character_id)
-					properties[property_type][property_variant][property_id]["locked"] = str_to_bool(result[1]["locked"])
-					properties[property_type][property_variant][property_id]["expire"] = tonumber(result[1]["expire"])
-					properties[property_type][property_variant][property_id]["storage"]["current"]["cash"] = tonumber(result[1].cash)
-					properties[property_type][property_variant][property_id]["storage"]["current"]["dirty"] = tonumber(result[1].dirty)
-					if property_variant == "enterable" then
-						properties[property_type][property_variant][property_id]["storage"]["locked"] = str_to_bool(result[1].vault_locked)
-					end
-					if properties[property_type][property_variant][property_id]["owner"]["identifier"] == properties_identifier[source] and properties_char_id[source] == properties[property_type][property_variant][property_id]["owner"]["char_id"] then
-						properties[property_type][property_variant][property_id]["owner"]["id"] = source
-					end
-					if properties[property_type][property_variant][property_id]["owner"]["identifier"] == properties_identifier[source] and properties_char_id[source] ~= properties[property_type][property_variant][property_id]["owner"]["char_id"] and properties[property_type][property_variant][property_id]["owner"]["id"] == source then
-						properties[property_type][property_variant][property_id]["owner"]["id"] = 0
-					end
-					if os.time() > (tonumber(properties[property_type][property_variant][property_id]["expire"]) + (time_to_pay_rent*60*60)) then
-						if properties_owned[property_type][properties[property_type][property_variant][property_id]["owner"]["identifier"]] then
-							if properties_owned[property_type][properties[property_type][property_variant][property_id]["owner"]["identifier"]][tostring(properties[property_type][property_variant][property_id]["owner"]["char_id"])] then
-								properties_owned[property_type][properties[property_type][property_variant][property_id]["owner"]["identifier"]][tostring(properties[property_type][property_variant][property_id]["owner"]["char_id"])] = properties_owned[property_type][properties[property_type][property_variant][property_id]["owner"]["identifier"]][tostring(properties[property_type][property_variant][property_id]["owner"]["char_id"])] - 1
-							end
+		if property_type == "businesses" then
+			if properties[property_type] then
+				if properties[property_type][property_variant] then
+					if properties[property_type][property_variant][property_id] then
+						local result = exports["GHMattiMySQL"]:QueryResult("SELECT * FROM properties_"..property_type.."_"..property_variant.." WHERE id=@property_id", { ["@property_id"] = property_id})
+						properties[property_type][property_variant][property_id]["storage"]["current"]["weapons"] = exports["GHMattiMySQL"]:QueryResult("SELECT * FROM properties_"..property_type.."_"..property_variant.."_weapons WHERE property_id=@property_id", { ["@property_id"] = property_id})
+						properties[property_type][property_variant][property_id]["owner"]["identifier"] = result[1].identifier
+						properties[property_type][property_variant][property_id]["owner"]["char_id"] = tonumber(result[1].character_id)
+						properties[property_type][property_variant][property_id]["locked"] = str_to_bool(result[1]["locked"])
+						properties[property_type][property_variant][property_id]["overdue"] = str_to_bool(result[1]["overdue"])
+						properties[property_type][property_variant][property_id]["expire"] = tonumber(result[1]["expire"])
+						properties[property_type][property_variant][property_id]["storage"]["current"]["cash"] = tonumber(result[1].cash)
+						properties[property_type][property_variant][property_id]["storage"]["current"]["dirty"] = tonumber(result[1].dirty)
+						if property_variant == "enterable" then
+							properties[property_type][property_variant][property_id]["storage"]["locked"] = str_to_bool(result[1].vault_locked)
 						end
-						properties[property_type][property_variant][property_id]["owner"]["identifier"] = "no"
-						properties[property_type][property_variant][property_id]["owner"]["char_id"] = 0
-						properties[property_type][property_variant][property_id]["owner"]["id"] = 0
-						exports["GHMattiMySQL"]:Query("UPDATE properties_"..property_type.."_"..property_variant.." SET `identifier`=@identifier, `character_id`=NULL WHERE id = @property_id", {["@identifier"] = "no", ["@property_id"] = property_id})
-					end
-					TriggerClientEvent("properties:sync", -1, properties)
-					if os.time() > (tonumber(properties[property_type][property_variant][property_id]["expire"]) + (time_to_pay_rent*60*60)) or os.time() > tonumber(properties[property_type][property_variant][property_id]["expire"]) then
-						TriggerEvent("core:getuser", source, function(user)
-							if tonumber(days) > 7 then days = 7 end
-							local rent_cost = properties[property_type][property_variant][property_id]["rent"] * tonumber(days)
-							local steam, char_id = user.get("steam"), tostring(user.get("characterID"))
-							if properties_owned[property_type][steam] then
-								if not properties_owned[property_type][steam][char_id] then
+						if properties[property_type][property_variant][property_id]["owner"]["identifier"] == properties_identifier[source] and properties_char_id[source] == properties[property_type][property_variant][property_id]["owner"]["char_id"] then
+							properties[property_type][property_variant][property_id]["owner"]["id"] = source
+						end
+						if properties[property_type][property_variant][property_id]["owner"]["identifier"] == properties_identifier[source] and properties_char_id[source] ~= properties[property_type][property_variant][property_id]["owner"]["char_id"] and properties[property_type][property_variant][property_id]["owner"]["id"] == source then
+							properties[property_type][property_variant][property_id]["owner"]["id"] = 0
+						end
+						TriggerClientEvent("properties:sync", -1, properties)
+						if os.time() > (tonumber(properties[property_type][property_variant][property_id]["expire"]) + (time_to_pay_businesses_rent*60*60)) or os.time() > tonumber(properties[property_type][property_variant][property_id]["expire"]) then
+							TriggerEvent("core:getuser", source, function(user)
+								if tonumber(days) > 28 then days = 28 end
+								local rent_cost = properties[property_type][property_variant][property_id]["rent"] * tonumber(days)
+								local steam, char_id = user.get("steam"), tostring(user.get("characterID"))
+								if properties_owned[property_type][steam] then
+									if not properties_owned[property_type][steam][char_id] then
+										properties_owned[property_type][steam][char_id] = 0
+									end
+								else
+									properties_owned[property_type][steam] = {}
 									properties_owned[property_type][steam][char_id] = 0
 								end
-							else
-								properties_owned[property_type][steam] = {}
-								properties_owned[property_type][steam][char_id] = 0
-							end
-							if properties_owned[property_type][steam][char_id] < max_properties_allowed[property_type] then
-								if user.get("wallet") >= rent_cost then
-									user.removeWallet(rent_cost)
-									local new_expire_time = os.time() + (86400 * tonumber(days))
-									properties_owned[property_type][steam][char_id] = properties_owned[property_type][steam][char_id] + 1
-									properties[property_type][property_variant][property_id]["expire"] = new_expire_time
-									properties[property_type][property_variant][property_id]["owner"]["identifier"] = user.get("steam")
-									properties[property_type][property_variant][property_id]["owner"]["char_id"] = user.get("characterID")
-									properties[property_type][property_variant][property_id]["owner"]["id"] = source
-									exports["GHMattiMySQL"]:Query("UPDATE properties_"..property_type.."_"..property_variant.." SET `identifier`=@identifier, `character_id`=@character_id, `expire`=@expire WHERE `id` = @property_id", {["@identifier"] = user.get("steam"), ["@character_id"] = user.get("characterID"), ["@expire"] = new_expire_time, ["@property_id"] = property_id})
-									TriggerClientEvent("properties:sync", -1, properties)
-								elseif user.get("bank") >= rent_cost then
-									user.removeBank(rent_cost)
-									local new_expire_time = os.time() + (86400 * tonumber(days))
-									properties_owned[property_type][steam][char_id] = properties_owned[property_type][steam][char_id] + 1
-									properties[property_type][property_variant][property_id]["expire"] = new_expire_time
-									properties[property_type][property_variant][property_id]["owner"]["identifier"] = user.get("steam")
-									properties[property_type][property_variant][property_id]["owner"]["char_id"] = user.get("characterID")
-									properties[property_type][property_variant][property_id]["owner"]["id"] = source
-									exports["GHMattiMySQL"]:Query("UPDATE properties_"..property_type.."_"..property_variant.." SET `identifier`=@identifier, `character_id`=@character_id, `expire`=@expire WHERE `id` = @property_id", {["@identifier"] = user.get("steam"), ["@character_id"] = user.get("characterID"), ["@expire"] = new_expire_time, ["@property_id"] = property_id})
-									TriggerClientEvent("properties:sync", -1, properties)
+								if properties_owned[property_type][steam][char_id] < max_properties_allowed[property_type] then
+									if user.get("wallet") >= rent_cost then
+										user.removeWallet(rent_cost)
+										local new_expire_time = os.time() + (86400 * tonumber(days))
+										properties_owned[property_type][steam][char_id] = properties_owned[property_type][steam][char_id] + 1
+										properties[property_type][property_variant][property_id]["expire"] = new_expire_time
+										properties[property_type][property_variant][property_id]["owner"]["identifier"] = user.get("steam")
+										properties[property_type][property_variant][property_id]["owner"]["char_id"] = user.get("characterID")
+										properties[property_type][property_variant][property_id]["owner"]["id"] = source
+										properties[property_type][property_variant][property_id]["overdue"] = false
+										exports["GHMattiMySQL"]:Query("UPDATE properties_"..property_type.."_"..property_variant.." SET `identifier`=@identifier, `character_id`=@character_id, `expire`=@expire, `overdue`=@overdue WHERE `id` = @property_id", {["@identifier"] = user.get("steam"), ["@character_id"] = user.get("characterID"), ["@expire"] = new_expire_time, ["@overdue"] = "false", ["@property_id"] = property_id})
+										TriggerClientEvent("properties:sync", -1, properties)
+									elseif user.get("bank") >= rent_cost then
+										user.removeBank(rent_cost)
+										local new_expire_time = os.time() + (86400 * tonumber(days))
+										properties_owned[property_type][steam][char_id] = properties_owned[property_type][steam][char_id] + 1
+										properties[property_type][property_variant][property_id]["expire"] = new_expire_time
+										properties[property_type][property_variant][property_id]["owner"]["identifier"] = user.get("steam")
+										properties[property_type][property_variant][property_id]["owner"]["char_id"] = user.get("characterID")
+										properties[property_type][property_variant][property_id]["owner"]["id"] = source
+										properties[property_type][property_variant][property_id]["overdue"] = false
+										exports["GHMattiMySQL"]:Query("UPDATE properties_"..property_type.."_"..property_variant.." SET `identifier`=@identifier, `character_id`=@character_id, `expire`=@expire, `overdue`=@overdue WHERE `id` = @property_id", {["@identifier"] = user.get("steam"), ["@character_id"] = user.get("characterID"), ["@expire"] = new_expire_time, ["@overdue"] = "false", ["@property_id"] = property_id})
+										TriggerClientEvent("properties:sync", -1, properties)
+									else
+										Notify("Insufficient funds", 3000, source)
+									end
+								elseif properties_owned[property_type][steam][char_id] >= max_properties_allowed[property_type] and properties[property_type][property_variant][property_id]["owner"]["identifier"] == user.get("steam") then
+									if user.get("wallet") >= rent_cost then
+										user.removeWallet(rent_cost)
+										local new_expire_time = os.time() + (86400 * tonumber(days))
+										properties_owned[property_type][steam][char_id] = properties_owned[property_type][steam][char_id] + 1
+										properties[property_type][property_variant][property_id]["expire"] = new_expire_time
+										properties[property_type][property_variant][property_id]["owner"]["identifier"] = user.get("steam")
+										properties[property_type][property_variant][property_id]["owner"]["char_id"] = user.get("characterID")
+										properties[property_type][property_variant][property_id]["owner"]["id"] = source
+										properties[property_type][property_variant][property_id]["overdue"] = false
+										exports["GHMattiMySQL"]:Query("UPDATE properties_"..property_type.."_"..property_variant.." SET `identifier`=@identifier, `character_id`=@character_id, `expire`=@expire, `overdue`=@overdue WHERE `id` = @property_id", {["@identifier"] = user.get("steam"), ["@character_id"] = user.get("characterID"), ["@expire"] = new_expire_time, ["@overdue"] = "false", ["@property_id"] = property_id})
+										TriggerClientEvent("properties:sync", -1, properties)
+									elseif user.get("bank") >= rent_cost then
+										user.removeBank(rent_cost)
+										local new_expire_time = os.time() + (86400 * tonumber(days))
+										properties_owned[property_type][steam][char_id] = properties_owned[property_type][steam][char_id] + 1
+										properties[property_type][property_variant][property_id]["expire"] = new_expire_time
+										properties[property_type][property_variant][property_id]["owner"]["identifier"] = user.get("steam")
+										properties[property_type][property_variant][property_id]["owner"]["char_id"] = user.get("characterID")
+										properties[property_type][property_variant][property_id]["owner"]["id"] = source
+										properties[property_type][property_variant][property_id]["overdue"] = false
+										exports["GHMattiMySQL"]:Query("UPDATE properties_"..property_type.."_"..property_variant.." SET `identifier`=@identifier, `character_id`=@character_id, `expire`=@expire, `overdue`=@overdue WHERE `id` = @property_id", {["@identifier"] = user.get("steam"), ["@character_id"] = user.get("characterID"), ["@expire"] = new_expire_time, ["@overdue"] = "false", ["@property_id"] = property_id})
+										TriggerClientEvent("properties:sync", -1, properties)
+									else
+										Notify("Insufficient funds", 3000, source)
+									end
 								else
-									Notify("Insufficient funds", 3000, source)
+									Notify("You have reached the limit on how many "..property_type.." you can rent at any one time.", 3000, source)
 								end
-							elseif properties_owned[property_type][steam][char_id] >= max_properties_allowed[property_type] and properties[property_type][property_variant][property_id]["owner"]["identifier"] == user.get("steam") then
-								if user.get("wallet") >= rent_cost then
-									user.removeWallet(rent_cost)
-									local new_expire_time = os.time() + (86400 * tonumber(days))
-									properties_owned[property_type][steam][char_id] = properties_owned[property_type][steam][char_id] + 1
-									properties[property_type][property_variant][property_id]["expire"] = new_expire_time
-									properties[property_type][property_variant][property_id]["owner"]["identifier"] = user.get("steam")
-									properties[property_type][property_variant][property_id]["owner"]["char_id"] = user.get("characterID")
-									properties[property_type][property_variant][property_id]["owner"]["id"] = source
-									exports["GHMattiMySQL"]:Query("UPDATE properties_"..property_type.."_"..property_variant.." SET `identifier`=@identifier, `character_id`=@character_id, `expire`=@expire WHERE `id` = @property_id", {["@identifier"] = user.get("steam"), ["@character_id"] = user.get("characterID"), ["@expire"] = new_expire_time, ["@property_id"] = property_id})
-									TriggerClientEvent("properties:sync", -1, properties)
-								elseif user.get("bank") >= rent_cost then
-									user.removeBank(rent_cost)
-									local new_expire_time = os.time() + (86400 * tonumber(days))
-									properties_owned[property_type][steam][char_id] = properties_owned[property_type][steam][char_id] + 1
-									properties[property_type][property_variant][property_id]["expire"] = new_expire_time
-									properties[property_type][property_variant][property_id]["owner"]["identifier"] = user.get("steam")
-									properties[property_type][property_variant][property_id]["owner"]["char_id"] = user.get("characterID")
-									properties[property_type][property_variant][property_id]["owner"]["id"] = source
-									exports["GHMattiMySQL"]:Query("UPDATE properties_"..property_type.."_"..property_variant.." SET `identifier`=@identifier, `character_id`=@character_id, `expire`=@expire WHERE `id` = @property_id", {["@identifier"] = user.get("steam"), ["@character_id"] = user.get("characterID"), ["@expire"] = new_expire_time, ["@property_id"] = property_id})
-									TriggerClientEvent("properties:sync", -1, properties)
-								else
-									Notify("Insufficient funds", 3000, source)
+							end)
+						end
+					end
+				end
+			end
+		elseif property_type == "houses" then
+			if properties[property_type] then
+				if properties[property_type][property_variant] then
+					if properties[property_type][property_variant][property_id] then
+						local result = exports["GHMattiMySQL"]:QueryResult("SELECT * FROM properties_"..property_type.."_"..property_variant.." WHERE id=@property_id", { ["@property_id"] = property_id})
+						properties[property_type][property_variant][property_id]["storage"]["current"]["weapons"] = exports["GHMattiMySQL"]:QueryResult("SELECT * FROM properties_"..property_type.."_"..property_variant.."_weapons WHERE property_id=@property_id", { ["@property_id"] = property_id})
+						properties[property_type][property_variant][property_id]["owner"]["identifier"] = result[1].identifier
+						properties[property_type][property_variant][property_id]["owner"]["char_id"] = tonumber(result[1].character_id)
+						properties[property_type][property_variant][property_id]["locked"] = str_to_bool(result[1]["locked"])
+						properties[property_type][property_variant][property_id]["expire"] = tonumber(result[1]["expire"])
+						properties[property_type][property_variant][property_id]["storage"]["current"]["cash"] = tonumber(result[1].cash)
+						properties[property_type][property_variant][property_id]["storage"]["current"]["dirty"] = tonumber(result[1].dirty)
+						if property_variant == "enterable" then
+							properties[property_type][property_variant][property_id]["storage"]["locked"] = str_to_bool(result[1].vault_locked)
+						end
+						if properties[property_type][property_variant][property_id]["owner"]["identifier"] == properties_identifier[source] and properties_char_id[source] == properties[property_type][property_variant][property_id]["owner"]["char_id"] then
+							properties[property_type][property_variant][property_id]["owner"]["id"] = source
+						end
+						if properties[property_type][property_variant][property_id]["owner"]["identifier"] == properties_identifier[source] and properties_char_id[source] ~= properties[property_type][property_variant][property_id]["owner"]["char_id"] and properties[property_type][property_variant][property_id]["owner"]["id"] == source then
+							properties[property_type][property_variant][property_id]["owner"]["id"] = 0
+						end
+						if os.time() > (tonumber(properties[property_type][property_variant][property_id]["expire"]) + (time_to_pay_house_rent*60*60)) then
+							if properties_owned[property_type][properties[property_type][property_variant][property_id]["owner"]["identifier"]] then
+								if properties_owned[property_type][properties[property_type][property_variant][property_id]["owner"]["identifier"]][tostring(properties[property_type][property_variant][property_id]["owner"]["char_id"])] then
+									properties_owned[property_type][properties[property_type][property_variant][property_id]["owner"]["identifier"]][tostring(properties[property_type][property_variant][property_id]["owner"]["char_id"])] = properties_owned[property_type][properties[property_type][property_variant][property_id]["owner"]["identifier"]][tostring(properties[property_type][property_variant][property_id]["owner"]["char_id"])] - 1
 								end
-							else
-								Notify("You have reached the limit on how many "..property_type.." you can rent at any one time.", 3000, source)
 							end
-						end)
+							properties[property_type][property_variant][property_id]["owner"]["identifier"] = "no"
+							properties[property_type][property_variant][property_id]["owner"]["char_id"] = 0
+							properties[property_type][property_variant][property_id]["owner"]["id"] = 0
+							exports["GHMattiMySQL"]:Query("UPDATE properties_"..property_type.."_"..property_variant.." SET `identifier`=@identifier, `character_id`=NULL WHERE id = @property_id", {["@identifier"] = "no", ["@property_id"] = property_id})
+						end
+						TriggerClientEvent("properties:sync", -1, properties)
+						if os.time() > (tonumber(properties[property_type][property_variant][property_id]["expire"]) + (time_to_pay_house_rent*60*60)) or os.time() > tonumber(properties[property_type][property_variant][property_id]["expire"]) then
+							TriggerEvent("core:getuser", source, function(user)
+								if tonumber(days) > 14 then days = 14 end
+								local rent_cost = properties[property_type][property_variant][property_id]["rent"] * tonumber(days)
+								local steam, char_id = user.get("steam"), tostring(user.get("characterID"))
+								if properties_owned[property_type][steam] then
+									if not properties_owned[property_type][steam][char_id] then
+										properties_owned[property_type][steam][char_id] = 0
+									end
+								else
+									properties_owned[property_type][steam] = {}
+									properties_owned[property_type][steam][char_id] = 0
+								end
+								if properties_owned[property_type][steam][char_id] < max_properties_allowed[property_type] then
+									if user.get("wallet") >= rent_cost then
+										user.removeWallet(rent_cost)
+										local new_expire_time = os.time() + (86400 * tonumber(days))
+										properties_owned[property_type][steam][char_id] = properties_owned[property_type][steam][char_id] + 1
+										properties[property_type][property_variant][property_id]["expire"] = new_expire_time
+										properties[property_type][property_variant][property_id]["owner"]["identifier"] = user.get("steam")
+										properties[property_type][property_variant][property_id]["owner"]["char_id"] = user.get("characterID")
+										properties[property_type][property_variant][property_id]["owner"]["id"] = source
+										exports["GHMattiMySQL"]:Query("UPDATE properties_"..property_type.."_"..property_variant.." SET `identifier`=@identifier, `character_id`=@character_id, `expire`=@expire WHERE `id` = @property_id", {["@identifier"] = user.get("steam"), ["@character_id"] = user.get("characterID"), ["@expire"] = new_expire_time, ["@property_id"] = property_id})
+										TriggerClientEvent("properties:sync", -1, properties)
+									elseif user.get("bank") >= rent_cost then
+										user.removeBank(rent_cost)
+										local new_expire_time = os.time() + (86400 * tonumber(days))
+										properties_owned[property_type][steam][char_id] = properties_owned[property_type][steam][char_id] + 1
+										properties[property_type][property_variant][property_id]["expire"] = new_expire_time
+										properties[property_type][property_variant][property_id]["owner"]["identifier"] = user.get("steam")
+										properties[property_type][property_variant][property_id]["owner"]["char_id"] = user.get("characterID")
+										properties[property_type][property_variant][property_id]["owner"]["id"] = source
+										exports["GHMattiMySQL"]:Query("UPDATE properties_"..property_type.."_"..property_variant.." SET `identifier`=@identifier, `character_id`=@character_id, `expire`=@expire WHERE `id` = @property_id", {["@identifier"] = user.get("steam"), ["@character_id"] = user.get("characterID"), ["@expire"] = new_expire_time, ["@property_id"] = property_id})
+										TriggerClientEvent("properties:sync", -1, properties)
+									else
+										Notify("Insufficient funds", 3000, source)
+									end
+								elseif properties_owned[property_type][steam][char_id] >= max_properties_allowed[property_type] and properties[property_type][property_variant][property_id]["owner"]["identifier"] == user.get("steam") then
+									if user.get("wallet") >= rent_cost then
+										user.removeWallet(rent_cost)
+										local new_expire_time = os.time() + (86400 * tonumber(days))
+										properties_owned[property_type][steam][char_id] = properties_owned[property_type][steam][char_id] + 1
+										properties[property_type][property_variant][property_id]["expire"] = new_expire_time
+										properties[property_type][property_variant][property_id]["owner"]["identifier"] = user.get("steam")
+										properties[property_type][property_variant][property_id]["owner"]["char_id"] = user.get("characterID")
+										properties[property_type][property_variant][property_id]["owner"]["id"] = source
+										exports["GHMattiMySQL"]:Query("UPDATE properties_"..property_type.."_"..property_variant.." SET `identifier`=@identifier, `character_id`=@character_id, `expire`=@expire WHERE `id` = @property_id", {["@identifier"] = user.get("steam"), ["@character_id"] = user.get("characterID"), ["@expire"] = new_expire_time, ["@property_id"] = property_id})
+										TriggerClientEvent("properties:sync", -1, properties)
+									elseif user.get("bank") >= rent_cost then
+										user.removeBank(rent_cost)
+										local new_expire_time = os.time() + (86400 * tonumber(days))
+										properties_owned[property_type][steam][char_id] = properties_owned[property_type][steam][char_id] + 1
+										properties[property_type][property_variant][property_id]["expire"] = new_expire_time
+										properties[property_type][property_variant][property_id]["owner"]["identifier"] = user.get("steam")
+										properties[property_type][property_variant][property_id]["owner"]["char_id"] = user.get("characterID")
+										properties[property_type][property_variant][property_id]["owner"]["id"] = source
+										exports["GHMattiMySQL"]:Query("UPDATE properties_"..property_type.."_"..property_variant.." SET `identifier`=@identifier, `character_id`=@character_id, `expire`=@expire WHERE `id` = @property_id", {["@identifier"] = user.get("steam"), ["@character_id"] = user.get("characterID"), ["@expire"] = new_expire_time, ["@property_id"] = property_id})
+										TriggerClientEvent("properties:sync", -1, properties)
+									else
+										Notify("Insufficient funds", 3000, source)
+									end
+								else
+									Notify("You have reached the limit on how many "..property_type.." you can rent at any one time.", 3000, source)
+								end
+							end)
+						end
 					end
 				end
 			end
@@ -824,6 +929,7 @@ AddEventHandler("properties:fetch", function(property_type, property_variant, pr
 					properties[property_type][property_variant][property_id]["owner"]["identifier"] = result[1].identifier
 					properties[property_type][property_variant][property_id]["owner"]["char_id"] = tonumber(result[1].character_id)
 					properties[property_type][property_variant][property_id]["locked"] = str_to_bool(result[1]["locked"])
+					properties[property_type][property_variant][property_id]["overdue"] = str_to_bool(result[1]["overdue"])
 					properties[property_type][property_variant][property_id]["expire"] = tonumber(result[1]["expire"])
 					properties[property_type][property_variant][property_id]["storage"]["current"]["cash"] = tonumber(result[1].cash)
 					properties[property_type][property_variant][property_id]["storage"]["current"]["dirty"] = tonumber(result[1].dirty)
@@ -836,16 +942,23 @@ AddEventHandler("properties:fetch", function(property_type, property_variant, pr
 					if properties[property_type][property_variant][property_id]["owner"]["identifier"] == properties_identifier[source] and properties_char_id[source] ~= properties[property_type][property_variant][property_id]["owner"]["char_id"] and properties[property_type][property_variant][property_id]["owner"]["id"] == source then
 						properties[property_type][property_variant][property_id]["owner"]["id"] = 0
 					end
-					if os.time() > (tonumber(properties[property_type][property_variant][property_id]["expire"]) + (time_to_pay_rent*60*60)) then
-						if properties_owned[property_type][properties[property_type][property_variant][property_id]["owner"]["identifier"]] then
-							if properties_owned[property_type][properties[property_type][property_variant][property_id]["owner"]["identifier"]][tostring(properties[property_type][property_variant][property_id]["owner"]["char_id"])] then
-								properties_owned[property_type][properties[property_type][property_variant][property_id]["owner"]["identifier"]][tostring(properties[property_type][property_variant][property_id]["owner"]["char_id"])] = properties_owned[property_type][properties[property_type][property_variant][property_id]["owner"]["identifier"]][tostring(properties[property_type][property_variant][property_id]["owner"]["char_id"])] - 1
+					if property_type == "houses" then
+						if os.time() > (tonumber(properties[property_type][property_variant][property_id]["expire"]) + (time_to_pay_house_rent*60*60)) then
+							if properties_owned[property_type][properties[property_type][property_variant][property_id]["owner"]["identifier"]] then
+								if properties_owned[property_type][properties[property_type][property_variant][property_id]["owner"]["identifier"]][tostring(properties[property_type][property_variant][property_id]["owner"]["char_id"])] then
+									properties_owned[property_type][properties[property_type][property_variant][property_id]["owner"]["identifier"]][tostring(properties[property_type][property_variant][property_id]["owner"]["char_id"])] = properties_owned[property_type][properties[property_type][property_variant][property_id]["owner"]["identifier"]][tostring(properties[property_type][property_variant][property_id]["owner"]["char_id"])] - 1
+								end
 							end
+							properties[property_type][property_variant][property_id]["owner"]["identifier"] = "no"
+							properties[property_type][property_variant][property_id]["owner"]["char_id"] = 0
+							properties[property_type][property_variant][property_id]["owner"]["id"] = 0
+							exports["GHMattiMySQL"]:QueryAsync("UPDATE properties_"..property_type.."_"..property_variant.." SET `identifier`=@identifier, `character_id`=NULL WHERE id = @property_id", {["@identifier"] = "no", ["@property_id"] = property_id})
 						end
-						properties[property_type][property_variant][property_id]["owner"]["identifier"] = "no"
-						properties[property_type][property_variant][property_id]["owner"]["char_id"] = 0
-						properties[property_type][property_variant][property_id]["owner"]["id"] = 0
-						exports["GHMattiMySQL"]:QueryAsync("UPDATE properties_"..property_type.."_"..property_variant.." SET `identifier`=@identifier, `character_id`=NULL WHERE id = @property_id", {["@identifier"] = "no", ["@property_id"] = property_id})
+					elseif property_type == "businesses" then
+						if os.time() > (tonumber(properties[property_type][property_variant][property_id]["expire"]) + (time_to_pay_businesses_rent*60*60)) then
+							properties[property_type][property_variant][property_id]["overdue"] = true
+							exports["GHMattiMySQL"]:QueryAsync("UPDATE properties_"..property_type.."_"..property_variant.." SET `overdue`=@overdue WHERE id = @property_id", {["@overdue"] = "true", ["@property_id"] = property_id})
+						end
 					end
 					TriggerClientEvent("properties:sync", -1, properties)
 				end

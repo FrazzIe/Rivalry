@@ -2496,6 +2496,7 @@ properties = {
 			[1] = {
 				property_name = "Vanilla Unicorn", -- Name of the property (used as the title of the menu)
 				locked = false, --Default (don't touch)
+				overdue = false,
 				owner =  {
 					identifier = "no", --Default (don't touch)
 					char_id = 0, --Default (don't touch)
@@ -2528,6 +2529,7 @@ properties = {
 			--[[[2] = {
 				property_name = "Tequi-la-la", -- Name of the property (used as the title of the menu)
 				locked = false, --Default (don't touch)
+				overdue = false,
 				owner =  {
 					identifier = "no", --Default (don't touch)
 					char_id = 0, --Default (don't touch)
@@ -2562,6 +2564,7 @@ properties = {
 			--[[[1] = {
 				property_name = "Warehouse 1", -- Name of the property (used as the title of the menu)
 				locked = false, --Default (don't touch)
+				overdue = false,
 				owner =  {
 					identifier = "no", --Default (don't touch)
 					char_id = 0, --Default (don't touch)
@@ -2600,9 +2603,10 @@ properties = {
 				},
 				expire = 1 --Default (don't touch)
 			},
-			[3] = {
+			[2] = {
 				property_name = "MC Clubhouse", -- Name of the property (used as the title of the menu)
 				locked = false, --Default (don't touch)
+				overdue = false,
 				owner =  {
 					identifier = "no", --Default (don't touch)
 					char_id = 0, --Default (don't touch)
@@ -2641,9 +2645,10 @@ properties = {
 				},
 				expire = 1 --Default (don't touch)
 			},
-			[4] = {
+			[3] = {
 				property_name = "MC Clubhouse 2", -- Name of the property (used as the title of the menu)
 				locked = false, --Default (don't touch)
+				overdue = false,
 				owner =  {
 					identifier = "no", --Default (don't touch)
 					char_id = 0, --Default (don't touch)
@@ -2682,9 +2687,10 @@ properties = {
 				},
 				expire = 1 --Default (don't touch)
 			},
-			[5] = {
+			[4] = {
 				property_name = "Bahama Mamas", -- Name of the property (used as the title of the menu)
 				locked = false, --Default (don't touch)
+				overdue = false,
 				owner =  {
 					identifier = "no", --Default (don't touch)
 					char_id = 0, --Default (don't touch)
@@ -2723,9 +2729,10 @@ properties = {
 				},
 				expire = 1 --Default (don't touch)
 			},
-			[6] = {
+			[5] = {
 				property_name = "Galaxy Nightclub", -- Name of the property (used as the title of the menu)
 				locked = false, --Default (don't touch)
+				overdue = false,
 				owner =  {
 					identifier = "no", --Default (don't touch)
 					char_id = 0, --Default (don't touch)
