@@ -78,7 +78,7 @@ function activateMissionSystem()
         if availableMissions[missionId] ~= nil then
             for _, v in pairs(availableMissions[missionId].acceptBy) do 
                 if v ~= source then
-                    ms_messageMedic(v, 'Your customer s\'has canceled')
+                    ms_messageMedic(v, 'Your customer has canceled')
                     ms_cancelMission(v)
                 end
                 ms_setMedicAvailable(v)
