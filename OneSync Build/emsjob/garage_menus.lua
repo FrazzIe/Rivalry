@@ -39,14 +39,11 @@ local stationBoatGarage = {
 }
 
 cars = {
-    {name = "Ambulance", model = "ambulance", type = "", rank = "probationary"},
-    {name = "Ambulance 2", model = "ambulance2", type = "", rank = "probationary"},
-    {name = "Ambulance 3", model = "ambulance3", type = "", rank = "probationary"},
-    {name = "SUV", model = "emssuv", type = "", rank = "paramedic"},
-    {name = "CVPI", model = "emscar", type = "", rank = "lieutenant"},
-    {name = "Schafter", model = "emscar2", type = "", rank = "lieutenant"},
+    {name = "Ambulance", model = "ambulance2", type = "", rank = "probationary"},
+    {name = "Ambulance 2", model = "ambulance3", type = "", rank = "probationary"},
+    {name = "Explorer", model = "fdcar1", type = "", rank = "lieutenant"},
+    {name = "Charger", model = "fdcar2", type = "", rank = "lieutenant"},
     {name = "Van", model = "emsvan", type = "", rank = "doctor"},
-    {name = "Contender", model = "lguard2", type = "", rank = "specialist"},
 }
 
 heli = {
