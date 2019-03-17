@@ -325,7 +325,7 @@ AddEventHandler("police:menu_vehicle", function()
     exports.ui:addOption("Search", [[TriggerEvent("police:menu_vehicle_search")]])
     exports.ui:addOption("Seize", [[TriggerEvent("police:menu_vehicle_seize")]])
     exports.ui:addOption("Impound", [[TriggerEvent("police:menu_vehicle_impound", 0)]])
-    exports.ui:addOption("Impound ($500)", [[TriggerEvent("police:menu_vehicle_impound", 500)]])
+    exports.ui:addOption("Impound ($3000)", [[TriggerEvent("police:menu_vehicle_impound", 3000)]])
     exports.ui:back([[TriggerEvent("police:menu")]])
 end)
 
