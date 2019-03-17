@@ -2493,7 +2493,7 @@ properties = {
 	},
 	businesses = {
 		normal = {
-			--[[[1] = {
+			[1] = {
 				property_name = "Vanilla Unicorn", -- Name of the property (used as the title of the menu)
 				locked = false, --Default (don't touch)
 				owner =  {
@@ -2502,8 +2502,8 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {x = 93.631385803223, y = -1291.7485351563, z = 29.268758773804, h = 80.385093688965}, -- The location of the property
-				rent = 3250, --How much it costs to rent the property (PER DAY)
-				income = 250, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
+				rent = 1625, --How much it costs to rent the property (PER DAY)
+				income = 500, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
 				storage = {
 					current = {
 						cash = 0, --Default (don't touch)
@@ -2511,21 +2511,21 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 5000, --Max cash the property can hold
-						dirty = 5000, --Max marked bills the property can hold
+						cash = 50000, --Max cash the property can hold
+						dirty = 50000, --Max marked bills the property can hold
 						weapons = 1, --Max weapons the property can hold
 					},
 				},
 				robbing = {
-					cooldown = 2700, --Robbery cooldown time in seconds
+					cooldown = 3600, --Robbery cooldown time in seconds
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 20, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
-			[2] = {
+			--[[[2] = {
 				property_name = "Tequi-la-la", -- Name of the property (used as the title of the menu)
 				locked = false, --Default (don't touch)
 				owner =  {
