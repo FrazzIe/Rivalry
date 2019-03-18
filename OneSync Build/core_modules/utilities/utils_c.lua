@@ -341,11 +341,11 @@ function GetTimeRemaining(time1, time2, _type)
     difference = difference / 24
     days = math.floor(difference % 365)
     difference = difference / 7
-    weeks = math.floor(difference)
+    --[[weeks = math.floor(difference)
     difference = difference / 4.28
     months = math.floor(difference)
     difference = difference / 12
-    years = math.floor(difference)
+    years = math.floor(difference)]]
 
     local result = ""
 
