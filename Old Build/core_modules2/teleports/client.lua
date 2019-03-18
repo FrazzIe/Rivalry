@@ -144,6 +144,10 @@ local teleports = {
         outside = {x = -1174.1722412109, y = -1153.5986328125, z = 5.6577277183533, h = 285.49569702148},
         inside = {x = -1569.3054199219, y = -3016.9519042969, z = -74.406150817871, h = 2.6814656257629},
     },
+    [33] = {
+        outside = {x = 1854.3184814453, y = 3700.9516601563, z = 34.265842437744, h = 30.279182434082},
+        inside = {x = 1844.8082275391, y = 3658.9426269531, z = -116.7899017334, h = 303.69039916992},
+    },
 }
 
 Citizen.CreateThread(function()
@@ -158,7 +162,7 @@ Citizen.CreateThread(function()
 				drawMarker(25, teleport.outside.x, teleport.outside.y, teleport.outside.z, 1.0, 1.0, 1.5, 255, 255, 0, 255)
 				if OutsideDistance < 1 then
 					DisplayHelpText("Press ~INPUT_CONTEXT~ to enter")
-					if IsControlJustPressed(1, 51) and teleport.outside.x ~= 441.40780639648 then
+					if IsControlJustPressed(1, 51) and teleport.outside.x ~= 441.40780639648 and teleport.outside.x ~= 1854.3184814453 then
 						TeleportPlayer(teleport.inside.x, teleport.inside.y, teleport.inside.z, teleport.inside.h)
 					elseif IsControlJustPressed(1, 51) and exports.policejob:getIsInService() then
                         TeleportPlayer(teleport.inside.x, teleport.inside.y, teleport.inside.z, teleport.inside.h)
@@ -169,7 +173,7 @@ Citizen.CreateThread(function()
 				drawMarker(25, teleport.inside.x, teleport.inside.y, teleport.inside.z, 1.0, 1.0, 1.5, 255, 255, 0, 255)
 				if InsideDistance < 1 then
 					DisplayHelpText("Press ~INPUT_CONTEXT~ to exit")
-					if IsControlJustPressed(1, 51) and teleport.inside.x ~= 445.9768371582 then
+					if IsControlJustPressed(1, 51) and teleport.inside.x ~= 445.9768371582 and teleport.outside.x ~= 1844.8082275391 then
 						TeleportPlayer(teleport.outside.x, teleport.outside.y, teleport.outside.z, teleport.outside.h)
                     elseif IsControlJustPressed(1, 51) and exports.policejob:getIsInService() then
                         TeleportPlayer(teleport.outside.x, teleport.outside.y, teleport.outside.z, teleport.outside.h)

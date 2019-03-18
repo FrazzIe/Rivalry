@@ -370,8 +370,8 @@ AddEventHandler("Phone.Call.Answer", function(Channel)
 	Phone.Call.Status = "Active"
 	Phone.Call.Channel = Channel
 	
-	NetworkSetVoiceChannel(tonumber(Channel))
-
+	NetworkClearVoiceChannel()
+	NetworkSetVoiceChannel(tonumber(Phone.Call.Channel))
 
 	if Phone.Open and Phone.Page.Current == "call" then
 		SendNUIMessage({open_dial = true, message = "Active"})

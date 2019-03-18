@@ -38,6 +38,11 @@ local Animations = {
 } 
 
 function CuffAnimation(cuffer)
+	DisableControlAction(1, 140, true)
+	DisableControlAction(1, 141, true)
+	DisableControlAction(1, 142, true)
+	DisableControlAction(1, 37, true) -- Disables INPUT_SELECT_WEAPON (TAB)
+	DisablePlayerFiring(PlayerPedId(), true) -- Disable weapon firing
 	RequestAnimDict(Animations.Arresting.Dictionary)
 	while not HasAnimDictLoaded(Animations.Arresting.Dictionary) do
 		Citizen.Wait(0)
@@ -83,6 +88,11 @@ AddEventHandler("police:cuff", function(_type, cuffer)
 		Notify("You have been restrained!", 2500)
 		ClearPedTasks(PlayerPed)
 		CuffAnimation(cuffer)
+		SetPedCanRagdoll(PlayerPed, true)
+		SetEnableHandcuffs(PlayerPed, true)
+		SetCurrentPedWeapon(PlayerPed, GetHashKey("WEAPON_UNARMED"), true)
+		SetPedComponentVariation(PlayerPed, 7, 41, 0 ,0)
+		DecorSetBool(PlayerPed, "policeCuffed", true)
 		Citizen.Wait(3500)
 		RequestAnimDict("mp_arresting")
 		while not HasAnimDictLoaded("mp_arresting") do
