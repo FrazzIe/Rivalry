@@ -7,24 +7,27 @@ Config.Priority = {
     ["steam:1100001057052a0"] = 9000, -- Frazzle
     ["steam:110000101599554"] = 1337, -- Chef Noonab
     ["steam:110000105ac8a6f"] = 1069, -- StanleyRP    
-    ["steam:1100001097ab24e"] = 1020, -- brunettegamer
-    ["steam:110000107ea851e"] = 1015, -- Chiito
+    ["steam:1100001097ab24e"] = 1030, -- brunettegamer
+    ["steam:110000107ea851e"] = 1020, -- Chiito
     ["steam:1100001177e13bd"] = 1010, -- Captain Boom
+    ["steam:110000111c7701f"] = 1000, -- Brody
     ["steam:110000106e0c14b"] = 998, -- Ructar
     ["steam:11000010a27e61c"] = 997, -- Julio 
-    ["steam:110000111c7701f"] = 996, -- Brody
-    ["steam:110000109805b30"] = 995, -- Alina (itsjenna)
-    ["steam:110000102d4d1e7"] = 994, -- Lydia Zephyr
-    ["steam:1100001032aa2a1"] = 993, -- Austin James
-    ["steam:11000011601baf6"] = 992, -- MysticModding
+    ["steam:110000109805b30"] = 995, -- Jenna
+    ["steam:110000102d4d1e7"] = 994, -- Sammy-Sana
+    ["steam:110000100809b63"] = 993, -- Reginald Wattersmith
+    ["steam:110000103d70c3f"] = 992, -- Leo Gold
+    ["steam:1100001008c7ed5"] = 991, -- Snow
 --[People Frazzle Likes]--
     ["steam:110000115c8520b"] = 901, -- Jinia
     ["steam:1100001074e86ec"] = 900, -- RoundishKungFu/Kelly Price
-    ["steam:11000010a408fb4"] = 898, -- grace
+    ["steam:11000010a408fb4"] = 899, -- grace
 --[People Noonab Likes]--
-    ["steam:1100001045138b3"] = 880, -- Carbine
+    ["steam:1100001045138b3"] = 850, -- Carbine
     ["steam:11000010298765a"] = 840, -- Daren
     ["steam:1100001086dec91"] = 820, -- TenderQWERTY
+    ["steam:11000011601baf6"] = 810, -- MysticModding
+    ["steam:110000105e2219c"] = 805, -- Daquan
 --[Streamers]--
     ["steam:1100001029cb44c"] = 800, -- Roach (Tony Moretti)
     ["steam:11000010327eb4d"] = 799, -- WombatsPlayGames (Natasha Moretti)  
@@ -56,39 +59,37 @@ Config.Priority = {
     ["steam:110000101dcfaa6"] = 773, -- FortyOne
     ["steam:11000010977a78e"] = 772, -- brak1n
 --[PD, EMS, DOJ]--
-    ["steam:11000010bf7bb73"] = 700, -- AfriicanSnowball
-    ["steam:110000104f0fbb8"] = 699, -- Wayne DeMan (PD Command)
+    ["steam:11000010bf7bb73"] = 700, -- AfriicanSnowball (PD High Command)
+    ["steam:110000104f0fbb8"] = 699, -- Wayne DeMan (PD High Command)
     ["steam:110000104c9acb6"] = 698, -- Tyler Reagan (PD High Command)
-    ["steam:110000102faf99e"] = 697, -- Lee Andersen (PD Command)
+    ["steam:110000102faf99e"] = 697, -- Lee Andersen (PD High Command)
     ["steam:11000010036d96d"] = 696, -- Chris Miller (PD Command)
     ["steam:1100001073a42f9"] = 695, -- John Miller (PD Command)
     ["steam:1100001047aafc5"] = 694, -- Frank Moretti (PD Command) 
-    ["steam:110000103d70c3f"] = 693, -- Leo Gold (PD Command)
+    ["steam:1100001149faec8"] = 693, -- Ronald Simmons (PD Command)
     ["steam:11000010371b8ed"] = 692, -- Gill Dunley (PD Command)
     ["steam:11000010515be32"] = 691, -- Johnny Russo (ADA)
-    ["steam:110000106443c23"] = 690, -- Augustus Williams
     ["steam:1100001096a1e6f"] = 689, -- Zim Pontes (EMS High Command)          
     ["steam:1100001003ab893"] = 688, -- Kara Black (EMS Command)
     ["steam:11000011cb734e2"] = 687, -- Oscar King (EMS Command)
     ["steam:1100001037a2490"] = 685, -- Hank Strickland (DA) 
     ["steam:11000010012c897"] = 684, -- Ryan Toronto (PD Extra)
-    ["steam:110000100809b63"] = 683, -- Reginald Wattersmith (PD Extra)
     ["steam:1100001087ceba9"] = 682, -- Kari Walker (EMS Extra)
     ["steam:110000107df831a"] = 681, -- Violet Jules (PD Extra)
-    ["steam:11000010467c91d"] = 680, -- Mason preacher (PD extra)
-    ["steam:110000105e2219c"] = 679, -- Daquan
-    ["steam:1100001340afc2b"] = 678, -- Frenchy (EMS command)
-    ["steam:110000110e35616"] = 677, -- Ryleigh Wolfhart
+    ["steam:11000010467c91d"] = 680, -- Mason Preacher (PD extra)
+    ["steam:1100001340afc2b"] = 679, -- Frenchy (EMS command)
+    ["steam:110000110e35616"] = 678, -- Ryleigh Wolfhart
 
 --[Extras]--
-    ["steam:110000100BF705A"] = 820, -- Schwank (Zach)
-    ["steam:110000101d67662"] = 819, -- Incsypops (Mechanic Manager)
-    ["steam:11000010e519899"] = 818, -- Skitzzo (Evie)
-    ["steam:1100001341a1664"] = 817, -- Lamar
-    ["steam:110000104c5b700"] = 677, -- DarkLaiX
-    ["steam:11000010e0f809e"] = 676, -- FateProphecy
-    ["steam:1100001047e1d3d"] = 675, -- Hank
-    ["steam:110000119f99126"] = 674, -- Ace Danger (Gentle)
+    ["steam:110000106443c23"] = 500, -- Augustus Williams
+    ["steam:110000100BF705A"] = 499, -- Schwank (Zach)
+    ["steam:110000101d67662"] = 498, -- Incsypops (Mechanic Manager)
+    ["steam:11000010e519899"] = 488, -- Skitzzo (Evie)
+    ["steam:1100001341a1664"] = 487, -- Lamar
+    ["steam:110000104c5b700"] = 486, -- DarkLaiX
+    ["steam:11000010e0f809e"] = 485, -- FateProphecy
+    ["steam:1100001047e1d3d"] = 484, -- Hank
+    ["steam:110000119f99126"] = 483, -- Ace Danger (Gentle)
 
 }
 
