@@ -37,6 +37,16 @@ function HudElementsDisabled()
     return hud_off
 end
 
+function GetVoiceRange()
+    if voice == "Whisper" then
+        return 2.0
+    elseif voice == "Normal" then
+        return 10.0
+    else
+        return 35.0
+    end
+end
+
 function degreesToIntercardinalDirection(dgr)
     dgr = dgr % 360.0
     
@@ -59,7 +69,7 @@ function GetLocation(PlayerPosition)
 end
 
 AddEventHandler('onClientMapStart', function()
-    NetworkSetTalkerProximity(15.0)
+    NetworkSetTalkerProximity(10.0)
 end)
 
 AddEventHandler("interaction:voice_change",function(_type)
@@ -67,10 +77,10 @@ AddEventHandler("interaction:voice_change",function(_type)
         NetworkSetTalkerProximity(2.0)
         voice = "Whisper"
     elseif _type == 2 then
-        NetworkSetTalkerProximity(15.0)
+        NetworkSetTalkerProximity(10.0)
         voice = "Normal"
     elseif _type == 3 then
-        NetworkSetTalkerProximity(35.0)
+        NetworkSetTalkerProximity(30.0)
         voice = "Shout"
     end
 end)
@@ -88,6 +98,27 @@ AddEventHandler("interaction:hud", function()
             HideHudAndRadarThisFrame()
         end
     end)
+end)
+
+Citizen.CreateThread(function()
+    while true do
+        local VoiceRange = GetVoiceRange()
+        for ID = 0, 255 do
+            if ((NetworkIsPlayerActive(ID)) and GetPlayerPed(ID) ~= GetPlayerPed(-1)) then
+                Ped = GetPlayerPed(ID)
+                x1, y1, z1 = table.unpack(GetEntityCoords(GetPlayerPed(-1), true))
+                x2, y2, z2 = table.unpack(GetEntityCoords(GetPlayerPed(ID), true))
+                Distance = math.floor(GetDistanceBetweenCoords(x1,y1,z1,x2,y2,z2,true))
+                local ToFeet = 0.95
+                if ((Distance < VoiceRange) and IsEntityVisible(GetPlayerPed(ID))) ~= GetPlayerPed(-1) then
+                    if NetworkIsPlayerTalking(ID) then
+                        DrawMarker(25,x2,y2,z2-ToFeet, 0, 0, 0, 0, 0, 0, 1.0, 1.0, 10.3, 55, 160, 205, 105, 0, 0, 2, 0, 0, 0, 0)
+                    end
+                end  
+            end
+        end
+        Citizen.Wait(0)
+    end
 end)
 
 Citizen.CreateThread(function()
