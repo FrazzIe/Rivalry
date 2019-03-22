@@ -359,8 +359,8 @@ AddEventHandler("Phone.Call.End", function()
 	Phone:DisplayNotification("", "CHAR_CHAT_CALL", Phone.Call.Caller, "Call ended")
 
 	Phone.Call.Caller = ""
-
 	NetworkSetVoiceChannel(nil)
+
 	NetworkClearVoiceChannel()
 	ClearPedTasks(PlayerPedId())
 end)
@@ -635,7 +635,7 @@ RegisterNUICallback("call", function(data)
 
 		Phone.Page.Current = "call"
 		Phone.Page.Previous = "home"
-
+		NetworkSetVoiceChannel(Phone.Call.Channel)
 		TriggerServerEvent("Phone.Call.Start", Phone.Call.Number, Phone.Call.Channel)
 	elseif data.type == "cancel" then
 		SendNUIMessage({open_dial = true, message = "The call was cancelled", start = false})
@@ -722,7 +722,7 @@ Citizen.CreateThread(function()
 
 					TriggerServerEvent("Phone.Call.Hold", Phone.Call.Number, false)
 
-					NetworkSetVoiceChannel(Phone.Call.Channel)
+					NetworkSetVoiceChannel(tonumber(Phone.Call.Channel))
 				end
 			end
 
