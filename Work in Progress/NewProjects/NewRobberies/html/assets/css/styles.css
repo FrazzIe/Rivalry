@@ -1,0 +1,609 @@
+.vertical-center {
+  min-height: 100%;
+  min-height: 100vh;
+  display: none;
+  align-items: center;
+}
+
+@media (min-width: 1200px) {
+  .col.main-col {
+    margin-top: 11%;
+  }
+}
+
+@media (min-width: 992px) and (max-width: 1199px) {
+  .col.main-col {
+    margin-top: 6%;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  .col.main-col {
+    margin-top: 3%;
+  }
+}
+
+@media (min-width: 1200px) {
+  .row.services-police-page {
+    max-height: 650px;
+    min-height: 650px;
+    width: 80%;
+  }
+}
+
+@media (min-width: 1200px) {
+  .row.services-mechanic-page {
+    max-height: 650px;
+    min-height: 650px;
+    width: 80%;
+  }
+}
+
+@media (min-width: 1200px) {
+  .row.services-taxi-page {
+    max-height: 650px;
+    min-height: 650px;
+    width: 80%;
+  }
+}
+
+@media (min-width: 1200px) {
+  .row.services-ems-page {
+    max-height: 650px;
+    min-height: 650px;
+    width: 80%;
+  }
+}
+
+@media (min-width: 1200px) {
+  .row.new-messages-page {
+    max-height: 650px;
+    min-height: 650px;
+    width: 80%;
+  }
+}
+
+@media (min-width: 1200px) {
+  .row.sub-messages-page {
+    max-height: 650px;
+    min-height: 650px;
+    width: 80%;
+  }
+}
+
+@media (min-width: 1200px) {
+  .row.messages-page {
+    max-height: 650px;
+    min-height: 650px;
+    width: 80%;
+  }
+}
+
+@media (min-width: 1200px) {
+  .row.contact-page {
+    max-height: 650px;
+    min-height: 650px;
+    width: 80%;
+  }
+}
+
+@media (min-width: 992px) and (max-width: 1199px) {
+  .row.messages-page {
+    min-height: 560px;
+    max-height: 560px;
+    width: 82%;
+  }
+}
+
+@media (min-width: 992px) and (max-width: 1199px) {
+  .row.services-police-page {
+    min-height: 560px;
+    max-height: 560px;
+    width: 82%;
+  }
+}
+
+@media (min-width: 992px) and (max-width: 1199px) {
+  .row.services-mechanic-page {
+    min-height: 560px;
+    max-height: 560px;
+    width: 82%;
+  }
+}
+
+@media (min-width: 992px) and (max-width: 1199px) {
+  .row.services-taxi-page {
+    min-height: 560px;
+    max-height: 560px;
+    width: 82%;
+  }
+}
+
+@media (min-width: 992px) and (max-width: 1199px) {
+  .row.services-ems-page {
+    min-height: 560px;
+    max-height: 560px;
+    width: 82%;
+  }
+}
+
+@media (min-width: 992px) and (max-width: 1199px) {
+  .row.new-messages-page {
+    min-height: 560px;
+    max-height: 560px;
+    width: 82%;
+  }
+}
+
+@media (min-width: 992px) and (max-width: 1199px) {
+  .row.sub-messages-page {
+    min-height: 560px;
+    max-height: 560px;
+    width: 82%;
+  }
+}
+
+@media (min-width: 992px) and (max-width: 1199px) {
+  .row.contact-page {
+    min-height: 560px;
+    max-height: 560px;
+    width: 82%;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  .row.messages-page {
+    min-height: 430px;
+    max-height: 430px;
+    width: 82%;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  .row.contact-page {
+    min-height: 430px;
+    max-height: 430px;
+    width: 82%;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  .row.services-police-page {
+    min-height: 430px;
+    max-height: 430px;
+    width: 82%;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  .row.services-mechanic-page {
+    min-height: 430px;
+    max-height: 430px;
+    width: 82%;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  .row.services-taxi-page {
+    min-height: 430px;
+    max-height: 430px;
+    width: 82%;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  .row.services-ems-page {
+    min-height: 430px;
+    max-height: 430px;
+    width: 82%;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  .row.new-messages-page {
+    min-height: 430px;
+    max-height: 430px;
+    width: 82%;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  .row.sub-messages-page {
+    min-height: 430px;
+    max-height: 430px;
+    width: 82%;
+  }
+}
+
+@media (min-width: 1200px) {
+  .row.nav-page {
+    /*min-height: 650px;*/
+    /*max-height: 650px;*/
+    width: 80%;
+  }
+}
+
+@media (min-width: 1200px) {
+  .row.home-page {
+    min-height: 650px;
+    max-height: 650px;
+    width: 80%;
+  }
+}
+
+@media (min-width: 1200px) {
+  .row.call-page {
+    min-height: 650px;
+    max-height: 650px;
+    width: 80%;
+  }
+}
+
+@media (min-width: 1200px) {
+  .row.dial-page {
+    min-height: 650px;
+    max-height: 650px;
+    width: 80%;
+  }
+}
+
+@media (min-width: 1200px) {
+  .row.dial-page-answer {
+    min-height: 650px;
+    max-height: 650px;
+    width: 80%;
+  }
+}
+
+@media (min-width: 1200px) {
+  .row.lifealert-page {
+    min-height: 650px;
+    max-height: 650px;
+    width: 80%;
+  }
+}
+
+@media (min-width: 1200px) {
+  .row.services-page {
+    min-height: 650px;
+    max-height: 650px;
+    width: 80%;
+  }
+}
+
+@media (min-width: 1200px) {
+  .row.other-services-helix-page {
+    min-height: 650px;
+    max-height: 650px;
+    width: 80%;
+  }
+}
+
+@media (min-width: 1200px) {
+  .row.other-services-page {
+    min-height: 650px;
+    max-height: 650px;
+    width: 80%;
+  }
+}
+
+@media (min-width: 992px) and (max-width: 1199px) {
+  .row.home-page {
+    min-height: 550px;
+    max-height: 550px;
+    width: 82%;
+  }
+}
+
+@media (min-width: 992px) and (max-width: 1199px) {
+  .row.call-page {
+    min-height: 550px;
+    max-height: 550px;
+    width: 82%;
+  }
+}
+
+@media (min-width: 992px) and (max-width: 1199px) {
+  .row.dial-page {
+    min-height: 550px;
+    max-height: 550px;
+    width: 82%;
+  }
+}
+
+@media (min-width: 992px) and (max-width: 1199px) {
+  .row.dial-page-answer {
+    min-height: 550px;
+    max-height: 550px;
+    width: 82%;
+  }
+}
+
+@media (min-width: 992px) and (max-width: 1199px) {
+  .row.lifealert-page {
+    min-height: 560px;
+    max-height: 560px;
+    width: 82%;
+  }
+}
+
+@media (min-width: 992px) and (max-width: 1199px) {
+  .row.services-page {
+    min-height: 560px;
+    max-height: 560px;
+    width: 82%;
+  }
+}
+
+@media (min-width: 992px) and (max-width: 1199px) {
+  .row.other-services-page {
+    min-height: 560px;
+    max-height: 560px;
+    width: 82%;
+  }
+}
+
+@media (min-width: 992px) and (max-width: 1199px) {
+  .row.other-services-helix-page {
+    min-height: 560px;
+    max-height: 560px;
+    width: 82%;
+  }
+}
+
+@media (min-width: 992px) and (max-width: 1199px) {
+  .row.nav-page {
+    /*min-height: 560px;*/
+    /*max-height: 560px;*/
+    width: 82%;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  .row.nav-page {
+    /*min-height: 430px;*/
+    /*max-height: 430px;*/
+    width: 82%;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  .row.lifealert-page {
+    min-height: 380px;
+    max-height: 380px;
+    width: 82%;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  .row.services-page {
+    min-height: 430px;
+    max-height: 430px;
+    width: 82%;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  .row.other-services-page {
+    min-height: 430px;
+    max-height: 430px;
+    width: 82%;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  .row.other-services-helix-page {
+    min-height: 430px;
+    max-height: 430px;
+    width: 82%;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  .row.call-page {
+    min-height: 408px;
+    max-height: 408px;
+    width: 82%;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  .row.dial-page {
+    min-height: 408px;
+    max-height: 408px;
+    width: 82%;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  .row.dial-page-answer {
+    min-height: 408px;
+    max-height: 408px;
+    width: 82%;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  .row.home-page {
+    min-height: 408px;
+    max-height: 408px;
+    width: 82%;
+  }
+}
+
+@media (min-width: 1200px) and (min-height: 719px) {
+  .container {
+    /*max-width: 992px;*/
+  }
+}
+
+@media (min-width: 1200px) {
+  .container {
+    height: 768px;
+  }
+}
+
+@media (min-width: 1200px) and (min-height: 767px) {
+  .container {
+    /*height: 768px;*/
+  }
+}
+
+@media (min-width: 992px) and (max-width: 1199px) {
+  .container {
+    height: 768px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  .container {
+    height: 500px;
+  }
+}
+
+::-webkit-scrollbar-thumb {
+  background: #898e8c;
+  border-radius: 10px;
+  border: 1px solid #aaa;
+}
+
+::-webkit-scrollbar-track {
+  border-radius: 10px;
+  background: rgba(0,0,0,0.1);
+  border: 1px solid #ccc;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #565959;
+}
+
+::-webkit-scrollbar-thumb:active {
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+#new-message-container {
+  resize: none;
+}
+
+.col-3.rounded {
+}
+
+.row.no-gutters.messages-page {
+  overflow-x: hidden;
+}
+
+.row.sub-messages-page {
+  overflow-x: hidden;
+}
+
+.row.new-messages-page {
+  overflow-x: hidden;
+}
+
+@media (min-width: 1200px) {
+  #new-message-contact-list {
+    height: 190px;
+  }
+}
+
+@media (min-width: 992px) and (max-width: 1199px) {
+  #new-message-contact-list {
+    height: 100px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  #new-message-contact-list {
+    height: 190px;
+  }
+}
+
+@media (min-width: 1200px) {
+  #sub-messages-messages {
+    height: 65%;
+  }
+}
+
+@media (min-width: 992px) and (max-width: 1199px) {
+  #sub-messages-messages {
+    height: 60%;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  #sub-messages-messages {
+    height: 45%;
+  }
+}
+
+.rounded-circle2 {
+  border-radius: 45%!important;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  #contact-list-call {
+    max-height: 180px;
+  }
+}
+
+@media (min-width: 992px) and (max-width: 1199px) {
+  #contact-list-call {
+    max-height: 320px;
+  }
+}
+
+@media (min-width: 1200px) {
+  #contact-list-call {
+    max-height: 400px;
+  }
+}
+
+.loader {
+  border: 16px solid #b0aeae;
+  border-radius: 50%;
+  border-top: 16px solid #3498db;
+  width: 120px;
+  height: 120px;
+  animation: loader 1s linear infinite;
+}
+
+@keyframes loader {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.centered {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  .loading-page {
+    min-height: 408px;
+    max-height: 408px;
+    width: 82%;
+  }
+}
+
+@media (min-width: 992px) and (max-width: 1199px) {
+  .loading-page {
+    min-height: 550px;
+    max-height: 550px;
+    width: 82%;
+  }
+}
+
+@media (min-width: 1200px) {
+  .loading-page {
+    min-height: 650px;
+    max-height: 650px;
+    width: 80%;
+  }
+}
+

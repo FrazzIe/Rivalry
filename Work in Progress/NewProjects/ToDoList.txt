@@ -1,0 +1,19 @@
+	- Implement Robbing Player Houses
+	- Implement Robbing Local Houses
+	- Implement DoJ Seize Feature
+	- Implement PD Raid Feature
+	- Implement DoJ View Feature
+	- Implement PD View Feature
+	- Rewrite Garage Script
+	- Remove all Public Garages
+	- Personal Garages at Apartments/Houses
+	- Public Garages fee and limits
+	- Security Job
+	- Clientside Dispatch Alerts
+	- Local uses phone and calls cops when they deny drug sale
+	- GTA: Someone spotted you in the car and called the police
+	- Rewrite Robberies
+	- Store Robberies, More Locks = More Money. Take money out of safe/cash register
+	- Bank Robberies, More Safe Boxes = More Money. Take money out of bank vault
+	- Remove /twitter and put as option in current phone. Add feature to toggle twitter notifications
+ 	- Rework DOA / hospital check-in
