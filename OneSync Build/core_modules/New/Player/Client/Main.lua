@@ -395,7 +395,7 @@ AddEventHandler("Hospital.ServiceHeal", function()
         end
         NearestBed = GetClosestObjectOfType(BedLocations[1].x, BedLocations[1].y, BedLocations[1].z, 2.0, -1091386327, 0, 0, 0)
         DoScreenFadeOut(1500)
-        AttachEntityToEntity(Ped, NearestBed, 1, -0.2, -0.2, 1.4, 0.0, 0.0, 180.0, true, true, true, true, 1, true)
+        AttachEntityToEntity(Ped, NearestBed, 1, -0.2, -0.2, 1.4, 0.0, 0.0, 360.0, true, true, true, true, 1, true)
         TaskPlayAnim(Ped, Dictionary, Animation, 8.0, 1.0, -1, 1, 0, 0, 0, 0 )
         DoScreenFadeIn(1500)
         Wait(30000)
@@ -453,58 +453,6 @@ Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(0)
 		SetPlayerHealthRechargeMultiplier(PlayerId(), 0.0)
-	end
-end)
-
-RegisterNetEvent("InjuredFade")
-AddEventHandler("InjuredFade", function()
-	Notify("You are injured, you should seak medical attention!")
-    maxfade = 290.0 - (GetEntityHealth(PlayerPedId()) + 50.0)
-	if maxfade < 65.0 then
-		maxfade = 0
-	end
-	maxfade = math.ceil(maxfade)
-
-	while curfading < maxfade do
-		Citizen.Wait(1)
-		DrawRect(0,0, 10.0, 10.0, 1, 1, 1, curfading)
-		curfading = curfading + 1
-	end
-
-	while curfading > 5 do
-		Citizen.Wait(1)
-		DrawRect(0,0, 10.0, 10.0, 1, 1, 1, curfading)
-		curfading = curfading - 1
-	end
-
-	while curfading < maxfade do
-		Citizen.Wait(1)
-		DrawRect(0,0, 10.0, 10.0, 1, 1, 1, curfading)
-		curfading = curfading + 1
-	end
-
-	while curfading > 5 do
-		Citizen.Wait(1)
-		DrawRect(0,0, 10.0, 10.0, 1, 1, 1, curfading)
-		curfading = curfading - 1
-	end
-
-	Citizen.Wait(30000)
-	curfading = 0
-end)
-
-Citizen.CreateThread(function()
-	while true do
-		Citizen.Wait(0)
-		local Ped = PlayerPedId()
-		if GetEntityHealth(Ped) < 40 and not IsEntityDead(Ped) then
-			Citien.Wait(10000)
-			SetPedMotionBlur(Ped, true)
-			TriggerEvent("InjuredFade")
-			Citizen.Wait(10000)
-			SetPedMotionBlur(Ped, false)
-			Citizen.Wait(90000)
-		end
 	end
 end)
 
