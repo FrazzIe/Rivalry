@@ -6,19 +6,19 @@ Config.Priority = {
     ["steam:110000117ace560"] = 9001, -- Frazzle
     ["steam:1100001057052a0"] = 9000, -- Frazzle
     ["steam:110000101599554"] = 1337, -- Chef Noonab
-    ["steam:110000105ac8a6f"] = 1069, -- StanleyRP    
+    ["steam:110000106e0c14b"] = 1070, -- Ructar
     ["steam:1100001097ab24e"] = 1030, -- brunettegamer
     ["steam:110000107ea851e"] = 1020, -- Chiito
     ["steam:1100001177e13bd"] = 1010, -- Captain Boom
     ["steam:110000111c7701f"] = 1000, -- Brody
-    ["steam:110000106e0c14b"] = 998, -- Ructar
+    ["steam:110000109805b30"] = 999, -- Jenna
     ["steam:11000010a27e61c"] = 997, -- Julio 
-    ["steam:110000109805b30"] = 995, -- Jenna
     ["steam:110000102d4d1e7"] = 994, -- Sammy-Sana
     ["steam:110000100809b63"] = 993, -- Reginald Wattersmith
     ["steam:110000103d70c3f"] = 992, -- Leo Gold
     ["steam:1100001008c7ed5"] = 991, -- Snow
 --[People Frazzle Likes]--
+    ["steam:110000105ac8a6f"] = 902, -- StanleyRP    
     ["steam:110000115c8520b"] = 901, -- Jinia
     ["steam:1100001074e86ec"] = 900, -- RoundishKungFu/Kelly Price
     ["steam:11000010a408fb4"] = 899, -- grace
@@ -58,28 +58,34 @@ Config.Priority = {
     ["steam:110000108defef3"] = 774, -- Sur Lee
     ["steam:110000101dcfaa6"] = 773, -- FortyOne
     ["steam:11000010977a78e"] = 772, -- brak1n
---[PD, EMS, DOJ]--
+--[PD, EMS, DOJ, Mech]--
     ["steam:11000010bf7bb73"] = 700, -- AfriicanSnowball (PD High Command)
     ["steam:110000104f0fbb8"] = 699, -- Wayne DeMan (PD High Command)
     ["steam:110000104c9acb6"] = 698, -- Tyler Reagan (PD High Command)
     ["steam:110000102faf99e"] = 697, -- Lee Andersen (PD High Command)
     ["steam:11000010036d96d"] = 696, -- Chris Miller (PD Command)
     ["steam:1100001073a42f9"] = 695, -- John Miller (PD Command)
-    ["steam:1100001047aafc5"] = 694, -- Frank Moretti (PD Command) 
-    ["steam:1100001149faec8"] = 693, -- Ronald Simmons (PD Command)
-    ["steam:11000010371b8ed"] = 692, -- Gill Dunley (PD Command)
+    ["steam:11000010371b8ed"] = 694, -- Gill Dunley (PD Command)
+    ["steam:1100001047aafc5"] = 693, -- Frank Moretti (PD Command) 
+    ["steam:1100001149faec8"] = 692, -- Ronald Simmons (PD Command)
     ["steam:11000010515be32"] = 691, -- Johnny Russo (ADA)
+    ["steam:11000010345d3df"] = 690, -- Eric Hobbs (PD Command)
     ["steam:1100001096a1e6f"] = 689, -- Zim Pontes (EMS High Command)          
     ["steam:1100001003ab893"] = 688, -- Kara Black (EMS Command)
     ["steam:11000011cb734e2"] = 687, -- Oscar King (EMS Command)
+    ["steam:110000119f99126"] = 483, -- Ace Danger (Gentle)
     ["steam:1100001037a2490"] = 685, -- Hank Strickland (DA) 
     ["steam:11000010012c897"] = 684, -- Ryan Toronto (PD Extra)
     ["steam:1100001087ceba9"] = 682, -- Kari Walker (EMS Extra)
-    ["steam:110000107df831a"] = 681, -- Violet Jules (PD Extra)
-    ["steam:11000010467c91d"] = 680, -- Mason Preacher (PD extra)
-    ["steam:1100001340afc2b"] = 679, -- Frenchy (EMS command)
-    ["steam:110000110e35616"] = 678, -- Ryleigh Wolfhart
-
+    ["steam:11000011198b053"] = 681, -- Eric Wong (PD Extra)
+    ["steam:110000107df831a"] = 680, -- Violet Jules (PD Extra)
+    ["steam:11000010467c91d"] = 679, -- Mason Preacher (PD extra)
+    ["steam:1100001340afc2b"] = 678, -- Frenchy (EMS command)
+    ["steam:110000110e35616"] = 677, -- Ryleigh Wolfhart
+    ["steam:110000108322423"] = 676, -- Zhuang Lao (PD Extra)
+    ["steam:1100001032aa2a1"] = 675, -- Austin James (mech Boss)
+    ["steam:110000102e9a6e2"] = 674, -- Charlie Pilkins (mech Boss)
+    ["steam:11000010862267a"] = 673, -- Sweet Sake (mech Boss)
 --[Extras]--
     ["steam:110000106443c23"] = 500, -- Augustus Williams
     ["steam:110000100BF705A"] = 499, -- Schwank (Zach)
@@ -89,7 +95,7 @@ Config.Priority = {
     ["steam:110000104c5b700"] = 486, -- DarkLaiX
     ["steam:11000010e0f809e"] = 485, -- FateProphecy
     ["steam:1100001047e1d3d"] = 484, -- Hank
-    ["steam:110000119f99126"] = 483, -- Ace Danger (Gentle)
+    ["steam:110000106be52a0"] = 484, -- Jamiie
 
 }
 
