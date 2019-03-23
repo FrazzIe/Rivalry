@@ -17,3 +17,4 @@
 	- Bank Robberies, More Safe Boxes = More Money. Take money out of bank vault
 	- Remove /twitter and put as option in current phone. Add feature to toggle twitter notifications
  	- Rework DOA / hospital check-in
+ 	- /clear command for Active Dispatchs for Police Department
