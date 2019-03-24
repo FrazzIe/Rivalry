@@ -19,7 +19,7 @@ $(document).ready(function(){
     throwProps:true
   });
   // values 40 or above will be set to 0
-  const combo = [],
+  var combo = [],
         findCombo = function(comboArr){
           let dial = $(".dial"),
               dialTrans = dial.css("transform"),
