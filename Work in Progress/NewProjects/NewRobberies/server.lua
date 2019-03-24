@@ -134,25 +134,21 @@ Rivalry = {
 	}
 }
 
-local SafePayOut = math.random(2000,3000)
-
 RegisterServerEvent("Rivalry.Rob.CashRegister")
-AddEventHandler("Rivalry.Rob.CashRegister", function(Index)
+AddEventHandler("Rivalry.Rob.CashRegister", function(StoreNumber, RegisterNumber)
 	local Source = source
-	for Index2 = 1, #Rivalry.Robberies.Stores[Index].CashRegisters do
-		if Rivalry.Robberies.Stores[Index].CashRegisters[Index2] == false then
-			TriggerClientEvent("Rivalry.Rob.CashRegister", Source)
-			Rivalry.Robberies.Stores[Index].CashRegisters[Index2] = true
-		end
+	if Rivalry.Robberies.Stores[StoreNumber].CashRegisters[RegisterNumber] == false and Rivalry.Robberies.Stores[StoreNumber].Vault == false then
+		TriggerClientEvent("Rivalry.Rob.CashRegister", Source)
+		Rivalry.Robberies.Stores[StoreNumber].CashRegisters[RegisterNumber] = true
 	end
-end
+end)
 
 RegisterServerEvent("Rivalry.Rob.StoreVault")
-AddEventHandler("Rivalry.Rob.StoreVault", function(Index)
+AddEventHandler("Rivalry.Rob.StoreVault", function(StoreNumber)
 	local Source = source
-	if Rivalry.Robberies.Stores[Index].Vault == false then
+	if Rivalry.Robberies.Stores[StoreNumber].Vault == false then
 		TriggerClientEvent("Rivalry.Rob.StoreVault", Source)
-		Rivalry.Robberies.Stores[Index].Vault = true
+		Rivalry.Robberies.Stores[StoreNumber].Vault = true
 	end
 end)
 
@@ -162,5 +158,23 @@ AddEventHandler("Rivalry.CashRegister.Payout", function()
 	TriggerEvent("core:getuser", Source, function(User)
 		local RegisterPayOut = math.random(250,500)
 		User.addDirty(RegisterPayOut)
+	end)
+end)
+
+RegisterServerEvent("Rivalry.Vault.Payout")
+AddEventHandler("Rivalry.Vault.Payout", function(TotalLocks)
+	local Source = source
+	TriggerEvent("core:getuser", Source, function(User)
+		local Payout = 0
+		if TotalLocks > 0 then
+			for Total = 0, TotalLocks do
+				Payout = Payout + math.random(350, 500)
+			end
+		else
+
+		end
+		if Payout > 0 then
+			User.addDirty(Payout)
+		end
 	end)
 end)
