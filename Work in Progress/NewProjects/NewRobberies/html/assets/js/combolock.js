@@ -1,25 +1,21 @@
 $(document).ready(function(){
   // make dial draggable
-    $("#combolock").hide();
-    $("#combolockbody").hide();
+    $(".body").css("display", "none");
   function openMain() {
-    $("#combolock").show();
-    $("#combolockbody").show();
+    $(".body").css("display", "block");
   }
   function closeAll() {
-    $("#combolock").hide();
-    $("#combolockbody").hide();
+    $(".body").css("display", "none");
   }
   function closeMain() {
-    $("#combolock").hide();
-    $("#combolockbody").hide();
+    $(".body").css("display", "none");
   }
   Draggable.create(".dial", {
     type:"rotation",
     throwProps:true
   });
   // values 40 or above will be set to 0
-  var combo = [],
+  var combo = [0, 0, 0];
         findCombo = function(comboArr){
           let dial = $(".dial"),
               dialTrans = dial.css("transform"),
@@ -95,7 +91,7 @@ $(document).ready(function(){
     }
   };
 
-  window.addEventListener('message',function(event){
+  window.addEventListener('message', function(event){
     var item = event.data;
     if(item.active === true) {
       closeAll();

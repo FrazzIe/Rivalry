@@ -7,7 +7,7 @@ files {
   'html/assets/css/styles.css',
   'html/assets/js/combolock.js',
   'html/assets/js/jquery.min.js',
-   'html/assets/js/debounce.min.js',
+  'html/assets/js/debounce.min.js',
 }
 
 client_script 'client.lua'
