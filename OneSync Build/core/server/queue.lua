@@ -58,6 +58,7 @@ Config.Priority = {
     ["steam:110000108defef3"] = 774, -- Sur Lee
     ["steam:110000101dcfaa6"] = 773, -- FortyOne
     ["steam:11000010977a78e"] = 772, -- brak1n
+    ["steam:1100001005489bf"] = 771, -- GamezJohn
 --[PD, EMS, DOJ, Mech]--
     ["steam:11000010bf7bb73"] = 700, -- AfriicanSnowball (PD High Command)
     ["steam:110000104f0fbb8"] = 699, -- Wayne DeMan (PD High Command)
