@@ -7,7 +7,8 @@ Rivalry = {
 				CashRegisters = {
 					[1] = false,
 					[2] = false,
-				}
+				},
+				LastRobbed = 0
 			},
 			[2] = {
 				Name = "Palomino Freeway Convience Store",
@@ -15,7 +16,8 @@ Rivalry = {
 				CashRegisters = {
 					[1] = false,
 					[2] = false,
-				}
+				},
+				LastRobbed = 0
 			},
 			[3] = {
 				Name = "Sandy Shores Convience Store",
@@ -23,12 +25,14 @@ Rivalry = {
 				CashRegisters = {
 					[1] = false,
 					[2] = false,
-				}
+				},
+				LastRobbed = 0
 			},
 			[4] = {
 				Name = "Sandy Shores Yellowjack",
 				Vault = false,
-				CashRegisters = {}
+				CashRegisters = {},
+				LastRobbed = 0
 			},
 			[5] = {
 				Name = "Richman Glen Convience Store",
@@ -36,7 +40,8 @@ Rivalry = {
 				CashRegisters = {
 					[1] = false,
 					[2] = false,
-				}
+				},
+				LastRobbed = 0
 			},
 			[6] = {
 				Name = "Mount Chiliad Convience Store",
@@ -44,7 +49,8 @@ Rivalry = {
 				CashRegisters = {
 					[1] = false,
 					[2] = false,
-				}
+				},
+				LastRobbed = 0
 			},
 		},
 		Banks = {
@@ -57,21 +63,25 @@ Rivalry = {
 						[3] = false,
 						[4] = false,
 						[5] = false,
-					}
+					},
+					LastRobbed = 0
 				}
 			},
 			Fleeca = {
 				[1] = {
 					Name = "Fleeca Bank | Great Ocean Highway",
 					Vault = false,
+					LastRobbed = 0
 				},
 				[2] = {
 					Name = "Fleeca Bank | Hawick Avenue",
 					Vault = false,
+					LastRobbed = 0
 				},
 				[3] = {
 					Name = "Fleeca Bank | Route 68",
 					Vault = false,
+					LastRobbed = 0
 				}
 			},
 			Pacific = {
@@ -96,7 +106,8 @@ Rivalry = {
 						[16] = false,
 						[17] = false,
 						[18] = false,
-					}
+					},
+					LastRobbed = 0
 				}
 			},
 			BeingRobbed = false
@@ -128,11 +139,46 @@ Rivalry = {
 					[5] = false,
 					[6] = false,
 					[7] = false,
-				}
+				},
+				LastRobbed = 0
 			}
 		}
 	}
 }
+
+Cooldown = 30
+
+function HasBeenRobbed(TypeOfRobbery, Index)
+	if TypeOfRobbery == "Store"
+		if (os.time() - Rivalry.Robberies.Stores[Index].LastRobbed) < (Cooldown*60) and Rivalry.Robberies.Stores[Index].LastRobbed ~= 0 then
+			TriggerClientEvent('customNotification', source, "This has already been robbed recently. Please wait another " .. (math.floor(((Cooldown*60) - (os.time() - Rivalry.Robberies.Stores[Index].LastRobbed))/60)) .. " minutes.")
+			return true
+		else
+			return false
+		end
+	elseif TypeOfRobbery == "Blaine"
+		if (os.time() - Rivalry.Robberies.Banks.Blaine[Index].LastRobbed) < (Cooldown*60) and Rivalry.Robberies.Banks.Blaine[Index].LastRobbed ~= 0 then
+			TriggerClientEvent('customNotification', source, "This has already been robbed recently. Please wait another " .. (math.floor(((Cooldown*60) - (os.time() - Rivalry.Robberies.Banks.Blaine[Index].LastRobbed))/60)) .. " minutes.")
+			return true
+		else
+			return false
+		end
+	elseif TypeOfRobbery == "Fleeca"
+		if (os.time() - Rivalry.Robberies.Banks.Fleeca[Index].LastRobbed) < (Cooldown*60) and Rivalry.Robberies.Banks.Fleeca[Index].LastRobbed ~= 0 then
+			TriggerClientEvent('customNotification', source, "This has already been robbed recently. Please wait another " .. (math.floor(((Cooldown*60) - (os.time() - Rivalry.Robberies.Banks.Fleeca[Index].LastRobbed))/60)) .. " minutes.")
+			return true
+		else
+			return false
+		end
+	elseif TypeOfRobbery == "Pacific"
+		if (os.time() - Rivalry.Robberies.Banks.Pacific[Index].LastRobbed) < (Cooldown*60) and Rivalry.Robberies.Banks.Pacific[Index].LastRobbed ~= 0 then
+			TriggerClientEvent('customNotification', source, "This has already been robbed recently. Please wait another " .. (math.floor(((Cooldown*60) - (os.time() - Rivalry.Robberies.Banks.Pacific[Index].LastRobbed))/60)) .. " minutes.")
+			return true
+		else
+			return false
+		end
+	end
+end
 
 RegisterServerEvent("Rivalry.Rob.CashRegister")
 AddEventHandler("Rivalry.Rob.CashRegister", function(StoreNumber, RegisterNumber)
@@ -171,7 +217,6 @@ AddEventHandler("Rivalry.Vault.Payout", function(TotalLocks)
 				Payout = Payout + math.random(350, 500)
 			end
 		else
-
 		end
 		if Payout > 0 then
 			User.addDirty(Payout)
