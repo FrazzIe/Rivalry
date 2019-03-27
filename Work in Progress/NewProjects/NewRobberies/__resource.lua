@@ -5,6 +5,8 @@ ui_page 'html/index.html'
 files {
   'html/index.html',
   'html/assets/css/styles.css',
+  'html/assets/Draggable.min.js',
+  'html/assets/TweenMax.min.js',
   'html/assets/js/combolock.js',
   'html/assets/js/jquery.min.js',
   'html/assets/js/debounce.min.js',
