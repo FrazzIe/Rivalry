@@ -11746,7 +11746,6 @@ PlayerCustomisation.Reference = {
 			"s_m_m_ciasec_01",
 			"s_m_y_swat_01",
 			"s_m_y_blackops_01",
-			"a_c_husky",
 		},
 		Paramedic = {
 		    "s_m_m_paramedic_01",
