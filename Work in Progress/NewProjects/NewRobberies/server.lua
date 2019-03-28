@@ -149,28 +149,28 @@ Rivalry = {
 Cooldown = 30
 
 function HasBeenRobbed(TypeOfRobbery, Index)
-	if TypeOfRobbery == "Store"
+	if TypeOfRobbery == "Store" then
 		if (os.time() - Rivalry.Robberies.Stores[Index].LastRobbed) < (Cooldown*60) and Rivalry.Robberies.Stores[Index].LastRobbed ~= 0 then
 			TriggerClientEvent('customNotification', source, "This has already been robbed recently. Please wait another " .. (math.floor(((Cooldown*60) - (os.time() - Rivalry.Robberies.Stores[Index].LastRobbed))/60)) .. " minutes.")
 			return true
 		else
 			return false
 		end
-	elseif TypeOfRobbery == "Blaine"
+	elseif TypeOfRobbery == "Blaine" then
 		if (os.time() - Rivalry.Robberies.Banks.Blaine[Index].LastRobbed) < (Cooldown*60) and Rivalry.Robberies.Banks.Blaine[Index].LastRobbed ~= 0 then
 			TriggerClientEvent('customNotification', source, "This has already been robbed recently. Please wait another " .. (math.floor(((Cooldown*60) - (os.time() - Rivalry.Robberies.Banks.Blaine[Index].LastRobbed))/60)) .. " minutes.")
 			return true
 		else
 			return false
 		end
-	elseif TypeOfRobbery == "Fleeca"
+	elseif TypeOfRobbery == "Fleeca" then
 		if (os.time() - Rivalry.Robberies.Banks.Fleeca[Index].LastRobbed) < (Cooldown*60) and Rivalry.Robberies.Banks.Fleeca[Index].LastRobbed ~= 0 then
 			TriggerClientEvent('customNotification', source, "This has already been robbed recently. Please wait another " .. (math.floor(((Cooldown*60) - (os.time() - Rivalry.Robberies.Banks.Fleeca[Index].LastRobbed))/60)) .. " minutes.")
 			return true
 		else
 			return false
 		end
-	elseif TypeOfRobbery == "Pacific"
+	elseif TypeOfRobbery == "Pacific" then
 		if (os.time() - Rivalry.Robberies.Banks.Pacific[Index].LastRobbed) < (Cooldown*60) and Rivalry.Robberies.Banks.Pacific[Index].LastRobbed ~= 0 then
 			TriggerClientEvent('customNotification', source, "This has already been robbed recently. Please wait another " .. (math.floor(((Cooldown*60) - (os.time() - Rivalry.Robberies.Banks.Pacific[Index].LastRobbed))/60)) .. " minutes.")
 			return true

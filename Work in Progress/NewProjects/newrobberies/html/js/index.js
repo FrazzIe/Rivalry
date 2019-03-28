@@ -1,21 +1,35 @@
 $(document).ready(function(){
+  var documentWidth = document.documentElement.clientWidth;
+  var documentHeight = document.documentElement.clientHeight;
   // make dial draggable
-    $(".body").css("display", "none");
+    $(".container").css("display", "none");
+    $(".combo").css("display", "none");
+    $(".num1").hide();
+    $(".num2").hide();
+    $(".num3").hide();
   function openMain() {
-    $(".body").css("display", "block");
+    $(".container").css("display", "block");
+    $(".combo").css("display", "block");
   }
   function closeAll() {
-    $(".body").css("display", "none");
+    $(".container").css("display", "none");
   }
   function closeMain() {
-    $(".body").css("display", "none");
+    $(".container").css("display", "none");
+    $(".combo").css("display", "none");
+    $(".num1").hide();
+    $(".num2").hide();
+    $(".num3").hide();
+    $(".num1").html("");
+    $(".num2").html("");
+    $(".num3").html("");
   }
   Draggable.create(".dial", {
     type:"rotation",
     throwProps:true
   });
   // values 40 or above will be set to 0
-  var combo = [0, 0, 0];
+  var combo = [],
         findCombo = function(comboArr){
           let dial = $(".dial"),
               dialTrans = dial.css("transform"),
@@ -39,9 +53,15 @@ $(document).ready(function(){
               if (angle > (comboArr[i] - numOffset) * tickAngle &&
                 angle < (comboArr[i] + numOffset) * tickAngle) {
                 // make numbers green when found
-                $(".num" + (i + 1)).addClass("found");
-                $(".num" + (i + 1)).show();
-                $.post('http://NewRobberies/LockClick', JSON.stringify({}));
+                $.post('http://newrobberies/lockclick', JSON.stringify({}));
+                setTimeout(1000);
+                if (angle > (comboArr[i] - numOffset) * tickAngle &&
+                angle < (comboArr[i] + numOffset) * tickAngle) {
+                  $(".num" + (i + 1)).addClass("found");
+
+                  $(".num" + (i + 1)).html(combo[i]);
+                  $(".num" + (i + 1)).show();
+                }
                 // on unlock
                 if (i == comboArr.length - 1) {
                   $(".shackle").addClass("unlocked");
@@ -58,7 +78,6 @@ $(document).ready(function(){
                     $(".dentL, .dentR").removeClass("moveLeft");
                     for (let j = 0; j < combo.length; ++j) {
                       $(".num" + (j + 1)).removeClass("found");
-                      $(".num" + (j + 1)).hide();
                     }
                   }, 2400);
                 }
@@ -68,40 +87,45 @@ $(document).ready(function(){
         }
       };
   // show combination to user
-  for (let i = 0; i < combo.length; ++i) {
-    if (combo[i] >= 40) {
-      combo[i] = 0;
+  if (combo.length > 0) {
+    for (let i = 0; i < combo.length; ++i) {
+      if (combo[i] >= 40) {
+        combo[i] = 0;
+      }
+      $(".num" + (i + 1)).hide();
+      $(".num" + (i + 1)).html(combo[i]);
     }
-    $(".num" + (i + 1)).hide();
-    $(".num" + (i + 1)).html(combo[i]);
   }
   // dial interaction (mouse)
   $(".dial").on("click",function(){
       findCombo(combo);
-      $.post('http://NewRobberies/DialSoundStart', JSON.stringify({}));
+      $.post('http://newrobberies/dialsound', JSON.stringify({}));
   });
   // dial interaction (touch)
   $(".dial").on("touchend",function(){
       findCombo(combo);
+      $.post('http://newrobberies/dialsound', JSON.stringify({}));
   });
 
   document.onkeyup = function (data) {
-    if (data.which == 69 ) {
-      $.post('http://NewRobberies/close', JSON.stringify({}));
+    if (data.which == 27 ) {
+      $.post('http://newrobberies/close', JSON.stringify({}));
     }
   };
 
   window.addEventListener('message', function(event){
     var item = event.data;
     if(item.active === true) {
-      closeAll();
       openMain();
     }
     if(item.active === false) {
       closeMain();
     }
-    if(item.NewNumber === true) { 
-      combo = [item.NumberOne, item.NumberTwo, item.NumberThree];
+    if(item.newnumber === true) { 
+      combo = [item.numberone, item.numbertwo, item.numberthree];
+      $(".num1").html("");
+      $(".num2").html("");
+      $(".num3").html("");
     }
   });
 });

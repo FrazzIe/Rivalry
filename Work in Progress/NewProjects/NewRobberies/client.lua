@@ -95,20 +95,6 @@ Citizen.CreateThread(function()
 	end
 end)--]]
 
-Citizen.CreateThread(function()
-	while true do
-		Citizen.Wait(0)
-		if IsRobbingStoreVault then
-			DisplayHelpText("Press ~INPUT_CONTEXT~ to leave the vault!")
-			if IsControlJustPressed(1, 51) then
-				CloseComboLockGui()
-				TriggerServerEvent("Rivalry.Vault.Payout", TotalLocks)
-				IsRobbingStoreVault = false
-			end
-		end
-	end
-end)
-
 RegisterNetEvent("Rivalry.Rob.CashRegister")
 AddEventHandler("Rivalry.Rob.CashRegister", function()
 	Citizen.CreateThread(function()
@@ -132,8 +118,10 @@ AddEventHandler("Rivalry.Rob.StoreVault", function()
 	Citizen.CreateThread(function()
 		if DoesEntityExist(PlayerPedId()) and not IsEntityDead(PlayerPedId()) then
 			OpenComboLockGui()
-			SendNUIMessage({NewNumber = true, NumberOne = math.random(1, 40), NumberTwo = math.random(1, 40), NumberThree = math.random(1, 40)})
+			SendNUIMessage({newnumber = true, numberone = math.random(1, 40), numbertwo = math.random(1, 40), numberthree = math.random(1, 40)})
 			IsRobbingStoreVault = true
+			TotalLocks = 0
+			NumberOfPins = 0
 		end
 	end)
 end)
@@ -143,6 +131,11 @@ function OpenComboLockGui()
 	SetPlayerControl(PlayerId(), 0, 0)
 	SetNuiFocus(true, true)
 	SendNUIMessage({active = true})
+	RequestAnimDict("mini@safe_cracking")
+	while not HasAnimDictLoaded("mini@safe_cracking") do
+		Wait(0)
+	end
+	TaskPlayAnim(PlayerPedId(), "mini@safe_cracking", "dial_turn_clock_fast", 4.0, -4, -1, 1, 0, false, false, false)
 end
 
 -- Close Gui and disable NUI
@@ -152,24 +145,35 @@ function CloseComboLockGui()
 	SetPlayerControl(PlayerId(), 1, 0)
 end
 
-RegisterNUICallback('DialSoundStart', function(data, cb)
-	TriggerEvent('LIFE_CL:Sound:PlayOnOne', "dial", "0.4")
+RegisterNUICallback('dialsound', function(data, cb)
+	TriggerEvent('LIFE_CL:Sound:PlayOnOne', "dial", "1.0")
+	cb('ok')
 end)
 
 RegisterNUICallback('close', function(data, cb)
 	CloseComboLockGui()
+	TriggerServerEvent('Rivalry.Vault.Payout', TotalLocks)
+	TotalLocks = 0
+	NumberOfPins = 0
+	cb('ok')
 end)
 
-RegisterNUICallback('LockClick', function(data, cb)
+RegisterNUICallback('lockclick', function(data, cb)
 	if NumberOfPins < 3 then
 		NumberOfPins = NumberOfPins + 1
-		TriggerEvent('LIFE_CL:Sound:PlayOnOne', "unlock", "0.2")
+		TriggerEvent('LIFE_CL:Sound:PlayOnOne', "unlock", "1.0")
+		cb('ok')
 	end
 	if NumberOfPins == 3 then
-		SendNUIMessage({NewNumber = true, NumberOne = math.random(1, 40), NumberTwo = math.random(1, 40), NumberThree = math.random(1, 40)})
+		SendNUIMessage({newnumber = true, numberone = math.random(1, 40), numbertwo = math.random(1, 40), numberthree = math.random(1, 40)})
 		NumberOfPins = 0
 		if TotalLocks < 6 then
 			TotalLocks = TotalLocks + 1
+		else
+			CloseComboLockGui()
+			TriggerServerEvent('Rivalry.Vault.Payout', TotalLocks)
+			TotalLocks = 0
+			NumberOfPins = 0
 		end
 	end
 end)

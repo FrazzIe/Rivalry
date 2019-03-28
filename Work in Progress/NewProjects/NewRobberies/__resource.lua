@@ -4,12 +4,11 @@ ui_page 'html/index.html'
 
 files {
   'html/index.html',
-  'html/assets/css/styles.css',
-  'html/assets/Draggable.min.js',
-  'html/assets/TweenMax.min.js',
-  'html/assets/js/combolock.js',
-  'html/assets/js/jquery.min.js',
-  'html/assets/js/debounce.min.js',
+  'html/index.pug',
+  'html/styles.css',
+  'html/js/index.js',
+  'html/css/style.css',
+  'html/scss/style.scss',
 }
 
 client_script 'client.lua'

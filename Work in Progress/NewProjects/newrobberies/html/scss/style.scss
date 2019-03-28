@@ -1,0 +1,262 @@
+$lockColor: #aaa;
+$dialColor: #333; 
+$t: transparent;
+$diam: 180px;
+$dialDiam: $diam * 0.8;
+$shackleW: $diam * 0.75;
+$shackleT: $shackleW * 0.25;
+$knobBorder: $diam/80;
+$knobRadius: $diam/6;
+$ticks: 40;
+$tickW: $diam/60;
+$tickH: $tickW * 3;
+$bg: #fff;
+
+@mixin setTick($yPos, $timesRot, $maxTimesRot) {
+  transform: translateY($yPos) rotate(360deg/$maxTimesRot * $timesRot + 180);
+}
+
+body {
+  background: $bg;
+  counter-reset: inc -5;
+  font-family: Open Sans, sans-serif;
+  display: flex;
+  display: -webkit-flex;
+  flex-direction: column;
+  -webkit-flex-direction: column;
+  justify-content: center;
+  -webkit-justify-content: center;
+  align-items: center;
+  -webkit-align-items: center;
+  height: 100vh;
+  overflow: hidden;
+}
+.container {
+  margin-bottom: $diam/10;
+  position: relative;
+  height: $diam * 1.5;
+  width: $diam;
+}
+.lock, .dial {
+  border-radius: 50%;
+}
+.arrow, .dial {
+  margin: auto;
+}
+.shackle, .dial, .tick {
+  position: absolute;  
+}
+.lock {
+  background: $lockColor;
+  position: absolute;
+  bottom: 0;
+  height: $diam;
+  width: $diam;
+}
+.shackle {
+  bottom: $diam*0.6;
+  right: $diam/2 - $shackleW/2;
+  width: $shackleW;
+  height: $shackleW * 1.25;
+  will-change: transform;
+  z-index: -1;
+  div {
+  background: $lockColor - #111;
+  position: absolute;
+  will-change: transform;
+  }
+  .top {
+    border-radius: $shackleW $shackleW 0 0;
+    height: $shackleW * 0.5;
+    width: $shackleW;
+    transform-origin: 100% 0;
+  }
+  .inner {
+    background: $bg;
+    border-radius: 50%;
+    top: $shackleT;
+    left: $shackleT;
+    height: $shackleW - $shackleT*2;
+    width: $shackleW - $shackleT*2;
+  }
+  .left, .right {
+    top: $shackleW * 0.5 - 1;
+    width: $shackleT;
+  }
+  .left {
+    border-radius: 0 0 $shackleW/20 $shackleW/20;
+    height: $shackleW * 0.7;
+    overflow: hidden;
+    position: relative;
+    .dentL, .dentR {
+      position: absolute;
+      bottom: $shackleW/8;
+      z-index: 2;
+  }
+    .dentL {
+      border-top: $diam/12 solid transparent;
+      border-bottom: $diam/36 solid transparent;
+      border-left: $diam/12 solid $bg;
+      left: -$diam/6;
+    }
+  .dentR {
+      border-top: $diam/12 solid transparent;
+      border-bottom: $diam/36 solid transparent;
+      border-right: $diam/12 solid $bg;
+      right: 0;
+    }
+  }
+  .right {
+    right: 0;
+    height: $shackleW;
+  }
+}
+
+.arrow {
+  border: $diam/24 solid $t;
+  border-color: #a00 $t $t $t;
+  margin-top: $diam/16;
+  margin-bottom: $diam/60;
+  transform: translateY($diam/24);
+  height: 0;
+  width: 0;
+}
+.dial {
+  background: $dialColor radial-gradient(transparent, transparent $knobRadius, $dialColor/2 $knobRadius, $dialColor/2 $knobRadius+$knobBorder, transparent $knobRadius+$knobBorder, transparent);
+  font-family: Helvetica, sans-serif;
+  left: 0;
+  right: 0;
+  bottom: $dialDiam * 0.05;
+  position: absolute;
+  height: $dialDiam;
+  width: $dialDiam;
+  transform: rotate(0deg);
+  will-change: transform;
+  z-index: 1;
+}
+.tick {
+  background: #fff;
+  color: #fff;
+  font-size: $diam/12;
+  top: $dialDiam/2;
+  left: $dialDiam/2 - $tickW/2;
+  width: $tickW;
+  height: $tickW * 3;
+  transform-origin: 50% (-$dialDiam/2 + $tickH);
+  &::before {
+    display: block;
+    margin: (-$diam/10) (-$diam/10) 0 (-$diam/10);
+    text-align: center;
+    transform: rotate(180deg);
+  }
+  @for $i from 1 through $ticks {
+    &:nth-of-type(#{$i}) {
+    @include setTick($dialDiam/2 - $tickH, $i - 1, $ticks);
+      @if ($i - 1) % 5 == 0 {
+        height: $tickW * 6;
+        transform-origin: 50% (-$dialDiam/2 + $tickH*2);
+        @include setTick($dialDiam/2 - $tickH*2, $i - 1, $ticks);
+        &::before {
+              counter-increment: inc 5;
+              content: counter(inc);
+            }
+      }
+    }
+  }
+}
+
+.combo {
+  font-size: $diam/8;
+  text-align: center;
+  span {
+    background: #ccc;
+    display: inline-block;
+    line-height: $diam/6;
+    padding: $diam/24;
+    width: $diam/6;
+    height: $diam/6;
+    vertical-align: middle;
+    &.found {
+      background: #262;
+      color: #fff;
+    }
+  }
+}
+
+/* Animation classes */
+$secs: 0.5s;
+$delay: 0.4s;
+.unlocked {
+  animation: moveUp 0.2s linear forwards, moveUp 0.2s $delay*5 linear reverse forwards;  
+}
+.moveLeft {
+  animation: moveLeft $secs $delay linear forwards, moveLeft $secs $delay*3 linear reverse forwards;
+}
+.moveRight {
+  animation: moveRight $secs $delay linear forwards, moveRight $secs $delay*3 linear reverse forwards;
+}
+.pivot1 {
+  animation: pivot1 $secs $delay linear forwards, pivot1 $secs $delay*3 linear reverse forwards;
+}
+.pivot2 {
+  animation: pivot2-1 $secs/2 $delay cubic-bezier(.6,.3,.45,1) forwards, pivot2-2 $secs/2 ($secs/2 + 0.4s) cubic-bezier(.2,0,.63,.5) forwards, pivot2-2 $secs/2 ($secs/2 + 0.4s)*2 cubic-bezier(.2,0,.63,.5) reverse forwards, pivot2-1 $secs/2 ($secs/2 + 0.4s*2 + $delay) cubic-bezier(.6,.3,.45,1) reverse forwards;
+}
+
+@keyFrames moveUp {
+  from {
+      transform: translateY(0);
+    }
+  to {
+      transform: translateY(-$diam*0.35);
+    } 
+}
+@keyframes moveLeft {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX($diam/6);
+  }
+}
+@keyframes moveRight {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX($shackleW * 1.75 - $shackleT);
+  }
+}
+@keyframes pivot1 {
+  from {
+    transform: scale(1,1);
+    right: 0;
+  }
+  50% {
+    transform: scale(0.25,1) rotateY(0);
+    right: 0;
+  }
+  50.01% {
+    transform: scale(0.25,1) rotateY(180deg);
+    right: $shackleT;
+  }
+  to {
+    transform: scale(1,1) rotateY(180deg);
+    right: $shackleT;
+  }
+}
+@keyframes pivot2-1 {
+  from {
+    transform: scale(1,1);
+  }
+  to {
+    transform: scale(0,1);
+  }
+}
+@keyframes pivot2-2 {
+  from {
+    transform: scale(0,1);
+  }
+  to {
+    transform: scale(1,1);
+  }
+}
