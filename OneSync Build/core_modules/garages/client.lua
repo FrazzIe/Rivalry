@@ -21,21 +21,21 @@
 --                                                           Variables                                                          --
 --==============================================================================================================================--
 user_vehicles = {}                                                                                                             --
-user_garages = {}                                                                                                              --
-out = {}                                                                                                                        --
+user_garages = {}                                                                                                           --
+out = {}                                                                                                               --
 local replacementgarage = {x=0.0,y=0.0,z=0.0,heading=0.0}
 local currentgaragecost = nil                                                                                                   --
 local slotprice = 500                                                                                                        --
 local garageposition = 1                                                                                                        --                                                                                               
 local vehiclebool = false                                                                                                       --
---local insurancebool = false                                                                                                     --
+local insurancebool = false                                                                                                     --
 garage_menu = false                                                                                                             --
 --==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--
 --==============================================================================================================================--
 --                                                         Configuration                                                        --
 --==============================================================================================================================--
 --==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--
---[[insurance = {
+insurance = {
     ["cheburek"] = 0,
     ["ellie"] = 0,
     ["entity2"] = 0,
@@ -329,7 +329,6 @@ garage_menu = false                                                             
     ["tailgater"] = 18000,
     ["warrener"] = 13000,
     ["washington"] = 15000,
-    
     ["akuma"] = 4500,
     ["avarus"] = 38900,
     ["bagger"] = 14500,
@@ -374,7 +373,7 @@ garage_menu = false                                                             
     ["zombiea"] = 6500,
     ["zombieb"] = 7500,
 
-}--]]
+}
 
 
 claimspots = {
@@ -403,15 +402,15 @@ emplacement_garage = {
 
 --[[emplacement_insurance = {
     {name="Buy Insurance", colour=69, sprite=498, x=-32.958335876465,y=-1111.619140625,z=26.422338485718},
-}--]]
+}]]
 
 emplacement_selling = {
     {name="Sell vehicles", colour=1, sprite=225, x=-44.919033050537,y=-1082.6441650391,z=26.685247421265},
 }
 
---[[emplacement_claim = {    
+emplacement_claim = {    
     {name="Claim Insurance", colour=3, sprite=467, x=-218.64384460449,y=-1162.3128662109,z=23.022277832031},
-}--]]
+}
 
 emplacement_garage_options = {    
     {name="Modify garages", colour=3, sprite=78, x=-55.156490325928,y=-1089.9210205078,z=26.322859191895},
@@ -444,7 +443,7 @@ end)
 AddEventHandler("garage:insurance",function(index)
     user_vehicles[index].insurance = "true"
     garage_menu = false
-end)--]]
+end)]]
 
 RegisterNetEvent("garage:pay_impound")
 AddEventHandler("garage:pay_impound",function(index)
@@ -510,15 +509,15 @@ Citizen.CreateThread(function()
     for _, item in pairs(emplacement_garage) do
         addBlip(item)
     end
---[[    for _, item in pairs(emplacement_insurance) do
+    --[[for _, item in pairs(emplacement_insurance) do
         addBlip(item)
-    end--]]
+    end]]
     for _, item in pairs(emplacement_selling) do
         addBlip(item)
     end
---[[    for _, item in pairs(emplacement_claim) do
+    for _, item in pairs(emplacement_claim) do
         addBlip(item)
-    end--]]
+    end
     for _, item in pairs(emplacement_garage_options) do
         addBlip(item)
     end
@@ -564,8 +563,8 @@ Citizen.CreateThread(function()
                     garage_menu = false
                 end
             end
-        end--]]
-        --[[for k,v in ipairs(emplacement_claim) do
+        end]]
+        for k,v in ipairs(emplacement_claim) do
             if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 15.0)then
                 DrawMarker(25, v.x, v.y, v.z - 1, 0, 0, 0, 0, 0, 0, 1.5001, 1.5001, 0.7555, 1555, 90, 10,150, 0, 0, 0,0)
                 if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 1.0)then
@@ -583,7 +582,7 @@ Citizen.CreateThread(function()
                     garage_menu = false
                 end
             end
-        end--]]
+        end
         for k,v in ipairs(emplacement_garage_options) do
             if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 15.0)then
                 DrawMarker(25, v.x, v.y, v.z - 1, 0, 0, 0, 0, 0, 0, 3.5001, 3.5001, 0.7555, 1555, 90, 10,150, 0, 0, 0,0)
@@ -764,7 +763,7 @@ end
             end
         end
     end
-end--]]
+end]]
 
 --==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--
 --==============================================================================================================================--
@@ -772,15 +771,94 @@ end--]]
 --                                               Get your car back if its insured                                               --
 --==============================================================================================================================--
 --==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--
---[[function claimMenu()
+function claimMenu()
     Menu.SetupMenu("claim_menu","Insurance Claims")
     Menu.Switch(nil,"claim_menu")
     for i = 1,#user_vehicles do
         if (user_vehicles[i] ~= nil) then
             if user_vehicles[i].insurance == "true" and user_vehicles[i].state == "~r~Missing" then
+                local claims = user_vehicles[i].claims
+                local cost = ((insurance[user_vehicles[i].model] * (claims * 1.5))/100)
                 Menu.addOption("claim_menu", function()
-                    if(Menu.Bool(tostring(user_vehicles[i].name), vehiclebool, "~g~Claim", "~g~Claim",function(cb)   vehiclebool = cb end))then
-                        Citizen.CreateThread(function()
+                    if(Menu.Bool(tostring(user_vehicles[i].name), vehiclebool, "$" .. math.ceil(cost), "$" .. math.ceil(cost), function(cb)   vehiclebool = cb end))then
+                        TriggerServerEvent("garage:claim", user_vehicles[i].plate, cost)
+                    end
+                end)
+            end
+        end
+    end
+end
+RegisterNetEvent("Garage:ClaimSuccess")
+AddEventHandler("Garage:ClaimSuccess", function(plate)
+    for i = 1,#user_vehicles do
+        if user_vehicles[i].plate == plate then
+            local Claim = user_vehicles[i].claims
+            local cost = ((insurance[user_vehicles[i].model] * (Claim * 1.5))/100)
+            Citizen.CreateThread(function()
+                local instance = user_vehicles[i].instance
+                Citizen.Trace("CURRENT instance == "..instance)
+                local count = math.random(1,5)
+                for b = 1, #claimspots do
+                    if b == count then
+                        replacementgarage.x = claimspots[count].x
+                        replacementgarage.y = claimspots[count].y
+                        replacementgarage.z = claimspots[count].z
+                        replacementgarage.heading = 0.0
+                    end
+                end
+            end)  
+            local isAreaCrowded = GetClosestVehicle(replacementgarage.x, replacementgarage.y, replacementgarage.z, 3.000, 0, 70)
+            if DoesEntityExist(isAreaCrowded) then
+                exports.pNotify:SendNotification({text = "Try again, the spawn location is occupied!", type = "error", queue = "left", timeout = 3000, layout = "centerRight"})
+            else
+                local found_instance = false
+                for a = 1, #out do
+                    if out[a] == instance then
+                        found_instance = true
+                        table.remove(out, a)
+                        local LastVehicle = GetVehiclePedIsIn(PlayerPedId(), true)
+                        if GetVehicleNumberPlateText(LastVehicle) == user_vehicles[i].plate then
+                            SetEntityAsMissionEntity(LastVehicle, true, true)
+                            Citizen.InvokeNative(0xEA386986E786A54F, Citizen.PointerValueIntInitialized(LastVehicle))
+                        end 
+                        SpawnReplacement(user_vehicles[i], i)
+                        TriggerServerEvent("garage:PayClaim", user_vehicles[i].plate, cost, Claim)
+                        if user_vehicles[i].claims < 10 then
+                            user_vehicles[i].claims = user_vehicles[i].claims + 1
+                        else
+                            user_vehicles[i].claims = 10
+                        end                   
+                        --[[if DoesEntityExist(instance) then
+                            SetEntityAsMissionEntity(instance, true, true)
+                            Citizen.InvokeNative(0xEA386986E786A54F, Citizen.PointerValueIntInitialized(instance))
+                            DestroyCar(instance)
+                        end]]
+                        break
+                    end
+                end
+                if not found_instance then
+                    local LastVehicle = GetVehiclePedIsIn(PlayerPedId(), true)
+                    if GetVehicleNumberPlateText(LastVehicle) == user_vehicles[i].plate then
+                        SetEntityAsMissionEntity(LastVehicle, true, true)
+                        Citizen.InvokeNative(0xEA386986E786A54F, Citizen.PointerValueIntInitialized(LastVehicle))
+                    end
+                    SpawnReplacement(user_vehicles[i], i)
+                    TriggerServerEvent("garage:PayClaim", user_vehicles[i].plate, cost, Claim)
+                    if user_vehicles[i].claims < 10 then
+                        user_vehicles[i].claims = user_vehicles[i].claims + 1
+                    else
+                        user_vehicles[i].claims = 10
+                    end
+                    --[[if DoesEntityExist(instance) then
+                        SetEntityAsMissionEntity(instance, true, true)
+                        Citizen.InvokeNative(0xEA386986E786A54F, Citizen.PointerValueIntInitialized(instance))
+                    end]]
+                end
+            end
+        end
+    end
+end)
+--[[                         Citizen.CreateThread(function()
                             local instance = user_vehicles[i].instance
                             Citizen.Trace("CURRENT instance == "..instance)
                             local count = math.random(1,5)
@@ -792,8 +870,10 @@ end--]]
                                     replacementgarage.heading = 0.0
                                 end
                             end
-                            local isAreaCrowded = GetClosestVehicle(replacementgarage.x, replacementgarage.y, replacementgarage.z, 3.000, 0, 70)
-                            if DoesEntityExist(isAreaCrowded) then
+                        end)  
+ local isAreaCrowded = GetClosestVehicle(replacementgarage.x, replacementgarage.y, replacementgarage.z, 3.000, 0, 70)
+
+if DoesEntityExist(isAreaCrowded) then
                                 exports.pNotify:SendNotification({text = "Try again, the spawn location is occupied!", type = "error", queue = "left", timeout = 3000, layout = "centerRight"})
                             else
                                 local found_instance = false
@@ -810,19 +890,13 @@ end--]]
                                 end
                                 if not found_instance then
                                     SpawnReplacement(user_vehicles[i], i)
-	   		                          TriggerServerEvent("garage:pay_impound") 
+                                      TriggerServerEvent("garage:pay_impound") 
                                     if DoesEntityExist(instance) then
                                         DestroyCar(instance)
                                     end
                                 end
-                            end
-                        end)
-                    end
-                end)
-            end
-        end
-    end
-end--]]
+                            end]]
+
 --==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--
 --==============================================================================================================================--
 --                                                          Modify Menu                                                         --
@@ -865,7 +939,7 @@ function subGarageOptions(garage)
     end
     if garage.slots ~= emplacement_garage[garage.garage_id].maxslots then
         Menu.addOption("subgarage_options_menu", function()
-            if(Menu.GarageBool("Upgrade storage", vehiclebool, "~g~$~w~"..currentgaragecost,"~g~$~w~"..currentgaragecost,function(cb)   vehiclebool = cb end))then
+            if(Menu.GarageBool("Upgrade storage", vehiclebool, "~g~$~w~"..(currentgaragecost + 500),"~g~$~w~"..currentgaragecost + 500,function(cb)   vehiclebool = cb end))then
                 TriggerServerEvent("garage:buyslots", garage.garage_id, (garageposition + garage.slots), garageposition)
             end
         end)
@@ -1049,6 +1123,7 @@ function StoreVehicle()
                                 petrol_health = GetVehiclePetrolTankHealth(veh),
                                 vehicle_health = GetEntityHealth(veh),
                                 insurance = user_vehicles[i].insurance,
+                                claims = user_vehicles[i].claims,
                             }
 
                             for i = 0, 8 do
@@ -1102,6 +1177,7 @@ function StoreVehicle()
                                 vehicle_health = GetEntityHealth(veh),
                                 body_health = GetVehicleBodyHealth(veh),
                                 insurance = user_vehicles[i].insurance,
+                                claims = user_vehicles[i].claims,
                             }
 
                             for i = 0, 8 do
@@ -1403,3 +1479,8 @@ end
 --==============================================================================================================================--
 --==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--
 
+function reload()
+    TriggerServerEvent("garage:reload")
+end
+
+reload()

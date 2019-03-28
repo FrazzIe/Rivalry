@@ -769,7 +769,8 @@ Citizen.CreateThread(function()
                                             petrol_health = GetVehiclePetrolTankHealth(veh),
                                             body_health = GetVehicleBodyHealth(veh),
                                             vehicle_health = GetEntityHealth(veh),
-                                            insurance = "false",
+                                            insurance = "true",
+                                            claims = 1,
                                         }
 
                                         for i = 0, 8 do

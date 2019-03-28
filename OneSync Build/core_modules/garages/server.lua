@@ -497,7 +497,7 @@ AddEventHandler("garage:buyslots",function(gid, slots, slots_purchased)
     end)
 end)
 
-RegisterServerEvent("garage:insurance")
+--[[RegisterServerEvent("garage:insurance")
 AddEventHandler("garage:insurance",function(plate,model,index)
     local source = tonumber(source)
     local cost = (insurance[model] or 125000)/10
@@ -524,7 +524,7 @@ AddEventHandler("garage:insurance",function(plate,model,index)
             GNotify(source,"Insufficient funds!")
         end
     end)
-end)
+end)]]
 
 RegisterServerEvent("garage:sell")
 AddEventHandler("garage:sell", function(plate, model, index)
@@ -572,20 +572,41 @@ AddEventHandler("garage:pay_impound", function(index)
 end)
 
 RegisterServerEvent("garage:claim")
-AddEventHandler("garage:claim", function(index)
+AddEventHandler("garage:claim", function(plate, cost)
     local source = tonumber(source)
     TriggerEvent('core:getuser', source, function(user)
-        if user.get("wallet") >= 750 then
-            user.removeWallet(750)
-            TriggerClientEvent("garage:claim", source, index)
-        elseif user.get("bank") >= 750 then
-            user.removeBank(750)
-            TriggerClientEvent("garage:claim", source, index)
+        if(user.get("wallet") >= cost)then
+            TriggerClientEvent("Garage:ClaimSuccess", source, plate)
+        elseif(user.get("bank") >= cost)then
+            TriggerClientEvent("Garage:ClaimSuccess", source, plate)
         else
-            GNotify(source,"Insufficient funds")
+            GNotify(source,"Insufficient funds!")
         end
     end)
 end)
+
+RegisterServerEvent("garage:PayClaim")
+AddEventHandler("garage:PayClaim", function(plate, cost, claims)
+    local source = tonumber(source)
+    local cost = math.ceil(cost)
+    if claims < 10 then
+        Claim = claims + 1
+    else
+        Claim = 10
+    end
+    TriggerEvent('core:getuser', source, function(user)
+        if user.get("wallet") >= cost then
+            user.removeWallet(cost)
+            exports["GHMattiMySQL"]:QueryAsync("UPDATE vehicles SET claims=@claims WHERE (character_id = @character_id) AND (plate = @plate)", {["@claims"] = Claim, ["@character_id"] = user.get("characterID"), ["@plate"] = tonumber(plate, 16)})
+            GNotify(source,"Paid: $" .. cost)
+        elseif user.get("bank") >= cost then
+            user.removeBank(cost)
+            exports["GHMattiMySQL"]:QueryAsync("UPDATE vehicles SET claims=@claims WHERE (character_id = @character_id) AND (plate = @plate)", {["@claims"] = Claim, ["@character_id"] = user.get("characterID"), ["@plate"] = tonumber(plate, 16)})
+            GNotify(source,"Paid: $" .. cost)
+        end
+    end)
+end)
+
 
 function GNotify(source,message)
     TriggerClientEvent("pNotify:SendNotification", source, {text = message,type = "error",queue = "left",timeout = 2500,layout = "bottomCenter"})
@@ -667,6 +688,7 @@ function updateCar(source, data)
             ["@vehicle_health"] = data.vehicle_health,
             ["@body_health"] = data.body_health,
             ["@insurance"] = data.insurance,
+            ["@claims"] = data.claims,
         })
     end)
 end
