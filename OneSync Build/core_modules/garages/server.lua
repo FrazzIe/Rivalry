@@ -367,6 +367,11 @@ local emplacement_garage = {
     [12] = {name="Personal Garage", colour=3, sprite=357, x=-84.019691467285,y=-820.99694824219,z=36.028030395508,id=12,gname="Maze Tower [12]",cost=5000,heading=-365.0,maxslots=5}, -- Personal
     [13] = {name="Personal Garage", colour=3, sprite=357, x=1958.3830566406,y=3767.013671875,z=32.208053619385,id=13,gname="Sandy Shores [13]",cost=3000,heading=29.273107528687,maxslots=3},
 }
+AddEventHandler("onResourceStart", function()
+    exports["GHMattiMySQL"]:QueryAsync("UPDATE vehicles SET state=@state WHERE state!=@state", {
+                ["@state"] = "~g~Stored",
+            })
+end)
 
 RegisterServerEvent("garage:initialise")
 AddEventHandler("garage:initialise",function(source, identifier, character_id)
@@ -418,7 +423,7 @@ end)
 RegisterServerEvent("garage:out")
 AddEventHandler("garage:out",function(data)
     local source = tonumber(source)
-    --updateCar(source, data)
+    updateCar(source, data)
 end)
 
 RegisterServerEvent("garage:transfer")
