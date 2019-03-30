@@ -31,7 +31,7 @@ Citizen.CreateThread(function()
 			PlayerPosition = GetEntityCoords(PlayerPedId(), false)
 			for i = 1, #News.Locations do
 				 if #(PlayerPosition - News.Locations[i]) < 10 then
-					drawMarker(25, News.Locations[i].x, News.Locations[i].y, News.Locations[i].z, 1.0, 1.0, 1.5, 255, 255, 0, 255)
+					RenderMarker(25, News.Locations[i].x, News.Locations[i].y, News.Locations[i].z, 1.5, 1.5, 2.0, 255, 255, 0, 20)
 					if #(PlayerPosition - News.Locations[i]) < 1 then
 						if not News.Active then
 							DisplayHelpText("Press ~INPUT_CONTEXT~ to ~g~clock in~w~!")
@@ -53,7 +53,7 @@ Citizen.CreateThread(function()
 			end
 			if News.Active then
 				if #(PlayerPosition - News.GarageLocation.Marker) < 10 then
-					drawMarker(25, News.GarageLocation.Marker.x, News.GarageLocation.Marker.y, News.GarageLocation.Marker.z, 1.0, 1.0, 1.5, 255, 255, 0, 255)
+					RenderMarker(25, News.GarageLocation.Marker.x, News.GarageLocation.Marker.y, News.GarageLocation.Marker.z, 1.5, 1.5, 2.0, 255, 255, 0, 20)
 					if #(PlayerPosition - News.GarageLocation.Marker) < 1 then
 						if NewsVan then
 							DisplayHelpText("Press ~INPUT_CONTEXT~ to return your van!")

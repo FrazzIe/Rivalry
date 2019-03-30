@@ -613,7 +613,7 @@ Citizen.CreateThread(function()
         local pos = GetEntityCoords(PlayerPedId(), true)
         for k,v in ipairs(emplacement_vehicleshop) do
             if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 15.0)then
-                DrawMarker(25, v.x, v.y, v.z - 1, 0, 0, 0, 0, 0, 0, 1.5001, 1.5001, 0.5001, 177, 0, 0,255, 0, 0, 0,0)
+                RenderMarker(25, v.x, v.y, v.z, 1.5, 1.5, 2.0, 255, 255, 0, 20)
                 if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 1.0)then
                     DisplayHelpText("Press ~INPUT_CONTEXT~ to buy a vehicle!")
                     if IsControlJustReleased(1, 51) then -- INPUT_CELLPHONE_DOWN

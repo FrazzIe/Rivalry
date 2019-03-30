@@ -34,14 +34,6 @@ Store = {
         {Name = "Irn Bru", Id = 17, Cost = 4, Max = 100},
         {Name = "Coffee", Id = 18, Cost = 5, Max = 100},
     }},
-    {Category = "Tools", Items = {
-    	{Name = "Phone", Id = 200, Cost = 250, Max = 1},
-        {Name = "Repair kit", Id = 37, Cost = 45, Max = 10},
-        {Name = "Fishing Rod", Id = 76, Cost = 150, Max = 4},
-        {Name = "Binoculars", Id = 78, Cost = 50, Max = 1},
-        {Name = "Handcuffs", Id=44, Cost = 30, Max = 3},
-        --{Name = "Bleach", Id = 53, Cost = 50, Max = 4},
-    }},
     {Category = "Medical", Items = {
         {Name = "Medkit", Id = 34, Cost = 50, Max = 10},
     }},
@@ -50,7 +42,25 @@ Store = {
         {Name = "Cigar", Id=79, Cost = 10, Max = 100},
     }},
 }
+
+ToolMarket = {
+	{Category = "Tools", Items = {
+		{Name = "Phone", Id = 200, Cost = 250, Max = 1},
+        {Name = "Repair kit", Id = 37, Cost = 45, Max = 10},
+        {Name = "Fishing Rod", Id = 76, Cost = 150, Max = 4},
+        {Name = "Binoculars", Id = 78, Cost = 50, Max = 1},
+        {Name = "Handcuffs", Id=44, Cost = 30, Max = 3},
+        --{Name = "Bleach", Id = 53, Cost = 50, Max = 4},
+	}},
+}
 for k,v in pairs(Store) do
+	for i,j in pairs(v.Items) do
+		j.Quantity = {}
+		for index = 1, j.Max do j.Quantity[#j.Quantity+1] = tostring(index) end
+	end
+end
+
+for k,v in pairs(ToolMarket) do
 	for i,j in pairs(v.Items) do
 		j.Quantity = {}
 		for index = 1, j.Max do j.Quantity[#j.Quantity+1] = tostring(index) end
@@ -83,6 +93,16 @@ stores = {
 	    vector3(316.52230834961,-588.90661621094,43.291831970215),
 	    vector3(232.7077331543,-423.32092285156,-118.19955444336),
 	},
+}
+
+Tools = {
+	vector3(45.837783813477,-1749.1278076172,29.622262954712),
+	vector3(2747.8273925781,3472.5925292969,55.673179626465)
+}
+
+ToolsBlips = {
+	{ x = 45.837783813477, y = -1749.1278076172, z = 29.622262954712},
+	{ x = 2747.8273925781, y = 3472.5925292969, z = 55.673179626465}
 }
 
 stores2 = {
@@ -119,11 +139,13 @@ Citizen.CreateThread(function()
 	end
 	while true do
 		Citizen.Wait(0)
-        local pos = GetEntityCoords(PlayerPedId(), false)
+		local PlayerPed = PlayerPedId()
+        local PlayerPosition = GetEntityCoords(PlayerPed, false)
         for Index = 1, #stores.normal do
-            if #(pos - stores.normal[Index]) < 15.0 then
-                DrawMarker(1, stores.normal[Index].x, stores.normal[Index].y, stores.normal[Index].z - 1, 0, 0, 0, 0, 0, 0, 1.5001, 1.5001, 0.7555, 1555, 90, 10,150, 0, 0, 0,0)
-                if #(pos - stores.normal[Index]) < 1.0 then
+            if #(PlayerPosition - stores.normal[Index]) < 15.0 then
+				RenderMarker(25, stores.normal[Index].x, stores.normal[Index].y, stores.normal[Index].z, 1.5, 1.5, 2.0, 255, 255, 0, 20)
+                if #(PlayerPosition - stores.normal[Index]) < 1.0 then
+                	DisplayHelpText("Press ~INPUT_CONTEXT~ to open the market!")
 					if IsControlJustPressed(1, 51) then
 						if not WarMenu.IsMenuOpened("Items") then
 							if not WarMenu.DoesMenuExist("Items") then
@@ -182,7 +204,87 @@ Citizen.CreateThread(function()
 							end
 						end
 					end
-                elseif #(pos - stores.normal[Index]) > 1.0 then
+                elseif #(PlayerPosition - stores.normal[Index]) > 1.0 then
+                	if WarMenu.IsMenuOpened("Items") then
+                		WarMenu.CloseMenu()
+                	end
+                end
+            end
+		end
+	end
+end)
+
+Citizen.CreateThread(function()
+	CreateBlip("Davis Mega Mall", 402, 21, Tools[1].x, Tools[1].y, Tools[1].z)
+	CreateBlip("You tool", 402, 21, Tools[2].x, Tools[2].y, Tools[2].z)
+	while true do
+		Citizen.Wait(0)
+		local PlayerPed = PlayerPedId()
+        local PlayerPosition = GetEntityCoords(PlayerPed, false)
+        for Index = 1, #Tools do
+            if #(PlayerPosition - Tools[Index]) < 15.0 then
+				RenderMarker(25, Tools[Index].x, Tools[Index].y, Tools[Index].z, 1.5, 1.5, 2.0, 255, 255, 0, 20)
+                if #(PlayerPosition - Tools[Index]) < 1.0 then
+                	DisplayHelpText("Press ~INPUT_CONTEXT~ to open the market!")
+					if IsControlJustPressed(1, 51) then
+						if not WarMenu.IsMenuOpened("Items") then
+							if not WarMenu.DoesMenuExist("Items") then
+								WarMenu.CreateMenu("Items", "Department Store")
+								WarMenu.SetSpriteTitle("Items", "shopui_title_clubhousemod")
+								WarMenu.SetSubTitle("Items", "CATEGORIES")
+								WarMenu.SetMenuX("Items", 0.6)
+								WarMenu.SetMenuY("Items", 0.15)
+								WarMenu.SetTitleBackgroundColor("Items", 0, 107, 87)
+								for k,v in pairs(Store) do
+									WarMenu.CreateSubMenu(v.Category, "Items", v.Category.." SECTION")
+									for i,j in pairs(v.Items) do
+										WarMenu.CreateSubMenu(j.Name, v.Category, j.Name)
+									end
+								end
+								WarMenu.OpenMenu("Items")
+							else
+								currentItemIndex = 1
+								WarMenu.OpenMenu("Items")
+							end
+						else
+							WarMenu.CloseMenu()
+						end		
+					end
+					if WarMenu.IsMenuOpened("Items") then
+						for k,v in pairs(Store) do
+							WarMenu.MenuButton(v.Category, v.Category)
+						end
+						if WarMenu.Button("Close") then
+							WarMenu.CloseMenu()
+						end
+						WarMenu.Display()
+					end
+					for k,v in pairs(Store) do
+						if WarMenu.IsMenuOpened(v.Category) then
+							for i,j in pairs(v.Items) do
+								if WarMenu.MenuButton(j.Name, j.Name) then
+									currentItemIndex = 1
+								end
+							end
+							WarMenu.Display()
+						end
+					end
+					for k,v in pairs(Store) do
+						for i,j in pairs(v.Items) do
+							if WarMenu.IsMenuOpened(j.Name) then
+								if WarMenu.Button("Buy "..currentItemIndex.." "..j.Name.."(s)", "$"..j.Cost*currentItemIndex) then
+									TriggerServerEvent("item:buy", j.Id, currentItemIndex)
+								end
+								if WarMenu.ComboBox("Quantity", j.Quantity, currentItemIndex, selectedItemIndex, function(currentIndex, selectedIndex)
+									currentItemIndex = currentIndex
+									selectedItemIndex = selectedIndex
+								end) then
+								end
+								WarMenu.Display()
+							end
+						end
+					end
+                elseif #(PlayerPosition - Tools[Index]) > 1.0 then
                 	if WarMenu.IsMenuOpened("Items") then
                 		WarMenu.CloseMenu()
                 	end

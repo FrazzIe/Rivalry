@@ -377,7 +377,7 @@ end
 			if IsFisher then
 				for Index = 1, #Fishing.Data.Locations.Service do
 					if #(PlayerPosition - Fishing.Data.Locations.Service[Index]) < 10 then
-						DrawMarker(25, Fishing.Data.Locations.Service[Index].x, Fishing.Data.Locations.Service[Index].y, Fishing.Data.Locations.Service[Index].z - 1, 0, 0, 0, 0, 0, 0, 1.0, 1.0, 1.5, 0, 0, 255, 155, 0, 0, 2, 0, 0, 0, 0)
+						RenderMarker(25, Fishing.Data.Locations.Service[Index].x, Fishing.Data.Locations.Service[Index].y, Fishing.Data.Locations.Service[Index].z, 1.5, 1.5, 2.0, 255, 255, 0, 20)
 						if #(PlayerPosition - Fishing.Data.Locations.Service[Index]) < 1 then
 							if OnDuty then
 								DisplayHelpText("Press ~INPUT_CONTEXT~ to sign off duty!")
@@ -448,7 +448,7 @@ end
 				local Distance = #(Fishing.Data.fishmarkets[Market] - PlayerPosition)
 
 				if Distance < 15.0 then
-					drawMarker(25, Fishing.Data.fishmarkets[Market].x, Fishing.Data.fishmarkets[Market].y, Fishing.Data.fishmarkets[Market].z, 2.001, 2.0001, 0.5001, 0, 155, 255, 200)
+					RenderMarker(25, Fishing.Data.fishmarkets[Market].x, Fishing.Data.fishmarkets[Market].y, Fishing.Data.fishmarkets[Market].z, 1.5, 1.5, 2.0, 255, 255, 0, 20)
 					if Distance < 1.0 then
 						
 						if IsControlJustPressed(1, 51) then

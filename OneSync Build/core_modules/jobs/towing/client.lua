@@ -62,7 +62,7 @@ Citizen.CreateThread(function()
         if isTow then
 	        for k,v in ipairs(tow_locations.signOn) do
 	            if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 15.0)then
-	                DrawMarker(1, v.x, v.y, v.z - 1, 0, 0, 0, 0, 0, 0, 1.0001, 1.0001, 0.5001, 1555, 0, 0,165, 0, 0, 0,0)
+	                RenderMarker(25, v.x, v.y, v.z, 1.5, 1.5, 2.0, 255, 255, 0, 20)
 	                if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 1.0001)then
 	                    if not towInService then
 	                        DisplayHelpText("Press ~INPUT_CONTEXT~ to ~g~clock in~w~!")
@@ -81,7 +81,7 @@ Citizen.CreateThread(function()
 	        if towInService then
 		        for k,v in ipairs(tow_locations.vehicle) do
 		            if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 20.0)then
-		                DrawMarker(1, v.x, v.y, v.z - 1, 0, 0, 0, 0, 0, 0, 3.5001, 3.5001, 0.5001, 1555, 0, 0,165, 0, 0, 0,0)
+		                RenderMarker(25, v.x, v.y, v.z, 1.5, 1.5, 2.0, 255, 255, 0, 20)
 		                if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 3.5001)then
 		                    if not towVehicle then
 		                        DisplayHelpText("Press ~INPUT_CONTEXT~ to ~g~collect your truck~w~!")
@@ -107,7 +107,7 @@ Citizen.CreateThread(function()
 		        end
 			    for k,v in ipairs(tow_locations.impound) do
 			    	if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 20.0)then
-			       		DrawMarker(1, v.x, v.y, v.z - 1, 0, 0, 0, 0, 0, 0, 3.5001, 3.5001, 0.5001, 1555, 0, 0,165, 0, 0, 0,0)
+			       		RenderMarker(25, v.x, v.y, v.z, 1.5, 1.5, 2.0, 255, 255, 0, 20)
 			        	if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 3.5001)then
 	                    	local closestVeh = GetClosestVehicle(v.x, v.y, v.z, 3.000, 0, 70)
 	                    	local plate = GetVehicleNumberPlateText(closestVeh)
@@ -144,7 +144,7 @@ Citizen.CreateThread(function()
 	    end
 		for k,v in ipairs(tow_locations.retrieval.markers) do
 			if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 20.0)then
-				DrawMarker(1, v.x, v.y, v.z - 1, 0, 0, 0, 0, 0, 0, 1.0001, 1.0001, 0.5001, 1555, 0, 0,165, 0, 0, 0,0)
+				RenderMarker(25, v.x, v.y, v.z, 1.5, 1.5, 2.0, 255, 255, 0, 20)
 				if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 1.5001)then
 					DisplayHelpText("Press ~INPUT_CONTEXT~ to see if you have any impounded vehicles!")
 					if IsControlJustReleased(1, 51) then -- INPUT_CELLPHONE_DOWN
@@ -339,7 +339,7 @@ Citizen.CreateThread(function()
 							local coords = GetOffsetFromEntityInWorldCoords(closestVeh, -1.5, -3.2, 0)
 							local dist = GetDistanceBetweenCoords(myCoord.x, myCoord.y, myCoord.z, coords.x, coords.y, coords.z, true)
 							if dist < 10 then
-								DrawMarker(10, coords.x-0.1, coords.y, coords.z-0.5, 0, 0, 0, 0, 0, 0, 1.0, 1.0, 1.0, 255, 0, 0, 200, 0, 0, 0, 0)
+								RenderMarker(25, coords.x-0.1, coords.y, coords.z, 1.5, 1.5, 2.0, 255, 255, 0, 20)
 							end
 							if dist < 1.5 then 
 								DisplayHelpText("Press ~INPUT_CONTEXT~ to tow\nPress ~INPUT_INTERACTION_MENU~ for help\n~g~+~w~/~r~-~w~ to adjust hook")

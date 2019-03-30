@@ -55,17 +55,15 @@ Rivalry = {
 		},
 		Banks = {
 			Blaine = {
-				[1] = {
-					Name = "Blaine County Savings",
-					LockedBoxes = {
-						[1] = false,
-						[2] = false,
-						[3] = false,
-						[4] = false,
-						[5] = false,
-					},
-					LastRobbed = 0
-				}
+				Name = "Blaine County Savings",
+				LockedBoxes = {
+					[1] = false,
+					[2] = false,
+					[3] = false,
+					[4] = false,
+					[5] = false,
+				},
+				LastRobbed = 0
 			},
 			Fleeca = {
 				[1] = {
@@ -222,4 +220,21 @@ AddEventHandler("Rivalry.Vault.Payout", function(TotalLocks)
 			User.addDirty(Payout)
 		end
 	end)
+end)
+
+RegisterServerEvent("Rivalry.Blaine.Payout")
+AddEventHandler("Rivalry.Blaine.Payout", function()
+	local Source = source
+	TriggerEvent("core:getuser", Source, function(User)
+		User.addDirty(11)
+	end)
+end)
+
+RegisterServerEvent("Rivalry.Rob.Blaine.Safebox")
+AddEventHandler("Rivalry.Rob.Blaine.Safebox", function(LockBoxNumber)
+	local Source = source
+	if Rivalry.Robberies.Banks.Blaine.LockedBoxes[LockBoxNumber] == false then
+		TriggerClientEvent("Rivalry.Rob.Blaine.Safebox", Source)
+		Rivalry.Robberies.Banks.Blaine.LockedBoxes[LockBoxNumber] = true
+	end
 end)

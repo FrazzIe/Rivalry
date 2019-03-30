@@ -505,7 +505,7 @@ Citizen.CreateThread(function()
 			local Ped = PlayerPedId()
 			local PlayerPosition = GetEntityCoords(Ped, false)
 			if #(PlayerPosition - locations.service) < 20 then
-				drawMarker(25, locations.service.x, locations.service.y, locations.service.z, 1.0, 1.0, 1.5, 0, 255, 0, 255)
+				RenderMarker(25, locations.service.x, locations.service.y, locations.service.z, 1.5, 1.5, 2.0, 255, 255, 0, 20)
 				if #(PlayerPosition - locations.service) < 1 then
 					if isTruckerInService then
 						DisplayHelpText("Press ~INPUT_CONTEXT~ to go ~r~off duty")
@@ -519,7 +519,7 @@ Citizen.CreateThread(function()
 			end
 			if isTruckerInService then
 				if #(PlayerPosition - locations.truck) < 20 then
-					drawMarker(25, locations.truck.x, locations.truck.y, locations.truck.z, 3.0, 3.0, 3.5, 0, 255, 0, 255)
+					RenderMarker(25, locations.truck.x, locations.truck.y, locations.truck.z, 1.5, 1.5, 2.0, 255, 255, 0, 20)
 					if #(PlayerPosition - locations.truck) < 3 then
 						if trucker_truck and trucker_job then
 							DisplayHelpText("Press ~INPUT_CONTEXT~ to return a truck\nPress ~INPUT_DETONATE~ to cancel job")
@@ -568,7 +568,7 @@ Citizen.CreateThread(function()
 							SetBlipRoute(trucker_trailer_blip, true)
 						end
 						if #(PlayerPosition - locations.trailer.marker) < 20 then
-							drawMarker(25, locations.trailer.marker.x, locations.trailer.marker.y, locations.trailer.marker.z, 1.0, 1.0, 1.5, 0, 255, 0, 255)
+							RenderMarker(25, locations.trailer.marker.x, locations.trailer.marker.y, locations.trailer.marker.z, 1.5, 1.5, 2.0, 255, 255, 0, 20)
 							if #(PlayerPosition - locations.trailer.marker) < 1 then
 								if not IsPedSittingInAnyVehicle(Ped) then
 									DisplayHelpText("Press ~INPUT_CONTEXT~ to get a trailer!")

@@ -422,7 +422,7 @@ Citizen.CreateThread(function()
 			local Pos = GetEntityCoords(Ped, false)
 			local Distance = #(GoPostal.Data.Service - Pos)
 			if Distance < 10 then
-				DrawMarker(25, GoPostal.Data.Service.x, GoPostal.Data.Service.y, GoPostal.Data.Service.z - 0.95, 0, 0, 0, 0, 0, 0, 1.0, 1.0, 1.5, 0, 0, 255, 155, 0, 0, 2, 0, 0, 0, 0)
+				RenderMarker(25, GoPostal.Data.Service.x, GoPostal.Data.Service.y, GoPostal.Data.Service.z, 1.5, 1.5, 2.0, 255, 255, 0, 20)
 				if Distance < 1 then
 					if OnDuty then
 						DisplayHelpText("Press ~INPUT_CONTEXT~ to ~g~clock out~w~!")
@@ -442,7 +442,7 @@ Citizen.CreateThread(function()
 			if OnDuty then
 				local Distance = #(GoPostal.Data.Vehicles.Location - Pos)
 				if Distance < 10 then
-					DrawMarker(25, GoPostal.Data.Vehicles.Location.x, GoPostal.Data.Vehicles.Location.y, GoPostal.Data.Vehicles.Location.z - 0.95, 0, 0, 0, 0, 0, 0, 1.0, 1.0, 1.5, 0, 0, 255, 155, 0, 0, 2, 0, 0, 0, 0)
+					RenderMarker(25, GoPostal.Data.Vehicles.Location.x, GoPostal.Data.Vehicles.Location.y, GoPostal.Data.Vehicles.Location.z, 1.5, 1.5, 2.0, 255, 255, 0, 20)
 					if Distance < 1 then
 						if GoPostalTruck then
 							DisplayHelpText("Press ~INPUT_CONTEXT~ to return your vehicle!")
@@ -492,7 +492,7 @@ Citizen.CreateThread(function()
 					if DoesEntityExist(Package) and IsEntityAttachedToEntity(Package, Ped) then
 						local DistanceThree = #(GoPostal.Data.Job[GoPostalJob] - Pos)
 						if DistanceThree < 20 then
-							DrawMarker(25, GoPostal.Data.Job[GoPostalJob].x, GoPostal.Data.Job[GoPostalJob].y, GoPostal.Data.Job[GoPostalJob].z - 0.95, 0, 0, 0, 0, 0, 0, 2.0, 2.0, 2.5, 0, 0, 255, 155, 0, 0, 2, 0, 0, 0, 0)
+							RenderMarker(25, GoPostal.Data.Job[GoPostalJob].x, GoPostal.Data.Job[GoPostalJob].y, GoPostal.Data.Job[GoPostalJob].z, 1.5, 1.5, 2.0, 255, 255, 0, 20)
 							if DistanceThree < 2 then
 								DisplayHelpText("Press ~INPUT_CONTEXT~ to place the package!")
 								if IsControlJustPressed(1, 51) then

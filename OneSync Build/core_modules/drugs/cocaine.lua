@@ -194,7 +194,7 @@ Citizen.CreateThread(function()
 			end
 		end
 		if CokeDistance < 20 then
-			drawMarker(25, Cocaine.Locations.Pickup.x, Cocaine.Locations.Pickup.y, Cocaine.Locations.Pickup.z, 1.0, 1.0, 1.5, 255, 255, 0, 255)
+			RenderMarker(25, Cocaine.Locations.Pickup.x, Cocaine.Locations.Pickup.y, Cocaine.Locations.Pickup.z, 1.5, 1.5, 2.0, 255, 255, 0, 20)
 			if CokeDistance < 1 then
 				if not isFull() then
 					DisplayHelpText("Press ~INPUT_CONTEXT~ to purchase dirty cocaine for $"..Cocaine.Cost.Dirty.." each!")
@@ -212,7 +212,7 @@ Citizen.CreateThread(function()
 			end
 		end
 		if VanDistance < 20 then
-			drawMarker(25, Cocaine.Locations.Van.x, Cocaine.Locations.Van.y, Cocaine.Locations.Van.z, 2.0, 2.0, 2.5, 255, 255, 0, 255)
+			RenderMarker(25, Cocaine.Locations.Van.x, Cocaine.Locations.Van.y, Cocaine.Locations.Van.z, 1.5, 1.5, 2.0, 255, 255, 0, 20)
 			if VanDistance < 2 then
 				if Cocaine.Vehicle.Handle == nil then
 					DisplayHelpText("Press ~INPUT_CONTEXT~ to rent a Post OP van for $"..Cocaine.Cost.Van.."!")

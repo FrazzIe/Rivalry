@@ -96,7 +96,7 @@ Citizen.CreateThread(function()
 			for k,v in pairs(properties.houses.normal) do
 				local Distance = GetDistanceBetweenCoords(pos.x, pos.y, pos.z, v.coordinates.x, v.coordinates.y, v.coordinates.z, true)
 				if Distance < 10 then
-					drawMarker(25, v.coordinates.x, v.coordinates.y, v.coordinates.z, 1.0, 1.0, 1.5, 255, 255, 0, 255)
+					RenderMarker(25, v.coordinates.x, v.coordinates.y, v.coordinates.z, 1.5, 1.5, 2.0, 255, 255, 0, 20)
 					if Distance <= 2 then
 						if not shownHelp then
 							shownHelp = true
@@ -433,7 +433,7 @@ Citizen.CreateThread(function()
 				local VaultDistance = GetDistanceBetweenCoords(pos.x, pos.y, pos.z, v.coordinates.vault.x, v.coordinates.vault.y, v.coordinates.vault.z, true)
 
 				if OutsideDistance < 10 then
-					drawMarker(25, v.coordinates.outside.x, v.coordinates.outside.y, v.coordinates.outside.z, 1.0, 1.0, 1.5, 255, 255, 0, 255)
+					RenderMarker(25, v.coordinates.outside.x, v.coordinates.outside.y, v.coordinates.outside.z, 1.5, 1.5, 2.0, 255, 255, 0, 20)
 					if OutsideDistance < 2 then
 						if not shownHelp then
 							shownHelp = true
@@ -587,7 +587,7 @@ Citizen.CreateThread(function()
 					end
 				end
 				if InsideDistance < 10 then
-					drawMarker(25, v.coordinates.inside.x, v.coordinates.inside.y, v.coordinates.inside.z, 1.0, 1.0, 1.5, 255, 255, 0, 255)
+					RenderMarker(25, v.coordinates.inside.x, v.coordinates.inside.y, v.coordinates.inside.z, 1.5, 1.5, 2.0, 255, 255, 0, 20)
 					if InsideDistance < 2 then
 						if not shownInsideHelp then
 							shownInsideHelp = true
@@ -636,7 +636,7 @@ Citizen.CreateThread(function()
 					end					
 				end
 				if VaultDistance < 10 then
-					drawMarker(25, v.coordinates.vault.x, v.coordinates.vault.y, v.coordinates.vault.z, 1.0, 1.0, 1.5, 255, 255, 0, 255)
+					RenderMarker(25, v.coordinates.vault.x, v.coordinates.vault.y, v.coordinates.vault.z, 1.5, 1.5, 2.0, 255, 255, 0, 20)
 					if VaultDistance < 2 then
 						if not shownVaultHelp then
 							shownVaultHelp = true
@@ -855,7 +855,7 @@ Citizen.CreateThread(function()
 			for k,v in pairs(properties.businesses.normal) do
 				local Distance = GetDistanceBetweenCoords(pos.x, pos.y, pos.z, v.coordinates.x, v.coordinates.y, v.coordinates.z, true)
 				if Distance < 10 then
-					drawMarker(25, v.coordinates.x, v.coordinates.y, v.coordinates.z, 1.0, 1.0, 1.5, 255, 255, 0, 255)
+					RenderMarker(25, v.coordinates.x, v.coordinates.y, v.coordinates.z, 1.5, 1.5, 2.0, 255, 255, 0, 20)
 					if Distance < 2 then
 						if not shownHelp then
 							shownHelp = true
@@ -1186,7 +1186,7 @@ Citizen.CreateThread(function()
 				local VaultDistance = GetDistanceBetweenCoords(pos.x, pos.y, pos.z, v.coordinates.vault.x, v.coordinates.vault.y, v.coordinates.vault.z, true)
 
 				if OutsideDistance < 10 then
-					drawMarker(25, v.coordinates.outside.x, v.coordinates.outside.y, v.coordinates.outside.z, 1.0, 1.0, 1.5, 255, 255, 0, 255)
+					RenderMarker(25, v.coordinates.outside.x, v.coordinates.outside.y, v.coordinates.outside.z, 1.5, 1.5, 2.0, 255, 255, 0, 20)
 					if OutsideDistance < 2 then
 						if not shownHelp then
 							shownHelp = true
@@ -1315,7 +1315,7 @@ Citizen.CreateThread(function()
 					end
 				end
 				if InsideDistance < 10 then
-					drawMarker(25, v.coordinates.inside.x, v.coordinates.inside.y, v.coordinates.inside.z, 1.0, 1.0, 1.5, 255, 255, 0, 255)
+					RenderMarker(25, v.coordinates.inside.x, v.coordinates.inside.y, v.coordinates.inside.z, 1.5, 1.5, 2.0, 255, 255, 0, 20)
 					if InsideDistance < 2 then
 						if not shownInsideHelp then
 							shownInsideHelp = true
@@ -1364,7 +1364,7 @@ Citizen.CreateThread(function()
 					end					
 				end
 				if VaultDistance < 10 then
-					drawMarker(25, v.coordinates.vault.x, v.coordinates.vault.y, v.coordinates.vault.z, 1.0, 1.0, 1.5, 255, 255, 0, 255)
+					RenderMarker(25, v.coordinates.vault.x, v.coordinates.vault.y, v.coordinates.vault.z, 1.5, 1.5, 2.0, 255, 255, 0, 20)
 					if VaultDistance < 2 then
 						if not shownVaultHelp then
 							shownVaultHelp = true

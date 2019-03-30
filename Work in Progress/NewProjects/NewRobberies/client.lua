@@ -8,6 +8,10 @@ function DisplayHelpText(Str)
 	EndTextCommandDisplayHelp(0, 0, 0, -1)
 end
 
+function Notify(Message, Time)
+	exports.pNotify:SendNotification({text = Message or "", type = "error", timeout = Time or 3000, layout = "centerRight", queue = "left"})
+end
+
 --[[ Store Robberies ]]--
 Citizen.CreateThread(function()
 	while true do
@@ -45,17 +49,21 @@ Citizen.CreateThread(function()
 	end
 end)
 
---[[Citizen.CreateThread(function()
+Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(0)
 		local PlayerPed = PlayerPedId()
 		local PlayerPosition = GetEntityCoords(PlayerPed, false)
 		if #(PlayerPosition - Rivalry.Robberies.Banks.Blaine.LockedBoxes[1]) < 20 then
-			for Index = 1, #Rivalry.Robberires.Banks.Blaine.LockedBoxes do
+			for Index = 1, #Rivalry.Robberies.Banks.Blaine.LockedBoxes do
 				if #(PlayerPosition - Rivalry.Robberies.Banks.Blaine.LockedBoxes[Index]) < 1 then
 					DisplayHelpText("Press ~INPUT_CONTEXT~ to lockpick safe box!")
 					if IsControlJustPressed(1, 51) then
-						TriggerServerEvent("Rivalry.Rob.Blaine.Safebox", Index)
+						if exports.core_modules:GetItemQuantity(36) > 0 then
+							TriggerServerEvent("Rivalry.Rob.Blaine.Safebox", Index)
+						else
+							Notify("You do not have any lockpicks!", 2500)
+						end
 					end
 				end
 			end
@@ -63,7 +71,7 @@ end)
 	end
 end)
 
-Citizen.CreateThread(function()
+--[[Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(0)
 		local PlayerPed = PlayerPedId()
@@ -126,6 +134,36 @@ AddEventHandler("Rivalry.Rob.StoreVault", function()
 	end)
 end)
 
+RegisterNetEvent("Rivalry.Rob.Blaine.Safebox")
+AddEventHandler("Rivalry.Rob.Blaine.Safebox", function()
+	Citizen.CreateThread(function()
+		if DoesEntityExist(PlayerPedId()) and not IsEntityDead(PlayerPedId()) then
+			OpenLockPickGui()
+		end
+	end)
+end)
+
+function OpenLockPickGui()
+	if exports.core_modules:GetItemQuantity(36) > 0 then
+		SetPlayerControl(PlayerId(), 0, 0)
+		SetNuiFocus(true, true)
+		SendNUIMessage({lockpick = true, pins = exports.core_modules:GetItemQuantity(36)})
+		RequestAnimDict("mini@safe_cracking")
+		while not HasAnimDictLoaded("mini@safe_cracking") do
+			Wait(0)
+		end
+		TaskPlayAnim(PlayerPedId(), "mini@safe_cracking", "dial_turn_clock_fast", 4.0, -4, -1, 1, 0, false, false, false)
+	else
+		Notify("You do not have any lockpicks!", 2500)
+	end
+end
+
+function CloseLockPickGui()
+	SetNuiFocus(false, false)
+	SendNUIMessage({lockpick = false})
+	SetPlayerControl(PlayerId(), 1, 0)
+end
+
 -- Open Gui and Focus NUI
 function OpenComboLockGui()
 	SetPlayerControl(PlayerId(), 0, 0)
@@ -140,6 +178,7 @@ end
 
 -- Close Gui and disable NUI
 function CloseComboLockGui()
+	ClearPedTasks(PlayerPedId())
 	SetNuiFocus(false, false)
 	SendNUIMessage({active = false})
 	SetPlayerControl(PlayerId(), 1, 0)
@@ -156,6 +195,30 @@ RegisterNUICallback('close', function(data, cb)
 	TotalLocks = 0
 	NumberOfPins = 0
 	cb('ok')
+end)
+
+RegisterNUICallback('lockpickclose', function(data, cb)
+	TotalLocks = exports.core_modules:GetItemQuantity(36)
+	TotalLocksAfter = data.lockpicks
+	Difference = TotalLocks - TotalLocksAfter
+	if Difference > 0 then
+		Notify("You don't have any more lockpicks!")
+		exports.core_modules:removeQty(36, Difference)
+	end
+	CloseLockPickGui()
+	ClearPedTasks(PlayerPedId())
+end)
+
+RegisterNUICallback('lockpickwin', function(data, cb)
+	TotalLocks = exports.core_modules:GetItemQuantity(36)
+	TotalLocksAfter = data.lockpicks
+	Difference = TotalLocks - TotalLocksAfter
+	if Difference > 0 then
+		exports.core_modules:removeQty(36, Difference)
+	end
+	CloseLockPickGui()
+	ClearPedTasks(PlayerPedId())
+	TriggerServerEvent('Rivalry.Blaine.Payout')
 end)
 
 RegisterNUICallback('lockclick', function(data, cb)

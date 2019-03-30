@@ -108,7 +108,7 @@ Citizen.CreateThread(function()
         local Ped = PlayerPedId()
         local PlayerPosition = GetEntityCoords(Ped, false)
             if #(PlayerPosition - jobs[randomizedJob]) < 10 then
-                drawMarker(25, jobs[randomizedJob].x, jobs[randomizedJob].y, jobs[randomizedJob].z - 0.1, 1.0, 1.0, 1.5, 0, 255, 0, 255)
+                RenderMarker(25, jobs[randomizedJob].x, jobs[randomizedJob].y, jobs[randomizedJob].z, 1.5, 1.5, 2.0, 255, 255, 0, 20)
                 if #(PlayerPosition - jobs[randomizedJob]) < 1 then
                     DisplayHelpText("Press ~INPUT_CONTEXT~ to work!")
                     if IsControlJustPressed(1, 51) then

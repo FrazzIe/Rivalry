@@ -436,7 +436,7 @@ Citizen.CreateThread(function()
 		local Ped = PlayerPedId()
 		local PlayerPosition = GetEntityCoords(Ped, false)
 		if #(PlayerPosition - HealVacinity) < 10 then
-			DrawMarker(25, HealVacinity.x, HealVacinity.y, HealVacinity.z - 0.95, 0, 0, 0, 0, 0, 0, 1.0, 1.0, 1.5, 0, 0, 255, 45, 0, 0, 2, 0, 0, 0, 0)
+			RenderMarker(25, HealVacinity.x, HealVacinity.y, HealVacinity.z, 1.5, 1.5, 2.0, 255, 255, 0, 20)
 			if #(PlayerPosition - HealVacinity) < 2 then
 				DisplayHelpText("Press ~INPUT_CONTEXT~ to recieve medical treatment ($500)")
 				if IsControlJustPressed(1, 51) then

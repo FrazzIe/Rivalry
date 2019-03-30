@@ -26,7 +26,7 @@ Citizen.CreateThread(function()
 			PlayerPosition = GetEntityCoords(PlayerPedId(), false)
 			for i = 1, #DOJ.Locations, 1 do
 				if #(PlayerPosition - DOJ.Locations[i]) < 20 then
-					drawMarker(25, DOJ.Locations[i].x, DOJ.Locations[i].y, DOJ.Locations[i].z, 1.0, 1.0, 1.5, 255, 255, 0, 255)
+					RenderMarker(25, DOJ.Locations[i].x, DOJ.Locations[i].y, DOJ.Locations[i].z, 1.5, 1.5, 2.0, 255, 255, 0, 20)
 					if #(PlayerPosition - DOJ.Locations[i]) < 1 then
 						if not DOJ.Active then
 							DisplayHelpText("Press ~INPUT_CONTEXT~ to ~g~clock in~w~!")

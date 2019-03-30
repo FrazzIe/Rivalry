@@ -154,6 +154,7 @@ client_script 'interaction/head_display_talking.lua'
 --Inventory
 export 'GetItemQuantity'
 export 'isFull'
+export 'removeQty'
 --Hunger bars
 export 'getBars'
 --Jobs/Towing

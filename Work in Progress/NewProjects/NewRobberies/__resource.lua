@@ -7,6 +7,7 @@ files {
   'html/index.pug',
   'html/styles.css',
   'html/js/index.js',
+  'html/js/lockpick.js',
   'html/css/style.css',
   'html/scss/style.scss',
 }

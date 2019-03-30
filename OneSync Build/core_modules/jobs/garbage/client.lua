@@ -148,7 +148,7 @@ Citizen.CreateThread(function()
 			for Index = 1, #Garbage.Data.Service do
 				local Distance = #(Garbage.Data.Service[Index] - Pos)
 				if Distance < 10 then
-					DrawMarker(25, Garbage.Data.Service[Index].x, Garbage.Data.Service[Index].y, Garbage.Data.Service[Index].z - 1, 0, 0, 0, 0, 0, 0, 1.0, 1.0, 1.5, 0, 0, 255, 155, 0, 0, 2, 0, 0, 0, 0)
+					RenderMarker(25, Garbage.Data.Service[Index].x, Garbage.Data.Service[Index].y, Garbage.Data.Service[Index].z, 1.5, 1.5, 2.0, 255, 255, 0, 20)
 					if Distance < 1 then
 						if OnDuty then
 							DisplayHelpText("Press ~INPUT_CONTEXT~ to ~g~clock out~w~!")
@@ -171,7 +171,7 @@ Citizen.CreateThread(function()
 			if OnDuty then
 				local DistanceTwo = #(Garbage.Data.Vehicles.Location - Pos)
 				if DistanceTwo < 20 then
-					DrawMarker(25, Garbage.Data.Vehicles.Location.x, Garbage.Data.Vehicles.Location.y, Garbage.Data.Vehicles.Location.z - 0.9, 0, 0, 0, 0, 0, 0, 1.0, 1.0, 1.5, 0, 0, 255, 155, 0, 0, 2, 0, 0, 0, 0)
+					RenderMarker(25, Garbage.Data.Vehicles.Location.x, Garbage.Data.Vehicles.Location.y, Garbage.Data.Vehicles.Location.z, 1.5, 1.5, 2.0, 255, 255, 0, 20)
 					if DistanceTwo < 1 then
 						if GarbageTruck then
 							DisplayHelpText("Press ~INPUT_CONTEXT~ to return your Garbage Truck!")

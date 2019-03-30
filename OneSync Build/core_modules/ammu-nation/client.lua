@@ -41,7 +41,7 @@ Citizen.CreateThread(function()
 			for k,v in ipairs(ammu_nation.normal) do
 				local Distance = GetDistanceBetweenCoords(pos.x, pos.y, pos.z, v.x, v.y, v.z, true)
 				if Distance < 15.0 then
-					DrawMarker(1, v.x, v.y, v.z - 1, 0, 0, 0, 0, 0, 0, 1.5001, 1.5001, 0.7555, 1555, 90, 10,150, 0, 0, 0,0)
+					RenderMarker(25, v.x, v.y, v.z, 1.5, 1.5, 2.0, 255, 255, 0, 20)
 					if Distance < 1.0 then
 						DisplayHelpText("Press ~INPUT_CONTEXT~ to buy weapons!")
 						if IsControlJustPressed(1, 51) then
@@ -176,7 +176,7 @@ Citizen.CreateThread(function()
 		for k,v in ipairs(ammu_nation.blackmarket) do
 			local Distance = GetDistanceBetweenCoords(pos.x, pos.y, pos.z, v.x, v.y, v.z, true)
 			if Distance < 15.0 then
-				DrawMarker(1, v.x, v.y, v.z - 1, 0, 0, 0, 0, 0, 0, 1.5001, 1.5001, 0.7555, 1555, 90, 10,150, 0, 0, 0,0)
+				RenderMarker(25, v.x, v.y, v.z, 1.5, 1.5, 2.0, 255, 255, 0, 20)
 				if Distance < 1.0 then
 					DisplayHelpText("Press ~INPUT_CONTEXT~ to buy illegal items!")
 					if IsControlJustPressed(1, 51) then
@@ -325,7 +325,7 @@ Citizen.CreateThread(function()
 		if weapon_license == "false" then
 			for k,v in ipairs(ammu_nation.license) do
 				if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 15.0)then
-					DrawMarker(1, v.x, v.y, v.z - 1, 0, 0, 0, 0, 0, 0, 1.5001, 1.5001, 0.5001, 177, 202, 223,255, 0, 0, 0,0)
+					RenderMarker(25, v.x, v.y, v.z 1.5, 1.5, 2.0, 255, 255, 0, 20)
 					if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 1.0)then
 						DisplayHelpText("Press ~INPUT_CONTEXT~ to purchase a weapon license! (~g~$~b~10000~w~)")
 						if IsControlJustPressed(1, 51) then
