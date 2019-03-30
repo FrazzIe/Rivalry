@@ -235,7 +235,7 @@ Citizen.CreateThread(function()
 								WarMenu.SetMenuX("Items", 0.6)
 								WarMenu.SetMenuY("Items", 0.15)
 								WarMenu.SetTitleBackgroundColor("Items", 0, 107, 87)
-								for k,v in pairs(Store) do
+								for k,v in pairs(ToolMarket) do
 									WarMenu.CreateSubMenu(v.Category, "Items", v.Category.." SECTION")
 									for i,j in pairs(v.Items) do
 										WarMenu.CreateSubMenu(j.Name, v.Category, j.Name)
@@ -251,7 +251,7 @@ Citizen.CreateThread(function()
 						end		
 					end
 					if WarMenu.IsMenuOpened("Items") then
-						for k,v in pairs(Store) do
+						for k,v in pairs(ToolMarket) do
 							WarMenu.MenuButton(v.Category, v.Category)
 						end
 						if WarMenu.Button("Close") then
@@ -259,7 +259,7 @@ Citizen.CreateThread(function()
 						end
 						WarMenu.Display()
 					end
-					for k,v in pairs(Store) do
+					for k,v in pairs(ToolMarket) do
 						if WarMenu.IsMenuOpened(v.Category) then
 							for i,j in pairs(v.Items) do
 								if WarMenu.MenuButton(j.Name, j.Name) then
@@ -269,7 +269,7 @@ Citizen.CreateThread(function()
 							WarMenu.Display()
 						end
 					end
-					for k,v in pairs(Store) do
+					for k,v in pairs(ToolMarket) do
 						for i,j in pairs(v.Items) do
 							if WarMenu.IsMenuOpened(j.Name) then
 								if WarMenu.Button("Buy "..currentItemIndex.." "..j.Name.."(s)", "$"..j.Cost*currentItemIndex) then
