@@ -95,7 +95,7 @@ Citizen.CreateThread(function()
 				if BulletCasingNearBy(PlayerPosition) == false then
 					local Street, Crossing = GetStreetNameAtCoord(PlayerPosition.x, PlayerPosition.y, PlayerPosition.z)
 					local BulletCasing = {
-						Player = GetPlayerServerId(Ped),
+						Player = GetPlayerServerId(PlayerId()),
 						WeaponUsed = GetSelectedPedWeapon(Ped),
 						Location = GetStreetNameFromHashKey(Street),
 						Coords = vector3(PlayerPosition.x, PlayerPosition.y, PlayerPosition.z),
@@ -120,7 +120,7 @@ Citizen.CreateThread(function()
 			if IsFingerPrintInCar(VehicleLicensePlate) == false then
 				local Street, Crossing = GetStreetNameAtCoord(PlayerPosition.x, PlayerPosition.y, PlayerPosition.z)
 				local Fingerprint = {
-					Player = GetPlayerServerId(Ped),
+					Player = GetPlayerServerId(PlayerId()),
 					LicensePlate = VehicleLicensePlate,
 					Type = "Fingerprint"
 				}
@@ -210,7 +210,7 @@ Citizen.CreateThread(function()
 						Chat_Message("Evidence Locker", "^0Is empty!")
 					else
 						for Index = 1, #Collected_Fingerprints do
-							Chat_Message("Evidence Locker", "^0["..Index.."] - Plate: "..Collected_Fingerprints[Index].Plate)
+							Chat_Message("Evidence Locker", "^0["..Index.."] - Plate: "..Collected_Fingerprints[Index].LicensePlate)
 						end
 					end
 					while SelectedEvidenceFP < 1 do
