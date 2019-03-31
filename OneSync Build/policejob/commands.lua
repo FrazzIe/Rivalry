@@ -1,6 +1,5 @@
-selectedEvidence = 0
-selectedEvidenceFP = 0
-selectedEvidenceBL = 0
+SelectedEvidence = 0
+SelectedEvidenceFP = 0
 function Chat_Message(Author, Message, R, G, B, Multiline, Template)
 	local Data = {
 		color = {tonumber(R) or 255, tonumber(G) or 255,tonumber(B) or 255},
@@ -90,52 +89,46 @@ AddEventHandler("playerSpawned", function()
 			if args[1] == "fp" or args[1] == "wep" or args[1] == "bl" then
 				if isInService then
 					if args[1] == "wep" and tonumber(args[2]) ~= 0 then
-						selectedEvidence = tonumber(args[2])
+						SelectedEvidence = tonumber(args[2])
 					elseif args[1] == "fp" and tonumber(args[2]) ~= 0 then
-						selectedEvidenceFP = tonumber(args[2])
-					elseif args[1] == "bl" and tonumber(args[2]) ~= 0 then
-						selectedEvidenceBL = tonumber(args[2])
+						SelectedEvidenceFP = tonumber(args[2])
 					else
 						Notify("Zero is a invalid input!")
 					end
 				end
 			end
 		end
-	end, false, {Help = "Selected Evidence", Params = {{name = "type", help = "wep | fp | bl"},{name = "number", help = "integer"}}})
+	end, false, {Help = "Selected Evidence", Params = {{name = "type", help = "wep | fp"},{name = "number", help = "integer"}}})
 
 	Chat_Command("showevidence", function(source, args, rawCommand)
 		if args[1] == "fp" or args[1] == "wep" or args[1] == "bl" then
 			if isInService then
 				if args[1] == "wep"  then
-					TriggerServerEvent('police:forensicssync', "wep", "wep", "wep", "wep")
+					TriggerServerEvent("Forensics.List.Evidence", "BulletCasings")
 				elseif args[1] == "fp" then
-					TriggerServerEvent('police:forensicssync', "fp", "fp", "fp", "fp")
-				elseif args[1] == "bl" then
-					TriggerServerEvent('police:forensicssync', "bl", "bl", "bl", "bl")
+					TriggerServerEvent("Forensics.List.Evidence", "FingerPrints")
 				else
 					Notify("Invalid input!")
 				end
 			end
 		end
-	end, false, {Help = "Show Evidence", Params = {{name = "type", help = "wep | fp | bl"}}})
+	end, false, {Help = "Show Evidence", Params = {{name = "type", help = "wep | fp"}}})
 
 	Chat_Command("removeevidence", function(source, args, rawCommand)
 		if args[2] then
 			if args[1] == "fp" or args[1] == "wep" or args[1] == "bl" then
 				if isInService then
 					if args[1] == "wep" and tonumber(args[2]) ~= 0 then
-						TriggerServerEvent('police:forensicssync', "", "pickedupevidence", "remove", tonumber(args[2]))
+						TriggerServerEvent("Forensics.Remove.Evidence", "BulletCasings", tonumber(args[2]))
 					elseif args[1] == "fp" and tonumber(args[2]) ~= 0 then
-						TriggerServerEvent('police:forensicssync', "", "pickedupfp", "remove", tonumber(args[2]))
-					elseif args[1] == "bl" and tonumber(args[2]) ~= 0 then
-						TriggerServerEvent('police:forensicssync', "", "pickedupblood", "remove", tonumber(args[2]))
+						TriggerServerEvent("Forensics.Remove.Evidence", "FingerPrints", tonumber(args[2]))
 					else
 						Notify("Zero is a invalid input!")
 					end
 				end
 			end
 		end
-	end, false, {Help = "Remove Evidence", Params = {{name = "type", help = "wep | fp | bl"},{name = "number", help = "integer"}}})
+	end, false, {Help = "Remove Evidence", Params = {{name = "type", help = "wep | fp"},{name = "number", help = "integer"}}})
 
 	Chat_Command("swab", function(source, args, rawCommand)
 		if isInService then
@@ -144,7 +137,7 @@ AddEventHandler("playerSpawned", function()
 			local rayHandle = CastRayPointToPoint(pos.x, pos.y, pos.z, entityWorld.x, entityWorld.y, entityWorld.z, 10, PlayerPedId(), 0)
 			local _, _, _, _, vehicleHandle = GetRaycastResult(rayHandle)
 			if vehicleHandle ~= nil then
-				TriggerEvent("police:vehicleswab", GetVehicleNumberPlateText(vehicleHandle))
+				TriggerEvent("Police.Swab.Vehicle", GetVehicleNumberPlateText(vehicleHandle))
 			else
 				Notify("Couldn't find a vehicle!", 2500)
 			end
