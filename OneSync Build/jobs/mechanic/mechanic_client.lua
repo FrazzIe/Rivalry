@@ -22,17 +22,9 @@ local mechanic_showHelp = false
 local mechanic_call_accept = 0
 local mechanic_nbMechanicInService = 0
 local mechanic_nbMechanicDispo = 0
-local missionXCoord = 0
-local missionYCoord = 0
-local missionZCoord = 0
-local previousMissionX = 0
-local previousMissionY = 0
-local previousMissionZ = 0
-local whoCalledX = 0
-local whoCalledY = 0
-local whoCalledZ = 0
 local previous_mission_coords = nil
 local drivers_license = false
+local MissionCaller = nil
 
 function getMechanicIsInService()
     return inService
@@ -985,6 +977,7 @@ AddEventHandler('mechanic:MissionAccept', function (mission)
     currentMissions = mission
     SetNewWaypoint(mission.pos[1], mission.pos[2])
     currentBlip = AddBlipForCoord(mission.pos[1], mission.pos[2], mission.pos[3])
+    MissionCaller = mission.caller
     SetBlipSprite(currentBlip, 446)
     SetBlipColour(currentBlip, 5)
     SetBlipAsShortRange(currentBlip, true)
@@ -996,35 +989,58 @@ end)
 
 Citizen.CreateThread(function()
     while true do
-        Citizen.Wait(1000)
-        if currentMissions ~= nil then
-            local PlayerPosition = GetEntityCoords(PlayerPedId(), false)
-            if GetDistanceBetweenCoords(PlayerPosition.x, PlayerPosition.y, PlayerPosition.z, currentMissions.pos[1], currentMissions.pos[2], currentMissions.pos[3], true) < 10 then
-                TriggerEvent("mechanic:finish_mission")
+        Citizen.Wait(0)
+        if inService then
+            Citizen.Wait(180000)
+            previous_mission_coords[1] = 0
+            previous_mission_coords[2] = 0
+            previous_mission_coords[3] = 0
+        end
+    end
+end)
+
+Citizen.CreateThread(function()
+    while true do
+        Citizen.Wait(0)
+        if inService then
+            if currentMissions ~= nil then
+                if GetPlayerServerId(PlayerPedId()) ~= MissionCaller then
+                    local PlayerPosition = GetEntityCoords(PlayerPedId(), false)
+                    local Distance = Vdist(PlayerPosition.x, PlayerPosition.y, PlayerPosition.z, currentMissions.pos[1], currentMissions.pos[2], currentMissions.pos[3])
+                    local LastMission = Vdist(currentMissions.pos[1], currentMissions.pos[2], currentMissions.pos[3], previous_mission_coords[1], previous_mission_coords[2], previous_mission_coords[3])
+                    if Distance < 10 and LastMission > 50 then
+                        TriggerEvent("mechanic:finish_mission")
+                    end
+                end
             end
         end
     end
 end)
 
 AddEventHandler("mechanic:finish_mission", function()
-    if currentMissions ~= nil then
-        if previous_mission_coords ~= nil then
-            if GetDistanceBetweenCoords(currentMissions.pos[1], currentMissions.pos[2], currentMissions.pos[3], previous_mission_coords[1], previous_mission_coords[2], previous_mission_coords[3], true) > 30 then
-                TriggerServerEvent("mechanic:PayPlayer")
-            end
-            
-            previous_mission_coords = currentMissions.pos
-        else
-            previous_mission_coords = currentMissions.pos
-            TriggerServerEvent("mechanic:PayPlayer")
-        end
+    if inService then
+        local PlayerPosition = GetEntityCoords(PlayerPedId(), false)
+        if GetPlayerServerId(PlayerPedId()) ~= MissionCaller then
+            if currentMissions ~= nil then
+                if previous_mission_coords ~= nil then
+                    local Distance = Vdist(PlayerPosition.x, PlayerPosition.y, PlayerPosition.z, currentMissions.pos[1], currentMissions.pos[2], currentMissions.pos[3])
+                    local LastMission = Vdist(currentMissions.pos[1], currentMissions.pos[2], currentMissions.pos[3], previous_mission_coords[1], previous_mission_coords[2], previous_mission_coords[3])
+                    if Distance < 10 and LastMission > 50 then
+                        TriggerServerEvent("mechanic:PayPlayer")
+                    end
+                    previous_mission_coords = currentMissions.pos
+                else
+                    previous_mission_coords = currentMissions.pos
+                    TriggerServerEvent("mechanic:PayPlayer")
+                end
 
-        TriggerServerEvent('mechanic:FinishMission', currentMissions.id)
-        currentMissions = nil
-    end
-    
-    if currentBlip ~= nil then
-        RemoveBlip(currentBlip)
+                TriggerServerEvent('mechanic:FinishMission', currentMissions.id)
+                currentMissions = nil
+            end
+        end
+        if currentBlip ~= nil then
+            RemoveBlip(currentBlip)
+        end
     end
 end)
 
@@ -1074,7 +1090,7 @@ end)
 function needMechanic(type)
     local myPed = GetPlayerPed(-1)
     local myCoord = GetEntityCoords(myPed)
-    TriggerServerEvent('mechanic:Call', myCoord.x, myCoord.y, myCoord.z, type)
+    TriggerServerEvent('mechanic:Call', myCoord.x, myCoord.y, myCoord.z, type, GetPlayerServerId(PlayerPedId()))
 end
 
 AddEventHandler('mechanic:togglehelp', function()

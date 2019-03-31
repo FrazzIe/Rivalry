@@ -21,10 +21,8 @@ local missionZCoord = 0
 local previousMissionX = 0
 local previousMissionY = 0
 local previousMissionZ = 0
-local whoCalledX = 0
-local whoCalledY = 0
-local whoCalledZ = 0
 local drivers_license = false
+local MissionCaller = nil
 
 isTaxi = false
 
@@ -352,6 +350,7 @@ AddEventHandler('taxi:MissionAccept', function (mission)
     missionXCoord = mission.pos[1]
     missionYCoord = mission.pos[2]
     missionZCoord = mission.pos[3]
+    MissionCaller = mission.caller
     SetNewWaypoint(mission.pos[1], mission.pos[2])
     currentBlip= AddBlipForCoord(mission.pos[1], mission.pos[2], mission.pos[3])
     SetBlipSprite(currentBlip, 309)
@@ -364,23 +363,38 @@ AddEventHandler('taxi:MissionAccept', function (mission)
     SetBlipAsMissionCreatorBlip(currentBlip, true)
   end)
 
-
-local distance = 0
-local distanceP = 0
-local checkDistance = 0 
-
 Citizen.CreateThread(function()
     while true do
       Citizen.Wait(0)
-        local coords = GetEntityCoords(PlayerPedId())
-        distance = Vdist(coords.x, coords.y, coords.z, missionXCoord, missionYCoord, missionZCoord)
-        distanceP = Vdist(missionXCoord, missionYCoord, missionZCoord, previousMissionX, previousMissionY, previousMissionZ)
-        checkDistance = Vdist(coords.x, coords.y, coords.z, whoCalledX, whoCalledY, whoCalledZ)
-        if(distance < 10 and distanceP > 50 and checkDistance > 50) then
-            TriggerEvent('taxi:finish_mission')
-            previousMissionX = missionXCoord
-            previousMissionY = missionYCoord
-            previousMissionZ = missionZCoord
+        if inService then
+            local coords = GetEntityCoords(PlayerPedId(), false)
+            local distance = Vdist(coords.x, coords.y, coords.z, missionXCoord, missionYCoord, missionZCoord)
+            local lastmission = Vdist(missionXCoord, missionYCoord, missionZCoord, previousMissionX, previousMissionY, previousMissionZ)
+            if GetPlayerServerId(PlayerPedId()) ~= MissionCaller then
+                if( distance < 10 and lastmission > 50 ) then
+                    TriggerEvent('taxi:finish_mission')
+                    previousMissionX = missionXCoord
+                    previousMissionY = missionYCoord
+                    previousMissionZ = missionZCoord
+                    RemoveBlip(currentBlip)
+                end
+            end
+        end
+    end
+end)
+
+AddEventHandler("taxi:finish_mission", function()
+    TriggerServerEvent('taxi:FinishMission', currentMissions.id)
+    local coords = GetEntityCoords(PlayerPedId(), false)
+    local distance = Vdist(coords.x, coords.y, coords.z, missionXCoord, missionYCoord, missionZCoord)
+    local lastmission = Vdist(missionXCoord, missionYCoord, missionZCoord, previousMissionX, previousMissionY, previousMissionZ)
+    currentMissions = nil
+    if GetPlayerServerId(PlayerPedId()) ~= MissionCaller then
+        if(distance < 10 and lastmission > 50 )then
+            TriggerServerEvent('taxi:PayPlayer')
+            RemoveBlip(currentBlip)
+        end
+        if currentBlip ~= nil then
             RemoveBlip(currentBlip)
         end
     end
@@ -388,23 +402,13 @@ end)
 
 Citizen.CreateThread(function()
     while true do
-      Citizen.Wait(180000)
-        previousMissionX = 0
-        previousMissionY = 0
-        previousMissionZ = 0
-    end
-end)
-
-AddEventHandler("taxi:finish_mission", function()
-    TriggerServerEvent('taxi:FinishMission', currentMissions.id)
-    local distanceP = Vdist(missionXCoord, missionYCoord, missionZCoord, previousMissionX, previousMissionY, previousMissionZ)
-    currentMissions = nil
-    if(distanceP > 50  and checkDistance > 50 )then
-            TriggerServerEvent('taxi:PayPlayer')
-        RemoveBlip(currentBlip)
-    end
-    if currentBlip ~= nil then
-        RemoveBlip(currentBlip)
+        Citizen.Wait(0)
+        if inService then
+            Citizen.Wait(180000)
+            previousMissionX = 0
+            previousMissionY = 0
+            previousMissionZ = 0
+        end
     end
 end)
 
@@ -443,10 +447,7 @@ end)
 function callService(type)
     local myPed = GetPlayerPed(-1)
     local myCoord = GetEntityCoords(myPed)
-    whoCalledX = myCoord.x
-    whoCalledY = myCoord.y
-    whoCalledZ = myCoord.z
-    TriggerServerEvent('taxi:Call', myCoord.x, myCoord.y, myCoord.z, type)
+    TriggerServerEvent('taxi:Call', myCoord.x, myCoord.y, myCoord.z, type, GetPlayerServerId(PlayerPedId()))
 end
 
 function toogleHelperLine()

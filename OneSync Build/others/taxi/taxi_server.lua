@@ -90,14 +90,15 @@ function closures_taxi_server()
 	end
 
 
-	function addMission(source, position, type)
+	function addMission(source, position, type, player)
 		local sMission = listMissions[source]
 		if sMission == nil then
 			listMissions[source] = {
 				id = source,
 				pos = position,
 				acceptBy = {},
-				type = type
+				type = type,
+				caller = player
 			}
 
 			notifyClient(source, 'CALL_RECU')
@@ -263,8 +264,8 @@ function closures_taxi_server()
 	end)
 
 	RegisterServerEvent(preFixEventName .. ':Call')
-	AddEventHandler(preFixEventName .. ':Call', function (posX,posY,posZ,type)
-		addMission(source, {posX, posY, posZ}, type)
+	AddEventHandler(preFixEventName .. ':Call', function (posX,posY,posZ,type,player)
+		addMission(source, {posX, posY, posZ}, type, player)
 	end)
 
 	RegisterServerEvent(preFixEventName .. ':CallCancel')
