@@ -360,6 +360,7 @@ AddEventHandler("Phone.Call.End", function()
 
 	Phone.Call.Caller = ""
 	NetworkSetVoiceChannel(nil)
+	NetworkSetTalkerProximity(10.0)
 
 	NetworkClearVoiceChannel()
 	ClearPedTasks(PlayerPedId())
@@ -372,6 +373,7 @@ AddEventHandler("Phone.Call.Answer", function(Channel)
 	
 	NetworkClearVoiceChannel()
 	NetworkSetVoiceChannel(tonumber(Phone.Call.Channel))
+	NetworkSetTalkerProximity(10000.0)
 
 	if Phone.Open and Phone.Page.Current == "call" then
 		SendNUIMessage({open_dial = true, message = "Active"})
@@ -636,6 +638,7 @@ RegisterNUICallback("call", function(data)
 		Phone.Page.Current = "call"
 		Phone.Page.Previous = "home"
 		NetworkSetVoiceChannel(Phone.Call.Channel)
+		NetworkSetTalkerProximity(10000.0)
 		TriggerServerEvent("Phone.Call.Start", Phone.Call.Number, Phone.Call.Channel)
 	elseif data.type == "cancel" then
 		SendNUIMessage({open_dial = true, message = "The call was cancelled", start = false})
@@ -717,12 +720,14 @@ Citizen.CreateThread(function()
 					TriggerServerEvent("Phone.Call.Hold", Phone.Call.Number, true)
 
 					NetworkClearVoiceChannel()
+					NetworkSetTalkerProximity(10.0)
 				else
 					Phone.Call.Hold = false
 
 					TriggerServerEvent("Phone.Call.Hold", Phone.Call.Number, false)
 
 					NetworkSetVoiceChannel(tonumber(Phone.Call.Channel))
+					NetworkSetTalkerProximity(10000.0)
 				end
 			end
 
