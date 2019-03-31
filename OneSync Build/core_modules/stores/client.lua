@@ -227,30 +227,30 @@ Citizen.CreateThread(function()
                 if #(PlayerPosition - Tools[Index]) < 1.0 then
                 	DisplayHelpText("Press ~INPUT_CONTEXT~ to open the market!")
 					if IsControlJustPressed(1, 51) then
-						if not WarMenu.IsMenuOpened("Items") then
+						if not WarMenu.IsMenuOpened("ToolStore") then
 							if not WarMenu.DoesMenuExist("Items") then
-								WarMenu.CreateMenu("Items", "Department Store")
-								WarMenu.SetSpriteTitle("Items", "shopui_title_clubhousemod")
-								WarMenu.SetSubTitle("Items", "CATEGORIES")
-								WarMenu.SetMenuX("Items", 0.6)
-								WarMenu.SetMenuY("Items", 0.15)
-								WarMenu.SetTitleBackgroundColor("Items", 0, 107, 87)
+								WarMenu.CreateMenu("ToolStore", "Department Store")
+								WarMenu.SetSpriteTitle("ToolStore", "shopui_title_clubhousemod")
+								WarMenu.SetSubTitle("ToolStore", "CATEGORIES")
+								WarMenu.SetMenuX("ToolStore", 0.6)
+								WarMenu.SetMenuY("ToolStore", 0.15)
+								WarMenu.SetTitleBackgroundColor("ToolStore", 0, 107, 87)
 								for k,v in pairs(ToolMarket) do
-									WarMenu.CreateSubMenu(v.Category, "Items", v.Category.." SECTION")
+									WarMenu.CreateSubMenu(v.Category, "ToolStore", v.Category.." SECTION")
 									for i,j in pairs(v.Items) do
 										WarMenu.CreateSubMenu(j.Name, v.Category, j.Name)
 									end
 								end
-								WarMenu.OpenMenu("Items")
+								WarMenu.OpenMenu("ToolStore")
 							else
 								currentItemIndex = 1
-								WarMenu.OpenMenu("Items")
+								WarMenu.OpenMenu("ToolStore")
 							end
 						else
 							WarMenu.CloseMenu()
 						end		
 					end
-					if WarMenu.IsMenuOpened("Items") then
+					if WarMenu.IsMenuOpened("ToolStore") then
 						for k,v in pairs(ToolMarket) do
 							WarMenu.MenuButton(v.Category, v.Category)
 						end
@@ -285,7 +285,7 @@ Citizen.CreateThread(function()
 						end
 					end
                 elseif #(PlayerPosition - Tools[Index]) > 1.0 then
-                	if WarMenu.IsMenuOpened("Items") then
+                	if WarMenu.IsMenuOpened("ToolStore") then
                 		WarMenu.CloseMenu()
                 	end
                 end
