@@ -65,9 +65,11 @@ RegisterServerEvent('Police.Swab.Vehicle')
 AddEventHandler('Police.Swab.Vehicle', function(Plate)
 	local Fingerprints = {}
 	for Index = 1, #UnCollected_Fingerprints do
-		if UnCollected_Fingerprints[Index].LicensePlate == Plate then
-			table.insert(Fingerprints, Plate)
-			TriggerEvent('Forensics.PickUp.Evidence', UnCollected_Fingerprints[Index], "FingerPrint", Index)
+		if UnCollected_Fingerprints[Index] ~= nil then
+			if UnCollected_Fingerprints[Index].LicensePlate == Plate then
+				table.insert(Fingerprints, Plate)
+				TriggerEvent('Forensics.PickUp.Evidence', UnCollected_Fingerprints[Index], "FingerPrint", Index)
+			end
 		end
 	end
 	TriggerClientEvent("chatMessage", source, "Evidence", {16, 102, 158}, "You have found " .. tostring(#Fingerprints .. " Fingerprints"))
@@ -76,16 +78,18 @@ end)
 RegisterServerEvent('Forensics.BulletCasing.Information')
 AddEventHandler('Forensics.BulletCasing.Information', function(Type, Gun, Player)
 	local Source = source
-	local Id = nil
+	local id = nil
 	if Type == "WeaponName" then
 		TriggerClientEvent('Forensics.WeaponName.Return', Source, Weapons_names[Gun])
 	elseif Type == "SerialNumber" then
-		TriggerEvent("weapon:getuser", Player, function(_Weapon)
-			for Index = 1, #_Weapon do
-				Id = _Weapon[Index].id
-			end
-		end)
-		TriggerClientEvent('Forensics.BulletCasing.Return', Source, Id)
+		if Player then
+			TriggerEvent("weapon:getuser", Player, function(_weapon)
+				for k,v in pairs(_weapon) do
+					id = v.id
+				end
+			end)
+			TriggerClientEvent('Forensics.BulletCasing.Return', Source, id)
+		end
 	end
 end)
 
@@ -95,7 +99,6 @@ AddEventHandler('Forensics.RunPrint', function(Player)
 	local CharacterID, FirstName, LastName = 0, "", ""
 	local Name = ""
 	TriggerEvent("core:getuser", Player, function(User)
-		CharacterID = User.get("characterID")
 		FirstName = User.get("first_name")
 		LastName = User.get("last_name")
 		Name = FirstName.." "..LastName
