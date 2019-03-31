@@ -25,7 +25,7 @@ client_scripts {
 	"helicam/heli_client.lua",
 	"luxart/client.lua",
 	"informer/client.lua",
-	"indicators/indicators_client.lua",
+	--"indicators/indicators_client.lua",
 	"gui.lua",
 	"extras.lua",
 	"taxi/taxi_Menu.lua",
@@ -41,7 +41,7 @@ server_scripts {
 	"helicam/heli_server.lua",
 	"luxart/server.lua",
 	"informer/server.lua",
-	"indicators/indicators_server.lua",
+	--"indicators/indicators_server.lua",
 	'taxi/taxi_server.lua',
 }
 
