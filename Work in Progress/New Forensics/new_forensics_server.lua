@@ -79,11 +79,12 @@ RegisterServerEvent('Forensics.BulletCasing.Information')
 AddEventHandler('Forensics.BulletCasing.Information', function(Type, Gun, Player)
 	local Source = source
 	local id = nil
+	local TargetPlayer = Player
 	if Type == "WeaponName" then
 		TriggerClientEvent('Forensics.WeaponName.Return', Source, Weapons_names[Gun])
 	elseif Type == "SerialNumber" then
-		if Player then
-			TriggerEvent("weapon:getuser", Player, function(_weapon)
+		if TargetPlayer then
+			TriggerEvent("weapon:getuser", TargetPlayer, function(_weapon)
 				for k,v in pairs(_weapon) do
 					id = v.id
 				end
