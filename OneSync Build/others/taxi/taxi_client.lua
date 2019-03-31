@@ -372,10 +372,11 @@ Citizen.CreateThread(function()
             local lastmission = Vdist(missionXCoord, missionYCoord, missionZCoord, previousMissionX, previousMissionY, previousMissionZ)
             if GetPlayerServerId(PlayerPedId()) ~= MissionCaller then
                 if( distance < 10 and lastmission > 50 ) then
-                    TriggerEvent('taxi:finish_mission')
                     previousMissionX = missionXCoord
                     previousMissionY = missionYCoord
                     previousMissionZ = missionZCoord
+                    TriggerServerEvent('taxi:PayPlayer')
+                    TriggerServerEvent('taxi:FinishMission', currentMissions.id)
                     RemoveBlip(currentBlip)
                 end
             end
