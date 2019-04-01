@@ -331,7 +331,7 @@ Citizen.CreateThread(function()
 				----- IS DRIVER -----
 				local veh = GetVehiclePedIsUsing(playerped)	
 				if GetPedInVehicleSeat(veh, -1) == playerped then
-				
+					local vehClass = GetVehicleClass(veh)
 
 					
 					if state_indic[veh] ~= ind_state_o and state_indic[veh] ~= ind_state_l and state_indic[veh] ~= ind_state_r and state_indic[veh] ~= ind_state_h then
@@ -342,7 +342,7 @@ Citizen.CreateThread(function()
 			
 					
 					--- IS EMERG VEHICLE ---
-					if GetVehicleClass(veh) == 18 then
+					if vehClass == 18 then
 						
 						local actv_manu = false
 						local actv_horn = false
@@ -508,15 +508,9 @@ Citizen.CreateThread(function()
 					
 						
 					--- IS ANY LAND VEHICLE ---	
-					if GetVehicleClass(veh) ~= 14 and GetVehicleClass(veh) ~= 15 and GetVehicleClass(veh) ~= 16 and GetVehicleClass(veh) ~= 21 then
+					if vehClass ~= 14 and vehClass ~= 15 and vehClass ~= 16 and vehClass ~= 21 then
 					
-						----- CONTROLS -----
-						if not IsPauseMenuActive() then
-						
-
-						
-						end
-						
+			
 						
 						----- AUTO BROADCAST VEH STATES -----
 						if count_bcast_timer > delay_bcast_timer then
