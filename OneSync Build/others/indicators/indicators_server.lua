@@ -1,13 +1,20 @@
-RegisterServerEvent( "MSQSetVehicleIndicator" )
-RegisterServerEvent( "MSQSetVehicleWindow" )
+RegisterServerEvent("Indicator.Left")
+AddEventHandler("Indicator.Left", function(State)
+	local Source = source
 
-AddEventHandler( "MSQSetVehicleIndicator", function( dir, state )
-	TriggerClientEvent( "MSQVehicleIndicator", -1, source, dir, state )
+	TriggerClientEvent("Indicator.Left", -1, Source, State)
 end)
 
--- MSQ event. Called when a client rolls down the vehicle's windows
--- @param1	boolean		Whether the windows are down (down = true)
--- @return
-AddEventHandler( "MSQSetVehicleWindow", function( windowsDown )
-	TriggerClientEvent( "MSQVehicleWindow", -1, source, windowsDown )
+RegisterServerEvent("Indicator.Right")
+AddEventHandler("Indicator.Right", function(State)
+	local Source = source
+
+	TriggerClientEvent("Indicator.Right", -1, Source, State)
+end)
+
+RegisterServerEvent("Window.Toggle")
+AddEventHandler("Window.Toggle", function(Up)
+	local Source = source
+
+	TriggerClientEvent("Window.Toggle", -1, Source, Up)
 end)
