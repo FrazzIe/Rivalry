@@ -228,7 +228,7 @@ Citizen.CreateThread(function()
                 	DisplayHelpText("Press ~INPUT_CONTEXT~ to open the market!")
 					if IsControlJustPressed(1, 51) then
 						if not WarMenu.IsMenuOpened("ToolStore") then
-							if not WarMenu.DoesMenuExist("Items") then
+							if not WarMenu.DoesMenuExist("ToolStore") then
 								WarMenu.CreateMenu("ToolStore", "Department Store")
 								WarMenu.SetSpriteTitle("ToolStore", "shopui_title_clubhousemod")
 								WarMenu.SetSubTitle("ToolStore", "CATEGORIES")
