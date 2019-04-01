@@ -564,13 +564,13 @@ TriggerServerEvent('taxi:requestPersonnel')
 -- end)
 
 Citizen.CreateThread(function()
+	local payphones = vector3(1841.0107421875, 2614.990234375, 45.630123138428)
     while true do
     Citizen.Wait(0)
         local ped = PlayerPedId()
         local coords = GetEntityCoords(ped, false)
-        local payphones = {x = 1841.0107421875, y = 2614.990234375, z = 45.630123138428, h = 358.47378540039}
-        local dist = Vdist(coords.x, coords.y, coords.z, payphones.x, payphones.y, payphones.z)
-        if (dist <= 1) then
+        local dist = #(coords - payphones)
+        if dist < 1 then
             if IsControlJustPressed(1, 51) then
                 TriggerServerEvent('taxi:payPhone')
             end
