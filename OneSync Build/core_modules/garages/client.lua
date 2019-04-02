@@ -776,7 +776,7 @@ function claimMenu()
     Menu.Switch(nil,"claim_menu")
     for i = 1,#user_vehicles do
         if (user_vehicles[i] ~= nil) then
-            if user_vehicles[i].insurance == "true" and user_vehicles[i].state == "~r~Missing" then
+            if user_vehicles[i].state == "~r~Missing" then
                 local claims = user_vehicles[i].claims
                 local cost = ((insurance[user_vehicles[i].model] * (claims * 1.5))/100)
                 Menu.addOption("claim_menu", function()
