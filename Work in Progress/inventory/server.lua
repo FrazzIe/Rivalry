@@ -584,10 +584,10 @@ AddEventHandler("Inventory.Pickup.Item", function(ItemIndex)
     local Source = source
     local Item = {}
     if DroppedItems[ItemIndex] ~= nil then
-        Item = DroppedItems[Index]
+        Item = DroppedItems[ItemIndex]
         table.remove(DroppedItems, ItemIndex)
         TriggerClientEvent("Inventory.Pickup.Item", Source, Item)
-        TriggerClientEvent("Inventory.Sync.Dropped.Items" -1, DroppedItems)
+        TriggerClientEvent("Inventory.Sync.Dropped.Items", -1, DroppedItems)
     end
 end)
 

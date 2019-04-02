@@ -420,11 +420,13 @@ end)
 RegisterNetEvent("Inventory.Draw.Object.Item")
 AddEventHandler("Inventory.Draw.Object.Item", function(Item)
     Citizen.CreateThread(function()
-        RequestModel("")
-        while not HasModelLoaded("") do
+        local Model = GetHashKey("prop_food_bag1")
+        RequestModel(Model)
+        while not HasModelLoaded(Model) do
             Citizen.Wait(0)
         end
-        Object = CreateObject("", Item.Coords.x, Item.Coords.y, Item.Coords.z, true, false, false)
+        local Object = CreateObject(Model, Item.Coords.x, Item.Coords.y, Item.Coords.z - 0.9, true, false, false)
+        Citizen.Wait(1200)
         FreezeEntityPosition(Object, true)
     end)
 end)
@@ -436,13 +438,14 @@ Citizen.CreateThread(function()
         local PlayerPosition = GetEntityCoords(PlayerPed, false)
         for Index = 1, #DroppedItems do
             if #(PlayerPosition - DroppedItems[Index].Coords) < 5 then
-                Draw3DText(DroppedItems[Index].Coords.x, DroppedItems[Index].Coords.y, DroppedItems[Index].Coords.z, "["..DroppedItems[Index].ItemQty.."] - "..DroppedItems[Index].ItemName)
+                Draw3DText(DroppedItems[Index].Coords.x, DroppedItems[Index].Coords.y, DroppedItems[Index].Coords.z - 0.9, "["..DroppedItems[Index].ItemQty.."] - "..DroppedItems[Index].ItemName)
                 if #(PlayerPosition - DroppedItems[Index].Coords) < 1 then
                     DisplayHelpText("Press ~INPUT_CONTEXT~ to pick up!")
                     if IsControlJustPressed(1, 51) then
                         if GetItemQuantity(DroppedItems[Index].ItemID) < 100 and GetItemQuantity(DroppedItems[Index].ItemID) + DroppedItems[Index].ItemQty < 100 then
+                            TriggerEvent("inventory:animation", PlayerPed)
                             TriggerServerEvent("Inventory.Pickup.Item", Index)
-                            ClosestObject = GetClosestObjectOfType(PlayerPosition.x, PlayerPosition.y, PlayerPosition.z, 1.0, "", false, false, false)
+                            ClosestObject = GetClosestObjectOfType(PlayerPosition.x, PlayerPosition.y, PlayerPosition.z, 1.0, GetHashKey("prop_food_bag1"), false, false, false)
                             if DoesEntityExist(ClosestObject) then
                                 DestroyObject(ClosestObject)
                             end

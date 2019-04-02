@@ -97,7 +97,8 @@ stores = {
 
 Tools = {
 	vector3(45.837783813477,-1749.1278076172,29.622262954712),
-	vector3(2747.8273925781,3472.5925292969,55.673179626465)
+	vector3(2747.8273925781,3472.5925292969,55.673179626465),
+	vector3(-11.297995567322,6499.765625,31.500114440918)
 }
 
 ToolsBlips = {
@@ -217,6 +218,7 @@ end)
 Citizen.CreateThread(function()
 	CreateBlip("Davis Mega Mall", 402, 21, Tools[1].x, Tools[1].y, Tools[1].z)
 	CreateBlip("You tool", 402, 21, Tools[2].x, Tools[2].y, Tools[2].z)
+	CreateBlip("Bay Hardware", 402, 21, Tools[3].x, Tools[3].y, Tools[3].z)
 	while true do
 		Citizen.Wait(0)
 		local PlayerPed = PlayerPedId()
