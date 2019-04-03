@@ -59,6 +59,7 @@ cars = {
     {name = "Unmarked 2016 Tahoe", model = "um4", type = "", rank = "lieutenant"},
     {name = "Unmarked 2016 Raptor", model = "um6", type = "", rank = "lieutenant"},
     {name = "Unmarked 2018 Charger", model = "18charger", type = "", rank = "lieutenant"},
+    {name = "Unmarked Schafter V12", model = "polschafter3", type = "", rank = "lieutenant"},
 }
 
 heli = {
