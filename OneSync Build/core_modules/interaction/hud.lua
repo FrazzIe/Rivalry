@@ -106,9 +106,10 @@ Citizen.CreateThread(function()
         for ID = 0, 255 do
             if ((NetworkIsPlayerActive(ID)) and GetPlayerPed(ID) ~= GetPlayerPed(-1)) then
                 Ped = GetPlayerPed(ID)
-                x1, y1, z1 = table.unpack(GetEntityCoords(GetPlayerPed(-1), true))
-                x2, y2, z2 = table.unpack(GetEntityCoords(GetPlayerPed(ID), true))
-                Distance = math.floor(GetDistanceBetweenCoords(x1,y1,z1,x2,y2,z2,true))
+                Player = GetEntityCoords(PlayerPedId(), true)
+                OtherPlayer = GetEntityCoords(GetPlayerPed(ID), true)
+                x2, y2, z2 = table.unpack(OtherPlayer)
+                Distance = #(OtherPlayer - Player)
                 local ToFeet = 0.95
                 if ((Distance < VoiceRange) and IsEntityVisible(GetPlayerPed(ID))) ~= GetPlayerPed(-1) then
                     if NetworkIsPlayerTalking(ID) then
