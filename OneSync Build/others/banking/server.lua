@@ -136,7 +136,7 @@ AddEventHandler('bank:transfer', function(fromPlayer, toPlayer, amount)
 				TriggerClientEvent("es_freeroam:notify", source, "CHAR_BANK_MAZE", 1, "Maze Bank", false, "Transfered: ~r~-$".. rounded .." ~n~~s~New Balance: ~g~$" .. user.get("bank"))
 				TriggerClientEvent("banking:updateBalance", source, user.get("bank"))
 				TriggerEvent('core:getuser', toPlayer, function(user2)
-					if amount >= 25000 then
+					if amount >= 10000 then
                         logMoney({steam = getID("steam", toPlayer), name = GetIdentity(toPlayer)},{steam = getID("steam", source), name = GetIdentity(source)},"Transferred $" .. math.floor(amount))
                     end
 					user2.addBank(rounded)

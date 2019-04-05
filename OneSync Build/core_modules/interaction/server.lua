@@ -43,7 +43,7 @@ AddEventHandler("interaction:givemoney", function(amount, target)
             if user.get("timeplayed") > 7200 then
                 user.removeWallet(math.floor(amount))
                 TriggerEvent('core:getuser', tonumber(target), function(user2)
-                    if amount >= 25000 then
+                    if amount >= 10000 then
                         logMoney({steam = getID("steam", target), name = GetIdentity(target)},{steam = getID("steam", source), name = GetIdentity(source)},"Transferred $" .. math.floor(amount) .. " clean cash")
                     end
                     user2.addWallet(math.floor(amount)) 
@@ -66,7 +66,7 @@ AddEventHandler("interaction:givedmoney", function(amount, target)
         if user.get("dirty") >= tonumber(amount) then
             user.removeDirty(math.floor(amount))
             TriggerEvent('core:getuser', tonumber(target), function(user2)
-                if amount >= 25000 then
+                if amount >= 10000 then
                     logMoney({steam = getID("steam", target), name = GetIdentity(target)},{steam = getID("steam", source), name = GetIdentity(source)},"Transferred $" .. math.floor(amount) .. " dirty cash")
                 end
                 user2.addDirty(math.floor(amount)) 
@@ -90,7 +90,7 @@ AddEventHandler("interaction:take_money", function(target)
                 user.dirty(0)
                 user.wallet(0)
                 Notify("You stole all of "..user.get("first_name").." "..user.get("last_name").."'s cash!", 3000, source)
-                if dirty_money >= 25000 or wallet >= 25000 then
+                if dirty_money >= 10000 or wallet >= 10000 then
                     logMoney({steam = getID("steam", target), name = GetIdentity(target)},{steam = getID("steam", source), name = GetIdentity(source)},"Stole $" .. math.floor(wallet) .. " clean and $" .. math.floor(dirty_money) .. " dirty")
                 end
                 TriggerEvent("core:getuser", source, function(user2)
