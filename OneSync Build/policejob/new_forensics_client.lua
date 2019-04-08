@@ -6,6 +6,7 @@ local Microscope = vector3(461.35046386719,-1007.7575073242,32.819652557373)
 local Computer = vector3(460.87170410156,-1002.9169311523,32.809814453125)
 local ClientBulletCasings = {}
 local ClientFingerPrints = {}
+local Investigating = false
 
 RegisterNetEvent('Forensics.Sync')
 AddEventHandler('Forensics.Sync', function(Type, Table)
@@ -22,6 +23,11 @@ AddEventHandler('Forensics.Sync', function(Type, Table)
 	end
 end)
 
+RegisterNetEvent('Police.Forensics.Toggle.InvestigationMode')
+AddEventHandler('Police.Forensics.Toggle.InvestigationMode', function()
+	Investigating = not Investigating
+end)
+
 RegisterNetEvent('Police.Swab.Vehicle')
 AddEventHandler('Police.Swab.Vehicle', function(Plate)
 	RequestAnimDict("timetable@floyd@clean_kitchen@idle_a")
@@ -36,7 +42,7 @@ end)
 
 RegisterNetEvent("Forensics.WeaponName.Return")
 AddEventHandler("Forensics.WeaponName.Return", function(Gun)
-	Chat_Message("Results", "^0Results: The bullet was fired from a "..Gun, 255, 0, 0, true)
+	Chat_Message("Results", "The bullet was fired from a "..Gun, 255, 0, 0, true)
 end)
 
 RegisterNetEvent("Forensics.BulletCasing.Return")
@@ -51,10 +57,8 @@ end)
 RegisterNetEvent("Forensics.FingerPrint.Result")
 AddEventHandler("Forensics.FingerPrint.Result", function(Result, Name)
 	if Result == "sucess" then
-		print("Recieved Fingerprint with name!")
 		Chat_Message("This fingerprint matches the same fingerprint of "..Name, 255, 0, 0, true)
 	elseif Result == "nomatch" then
-		print("Recieved Fingerprint without name!")
 		Chat_Message("This fingerprint has no matches!", 255, 0, 0, true)
 	end
 end)
@@ -96,9 +100,10 @@ Citizen.CreateThread(function()
 					local Street, Crossing = GetStreetNameAtCoord(PlayerPosition.x, PlayerPosition.y, PlayerPosition.z)
 					local BulletCasing = {
 						Player = GetPlayerServerId(PlayerId()),
-						WeaponUsed = GetSelectedPedWeapon(Ped),
+						WeaponUsed = Weaponhashes[tostring(GetSelectedPedWeapon(Ped))],
 						Location = GetStreetNameFromHashKey(Street),
 						Coords = vector3(PlayerPosition.x, PlayerPosition.y, PlayerPosition.z),
+						SerialNumber = nil,
 						Type = "BulletCasing"
 					}
 					table.insert(ClientBulletCasings, PlayerPosition)
@@ -135,17 +140,39 @@ end)
 Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(0)
-		if isInService then
+		if isInService and Investigating then
 			local Ped = PlayerPedId()
 			local PlayerPosition = GetEntityCoords(Ped, false)
 			for Index = 1, #UnCollected_BulletCasings do
 				if #(PlayerPosition - UnCollected_BulletCasings[Index].Coords) < 5 then
-					DrawMarker(25, UnCollected_BulletCasings[Index].Coords.x, UnCollected_BulletCasings[Index].Coords.y, UnCollected_BulletCasings[Index].Coords.z-0.9, 0, 0, 0, 0, 0, 0, 0.5, 0.5, 1.0, 0, 0, 255, 25, 0, 0, 2, 0, 0, 0, 0)
+					DrawMarker(25, UnCollected_BulletCasings[Index].Coords.x, UnCollected_BulletCasings[Index].Coords.y, UnCollected_BulletCasings[Index].Coords.z-1.0, 0, 0, 0, 0, 0, 0, 0.5, 0.5, 1.0, 0, 0, 255, 25, 0, 0, 2, 0, 0, 0, 0)
 					if #(PlayerPosition - UnCollected_BulletCasings[Index].Coords) < 1 then
 						DisplayHelpText("Press ~INPUT_CONTEXT~ to collect bullet casing!")
 						if IsControlJustPressed(1,51) then
 							TriggerServerEvent('Forensics.PickUp.Evidence', UnCollected_BulletCasings[Index] ,"BulletCasing", 0)
 							Citizen.Wait(5000)
+						end
+					end
+				end
+			end
+		elseif Investigating then
+			local Ped = PlayerPedId()
+			local PlayerPosition = GetEntityCoords(Ped, false)
+			for Index = 1, #UnCollected_BulletCasings do
+				if #(PlayerPosition - UnCollected_BulletCasings[Index].Coords) < 5 then
+					DrawMarker(25, UnCollected_BulletCasings[Index].Coords.x, UnCollected_BulletCasings[Index].Coords.y, UnCollected_BulletCasings[Index].Coords.z-1.0, 0, 0, 0, 0, 0, 0, 0.5, 0.5, 1.0, 0, 0, 255, 25, 0, 0, 2, 0, 0, 0, 0)
+					if #(PlayerPosition - UnCollected_BulletCasings[Index].Coords) < 1 then
+						DisplayHelpText("Press ~INPUT_CONTEXT~ to destroy evidence!")
+						if IsControlJustPressed(1,51) then
+							TriggerServerEvent('Forensics.PickUp.Evidence', UnCollected_BulletCasings[Index] ,"BulletCasing", 0)
+							Notify("You are currently destroying evidence!")
+							Citizen.Wait(60000)
+							if #(PlayerPosition - UnCollected_BulletCasings[Index].Coords) < 2 then
+								Notify("You have destroyed the evidence!", 2600)
+								TriggerServerEvent("Forensics.Delete.Evidence", Index)
+							else
+								Notify("You moved too far from the evidence to destroy it!", 2600)
+							end
 						end
 					end
 				end
@@ -179,15 +206,10 @@ Citizen.CreateThread(function()
 						Citizen.Wait(10000)
 						local Probability = math.random(1, 100)
 						if Probability > 50 then
-							local GunHash = Collected_BulletCasings[SelectedEvidence].WeaponUsed
-							local Gun = Weaponhashes[tostring(GunHash)]
-							TriggerServerEvent('Forensics.BulletCasing.Information', "WeaponName", Gun, Collected_BulletCasings[SelectedEvidence].Player)
+							TriggerServerEvent('Forensics.BulletCasing.Information', "WeaponName", SelectedEvidence)
 						else
-							local GunHash = Collected_BulletCasings[SelectedEvidence].gun
-							local Gun = Weaponhashes[tostring(GunHash)]
-							TriggerServerEvent('Forensics.BulletCasing.Information', "SerialNumber", Gun, Collected_BulletCasings[SelectedEvidence].Player)
+							TriggerServerEvent('Forensics.BulletCasing.Information', "SerialNumber", SelectedEvidence)
 						end
-						TriggerServerEvent('police:forensicssync', Collected_BulletCasings[SelectedEvidence], "pickedupevidence", "remove", SelectedEvidence)
 						SelectedEvidence = 0
 					end
 				end

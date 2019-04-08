@@ -37,10 +37,38 @@ function RemoveFingerPrint(Index)
 	TriggerClientEvent('Forensics.Sync', -1, "CollectedFingerprints", Collected_Fingerprints)
 end
 
+RegisterServerEvent('Forensics.Delete.Evidence')
+AddEventHandler('Forensics.Delete.Evidence', function(Index)
+	local Source = source
+	if UnCollected_BulletCasings[Index] ~= nil then
+		table.remove(UnCollected_BulletCasings, Index)
+		TriggerClientEvent('Forensics.Sync', -1, "UnCollectedFingerPrints", UnCollected_Fingerprints)
+	end
+end)
+
+RegisterServerEvent('Forensics.Bleach.Vehicle')
+AddEventHandler("Forensics.Bleach.Vehicle", function(Plate)
+	local Source = source
+	if Plate then
+		for Index = 1, #UnCollected_Fingerprints do
+			if UnCollected_Fingerprints[Index].LicensePlate == Plate then
+				table.remove(UnCollected_Fingerprints, Index)
+			end
+		end
+	end
+end)
+
 RegisterServerEvent('Forensics.Sync')
 AddEventHandler('Forensics.Sync', function(Evidence, Type)
 	local Source = source
 	if Type == "BulletCasing" then
+		TriggerEvent("weapon:getuser", Evidence.Player, function(_weapon)
+			for k,v in pairs(_weapon) do
+				if Weapons_names[Evidence.WeaponUsed] == Weapons_names[k] then
+					Evidence.SerialNumber = v.id
+				end
+			end
+		end)
 		table.insert(UnCollected_BulletCasings, Evidence)
 		TriggerClientEvent('Forensics.Sync', -1 ,"UnCollectedBulletCasing", UnCollected_BulletCasings)
 	elseif Type == "FingerPrint" then
@@ -76,20 +104,12 @@ AddEventHandler('Police.Swab.Vehicle', function(Plate)
 end)
 
 RegisterServerEvent('Forensics.BulletCasing.Information')
-AddEventHandler('Forensics.BulletCasing.Information', function(Type, Gun, Player)
+AddEventHandler('Forensics.BulletCasing.Information', function(Type, Index)
 	local Source = source
-	local id = nil
 	if Type == "WeaponName" then
-		TriggerClientEvent('Forensics.WeaponName.Return', Source, Weapons_names[Gun])
+		TriggerClientEvent('Forensics.WeaponName.Return', Source, Weapons_names[Collected_BulletCasings[Index].WeaponUsed])
 	elseif Type == "SerialNumber" then
-		if Player then
-			TriggerEvent("weapon:getuser", Player, function(_weapon)
-				for k,v in pairs(_weapon) do
-					id = v.id
-				end
-			end)
-			TriggerClientEvent('Forensics.BulletCasing.Return', Source, id)
-		end
+		TriggerClientEvent('Forensics.BulletCasing.Return', Source, Collected_BulletCasings[Index].SerialNumber)
 	end
 end)
 
