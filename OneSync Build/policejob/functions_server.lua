@@ -305,6 +305,8 @@ AddEventHandler('police:check_plate', function(plate)
 		if plate ~= nil then
 			if string.sub(plate, 1, 2) == "RR" then
 				TriggerClientEvent("pNotify:SendNotification", source, {text = "The plate <span style 'color:lime'>"..plate.."</span> belongs to the rental company!",type = "error",queue = "left",timeout = 4000,layout = "centerRight"})
+			elseif string.upper(plate) == "STUDENT" then
+			TriggerClientEvent("pNotify:SendNotification", source, {text = "The plate <span style 'color:lime'>"..plate.."</span> belongs to the driver school!",type = "error",queue = "left",timeout = 4000,layout = "centerRight"})
 			else
 				if tonumber(plate, 16) ~= nil then
 					exports['GHMattiMySQL']:QueryResultAsync("SELECT first_name, last_name FROM characters WHERE character_id=(SELECT character_id FROM vehicles WHERE plate=@plate)", {["@plate"] = tonumber(plate, 16)}, function(character)
