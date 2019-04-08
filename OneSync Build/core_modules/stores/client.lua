@@ -40,6 +40,7 @@ Store = {
     {Category = "Misc", Items = {
         {Name = "Cigarette", Id=77, Cost = 10, Max = 100},
         {Name = "Cigar", Id=79, Cost = 10, Max = 100},
+        {Name = "Bleach", Id = 53, Cost = 50, Max = 4},
     }},
 }
 
@@ -50,7 +51,6 @@ ToolMarket = {
         {Name = "Fishing Rod", Id = 76, Cost = 150, Max = 4},
         {Name = "Binoculars", Id = 78, Cost = 50, Max = 1},
         {Name = "Handcuffs", Id=44, Cost = 30, Max = 3},
-        --{Name = "Bleach", Id = 53, Cost = 50, Max = 4},
 	}},
 }
 for k,v in pairs(Store) do

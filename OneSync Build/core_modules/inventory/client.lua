@@ -703,12 +703,21 @@ AddEventHandler("inventory:use",function(data)
             local rayHandle = CastRayPointToPoint(pos.x, pos.y, pos.z, entityWorld.x, entityWorld.y, entityWorld.z, 10, PlayerPedId(), 0)
             local _, _, _, _, vehicleHandle = GetRaycastResult(rayHandle)
             if vehicleHandle ~= nil then
-                TriggerEvent("police:bleachvehicle", GetVehicleNumberPlateText(vehicleHandle))
+                RequestAnimDict("timetable@floyd@clean_kitchen@idle_a")
+                while not HasAnimDictLoaded("timetable@floyd@clean_kitchen@idle_a") do
+                    Wait(0)
+                end
+                TaskPlayAnim(PlayerPedId(), "timetable@floyd@clean_kitchen@idle_a", "idle_a", 100.0, 200.0, 0.3, 16, 0.2, 0, 0, 0)
+                Wait(10000)
+                TriggerServerEvent('Forensics.Bleach.Vehicle', GetVehicleNumberPlateText(vehicleHandle))
+                Notify("Vehicle has been cleaned of all fingerprints!", 2600)
             else
                 Messages(6)
             end
         elseif data.canuse == 10 then --Joint
             TaskStartScenarioInPlace(PlayerPedId(), "WORLD_HUMAN_SMOKING_POT", 0, true)
+            Wait(11000)
+            drugged = true
         elseif data.canuse == 11 then --Cigarette
             TaskStartScenarioInPlace(PlayerPedId(), "WORLD_HUMAN_SMOKING", 0, true)
         elseif data.canuse == 12 then

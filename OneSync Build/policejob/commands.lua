@@ -84,6 +84,10 @@ AddEventHandler("playerSpawned", function()
 		end
 	end, false, {Help = "Open the MDT",  Params = {}})
 
+	Chat_Command("investigate", function(source, args, rawCommand)
+		TriggerEvent("Police.Forensics.Toggle.InvestigationMode")
+	end, false, {Help = "Toggle inspection mode", Params = {}})
+
 	Chat_Command("evidence", function(source, args, rawCommand)
 		if args[2] then
 			if args[1] == "fp" or args[1] == "wep" or args[1] == "bl" then

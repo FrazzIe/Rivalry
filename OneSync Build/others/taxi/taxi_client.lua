@@ -371,14 +371,14 @@ Citizen.CreateThread(function()
             local distance = Vdist(coords.x, coords.y, coords.z, missionXCoord, missionYCoord, missionZCoord)
             local lastmission = Vdist(missionXCoord, missionYCoord, missionZCoord, previousMissionX, previousMissionY, previousMissionZ)
             if GetPlayerServerId(PlayerPedId()) ~= MissionCaller then
-                if( distance < 10 and lastmission > 50 ) then
+                if( distance < 10 and lastmission > 20 ) then
                     TriggerServerEvent('taxi:FinishMission', currentMissions.id)
-                    currentMissions = nil
-                    RemoveBlip(currentBlip)
                     TriggerServerEvent('taxi:PayPlayer')
                     previousMissionX = missionXCoord
                     previousMissionY = missionYCoord
                     previousMissionZ = missionZCoord
+                    currentMissions = nil
+                    RemoveBlip(currentBlip)
                 end
             end
         end
@@ -390,10 +390,13 @@ AddEventHandler("taxi:finish_mission", function()
     local coords = GetEntityCoords(PlayerPedId(), false)
     local distance = Vdist(coords.x, coords.y, coords.z, missionXCoord, missionYCoord, missionZCoord)
     local lastmission = Vdist(missionXCoord, missionYCoord, missionZCoord, previousMissionX, previousMissionY, previousMissionZ)
-    currentMissions = nil
     if GetPlayerServerId(PlayerPedId()) ~= MissionCaller then
-        if(distance < 10 and lastmission > 50 )then
+        if(distance < 10 and lastmission > 20 )then
             TriggerServerEvent('taxi:PayPlayer')
+            previousMissionX = missionXCoord
+            previousMissionY = missionYCoord
+            previousMissionZ = missionZCoord
+            currentMissions = nil
             RemoveBlip(currentBlip)
         end
         if currentBlip ~= nil then
