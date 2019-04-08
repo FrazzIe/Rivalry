@@ -201,56 +201,56 @@ function DIntro()
 	TriggerEvent("pNotify:SendNotification",{
         text = "<b style='color:#1E90FF'>DMV Introduction</b> <br /><br />Theory and practice are both important elements of driving instruction.<br />This introduction will cover the basics and ensure you are prepared with enough information and knowledge for your test.<br /><br />The information from your theory lessons combined with the experience from your practical lesson are vital for negotiating the situations and dilemmas you will face on the road.<br /><br />Sit back and enjoy the ride as we start. It is highly recommended that you pay attention to every detail, most of these questions can be existent under your theory test.",
         type = "alert",
-        timeout = (2000),
+        timeout = (25000),
         layout = "center",
         queue = "global"
     })
-	Citizen.Wait(2500)
+	Citizen.Wait(26500)
 	SetEntityCoords(myPed,-428.49026489258, -993.306640625, 46.008815765381,true, false, false,true)
 	TriggerEvent("pNotify:SendNotification",{
         text = "<b style='color:#1E90FF'>Accidents, incidents and environmental concerns</b><br /><br /><b style='color:#87CEFA'>Duty to yield</b><br />All drivers have a duty to obey the rules of the road in order to avoid foreseeable harm to others. Failure to yield the right of way when required by law can lead to liability for any resulting accidents.<br /><br /> When you hear a siren coming, you should yield to the emergency vehicle, simply pull over to your right.<br />You must always stop when a traffic officer tells you to.<br /><br /><b style='color:#87CEFA'>Aggressive Driving</b><br />A car that endangers or is likely to endanger people or property is considered to be aggressive driving.<br />However, aggressive driving, can lead to tragic accidents. It is far wiser to drive defensively and to always be on the lookout for the potential risk of crashes.<br />",
         type = "alert",
-        timeout = (2000),
+        timeout = (25000),
         layout = "center",
         queue = "global"
     })
-	Citizen.Wait(2500)
+	Citizen.Wait(26500)
 	SetEntityCoords(myPed,-282.55557250977, -282.55557250977, 31.633310317993,true, false, false,true)
 	TriggerEvent("pNotify:SendNotification",{
         text = "<b style='color:#1E90FF'>Residential Area</b> <br /><br /> Maintain an appropriate speed - Never faster than the posted limit, slower if traffic is heavy.<br /><br />Stay centered in your lane. Never drive in the area reserved for parked cars.<br /><br />Maintain a safe following distance - an least 1 car length for every 10 mph.<br /><br />The speed limit in a Residential Area is 25 mph.<br />",
         type = "alert",
-        timeout = (2000),
+        timeout = (25000),
         layout = "center",
         queue = "global"
     })	
-	Citizen.Wait(2500)
+	Citizen.Wait(26500)
 	SetEntityCoords(myPed,246.35220336914, -1204.3403320313, 43.669715881348,true, false, false,true)
 	TriggerEvent("pNotify:SendNotification",{
         text = "<b style='color:#1E90FF'>Built-Up Areas/Towns</b> <br /><br />The 40 mph limit usually applies to all traffic on all roads with street lighting unless otherwise specified.<br />Driving at speeds too fast for the road and driving conditions can be dangerous.<br /><br />You should always reduce your speed when:<br /><br />&bull; Sharing the road with pedestrians<br />&bull; Driving at night, as it is more difficult to see other road users<br />&bull; Weather conditions make it safer to do so<br /><br />Remember, large vehicles and motorcycles need a greater distance to stop<br />",
         type = "alert",
-        timeout = (2000),
+        timeout = (25000),
         layout = "center",
         queue = "global"
     })
-	Citizen.Wait(2500)
+	Citizen.Wait(26500)
 	SetEntityCoords(myPed,-138.413, -2498.53, 52.2765,true, false, false,true)
 	TriggerEvent("pNotify:SendNotification",{
         text = "<b style='color:#1E90FF'>Freeways/Motorways</b> <br /><br />Traffic on motorways usually travels faster than on other roads, so you have less time to react.<br />It is especially important to use your sences earlier and look much further ahead than you would on other roads.<br /><br />Check the traffic on the motorway and match your speed to fit safely into the traffic flow in the left-hand lane.<br /><br />The speed limit in a Freeway/Motorway Area is 70 mph.<br />",
         type = "alert",
-        timeout = (2000),
+        timeout = (25000),
         layout = "center",
         queue = "global"
     })				
-	Citizen.Wait(2500)		
+	Citizen.Wait(26500)		
 	SetEntityCoords(myPed,187.465, -1428.82, 43.9302,true, false, false,true)
 	TriggerEvent("pNotify:SendNotification",{
         text = "<b style='color:#1E90FF'>Alcohol</b> <br /><br />Drinking while driving is very dangerous, alcohol and/or drugs impair your judgment. Impaired judgment affects how you react to sounds and what you see. However, the DMV allows a certain amount of alcohol concentration for those driving with a valid drivers license.<br /><br />0.08% is the the legal limit for a driver's blood alcohol concentration (BAC)<br />",
         type = "alert",
-        timeout = (2000),
+        timeout = (25000),
         layout = "center",
         queue = "global"
     })				
-	Citizen.Wait(2500)			
+	Citizen.Wait(26500)			
 	SetEntityCoords(myPed,238.756, -1381.65, 32.743,true, false, false,true)
 	FreezeEntityPosition(myPed, false)
 	SetEntityVisible(PlayerPedId(), true)
