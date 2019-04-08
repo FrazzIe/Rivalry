@@ -9,10 +9,10 @@ Config.Priority = {
     ["steam:110000106e0c14b"] = 1070, -- Ructar
     ["steam:1100001097ab24e"] = 1030, -- brunettegamer
     ["steam:110000107ea851e"] = 1020, -- Chiito
+    ["steam:11000010a27e61c"] = 1015, -- Julio 
     ["steam:1100001177e13bd"] = 1010, -- Captain Boom
     ["steam:110000111c7701f"] = 1000, -- Brody
     ["steam:110000109805b30"] = 999, -- Jenna
-    ["steam:11000010a27e61c"] = 997, -- Julio 
     ["steam:110000102d4d1e7"] = 994, -- Sammy-Sana
     ["steam:110000100809b63"] = 993, -- Reginald Wattersmith
     ["steam:110000103d70c3f"] = 992, -- Leo Gold
@@ -81,23 +81,20 @@ Config.Priority = {
     ["steam:11000011198b053"] = 681, -- Eric Wong (PD Extra)
     ["steam:110000107df831a"] = 680, -- Violet Jules (PD Extra)
     ["steam:11000010467c91d"] = 679, -- Mason Preacher (PD extra)
-    ["steam:1100001340afc2b"] = 678, -- Frenchy (EMS command)
-    ["steam:110000110e35616"] = 677, -- Ryleigh Wolfhart
-    ["steam:110000108322423"] = 676, -- Zhuang Lao (PD Extra)
-    ["steam:1100001032aa2a1"] = 675, -- Austin James (mech Boss)
-    ["steam:110000102e9a6e2"] = 674, -- Charlie Pilkins (mech Boss)
-    ["steam:11000010862267a"] = 673, -- Sweet Sake (mech Boss)
+    ["steam:110000106be52a0"] = 678, -- Jamiie (PD Extra)
+    ["steam:110000106be52a0"] = 677, -- Hank
+    ["steam:11000010e0f809e"] = 676, -- FateProphecy
+    ["steam:110000108322423"] = 675, -- Zhuang Lao (PD Extra)
+    ["steam:1100001032aa2a1"] = 674, -- Austin James (mech Boss)
+    ["steam:110000102e9a6e2"] = 673, -- Charlie Pilkins (mech Boss)
+    ["steam:11000010862267a"] = 672, -- Sweet Sake (mech Boss)
 --[Extras]--
     ["steam:110000106443c23"] = 500, -- Augustus Williams
     ["steam:110000100BF705A"] = 499, -- Schwank (Zach)
     ["steam:110000101d67662"] = 498, -- Incsypops (Mechanic Manager)
-    ["steam:11000010e519899"] = 488, -- Skitzzo (Evie)
-    ["steam:1100001341a1664"] = 487, -- Lamar
-    ["steam:110000104c5b700"] = 486, -- DarkLaiX
-    ["steam:11000010e0f809e"] = 485, -- FateProphecy
-    ["steam:1100001047e1d3d"] = 484, -- Hank
-    ["steam:110000106be52a0"] = 484, -- Jamiie
-
+    ["steam:1100001341a1664"] = 497, -- Lamar
+    ["steam:110000104c5b700"] = 496, -- DarkLaiX
+    ["steam:110000102437861"] = 495, -- Sullyabv (streamer/doj)
 }
 
 Config.RequireSteam = true
