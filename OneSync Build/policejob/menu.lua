@@ -175,7 +175,7 @@ AddEventHandler("police:menu_citizen", function()
     exports.ui:addOption("Breathalyzer", [[TriggerEvent("police:menu_citizen_breathalyzer")]])
     exports.ui:addOption("Gun residue", [[TriggerEvent("police:menu_citizen_gun_residue")]])
     exports.ui:addOption("Supply user with a weapon license", [[TriggerEvent("police:menu_citizen_give_license")]])
-    exports.ui:addOption("Reinstate Drivers License", [[TriggerEvent("police:menu_citizen_give_drivers_license")]])
+    --exports.ui:addOption("Reinstate Drivers License", [[TriggerEvent("police:menu_citizen_give_drivers_license")]])
     if activeMedics == 0 then
         exports.ui:addOption("Revive", [[TriggerEvent("paramedic:menu_revive")]])
     end
