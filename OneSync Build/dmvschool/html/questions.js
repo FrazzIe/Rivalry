@@ -189,11 +189,11 @@ var tableauQuestion = [
         reponse : "C"},
     
     {   question : "If a tire blows out, you should",
-        propositionA : "Depress the gas pedal",
-        propositionB : "Keep your vehicle going straight",
-        propositionC : "Brake hard",
-        propositionD : "Swerve to the side of the road",
-        reponse : "B"},
+        propositionA : "Let go of the gas pedal",
+        propositionB : "Hit your brakes hard to avoid a collision",
+        propositionC : "Swerve to the side of the road",
+        propositionD : "Keep straight and let your vehicle come to a stop on its own",
+        reponse : "D"},
     
     {   question : "When driving above 30 mph you should stay _____ seconds behind the vehicle ahead of you.",
         propositionA : "6",
@@ -266,9 +266,9 @@ var tableauQuestion = [
         reponse : "C"},
     
     {   question : "What is the illegal window tint amount?",
-        propositionA : "Pure black",
-        propositionB : "Smoke",
-        propositionC : "Clear",
+        propositionA : "Pure Black",
+        propositionB : "Dark Smoke",
+        propositionC : "Light Smoke",
         propositionD : "Green",
         reponse : "A"},
     
@@ -279,10 +279,10 @@ var tableauQuestion = [
         propositionD : "All of the above",
         reponse : "D"},
     
-    {   question : "What are you allowed to do without a valid drivers license",
+    {   question : "What are you allowed to do without a valid drivers license?",
         propositionA : "Rent a rental vehicle",
         propositionB : "Rent a bicycle",
         propositionC : "Drive around in your vehicle",
         propositionD : "Purchase a vehicle",
-        reponse : "D"},
+        reponse : "B"},
 ]
