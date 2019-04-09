@@ -235,7 +235,7 @@ function DIntro()
 	Citizen.Wait(26500)
 	SetEntityCoords(myPed,-138.413, -2498.53, 52.2765,true, false, false,true)
 	TriggerEvent("pNotify:SendNotification",{
-        text = "<b style='color:#1E90FF'>Freeways/Motorways</b> <br /><br />Traffic on motorways usually travels faster than on other roads, so you have less time to react.<br />It is especially important to use your sences earlier and look much further ahead than you would on other roads.<br /><br />Check the traffic on the motorway and match your speed to fit safely into the traffic flow in the left-hand lane.<br /><br />The speed limit in a Freeway/Motorway Area is 70 mph.<br />",
+        text = "<b style='color:#1E90FF'>Freeways/Motorways</b> <br /><br />Traffic on motorways usually travels faster than on other roads, so you have less time to react.<br />It is especially important to use your senses earlier and look much further ahead than you would on other roads.<br /><br />Check the traffic on the motorway and match your speed to fit safely into the traffic flow in the left-hand lane.<br /><br />The speed limit in a Freeway/Motorway Area is 70 mph.<br />",
         type = "alert",
         timeout = (25000),
         layout = "center",
