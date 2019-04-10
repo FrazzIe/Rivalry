@@ -30,6 +30,20 @@ local banks = {
 		time = 300,
 		lastrobbed = 0
 	},
+	["burton"] = {
+		position = { ['x'] = -353.72958374023, ['y'] = -53.590354919434, ['z'] = 49.045997619629 },
+		reward = 60000,
+		nameofbank = "Fleeca Bank (Burton)",
+		time = 300,
+		lastrobbed = 0
+	},
+	["route68"] = {
+		position = { ['x'] = 1176.4365234375, ['y'] = 2710.8093261719, ['z'] = 38.087993621826 },
+		reward = 40000,
+		nameofbank = "Fleeca Bank (Route 68)",
+		time = 300,
+		lastrobbed = 0
+	},
 	["pacificstandard"] = {
 		position = { ['x'] = 259.43179321289, ['y'] = 225.69024658203, ['z'] = 101.68327331543 },
 		reward = 125000,
