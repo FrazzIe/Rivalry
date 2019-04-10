@@ -113,11 +113,11 @@ function EndDTest()
 			EndTestTasks()
 		else
 			--local licID = 1
-	        TriggerServerEvent("dmv:success")
-	       	--TriggerServerEvent('ply_prefecture:CheckForLicences', licID)	--Uncomment this if youre using ply_prefecture, also make sure your drivers license has 1 as ID
+	        TriggerServerEvent("interaction:buy_drivers_license")
 			drawNotification("You passed\nYou accumulated ".. Error.." ~r~Error Points")
 			Driving = false
-			TestLocked = 0	
+			TestLocked = 0
+			theorylock = 3	
 			EndTestTasks()
 		end
 end
@@ -286,6 +286,8 @@ function DTut()
 	FreezeEntityPosition(myPed, false)
 	DTutOpen = false
 	Driving = true
+	exports["core_modules"]:TurnOffHudElements(false)
+	TriggerEvent("chat:disable", false)
 end
 
 Citizen.CreateThread(function()

@@ -1,10 +1,3 @@
-RegisterServerEvent("dmv:success")
-AddEventHandler("dmv:success", function()
-  TriggerEvent("core:getuser", source, function(user)
-    user.set("drivers_license", "true")
-  end)
-end)
-
 RegisterServerEvent("DMV:Pay")
 AddEventHandler("DMV:Pay", function(amount)
   TriggerEvent('core:getuser', source, function(user)

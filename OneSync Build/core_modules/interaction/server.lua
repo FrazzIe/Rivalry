@@ -262,13 +262,12 @@ AddEventHandler("core:loaded", function(source, user, power, group)
 end)
 
 RegisterServerEvent("interaction:buy_drivers_license")
-AddEventHandler("interaction:buy_drivers_license", function(target)
+AddEventHandler("interaction:buy_drivers_license", function()
     local source = source
-    TriggerEvent("core:getuser", target, function(user)
+    TriggerEvent("core:getuser", source, function(user)
         user.set("drivers_license", "true")
-        TriggerClientEvent("interaction:set_drivers_license", target, "true")
-        Notify("Drivers license reinstated!", 3000, target)
-        Notify("You reinstated "..GetIdentity(target).."'s drivers license!", 3000, source)
+        TriggerClientEvent("interaction:set_drivers_license", source, "true")
+        Notify("Drivers license reinstated!", 3000, source)
     end)
 end)
 
