@@ -1,4 +1,6 @@
 exports("GetCharacterName", function(Player)
+	local Player = tonumber(Player)
+
 	if Characters[Player] then
 		return Characters[Player].first_name .. Characters[Player].last_name
 	else
@@ -7,6 +9,8 @@ exports("GetCharacterName", function(Player)
 end)
 
 exports("GetCharacterId", function(Player)
+	local Player = tonumber(Player)
+	
 	if Characters[Player] then
 		return Characters[Player].characterID
 	else
@@ -15,6 +19,8 @@ exports("GetCharacterId", function(Player)
 end)
 
 exports("GetPlayerCash", function(Player)
+	local Player = tonumber(Player)
+	
 	if Characters[Player] then
 		return Characters[Player].wallet
 	else
@@ -23,6 +29,8 @@ exports("GetPlayerCash", function(Player)
 end)
 
 exports("GetPlayerBank", function(Player)
+	local Player = tonumber(Player)
+	
 	if Characters[Player] then
 		return Characters[Player].bank
 	else
@@ -31,6 +39,8 @@ exports("GetPlayerBank", function(Player)
 end)
 
 exports("GetPlayerDirty", function(Player)
+	local Player = tonumber(Player)
+	
 	if Characters[Player] then
 		return Characters[Player].dirty
 	else
@@ -39,6 +49,8 @@ exports("GetPlayerDirty", function(Player)
 end)
 
 exports("GetPlayerJob", function(Player)
+	local Player = tonumber(Player)
+	
 	if Characters[Player] then
 		return Characters[Player].job
 	else
@@ -47,6 +59,8 @@ exports("GetPlayerJob", function(Player)
 end)
 
 exports("SetPlayerCash", function(Player, Amount)
+	local Player = tonumber(Player)
+	
 	if Characters[Player] then
 		if tonumber(Amount) ~= nil then
 			Characters[Player].wallet = math.floor(tonumber(Amount))
@@ -59,6 +73,8 @@ exports("SetPlayerCash", function(Player, Amount)
 end)
 
 exports("AddPlayerCash", function(Player, Amount)
+	local Player = tonumber(Player)
+	
 	if Characters[Player] then
 		if tonumber(Amount) ~= nil then
 			Characters[Player].wallet = Characters[Player].wallet + math.floor(tonumber(Amount))
@@ -71,6 +87,8 @@ exports("AddPlayerCash", function(Player, Amount)
 end)
 
 exports("RemovePlayerCash", function(Player, Amount)
+	local Player = tonumber(Player)
+	
 	if Characters[Player] then
 		if tonumber(Amount) ~= nil then
 			Characters[Player].wallet = Characters[Player].wallet - math.floor(tonumber(Amount))
@@ -83,6 +101,8 @@ exports("RemovePlayerCash", function(Player, Amount)
 end)
 
 exports("SetPlayerBank", function(Player, Amount)
+	local Player = tonumber(Player)
+	
 	if Characters[Player] then
 		if tonumber(Amount) ~= nil then
 			Characters[Player].bank= math.floor(tonumber(Amount))
@@ -95,6 +115,8 @@ exports("SetPlayerBank", function(Player, Amount)
 end)
 
 exports("AddPlayerBank", function(Player, Amount)
+	local Player = tonumber(Player)
+	
 	if Characters[Player] then
 		if tonumber(Amount) ~= nil then
 			Characters[Player].bank = Characters[Player].bank + math.floor(tonumber(Amount))
@@ -107,6 +129,8 @@ exports("AddPlayerBank", function(Player, Amount)
 end)
 
 exports("RemovePlayerBank", function(Player, Amount)
+	local Player = tonumber(Player)
+	
 	if Characters[Player] then
 		if tonumber(Amount) ~= nil then
 			Characters[Player].bank = Characters[Player].bank - math.floor(tonumber(Amount))
@@ -119,6 +143,8 @@ exports("RemovePlayerBank", function(Player, Amount)
 end)
 
 exports("SetPlayerDirty", function(Player, Amount)
+	local Player = tonumber(Player)
+	
 	if Characters[Player] then
 		if tonumber(Amount) ~= nil then
 			Characters[Player].dirty = math.floor(tonumber(Amount))
@@ -131,6 +157,8 @@ exports("SetPlayerDirty", function(Player, Amount)
 end)
 
 exports("AddPlayerDirty", function(Player, Amount)
+	local Player = tonumber(Player)
+	
 	if Characters[Player] then
 		if tonumber(Amount) ~= nil then
 			Characters[Player].dirty = Characters[Player].dirty + math.floor(tonumber(Amount))
@@ -143,6 +171,8 @@ exports("AddPlayerDirty", function(Player, Amount)
 end)
 
 exports("RemovePlayerDirty", function(Player, Amount)
+	local Player = tonumber(Player)
+	
 	if Characters[Player] then
 		if tonumber(Amount) ~= nil then
 			Characters[Player].dirty = Characters[Player].dirty - math.floor(tonumber(Amount))
@@ -155,6 +185,8 @@ exports("RemovePlayerDirty", function(Player, Amount)
 end)
 
 exports("SetPlayerJob", function(Player, Id)
+	local Player = tonumber(Player)
+	
 	if Characters[Player] then
 		Characters[Player].job = jobs[Id]
 
