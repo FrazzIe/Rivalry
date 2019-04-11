@@ -178,6 +178,7 @@ AddEventHandler("police:menu_citizen", function()
     --exports.ui:addOption("Reinstate Drivers License", [[TriggerEvent("police:menu_citizen_give_drivers_license")]])
     if activeMedics == 0 then
         exports.ui:addOption("Revive", [[TriggerEvent("paramedic:menu_revive")]])
+        exports.ui:addOption("Pronounce doa", [[TriggerEvent("paramedic:menu_doa")]])
     end
     exports.ui:back([[TriggerEvent("police:menu")]])
 end)
