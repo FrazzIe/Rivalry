@@ -114,7 +114,7 @@ cars = {
         {name = "Massacro Race", price = 143500, model = "massacro2"},
         {name = "Neon", price = 135000, model = "neon"},
         {name = "Omnis", price = 51750, model = "omnis"},
-        {name = "Pariah", price = 107250, model = "pariah"},
+        {name = "Pariah", price = 57250, model = "pariah"},
         {name = "Penumbra", price = 43900, model = "penumbra"},
         {name = "Rapid GT", price = 115000, model = "rapidgt"},
         {name = "Rapid GT Convertible", price = 130000, model = "rapidgt2"},
