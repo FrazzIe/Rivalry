@@ -33,6 +33,7 @@ server_scripts {
 	'server/bans.lua',
 	'server/groups.lua',
 	'server/misc.lua',
+	'server/exports.lua',
 }
 
 export 'GetCharacterName'
