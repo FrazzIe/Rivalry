@@ -242,7 +242,7 @@ Citizen.CreateThread(function()
 					if existingVeh == nil then
 						DisplayHelpText("Press ~INPUT_CONTEXT~ to ~b~collect your chopper~w~!")
 					else
-						DisplayHelpText("Press ~INPUT_CONTEXT~ to ~b~store your chopper~w~!")
+						DisplayHelpText("Press ~INPUT_CONTEXT~ to ~b~store your chopper~w~!\nPress ~INPUT_VEH_HEADLIGHT~ to ~b~modify~w~!")
 					end
 		
 					if IsControlJustPressed(1, 38) then
@@ -277,6 +277,45 @@ Citizen.CreateThread(function()
 						end
 						WarMenu.Display()
 					end
+					if existingVeh ~= nil then
+                        if IsControlJustPressed(1, 74) then
+                            if not WarMenu.IsMenuOpened("heli_modify_menu") then
+                                if not WarMenu.DoesMenuExist("heli_modify_menu") then
+                                    WarMenu.CreateMenu("heli_modify_menu", "Modify vehicle")
+                                    WarMenu.SetSpriteTitle("heli_modify_menu", {"pause_menu_pages_char_mom_dad", "vignette", "Helicopters"})
+                                    WarMenu.SetSubTitle("heli_modify_menu", "Modifications")
+                                    WarMenu.SetMenuX("heli_modify_menu", 0.6)
+                                    WarMenu.SetMenuY("heli_modify_menu", 0.15)
+                                    WarMenu.SetTitleBackgroundColor("heli_modify_menu", 0, 128, 255, 255)
+                                    WarMenu.OpenMenu("heli_modify_menu")
+                                    currentLiveryIndex = 1
+                                    selectedLiveryIndex = 1
+                                else
+                                    WarMenu.OpenMenu("heli_modify_menu")
+                                    currentLiveryIndex = 1
+                                    selectedLiveryIndex = 1
+                                end
+                            else
+                                WarMenu.CloseMenu("heli_modify_menu")
+                            end
+                        end
+                    end
+                    if WarMenu.IsMenuOpened("heli_modify_menu") then
+                        if existingVeh ~= nil then
+                            local livery_count = GetVehicleLiveryCount(existingVeh)
+                            local liveries = {}
+                            for i = 1, livery_count do table.insert(liveries, tostring(i)) end
+                            if WarMenu.ComboBox("Livery", liveries , currentLiveryIndex, selectedLiveryIndex, function(currentIndex, selectedIndex)
+                                currentLiveryIndex = currentIndex
+                                selectedLiveryIndex = selectedIndex
+                            end) then
+                                SetVehicleLivery(existingVeh, selectedLiveryIndex)
+                            end
+                            WarMenu.Display()
+                        else
+                            WarMenu.CloseMenu("heli_modify_menu")
+                        end
+                    end
 				end
 				if isNearStationBoatyard() then
 					if existingVeh == nil then
