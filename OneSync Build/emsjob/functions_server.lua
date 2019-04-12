@@ -54,7 +54,7 @@ end)
 RegisterServerEvent("paramedic:requestdoa")
 AddEventHandler("paramedic:requestdoa", function(target)
 	local source = source
-	if ems[source] then
+	if ems[source] or exports["policejob"].GetCop(source) then
 		Notify("Request to pronounce dead has been sent!", 6000, source)
 		local source = source
 		TriggerClientEvent("paramedic:requestdoa", target, source)
