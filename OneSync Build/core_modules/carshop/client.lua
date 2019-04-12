@@ -48,8 +48,6 @@ cars = {
     }},--]]
     {title = "Job Vehicles", vehicles = {
         {name = "Taxi", price = 9500, model = "taxi"},
-        {name = "Tow Truck", price = 15000, model = "towtruck"},
-        {name = "Tow Truck Mini", price = 7000, model = "towtruck2"},
         {name = "Taco Truck", price = 11000, model = "taco"},
         {name = "Tour Bus", price = 13000, model = "tourbus"},
     }},
