@@ -157,6 +157,10 @@ addRank("officer i", "")
 addRank("recruit", "")
 addRank("cadet", "")
 
+exports("GetCop", function(Player)
+	return cops[Player]
+end)
+
 AddEventHandler('police:initialise', function(source, identifier, character_id)
 	TriggerClientEvent("police:doors_sync", -1, doors)
 	TriggerClientEvent("police:setranks", source, ranks)
