@@ -2,7 +2,7 @@ exports("GetCharacterName", function(Player)
 	local Player = tonumber(Player)
 
 	if Characters[Player] then
-		return Characters[Player].get("first_name") .. Characters[Player].get("last_name")
+		return Characters[Player].get("first_name") .. " " .. Characters[Player].get("last_name")
 	else
 		return nil
 	end
