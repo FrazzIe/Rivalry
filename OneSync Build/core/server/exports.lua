@@ -2,7 +2,7 @@ exports("GetCharacterName", function(Player)
 	local Player = tonumber(Player)
 
 	if Characters[Player] then
-		return Characters[Player].first_name .. Characters[Player].last_name
+		return Characters[Player].get("first_name") .. Characters[Player].get("last_name")
 	else
 		return nil
 	end
@@ -12,7 +12,7 @@ exports("GetCharacterId", function(Player)
 	local Player = tonumber(Player)
 	
 	if Characters[Player] then
-		return Characters[Player].characterID
+		return Characters[Player].get("characterID")
 	else
 		return nil
 	end
@@ -22,7 +22,8 @@ exports("GetPlayerCash", function(Player)
 	local Player = tonumber(Player)
 	
 	if Characters[Player] then
-		return Characters[Player].wallet
+		print(Characters[Player].get("wallet"))
+		return Characters[Player].get("wallet")
 	else
 		return nil
 	end
@@ -32,7 +33,7 @@ exports("GetPlayerBank", function(Player)
 	local Player = tonumber(Player)
 	
 	if Characters[Player] then
-		return Characters[Player].bank
+		return Characters[Player].get("bank")
 	else
 		return nil
 	end
@@ -42,7 +43,7 @@ exports("GetPlayerDirty", function(Player)
 	local Player = tonumber(Player)
 	
 	if Characters[Player] then
-		return Characters[Player].dirty
+		return Characters[Player].get("dirty")
 	else
 		return nil
 	end
@@ -52,7 +53,7 @@ exports("GetPlayerJob", function(Player)
 	local Player = tonumber(Player)
 	
 	if Characters[Player] then
-		return Characters[Player].job
+		return Characters[Player].get("job")
 	else
 		return nil
 	end
@@ -62,13 +63,7 @@ exports("SetPlayerCash", function(Player, Amount)
 	local Player = tonumber(Player)
 	
 	if Characters[Player] then
-		if tonumber(Amount) ~= nil then
-			Characters[Player].wallet = math.floor(tonumber(Amount))
-
-			exports["GHMattiMySQL"]:QueryAsync("UPDATE characters SET wallet=@wallet WHERE character_id=@id", { ["@id"] = Characters[Player].characterID, ["@wallet"] = Characters[Player].wallet })
-
-			TriggerClientEvent("core:updateMoney", Player, Characters[Player].wallet, "wallet", "set", math.floor(tonumber(Amount)))
-		end
+		Characters[Player].wallet(Amount)
 	end
 end)
 
@@ -76,13 +71,7 @@ exports("AddPlayerCash", function(Player, Amount)
 	local Player = tonumber(Player)
 	
 	if Characters[Player] then
-		if tonumber(Amount) ~= nil then
-			Characters[Player].wallet = Characters[Player].wallet + math.floor(tonumber(Amount))
-
-			exports["GHMattiMySQL"]:QueryAsync("UPDATE characters SET wallet=@wallet WHERE character_id=@id", { ["@id"] = Characters[Player].characterID, ["@wallet"] = Characters[Player].wallet })
-
-			TriggerClientEvent("core:updateMoney", Player, Characters[Player].wallet, "wallet", "set", math.floor(tonumber(Amount)))
-		end
+		Characters[Player].addWallet(Amount)
 	end
 end)
 
@@ -90,13 +79,7 @@ exports("RemovePlayerCash", function(Player, Amount)
 	local Player = tonumber(Player)
 	
 	if Characters[Player] then
-		if tonumber(Amount) ~= nil then
-			Characters[Player].wallet = Characters[Player].wallet - math.floor(tonumber(Amount))
-
-			exports["GHMattiMySQL"]:QueryAsync("UPDATE characters SET wallet=@wallet WHERE character_id=@id", { ["@id"] = Characters[Player].characterID, ["@wallet"] = Characters[Player].wallet })
-
-			TriggerClientEvent("core:updateMoney", Player, Characters[Player].wallet, "wallet", "set", math.floor(tonumber(Amount)))
-		end
+		Characters[Player].removeWallet(Amount)
 	end
 end)
 
@@ -104,13 +87,7 @@ exports("SetPlayerBank", function(Player, Amount)
 	local Player = tonumber(Player)
 	
 	if Characters[Player] then
-		if tonumber(Amount) ~= nil then
-			Characters[Player].bank= math.floor(tonumber(Amount))
-
-			exports["GHMattiMySQL"]:QueryAsync("UPDATE characters SET bank=@bank WHERE character_id=@id", { ["@id"] = Characters[Player].characterID, ["@bank"] = Characters[Player].bank })
-
-			TriggerClientEvent("core:updateMoney", Player, Characters[Player].bank, "bank", "set", math.floor(tonumber(Amount)))
-		end
+		Characters[Player].bank(Amount)
 	end
 end)
 
@@ -118,13 +95,7 @@ exports("AddPlayerBank", function(Player, Amount)
 	local Player = tonumber(Player)
 	
 	if Characters[Player] then
-		if tonumber(Amount) ~= nil then
-			Characters[Player].bank = Characters[Player].bank + math.floor(tonumber(Amount))
-
-			exports["GHMattiMySQL"]:QueryAsync("UPDATE characters SET bank=@bank WHERE character_id=@id", { ["@id"] = Characters[Player].characterID, ["@bank"] = Characters[Player].bank })
-
-			TriggerClientEvent("core:updateMoney", Player, Characters[Player].bank, "bank", "set", math.floor(tonumber(Amount)))
-		end
+		Characters[Player].addBank(Amount)
 	end
 end)
 
@@ -132,13 +103,7 @@ exports("RemovePlayerBank", function(Player, Amount)
 	local Player = tonumber(Player)
 	
 	if Characters[Player] then
-		if tonumber(Amount) ~= nil then
-			Characters[Player].bank = Characters[Player].bank - math.floor(tonumber(Amount))
-
-			exports["GHMattiMySQL"]:QueryAsync("UPDATE characters SET bank=@bank WHERE character_id=@id", { ["@id"] = Characters[Player].characterID, ["@bank"] = Characters[Player].bank })
-
-			TriggerClientEvent("core:updateMoney", Player, Characters[Player].bank, "bank", "set", math.floor(tonumber(Amount)))
-		end
+		Characters[Player].removeBank(Amount)
 	end
 end)
 
@@ -146,13 +111,7 @@ exports("SetPlayerDirty", function(Player, Amount)
 	local Player = tonumber(Player)
 	
 	if Characters[Player] then
-		if tonumber(Amount) ~= nil then
-			Characters[Player].dirty = math.floor(tonumber(Amount))
-
-			exports["GHMattiMySQL"]:QueryAsync("UPDATE characters SET dirty_cash=@dirty_cash WHERE character_id=@id", { ["@id"] = Characters[Player].characterID, ["@dirty_cash"] = Characters[Player].dirty })
-
-			TriggerClientEvent("core:updateMoney", Player, Characters[Player].dirty, "dirty", "set", math.floor(tonumber(Amount)))
-		end
+		Characters[Player].dirty(Amount)
 	end
 end)
 
@@ -160,13 +119,7 @@ exports("AddPlayerDirty", function(Player, Amount)
 	local Player = tonumber(Player)
 	
 	if Characters[Player] then
-		if tonumber(Amount) ~= nil then
-			Characters[Player].dirty = Characters[Player].dirty + math.floor(tonumber(Amount))
-
-			exports["GHMattiMySQL"]:QueryAsync("UPDATE characters SET dirty_cash=@dirty_cash WHERE character_id=@id", { ["@id"] = Characters[Player].characterID, ["@dirty_cash"] = Characters[Player].dirty })
-
-			TriggerClientEvent("core:updateMoney", Player, Characters[Player].dirty, "dirty", "set", math.floor(tonumber(Amount)))
-		end
+		Characters[Player].addDirty(Amount)
 	end
 end)
 
@@ -174,13 +127,7 @@ exports("RemovePlayerDirty", function(Player, Amount)
 	local Player = tonumber(Player)
 	
 	if Characters[Player] then
-		if tonumber(Amount) ~= nil then
-			Characters[Player].dirty = Characters[Player].dirty - math.floor(tonumber(Amount))
-
-			exports["GHMattiMySQL"]:QueryAsync("UPDATE characters SET dirty_cash=@dirty_cash WHERE character_id=@id", { ["@id"] = Characters[Player].characterID, ["@dirty_cash"] = Characters[Player].dirty })
-
-			TriggerClientEvent("core:updateMoney", Player, Characters[Player].dirty, "dirty", "set", math.floor(tonumber(Amount)))
-		end
+		Characters[Player].removeDirty(Amount)
 	end
 end)
 
@@ -188,8 +135,6 @@ exports("SetPlayerJob", function(Player, Id)
 	local Player = tonumber(Player)
 	
 	if Characters[Player] then
-		Characters[Player].job = jobs[Id]
-
-		exports["GHMattiMySQL"]:QueryAsync("UPDATE characters SET job_id=@job WHERE character_id=@id", { ["@id"] = Characters[Player].characterID, ["@job"] = Characters[Player].job.id })
+		Characters[Player].job(Amount)
 	end
 end)
