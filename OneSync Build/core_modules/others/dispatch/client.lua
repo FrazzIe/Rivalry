@@ -320,8 +320,14 @@ Citizen.CreateThread(function()
 									if willNPCreport("gunshots") then
 										lastpos = pos
 										local street, crossing = GetStreetNameAtCoord(pos.x, pos.y, pos.z)
-										TriggerServerEvent("dispatch:ten-thirtytwo", {x = pos.x, y = pos.y, z = pos.z}, GetStreetNameFromHashKey(street))
-                                        TriggerServerEvent("News:Dispatch", GetStreetNameFromHashKey(street), GetStreetNameFromHashKey(crossing))
+                                        local Area = GetNameOfZone(pos.x, pos.y, pos.z)
+                                        if crossing ~= "" and crossing ~= nil then
+                                            cross = "Unknown"
+                                        else
+                                            cross = GetStreetNameFromHashKey(crossing)
+                                        end
+										TriggerServerEvent("dispatch:ten-thirtytwo", {x = pos.x, y = pos.y, z = pos.z}, GetStreetNameFromHashKey(street), cross, GetLabelText(Area))
+                                        TriggerServerEvent("News:Dispatch", GetStreetNameFromHashKey(street), cross)
 									end
 								end
 							end
@@ -356,18 +362,17 @@ Citizen.CreateThread(function()
                                             if GetPedType(ped) == 26 or GetPedType(ped) == 4 or GetPedType(ped) == 5 then
                                                 lastpos = pos
                                                 local street, crossing = GetStreetNameAtCoord(pos.x, pos.y, pos.z)
-                                                if IsPedMale(PlayerPed) then
-                                                    local random = math.random(1,100)
-                                                    if random >= 50 then
-                                                        TriggerServerEvent("dispatch:ten-thirtytwo:2", {x = pos.x, y = pos.y, z = pos.z}, GetStreetNameFromHashKey(street), "Male")
-                                                        TriggerServerEvent("News:Dispatch", GetStreetNameFromHashKey(street), GetStreetNameFromHashKey(crossing))
-                                                    end
+                                                local Area = GetNameOfZone(pos.x, pos.y, pos.z)
+                                                local random = math.random(1,100)
+                                                if crossing ~= "" and crossing ~= nil then
+                                                    cross = "Unknown"
                                                 else
-                                                    local random = math.random(1,100)
-                                                    if random >= 50 then
-                                                        TriggerServerEvent("dispatch:ten-thirtytwo:2", {x = pos.x, y = pos.y, z = pos.z}, GetStreetNameFromHashKey(street), "Female")
-                                                        TriggerServerEvent("News:Dispatch", GetStreetNameFromHashKey(street), GetStreetNameFromHashKey(crossing))
-                                                    end
+                                                    cross = GetStreetNameFromHashKey(crossing)
+                                                end
+                                                if random >= 50 then
+                                                    TriggerEvent("chatMessage", PlayerPedId(), "Local",{0, 255, 0}, "^7Hey im calling the cops!")
+                                                    TriggerServerEvent("dispatch:ten-thirtytwo:2", {x = pos.x, y = pos.y, z = pos.z}, GetStreetNameFromHashKey(street), cross, GetLabelText(Area))
+                                                    TriggerServerEvent("News:Dispatch", GetStreetNameFromHashKey(street), cross)
                                                 end
                                             end
                                         end
@@ -385,128 +390,80 @@ end)
 RegisterNetEvent("dispatch:ten-thirtytwo")
 AddEventHandler("dispatch:ten-thirtytwo", function(coords)
 	Citizen.CreateThread(function()
-		local ten_thirtytwo_blip = nil
 		local coords = coords
 		local endTime = GetGameTimer() + ((ten_thirtytwo_timer * 60)/ 0.001)
 		local arrived = false
 		while endTime > GetGameTimer() and not arrived do
 			Citizen.Wait(0)
 			local pos = GetEntityCoords(PlayerPedId(), false)
-			if not DoesBlipExist(ten_thirtytwo_blip) then
-				ten_thirtytwo_blip = AddBlipForCoord(coords.x, coords.y, coords.z)
-				SetBlipSprite(ten_thirtytwo_blip, 458)
-				SetBlipColour(ten_thirtytwo_blip, 28)
-				SetBlipAsShortRange(ten_thirtytwo_blip, true)
-				SetBlipScale(ten_thirtytwo_blip, 0.85)
-				BeginTextCommandSetBlipName("STRING")
-				AddTextComponentString("10-31")
-				EndTextCommandSetBlipName(ten_thirtytwo_blip)
-			end
 			if not arrived then
                 coords = vector3(coords.x, coords.y, coords.z)
-				if #(pos - coords) < 20 then
+				if #(pos - coords) < 30 then
 					arrived = true
 					TriggerServerEvent("dispatch:pay", "10-31")
 				end
 			end
 		end
-		RemoveBlip(ten_thirtytwo_blip)
 	end)
 end)
 
 RegisterNetEvent("dispatch:ten-thirtytwo-r")
 AddEventHandler("dispatch:ten-thirtytwo-r", function(coords)
     Citizen.CreateThread(function()
-        local ten_thirtytwo_blip = nil
         local coords = coords
         local endTime = GetGameTimer() + ((ten_thirtytwo_timer * 60)/ 0.001)
         local arrived = false
         while endTime > GetGameTimer() and not arrived do
             Citizen.Wait(0)
             local pos = GetEntityCoords(PlayerPedId(), false)
-            if not DoesBlipExist(ten_thirtytwo_blip) then
-                ten_thirtytwo_blip = AddBlipForCoord(coords.x, coords.y, coords.z)
-                SetBlipSprite(ten_thirtytwo_blip, 480)
-                SetBlipColour(ten_thirtytwo_blip, 28)
-                SetBlipAsShortRange(ten_thirtytwo_blip, true)
-                SetBlipScale(ten_thirtytwo_blip, 0.85)
-                BeginTextCommandSetBlipName("STRING")
-                AddTextComponentString("10-31")
-                EndTextCommandSetBlipName(ten_thirtytwo_blip)
-            end
             if not arrived then
                 coords = vector3(coords.x, coords.y, coords.z)
-                if #(pos - coords) < 20 then
+                if #(pos - coords) < 30 then
                     arrived = true
                     TriggerServerEvent("dispatch:pay", "10-31")
                 end
             end
         end
-        RemoveBlip(ten_thirtytwo_blip)
     end)
 end)
 
 RegisterNetEvent("dispatch:ten-thirtytwo:2")
 AddEventHandler("dispatch:ten-thirtytwo:2", function(coords)
     Citizen.CreateThread(function()
-        local ten_thirtytwo_blip = nil
         local coords = coords
         local endTime = GetGameTimer() + ((ten_thirtytwo_timer * 60)/ 0.001)
         local arrived = false
         while endTime > GetGameTimer() and not arrived do
             Citizen.Wait(0)
             local pos = GetEntityCoords(PlayerPedId(), false)
-            if not DoesBlipExist(ten_thirtytwo_blip) then
-                ten_thirtytwo_blip = AddBlipForCoord(coords.x, coords.y, coords.z)
-                SetBlipSprite(ten_thirtytwo_blip, 110)
-                SetBlipColour(ten_thirtytwo_blip, 28)
-                SetBlipAsShortRange(ten_thirtytwo_blip, true)
-                SetBlipScale(ten_thirtytwo_blip, 0.85)
-                BeginTextCommandSetBlipName("STRING")
-                AddTextComponentString("10-32")
-                EndTextCommandSetBlipName(ten_thirtytwo_blip)
-            end
             if not arrived then
                 coords = vector3(coords.x, coords.y, coords.z)
-                if #(pos - coords) < 20 then
+                if #(pos - coords) < 30 then
                     arrived = true
                     TriggerServerEvent("dispatch:pay", "10-32")
                 end
             end
         end
-        RemoveBlip(ten_thirtytwo_blip)
     end)
 end)
 
 RegisterNetEvent("dispatch:ten-thirtytwo:3")
 AddEventHandler("dispatch:ten-thirtytwo:3", function(coords)
     Citizen.CreateThread(function()
-        local ten_thirtytwo_blip = nil
         local coords = coords
         local endTime = GetGameTimer() + ((ten_thirtytwo_timer * 60)/ 0.001)
         local arrived = false
         while endTime > GetGameTimer() and not arrived do
             Citizen.Wait(0)
             local pos = GetEntityCoords(PlayerPedId(), false)
-            if not DoesBlipExist(ten_thirtytwo_blip) then
-                ten_thirtytwo_blip = AddBlipForCoord(coords.x, coords.y, coords.z)
-                SetBlipSprite(ten_thirtytwo_blip, 491)
-                SetBlipColour(ten_thirtytwo_blip, 28)
-                SetBlipAsShortRange(ten_thirtytwo_blip, true)
-                SetBlipScale(ten_thirtytwo_blip, 0.85)
-                BeginTextCommandSetBlipName("STRING")
-                AddTextComponentString("10-31")
-                EndTextCommandSetBlipName(ten_thirtytwo_blip)
-            end
             if not arrived then
                 coords = vector3(coords.x, coords.y, coords.z)
-                if #(pos - coords) < 20 then
+                if #(pos - coords) < 30 then
                     arrived = true
                     TriggerServerEvent("dispatch:pay", "10-31")
                 end
             end
         end
-        RemoveBlip(ten_thirtytwo_blip)
     end)
 end)
 
@@ -521,14 +478,19 @@ AddEventHandler("dispatch:lockpick", function()
 		if willNPCreport("vehicle") then
 			lockpick_lastpos = pos
 			local street, crossing = GetStreetNameAtCoord(pos.x, pos.y, pos.z)
+            local Area = GetNameOfZone(pos.x, pos.y, pos.z)
 			local vehicle = GetVehiclePedIsIn(PlayerPedId())
+            if crossing ~= "" and crossing ~= nil then
+                cross = "Unknown"
+            else
+                cross = GetStreetNameFromHashKey(crossing)
+            end
             if DoesEntityExist(vehicle) then
     			local model = string.gsub(GetVehicleName(GetEntityModel(vehicle)), "%f[%a].", string.upper)
-
     			local plate =  GetVehicleNumberPlateText(vehicle)
     			local primary, secondary = GetVehicleColours(vehicle)
     			primary = colorNames[tostring(primary)] or ""
-    			TriggerServerEvent("dispatch:ten-thirtyone", {x = pos.x, y = pos.y, z = pos.z}, GetStreetNameFromHashKey(street), model, plate, primary)
+    			TriggerServerEvent("dispatch:ten-thirtyone", {x = pos.x, y = pos.y, z = pos.z}, GetStreetNameFromHashKey(street), cross, GetLabelText(Area), model, plate, primary)
             end
 		end
 	end
@@ -537,32 +499,20 @@ end)
 RegisterNetEvent("dispatch:ten-thirtyone")
 AddEventHandler("dispatch:ten-thirtyone", function(coords)
 	Citizen.CreateThread(function()
-		local ten_thirtyone_blip = nil
 		local coords = coords
 		local endTime = GetGameTimer() + ((ten_thirtyone_timer * 60)/ 0.001)
 		local arrived = false
 		while endTime > GetGameTimer() and not arrived do
 			Citizen.Wait(0)
 			local pos = GetEntityCoords(PlayerPedId(), false)
-			if not DoesBlipExist(ten_thirtyone_blip) then
-				ten_thirtyone_blip = AddBlipForCoord(coords.x, coords.y, coords.z)
-				SetBlipSprite(ten_thirtyone_blip, 229)
-				SetBlipColour(ten_thirtyone_blip, 28)
-				SetBlipAsShortRange(ten_thirtyone_blip, true)
-				SetBlipScale(ten_thirtyone_blip, 0.85)
-				BeginTextCommandSetBlipName("STRING")
-				AddTextComponentString("10-31")
-				EndTextCommandSetBlipName(ten_thirtyone_blip)
-			end
 			if not arrived then
                 coords = vector3(coords.x, coords.y, coords.z)
-				if #(pos - coords) < 20 then
+				if #(pos - coords) < 30 then
 					arrived = true
 					TriggerServerEvent("dispatch:pay", "10-31")
 				end
 			end
 		end
-		RemoveBlip(ten_thirtyone_blip)
 	end)
 end)
 
@@ -573,13 +523,14 @@ AddEventHandler("dispatch:drug", function()
 		if willNPCreport("drugs") then
 			drugs_lastpos = pos
 			local street, crossing = GetStreetNameAtCoord(pos.x, pos.y, pos.z)
-			local sex = IsPedMale(PlayerPedId())
-			if sex then
-				gender = "Male"
-			else
-				gender = "Female"
-			end
-			TriggerServerEvent("dispatch:ten-fifthteen", {x = pos.x, y = pos.y, z = pos.z}, GetStreetNameFromHashKey(street), gender)
+            local Area = GetNameOfZone(pos.x, pos.y, pos.z)
+            if crossing ~= "" and crossing ~= nil then
+                cross = "Unknown"
+            else
+                cross = GetStreetNameFromHashKey(crossing)
+            end
+            TriggerEvent("chatMessage", PlayerPedId(), "Local",{0, 255, 0}, "^7Hey im calling the cops!")
+			TriggerServerEvent("dispatch:ten-fifthteen", {x = pos.x, y = pos.y, z = pos.z}, GetStreetNameFromHashKey(street), cross, GetLabelText(Area))
 		end
 	end
 end)
@@ -587,32 +538,20 @@ end)
 RegisterNetEvent("dispatch:ten-fifthteen")
 AddEventHandler("dispatch:ten-fifthteen", function(coords)
 	Citizen.CreateThread(function()
-		local ten_fifthteen_blip = nil
 		local coords = coords
 		local endTime = GetGameTimer() + ((ten_fifthteen_timer * 60)/ 0.001)
 		local arrived = false
 		while endTime > GetGameTimer() and not arrived do
 			Citizen.Wait(0)
 			local pos = GetEntityCoords(PlayerPedId(), false)
-			if not DoesBlipExist(ten_fifthteen_blip) then
-				ten_fifthteen_blip = AddBlipForCoord(coords.x, coords.y, coords.z)
-				SetBlipSprite(ten_fifthteen_blip, 496)
-				SetBlipColour(ten_fifthteen_blip, 28)
-				SetBlipAsShortRange(ten_fifthteen_blip, true)
-				SetBlipScale(ten_fifthteen_blip, 0.85)
-				BeginTextCommandSetBlipName("STRING")
-				AddTextComponentString("10-31")
-				EndTextCommandSetBlipName(ten_fifthteen_blip)
-			end
 			if not arrived then
                 coords = vector3(coords.x, coords.y, coords.z)
-				if #(pos - coords) < 20 then
+				if #(pos - coords) < 30 then
 					arrived = true
 					TriggerServerEvent("dispatch:pay", "10-31")
 				end
 			end
 		end
-		RemoveBlip(ten_fifthteen_blip)
 	end)
 end)
 
@@ -620,40 +559,34 @@ AddEventHandler("dispatch:lockpick_property", function()
 	local pos = GetEntityCoords(PlayerPedId(), false)
 	if willNPCreport("property_lock") then
 		local street, crossing = GetStreetNameAtCoord(pos.x, pos.y, pos.z)
-		TriggerServerEvent("dispatch:ten-thirtyone_2", pos, GetStreetNameFromHashKey(street))
-        TriggerServerEvent("News:Dispatch", GetStreetNameFromHashKey(street), GetStreetNameFromHashKey(crossing))
+        local Area = GetNameOfZone(pos.x, pos.y, pos.z)
+        if crossing ~= "" and crossing ~= nil then
+            cross = "Unknown"
+        else
+            cross = GetStreetNameFromHashKey(crossing)
+        end
+		TriggerServerEvent("dispatch:ten-thirtyone_2", pos, GetStreetNameFromHashKey(street), cross, GetLabelText(Area))
+        TriggerServerEvent("News:Dispatch", GetStreetNameFromHashKey(street), cross)
 	end
 end)
 
 RegisterNetEvent("dispatch:ten-thirtyone_2")
 AddEventHandler("dispatch:ten-thirtyone_2", function(coords)
 	Citizen.CreateThread(function()
-		local ten_thirtyone_2_blip = nil
 		local coords = coords
 		local endTime = GetGameTimer() + ((ten_thirtytwo_2_timer * 60)/ 0.001)
 		local arrived = false
 		while endTime > GetGameTimer() and not arrived do
 			Citizen.Wait(0)
 			local pos = GetEntityCoords(PlayerPedId(), false)
-			if not DoesBlipExist(ten_thirtyone_2_blip) then
-				ten_thirtyone_2_blip = AddBlipForCoord(coords.x, coords.y, coords.z)
-				SetBlipSprite(ten_thirtyone_2_blip, 459)
-				SetBlipColour(ten_thirtyone_2_blip, 28)
-				SetBlipAsShortRange(ten_thirtyone_2_blip, true)
-				SetBlipScale(ten_thirtyone_2_blip, 0.85)
-				BeginTextCommandSetBlipName("STRING")
-				AddTextComponentString("10-31")
-				EndTextCommandSetBlipName(ten_thirtyone_2_blip)
-			end
 			if not arrived then
                 coords = vector3(coords.x, coords.y, coords.z)
-				if #(pos - coords) < 20 then
+				if #(pos - coords) < 30 then
 					arrived = true
 					TriggerServerEvent("dispatch:pay", "10-31")
 				end
 			end
 		end
-		RemoveBlip(ten_thirtyone_2_blip)
 	end)
 end)
 
@@ -661,39 +594,33 @@ RegisterNetEvent("dispatch:robbery")
 AddEventHandler("dispatch:robbery", function()
 	local pos = GetEntityCoords(PlayerPedId(), false)
 	local street, crossing = GetStreetNameAtCoord(pos.x, pos.y, pos.z)
-	TriggerServerEvent("dispatch:ten-ninety", {x = pos.x, y = pos.y, z = pos.z}, GetStreetNameFromHashKey(street))
-    TriggerServerEvent("News:Dispatch", GetStreetNameFromHashKey(street), GetStreetNameFromHashKey(crossing))
+    local Area = GetNameOfZone(pos.x, pos.y, pos.z)
+    if crossing ~= "" and crossing ~= nil then
+        cross = "Unknown"
+    else
+        cross = GetStreetNameFromHashKey(crossing)
+    end
+	TriggerServerEvent("dispatch:ten-ninety", {x = pos.x, y = pos.y, z = pos.z}, GetStreetNameFromHashKey(street), cross, GetLabelText(Area))
+    TriggerServerEvent("News:Dispatch", GetStreetNameFromHashKey(street), crossing)
 end)
 
 RegisterNetEvent("dispatch:ten-ninety")
 AddEventHandler("dispatch:ten-ninety", function(coords)
 	Citizen.CreateThread(function()
-		local ten_ninety_blip = nil
 		local coords = coords
 		local endTime = GetGameTimer() + ((ten_ninety_timer * 60)/ 0.001)
 		local arrived = false
 		while endTime > GetGameTimer() and not arrived do
 			Citizen.Wait(0)
 			local pos = GetEntityCoords(PlayerPedId(), false)
-			if not DoesBlipExist(ten_ninety_blip) then
-				ten_ninety_blip = AddBlipForCoord(coords.x, coords.y, coords.z)
-				SetBlipSprite(ten_ninety_blip, 459)
-				SetBlipColour(ten_ninety_blip, 28)
-				SetBlipAsShortRange(ten_ninety_blip, true)
-				SetBlipScale(ten_ninety_blip, 0.85)
-				BeginTextCommandSetBlipName("STRING")
-				AddTextComponentString("10-90")
-				EndTextCommandSetBlipName(ten_ninety_blip)
-			end
 			if not arrived then
                 coords = vector3(coords.x, coords.y, coords.z)
-				if #(pos - coords) < 20 then
+				if #(pos - coords) < 30 then
 					arrived = true
 					TriggerServerEvent("dispatch:pay", "10-90")
 				end
 			end
 		end
-		RemoveBlip(ten_ninety_blip)
 	end)
 end)
 
@@ -701,7 +628,13 @@ RegisterNetEvent("dispatch:notify-cops")
 AddEventHandler("dispatch:notify-cops", function(message)
 	local pos = GetEntityCoords(PlayerPedId(), false)
 	local street, crossing = GetStreetNameAtCoord(pos.x, pos.y, pos.z)
-	message = string.gsub(message, "STREETNAME", GetStreetNameFromHashKey(street))
+    local Area = GetNameOfZone(pos.x, pos.y, pos.z)
+    if crossing ~= "" and crossing ~= nil then
+        cross = "Unknown"
+    else
+        cross = crossing
+    end
+    message = string.gsub(message, "STREETNAME", GetStreetNameFromHashKey(street), cross, GetLabelText(Area))
 	TriggerServerEvent("dispatch:notify-cops", message)
 end)
 
@@ -709,10 +642,18 @@ RegisterNetEvent("dispatch:notify-cops31")
 AddEventHandler("dispatch:notify-cops31", function(message)
 	local pos = GetEntityCoords(PlayerPedId(), false)
 	local street, crossing = GetStreetNameAtCoord(pos.x, pos.y, pos.z)
-	message = string.gsub(message, "STREETNAME", GetStreetNameFromHashKey(street))
+    local Area = GetNameOfZone(pos.x, pos.y, pos.z)
+    local primary, secondary = GetVehicleColours(vehicle)
+    if crossing ~= "" and crossing ~= nil then
+        cross = "Unknown"
+    else
+        cross = crossing
+    end
+	message = string.gsub(message, "STREETNAME", GetStreetNameFromHashKey(street), cross, GetLabelText(Area))
 	vehicle = string.gsub(vehicle, "VEHICLE MODEL", GetVehiclePedIsUsing(PlayerPedId()))
+    color = string.gsub(color, "VEHICLE COLOR", colorNames[tostring(primary)] or "")
 	plate = string.gsub(plate, "VEHICLE PLATE", GetVehicleNumberPlateText(vehicle))
-	TriggerServerEVent("dispatch:notify-cops31", message, vehicle, plate)
+	TriggerServerEVent("dispatch:notify-cops31", message, vehicle, color, plate)
 end)
 
 local user_call_311_timer = 10
@@ -741,7 +682,7 @@ AddEventHandler("dispatch:311", function(id, message)
 			end
 			if not arrived then
                 coords = vector3(coords.x, coords.y, coords.z)
-				if #(pos - coords) < 20 then
+				if #(pos - coords) < 30 then
 					arrived = true
 					TriggerServerEvent("dispatch:pay", "311")
 				end
@@ -774,7 +715,7 @@ AddEventHandler("dispatch:911", function(id, message)
 			end
 			if not arrived then
                 coords = vector3(coords.x, coords.y, coords.z)
-				if #(pos - coords) < 20 then
+				if #(pos - coords) < 30 then
 					arrived = true
 					TriggerServerEvent("dispatch:pay", "911")
 				end

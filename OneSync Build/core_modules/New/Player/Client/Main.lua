@@ -314,7 +314,13 @@ Citizen.CreateThread(function()
 				  			if IsControlJustPressed(1,51) then
 				  				TaskPlayAnim(TargetPed, Dictionary, AnimationName2, 4.0, -4, -1, 1, 0, false, false, false)
 				  				street, crossing = GetStreetNameAtCoord(PlayerPosition.x, PlayerPosition.y, PlayerPosition.z)
-				  				TriggerServerEvent("dispatch:ten-thirtytwo-r", {x = PlayerPosition.x, y = PlayerPosition.y, z = PlayerPosition.z}, GetStreetNameFromHashKey(street))
+				  				local Area = GetNameOfZone(PlayerPosition.x, PlayerPosition.y, PlayerPosition.z)
+					            if crossing ~= "" and crossing ~= nil then
+					                cross = "Unknown"
+					            else
+					            	cross = GetStreetNameFromHashKey(crossing)
+					            end
+				  				TriggerServerEvent("dispatch:ten-thirtytwo-r", {x = PlayerPosition.x, y = PlayerPosition.y, z = PlayerPosition.z}, GetStreetNameFromHashKey(street), cross, GetLabelText(Area))
 				  				Notify("You're robbing a mothafucka. Dont move and keep them at gunpoint until you get that lettuce!", 30000)
 				  				Citizen.Wait(30000)
 				  				PlayerPosition, TargetPedPosition = GetEntityCoords(PlayerPed, 0), GetEntityCoords(TargetPed, 0)
@@ -347,7 +353,13 @@ Citizen.CreateThread(function()
 				  			if IsControlJustPressed(1,51) then
 				  				TaskPlayAnim(TargetPed, Dictionary, AnimationName2, 4.0, -4, -1, 1, 0, false, false, false)
 				  				street, crossing = GetStreetNameAtCoord(PlayerPosition.x, PlayerPosition.y, PlayerPosition.z)
-				  				TriggerServerEvent("dispatch:ten-thirtytwo-r", {x = PlayerPosition.x, y = PlayerPosition.y, z = PlayerPosition.z}, GetStreetNameFromHashKey(street))
+				  				local Area = GetNameOfZone(PlayerPosition.x, PlayerPosition.y, PlayerPosition.z)
+					            if crossing ~= "" and crossing ~= nil then
+					                cross = "Unknown"
+					            else
+					            	cross = GetStreetNameFromHashKey(crossing)
+					            end
+				  				TriggerServerEvent("dispatch:ten-thirtytwo-r", {x = PlayerPosition.x, y = PlayerPosition.y, z = PlayerPosition.z}, GetStreetNameFromHashKey(street), cross, GetLabelText(Area))
 				  				Notify("You're robbing a mothafucka. Dont move and keep them at gunpoint until you get that lettuce!", 30000)
 				  				Citizen.Wait(30000)
 				  				PlayerPosition, TargetPedPosition = GetEntityCoords(PlayerPed, 0), GetEntityCoords(TargetPed, 0)

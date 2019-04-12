@@ -118,30 +118,30 @@ Chat.Command("dispatch", function(source, args, rawCommand)
 end, false, {Help = "Respond back towards a call.", Params = {{name = "id", help = "The caller ID"}, {name = "message", help = "Message to send to the caller"}}})
 
 RegisterServerEvent("dispatch:ten-thirtytwo")
-AddEventHandler("dispatch:ten-thirtytwo", function(coords, street_name)
+AddEventHandler("dispatch:ten-thirtytwo", function(coords, street_name, crossing, area)
 	for id, dept in pairs(emergency_users) do
 		if dept ~= nil and dept ~= "paramedic" then
-			TriggerClientEvent("chatMessage", id, "10-31-S", {255, 0, 0}, "^7Crime in progress (Shots fired) at "..street_name)
+			TriggerClientEvent("chatMessage", id, "10-31-S", {255, 0, 0}, "^7Crime in progress (Shots fired) at "..street_name.. " | "..crossing.." | "..area)
 			TriggerClientEvent("dispatch:ten-thirtytwo", id, coords)
 		end
 	end
 end)
 
 RegisterServerEvent("dispatch:ten-thirtytwo-r")
-AddEventHandler("dispatch:ten-thirtytwo-r", function(coords, street_name)
+AddEventHandler("dispatch:ten-thirtytwo-r", function(coords, street_name, crossing, area)
 	for id, dept in pairs(emergency_users) do
 		if dept ~= nil and dept ~= "paramedic" then
-			TriggerClientEvent("chatMessage", id, "10-31-R", {255, 0, 0}, "^7Crime in progress (Armed Robbery) at "..street_name)
+			TriggerClientEvent("chatMessage", id, "10-31-R", {255, 0, 0}, "^7Crime in progress (Armed Robbery) at "..street_name.." | "..crossing.." | "..area)
 			TriggerClientEvent("dispatch:ten-thirtytwo-r", id, coords)
 		end
 	end
 end)
 
 RegisterServerEvent("dispatch:ten-thirtytwo:2")
-AddEventHandler("dispatch:ten-thirtytwo:2", function(coords, street_name, gender)
+AddEventHandler("dispatch:ten-thirtytwo:2", function(coords, street_name, crossing, area)
 	for id, dept in pairs(emergency_users) do
 		if dept ~= nil and dept ~= "paramedic" then
-			TriggerClientEvent("chatMessage", id, "10-32", {255, 0, 0}, "^7"..gender.." seen with a firearm at "..street_name)
+			TriggerClientEvent("chatMessage", id, "10-32", {255, 0, 0}, "^7Individual seen with a firearm at "..street_name.." | "..crossing.." | "..area)
 			TriggerClientEvent("dispatch:ten-thirtytwo:2", id, coords)
 		end
 	end
@@ -158,40 +158,40 @@ AddEventHandler("dispatch:ten-thirtytwo:3", function(coords, street_name, type)
 end)
 
 RegisterServerEvent("dispatch:ten-thirtyone")
-AddEventHandler("dispatch:ten-thirtyone", function(coords, street_name, model, plate)
+AddEventHandler("dispatch:ten-thirtyone", function(coords, street_name, crossing, area, model, plate, primary)
 	for id, dept in pairs(emergency_users) do
 		if dept ~= nil and dept ~= "paramedic" then
-			TriggerClientEvent("chatMessage", id, "10-31-G", {255, 0, 0}, "^7Crime in Progress (possible Grand Theft Auto) at "..street_name..". Vehicle is a "..model.." with plate "..plate)
+			TriggerClientEvent("chatMessage", id, "10-31-G", {255, 0, 0}, "^7Crime in Progress (possible Grand Theft Auto) at "..street_name.." | ".. crossing .. " | " .. area .. "| Vehicle is a ".. primary .." "..model.." with plate "..plate..".")
 			TriggerClientEvent("dispatch:ten-thirtyone", id, coords)
 		end
 	end
 end)
 
 RegisterServerEvent("dispatch:ten-thirtyone_2")
-AddEventHandler("dispatch:ten-thirtyone_2", function(coords, street_name)
+AddEventHandler("dispatch:ten-thirtyone_2", function(coords, street_name, crossing, area)
 	for id, dept in pairs(emergency_users) do
 		if dept ~= nil and dept ~= "paramedic" then
-			TriggerClientEvent("chatMessage", id, "10-31-BE", {255, 0, 0}, "^7Possible break-in reported at "..street_name)
+			TriggerClientEvent("chatMessage", id, "10-31-BE", {255, 0, 0}, "^7Possible break-in reported at "..street_name.." | "..crossing.." | "..area)
 			TriggerClientEvent("dispatch:ten-thirtyone_2", id, coords)
 		end
 	end
 end)
 
 RegisterServerEvent("dispatch:ten-fifthteen")
-AddEventHandler("dispatch:ten-fifthteen", function(coords, street_name, gender)
+AddEventHandler("dispatch:ten-fifthteen", function(coords, street_name, crossing, area)
 	for id, dept in pairs(emergency_users) do
 		if dept ~= nil and dept ~= "paramedic" then
-			TriggerClientEvent("chatMessage", id, "10-31-D", {255, 0, 0}, "^7Crime in Progress (CDS) at "..street_name..". Suspect was reported a "..gender)
+			TriggerClientEvent("chatMessage", id, "10-31-D", {255, 0, 0}, "^7Crime in Progress (CDS) at "..street_name.." | ".. crossing .." | "..area)
 			TriggerClientEvent("dispatch:ten-fifthteen", id, coords)
 		end
 	end
 end)
 
 RegisterServerEvent("dispatch:ten-ninety")
-AddEventHandler("dispatch:ten-ninety", function(coords, street_name)
+AddEventHandler("dispatch:ten-ninety", function(coords, street_name, crossing, area)
 	for id, dept in pairs(emergency_users) do
 		if dept ~= nil and dept ~= "paramedic" then
-			TriggerClientEvent("chatMessage", id, "10-90", {255, 0, 0}, "^7A silent alarm has been triggered on "..street_name)
+			TriggerClientEvent("chatMessage", id, "10-90", {255, 0, 0}, "^7A silent alarm has been triggered on "..street_name.." | "..crossing.." | "..area)
 			TriggerClientEvent("dispatch:ten-ninety", id, coords)
 		end
 	end
@@ -201,7 +201,7 @@ RegisterServerEvent("dispatch:pay")
 AddEventHandler("dispatch:pay", function(type)
 	local source = source
 	TriggerEvent("core:getuser", source, function(user)
-		TriggerClientEvent("chatMessage", source, "Dispatch", {0, 255, 0}, "^4You have been paid $"..pay[type].." for responding to the "..type)
+		TriggerClientEvent("chatMessage", source, "Dispatch", {0, 255, 0}, "^4You have been paid $"..pay[type].." for arriving to the area of "..type)
 		user.addWallet(pay[type])
 	end)
 end)
@@ -214,3 +214,4 @@ AddEventHandler("dispatch:notify-cops", function(message)
 		end
 	end
 end)
+
