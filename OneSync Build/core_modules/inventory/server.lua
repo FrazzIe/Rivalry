@@ -1426,7 +1426,7 @@ AddEventHandler("core:switch", function(source)
     user_inventory[source] = nil
 end)
 
-
+--[[
 function updateInventories()
     Citizen.SetTimeout(900000, function()
         syncing_inventory = true
@@ -1477,3 +1477,4 @@ function updateInventories()
     end)
 end
 updateInventories()
+--]]
