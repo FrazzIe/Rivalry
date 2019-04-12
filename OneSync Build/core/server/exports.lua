@@ -22,7 +22,6 @@ exports("GetPlayerCash", function(Player)
 	local Player = tonumber(Player)
 	
 	if Characters[Player] then
-		print(Characters[Player].get("wallet"))
 		return Characters[Player].get("wallet")
 	else
 		return nil
