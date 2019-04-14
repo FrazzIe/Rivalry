@@ -92,6 +92,8 @@ Config.Priority = {
     ["steam:110000104c0d8b2"] = 670, -- Wu Hwang (EMS Extra)
     ["steam:11000010EFF15ED"] = 669, -- Bob Michaels (EMS Extra)
     ["steam:1100001054d27db"] = 668, -- Keiandre Billings (EMS Extra)
+    ["steam:11000010c984e67"] = 667, -- Mac Mcfly (PD Extra)
+    ["steam:1100001000a7d12"] = 667, -- Marco Sandborn (PD Extra)
 --[Extras]--
     ["steam:110000106443c23"] = 500, -- Augustus Williams
     ["steam:110000100BF705A"] = 499, -- Schwank (Zach)
