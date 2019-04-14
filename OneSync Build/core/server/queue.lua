@@ -16,7 +16,6 @@ Config.Priority = {
     ["steam:110000102d4d1e7"] = 994, -- Sammy-Sana
     ["steam:110000100809b63"] = 993, -- Reginald Wattersmith
     ["steam:110000103d70c3f"] = 992, -- Leo Gold
-    ["steam:1100001008c7ed5"] = 991, -- Snow
 --[People Frazzle Likes]--
     ["steam:110000105ac8a6f"] = 902, -- StanleyRP    
     ["steam:110000115c8520b"] = 901, -- Jinia
@@ -89,10 +88,13 @@ Config.Priority = {
     ["steam:1100001032aa2a1"] = 674, -- Austin James (mech Boss)
     ["steam:110000102e9a6e2"] = 673, -- Charlie Pilkins (mech Boss)
     ["steam:11000010862267a"] = 672, -- Sweet Sake (mech Boss)
+    ["steam:110000104cc9138"] = 671, -- Jacob Parker (EMS Extra)
+    ["steam:110000104c0d8b2"] = 670, -- Wu Hwang (EMS Extra)
+    ["steam:11000010EFF15ED"] = 669, -- Bob Michaels (EMS Extra)
+    ["steam:1100001054d27db"] = 668, -- Keiandre Billings (EMS Extra)
 --[Extras]--
     ["steam:110000106443c23"] = 500, -- Augustus Williams
     ["steam:110000100BF705A"] = 499, -- Schwank (Zach)
-    ["steam:110000101d67662"] = 498, -- Incsypops (Mechanic Manager)
     ["steam:1100001341a1664"] = 497, -- Lamar
     ["steam:110000104c5b700"] = 496, -- DarkLaiX
     ["steam:110000102437861"] = 495, -- Sullyabv (streamer/doj)
