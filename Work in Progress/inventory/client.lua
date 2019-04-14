@@ -30,8 +30,8 @@ local drunk = false
 local drugged = false                                                                                                             --
 local armour_anim_dict = "switch@franklin@getting_ready"
 local put_in_car_dict = "mp_common"
-
-
+local Model = GetHashKey("prop_food_bag1")
+RequestModel(Model)
 AddAnimDictionary(put_in_car_dict)
 AddAnimDictionary(armour_anim_dict)
 --==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--
@@ -420,13 +420,8 @@ end)
 RegisterNetEvent("Inventory.Draw.Object.Item")
 AddEventHandler("Inventory.Draw.Object.Item", function(Item)
     Citizen.CreateThread(function()
-        local Model = GetHashKey("prop_food_bag1")
-        RequestModel(Model)
-        while not HasModelLoaded(Model) do
-            Citizen.Wait(0)
-        end
-        local Object = CreateObject(Model, Item.Coords.x, Item.Coords.y, Item.Coords.z - 0.9, true, false, false)
-        Citizen.Wait(1200)
+        local Object = CreateObject(Model, Item.Coords.x, Item.Coords.y, Item.Coords.z - 1.0, true, false, false)
+        Citizen.Wait(1300)
         FreezeEntityPosition(Object, true)
     end)
 end)
