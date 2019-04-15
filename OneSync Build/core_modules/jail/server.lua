@@ -11,7 +11,8 @@
 
     Copy, re-release, re-distribute it without my written permission.
 --]]
-local jailedPlayers = {}
+local JailedPlayers = {}
+local LastJailbreak = 0
 
 RegisterServerEvent('jail:payout')
 AddEventHandler('jail:payout', function(amount)
@@ -21,40 +22,48 @@ AddEventHandler('jail:payout', function(amount)
     end)
 end)
 
-RegisterServerEvent("jail:jailedPlayers")
-AddEventHandler("jail:jailedPlayers", function(player, type)
-    if type == "true" then
-        table.insert(jailedPlayers, player)
-        TriggerClientEvent("jail:sync_players", -1,  jailedPlayers)
-    end
-    if type == "removeall" then
-        jailedPlayers = {}
-        for k, v in ipairs(jailedPlayers) do
-            TriggerEvent("core:getuser", v, function(user)
-                TriggerClientEvent("jail:jail", v , 0)
-                user.set("jail_time", 0)
-            end)
-        end
-        TriggerClientEvent("jail:sync_players", -1, jailedPlayers)
-    end
-    if type == "remove" then
-        for k, v in ipairs(jailedPlayers) do
-            if v == player then
-                table.remove(jailedPlayers, k)
-                TriggerClientEvent("jail:sync_players", -1, jailedPlayers)
+RegisterServerEvent("AddJailedPlayer")
+AddEventHandler("AddJailedPlayer", function()
+    table.insert(JailedPlayers, source)
+end)
+
+RegisterServerEvent("RemoveJailedPlayer")
+AddEventHandler("RemoveJailedPlayer", function(TargetID)
+    if TargetID then
+        for Index = 1, #JailedPlayers do
+            if JailedPlayers[Index] == TargetID then
+                table.remove(JailedPlayers, Index)
             end
         end
     end
 end)
 
-RegisterServerEvent('jailbreak:toggle')
-AddEventHandler('jailbreak:toggle', function()
-    local source = source
-    TriggerEvent("core:getuser", source, function(user)
-        if user.get("jail_time") <= 0 then
-            TriggerClientEvent("jailbreak:toggle")
+RegisterServerEvent("Jailbreak.Start")
+AddEventHandler("Jailbreak.Start", function()
+    local Source = source
+    if LastJailbreak == 0 then
+        TriggerClientEvent("Jailbreak.Start")
+        TriggerEvent("Dispatch.Jailbreak")
+        LastJailbreak = os.time()
+    else
+        if (os.time() - LastJailbreak) < (Cooldown*60) and LastJailbreak ~= 0 then
+            TriggerClientEvent("pNotify:SendNotification", Source, {text = "THe prison is currently under lockdown due to a recent jailbreak!",type = "error", queue = "left",timeout = 10000,layout = "bottomCenter"})
+        else
+            TriggerClientEvent("Jailbreak.Start")
+            TriggerEvent("Dispatch.Jailbreak")
+            LastJailbreak = os.time() 
         end
-    end)
+    end
+end)
+
+RegisterServerEvent("Jailbreak.Complete")
+AddEventHandler("Jailbreak.Complete", function()
+    local Source = source
+    for Index = 1, #JailedPlayers do
+        JailedPlayers[Index].set("jail_time", 0)
+        TriggerClientEvent("jail:unjail", JailedPlayers[Index])
+        table.remove(JailedPlayers, Index)
+    end
 end)
 
 AddEventHandler("jail:initialise", function(source, time)
@@ -63,7 +72,6 @@ AddEventHandler("jail:initialise", function(source, time)
         TriggerClientEvent("jail:jail", source , tonumber(time) * 60)
     end
 end)
-
 
 TriggerEvent("core:addGroupCommand", "jail", "emergency", function(source, args, rawCommand, data, power, group)
     if #args < 3 then

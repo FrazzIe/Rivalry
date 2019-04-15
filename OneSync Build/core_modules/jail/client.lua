@@ -58,6 +58,8 @@ local jobs = {
     vector3(1624.9686279297,2575.8442382813,45.564891815186),
 }
 
+JailBreak = vector3()
+
 local job_blip = nil
 local finishedJob = false
 
@@ -67,23 +69,10 @@ IsJailed = false
 local removeSentence = false
 local isDoingJob = false
 local whosJailed = {}
-local isActive = false
  
 RegisterNetEvent("jail:sync_players")
 AddEventHandler("jail:sync_players", function(table)
     whosJailed = table
-end)
-
-RegisterNetEvent("jailbreak:toggle")
-AddEventHandler("jailbreak:toggle", function()
-    Citizen.CreateThread(function()
-        while isActive do
-            Citizen.Wait(0)
-            Notify("You have just toggled the alarm! 10 minutes until completion!", 4000)
-            Citizen.Wait(10000)
-            TriggerServerEvent("jail:sync_players", jailedPlayers ,"removeall")
-        end
-    end)
 end)
 
 local function drawJobBlips(randomizedJob)
@@ -105,8 +94,8 @@ Citizen.CreateThread(function()
     while true do
         Citizen.Wait(0)
         if not removeSentence then
-        local Ped = PlayerPedId()
-        local PlayerPosition = GetEntityCoords(Ped, false)
+            local Ped = PlayerPedId()
+            local PlayerPosition = GetEntityCoords(Ped, false)
             if #(PlayerPosition - jobs[randomizedJob]) < 10 then
                 RenderMarker(25, jobs[randomizedJob].x, jobs[randomizedJob].y, jobs[randomizedJob].z, 1.5, 1.5, 2.0, 255, 255, 0, 20)
                 if #(PlayerPosition - jobs[randomizedJob]) < 1 then
@@ -150,7 +139,7 @@ AddEventHandler("jail:jail", function(JailTime)
             removeSentence = false
             randomizedJob = math.random(1,44)
             drawJobBlips(randomizedJob)
-            --TriggerServerEvent("jail:jailedPlayers", GetPlayerServerId(PlayerId()), "add")
+            TriggerServerEvent("Jail.AddJailedPlayer", GetPlayerServerId(PlayerId()))
             local invisible = false
             TriggerEvent("anticheat:set", "invincible", true, function(callback)
                 if callback then
@@ -196,15 +185,44 @@ AddEventHandler("jail:jail", function(JailTime)
             SetEntityInvincible(PlayerPedId(), false)
             TriggerEvent("anticheat:set", "invincible", false, function(callback)
             end)
-            --TriggerServerEvent("jail:jailedPlayers", GetPlayerServerId(PlayerId()), "remove")
             if not removeSentence then
                 TriggerServerEvent("jail:update", 0)
-                --[[if DoesBlipExist(RemoveBlip) then
-                    RemoveBlip(RemoveBlip)
-                end--]]
             end
         end)
     end
+end)
+
+Citizen.CreateThread(function()
+    while true do
+        Citizen.Wait(0)
+        if not IsInJail() then
+            local Player = PlayerPedId()
+            local PlayerPosition = GetEntityCoords(Player, false)
+            if #(PlayerPosition - JailBreak) < 10 then
+                RenderMarker(25, JailBreak.x, Jailbreak.y, JailBreak.z, 1.5, 1.5, 2.0, 255, 255, 0, 20)
+                if #(PlayerPosition - JailBreak) < 1 then
+                    DisplayHelpText("Press ~INPUT_CONTEXT~ to initiate a jailbreak!")
+                    TriggerServerEvent("Jailbreak.Start")
+                end
+            end
+        end
+    end
+end)
+
+RegisterNetEvent("Jailbreak.Start")
+AddEventHandler("Jailbreak.Start", function()
+    Citizen.CreateThread(function()
+        Citizen.Wait(0)
+        local Player = PlayerPedId()
+        local PlayerPosition = GetEntityCoords(Player, false)
+        while #(PlayerPosition - Jailbreak) < 50 do
+            Citizen.Wait(180000)
+            TriggerServerEvent("Jailbreak.Complete")
+            break
+        end
+        Notify("Jailbreak failed!", 2600)
+        break
+    end)
 end)
 
 RegisterNetEvent("jail:unjail")
