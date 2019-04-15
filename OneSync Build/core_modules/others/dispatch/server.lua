@@ -127,6 +127,15 @@ AddEventHandler("dispatch:ten-thirtytwo", function(coords, street_name, crossing
 	end
 end)
 
+RegisterServerEvent("Dispatch.Jailbreak")
+AddEventHandler("Dispatch.Jailbreak", function()
+	for id, dept in pairs(emergency_users) do
+		if dept ~= nil and dept ~= "paramedic" then
+			TriggerClientEvent("chatMessage", id, "10-90", {255, 0, 0}, "^Jailbreak in progress at Bolingbroke Penitentiary")
+		end
+	end
+end)
+
 RegisterServerEvent("dispatch:ten-thirtytwo-r")
 AddEventHandler("dispatch:ten-thirtytwo-r", function(coords, street_name, crossing, area)
 	for id, dept in pairs(emergency_users) do
