@@ -200,6 +200,10 @@ Citizen.CreateThread(function()
 					end
 					while SelectedEvidence < 1 do
 						Citizen.Wait(0)
+						DisplayHelpText("Press ~INPUT_CONTEXT~ to leave the microscope!")
+						if IsControlJustPressed(1, 51) then
+							SelectedEvidence = 0
+						end
 					end
 					if #Collected_BulletCasings > 0 and Collected_BulletCasings[SelectedEvidence] ~= nil then
 						Notify("Examining Ballistics Evidence...", 10000)
@@ -237,6 +241,10 @@ Citizen.CreateThread(function()
 					end
 					while SelectedEvidenceFP < 1 do
 						Citizen.Wait(0)
+						DisplayHelpText("Press ~INPUT_CONTEXT~ to leave the computer!")
+						if IsControlJustPressed(1, 51) then
+							SelectedEvidenceFP = 0
+						end
 					end
 					Notify("Examining Fingerprint, Cross referencing with Los Santos Criminal Database", 60000)
 					Citizen.Wait(60000)
