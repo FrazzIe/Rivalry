@@ -79,6 +79,51 @@ AddEventHandler("core:ready", function()
         end
     end, false, {Help = "Play an emote", Params = {{name = "emote", help = Emotes.GenerateDescription()}}})
 
+    Chat.Command({"wash"}, function(source, args, fullCommand)
+        local Dictionary = "switch@franklin@cleaning_car"
+        local Animation = "001946_01_gc_fras_v2_ig_5_base"
+        if Mechanic.Active then
+            RequestAnimDict(Dictionary)
+            while not HasAnimDictLoaded(Dictionary) do
+                Wait(0)
+            end
+            local pos = GetEntityCoords(PlayerPedId(), false)
+            local entityWorld = GetOffsetFromEntityInWorldCoords(PlayerPedId(), 0.0, 5.0, 0.0)
+            local rayHandle = CastRayPointToPoint(pos.x, pos.y, pos.z, entityWorld.x, entityWorld.y, entityWorld.z, 10, PlayerPedId(), 0)
+            local _, _, _, _, vehicleHandle = GetRaycastResult(rayHandle)
+            if vehicleHandle ~= nil then
+                local CurrentDirt = GetVehicleDirtLevel(vehicleHandle)
+                StartCleaningVehicle(vehicleHandle, CurrentDirt)
+                Notify("You are currently cleaning a vehicle!", (10000 * math.floor(CurrentDirt)))
+                Wait(10000 * math.floor(CurrentDirt))
+                Notify("Vehicle cleaned!")
+                ClearPedTasks(PlayerPedId())
+            end
+        else
+            if GetItemQuantity(80) > 0 then
+                if GetItemQuantity(81) > 0 then
+                    local pos = GetEntityCoords(PlayerPedId(), false)
+                    local entityWorld = GetOffsetFromEntityInWorldCoords(PlayerPedId(), 0.0, 5.0, 0.0)
+                    local rayHandle = CastRayPointToPoint(pos.x, pos.y, pos.z, entityWorld.x, entityWorld.y, entityWorld.z, 10, PlayerPedId(), 0)
+                    local _, _, _, _, vehicleHandle = GetRaycastResult(rayHandle)
+                    if vehicleHandle ~= nil then
+                        local CurrentDirt = GetVehicleDirtLevel(vehicleHandle)
+                        StartCleaningVehicle(vehicleHandle, CurrentDirt)
+                        Notify("You are currently cleaning a vehicle!", (10000 * math.floor(CurrentDirt)))
+                        Wait(10000 * math.floor(CurrentDirt))
+                        Notify("Vehicle cleaned!")
+                        ClearPedTasks(PlayerPedId())
+                        removeQty(81, 1)
+                    end
+                else
+                    Notify("You do not have any solution to clean the car with!", 2500)
+                end
+            else
+                Notify("You do not have a cloth to wash the car with!", 2500)
+            end
+        end
+    end, false, {Help = "Wash a car", Params = {{}}})
+
     Chat.Command({"ws", "walkstyle"}, function(source, args, fullCommand)
         if args[1] then
             if args[1] == "reset" then 
@@ -428,6 +473,19 @@ Citizen.CreateThread(function()
         end
     end
 end)
+
+function StartCleaningVehicle(Vehicle, CurrentDirt)
+    Citizen.CreateThread(function()
+        while true do
+            if CurrentDirt > 0 then
+                Citizen.Wait(10000)
+                SetVehicleDirtLevel(Vehicle, CurrentDirt - 1)
+            else
+                break 
+            end
+        end
+    end)
+end
 
 function drawRct(x,y,width,height,r,g,b,a)
     DrawRect(x + width/2, y + height/2, width, height, r, g, b, a)
