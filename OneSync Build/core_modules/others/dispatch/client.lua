@@ -321,7 +321,7 @@ Citizen.CreateThread(function()
 										lastpos = pos
 										local street, crossing = GetStreetNameAtCoord(pos.x, pos.y, pos.z)
                                         local Area = GetNameOfZone(pos.x, pos.y, pos.z)
-                                        if crossing ~= "" and crossing ~= nil then
+                                        if crossing == "" and crossing == nil then
                                             cross = "Unknown"
                                         else
                                             cross = GetStreetNameFromHashKey(crossing)
@@ -364,7 +364,7 @@ Citizen.CreateThread(function()
                                                 local street, crossing = GetStreetNameAtCoord(pos.x, pos.y, pos.z)
                                                 local Area = GetNameOfZone(pos.x, pos.y, pos.z)
                                                 local random = math.random(1,100)
-                                                if crossing ~= "" and crossing ~= nil then
+                                                if crossing == "" and crossing == nil then
                                                     cross = "Unknown"
                                                 else
                                                     cross = GetStreetNameFromHashKey(crossing)
@@ -480,7 +480,7 @@ AddEventHandler("dispatch:lockpick", function()
 			local street, crossing = GetStreetNameAtCoord(pos.x, pos.y, pos.z)
             local Area = GetNameOfZone(pos.x, pos.y, pos.z)
 			local vehicle = GetVehiclePedIsIn(PlayerPedId())
-            if crossing ~= "" and crossing ~= nil then
+            if crossing == "" and crossing == nil then
                 cross = "Unknown"
             else
                 cross = GetStreetNameFromHashKey(crossing)
@@ -524,7 +524,7 @@ AddEventHandler("dispatch:drug", function()
 			drugs_lastpos = pos
 			local street, crossing = GetStreetNameAtCoord(pos.x, pos.y, pos.z)
             local Area = GetNameOfZone(pos.x, pos.y, pos.z)
-            if crossing ~= "" and crossing ~= nil then
+            if crossing == "" and crossing == nil then
                 cross = "Unknown"
             else
                 cross = GetStreetNameFromHashKey(crossing)
@@ -560,7 +560,7 @@ AddEventHandler("dispatch:lockpick_property", function()
 	if willNPCreport("property_lock") then
 		local street, crossing = GetStreetNameAtCoord(pos.x, pos.y, pos.z)
         local Area = GetNameOfZone(pos.x, pos.y, pos.z)
-        if crossing ~= "" and crossing ~= nil then
+        if crossing == "" and crossing == nil then
             cross = "Unknown"
         else
             cross = GetStreetNameFromHashKey(crossing)
@@ -595,7 +595,7 @@ AddEventHandler("dispatch:robbery", function()
 	local pos = GetEntityCoords(PlayerPedId(), false)
 	local street, crossing = GetStreetNameAtCoord(pos.x, pos.y, pos.z)
     local Area = GetNameOfZone(pos.x, pos.y, pos.z)
-    if crossing ~= "" and crossing ~= nil then
+    if crossing == "" and crossing == nil then
         cross = "Unknown"
     else
         cross = GetStreetNameFromHashKey(crossing)
@@ -629,7 +629,7 @@ AddEventHandler("dispatch:notify-cops", function(message)
 	local pos = GetEntityCoords(PlayerPedId(), false)
 	local street, crossing = GetStreetNameAtCoord(pos.x, pos.y, pos.z)
     local Area = GetNameOfZone(pos.x, pos.y, pos.z)
-    if crossing ~= "" and crossing ~= nil then
+    if crossing == "" and crossing == nil then
         cross = "Unknown"
     else
         cross = crossing
@@ -644,7 +644,7 @@ AddEventHandler("dispatch:notify-cops31", function(message)
 	local street, crossing = GetStreetNameAtCoord(pos.x, pos.y, pos.z)
     local Area = GetNameOfZone(pos.x, pos.y, pos.z)
     local primary, secondary = GetVehicleColours(vehicle)
-    if crossing ~= "" and crossing ~= nil then
+    if crossing == "" and crossing == nil then
         cross = "Unknown"
     else
         cross = crossing
