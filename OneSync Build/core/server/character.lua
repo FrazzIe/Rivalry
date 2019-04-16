@@ -42,6 +42,7 @@ function setupCharacter(source, data)
     self["weapon_license"] = data["weapon_license"]
     self["drivers_license"] = data["drivers_license"]
     self["jail_time"] = data["jail_time"]
+    self["dateofjail"] = data["dateofjail"]
 
     self["first_name"] = data["first_name"]
     self["last_name"] = data["last_name"]
@@ -66,7 +67,7 @@ function setupCharacter(source, data)
 
     method["update"] = function()
         self["lastcoords"] = self["coords"]
-        exports["GHMattiMySQL"]:QueryAsync("UPDATE characters SET wallet=@wallet, bank=@bank, dirty_cash=@dirty_cash, timeplayed=@timeplayed, position_x=@position_x, position_y=@position_y, position_z=@position_z, weapon_license=@weapon_license, jail_time=@jail_time, job_id=@job_id, drivers_license=@drivers_license WHERE (identifier=@identifier) AND (character_id=@character_id)", {
+        exports["GHMattiMySQL"]:QueryAsync("UPDATE characters SET wallet=@wallet, bank=@bank, dirty_cash=@dirty_cash, timeplayed=@timeplayed, position_x=@position_x, position_y=@position_y, position_z=@position_z, weapon_license=@weapon_license, jail_time=@jail_time, dateofjail=@dateofjail, job_id=@job_id, drivers_license=@drivers_license WHERE (identifier=@identifier) AND (character_id=@character_id)", {
             ["@identifier"] = self["steam"],
             ["@character_id"] = self["characterID"],
             ["@wallet"] = self["wallet"],
@@ -78,6 +79,7 @@ function setupCharacter(source, data)
             ["@position_z"] = self["lastcoords"]["z"],
             ["@weapon_license"] = self["weapon_license"],
             ["@jail_time"] = self["jail_time"],
+            ["@dateofjail"] = self["dateofjail"],
             ["@job_id"] = self["job"]["id"],
             ["@drivers_license"] = self["drivers_license"],
         })
@@ -373,10 +375,9 @@ AddEventHandler("core:selectCharacter", function(data)
                 TriggerEvent("Mechanic:Initialise", source, identifier, tonumber(data.character_id))
                 TriggerEvent("News:Initialise", source, identifier, tonumber(data.character_id))
                 TriggerClientEvent("weapon:set_license", source, Characters[source].get("weapon_license"))
-                TriggerEvent("jail:initialise", source, Characters[source].get("jail_time"))
+                TriggerEvent("jail:initialise", source, Characters[source].get("jail_time"), Characters[source].get("dateofjail"))
                 TriggerEvent('jobcenter:initialise', source, Characters[source].get("job"))
                 TriggerEvent("properties:initialise", source, identifier, tonumber(data.character_id))
-
                 TriggerEvent("Phone.Start", source, tonumber(data.character_id))
                 TriggerEvent("garage:initialise", source, identifier, tonumber(data.character_id))
                 TriggerEvent("inventory:initialise", source, identifier, tonumber(data.character_id))

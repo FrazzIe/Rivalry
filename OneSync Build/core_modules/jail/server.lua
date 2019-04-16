@@ -22,6 +22,17 @@ AddEventHandler('jail:payout', function(amount)
     end)
 end)
 
+AddEventHandler('core:switch', function(source)
+    local source = source
+    TriggerEvent("core:getuser", source, function(User)
+        if User.get("jail_time") == 0 then
+            TriggerClientEvent("jail:unjail", source)
+            User.set("jail_time", 0)
+            User.set("dateofjail", 0)
+        end
+    end)
+end)
+
 RegisterServerEvent("AddJailedPlayer")
 AddEventHandler("AddJailedPlayer", function()
     table.insert(JailedPlayers, source)
@@ -41,18 +52,12 @@ end)
 RegisterServerEvent("Jailbreak.Start")
 AddEventHandler("Jailbreak.Start", function()
     local Source = source
-    if LastJailbreak == 0 then
-        TriggerClientEvent("Jailbreak.Start")
-        TriggerEvent("Dispatch.Jailbreak")
-        LastJailbreak = os.time()
+    if (os.time() - LastJailbreak) < (90*60) and LastJailbreak ~= 0 then
+        TriggerClientEvent("pNotify:SendNotification", Source, {text = "The prison is currently under lockdown due to a recent jailbreak!",type = "error", queue = "left",timeout = 10000,layout = "bottomCenter"})
     else
-        if (os.time() - LastJailbreak) < (Cooldown*60) and LastJailbreak ~= 0 then
-            TriggerClientEvent("pNotify:SendNotification", Source, {text = "THe prison is currently under lockdown due to a recent jailbreak!",type = "error", queue = "left",timeout = 10000,layout = "bottomCenter"})
-        else
-            TriggerClientEvent("Jailbreak.Start")
-            TriggerEvent("Dispatch.Jailbreak")
-            LastJailbreak = os.time() 
-        end
+        TriggerClientEvent("Jailbreak.Start", Source)
+        TriggerEvent("Dispatch.Jailbreak")
+        LastJailbreak = os.time() 
     end
 end)
 
@@ -61,15 +66,40 @@ AddEventHandler("Jailbreak.Complete", function()
     local Source = source
     for Index = 1, #JailedPlayers do
         JailedPlayers[Index].set("jail_time", 0)
+        JailedPlayers[Index].set("dateofjail", 0)
         TriggerClientEvent("jail:unjail", JailedPlayers[Index])
         table.remove(JailedPlayers, Index)
     end
 end)
 
-AddEventHandler("jail:initialise", function(source, time)
+AddEventHandler("jail:initialise", function(source, time, dateofjail)
     local source = source
     if tonumber(time) > 0 then
-        TriggerClientEvent("jail:jail", source , tonumber(time) * 60)
+        if dateofjail ~= 0 then
+            if os.time() > dateofjail and os.time() - dateofjail > 300 then
+                local difference = os.time() - dateofjail
+                local halfhours = math.floor(difference / 1800)
+                time = time - halfhours
+                TriggerClientEvent("pNotify:SendNotification", source, {text = "You served "..halfhours.." months while sleeping!",type = "error", queue = "left",timeout = 10000,layout = "bottomCenter"})
+                if time > 0 then
+                    TriggerClientEvent("jail:jail", source , tonumber(time) * 60)
+                else
+                    if dateofjail ~= 0 then
+                        TriggerEvent("core:getuser", source, function(User)
+                            TriggerClientEvent("jail:unjail", source)
+                            User.set("jail_time", 0)
+                            User.set("dateofjail", 0)
+                        end)
+                    end
+                end
+            else
+                TriggerClientEvent("jail:jail", source , tonumber(time) * 60)
+            end
+        else
+            TriggerClientEvent("jail:jail", source , tonumber(time) * 60)
+        end
+    else
+        TriggerClientEvent("jail:notjailed", source)
     end
 end)
 
@@ -85,6 +115,7 @@ TriggerEvent("core:addGroupCommand", "jail", "emergency", function(source, args,
                         TriggerClientEvent("pNotify:SendNotification", tonumber(args[1]), {text = "You have arrived at the San Andreas Bolingbroke Penitentiary...",type = "error", queue = "left",timeout = 10000,layout = "bottomCenter"})
                         TriggerClientEvent("jail:jail", tonumber(args[1]) , tonumber(args[2]) * 60)
                         target.set("jail_time", tonumber(args[2]) * 60)
+                        target.set("dateofjail", os.time())
                     end)
                 else
                     TriggerClientEvent('chatMessage', source, 'SYSTEM', {255, 0, 0}, "Usage : /jail [ID] [TIME] [REASON]") 
@@ -106,6 +137,7 @@ TriggerEvent("core:addGroupCommand", "unjail", "emergency", function(source, arg
             TriggerEvent("core:getuser", tonumber(args[1]), function(target)
                 TriggerClientEvent("jail:unjail", tonumber(args[1]))
                 target.set("jail_time", 0)
+                target.set("dateofjail", 0)
             end)
         else
             TriggerClientEvent('chatMessage', source, 'SYSTEM', {255, 0, 0}, "Usage : /unjail [ID]") 

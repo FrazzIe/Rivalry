@@ -80,13 +80,7 @@ AddEventHandler("core:ready", function()
     end, false, {Help = "Play an emote", Params = {{name = "emote", help = Emotes.GenerateDescription()}}})
 
     Chat.Command({"wash"}, function(source, args, fullCommand)
-        local Dictionary = "switch@franklin@cleaning_car"
-        local Animation = "001946_01_gc_fras_v2_ig_5_base"
         if Mechanic.Active then
-            RequestAnimDict(Dictionary)
-            while not HasAnimDictLoaded(Dictionary) do
-                Wait(0)
-            end
             local pos = GetEntityCoords(PlayerPedId(), false)
             local entityWorld = GetOffsetFromEntityInWorldCoords(PlayerPedId(), 0.0, 5.0, 0.0)
             local rayHandle = CastRayPointToPoint(pos.x, pos.y, pos.z, entityWorld.x, entityWorld.y, entityWorld.z, 10, PlayerPedId(), 0)
@@ -94,8 +88,9 @@ AddEventHandler("core:ready", function()
             if vehicleHandle ~= nil then
                 local CurrentDirt = GetVehicleDirtLevel(vehicleHandle)
                 StartCleaningVehicle(vehicleHandle, CurrentDirt)
-                Notify("You are currently cleaning a vehicle!", (10000 * math.floor(CurrentDirt)))
-                Wait(10000 * math.floor(CurrentDirt))
+                TaskStartScenarioInPlace(PlayerPedId(), "WORLD_HUMAN_MAID_CLEAN", 0, true)
+                Notify("You are currently cleaning a vehicle!", (5000 * math.floor(CurrentDirt)))
+                Wait(5000 * math.floor(CurrentDirt))
                 Notify("Vehicle cleaned!")
                 ClearPedTasks(PlayerPedId())
             end
@@ -109,8 +104,10 @@ AddEventHandler("core:ready", function()
                     if vehicleHandle ~= nil then
                         local CurrentDirt = GetVehicleDirtLevel(vehicleHandle)
                         StartCleaningVehicle(vehicleHandle, CurrentDirt)
-                        Notify("You are currently cleaning a vehicle!", (10000 * math.floor(CurrentDirt)))
-                        Wait(10000 * math.floor(CurrentDirt))
+                        TaskPlayAnim(PlayerPedId(), Dictionary, Animation, 8.0, 1.0, -1, 1, 0, 0, 0, 0)
+                        TaskStartScenarioInPlace(PlayerPedId(), "WORLD_HUMAN_MAID_CLEAN", 0, true)
+                        Notify("You are currently cleaning a vehicle!", (5000 * math.floor(CurrentDirt)))
+                        Wait(5000 * math.floor(CurrentDirt))
                         Notify("Vehicle cleaned!")
                         ClearPedTasks(PlayerPedId())
                         removeQty(81, 1)
@@ -476,10 +473,12 @@ end)
 
 function StartCleaningVehicle(Vehicle, CurrentDirt)
     Citizen.CreateThread(function()
+        local DirtLevel = CurrentDirt
         while true do
             if CurrentDirt > 0 then
-                Citizen.Wait(10000)
-                SetVehicleDirtLevel(Vehicle, CurrentDirt - 1)
+                Citizen.Wait(5000)
+                DirtLevel = DirtLevel - 1
+                SetVehicleDirtLevel(Vehicle, DirtLevel)
             else
                 break 
             end

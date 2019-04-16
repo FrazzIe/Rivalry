@@ -332,6 +332,7 @@ AddEventHandler("jail:user",function(target, time, reason)
 	        TriggerClientEvent("pNotify:SendNotification", tonumber(target), {text = "You have arrived at the Bolingbroke San Andreas State Penitentiary...",type = "error",queue = "left",timeout = 10000,layout = "bottomCenter"})
 	        TriggerClientEvent("jail:jail", target , tonumber(time) * 60)
 	        user.set("jail_time", tonumber(time))
+	        user.set("dateofjail", os.time())
 	    end)
 	else
 		TriggerEvent("core:ban", source, 99, "Script tampering", true, "Anticheat")

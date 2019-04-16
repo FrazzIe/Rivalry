@@ -58,7 +58,7 @@ local jobs = {
     vector3(1624.9686279297,2575.8442382813,45.564891815186),
 }
 
-JailBreak = vector3()
+local JailBreak = vector3(1722.8370361328,2615.0825195313,45.56485748291)
 
 local job_blip = nil
 local finishedJob = false
@@ -120,6 +120,12 @@ Citizen.CreateThread(function()
             end
         end
     end
+end)
+
+RegisterNetEvent("jail:notjailed")
+AddEventHandler("jail:notjailed", function()
+    IsJailed = false
+    removeSentence = true
 end)
 
 RegisterNetEvent("jail:jail")
@@ -192,22 +198,24 @@ AddEventHandler("jail:jail", function(JailTime)
     end
 end)
 
-Citizen.CreateThread(function()
+--[[Citizen.CreateThread(function()
     while true do
         Citizen.Wait(0)
         if not IsInJail() then
             local Player = PlayerPedId()
             local PlayerPosition = GetEntityCoords(Player, false)
             if #(PlayerPosition - JailBreak) < 10 then
-                RenderMarker(25, JailBreak.x, Jailbreak.y, JailBreak.z, 1.5, 1.5, 2.0, 255, 255, 0, 20)
+                RenderMarker(25, JailBreak.x, JailBreak.y, JailBreak.z, 1.5, 1.5, 2.0, 255, 255, 0, 20)
                 if #(PlayerPosition - JailBreak) < 1 then
                     DisplayHelpText("Press ~INPUT_CONTEXT~ to initiate a jailbreak!")
-                    TriggerServerEvent("Jailbreak.Start")
+                    if IsControlJustPressed(1, 51) then
+                        TriggerServerEvent("Jailbreak.Start")
+                    end
                 end
             end
         end
     end
-end)
+end)--]]
 
 RegisterNetEvent("Jailbreak.Start")
 AddEventHandler("Jailbreak.Start", function()
@@ -215,13 +223,12 @@ AddEventHandler("Jailbreak.Start", function()
         Citizen.Wait(0)
         local Player = PlayerPedId()
         local PlayerPosition = GetEntityCoords(Player, false)
-        while #(PlayerPosition - Jailbreak) < 50 do
-            Citizen.Wait(180000)
+        while #(PlayerPosition - JailBreak) < 50 do
+            Citizen.Wait(10000)
             TriggerServerEvent("Jailbreak.Complete")
             break
         end
         Notify("Jailbreak failed!", 2600)
-        break
     end)
 end)
 

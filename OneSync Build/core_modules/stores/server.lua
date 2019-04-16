@@ -40,6 +40,8 @@ Store = {
 
     [77] = 10,
     [79] = 10,
+    [80] = 5,
+    [81] = 10,
 }
 
 RegisterServerEvent("item:buy")
