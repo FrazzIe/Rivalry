@@ -154,6 +154,7 @@ AddEventHandler("playerSpawned", function()
 			end
 		end)
 		FreezeEntityPosition(PlayerPedId(), true)
+		NetworkSetTalkerProximity(10.0)
 		TriggerServerEvent("core:retrieveCharacters")
 	end
 end)
@@ -371,6 +372,7 @@ Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(0)
 		if NetworkIsSessionStarted() then
+			NetworkSetTalkerProximity(10.0)
 			TriggerServerEvent("core:initalise")
 			TriggerServerEvent("Queue:playerActivated")
 			return
