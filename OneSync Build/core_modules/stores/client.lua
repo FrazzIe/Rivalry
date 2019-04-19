@@ -58,7 +58,7 @@ ToolMarket = {
         {Name = "Medkit", Id = 34, Cost = 50, Max = 10},
     }},
     {Category = "Illegal", Items = {
-        {Name = "Lockpick", Id=36, Cost = 10, Max = 10},
+        {Name = "Lockpick", Id=36, Cost = 25, Max = 5},
         {Name = "Hotwire kit", Id=46, Cost = 50, Max = 5},
     }},
 }
