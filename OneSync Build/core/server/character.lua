@@ -15,8 +15,8 @@ jobs = {
     [13] = {id = 13, name = "Vigneron", pay = 100},
     [14] = {id = 14, name = "Livreur", pay = 100},
     [15] = {id = 15, name = "Emergency", pay = {on = 1000, off = 250}},
-    [16] = {id = 16, name = "Mechanic", pay = 500},
-    [17] = {id = 17, name = "Taxi", pay = 250},
+    [16] = {id = 16, name = "Mechanic", pay = 250},
+    [17] = {id = 17, name = "Taxi", pay = 150},
     [18] = {id = 18, name = "FBI", pay = 100},
     [19] = {id = 19, name = "Courier", pay = 100},
     [20] = {id = 20, name = "Pool Cleaner", pay = 100}, 
@@ -24,7 +24,7 @@ jobs = {
     [22] = {id = 22, name = "Tow", pay = 100},
     [23] = {id = 23, name = "DOJ", pay = 250},
     [24] = {id = 24, name = "Trucker", pay = 100},
-    [25] = {id = 25, name = "News Reporter", pay = 250},
+    [25] = {id = 25, name = "News Reporter", pay = 100},
 }
 
 function setupCharacter(source, data)
