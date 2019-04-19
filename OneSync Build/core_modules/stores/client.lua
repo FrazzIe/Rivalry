@@ -57,6 +57,10 @@ ToolMarket = {
     {Category = "Medical", Items = {
         {Name = "Medkit", Id = 34, Cost = 50, Max = 10},
     }},
+    {Category = "Illegal", Items = {
+        {Name = "Lockpick", Id=36, Cost = 10, Max = 10},
+        {Name = "Hotwire kit", Id=46, Cost = 50, Max = 5},
+    }},
 }
 
 for k,v in pairs(Store) do
