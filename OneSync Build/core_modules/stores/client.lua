@@ -16,6 +16,9 @@ local selectedItemIndex = 1
 local quantity = {}
 
 Store = {
+    {Category = "Medical", Items = {
+        {Name = "Medkit", Id = 34, Cost = 50, Max = 10},
+    }},
     {Category = "Food", Items = {
         {Name = "Chocolate", Id = 12, Cost = 2, Max = 100},
         {Name = "Poptart", Id = 13, Cost = 2, Max = 100},
@@ -34,27 +37,28 @@ Store = {
         {Name = "Irn Bru", Id = 17, Cost = 4, Max = 100},
         {Name = "Coffee", Id = 18, Cost = 5, Max = 100},
     }},
-    {Category = "Medical", Items = {
-        {Name = "Medkit", Id = 34, Cost = 50, Max = 10},
-    }},
     {Category = "Misc", Items = {
         {Name = "Cigarette", Id=77, Cost = 10, Max = 100},
         {Name = "Cigar", Id=79, Cost = 10, Max = 100},
-        {Name = "Bleach", Id = 53, Cost = 50, Max = 4},
-        {Name = "Cleaning Rag", Id = 80, Cost = 5, Max = 4},
-        {Name = "Car Cleaner", Id = 81, Cost = 10, Max = 51},
     }},
 }
 
 ToolMarket = {
-	{Category = "Tools", Items = {
-		{Name = "Phone", Id = 200, Cost = 250, Max = 1},
+    {Category = "Tools", Items = {
+	{Name = "Phone", Id = 200, Cost = 250, Max = 1},
         {Name = "Repair kit", Id = 37, Cost = 45, Max = 10},
         {Name = "Fishing Rod", Id = 76, Cost = 150, Max = 4},
         {Name = "Binoculars", Id = 78, Cost = 50, Max = 1},
         {Name = "Handcuffs", Id=44, Cost = 30, Max = 3},
-	}},
+        {Name = "Bleach", Id = 53, Cost = 50, Max = 4},
+        {Name = "Cleaning Rag", Id = 80, Cost = 5, Max = 4},
+        {Name = "Car Cleaner", Id = 81, Cost = 10, Max = 51},
+    }},
+    {Category = "Medical", Items = {
+        {Name = "Medkit", Id = 34, Cost = 50, Max = 10},
+    }},
 }
+
 for k,v in pairs(Store) do
 	for i,j in pairs(v.Items) do
 		j.Quantity = {}
