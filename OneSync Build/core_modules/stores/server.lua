@@ -12,6 +12,7 @@
     Copy, re-release, re-distribute it without my written permission.
 --]]
 Store = {
+-- Food Begin
     [12] = 2,
     [13] = 2,
     [14] = 8,
@@ -22,26 +23,35 @@ Store = {
     [45] = 5,
     [49] = 3,
     [52] = 3,
-
-
+-- Food End
+--
+-- Water Begin
     [6] = 3,
     [41] = 10,
     [17] = 4,
     [18] = 5,
--- Tools Department 
+-- Water End
+--
+-- Medical Begin
+    [34] = 50,
+-- Medical End
+-- Misc Begin
+    [77] = 10,
+    [79] = 10,
+-- Misc End
+--
+-- Tools Begin
     [200] = 250,
     [37] = 45,
     [76] = 150,
     [78] = 50,
     [44] = 30,
     [53] = 50,
--- End of Tools Department
-    [34] = 50,
-
-    [77] = 10,
-    [79] = 10,
     [80] = 5,
     [81] = 10,
+    [36] = 25,
+    [46] = 50,
+-- Tools End
 }
 
 RegisterServerEvent("item:buy")
