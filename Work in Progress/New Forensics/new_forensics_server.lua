@@ -41,13 +41,9 @@ AddEventHandler('Forensics.Sync', function(Evidence, Type)
 	local Source = source
 	if Type == "BulletCasing" then
 		TriggerEvent("core:getuser", Evidence.Player, function(User)
-			TriggerEvent("weapon:getuser", Evidence.Player, function(_weapon)
-				for k,v in pairs(_weapon) do
-					if Weapons_names[Evidence.WeaponUsed] == Weapons_names[k] then
-						Evidence.Player = User.get("characterID")
-						Evidence.SerialNumber = v.id
-					end
-				end
+			Evidence.Player = User.get("characterID")
+			exports["GHMattiMySQL"]:QueryResultAsync("SELECT * from weapons WHERE character_id=@character_id", {["@character_id"] = Evidence.Player}, function(Weapon)
+				Evidence.SerialNumber = Weapon.id
 			end)
 		end)
 		table.insert(UnCollected_BulletCasings, Evidence)
@@ -77,27 +73,25 @@ RegisterServerEvent('Police.Swab.Vehicle')
 AddEventHandler('Police.Swab.Vehicle', function(Plate)
 	local Source = source
 	local Fingerprints = {}
-	local Table = {}
 	for Index = 1, #UnCollected_Fingerprints do
 		if UnCollected_Fingerprints[Index] ~= nil then
 			if UnCollected_Fingerprints[Index].LicensePlate == Plate then
-				table.insert(Fingerprints, Plate)
-				table.insert(Table, UnCollected_Fingerprints[Index])
+				TriggerClientEvent("Forensics.Vehicle.Swabs", Source, UnCollected_Fingerprints[Index])
+				table.insert(Fingerprints, "Found")
 				TriggerEvent('Forensics.PickUp.Evidence', UnCollected_Fingerprints[Index], "FingerPrint", Index)
 			end
 		end
 	end
-	TriggerClientEvent("Forensics.Vehicle.Swabs", Source, Table)
 	TriggerClientEvent("chatMessage", source, "Evidence", {16, 102, 158}, "You have found " .. tostring(#Fingerprints .. " Fingerprints"))
 end)
 
 RegisterServerEvent('Forensics.BulletCasing.Information')
-AddEventHandler('Forensics.BulletCasing.Information', function(Evidence)
+AddEventHandler('Forensics.BulletCasing.Information', function(Type, Evidence)
 	local Source = source
 	if Type == "WeaponName" then
-		TriggerClientEvent('Forensics.WeaponName.Return', Source, Weapon_names[Evidence.Model])
+		TriggerClientEvent('Forensics.WeaponName.Return', Source, Weapon_names[Evidence.weaponused])
 	elseif Type == "SerialNumber" then
-		TriggerClientEvent('Forensics.BulletCasing.Return', Source, Evidence.SerialNumber)
+		TriggerClientEvent('Forensics.BulletCasing.Return', Source, Evidence.serialnumber)
 	end
 end)
 
@@ -126,7 +120,7 @@ AddEventHandler("Forensics.Store", function(Data, Description, Which)
 	        ['@item_id'] = Data.item_id,
 	        ['@description'] = Description,
 	    })
-	elseif Which == "Firearms" then
+	elseif Which == "Firearm" then
 		exports['GHMattiMySQL']:QueryResult("INSERT INTO police_evidence_firearms (`id`, `character_id`, `sellprice`, `model`, `ammo`, `suppressor`, `flashlight`, `extended_clip`, `scope`, `grip`, `advanced_scope`, `skin`, `owner`, `description`) VALUES (@id, @character_id, @sellprice, @model, @ammo, @suppressor, @flashlight, @extended_clip, @scope, @grip, @advanced_scope, @skin, @owner, @description);", { 
 	        ['@id'] = Data.id,
 	        ['@character_id'] = Data.character_id,
@@ -148,13 +142,13 @@ AddEventHandler("Forensics.Store", function(Data, Description, Which)
 			["@model"] = Data.model,
 			['@description'] = Description,
 		})
-	elseif Which == "Fingerprints" then
+	elseif Which == "Fingerprint" then
 		exports['GHMattiMySQL']:QueryResult("INSERT INTO police_evidence_fingerprints (`player`,`licenseplate`,`description`) VALUES (@player,@licenseplate,@description);", { 
 	        ['@player'] = Data.Player,
 	        ['@licenseplate'] = Data.LicensePlate,
 	        ['@description'] = Description,
 	    })
-	elseif Which == "Ballistics" then
+	elseif Which == "BulletCasing" then
 		exports['GHMattiMySQL']:QueryResult("INSERT INTO police_evidence_ballistics (`player`, `weaponused`, `location`, `serialnumber`, `description`) VALUES (@player, @weaponused, @location, @serialnumber, @description);", { 
 	        ['@player'] = Data.Player,
 	        ['@weaponused'] = Data.WeaponUsed,
@@ -226,3 +220,30 @@ AddEventHandler("Locker.Destroy", function(Data, Which)
 	end
 	TriggerClientEvent("Forensics.Locker", Source)
 end)
+
+RegisterServerEvent("Locker.Take")
+AddEventHandler("Locker.Take", function(Data)
+	if Data.type == "fingerprints" then
+		exports["GHMattiMySQL"]:QueryAsync("UPDATE police_evidence_fingerprints SET status=@status WHERE (id=@id)", {["@id"] = Data.id, ["@status"] = 1})
+	elseif Data.type == "ballistics" then
+		exports["GHMattiMySQL"]:QueryAsync("UPDATE police_evidence_ballistics SET status=@status WHERE (id=@id)", {["@id"] = Data.id, ["@status"] = 1})
+	elseif Data.type == "firearms" then
+		exports["GHMattiMySQL"]:QueryAsync("UPDATE police_evidence_firearms SET status=@status WHERE (id=@id)", {["@id"] = Data.id, ["@status"] = 1})
+	elseif Data.type == "cds" then
+		exports["GHMattiMySQL"]:QueryAsync("UPDATE police_evidence_cds SET status=@status WHERE (id=@id)", {["@id"] = Data.id, ["@status"] = 1})
+	end
+end)
+
+RegisterServerEvent("Locker.PutBackEvidence")
+AddEventHandler("Locker.PutBackEvidence", function(Data)
+	if Data.type == "fingerprints" then
+		exports["GHMattiMySQL"]:QueryAsync("UPDATE police_evidence_fingerprints SET status=@status WHERE (id=@id)", {["@id"] = Data.id, ["@status"] = 0})
+	elseif Data.type == "ballistics" then
+		exports["GHMattiMySQL"]:QueryAsync("UPDATE police_evidence_ballistics SET status=@status WHERE (id=@id)", {["@id"] = Data.id, ["@status"] = 0})
+	elseif Data.type == "firearms" then
+		exports["GHMattiMySQL"]:QueryAsync("UPDATE police_evidence_firearms SET status=@status WHERE (id=@id)", {["@id"] = Data.id, ["@status"] = 0})
+	elseif Data.type == "cds" then
+		exports["GHMattiMySQL"]:QueryAsync("UPDATE police_evidence_cds SET status=@status WHERE (id=@id)", {["@id"] = Data.id, ["@status"] = 0})
+	end
+end)
+

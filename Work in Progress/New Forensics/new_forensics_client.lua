@@ -15,6 +15,7 @@ local ChosenEvidence = {
 	Firearms = {},
 	ControlledSubstances = {}
 }
+local EvidenceLocker = vector3(470.86749267578,-984.74786376953,30.689680099487)
 
 RegisterNetEvent('Forensics.Sync')
 AddEventHandler('Forensics.Sync', function(Type, Table)
@@ -30,7 +31,7 @@ AddEventHandler("Forensics.Vehicle.Swabs", function(Table)
 	table.insert(Collected_Fingerprints, Table)
 end)
 
---[[RegisterNetEvent('inventory:police_evidence')
+RegisterNetEvent('inventory:police_evidence')
 RegisterNetEvent("Forensics.Fingerprints")
 RegisterNetEvent("Forensics.Ballistics")
 RegisterNetEvent('Forensics.Firearms')
@@ -40,7 +41,7 @@ RegisterNetEvent("Forensics.Store")
 RegisterNetEvent("Forensics.Give")
 RegisterNetEvent("Forensics.Destroy")
 RegisterNetEvent("Forensics.PutInEvidence")
-RegisterNetEvent("Forensics.PutWeaponInEvidence")--]]
+RegisterNetEvent("Forensics.PutWeaponInEvidence")
 
 AddEventHandler("inventory:police_evidence", function()
     exports.ui:reset()
@@ -57,7 +58,7 @@ AddEventHandler("Forensics.Fingerprints", function()
     exports.ui:open()
     print(tostring(#Collected_Fingerprints))
 	for Index = 1, #Collected_Fingerprints do
-		exports.ui:addOption(Collected_Fingerprints[Index].LicensePlate, [[TriggerEvent("Forensic:Options")]], Collected_Fingerprints[Index])
+		exports.ui:addOption(Collected_Fingerprints[Index].LicensePlate, "Forensic:Options", Collected_Fingerprints[Index])
 	end
 	exports.ui:back([[TriggerEvent("inventory:police_evidence")]])
 end)
@@ -67,7 +68,7 @@ AddEventHandler("Forensics.Ballistics", function()
     exports.ui:open()
     print(tostring(#Collected_BulletCasings))
 	for Index = 1, #Collected_BulletCasings do
-		exports.ui:addOption(Collected_BulletCasings[Index].Location, [[TriggerEvent("Forensic:Options")]], Collected_BulletCasings[Index])
+		exports.ui:addOption(Collected_BulletCasings[Index].Location, "Forensic:Options", Collected_BulletCasings[Index])
 	end
 	exports.ui:back([[TriggerEvent("inventory:police_evidence")]])
 end)
@@ -76,7 +77,7 @@ AddEventHandler("Forensics.Firearms", function()
 	exports.ui:reset()
     exports.ui:open()
 	for Index = 1, #Collected_Firearms do
-		exports.ui:addOption(Weapons_names[Collected_Firearms[Index].model], [[TriggerEvent("Forensic:Options")]], Collected_Firearms[Index])
+		exports.ui:addOption(Weapons_names[Collected_Firearms[Index].model], "Forensic:Options", Collected_Firearms[Index])
 	end
 	exports.ui:back([[TriggerEvent("inventory:police_evidence")]])
 end)
@@ -85,7 +86,7 @@ AddEventHandler("Forensics.Controlled.Substances", function()
 	exports.ui:reset()
     exports.ui:open()
 	for Index = 1, #Collected_Inventory do
-		exports.ui:addOption(Collected_Inventory[Index].quantity.." | "..Collected_Inventory[Index].name, [[TriggerEvent("Forensic:Options")]], Collected_Inventory[Index])
+		exports.ui:addOption(Collected_Inventory[Index].quantity.." | "..Collected_Inventory[Index].name, "Forensic:Options", Collected_Inventory[Index])
 	end
 	exports.ui:back([[TriggerEvent("inventory:police_evidence")]])
 end)
@@ -96,15 +97,20 @@ AddEventHandler("Forensic:Options", function(Data)
 	exports.ui:addOption("Storage", "Forensics.Store", Data)
 	exports.ui:addOption("Give", "Forensics.Give", Data)
 	exports.ui:addOption("Destroy", "Forensics.Destroy", Data)
-	exports.ui:back("[[inventory:police_evidence]]")
+	exports.ui:back([[TriggerEvent("inventory:police_evidence")]])
 end)
 
-AddEventHandler("Forensics.Store", function(Data, Which)
+AddEventHandler("Forensics.Store", function(Data)
 	Player = PlayerPedId()
 	PlayerPosition = GetEntityCoords(Player, false)
 	if #(PlayerPosition - EvidenceLocker) <= 2 then
-		local Description = tostring(KeyboardInput("Enter Description:", 1000))
-		TriggerServerEvent("Forensics.Store", Data, Description, Data.Type)
+		local Description = tostring(KeyboardInput("Enter Description:", "", 1000))
+		if Description ~= nil then
+			RemoveFromCollected(Data)
+			TriggerServerEvent("Forensics.Store", Data, Description, Data.Type)
+		else
+			Notify("Your evidence needs a description to be processed!", 2500)
+		end
 	end
 end)
 
@@ -120,8 +126,8 @@ AddEventHandler("Forensics,PutWeaponInEvidence", function(Data, Which)
 	table.insert(Collected_Firearms, Data)
 end)
 
---[[RegisterNetEvent("Forensics.Locker")
-RegisterNetEvent("Forensic.Locker.Options")
+--RegisterNetEvent("Forensics.Locker")
+--RegisterNetEvent("Forensic.Locker.Options")
 RegisterNetEvent("Create.Locker.Fingerprints")
 RegisterNetEvent("Create.Locker.Ballistics")
 RegisterNetEvent("Create.Locker.Firearms")
@@ -129,8 +135,23 @@ RegisterNetEvent("Create.Locker.Controlled.Substances")
 RegisterNetEvent("Locker.Options")
 RegisterNetEvent("Locker.Description")
 RegisterNetEvent("Locker.Destroy")
-RegisterNetEvent("Locker.Take")--]]
+RegisterNetEvent("Locker.Take")
 
+Citizen.CreateThread(function()
+	while true do
+		Citizen.Wait(0)
+		local Player = PlayerPedId()
+		local PlayerPosition = GetEntityCoords(Player, false)
+		if isInService then
+			if #(PlayerPosition - EvidenceLocker) < 1 then
+				DisplayHelpText("Press ~INPUT_CONTEXT~ to open the evidence locker!")
+				if IsControlJustPressed(1, 51) then
+					TriggerEvent("Forensics.Locker")
+				end
+			end
+		end
+	end
+end)
 AddEventHandler("Forensics.Locker", function()
 	exports.ui:reset()
     exports.ui:open()
@@ -145,7 +166,7 @@ AddEventHandler("Create.Locker.Fingerprints", function(Fingerprints)
 	exports.ui:reset()
 	exports.ui:open()
 	for Index = 1, #Fingerprints do
-		exports.ui:addOption(Fingerprints[Index].LicensePlate, [[TriggerEvent("Locker.Options")]], Fingerprints[Index], "Fingerprints")
+		exports.ui:addOption(Fingerprints[Index].licenseplate, "Locker.Options", Fingerprints[Index])
 	end
 	exports.ui:back([[TriggerEvent("Forensics.Locker")]])
 end)
@@ -154,7 +175,7 @@ AddEventHandler("Create.Locker.Ballistics", function(Ballistics)
 	exports.ui:reset()
 	exports.ui:open()
 	for Index = 1, #Ballistics do
-		exports.ui:addOption(Ballistics[Index].Location, [[TriggerEvent("Locker.Options")]], Ballistics[Index], "Ballistics")
+		exports.ui:addOption(Ballistics[Index].location, "Locker.Options", Ballistics[Index])
 	end
 	exports.ui:back([[TriggerEvent("Forensics.Locker")]])
 end)
@@ -163,7 +184,7 @@ AddEventHandler("Create.Locker.Firearms", function(Firearms)
 	exports.ui:reset()
 	exports.ui:open()
 	for Index = 1, #Firearms do
-		exports.ui:addOption(Weapons_names[Firearms[Index].Model], [[TriggerEvent("Locker.Options")]], Firearms[Index], "Firearms")
+		exports.ui:addOption(Weapons_names[Firearms[Index].model], "Locker.Options", Firearms[Index])
 	end
 	exports.ui:back([[TriggerEvent("Forensics.Locker")]])
 end)
@@ -172,7 +193,7 @@ AddEventHandler("Create.Locker.Controlled.Substances", function(ControlledSubsta
 	exports.ui:reset()
 	exports.ui:open()
 	for Index = 1, #ControlledSubstances do
-		exports.ui:addOption(ControlledSubstances[Index].name, [[TriggerEvent("Locker.Options")]], ControlledSubstances[Index], "CDS")
+		exports.ui:addOption(ControlledSubstances[Index].name, "Locker.Options", ControlledSubstances[Index])
 	end
 	exports.ui:back([[TriggerEvent("Forensics.Locker")]])
 end)
@@ -180,24 +201,49 @@ end)
 AddEventHandler("Locker.Options", function(Data)
 	exports.ui:reset()
 	exports.ui:open()
-	exports.ui:addOption("Description", [[TriggerEvent("Locker.Description")]], Data.Description)
-	exports.ui:addOption("Destroy", [[TriggerServerEvent("Locker.Destroy")]], Data, Which)
-	exports.ui:addOption("Take", [[TriggerServerEvent("Locker.Take")]], Data, Which)
+	exports.ui:addOption("Description", "Locker.Description", Data.description)
+	exports.ui:addOption("Destroy", "Locker.Destroy", Data)
+	exports.ui:addOption("Take", "Locker.Take", Data)
+	exports.ui:back([[TriggerEvent("Forensics.Locker")]])
 end)
 
 AddEventHandler("Locker.Description", function(Description)
 	Chat_Message("Description", Description, 255, 0, 0, true)
 end)
 
-AddEventHandler("Locker.Take", function(Data, Which)
-	if Which == "Fingerprints" then
-		table.insert(ChosenEvidence.Fingerprints, Data)
-	elseif Which == "Ballistics" then
-		table.insert(ChosenEvidence.Ballistics, Data)
-	elseif Which == "Firearms" then
-		table.insert(ChosenEvidence.Firearms, Data)
-	elseif Which == "CDS" then
-		table.insert(ChosenEvidence.CDS, Data)
+AddEventHandler("Locker.Take", function(Data)
+	if Data.type == "fingerprints" then
+		if Data.status == 0 then
+			table.insert(ChosenEvidence.Fingerprints, Data)
+			TriggerServerEvent("Locker.Take", Data)
+			Notify("Evidence Taken!", 2600)
+		else
+			Notify("Evidence Missing!", 2600)
+		end
+	elseif Data.type == "ballistics" then
+		if Data.status == 0 then
+			table.insert(ChosenEvidence.Ballistics, Data)
+			TriggerServerEvent("Locker.Take", Data)
+			Notify("Evidence Taken!", 2600)
+		else
+			Notify("Evidence Missing!", 2600)
+		end
+	elseif Data.type == "firearms" then
+		if Data.status == 0 then
+			table.insert(ChosenEvidence.Firearms, Data)
+			TriggerServerEvent("Locker.Take", Data)
+			Notify("Evidence Taken!", 2600)
+		else
+			Notify("Evidence Missing!", 2600)
+		end
+	elseif Data.type == "cds" then
+		if Data.status == 0 then
+			table.insert(ChosenEvidence.CDS, Data)
+			TriggerServerEvent("Locker.Take", Data)
+			Notify("Evidence Taken!", 2600)
+		else
+			Notify("Evidence Missing!", 2600)
+		end
 	end
 end)
 
@@ -267,6 +313,34 @@ function IsFingerPrintInCar(Plate)
 	end
 end
 
+function RemoveFromCollected(Data)
+	if Data.type == "Fingerprint" then
+		for Index = 1, #Collected_Fingerprints do
+			if Data.Player == Collected_Fingerprints[Index].Player and Data.LicensePlate == Collected_Fingerprints[Index].LicensePlate then
+				table.remove(Collected_Fingerprints, Index)
+			end
+		end
+	elseif Data.type == "BulletCasing" then
+		for Index = 1, #Collected_BulletCasings do
+			if Data.Player == Collected_BulletCasings[Index].Player and Data.WeaponUsed == Collected_BulletCasings[Index].WeaponUsed then
+				table.remove(Collected_BulletCasings, Index)
+			end
+		end
+	elseif Data.type == "Firearms" then
+		for Index = 1, #Collected_Firearms do
+			if Data.id == Collected_Firearms[Index].id then
+				table.remove(Collected_Firearms, Index)
+			end
+		end
+	elseif Data.type == "CDS" then
+		for Index = 1, #Collected_Inventory do
+			if Data.name == Collected_Inventory[Index].name and Data.quantity == Collected_Inventory[Index].quantity then
+				table.remove(Collected_Inventory, Index)
+			end
+		end
+	end
+end
+
 Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(0)
@@ -281,7 +355,7 @@ Citizen.CreateThread(function()
 						WeaponUsed = Weaponhashes[tostring(GetSelectedPedWeapon(Ped))],
 						Location = GetStreetNameFromHashKey(Street),
 						Coords = vector3(PlayerPosition.x, PlayerPosition.y, PlayerPosition.z),
-						SerialNumber = nil,
+						SerialNumber = 0,
 						Type = "BulletCasing"
 					}
 					table.insert(ClientBulletCasings, PlayerPosition)
@@ -331,6 +405,7 @@ Citizen.CreateThread(function()
 								TriggerServerEvent('Forensics.PickUp.Evidence', UnCollected_BulletCasings[Index] ,"BulletCasing", 0)
 								UnCollected_BulletCasings[Index].Coords = 0
 								table.insert(Collected_BulletCasings, UnCollected_BulletCasings[Index])
+								Notify("You have picked up evidence!", 2900)
 								Citizen.Wait(5000)
 							end
 						end
@@ -350,7 +425,7 @@ Citizen.CreateThread(function()
 								Notify("You are currently destroying evidence!")
 								Citizen.Wait(60000)
 								if #(PlayerPosition - UnCollected_BulletCasings[Index].Coords) < 2 then
-									Notify("You have destroyed the evidence!", 2600)
+									Notify("You have destroyed the evidence!", 2900)
 									TriggerServerEvent('Forensics.PickUp.Evidence', UnCollected_BulletCasings[Index] ,"DestroyEvidence", 0)
 								else
 									Notify("You moved too far from the evidence to destroy it!", 2600)
@@ -373,17 +448,21 @@ Citizen.CreateThread(function()
 			if #(PlayerPosition - Microscope) < 1 then
 				DisplayHelpText("Press ~INPUT_CONTEXT~ to use the microscope!")
 				if IsControlJustPressed(1, 51) then
-					if #ChosenEvidence.Ballistics < 1 then
+					if #ChosenEvidence.Ballistics == 0 then
 						Chat_Message("Evidence Locker", "^0Is empty!")
 					else
-						if #ChosenEvidence.Ballistics > 0 and ChosenEvidence.Ballistics[1] ~= nil then
+						if #ChosenEvidence.Ballistics == 1 and ChosenEvidence.Ballistics[1] ~= nil then
 							Notify("Examining Ballistics Evidence...", 10000)
 							Citizen.Wait(10000)
 							local Probability = math.random(1, 100)
 							if Probability > 25 then
 								TriggerServerEvent('Forensics.BulletCasing.Information', "WeaponName", ChosenEvidence.Ballistics[1])
+								TriggerServerEvent('Locker.PutBackEvidence', ChosenEvidence.Ballistics[1])
+								table.remove(ChosenEvidence.Ballistics, 1)
 							else
 								TriggerServerEvent('Forensics.BulletCasing.Information', "SerialNumber", ChosenEvidence.Ballistics[1])
+								TriggerServerEvent('Locker.PutBackEvidence', ChosenEvidence.Ballistics[1])
+								table.remove(ChosenEvidence.Ballistics, 1)
 							end
 						end
 					end
@@ -402,13 +481,15 @@ Citizen.CreateThread(function()
 			if #(PlayerPosition - Computer) < 1 then
 				DisplayHelpText("Press ~INPUT_CONTEXT~ to scan a fingerprint!")
 				if IsControlJustPressed(1, 51) then
-					if #ChosenEvidence.Fingerprints < 1 then
+					if #ChosenEvidence.Fingerprints == 0 then
 						Chat_Message("Evidence Locker", "^0Is empty!")
 					else
 						Notify("Examining Fingerprint, Cross referencing with Los Santos Criminal Database", 60000)
 						Citizen.Wait(60000)
-						if #ChosenEvidence.Fingerprints > 0 and ChosenEvidence.Fingerprints[1].Player ~= nil then
-							TriggerServerEvent("Forensics.RunPrint", ChosenEvidence.Fingerprints[1].Player)
+						if #ChosenEvidence.Fingerprints == 1 and ChosenEvidence.Fingerprints[1].player ~= nil then
+							TriggerServerEvent("Forensics.RunPrint", ChosenEvidence.Fingerprints[1].player)
+							TriggerServerEvent('Locker.PutBackEvidence', ChosenEvidence.Fingerprints[1])
+							table.remove(ChosenEvidence.Fingerprints, 1)
 						end
 					end
 				end

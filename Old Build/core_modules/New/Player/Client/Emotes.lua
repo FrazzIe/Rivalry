@@ -33,6 +33,16 @@ WalkStyles = {
 		{Id = "sad", Name = "Sad", Clipset = "move_m@sad@a"},
 		{Id = "nonchalant", Name = "Non Chalant", Clipset = "move_m@non_chalant"},
 		{Id = "sassy", Name = "Sassy", Clipset = "move_f@sassy"},
+		{Id = "business", Name = "Business", Clipset = "move_m@business@a"},
+		{Id = "casual1", Name = "Casual1", Clipset = "move_m@casual@a"},
+		{Id = "casual2", Name = "Casual2", Clipset = "move_m@casual@b"},
+		{Id = "casual3", Name = "Casual3", Clipset = "move_m@casual@c"},
+		{Id = "casual4", Name = "Casual4", Clipset = "move_m@casual@d"},
+		{Id = "casual5", Name = "Casual5", Clipset = "move_m@casual@e"},
+		{Id = "casual6", Name = "Casual6", Clipset = "move_m@casual@f"},
+		{Id = "fat", Name = "Fat", Clipset = "move_m@fat@a"},
+		{Id = "hurry", Name = "Hurry", Clipset = "move_m@hurry@a"},
+		{Id = "intimidation", Name = "Intimidation", Clipset = "move_m@intimidation@1h"},
 	},
 }
 
