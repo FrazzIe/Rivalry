@@ -190,6 +190,7 @@ AddEventHandler("jail:jail", function(JailTime)
             RemoveBlip(job_blip)
             SetEntityInvincible(PlayerPedId(), false)
             TriggerEvent("anticheat:set", "invincible", false, function(callback)
+            TriggerServerEvent('RemoveJailedPlayer', GetPlayerServerId(PlayerId()))
             end)
             if not removeSentence then
                 TriggerServerEvent("jail:update", 0)
@@ -198,7 +199,7 @@ AddEventHandler("jail:jail", function(JailTime)
     end
 end)
 
---[[Citizen.CreateThread(function()
+Citizen.CreateThread(function()
     while true do
         Citizen.Wait(0)
         if not IsInJail() then
@@ -215,7 +216,7 @@ end)
             end
         end
     end
-end)--]]
+end)
 
 RegisterNetEvent("Jailbreak.Start")
 AddEventHandler("Jailbreak.Start", function()
@@ -235,6 +236,7 @@ end)
 RegisterNetEvent("jail:unjail")
 AddEventHandler("jail:unjail", function()
     removeSentence = true
+    TriggerServerEvent('RemoveJailedPlayer', GetPlayerServerId(PlayerId()))
 end)
 
 function IsInJail()

@@ -12,6 +12,10 @@ function Notify(Message, Time)
 	exports.pNotify:SendNotification({text = Message or "", type = "error", timeout = Time or 3000, layout = "centerRight", queue = "left"})
 end
 
+function IsVaultDoorOpened()
+	local Object = GetClosestObjectOfType()
+end
+
 --[[ Store Robberies ]]--
 Citizen.CreateThread(function()
 	while true do
@@ -71,20 +75,22 @@ Citizen.CreateThread(function()
 	end
 end)
 
---[[Citizen.CreateThread(function()
+Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(0)
 		local PlayerPed = PlayerPedId()
 		local PlayerPosition = GetEntityCoords(PlayerPed, false)
-		if #(PlayerPosition - Rivalry.Robberies.Banks.Pacific.VaultDoor.Coords) < 2 then
-			DisplayHelpText("Press ~INPUT_CONTEXT~ to start drilling into the vault!")
-			if IsControlJustPressed(1, 51) then
-				TriggerServerEvent("Rivalry.Rob.Pacific.Vault")
+		if not IsVaultDoorOpened() then
+			if #(PlayerPosition - Rivalry.Robberies.Banks.Pacific.VaultDoor.Coords) < 2 then
+				DisplayHelpText("Press ~INPUT_CONTEXT~ to start drilling into the vault!")
+				if IsControlJustPressed(1, 51) then
+					TriggerServerEvent("Rivalry.Rob.Pacific.Vault")
+				end
 			end
 		end
-		if IsVaultDoorOpened() then
+		else
 			for Index = 1, #Rivalry.Robberies.BanksPacific.SafeBoxes do
-				if #(PlayerPosition - Rivalry.Robberies.Banks.Pacific.SafeBoxes) then
+				if #(PlayerPosition - Rivalry.Robberies.Banks.Pacific.SafeBoxes) < 1 then
 					DisplayHelpText("Press ~INPUT_CONTEXT~ to break open locked box!")
 					if IsControlJustPressed(1, 51) then
 						TriggerServerEvent("Rivalry.Rob.Pacific.SafeBox", Index)
@@ -94,14 +100,6 @@ end)
 		end
 	end
 end)
-
-Citizen.CreateThread(function()
-	while true do
-		Citizen.Wait(0)
-		local PlayerPed = PlayerPedId()
-		local PlayerPosition = GetEntityCoords(PlayerPed, false)
-	end
-end)--]]
 
 RegisterNetEvent("Rivalry.Rob.CashRegister")
 AddEventHandler("Rivalry.Rob.CashRegister", function()

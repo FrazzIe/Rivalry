@@ -33,8 +33,8 @@ AddEventHandler('core:switch', function(source)
     end)
 end)
 
-RegisterServerEvent("AddJailedPlayer")
-AddEventHandler("AddJailedPlayer", function()
+RegisterServerEvent("Jail.AddJailedPlayer")
+AddEventHandler("Jail.AddJailedPlayer", function()
     table.insert(JailedPlayers, source)
 end)
 
