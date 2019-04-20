@@ -60,6 +60,7 @@ Config.Priority = {
     ["steam:1100001005489bf"] = 771, -- GamezJohn
     ["steam:110000108039c08"] = 770, -- DatVoiceGuy
     ["steam:110000106d04419"] = 769, -- Cool_Kid
+    ["steam:110000139fb527b"] = 768, -- BrinnieTV
 --[PD, EMS, DOJ, Mech]--
     ["steam:11000010bf7bb73"] = 700, -- AfriicanSnowball (PD High Command)
     ["steam:110000104f0fbb8"] = 699, -- Wayne DeMan (PD High Command)
