@@ -223,7 +223,6 @@ AddEventHandler("police:menu", function()
     exports.ui:addOption("Vehicle", [[TriggerEvent("police:menu_vehicle")]])
     exports.ui:addOption("Placeables", [[TriggerEvent("police:menu_placeables")]])
     exports.ui:addOption("Missions", [[TriggerEvent("police:menu_missions")]])
-    exports.ui:addOption("Processing", [[TriggerEvent("police:menu_processing")]])
     exports.ui:back([[TriggerEvent("interaction:main")]])
 end)
 --[[ Citizen ]]--
@@ -515,17 +514,6 @@ AddEventHandler("police:menu_missions", function()
     end
     exports.ui:back([[TriggerEvent("police:menu")]])
 end)
---[[ Processing ]]--
-AddEventHandler("police:menu_processing", function()
-    exports.ui:reset()
-    exports.ui:open()
-    exports.ui:addOption("Optional fine", [[TriggerEvent("police:fine_input", "optional")]])
-    exports.ui:addOption("Non-optional fine", [[TriggerEvent("police:fine_input", "forced")]])
-    exports.ui:addOption("Jail", [[TriggerEvent("police:jail_input")]])
-    exports.ui:addOption("Charges", [[TriggerEvent("police:menu_charges")]])
-    exports.ui:addOption("MDT", [[TriggerEvent("mdt:open")]])
-    exports.ui:back([[TriggerEvent("police:menu")]])
-end)
 
 AddEventHandler("police:fine_input", function(_type)
     local t, distance = GetClosestPlayer()
@@ -558,45 +546,4 @@ end)
 
 AddEventHandler("mdt:open", function()
     openGui()
-end)
-
---[[ Charges ]]--
-AddEventHandler("police:menu_charges", function()
-    exports.ui:reset()
-    exports.ui:open()
-    exports.ui:addOption("Add Charges", [[TriggerEvent("police:menu_subcharges")]])
-    exports.ui:addOption("Review Charges", [[TriggerEvent("police:review_charge")]])
-    exports.ui:addOption("Apply Charges", [[TriggerEvent("police:apply_charge")]])
-    exports.ui:addOption("Clear Charges", [[TriggerEvent("police:clear_charge")]])
-    exports.ui:back([[TriggerEvent("police:menu_processing")]])
-end)
-
-AddEventHandler("police:menu_subcharges", function()
-    exports.ui:reset()
-    exports.ui:open()
-    for k,v in pairs(charges) do
-        exports.ui:addOption(v.title, "police:menu_addcharges", v.items)
-    end
-    exports.ui:back([[TriggerEvent("police:menu_charges")]])
-end)
-
-AddEventHandler("police:menu_addcharges", function(items)
-    exports.ui:reset()
-    exports.ui:open()
-    for k,v in pairs(items) do
-        exports.ui:addOption(v.charge, "police:menu_addcharge", v)
-    end
-    exports.ui:back([[TriggerEvent("police:menu_subcharges")]])
-end)
-
-AddEventHandler("police:menu_addcharge", function(data)
-    local current_charge = {charge = data.charge, time = data.time, cost = data.cost}
-    local time = tonumber(KeyboardInput("Enter time (Months/Minutes):", tostring(data.time), 11))
-    local cost = tonumber(KeyboardInput("Enter cost:", tostring(data.cost), 11))
-    if time ~= nil and time >= 0 and cost ~= nil and cost >= 0 then
-        current_charge.time = time
-        current_charge.cost = cost
-        TriggerEvent("police:add_charge", current_charge)
-    end
-    exports.ui:open()
 end)

@@ -386,16 +386,6 @@ AddEventHandler('police:finesForced', function(target, amount)
 		TriggerEvent("core:ban", source, 99, "Script tampering", true, "Anticheat")
 	end
 end)
---==============================================================================================================================--
---Charges
-RegisterServerEvent('police:showCharges')
-AddEventHandler('police:showCharges', function (t, charges)
-	local source = source
-	local other_name = GetIdentity(t)
-    TriggerClientEvent('chatMessage', t, '[GOVERNMENT]', {255, 0, 0},"You have been charged with: "..table.concat(charges))
-    TriggerClientEvent('chatMessage', source, '[GOVERNMENT]', {255, 0, 0}, "You have charged.."..other_name.." with: "..table.concat(charges))
-    TriggerClientEvent("police:receiveSuspectInfo", source, GetIdentity(source), other_name, getID("steam", t))
-end)
 
 TriggerEvent("core:addGroupCommand", "runplate", "emergency", function(source, args, rawCommand, data, power, group)
 	if args[1] then
