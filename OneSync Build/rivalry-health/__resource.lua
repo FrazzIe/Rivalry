@@ -12,12 +12,6 @@ shared_scripts {
 client_scripts {
 	"@rivalry-utilities/client/weapons.lua",
 	"@rivalry-utilities/client/distance.lua",
-	"@rivalry-utilities/client/decorator.lua",
-	"@rivalry-utilities/client/destroy.lua",
-	"@rivalry-utilities/client/distance.lua",
-	"@rivalry-utilities/client/enumeration.lua",
-	"@rivalry-utilities/client/graphics.lua",
-	"@rivalry-utilities/client/weapons.lua",
 	"client.lua",
 }
 

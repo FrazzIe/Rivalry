@@ -16,12 +16,19 @@ AddEventHandler("Health.Injury.Add", function(Bodypart, Weapon, Damage)
 		Health.Injuries[Source][Bodypart][Weapon] = Health.Injuries[Source][Bodypart][Weapon] + Damage
 	end
 
-	TriggerClientEvent("Health.Sync", -1, Health.Injuries)
+	TriggerClientEvent("Health.Sync", Source, Health.Injuries[Source])
 end)
 
 RegisterServerEvent("Health.Injury.Reset")
 AddEventHandler("Health.Injury.Reset", function()
 	local Source = source
 	Health.Injuries[Source] = {}
-	TriggerClientEvent("Health.Sync", -1, Health.Injuries)
+	TriggerClientEvent("Health.Sync", Source, Health.Injuries)
+end)
+
+RegisterServerEvent("Health.Injury.Get")
+AddEventHandler("Health.Injury.Get", function(Name, Player)
+	local Source = source
+
+	TriggerClientEvent("Health.View", Source, Name, Health.Injuries[Player] or {})
 end)
