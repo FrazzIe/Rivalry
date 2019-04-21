@@ -101,6 +101,7 @@ Config.Priority = {
     ["steam:1100001341a1664"] = 497, -- Lamar
     ["steam:110000104c5b700"] = 496, -- DarkLaiX
     ["steam:110000102437861"] = 495, -- Sullyabv (streamer/doj)
+    ["steam:1100001115d9238"] = 494, -- Drunk
 }
 
 Config.RequireSteam = true
