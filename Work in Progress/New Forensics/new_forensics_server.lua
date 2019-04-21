@@ -6,6 +6,7 @@ function RemoveBulletCasing(Evidence)
 		if v.player == Evidence.player and v.location == Evidence.location and v.coords == Evidence.coords and v.weapon == Evidence.weapon then
 			table.remove(UnCollected_BulletCasings, k)
 			TriggerClientEvent('Forensics.Sync', -1, "UnCollectedBulletCasing", UnCollected_BulletCasings)
+			TriggerClientEvent('Forensics.RemoveClientBulletCasing', Evidence.player, Evidence)
 		end
 	end
 end
@@ -13,6 +14,7 @@ end
 function RemoveFingerPrint(Index)
 	table.remove(UnCollected_Fingerprints, Index)
 	TriggerClientEvent('Forensics.Sync', -1, "UnCollectedFingerprints", UnCollected_Fingerprints)
+	TriggerClientEvent('Forensics.RemoveClientFingerPrint', UnCollected_Fingerprints[Index].player, UnCollected_Fingerprints[Index])
 end
 
 RegisterServerEvent('Forensics.Delete.Evidence')

@@ -326,6 +326,24 @@ AddEventHandler("Forensics.FingerPrint.Result", function(Result, Name)
 	end
 end)
 
+RegisterNetEvent("Forensics.RemoveClientBulletCasing")
+AddEventHandler("Forensics.RemoveClientBulletCasing", function(Data)
+	for Index = 1, #ClientBulletCasings do
+		if ClientBulletCasings[Index].coords.x == Data.coords.x and ClientBulletCasings[Index].coords.y == Data.coords.y then
+			table.remove(ClientBulletCasings, Index)
+		end
+	end
+end)
+
+RegisterNetEvent("Forensics.RemoveClientFingerPrint")
+AddEventHandler("Forensics.RemoveClientFingerPrint", function(Data)
+	for Index = 1, #ClientFingerPrints do
+		if ClientFingerPrints[Index].licenseplate == Data.licenseplate then
+			table.remove(ClientFingerPrints, Index)
+		end
+	end
+end)
+
 function BulletCasingNearBy(PlayerPosition)
 	if #ClientBulletCasings > 0 then
 		for Index = 1, #ClientBulletCasings do
@@ -395,10 +413,10 @@ Citizen.CreateThread(function()
 						location = GetStreetNameFromHashKey(Street),
 						coords = vector3(PlayerPosition.x, PlayerPosition.y, PlayerPosition.z),
 						serialnumber = 0,
-						type = "BulletCasing"
+						type = "bulletcasing"
 					}
 					table.insert(ClientBulletCasings, PlayerPosition)
-					TriggerServerEvent('Forensics.Sync', BulletCasing, "BulletCasing")
+					TriggerServerEvent('Forensics.Sync', BulletCasing, "bulletcasing")
 				end
 			end
 		end
@@ -418,10 +436,10 @@ Citizen.CreateThread(function()
 				local Fingerprint = {
 					player = GetPlayerServerId(PlayerId()),
 					licenseplate = VehicleLicensePlate,
-					type = "Fingerprint"
+					type = "fingerprint"
 				}
 				table.insert(ClientFingerPrints, VehicleLicensePlate)
-				TriggerServerEvent('Forensics.Sync', Fingerprint, "FingerPrint")
+				TriggerServerEvent('Forensics.Sync', Fingerprint, "fingerprint")
 				Citizen.Wait(5000)
 			end
 		end
@@ -441,7 +459,7 @@ Citizen.CreateThread(function()
 						if #(PlayerPosition - UnCollected_BulletCasings[Index].coords) < 1 then
 							DisplayHelpText("Press ~INPUT_CONTEXT~ to collect bullet casing!")
 							if IsControlJustPressed(1,51) then
-								TriggerServerEvent('Forensics.PickUp.Evidence', UnCollected_BulletCasings[Index] ,"BulletCasing", 0)
+								TriggerServerEvent('Forensics.PickUp.Evidence', UnCollected_BulletCasings[Index] ,"bulletcasing", 0)
 								UnCollected_BulletCasings[Index].coords = 0
 								table.insert(Collected_BulletCasings, UnCollected_BulletCasings[Index])
 								Notify("You have picked up evidence!", 2900)
@@ -465,7 +483,7 @@ Citizen.CreateThread(function()
 								Citizen.Wait(60000)
 								if #(PlayerPosition - UnCollected_BulletCasings[Index].coords) < 2 then
 									Notify("You have destroyed the evidence!", 2900)
-									TriggerServerEvent('Forensics.PickUp.Evidence', UnCollected_BulletCasings[Index] ,"DestroyEvidence", 0)
+									TriggerServerEvent('Forensics.PickUp.Evidence', UnCollected_BulletCasings[Index] ,"destroyevidence", 0)
 								else
 									Notify("You moved too far from the evidence to destroy it!", 2600)
 								end
@@ -499,7 +517,7 @@ Citizen.CreateThread(function()
 								TriggerServerEvent('Locker.PutBackEvidence', ChosenEvidence.Ballistics[1])
 								table.remove(ChosenEvidence.Ballistics, 1)
 							else
-								TriggerServerEvent('Forensics.BulletCasing.Information', "SerialNumber", ChosenEvidence.Ballistics[1])
+								TriggerServerEvent('Forensics.BulletCasing.Information', "serialnumber", ChosenEvidence.Ballistics[1])
 								TriggerServerEvent('Locker.PutBackEvidence', ChosenEvidence.Ballistics[1])
 								table.remove(ChosenEvidence.Ballistics, 1)
 							end
