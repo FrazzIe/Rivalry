@@ -140,7 +140,7 @@ AddEventHandler("paramedic:initialise", function(source, identifier, character_i
 				ems[source]["unit_number"] = "M-"..ems[source]["unit"]
 			end
 			TriggerClientEvent("paramedic:set", source, ems[source], true, true)
-			exports["mdt"]:SetPermissionLevel(source, GetPermissionLevel(ems[source]["rank"]))
+			TriggerEvent("mdt.set.permission", source, GetPermissionLevel(paramedic[1].rank))
 		end
 	end)
 end)
@@ -161,7 +161,7 @@ TriggerEvent("core:addGroupCommand", "emsadd", "command", function(source, args,
 						["@onduty"] = "false",
 					})
 					ems[tonumber(args[1])] = {character_id = target.get("characterID"), rank = rank:lower(), onduty = "false" }
-					exports["mdt"]:SetPermissionLevel(source, GetPermissionLevel(rank:lower()))
+					TriggerEvent("mdt.set.permission", source, GetPermissionLevel(rank:lower()))
 					TriggerClientEvent("pNotify:SendNotification", -1, {text = "<b style='color:red'>Alert</b> <br><span style='color:lime'>"..target.get("first_name").." "..target.get("last_name").."</span> has been accepted. <br> Congratulations on joining the LSFD!",type = "error",queue = "left",timeout = 10000,layout = "bottomRight"})
 					TriggerClientEvent('paramedic:set', tonumber(args[1]), ems[tonumber(args[1])], true)
 				end)
@@ -183,7 +183,7 @@ TriggerEvent("core:addGroupCommand", "emsrem", "command", function(source, args,
 			if ems[tonumber(args[1])] ~= nil then
 				TriggerEvent("core:getuser", tonumber(args[1]), function(target)
 					ems[tonumber(args[1])] = nil
-					exports["mdt"]:SetPermissionLevel(source, 0)
+					TriggerEvent("mdt.set.permission", source, 0)
 					exports['GHMattiMySQL']:QueryAsync("DELETE FROM paramedic WHERE character_id=@character_id", {["@character_id"] = target.get("characterID")})
 					TriggerClientEvent("pNotify:SendNotification", -1, {text = "<b style='color:red'>Alert</b> <br><span style='color:lime'>"..target.get("first_name").." "..target.get("last_name").."</span> has been fired. <br> They are no longer part of the LSFD!",type = "error",queue = "left",timeout = 10000,layout = "bottomRight"})
 					TriggerClientEvent('paramedic:set', tonumber(args[1]), ems[tonumber(args[1])], false)
@@ -213,7 +213,7 @@ TriggerEvent("core:addGroupCommand", "emspromote", "emergency", function(source,
 									TriggerEvent("core:getuser", tonumber(args[1]), function(target)
 										exports['GHMattiMySQL']:QueryAsync("UPDATE paramedic SET rank=@rank WHERE character_id=@character_id", {["@character_id"] = target.get("characterID"), ["@rank"] = rank:lower()})
 										ems[tonumber(args[1])].rank = rank:lower()
-										exports["mdt"]:SetPermissionLevel(source, GetPermissionLevel(rank:lower()))
+										TriggerEvent("mdt.set.permission", source, GetPermissionLevel(rank:lower()))
 										TriggerClientEvent("pNotify:SendNotification", tonumber(args[1]), {text = "<b style='color:red'>Alert</b> <br><span style='color:lime'>You have been promoted!</span><br> You are now a "..rank,type = "error",queue = "left",timeout = 10000,layout = "bottomRight"})
 										TriggerClientEvent('paramedic:set', tonumber(args[1]), ems[tonumber(args[1])], true)
 									end)
@@ -255,7 +255,7 @@ TriggerEvent("core:addGroupCommand", "emsdemote", "emergency", function(source, 
 									TriggerEvent("core:getuser", tonumber(args[1]), function(target)
 										exports['GHMattiMySQL']:QueryAsync("UPDATE paramedic SET rank=@rank WHERE character_id=@character_id", {["@character_id"] = target.get("characterID"), ["@rank"] = rank:lower()})
 										ems[tonumber(args[1])].rank = rank:lower()
-										exports["mdt"]:SetPermissionLevel(source, GetPermissionLevel(rank:lower()))
+										TriggerEvent("mdt.set.permission", source, GetPermissionLevel(rank:lower()))
 										TriggerClientEvent("pNotify:SendNotification", tonumber(args[1]), {text = "<b style='color:red'>Alert</b> <br><span style='color:lime'>You have been demoted!</span><br> You are now a "..rank,type = "error",queue = "left",timeout = 10000,layout = "bottomRight"})
 										TriggerClientEvent('paramedic:set', tonumber(args[1]), ems[tonumber(args[1])], true)
 									end)
