@@ -1,6 +1,7 @@
 -- Manifest
 resource_manifest_version '05cfa83c-a124-4cfa-a768-c24a5811d8f9'
 dependency 'GHMattiMySQL'
+dependency 'mdt'
 
 client_script 'warmenu.lua'
 client_script 'gui.lua'
