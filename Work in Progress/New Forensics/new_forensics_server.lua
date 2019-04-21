@@ -91,7 +91,7 @@ RegisterServerEvent('Forensics.BulletCasing.Information')
 AddEventHandler('Forensics.BulletCasing.Information', function(Type, Evidence)
 	local Source = source
 	if Type == "WeaponName" then
-		TriggerClientEvent('Forensics.WeaponName.Return', Source, Weapon_names[Evidence.weaponused])
+		TriggerClientEvent('Forensics.WeaponName.Return', Source, Weapons_names[Evidence.weaponused])
 	elseif Type == "serialnumber" then
 		TriggerClientEvent('Forensics.BulletCasing.Return', Source, Evidence.serialnumber)
 	end
@@ -169,32 +169,40 @@ RegisterServerEvent("Retrieve.Controlled.Substances")
 AddEventHandler("Retrieve.Fingerprints", function()
 	local Source = source
 	exports['GHMattiMySQL']:QueryResultAsync("SELECT police_evidence_fingerprints.id, police_evidence_fingerprints.player, police_evidence_fingerprints.licenseplate, police_evidence_fingerprints.description, police_evidence_fingerprints.type, UNIX_TIMESTAMP(police_evidence_fingerprints.timestamp) AS timestamp, police_evidence_fingerprints.status FROM police_evidence_fingerprints", {}, function(Fingerprints)
-		local timestamp = os.date("%A %B %d %Y | %I:%M %p", Fingerprints.timestamp)
-		TriggerClientEvent("Create.Locker.Fingerprints", Source, Fingerprints, timestamp)
+		for Index = 1, #Fingerprints do
+			Fingerprints[Index].timestamp = os.date("%A %B %d %Y | %I:%M %p", Fingerprints[Index].timestamp)
+		end
+		TriggerClientEvent("Create.Locker.Fingerprints", Source, Fingerprints)
 	end)
 end)
 
 AddEventHandler("Retrieve.Ballistics", function()
 	local Source = source
 	exports['GHMattiMySQL']:QueryResultAsync("SELECT police_evidence_ballistics.id, police_evidence_ballistics.player, police_evidence_ballistics.location, police_evidence_ballistics.serialnumber, police_evidence_ballistics.description, police_evidence_ballistics.type, UNIX_TIMESTAMP(police_evidence_ballistics.timestamp) AS timestamp, police_evidence_ballistics.status FROM police_evidence_ballistics", {}, function(Ballistics)
-		local timestamp = os.date("%A %B %d %Y | %I:%M %p", Ballistics.timestamp)
-		TriggerClientEvent("Create.Locker.Ballistics", Source, Ballistics, timestamp)
+		for Index = 1, #Ballistics do
+			Ballistics[Index].timestamp = os.date("%A %B %d %Y | %I:%M %p", Ballistics[Index].timestamp)
+		end
+		TriggerClientEvent("Create.Locker.Ballistics", Source, Ballistics)
 	end)
 end)
 
 AddEventHandler("Retrieve.Firearms", function()
 	local Source = source
 	exports['GHMattiMySQL']:QueryResultAsync("SELECT police_evidence_firearms.id, police_evidence_firearms.character_id, police_evidence_firearms.sellprice, police_evidence_firearms.model, police_evidence_firearms.ammo, police_evidence_firearms.suppressor, police_evidence_firearms.flashlight, police_evidence_firearms.extended_clip, police_evidence_firearms.scope, police_evidence_firearms.grip, police_evidence_firearms.advanced_scope, police_evidence_firearms.skin, police_evidence_firearms.owner, police_evidence_firearms.type, UNIX_TIMESTAMP(police_evidence_firearms.timestamp) AS timestamp, police_evidence_firearms.status FROM police_evidence_firearms", {}, function(Firearms)
-		local timestamp = os.date("%A %B %d %Y | %I:%M %p", Firearms.timestamp)
-		TriggerClientEvent("Create.Locker.Firearms", Source, Firearms, timestamp)
+		for Index = 1, #Firearms do
+			Firearms[Index].timestamp = os.date("%A %B %d %Y | %I:%M %p", Firearms[Index].timestamp)
+		end
+		TriggerClientEvent("Create.Locker.Firearms", Source, Firearms)
 	end)
 end)
 
 AddEventHandler("Retrieve.Controlled.Substances", function()
 	local Source = source
 	exports['GHMattiMySQL']:QueryResultAsync("SELECT police_evidence_inventory.id, police_evidence_inventory.character_id, police_evidence_inventory.item_id, police_evidence_inventory.name, police_evidence_inventory.quantity, police_evidence_inventory.canuse, police_evidence_inventory.description, UNIX_TIMESTAMP(police_evidence_inventory.timestamp) AS timestamp, police_evidence_inventory.type FROM police_evidence_inventory", {}, function(ControlledSubstances)
-		local timestamp = os.date("%A %B %d %Y | %I:%M %p", ControlledSubstances.timestamp)
-		TriggerClientEvent("Create.Locker.Controlled.Substances", Source, ControlledSubstances, timestamp)
+		for Index = 1, #ControlledSubstances do
+			ControlledSubstances[Index].timestamp = os.date("%A %B %d %Y | %I:%M %p", ControlledSubstances[Index].timestamp)
+		end
+		TriggerClientEvent("Create.Locker.Controlled.Substances", Source, ControlledSubstances)
 	end)
 end)
 

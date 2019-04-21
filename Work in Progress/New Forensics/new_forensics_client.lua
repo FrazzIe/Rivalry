@@ -223,38 +223,38 @@ AddEventHandler("Forensics.Locker", function()
     exports.ui:back("")
 end)
 
-AddEventHandler("Create.Locker.Fingerprints", function(Fingerprints, timestamp)
+AddEventHandler("Create.Locker.Fingerprints", function(Fingerprints)
 	exports.ui:reset()
 	exports.ui:open()
 	for Index = 1, #Fingerprints do
-		exports.ui:addOption(Fingerprints[Index].licenseplate.." - "..timestamp, "Locker.Options", Fingerprints[Index])
+		exports.ui:addOption(Fingerprints[Index].licenseplate.." - "..Fingerprints[Index].timestamp, "Locker.Options", Fingerprints[Index])
 	end
 	exports.ui:back([[TriggerEvent("Forensics.Locker")]])
 end)
 
-AddEventHandler("Create.Locker.Ballistics", function(Ballistics, timestamp)
+AddEventHandler("Create.Locker.Ballistics", function(Ballistics)
 	exports.ui:reset()
 	exports.ui:open()
 	for Index = 1, #Ballistics do
-		exports.ui:addOption(Ballistics[Index].location.." - "..timestamp, "Locker.Options", Ballistics[Index])
+		exports.ui:addOption(Ballistics[Index].location.." - "..Ballistics[Index].timestamp, "Locker.Options", Ballistics[Index])
 	end
 	exports.ui:back([[TriggerEvent("Forensics.Locker")]])
 end)
 
-AddEventHandler("Create.Locker.Firearms", function(Firearms, timestamp)
+AddEventHandler("Create.Locker.Firearms", function(Firearms)
 	exports.ui:reset()
 	exports.ui:open()
 	for Index = 1, #Firearms do
-		exports.ui:addOption(Weapons_names[Firearms[Index].model].." - "..timestamp, "Locker.Options", Firearms[Index])
+		exports.ui:addOption(Weapons_names[Firearms[Index].model].." - "..Firearms[Index]timestamp, "Locker.Options", Firearms[Index])
 	end
 	exports.ui:back([[TriggerEvent("Forensics.Locker")]])
 end)
 
-AddEventHandler("Create.Locker.Controlled.Substances", function(ControlledSubstances, timestamp)
+AddEventHandler("Create.Locker.Controlled.Substances", function(ControlledSubstances)
 	exports.ui:reset()
 	exports.ui:open()
 	for Index = 1, #ControlledSubstances do
-		exports.ui:addOption(ControlledSubstances[Index].name.." - "..timestamp, "Locker.Options", ControlledSubstances[Index])
+		exports.ui:addOption(ControlledSubstances[Index].name.." - "..ControlledSubstances[Index].timestamp, "Locker.Options", ControlledSubstances[Index])
 	end
 	exports.ui:back([[TriggerEvent("Forensics.Locker")]])
 end)
