@@ -126,6 +126,16 @@ local function GetCallSign(rank)
 	end
 end
 
+function GetPermissionLevel(rank)
+	if rank == "cadet" or rank == "recruit" or rank == "officer i" then
+		return 1
+	elseif rank == "officer ii" or rank == "detective" then
+		return 2
+	else
+		return 3
+	end
+end
+
 function getID(type, source)
     for k,v in ipairs(GetPlayerIdentifiers(source)) do
         if string.sub(tostring(v), 1, string.len("steam:")) == "steam:" and (type == "steam" or type == 1) then
@@ -174,6 +184,8 @@ AddEventHandler('police:initialise', function(source, identifier, character_id)
 				cops[source]["unit_number"] = GetCallSign(cops[source]["rank"])..cops[source]["unit"]
 			end
 			TriggerClientEvent("police:set", source, cops[source], true, true)
+
+			Exports["mdt"]:SetPermissionLevel(source, GetPermissionLevel(cops[source]["unit"]))
 		end
 	end)
 end)
