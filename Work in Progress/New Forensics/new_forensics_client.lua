@@ -114,6 +114,24 @@ AddEventHandler("Forensics.Store", function(Data)
 	end
 end)
 
+RegisterNetEvent("Forensics.RemoveClientBulletCasing")
+AddEventHandler("Forensics.RemoveClientBulletCasing", function(Data)
+	for Index = 1, #ClientBulletCasings do
+		if ClientBulletCasings[Index].coords.x == Data.coords.x and ClientBulletCasings[Index].coords.y == Data.coords.y then
+			table.remove(ClientBulletCasings, Index)
+		end
+	end
+end)
+
+RegisterNetEvent("Forensics.RemoveClientFingerPrint")
+AddEventHandler("Forensics.RemoveClientFingerPrint", function(Data)
+	for Index = 1, #ClientFingerPrints do
+		if ClientFingerPrints[Index].licenseplate == Data.licenseplate then
+			table.remove(ClientFingerPrints, Index)
+		end
+	end
+end)
+
 AddEventHandler("Forensics.Give", function(Data)
 	local Player = PlayerPedId()
 	local PlayerPosition = GetEntityCoords(Player, false)
@@ -144,10 +162,14 @@ AddEventHandler("Forensics.Destroy", function(Data)
 	if Data.type == "firearms" then
 		for Index = 1, #Collected_Firearms do
 			if Collected_Firearms[Index].model == Data.model and Collected_Firearms[Index].id == Data.id then
+
+			end
 		end
 	elseif Data.type == "cds" then
 		for Index = 1, #Collected_Inventory do
 			if Collected_Inventory[Index].player == Data.player and Collected_Inventory[Index].id == Data.id then
+
+			end
 		end
 	end
 end)
@@ -197,42 +219,42 @@ AddEventHandler("Forensics.Locker", function()
     exports.ui:addOption("Fingerprints", [[TriggerServerEvent("Retrieve.Fingerprints")]])
     exports.ui:addOption("Ballistics", [[TriggerServerEvent('Retrieve.Ballistics')]])
     exports.ui:addOption("Firearms", [[TriggerServerEvent('Retrieve.Firearms')]])
-    exports.ui:addOption("Controlled Substances", [[TriggerServerEvent'Retrieve.Controlled.Substances]])
+    exports.ui:addOption("Controlled Substances", [[TriggerServerEvent('Retrieve.Controlled.Substances')]])
     exports.ui:back("")
 end)
 
-AddEventHandler("Create.Locker.Fingerprints", function(Fingerprints)
+AddEventHandler("Create.Locker.Fingerprints", function(Fingerprints, timestamp)
 	exports.ui:reset()
 	exports.ui:open()
 	for Index = 1, #Fingerprints do
-		exports.ui:addOption(Fingerprints[Index].licenseplate, "Locker.Options", Fingerprints[Index])
+		exports.ui:addOption(Fingerprints[Index].licenseplate.." - "..timestamp, "Locker.Options", Fingerprints[Index])
 	end
 	exports.ui:back([[TriggerEvent("Forensics.Locker")]])
 end)
 
-AddEventHandler("Create.Locker.Ballistics", function(Ballistics)
+AddEventHandler("Create.Locker.Ballistics", function(Ballistics, timestamp)
 	exports.ui:reset()
 	exports.ui:open()
 	for Index = 1, #Ballistics do
-		exports.ui:addOption(Ballistics[Index].location, "Locker.Options", Ballistics[Index])
+		exports.ui:addOption(Ballistics[Index].location.." - "..timestamp, "Locker.Options", Ballistics[Index])
 	end
 	exports.ui:back([[TriggerEvent("Forensics.Locker")]])
 end)
 
-AddEventHandler("Create.Locker.Firearms", function(Firearms)
+AddEventHandler("Create.Locker.Firearms", function(Firearms, timestamp)
 	exports.ui:reset()
 	exports.ui:open()
 	for Index = 1, #Firearms do
-		exports.ui:addOption(Weapons_names[Firearms[Index].model], "Locker.Options", Firearms[Index])
+		exports.ui:addOption(Weapons_names[Firearms[Index].model].." - "..timestamp, "Locker.Options", Firearms[Index])
 	end
 	exports.ui:back([[TriggerEvent("Forensics.Locker")]])
 end)
 
-AddEventHandler("Create.Locker.Controlled.Substances", function(ControlledSubstances)
+AddEventHandler("Create.Locker.Controlled.Substances", function(ControlledSubstances, timestamp)
 	exports.ui:reset()
 	exports.ui:open()
 	for Index = 1, #ControlledSubstances do
-		exports.ui:addOption(ControlledSubstances[Index].name, "Locker.Options", ControlledSubstances[Index])
+		exports.ui:addOption(ControlledSubstances[Index].name.." - "..timestamp, "Locker.Options", ControlledSubstances[Index])
 	end
 	exports.ui:back([[TriggerEvent("Forensics.Locker")]])
 end)
@@ -326,24 +348,6 @@ AddEventHandler("Forensics.FingerPrint.Result", function(Result, Name)
 	end
 end)
 
-RegisterNetEvent("Forensics.RemoveClientBulletCasing")
-AddEventHandler("Forensics.RemoveClientBulletCasing", function(Data)
-	for Index = 1, #ClientBulletCasings do
-		if ClientBulletCasings[Index].coords.x == Data.coords.x and ClientBulletCasings[Index].coords.y == Data.coords.y then
-			table.remove(ClientBulletCasings, Index)
-		end
-	end
-end)
-
-RegisterNetEvent("Forensics.RemoveClientFingerPrint")
-AddEventHandler("Forensics.RemoveClientFingerPrint", function(Data)
-	for Index = 1, #ClientFingerPrints do
-		if ClientFingerPrints[Index].licenseplate == Data.licenseplate then
-			table.remove(ClientFingerPrints, Index)
-		end
-	end
-end)
-
 function BulletCasingNearBy(PlayerPosition)
 	if #ClientBulletCasings > 0 then
 		for Index = 1, #ClientBulletCasings do
@@ -413,7 +417,7 @@ Citizen.CreateThread(function()
 						location = GetStreetNameFromHashKey(Street),
 						coords = vector3(PlayerPosition.x, PlayerPosition.y, PlayerPosition.z),
 						serialnumber = 0,
-						type = "bulletcasing"
+						type = "ballistics"
 					}
 					table.insert(ClientBulletCasings, PlayerPosition)
 					TriggerServerEvent('Forensics.Sync', BulletCasing, "bulletcasing")
@@ -436,7 +440,7 @@ Citizen.CreateThread(function()
 				local Fingerprint = {
 					player = GetPlayerServerId(PlayerId()),
 					licenseplate = VehicleLicensePlate,
-					type = "fingerprint"
+					type = "fingerprints"
 				}
 				table.insert(ClientFingerPrints, VehicleLicensePlate)
 				TriggerServerEvent('Forensics.Sync', Fingerprint, "fingerprint")
