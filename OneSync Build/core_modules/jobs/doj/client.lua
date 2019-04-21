@@ -48,7 +48,7 @@ AddEventHandler("DOJ:Menu", function()
 	if DOJ.Active and (DOJ.Rank == "chief justice" or DOJ.Rank == "judge" or DOJ.Rank == "justice") then
 		exports.ui:reset()
 		exports.ui:open()
-		exports.ui:addOption("MDT", [[TriggerEvent("mdt:open")]])
+		exports.ui:addOption("MDT", [[TriggerEvent("mdt.toggle")]])
 		exports.ui:addOption("Weapons license", [[TriggerEvent("DOJ:Weapon")]])
 		exports.ui:addOption("Drivers license", [[TriggerEvent("DOJ:Drivers")]])
 		exports.ui:addOption("Optional fine", [[TriggerEvent("DOJ:Fine")]])
@@ -125,8 +125,10 @@ end)
 
 RegisterNetEvent("DOJ:Set")
 AddEventHandler("DOJ:Set", function(_Data, _DOJ, first)
-	DOJ.Rank = _Data.rank
 	DOJ.IsDOJ = _DOJ
+	if not DOJ.IsDOJ then
+		DOJ.Rank = nil
+	end
 	if not DOJ.IsDOJ and DOJ.Active then
 		DOJ.Active = false
 		TriggerServerEvent("jobcenter:jobs", 1)

@@ -185,7 +185,7 @@ AddEventHandler('police:initialise', function(source, identifier, character_id)
 			end
 			TriggerClientEvent("police:set", source, cops[source], true, true)
 
-			Exports["mdt"]:SetPermissionLevel(source, GetPermissionLevel(cops[source]["unit"]))
+			exports["mdt"]:SetPermissionLevel(source, GetPermissionLevel(cops[source]["rank"]))
 		end
 	end)
 end)
@@ -219,6 +219,7 @@ TriggerEvent("core:addGroupCommand", "copadd", "command", function(source, args,
 						["@onduty"] = "false",
 					})
 					cops[tonumber(args[1])] = { character_id = target.get("characterID"), rank = rank:lower(), onduty = "false" }
+					exports["mdt"]:SetPermissionLevel(source, GetPermissionLevel(rank:lower()))
 					TriggerClientEvent("pNotify:SendNotification", -1, {text = "<b style='color:red'>Alert</b> <br><span style='color:lime'>"..target.get("first_name").." "..target.get("last_name").."</span> has been accepted. <br> Congratulations on joining the LSPD!",type = "error",queue = "left",timeout = 10000,layout = "bottomRight"})
 					TriggerClientEvent('police:set', tonumber(args[1]), cops[tonumber(args[1])], true)
 				end)
@@ -243,6 +244,7 @@ TriggerEvent("core:addGroupCommand", "coprem", "command", function(source, args,
 					exports['GHMattiMySQL']:QueryAsync("DELETE FROM police WHERE character_id=@character_id", {["@character_id"] = target.get("characterID")})
 					TriggerClientEvent("pNotify:SendNotification", -1, {text = "<b style='color:red'>Alert</b> <br><span style='color:lime'>"..target.get("first_name").." "..target.get("last_name").."</span> has been fired. <br> They are no longer an officer of the LSPD!",type = "error",queue = "left",timeout = 10000,layout = "bottomRight"})
 					TriggerClientEvent('police:set', tonumber(args[1]), cops[tonumber(args[1])], false)
+					exports["mdt"]:SetPermissionLevel(source, 0)
 				end)
 			else
 				Notify(source,"This user is not a cop")
@@ -271,6 +273,7 @@ TriggerEvent("core:addGroupCommand", "coppromote", "emergency", function(source,
 										cops[tonumber(args[1])].rank = rank:lower()
 										TriggerClientEvent("pNotify:SendNotification", tonumber(args[1]), {text = "<b style='color:red'>Alert</b> <br><span style='color:lime'>You have been promoted!</span><br> You are now a "..rank,type = "error",queue = "left",timeout = 10000,layout = "bottomRight"})
 										TriggerClientEvent('police:set', tonumber(args[1]), cops[tonumber(args[1])], true)
+										exports["mdt"]:SetPermissionLevel(source, GetPermissionLevel(rank:lower()))
 									end)
 								else
 									Notify(source,"You cannot promote anyone")
@@ -312,6 +315,7 @@ TriggerEvent("core:addGroupCommand", "copdemote", "emergency", function(source, 
 										cops[tonumber(args[1])].rank = rank:lower()
 										TriggerClientEvent("pNotify:SendNotification", tonumber(args[1]), {text = "<b style='color:red'>Alert</b> <br><span style='color:lime'>You have been demoted!</span><br> You are now a "..rank,type = "error",queue = "left",timeout = 10000,layout = "bottomRight"})
 										TriggerClientEvent('police:set', tonumber(args[1]), cops[tonumber(args[1])], true)
+										exports["mdt"]:SetPermissionLevel(source, GetPermissionLevel(rank:lower()))
 									end)
 								else
 									Notify(source,"You cannot demote anyone")

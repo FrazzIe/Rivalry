@@ -79,8 +79,8 @@ AddEventHandler("playerSpawned", function()
 	end, false, {Help = "Toggle speed camera",  Params = {}})
 
 	Chat_Command("mdt", function(source, args, rawCommand)
-		if isInService then
-			TriggerEvent("mdt:open")
+		if isInService or exports.emsjob:getIsInService() or exports.core_modules:DOJonduty() then
+			TriggerEvent("mdt.toggle")
 		end
 	end, false, {Help = "Open the MDT",  Params = {}})
 

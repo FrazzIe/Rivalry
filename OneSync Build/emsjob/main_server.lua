@@ -140,7 +140,7 @@ AddEventHandler("paramedic:initialise", function(source, identifier, character_i
 				ems[source]["unit_number"] = "M-"..ems[source]["unit"]
 			end
 			TriggerClientEvent("paramedic:set", source, ems[source], true, true)
-			Exports["mdt"]:SetPermissionLevel(source, GetPermissionLevel(ems[source]["rank"]))
+			exports["mdt"]:SetPermissionLevel(source, GetPermissionLevel(ems[source]["rank"]))
 		end
 	end)
 end)
@@ -161,6 +161,7 @@ TriggerEvent("core:addGroupCommand", "emsadd", "command", function(source, args,
 						["@onduty"] = "false",
 					})
 					ems[tonumber(args[1])] = {character_id = target.get("characterID"), rank = rank:lower(), onduty = "false" }
+					exports["mdt"]:SetPermissionLevel(source, GetPermissionLevel(rank:lower()))
 					TriggerClientEvent("pNotify:SendNotification", -1, {text = "<b style='color:red'>Alert</b> <br><span style='color:lime'>"..target.get("first_name").." "..target.get("last_name").."</span> has been accepted. <br> Congratulations on joining the LSFD!",type = "error",queue = "left",timeout = 10000,layout = "bottomRight"})
 					TriggerClientEvent('paramedic:set', tonumber(args[1]), ems[tonumber(args[1])], true)
 				end)
@@ -171,7 +172,7 @@ TriggerEvent("core:addGroupCommand", "emsadd", "command", function(source, args,
 			TriggerClientEvent('chatMessage', source, 'SYSTEM', {255, 0, 0}, "Usage : /emsadd [ID] [RANK]")
 		end
 	end
-end, {help = "Add a player to the LSFD", params = {{name = "id", help = "The id of the player"},{name = "rank", help = "Probationary | Paramedic | Coroner | Doctor | Specialist | Lieutenant | Captain | Assistant Chief | Chief"}}})
+end, {help = "Add a player to the LSFD", params = {{name = "id", help = "The id of the player"},{name = "rank", help = "Probationary | Paramedic | Coroner | Doctor | Specialist | FTO | Lieutenant | Captain | Assistant Chief | Chief"}}})
 
 TriggerEvent("core:addGroupCommand", "emsrem", "command", function(source, args, rawCommand, data, power, group)
 	local source = source
@@ -182,6 +183,7 @@ TriggerEvent("core:addGroupCommand", "emsrem", "command", function(source, args,
 			if ems[tonumber(args[1])] ~= nil then
 				TriggerEvent("core:getuser", tonumber(args[1]), function(target)
 					ems[tonumber(args[1])] = nil
+					exports["mdt"]:SetPermissionLevel(source, 0)
 					exports['GHMattiMySQL']:QueryAsync("DELETE FROM paramedic WHERE character_id=@character_id", {["@character_id"] = target.get("characterID")})
 					TriggerClientEvent("pNotify:SendNotification", -1, {text = "<b style='color:red'>Alert</b> <br><span style='color:lime'>"..target.get("first_name").." "..target.get("last_name").."</span> has been fired. <br> They are no longer part of the LSFD!",type = "error",queue = "left",timeout = 10000,layout = "bottomRight"})
 					TriggerClientEvent('paramedic:set', tonumber(args[1]), ems[tonumber(args[1])], false)
@@ -211,6 +213,7 @@ TriggerEvent("core:addGroupCommand", "emspromote", "emergency", function(source,
 									TriggerEvent("core:getuser", tonumber(args[1]), function(target)
 										exports['GHMattiMySQL']:QueryAsync("UPDATE paramedic SET rank=@rank WHERE character_id=@character_id", {["@character_id"] = target.get("characterID"), ["@rank"] = rank:lower()})
 										ems[tonumber(args[1])].rank = rank:lower()
+										exports["mdt"]:SetPermissionLevel(source, GetPermissionLevel(rank:lower()))
 										TriggerClientEvent("pNotify:SendNotification", tonumber(args[1]), {text = "<b style='color:red'>Alert</b> <br><span style='color:lime'>You have been promoted!</span><br> You are now a "..rank,type = "error",queue = "left",timeout = 10000,layout = "bottomRight"})
 										TriggerClientEvent('paramedic:set', tonumber(args[1]), ems[tonumber(args[1])], true)
 									end)
@@ -234,7 +237,7 @@ TriggerEvent("core:addGroupCommand", "emspromote", "emergency", function(source,
 			Notify("Player could not be found", 3000, source)
 		end
 	end
-end, {help = "Promote a paramedic", params = {{name = "id", help = "The id of the player"},{name = "rank", help = "Probationary | Paramedic | Coroner | Doctor | Specialist | Lieutenant | Captain | Assistant Chief | Chief"}}})
+end, {help = "Promote a paramedic", params = {{name = "id", help = "The id of the player"},{name = "rank", help = "Probationary | Paramedic | Coroner | Doctor | Specialist | FTO | Lieutenant | Captain | Assistant Chief | Chief"}}})
 
 TriggerEvent("core:addGroupCommand", "emsdemote", "emergency", function(source, args, rawCommand, data, power, group)
 	local source = source
@@ -252,6 +255,7 @@ TriggerEvent("core:addGroupCommand", "emsdemote", "emergency", function(source, 
 									TriggerEvent("core:getuser", tonumber(args[1]), function(target)
 										exports['GHMattiMySQL']:QueryAsync("UPDATE paramedic SET rank=@rank WHERE character_id=@character_id", {["@character_id"] = target.get("characterID"), ["@rank"] = rank:lower()})
 										ems[tonumber(args[1])].rank = rank:lower()
+										exports["mdt"]:SetPermissionLevel(source, GetPermissionLevel(rank:lower()))
 										TriggerClientEvent("pNotify:SendNotification", tonumber(args[1]), {text = "<b style='color:red'>Alert</b> <br><span style='color:lime'>You have been demoted!</span><br> You are now a "..rank,type = "error",queue = "left",timeout = 10000,layout = "bottomRight"})
 										TriggerClientEvent('paramedic:set', tonumber(args[1]), ems[tonumber(args[1])], true)
 									end)
@@ -275,7 +279,7 @@ TriggerEvent("core:addGroupCommand", "emsdemote", "emergency", function(source, 
 			Notify("Player could not be found", 3000, source)
 		end
 	end
-end, {help = "Demote an Officer", params = {{name = "id", help = "The id of the player"},{name = "rank", help = "Probationary | Paramedic | Coroner | Doctor | Specialist | Lieutenant | Captain | Assistant Chief | Chief"}}})
+end, {help = "Demote an Officer", params = {{name = "id", help = "The id of the player"},{name = "rank", help = "Probationary | Paramedic | Coroner | Doctor | Specialist | FTO | Lieutenant | Captain | Assistant Chief | Chief"}}})
 
 RegisterServerEvent("paramedic:doors_lock")
 AddEventHandler("paramedic:doors_lock", function(doorid, type)
