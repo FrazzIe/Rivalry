@@ -1,6 +1,14 @@
 DOJ = {}
 DOJ.Players = {}
 
+function GetPermissionLevel(rank)
+	if rank == "chief justice" or rank == "justice" or rank == "judge" then
+		return 6
+	else
+		return 0
+	end
+end
+
 AddEventHandler("DOJ:Initialise", function(source, identifier, character_id)
 	exports['GHMattiMySQL']:QueryResultAsync("SELECT * FROM doj WHERE character_id=@character_id", {["@character_id"] = character_id}, function(result)
 		if result[1] == nil then

@@ -109,10 +109,19 @@ function getID(type, source)
     return nil
 end
 
+function GetPermissionLevel(rank)
+	if rank == "probationary" or rank == "paramedic" or rank == "coroner" or rank == "doctor" or rank == "specialist" then
+		return 4
+	else
+		return 5
+	end
+end
+
 addRank("chief", "")
 addRank("assistant chief", "")
 addRank("captain", "")
 addRank("lieutenant", "")
+addRank("fto", "")
 addRank("specialist", "")
 addRank("doctor", "")
 addRank("coroner", "")
@@ -131,6 +140,7 @@ AddEventHandler("paramedic:initialise", function(source, identifier, character_i
 				ems[source]["unit_number"] = "M-"..ems[source]["unit"]
 			end
 			TriggerClientEvent("paramedic:set", source, ems[source], true, true)
+			Exports["mdt"]:SetPermissionLevel(source, GetPermissionLevel(ems[source]["rank"]))
 		end
 	end)
 end)
