@@ -125,8 +125,10 @@ end)
 
 RegisterNetEvent("DOJ:Set")
 AddEventHandler("DOJ:Set", function(_Data, _DOJ, first)
-	DOJ.Rank = _Data.rank
 	DOJ.IsDOJ = _DOJ
+	if not DOJ.IsDOJ then
+		DOJ.Rank = nil
+	end
 	if not DOJ.IsDOJ and DOJ.Active then
 		DOJ.Active = false
 		TriggerServerEvent("jobcenter:jobs", 1)
