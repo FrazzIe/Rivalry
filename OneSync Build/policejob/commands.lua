@@ -80,7 +80,7 @@ AddEventHandler("playerSpawned", function()
 
 	Chat_Command("mdt", function(source, args, rawCommand)
 		if isInService then
-			TriggerEvent("mdt:open")
+			TriggerEvent("mdt.toggle")
 		end
 	end, false, {Help = "Open the MDT",  Params = {}})
 

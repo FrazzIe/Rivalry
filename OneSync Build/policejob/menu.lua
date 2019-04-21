@@ -12,208 +12,13 @@
     Copy, re-release, re-distribute it without my written permission.
 --]]
 mission_list = {}
-local charges = {
-    {title="Federal Felonies", items = {
-        {charge="Assassination", time=999999, cost=0},
-        {charge="Murder of a Federal Employee", time=999999, cost=0},
-        {charge="Attempted Murder of a Federal Employee", time=50, cost=40000},
-        {charge="Assault on a Federal Employee", time=30, cost=20000},
-        {charge="Manslaughter", time=20, cost=10000},
-        {charge="Torture", time=80, cost=50000},
-        {charge="Treason", time=999999, cost=0},
-        {charge="Racketeering / RICO", time=999999, cost=0},
-        {charge="Airplane/Helicopter Hijacking", time=40, cost=20000},
-        {charge="Possession of Explosives", time=999999, cost=100000},
-        {charge="Drive-by Shooting", time=15, cost=10000},
-        {charge="Armed Federal Bank Robbery", time=25, cost=10000},
-        {charge="Unarmed Federal Bank Robbery", time=15, cost=5000},
-        {charge="Hostage Taking (Federal)", time=20, cost=10000},
-        {charge="Declaration of Ransom", time=10, cost=10000},
-        {charge="Human Trafficking", time=40, cost=20000},
-        {charge="Forced Labor", time=30, cost=15000},
-        {charge="Concealing Escaped Prisoner", time=15, cost=7500},
-        {charge="Concealing Person From Arrest", time=15, cost=7500},
-        {charge="Stalking (In violation of restraining order)", time=15, cost=7500},
-        {charge="Contempt of Court", time=10, cost=5000},
-        {charge="Perjury", time=100, cost=30000},
-        {charge="Witness Tampering", time=100, cost=30000},
-        {charge="Failure to Appear On Felony Offense", time=15, cost=15000},
-        {charge="Failure to Follow Court Orders", time=15, cost=15000},
-        {charge="Failure to Comply with Subpoena", time=15, cost=15000},
-        {charge="Retaliating Against a Witness, Victim, or Informant", time=10, cost=10000},
-        {charge="Retaliating Against a Justice/Judge by False Claim or Slander", time=10, cost=10000},
-        {charge="False Declarations before Grand Jury or Court", time=10, cost=10000},
-        {charge="Flight to Avoid Prosecution or Giving Testimony", time=10, cost=10000},
-        {charge="Probation Violation", time=10, cost=10000},
-        {charge="Bankruptcy Fraud", time=30, cost=0},
-        {charge="Business Espionage", time=40, cost=50000},
-        {charge="Blackmail", time=20, cost=10000},
-        {charge="Extortion", time=20, cost=10000},
-        {charge="Bribery", time=20, cost=10000},
-        {charge="Possession of Counterfeit Currency ($75,000+)", time=20, cost=10000},
-        {charge="Money Laundering", time=15, cost=10000},
-        {charge="Fraud Against the Government", time=40, cost=50000},
-        {charge="Identity Theft", time=60, cost=30000},
-        {charge="False Personation of a Federal Employee", time=20, cost=10000},
-        {charge="Disclosure of Confidential Information/Documents", time=60, cost=30000},
-        {charge="Damage to Religious Property", time=20, cost=10000},
-        {charge="Obstruction of Justice", time=10, cost=10000},
-        {charge="Drug Smuggling", time=40, cost=40000},
-        {charge="Child Abuse", time=25, cost=20000},
-        {charge="Arson", time=20, cost=20000},
-        {charge="Conspiracy to Commit Federal Felony", time=0, cost=0},
-        {charge="Organ Harvesting", time=35, cost=20000},
-        {charge="Organ Trafficking", time=35, cost=20000},
-        {charge="Weapons Stockpiling", time=60, cost=35000},
-        {charge="Poaching", time=20, cost=10000},
-        {charge="Jailbreak", time=35, cost=30000},
-        {charge="Terroristic Threat", time=30, cost=15000},
-    }},
-    {title="1st Degree Felonies", items = {
-        {charge="Aggravated Murder of LEO", time=999999, cost=80000},
-        {charge="Attempted Murder of LEO", time=30, cost=10000},
-        {charge="Felony Murder", time=999999, cost=40000},
-        {charge="Attempted Murder", time=25, cost=10000},
-        {charge="Kidnapping", time=15, cost=5000},
-        {charge="Hostage Taking (State)", time=15, cost=5000},
-        {charge="Aggravated Armed Robbery", time=15, cost=5000},
-        {charge="Armed Bank Robbery", time=15, cost=5000},
-        {charge="Grand Theft Auto", time=15, cost=5000},
-    }},
-    {title="2nd Degree Felonies", items = {
-        {charge="Possession of CDS (Cannabis/Weed 11-19)", time=4, cost=4000},
-        {charge="Possession of CDS (Cannabis/Weed 20-59)", time=8, cost=4000},
-        {charge="Possession of CDS w/ Intent to Traffic (Cannabis/Weed 60-119)", time=12, cost=4000},
-        {charge="Possession of CDS w/ Intent to Traffic (Cannabis/Weed 120-199)", time=16, cost=4000},
-        {charge="Possession of CDS (Cocaine 1-29)", time=5, cost=4000},
-        {charge="Possession of CDS (Cocaine 30-59)", time=10, cost=4000},
-        {charge="Possession of CDS (Cocaine 60-119)", time=15, cost=4000},
-        {charge="Possession of CDS (Cocaine 120-199)", time=20, cost=4000},
-        {charge="Drug Trafficking", time=5, cost=4000},
-        {charge="Sale of CDS", time=5, cost=4000},
-        {charge="Manslaughter", time=12, cost=4000},
-        {charge="Negligent Homicide", time=12, cost=4000},
-        {charge="Vehicular Manslaughter", time=12, cost=4000},
-        {charge="Attempted Kidnapping", time=12, cost=4000},
-        {charge="Felonious Restraint", time=12, cost=4000},
-        {charge="Grand Theft", time=12, cost=4000},
-        {charge="Robbery", time=12, cost=4000},
-        {charge="Petty Theft with Prior", time=12, cost=4000},
-        {charge="Petty Theft", time=12, cost=4000},
-        {charge="Escape While Armed", time=12, cost=4000},
-        {charge="Animal Cruelty", time=12, cost=4000},
-        {charge="Assault On LEO/EMS", time=12, cost=4000},
-        {charge="Assault w/ Deadly", time=12, cost=4000},
-    }},
-    {title="3rd Degree Felonies", items = {
-        {charge="Poss. of a Class 2 Illegal Firearm/Weapon", time=10, cost=3000},
-        {charge="Illegal Sale/Transfer of Class 2 Firearm(s)", time=10, cost=3000},
-        {charge="Poss. of Firearm by a Convicted Violent Felon", time=10, cost=3000},
-        {charge="Driving Under The Influence", time=10, cost=3000},
-        {charge="Hit and Run with Injuries", time=10, cost=3000},
-        {charge="Felony Evading Law Enforcement (Vehicle)", time=10, cost=3000},
-        {charge="Fleeing/Eluding (Death/Injury) (Vehicle)", time=10, cost=3000},
-        {charge="Attempted or Unarmed Robbery", time=10, cost=3000},
-        {charge="Attempted Bribery", time=10, cost=3000},
-        {charge="Escape", time=10, cost=3000},
-        {charge="Rioting", time=10, cost=3000},
-        {charge="Aiding and Abetting In The Commission of a Felony", time=10, cost=3000},
-        {charge="Felony Attempted Commission of an Offence/Crime", time=10, cost=3000},
-        {charge="Possession or Distribution of Confidential Documents/Information", time=10, cost=3000},
-        {charge="Felonious Trespassing", time=10, cost=3000},
-        {charge="Smuggling ", time=10, cost=3000},
-        {charge="Conspiracy to Commit State Felony", time=10, cost=3000},
-    }},
-    {title="1st Degree Misdemeanors", items = {
-        {charge="Negligent Discharge of a Firearm/Weapon in Public", time=8, cost=2000},
-        {charge="Reckless Endangerment", time=8, cost=2000},
-        {charge="Assault", time=8, cost=2000},
-        {charge="Threat of Bodily Harm", time=8, cost=2000},
-        {charge="Domestic Violence", time=8, cost=2000},
-        {charge="Contempt of Court", time=8, cost=2000},
-        {charge="Obstruction of Justice", time=8, cost=2000},
-        {charge="Damage to State Property", time=8, cost=2000},
-        {charge="Poss. Of Stolen Property", time=8, cost=2000},
-        {charge="Aiding and Abetting In The Commission of a Misdemeanor", time=8, cost=2000},
-        {charge="Attempted Grand Theft Auto", time=8, cost=2000},
-        {charge="Hit and Run No Injuries", time=8, cost=2000},
-        {charge="Fleeing/Eluding Law Enforcement (On Foot)", time=8, cost=2000},
-        {charge="Money Laundering", time=8, cost=2000},
-        {charge="Gambling", time=8, cost=2000},
-        {charge="Prostitution", time=8, cost=2000},
-        {charge="False Identification", time=8, cost=2000},
-        {charge="False Imprisonment", time=8, cost=2000},
-        {charge="False Personation", time=8, cost=2000},
-        {charge="Criminal Trespass", time=8, cost=2000},
-        {charge="Breaking And Entering", time=8, cost=2000},
-        {charge="Misuse of 911", time=8, cost=2000},
-        {charge="Indecent Exposure", time=8, cost=2000},
-        {charge="Social Media Hate Crime", time=8, cost=2000},
-        {charge="Adultery", time=8, cost=2000},
-    }},
-    {title="2nd Degree Misdemeanors", items = {
-        {charge="Reckless Driving", time=6, cost=1500},
-        {charge="Poss. of Stolen Vehicle", time=6, cost=1500},
-        {charge="Poss. of Counterfeit Currency", time=6, cost=1500},
-        {charge="Damage to Public Property", time=6, cost=1500},
-        {charge="Damage to Private Property", time=6, cost=1500},
-        {charge="Poss. of Weapon w/ Criminal Intent", time=6, cost=1500},
-        {charge="Poss. of Illegal Contraband", time=6, cost=1500},
-        {charge="Failure to Obey a Lawful Order", time=6, cost=1500},
-        {charge="Illegal Brandishing of Firearm", time=6, cost=1500},
-        {charge="Defamation", time=6, cost=1500},
-    }},
-    {title="3rd Degree Misdemeanors", items = {
-        {charge="Poss. of Firearm w/o a Weapon License", time=4, cost=1000},
-        {charge="Poss. Of An Unregistered Firearm", time=4, cost=1500},
-        {charge="Illegal Sale/Transfer of Non Class 2 Firearm(s)/Weapon(s)", time=4, cost=2000},
-        {charge="Failure to Inform of Concealed Weapon", time=4, cost=500},
-        {charge="Operating Motor Vehicle w/o Valid DL", time=4, cost=1000},
-        {charge="Resisting Arrest", time=4, cost=1000},
-        {charge="Disorderly Conduct", time=4, cost=700},
-        {charge="Disturbing the Peace", time=4, cost=500},
-        {charge="Domestic Disturbance", time=0, cost=300},
-        {charge="Harassment", time=4, cost=400},
-        {charge="Loitering", time=0, cost=300},
-        {charge="Jay Walking", time=0, cost=100},
-        {charge="Conspiracy To Commit State Misdemeanor", time=0, cost=0},
-        {charge="Public Intoxication", time=4, cost=400},
-        {charge="Failure to Identify", time=4, cost=400},
-    }},
-    {title="DOJ/License", items = {
-        {charge="Weapons License", time=0, cost=1000},
-        {charge="Drivers License", time=0, cost=150},
-        {charge="Release of Information", time=0, cost=100},
-    }},
-    {title="Traffic Violations", items = {
-        {charge="Failure to Stop - Red Light", time=0, cost=250},
-        {charge="Failure to Stop - Stop Sign", time=0, cost=250},
-        {charge="Speeding 5mph Over", time=0, cost=500},
-        {charge="Speeding 10mph Over", time=0, cost=750},
-        {charge="Speeding 20mph Over", time=0, cost=1000},
-        {charge="Speeding 30+mph Over", time=0, cost=1500},
-        {charge="Unroadworthy Vehicle", time=0, cost=500},
-        {charge="Careless Driving", time=0, cost=1000},
-        {charge="Illegal U-Turn", time=0, cost=250},
-        {charge="Illegal Window Tint", time=0, cost=250},
-        {charge="Failure to Yield to Emergency Services", time=0, cost=1000},
-        {charge="No Insurance/Expired Registration", time=0, cost=250},
-        {charge="Failure to Give Right of Way", time=0, cost=250},
-        {charge="Failure to Signal", time=0, cost=250},
-        {charge="Broken Tail Light", time=0, cost=250},
-        {charge="Broken Head Light", time=0, cost=250},
-        {charge="Illegal Parking", time=0, cost=250},
-        {charge="Improper/Unsafe Turn", time=0, cost=250},
-        {charge="Improper/Missing Plate", time=0, cost=250},
-        {charge="Wrong Way of Travel", time=0, cost=250},
-        {charge="Improper/Illegal Pass", time=0, cost=250},
-        {charge="Use of Police/EMS Sirens", time=0, cost=250},
-        {charge="Driving Without Headlights", time=0, cost=250},
-        {charge="Obstructing Traffic", time=0, cost=250},
-    }},
-}
 
 local activeMedics = 0
+local AutoFill = {
+    Sentence = 0,
+    Fine = 0,
+    Charges = {},
+}
 --[[ Main Menu ]]--
 AddEventHandler("police:menu", function()
     TriggerServerEvent('police:requestMission')
@@ -223,6 +28,7 @@ AddEventHandler("police:menu", function()
     exports.ui:addOption("Vehicle", [[TriggerEvent("police:menu_vehicle")]])
     exports.ui:addOption("Placeables", [[TriggerEvent("police:menu_placeables")]])
     exports.ui:addOption("Missions", [[TriggerEvent("police:menu_missions")]])
+    exports.ui:addOption("Processing", [[TriggerEvent("police:menu_processing")]])
     exports.ui:back([[TriggerEvent("interaction:main")]])
 end)
 --[[ Citizen ]]--
@@ -514,11 +320,21 @@ AddEventHandler("police:menu_missions", function()
     end
     exports.ui:back([[TriggerEvent("police:menu")]])
 end)
+--[[ Processing ]]--
+AddEventHandler("police:menu_processing", function()
+    exports.ui:reset()
+    exports.ui:open()
+    exports.ui:addOption("Optional fine", [[TriggerEvent("police:fine_input", "optional")]])
+    exports.ui:addOption("Non-optional fine", [[TriggerEvent("police:fine_input", "forced")]])
+    exports.ui:addOption("Jail", [[TriggerEvent("police:jail_input")]])
+    exports.ui:addOption("MDT", [[TriggerEvent("mdt.toggle")]])
+    exports.ui:back([[TriggerEvent("police:menu")]])
+end)
 
 AddEventHandler("police:fine_input", function(_type)
     local t, distance = GetClosestPlayer()
     if(distance ~= -1 and distance < 3) then
-        local amount = tonumber(KeyboardInput("Enter amount:", AutoFill().cost, 11))
+        local amount = tonumber(KeyboardInput("Enter amount:", AutoFill.Fine, 11))
         if amount ~= nil and amount >= 0 then
             if _type == "optional" then
                 TriggerServerEvent("police:finesGranted", GetPlayerServerId(t), amount)
@@ -534,8 +350,8 @@ end)
 AddEventHandler("police:jail_input", function()
     local t, distance = GetClosestPlayer()
     if(distance ~= -1 and distance < 3) then
-        local amount = tonumber(KeyboardInput("Enter time:", AutoFill().time, 11))
-        local reason = tostring(KeyboardInput("Enter reasons:", AutoFill().charges, 1000))
+        local amount = tonumber(KeyboardInput("Enter time:", AutoFill.Sentence, 11))
+        local reason = tostring(KeyboardInput("Enter reasons:", AutoFill.Charges, 1000))
         if amount ~= nil and amount >= 0 and reason ~= nil then
             TriggerServerEvent("jail:user", GetPlayerServerId(t), amount, reason)
         end
@@ -544,6 +360,10 @@ AddEventHandler("police:jail_input", function()
     end
 end)
 
-AddEventHandler("mdt:open", function()
-    openGui()
+AddEventHandler("mdt.set.charges", function(Sentence, Fine, Charges)
+    AutoFill = {
+        Sentence = Sentence or 0,
+        Fine = Fine or 0,
+        Charges = Charges or {},
+    }
 end)
