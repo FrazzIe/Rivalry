@@ -3,9 +3,10 @@ DOJ.Players = {}
 
 function GetPermissionLevel(rank)
 	if rank == "chief justice" or rank == "justice" or rank == "judge" then
+		return 7
+	elseif rank == "district attorney" or rank =="assistant district attorney" then
 		return 6
-	else
-		return 0
+	else return 0
 	end
 end
 

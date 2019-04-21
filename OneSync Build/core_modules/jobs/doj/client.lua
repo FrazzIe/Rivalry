@@ -57,7 +57,7 @@ AddEventHandler("DOJ:Menu", function()
 	if DOJ.Active and (DOJ.Rank == "assistant district attorney" or DOJ.Rank == "district attorney") then
 		exports.ui:reset()
 		exports.ui:open()
-		exports.ui:addOption("MDT", [[TriggerEvent("mdt:open")]])
+		exports.ui:addOption("MDT", [[TriggerEvent("mdt.toggle")]])
 		exports.ui:back([[TriggerEvent("interaction:main")]])
 	end
 end)
