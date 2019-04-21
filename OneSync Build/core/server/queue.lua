@@ -18,7 +18,7 @@ Config.Priority = {
     ["steam:110000103d70c3f"] = 992, -- Leo Gold
 --[People Frazzle Likes]--
     ["steam:110000105ac8a6f"] = 902, -- StanleyRP    
-    ["steam:110000115c8520b"] = 901, -- Jinia
+    ["steam:110000104f0fbb8"] = 901, -- Wayne DeMan (PD High Command)
     ["steam:1100001074e86ec"] = 900, -- RoundishKungFu/Kelly Price
     ["steam:11000010a408fb4"] = 899, -- grace
 --[People Noonab Likes]--
@@ -63,7 +63,6 @@ Config.Priority = {
     ["steam:110000139fb527b"] = 768, -- BrinnieTV
 --[PD, EMS, DOJ, Mech]--
     ["steam:11000010bf7bb73"] = 700, -- AfriicanSnowball (PD High Command)
-    ["steam:110000104f0fbb8"] = 699, -- Wayne DeMan (PD High Command)
     ["steam:110000104c9acb6"] = 698, -- Tyler Reagan (PD High Command)
     ["steam:110000102faf99e"] = 697, -- Lee Andersen (PD High Command)
     ["steam:11000010036d96d"] = 696, -- Chris Miller (PD Command)
