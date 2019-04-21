@@ -49,7 +49,7 @@ AddEventHandler("inventory:police_evidence", function()
     exports.ui:addOption("Fingerprints", [[TriggerEvent("Forensics.Fingerprints")]])
     exports.ui:addOption("Ballistics", [[TriggerEvent('Forensics.Ballistics')]])
     exports.ui:addOption("Firearms", [[TriggerEvent('Forensics.Firearms')]])
-    exports.ui:addOption("Controlled Substances", [[TriggerEvent'Forensics.Controlled.Substances]])
+    exports.ui:addOption("Controlled Substances", [[TriggerEvent('Forensics.Controlled.Substances')]])
     exports.ui:back([[TriggerEvent("inventory:open")]])
 end)
 
@@ -245,7 +245,7 @@ AddEventHandler("Create.Locker.Firearms", function(Firearms)
 	exports.ui:reset()
 	exports.ui:open()
 	for Index = 1, #Firearms do
-		exports.ui:addOption(Weapons_names[Firearms[Index].model].." - "..Firearms[Index]timestamp, "Locker.Options", Firearms[Index])
+		exports.ui:addOption(Weapons_names[Firearms[Index].model].." - "..Firearms[Index].timestamp, "Locker.Options", Firearms[Index])
 	end
 	exports.ui:back([[TriggerEvent("Forensics.Locker")]])
 end)

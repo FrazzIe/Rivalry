@@ -606,22 +606,34 @@ end)
 
 RegisterNetEvent("dispatch:ten-ninety")
 AddEventHandler("dispatch:ten-ninety", function(coords)
-	Citizen.CreateThread(function()
-		local coords = coords
-		local endTime = GetGameTimer() + ((ten_ninety_timer * 60)/ 0.001)
-		local arrived = false
-		while endTime > GetGameTimer() and not arrived do
-			Citizen.Wait(0)
-			local pos = GetEntityCoords(PlayerPedId(), false)
-			if not arrived then
+    Citizen.CreateThread(function()
+        local ten_ninety_blip = nil
+        local coords = coords
+        local endTime = GetGameTimer() + ((ten_ninety_timer * 60)/ 0.001)
+        local arrived = false
+        while endTime > GetGameTimer() and not arrived do
+            Citizen.Wait(0)
+            local pos = GetEntityCoords(PlayerPedId(), false)
+            if not DoesBlipExist(ten_ninety_blip) then
+                ten_ninety_blip = AddBlipForCoord(coords.x, coords.y, coords.z)
+                SetBlipSprite(ten_ninety_blip, 459)
+                SetBlipColour(ten_ninety_blip, 28)
+                SetBlipAsShortRange(ten_ninety_blip, true)
+                SetBlipScale(ten_ninety_blip, 0.85)
+                BeginTextCommandSetBlipName("STRING")
+                AddTextComponentString("10-90")
+                EndTextCommandSetBlipName(ten_ninety_blip)
+            end
+            if not arrived then
                 coords = vector3(coords.x, coords.y, coords.z)
-				if #(pos - coords) < 30 then
-					arrived = true
-					TriggerServerEvent("dispatch:pay", "10-90")
-				end
-			end
-		end
-	end)
+                if #(pos - coords) < 30 then
+                    arrived = true
+                    TriggerServerEvent("dispatch:pay", "10-90")
+                end
+            end
+        end
+        RemoveBlip(ten_ninety_blip)
+    end)
 end)
 
 RegisterNetEvent("dispatch:notify-cops")

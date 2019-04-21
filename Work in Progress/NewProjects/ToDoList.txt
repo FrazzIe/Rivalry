@@ -9,8 +9,6 @@
 	- Personal Garages at Apartments/Houses
 	- Public Garages fee and limits
 	- Security Job
-	- Clientside Dispatch Alerts
-	- Local uses phone and calls cops when they deny drug sale
 	- GTA: Someone spotted you in the car and called the police
 	- Rewrite Robberies
 	- Store Robberies, More Locks = More Money. Take money out of safe/cash register
