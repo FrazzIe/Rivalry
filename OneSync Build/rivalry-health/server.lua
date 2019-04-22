@@ -23,7 +23,7 @@ RegisterServerEvent("Health.Injury.Reset")
 AddEventHandler("Health.Injury.Reset", function()
 	local Source = source
 	Health.Injuries[Source] = {}
-	TriggerClientEvent("Health.Sync", Source, Health.Injuries)
+	TriggerClientEvent("Health.Sync", Source, Health.Injuries[Source])
 end)
 
 RegisterServerEvent("Health.Injury.Get")
