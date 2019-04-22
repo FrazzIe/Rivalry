@@ -124,7 +124,7 @@ Citizen.CreateThread(function()
 
 												Citizen.Wait(4000)
 
-												TaskStartScenarioInPlace(RandomPed "WORLD_HUMAN_STAND_MOBILE", 0, true)
+												TaskStartScenarioInPlace(RandomPed, "WORLD_HUMAN_STAND_MOBILE", 0, true)
 												Citizen.Wait(5000)
 												ClearPedTasks(RandomPed)
 
