@@ -305,12 +305,13 @@ Citizen.CreateThread(function()
 												end
 												PlaySoundFrontend(-1, "Hack_Success", "DLC_HEIST_BIOLAB_PREP_HACKING_SOUNDS", true)
 											else
+												PlaySoundFrontend(-1, "Hack_Failed", "DLC_HEIST_BIOLAB_PREP_HACKING_SOUNDS", true)
 												TaskReactAndFleePed(ped, PlayerPed)
 												Citizen.Wait(4000)
 												TaskStartScenarioInPlace(ped "WORLD_HUMAN_STAND_MOBILE", 0, true)
 												Citizen.Wait(5000)
 												ClearPedTasks(ped)
-												PlaySoundFrontend(-1, "Hack_Failed", "DLC_HEIST_BIOLAB_PREP_HACKING_SOUNDS", true)
+
 												if not IsEntityDead(ped) then
 													TriggerEvent("dispatch:drug")
 												end
