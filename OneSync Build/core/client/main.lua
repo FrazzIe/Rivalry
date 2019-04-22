@@ -108,9 +108,11 @@ end
 function GetMdtData()
 	local Data = {}
 	
-	for _, value in pairs(MDTCharacters) do
-		if value ~= nil then
-			table.insert(Data, value)
+	if MDTCharacters ~= nil then
+		for _, value in pairs(MDTCharacters) do
+			if value ~= nil then
+				table.insert(Data, value)
+			end
 		end
 	end
 
@@ -124,7 +126,9 @@ AddEventHandler("core:sync", function(_Characters, _CharactersNames, _Users, _UP
 	Users = _Users
 	UGroup = _UGroup
 	UPower = _UPower
-	MDTCharacters = _MDTCharacters
+	if _MDTCharacters ~= nil then
+		MDTCharacters = _MDTCharacters
+	end
 end)
 
 AddEventHandler("playerSpawned", function()
