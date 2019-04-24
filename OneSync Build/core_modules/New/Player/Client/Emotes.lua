@@ -881,6 +881,190 @@ Emote.Add("hangout", "Hangout Street", "Misc", {"amb@world_human_hang_out_street
 	TaskPlayAnim(PlayerPedId(), self.Dictionaries[1] , self.Animations[1] , 4.0, -4, -1, 1, 0, false, false, false)
 end)
 
+Emote.Add("cheer2", "Cheer 2", "Cheers", {"amb@world_human_cheering@female_c"}, {"base"}, {}, {}, function(self)
+    TaskPlayAnim(PlayerPedId(), self.Dictionaries[1], self.Animations[1], 4.0, -4, -1, 49, 0, false, false, false)
+end)
+
+Emote.Add("cheer3", "Cheer 3", "Cheers", {"amb@world_human_cheering@female_d"}, {"base"}, {}, {}, function(self)
+    TaskPlayAnim(PlayerPedId(), self.Dictionaries[1], self.Animations[1], 4.0, -4, -1, 49, 0, false, false, false)
+end)
+
+Emote.Add("cheer4", "Cheer 4", "Cheers", {"amb@world_human_cheering@male_b"}, {"base"}, {}, {}, function(self)
+    TaskPlayAnim(PlayerPedId(), self.Dictionaries[1], self.Animations[1], 4.0, -4, -1, 49, 0, false, false, false)
+end)
+
+Emote.Add("cheer5", "Cheer 5", "Cheers", {"amb@world_human_cheering@male_a"}, {"base"}, {}, {}, function(self)
+    TaskPlayAnim(PlayerPedId(), self.Dictionaries[1], self.Animations[1], 4.0, -4, -1, 49, 0, false, false, false)
+end)
+
+Emote.Add("investigate", "Investigate", "Police", {"amb@world_human_guard_patrol@male@idle_b"}, {"idle_e"}, {}, {}, function(self)
+    TaskPlayAnim(PlayerPedId(), self.Dictionaries[1], self.Animations[1], 4.0, -4, -1, 8, 0, false, false, false)
+end)
+
+Emote.Add("investigate2", "Investigate 2", "Police", {"amb@world_human_guard_patrol@male@idle_a"}, {"idle_a"}, {}, {}, function(self)
+    TaskPlayAnim(PlayerPedId(), self.Dictionaries[1], self.Animations[1], 4.0, -4, -1, 9, 0, false, false, false)
+end)
+
+Emote.Add("flex2", "Flex 2", "Workout", {"amb@world_human_muscle_flex@arms_at_side@idle_a"}, {"idle_a"}, {}, {}, function(self)
+    TaskPlayAnim(PlayerPedId(), self.Dictionaries[1], self.Animations[1], 4.0, -4, -1, 48, 0, false, false, false)
+end)
+
+Emote.Add("flex3", "Flex 3", "Workout", {"amb@world_human_muscle_flex@arms_in_front@base"}, {"base"}, {}, {}, function(self)
+    TaskPlayAnim(PlayerPedId(), self.Dictionaries[1], self.Animations[1], 4.0, -4, -1, 48, 0, false, false, false)
+end)
+
+Emote.Add("flex4", "Flex 4", "Workout", {"amb@world_human_muscle_flex@arms_in_front@idle_a"}, {"idle_b"}, {}, {}, function(self)
+    TaskPlayAnim(PlayerPedId(), self.Dictionaries[1], self.Animations[1], 4.0, -4, -1, 48, 0, false, false, false)
+end)
+
+Emote.Add("hooker", "Hooker", "Misc", {"amb@world_human_prostitute@cokehead@idle_a"}, {"idle_b"}, {}, {}, function(self)
+    TaskPlayAnim(PlayerPedId(), self.Dictionaries[1], self.Animations[1], 4.0, -4, -1, 9, 0, false, false, false)
+end)
+
+Emote.Add("hooker2", "Hooker 2", "Misc", {"amb@world_human_prostitute@crackhooker@idle_a"}, {"idle_c"}, {}, {}, function(self)
+    TaskPlayAnim(PlayerPedId(), self.Dictionaries[1], self.Animations[1], 4.0, -4, -1, 9, 0, false, false, false)
+end)
+
+Emote.Add("situps", "Situps", "Workout", {"amb@world_human_sit_ups@male@idle_a"}, {"idle_a"}, {}, {}, function(self)
+    TaskPlayAnim(PlayerPedId(), self.Dictionaries[1], self.Animations[1], 4.0, -4, -1, 9, 0, false, false, false)
+end)
+
+Emote.Add("confused", "Confused", "Misc", {"anim@amb@code_human_patrol@male@1h@idle_a"}, {"idle_a"}, {}, {}, function(self)
+    TaskPlayAnim(PlayerPedId(), self.Dictionaries[1], self.Animations[1], 4.0, -4, -1, 49, 0, false, false, false)
+end)
+
+Emote.Add("blowkisses", "Blow Kisses", "Misc", {"anim@mp_player_intcelebrationfemale@blow_kiss"}, {"blow_kiss"}, {}, {}, function(self)
+    TaskPlayAnim(PlayerPedId(), self.Dictionaries[1], self.Animations[1], 4.0, -4, -1, 8, 0, false, false, false)
+end)
+
+Emote.Add("dj", "DJ", "Misc", {"anim@mp_player_intcelebrationfemale@dj"}, {"dj"}, {}, {}, function(self)
+    TaskPlayAnim(PlayerPedId(), self.Dictionaries[1], self.Animations[1], 4.0, -4, -1, 49, 0, false, false, false)
+end)
+
+Emote.Add("dj2", "DJ 2", "Misc", {"anim@mp_player_intcelebrationmale@dj"}, {"dj"}, {}, {}, function(self)
+    TaskPlayAnim(PlayerPedId(), self.Dictionaries[1], self.Animations[1], 4.0, -4, -1, 49, 0, false, false, false)
+end)
+
+Emote.Add("facepalm2", "Facepalm 2", "Misc", {"anim@mp_player_intcelebrationfemale@face_palm"}, {"face_palm"}, {}, {}, function(self)
+    TaskPlayAnim(PlayerPedId(), self.Dictionaries[1], self.Animations[1], 4.0, -4, -1, 8, 0, false, false, false)
+end)
+
+Emote.Add("fyall", "Dramatic Flipoff", "Misc", {"anim@mp_player_intcelebrationfemale@finger"}, {"finger"}, {}, {}, function(self)
+    TaskPlayAnim(PlayerPedId(), self.Dictionaries[1], self.Animations[1], 4.0, -4, -1, 48, 0, false, false, false)
+end)
+
+Emote.Add("jazzhands", "Jazz Hands", "Misc", {"anim@mp_player_intcelebrationfemale@jazz_hands"}, {"jazz_hands"}, {}, {}, function(self)
+    TaskPlayAnim(PlayerPedId(), self.Dictionaries[1], self.Animations[1], 4.0, -4, -1, 48, 0, false, false, false)
+end)
+
+Emote.Add("jazzhands2", "Jazz Hands 2", "Misc", {"anim@mp_player_intcelebrationmale@jazz_hands"}, {"jazz_hands"}, {}, {}, function(self)
+    TaskPlayAnim(PlayerPedId(), self.Dictionaries[1], self.Animations[1], 4.0, -4, -1, 48, 0, false, false, false)
+end)
+
+Emote.Add("kc", "Knucklecrunch", "Misc", {"anim@mp_player_intcelebrationfemale@knuckle_crunch"}, {"knuckle_crunch"}, {}, {}, function(self)
+    TaskPlayAnim(PlayerPedId(), self.Dictionaries[1], self.Animations[1], 4.0, -4, -1, 48, 0, false, false, false)
+end)
+
+Emote.Add("slowclap", "Slow Clap", "Misc", {"anim@mp_player_intcelebrationfemale@slow_clap"}, {"slow_clap"}, {}, {}, function(self)
+    TaskPlayAnim(PlayerPedId(), self.Dictionaries[1], self.Animations[1], 4.0, -4, -1, 48, 0, false, false, false)
+end)
+
+Emote.Add("slowclap2", "Slow Clap 2", "Misc", {"anim@mp_player_intcelebrationmale@slow_clap"}, {"slow_clap"}, {}, {}, function(self)
+    TaskPlayAnim(PlayerPedId(), self.Dictionaries[1], self.Animations[1], 4.0, -4, -1, 48, 0, false, false, false)
+end)
+
+Emote.Add("rockout2", "Rockout", "Misc", {"anim@mp_player_intcelebrationmale@rock"}, {"rock"}, {}, {}, function(self)
+    TaskPlayAnim(PlayerPedId(), self.Dictionaries[1], self.Animations[1], 4.0, -4, -1, 8, 0, false, false, false)
+end)
+
+Emote.Add("salute2", "Salute", "Misc", {"anim@mp_player_intcelebrationmale@salute"}, {"salute"}, {}, {}, function(self)
+    TaskPlayAnim(PlayerPedId(), self.Dictionaries[1], self.Animations[1], 4.0, -4, -1, 48, 0, false, false, false)
+end)
+
+Emote.Add("thumbsup2", "Thumbs Up 2", "Misc", {"anim@mp_player_intcelebrationfemale@thumbs_up"}, {"thumbs_up"}, {}, {}, function(self)
+    TaskPlayAnim(PlayerPedId(), self.Dictionaries[1], self.Animations[1], 4.0, -4, -1, 48, 0, false, false, false)
+end)
+
+Emote.Add("boobshake", "Boob Shake", "Misc", {"mini@strip_club@backroom@"}, {"stripper_b_backroom_idle_b"}, {}, {}, function(self)
+    TaskPlayAnim(PlayerPedId(), self.Dictionaries[1], self.Animations[1], 4.0, -4, -1, 8, 0, false, false, false)
+end)
+
+Emote.Add("bouncer", "Bouncer Stance", "Misc", {"mini@strip_club@idles@bouncer@idle_c"}, {"idle_c"}, {}, {}, function(self)
+    TaskPlayAnim(PlayerPedId(), self.Dictionaries[1], self.Animations[1], 4.0, -4, -1, 49, 0, false, false, false)
+end)
+
+Emote.Add("depressed", "Depressed Idle", "Idle", {"amb@world_human_bum_standing@depressed@idle_a"}, {"idle_a"}, {}, {}, function(self)
+    TaskPlayAnim(PlayerPedId(), self.Dictionaries[1], self.Animations[1], 4.0, -4, -1, 49, 0, false, false, false)
+end)
+
+Emote.Add("drunk", "Drunk Idle", "Idle", {"amb@world_human_bum_standing@drunk@idle_a"}, {"idle_a"}, {}, {}, function(self)
+    TaskPlayAnim(PlayerPedId(), self.Dictionaries[1], self.Animations[1], 4.0, -4, -1, 9, 0, false, false, false)
+end)
+
+Emote.Add("twitchy", "Twitchy Idle", "Idle", {"amb@world_human_bum_standing@twitchy@idle_a"}, {"idle_a"}, {}, {}, function(self)
+    TaskPlayAnim(PlayerPedId(), self.Dictionaries[1], self.Animations[1], 4.0, -4, -1, 49, 0, false, false, false)
+end)
+
+Emote.Add("dealer", "Dealer Idle", "Idle", {"amb@world_human_drug_dealer_hard@male@idle_a"}, {"idle_a"}, {}, {}, function(self)
+    TaskPlayAnim(PlayerPedId(), self.Dictionaries[1], self.Animations[1], 4.0, -4, -1, 8, 0, false, false, false)
+end)
+
+Emote.Add("dealer2", "Dealer 2 Idle", "Idle", {"amb@world_human_drug_dealer_hard@male@idle_b"}, {"idle_d"}, {}, {}, function(self)
+    TaskPlayAnim(PlayerPedId(), self.Dictionaries[1], self.Animations[1], 4.0, -4, -1, 8, 0, false, false, false)
+end)
+
+Emote.Add("impatient2", "Impatient 2", "Idle", {"amb@world_human_stand_impatient@female@no_sign@idle_a"}, {"idle_a"}, {}, {}, function(self)
+    TaskPlayAnim(PlayerPedId(), self.Dictionaries[1], self.Animations[1], 4.0, -4, -1, 49, 0, false, false, false)
+end)
+
+Emote.Add("impatient3", "Impatient 3", "Idle", {"amb@world_human_stand_impatient@male@no_sign@idle_a"}, {"idle_a"}, {}, {}, function(self)
+    TaskPlayAnim(PlayerPedId(), self.Dictionaries[1], self.Animations[1], 4.0, -4, -1, 49, 0, false, false, false)
+end)
+
+Emote.Add("hangout2", "Hangout 2", "Idle", {"amb@world_human_hang_out_street@female_arms_crossed@idle_a"}, {"idle_a"}, {}, {}, function(self)
+    TaskPlayAnim(PlayerPedId(), self.Dictionaries[1], self.Animations[1], 4.0, -4, -1, 49, 0, false, false, false)
+end)
+
+Emote.Add("hangout3", "Hangout 3", "Idle", {"amb@world_human_hang_out_street@female_hold_arm@idle_a"}, {"idle_a"}, {}, {}, function(self)
+    TaskPlayAnim(PlayerPedId(), self.Dictionaries[1], self.Animations[1], 4.0, -4, -1, 49, 0, false, false, false)
+end)
+
+Emote.Add("hangout4", "Hangout 4", "Idle", {"amb@world_human_hang_out_street@male_a@idle_a"}, {"idle_a"}, {}, {}, function(self)
+    TaskPlayAnim(PlayerPedId(), self.Dictionaries[1], self.Animations[1], 4.0, -4, -1, 49, 0, false, false, false)
+end)
+
+Emote.Add("hangout5", "Hangout 5", "Idle", {"amb@world_human_hang_out_street@male_b@idle_a"}, {"idle_b"}, {}, {}, function(self)
+    TaskPlayAnim(PlayerPedId(), self.Dictionaries[1], self.Animations[1], 4.0, -4, -1, 48, 0, false, false, false)
+end)
+
+Emote.Add("hangout6", "Hangout 6", "Idle", {"amb@world_human_hang_out_street@male_c@idle_a"}, {"idle_a"}, {}, {}, function(self)
+    TaskPlayAnim(PlayerPedId(), self.Dictionaries[1], self.Animations[1], 4.0, -4, -1, 49, 0, false, false, false)
+end)
+
+Emote.Add("standingjog", "Standing Jog", "Idle", {"amb@world_human_jog_standing@female@idle_a"}, {"idle_a"}, {}, {}, function(self)
+    TaskPlayAnim(PlayerPedId(), self.Dictionaries[1], self.Animations[1], 4.0, -4, -1, 48, 0, false, false, false)
+end)
+
+Emote.Add("standingjog2", "Standing Jog 2", "Idle", {"amb@world_human_jog_standing@male@fitidle_a"}, {"idle_a"}, {}, {}, function(self)
+    TaskPlayAnim(PlayerPedId(), self.Dictionaries[1], self.Animations[1], 4.0, -4, -1, 48, 0, false, false, false)
+end)
+
+Emote.Add("sunbathe3", "Sunbathing 3", "Misc", {"amb@world_human_sunbathe@female@front@idle_a"}, {"idle_c"}, {}, {}, function(self)
+    TaskPlayAnim(PlayerPedId(), self.Dictionaries[1], self.Animations[1], 4.0, -4, -1, 48, 0, false, false, false)
+end)
+
+Emote.Add("sunbathe4", "Sunbathing 4", "Misc", {"amb@world_human_sunbathe@male@front@idle_a"}, {"idle_a"}, {}, {}, function(self)
+    TaskPlayAnim(PlayerPedId(), self.Dictionaries[1], self.Animations[1], 4.0, -4, -1, 48, 0, false, false, false)
+end)
+
+Emote.Add("browse", "Window Shopping", "Misc", {"amb@world_human_window_shop@male@idle_a"}, {"browse_a"}, {}, {}, function(self)
+    TaskPlayAnim(PlayerPedId(), self.Dictionaries[1], self.Animations[1], 4.0, -4, -1, 49, 0, false, false, false)
+end)
+
+Emote.Add("pickup", "Pick Up Off Ground", "Misc", {"anim@am_hold_up@male"}, {"shoplift_low"}, {}, {}, function(self)
+    TaskPlayAnim(PlayerPedId(), self.Dictionaries[1], self.Animations[1], 4.0, -4, -1, 48, 0, false, false, false)
+end)
+
 --[[local StopItem = NativeUI.CreateItem("~r~Stop Emote", "")
 StopItem.Activated = function(ParentMenu, SelectedItem)
 	Emotes.Stop()
