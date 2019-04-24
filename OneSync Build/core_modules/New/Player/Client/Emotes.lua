@@ -104,6 +104,26 @@ Emotes = {
 			Description = "Animations that don't fit a category.",
 			Items = {},
 		},
+		{
+			Id = "Cheers",
+			Description = "Animations for cheers.",
+			Items = {},
+		},
+		{
+			Id = "Police",
+			Description = "Animations for police.",
+			Items = {},
+		},
+		{
+			Id = "Workout",
+			Description = "Animations for working out.",
+			Items = {},
+		},
+		{
+			Id = "Idle",
+			Description = "Animations that idle.",
+			Items = {},
+		},
 	},
 	Active = {},
 }
