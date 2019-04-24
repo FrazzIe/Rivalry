@@ -91,7 +91,6 @@ Config.Priority = {
     ["steam:11000010862267a"] = 672, -- Sweet Sake (mech Boss)
     ["steam:110000104cc9138"] = 671, -- Jacob Parker (EMS Extra)
     ["steam:110000104c0d8b2"] = 670, -- Wu Hwang (EMS Extra)
-    ["steam:11000010EFF15ED"] = 669, -- Bob Michaels (EMS Extra)
     ["steam:1100001054d27db"] = 668, -- Keiandre Billings (EMS Extra)
     ["steam:11000010c984e67"] = 667, -- Mac Mcfly (PD Extra)
     ["steam:1100001000a7d12"] = 666, -- Marco Sandborn (PD Extra)
