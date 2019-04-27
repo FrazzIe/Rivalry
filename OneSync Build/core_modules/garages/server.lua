@@ -338,10 +338,12 @@ local emplacement_garage = {
     [13] = {name="Personal Garage", colour=3, sprite=357, x=1958.3830566406,y=3767.013671875,z=32.208053619385,id=13,gname="Sandy Shores [13]",cost=3000,heading=29.273107528687,maxslots=3}, -- Personal
     [14] = {name="Public Garage", colour=1, sprite=357, x=379.36770629883,y=-1678.8072509766,z=27.309490203857,id=14,gname="Rancho [14]",cost=3000,heading=227.73773193359,maxslots=3}, -- Public
 }
-AddEventHandler("onResourceStart", function()
-    exports["GHMattiMySQL"]:QueryAsync("UPDATE vehicles SET state=@state WHERE state!=@state", {
-                ["@state"] = "~g~Stored",
-            })
+AddEventHandler("onServerResourceStart", function(resource)
+    if resource == GetCurrentResourceName() then
+        exports["GHMattiMySQL"]:QueryAsync("UPDATE vehicles SET state=@state WHERE state!=@state", {
+            ["@state"] = "~g~Stored",
+        })
+    end
 end)
 
 RegisterServerEvent("garage:initialise")
