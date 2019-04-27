@@ -247,7 +247,7 @@ end)
 RegisterServerEvent("core:retrieveCharacters")
 AddEventHandler("core:retrieveCharacters", function()
     local source = source
-    exports["GHMattiMySQL"]:QueryResultAsync("SELECT * from characters WHERE identifier = @identifier AND dead == 0", {["@identifier"] = Users[source].get("steam")}, function(_Character)
+    exports["GHMattiMySQL"]:QueryResultAsync("SELECT * from characters WHERE identifier = @identifier AND dead = 0", {["@identifier"] = Users[source].get("steam")}, function(_Character)
         _Characters[source] = _Character
         TriggerClientEvent("core:loadCharacters", source, _Characters[source])
     end)
