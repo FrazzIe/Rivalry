@@ -247,7 +247,7 @@ end)
 RegisterServerEvent("core:retrieveCharacters")
 AddEventHandler("core:retrieveCharacters", function()
     local source = source
-    exports["GHMattiMySQL"]:QueryResultAsync("SELECT * from characters WHERE identifier = @identifier", {["@identifier"] = Users[source].get("steam")}, function(_Character)
+    exports["GHMattiMySQL"]:QueryResultAsync("SELECT * from characters WHERE identifier = @identifier AND dead == 0", {["@identifier"] = Users[source].get("steam")}, function(_Character)
         _Characters[source] = _Character
         TriggerClientEvent("core:loadCharacters", source, _Characters[source])
     end)
@@ -284,7 +284,7 @@ AddEventHandler("core:deleteCharacter", function(character)
     exports["GHMattiMySQL"]:Query("UPDATE properties_businesses_normal SET identifier='no', character_id=NULL, expire='0' WHERE (identifier=@identifier) AND (character_id=@character_id)", {["@identifier"] = identifier, ["@character_id"] = character.character_id})
     exports["GHMattiMySQL"]:Query("UPDATE properties_houses_enterable SET identifier='no', character_id=NULL, expire='0' WHERE (identifier=@identifier) AND (character_id=@character_id)", {["@identifier"] = identifier, ["@character_id"] = character.character_id})
     exports["GHMattiMySQL"]:Query("UPDATE properties_houses_normal SET identifier='no', character_id=NULL, expire='0' WHERE (identifier=@identifier) AND (character_id=@character_id)", {["@identifier"] = identifier, ["@character_id"] = character.character_id})
-    exports["GHMattiMySQL"]:Query("DELETE FROM characters WHERE character_id=@character_id", {["@character_id"] = character.character_id})
+    exports["GHMattiMySQL"]:Query("UPDATE characters SET dead = 1 WHERE character_id=@character_id", {["@character_id"] = character.character_id})
 end)
 
 RegisterServerEvent("core:editCharacter")
@@ -416,7 +416,7 @@ AddEventHandler("core:killCharacter", function(source)
             exports["GHMattiMySQL"]:Query("UPDATE properties_businesses_normal SET identifier='no', character_id=NULL, expire='0' WHERE (identifier=@identifier) AND (character_id=@character_id)", {["@identifier"] = identifier, ["@character_id"] = character_id})
             exports["GHMattiMySQL"]:Query("UPDATE properties_houses_enterable SET identifier='no', character_id=NULL, expire='0' WHERE (identifier=@identifier) AND (character_id=@character_id)", {["@identifier"] = identifier, ["@character_id"] = character_id})
             exports["GHMattiMySQL"]:Query("UPDATE properties_houses_normal SET identifier='no', character_id=NULL, expire='0' WHERE (identifier=@identifier) AND (character_id=@character_id)", {["@identifier"] = identifier, ["@character_id"] = character_id})
-            exports["GHMattiMySQL"]:Query("DELETE FROM characters WHERE character_id=@character_id", {["@character_id"] = character_id})
+            exports["GHMattiMySQL"]:Query("UPDATE characters SET dead = 1 WHERE character_id=@character_id", {["@character_id"] = character_id})
         end
         Characters[source] = nil
     end
