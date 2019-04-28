@@ -25,18 +25,27 @@ $(document).ready(function(){
 		}
 	});
 
+	function escapeHtml(unsafe) {
+	    return unsafe
+	         .replace(/&/g, "&amp;")
+	         .replace(/</g, "&lt;")
+	         .replace(/>/g, "&gt;")
+	         .replace(/"/g, "&quot;")
+	         .replace(/'/g, "&#039;");
+	}
+
 	function loadPlayers(players) {
 		$("#player-list").empty()
 		$('#player-list').append('<thead><tr><th scope="col">ID</th><th scope="col">Username</th></tr></thead>')
 		$('#player-list').append('<tbody>')
 		for(let i in players) {
 			let player = players[i];
-			$('#player-list').append('<tr id="player_' + player.id + '"><th scope="row">' + player.id + '</th><td>' + player.name + '</td>')
-			if(i == 0) { $("#player_" + player.id).addClass("selected"); document.getElementById("selected-header").innerHTML = " ID: " + player.id + ", User: " + player.name; selected_id = parseInt(player.id);}
+			$('#player-list').append('<tr id="player_' + player.id + '"><th scope="row">' + player.id + '</th><td>' + escapeHtml(player.name) + '</td>')
+			if(i == 0) { $("#player_" + player.id).addClass("selected"); document.getElementById("selected-header").innerHTML = " ID: " + player.id + ", User: " + escapeHtml(player.name); selected_id = parseInt(player.id);}
 			$("#player_" + player.id).click(function(){
 				$("#player_" + selected_id).removeClass("selected");
 				$(this).addClass("selected");
-				document.getElementById("selected-header").innerHTML = " ID: " + player.id + ", User: " + player.name;
+				document.getElementById("selected-header").innerHTML = " ID: " + player.id + ", User: " + escapeHtml(player.name);
 				selected_id = parseInt(player.id);
 			})
 		}
