@@ -88,7 +88,7 @@ TriggerEvent("core:addGroupCommand", "dojadd", "admin", function(source, args, r
 						["@rank"] = rank:lower(),
 					})
 					DOJ.Players[tonumber(args[1])] = { character_id = target.get("characterID"), rank = rank:lower(), onduty = "false" }
-					TriggerEvent("mdt.set.permission", source, GetPermissionLevel(rank:lower()))
+					TriggerEvent("mdt.set.permission", tonumber(args[1]), GetPermissionLevel(rank:lower()))
 					Notify("<b style='color:red'>Alert</b> <br><span style='color:lime'>"..target.get("first_name").." "..target.get("last_name").."</span> has been accepted. <br> Congratulations on joining the DOJ!", 10000, tonumber(args[1]))
 					TriggerClientEvent("DOJ:Set", tonumber(args[1]), DOJ.Players[tonumber(args[1])], true)
 				end)
@@ -111,7 +111,7 @@ TriggerEvent("core:addGroupCommand", "dojrem", "admin", function(source, args, r
 				TriggerEvent("core:getuser", tonumber(args[1]), function(target)
 					DOJ.Players[tonumber(args[1])] = nil
 					exports['GHMattiMySQL']:QueryAsync("DELETE FROM doj WHERE character_id=@character_id", {["@character_id"] = target.get("characterID")})
-					TriggerEvent("mdt.set.permission", source, 0)
+					TriggerEvent("mdt.set.permission", tonumber(args[1]), 0)
 					Notify("<b style='color:red'>Alert</b> <br><span style='color:lime'>"..target.get("first_name").." "..target.get("last_name").."</span> has been fired. <br> They are no longer an officer of the DOJ!", 10000, tonumber(args[1]))
 					TriggerClientEvent("DOJ:Set", tonumber(args[1]), DOJ.Players[tonumber(args[1])], false)
 				end)
@@ -140,7 +140,7 @@ TriggerEvent("core:addGroupCommand", "dojpromote", "emergency", function(source,
 									TriggerEvent("core:getuser", tonumber(args[1]), function(target)
 										exports['GHMattiMySQL']:QueryAsync("UPDATE doj SET rank=@rank WHERE character_id=@character_id", {["@character_id"] = target.get("characterID"), ["@rank"] = rank:lower()})
 										DOJ.Players[tonumber(args[1])].rank = rank:lower()
-										TriggerEvent("mdt.set.permission", source, 0)
+										TriggerEvent("mdt.set.permission", tonumber(args[1]), 0)
 										Notify("<b style='color:red'>Alert</b> <br><span style='color:lime'>You have been promoted!</span><br> You are now a "..rank, 10000, tonumber(args[1]))
 										TriggerClientEvent("DOJ:Set", tonumber(args[1]), DOJ.Players[tonumber(args[1])], true)
 									end)
@@ -182,7 +182,7 @@ TriggerEvent("core:addGroupCommand", "dojdemote", "emergency", function(source, 
 									TriggerEvent("core:getuser", tonumber(args[1]), function(target)
 										exports['GHMattiMySQL']:QueryAsync("UPDATE doj SET rank=@rank WHERE character_id=@character_id", {["@character_id"] = target.get("characterID"), ["@rank"] = rank:lower()})
 										DOJ.Players[tonumber(args[1])].rank = rank:lower()
-										TriggerEvent("mdt.set.permission", source, GetPermissionLevel(rank:lower()))
+										TriggerEvent("mdt.set.permission", tonumber(args[1]), GetPermissionLevel(rank:lower()))
 										Notify("<b style='color:red'>Alert</b> <br><span style='color:lime'>You have been demoted!</span><br> You are now a "..rank, 10000, tonumber(args[1]))
 										TriggerClientEvent("DOJ:Set", tonumber(args[1]), DOJ.Players[tonumber(args[1])], true)
 									end)
