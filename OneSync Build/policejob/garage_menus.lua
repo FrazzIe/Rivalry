@@ -187,10 +187,14 @@ Citizen.CreateThread(function()
                                     WarMenu.OpenMenu("car_modify_menu")
                                     currentLiveryIndex = 1
                                     selectedLiveryIndex = 1
+                                    currentExtraIndex = 1
+                                    selectedExtraIndex = 1
                                 else
                                     WarMenu.OpenMenu("car_modify_menu")
                                     currentLiveryIndex = 1
                                     selectedLiveryIndex = 1
+                                    currentExtraIndex = 1
+                                    selectedExtraIndex = 1
                                 end
                             else
                                 WarMenu.CloseMenu("car_modify_menu")
@@ -209,29 +213,33 @@ Citizen.CreateThread(function()
 					end
                     if WarMenu.IsMenuOpened("car_modify_menu") then
                         if existingVeh ~= nil then
-                            local livery_count = GetVehicleLiveryCount(existingVeh)
                             local liveries = {}
-                            for i = 1, livery_count do table.insert(liveries, tostring(i)) end
                             local extras = {}
-                            for i = 1, 25 do 
-                            	if DoesExtraExist(existingVeh, i) then table.insert(extras, tostring(i)) end 
+
+                            for i = 0, GetVehicleLiveryCount(existingVeh) do 
+                            	table.insert(liveries, i) 
                             end
+                            
+                            for i = 0, 14 do 
+                            	if DoesExtraExist(existingVeh, i) then 
+                            		table.insert(extras, i) 
+                            	end 
+                            end
+
                             if WarMenu.ComboBox("Livery", liveries , currentLiveryIndex, selectedLiveryIndex, function(currentIndex, selectedIndex)
                                 currentLiveryIndex = currentIndex
                                 selectedLiveryIndex = selectedIndex
                             end) then
-                                SetVehicleLivery(existingVeh, selectedLiveryIndex)
+                                SetVehicleLivery(existingVeh, liveries[selectedLiveryIndex])
                             end
-                            if WarMenu.ComboBox("Extra", extras , currentExtraIndex, selectedExtraIndex, function(currentIndex, selectedIndex)
+
+                            if WarMenu.ComboBox("Extra", extras, currentExtraIndex, selectedExtraIndex, function(currentIndex, selectedIndex)
                                 currentExtraIndex = currentIndex
                                 selectedExtraIndex = selectedIndex
                             end) then
-                            	if IsVehicleExtraTurnedOn(existingVeh, selectedExtraIndex) == 1 then
-                                	SetVehicleExtra(existingVeh, selectedExtraIndex, true)
-                                else
-                                	SetVehicleExtra(existingVeh, selectedExtraIndex, false)
-                                end
+                            	SetVehicleExtra(existingVeh, extras[selectedExtraIndex], tobool(IsVehicleExtraTurnedOn(existingVeh, extras[selectedExtraIndex])))
                             end
+
                             WarMenu.Display()
                         else
                             WarMenu.CloseMenu("car_modify_menu")
