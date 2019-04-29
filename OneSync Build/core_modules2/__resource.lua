@@ -45,7 +45,7 @@ client_script 'recoil/client.lua'
 
 client_script 'density.lua'
 
-client_script 'mouth_movement.lua'
+--client_script 'mouth_movement.lua'
 
 export 'SeatbeltActive'
 export 'ScubaHas'
