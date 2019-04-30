@@ -11,6 +11,8 @@
 
     Copy, re-release, re-distribute it without my written permission.
 --]]
+local Twitter = true
+
 RegisterNetEvent('prox_chatMessage')
 AddEventHandler('prox_chatMessage', function(id, name, message)
 	if PlayerId() == GetPlayerFromServerId(id) then
@@ -41,6 +43,18 @@ end)
 RegisterNetEvent("killfeed")
 AddEventHandler("killfeed", function(msg)
     TriggerServerEvent("killfeed", msg)
+end)
+
+RegisterNetEvent("twitter:message")
+AddEventHandler("twitter:message", function(msg)
+    if Twitter then
+        TriggerEvent("chat:addMessage", msg)
+    end
+end)
+
+RegisterNetEvent("twitter:toggle")
+AddEventHandler("twitter:toggle", function(toggle)
+    Twitter = toggle
 end)
 
 RegisterNetEvent("core:ready")

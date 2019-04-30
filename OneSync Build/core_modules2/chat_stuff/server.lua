@@ -11,6 +11,16 @@
 
     Copy, re-release, re-distribute it without my written permission.
 --]]
+
+local Twitter = {}
+
+AddEventHandler("playerDropped", function()
+    local source = source
+    if Twitter[source] then
+        Twitter[source] = nil
+    end
+end)
+
 AddEventHandler('chatMessage', function(source, author, message)
     local source = tonumber(source)
     local args = stringsplit(message, " ")
@@ -45,7 +55,9 @@ TriggerEvent('core:addCommand', 'tweet', function(source, args, rawCommand, data
     TriggerEvent("Phone.Get", source, function(Phone)
         if Phone then
             if Phone.Has then
-                TriggerClientEvent("chat:addMessage", -1, {templateId = "tweet", color = {255, 255, 255}, multiline = true, args = {author, message}})
+                if Twitter[source] then
+                    TriggerClientEvent("twitter:message", -1, {templateId = "tweet", color = {255, 255, 255}, multiline = true, args = {author, message}})
+                end
             else
                 TriggerClientEvent('chatMessage', source, "ERROR", {0, 255, 0}, "You don't have a phone!")
             end
@@ -61,7 +73,9 @@ TriggerEvent('core:addCommand', 't', function(source, args, rawCommand, data)
     TriggerEvent("Phone.Get", source, function(Phone)
         if Phone then
             if Phone.Has then
-                TriggerClientEvent("chat:addMessage", -1, {templateId = "tweet", color = {255, 255, 255}, multiline = true, args = {author, message}})
+                if Twitter[source] then
+                    TriggerClientEvent("twitter:message", -1, {templateId = "tweet", color = {255, 255, 255}, multiline = true, args = {author, message}})
+                end
             else
                 TriggerClientEvent('chatMessage', source, "ERROR", {0, 255, 0}, "You don't have a phone!")
             end
@@ -70,6 +84,32 @@ TriggerEvent('core:addCommand', 't', function(source, args, rawCommand, data)
         end
     end)
 end, {help = "Post a tweet"})
+
+TriggerEvent('core:addCommand', "twitter", function(source, args, rawCommand, data)
+    if Twitter[source] == nil then
+        Twitter[source] = true
+    end
+
+    TriggerEvent("Phone.Get", source, function(Phone)
+        if Phone then
+            if Phone.Has then
+                Twitter[source] = not Twitter[source]
+
+                local message = (Twitter[source] and "^*^2Activated" or "^*^1Deactivated")
+                TriggerClientEvent("chat:addMessage", source, {templateId = "tweet", color = {255, 255, 255}, multiline = true, args = {"Twitter", message}})
+                TriggerClientEvent("twitter:toggle", source, Twitter[source])
+            else
+                TriggerClientEvent('chatMessage', source, "ERROR", {0, 255, 0}, "You don't have a phone!")
+                Twitter[source] = false
+                TriggerClientEvent("twitter:toggle", source, Twitter[source])
+            end
+        else
+            TriggerClientEvent('chatMessage', source, "ERROR", {0, 255, 0}, "You don't have a phone!")
+            Twitter[source] = false
+            TriggerClientEvent("twitter:toggle", source, Twitter[source])
+        end
+    end)
+end, {help = "Toggle Twitter"})
 
 TriggerEvent('core:addCommand', 'balance', function(source, args, rawCommand, data)
     local author = "$"..data.get("bank").." is your current balance."
@@ -177,4 +217,23 @@ AddEventHandler("killfeed", function(msg)
             end
         end
     end)
+end)
+
+RegisterServerEvent("Phone.Set")
+AddEventHandler("Phone.Set", function(Source, Value)
+    if type(Value) == "boolean" then
+        if not Value and Twitter[Source] then
+            Twitter[Source] = false
+            TriggerClientEvent("twitter:toggle", Source, Twitter[Source])
+        end
+    end
+end)
+
+RegisterServerEvent("Phone.Finish")
+AddEventHandler("Phone.Finish", function(Data)
+    local Source = source
+
+    Twitter[Source] = Data.Has
+
+    TriggerClientEvent("twitter:toggle", Source, Twitter[Source])
 end)
