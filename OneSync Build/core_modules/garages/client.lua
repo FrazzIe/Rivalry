@@ -502,7 +502,7 @@ Citizen.CreateThread(function()
                 RenderMarker(25, v.x, v.y, v.z, 1.5, 1.5, 2.0, 255, 255, 0, 20)
                 if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 3.5)then
                     if (incircle == false) then
-                        DisplayHelpText("Press ~INPUT_CONTEXT~ to open the garage!")
+                        DisplayHelpText("Press ~INPUT_CONTEXT~ to open vehicle storage.")
                     end
                     incircle = true
                     if IsControlJustReleased(1, 51) and IsPedInAnyVehicle(GetPlayerPed(-1), true) == false then
