@@ -339,6 +339,14 @@ local emplacement_garage = {
     [14] = {name="Public Garage", colour=1, sprite=357, x=379.36770629883,y=-1678.8072509766,z=27.309490203857,id=14,gname="Rancho [14]",cost=3000,heading=227.73773193359,maxslots=3}, -- Public
 }
 
+AddEventHandler("onServerResourceStart", function(resource)
+    if resource == "core_modules" then
+        exports["GHMattiMySQL"]:QueryAsync("UPDATE vehicles SET state=@state WHERE state!=@state", {
+            ["@state"] = "~g~Stored",
+        })
+    end
+end)
+
 RegisterServerEvent("garage:initialise")
 AddEventHandler("garage:initialise",function(source, identifier, character_id)
     exports["GHMattiMySQL"]:QueryResultAsync("SELECT * from vehicles WHERE character_id=@character_id", {["@character_id"] = character_id}, function(vehicles)
