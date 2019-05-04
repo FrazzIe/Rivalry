@@ -340,9 +340,10 @@ local emplacement_garage = {
 }
 
 AddEventHandler("onServerResourceStart", function(resource)
-    if resource == "core_modules" then
-        exports["GHMattiMySQL"]:QueryAsync("UPDATE vehicles SET state=@state WHERE state!=@state", {
+    if resource == GetCurrentResourceName() then
+        exports["GHMattiMySQL"]:QueryAsync("UPDATE vehicles SET state=@state WHERE (state!=@state AND state!=@impound)", {
             ["@state"] = "~g~Stored",
+            ["@impound"] = "~b~Impounded",
         })
     end
 end)
