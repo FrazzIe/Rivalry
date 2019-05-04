@@ -54,6 +54,14 @@ boat = {
 	{name = "LSFD Rescue Boat", model = "defender", type = "", rank = "paramedic"}
 }
 
+function tobool(input)
+    if input == "true" or tonumber(input) == 1 or input == true or input == "on" then
+        return true
+    else
+        return false
+    end
+end
+
 function isNearStationGarage()
     for i = 1, #stationGarage do
         local ply = PlayerPedId()
