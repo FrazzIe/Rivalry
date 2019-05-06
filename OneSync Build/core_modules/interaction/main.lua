@@ -206,7 +206,7 @@ AddEventHandler("interaction:main", function()
 		if exports.policejob:getIsCop() then if exports.policejob:getIsInService() then exports.ui:addOption("Police", [[TriggerEvent("police:menu")]]) end end
 		if exports.emsjob:getIsParamedic() then if exports.emsjob:getIsInService() then exports.ui:addOption("Paramedic", [[TriggerEvent("paramedic:menu")]]) end end
 		if DOJ.IsDOJ then if DOJ.Active then exports.ui:addOption("DOJ", [[TriggerEvent("DOJ:Menu")]]) end end
-		if exports.others:getIsInService() then exports.ui:addOption("Taxi", [[TriggerEvent("taxi:menu")]]) end
+		if exports["others-taxi"]:getIsInService() then exports.ui:addOption("Taxi", [[TriggerEvent("taxi:menu")]]) end
 		if exports.jobs:getMechanicIsInService() then exports.ui:addOption("Mechanic", [[TriggerEvent("mechanic:menu")]]) end
 		exports.ui:addOption("Actions", [[TriggerEvent("interaction:actions_emotes")]])
 		if not IsJailed and not exports.policejob:getIsCuffed() and not isCuffed() then

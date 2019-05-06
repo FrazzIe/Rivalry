@@ -140,12 +140,12 @@ Citizen.CreateThread(function()
         Citizen.Wait(0)
 
         if WarMenu.IsMenuOpened("Scoreboard") or WarMenu.IsMenuOpened("player_info") or WarMenu.IsMenuOpened("player_info_disconnected") or WarMenu.IsMenuOpened("disconnected") then
-            if exports.policejob and exports.emsjob and exports.others and exports.jobs then
-                if exports.policejob.getIsInService and exports.emsjob.getIsInService and exports.others.getIsInService and exports.jobs.getMechanicIsInService then
+            if exports.policejob and exports.emsjob and exports["others-taxi"] and exports.jobs then
+                if exports.policejob.getIsInService and exports.emsjob.getIsInService and exports["others-taxi"].getIsInService and exports.jobs.getMechanicIsInService then
                     ServiceTracker = {
                         exports.policejob:getIsInService(),
                         exports.emsjob:getIsInService(),
-                        exports.others:getIsInService(),
+                        exports["others-taxi"]:getIsInService(),
                         exports.jobs:getMechanicIsInService(),
                     }
                 end
