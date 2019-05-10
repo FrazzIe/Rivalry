@@ -620,6 +620,7 @@ Citizen.CreateThread(function()
 							end
 							
 							existingVeh = CreateVehicle(car, plyCoords["x"], plyCoords["y"], plyCoords["z"], 90.0, true, false)
+                            SetEntityAsMissionEntity(existingVeh, true, false)
 							SetVehicleLivery(existingVeh, 0)
 							local id = NetworkGetNetworkIdFromEntity(existingVeh)
 							SetNetworkIdCanMigrate(id, true)

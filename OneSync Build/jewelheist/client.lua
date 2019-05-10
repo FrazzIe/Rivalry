@@ -806,6 +806,9 @@ function startPartThree()
 					SetNetworkIdCanMigrate(trailerid, true)
 					SetNetworkIdExistsOnAllMachines(trailerid, true)
 
+					SetEntityAsMissionEntity(HeistTruck, true, false)
+					SetEntityAsMissionEntity(HeistTrailer, true, false)
+					
 					print("Network ID: "..truckid.." | Client ID: "..HeistTruck.." | NetToVeh: "..NetToVeh(truckid).." | VehToNet: "..VehToNet(HeistTruck).." |")
 					print("Network ID: "..trailerid.." | Client ID: "..HeistTrailer.." | NetToVeh: "..NetToVeh(trailerid).." | VehToNet: "..VehToNet(HeistTrailer).." |")
 

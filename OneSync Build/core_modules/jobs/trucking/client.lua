@@ -447,6 +447,7 @@ AddEventHandler("trucker:rent", function()
 		end
 		trucker_truck = CreateVehicle(model, locations.truck.x, locations.truck.y, locations.truck.z, locations.truck.h, true, false)
 		local plate = "TT"..GetVehicleNumberPlateText(trucker_truck)
+		SetEntityAsMissionEntity(trucker_truck, true, false)
 		SetVehicleNumberPlateText(trucker_truck, plate)
 		SetEntityInvincible(trucker_truck, false)
 		SetPedIntoVehicle(PlayerPedId(), trucker_truck, -1)
@@ -528,8 +529,7 @@ Citizen.CreateThread(function()
 						end
 						if IsControlJustPressed(1, 51) then
 							if trucker_truck then
-								SetEntityAsMissionEntity(trucker_truck, true, true)
-								DeleteVehicle(trucker_truck)
+								DestroyVehicle(trucker_truck)
 								trucker_truck = nil
 							else
 								if tobool(drivers_license) then
@@ -577,6 +577,7 @@ Citizen.CreateThread(function()
 											end
 											trucker_trailer = CreateVehicle(model, locations.trailer.spawn.x, locations.trailer.spawn.y, locations.trailer.spawn.z, locations.trailer.spawn.h, true, false)
 											local plate = "TR"..GetVehicleNumberPlateText(trucker_truck)
+											SetEntityAsMissionEntity(trucker_trailer, true, false)
 											SetVehicleNumberPlateText(trucker_truck, plate)
 											SetEntityInvincible(trucker_truck, false)
 											SetModelAsNoLongerNeeded(model)

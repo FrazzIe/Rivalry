@@ -126,6 +126,7 @@ AddEventHandler("Garbage.Rent", function()
 		end
 		GarbageTruck = CreateVehicle(Model, Garbage.Data.Vehicles.Spawn.x, Garbage.Data.Vehicles.Spawn.y, Garbage.Data.Vehicles.Spawn.z, 269.92779541016, true, false)
 		local plate = "GB"..GetVehicleNumberPlateText(GarbageTruck)
+		SetEntityAsMissionEntity(GarbageTruck, true, false)
 		SetVehicleNumberPlateText(GarbageTruck, plate)
 		SetEntityInvincible(GarbageTruck, false)
 		SetPedIntoVehicle(Ped, GarbageTruck, -1)
@@ -180,7 +181,6 @@ Citizen.CreateThread(function()
 						end
 						if IsControlJustPressed(1,51) then
 							if GarbageTruck then
-								SetEntityAsMissionEntity(GarbageTruck, true, true)
 								DestroyVehicle(GarbageTruck)
 								while DoesEntityExist(GarbageTruck) do
 									Citizen.Wait(0)

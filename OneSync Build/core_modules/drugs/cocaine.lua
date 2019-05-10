@@ -168,7 +168,7 @@ function CreateCocaineVan()
 	local NetworkHandle = NetworkGetNetworkIdFromEntity(Cocaine.Vehicle.Handle)
 	SetNetworkIdCanMigrate(NetworkHandle, true)
 	SetNetworkIdExistsOnAllMachines(NetworkHandle, true)
-
+	SetEntityAsMissionEntity(Cocaine.Vehicle.Handle, true, false)
 	SetVehicleOnGroundProperly(Cocaine.Vehicle.Handle)
 
 	SetModelAsNoLongerNeeded(Model)

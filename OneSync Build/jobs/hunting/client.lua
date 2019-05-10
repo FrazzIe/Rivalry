@@ -195,9 +195,9 @@ Citizen.CreateThread(function()
 									SetNetworkIdCanMigrate(id, true)
 									SetEntityInvincible(spawned_car, false)
 									SetVehicleOnGroundProperly(spawned_car)
+									SetEntityAsMissionEntity(spawned_car, true, false)
 									SetModelAsNoLongerNeeded(vehicle)
 									DecorSetBool(spawned_car, "hotwire", true)
-									Citizen.InvokeNative(0xB736A491E64A32CF, Citizen.PointerValueIntInitialized(spawned_car))
 								end
 								isinjob = true
 							else

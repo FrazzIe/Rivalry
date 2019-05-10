@@ -132,6 +132,7 @@ Citizen.CreateThread(function()
 							SetVehicleColours(existingVeh, 64,64)
 							SetVehicleLivery(existingVeh, 1)
 							SetPedIntoVehicle(GetPlayerPed(-1),  existingVeh,  -1)
+							SetEntityAsMissionEntity(existingVeh, true, false)
 							SetModelAsNoLongerNeeded(car)
 							DecorSetBool(existingVeh, "hotwire", true)
 							exports.pNotify:SendNotification({
