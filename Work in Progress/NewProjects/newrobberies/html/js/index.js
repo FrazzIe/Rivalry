@@ -109,6 +109,7 @@ $(document).ready(function(){
 
   document.onkeyup = function (data) {
     if (data.which == 27 ) {
+      closeMain();
       $.post('http://newrobberies/close', JSON.stringify({}));
     }
   };

@@ -23,6 +23,7 @@ $(document).ready(function(){
       pin, cyl, driver, cylRotationInterval, pinLastDamaged;
 
     function openMain(Pins) {
+      reset();
       $("#body").show();
       numPins = Pins
     }
@@ -241,9 +242,11 @@ $(document).ready(function(){
   window.addEventListener('message', function(event){
     var item = event.data;
     if(item.lockpick === true) {
+      gameOver = false;
       openMain(item.pins);
     }
     if(item.lockpick === false) {
+      gameOver = true;
       closeMain();
     }
   });
