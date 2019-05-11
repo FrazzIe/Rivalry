@@ -183,21 +183,15 @@ Citizen.CreateThread(function()
 									Citizen.InvokeNative(0xEA386986E786A54F, Citizen.PointerValueIntInitialized(spawned_car))
 									spawned_car = nil
 								else
-									local vehicle = GetHashKey('bodhi2')
-									RequestModel(vehicle)
-									while not HasModelLoaded(vehicle) do
-										Wait(1)
-									end
 									local plate = math.random(100, 900)
-									spawned_car = CreateVehicle(vehicle,-1493.38269042969, 4981.84814453125, 62.650577545166,-175.0, true, false)
-									SetVehicleHasBeenOwnedByPlayer(spawned_car,true)
-									local id = NetworkGetNetworkIdFromEntity(spawned_car)
-									SetNetworkIdCanMigrate(id, true)
-									SetEntityInvincible(spawned_car, false)
-									SetVehicleOnGroundProperly(spawned_car)
-									SetEntityAsMissionEntity(spawned_car, true, false)
-									SetModelAsNoLongerNeeded(vehicle)
-									DecorSetBool(spawned_car, "hotwire", true)
+									spawned_car = exports["core"]:SpawnVehicle("bodhi2", { x = -1493.38269042969, y = 4981.84814453125, z = 62.650577545166 }, -175.0, false)
+									
+									if spawned_car ~= nil and spawned_car ~= 0 then
+										SetEntityInvincible(spawned_car, false)
+										SetVehicleOnGroundProperly(spawned_car)
+
+										DecorSetBool(spawned_car, "hotwire", true)
+									end
 								end
 								isinjob = true
 							else

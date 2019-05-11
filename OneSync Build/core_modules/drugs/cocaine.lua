@@ -146,34 +146,15 @@ function PlayConcaineAnimation(ped)
 end
 
 function CreateCocaineVan()
-	local Model = GetHashKey(Cocaine.Vehicle.Model)
+	Cocaine.Vehicle.Handle = exports["core"]:SpawnVehicle(Cocaine.Vehicle.Model, Cocaine.Locations.Van, 316.04577636719, false)
 
-	RequestModel(Model)
+	if Cocaine.Vehicle.Handle ~= nil and Cocaine.Vehicle.Handle ~= 0 then
+		DecorSetBool(Cocaine.Vehicle.Handle, "hotwire", true)
 
-	while not HasModelLoaded(Model) do
-		Citizen.Wait(0)
+		SetVehicleOnGroundProperly(Cocaine.Vehicle.Handle)
+
+		TaskWarpPedIntoVehicle(PlayerPedId(), Cocaine.Vehicle.Handle, -1)
 	end
-
-	Cocaine.Vehicle.Handle = CreateVehicle(Model, Cocaine.Locations.Van.x, Cocaine.Locations.Van.y, Cocaine.Locations.Van.z, 316.04577636719, true, false)
-
-	while not DoesEntityExist(Cocaine.Vehicle.Handle) do
-		Citizen.Wait(0)
-	end
-
-	DecorSetBool(Cocaine.Vehicle.Handle, "hotwire", true)
-
-	SetVehicleHasBeenOwnedByPlayer(Cocaine.Vehicle.Handle, true)
-
-	NetworkRegisterEntityAsNetworked(Cocaine.Vehicle.Handle)
-	local NetworkHandle = NetworkGetNetworkIdFromEntity(Cocaine.Vehicle.Handle)
-	SetNetworkIdCanMigrate(NetworkHandle, true)
-	SetNetworkIdExistsOnAllMachines(NetworkHandle, true)
-	SetEntityAsMissionEntity(Cocaine.Vehicle.Handle, true, false)
-	SetVehicleOnGroundProperly(Cocaine.Vehicle.Handle)
-
-	SetModelAsNoLongerNeeded(Model)
-
-	TaskWarpPedIntoVehicle(PlayerPedId(), Cocaine.Vehicle.Handle, -1)
 end
 
 Citizen.CreateThread(function()

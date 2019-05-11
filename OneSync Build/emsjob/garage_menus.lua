@@ -334,48 +334,45 @@ function spawncar(model, type)
             tint = true
             plate = math.random(00000000,99999999)
         end
-        local carhashed = GetHashKey(model)
+
         local ply = PlayerPedId()
         local plyCoords = GetEntityCoords(ply, 0)
-        RequestModel(carhashed)
-        while not HasModelLoaded(carhashed) do
-            Citizen.Wait(0)
+          
+        existingVeh = exports["core"]:SpawnVehicle(model, currentgarage, 90.0, false)
+
+        if existingVeh ~= nil and existingVeh ~= 0 then
+            SetVehicleMod(existingVeh, 11, 3)
+            SetVehicleMod(existingVeh, 12, 3)
+            SetVehicleMod(existingVeh, 13, 3)
+            SetVehicleMod(existingVeh, 15, 3)
+            SetVehicleTyresCanBurst(existingVeh, false)
+            SetVehicleNumberPlateText(existingVeh, plate)
+
+            if tint then
+                SetVehicleWindowTint(existingVeh, 1)
+            elseif helicopter then
+                SetVehicleLivery(existingVeh, 1)
+            else
+                SetVehicleWindowTint(existingVeh, 0)
+            end
+
+            SetVehicleDirtLevel(existingVeh, 0)
+
+            for i = 1, 25 do 
+                if DoesExtraExist(existingVeh, i) then
+                    SetVehicleExtra(existingVeh, i, false)
+                end 
+            end
+
+            TaskWarpPedIntoVehicle(ply, existingVeh, -1)
+
+            if WarMenu.IsMenuOpened("car_menu") then
+                WarMenu.CloseMenu("car_menu")
+            end             
+            if WarMenu.IsMenuOpened("heli_menu") then
+                WarMenu.CloseMenu("heli_menu")
+            end
         end
-                                
-        existingVeh = CreateVehicle(carhashed, currentgarage.x, currentgarage.y, currentgarage.z, 90.0, true, false)
-        while not DoesEntityExist(existingVeh) do
-            Citizen.Wait(0)
-        end
-        local id = NetworkGetNetworkIdFromEntity(existingVeh)
-        SetNetworkIdCanMigrate(id, true)
-        SetVehicleMod(existingVeh, 11, 3)
-        SetVehicleMod(existingVeh, 12, 3)
-        SetVehicleMod(existingVeh, 13, 3)
-        SetVehicleMod(existingVeh, 15, 3)
-        SetVehicleTyresCanBurst(existingVeh, false)
-        SetVehicleNumberPlateText(existingVeh, plate)
-        SetEntityAsMissionEntity(existingVeh, true, false)
-        if tint then
-            SetVehicleWindowTint(existingVeh, 1)
-        elseif helicopter then
-            SetVehicleLivery(existingVeh, 1)
-        else
-            SetVehicleWindowTint(existingVeh, 0)
-        end
-        SetVehicleDirtLevel(existingVeh, 0)
-        for i = 1, 25 do 
-            if DoesExtraExist(existingVeh, i) then
-                SetVehicleExtra(existingVeh, i, false)
-            end 
-        end
-        TaskWarpPedIntoVehicle(ply, existingVeh, -1)
-        if WarMenu.IsMenuOpened("car_menu") then
-            WarMenu.CloseMenu("car_menu")
-        end             
-        if WarMenu.IsMenuOpened("heli_menu") then
-            WarMenu.CloseMenu("heli_menu")
-        end
-        SetModelAsNoLongerNeeded(carhashed)
     end)
 end
 

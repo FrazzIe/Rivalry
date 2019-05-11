@@ -352,18 +352,15 @@ end
 	RegisterNetEvent('fisher:boat')
 	AddEventHandler('fisher:boat', function()
 		Citizen.CreateThread(function()
-			RequestModel(Fishing.Data.Vehicles.Model)
-			while not HasModelLoaded(Fishing.Data.Vehicles.Model) do
-				Citizen.Wait(0)
+			Fisher.Data.Vehicles.Boat = exports["core"]:SpawnVehicle(Fishing.Data.Vehicles.Model, Fishing.Data.Locations.Boat, 0, false)
+			
+			if Fisher.Data.Vehicles.Boat ~= nil and Fisher.Data.Vehicles.Boat ~= 0 then
+				local plate = "FISH"..GetVehicleNumberPlateText(Fisher.Data.Vehicles.Boat)
+				SetVehicleNumberPlateText(Fisher.Data.Vehicles.Boat, plate)
+				SetEntityInvincible(Fisher.Data.Vehicles.Boat, false)
+				SetPedIntoVehicle(PlayerPedId(), Fisher.Data.Vehicles.Boat, -1)
+				DecorSetBool(Fisher.Data.Vehicles.Boat, "hotwire", true)
 			end
-			Fisher.Data.Vehicles.Boat = CreateVehicle(Fishing.Data.Vehicles.Model, Fishing.Data.Locations.Boat, true, false)
-			local plate = "FISH"..GetVehicleNumberPlateText(Fisher.Data.Vehicles.Boat)
-			SetEntityAsMissionEntity(Fishing.Data.Vehicles.Boat, true, false)
-			SetVehicleNumberPlateText(Fisher.Data.Vehicles.Boat, plate)
-			SetEntityInvincible(Fisher.Data.Vehicles.Boat, false)
-			SetPedIntoVehicle(PlayerPedId(), Fisher.Data.Vehicles.Boat, -1)
-			SetModelAsNoLongerNeeded(model)
-			DecorSetBool(Fisher.Data.Vehicles.Boat, "hotwire", true)
 		end)
 	end)
 

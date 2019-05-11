@@ -395,20 +395,15 @@ end)
 RegisterNetEvent("GoPostal.Rent")
 AddEventHandler("GoPostal.Rent", function()
 	Citizen.CreateThread(function()
-		local Model = GoPostal.Data.Vehicles.Model
-		RequestModel(Model)
-		while not HasModelLoaded(Model) do
-			Citizen.Wait(0)
+		GoPostalTruck = exports["core"]:SpawnVehicle(GoPostal.Data.Vehicles.Model, GoPostal.Data.Vehicles.Spawn, 156.78520202637, false)
+
+		if GoPostalTruck ~= nil and GoPostalTruck ~= 0 then
+			local plate = "GP"..GetVehicleNumberPlateText(GoPostalTruck)
+			SetVehicleNumberPlateText(GoPostalTruck, plate)
+			SetEntityInvincible(GoPostalTruck, false)
+			DecorSetBool(GoPostalTruck, "hotwire", true)
+			StartJob()
 		end
-		GoPostalTruck = CreateVehicle(Model, GoPostal.Data.Vehicles.Spawn.x, GoPostal.Data.Vehicles.Spawn.y, GoPostal.Data.Vehicles.Spawn.z, 156.78520202637, true, false)
-		local plate = "GP"..GetVehicleNumberPlateText(GoPostalTruck)
-		SetEntityAsMissionEntity(GoPostalTruck, true, false)
-		SetVehicleNumberPlateText(GoPostalTruck, plate)
-		SetEntityInvincible(GoPostalTruck, false)
-		SetPedIntoVehicle(Ped, GoPostalTruck, -1)
-		SetModelAsNoLongerNeeded(Model)
-		DecorSetBool(GoPostalTruck, "hotwire", true)
-		StartJob()
 	end)
 end)
 

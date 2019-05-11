@@ -70,58 +70,54 @@ Citizen.CreateThread(function() --Teleport To Waypoint
 end)
 
 RegisterNetEvent("command:spawnvehicle")
-AddEventHandler("command:spawnvehicle", function(_model, type)
+AddEventHandler("command:spawnvehicle", function(model, type)
 	if type == "normal" or type == "upgrade" then
-		local model = GetHashKey(_model)
-		RequestModel(model)
-		while not HasModelLoaded(model) do
-			Citizen.Wait(0)
-		end
-		local pos = GetEntityCoords(PlayerPedId(),false)
-		local vehicle = CreateVehicle(model, pos.x, pos.y, pos.z, 90, true, false)
-		local id = NetworkGetNetworkIdFromEntity(vehicle)
-		SetNetworkIdCanMigrate(id, true)
-		SetNetworkIdExistsOnAllMachines(id, true)
-		SetEntityAsMissionEntity(vehicle, true, false)
-		if type == "upgrade" then
-			ClearVehicleCustomPrimaryColour(vehicle)
-			ClearVehicleCustomSecondaryColour(vehicle)
-			SetVehicleModKit(vehicle, 0)
-			SetVehicleWheelType(vehicle, 7)
-			for i = 0, 13 do
-				SetVehicleMod(vehicle, i, GetNumVehicleMods(vehicle, i) - 1, false)
+		local playerPed = PlayerPedId()
+		local playerPosition = GetEntityCoords(playerPed, false)
+		local playerHeading = GetEntityHeading(playerPed)
+		local vehicleHandle = exports["core"]:SpawnVehicle(model, playerPosition, playerHeading, false)
+
+		if vehicleHandle ~= nil and vehicleHandle ~= 0 then
+			if type == "upgrade" then
+				ClearvehicleHandleCustomPrimaryColour(vehicleHandle)
+				ClearvehicleHandleCustomSecondaryColour(vehicleHandle)
+				SetvehicleHandleModKit(vehicleHandle, 0)
+				SetvehicleHandleWheelType(vehicleHandle, 7)
+				for i = 0, 13 do
+					SetvehicleHandleMod(vehicleHandle, i, GetNumvehicleHandleMods(vehicleHandle, i) - 1, false)
+				end
+				SetvehicleHandleMod(vehicleHandle, 14, 16, false)
+				SetvehicleHandleMod(vehicleHandle, 15, GetNumvehicleHandleMods(vehicleHandle, 15) - 2, false)
+				SetvehicleHandleMod(vehicleHandle, 16, GetNumvehicleHandleMods(vehicleHandle, 16) - 1, false)
+				for i = 17, 22 do 
+					TogglevehicleHandleMod(vehicleHandle, i, true)
+				end
+				SetvehicleHandleMod(vehicleHandle, 23, 1, false)
+				SetvehicleHandleMod(vehicleHandle, 24, 1, false)
+				SetvehicleHandleMod(vehicleHandle, 25, GetNumvehicleHandleMods(vehicleHandle, 25) - 1, false)
+				SetvehicleHandleMod(vehicleHandle, 27, GetNumvehicleHandleMods(vehicleHandle, 27) - 1, false)
+				SetvehicleHandleMod(vehicleHandle, 28, GetNumvehicleHandleMods(vehicleHandle, 28) - 1, false)
+				SetvehicleHandleMod(vehicleHandle, 30, GetNumvehicleHandleMods(vehicleHandle, 30) - 1, false)
+				SetvehicleHandleMod(vehicleHandle, 33, GetNumvehicleHandleMods(vehicleHandle, 33) - 1, false)
+				SetvehicleHandleMod(vehicleHandle, 34, GetNumvehicleHandleMods(vehicleHandle, 34) - 1, false)
+				SetvehicleHandleMod(vehicleHandle, 35, GetNumvehicleHandleMods(vehicleHandle, 35) - 1, false)
+				SetvehicleHandleMod(vehicleHandle, 38, GetNumvehicleHandleMods(vehicleHandle, 38) - 1, true)
+				SetvehicleHandleTyreSmokeColor(vehicleHandle, 0, 0, 127)
+				SetvehicleHandleWindowTint(vehicleHandle, 1)
+				SetvehicleHandleTyresCanBurst(vehicleHandle, true)
+				SetvehicleHandleNumberPlateTextIndex(vehicleHandle, 5)
+				SetvehicleHandleModColor_1(vehicleHandle, 4, 12, 0)
+				SetvehicleHandleModColor_2(vehicleHandle, 4, 12)
+				SetvehicleHandleColours(vehicleHandle, 12, 12)
+				SetvehicleHandleExtraColours(vehicleHandle, 70, 141)
 			end
-			SetVehicleMod(vehicle, 14, 16, false)
-			SetVehicleMod(vehicle, 15, GetNumVehicleMods(vehicle, 15) - 2, false)
-			SetVehicleMod(vehicle, 16, GetNumVehicleMods(vehicle, 16) - 1, false)
-			for i = 17, 22 do 
-				ToggleVehicleMod(vehicle, i, true)
-			end
-			SetVehicleMod(vehicle, 23, 1, false)
-			SetVehicleMod(vehicle, 24, 1, false)
-			SetVehicleMod(vehicle, 25, GetNumVehicleMods(vehicle, 25) - 1, false)
-			SetVehicleMod(vehicle, 27, GetNumVehicleMods(vehicle, 27) - 1, false)
-			SetVehicleMod(vehicle, 28, GetNumVehicleMods(vehicle, 28) - 1, false)
-			SetVehicleMod(vehicle, 30, GetNumVehicleMods(vehicle, 30) - 1, false)
-			SetVehicleMod(vehicle, 33, GetNumVehicleMods(vehicle, 33) - 1, false)
-			SetVehicleMod(vehicle, 34, GetNumVehicleMods(vehicle, 34) - 1, false)
-			SetVehicleMod(vehicle, 35, GetNumVehicleMods(vehicle, 35) - 1, false)
-			SetVehicleMod(vehicle, 38, GetNumVehicleMods(vehicle, 38) - 1, true)
-			SetVehicleTyreSmokeColor(vehicle, 0, 0, 127)
-			SetVehicleWindowTint(vehicle, 1)
-			SetVehicleTyresCanBurst(vehicle, true)
-			SetVehicleNumberPlateTextIndex(vehicle, 5)
-			SetVehicleModColor_1(vehicle, 4, 12, 0)
-			SetVehicleModColor_2(vehicle, 4, 12)
-			SetVehicleColours(vehicle, 12, 12)
-			SetVehicleExtraColours(vehicle, 70, 141)
+
+			SetvehicleHandleDirtLevel(vehicleHandle, 0)
+			DecorSetBool(vehicleHandle, "hotwire", true)
+			TaskWarpPedIntovehicleHandle(playerPed, vehicleHandle, -1)
 		end
-		SetModelAsNoLongerNeeded(model)
-		SetVehicleDirtLevel(vehicle, 0)
-		DecorSetBool(vehicle, "hotwire", true)
-		TaskWarpPedIntoVehicle(PlayerPedId(), vehicle, -1)
 	end
-end,false)
+end, false)
 
 RegisterNetEvent("command:spawnweapon")
 AddEventHandler("command:spawnweapon", function(_model)

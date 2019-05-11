@@ -119,21 +119,17 @@ end)
 RegisterNetEvent("Garbage.Rent")
 AddEventHandler("Garbage.Rent", function()
 	Citizen.CreateThread(function()
-		local Model = Garbage.Data.Vehicles.Model
-		RequestModel(Model)
-		while not HasModelLoaded(Model) do
-			Citizen.Wait(0)
+		GarbageTruck = exports["core"]:SpawnVehicle(Garbage.Data.Vehicles.Model, Garbage.Data.Vehicles.Spawn, 269.92779541016, false)
+
+		if GarbageTruck ~= nil and GarbageTruck ~= 0 then
+			local plate = "GB"..GetVehicleNumberPlateText(GarbageTruck)
+			SetVehicleNumberPlateText(GarbageTruck, plate)
+			SetEntityInvincible(GarbageTruck, false)
+
+			DecorSetBool(GarbageTruck, "hotwire", true)
+			local Randomizer = math.random(1, #Garbage.Data.Dumpster)
+			GarbageJob = Randomizer
 		end
-		GarbageTruck = CreateVehicle(Model, Garbage.Data.Vehicles.Spawn.x, Garbage.Data.Vehicles.Spawn.y, Garbage.Data.Vehicles.Spawn.z, 269.92779541016, true, false)
-		local plate = "GB"..GetVehicleNumberPlateText(GarbageTruck)
-		SetEntityAsMissionEntity(GarbageTruck, true, false)
-		SetVehicleNumberPlateText(GarbageTruck, plate)
-		SetEntityInvincible(GarbageTruck, false)
-		SetPedIntoVehicle(Ped, GarbageTruck, -1)
-		SetModelAsNoLongerNeeded(Model)
-		DecorSetBool(GarbageTruck, "hotwire", true)
-		local Randomizer = math.random(1, #Garbage.Data.Dumpster)
-		GarbageJob = Randomizer
 	end)
 end)
 
