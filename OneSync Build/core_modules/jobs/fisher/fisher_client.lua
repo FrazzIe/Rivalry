@@ -358,6 +358,7 @@ end
 			end
 			Fisher.Data.Vehicles.Boat = CreateVehicle(Fishing.Data.Vehicles.Model, Fishing.Data.Locations.Boat, true, false)
 			local plate = "FISH"..GetVehicleNumberPlateText(Fisher.Data.Vehicles.Boat)
+			SetEntityAsMissionEntity(Fishing.Data.Vehicles.Boat, true, false)
 			SetVehicleNumberPlateText(Fisher.Data.Vehicles.Boat, plate)
 			SetEntityInvincible(Fisher.Data.Vehicles.Boat, false)
 			SetPedIntoVehicle(PlayerPedId(), Fisher.Data.Vehicles.Boat, -1)

@@ -52,13 +52,21 @@ end)
 RegisterServerEvent("Jailbreak.Start")
 AddEventHandler("Jailbreak.Start", function()
     local Source = source
-    if (os.time() - LastJailbreak) < (90*60) and LastJailbreak ~= 0 then
-        TriggerClientEvent("pNotify:SendNotification", Source, {text = "The prison is currently under lockdown due to a recent jailbreak!",type = "error", queue = "left",timeout = 10000,layout = "bottomCenter"})
-    else
-        TriggerClientEvent("Jailbreak.Start", Source)
-        TriggerEvent("Dispatch.Jailbreak")
-        LastJailbreak = os.time() 
-    end
+    TriggerEvent("police:getCops", function(cops)
+        if tonumber(cops) then
+            if tonumber(cops) >= 4 then
+                if (os.time() - LastJailbreak) < (90*60) and LastJailbreak ~= 0 then
+                    TriggerClientEvent("pNotify:SendNotification", Source, {text = "The prison is currently under lockdown due to a recent jailbreak!",type = "error", queue = "left",timeout = 10000,layout = "bottomCenter"})
+                else
+                    TriggerClientEvent("Jailbreak.Start", Source)
+                    TriggerEvent("Dispatch.Jailbreak")
+                    LastJailbreak = os.time() 
+                end
+            else
+                Notify("You are unable to break someone out at this time!", 3000, Source)
+            end
+        end
+    end)
 end)
 
 RegisterServerEvent("Jailbreak.Complete")

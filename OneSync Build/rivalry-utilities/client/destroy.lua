@@ -15,6 +15,7 @@ function Utilities:DestroyVehicle(Handle)
 		end
 
 		DeleteVehicle(Handle)
+		SetEntityAsMissionEntity(Handle, false, true)
 		SetEntityAsNoLongerNeeded(Handle)
 		
 		if DoesEntityExist(Handle) then

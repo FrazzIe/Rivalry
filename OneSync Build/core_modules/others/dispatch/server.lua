@@ -131,7 +131,7 @@ RegisterServerEvent("Dispatch.Jailbreak")
 AddEventHandler("Dispatch.Jailbreak", function()
 	for id, dept in pairs(emergency_users) do
 		if dept ~= nil and dept ~= "paramedic" then
-			TriggerClientEvent("chatMessage", id, "10-90", {255, 0, 0}, "^Jailbreak in progress at Bolingbroke Penitentiary")
+			TriggerClientEvent("chatMessage", id, "10-90", {255, 0, 0}, "^7Jailbreak in progress at Bolingbroke State Penitentiary! Any individual in the immediate area with a firearm is ^1CODE RED^7.")
 		end
 	end
 end)

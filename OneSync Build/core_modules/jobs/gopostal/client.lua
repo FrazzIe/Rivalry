@@ -402,6 +402,7 @@ AddEventHandler("GoPostal.Rent", function()
 		end
 		GoPostalTruck = CreateVehicle(Model, GoPostal.Data.Vehicles.Spawn.x, GoPostal.Data.Vehicles.Spawn.y, GoPostal.Data.Vehicles.Spawn.z, 156.78520202637, true, false)
 		local plate = "GP"..GetVehicleNumberPlateText(GoPostalTruck)
+		SetEntityAsMissionEntity(GoPostalTruck, true, false)
 		SetVehicleNumberPlateText(GoPostalTruck, plate)
 		SetEntityInvincible(GoPostalTruck, false)
 		SetPedIntoVehicle(Ped, GoPostalTruck, -1)
@@ -451,7 +452,6 @@ Citizen.CreateThread(function()
 						end
 						if IsControlJustPressed(1, 51) then
 							if GoPostalTruck then
-								SetEntityAsMissionEntity(GoPostalTruck, true, true)
 								DestroyVehicle(GoPostalTruck)
 								while DoesEntityExist(GoPostalTruck) do
 									Citizen.Wait(0)

@@ -139,6 +139,7 @@ AddEventHandler("NewsVan.Rent", function()
 		end
 		NewsVan = CreateVehicle(Model, News.GarageLocation.SpawnPoint.x, News.GarageLocation.SpawnPoint.y, News.GarageLocation.SpawnPoint.z, 124.78857421875, true, false)
 		local plate = "WZL"..GetVehicleNumberPlateText(NewsVan)
+		SetEntityAsMissionEntity(NewsVan, true, false)
 		SetVehicleNumberPlateText(NewsVan, plate)
 		SetEntityInvincible(NewsVan, false)
 		SetPedIntoVehicle(Ped, NewsVan, -1)

@@ -182,6 +182,7 @@ function spawnTow(car)
                             
     towVehicle = CreateVehicle(carhashed, pos.x, pos.y, pos.z, -40.0, true, false)
     local id = NetworkGetNetworkIdFromEntity(towVehicle)
+    SetEntityAsMissionEntity(towVehicle, true, false)
     SetNetworkIdCanMigrate(id, true)
     SetNetworkIdExistsOnAllMachines(id, true)
     SetVehicleNumberPlateText(towVehicle, "TOW"..math.random(1,999))

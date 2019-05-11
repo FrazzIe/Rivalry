@@ -354,6 +354,7 @@ function spawncar(model, type)
         SetVehicleMod(existingVeh, 15, 3)
         SetVehicleTyresCanBurst(existingVeh, false)
         SetVehicleNumberPlateText(existingVeh, plate)
+        SetEntityAsMissionEntity(existingVeh, true, false)
         if tint then
             SetVehicleWindowTint(existingVeh, 1)
         elseif helicopter then

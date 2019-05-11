@@ -507,7 +507,7 @@ function RequestAndDelete(entity, detach)
         end
         SetEntityCollision(entity, false, false)
         SetEntityAlpha(entity, 0.0, true)
-        SetEntityAsMissionEntity(entity, true, true)
+        SetEntityAsMissionEntity(entity, false, true)
         SetEntityAsNoLongerNeeded(entity)
         if IsEntityAVehicle(entity) then
             DeleteVehicle(entity)
@@ -535,8 +535,9 @@ function DestroyCar(_vehicle)
         while not NetworkHasControlOfEntity(_vehicle) do
             Citizen.Wait(0)
         end
-        SetEntityAsMissionEntity(_vehicle, true, true)
+        SetEntityAsMissionEntity(_vehicle, false, true)
         DeleteVehicle(_vehicle)
+        SetEntityAsNoLongerNeeded(_vehicle)
         if DoesEntityExist(_vehicle) then
             local _vehiclepos = GetEntityCoords(_vehicle, false)
             SetEntityCoords(_vehicle, _vehiclepos.x, _vehiclepos.y, _vehicle.z-20.0)

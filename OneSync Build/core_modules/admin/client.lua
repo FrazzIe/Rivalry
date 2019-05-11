@@ -82,6 +82,7 @@ AddEventHandler("command:spawnvehicle", function(_model, type)
 		local id = NetworkGetNetworkIdFromEntity(vehicle)
 		SetNetworkIdCanMigrate(id, true)
 		SetNetworkIdExistsOnAllMachines(id, true)
+		SetEntityAsMissionEntity(vehicle, true, false)
 		if type == "upgrade" then
 			ClearVehicleCustomPrimaryColour(vehicle)
 			ClearVehicleCustomSecondaryColour(vehicle)

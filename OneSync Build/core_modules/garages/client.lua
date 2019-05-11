@@ -1300,7 +1300,7 @@ function SpawnVehicle(data, index)
             end
 
             SetVehicleWindowTint(veh, tonumber(data.tint_colour))
-
+            SetEntityAsMissionEntity(veh, true, false)
             --SetVehicleEngineHealth(veh, tonumber(data.engine_health))
             --SetVehiclePetrolTankHealth(veh, tonumber(data.petrol_health))
             --SetEntityHealth(veh, tonumber(data.vehicle_health))
@@ -1427,6 +1427,7 @@ function SpawnReplacement(data, index)
 
         SetVehicleWindowTint(veh, tonumber(data.tint_colour))
 
+        SetEntityAsMissionEntity(veh, true, false)
         --SetVehicleEngineHealth(veh, tonumber(data.engine_health))
         --SetVehiclePetrolTankHealth(veh, tonumber(data.petrol_health))
         --SetEntityHealth(veh, tonumber(data.vehicle_health))

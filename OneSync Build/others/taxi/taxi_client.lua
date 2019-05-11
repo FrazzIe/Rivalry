@@ -84,6 +84,32 @@ AddEventHandler('taxi:updateLicense', function(license)
     drivers_license = license
 end)
 
+local function DestroyVehicle(Handle)
+    Citizen.CreateThread(function()
+        local Handle = Handle
+        local Start = GetGameTimer()
+        for Seat = -1, GetVehicleMaxNumberOfPassengers(Handle) do
+            if not IsVehicleSeatFree(Handle, Seat) then
+                TaskLeaveVehicle(GetPedInVehicleSeat(Handle, Seat), Handle, 0)
+            end
+        end
+
+        NetworkRequestControlOfEntity(Handle)
+
+        while not NetworkHasControlOfEntity(Handle) and Start + 5000 > GetGameTimer() do
+            Citizen.Wait(0)
+        end
+
+        DeleteVehicle(Handle)
+        SetEntityAsMissionEntity(Handle, false, true)
+        SetEntityAsNoLongerNeeded(Handle)
+        
+        if DoesEntityExist(Handle) then
+            SetEntityCoords(Handle, 601.28948974609, -4396.9853515625, 384.98565673828)
+        end
+    end)
+end
+
 function getIsInService()
     return inService
 end
@@ -133,7 +159,8 @@ local function removeBliptaxi()
 end
 
 function spawnVehicle(coords, type)
-    deleteVehicle()
+    DestroyVehicle(myVehiculeEntity)
+    myVehiculeEntity = nil
     for _, pos in pairs(coords) do 
         if pos.type == type then
             local vehi = GetClosestVehicle(pos.x, pos.y, pos.z, 2.0, 0, 70)
@@ -145,6 +172,7 @@ function spawnVehicle(coords, type)
                 end
                 myVehiculeEntity = CreateVehicle(type, pos.x, pos.y, pos.z, pos.h , true, false)
                 SetVehicleNumberPlateText(myVehiculeEntity, "Taxi-" .. math.random(100,999))
+                SetEntityAsMissionEntity(myVehiculeEntity, true, false)
                 local ObjectId = NetworkGetNetworkIdFromEntity(myVehiculeEntity)
                 SetNetworkIdExistsOnAllMachines(ObjectId, true)
                 DecorSetBool(myVehiculeEntity, "hotwire", true)
@@ -243,13 +271,6 @@ end)
 -- 
 --====================================================================================
 
-
-function deleteVehicle()
-    if myVehiculeEntity ~= nil then
-        DeleteVehicle(myVehiculeEntity)
-        myVehiculeEntity = nil
-    end
-end
 
 Citizen.CreateThread(function()
     while true do

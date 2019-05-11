@@ -348,7 +348,7 @@ local laundering = {
 	vehicle = vector3(919.77911376953,52.247329711914,80.764801025391),
 }
 
-function DestroyVehicle(Handle)
+local function DestroyVehicle(Handle)
 	Citizen.CreateThread(function()
 		local Handle = Handle
 		local Start = GetGameTimer()
@@ -365,6 +365,7 @@ function DestroyVehicle(Handle)
 		end
 
 		DeleteVehicle(Handle)
+		SetEntityAsMissionEntity(Handle, false, true)
 		SetEntityAsNoLongerNeeded(Handle)
 		
 		if DoesEntityExist(Handle) then
@@ -441,6 +442,7 @@ AddEventHandler('client:launderingVan', function()
 			DestroyVehicle(delivery_truck)
 			delivery_truck = CreateVehicle(model, laundering.vehicle.x, laundering.vehicle.y, laundering.vehicle.z, 127.42662811279, true, false)
 			local plate = "GP"..GetVehicleNumberPlateText(delivery_truck)
+			SetEntityAsMissionEntity(delivery_truck, true, false)
 			SetVehicleNumberPlateText(delivery_truck, plate)
 			SetEntityInvincible(delivery_truck, false)
 			SetPedIntoVehicle(PlayerPedId(), delivery_truck, -1)
@@ -451,6 +453,7 @@ AddEventHandler('client:launderingVan', function()
 		else
 			delivery_truck = CreateVehicle(model, laundering.vehicle.x, laundering.vehicle.y, laundering.vehicle.z, 127.42662811279, true, false)
 			local plate = "GP"..GetVehicleNumberPlateText(delivery_truck)
+			SetEntityAsMissionEntity(delivery_truck, true, false)
 			SetVehicleNumberPlateText(delivery_truck, plate)
 			SetEntityInvincible(delivery_truck, false)
 			SetPedIntoVehicle(PlayerPedId(), delivery_truck, -1)

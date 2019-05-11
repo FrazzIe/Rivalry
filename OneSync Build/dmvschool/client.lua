@@ -182,7 +182,6 @@ function SpawnTestCar()
 	SetVehicleNumberPlateText(spawned_car, "STUDENT")
 	SetPedIntoVehicle(myPed, spawned_car, - 1)
 	SetModelAsNoLongerNeeded(vehicle)
-	Citizen.InvokeNative(0xB736A491E64A32CF, Citizen.PointerValueIntInitialized(spawned_car))
 	CruiseControl = 0
 	DTutOpen = false
 	SetEntityVisible(myPed, true)

@@ -225,7 +225,7 @@ AddEventHandler("Jailbreak.Start", function()
         local Player = PlayerPedId()
         local PlayerPosition = GetEntityCoords(Player, false)
         while #(PlayerPosition - JailBreak) < 50 do
-            Citizen.Wait(10000)
+            Citizen.Wait(600000)
             TriggerServerEvent("Jailbreak.Complete")
             break
         end
