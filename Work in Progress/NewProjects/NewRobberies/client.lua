@@ -8,6 +8,7 @@ local isStillRobbingFleeca = false
 local isStillRobbingStore = false
 local whichFleeca = nil
 local whichStore = nil
+local VehicleHandle = nil
 
 function DisplayHelpText(Str)
 	BeginTextCommandDisplayHelp("STRING")
@@ -32,12 +33,14 @@ Citizen.CreateThread(function()
 		local PlayerPed = PlayerPedId()
 		local PlayerPosition = GetEntityCoords(PlayerPed, false)
 		for StoreNumber = 1, #Rivalry.Robberies.Stores do
-			if #(PlayerPosition - Rivalry.Robberies.Stores[StoreNumber].Vault) < 40 then
+			if #(PlayerPosition - Rivalry.Robberies.Stores[StoreNumber].Vault) < 11.0 then
 				for RegisterNumber = 1, #Rivalry.Robberies.Stores[StoreNumber].CashRegisters do
-					if #(PlayerPosition - Rivalry.Robberies.Stores[StoreNumber].CashRegisters[RegisterNumber]) < 1 then
-						DisplayHelpText("Press ~INPUT_CONTEXT~ to break open the cash register!")
-						if IsControlJustPressed(1, 51) then
-							TriggerServerEvent("Rivalry.Rob.CashRegister", StoreNumber, RegisterNumber, GetPlayerServerId(PlayerId()))
+					if #(PlayerPosition - Rivalry.Robberies.Stores[StoreNumber].CashRegisters[RegisterNumber].Coords) < 1 then
+						if DoesEntityExist(Rivalry.Robberies.Stores[StoreNumber].CashRegisters[RegisterNumber].Handle) then
+							DisplayHelpText("Press ~INPUT_CONTEXT~ to break open the cash register!")
+							if IsControlJustPressed(1, 51) then
+								TriggerServerEvent("Rivalry.Rob.CashRegister", StoreNumber, RegisterNumber, GetPlayerServerId(PlayerId()))
+							end
 						end
 					end
 				end
@@ -89,11 +92,19 @@ Citizen.CreateThread(function()
 		Citizen.Wait(0)
 		local PlayerPed = PlayerPedId()
 		local PlayerPosition = GetEntityCoords(PlayerPed, false)
-		for Index = 1, #Rivalry.Robberies.Banks.Pacific.SafeBoxes do
-			if #(PlayerPosition - Rivalry.Robberies.Banks.Pacific.SafeBoxes[Index]) < 1 then
-				DisplayHelpText("Press ~INPUT_CONTEXT~ to break open locked box!")
-				if IsControlJustPressed(1, 51) then
-					TriggerServerEvent("Rivalry.Rob.Pacific.SafeBox", Index, GetPlayerServerId(PlayerId()))
+		for Index = 1, #Rivalry.Robberies.Banks.Fleeca do
+			if #(PlayerPosition - Rivalry.Robberies.Banks.Fleeca[Index].Vault) < 10.0 then
+				for BoxNumber = 1, #Rivalry.Robberies.Banks.Fleeca[Index].LockedBoxes do
+					if #(PlayerPosition - Rivalry.Robberies.Banks.Fleeca[Index].LockedBoxes[BoxNumber]) < 1 then
+						DisplayHelpText("Press ~INPUT_CONTEXT~ to lockpick safe box!")
+						if IsControlJustPressed(1, 51) then
+							if exports.core_modules:GetItemQuantity(36) > 0 then
+								TriggerServerEvent("Rivalry.Rob.Fleeca.Safebox", Index, BoxNumber, GetPlayerServerId(PlayerId()))
+							else
+								Notify("You do not have any lockpicks!", 2500)
+							end
+						end
+					end
 				end
 			end
 		end
@@ -101,7 +112,7 @@ Citizen.CreateThread(function()
 end)
 
 RegisterNetEvent("Rivalry.Rob.CashRegister")
-AddEventHandler("Rivalry.Rob.CashRegister", function(StoreNumber)
+AddEventHandler("Rivalry.Rob.CashRegister", function(StoreNumber, RegisterNumber)
 	Citizen.CreateThread(function()
 		if DoesEntityExist(PlayerPedId()) and not IsEntityDead(PlayerPedId()) then
 			local PlayerPed = PlayerPedId()
@@ -112,10 +123,11 @@ AddEventHandler("Rivalry.Rob.CashRegister", function(StoreNumber)
 				Citizen.Wait(0)
 			end
 			TaskPlayAnim(PlayerPed, Dictionary, Animation, 4.0, -4, -1, 0, 0, 0, 0, 0)
-			Citizen.Wait(2500)
+			TriggerServerEvent("dispatch:ten-ninety-store-cashregisters", Rivalry.Robberies.Stores[StoreNumber].Name)
+			Citizen.Wait(2000)
+			Rivalry.Robberies.Stores[StoreNumber].CashRegisters[RegisterNumber].Robbed = true
+			Citizen.Wait(8000)
 			TriggerServerEvent("Rivalry.CashRegister.Payout")
-			isStillRobbingStore = true
-			whichStore = StoreNumber
 		end
 	end)
 end)
@@ -129,8 +141,7 @@ AddEventHandler("Rivalry.Rob.StoreVault", function(StoreNumber)
 			IsRobbingStoreVault = true
 			TotalLocks = 0
 			NumberOfPins = 0
-			isStillRobbingStore = true
-			whichStore = StoreNumber
+			TriggerServerEvent("dispatch:ten-ninety-store-vault", Rivalry.Robberies.Stores[StoreNumber].Name)
 		end
 	end)
 end)
@@ -155,8 +166,8 @@ AddEventHandler("Rivalry.Rob.Pacific.Safebox", function()
 	end)
 end)
 
-RegisterNetEvent("Rivalry.Rob.Pacific.Safebox")
-AddEventHandler("Rivalry.Rob.Pacific.Safebox", function(BankNumber)
+RegisterNetEvent("Rivalry.Rob.Fleeca.Safebox")
+AddEventHandler("Rivalry.Rob.Fleeca.Safebox", function(BankNumber)
 	Citizen.CreateThread(function()
 		if DoesEntityExist(PlayerPedId()) and not IsEntityDead(PlayerPedId()) then
 			OpenLockPickGui()
@@ -183,16 +194,17 @@ Citizen.CreateThread(function()
 				TriggerServerEvent("Rivalry.Robberies.Stopped.Robbing", "Blaine", 0)
 				isStillRobbingPacific = false
 			end
-		elseif isStillRobbingStore == true then
+		elseif isStillRobbingPacific == true then
 			local Player = PlayerPedId()
 			local PlayerPosition = GetEntityCoords(Player, false)
-			if #(PlayerPosition - Rivalry.Robberies.Stores[whichStore].Vault) > 20 then
-				TriggerServerEvent("Rivalry.Robberies.Stopped.Robbing", "Store", whichStore)
-				isStillRobbingPacific = false
+			if #(PlayerPosition - Rivalry.Robberies.Banks.Fleeca[whichFleeca].Vault) > 20 then
+				TriggerServerEvent("Rivalry.Robberiers.Stopped.Robbing", "Fleeca", whichFleeca)
+				isStillRobbingFleeca = false
 			end
 		end
 	end
 end)
+
 function OpenLockPickGui()
 	if exports.core_modules:GetItemQuantity(36) > 0 then
 		SetPlayerControl(PlayerId(), 0, 0)
@@ -237,6 +249,14 @@ end
 RegisterNetEvent("Rivalry.HackVault")
 AddEventHandler("Rivalry.HackVault", function(phase, phase_max, bank, banknumber)
 	isRobbing = true
+	Notify("You have just tripped an antitampering system! Better be quick!", 3300)
+	if bank == "Fleeca" then
+		TriggerServerEvent("dispatch:ten-ninety-bank", Rivalry.Robberies.Banks.Fleeca[BankNumber].Name)
+	elseif bank == "Blaine" then
+		TriggerServerEvent("dispatch:ten-ninety-bank", Rivalry.Robberies.Banks.Blaine.Name)
+	elseif bank == "Pacific" then
+		TriggerServerEvent("dispatch:ten-ninety-bank", Rivalry.Robberies.Banks.Pacific.Name)
+	end
 	TriggerEvent("mhacking:show")
 	TriggerEvent("mhacking:start", 5, 31, "Starting Hack.. Phase "..phase.." of "..phase_max,function(success)
 		if success then
@@ -245,7 +265,7 @@ AddEventHandler("Rivalry.HackVault", function(phase, phase_max, bank, banknumber
 				TriggerEvent("mhacking:hide")
 				TriggerServerEvent("Rivalry.Robberies.Sync.Vault", bank, banknumber, false)
 			else
-				TriggerEvent("Rivalry.HackVault", phase+1, 2, bank, banknumber)
+				TriggerEvent("Rivalry.HackVault", phase+1, 20, bank, banknumber)
 			end
 		else
 			isRobbing = false
@@ -290,6 +310,14 @@ Citizen.CreateThread(function()
 		if not DoesEntityExist(Rivalry.Robberies.Banks.Pacific.Handle) then
 			Rivalry.Robberies.Banks.Pacific.Handle = GetClosestObjectOfType(Rivalry.Robberies.Banks.Pacific.Vault.x, Rivalry.Robberies.Banks.Pacific.Vault.y, Rivalry.Robberies.Banks.Pacific.Vault.z, 1.0, Rivalry.Robberies.Banks.Pacific.Model, false, false, false)
 		end
+
+		for StoreNumber = 1, #Rivalry.Robberies.Stores do
+			for RegisterNumber = 1, #Rivalry.Robberies.Stores[StoreNumber].CashRegisters do
+				if not DoesEntityExist(Rivalry.Robberies.Stores[StoreNumber].CashRegisters[RegisterNumber].Handle) then
+					Rivalry.Robberies.Stores[StoreNumber].CashRegisters[RegisterNumber].Handle = GetClosestObjectOfType(Rivalry.Robberies.Stores[StoreNumber].CashRegisters[RegisterNumber].Coords.x, Rivalry.Robberies.Stores[StoreNumber].CashRegisters[RegisterNumber].Coords.y, Rivalry.Robberies.Stores[StoreNumber].CashRegisters[RegisterNumber].Coords.z, 1.0, Rivalry.Robberies.Stores[StoreNumber].CashRegisters[RegisterNumber].Model, false, false, false)
+				end
+			end
+		end
 	end
 end)
 
@@ -326,10 +354,25 @@ Citizen.CreateThread(function()
 					if Rivalry.Robberies.Banks.Fleeca[Index].Handle ~= nil and Rivalry.Robberies.Banks.Fleeca[Index].Handle ~= 0 then
 						SetEntityHeading(Rivalry.Robberies.Banks.Fleeca[Index].Handle, Rivalry.Robberies.Banks.Fleeca[Index].Heading)
 					end
+				else
+					if Rivalry.Robberies.Banks.Fleeca[Index].Handle ~= nil and Rivalry.Robberies.Banks.Fleeca[Index].Handle ~= 0 then
+						SetEntityHeading(Rivalry.Robberies.Banks.Fleeca[Index].Handle, Rivalry.Robberies.Banks.Fleeca[Index].OpenHeading)
+					end
 				end
-			else
-				if Rivalry.Robberies.Banks.Fleeca[Index].Handle ~= nil and Rivalry.Robberies.Banks.Fleeca[Index].Handle ~= 0 then
-					SetEntityHeading(Rivalry.Robberies.Banks.Fleeca[Index].Handle, Rivalry.Robberies.Banks.Fleeca[Index].OpenHeading)
+			end
+		end
+		for StoreNumber = 1, #Rivalry.Robberies.Stores do
+			for RegisterNumber = 1, #Rivalry.Robberies.Stores[StoreNumber].CashRegisters do
+				if #(Rivalry.Robberies.Stores[StoreNumber].CashRegisters[RegisterNumber].Coords - PlayerPosition) <= 10.0 then
+					if Rivalry.Robberies.Stores[StoreNumber].CashRegisters[RegisterNumber].Robbed == true then
+						if Rivalry.Robberies.Stores[StoreNumber].CashRegisters[RegisterNumber].Handle ~= nil and Rivalry.Robberies.Stores[StoreNumber].CashRegisters[RegisterNumber].Handle ~= 0 then
+							SetEntityHealth(Rivalry.Robberies.Stores[StoreNumber].CashRegisters[RegisterNumber].Handle, 0)
+						end
+					else
+						if Rivalry.Robberies.Stores[StoreNumber].CashRegisters[RegisterNumber].Handle ~= nil and Rivalry.Robberies.Stores[StoreNumber].CashRegisters[RegisterNumber].Handle ~= 0 then
+							SetEntityHealth(Rivalry.Robberies.Stores[StoreNumber].CashRegisters[RegisterNumber].Handle, 100)
+						end
+					end
 				end
 			end
 		end
@@ -379,7 +422,7 @@ Citizen.CreateThread(function()
 				if #(Rivalry.Robberies.Banks.Blaine.Keypad - PlayerPosition) <= 1.0 then
 					DisplayHelpText("Press ~INPUT_CONTEXT~ to hack vault security lock!")
 					if IsControlJustPressed(1, 51) then
-						TriggerEvent("Rivalry.HackVault", 1, 2, "Blaine", 0)
+						TriggerServerEvent("Rivalry.HackVault", 1, 20, "Blaine", 0)
 					end
 				end
 			end 
@@ -388,17 +431,17 @@ Citizen.CreateThread(function()
 				if #(Rivalry.Robberies.Banks.Pacific.Keypad - PlayerPosition) <= 1.0 then
 					DisplayHelpText("Press ~INPUT_CONTEXT~ to hack vault security lock!")
 					if IsControlJustPressed(1, 51) then
-						TriggerEvent("Rivalry.HackVault", 1, 2, "Pacific", 0)
+						TriggerServerEvent("Rivalry.HackVault", 1, 20, "Pacific", 0)
 					end
 				end
 			end
 			for Index = 1, #Rivalry.Robberies.Banks.Fleeca do
-				if #(Rivalry.Robberies.Banks.Fleeca[Index].Keypad - PlayerPosition) <10.0 then
+				if #(Rivalry.Robberies.Banks.Fleeca[Index].Keypad - PlayerPosition) <= 10.0 then
 					RenderMarker(25, Rivalry.Robberies.Banks.Fleeca[Index].Keypad.x, Rivalry.Robberies.Banks.Fleeca[Index].Keypad.y, Rivalry.Robberies.Banks.Fleeca[Index].Keypad.z, 1.5, 1.5, 2.0, 255, 255, 0, 20)
 					if #(Rivalry.Robberies.Banks.Fleeca[Index].Keypad - PlayerPosition) <= 1.0 then
 						DisplayHelpText("Press ~INPUT_CONTEXT~ to hack vault security lock!")
 						if IsControlJustPressed(1, 51) then
-							TriggerEvent("Rivalry.HackVault", 1, 2, "Fleeca", 0)
+							TriggerServerEvent("Rivalry.HackVault", 1, 20, "Fleeca", 0)
 						end
 					end
 				end
@@ -419,6 +462,12 @@ AddEventHandler("Rivalry.Robberies.Sync.Vault", function(Bank, Index, Status)
 		print("Unlocked Fleeca # "..Index)
 		Rivalry.Robberies.Banks.Fleeca[Index].Locked = Status
 	end
+end)
+
+RegisterNetEvent("Rivalry.Robberies.Sync.Register")
+AddEventHandler("Rivalry.Robberies.Sync.Register", function(StoreNumber, RegisterNumber, Status)
+	Rivalry.Robberies.Stores[StoreNumber].CashRegisters[RegisterNumber].Robbed = Status
+	print(Status)
 end)
 
 RegisterNUICallback('dialsound', function(data, cb)
@@ -477,3 +526,227 @@ RegisterNUICallback('lockclick', function(data, cb)
 		end
 	end
 end)
+
+-- Cameras Script
+
+local CameraActive = false
+local CurrentCamera = 0
+local CreatedCamera = 0
+
+Citizen.CreateThread(function()
+    while true do
+    	Citizen.Wait(0)
+        local Player = PlayerPedId()
+        local PlayerPosition = GetEntityCoords(Player, false)
+        local PlayerHeading = GetEntityRotation(Player, 2)
+        if exports.policejob:getIsInService() then
+        	if IsPedOnFoot(Player) then
+        		for Computer = 1, #Rivalry.Computers do
+        			if #(PlayerPosition - Rivalry.Computers[Computer]) <= 1.0 then
+		                if IsControlJustPressed(1, 51) and CreatedCamera == 0 then
+		                    SetFocusArea(Rivalry.Cameras[1].Coords.x, Rivalry.Cameras[1].Coords.y, Rivalry.Cameras[1].Coords.z, Rivalry.Cameras[1].Coords.x, Rivalry.Cameras[1].Coords.y, Rivalry.Cameras[1].Coords.z)
+		                    ChangeSecurityCamera(Rivalry.Cameras[1].Coords.x, Rivalry.Cameras[1].Coords.y, Rivalry.Cameras[1].Coords.z, Rivalry.Cameras[1].Heading)
+		                    SendNUIMessage({
+		                        type = "enablecam",
+		                        label = Rivalry.Cameras[1].Label,
+		                        box = Rivalry.Cameras[1].Title,
+		                    })
+		                    CurrentCamera = 1
+		                    FreezeEntityPosition(Player, true)
+		                end
+		            end
+	            end
+            else
+            	VehicleHandle = GetVehiclePedIsIn(Player, false)
+            	if GetVehicleClass(VehicleHandle) == 18 then
+            		if IsControlJustPressed(1, 217) and CreatedCamera == 0 then
+        				if IsVehicleStopped(VehicleHandle) then
+	            			SetFocusArea(Rivalry.Cameras[1].Coords.x, Rivalry.Cameras[1].Coords.y, Rivalry.Cameras[1].Coords.z, Rivalry.Cameras[1].Coords.x, Rivalry.Cameras[1].Coords.y, Rivalry.Cameras[1].Coords.z)
+		                    ChangeSecurityCamera(Rivalry.Cameras[1].Coords.x, Rivalry.Cameras[1].Coords.y, Rivalry.Cameras[1].Coords.z, Rivalry.Cameras[1].Heading)
+		                    SendNUIMessage({
+		                        type = "enablecam",
+		                        label = Rivalry.Cameras[1].Label,
+		                        box = Rivalry.Cameras[1].Title,
+		                    })
+		                    CurrentCamera = 1
+		                    FreezeEntityPosition(VehicleHandle, true)
+		                    FreezeEntityPosition(Player, true)
+		                    DisplayRadar(false)
+		                    SetVehicleDoorsLocked(VehicleHandle, true)
+		                else
+		                	Notify("You cannot use the cameras while the vehicle is moving!", 3300)
+		                end
+            		end
+            	end
+            end
+        end
+
+        if CreatedCamera ~= 0 then
+            local Instructions = CreateInstuctionScaleform("instructional_buttons")
+            DrawScaleformMovieFullscreen(Instructions, 255, 255, 255, 255, 0)
+            SetTimecycleModifier("scanline_cam_cheap")
+            SetTimecycleModifierStrength(2.0)
+
+            -- CLOSE CAMERAS
+            if IsControlJustPressed(1, 194) then
+                CloseSecurityCamera()
+                SendNUIMessage({
+                    type = "disablecam",
+                })
+            end
+
+            -- GO BACK CAMERA
+            if IsControlJustPressed(1, 174) then
+                local NewCamIndex
+
+                if CurrentCamera == 1 then
+                    NewCamIndex = #Rivalry.Cameras
+                else
+                    NewCamIndex = CurrentCamera - 1
+                end
+
+                SetFocusArea(Rivalry.Cameras[NewCamIndex].Coords.x, Rivalry.Cameras[NewCamIndex].Coords.y, Rivalry.Cameras[NewCamIndex].Coords.z, Rivalry.Cameras[NewCamIndex].Coords.x, Rivalry.Cameras[NewCamIndex].Coords.y, Rivalry.Cameras[NewCamIndex].Coords.z)
+                SendNUIMessage({
+                    type = "updatecam",
+                    label = Rivalry.Cameras[NewCamIndex].Label,
+                    box = Rivalry.Cameras[NewCamIndex].Title
+                })
+                ChangeSecurityCamera(Rivalry.Cameras[NewCamIndex].Coords.x, Rivalry.Cameras[NewCamIndex].Coords.y, Rivalry.Cameras[NewCamIndex].Coords.z, Rivalry.Cameras[NewCamIndex].Heading)
+                CurrentCamera = NewCamIndex
+            end
+
+            -- GO FORWARD CAMERA
+            if IsControlJustPressed(1, 175) then
+                local NewCamIndex
+                
+                if CurrentCamera == #Rivalry.Cameras then
+                    NewCamIndex = 1
+                else
+                    NewCamIndex = CurrentCamera + 1
+                end
+
+                SetFocusArea(Rivalry.Cameras[NewCamIndex].Coords.x, Rivalry.Cameras[NewCamIndex].Coords.y, Rivalry.Cameras[NewCamIndex].Coords.z, Rivalry.Cameras[NewCamIndex].Coords.x, Rivalry.Cameras[NewCamIndex].Coords.y, Rivalry.Cameras[NewCamIndex].Coords.z)
+                SendNUIMessage({
+                    type = "updatecam",
+                    label = Rivalry.Cameras[NewCamIndex].Label,
+                    box = Rivalry.Cameras[NewCamIndex].Title
+                })
+                ChangeSecurityCamera(Rivalry.Cameras[NewCamIndex].Coords.x, Rivalry.Cameras[NewCamIndex].Coords.y, Rivalry.Cameras[NewCamIndex].Coords.z, Rivalry.Cameras[NewCamIndex].Heading)
+                CurrentCamera = NewCamIndex
+            end
+
+        ---------------------------------------------------------------------------
+        -- CAMERA ROTATION CONTROLS
+        ---------------------------------------------------------------------------
+            local GetCameraRotation = GetCamRot(CreatedCamera, 2)
+
+            -- ROTATE UP
+            if IsControlPressed(1, 32) then
+                if GetCameraRotation.x <= 0.0 then
+                    SetCamRot(CreatedCamera, GetCameraRotation.x + 0.7, 0.0, GetCameraRotation.z, 2)
+                end
+            end
+
+            -- ROTATE DOWN
+            if IsControlPressed(1, 33) then
+                if GetCameraRotation.x >= -50.0 then
+                    SetCamRot(CreatedCamera, GetCameraRotation.x - 0.7, 0.0, GetCameraRotation.z, 2)
+                end
+            end
+
+            -- ROTATE LEFT
+            if IsControlPressed(1, 34) then
+                SetCamRot(CreatedCamera, GetCameraRotation.x, 0.0, GetCameraRotation.z + 0.7, 2)
+            end
+
+            -- ROTATE RIGHT
+            if IsControlPressed(1, 35) then
+                SetCamRot(CreatedCamera, GetCameraRotation.x, 0.0, GetCameraRotation.z - 0.7, 2)
+            end
+        end
+    end
+end)
+
+---------------------------------------------------------------------------
+-- FUNCTIONS
+---------------------------------------------------------------------------
+function ChangeSecurityCamera(x, y, z, r)
+    if CreatedCamera ~= 0 then
+        DestroyCam(CreatedCamera, 0)
+        CreatedCamera = 0
+    end
+
+    local Cam = CreateCam("DEFAULT_SCRIPTED_CAMERA", 1)
+    SetCamCoord(Cam, x, y, z)
+    SetCamRot(Cam, 0.0, 0.0, r, 2)
+    RenderScriptCams(1, 0, 0, 1, 1)
+    Citizen.Wait(250)
+    CreatedCamera = Cam
+end
+
+function CloseSecurityCamera()
+    DestroyCam(CreatedCamera, 0)
+    RenderScriptCams(0, 0, 1, 1, 1)
+    CreatedCamera = 0
+    ClearTimecycleModifier("scanline_cam_cheap")
+    SetFocusEntity(PlayerPedId())
+    FreezeEntityPosition(PlayerPedId(), false)
+    if VehicleHandle ~= nil then
+    	FreezeEntityPosition(VehicleHandle, false)
+    	DisplayRadar(true)
+    	SetVehicleDoorsLocked(VehicleHandle, false)
+    end
+end
+
+function CreateInstuctionScaleform(Scaleform)
+    local Scaleform = RequestScaleformMovie(Scaleform)
+    while not HasScaleformMovieLoaded(Scaleform) do
+        Citizen.Wait(0)
+    end
+    PushScaleformMovieFunction(Scaleform, "CLEAR_ALL")
+    PopScaleformMovieFunctionVoid()
+    
+    PushScaleformMovieFunction(Scaleform, "SET_CLEAR_SPACE")
+    PushScaleformMovieFunctionParameterInt(200)
+    PopScaleformMovieFunctionVoid()
+
+    PushScaleformMovieFunction(Scaleform, "SET_DATA_SLOT")
+    PushScaleformMovieFunctionParameterInt(0)
+    InstructionButton(GetControlInstructionalButton(1, 175, true))
+    InstructionButtonMessage("Go Forward")
+    PopScaleformMovieFunctionVoid()
+
+    PushScaleformMovieFunction(Scaleform, "SET_DATA_SLOT")
+    PushScaleformMovieFunctionParameterInt(1)
+    InstructionButton(GetControlInstructionalButton(1, 194, true))
+    InstructionButtonMessage("Close Camera")
+    PopScaleformMovieFunctionVoid()
+
+    PushScaleformMovieFunction(Scaleform, "SET_DATA_SLOT")
+    PushScaleformMovieFunctionParameterInt(2)
+    InstructionButton(GetControlInstructionalButton(1, 174, true))
+    InstructionButtonMessage("Go Back")
+    PopScaleformMovieFunctionVoid()
+
+    PushScaleformMovieFunction(Scaleform, "DRAW_INSTRUCTIONAL_BUTTONS")
+    PopScaleformMovieFunctionVoid()
+
+    PushScaleformMovieFunction(Scaleform, "SET_BACKGROUND_COLOUR")
+    PushScaleformMovieFunctionParameterInt(0)
+    PushScaleformMovieFunctionParameterInt(0)
+    PushScaleformMovieFunctionParameterInt(0)
+    PushScaleformMovieFunctionParameterInt(80)
+    PopScaleformMovieFunctionVoid()
+
+    return Scaleform
+end
+
+function InstructionButton(ControlButton)
+    N_0xe83a3e3557a56640(ControlButton)
+end
+
+function InstructionButtonMessage(text)
+    BeginTextCommandScaleformString("STRING")
+    AddTextComponentScaleform(text)
+    EndTextCommandScaleformString()
+end

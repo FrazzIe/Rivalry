@@ -206,6 +206,33 @@ AddEventHandler("dispatch:ten-ninety", function(coords, street_name, crossing, a
 	end
 end)
 
+RegisterServerEvent("dispatch:ten-ninety-bank")
+AddEventHandler("dispatch:ten-ninety-bank", function(whichBank)
+	for id, dept in pairs(emergency_users) do
+		if dept ~= nil and dept ~= "paramedic" then
+			TriggerClientEvent("chatMessage", id, "10-90", {255, 0, 0}, "^7A silent alarm has been triggered at "..whichBank)
+		end
+	end
+end)
+
+RegisterServerEvent("dispatch:ten-ninety-store-cashregisters")
+AddEventHandler("dispatch:ten-ninety-store-cashregisters", function(whichStore)
+	for id, dept in pairs(emergency_users) do
+		if dept ~= nil and dept ~= "paramedic" then
+			TriggerClientEvent("chatMessage", id, "10-90", {255, 0, 0}, "^7Anti-tampering sensor tripped at "..whichStore)
+		end
+	end
+end)
+
+RegisterServerEvent("dispatch:ten-ninety-store-vault")
+AddEventHandler("dispatch:ten-ninety-store-vault", function(whichStore)
+	for id, dept in pairs(emergency_users) do
+		if dept ~= nil and dept ~= "paramedic" then
+			TriggerClientEvent("chatMessage", id, "10-90", {255, 0, 0}, "^7A silent alarm has been triggered at "..whichStore)
+		end
+	end
+end)
+
 RegisterServerEvent("dispatch:pay")
 AddEventHandler("dispatch:pay", function(type)
 	local source = source

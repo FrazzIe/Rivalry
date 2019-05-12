@@ -5,24 +5,24 @@ Rivalry = {
 				Name = "Little Seoul Convinence Store",
 				Vault = vector3(-709.42150878906,-904.11383056641,19.215599060059),
 				CashRegisters = {
-					[1] = vector3(-706.16632080078,-913.53430175781,19.215599060059),
-					[2] = vector3(-706.05804443359,-915.41162109375,19.215599060059),
+					[1] = {Coords = vector3(-706.63818359375,-913.68865966797,19.329681396484), Model = 303280717, Robbed = false},
+					[2] = {Coords = vector3(-706.63818359375,-915.72418212891,19.329681396484), Model = 303280717, Robbed = false},
 				}
 			},
 			[2] = {
 				Name = "Palomino Freeway Convience Store",
 				Vault = vector3(2549.3818359375,384.88467407227,108.62294769287),
 				CashRegisters = {
-					[1] = vector3(2554.8884277344,380.93417358398,108.62294769287),
-					[2] = vector3(2557.1892089844,380.74996948242,108.62294769287),
+					[1] = {Coords = vector3(2554.875,381.3857421875,108.73764801025), Model = 303280717, Robbed = false},
+					[2] = {Coords = vector3(2557.2067871094,381.29275512695,108.73764801025), Model = 303280717, Robbed = false},
 				}
 			},
 			[3] = {
 				Name = "Sandy Shores Convience Store",
 				Vault = vector3(1959.4168701172,3748.65234375,32.343742370605),
 				CashRegisters = {
-					[1] = vector3(1958.8889160156,3742.0747070313,32.343746185303),
-					[2] = vector3(1960.0565185547,3740.0090332031,32.343746185303),
+					[1] = {Coords = vector3(1959.3229980469,3742.2895507813,32.458427429199), Model = 303280717, Robbed = false},
+					[2] = {Coords = vector3(1960.4898681641,3740.2683105469,32.458427429199), Model = 303280717, Robbed = false},
 				}
 			},
 			[4] = {
@@ -34,16 +34,16 @@ Rivalry = {
 				Name = "Richman Glen Convience Store",
 				Vault = vector3(-1829.0093994141,799.01104736328,138.18557739258),
 				CashRegisters = {
-					[1] = vector3(-1820.1499023438,794.25341796875,138.08885192871),
-					[2] = vector3(-1818.8218994141,792.9228515625,138.08087158203),
+					[1] = {Coords = vector3(-1820.4653320313,793.81658935547,138.21279907227), Model = 303280717, Robbed = false},
+					[2] = {Coords = vector3(-1819.0909423828,792.31512451172,138.20573425293), Model = 303280717, Robbed = false},
 				}
 			},
 			[6] = {
 				Name = "Mount Chiliad Convience Store",
 				Vault = vector3(1734.7503662109,6420.6352539063,35.037231445313),
 				CashRegisters = {
-					[1] = vector3(1728.9379882813,6417.3583984375,35.037231445313),
-					[2] = vector3(1727.8940429688,6415.2197265625,35.037231445313),
+					[1] = {Coords = vector3(1729.3294677734,6417.123046875,35.151908874512), Model = 303280717, Robbed = false},
+					[2] = {Coords = vector3(1728.2933349609,6415.0322265625,35.151908874512), Model = 303280717, Robbed = false},
 				}
 			},
 		},
@@ -67,6 +67,9 @@ Rivalry = {
 			Fleeca = {
 				[1] = {
 					Name = "Fleeca Bank | Great Ocean Highway",
+					LockedBoxes = {
+
+					},
 					Vault = vector3(-2958.5385742188,482.27056884766,15.83594417572),
 					Heading = 357.54205322266,
 					OpenHeading = 267.54205322266,
@@ -76,6 +79,9 @@ Rivalry = {
 				},
 				[2] = {
 					Name = "Fleeca Bank | Hawick Avenue",
+					LockedBoxes = {
+						
+					},
 					Vault = vector3(-352.73651123047,-53.572479248047,49.175434112549),
 					Heading = 250.85983276367,
 					OpenHeading = 160.8,
@@ -85,6 +91,9 @@ Rivalry = {
 				},
 				[3] = {
 					Name = "Fleeca Bank | Route 68",
+					LockedBoxes = {
+						
+					},
 					Vault = vector3(1175.5421142578,2710.861328125,38.226890563965),
 					Heading = 90.0,
 					OpenHeading = 0.0,
@@ -165,5 +174,52 @@ Rivalry = {
 				}
 			}
 		}
+	},
+	Cameras = {
+		[1] = {Coords = vector3(-717.92926025391,-916.05017089844,20.706611633301), Heading = 303.67938232422, Title = "Little Seoul", Label = "Interior Camera"}, -- Little Seoul Inside
+		[2] = {Coords = vector3(-703.72424316406,-917.10968017578,20.643611907959), Heading = 113.68775177002, Title = "Little Seoul", Label = "Exterior Camera"}, -- Little Seoul Outside
+		
+		[3] = {Coords = vector3(2558.8579101563,390.40591430664,110.19804382324), Heading = 148.0085144043, Title = "Palomino Hwy", Label = "Interior Camera"}, -- Palomino Hwy Inside
+		[4] = {Coords = vector3(2560.6479492188,398.30239868164,110.46942138672), Heading = 193.17568969727, Title = "Palomino Hwy", Label = "Exterior Camera"}, -- Palomino Hwy Outside
+
+		[5] = {Coords = vector3(1968.7834472656,3743.8527832031,33.918743133545), Heading = 93.328071594238, Title = "Sandy Shores", Label = "Interior Camera"}, -- Sandy Shores Inside
+		[6] = {Coords = vector3(1970.1768798828,3743.009765625,33.918743133545), Heading = 141.15939331055, Title = "Sandy Shores", Label = "Exterior Camera"}, -- Sandy Shores Outside
+		
+		[7] = {Coords = vector3(-1827.23828125,784.92462158203,139.77946472168), Heading = 335.78854370117, Title = "Richman Glen", Label = "Interior Camera"}, -- Richman Glen Inside
+		[8] = {Coords = vector3(-1828.5113525391,782.19909667969,139.9684753418), Heading = 279.88519287109, Title = "Richman Glen", Label = "Outside Camera"}, -- Richman Glen Outside
+		
+		[9] = {Coords = vector3(1735.9761962891,6409.9399414063,36.612209320068), Heading = 40.421028137207, Title = "Mount Chiliad", Label = "Interior Camera"}, -- Mount Chiliad Outside
+		[10] = {Coords = vector3(1738.6492919922,6407.2700195313,37.053207397461), Heading = 86.851371765137, Title = "Mount Chiliad", Label = "Outside Camera"}, -- Mount Chiliad Outside
+	
+		[11] = {Coords = vector3(-357.86938476563,-50.527782440186,50.359382629395), Heading = 304.64569091797, Title = "Fleeca Bank", Label = "Hawick Ave"}, -- Fleeca Hawick Inside
+		[12] = {Coords = vector3(-363.80206298828,-41.35474395752,52.249050140381), Heading = 276.49398803711, Title = "Fleeca Bank", Label = "Hawick Ave"}, -- Fleeca Hawick Outside
+
+		[13] = {Coords = vector3(-2960.1875,476.50451660156,17.082983016968), Heading = 60.26110458374, Title = "Fleeca Bank", Label = "Great Ocean Hwy"}, -- Fleeca GOcean Inside
+		[14] = {Coords = vector3(-2966.6994628906,485.55651855469,17.208982467651), Heading = 146.51762390137, Title = "Fleeca Bank", Label = "Great Ocean Hwy"}, -- Fleeca GOcean Inside
+
+		[15] = {Coords = vector3(1181.2559814453,2709.1103515625,39.417091369629), Heading = 147.74743652344, Title = "Fleeca Bank", Label = "Route 68"}, -- Fleeca Route68 Inside
+		[16] = {Coords = vector3(1180.9155273438,2702.3542480469,40.17308807373), Heading = 101.51712036133, Title = "Fleeca Bank", Label = "Route 68"}, -- Fleeca Route68 Inside
+
+		[17] = {Coords = vector3(-103.68787384033,6467.361328125,32.928714752197), Heading = 97.843475341797, Title = "Paleto Bay", Label = "Blaine County Savings"}, -- Blaine County Inside
+		[18] = {Coords = vector3(-103.63851928711,6451.4526367188,33.999710083008), Heading = 71.292488098145, Title = "Paleto Bay", Label = "Blaine County Savings"}, -- Blaine County Inside
+
+		[19] = {Coords = vector3(235.44764709473,227.46331787109,113.09118652344), Heading = 201.83097839355, Title = "Vinewood Blvd", Label = "Pacific Standard Bank"}, -- Pacific Standard Inside
+		[20] = {Coords = vector3(254.95655822754,205.9841003418,113.21719360352), Heading = 30.190244674683, Title = "Vinewood Blvd", Label = "Pacific Standard Bank"}, -- Pacific Standard Inside
+		[21] = {Coords = vector3(270.12780761719,223.85545349121,113.21719360352), Heading = 118.01182556152, Title = "Vinewood Blvd", Label = "Pacific Standard Bank"}, -- Pacific Standard Inside
+		[22] = {Coords = vector3(242.04745483398,214.83517456055,107.92489624023), Heading = 284.98773193359, Title = "Vinewood Blvd", Label = "Pacific Standard Bank"}, -- Pacific Standard Inside
+		[23] = {Coords = vector3(252.15815734863,225.4334564209,104.08168029785), Heading = 285.05450439453, Title = "Vinewood Blvd", Label = "Pacific Standard Bank"}, -- Pacific Standard Inside
+		[24] = {Coords = vector3(258.66796875,204.90313720703,113.28019714355), Heading = 352.14013671875, Title = "Vinewood Blvd", Label = "Pacific Standard Bank"}, --- Pacific Standard Inside
+		[25] = {Coords = vector3(279.49197387695,266.09619140625,109.58405303955), Heading = 60.51294708252, Title = "Vinewood Blvd", Label = "Pacific Standard Bank"}, -- Pacific Standard Outside
+		[26] = {Coords = vector3(192.52528381348,221.78085327148,111.49507141113), Heading = 230.12149047852, Title = "Vinewood Blvd", Label = "Pacific Standard Bank"}, -- Pacific Standard Outside
+	},
+	Computers = {
+		[1] = vector3(440.61401367188,-978.81353759766,30.68967628479), -- Mission Row Upstairs
+		[2] = vector3(459.81896972656,-989.03979492188,24.914840698242), -- Mission Row Downstairs
+		[3] = vector3(473.30786132813,-985.45196533203,24.913808822632), -- Mission Row Observation
+		[4] = vector3(447.95010375977,-973.34265136719,30.689659118652), -- Mission Row Office
+		[5] = vector3(1853.0363769531,3690.4560546875,34.267078399658), -- Sandy Shores Upstairs
+		[6] = vector3(1859.314453125,3673.9565429688,-116.7899017334), -- Sandy Shores Office
+		[7] = vector3(-449.81393432617,6012.1352539063,31.71639251709), -- Paleto PD Upstairs
+		[8] = vector3(237.59487915039,-418.01879882813,-118.19956207275), -- Court House Lobby
 	}
 }

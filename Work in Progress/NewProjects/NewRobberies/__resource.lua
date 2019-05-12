@@ -8,6 +8,8 @@ files {
   'html/styles.css',
   'html/js/index.js',
   'html/js/lockpick.js',
+  "html/js/vue.min.js",
+  "html/js/script.js",
   'html/css/style.css',
   'html/scss/style.scss',
 }

@@ -3,57 +3,57 @@ Rivalry = {
 		Stores = {
 			[1] = {
 				Name = "Little Seoul Convinence Store",
-				Vault = false,
+				Vault = 0,
 				CashRegisters = {
-					[1] = false,
-					[2] = false,
+					[1] = 0,
+					[2] = 0,
 				},
 				LastRobbed = 0,
 				Robber = nil
 			},
 			[2] = {
 				Name = "Palomino Freeway Convience Store",
-				Vault = false,
+				Vault = 0,
 				CashRegisters = {
-					[1] = false,
-					[2] = false,
+					[1] = 0,
+					[2] = 0,
 				},
 				LastRobbed = 0,
 				Robber = nil
 			},
 			[3] = {
 				Name = "Sandy Shores Convience Store",
-				Vault = false,
+				Vault = 0,
 				CashRegisters = {
-					[1] = false,
-					[2] = false,
+					[1] = 0,
+					[2] = 0,
 				},
 				LastRobbed = 0,
 				Robber = nil
 			},
 			[4] = {
 				Name = "Sandy Shores Yellowjack",
-				Vault = false,
+				Vault = 0,
 				CashRegisters = {},
 				LastRobbed = 0,
 				Robber = nil
 			},
 			[5] = {
 				Name = "Richman Glen Convience Store",
-				Vault = false,
+				Vault = 0,
 				CashRegisters = {
-					[1] = false,
-					[2] = false,
+					[1] = 0,
+					[2] = 0,
 				},
 				LastRobbed = 0,
 				Robber = nil
 			},
 			[6] = {
 				Name = "Mount Chiliad Convience Store",
-				Vault = false,
+				Vault = 0,
 				CashRegisters = {
-					[1] = false,
-					[2] = false,
+					[1] = 0,
+					[2] = 0,
 				},
 				LastRobbed = 0,
 				Robber = nil
@@ -75,18 +75,27 @@ Rivalry = {
 			Fleeca = {
 				[1] = {
 					Name = "Fleeca Bank | Great Ocean Highway",
+					LockedBoxes = {
+						
+					},
 					Vault = false,
 					LastRobbed = 0,
 					Robber = nil
 				},
 				[2] = {
 					Name = "Fleeca Bank | Hawick Avenue",
+					LockedBoxes = {
+						
+					},
 					Vault = false,
 					LastRobbed = 0,
 					Robber = nil
 				},
 				[3] = {
 					Name = "Fleeca Bank | Route 68",
+					LockedBoxes = {
+						
+					},
 					Vault = false,
 					LastRobbed = 0,
 					Robber = nil
@@ -159,14 +168,7 @@ Rivalry = {
 Cooldown = 30
 
 function HasBeenRobbed(TypeOfRobbery, Index, PlayerID)
-	if TypeOfRobbery == "Store" then
-		if ( os.time() - Rivalry.Robberies.Stores[Index].LastRobbed) < (Cooldown*60) and Rivalry.Robberies.Stores[Index].LastRobbed ~= 0 then
-			TriggerClientEvent('customNotification', source, "This has already been robbed recently. Please wait another " .. (math.floor(((Cooldown*60) - (os.time() - Rivalry.Robberies.Stores[Index].LastRobbed))/60)) .. " minutes.")
-			return true
-		else
-			return false
-		end
-	elseif TypeOfRobbery == "Blaine" then
+	if TypeOfRobbery == "Blaine" then
 		if ( os.time() - Rivalry.Robberies.Banks.Blaine.LastRobbed) < (Cooldown*60) and Rivalry.Robberies.Banks.Blaine.LastRobbed ~= 0 then
 			TriggerClientEvent('customNotification', source, "This has already been robbed recently. Please wait another " .. (math.floor(((Cooldown*60) - (os.time() - Rivalry.Robberies.Banks.Blaine.LastRobbed))/60)) .. " minutes.")
 			return true
@@ -193,26 +195,23 @@ end
 RegisterServerEvent("Rivalry.Rob.CashRegister")
 AddEventHandler("Rivalry.Rob.CashRegister", function(StoreNumber, RegisterNumber, PlayerID)
 	local Source = source
-	if not HasBeenRobbed("Store", StoreNumber, PlayerID) or Rivalry.Robberies.Stores[StoreNumber].Robber == PlayerID then
-		if Rivalry.Robberies.Stores[StoreNumber].CashRegisters[RegisterNumber] == false then
-			TriggerClientEvent("Rivalry.Rob.CashRegister", Source, StoreNumber)
-			Rivalry.Robberies.Stores[StoreNumber].CashRegisters[RegisterNumber] = true
-			Rivalry.Robberies.Stores[StoreNumber].LastRobbed = os.time()
-			Rivalry.Robberies.Stores[StoreNumber].Robber = PlayerID
-		end
+	if ( os.time() - Rivalry.Robberies.Stores[StoreNumber].CashRegisters[RegisterNumber] ) > (Cooldown*60) then
+		TriggerClientEvent("Rivalry.Rob.CashRegister", Source, StoreNumber, RegisterNumber)
+		Rivalry.Robberies.Stores[StoreNumber].CashRegisters[RegisterNumber] = os.time()
+		TriggerClientEvent("Rivalry.Robberies.Sync.Register", -1, StoreNumber, RegisterNumber, true)
+	else
+		TriggerClientEvent('customNotification', source, "This has already been robbed recently. Please wait another " .. (math.floor(((Cooldown*60) - (os.time() - Rivalry.Robberies.Stores[StoreNumber].CashRegisters[RegisterNumber]))/60)) .. " minutes.")
 	end
 end)
 
 RegisterServerEvent("Rivalry.Rob.StoreVault")
 AddEventHandler("Rivalry.Rob.StoreVault", function(StoreNumber, PlayerID)
 	local Source = source
-	if not HasBeenRobbed("Store", StoreNumber, PlayerID) or Rivalry.Robberies.Stores[StoreNumber].Robber == PlayerID then
-		if Rivalry.Robberies.Stores[StoreNumber].Vault == false then
-			TriggerClientEvent("Rivalry.Rob.StoreVault", Source, StoreNumber)
-			Rivalry.Robberies.Stores[StoreNumber].Vault = true
-			Rivalry.Robberies.Stores[StoreNumber].LastRobbed = os.time()
-			Rivalry.Robberies.Stores[StoreNumber].Robber = PlayerID
-		end
+	if ( os.time() - Rivalry.Robberies.Stores[StoreNumber].Vault ) > (Cooldown*60) then
+		TriggerClientEvent("Rivalry.Rob.StoreVault", Source, StoreNumber)
+		Rivalry.Robberies.Stores[StoreNumber].Vault = os.time()
+	else
+		TriggerClientEvent('customNotification', source, "This has already been robbed recently. Please wait another " .. (math.floor(((Cooldown*60) - (os.time() - Rivalry.Robberies.Stores[StoreNumber].Vault))/60)) .. " minutes.")
 	end
 end)
 
@@ -276,20 +275,51 @@ AddEventHandler("Rivalry.Rob.Pacific.SafeBox", function(LockBoxNumber, PlayerID)
 	end
 end)
 
+RegisterServerEvent("Rivalry.Rob.Fleeca.Safebox")
+AddEventHandler("Rivalry.Rob.Fleeca.Safebox", function(BankNumber, LockBoxNumber, PlayerID)
+	local Source = source
+	if not HasBeenRobbed("Fleeca", BankNumber, PlayerID) or Rivalry.Robberies.Banks.Fleeca[BankNumber].Robber == PlayerID then
+		if Rivalry.Robberies.Banks.Fleeca[BankNumber].LockedBoxes[LockBoxNumber] == false then
+			TriggerClientEvent("Rivalry.Rob.Pacific.Safebox", Source)
+			Rivalry.Robberies.Banks.Fleeca[BankNumber].LockedBoxes[LockBoxNumber] = true
+			Rivalry.Robberies.Banks.Pacific[BankNumber].LastRobbed = os.time()
+			Rivalry.Robberies.Banks.Pacific[BankNumber].Robber = PlayerID
+		end
+	end
+end)
+
 RegisterServerEvent("Rivalry.Robberies.Stopped.Robbing")
-AddEventHandler("Rivalry.Robberies.Stopped.Robbing", function(Type, Number)
+AddEventHandler("Rivalry.Robberies.Stopped.Robbing", function(Type, BankNumber)
 	if Type == "Blaine" then
 		Rivalry.Robberies.Banks.Blaine.Robber = nil
 	elseif Type == "Pacific" then
 		Rivalry.Robberies.Banks.Pacific.Robber = nil
 	elseif Type == "Fleeca" then
-		Rivalry.Robberies.Banks.Fleeca[Number].Robber = nil
-	elseif Type == "Store" then
-		Rivalry.Robberies.Stores[Number].Robber = nil
+		Rivalry.Robberies.Banks.Fleeca[BankNumber].Robber = nil
 	end
 end)
 
 RegisterServerEvent("Rivalry.Robberies.Sync.Vault")
 AddEventHandler("Rivalry.Robberies.Sync.Vault", function(Bank, BankNumber, Status)
 	TriggerClientEvent("Rivalry.Robberies.Sync.Vault", -1, Bank, BankNumber, Status)
+end)
+
+RegisterServerEvent("Rivalry.HackVault")
+AddEventHandler("Rivalry.HackVault", function(Level, MaxLevel, Bank, BankNumber)
+	local Source = source
+	if not HasBeenRobbed(Bank, BankNumber, PlayerID) then
+		if Bank == "Fleeca" then
+			Rivalry.Robberies.Banks.Fleeca[BankNumber].LastRobbed = os.time()
+			Rivalry.Robberies.Banks.Fleeca[BankNumber].Robber = Source
+			TriggerClientEvent("Rivalry.HackVault", Source, Level, MaxLevel, Bank, BankNumber)
+		elseif == "Blaine" then
+			Rivalry.Robberies.Banks.Blaine.LastRobbed = os.time()
+			Rivalry.Robberies.Banks.Blaine.Robber = Source
+			TriggerClientEvent("Rivalry.HackVault", Source, Level, MaxLevel, Bank, BankNumber)
+		elseif Bank == "Pacific" then
+			Rivalry.Robberies.Banks.Pacific.LastRobbed = os.time()
+			Rivalry.Robberies.Banks.Pacific.Robber = Source
+			TriggerClientEvent("Rivalry.HackVault", Source, Level, MaxLevel, Bank, BankNumber)
+		end
+	end
 end)
