@@ -165,27 +165,24 @@ function SpawnTestCar()
 	local player = PlayerId()
 	local vehicle = GetHashKey('blista')
 
-    RequestModel(vehicle)
-
-	while not HasModelLoaded(vehicle) do
-		Wait(1)
-	end
 	colors = table.pack(GetVehicleColours(veh))
 	extra_colors = table.pack(GetVehicleExtraColours(veh))
 	plate = math.random(100, 900)
-	local spawned_car = CreateVehicle(vehicle, 249.40971374512,-1407.2303466797,30.409454345703, true, false)
-	SetVehicleColours(spawned_car,4,5)
-	SetVehicleExtraColours(spawned_car,extra_colors[1],extra_colors[2])
-	SetEntityHeading(spawned_car, 317.64)
-	SetVehicleOnGroundProperly(spawned_car)
-	DecorSetBool(spawned_car, "hotwire", true)
-	SetVehicleNumberPlateText(spawned_car, "STUDENT")
-	SetPedIntoVehicle(myPed, spawned_car, - 1)
-	SetModelAsNoLongerNeeded(vehicle)
+	local spawned_car = exports["core"]:SpawnVehicle("blista", { x = 249.40971374512, y = -1407.2303466797, z = 30.409454345703}, 317.64, false)
+
+	if spawned_car ~= nil and spawned_car ~= 0 then
+		SetVehicleColours(spawned_car,4,5)
+		SetVehicleExtraColours(spawned_car,extra_colors[1],extra_colors[2])
+		SetVehicleOnGroundProperly(spawned_car)
+		DecorSetBool(spawned_car, "hotwire", true)
+		SetVehicleNumberPlateText(spawned_car, "STUDENT")
+		SetPedIntoVehicle(myPed, spawned_car, - 1)
+		SetVehicleDoorsLocked(GetCar(), 4)
+	end
+
 	CruiseControl = 0
 	DTutOpen = false
 	SetEntityVisible(myPed, true)
-	SetVehicleDoorsLocked(GetCar(), 4)
 	FreezeEntityPosition(myPed, false)
 end
 

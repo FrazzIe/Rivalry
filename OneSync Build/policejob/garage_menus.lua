@@ -387,50 +387,43 @@ function spawncar(model, type)
 		elseif type == "undercover" then
 			tint = true
 		end
-		local carhashed = GetHashKey(model)
+
 		local ply = PlayerPedId()
 		local plyCoords = GetEntityCoords(ply, 0)
-		RequestModel(carhashed)
-		while not HasModelLoaded(carhashed) do
-			Citizen.Wait(0)
-		end
 								
-		existingVeh = CreateVehicle(carhashed, currentgarage.x, currentgarage.y, currentgarage.z, 90.0, true, false)
-		while not DoesEntityExist(existingVeh) do
-			Citizen.Wait(0)
+		existingVeh = exports["core"]:SpawnVehicle(model, currentgarage, 90.0, false)
+
+		if existingVeh ~= nil and existingVeh ~= 0 then
+			SetVehicleMod(existingVeh, 11, 3)
+			SetVehicleMod(existingVeh, 12, 3)
+			SetVehicleMod(existingVeh, 13, 3)
+			SetVehicleMod(existingVeh, 15, 3)
+			SetVehicleTyresCanBurst(existingVeh, true)
+
+			if tint then
+				SetVehicleWindowTint(existingVeh, 1)
+			elseif helicopter then
+				SetVehicleLivery(existingVeh, 0)
+			else
+				SetVehicleWindowTint(existingVeh, 0)
+			end
+			SetVehicleDirtLevel(existingVeh, 0)
+			for i = 1, 25 do 
+				if DoesExtraExist(existingVeh, i) then
+					SetVehicleExtra(existingVeh, i, false)
+				end 
+			end
+			TaskWarpPedIntoVehicle(ply, existingVeh, -1)
+			if WarMenu.IsMenuOpened("car_menu") then
+				WarMenu.CloseMenu("car_menu")
+			end				
+			if WarMenu.IsMenuOpened("heli_menu") then
+				WarMenu.CloseMenu("heli_menu")
+			end
+			if WarMenu.IsMenuOpened("boat_menu") then
+				WarMenu.CloseMenu("boat_menu")
+			end
 		end
-		local id = NetworkGetNetworkIdFromEntity(existingVeh)
-		SetNetworkIdCanMigrate(id, true)
-		SetVehicleMod(existingVeh, 11, 3)
-		SetVehicleMod(existingVeh, 12, 3)
-		SetVehicleMod(existingVeh, 13, 3)
-		SetVehicleMod(existingVeh, 15, 3)
-		SetVehicleTyresCanBurst(existingVeh, true)
-		SetEntityAsMissionEntity(existingVeh, true, false)
-		if tint then
-			SetVehicleWindowTint(existingVeh, 1)
-		elseif helicopter then
-			SetVehicleLivery(existingVeh, 0)
-		else
-			SetVehicleWindowTint(existingVeh, 0)
-		end
-		SetVehicleDirtLevel(existingVeh, 0)
-		for i = 1, 25 do 
-			if DoesExtraExist(existingVeh, i) then
-				SetVehicleExtra(existingVeh, i, false)
-			end 
-		end
-		TaskWarpPedIntoVehicle(ply, existingVeh, -1)
-		if WarMenu.IsMenuOpened("car_menu") then
-			WarMenu.CloseMenu("car_menu")
-		end				
-		if WarMenu.IsMenuOpened("heli_menu") then
-			WarMenu.CloseMenu("heli_menu")
-		end
-		if WarMenu.IsMenuOpened("boat_menu") then
-			WarMenu.CloseMenu("boat_menu")
-		end
-		SetModelAsNoLongerNeeded(carhashed)
 	end)
 end
 

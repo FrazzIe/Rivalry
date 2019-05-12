@@ -339,7 +339,6 @@ local function drawHelpJobM()
 end
 
 function DestroyVehicle(Handle)
-    Citizen.CreateThread(function()
         local Handle = Handle
         local Start = GetGameTimer()
         for Seat = -1, GetVehicleMaxNumberOfPassengers(Handle) do
@@ -348,11 +347,11 @@ function DestroyVehicle(Handle)
             end
         end
 
-        NetworkRequestControlOfEntity(Handle)
+        --NetworkRequestControlOfEntity(Handle)
 
-        while not NetworkHasControlOfEntity(Handle) and Start + 5000 > GetGameTimer() do
-            Citizen.Wait(0)
-        end
+       -- while not NetworkHasControlOfEntity(Handle) and Start + 5000 > GetGameTimer() do
+            --Citizen.Wait(0)
+        --end
 
         DeleteVehicle(Handle)
         SetEntityAsMissionEntity(Handle, false, true)
@@ -361,7 +360,6 @@ function DestroyVehicle(Handle)
         if DoesEntityExist(Handle) then
             SetEntityCoords(Handle, 601.28948974609, -4396.9853515625, 384.98565673828)
         end
-    end)
 end
 
 function spawnDepanneuse(coords, type)
@@ -376,14 +374,15 @@ function spawnDepanneuse(coords, type)
                 while not HasModelLoaded(type) do
                     Wait(1)
                 end
-                myVehiculeEntity = CreateVehicle(type, pos.x, pos.y, pos.z, pos.h , true, false)
-                SetEntityAsMissionEntity(myVehiculeEntity, true, false)
-                local ObjectId = NetworkGetNetworkIdFromEntity(myVehiculeEntity)
-                SetNetworkIdExistsOnAllMachines(ObjectId, true)
-                DecorSetBool(myVehiculeEntity, "hotwire", true)
-                local p = GetEntityCoords(myVehiculeEntity, 0)
-                local h = GetEntityHeading(myVehiculeEntity)
-                --showMessageInformation('Pos: ' .. p.x .. ' ' .. p.y .. ' ' .. p.z .. ' ' .. h)
+
+                myVehiculeEntity = exports["core"]:SpawnVehicle(type, pos, pos.h, false)
+
+                if myVehiculeEntity ~= nil and myVehiculeEntity ~= 0 then
+                    DecorSetBool(myVehiculeEntity, "hotwire", true)
+                    local p = GetEntityCoords(myVehiculeEntity, 0)
+                    local h = GetEntityHeading(myVehiculeEntity)
+                    --showMessageInformation('Pos: ' .. p.x .. ' ' .. p.y .. ' ' .. p.z .. ' ' .. h)
+                end
                 return
             end
         end

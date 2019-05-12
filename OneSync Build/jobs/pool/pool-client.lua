@@ -114,34 +114,27 @@ Citizen.CreateThread(function()
 					else
 						local vehiculeDetected = GetClosestVehicle(-324.254, -1530.044, 27.54, 6.0, 0, 70)
 						if not DoesEntityExist(vehiculeDetected) then
-							local car = GetHashKey("utillitruck3")
 							local bplate = "POOL " .. math.random(100,900)
 							local cplate = string.upper(bplate)
 
-							RequestModel(car)
-							while not HasModelLoaded(car) do
-								Citizen.Wait(0)
-							end
-							existingVeh = CreateVehicle(car, 740.328552246094,-877.556884765625,25.038875579834, -90.0, true, false)
-							SetEntityVelocity(existingVeh, 2000)
-							SetVehicleOnGroundProperly(existingVeh)
-							SetVehicleHasBeenOwnedByPlayer(existingVeh,true)
-							local id = NetworkGetNetworkIdFromEntity(existingVeh)
-							SetNetworkIdCanMigrate(id, true)
-							SetVehRadioStation(existingVeh, "OFF")
-							SetVehicleColours(existingVeh, 64,64)
-							SetVehicleLivery(existingVeh, 1)
-							SetPedIntoVehicle(GetPlayerPed(-1),  existingVeh,  -1)
-							SetEntityAsMissionEntity(existingVeh, true, false)
-							SetModelAsNoLongerNeeded(car)
-							DecorSetBool(existingVeh, "hotwire", true)
-							exports.pNotify:SendNotification({
-            					text = "You better clean those pools like your life depends on it!",
-            					type = "error",
-           						timeout = 5000,
-            					layout = "bottomCenter",
-            					queue = "left"
-        					})
+							existingVeh = exports["core"]:SpawnVehicle("utillitruck3", { x = 740.328552246094, y = -877.556884765625, z = 25.038875579834 }, -90.0, false)
+							
+							if existingVeh ~= nil and existingVeh ~= 0 then
+								SetEntityVelocity(existingVeh, 2000)
+								SetVehicleOnGroundProperly(existingVeh)
+								SetVehRadioStation(existingVeh, "OFF")
+								SetVehicleColours(existingVeh, 64,64)
+								SetVehicleLivery(existingVeh, 1)
+								SetPedIntoVehicle(GetPlayerPed(-1),  existingVeh,  -1)
+								DecorSetBool(existingVeh, "hotwire", true)
+								exports.pNotify:SendNotification({
+	            					text = "You better clean those pools like your life depends on it!",
+	            					type = "error",
+	           						timeout = 5000,
+	            					layout = "bottomCenter",
+	            					queue = "left"
+	        					})
+	        				end
 						else
 							DrawMissionTextbin("~h~~y~Area is congested~w~.", 6000)
 						end

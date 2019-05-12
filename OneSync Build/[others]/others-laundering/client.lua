@@ -440,27 +440,30 @@ AddEventHandler('client:launderingVan', function()
 		end
 		if DoesEntityExist(delivery_truck) then
 			DestroyVehicle(delivery_truck)
-			delivery_truck = CreateVehicle(model, laundering.vehicle.x, laundering.vehicle.y, laundering.vehicle.z, 127.42662811279, true, false)
-			local plate = "GP"..GetVehicleNumberPlateText(delivery_truck)
-			SetEntityAsMissionEntity(delivery_truck, true, false)
-			SetVehicleNumberPlateText(delivery_truck, plate)
-			SetEntityInvincible(delivery_truck, false)
-			SetPedIntoVehicle(PlayerPedId(), delivery_truck, -1)
-			SetModelAsNoLongerNeeded(model)
-			SetVehicleLivery(delivery_truck, 1)
-			DecorSetBool(delivery_truck, "hotwire", true)
-			startDelivery()
+			delivery_truck = nil
+			delivery_truck = exports["core"]:SpawnVehicle("pony", laundering.vehicle, 127.42662811279, false)
+			
+			if delivery_truck ~= nil and delivery_truck ~= 0 then
+				local plate = "GP"..GetVehicleNumberPlateText(delivery_truck)
+				SetVehicleNumberPlateText(delivery_truck, plate)
+				SetEntityInvincible(delivery_truck, false)
+				SetPedIntoVehicle(PlayerPedId(), delivery_truck, -1)
+				SetVehicleLivery(delivery_truck, 1)
+				DecorSetBool(delivery_truck, "hotwire", true)
+				startDelivery()
+			end
 		else
-			delivery_truck = CreateVehicle(model, laundering.vehicle.x, laundering.vehicle.y, laundering.vehicle.z, 127.42662811279, true, false)
-			local plate = "GP"..GetVehicleNumberPlateText(delivery_truck)
-			SetEntityAsMissionEntity(delivery_truck, true, false)
-			SetVehicleNumberPlateText(delivery_truck, plate)
-			SetEntityInvincible(delivery_truck, false)
-			SetPedIntoVehicle(PlayerPedId(), delivery_truck, -1)
-			SetModelAsNoLongerNeeded(model)
-			SetVehicleLivery(delivery_truck, 1)
-			DecorSetBool(delivery_truck, "hotwire", true)
-			startDelivery()
+			delivery_truck = exports["core"]:SpawnVehicle("pony", laundering.vehicle, 127.42662811279, false)
+			
+			if delivery_truck ~= nil and delivery_truck ~= 0 then
+				local plate = "GP"..GetVehicleNumberPlateText(delivery_truck)
+				SetVehicleNumberPlateText(delivery_truck, plate)
+				SetEntityInvincible(delivery_truck, false)
+				SetPedIntoVehicle(PlayerPedId(), delivery_truck, -1)
+				SetVehicleLivery(delivery_truck, 1)
+				DecorSetBool(delivery_truck, "hotwire", true)
+				startDelivery()
+			end
 		end
 	end)
 end)

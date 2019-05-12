@@ -132,20 +132,16 @@ end)
 RegisterNetEvent("NewsVan.Rent")
 AddEventHandler("NewsVan.Rent", function()
 	Citizen.CreateThread(function()
-		local Model = "Rumpo"
-		RequestModel(Model)
-		while not HasModelLoaded(Model) do
-			Citizen.Wait(0)
+		NewsVan = exports["core"]:SpawnVehicle("Rumpo", News.GarageLocation.SpawnPoint, 124.78857421875, false)
+		
+		if NewsVan ~= nil and NewsVan ~= 0 then
+			local plate = "WZL"..GetVehicleNumberPlateText(NewsVan)
+			SetVehicleNumberPlateText(NewsVan, plate)
+			SetEntityInvincible(NewsVan, false)
+			SetPedIntoVehicle(Ped, NewsVan, -1)
+			SetVehicleLivery(NewsVan, 2)
+			DecorSetBool(NewsVan, "hotwire", true)
 		end
-		NewsVan = CreateVehicle(Model, News.GarageLocation.SpawnPoint.x, News.GarageLocation.SpawnPoint.y, News.GarageLocation.SpawnPoint.z, 124.78857421875, true, false)
-		local plate = "WZL"..GetVehicleNumberPlateText(NewsVan)
-		SetEntityAsMissionEntity(NewsVan, true, false)
-		SetVehicleNumberPlateText(NewsVan, plate)
-		SetEntityInvincible(NewsVan, false)
-		SetPedIntoVehicle(Ped, NewsVan, -1)
-		SetVehicleLivery(NewsVan, 2)
-		SetModelAsNoLongerNeeded(Model)
-		DecorSetBool(NewsVan, "hotwire", true)
 	end)
 end)
 

@@ -440,19 +440,15 @@ end)
 RegisterNetEvent("trucker:rent")
 AddEventHandler("trucker:rent", function()
 	Citizen.CreateThread(function()
-		local model = "phantom"
-		RequestModel(model)
-		while not HasModelLoaded(model) do
-			Citizen.Wait(0)
+		trucker_truck = exports["core"]:SpawnVehicle("phantom", locations.truck, locations.truck.h, false)
+
+		if trucker_truck ~= nil and trucker_truck ~= 0 then
+			local plate = "TT"..GetVehicleNumberPlateText(trucker_truck)
+			SetVehicleNumberPlateText(trucker_truck, plate)
+			SetEntityInvincible(trucker_truck, false)
+			SetPedIntoVehicle(PlayerPedId(), trucker_truck, -1)
+			DecorSetBool(trucker_truck, "hotwire", true)
 		end
-		trucker_truck = CreateVehicle(model, locations.truck.x, locations.truck.y, locations.truck.z, locations.truck.h, true, false)
-		local plate = "TT"..GetVehicleNumberPlateText(trucker_truck)
-		SetEntityAsMissionEntity(trucker_truck, true, false)
-		SetVehicleNumberPlateText(trucker_truck, plate)
-		SetEntityInvincible(trucker_truck, false)
-		SetPedIntoVehicle(PlayerPedId(), trucker_truck, -1)
-		SetModelAsNoLongerNeeded(model)
-		DecorSetBool(trucker_truck, "hotwire", true)
 	end)
 end)
 

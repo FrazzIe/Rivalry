@@ -119,13 +119,11 @@ Citizen.CreateThread(function()
                 local currentVehicle = GetVehiclePedIsUsing(PlayerPed, false)
                 for k,v in pairs(BannedVehicles) do
                     if GetEntityModel(currentVehicle) == GetHashKey(v) and GetPedInVehicleSeat(currentVehicle, -1) == PlayerPed then
-                        SetEntityAsMissionEntity(currentVehicle, true, true)
-                        Citizen.InvokeNative(0xEA386986E786A54F, Citizen.PointerValueIntInitialized(currentVehicle))
+                        DestroyVehicle(currentVehicle)
                     end
                 end
                 if GetVehicleClass(currentVehicle) == 16 and GetPedInVehicleSeat(currentVehicle, -1) == PlayerPed then
-                    SetEntityAsMissionEntity(currentVehicle, true, true)
-                    Citizen.InvokeNative(0xEA386986E786A54F, Citizen.PointerValueIntInitialized(currentVehicle))
+                    DestroyVehicle(currentVehicle)
                 end
             end
         end

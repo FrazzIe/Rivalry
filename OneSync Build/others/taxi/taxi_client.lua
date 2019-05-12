@@ -166,18 +166,14 @@ function spawnVehicle(coords, type)
             local vehi = GetClosestVehicle(pos.x, pos.y, pos.z, 2.0, 0, 70)
             -- Citizen.Trace('vehi : ' .. vehi)
             if vehi == 0 then
-                RequestModel(type)
-                while not HasModelLoaded(type) do
-                    Wait(1)
+                myVehiculeEntity = exports["core"]:SpawnVehicle(type, pos, pos.h, false)
+
+                if myVehiculeEntity ~= nil and myVehiculeEntity ~= 0 then
+                    SetVehicleNumberPlateText(myVehiculeEntity, "Taxi-" .. math.random(100,999))
+                    DecorSetBool(myVehiculeEntity, "hotwire", true)
+                    local p = GetEntityCoords(myVehiculeEntity, 0)
+                    local h = GetEntityHeading(myVehiculeEntity)
                 end
-                myVehiculeEntity = CreateVehicle(type, pos.x, pos.y, pos.z, pos.h , true, false)
-                SetVehicleNumberPlateText(myVehiculeEntity, "Taxi-" .. math.random(100,999))
-                SetEntityAsMissionEntity(myVehiculeEntity, true, false)
-                local ObjectId = NetworkGetNetworkIdFromEntity(myVehiculeEntity)
-                SetNetworkIdExistsOnAllMachines(ObjectId, true)
-                DecorSetBool(myVehiculeEntity, "hotwire", true)
-                local p = GetEntityCoords(myVehiculeEntity, 0)
-                local h = GetEntityHeading(myVehiculeEntity)
                 return
             end
         end
