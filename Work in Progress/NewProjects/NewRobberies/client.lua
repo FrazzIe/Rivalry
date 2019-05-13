@@ -249,14 +249,6 @@ end
 RegisterNetEvent("Rivalry.HackVault")
 AddEventHandler("Rivalry.HackVault", function(phase, phase_max, bank, banknumber)
 	isRobbing = true
-	Notify("You have just tripped an antitampering system! Better be quick!", 3300)
-	if bank == "Fleeca" then
-		TriggerServerEvent("dispatch:ten-ninety-bank", Rivalry.Robberies.Banks.Fleeca[BankNumber].Name)
-	elseif bank == "Blaine" then
-		TriggerServerEvent("dispatch:ten-ninety-bank", Rivalry.Robberies.Banks.Blaine.Name)
-	elseif bank == "Pacific" then
-		TriggerServerEvent("dispatch:ten-ninety-bank", Rivalry.Robberies.Banks.Pacific.Name)
-	end
 	TriggerEvent("mhacking:show")
 	TriggerEvent("mhacking:start", 5, 31, "Starting Hack.. Phase "..phase.." of "..phase_max,function(success)
 		if success then

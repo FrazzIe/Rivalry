@@ -312,14 +312,20 @@ AddEventHandler("Rivalry.HackVault", function(Level, MaxLevel, Bank, BankNumber)
 			Rivalry.Robberies.Banks.Fleeca[BankNumber].LastRobbed = os.time()
 			Rivalry.Robberies.Banks.Fleeca[BankNumber].Robber = Source
 			TriggerClientEvent("Rivalry.HackVault", Source, Level, MaxLevel, Bank, BankNumber)
+			TriggerEvent("dispatch:ten-ninety-bank", Rivalry.Robberies.Banks.Fleeca[BankNumber].Name)
+			TriggerClientEvent('customNotification', Source, "You have just tripped an antitampering system! Better be quick!")
 		elseif Bank == "Blaine" then
 			Rivalry.Robberies.Banks.Blaine.LastRobbed = os.time()
 			Rivalry.Robberies.Banks.Blaine.Robber = Source
 			TriggerClientEvent("Rivalry.HackVault", Source, Level, MaxLevel, Bank, BankNumber)
+			TriggerEvent("dispatch:ten-ninety-bank", Rivalry.Robberies.Banks.Blaine.Name)
+			TriggerClientEvent('customNotification', Source, "You have just tripped an antitampering system! Better be quick!")
 		elseif Bank == "Pacific" then
 			Rivalry.Robberies.Banks.Pacific.LastRobbed = os.time()
 			Rivalry.Robberies.Banks.Pacific.Robber = Source
 			TriggerClientEvent("Rivalry.HackVault", Source, Level, MaxLevel, Bank, BankNumber)
+			TriggerEvent("dispatch:ten-ninety-bank", Rivalry.Robberies.Banks.Pacific.Name)
+			TriggerClientEvent('customNotification', Source, "You have just tripped an antitampering system! Better be quick!")
 		end
 	end
 end)
