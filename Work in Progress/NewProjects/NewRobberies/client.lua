@@ -441,7 +441,7 @@ Citizen.CreateThread(function()
 					if #(Rivalry.Robberies.Banks.Fleeca[Index].Keypad - PlayerPosition) <= 1.0 then
 						DisplayHelpText("Press ~INPUT_CONTEXT~ to hack vault security lock!")
 						if IsControlJustPressed(1, 51) then
-							TriggerServerEvent("Rivalry.HackVault", 1, 20, "Fleeca", 0)
+							TriggerServerEvent("Rivalry.HackVault", 1, 20, "Fleeca", Index)
 						end
 					end
 				end

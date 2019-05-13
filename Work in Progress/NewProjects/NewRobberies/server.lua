@@ -280,7 +280,7 @@ AddEventHandler("Rivalry.Rob.Fleeca.Safebox", function(BankNumber, LockBoxNumber
 	local Source = source
 	if not HasBeenRobbed("Fleeca", BankNumber, PlayerID) or Rivalry.Robberies.Banks.Fleeca[BankNumber].Robber == PlayerID then
 		if Rivalry.Robberies.Banks.Fleeca[BankNumber].LockedBoxes[LockBoxNumber] == false then
-			TriggerClientEvent("Rivalry.Rob.Pacific.Safebox", Source)
+			TriggerClientEvent("Rivalry.Rob.Fleeca.Safebox", Source, BankNumber)
 			Rivalry.Robberies.Banks.Fleeca[BankNumber].LockedBoxes[LockBoxNumber] = true
 			Rivalry.Robberies.Banks.Pacific[BankNumber].LastRobbed = os.time()
 			Rivalry.Robberies.Banks.Pacific[BankNumber].Robber = PlayerID
