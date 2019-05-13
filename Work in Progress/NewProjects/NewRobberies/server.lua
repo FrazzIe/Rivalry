@@ -312,7 +312,7 @@ AddEventHandler("Rivalry.HackVault", function(Level, MaxLevel, Bank, BankNumber)
 			Rivalry.Robberies.Banks.Fleeca[BankNumber].LastRobbed = os.time()
 			Rivalry.Robberies.Banks.Fleeca[BankNumber].Robber = Source
 			TriggerClientEvent("Rivalry.HackVault", Source, Level, MaxLevel, Bank, BankNumber)
-		elseif == "Blaine" then
+		elseif Bank == "Blaine" then
 			Rivalry.Robberies.Banks.Blaine.LastRobbed = os.time()
 			Rivalry.Robberies.Banks.Blaine.Robber = Source
 			TriggerClientEvent("Rivalry.HackVault", Source, Level, MaxLevel, Bank, BankNumber)
