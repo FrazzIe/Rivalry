@@ -36,7 +36,7 @@ ammu_nation = {
 	},
 }
 Weapons = {
-	{Category = "Pistols", Items = {
+	{Category = "Pistols", License = true, Items = {
 		{Weapon = "WEAPON_PISTOL", Name = "Pistol", Cost = 550},
 		{Weapon = "WEAPON_COMBATPISTOL", Name = "Combat Pistol", Cost = 625},
 		--{Weapon = "WEAPON_PISTOL50", Name = "Pistol .50", Cost = 1},
@@ -75,7 +75,7 @@ Weapons = {
 		{Weapon = "WEAPON_MARKSMANRIFLE", Name = "Marksman Rifle", Cost = 1},
 	}},
 	--]]
-	{Category = "Melee", Items = {
+	{Category = "Melee", License = false, Items = {
 		{Weapon = "WEAPON_KNIFE", Name = "Knife", Cost = 65},
 		{Weapon = "WEAPON_FLASHLIGHT", Name = "Flashlight", Cost = 20},
 		--{Weapon = "WEAPON_NIGHTSTICK", Name = "Nightstick", Cost = 100},
@@ -93,7 +93,7 @@ Weapons = {
 		{Weapon = "WEAPON_POOLCUE", Name = "Poolcue", Cost = 50},
 		{Weapon = "WEAPON_WRENCH", Name = "Wrench", Cost = 30},
 	}},
-	{Category = "Shotguns", Items = {
+	{Category = "Shotguns", License = true, Items = {
 		--{Weapon = "WEAPON_SAWNOFFSHOTGUN", Name = "Sawed-Off Shotgun", Cost = 1},
 		{Weapon = "WEAPON_DBSHOTGUN", Name = "Double Barrel Shotgun", Cost = 1700},
 		--{Weapon = "WEAPON_AUTOSHOTGUN", Name = "Sweeper Shotgun", Cost = 1},
@@ -114,7 +114,7 @@ Weapons = {
 		{Weapon = "WEAPON_FIREWORK", Name = "Firework Launcher", Cost = 1},
 	}},
 	--]]
-	{Category = "Throwables", Items = {
+	{Category = "Throwables", License = true, Items = {
 		--{Weapon = "WEAPON_BZGAS", Name = "BZ Gas", Cost = 1},
 		--{Weapon = "WEAPON_MOLOTOV", Name = "Molotov", Cost = 1},
 		--{Weapon = "WEAPON_SMOKEGRENADE", Name = "Tear Gas", Cost = 1},
@@ -124,7 +124,7 @@ Weapons = {
 		--{Weapon = "WEAPON_FLARE", Name = "Flare", Cost = 1},
 		--{Weapon = "WEAPON_PROXMINE", Name = "Proximity Mine", Cost = 1},
 		--{Weapon = "WEAPON_PIPEBOMB", Name = "Pipe Bomb", Cost = 1},
-		{Weapon = "WEAPON_PETROLCAN", Name = "Petrol Can", Cost = 40},
+		{Weapon = "WEAPON_PETROLCAN", Name = "Petrol Can", Cost = 100},
 		--{Weapon = "WEAPON_SNOWBALL", Name = "Snow Ball", Cost = 50},
 	}},
 	--[[
@@ -133,7 +133,7 @@ Weapons = {
 		{Weapon = "WEAPON_REMOTESNIPER", Name = "Remote Sniper", Cost = 1},
 	}},
 	--]]
-	{Category = "Gadgets", Items = {
+	{Category = "Gadgets", License = true, Items = {
 		{Weapon = "GADGET_PARACHUTE", Name = "Parachute", Cost = 500},
 	}},
 }
