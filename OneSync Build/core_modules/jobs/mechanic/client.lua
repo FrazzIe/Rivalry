@@ -6,8 +6,18 @@ Mechanic.Position = nil
 
 RegisterNetEvent("Mechanic:Set")
 AddEventHandler("Mechanic:Set", function(_Data, _Mechanic, first)
-	Mechanic.Rank = ((type(_Data) == "table") and _Data.rank or nil)
 	Mechanic.IsMechanic = _Mechanic
+
+	if not Mechanic.IsMechanic then
+		Mechanic.Rank = nil
+	else
+		if _Data ~= nil then
+			if _Data.rank ~= nil then
+				Mechanic.Rank = _Data.rank
+			end
+		end
+	end
+
 	if not Mechanic.IsMechanic and Mechanic.Active then
 		Mechanic.Active = false
 		TriggerServerEvent("jobcenter:jobs", 1)

@@ -363,7 +363,7 @@ function DestroyVehicle(Handle)
 end
 
 function spawnDepanneuse(coords, type)
-    DestoryVehicle(myVehiculeEntity)
+    DestroyVehicle(myVehiculeEntity)
     myVehiculeEntity = nil
     for _, pos in pairs(coords) do 
         if pos.type == type then
