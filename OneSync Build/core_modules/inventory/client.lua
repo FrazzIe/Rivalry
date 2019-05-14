@@ -502,11 +502,15 @@ local function heal()
             Citizen.Wait(200)
             TaskPlayAnim(PlayerPedId(), armour_anim_dict, "002334_02_fras_v2_11_getting_dressed_exit", 4.0, -4, -1, 1, 0, false, false, false)
             Citizen.Wait(500)
-            SetEntityHealth(PlayerPedId(), 150)
+			if GetPedMaxHealth(PlayerPedId()) + 25 <= GetEntityHealth(PlayerPedId()) then
+				SetEntityHealth(PlayerPedId(), GetEntityHealth(PlayerPedId()) + 25)
+			else
+				SetEntityHealth(PlayerPedId(), GetPedMaxHealth(PlayerPedId()))
+			end
             Citizen.Wait(1700)
             ClearPedTasks(PlayerPedId())
             exports.pNotify:SendNotification({text = "Medkit used!",type = "error",queue = "left",timeout = 3000,layout = "centerRight"})
-            TriggerEvent("inventory:open")
+            --TriggerEvent("inventory:open")
         end
     end)
 end
