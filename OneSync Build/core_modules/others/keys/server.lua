@@ -67,10 +67,17 @@ end)
 RegisterServerEvent("keys:get")
 AddEventHandler("keys:get", function(vehicle, plate)
 	local source = source
+
 	if not keys_vehicles[plate] then
 		Notify("Grabbed keys!", 3000, source)
 		keys_vehicles[plate] = source
+
+		if not keys_users[source] then
+			keys_users[source] = {}
+		end
+
 		keys_users[source][plate] = source
+		
 		TriggerClientEvent("keys:sync", -1, keys_vehicles, keys_users)
 	else
 		Notify("You do not have the keys to this vehicle!", 3000, source)
