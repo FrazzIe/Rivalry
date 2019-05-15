@@ -509,7 +509,7 @@ local function heal()
 			end
             Citizen.Wait(1700)
             ClearPedTasks(PlayerPedId())
-            exports.pNotify:SendNotification({text = "Medkit used!",type = "error",queue = "left",timeout = 3000,layout = "centerRight"})
+            exports.pNotify:SendNotification({text = "Bandage used!",type = "error",queue = "left",timeout = 3000,layout = "centerRight"})
             --TriggerEvent("inventory:open")
         end
     end)
