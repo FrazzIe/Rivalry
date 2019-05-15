@@ -114,7 +114,7 @@ Weapons = {
 		{Weapon = "WEAPON_FIREWORK", Name = "Firework Launcher", Cost = 1},
 	}},
 	--]]
-	{Category = "Throwables", License = true, Items = {
+	{Category = "Throwables", License = false, Items = {
 		--{Weapon = "WEAPON_BZGAS", Name = "BZ Gas", Cost = 1},
 		--{Weapon = "WEAPON_MOLOTOV", Name = "Molotov", Cost = 1},
 		--{Weapon = "WEAPON_SMOKEGRENADE", Name = "Tear Gas", Cost = 1},
@@ -133,7 +133,7 @@ Weapons = {
 		{Weapon = "WEAPON_REMOTESNIPER", Name = "Remote Sniper", Cost = 1},
 	}},
 	--]]
-	{Category = "Gadgets", License = true, Items = {
+	{Category = "Gadgets", License = false, Items = {
 		{Weapon = "GADGET_PARACHUTE", Name = "Parachute", Cost = 500},
 	}},
 }
