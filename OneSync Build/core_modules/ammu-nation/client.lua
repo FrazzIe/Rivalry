@@ -68,6 +68,7 @@ Citizen.CreateThread(function()
 					end
 					if WarMenu.IsMenuOpened("Weapons") then
 						for k,v in pairs(Weapons) do
+							local addCategory = true
 							if v.License then
 								if weapon_license ~= "true" then
 									addCategory = false
