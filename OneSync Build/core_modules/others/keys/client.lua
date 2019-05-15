@@ -135,19 +135,6 @@ AddEventHandler("keys:trigger", function(vehicle, bool)
 	end
 end)
 
-function CheckKeys(vehicle)
-	SetVehicleEngineOn(vehicle, true, true, false)
-	SetVehicleUndriveable(vehicle, true)
-	if vehicle ~= lastvehicle then
-		lastvehicle = vehicle
-		if IsVehicleOwned(GetVehicleNumberPlateText(vehicle)) then
-			TriggerServerEvent("keys:get", vehicle, plate)
-		else
-			Notify("You do not have the keys to this vehicle!")
-		end
-	end
-end
-
 Citizen.CreateThread(function()
 	local lastvehicle = nil
 	while true do
@@ -158,31 +145,23 @@ Citizen.CreateThread(function()
 			local plate = GetVehicleNumberPlateText(vehicle)
 			local model = GetEntityModel(vehicle)
 			if GetPedInVehicleSeat(vehicle, -1) == ped and not exports.policejob:IsVehicleExempt(model) and not exports.emsjob:IsVehicleExempt(model) then
-				local serverid = GetPlayerServerId(PlayerId())
-				if keys_users[serverid] then
-					if keys_users[serverid][plate] then
-						if vehicle ~= lastvehicle then
-							lastvehicle = vehicle
-							SetVehicleEngineOn(vehicle, true, true, false)
-							SetVehicleUndriveable(vehicle, true)
-						end
-					elseif DecorExistOn(vehicle, "hotwire") then
-						if vehicle ~= lastvehicle then
-							lastvehicle = vehicle
-							SetVehicleEngineOn(vehicle, true, true, false)
-							SetVehicleUndriveable(vehicle, true)
-						end
-					else
-						CheckKeys(vehicle)
-					end
-				elseif DecorExistOn(vehicle, "hotwire") then
+				if keys_users[GetPlayerServerId(PlayerId())][plate] or DecorExistOn(vehicle, "hotwire") then
 					if vehicle ~= lastvehicle then
 						lastvehicle = vehicle
 						SetVehicleEngineOn(vehicle, true, true, false)
 						SetVehicleUndriveable(vehicle, true)
-					end				
+					end
 				else
-					CheckKeys(vehicle)
+					SetVehicleEngineOn(vehicle, true, true, false)
+					SetVehicleUndriveable(vehicle, true)
+					if vehicle ~= lastvehicle then
+						lastvehicle = vehicle
+						if IsVehicleOwned(GetVehicleNumberPlateText(vehicle)) then
+							TriggerServerEvent("keys:get", vehicle, plate)
+						else
+							Notify("You do not have the keys to this vehicle!")
+						end
+					end
 				end
 			end
 		else
