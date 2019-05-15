@@ -502,7 +502,7 @@ local function heal()
             Citizen.Wait(200)
             TaskPlayAnim(PlayerPedId(), armour_anim_dict, "002334_02_fras_v2_11_getting_dressed_exit", 4.0, -4, -1, 1, 0, false, false, false)
             Citizen.Wait(500)
-			if GetEntityHealth(PlayerPedId()) <= GetPedMaxHealth(PlayerPedId()) then
+			if GetEntityHealth(PlayerPedId()) + 25 <= GetPedMaxHealth(PlayerPedId()) then
 				SetEntityHealth(PlayerPedId(), GetEntityHealth(PlayerPedId()) + 25)
 			else
 				SetEntityHealth(PlayerPedId(), GetPedMaxHealth(PlayerPedId()))

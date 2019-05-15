@@ -495,7 +495,7 @@ Citizen.CreateThread(function()
 									Citizen.Wait(3800)
 									DetachEntity(Package)
 									Notify("Please head to your next destination!", 10000)
-									TriggerServerEvent("GoPostal.Success", 150)
+									TriggerServerEvent("GoPostal.Success")
 									RemoveBlip(GoPostalBlip)
 									SetBlipRoute(GoPostalBlip, false)
 									GoPostalBlip = nil

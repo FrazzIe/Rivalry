@@ -243,7 +243,7 @@ Citizen.CreateThread(function()
 								Citizen.Wait(920)
 								DestroyObject(GarbageBag)
 								Completed = Completed + 1
-								TriggerServerEvent('garbage:success', 150)
+								TriggerServerEvent('garbage:success')
 							end
 						end
 					end
