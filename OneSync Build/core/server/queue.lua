@@ -52,7 +52,7 @@ Config.Priority = {
     ["steam:1100001066dbf26"] = 779, -- KenshinRP
     ["steam:11000010c0e84cc"] = 778, -- Shotz (Chang Gang)
     ["steam:1100001069ff6bf"] = 777, -- Rated (Chang Gang)
-    ["steam:11000010501b537"] = 776, -- Ramee
+    ["steam:11000010501b537"] = 776, -- Ramee (Chang Gang)
     ["steam:110000101cbce66"] = 775, -- Spaceboy
     ["steam:110000108defef3"] = 774, -- Sur Lee
     ["steam:110000101dcfaa6"] = 773, -- FortyOne
@@ -62,6 +62,7 @@ Config.Priority = {
     ["steam:110000106d04419"] = 769, -- Cool_Kid
     ["steam:110000139fb527b"] = 768, -- BrinnieTV
     ["steam:1100001041eedde"] = 767, -- Rusty
+    ["steam:11000010aa72879"] = 766, -- SchmoeTV
 --[PD, EMS, DOJ, Mech]--
     ["steam:11000010bf7bb73"] = 700, -- AfriicanSnowball (PD High Command)
     ["steam:110000104c9acb6"] = 698, -- Tyler Reagan (PD High Command)
