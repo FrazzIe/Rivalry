@@ -28,6 +28,8 @@ local drag = false
 local draggedBy = -1
 local wasDragged = false
 
+local CanProne = true
+
 function StanceAllowed(value)
 	if type(value) == "boolean" then
 		IsStanceAllowed = value
@@ -136,7 +138,7 @@ Citizen.CreateThread(function()
 							Timer.start()
 						elseif IsDisabledControlJustReleased(0, 36) and IsStanceAllowed then
 							if time >= 250 then
-								if not cuffed and not exports.policejob:getIsCuffed() then
+								if not cuffed and not exports.policejob:getIsCuffed() and CanProne then
 									if IsPedSprinting(PlayerPed) or IsPedRunning(PlayerPed) then
 										ClearPedTasks()
 										TaskPlayAnim(PlayerPed, "move_jump", "dive_start_run", 8.0, -8.0, -1, 0, 0, false, false, false)
@@ -159,7 +161,7 @@ Citizen.CreateThread(function()
 							Timer.start()
 						elseif IsDisabledControlJustReleased(0, 36) and IsStanceAllowed then
 							if time >= 250 then
-								if not cuffed and not exports.policejob:getIsCuffed() then
+								if not cuffed and not exports.policejob:getIsCuffed() and canProne then
 									setStance("prone")
 								else
 									setStance("standing")
@@ -197,6 +199,7 @@ Citizen.CreateThread(function()
 		end
 	end
 end)
+
 --[[ HANDS UP ]]--
 
 Citizen.CreateThread(function()
@@ -350,6 +353,14 @@ AddEventHandler("handcuffs:uncuff", function()
 		cuffed = false
 	end
 end)
+
+function DisableProne()
+	CanProne = false
+end
+
+function EnableProne()
+	CanProne = true
+end
 
 TriggerServerEvent("handcuffs:reload")
 

@@ -187,3 +187,6 @@ export 'StanceAllowed'
 
 export 'TurnOffHudElements'
 export 'HudElementsDisabled'
+
+export 'DisableProne'
+export 'EnableProne'

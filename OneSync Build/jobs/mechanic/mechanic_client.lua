@@ -1022,30 +1022,28 @@ end)
 Citizen.CreateThread(function()
     while true do
         Citizen.Wait(0)
-        if inService then
-            if currentMissions ~= nil then
-                if GetPlayerServerId(PlayerPedId()) ~= MissionCaller then
-                    local PlayerPosition = GetEntityCoords(PlayerPedId(), false)
-                    local CurrentMissionVector = vector3(currentMissions.pos[1], currentMissions.pos[2], currentMissions.pos[3])
-                    local PreviousMissionVector = vector3(previous_mission_coords[1], previous_mission_coords[2], previous_mission_coords[3])
-                    local Distance = #(PlayerPosition - CurrentMissionVector)
-                    local LastMission = #(CurrentMissionVector - PreviousMissionVector)
-                    if Distance < 10 and LastMission > 20 then
-                        previous_mission_coords = currentMissions.pos
-                        TriggerServerEvent("mechanic:PayPlayer")
-                        TriggerServerEvent('mechanic:FinishMission', currentMissions.id)
-                        currentMissions = nil
-                    elseif previous_mission_coords == 0 or previous_mission_coords == nil and Distance < 10 then
-                        previous_mission_coords = currentMissions.pos
-                        TriggerServerEvent("mechanic:PayPlayer")
-                        TriggerServerEvent('mechanic:FinishMission', currentMissions.id)
-                        currentMissions = nil
-                    end
+        if currentMissions ~= nil then
+            if GetPlayerServerId(PlayerPedId()) ~= MissionCaller then
+                local PlayerPosition = GetEntityCoords(PlayerPedId(), false)
+                local CurrentMissionVector = vector3(currentMissions.pos[1], currentMissions.pos[2], currentMissions.pos[3])
+                local PreviousMissionVector = vector3(previous_mission_coords[1], previous_mission_coords[2], previous_mission_coords[3])
+                local Distance = #(PlayerPosition - CurrentMissionVector)
+                local LastMission = #(CurrentMissionVector - PreviousMissionVector)
+                if Distance < 10 and LastMission > 20 then
+                    previous_mission_coords = currentMissions.pos
+                    TriggerServerEvent("mechanic:PayPlayer")
                     TriggerServerEvent('mechanic:FinishMission', currentMissions.id)
+                    currentMissions = nil
+                elseif previous_mission_coords == 0 or previous_mission_coords == nil and Distance < 10 then
+                    previous_mission_coords = currentMissions.pos
+                    TriggerServerEvent("mechanic:PayPlayer")
+                    TriggerServerEvent('mechanic:FinishMission', currentMissions.id)
+                    currentMissions = nil
                 end
-                if currentBlip ~= nil then
-                    RemoveBlip(currentBlip)
-                end
+                TriggerServerEvent('mechanic:FinishMission', currentMissions.id)
+            end
+            if currentBlip ~= nil then
+                RemoveBlip(currentBlip)
             end
         end
     end

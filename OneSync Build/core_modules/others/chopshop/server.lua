@@ -51,7 +51,13 @@ RegisterServerEvent("ChopShop.Pay")
 AddEventHandler("ChopShop.Pay", function(class)
 	local Source = source
 	if not chopshop_pay[class] then class = 2 end
-	TriggerEvent("core:getuser", Source, function(user)
-		user.addDirty(chopshop_pay[class])
-	end)
+    TriggerEvent("police:getCops", function(cops)
+        if tonumber(cops) > 0 then
+            TriggerEvent("core:getuser", Source, function(user)
+                user.addDirty(chopshop_pay[class])
+            end)
+        else
+            TriggerClientEvent("pNotify:SendNotification", source, {text = "Thanks for the free car bud, unfortunately I haven't heard anything on the police scanner. No risk no reward. ;)", type = "error",queue = "left",timeout = 2500,layout = "centerRight"})
+        end
+    end)
 end)
