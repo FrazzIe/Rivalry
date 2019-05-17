@@ -23,11 +23,13 @@ Config.Priority = {
     ["steam:11000010a408fb4"] = 899, -- grace
 --[People Noonab Likes]--
     ["steam:1100001045138b3"] = 850, -- Carbine
-    ["steam:11000010298765a"] = 840, -- Daren
-    ["steam:1100001086dec91"] = 820, -- TenderQWERTY
-    ["steam:11000011601baf6"] = 810, -- MysticModding
-    ["steam:110000105e2219c"] = 805, -- Daquan
+    ["steam:11000010298765a"] = 849, -- Daren
+    ["steam:1100001086dec91"] = 848, -- TenderQWERTY
+    ["steam:11000011601baf6"] = 847, -- MysticModding
+    ["steam:110000105e2219c"] = 846, -- Daquan
 --[Streamers]--
+    ["steam:1100001001300d7"] = 801, -- Summit1G
+    ["steam:11000010044e856"] = 801, -- Shroud
     ["steam:1100001029cb44c"] = 800, -- Roach (Tony Moretti)
     ["steam:11000010327eb4d"] = 799, -- WombatsPlayGames (Natasha Moretti)  
     ["steam:11000010bd74dbb"] = 798, -- Andy Milonakis
