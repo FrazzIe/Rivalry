@@ -1012,9 +1012,11 @@ Citizen.CreateThread(function()
         Citizen.Wait(0)
         if inService then
             Citizen.Wait(180000)
-            previous_mission_coords[1] = 0
-            previous_mission_coords[2] = 0
-            previous_mission_coords[3] = 0
+            if previous_mission_coords ~= nil then
+                previous_mission_coords[1] = 0
+                previous_mission_coords[2] = 0
+                previous_mission_coords[3] = 0
+            end
         end
     end
 end)
@@ -1023,9 +1025,47 @@ Citizen.CreateThread(function()
     while true do
         Citizen.Wait(0)
         if currentMissions ~= nil then
-            if GetPlayerServerId(PlayerPedId()) ~= MissionCaller then
+            if GetPlayerServerId(PlayerId()) ~= MissionCaller then
                 local PlayerPosition = GetEntityCoords(PlayerPedId(), false)
                 local CurrentMissionVector = vector3(currentMissions.pos[1], currentMissions.pos[2], currentMissions.pos[3])
+                if previous_mission_coords ~= nil then
+                    local PreviousMissionVector = vector3(previous_mission_coords[1], previous_mission_coords[2], previous_mission_coords[3])
+                    local Distance = #(PlayerPosition - CurrentMissionVector)
+                    local LastMission = #(CurrentMissionVector - PreviousMissionVector)
+                    if Distance < 10 and LastMission > 20 then
+                        previous_mission_coords = currentMissions.pos
+                        TriggerServerEvent("mechanic:PayPlayer")
+                        TriggerServerEvent('mechanic:FinishMission', currentMissions.id)
+                        currentMissions = nil
+                    elseif previous_mission_coords == 0 or previous_mission_coords == nil and Distance < 10 then
+                        previous_mission_coords = currentMissions.pos
+                        TriggerServerEvent("mechanic:PayPlayer")
+                        TriggerServerEvent('mechanic:FinishMission', currentMissions.id)
+                        currentMissions = nil
+                    end
+                else
+                    local Distance = #(PlayerPosition - CurrentMissionVector)
+                    if Distance < 10 then
+                        previous_mission_coords = currentMissions.pos
+                        TriggerServerEvent("mechanic:PayPlayer")
+                        TriggerServerEvent('mechanic:FinishMission', currentMissions.id)
+                        currentMissions = nil
+                    end
+                end
+            end
+            if currentBlip ~= nil then
+                RemoveBlip(currentBlip)
+            end
+        end
+    end
+end)
+
+AddEventHandler("mechanic:finish_mission", function()
+    if currentMissions ~= nil then
+        if GetPlayerServerId(PlayerId()) ~= MissionCaller then
+            local PlayerPosition = GetEntityCoords(PlayerPedId(), false)
+            local CurrentMissionVector = vector3(currentMissions.pos[1], currentMissions.pos[2], currentMissions.pos[3])
+            if previous_mission_coords ~= nil then
                 local PreviousMissionVector = vector3(previous_mission_coords[1], previous_mission_coords[2], previous_mission_coords[3])
                 local Distance = #(PlayerPosition - CurrentMissionVector)
                 local LastMission = #(CurrentMissionVector - PreviousMissionVector)
@@ -1040,35 +1080,15 @@ Citizen.CreateThread(function()
                     TriggerServerEvent('mechanic:FinishMission', currentMissions.id)
                     currentMissions = nil
                 end
-                TriggerServerEvent('mechanic:FinishMission', currentMissions.id)
+            else
+                local Distance = #(PlayerPosition - CurrentMissionVector)
+                if Distance < 10 then
+                    previous_mission_coords = currentMissions.pos
+                    TriggerServerEvent("mechanic:PayPlayer")
+                    TriggerServerEvent('mechanic:FinishMission', currentMissions.id)
+                    currentMissions = nil
+                end
             end
-            if currentBlip ~= nil then
-                RemoveBlip(currentBlip)
-            end
-        end
-    end
-end)
-
-AddEventHandler("mechanic:finish_mission", function()
-    if currentMissions ~= nil then
-        if GetPlayerServerId(PlayerPedId()) ~= MissionCaller then
-            local PlayerPosition = GetEntityCoords(PlayerPedId(), false)
-            local CurrentMissionVector = vector3(currentMissions.pos[1], currentMissions.pos[2], currentMissions.pos[3])
-            local PreviousMissionVector = vector3(previous_mission_coords[1], previous_mission_coords[2], previous_mission_coords[3])
-            local Distance = #(PlayerPosition - CurrentMissionVector)
-            local LastMission = #(CurrentMissionVector - PreviousMissionVector)
-            if Distance < 10 and LastMission > 20 then
-                previous_mission_coords = currentMissions.pos
-                TriggerServerEvent("mechanic:PayPlayer")
-                TriggerServerEvent('mechanic:FinishMission', currentMissions.id)
-                currentMissions = nil
-            elseif previous_mission_coords == 0 or previous_mission_coords == nil and Distance < 10 then
-                previous_mission_coords = currentMissions.pos
-                TriggerServerEvent("mechanic:PayPlayer")
-                TriggerServerEvent('mechanic:FinishMission', currentMissions.id)
-                currentMissions = nil
-            end
-            TriggerServerEvent('mechanic:FinishMission', currentMissions.id)
         end
         if currentBlip ~= nil then
             RemoveBlip(currentBlip)
@@ -1122,7 +1142,7 @@ end)
 function needMechanic(type)
     local myPed = GetPlayerPed(-1)
     local myCoord = GetEntityCoords(myPed)
-    TriggerServerEvent('mechanic:Call', myCoord.x, myCoord.y, myCoord.z, type, GetPlayerServerId(PlayerPedId()))
+    TriggerServerEvent('mechanic:Call', myCoord.x, myCoord.y, myCoord.z, type, GetPlayerServerId(PlayerId()))
 end
 
 AddEventHandler('mechanic:togglehelp', function()
