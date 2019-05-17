@@ -109,7 +109,7 @@ Citizen.CreateThread(function()
                                     end
                                 end
                             end
-                            if WarMenu.ComboBox("Armour", options , currentItemIndex[#currentItemIndex], selectedItemIndex[#selectedItemIndex], function(currentIndex, selectedIndex)
+                            --[[if WarMenu.ComboBox("Armour", options , currentItemIndex[#currentItemIndex], selectedItemIndex[#selectedItemIndex], function(currentIndex, selectedIndex)
                                 currentItemIndex[#currentItemIndex] = currentIndex
                                 selectedItemIndex[#selectedItemIndex] = selectedIndex
                             end) then
@@ -118,7 +118,7 @@ Citizen.CreateThread(function()
                                 elseif selectedItemIndex[#selectedItemIndex] == 2 then
                                     SetPedArmour(PlayerPed, 0)
                                 end
-                            end
+                            end]]--
                             WarMenu.Display()
                         end
                     elseif Distance > 1.0 then
