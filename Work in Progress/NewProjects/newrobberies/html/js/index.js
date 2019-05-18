@@ -7,12 +7,15 @@ $(document).ready(function(){
     $(".num1").hide();
     $(".num2").hide();
     $(".num3").hide();
+    $('#body').hide();
   function openMain() {
     $(".container").css("display", "block");
     $(".combo").css("display", "block");
+    $('#body').show();
   }
   function closeAll() {
     $(".container").css("display", "none");
+    $('#body').hide();
   }
   function closeMain() {
     $(".container").css("display", "none");
@@ -23,6 +26,7 @@ $(document).ready(function(){
     $(".num1").html("");
     $(".num2").html("");
     $(".num3").html("");
+    $('#body').hide();
   }
   Draggable.create(".dial", {
     type:"rotation",
@@ -116,10 +120,10 @@ $(document).ready(function(){
 
   window.addEventListener('message', function(event){
     var item = event.data;
-    if(item.active === true) {
+    if(item.combolock === true) {
       openMain();
     }
-    if(item.active === false) {
+    if(item.combolock === false) {
       closeMain();
     }
     if(item.newnumber === true) { 

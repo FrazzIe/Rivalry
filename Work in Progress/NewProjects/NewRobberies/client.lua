@@ -126,7 +126,6 @@ AddEventHandler("Rivalry.Rob.CashRegister", function(StoreNumber, RegisterNumber
 			TriggerServerEvent("dispatch:ten-ninety-store-cashregisters", Rivalry.Robberies.Stores[StoreNumber].Name)
 			Citizen.Wait(2000)
 			Rivalry.Robberies.Stores[StoreNumber].CashRegisters[RegisterNumber].Robbed = true
-			Citizen.Wait(8000)
 			TriggerServerEvent("Rivalry.CashRegister.Payout")
 		end
 	end)
@@ -137,7 +136,7 @@ AddEventHandler("Rivalry.Rob.StoreVault", function(StoreNumber)
 	Citizen.CreateThread(function()
 		if DoesEntityExist(PlayerPedId()) and not IsEntityDead(PlayerPedId()) then
 			OpenComboLockGui()
-			SendNUIMessage({active = true, newnumber = true, numberone = math.random(1, 40), numbertwo = math.random(1, 40), numberthree = math.random(1, 40)})
+			SendNUIMessage({combolock = true, newnumber = true, numberone = math.random(1, 40), numbertwo = math.random(1, 40), numberthree = math.random(1, 40)})
 			IsRobbingStoreVault = true
 			TotalLocks = 0
 			NumberOfPins = 0
@@ -230,7 +229,6 @@ end
 function OpenComboLockGui()
 	SetPlayerControl(PlayerId(), 0, 0)
 	SetNuiFocus(true, true)
-	SendNUIMessage({active = true})
 	RequestAnimDict("mini@safe_cracking")
 	while not HasAnimDictLoaded("mini@safe_cracking") do
 		Wait(0)
@@ -242,7 +240,7 @@ end
 function CloseComboLockGui()
 	ClearPedTasks(PlayerPedId())
 	SetNuiFocus(false, false)
-	SendNUIMessage({active = false})
+	SendNUIMessage({combolock = false})
 	SetPlayerControl(PlayerId(), 1, 0)
 end
 

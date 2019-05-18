@@ -2,6 +2,7 @@ $(document).ready(function(){
   var documentWidth = document.documentElement.clientWidth;
   var documentHeight = document.documentElement.clientHeight;
   $('#body').hide();
+  $('#wrap').hide();
   var minRot = -90,
       maxRot = 90,
       solveDeg = ( Math.random() * 180 ) - 90,
@@ -25,10 +26,12 @@ $(document).ready(function(){
     function openMain(Pins) {
       reset();
       $("#body").show();
+      $("#wrap").show();
       numPins = Pins
     }
     function closeMain() {
       $("#body").hide();
+      $("#wrap").hide();
     }
 
   $(function(){
@@ -244,6 +247,8 @@ $(document).ready(function(){
     if(item.lockpick === true) {
       gameOver = false;
       openMain(item.pins);
+      solveDeg = ( Math.random() * 180 ) - 90;
+      solvePadding = 4;
     }
     if(item.lockpick === false) {
       gameOver = true;
