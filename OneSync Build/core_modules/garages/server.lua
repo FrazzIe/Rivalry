@@ -323,7 +323,7 @@ insurance = {
 }
 local slotprice = 500
 local emplacement_garage = {
-    [1] = {name="Public Parking", colour=1, sprite=357, x=277.74975585938,y=-340.10516357422,z=44.919883728027,id=1,gname="Occupation Ave [1]",cost=3000,heading=67.620101928711,maxslots=3}, -- Occupation Ave
+    [1] = {name="Public Garage", colour=1, sprite=357, x=-1189.1696777344,y=-687.54241943359,z=25.901292800903,id=1,gname="North Rockford Dr [1]",cost=3000,heading=39.566410064697,maxslots=4}, -- North Rockford Dr
     [2] = {name="Public Garage", colour=1, sprite=357, x=-443.00497436523,y=185.29835510254,z=75.203712463379,id=2,gname="North LS [2]",cost=2000,heading=0.0,maxslots=2}, -- Public Upper City
     [3] = {name="Public Garage", colour=1, sprite=357, x=1232.4792480469,y=2708.3212890625,z=38.005790710449,id=3,gname="Sandy [3]",cost=1000,heading=0.0,maxslots=1}, -- Public Sandy
     [4] = {name="Public Garage", colour=1, sprite=357, x=117.96788024902,y=6599.45703125,z=32.013603210449,id=4,gname="Paleto [4]",cost=1000,heading=-90.0,maxslots=1}, -- Public Paleto
@@ -336,7 +336,7 @@ local emplacement_garage = {
     [11] = {name="Personal Garage", colour=3, sprite=357, x=-30.303638458252,y=2.1268248558044,z=71.200004577637,id=11,gname="Small Garage [11]",cost=2000,heading=150.0,maxslots=2}, -- Personal
     [12] = {name="Personal Garage", colour=3, sprite=357, x=-84.019691467285,y=-820.99694824219,z=36.028030395508,id=12,gname="Maze Tower [12]",cost=5000,heading=-365.0,maxslots=5}, -- Personal
     [13] = {name="Personal Garage", colour=3, sprite=357, x=1958.3830566406,y=3767.013671875,z=32.208053619385,id=13,gname="Sandy Shores [13]",cost=3000,heading=29.273107528687,maxslots=3}, -- Personal
-    [14] = {name="Public Garage", colour=1, sprite=357, x=379.36770629883,y=-1678.8072509766,z=27.309490203857,id=14,gname="Rancho [14]",cost=3000,heading=227.73773193359,maxslots=3}, -- Public
+    [14] = {name="Public Garage", colour=1, sprite=357, x=379.36770629883,y=-1678.8072509766,z=27.309490203857,id=14,gname="Rancho [14]",cost=3000,heading=227.73773193359,maxslots=3}, -- Rancho
 }
 
 AddEventHandler("onServerResourceStart", function(resource)
