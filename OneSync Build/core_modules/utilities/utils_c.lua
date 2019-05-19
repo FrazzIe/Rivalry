@@ -14,35 +14,42 @@ function SetParamedic(_IsParamedic, _IsOnDuty)
 end
 
 local animals = {
-    ["1462895032"] = true,
-    ["-1788665315"] = true,
-    ["307287994"] = true,
-    ["882848737"] = true,
+    "a_c_boar",
+    "a_c_cat_01",
+    "a_c_chickenhawk",
+    "a_c_chimp",
+    "a_c_chop",
+    "a_c_cormorant",
+    "a_c_cow",
+    "a_c_coyote",
+    "a_c_crow",
+    "a_c_deer",
+    "a_c_dolphin",
+    "a_c_fish",
+    "a_c_hen",
+    "a_c_humpback",
+    "a_c_husky",
+    "a_c_killerwhale",
+    "a_c_mtlion",
+    "a_c_pig",
+    "a_c_pigeon",
+    "a_c_poodle",
+    "a_c_rabbit_01",
+    "a_c_rat",
+    "a_c_retriever",
+    "a_c_rhesus",
+    "a_c_rottweiler",
+    "a_c_seagull",
+    "a_c_sharkhammer",
+    "a_c_sharktiger",
+    "a_c_shepherd",
+    "a_c_westy",
 }
-local animals_config = {
-    ["A_C_Boar"] = true,
-    ["A_C_Chickenhawk"] = true,
-    ["A_C_Chimp"] = true,
-    ["A_C_Chop"] = true,
-    ["A_C_Cormorant"] = true,
-    ["A_C_Cow"] = true,
-    ["A_C_Coyote"] = true,
-    ["A_C_Crow"] = true,
-    ["A_C_Deer"] = true,
-    ["A_C_Fish"] = true,
-    ["A_C_Hen"] = true,
-    ["A_C_Husky"] = true,
-    ["A_C_MtLion"] = true,
-    ["A_C_Pig"] = true,
-    ["A_C_Pigeon"] = true,
-    ["A_C_Rat"] = true,
-    ["A_C_Retriever"] = true,
-    ["A_C_Rhesus"] = true,
-    ["A_C_Rottweiler"] = true,
-    ["A_C_Seagull"] = true,
-    ["A_C_SharkTiger"] = true,
-    ["A_C_shepherd"] = true,
-}
+
+for i = 1, #animals do
+    animals[i] = GetHashKey(animals[i])
+end
+
 local extrablips = {
     {name="Prison", sprite=285, x=1679.049, y=2513.711, z=45.565},
     {name="Impound Lot", sprite=68, x=401.05154418945, y=-1631.6422119141, z=29.291933059692},
@@ -474,11 +481,16 @@ function getParamedics()
 end
 
 function IsPedAnAnimal(_model)
-    if animals[tostring(_model)] then
-        return true
-    else
-        return false
+    local found = false
+
+    for i = 1, #animals do
+        if animals[i] == _model then
+            found = true
+            break
+        end
     end
+
+    return found
 end
 
 function FindNearbyPlayers(distance)
@@ -663,13 +675,6 @@ end
 RegisterNetEvent("core:synctime")
 AddEventHandler("core:synctime", function(_time)
     unixtime = _time
-end)
-
-RegisterNetEvent("core:loaded")
-AddEventHandler("core:loaded", function(user, power, group)
-    for k,v in pairs(animals_config) do
-        animals[tostring(GetHashKey(k))] = true
-    end
 end)
 
 RegisterNetEvent('police:updateactiveCops')
