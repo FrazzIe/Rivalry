@@ -331,17 +331,22 @@ end)
 --Impound
 RegisterServerEvent('police:impound')
 AddEventHandler('police:impound', function(plate, amount)
-	if tonumber(plate, 16) ~= nil then
-		exports['GHMattiMySQL']:QueryResultAsync("SELECT characters.identifier FROM vehicles INNER JOIN characters ON vehicles.character_id = characters.character_id WHERE plate=@plate", {["@plate"] = tonumber(plate, 16)}, function(identifier)
-			if identifier[1] == nil then
-			else
-				TriggerEvent("core:getuserfromidentifier", identifier[1].identifier, function(target)
-					if target then
-						TriggerClientEvent("garage:impound", target, plate, amount)
-					end
-				end)
-			end
-		end)
+	if plate ~= nil then
+		local hexPlate = tonumber(plate, 16)
+
+		if hexPlate ~= nil then
+			exports['GHMattiMySQL']:QueryAsync("UPDATE vehicles SET state=@state WHERE plate=@plate", {["@state"] = "~b~Impounded", ["@plate"] = hexPlate})
+			exports['GHMattiMySQL']:QueryResultAsync("SELECT characters.identifier FROM vehicles INNER JOIN characters ON vehicles.character_id = characters.character_id WHERE plate=@plate", {["@plate"] = hexPlate}, function(identifier)
+				if identifier[1] == nil then
+				else
+					TriggerEvent("core:getuserfromidentifier", identifier[1].identifier, function(target)
+						if target then
+							TriggerClientEvent("garage:impound", target, plate, amount)
+						end
+					end)
+				end
+			end)
+		end
 	end
 end)
 --==============================================================================================================================--
