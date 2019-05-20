@@ -64,6 +64,7 @@ Config.Priority = {
     ["steam:110000139fb527b"] = 768, -- BrinnieTV
     ["steam:1100001041eedde"] = 767, -- Rusty
     ["steam:11000010aa72879"] = 766, -- SchmoeTV
+    ["steam:110000108fdcf76"] = 765, -- Paatricia
 --[PD, EMS, DOJ, Mech]--
     ["steam:11000010bf7bb73"] = 700, -- AfriicanSnowball (PD High Command)
     ["steam:110000104c9acb6"] = 698, -- Tyler Reagan (PD High Command)
