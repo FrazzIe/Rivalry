@@ -3,7 +3,7 @@ jobs = {
     [1] = {id = 1, name = "Unemployed", pay = 25},
     [2] = {id = 2, name = "Police", pay = {on=1000,off=250}},
     [3] = {id = 3, name = "Pharmacist", pay = 100},
-    [4] = {id = 4, name = "futurjob2", pay = 100},
+    [4] = {id = 4, name = "LSWP", pay = 100},
     [5] = {id = 5, name = "futurjob", pay = 100},
     [6] = {id = 6, name = "Farmer", pay = 100},
     [7] = {id = 7, name = "Lumberjack", pay = 100},
