@@ -73,6 +73,7 @@ Config.Priority = {
     ["steam:1100001029cb44c"] = 301, -- Roach (streamer)
     ["steam:11000010327eb4d"] = 300, -- WombatsPlayGames (streamer)
 --[Silver Ticket]--
+	["steam:110000106e043cc"] = 205, -- TheGhostman (streamer)
     ["steam:1100001005489bf"] = 204, -- GamezJohn (streamer)
     ["steam:110000108039c08"] = 203, -- DatVoiceGuy (streamer)
 	["steam:11000010aa72879"] = 202, -- SchmoeTV (streamer)
