@@ -892,7 +892,7 @@ PlayerCustomisation.Locations = {
 			Marker = {x = 105.67861938477, y = -1303.0101318359, z = 28.768802642822, h = 300.53588867188},
 			Banner = "shopui_title_lowendfashion",
 		},
-		[16] = { -- Mission Row
+		[16] = { -- Mission Row PD
 			Blip = {
 				Name = "Outfits",
 				Sprite = 366, 
@@ -908,6 +908,15 @@ PlayerCustomisation.Locations = {
 				Colour = 0,
 			},
 			Marker = {x = 318.93661499023, y = -577.39385986328, z = 43.317371368408, h = 250.49789428711},
+			Banner = "shopui_title_midfashion",
+		},
+		[18] = { -- Sandy Shores PD
+			Blip = {
+				Name = "Outfits",
+				Sprite = 366, 
+				Colour = 0,
+			},
+			Marker = {x = 1856.0681152344, y = 3688.7253417969, z = 34.267070770264, h = 204.30473327637},
 			Banner = "shopui_title_midfashion",
 		},
 	},
