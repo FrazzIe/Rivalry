@@ -1,33 +1,27 @@
-	- Implement Robbing Player Houses
+	Short Term:
+	- cuffing sound
+	- Rewrite Robberies
+	- choppers/boats need gas again
+	- super cars still require hotwire kits
+	- check for ctrl out of cuffing animation
+	- check for ctrl out of ped stun (taze)
+	- phone: /call #, /answer, /hangup, /ans, /hu
+	- entities on ground, no more destroying anything
+ 	- /clear command for Active Dispatchs for Police Department
+ 	- change hotwiring / locals hand over keys and call cops
+	- GTA dispatch: Someone spotted you in the car and called the police!
+	- freemode inmate clothing .. force all freemode models clothes to inmate clothing when jailed
+	- Remove /twitter and put as an app in current phone with ability to toggle twitter notifications
+	
+	Long Term:
+	- Security Job
 	- Implement Robbing Local Houses
 	- Implement DoJ Seize Feature
 	- Implement PD Raid Feature
 	- Implement DoJ View Feature
 	- Implement PD View Feature
-	- Rewrite Garage Script
 	- Remove all Public Garages
 	- Personal Garages at Apartments/Houses
-	- Public Garages fee and limits
-	- Security Job
-	- GTA: Someone spotted you in the car and called the police
-	- Rewrite Robberies
-	- Store Robberies, More Locks = More Money. Take money out of safe/cash register
-	- Bank Robberies, More Safe Boxes = More Money. Take money out of bank vault
-	- Remove /twitter and put as option in current phone. Add feature to toggle twitter notifications
+	- Public Parking fee and limits
+	- Los Santos Water & Power Job
  	- Rework DOA / hospital check-in
- 	- /clear command for Active Dispatchs for Police Department
- 	- <23:40:43> "K-01 | C. Oldman": change hotwiring / locals hand over keys and call cops
-	- <23:40:54> "K-01 | C. Oldman": super cars still require hotwire kits
-	- <23:43:46> "Kole": Thanks for the free car! When no cops are around there is no risk so get scamazed!
-	- <23:44:54> "K-01 | C. Oldman": Thanks for the free car bud, unfortunately I haven't heard anything on the police scanner... no risk no reward. 
-	- <23:45:18> "K-01 | C. Oldman": Thanks for the free car bud, unfortunately I haven't heard anything on the police scanner so no risk no reward.
-	- <23:45:36> "K-01 | C. Oldman": Thanks for the free car bud, unfortunately I haven't heard anything on the police scanner. No risk no reward.
-	- <23:46:16> "K-01 | C. Oldman": check for ctrl out of cuffing animation
-	- <23:46:26> "K-01 | C. Oldman": check for ctrl out of ped stun (yaze)
-	- <23:46:31> "K-01 | C. Oldman": taze
-	- <23:46:56> "K-01 | C. Oldman": cuffing sound
-	- <23:48:30> "K-01 | C. Oldman": entity on ground, no more destroying anything
-	- <00:06:31> "K-01 | C. Oldman": phone: /call #, /answer, /hangup
-	- <00:07:01> "K-01 | C. Oldman": .. /ans /hu
-	- <00:08:57> "K-01 | C. Oldman": freemode inmate clothing .. force all freemode models clothes to inmate clothing when jailed
-	- <00:32:45> "K-01 | C. Oldman": choppers/boats need gas again
