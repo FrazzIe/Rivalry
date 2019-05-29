@@ -4,6 +4,7 @@ local GlassesDrawable, GlassesTexture = nil, nil
 local MaskDrawable, MaskTexture, MaskPalette = nil, nil, nil
 local GlovesDrawable, GlovesTexture, GlovesPalette = nil, nil, nil
 local DisplayTenCodes = false
+local DisplayCameras = false
 local DisplayImmersionBars = false
 local BedLocations = {
     vector3(349.42709350586,-583.51416015625,42.871894836426),
@@ -236,6 +237,15 @@ AddEventHandler("core:ready", function()
         end
     end, false, {Help = "Toggle ten codes",  Params = {}})
 
+    Chat.Command("cams", function(source, args, rawCommand)
+        if exports.policejob:getIsInService() then
+            DisplayCameras = not DisplayCameras
+        else
+            DisplayCameras = false
+            Chat.Message("INFO", "You must be on duty use this command!", 255, 0, 0, true)
+        end
+    end, false, {Help = "Toggle camera list",  Params = {}})
+
     Chat.Command("hood", function(source, args, fullCommand)
         local pos = GetEntityCoords(PlayerPedId(), false)
         local entityWorld = GetOffsetFromEntityInWorldCoords(PlayerPedId(), 0.0, 20.0, 0.0)
@@ -376,6 +386,11 @@ AddEventHandler("core:ready", function()
         TriggerEvent('interaction:give_dirtymoney_ID', Amount, Target)
     end, false, {Help = "Give Dirty Money",  Params = {{name = "amount", help = "number"},{name = "id", help = "id"}}})
 
+    Chat.Command("cctv", function(source, args, rawCommand)
+        local Camera = tonumber(args[1])
+        TriggerEvent('Set.Current.Camera', Camera)
+    end, false, {Help = "Select CCTV Which Camera",  Params = {{name = "amount", help = "number"},{name = "id", help = "id"}}})
+
     Chat.Command("bed", function(source, args, rawCommand)
         local Ped = PlayerPedId()
         local PlayerPosition = GetEntityCoords(Ped, false)
@@ -471,6 +486,56 @@ Citizen.CreateThread(function()
     end
 end)
 
+Citizen.CreateThread(function()
+    local CameraList = {
+        {Text = " - 1 | Little Seoul | Interior Camera", Scale = 0.3, Font = 6, R = 255, G = 255, B = 255, A = 255},
+        {Text = " - 2 | Little Seoul | Exterior Camera", Scale = 0.3, Font = 6, R = 255, G = 255, B = 255, A = 255},
+        {Text = " - 3 | Palomino Hwy | Interior Camera", Scale = 0.3, Font = 6, R = 255, G = 255, B = 255, A = 255},
+        {Text = " - 4 | Palomino Hwy | Exterior Camera", Scale = 0.3, Font = 6, R = 255, G = 255, B = 255, A = 255},
+        {Text = " - 5 | Sandy Shores | Interior Camera", Scale = 0.3, Font = 6, R = 255, G = 255, B = 255, A = 255},
+        {Text = " - 6 | Sandy Shores | Exterior Camera", Scale = 0.3, Font = 6, R = 255, G = 255, B = 255, A = 255},
+        {Text = " - 7 | Richman Glen | Interior Camera", Scale = 0.3, Font = 6, R = 255, G = 255, B = 255, A = 255},
+        {Text = " - 8 | Richman Glen | Exterior Camera", Scale = 0.3, Font = 6, R = 255, G = 255, B = 255, A = 255},
+        {Text = " - 9 | Paleto Bay | Interior Camera", Scale = 0.3, Font = 6, R = 255, G = 255, B = 255, A = 255},
+        {Text = " - 10 | Paleto Bay | Exterior Camera", Scale = 0.3, Font = 6, R = 255, G = 255, B = 255, A = 255},
+        {Text = " - 11 | Fleeca Bank | Hawick Ave | Interior Camera", Scale = 0.3, Font = 6, R = 255, G = 255, B = 255, A = 255},
+        {Text = " - 12 | Fleeca Bank | Hawick Ave | Exterior Camera", Scale = 0.3, Font = 6, R = 255, G = 255, B = 255, A = 255},
+        {Text = " - 13 | Fleeca Bank | Great Ocean Hwy | Interior Camera", Scale = 0.3, Font = 6, R = 255, G = 255, B = 255, A = 255},
+        {Text = " - 14 | Fleeca Bank | Great Ocean Hwy | Exterior Camera", Scale = 0.3, Font = 6, R = 255, G = 255, B = 255, A = 255},
+        {Text = " - 15 | Fleeca Bank | Route 68 | Interior Camera", Scale = 0.3, Font = 6, R = 255, G = 255, B = 255, A = 255},
+        {Text = " - 16 | Fleeca Bank | Route 68 | Exterior Camera", Scale = 0.3, Font = 6, R = 255, G = 255, B = 255, A = 255},
+        {Text = " - 17 | Blaine County Savings | Interior Camera", Scale = 0.3, Font = 6, R = 255, G = 255, B = 255, A = 255},
+        {Text = " - 18 | Blaine County Savings | Exterior Camera", Scale = 0.3, Font = 6, R = 255, G = 255, B = 255, A = 255},
+        {Text = " - 19 | Pacific Standard | Flr 2 Stairwell", Scale = 0.3, Font = 6, R = 255, G = 255, B = 255, A = 255},
+        {Text = " - 20 | Pacific Standard | Flr 2 Balcony", Scale = 0.3, Font = 6, R = 255, G = 255, B = 255, A = 255},
+        {Text = " - 21 | Pacific Standard | Flr 2 Stairs", Scale = 0.3, Font = 6, R = 255, G = 255, B = 255, A = 255},
+        {Text = " - 22 | Pacific Standard | Flr 1 Lobby", Scale = 0.3, Font = 6, R = 255, G = 255, B = 255, A = 255},
+        {Text = " - 23 | Pacific Standard | Vault Door", Scale = 0.3, Font = 6, R = 255, G = 255, B = 255, A = 255},
+        {Text = " - 24 | Pacific Standard | Flr 2 Offices", Scale = 0.3, Font = 6, R = 255, G = 255, B = 255, A = 255},
+        {Text = " - 25 | Pacific Standard | Back Alley", Scale = 0.3, Font = 6, R = 255, G = 255, B = 255, A = 255},
+        {Text = " - 26 | Pacific Standard | Front Door", Scale = 0.3, Font = 6, R = 255, G = 255, B = 255, A = 255},
+    }
+    local X, Y = 0, 0.25
+    while true do
+        Citizen.Wait(0)
+        if DisplayCameras then
+            ScreenDrawPositionBegin(76, 84)
+            ScreenDrawPositionRatio(0, 0, 0, 0)
+            for Index = 1, #CameraList do
+                SetTextFont(CameraList[Index].Font or 6)
+                SetTextScale(0.0, CameraList[Index].Scale or 0.3)
+                SetTextDropShadow(0, 0, 0, 0, 0)
+                SetTextEdge(0, 0, 0, 0, 0)
+                SetTextColour(CameraList[Index].R or 255, CameraList[Index].G or 255, CameraList[Index].B or 255, CameraList[Index].A or 255)
+                BeginTextCommandDisplayText("STRING")
+                AddTextComponentSubstringPlayerName(CameraList[Index].Text or "")
+                EndTextCommandDisplayText(X, Y + (0.015 * (Index - 1)))
+            end
+            ScreenDrawPositionEnd()
+        end
+    end
+end)
+
 function StartCleaningVehicle(Vehicle, CurrentDirt)
     Citizen.CreateThread(function()
         local DirtLevel = CurrentDirt
@@ -505,10 +570,10 @@ Citizen.CreateThread(function()
         end
         if IsControlJustPressed(1, 194) and DisplayImmersionBars then
             DisplayImmersionBars = not DisplayImmersionBars
-            TriggerEvent('interaction:hud')
+            TriggerEvent('interaction:hud:cameras')
         end
         if IsControlJustPressed(1, 167) then
-            TriggerEvent('interaction:hud')
+            TriggerEvent('interaction:hud:cameras')
         end
     end
 end)

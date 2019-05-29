@@ -2,24 +2,24 @@ $(document).ready(function(){
   var documentWidth = document.documentElement.clientWidth;
   var documentHeight = document.documentElement.clientHeight;
   // make dial draggable
-    $(".container").css("display", "none");
-    $(".combo").css("display", "none");
+    $(".container").hide();
+    $(".combo").hide();
     $(".num1").hide();
     $(".num2").hide();
     $(".num3").hide();
     $('#body').hide();
   function openMain() {
-    $(".container").css("display", "block");
-    $(".combo").css("display", "block");
+    $(".container").show();
+    $(".combo").show();
     $('#body').show();
   }
   function closeAll() {
-    $(".container").css("display", "none");
+    $(".container").hide();
     $('#body').hide();
   }
   function closeMain() {
-    $(".container").css("display", "none");
-    $(".combo").css("display", "none");
+    $(".container").hide();
+    $(".combo").hide();
     $(".num1").hide();
     $(".num2").hide();
     $(".num3").hide();

@@ -494,7 +494,6 @@ RegisterNUICallback('lockpickwin', function(data, cb)
 	end
 	CloseLockPickGui()
 	ClearPedTasks(PlayerPedId())
-	TriggerServerEvent('Rivalry.Blaine.Payout')
 end)
 
 RegisterNUICallback('lockclick', function(data, cb)
@@ -505,22 +504,21 @@ RegisterNUICallback('lockclick', function(data, cb)
 	end
 	if NumberOfPins == 3 then
 		SendNUIMessage({newnumber = true, numberone = math.random(1, 40), numbertwo = math.random(1, 40), numberthree = math.random(1, 40)})
-		NumberOfPins = 0
 		if TotalLocks < 6 then
 			TotalLocks = TotalLocks + 1
-		else
-			CloseComboLockGui()
-			TriggerServerEvent('Rivalry.Vault.Payout', TotalLocks)
-			TotalLocks = 0
-			NumberOfPins = 0
 		end
 	end
 end)
 
 -- Cameras Script
 
+RegisterNetEvent("Set.Current.Camera")
+AddEventHandler("Set.Current.Camera", function(CurrentCam)
+	CurrentCamera = CurrentCam
+end)
+
 local CameraActive = false
-local CurrentCamera = 0
+local CurrentCamera = 1
 local CreatedCamera = 0
 
 Citizen.CreateThread(function()
@@ -534,15 +532,15 @@ Citizen.CreateThread(function()
         		for Computer = 1, #Rivalry.Computers do
         			if #(PlayerPosition - Rivalry.Computers[Computer]) <= 1.0 then
 		                if IsControlJustPressed(1, 51) and CreatedCamera == 0 then
-		                    SetFocusArea(Rivalry.Cameras[1].Coords.x, Rivalry.Cameras[1].Coords.y, Rivalry.Cameras[1].Coords.z, Rivalry.Cameras[1].Coords.x, Rivalry.Cameras[1].Coords.y, Rivalry.Cameras[1].Coords.z)
-		                    ChangeSecurityCamera(Rivalry.Cameras[1].Coords.x, Rivalry.Cameras[1].Coords.y, Rivalry.Cameras[1].Coords.z, Rivalry.Cameras[1].Heading)
+		                    SetFocusArea(Rivalry.Cameras[CurrentCamera].Coords.x, Rivalry.Cameras[CurrentCamera].Coords.y, Rivalry.Cameras[CurrentCamera].Coords.z, Rivalry.Cameras[CurrentCamera].Coords.x, Rivalry.Cameras[CurrentCamera].Coords.y, Rivalry.Cameras[CurrentCamera].Coords.z)
+		                    ChangeSecurityCamera(Rivalry.Cameras[CurrentCamera].Coords.x, Rivalry.Cameras[CurrentCamera].Coords.y, Rivalry.Cameras[CurrentCamera].Coords.z, Rivalry.Cameras[CurrentCamera].Heading)
 		                    SendNUIMessage({
 		                        type = "enablecam",
-		                        label = Rivalry.Cameras[1].Label,
-		                        box = Rivalry.Cameras[1].Title,
+		                        label = Rivalry.Cameras[CurrentCamera].Label,
+		                        box = Rivalry.Cameras[CurrentCamera].Title,
 		                    })
-		                    CurrentCamera = 1
 		                    FreezeEntityPosition(Player, true)
+		                    TriggerEvent('interaction:hud:cameras')
 		                end
 		            end
 	            end
@@ -551,18 +549,17 @@ Citizen.CreateThread(function()
             	if GetVehicleClass(VehicleHandle) == 18 then
             		if IsControlJustPressed(1, 217) and CreatedCamera == 0 then
         				if IsVehicleStopped(VehicleHandle) then
-	            			SetFocusArea(Rivalry.Cameras[1].Coords.x, Rivalry.Cameras[1].Coords.y, Rivalry.Cameras[1].Coords.z, Rivalry.Cameras[1].Coords.x, Rivalry.Cameras[1].Coords.y, Rivalry.Cameras[1].Coords.z)
-		                    ChangeSecurityCamera(Rivalry.Cameras[1].Coords.x, Rivalry.Cameras[1].Coords.y, Rivalry.Cameras[1].Coords.z, Rivalry.Cameras[1].Heading)
+	            			SetFocusArea(Rivalry.Cameras[CurrentCamera].Coords.x, Rivalry.Cameras[CurrentCamera].Coords.y, Rivalry.Cameras[CurrentCamera].Coords.z, Rivalry.Cameras[CurrentCamera].Coords.x, Rivalry.Cameras[CurrentCamera].Coords.y, Rivalry.Cameras[CurrentCamera].Coords.z)
+		                    ChangeSecurityCamera(Rivalry.Cameras[CurrentCamera].Coords.x, Rivalry.Cameras[CurrentCamera].Coords.y, Rivalry.Cameras[CurrentCamera].Coords.z, Rivalry.Cameras[CurrentCamera].Heading)
 		                    SendNUIMessage({
 		                        type = "enablecam",
-		                        label = Rivalry.Cameras[1].Label,
-		                        box = Rivalry.Cameras[1].Title,
+		                        label = Rivalry.Cameras[CurrentCamera].Label,
+		                        box = Rivalry.Cameras[CurrentCamera].Title,
 		                    })
-		                    CurrentCamera = 1
 		                    FreezeEntityPosition(VehicleHandle, true)
 		                    FreezeEntityPosition(Player, true)
 		                    DisplayRadar(false)
-		                    SetVehicleDoorsLocked(VehicleHandle, true)
+		                    TriggerEvent('interaction:hud:cameras')
 		                else
 		                	Notify("You cannot use the cameras while the vehicle is moving!", 3300)
 		                end
@@ -583,6 +580,7 @@ Citizen.CreateThread(function()
                 SendNUIMessage({
                     type = "disablecam",
                 })
+                TriggerEvent('interaction:hud:cameras')
             end
 
             -- GO BACK CAMERA
@@ -740,3 +738,4 @@ function InstructionButtonMessage(text)
     AddTextComponentScaleform(text)
     EndTextCommandScaleformString()
 end
+
