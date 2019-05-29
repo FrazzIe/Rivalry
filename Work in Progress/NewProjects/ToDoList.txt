@@ -1,27 +1,28 @@
 	Short Term:
-	- cuffing sound
 	- Rewrite Robberies
 	- choppers/boats need gas again
 	- super cars still require hotwire kits
-	- check for ctrl out of cuffing animation
-	- check for ctrl out of ped stun (taze)
+	- $100 to store any car at any garage/parking lot
 	- phone: /call #, /answer, /hangup, /ans, /hu
 	- entities on ground, no more destroying anything
  	- /clear command for Active Dispatchs for Police Department
  	- change hotwiring / locals hand over keys and call cops
 	- GTA dispatch: Someone spotted you in the car and called the police!
 	- freemode inmate clothing .. force all freemode models clothes to inmate clothing when jailed
+	  - this could just simply be a white tshirt and orange pants and white sneakers
 	- Remove /twitter and put as an app in current phone with ability to toggle twitter notifications
+	- Add features to Properties
+	  - Implement DoJ Seize Feature
+	  - Implement PD Raid Feature
+	  - Implement DoJ View Feature
+	  - Implement PD View Feature
+	  - Add inventory for 100 / 200 / 300 items
 	
 	Long Term:
 	- Security Job
 	- Implement Robbing Local Houses
-	- Implement DoJ Seize Feature
-	- Implement PD Raid Feature
-	- Implement DoJ View Feature
-	- Implement PD View Feature
 	- Remove all Public Garages
 	- Personal Garages at Apartments/Houses
-	- Public Parking fee and limits
+	- Public Parking fees
 	- Los Santos Water & Power Job
  	- Rework DOA / hospital check-in
