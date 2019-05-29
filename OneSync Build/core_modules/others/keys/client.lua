@@ -1,6 +1,7 @@
 keys_vehicles = {}
 keys_users = {}
-
+local Animations = {Dictionary = "mp_common", Player = "givetake1_a"}
+AddAnimDictionary(Animations.Dictionary)
 local hotwire_rates = { -- % chance
     [0] = 70, -- Compacts
     [1] = 70, -- Sedans
@@ -48,8 +49,16 @@ AddEventHandler("keys:toggle", function()
 		local lockstatus = GetVehicleDoorLockStatus(vehicle)
 		if lockstatus == 1 or lockstatus == 0 then
 			TriggerServerEvent("keys:lock", vehicle, GetVehicleNumberPlateText(vehicle))
+			TriggerEvent('LIFE_CL:Sound:PlayOnOne', "locking", "0.5")
+			TaskPlayAnim(PlayerPedId(), Animations.Dictionary, Animations.Player, 100.0, 200.0, 0.3, 16, 0.2, 0, 0, 0)
+			Wait(1000)
+			ClearPedTasks(PlayerPedId())
 		else
 			TriggerServerEvent("keys:unlock", vehicle, GetVehicleNumberPlateText(vehicle))
+			TriggerEvent('LIFE_CL:Sound:PlayOnOne', "locking", "0.5")
+			TaskPlayAnim(PlayerPedId(), Animations.Dictionary, Animations.Player, 100.0, 200.0, 0.3, 16, 0.2, 0, 0, 0)
+			Wait(1000)
+			ClearPedTasks(PlayerPedId())
 		end
 	else
 		Notify("You do not have the keys to this vehicle!")

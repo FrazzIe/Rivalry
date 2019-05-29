@@ -72,6 +72,8 @@ AddEventHandler("police:cuff", function(target, type, cuffer)
 	local source = source
 	if cops[source] then
 		TriggerClientEvent("police:cuff", target, type, cuffer)
+		TriggerClientEvent('LIFE_CL:Sound:PlayOnOne', target, "handcuffs", "0.8")
+		TriggerClientEvent('LIFE_CL:Sound:PlayOnOne', source, "handcuffs", "0.8")
 	else
 		TriggerEvent("core:ban", source, 99, "Script tampering", true, "Anticheat")
 	end
