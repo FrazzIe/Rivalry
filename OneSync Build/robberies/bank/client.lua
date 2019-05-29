@@ -18,36 +18,36 @@ local secondsRemaining = 0
 local banks = {
 	["fleeca2"] = {
 		position = { ['x'] = -2957.6674804688, ['y'] = 481.45776367188, ['z'] = 15.697026252747 },
-		reward = 80000,
+		reward = 70000,
 		nameofbank = "Fleeca Bank (Highway)",
 		time = 300,
 		lastrobbed = 0
 	},
 	["blainecounty"] = {
 		position = { ['x'] = -107.06505584717, ['y'] = 6474.8012695313, ['z'] = 31.62670135498 },
-		reward = 50000,
+		reward = 55000,
 		nameofbank = "Blaine County Savings",
 		time = 300,
 		lastrobbed = 0
 	},
 	["burton"] = {
 		position = { ['x'] = -353.72958374023, ['y'] = -53.590354919434, ['z'] = 49.045997619629 },
-		reward = 60000,
+		reward = 70000,
 		nameofbank = "Fleeca Bank (Burton)",
 		time = 300,
 		lastrobbed = 0
 	},
 	["route68"] = {
 		position = { ['x'] = 1176.4365234375, ['y'] = 2710.8093261719, ['z'] = 38.087993621826 },
-		reward = 40000,
+		reward = 70000,
 		nameofbank = "Fleeca Bank (Route 68)",
 		time = 300,
 		lastrobbed = 0
 	},
 	["pacificstandard"] = {
 		position = { ['x'] = 259.43179321289, ['y'] = 225.69024658203, ['z'] = 101.68327331543 },
-		reward = 125000,
-		nameofbank = "Pacific Standard Bank (Code Red)",
+		reward = 132500,
+		nameofbank ="Pacific Standard Bank (Code Red)",
 		time = 300,
 		lastrobbed = 0
 	},
