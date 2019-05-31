@@ -30,7 +30,7 @@ Config.Priority = {
     ["steam:110000111703144"] = 700, -- Ziggy (Noonab)
 --[Platinum Ticket]--
     ["steam:11000010515be32"] = 530, -- Johnny Russo (DOJ Justice)
-	["steam:1100001088e6612"] = 529, -- NerdRageRenegades (DA)
+    ["steam:1100001088e6612"] = 529, -- NerdRageRenegades (DA)
     ["steam:1100001047aafc5"] = 528, -- Frank Moretti (PD High Command)
     ["steam:11000010371b8ed"] = 527, -- Gill Dunley (PD High Command)
     ["steam:11000010036d96d"] = 526, -- Chris Miller (PD Command)
@@ -59,6 +59,7 @@ Config.Priority = {
     ["steam:11000010862267a"] = 503, -- Sweet Sake (Mech Boss)
     ["steam:110000102437861"] = 502, -- Sullyabv (streamer/doj)
     ["steam:1100001037a2490"] = 501, -- Hank Strickland
+    ["steam:110000119bc5868"] = 500, -- Charles Martin (DOJ)
 --[Golden Ticket]--
     ["steam:110000106d04419"] = 312, -- Cool_Kid (streamer)
     ["steam:1100001047e1d3d"] = 311, -- HankRP
@@ -74,10 +75,10 @@ Config.Priority = {
     ["steam:11000010327eb4d"] = 301, -- WombatsPlayGames (streamer)
     ["steam:11000010bf7bb73"] = 300, -- AfriicanSnowball
 --[Silver Ticket]--
-	["steam:110000106e043cc"] = 205, -- TheGhostman (streamer)
+    ["steam:110000106e043cc"] = 205, -- TheGhostman (streamer)
     ["steam:1100001005489bf"] = 204, -- GamezJohn (streamer)
     ["steam:110000108039c08"] = 203, -- DatVoiceGuy (streamer)
-	["steam:11000010aa72879"] = 202, -- SchmoeTV (streamer)
+    ["steam:11000010aa72879"] = 202, -- SchmoeTV (streamer)
     ["steam:110000108fdcf76"] = 201, -- Patricia (streamer)
     ["steam:110000139fb527b"] = 200, -- BrinnieTV (streamer)
 --[Bronze Ticket]--
