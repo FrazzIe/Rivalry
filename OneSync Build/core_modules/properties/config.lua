@@ -1831,9 +1831,9 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 10000, --Max cash the property can hold
-						dirty = 150000, --Max marked bills the property can hold
-						weapons = 8, --Max weapons the property can hold
+						cash = 10000000, --Max cash the property can hold
+						dirty = 10000000, --Max marked bills the property can hold
+						weapons = 100, --Max weapons the property can hold
 					},
 				},
 				robbing = {
