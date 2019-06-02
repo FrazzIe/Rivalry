@@ -1,5 +1,6 @@
 local IsRobbingStoreVault = false
 local TotalLocks = 0
+local TotalComboLocks = 0
 local NumberOfPins = 0
 local isRobbing = false
 local isStillRobbingBlaine = false
@@ -26,6 +27,11 @@ function RenderMarker(Type, X, Y, Z, SX, SY, SZ, R, G, B, A, BobUpAndDown)
 	end
 end
 
+RegisterNetEvent('customNotification')
+AddEventHandler('customNotification', function(msg)
+   TriggerEvent("pNotify:SendNotification", { theme = "gta2", text = "".. msg .. "", layout = "centerRight", type = "info", timeout = 6000, animation = {open = "gta_effects_open", close = "gta_effects_close"} } )
+end)
+
 --[[ Store Robberies ]]--
 Citizen.CreateThread(function()
 	while true do
@@ -33,14 +39,12 @@ Citizen.CreateThread(function()
 		local PlayerPed = PlayerPedId()
 		local PlayerPosition = GetEntityCoords(PlayerPed, false)
 		for StoreNumber = 1, #Rivalry.Robberies.Stores do
-			if #(PlayerPosition - Rivalry.Robberies.Stores[StoreNumber].Vault) < 11.0 then
+			if #(PlayerPosition - Rivalry.Robberies.Stores[StoreNumber].Vault) < 15.0 then
 				for RegisterNumber = 1, #Rivalry.Robberies.Stores[StoreNumber].CashRegisters do
 					if #(PlayerPosition - Rivalry.Robberies.Stores[StoreNumber].CashRegisters[RegisterNumber].Coords) < 1 then
-						if DoesEntityExist(Rivalry.Robberies.Stores[StoreNumber].CashRegisters[RegisterNumber].Handle) then
-							DisplayHelpText("Press ~INPUT_CONTEXT~ to break open the cash register!")
-							if IsControlJustPressed(1, 51) then
-								TriggerServerEvent("Rivalry.Rob.CashRegister", StoreNumber, RegisterNumber, GetPlayerServerId(PlayerId()))
-							end
+						DisplayHelpText("Press ~INPUT_CONTEXT~ to break open the cash register!")
+						if IsControlJustPressed(1, 51) then
+							TriggerServerEvent("Rivalry.Rob.CashRegister", StoreNumber, RegisterNumber, GetPlayerServerId(PlayerId()))
 						end
 					end
 				end
@@ -111,6 +115,28 @@ Citizen.CreateThread(function()
 	end
 end)
 
+Citizen.CreateThread(function()
+	while true do
+		Citizen.Wait(0)
+		local PlayerPed = PlayerPedId()
+		local PlayerPosition = GetEntityCoords(PlayerPed, false)
+		if #(PlayerPosition - Rivalry.Robberies.Banks.Pacific.LockedBoxes[1]) < 20 then
+			for Index = 1, #Rivalry.Robberies.Banks.Pacific.LockedBoxes do
+				if #(PlayerPosition - Rivalry.Robberies.Banks.Pacific.LockedBoxes[Index]) < 1 then
+					DisplayHelpText("Press ~INPUT_CONTEXT~ to lockpick safe box!")
+					if IsControlJustPressed(1, 51) then
+						if exports.core_modules:GetItemQuantity(36) > 0 and not Rivalry.Robberies.Banks.Pacific.Locked then
+							TriggerServerEvent("Rivalry.Rob.Pacific.Safebox", Index, GetPlayerServerId(PlayerId()))
+						else
+							Notify("You do not have any lockpicks!", 2500)
+						end
+					end
+				end
+			end
+		end
+	end
+end)
+
 RegisterNetEvent("Rivalry.Rob.CashRegister")
 AddEventHandler("Rivalry.Rob.CashRegister", function(StoreNumber, RegisterNumber)
 	Citizen.CreateThread(function()
@@ -124,6 +150,7 @@ AddEventHandler("Rivalry.Rob.CashRegister", function(StoreNumber, RegisterNumber
 			end
 			TaskPlayAnim(PlayerPed, Dictionary, Animation, 4.0, -4, -1, 0, 0, 0, 0, 0)
 			TriggerServerEvent("dispatch:ten-ninety-store-cashregisters", Rivalry.Robberies.Stores[StoreNumber].Name)
+			--TriggerEvent('LIFE_CL:Sound:PlayOnOne', "locking", "0.3")
 			Citizen.Wait(2000)
 			Rivalry.Robberies.Stores[StoreNumber].CashRegisters[RegisterNumber].Robbed = true
 			TriggerServerEvent("Rivalry.CashRegister.Payout")
@@ -197,7 +224,7 @@ Citizen.CreateThread(function()
 			local Player = PlayerPedId()
 			local PlayerPosition = GetEntityCoords(Player, false)
 			if #(PlayerPosition - Rivalry.Robberies.Banks.Fleeca[whichFleeca].Vault) > 20 then
-				TriggerServerEvent("Rivalry.Robberiers.Stopped.Robbing", "Fleeca", whichFleeca)
+				TriggerServerEvent("Rivalry.Robberies.Stopped.Robbing", "Fleeca", whichFleeca)
 				isStillRobbingFleeca = false
 			end
 		end
@@ -260,6 +287,7 @@ AddEventHandler("Rivalry.HackVault", function(phase, phase_max, bank, banknumber
 		else
 			isRobbing = false
 			TriggerEvent("mhacking:hide")
+			TriggerServerEvent("Rivalry.Robberies.Sync.Vault", bank, banknumber, true)
 		end
 	end)
 end)
@@ -291,6 +319,9 @@ Citizen.CreateThread(function()
 			if not DoesEntityExist(Rivalry.Robberies.Banks.Fleeca[Index].Handle) then
 				Rivalry.Robberies.Banks.Fleeca[Index].Handle = GetClosestObjectOfType(Rivalry.Robberies.Banks.Fleeca[Index].Vault.x, Rivalry.Robberies.Banks.Fleeca[Index].Vault.y, Rivalry.Robberies.Banks.Fleeca[Index].Vault.z, 1.0, Rivalry.Robberies.Banks.Fleeca[Index].Model, false, false, false)
 			end
+			if not DoesEntityExist(Rivalry.Robberies.Banks.Fleeca[Index].Handle2) then
+				Rivalry.Robberies.Banks.Fleeca[Index].Handle2 = GetClosestObjectOfType(Rivalry.Robberies.Banks.Fleeca[Index].Vault2.x, Rivalry.Robberies.Banks.Fleeca[Index].Vault2.y, Rivalry.Robberies.Banks.Fleeca[Index].Vault2.z, 1.0, Rivalry.Robberies.Banks.Fleeca[Index].Vault2Model, false, false, false)
+			end
 		end
 
 		if not DoesEntityExist(Rivalry.Robberies.Banks.Blaine.Handle) then
@@ -301,12 +332,12 @@ Citizen.CreateThread(function()
 			Rivalry.Robberies.Banks.Pacific.Handle = GetClosestObjectOfType(Rivalry.Robberies.Banks.Pacific.Vault.x, Rivalry.Robberies.Banks.Pacific.Vault.y, Rivalry.Robberies.Banks.Pacific.Vault.z, 1.0, Rivalry.Robberies.Banks.Pacific.Model, false, false, false)
 		end
 
-		for StoreNumber = 1, #Rivalry.Robberies.Stores do
-			for RegisterNumber = 1, #Rivalry.Robberies.Stores[StoreNumber].CashRegisters do
-				if not DoesEntityExist(Rivalry.Robberies.Stores[StoreNumber].CashRegisters[RegisterNumber].Handle) then
-					Rivalry.Robberies.Stores[StoreNumber].CashRegisters[RegisterNumber].Handle = GetClosestObjectOfType(Rivalry.Robberies.Stores[StoreNumber].CashRegisters[RegisterNumber].Coords.x, Rivalry.Robberies.Stores[StoreNumber].CashRegisters[RegisterNumber].Coords.y, Rivalry.Robberies.Stores[StoreNumber].CashRegisters[RegisterNumber].Coords.z, 1.0, Rivalry.Robberies.Stores[StoreNumber].CashRegisters[RegisterNumber].Model, false, false, false)
-				end
-			end
+		if not DoesEntityExist(Rivalry.Robberies.Banks.Pacific.Handle2) then
+			Rivalry.Robberies.Banks.Pacific.Handle2 = GetClosestObjectOfType(Rivalry.Robberies.Banks.Pacific.Door.x, Rivalry.Robberies.Banks.Pacific.Door.y, Rivalry.Robberies.Banks.Pacific.Door.z, 1.0, Rivalry.Robberies.Banks.Pacific.DoorModel, false, false, false)
+		end
+
+		if not DoesEntityExist(Rivalry.Robberies.Banks.Pacific.Handle3) then
+			Rivalry.Robberies.Banks.Pacific.Handle3 = GetClosestObjectOfType(Rivalry.Robberies.Banks.Pacific.Door2.x, Rivalry.Robberies.Banks.Pacific.Door2.y, Rivalry.Robberies.Banks.Pacific.Door2.z, 1.0, Rivalry.Robberies.Banks.Pacific.Door2Model, false, false, false)
 		end
 	end
 end)
@@ -337,6 +368,16 @@ Citizen.CreateThread(function()
 					SetEntityHeading(Rivalry.Robberies.Banks.Pacific.Handle, Rivalry.Robberies.Banks.Pacific.OpenHeading)
 				end
 			end
+			if Rivalry.Robberies.Banks.Pacific.Locked2 == true then
+				if Rivalry.Robberies.Banks.Pacific.Handle2 ~= nil and Rivalry.Robberies.Banks.Pacific.Handle2 ~= 0 then
+					SetEntityHeading(Rivalry.Robberies.Banks.Pacific.Handle2, Rivalry.Robberies.Banks.Pacific.DoorHeading)
+				end
+			end
+			if Rivalry.Robberies.Banks.Pacific.Locked3 == true then
+				if Rivalry.Robberies.Banks.Pacific.Handle3 ~= nil and Rivalry.Robberies.Banks.Pacific.Handle3 ~= 0 then
+					SetEntityHeading(Rivalry.Robberies.Banks.Pacific.Handle3, Rivalry.Robberies.Banks.Pacific.Door2Heading)
+				end
+			end
 		end
 		for Index = 1, #Rivalry.Robberies.Banks.Fleeca do
 			if #(Rivalry.Robberies.Banks.Fleeca[Index].Vault - PlayerPosition) <= 10.0 then
@@ -349,19 +390,9 @@ Citizen.CreateThread(function()
 						SetEntityHeading(Rivalry.Robberies.Banks.Fleeca[Index].Handle, Rivalry.Robberies.Banks.Fleeca[Index].OpenHeading)
 					end
 				end
-			end
-		end
-		for StoreNumber = 1, #Rivalry.Robberies.Stores do
-			for RegisterNumber = 1, #Rivalry.Robberies.Stores[StoreNumber].CashRegisters do
-				if #(Rivalry.Robberies.Stores[StoreNumber].CashRegisters[RegisterNumber].Coords - PlayerPosition) <= 10.0 then
-					if Rivalry.Robberies.Stores[StoreNumber].CashRegisters[RegisterNumber].Robbed == true then
-						if Rivalry.Robberies.Stores[StoreNumber].CashRegisters[RegisterNumber].Handle ~= nil and Rivalry.Robberies.Stores[StoreNumber].CashRegisters[RegisterNumber].Handle ~= 0 then
-							SetEntityHealth(Rivalry.Robberies.Stores[StoreNumber].CashRegisters[RegisterNumber].Handle, 0)
-						end
-					else
-						if Rivalry.Robberies.Stores[StoreNumber].CashRegisters[RegisterNumber].Handle ~= nil and Rivalry.Robberies.Stores[StoreNumber].CashRegisters[RegisterNumber].Handle ~= 0 then
-							SetEntityHealth(Rivalry.Robberies.Stores[StoreNumber].CashRegisters[RegisterNumber].Handle, 100)
-						end
+				if Rivalry.Robberies.Banks.Fleeca[Index].Locked2 == true then
+					if Rivalry.Robberies.Banks.Fleeca[Index].Handle2 ~= nil and Rivalry.Robberies.Banks.Fleeca[Index].Handle2 ~= 0 then
+						SetEntityHeading(Rivalry.Robberies.Banks.Fleeca[Index].Handle2, Rivalry.Robberies.Banks.Fleeca[Index].Vault2Heading)
 					end
 				end
 			end
@@ -415,13 +446,43 @@ Citizen.CreateThread(function()
 						TriggerServerEvent("Rivalry.HackVault", 1, 20, "Blaine", 0)
 					end
 				end
+				if #(Rivalry.Robberies.Banks.Blaine.TorchPosition - PlayerPosition) <= 1.0 then
+					DisplayHelpText("Press ~INPUT_CONTEXT~ to blow torch door lock!")
+					if IsControlJustPressed(1, 51) then
+						TriggerServerEvent("Rivalry.BlowTorch", "Blaine", 0)
+					end
+				end
 			end 
-			if #(Rivalry.Robberies.Banks.Pacific.Keypad - PlayerPosition) <= 10.0 then
+			if #(Rivalry.Robberies.Banks.Pacific.Keypad - PlayerPosition) <= 20.0 then
 				RenderMarker(25, Rivalry.Robberies.Banks.Pacific.Keypad.x, Rivalry.Robberies.Banks.Pacific.Keypad.y, Rivalry.Robberies.Banks.Pacific.Keypad.z, 1.5, 1.5, 2.0, 255, 255, 0, 20)
 				if #(Rivalry.Robberies.Banks.Pacific.Keypad - PlayerPosition) <= 1.0 then
 					DisplayHelpText("Press ~INPUT_CONTEXT~ to hack vault security lock!")
 					if IsControlJustPressed(1, 51) then
-						TriggerServerEvent("Rivalry.HackVault", 1, 20, "Pacific", 0)
+						if not Rivalry.Robberies.Banks.Pacific.Locked2 and not Rivalry.Robberies.Banks.Pacific.Locked3 then
+							TriggerServerEvent("Rivalry.HackVault", 1, 20, "Pacific", 0)
+						else
+							Notify("Go back and unlock those first two doors! You will need them open so you can escape right?", 3100)
+						end
+					end
+				end
+				if #(Rivalry.Robberies.Banks.Pacific.TorchPosition - PlayerPosition) <= 1.0 then
+					DisplayHelpText("Press ~INPUT_CONTEXT~ to blow torch door lock!")
+					if IsControlJustPressed(1, 51) then
+						if exports.core_modules:GetItemQuantity(82) > 0 then
+							TriggerServerEvent("Rivalry.BlowTorch", "Pacific", 1, 0)
+						else
+							Notify("You need a blow torch to break this doors lock open!", 3100)
+						end
+					end
+				end
+				if #(Rivalry.Robberies.Banks.Pacific.TorchPosition2 - PlayerPosition) <= 1.0 then
+					DisplayHelpText("Press ~INPUT_CONTEXT~ to blow torch door lock!")
+					if IsControlJustPressed(1, 51) then
+						if exports.core_modules:GetItemQuantity(82) > 0 then
+							TriggerServerEvent("Rivalry.BlowTorch", "Pacific", 2, 0)
+						else
+							Notify("You need a blow torch to break this doors lock open!", 3100)
+						end
 					end
 				end
 			end
@@ -434,6 +495,12 @@ Citizen.CreateThread(function()
 							TriggerServerEvent("Rivalry.HackVault", 1, 20, "Fleeca", Index)
 						end
 					end
+					if #(Rivalry.Robberies.Banks.Pacific.TorchPosition - PlayerPosition) <= 1.0 then
+						DisplayHelpText("Press ~INPUT_CONTEXT~ to blow torch door lock!")
+						if IsControlJustPressed(1, 51) then
+							TriggerServerEvent("Rivalry.BlowTorch", "Fleeca", 0, 0, Index)
+						end
+					end
 				end
 			end
 		end
@@ -443,21 +510,43 @@ end)
 RegisterNetEvent("Rivalry.Robberies.Sync.Vault")
 AddEventHandler("Rivalry.Robberies.Sync.Vault", function(Bank, Index, Status)
 	if Bank == "Blaine" then
-		print("Unlocked Blaine")
 		Rivalry.Robberies.Banks.Blaine.Locked = Status
 	elseif Bank == "Pacific" then
-		print("Unlocked Pacific")
 		Rivalry.Robberies.Banks.Pacific.Locked = Status
 	elseif Bank == "Fleeca" then
-		print("Unlocked Fleeca # "..Index)
 		Rivalry.Robberies.Banks.Fleeca[Index].Locked = Status
 	end
 end)
 
-RegisterNetEvent("Rivalry.Robberies.Sync.Register")
-AddEventHandler("Rivalry.Robberies.Sync.Register", function(StoreNumber, RegisterNumber, Status)
-	Rivalry.Robberies.Stores[StoreNumber].CashRegisters[RegisterNumber].Robbed = Status
-	print(Status)
+RegisterNetEvent("Rivalry.BlowTorch")
+AddEventHandler("Rivalry.BlowTorch", function(Bank, Door, BankNumber)
+	if Bank == "Blaine" then
+		Wait(10000)
+		Rivalry.Robberies.Banks.Blaine.Locked2 = false
+		exports.core_modules:removeQty(82, 1)
+	elseif Bank == "Pacific" then
+		Wait(10000)
+		if Door == 1 then
+			Rivalry.Robberies.Banks.Pacific.Locked2 = false
+			exports.core_modules:removeQty(82, 1)
+		else
+			if not Rivalry.Robberies.Banks.Pacific.Locked2 then
+				Rivalry.Robberies.Banks.Pacific.Locked3 = false
+				exports.core_modules:removeQty(82, 1)
+			end
+		end
+	elseif Bank == "Fleeca" then
+		Wait(10000)
+		Rivalry.Robberies.Banks.Fleeca[BankNumber].Locked2 = false
+		exports.core_modules:removeQty(82, 1)
+	end
+end)
+
+RegisterNetEvent("Rivalry.BlowTorch.Animation")
+AddEventHandler("Rivalry.BlowTorch.Animation", function()
+	TaskStartScenarioInPlace(PlayerPedId(), "WORLD_HUMAN_WELDING", 0, true)
+	Wait(10000)
+	ClearPedTasks(PlayerPedId())
 end)
 
 RegisterNUICallback('dialsound', function(data, cb)
@@ -467,8 +556,8 @@ end)
 
 RegisterNUICallback('close', function(data, cb)
 	CloseComboLockGui()
-	TriggerServerEvent('Rivalry.Vault.Payout', TotalLocks)
-	TotalLocks = 0
+	TriggerServerEvent('Rivalry.Vault.Payout', TotalComboLocks)
+	TotalComboLocks = 0
 	NumberOfPins = 0
 	cb('ok')
 end)
@@ -494,6 +583,8 @@ RegisterNUICallback('lockpickwin', function(data, cb)
 	end
 	CloseLockPickGui()
 	ClearPedTasks(PlayerPedId())
+	Bank = data.currentbank
+	TriggerServerEvent("Rivalry.Lockbox.Payout", Bank)
 end)
 
 RegisterNUICallback('lockclick', function(data, cb)
@@ -504,8 +595,8 @@ RegisterNUICallback('lockclick', function(data, cb)
 	end
 	if NumberOfPins == 3 then
 		SendNUIMessage({newnumber = true, numberone = math.random(1, 40), numbertwo = math.random(1, 40), numberthree = math.random(1, 40)})
-		if TotalLocks < 6 then
-			TotalLocks = TotalLocks + 1
+		if TotalComboLocks < 6 then
+			TotalComboLocks = TotalComboLocks + 1
 		end
 	end
 end)
