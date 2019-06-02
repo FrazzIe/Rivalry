@@ -1832,7 +1832,7 @@ properties = {
 					},
 					max = {
 						cash = 100000, --Max cash the property can hold
-						dirty = 1500000, --Max marked bills the property can hold
+						dirty = 1000000, --Max marked bills the property can hold
 						weapons = 100, --Max weapons the property can hold
 					},
 				},
