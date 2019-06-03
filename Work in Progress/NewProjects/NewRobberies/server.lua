@@ -236,7 +236,7 @@ RegisterServerEvent("Rivalry.CashRegister.Payout")
 AddEventHandler("Rivalry.CashRegister.Payout", function()
 	local Source = source
 	TriggerEvent("core:getuser", Source, function(User)
-		local RegisterPayOut = math.random(250,500)
+		local RegisterPayOut = math.random(150,250)
 		User.addDirty(RegisterPayOut)
 	end)
 end)

@@ -2,7 +2,7 @@ RegisterServerEvent("Rob:Sucessful")
 AddEventHandler("Rob:Sucessful", function(IsCops)
 	local Source = source
 	TriggerEvent("core:getuser", Source, function(User)
-		local RandomAmount = math.random(250, 750)
+		local RandomAmount = math.random(150, 250)
 		if IsCops then
 			User.addWallet(RandomAmount)
 		else
