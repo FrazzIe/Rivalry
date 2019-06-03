@@ -61,6 +61,9 @@ Rivalry = {
 		},
 		Banks = {
 			SoftCooldown = 0,
+			BlainePayout = {min = 0, max = 0},
+			PacificPayout = {min = 0, max = 0},
+			FleecaPayout = {min = 0, max = 0},
 			Blaine = {
 				Name = "Blaine County Savings",
 				LockedBoxes = {
@@ -276,7 +279,15 @@ RegisterServerEvent("Rivalry.Lockbox.Payout")
 AddEventHandler("Rivalry.Lockbox.Payout", function(Bank)
 	local Source = source
 	TriggerEvent("core:getuser", Source, function(User)
-		User.addDirty(Bank.Payout)
+		if Bank == "Blaine" then
+			local Pay = math.random(Rivalry.Robberies.Banks.BlainePayout.min, Rivalry.Robberies.Banks.BlainePayout.max)
+			User.addDirty(Pay)
+		elseif Bank == "Pacific" then
+			local Pay = math.random(Rivalry.Robberies.Banks.PacificPayout.min, Rivalry.Robberies.Banks.PacificPayout.max)
+			User.addDirty(Pay)
+		elseif Bank == "Fleeca" then
+			local Pay = math.random(Rivalry.Robberies.Banks.FleecaPayout.min, Rivalry.Robberies.Banks.FleecaPayout.max)
+			User.addDirty(Pay)
 	end)
 end)
 
