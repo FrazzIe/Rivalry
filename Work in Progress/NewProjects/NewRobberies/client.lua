@@ -272,7 +272,7 @@ Citizen.CreateThread(function()
 				TriggerServerEvent("Rivalry.Robberies.Stopped.Robbing", "Blaine", 0)
 				isStillRobbingPacific = false
 			end
-		elseif isStillRobbingPacific == true then
+		elseif isStillRobbingFleeca == true then
 			local Player = PlayerPedId()
 			local PlayerPosition = GetEntityCoords(Player, false)
 			if #(PlayerPosition - Rivalry.Robberies.Banks.Fleeca[whichFleeca].Vault) > 20 then
@@ -348,7 +348,7 @@ RegisterNetEvent("Rivalry.HackCameras")
 AddEventHandler("Rivalry.HackCameras", function(phase, phase_max)
 	isRobbing = true
 	TriggerEvent("mhacking:show")
-	TriggerEvent("mhacking:start", 5, 31, "Starting Hack.. Phase"..phase.." of "..phase_max,function(success)
+	TriggerEvent("mhacking:start", 5, 31, "Starting Hack.. Phase "..phase.." of "..phase_max,function(success)
 		if success then
 			if phase == phase_max then
 				isRobbing = false
@@ -607,10 +607,10 @@ end)
 RegisterNetEvent("Rivalry.BlowTorch")
 AddEventHandler("Rivalry.BlowTorch", function(Bank, Door, BankNumber)
 	if Bank == "Blaine" then
-		Wait(10000)
+		Wait(30000)
 		Rivalry.Robberies.Banks.Blaine.Locked2 = false
 	elseif Bank == "Pacific" then
-		Wait(10000)
+		Wait(30000)
 		if Door == 1 then
 			Rivalry.Robberies.Banks.Pacific.Locked2 = false
 		elseif Door == 2 then
@@ -619,7 +619,7 @@ AddEventHandler("Rivalry.BlowTorch", function(Bank, Door, BankNumber)
 			Rivalry.Robberies.Banks.Pacific.Locked4 = false
 		end
 	elseif Bank == "Fleeca" then
-		Wait(10000)
+		Wait(120000)
 		Rivalry.Robberies.Banks.Fleeca[BankNumber].Locked2 = false
 	end
 end)
