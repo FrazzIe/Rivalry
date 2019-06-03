@@ -100,7 +100,7 @@ Citizen.CreateThread(function()
 							end
 						end
 					end
-				end4
+				end
 			end
 		end
 	end
