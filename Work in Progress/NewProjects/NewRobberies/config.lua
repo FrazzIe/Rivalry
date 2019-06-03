@@ -150,12 +150,16 @@ Rivalry = {
 				Door2 = vector3(262.19808959961,222.51879882813,106.42955780029),
 				Door2Heading = 250.00003051758,
 				Door2Model = 746855201,
+				Door3 = vector3(251.85757446289,221.06547546387,101.83240509033),
+				Door3Heading = 159.79579162598,
+				Door3Model = -1508355822,
 				Heading = 160.14762878418,
 				OpenedHeading = 294.0,
 				Model = 961976194,
 				Locked = true,
 				Locked2 = true,
 				Locked3 = true,
+				Locked4 = true,
 				LockedBoxes = {
 					[1] = vector3(258.02438354492,218.57606506348,101.6834564209),
 					[2] = vector3(259.18270874023,218.18481445313,101.6834564209),
@@ -178,7 +182,15 @@ Rivalry = {
 				},
 				Keypad = vector3(253.25366210938,228.43957519531,101.68326568604),
 				TorchPosition = vector3(257.04943847656,219.80934143066,106.28625488281),
-				TorchPosition2 = vector3(261.2744140625,221.76988220215,106.28307342529)
+				TorchPosition2 = vector3(261.2744140625,221.76988220215,106.28307342529),
+				TorchPosition3 = vector3(252.77423095703,221.72183227539,101.68341064453),
+				Doors = {
+					[1] = {Position = vector3(237.77035522461,227.87004089355,106.42604064941), Heading = 339.90658569336, Model = 1956494919, Locked = true},
+					[2] = {Position = vector3(236.54875183105,228.31466674805,110.43282318115), Heading = 160.00001525879, Model = 1956494919, Locked = true},
+					[3] = {Position = vector3(256.61724853516,206.15223693848,110.43282318115), Heading = 250.00003051758, Model = 1956494919, Locked = true},
+					[4] = {Position = vector3(266.36236572266,217.5697479248,110.43282318115), Heading = 340.00003051758, Model = 1956494919, Locked = true},	
+				},
+				CameraDisable = vector3(285.78118896484,264.87573242188,105.58905792236)
 			}
 		},
 		Heists = {
@@ -225,41 +237,41 @@ Rivalry = {
 		}
 	},
 	Cameras = {
-		[1] = {Coords = vector3(-717.92926025391,-916.05017089844,20.706611633301), Heading = 303.67938232422, Title = "Little Seoul", Label = "Interior Camera"}, -- Little Seoul Inside
-		[2] = {Coords = vector3(-703.72424316406,-917.10968017578,20.643611907959), Heading = 113.68775177002, Title = "Little Seoul", Label = "Exterior Camera"}, -- Little Seoul Outside
+		[1] = {Coords = vector3(-717.92926025391,-916.05017089844,20.706611633301), Heading = 303.67938232422, Title = "Little Seoul", Label = "Interior Camera", Online = true}, -- Little Seoul Inside
+		[2] = {Coords = vector3(-703.72424316406,-917.10968017578,20.643611907959), Heading = 113.68775177002, Title = "Little Seoul", Label = "Exterior Camera", Online = true}, -- Little Seoul Outside
 		
-		[3] = {Coords = vector3(2558.8579101563,390.40591430664,110.19804382324), Heading = 148.0085144043, Title = "Palomino Hwy", Label = "Interior Camera"}, -- Palomino Hwy Inside
-		[4] = {Coords = vector3(2560.6479492188,398.30239868164,110.46942138672), Heading = 193.17568969727, Title = "Palomino Hwy", Label = "Exterior Camera"}, -- Palomino Hwy Outside
+		[3] = {Coords = vector3(2558.8579101563,390.40591430664,110.19804382324), Heading = 148.0085144043, Title = "Palomino Hwy", Label = "Interior Camera", Online = true}, -- Palomino Hwy Inside
+		[4] = {Coords = vector3(2560.6479492188,398.30239868164,110.46942138672), Heading = 193.17568969727, Title = "Palomino Hwy", Label = "Exterior Camera", Online = true}, -- Palomino Hwy Outside
 
-		[5] = {Coords = vector3(1968.7834472656,3743.8527832031,33.918743133545), Heading = 93.328071594238, Title = "Sandy Shores", Label = "Interior Camera"}, -- Sandy Shores Inside
-		[6] = {Coords = vector3(1970.1768798828,3743.009765625,33.918743133545), Heading = 141.15939331055, Title = "Sandy Shores", Label = "Exterior Camera"}, -- Sandy Shores Outside
+		[5] = {Coords = vector3(1968.7834472656,3743.8527832031,33.918743133545), Heading = 93.328071594238, Title = "Sandy Shores", Label = "Interior Camera", Online = true}, -- Sandy Shores Inside
+		[6] = {Coords = vector3(1970.1768798828,3743.009765625,33.918743133545), Heading = 141.15939331055, Title = "Sandy Shores", Label = "Exterior Camera", Online = true}, -- Sandy Shores Outside
 		
-		[7] = {Coords = vector3(-1827.23828125,784.92462158203,139.77946472168), Heading = 335.78854370117, Title = "Richman Glen", Label = "Interior Camera"}, -- Richman Glen Inside
-		[8] = {Coords = vector3(-1828.5113525391,782.19909667969,139.9684753418), Heading = 279.88519287109, Title = "Richman Glen", Label = "Exterior Camera"}, -- Richman Glen Outside
+		[7] = {Coords = vector3(-1827.23828125,784.92462158203,139.77946472168), Heading = 335.78854370117, Title = "Richman Glen", Label = "Interior Camera", Online = true}, -- Richman Glen Inside
+		[8] = {Coords = vector3(-1828.5113525391,782.19909667969,139.9684753418), Heading = 279.88519287109, Title = "Richman Glen", Label = "Exterior Camera", Online = true}, -- Richman Glen Outside
 		
-		[9] = {Coords = vector3(1735.9761962891,6409.9399414063,36.612209320068), Heading = 40.421028137207, Title = "Paleto Bay", Label = "Interior Camera"}, -- Mount Chiliad Outside
-		[10] = {Coords = vector3(1738.6492919922,6407.2700195313,37.053207397461), Heading = 86.851371765137, Title = "Paleto Bay", Label = "Exterior Camera"}, -- Mount Chiliad Outside
+		[9] = {Coords = vector3(1735.9761962891,6409.9399414063,36.612209320068), Heading = 40.421028137207, Title = "Paleto Bay", Label = "Interior Camera", Online = true}, -- Mount Chiliad Outside
+		[10] = {Coords = vector3(1738.6492919922,6407.2700195313,37.053207397461), Heading = 86.851371765137, Title = "Paleto Bay", Label = "Exterior Camera", Online = true}, -- Mount Chiliad Outside
 	
-		[11] = {Coords = vector3(-357.86938476563,-50.527782440186,50.359382629395), Heading = 304.64569091797, Title = "Fleeca Bank | Hawick Ave", Label = "Interior Camera"}, -- Fleeca Hawick Inside
-		[12] = {Coords = vector3(-363.80206298828,-41.35474395752,52.249050140381), Heading = 276.49398803711, Title = "Fleeca Bank | Hawick Ave", Label = "Exterior Camera"}, -- Fleeca Hawick Outside
+		[11] = {Coords = vector3(-357.86938476563,-50.527782440186,50.359382629395), Heading = 304.64569091797, Title = "Fleeca Bank | Hawick Ave", Label = "Interior Camera", Online = true}, -- Fleeca Hawick Inside
+		[12] = {Coords = vector3(-363.80206298828,-41.35474395752,52.249050140381), Heading = 276.49398803711, Title = "Fleeca Bank | Hawick Ave", Label = "Exterior Camera", Online = true}, -- Fleeca Hawick Outside
 
-		[13] = {Coords = vector3(-2960.1875,476.50451660156,17.082983016968), Heading = 60.26110458374, Title = "Fleeca Bank | Great Ocean Hwy", Label = "Interior Camera"}, -- Fleeca GOcean Inside
-		[14] = {Coords = vector3(-2966.6994628906,485.55651855469,17.208982467651), Heading = 146.51762390137, Title = "Fleeca Bank | Great Ocean Hwy", Label = "Exterior Camera"}, -- Fleeca GOcean Inside
+		[13] = {Coords = vector3(-2960.1875,476.50451660156,17.082983016968), Heading = 60.26110458374, Title = "Fleeca Bank | Great Ocean Hwy", Label = "Interior Camera", Online = true}, -- Fleeca GOcean Inside
+		[14] = {Coords = vector3(-2966.6994628906,485.55651855469,17.208982467651), Heading = 146.51762390137, Title = "Fleeca Bank | Great Ocean Hwy", Label = "Exterior Camera", Online = true}, -- Fleeca GOcean Inside
 
-		[15] = {Coords = vector3(1181.2559814453,2709.1103515625,39.417091369629), Heading = 147.74743652344, Title = "Fleeca Bank | Route 68", Label = "Interior Camera"}, -- Fleeca Route68 Inside
-		[16] = {Coords = vector3(1180.9155273438,2702.3542480469,40.17308807373), Heading = 101.51712036133, Title = "Fleeca Bank | Route 68", Label = "Exterior Camera"}, -- Fleeca Route68 Inside
+		[15] = {Coords = vector3(1181.2559814453,2709.1103515625,39.417091369629), Heading = 147.74743652344, Title = "Fleeca Bank | Route 68", Label = "Interior Camera", Online = true}, -- Fleeca Route68 Inside
+		[16] = {Coords = vector3(1180.9155273438,2702.3542480469,40.17308807373), Heading = 101.51712036133, Title = "Fleeca Bank | Route 68", Label = "Exterior Camera", Online = true}, -- Fleeca Route68 Inside
 
-		[17] = {Coords = vector3(-103.68787384033,6467.361328125,32.928714752197), Heading = 97.843475341797, Title = "Blaine County Savings", Label = "Interior Camera"}, -- Blaine County Inside
-		[18] = {Coords = vector3(-103.63851928711,6451.4526367188,33.999710083008), Heading = 71.292488098145, Title = "Blaine County Savings", Label = "Exterior Camera"}, -- Blaine County Inside
+		[17] = {Coords = vector3(-103.68787384033,6467.361328125,32.928714752197), Heading = 97.843475341797, Title = "Blaine County Savings", Label = "Interior Camera", Online = true}, -- Blaine County Inside
+		[18] = {Coords = vector3(-103.63851928711,6451.4526367188,33.999710083008), Heading = 71.292488098145, Title = "Blaine County Savings", Label = "Exterior Camera", Online = true}, -- Blaine County Inside
 
-		[19] = {Coords = vector3(235.44764709473,227.46331787109,113.09118652344), Heading = 201.83097839355, Title = "Pacific Standard", Label = "Flr 2 Stairwell"}, -- Pacific Standard Inside
-		[20] = {Coords = vector3(254.95655822754,205.9841003418,113.21719360352), Heading = 30.190244674683, Title = "Pacific Standard", Label = "Flr 2 Balcony"}, -- Pacific Standard Inside
-		[21] = {Coords = vector3(270.12780761719,223.85545349121,113.21719360352), Heading = 118.01182556152, Title = "Pacific Standard", Label = "Flr 2 Stairs"}, -- Pacific Standard Inside
-		[22] = {Coords = vector3(242.04745483398,214.83517456055,107.92489624023), Heading = 284.98773193359, Title = "Pacific Standard", Label = "Flr 1 Lobby"}, -- Pacific Standard Inside
-		[23] = {Coords = vector3(252.15815734863,225.4334564209,104.08168029785), Heading = 285.05450439453, Title = "Pacific Standard", Label = "Vault Door"}, -- Pacific Standard Inside
-		[24] = {Coords = vector3(258.66796875,204.90313720703,113.28019714355), Heading = 352.14013671875, Title = "Pacific Standard", Label = "Flr 2 Offices"}, --- Pacific Standard Inside
-		[25] = {Coords = vector3(279.49197387695,266.09619140625,109.58405303955), Heading = 60.51294708252, Title = "Pacific Standard", Label = "Back Alley"}, -- Pacific Standard Outside
-		[26] = {Coords = vector3(192.52528381348,221.78085327148,111.49507141113), Heading = 230.12149047852, Title = "Pacific Standard", Label = "Front Door"}, -- Pacific Standard Outside
+		[19] = {Coords = vector3(235.44764709473,227.46331787109,113.09118652344), Heading = 201.83097839355, Title = "Pacific Standard", Label = "Flr 2 Stairwell", Online = true}, -- Pacific Standard Inside
+		[20] = {Coords = vector3(254.95655822754,205.9841003418,113.21719360352), Heading = 30.190244674683, Title = "Pacific Standard", Label = "Flr 2 Balcony", Online = true}, -- Pacific Standard Inside
+		[21] = {Coords = vector3(270.12780761719,223.85545349121,113.21719360352), Heading = 118.01182556152, Title = "Pacific Standard", Label = "Flr 2 Stairs", Online = true}, -- Pacific Standard Inside
+		[22] = {Coords = vector3(242.04745483398,214.83517456055,107.92489624023), Heading = 284.98773193359, Title = "Pacific Standard", Label = "Flr 1 Lobby", Online = true}, -- Pacific Standard Inside
+		[23] = {Coords = vector3(252.15815734863,225.4334564209,104.08168029785), Heading = 285.05450439453, Title = "Pacific Standard", Label = "Vault Door", Online = true}, -- Pacific Standard Inside
+		[24] = {Coords = vector3(258.66796875,204.90313720703,113.28019714355), Heading = 352.14013671875, Title = "Pacific Standard", Label = "Flr 2 Offices", Online = true}, --- Pacific Standard Inside
+		[25] = {Coords = vector3(279.49197387695,266.09619140625,109.58405303955), Heading = 60.51294708252, Title = "Pacific Standard", Label = "Back Alley", Online = true}, -- Pacific Standard Outside
+		[26] = {Coords = vector3(192.52528381348,221.78085327148,111.49507141113), Heading = 230.12149047852, Title = "Pacific Standard", Label = "Front Door", Online = true}, -- Pacific Standard Outside
 	},
 	Computers = {
 		[1] = vector3(440.61401367188,-978.81353759766,30.68967628479), -- Mission Row Upstairs

@@ -21,8 +21,8 @@ $(document).ready(function(){
       userPushingCyl = false,
       gameOver = false,
       gamePaused = false,
+      IsLockpickingDoor = false,
       pin, cyl, driver, cylRotationInterval, pinLastDamaged;
-
     function openMain(Pins) {
       reset();
       $("#body").show();
@@ -223,8 +223,14 @@ $(document).ready(function(){
   }
 
   function unlock() {
-    gameOver = true;
-    $.post('http://newrobberies/lockpickwin', JSON.stringify({lockpicks: numPins}));
+    if(IsLockpickingDoor === true) {
+      gameOver = true;
+      $.post('http://newrobberies/lockpickwin2', JSON.stringify({lockpicks: numPins}));
+    }
+    else {
+      gameOver = true;
+      $.post('http://newrobberies/lockpickwin', JSON.stringify({lockpicks: numPins}));
+    }
   }
 
   //UTIL
@@ -237,20 +243,35 @@ $(document).ready(function(){
   }
 
   document.onkeyup = function (data) {
-    if (data.which == 27 ) {
+    if (data.which == 8) {
       $.post('http://newrobberies/lockpickclose', JSON.stringify({lockpicks: numPins}));
+      $.post('http://newrobberies/close', JSON.stringify({}));
     }
   };
 
   window.addEventListener('message', function(event){
     var item = event.data;
     if(item.lockpick === true) {
+      IsLockpickingDoor = false;
       gameOver = false;
       openMain(item.pins);
       solveDeg = ( Math.random() * 180 ) - 90;
       solvePadding = 4;
     }
     if(item.lockpick === false) {
+      IsLockpickingDoor = false;
+      gameOver = true;
+      closeMain();
+    }
+    if(item.doorlock === true) {
+      IsLockpickingDoor = true;
+      gameOver = false;
+      openMain(item.pins);
+      solveDeg = ( Math.random() * 180 ) - 90;
+      solvePadding = 4;
+    }
+    if(item.doorlock === false) {
+      IsLockpickingDoor = true;
       gameOver = true;
       closeMain();
     }

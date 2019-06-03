@@ -10,6 +10,10 @@ local isStillRobbingStore = false
 local whichFleeca = nil
 local whichStore = nil
 local VehicleHandle = nil
+local HasBlaineBeenReset = false
+local HasPacificBeenReset = false
+local HasFleecaBeenReset = false
+local CurrentLockpicked = 0
 
 function DisplayHelpText(Str)
 	BeginTextCommandDisplayHelp("STRING")
@@ -38,13 +42,15 @@ Citizen.CreateThread(function()
 		Citizen.Wait(0)
 		local PlayerPed = PlayerPedId()
 		local PlayerPosition = GetEntityCoords(PlayerPed, false)
-		for StoreNumber = 1, #Rivalry.Robberies.Stores do
-			if #(PlayerPosition - Rivalry.Robberies.Stores[StoreNumber].Vault) < 15.0 then
-				for RegisterNumber = 1, #Rivalry.Robberies.Stores[StoreNumber].CashRegisters do
-					if #(PlayerPosition - Rivalry.Robberies.Stores[StoreNumber].CashRegisters[RegisterNumber].Coords) < 1 then
-						DisplayHelpText("Press ~INPUT_CONTEXT~ to break open the cash register!")
-						if IsControlJustPressed(1, 51) then
-							TriggerServerEvent("Rivalry.Rob.CashRegister", StoreNumber, RegisterNumber, GetPlayerServerId(PlayerId()))
+		if not exports.policejob:getIsInService() then
+			for StoreNumber = 1, #Rivalry.Robberies.Stores do
+				if #(PlayerPosition - Rivalry.Robberies.Stores[StoreNumber].Vault) < 15.0 then
+					for RegisterNumber = 1, #Rivalry.Robberies.Stores[StoreNumber].CashRegisters do
+						if #(PlayerPosition - Rivalry.Robberies.Stores[StoreNumber].CashRegisters[RegisterNumber].Coords) < 1 then
+							DisplayHelpText("Press ~INPUT_CONTEXT~ to break open the cash register!")
+							if IsControlJustPressed(1, 51) then
+								TriggerServerEvent("Rivalry.Rob.CashRegister", StoreNumber, RegisterNumber, GetPlayerServerId(PlayerId()))
+							end
 						end
 					end
 				end
@@ -58,11 +64,13 @@ Citizen.CreateThread(function()
 		Citizen.Wait(0)
 		local PlayerPed = PlayerPedId()
 		local PlayerPosition = GetEntityCoords(PlayerPed, false)
-		for StoreNumber = 1, #Rivalry.Robberies.Stores do
-			if #(PlayerPosition - Rivalry.Robberies.Stores[StoreNumber].Vault) < 1 then
-				DisplayHelpText("Press ~INPUT_CONTEXT~ to start cracking the safe!")
-				if IsControlJustPressed(1, 51) then
-					TriggerServerEvent("Rivalry.Rob.StoreVault", StoreNumber, GetPlayerServerId(PlayerId()))
+		if not exports.policejob:getIsInService() then
+			for StoreNumber = 1, #Rivalry.Robberies.Stores do
+				if #(PlayerPosition - Rivalry.Robberies.Stores[StoreNumber].Vault) < 1 then
+					DisplayHelpText("Press ~INPUT_CONTEXT~ to start cracking the safe!")
+					if IsControlJustPressed(1, 51) then
+						TriggerServerEvent("Rivalry.Rob.StoreVault", StoreNumber, GetPlayerServerId(PlayerId()))
+					end
 				end
 			end
 		end
@@ -74,15 +82,22 @@ Citizen.CreateThread(function()
 		Citizen.Wait(0)
 		local PlayerPed = PlayerPedId()
 		local PlayerPosition = GetEntityCoords(PlayerPed, false)
-		if #(PlayerPosition - Rivalry.Robberies.Banks.Blaine.LockedBoxes[1]) < 20 then
-			for Index = 1, #Rivalry.Robberies.Banks.Blaine.LockedBoxes do
-				if #(PlayerPosition - Rivalry.Robberies.Banks.Blaine.LockedBoxes[Index]) < 1 then
-					DisplayHelpText("Press ~INPUT_CONTEXT~ to lockpick safe box!")
-					if IsControlJustPressed(1, 51) then
-						if exports.core_modules:GetItemQuantity(36) > 0 then
-							TriggerServerEvent("Rivalry.Rob.Blaine.Safebox", Index, GetPlayerServerId(PlayerId()))
-						else
-							Notify("You do not have any lockpicks!", 2500)
+		if #(PlayerPosition - Rivalry.Robberies.Banks.Blaine.Vault) < 20 then
+			if not HasBlaineBeenReset then
+				TriggerServerEvent("Rivalry.CheckBankStatus", "Blaine", 0)
+			end
+			if not exports.policejob:getIsInService() then
+				if not Rivalry.Robberies.Banks.Blaine.Locked then
+					for Index = 1, #Rivalry.Robberies.Banks.Blaine.LockedBoxes do
+						if #(PlayerPosition - Rivalry.Robberies.Banks.Blaine.LockedBoxes[Index]) < 1 then
+							DisplayHelpText("Press ~INPUT_CONTEXT~ to lockpick safe box!")
+							if IsControlJustPressed(1, 51) then
+								if exports.core_modules:GetItemQuantity(36) > 0 then
+									TriggerServerEvent("Rivalry.Rob.Blaine.Safebox", Index, GetPlayerServerId(PlayerId()))
+								else
+									Notify("You do not have any lockpicks!", 2500)
+								end
+							end
 						end
 					end
 				end
@@ -98,14 +113,21 @@ Citizen.CreateThread(function()
 		local PlayerPosition = GetEntityCoords(PlayerPed, false)
 		for Index = 1, #Rivalry.Robberies.Banks.Fleeca do
 			if #(PlayerPosition - Rivalry.Robberies.Banks.Fleeca[Index].Vault) < 10.0 then
-				for BoxNumber = 1, #Rivalry.Robberies.Banks.Fleeca[Index].LockedBoxes do
-					if #(PlayerPosition - Rivalry.Robberies.Banks.Fleeca[Index].LockedBoxes[BoxNumber]) < 1 then
-						DisplayHelpText("Press ~INPUT_CONTEXT~ to lockpick safe box!")
-						if IsControlJustPressed(1, 51) then
-							if exports.core_modules:GetItemQuantity(36) > 0 then
-								TriggerServerEvent("Rivalry.Rob.Fleeca.Safebox", Index, BoxNumber, GetPlayerServerId(PlayerId()))
-							else
-								Notify("You do not have any lockpicks!", 2500)
+				if not HasFleecaBeenReset then
+					TriggerServerEvent("Rivalry.CheckBankStatus", "Fleeca", Index)
+				end
+				if not exports.policejob:getIsInService() then
+					if not Rivalry.Robberies.Banks.Fleeca[Index].Locked then
+						for BoxNumber = 1, #Rivalry.Robberies.Banks.Fleeca[Index].LockedBoxes do
+							if #(PlayerPosition - Rivalry.Robberies.Banks.Fleeca[Index].LockedBoxes[BoxNumber]) < 1 then
+								DisplayHelpText("Press ~INPUT_CONTEXT~ to lockpick safe box!")
+								if IsControlJustPressed(1, 51) then
+									if exports.core_modules:GetItemQuantity(36) > 0 then
+										TriggerServerEvent("Rivalry.Rob.Fleeca.Safebox", Index, BoxNumber, GetPlayerServerId(PlayerId()))
+									else
+										Notify("You do not have any lockpicks!", 2500)
+									end
+								end
 							end
 						end
 					end
@@ -120,16 +142,43 @@ Citizen.CreateThread(function()
 		Citizen.Wait(0)
 		local PlayerPed = PlayerPedId()
 		local PlayerPosition = GetEntityCoords(PlayerPed, false)
-		if #(PlayerPosition - Rivalry.Robberies.Banks.Pacific.LockedBoxes[1]) < 20 then
-			for Index = 1, #Rivalry.Robberies.Banks.Pacific.LockedBoxes do
-				if #(PlayerPosition - Rivalry.Robberies.Banks.Pacific.LockedBoxes[Index]) < 1 then
-					DisplayHelpText("Press ~INPUT_CONTEXT~ to lockpick safe box!")
-					if IsControlJustPressed(1, 51) then
-						if exports.core_modules:GetItemQuantity(36) > 0 and not Rivalry.Robberies.Banks.Pacific.Locked then
-							TriggerServerEvent("Rivalry.Rob.Pacific.Safebox", Index, GetPlayerServerId(PlayerId()))
-						else
-							Notify("You do not have any lockpicks!", 2500)
+		if #(PlayerPosition - Rivalry.Robberies.Banks.Pacific.Vault) < 20 then
+			if not HasPacificBeenReset then
+				TriggerServerEvent("Rivalry.CheckBankStatus", "Pacific", 0)
+			end
+			if not exports.policejob:getIsInService() then
+				if not Rivalry.Robberies.Banks.Pacific.Locked then
+					for Index = 1, #Rivalry.Robberies.Banks.Pacific.LockedBoxes do
+						if not Rivalry.Robberies.Banks.Pacific.Locked4 then
+							if #(PlayerPosition - Rivalry.Robberies.Banks.Pacific.LockedBoxes[Index]) < 1 then
+								DisplayHelpText("Press ~INPUT_CONTEXT~ to lockpick safe box!")
+								if IsControlJustPressed(1, 51) then
+									if exports.core_modules:GetItemQuantity(36) > 0 and not Rivalry.Robberies.Banks.Pacific.Locked then
+										TriggerServerEvent("Rivalry.Rob.Pacific.Safebox", Index, GetPlayerServerId(PlayerId()))
+									else
+										Notify("You do not have any lockpicks!", 2500)
+									end
+								end
+							end
 						end
+					end
+				end
+			end
+		end
+	end
+end)
+
+Citizen.CreateThread(function()
+	while true do
+		Citizen.Wait(0)
+		local PlayerPed = PlayerPedId()
+		local PlayerPosition = GetEntityCoords(PlayerPed, false)
+		if not exports.policejob:getIsInService() then
+			if #(PlayerPosition - Rivalry.Robberies.Banks.Pacific.CameraDisable) < 11.0 then
+				if #(PlayerPosition - Rivalry.Robberies.Banks.Pacific.CameraDisable) <= 1.0 then
+					DisplayHelpText("Press ~INPUT_CONTEXT~ to disable cameras!")
+					if IsControlJustPressed(1, 51) then
+						TriggerEvent("Rivalry.HackCameras", 1, 6)
 					end
 				end
 			end
@@ -150,9 +199,11 @@ AddEventHandler("Rivalry.Rob.CashRegister", function(StoreNumber, RegisterNumber
 			end
 			TaskPlayAnim(PlayerPed, Dictionary, Animation, 4.0, -4, -1, 0, 0, 0, 0, 0)
 			TriggerServerEvent("dispatch:ten-ninety-store-cashregisters", Rivalry.Robberies.Stores[StoreNumber].Name)
+			PlaySoundFrontend(-1, "Drill_Pin_Break", "DLC_HEIST_FLEECA_SOUNDSET", 1);
 			--TriggerEvent('LIFE_CL:Sound:PlayOnOne', "locking", "0.3")
 			Citizen.Wait(2000)
 			Rivalry.Robberies.Stores[StoreNumber].CashRegisters[RegisterNumber].Robbed = true
+			PlaySound(-1, "PICK_UP", "HUD_FRONTEND_DEFAULT_SOUNDSET", 0, 0, 1)
 			TriggerServerEvent("Rivalry.CashRegister.Payout")
 		end
 	end)
@@ -235,7 +286,7 @@ function OpenLockPickGui()
 	if exports.core_modules:GetItemQuantity(36) > 0 then
 		SetPlayerControl(PlayerId(), 0, 0)
 		SetNuiFocus(true, true)
-		SendNUIMessage({lockpick = true, pins = exports.core_modules:GetItemQuantity(36)})
+		SendNUIMessage({lockpick = true, pins = exports.core_modules:GetItemQuantity(36), doorlock = false})
 		RequestAnimDict("mini@safe_cracking")
 		while not HasAnimDictLoaded("mini@safe_cracking") do
 			Wait(0)
@@ -278,7 +329,7 @@ AddEventHandler("Rivalry.HackVault", function(phase, phase_max, bank, banknumber
 	TriggerEvent("mhacking:start", 5, 31, "Starting Hack.. Phase "..phase.." of "..phase_max,function(success)
 		if success then
 			if phase == phase_max then
-				isRobbing = false;
+				isRobbing = false
 				TriggerEvent("mhacking:hide")
 				TriggerServerEvent("Rivalry.Robberies.Sync.Vault", bank, banknumber, false)
 			else
@@ -288,6 +339,26 @@ AddEventHandler("Rivalry.HackVault", function(phase, phase_max, bank, banknumber
 			isRobbing = false
 			TriggerEvent("mhacking:hide")
 			TriggerServerEvent("Rivalry.Robberies.Sync.Vault", bank, banknumber, true)
+		end
+	end)
+end)
+
+RegisterNetEvent("Rivalry.HackCameras")
+AddEventHandler("Rivalry.HackCameras", function(phase, phase_max)
+	isRobbing = true
+	TriggerEvent("mhacking:show")
+	TriggerEvent("mhacking:start", 5, 31, "Starting Hack.. Phase"..phase.." of "..phase_max,function(success)
+		if success then
+			if phase == phase_max then
+				isRobbing = false
+				TriggerEvent("mhacking:hide")
+				TriggerServerEvent("Rivalry.Disable.Pacific.Cameras")
+			else
+				TriggerEvent("Rivalry.HackCameras", phase+1, 6)
+			end
+		else
+			isRobbing = false
+			TriggerEvent("mhacking:hide")
 		end
 	end)
 end)
@@ -339,6 +410,16 @@ Citizen.CreateThread(function()
 		if not DoesEntityExist(Rivalry.Robberies.Banks.Pacific.Handle3) then
 			Rivalry.Robberies.Banks.Pacific.Handle3 = GetClosestObjectOfType(Rivalry.Robberies.Banks.Pacific.Door2.x, Rivalry.Robberies.Banks.Pacific.Door2.y, Rivalry.Robberies.Banks.Pacific.Door2.z, 1.0, Rivalry.Robberies.Banks.Pacific.Door2Model, false, false, false)
 		end
+
+		if not DoesEntityExist(Rivalry.Robberies.Banks.Pacific.Handle4) then
+			Rivalry.Robberies.Banks.Pacific.Handle4 = GetClosestObjectOfType(Rivalry.Robberies.Banks.Pacific.Door3.x, Rivalry.Robberies.Banks.Pacific.Door3.y, Rivalry.Robberies.Banks.Pacific.Door3.z, 1.0, Rivalry.Robberies.Banks.Pacific.Door3Model, false, false, false)
+		end
+
+		for Index = 1, #Rivalry.Robberies.Banks.Pacific.Doors do
+			if not DoesEntityExist(Rivalry.Robberies.Banks.Pacific.Doors[Index].Handle) then
+				Rivalry.Robberies.Banks.Pacific.Doors[Index].Handle = GetClosestObjectOfType(Rivalry.Robberies.Banks.Pacific.Doors[Index].Position.x, Rivalry.Robberies.Banks.Pacific.Doors[Index].Position.y, Rivalry.Robberies.Banks.Pacific.Doors[Index].Position.z, 1.0, Rivalry.Robberies.Banks.Pacific.Doors[Index].Model, false, false, false)
+			end
+		end
 	end
 end)
 
@@ -358,7 +439,7 @@ Citizen.CreateThread(function()
 				end
 			end
 		end
-		if #(Rivalry.Robberies.Banks.Pacific.Vault - PlayerPosition) <= 10.0 then
+		if #(Rivalry.Robberies.Banks.Pacific.Vault - PlayerPosition) <= 25.0 then
 			if Rivalry.Robberies.Banks.Pacific.Locked == true then
 				if Rivalry.Robberies.Banks.Pacific.Handle ~= nil and Rivalry.Robberies.Banks.Pacific.Handle ~= 0 then
 					SetEntityHeading(Rivalry.Robberies.Banks.Pacific.Handle, Rivalry.Robberies.Banks.Pacific.Heading)
@@ -376,6 +457,18 @@ Citizen.CreateThread(function()
 			if Rivalry.Robberies.Banks.Pacific.Locked3 == true then
 				if Rivalry.Robberies.Banks.Pacific.Handle3 ~= nil and Rivalry.Robberies.Banks.Pacific.Handle3 ~= 0 then
 					SetEntityHeading(Rivalry.Robberies.Banks.Pacific.Handle3, Rivalry.Robberies.Banks.Pacific.Door2Heading)
+				end
+			end
+			if Rivalry.Robberies.Banks.Pacific.Locked4 == true then
+				if Rivalry.Robberies.Banks.Pacific.Handle4 ~= nil and Rivalry.Robberies.Banks.Pacific.Handle4 ~= 0 then
+					SetEntityHeading(Rivalry.Robberies.Banks.Pacific.Handle4, Rivalry.Robberies.Banks.Pacific.Door3Heading)
+				end
+			end
+			for Index = 1, #Rivalry.Robberies.Banks.Pacific.Doors do
+				if Rivalry.Robberies.Banks.Pacific.Doors[Index].Locked == true then
+					if Rivalry.Robberies.Banks.Pacific.Doors[Index].Handle ~= nil and Rivalry.Robberies.Banks.Pacific.Doors[Index].Handle ~= 0 then
+						SetEntityHeading(Rivalry.Robberies.Banks.Pacific.Doors[Index].Handle, Rivalry.Robberies.Banks.Pacific.Doors[Index].Heading)
+					end
 				end
 			end
 		end
@@ -403,103 +496,95 @@ end)
 Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(0)
-		if exports.policejob:getIsInService() then
-			local Player = PlayerPedId()
-			local PlayerPosition = GetEntityCoords(Player, false)
-			if #(Rivalry.Robberies.Banks.Blaine.Keypad - PlayerPosition) <= 10.0 then
-					RenderMarker(25, Rivalry.Robberies.Banks.Blaine.Keypad.x, Rivalry.Robberies.Banks.Blaine.Keypad.y, Rivalry.Robberies.Banks.Blaine.Keypad.z, 1.5, 1.5, 2.0, 255, 255, 0, 20)
-				if #(Rivalry.Robberies.Banks.Blaine.Keypad - PlayerPosition) <= 1.0 then
-					DisplayHelpText("Press ~INPUT_CONTEXT~ to reset vault security lock!")
-					if IsControlJustPressed(1, 51) then
-						TriggerServerEvent("Rivalry.Robberies.Sync.Vault", "Blaine", 0, true)
-					end
+		local Player = PlayerPedId()
+		local PlayerPosition = GetEntityCoords(Player, false)
+		if #(Rivalry.Robberies.Banks.Blaine.Keypad - PlayerPosition) <= 20.0 then
+			RenderMarker(25, Rivalry.Robberies.Banks.Blaine.Keypad.x, Rivalry.Robberies.Banks.Blaine.Keypad.y, Rivalry.Robberies.Banks.Blaine.Keypad.z, 1.5, 1.5, 2.0, 255, 255, 0, 20)
+			if #(Rivalry.Robberies.Banks.Blaine.Keypad - PlayerPosition) <= 1.0 then
+				DisplayHelpText("Press ~INPUT_CONTEXT~ to hack vault security lock!")
+				if IsControlJustPressed(1, 51) then
+					TriggerServerEvent("Rivalry.HackVault", 1, 20, "Blaine", 0)
 				end
-			end 
-			if #(Rivalry.Robberies.Banks.Pacific.Keypad - PlayerPosition) <= 10.0 then
-				RenderMarker(25, Rivalry.Robberies.Banks.Pacific.Keypad.x, Rivalry.Robberies.Banks.Pacific.Keypad.y, Rivalry.Robberies.Banks.Pacific.Keypad.z, 1.5, 1.5, 2.0, 255, 255, 0, 20)
-				if #(Rivalry.Robberies.Banks.Pacific.Keypad - PlayerPosition) <= 1.0 then
-					DisplayHelpText("Press ~INPUT_CONTEXT~ to reset vault security lock!")
-					if IsControlJustPressed(1, 51) then
-						TriggerServerEvent("Rivalry.Robberies.Sync.Vault", "Pacific", 0, true)
+			end
+			if #(Rivalry.Robberies.Banks.Blaine.TorchPosition - PlayerPosition) <= 1.0 then
+				DisplayHelpText("Press ~INPUT_CONTEXT~ to blow torch door lock!")
+				if IsControlJustPressed(1, 51) then
+					TriggerServerEvent("Rivalry.BlowTorch", "Blaine", 0)
+				end
+			end
+		end 
+		if #(Rivalry.Robberies.Banks.Pacific.Keypad - PlayerPosition) <= 30.0 then
+			RenderMarker(25, Rivalry.Robberies.Banks.Pacific.Keypad.x, Rivalry.Robberies.Banks.Pacific.Keypad.y, Rivalry.Robberies.Banks.Pacific.Keypad.z, 1.5, 1.5, 2.0, 255, 255, 0, 20)
+			if #(Rivalry.Robberies.Banks.Pacific.Keypad - PlayerPosition) <= 1.0 then
+				DisplayHelpText("Press ~INPUT_CONTEXT~ to hack vault security lock!")
+				if IsControlJustPressed(1, 51) then
+					if not Rivalry.Robberies.Banks.Pacific.Locked3 then
+						TriggerServerEvent("Rivalry.HackVault", 1, 20, "Pacific", 0)
+					else
+						Notify("Go back and unlock those first two doors! You will need them open so you can escape right?", 3100)
 					end
 				end
 			end
-			for Index = 1, #Rivalry.Robberies.Banks.Fleeca do
-				if #(Rivalry.Robberies.Banks.Fleeca[Index].Keypad - PlayerPosition) <10.0 then
-					RenderMarker(25, Rivalry.Robberies.Banks.Fleeca[Index].Keypad.x, Rivalry.Robberies.Banks.Fleeca[Index].Keypad.y, Rivalry.Robberies.Banks.Fleeca[Index].Keypad.z, 1.5, 1.5, 2.0, 255, 255, 0, 20)
-					if #(Rivalry.Robberies.Banks.Fleeca[Index].Keypad - PlayerPosition) <= 1.0 then
-						DisplayHelpText("Press ~INPUT_CONTEXT~ to reset vault security lock!")
-						if IsControlJustPressed(1, 51) then
-							TriggerServerEvent("Rivalry.Robberies.Sync.Vault", "Fleeca", Index, true)
-						end
+			if #(Rivalry.Robberies.Banks.Pacific.TorchPosition - PlayerPosition) <= 1.0 then
+				DisplayHelpText("Press ~INPUT_CONTEXT~ to blow torch door lock!")
+				if IsControlJustPressed(1, 51) then
+					if exports.core_modules:GetItemQuantity(82) > 0 then
+						TriggerServerEvent("Rivalry.BlowTorch", "Pacific", 1, 0)
+					else
+						Notify("You need a blow torch to break this doors lock open!", 3100)
 					end
 				end
 			end
-		else
-			local Player = PlayerPedId()
-			local PlayerPosition = GetEntityCoords(Player, false)
-			if #(Rivalry.Robberies.Banks.Blaine.Keypad - PlayerPosition) <= 10.0 then
-				RenderMarker(25, Rivalry.Robberies.Banks.Blaine.Keypad.x, Rivalry.Robberies.Banks.Blaine.Keypad.y, Rivalry.Robberies.Banks.Blaine.Keypad.z, 1.5, 1.5, 2.0, 255, 255, 0, 20)
-				if #(Rivalry.Robberies.Banks.Blaine.Keypad - PlayerPosition) <= 1.0 then
-					DisplayHelpText("Press ~INPUT_CONTEXT~ to hack vault security lock!")
-					if IsControlJustPressed(1, 51) then
-						TriggerServerEvent("Rivalry.HackVault", 1, 20, "Blaine", 0)
+			if #(Rivalry.Robberies.Banks.Pacific.TorchPosition2 - PlayerPosition) <= 1.0 then
+				DisplayHelpText("Press ~INPUT_CONTEXT~ to blow torch door lock!")
+				if IsControlJustPressed(1, 51) then
+					if exports.core_modules:GetItemQuantity(82) > 0 then
+						TriggerServerEvent("Rivalry.BlowTorch", "Pacific", 2, 0)
+					else
+						Notify("You need a blow torch to break this doors lock open!", 3100)
 					end
 				end
-				if #(Rivalry.Robberies.Banks.Blaine.TorchPosition - PlayerPosition) <= 1.0 then
+			end
+			if #(Rivalry.Robberies.Banks.Pacific.TorchPosition3 - PlayerPosition) <= 1.0 then
+				if not Rivalry.Robberies.Banks.Pacific.Locked and not Rivalry.Robberies.Banks.Pacific.Locked3 then
 					DisplayHelpText("Press ~INPUT_CONTEXT~ to blow torch door lock!")
 					if IsControlJustPressed(1, 51) then
-						TriggerServerEvent("Rivalry.BlowTorch", "Blaine", 0)
+						if exports.core_modules:GetItemQuantity(82) > 0 then
+							TriggerServerEvent("Rivalry.BlowTorch", "Pacific", 3, 0)
+						else
+							Notify("You need a blow torch to break this doors lock open!", 3100)
+						end
 					end
 				end
-			end 
-			if #(Rivalry.Robberies.Banks.Pacific.Keypad - PlayerPosition) <= 20.0 then
-				RenderMarker(25, Rivalry.Robberies.Banks.Pacific.Keypad.x, Rivalry.Robberies.Banks.Pacific.Keypad.y, Rivalry.Robberies.Banks.Pacific.Keypad.z, 1.5, 1.5, 2.0, 255, 255, 0, 20)
-				if #(Rivalry.Robberies.Banks.Pacific.Keypad - PlayerPosition) <= 1.0 then
+			end
+			for Index = 1, #Rivalry.Robberies.Banks.Pacific.Doors do
+				if #(Rivalry.Robberies.Banks.Pacific.Doors[Index].Position - PlayerPosition) <= 1.0 then
+					if Rivalry.Robberies.Banks.Pacific.Doors[Index].Locked then
+						DisplayHelpText("Press ~INPUT_CONTEXT~ to lockpick the door!")
+						if IsControlJustPressed(1, 51) then
+							if exports.core_modules:GetItemQuantity(36) > 0 then
+								OpenLockPickGui2(Index)
+							else
+								Notify("You need a lockpick to do this!", 3100)
+							end
+						end
+					end
+				end
+			end
+		end
+		for Index = 1, #Rivalry.Robberies.Banks.Fleeca do
+			if #(Rivalry.Robberies.Banks.Fleeca[Index].Keypad - PlayerPosition) <= 20.0 then
+				RenderMarker(25, Rivalry.Robberies.Banks.Fleeca[Index].Keypad.x, Rivalry.Robberies.Banks.Fleeca[Index].Keypad.y, Rivalry.Robberies.Banks.Fleeca[Index].Keypad.z, 1.5, 1.5, 2.0, 255, 255, 0, 20)
+				if #(Rivalry.Robberies.Banks.Fleeca[Index].Keypad - PlayerPosition) <= 1.0 then
 					DisplayHelpText("Press ~INPUT_CONTEXT~ to hack vault security lock!")
 					if IsControlJustPressed(1, 51) then
-						if not Rivalry.Robberies.Banks.Pacific.Locked2 and not Rivalry.Robberies.Banks.Pacific.Locked3 then
-							TriggerServerEvent("Rivalry.HackVault", 1, 20, "Pacific", 0)
-						else
-							Notify("Go back and unlock those first two doors! You will need them open so you can escape right?", 3100)
-						end
+						TriggerServerEvent("Rivalry.HackVault", 1, 20, "Fleeca", Index)
 					end
 				end
 				if #(Rivalry.Robberies.Banks.Pacific.TorchPosition - PlayerPosition) <= 1.0 then
 					DisplayHelpText("Press ~INPUT_CONTEXT~ to blow torch door lock!")
 					if IsControlJustPressed(1, 51) then
-						if exports.core_modules:GetItemQuantity(82) > 0 then
-							TriggerServerEvent("Rivalry.BlowTorch", "Pacific", 1, 0)
-						else
-							Notify("You need a blow torch to break this doors lock open!", 3100)
-						end
-					end
-				end
-				if #(Rivalry.Robberies.Banks.Pacific.TorchPosition2 - PlayerPosition) <= 1.0 then
-					DisplayHelpText("Press ~INPUT_CONTEXT~ to blow torch door lock!")
-					if IsControlJustPressed(1, 51) then
-						if exports.core_modules:GetItemQuantity(82) > 0 then
-							TriggerServerEvent("Rivalry.BlowTorch", "Pacific", 2, 0)
-						else
-							Notify("You need a blow torch to break this doors lock open!", 3100)
-						end
-					end
-				end
-			end
-			for Index = 1, #Rivalry.Robberies.Banks.Fleeca do
-				if #(Rivalry.Robberies.Banks.Fleeca[Index].Keypad - PlayerPosition) <= 10.0 then
-					RenderMarker(25, Rivalry.Robberies.Banks.Fleeca[Index].Keypad.x, Rivalry.Robberies.Banks.Fleeca[Index].Keypad.y, Rivalry.Robberies.Banks.Fleeca[Index].Keypad.z, 1.5, 1.5, 2.0, 255, 255, 0, 20)
-					if #(Rivalry.Robberies.Banks.Fleeca[Index].Keypad - PlayerPosition) <= 1.0 then
-						DisplayHelpText("Press ~INPUT_CONTEXT~ to hack vault security lock!")
-						if IsControlJustPressed(1, 51) then
-							TriggerServerEvent("Rivalry.HackVault", 1, 20, "Fleeca", Index)
-						end
-					end
-					if #(Rivalry.Robberies.Banks.Pacific.TorchPosition - PlayerPosition) <= 1.0 then
-						DisplayHelpText("Press ~INPUT_CONTEXT~ to blow torch door lock!")
-						if IsControlJustPressed(1, 51) then
-							TriggerServerEvent("Rivalry.BlowTorch", "Fleeca", 0, 0, Index)
-						end
+						TriggerServerEvent("Rivalry.BlowTorch", "Fleeca", 0, Index)
 					end
 				end
 			end
@@ -523,30 +608,78 @@ AddEventHandler("Rivalry.BlowTorch", function(Bank, Door, BankNumber)
 	if Bank == "Blaine" then
 		Wait(10000)
 		Rivalry.Robberies.Banks.Blaine.Locked2 = false
-		exports.core_modules:removeQty(82, 1)
 	elseif Bank == "Pacific" then
 		Wait(10000)
 		if Door == 1 then
 			Rivalry.Robberies.Banks.Pacific.Locked2 = false
-			exports.core_modules:removeQty(82, 1)
+		elseif Door == 2 then
+			Rivalry.Robberies.Banks.Pacific.Locked3 = false
 		else
-			if not Rivalry.Robberies.Banks.Pacific.Locked2 then
-				Rivalry.Robberies.Banks.Pacific.Locked3 = false
-				exports.core_modules:removeQty(82, 1)
-			end
+			Rivalry.Robberies.Banks.Pacific.Locked4 = false
 		end
 	elseif Bank == "Fleeca" then
 		Wait(10000)
 		Rivalry.Robberies.Banks.Fleeca[BankNumber].Locked2 = false
-		exports.core_modules:removeQty(82, 1)
 	end
 end)
+
+RegisterNetEvent("Rivalry.Lockpick")
+AddEventHandler("Rivalry.Lockpick", function(Door)
+	Rivalry.Robberies.Banks.Pacific.Doors[Door].Locked = false
+end)
+
+function OpenLockPickGui2(Door)
+	if exports.core_modules:GetItemQuantity(36) > 0 then
+		SetPlayerControl(PlayerId(), 0, 0)
+		SetNuiFocus(true, true)
+		CurrentLockpicked = Door
+		SendNUIMessage({pins = exports.core_modules:GetItemQuantity(36), doorlock = true})
+		RequestAnimDict("mini@safe_cracking")
+		while not HasAnimDictLoaded("mini@safe_cracking") do
+			Wait(0)
+		end
+		TaskPlayAnim(PlayerPedId(), "mini@safe_cracking", "dial_turn_clock_fast", 4.0, -4, -1, 1, 0, false, false, false)
+	else
+		Notify("You do not have any lockpicks!", 2500)
+	end
+end
 
 RegisterNetEvent("Rivalry.BlowTorch.Animation")
 AddEventHandler("Rivalry.BlowTorch.Animation", function()
 	TaskStartScenarioInPlace(PlayerPedId(), "WORLD_HUMAN_WELDING", 0, true)
 	Wait(10000)
 	ClearPedTasks(PlayerPedId())
+end)
+
+RegisterNetEvent("Rivalry.CheckBankStatus")
+AddEventHandler("Rivalry.CheckBankStatus", function(Bank, BankNumber)
+	if Bank == "Blaine" then
+		HasBlaineBeenReset = true
+		Rivalry.Robberies.Banks.Blaine.Locked = true
+		Rivalry.Robberies.Banks.Blaine.Locked2 = true
+	elseif Bank == "Fleeca" then
+		HasFleecaBeenReset = true
+		Rivalry.Robberies.Banks.Fleeca[BankNumber].Locked = true
+		Rivalry.Robberies.Banks.Fleeca[BankNumber].Locked2 = true
+	elseif Bank == "Pacific" then
+		HasPacificBeenReset = true
+		Rivalry.Robberies.Banks.Pacific.Locked = true
+		Rivalry.Robberies.Banks.Pacific.Locked2 = true
+		Rivalry.Robberies.Banks.Pacific.Locked3 = true
+		Rivalry.Robberies.Banks.Pacific.Locked4 = true
+		for Index = 1, #Rivalry.Robberies.Banks.Pacific.Doors do
+			Rivalry.Robberies.Banks.Pacific.Doors[Index].Locked = true
+		end
+		for Index = 1, #Rivalry.Cameras do
+			Rivalry.Cameras[Index].Online = true
+		end
+	end
+end)
+
+RegisterNetEvent("Rivalry.Disable.Pacific.Cameras")
+AddEventHandler("Rivalry.Disable.Pacific.Cameras", function()
+	Rivalry.Cameras[19].Online = false
+	CurrentCamera = 1
 end)
 
 RegisterNUICallback('dialsound', function(data, cb)
@@ -556,7 +689,6 @@ end)
 
 RegisterNUICallback('close', function(data, cb)
 	CloseComboLockGui()
-	TriggerServerEvent('Rivalry.Vault.Payout', TotalComboLocks)
 	TotalComboLocks = 0
 	NumberOfPins = 0
 	cb('ok')
@@ -584,19 +716,40 @@ RegisterNUICallback('lockpickwin', function(data, cb)
 	CloseLockPickGui()
 	ClearPedTasks(PlayerPedId())
 	Bank = data.currentbank
-	TriggerServerEvent("Rivalry.Lockbox.Payout", Bank)
+	if not IsEntityDead(PlayerPedId()) then
+		TriggerServerEvent("Rivalry.Lockbox.Payout", Bank)
+		PlaySound(-1, "PICK_UP", "HUD_FRONTEND_DEFAULT_SOUNDSET", 0, 0, 1)
+	end
+end)
+
+RegisterNUICallback('lockpickwin2', function(data, cb)
+	TotalLocks = exports.core_modules:GetItemQuantity(36)
+	TotalLocksAfter = data.lockpicks
+	Difference = TotalLocks - TotalLocksAfter
+	if Difference > 0 then
+		exports.core_modules:removeQty(36, Difference)
+	end
+	CloseLockPickGui()
+	ClearPedTasks(PlayerPedId())
+	if not IsEntitydead(PlayerPedId()) then
+		TriggerServerEvent("Rivalry.Lockpick", CurrentLockpicked)
+	end
+	CurrentLockpicked = 0
 end)
 
 RegisterNUICallback('lockclick', function(data, cb)
 	if NumberOfPins < 3 then
 		NumberOfPins = NumberOfPins + 1
-		TriggerEvent('LIFE_CL:Sound:PlayOnOne', "unlock", "1.0")
-		cb('ok')
 	end
 	if NumberOfPins == 3 then
+		TriggerEvent('LIFE_CL:Sound:PlayOnOne', "unlock", "1.0")
 		SendNUIMessage({newnumber = true, numberone = math.random(1, 40), numbertwo = math.random(1, 40), numberthree = math.random(1, 40)})
+		TotalComboLocks = TotalComboLocks + 1
 		if TotalComboLocks < 6 then
-			TotalComboLocks = TotalComboLocks + 1
+			TriggerServerEvent('Rivalry.Vault.Payout')
+			PlaySound(-1, "PICK_UP", "HUD_FRONTEND_DEFAULT_SOUNDSET", 0, 0, 1)
+		else
+			SendNUIMessage({combolock = false, newnumber = true, numberone = math.random(1, 40), numbertwo = math.random(1, 40), numberthree = math.random(1, 40)})
 		end
 	end
 end)
@@ -605,7 +758,15 @@ end)
 
 RegisterNetEvent("Set.Current.Camera")
 AddEventHandler("Set.Current.Camera", function(CurrentCam)
-	CurrentCamera = CurrentCam
+	if Rivalry.Cameras[19].Online then
+		CurrentCamera = CurrentCam
+	else
+		if CurrentCam >= 19 then
+			Notify("Pacific Standard Camera's are Offline!")
+		else
+			CurrentCamera = CurrentCam
+		end
+	end
 end)
 
 local CameraActive = false
@@ -622,7 +783,7 @@ Citizen.CreateThread(function()
         	if IsPedOnFoot(Player) then
         		for Computer = 1, #Rivalry.Computers do
         			if #(PlayerPosition - Rivalry.Computers[Computer]) <= 1.0 then
-		                if IsControlJustPressed(1, 51) and CreatedCamera == 0 then
+		                if IsControlJustPressed(1, 51) and CreatedCamera == 0 and not IsEntityDead(PlayerPedId()) then
 		                    SetFocusArea(Rivalry.Cameras[CurrentCamera].Coords.x, Rivalry.Cameras[CurrentCamera].Coords.y, Rivalry.Cameras[CurrentCamera].Coords.z, Rivalry.Cameras[CurrentCamera].Coords.x, Rivalry.Cameras[CurrentCamera].Coords.y, Rivalry.Cameras[CurrentCamera].Coords.z)
 		                    ChangeSecurityCamera(Rivalry.Cameras[CurrentCamera].Coords.x, Rivalry.Cameras[CurrentCamera].Coords.y, Rivalry.Cameras[CurrentCamera].Coords.z, Rivalry.Cameras[CurrentCamera].Heading)
 		                    SendNUIMessage({
@@ -638,7 +799,7 @@ Citizen.CreateThread(function()
             else
             	VehicleHandle = GetVehiclePedIsIn(Player, false)
             	if GetVehicleClass(VehicleHandle) == 18 then
-            		if IsControlJustPressed(1, 217) and CreatedCamera == 0 then
+            		if IsControlJustPressed(1, 217) and CreatedCamera == 0 and not IsEntityDead(PlayerPedId()) then
         				if IsVehicleStopped(VehicleHandle) then
 	            			SetFocusArea(Rivalry.Cameras[CurrentCamera].Coords.x, Rivalry.Cameras[CurrentCamera].Coords.y, Rivalry.Cameras[CurrentCamera].Coords.z, Rivalry.Cameras[CurrentCamera].Coords.x, Rivalry.Cameras[CurrentCamera].Coords.y, Rivalry.Cameras[CurrentCamera].Coords.z)
 		                    ChangeSecurityCamera(Rivalry.Cameras[CurrentCamera].Coords.x, Rivalry.Cameras[CurrentCamera].Coords.y, Rivalry.Cameras[CurrentCamera].Coords.z, Rivalry.Cameras[CurrentCamera].Heading)
@@ -662,8 +823,18 @@ Citizen.CreateThread(function()
         if CreatedCamera ~= 0 then
             local Instructions = CreateInstuctionScaleform("instructional_buttons")
             DrawScaleformMovieFullscreen(Instructions, 255, 255, 255, 255, 0)
-            SetTimecycleModifier("scanline_cam_cheap")
-            SetTimecycleModifierStrength(2.0)
+            if CurrentCamera > 18 then
+	            if Rivalry.Cameras[19].Online then
+	            	SetTimecycleModifier("scanline_cam_cheap")
+	            	SetTimecycleModifierStrength(2.0)
+	            else
+	            	SetTimecycleModifier("CAMERA_secuirity_FUZZ")
+	            	SetTimecycleModifierStrength(11.0)
+	            end
+	        else
+	            SetTimecycleModifier("scanline_cam_cheap")
+	            SetTimecycleModifierStrength(2.0)
+	        end
 
             -- CLOSE CAMERAS
             if IsControlJustPressed(1, 194) then
@@ -675,7 +846,7 @@ Citizen.CreateThread(function()
             end
 
             -- GO BACK CAMERA
-            if IsControlJustPressed(1, 174) then
+            if IsControlJustPressed(1, 174) and not IsEntityDead(PlayerPedId()) then
                 local NewCamIndex
 
                 if CurrentCamera == 1 then
@@ -695,9 +866,8 @@ Citizen.CreateThread(function()
             end
 
             -- GO FORWARD CAMERA
-            if IsControlJustPressed(1, 175) then
+            if IsControlJustPressed(1, 175) and not IsEntityDead(PlayerPedId()) then
                 local NewCamIndex
-                
                 if CurrentCamera == #Rivalry.Cameras then
                     NewCamIndex = 1
                 else
@@ -720,26 +890,26 @@ Citizen.CreateThread(function()
             local GetCameraRotation = GetCamRot(CreatedCamera, 2)
 
             -- ROTATE UP
-            if IsControlPressed(1, 32) then
+            if IsControlPressed(1, 32) and not IsEntityDead(PlayerPedId()) then
                 if GetCameraRotation.x <= 0.0 then
                     SetCamRot(CreatedCamera, GetCameraRotation.x + 0.7, 0.0, GetCameraRotation.z, 2)
                 end
             end
 
             -- ROTATE DOWN
-            if IsControlPressed(1, 33) then
+            if IsControlPressed(1, 33) and not IsEntityDead(PlayerPedId()) then
                 if GetCameraRotation.x >= -50.0 then
                     SetCamRot(CreatedCamera, GetCameraRotation.x - 0.7, 0.0, GetCameraRotation.z, 2)
                 end
             end
 
             -- ROTATE LEFT
-            if IsControlPressed(1, 34) then
+            if IsControlPressed(1, 34) and not IsEntityDead(PlayerPedId()) then
                 SetCamRot(CreatedCamera, GetCameraRotation.x, 0.0, GetCameraRotation.z + 0.7, 2)
             end
 
             -- ROTATE RIGHT
-            if IsControlPressed(1, 35) then
+            if IsControlPressed(1, 35) and not IsEntityDead(PlayerPedId()) then
                 SetCamRot(CreatedCamera, GetCameraRotation.x, 0.0, GetCameraRotation.z - 0.7, 2)
             end
         end

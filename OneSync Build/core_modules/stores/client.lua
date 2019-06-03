@@ -53,6 +53,7 @@ ToolMarket = {
         {Name = "Bleach", Id = 53, Cost = 50, Max = 10},
         {Name = "Cleaning Rag", Id = 80, Cost = 5, Max = 10},
         {Name = "Car Cleaner", Id = 81, Cost = 10, Max = 10},
+        {Name = "Blow Torch", Id = 82, Cost = 100, Max = 11},
     }},
     {Category = "Medical", Items = {
         {Name = "Bandage", Id = 34, Cost = 50, Max = 10},

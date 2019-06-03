@@ -112,7 +112,7 @@ Rivalry = {
 			},
 			Pacific = {
 				Name = "Pacific Standard Bank",
-				SafeBoxes = {
+				LockedBoxes = {
 					[1] = false,
 					[2] = false,
 					[3] = false,
@@ -185,6 +185,28 @@ function HasSoftCooldownEnded(Source)
 	end
 end
 
+function HasBeenRobbed2(TypeOfRobbery, Index)
+	if TypeOfRobbery == "Blaine" then
+		if ( os.time() - Rivalry.Robberies.Banks.Blaine.LastRobbed) < (Cooldown*60) and Rivalry.Robberies.Banks.Blaine.LastRobbed ~= 0 then
+			return true
+		else
+			return false
+		end
+	elseif TypeOfRobbery == "Fleeca" then
+		if ( os.time() - Rivalry.Robberies.Banks.Fleeca[Index].LastRobbed) < (Cooldown*60) and Rivalry.Robberies.Banks.Fleeca[Index].LastRobbed ~= 0 then
+			return true
+		else
+			return false
+		end
+	elseif TypeOfRobbery == "Pacific" then
+		if ( os.time() - Rivalry.Robberies.Banks.Pacific.LastRobbed) < (Cooldown*60) and Rivalry.Robberies.Banks.Pacific.LastRobbed ~= 0 then
+			return true
+		else
+			return false
+		end
+	end
+end
+
 function HasBeenRobbed(TypeOfRobbery, Index, Source)
 	if TypeOfRobbery == "Blaine" then
 		if ( os.time() - Rivalry.Robberies.Banks.Blaine.LastRobbed) < (Cooldown*60) and Rivalry.Robberies.Banks.Blaine.LastRobbed ~= 0 then
@@ -242,19 +264,11 @@ AddEventHandler("Rivalry.CashRegister.Payout", function()
 end)
 
 RegisterServerEvent("Rivalry.Vault.Payout")
-AddEventHandler("Rivalry.Vault.Payout", function(TotalLocks)
+AddEventHandler("Rivalry.Vault.Payout", function()
 	local Source = source
 	TriggerEvent("core:getuser", Source, function(User)
-		local Payout = 0
-		if TotalLocks > 0 then
-			for Total = 0, TotalLocks do
-				Payout = Payout + math.random(350, 500)
-			end
-		else
-		end
-		if Payout > 0 then
-			User.addDirty(Payout)
-		end
+		Payout = math.random(350, 500)
+		User.addDirty(Payout)
 	end)
 end)
 
@@ -360,4 +374,55 @@ AddEventHandler("Rivalry.BlowTorch", function(Bank, Door, BankNumber)
 			TriggerClientEvent("Rivalry.BlowTorch.Animation", Source)
 		end
 	end
+end)
+
+RegisterServerEvent("Rivalry.Lockpick")
+AddEventHandler("Rivalry.Lockpick", function(Door)
+	local Source = source
+	TriggerClientEvent("Rivalry.Lockpick", -1, Door)
+end)
+
+RegisterServerEvent("Rivalry.CheckBankStatus")
+AddEventHandler("Rivalry.CheckBankStatus", function(Bank, BankNumber)
+	local Source = source
+	if not Bank == "Blaine" then
+		if not HasBeenRobbed2(Bank, BankNumber) then
+			TriggerClientEvent("Rivalry.CheckBankStatus", -1, Bank, BankNumber)
+			Rivalry.Robberies.Banks.Blaine.Robber = nil
+			Rivalry.Robberies.Banks.Blaine.VaultOpened = false
+			Rivalry.Robberies.Banks.Blaine.DoorOpened = false
+			for Index = 1, #Rivalry.Robberies.Banks.Blaine.LockedBoxes do
+				Rivalry.Robberies.Banks.Blaine.LockedBoxes[Index] = false
+			end
+		end
+	elseif not Bank == "Fleeca" then
+		if not HasBeenRobbed2(Bank, BankNumber) then
+			TriggerClientEvent("Rivalry.CheckBankStatus", -1, Bank, BankNumber)
+			Rivalry.Robberies.Banks.Fleeca[BankNumber].Robber = nil
+			Rivalry.Robberies.Banks.Fleeca[BankNumber] = false
+			Rivalry.Robberies.Banks.Fleeca[BankNumber] = false
+			for Index = 1, #Rivalry.Robberies.Banks.Fleeca[BankNumber].LockedBoxes do
+				Rivalry.Robberies.Banks.Fleeca[BankNumber].LockedBoxes[Index] = false
+			end
+		end
+	elseif Bank == "Pacific" then
+		if not HasBeenRobbed2(Bank, BankNumber) then
+			TriggerClientEvent("Rivalry.CheckBankStatus", -1, Bank, BankNumber)
+			Rivalry.Robberies.Banks.Pacific.Robber = nil
+			Rivalry.Robberies.Banks.Pacific.VaultOpened = false
+			Rivalry.Robberies.Banks.Pacific.DoorOpened = false
+			Rivalry.Robberies.Banks.Pacific.DoorOpened2 = false
+			for Index = 1, #Rivalry.Robberies.Banks.Pacific.LockedBoxes do
+				Rivalry.Robberies.Banks.Pacific.LockedBoxes[Index] = false
+			end
+		end
+	end
+end)
+
+RegisterServerEvent("Rivalry.Disable.Pacific.Cameras")
+AddEventHandler("Rivalry.Disable.Pacific.Cameras", function()
+	local Source = source
+	TriggerEvent("dispatch:cameras")
+	TriggerClientEvent('customNotification', Source, "You have just tripped an antitampering system! Better be quick!")
+	TriggerClientEvent("Rivalry.Disable.Pacific.Cameras", -1)
 end)

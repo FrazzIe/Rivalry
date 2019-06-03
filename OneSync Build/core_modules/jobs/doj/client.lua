@@ -149,6 +149,11 @@ AddEventHandler("DOJ:Set", function(_Data, _DOJ, first)
 	end
 end)
 
+RegisterNetEvent("Lawyer:Set")
+AddEventHandler("Lawyer:Set", function()
+	TriggerServerEvent("jobcenter:jobs", 5)
+end)
+
 RegisterNetEvent("DOJ:RequestFine")
 AddEventHandler("DOJ:RequestFine", function(amount, source)
     Citizen.CreateThread(function()
