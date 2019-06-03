@@ -1,5 +1,5 @@
 -- Settings
-local depositAtATM = true -- Allows the player to deposit at an ATM rather than only in banks (Default: false)
+local depositAtATM = false -- Allows the player to deposit at an ATM rather than only in banks (Default: false)
 local giveCashAnywhere = false -- Allows the player to give CASH to another player, no matter how far away they are. (Default: false)
 local withdrawAnywhere = false -- Allows the player to withdraw cash from bank account anywhere (Default: false)
 local depositAnywhere = false -- Allows the player to deposit cash into bank account anywhere (Default: false)
