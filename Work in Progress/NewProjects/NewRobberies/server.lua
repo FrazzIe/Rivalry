@@ -371,17 +371,17 @@ RegisterServerEvent("Rivalry.BlowTorch")
 AddEventHandler("Rivalry.BlowTorch", function(Bank, Door, BankNumber)
 	local Source = source
 	if Bank == "Blaine" then
-		if not HasBeenRobbed(Bank, BankNumber) and HasSoftCooldownEnded(Source) then
+		if not HasBeenRobbed(Bank, BankNumber, Source) and HasSoftCooldownEnded(Source) then
 			TriggerClientEvent("Rivalry.BlowTorch", -1, Bank, Door, BankNumber)
 			TriggerClientEvent("Rivalry.BlowTorch.Animation", Source)
 		end
 	elseif Bank == "Pacific" then
-		if not HasBeenRobbed(Bank, BankNumber) and HasSoftCooldownEnded(Source) then
+		if not HasBeenRobbed(Bank, BankNumber, Source) and HasSoftCooldownEnded(Source) then
 			TriggerClientEvent("Rivalry.BlowTorch", -1, Bank, Door, BankNumber)
 			TriggerClientEvent("Rivalry.BlowTorch.Animation", Source)
 		end
 	elseif Bank == "Fleeca" then
-		if not HasBeenRobbed(Bank, BankNumber) and HasSoftCooldownEnded(Source) then
+		if not HasBeenRobbed(Bank, BankNumber, Source) and HasSoftCooldownEnded(Source) then
 			TriggerClientEvent("Rivalry.BlowTorch", -1, Bank, Door, BankNumber)
 			TriggerClientEvent("Rivalry.BlowTorch.Animation", Source)
 		end
