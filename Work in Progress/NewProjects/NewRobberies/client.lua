@@ -619,7 +619,7 @@ AddEventHandler("Rivalry.BlowTorch", function(Bank, Door, BankNumber)
 			Rivalry.Robberies.Banks.Pacific.Locked4 = false
 		end
 	elseif Bank == "Fleeca" then
-		Wait(120000)
+		Wait(30000)
 		Rivalry.Robberies.Banks.Fleeca[BankNumber].Locked2 = false
 	end
 end)
@@ -648,7 +648,7 @@ end
 RegisterNetEvent("Rivalry.BlowTorch.Animation")
 AddEventHandler("Rivalry.BlowTorch.Animation", function()
 	TaskStartScenarioInPlace(PlayerPedId(), "WORLD_HUMAN_WELDING", 0, true)
-	Wait(10000)
+	Wait(30000)
 	ClearPedTasks(PlayerPedId())
 end)
 
