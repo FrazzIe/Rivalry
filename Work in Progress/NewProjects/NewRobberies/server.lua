@@ -350,18 +350,21 @@ AddEventHandler("Rivalry.HackVault", function(Level, MaxLevel, Bank, BankNumber)
 			Rivalry.Robberies.Banks.Fleeca[BankNumber].Robber = Source
 			TriggerClientEvent("Rivalry.HackVault", Source, Level, MaxLevel, Bank, BankNumber)
 			TriggerEvent("dispatch:ten-ninety-bank", Rivalry.Robberies.Banks.Fleeca[BankNumber].Name)
+			Rivalry.Robberies.Banks.SoftCooldown = os.time()
 			TriggerClientEvent('customNotification', Source, "You have just tripped an antitampering system! Better be quick!")
 		elseif Bank == "Blaine" then
 			Rivalry.Robberies.Banks.Blaine.LastRobbed = os.time()
 			Rivalry.Robberies.Banks.Blaine.Robber = Source
 			TriggerClientEvent("Rivalry.HackVault", Source, Level, MaxLevel, Bank, BankNumber)
 			TriggerEvent("dispatch:ten-ninety-bank", Rivalry.Robberies.Banks.Blaine.Name)
+			Rivalry.Robberies.Banks.SoftCooldown = os.time()
 			TriggerClientEvent('customNotification', Source, "You have just tripped an antitampering system! Better be quick!")
 		elseif Bank == "Pacific" then
 			Rivalry.Robberies.Banks.Pacific.LastRobbed = os.time()
 			Rivalry.Robberies.Banks.Pacific.Robber = Source
 			TriggerClientEvent("Rivalry.HackVault", Source, Level, MaxLevel, Bank, BankNumber)
 			TriggerEvent("dispatch:ten-ninety-bank", Rivalry.Robberies.Banks.Pacific.Name)
+			Rivalry.Robberies.Banks.SoftCooldown = os.time()
 			TriggerClientEvent('customNotification', Source, "You have just tripped an antitampering system! Better be quick!")
 		end
 	end
@@ -437,4 +440,15 @@ AddEventHandler("Rivalry.Disable.Pacific.Cameras", function()
 	TriggerEvent("dispatch:cameras")
 	TriggerClientEvent('customNotification', Source, "You have just tripped an antitampering system! Better be quick!")
 	TriggerClientEvent("Rivalry.Disable.Pacific.Cameras", -1)
+end)
+
+RegisterServerEvent("Rivalry.EnableCameras")
+AddEventHandler("Rivalry.EnableCameras", function()
+	local Source = source
+	if Rivalry.Robberies.Banks.Pacific.Robber == nil then
+		TriggerClientEvent('customNotification', Source, "You have successfully reset the camera system for Pacific Standard Bank.")
+		TriggerClientEvent("Rivalry.EnableCameras", -1)
+	else
+		TriggerClientEvent('customNotification', Source, "You cannot reset the camera system yet as there is an active robbery in progress!")
+	end
 end)

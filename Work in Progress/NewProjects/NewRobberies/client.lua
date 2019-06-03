@@ -183,6 +183,15 @@ Citizen.CreateThread(function()
 					end
 				end
 			end
+		else
+			if #(PlayerPosition - Rivalry.Robberies.Banks.Pacific.CameraDisable) < 11.0 then
+				if #(PlayerPosition - Rivalry.Robberies.Banks.Pacific.CameraDisable) <= 1.0 then
+					DisplayHelpText("Press ~INPUT_CONTEXT~ to enable cameras!")
+					if IsControlJustPressed(1, 51) then
+						TriggerServerEvent("Rivalry.EnableCameras")
+					end
+				end
+			end
 		end
 	end
 end)
@@ -680,6 +689,12 @@ end)
 RegisterNetEvent("Rivalry.Disable.Pacific.Cameras")
 AddEventHandler("Rivalry.Disable.Pacific.Cameras", function()
 	Rivalry.Cameras[19].Online = false
+	CurrentCamera = 1
+end)
+
+RegisterNetEvent("Rivalry.EnableCameras")
+AddEventHandler("Rivalry.EnableCameras", function()
+	Rivalry.Cameras[19].Online = true
 	CurrentCamera = 1
 end)
 
