@@ -389,7 +389,7 @@ AddEventHandler("core:ready", function()
     Chat.Command("cctv", function(source, args, rawCommand)
         local Camera = tonumber(args[1])
         TriggerEvent('Set.Current.Camera', Camera)
-    end, false, {Help = "Select CCTV Which Camera",  Params = {{name = "amount", help = "number"},{name = "id", help = "id"}}})
+    end, false, {Help = "Select CCTV Camera",  Params = {{name = "Cameras", help = "id"}}})
 
     Chat.Command("bed", function(source, args, rawCommand)
         local Ped = PlayerPedId()
