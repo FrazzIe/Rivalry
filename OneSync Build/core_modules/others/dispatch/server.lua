@@ -136,6 +136,15 @@ AddEventHandler("Dispatch.Jailbreak", function()
 	end
 end)
 
+RegisterServerEvent("dispatch:cameras")
+AddEventHandler("dispatch:cameras", function()
+	for id, dept in pairs(emergency_users) do
+		if dept ~= nil and dept ~= "paramedic" then
+			TriggerClientEvent("chatMessage", id, "10-90", {255, 0, 0}, "^7Unauthorized access detected to the security system at Pacific Standard Bank!")
+		end
+	end
+end)
+
 RegisterServerEvent("dispatch:ten-thirtytwo-r")
 AddEventHandler("dispatch:ten-thirtytwo-r", function(coords, street_name, crossing, area)
 	for id, dept in pairs(emergency_users) do
