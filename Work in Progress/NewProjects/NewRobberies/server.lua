@@ -288,6 +288,7 @@ AddEventHandler("Rivalry.Lockbox.Payout", function(Bank)
 		elseif Bank == "Fleeca" then
 			local Pay = math.random(Rivalry.Robberies.Banks.FleecaPayout.min, Rivalry.Robberies.Banks.FleecaPayout.max)
 			User.addDirty(Pay)
+		end
 	end)
 end)
 
