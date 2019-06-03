@@ -128,9 +128,6 @@ $(document).ready(function(){
     }
     if(item.newnumber === true) { 
       combo = [item.numberone, item.numbertwo, item.numberthree];
-      $(".num1").html("");
-      $(".num2").html("");
-      $(".num3").html("");
     }
   });
 });
