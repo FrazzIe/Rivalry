@@ -100,7 +100,7 @@ Citizen.CreateThread(function()
 							end
 						end
 					end
-				end
+				end4
 			end
 		end
 	end
@@ -179,6 +179,7 @@ Citizen.CreateThread(function()
 					DisplayHelpText("Press ~INPUT_CONTEXT~ to disable cameras!")
 					if IsControlJustPressed(1, 51) then
 						TriggerEvent("Rivalry.HackCameras", 1, 6)
+						TriggerClientEvent('customNotification', Source, "You have just tripped an antitampering system! Better be quick!")
 					end
 				end
 			end
@@ -506,7 +507,7 @@ Citizen.CreateThread(function()
 					TriggerServerEvent("Rivalry.HackVault", 1, 20, "Blaine", 0)
 				end
 			end
-			if #(Rivalry.Robberies.Banks.Blaine.TorchPosition - PlayerPosition) <= 1.0 then
+			if #(Rivalry.Robberies.Banks.Blaine.TorchPosition - PlayerPosition) <= 1.0 and Rivalry.Robberies.Banks.Blaine.Locked2 then
 				DisplayHelpText("Press ~INPUT_CONTEXT~ to blow torch door lock!")
 				if IsControlJustPressed(1, 51) then
 					TriggerServerEvent("Rivalry.BlowTorch", "Blaine", 0)
@@ -525,7 +526,7 @@ Citizen.CreateThread(function()
 					end
 				end
 			end
-			if #(Rivalry.Robberies.Banks.Pacific.TorchPosition - PlayerPosition) <= 1.0 then
+			if #(Rivalry.Robberies.Banks.Pacific.TorchPosition - PlayerPosition) <= 1.0 and Rivalry.Robberies.Banks.Pacific.Locked2 then
 				DisplayHelpText("Press ~INPUT_CONTEXT~ to blow torch door lock!")
 				if IsControlJustPressed(1, 51) then
 					if exports.core_modules:GetItemQuantity(82) > 0 then
@@ -535,7 +536,7 @@ Citizen.CreateThread(function()
 					end
 				end
 			end
-			if #(Rivalry.Robberies.Banks.Pacific.TorchPosition2 - PlayerPosition) <= 1.0 then
+			if #(Rivalry.Robberies.Banks.Pacific.TorchPosition2 - PlayerPosition) <= 1.0 and Rivalry.Robberies.Banks.Pacific.Locked3 then
 				DisplayHelpText("Press ~INPUT_CONTEXT~ to blow torch door lock!")
 				if IsControlJustPressed(1, 51) then
 					if exports.core_modules:GetItemQuantity(82) > 0 then
@@ -546,7 +547,7 @@ Citizen.CreateThread(function()
 				end
 			end
 			if #(Rivalry.Robberies.Banks.Pacific.TorchPosition3 - PlayerPosition) <= 1.0 then
-				if not Rivalry.Robberies.Banks.Pacific.Locked and not Rivalry.Robberies.Banks.Pacific.Locked3 then
+				if not Rivalry.Robberies.Banks.Pacific.Locked and not Rivalry.Robberies.Banks.Pacific.Locked3 and Rivalry.Robberies.Banks.Pacific.Locked4 then
 					DisplayHelpText("Press ~INPUT_CONTEXT~ to blow torch door lock!")
 					if IsControlJustPressed(1, 51) then
 						if exports.core_modules:GetItemQuantity(82) > 0 then
@@ -581,7 +582,7 @@ Citizen.CreateThread(function()
 						TriggerServerEvent("Rivalry.HackVault", 1, 20, "Fleeca", Index)
 					end
 				end
-				if #(Rivalry.Robberies.Banks.Pacific.TorchPosition - PlayerPosition) <= 1.0 then
+				if #(Rivalry.Robberies.Banks.Fleeca[Index].TorchPosition - PlayerPosition) <= 1.0 and Rivalry.Robberies.Banks.Fleeca[Index].Locked2 then
 					DisplayHelpText("Press ~INPUT_CONTEXT~ to blow torch door lock!")
 					if IsControlJustPressed(1, 51) then
 						TriggerServerEvent("Rivalry.BlowTorch", "Fleeca", 0, Index)

@@ -150,8 +150,12 @@ AddEventHandler("DOJ:Set", function(_Data, _DOJ, first)
 end)
 
 RegisterNetEvent("Lawyer:Set")
-AddEventHandler("Lawyer:Set", function()
-	TriggerServerEvent("jobcenter:jobs", 5)
+AddEventHandler("Lawyer:Set", function(Status)
+	if Status == true then
+		TriggerServerEvent("jobcenter:jobs", 5)
+	else
+		TriggerServerEvent("jobcenter:jobs", 1)
+	end
 end)
 
 RegisterNetEvent("DOJ:RequestFine")

@@ -101,14 +101,27 @@ TriggerEvent("core:addGroupCommand", "dojadd", "admin", function(source, args, r
 	end
 end, {help = "Add a player to the department of justice", params = {{name = "id", help = "The id of the player"},{name = "rank", help = "Paralegal | State Attorney | Assistant Distruct Attorney | District Attorney | Judge | Justice | Chief Justice"}}})
 
-TriggerEvent("core:addGroupCommand", "lawyeradd", "admin", function(source, args, rawCommand, data, power, group)
+TriggerEvent("core:addGroupCommand", "addlawyer", "admin", function(source, args, rawCommand, data, power, group)
 	local source = source
 	if(#args < 1) then
 		TriggerClientEvent("chatMessage", source, 'SYSTEM', {255, 0, 0}, "Usage : /lawyeradd [ID]")
 	else
 		if(GetPlayerName(tonumber(args[1])) ~= nil and tostring(args[2]) ~= nil)then
 			TriggerEvent("core:getuser", tonumber(args[1]), function (target)
-				TriggerClientEvent("Lawyer:Set", tonumber(args[1]))
+				TriggerClientEvent("Lawyer:Set", tonumber(args[1]), true)
+			end)
+		end
+	end
+end, {help = "", params = {{name = "id", help = "The id of the player"}}})
+
+TriggerEvent("core:addGroupCommand", "remlawyer", "admin", function(source, args, rawCommand, data, power, group)
+	local source = source
+	if(#args < 1) then
+		TriggerClientEvent("chatMessage", source, 'SYSTEM', {255, 0, 0}, "Usage : /lawyeradd [ID]")
+	else
+		if(GetPlayerName(tonumber(args[1])) ~= nil and tostring(args[2]) ~= nil)then
+			TriggerEvent("core:getuser", tonumber(args[1]), function (target)
+				TriggerClientEvent("Lawyer:Set", tonumber(args[1]), false)
 			end)
 		end
 	end
