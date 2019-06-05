@@ -14,6 +14,7 @@ local HasBlaineBeenReset = false
 local HasPacificBeenReset = false
 local HasFleecaBeenReset = false
 local CurrentLockpicked = 0
+local WhichBank = nil
 
 function DisplayHelpText(Str)
 	BeginTextCommandDisplayHelp("STRING")
@@ -244,6 +245,7 @@ AddEventHandler("Rivalry.Rob.Blaine.Safebox", function()
 	Citizen.CreateThread(function()
 		if DoesEntityExist(PlayerPedId()) and not IsEntityDead(PlayerPedId()) then
 			OpenLockPickGui()
+			WhichBank = "Blaine"
 			isStillRobbingBlaine = true
 		end
 	end)
@@ -254,6 +256,7 @@ AddEventHandler("Rivalry.Rob.Pacific.Safebox", function()
 	Citizen.CreateThread(function()
 		if DoesEntityExist(PlayerPedId()) and not IsEntityDead(PlayerPedId()) then
 			OpenLockPickGui()
+			WhichBank = "Pacific"
 			isStillRobbingPacific = true
 		end
 	end)
@@ -265,6 +268,7 @@ AddEventHandler("Rivalry.Rob.Fleeca.Safebox", function(BankNumber)
 		if DoesEntityExist(PlayerPedId()) and not IsEntityDead(PlayerPedId()) then
 			OpenLockPickGui()
 			isStillRobbingFleeca = true
+			WhichBank = "Fleeca"
 			whichFleeca = BankNumber
 		end
 	end)
@@ -725,9 +729,8 @@ RegisterNUICallback('lockpickwin', function(data, cb)
 	end
 	CloseLockPickGui()
 	ClearPedTasks(PlayerPedId())
-	Bank = data.currentbank
-	if not IsEntityDead(PlayerPedId()) then
-		TriggerServerEvent("Rivalry.Lockbox.Payout", Bank)
+	if not IsEntityDead(PlayerPedId()) then)
+		TriggerServerEvent("Rivalry.Lockbox.Payout", WhichBank)
 		PlaySound(-1, "PICK_UP", "HUD_FRONTEND_DEFAULT_SOUNDSET", 0, 0, 1)
 	end
 end)
