@@ -8,21 +8,12 @@ function CreateTimeString(Hour, Minute)
 	return Hour..":"..Minute
 end
 
-local toggledhud = false
-
-RegisterNetEvent('toggle:timeandweather')
-AddEventHandler('toggle:timeandweather', function()
-	toggledhud = not toggledhud
-end)
-
 Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(0)
-		if not toggledhud then
-			local anchor = GetMinimapAnchor()
-			SetWeather(Weather.Current)
-			NetworkOverrideClockTime(Time.Hour, Time.Minute, Time.Second)
-		end
+		local anchor = GetMinimapAnchor()
+		SetWeather(Weather.Current)
+		NetworkOverrideClockTime(Time.Hour, Time.Minute, Time.Second)
 	end
 end)
 
