@@ -263,14 +263,14 @@ $(document).ready(function(){
       gameOver = true;
       closeMain();
     }
-    if(item.doorlock === true) {
+    if(item.doorlock === true && item.lockpick === false) {
       IsLockpickingDoor = true;
       gameOver = false;
       openMain(item.pins);
       solveDeg = ( Math.random() * 180 ) - 90;
       solvePadding = 4;
     }
-    if(item.doorlock === false) {
+    if(item.doorlock === false && item.lockpick === false) {
       IsLockpickingDoor = true;
       gameOver = true;
       closeMain();
