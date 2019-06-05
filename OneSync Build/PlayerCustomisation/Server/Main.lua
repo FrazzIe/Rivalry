@@ -12,7 +12,7 @@ end
 
 AddEventHandler("PlayerCustomisation.Initialise", function(Source, user, power, group)
 	local char_id = user.get("characterID")
-	exports["GHMattiMySQL"]:QueryResultAsync("SELECT * FROM playercustomisation WHERE character_id=@char_id", {["@char_id"] = char_id}, function(PlayerData)
+	exports["ghmattimysql"]:execute("SELECT * FROM playercustomisation WHERE character_id=?", {char_id}, function(PlayerData)
 		PlayerCustomisation.PlayerData[Source] = GetDefaultPlayerData()
 		if PlayerData[1] ~= nil then
 			local _PlayerData = {}
@@ -51,48 +51,12 @@ AddEventHandler("PlayerCustomisation.Initialise", function(Source, user, power, 
 						Tattoos = json.decode(PlayerData[Type].tattoo),
 					}
 				else
-					exports["GHMattiMySQL"]:QueryAsync("INSERT INTO playercustomisation (`character_id`, `type`, `model`, `clothing_drawable`, `clothing_texture`, `prop_drawable`, `prop_texture`, `overlay_drawable`, `overlay_opacity`, `overlay_colour`, `facial_feature`, `head_blend`, `hair_colour`, `eye_colour`, `highlight`, `tattoo`, `creator`) VALUES (@character_id, @type, @model, @clothing_drawable, @clothing_texture, @prop_drawable, @prop_texture, @overlay_drawable, @overlay_opacity, @overlay_colour, @facial_feature, @head_blend, @hair_colour, @eye_colour, @highlight, @tattoo, @creator)", {
-						["@character_id"] = char_id,
-						["@type"] = Type,
-						["@model"] = Data.Model,
-						["@clothing_drawable"] = json.encode(Data[Data.Gender].Clothing.Drawable),
-						["@clothing_texture"] = json.encode(Data[Data.Gender].Clothing.Texture),
-						["@prop_drawable"] = json.encode(Data[Data.Gender].Props.Drawable),
-						["@prop_texture"] = json.encode(Data[Data.Gender].Props.Texture),
-						["@overlay_drawable"] = json.encode(Data[Data.Gender].Overlay.Drawable),
-						["@overlay_opacity"] = json.encode(Data[Data.Gender].Overlay.Opacity),
-						["@overlay_colour"] = json.encode(Data[Data.Gender].Overlay.Colours),
-						["@facial_feature"] = json.encode(Data[Data.Gender].FacialFeature),
-						["@head_blend"] = json.encode(Data[Data.Gender].HeadBlend),
-						["@hair_colour"] = json.encode(Data[Data.Gender].HairColour),
-						["@eye_colour"] = Data[Data.Gender].EyeColour,
-						["@highlight"] = bool_to_number(Data[Data.Gender].Highlights),
-						["@tattoo"] = json.encode(Data[Data.Gender].Tattoos),
-						["@creator"] = bool_to_number(Data.Creator),
-					})					
+					exports["ghmattimysql"]:execute("INSERT INTO playercustomisation (`character_id`, `type`, `model`, `clothing_drawable`, `clothing_texture`, `prop_drawable`, `prop_texture`, `overlay_drawable`, `overlay_opacity`, `overlay_colour`, `facial_feature`, `head_blend`, `hair_colour`, `eye_colour`, `highlight`, `tattoo`, `creator`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", {char_id, Type, Data.Model, json.encode(Data[Data.Gender].Clothing.Drawable), json.encode(Data[Data.Gender].Clothing.Texture), json.encode(Data[Data.Gender].Props.Drawable), json.encode(Data[Data.Gender].Props.Texture), json.encode(Data[Data.Gender].Overlay.Drawable), json.encode(Data[Data.Gender].Overlay.Opacity), json.encode(Data[Data.Gender].Overlay.Colours), json.encode(Data[Data.Gender].FacialFeature), json.encode(Data[Data.Gender].HeadBlend), json.encode(Data[Data.Gender].HairColour), Data[Data.Gender].EyeColour, bool_to_number(Data[Data.Gender].Highlights), json.encode(Data[Data.Gender].Tattoos), bool_to_number(Data.Creator)})
 				end
 			end
 		else
 			for Type, Data in pairs(PlayerCustomisation.PlayerData[Source].Types) do
-				exports["GHMattiMySQL"]:QueryAsync("INSERT INTO playercustomisation (`character_id`, `type`, `model`, `clothing_drawable`, `clothing_texture`, `prop_drawable`, `prop_texture`, `overlay_drawable`, `overlay_opacity`, `overlay_colour`, `facial_feature`, `head_blend`, `hair_colour`, `eye_colour`, `highlight`, `tattoo`, `creator`) VALUES (@character_id, @type, @model, @clothing_drawable, @clothing_texture, @prop_drawable, @prop_texture, @overlay_drawable, @overlay_opacity, @overlay_colour, @facial_feature, @head_blend, @hair_colour, @eye_colour, @highlight, @tattoo, @creator)", {
-					["@character_id"] = char_id,
-					["@type"] = Type,
-					["@model"] = Data.Model,
-					["@clothing_drawable"] = json.encode(Data[Data.Gender].Clothing.Drawable),
-					["@clothing_texture"] = json.encode(Data[Data.Gender].Clothing.Texture),
-					["@prop_drawable"] = json.encode(Data[Data.Gender].Props.Drawable),
-					["@prop_texture"] = json.encode(Data[Data.Gender].Props.Texture),
-					["@overlay_drawable"] = json.encode(Data[Data.Gender].Overlay.Drawable),
-					["@overlay_opacity"] = json.encode(Data[Data.Gender].Overlay.Opacity),
-					["@overlay_colour"] = json.encode(Data[Data.Gender].Overlay.Colours),
-					["@facial_feature"] = json.encode(Data[Data.Gender].FacialFeature),
-					["@head_blend"] = json.encode(Data[Data.Gender].HeadBlend),
-					["@hair_colour"] = json.encode(Data[Data.Gender].HairColour),
-					["@eye_colour"] = Data[Data.Gender].EyeColour,
-					["@highlight"] = bool_to_number(Data[Data.Gender].Highlights),
-					["@tattoo"] = json.encode(Data[Data.Gender].Tattoos),
-					["@creator"] = bool_to_number(Data.Creator),
-				})
+				exports["ghmattimysql"]:execute("INSERT INTO playercustomisation (`character_id`, `type`, `model`, `clothing_drawable`, `clothing_texture`, `prop_drawable`, `prop_texture`, `overlay_drawable`, `overlay_opacity`, `overlay_colour`, `facial_feature`, `head_blend`, `hair_colour`, `eye_colour`, `highlight`, `tattoo`, `creator`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", {char_id, Type, Data.Model, json.encode(Data[Data.Gender].Clothing.Drawable), json.encode(Data[Data.Gender].Clothing.Texture), json.encode(Data[Data.Gender].Props.Drawable), json.encode(Data[Data.Gender].Props.Texture), json.encode(Data[Data.Gender].Overlay.Drawable), json.encode(Data[Data.Gender].Overlay.Opacity), json.encode(Data[Data.Gender].Overlay.Colours), json.encode(Data[Data.Gender].FacialFeature), json.encode(Data[Data.Gender].HeadBlend), json.encode(Data[Data.Gender].HairColour), Data[Data.Gender].EyeColour, bool_to_number(Data[Data.Gender].Highlights), json.encode(Data[Data.Gender].Tattoos), bool_to_number(Data.Creator)})
 			end
 		end
 
@@ -135,25 +99,7 @@ AddEventHandler("PlayerCustomisation.Update", function(Type, PlayerData)
 		if user ~= nil then
 			if PlayerCustomisation.PlayerData[Source] then
 				PlayerCustomisation.PlayerData[Source].Types[Type] = PlayerData
-				exports["GHMattiMySQL"]:QueryAsync("UPDATE playercustomisation SET model=@model, clothing_drawable=@clothing_drawable, clothing_texture=@clothing_texture, prop_drawable=@prop_drawable, prop_texture=@prop_texture, overlay_drawable=@overlay_drawable, overlay_opacity=@overlay_opacity, overlay_colour=@overlay_colour, facial_feature=@facial_feature, head_blend=@head_blend, hair_colour=@hair_colour, eye_colour=@eye_colour, highlight=@highlight, tattoo=@tattoo, creator=@creator WHERE (type=@type) AND (character_id=@character_id)", {
-					["@type"] = Type,
-					["@character_id"] = user.get("characterID"),
-					["@model"] = PlayerData.Model,
-					["@clothing_drawable"] = json.encode(PlayerData[PlayerData.Gender].Clothing.Drawable),
-					["@clothing_texture"] = json.encode(PlayerData[PlayerData.Gender].Clothing.Texture),
-					["@prop_drawable"] = json.encode(PlayerData[PlayerData.Gender].Props.Drawable),
-					["@prop_texture"] = json.encode(PlayerData[PlayerData.Gender].Props.Texture),
-					["@overlay_drawable"] = json.encode(PlayerData[PlayerData.Gender].Overlay.Drawable),
-					["@overlay_opacity"] = json.encode(PlayerData[PlayerData.Gender].Overlay.Opacity),
-					["@overlay_colour"] = json.encode(PlayerData[PlayerData.Gender].Overlay.Colours),
-					["@facial_feature"] = json.encode(PlayerData[PlayerData.Gender].FacialFeature),
-					["@head_blend"] = json.encode(PlayerData[PlayerData.Gender].HeadBlend),
-					["@hair_colour"] = json.encode(PlayerData[PlayerData.Gender].HairColour),
-					["@eye_colour"] = PlayerData[PlayerData.Gender].EyeColour,
-					["@highlight"] = bool_to_number(PlayerData[PlayerData.Gender].Highlights),
-					["@tattoo"] = json.encode(PlayerData[PlayerData.Gender].Tattoos),
-					["@creator"] = bool_to_number(PlayerData.Creator),
-				})
+				exports["ghmattimysql"]:execute("UPDATE playercustomisation SET model=?, clothing_drawable=?, clothing_texture=?, prop_drawable=?, prop_texture=?, overlay_drawable=?, overlay_opacity=?, overlay_colour=?, facial_feature=?, head_blend=?, hair_colour=?, eye_colour=?, highlight=?, tattoo=?, creator=? WHERE (type=?) AND (character_id=?)", {PlayerData.Model, json.encode(PlayerData[PlayerData.Gender].Clothing.Drawable), json.encode(PlayerData[PlayerData.Gender].Clothing.Texture), json.encode(PlayerData[PlayerData.Gender].Props.Drawable), json.encode(PlayerData[PlayerData.Gender].Props.Texture), json.encode(PlayerData[PlayerData.Gender].Overlay.Drawable), json.encode(PlayerData[PlayerData.Gender].Overlay.Opacity), json.encode(PlayerData[PlayerData.Gender].Overlay.Colours), json.encode(PlayerData[PlayerData.Gender].FacialFeature), json.encode(PlayerData[PlayerData.Gender].HeadBlend), json.encode(PlayerData[PlayerData.Gender].HairColour), PlayerData[PlayerData.Gender].EyeColour, bool_to_number(PlayerData[PlayerData.Gender].Highlights), json.encode(PlayerData[PlayerData.Gender].Tattoos), bool_to_number(PlayerData.Creator), Type, user.get("characterID")})
 			end
 		end
 	end)

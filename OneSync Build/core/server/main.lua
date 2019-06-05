@@ -42,6 +42,10 @@ Config = {
     }
 }
 
+function updateRow(query, params)
+    exports["ghmattimysql"]:execute(query, params)
+end
+
 function getID(type, source)
     for k,v in ipairs(GetPlayerIdentifiers(source)) do
         if string.sub(tostring(v), 1, string.len("steam:")) == "steam:" and (type == "steam" or type == 1) then
@@ -53,12 +57,6 @@ function getID(type, source)
         end
     end
     return nil
-end
-
-function update(table, column, character_id)
-	exports["GHMattiMySQL"]:QueryAsync("UPDATE "..table.." SET "..column.." WHERE character_id=@character_id", {
-		["@character_id"] = character_id,
-	})
 end
 
 function updateUsers()

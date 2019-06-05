@@ -67,29 +67,14 @@ function setupCharacter(source, data)
 
     method["update"] = function()
         self["lastcoords"] = self["coords"]
-        exports["GHMattiMySQL"]:QueryAsync("UPDATE characters SET wallet=@wallet, bank=@bank, dirty_cash=@dirty_cash, timeplayed=@timeplayed, position_x=@position_x, position_y=@position_y, position_z=@position_z, weapon_license=@weapon_license, jail_time=@jail_time, dateofjail=@dateofjail, job_id=@job_id, drivers_license=@drivers_license WHERE (identifier=@identifier) AND (character_id=@character_id)", {
-            ["@identifier"] = self["steam"],
-            ["@character_id"] = self["characterID"],
-            ["@wallet"] = self["wallet"],
-            ["@bank"] = self["bank"],
-            ["@dirty_cash"] = self["dirty"],
-            ["@timeplayed"] = self["timeplayed"],
-            ["@position_x"] = self["lastcoords"]["x"],
-            ["@position_y"] = self["lastcoords"]["y"],
-            ["@position_z"] = self["lastcoords"]["z"],
-            ["@weapon_license"] = self["weapon_license"],
-            ["@jail_time"] = self["jail_time"],
-            ["@dateofjail"] = self["dateofjail"],
-            ["@job_id"] = self["job"]["id"],
-            ["@drivers_license"] = self["drivers_license"],
-        })
+        exports["ghmattimysql"]:execute("UPDATE characters SET wallet=?, bank=?, dirty_cash=?, timeplayed=?, position_x=?, position_y=?, position_z=?, weapon_license=?, jail_time=?, dateofjail=?, job_id=?, drivers_license=? WHERE (identifier=?) AND (character_id=?)", {self.wallet, self.bank, self.dirty, self.timeplayed, self.lastcoords.x, self.lastcoords.y, self.lastcoords.z, self.weapon_license, self.jail_time, self.dateofjail, self.job.id, self.drivers_license, self.steam, self.characterID})
     end
 
     --[[ Job Stuff ]]--
     method["job"] = function(value)
         if tonumber(value) ~= nil then
             self["job"] = jobs[value]
-            update("characters", "job_id='"..self["job"]["id"].."'", self["characterID"])
+            updateRow("UPDATE characters SET job_id=? WHERE character_id=?", {self["job"]["id"], self["characterID"]})
         end
     end
 
@@ -97,7 +82,7 @@ function setupCharacter(source, data)
     method["wallet"] = function(value)
         if tonumber(value) ~= nil then
             self["wallet"] = math.floor(tonumber(value))
-            update("characters", "wallet='"..self["wallet"].."'", self["characterID"])
+            updateRow("UPDATE characters SET wallet=? WHERE character_id=?", {self["wallet"], self["characterID"]})
             TriggerClientEvent("core:updateMoney", self["source"], self["wallet"], "wallet", "set", math.floor(tonumber(value)))
         end
     end
@@ -105,7 +90,7 @@ function setupCharacter(source, data)
     method["addWallet"] = function(value)
         if tonumber(value) ~= nil then
             self["wallet"] = self["wallet"] + math.floor(tonumber(value))
-            update("characters", "wallet='"..self["wallet"].."'", self["characterID"])
+            updateRow("UPDATE characters SET wallet=? WHERE character_id=?", {self["wallet"], self["characterID"]})
             TriggerClientEvent("core:updateMoney", self["source"], self["wallet"], "wallet", "add", math.floor(tonumber(value)))
         end
     end
@@ -116,7 +101,7 @@ function setupCharacter(source, data)
             if self["wallet"] < 0 then
                 self["wallet"] = 0
             end
-            update("characters", "wallet='"..self["wallet"].."'", self["characterID"])
+            updateRow("UPDATE characters SET wallet=? WHERE character_id=?", {self["wallet"], self["characterID"]})
             TriggerClientEvent("core:updateMoney", self["source"], self["wallet"], "wallet", "remove", math.floor(tonumber(value)))
         end
     end
@@ -125,7 +110,7 @@ function setupCharacter(source, data)
     method["bank"] = function(value)
         if tonumber(value) ~= nil then
             self["bank"] = math.floor(tonumber(value))
-            update("characters", "bank='"..self["bank"].."'", self["characterID"])
+            updateRow("UPDATE characters SET bank=? WHERE character_id=?", {self["bank"], self["characterID"]})
             TriggerClientEvent("core:updateMoney", self["source"], self["bank"], "bank", "set", math.floor(tonumber(value)))
         end
     end
@@ -133,7 +118,7 @@ function setupCharacter(source, data)
     method["addBank"] = function(value)
         if tonumber(value) ~= nil then
             self["bank"] = self["bank"] + math.floor(tonumber(value))
-            update("characters", "bank='"..self["bank"].."'", self["characterID"])
+            updateRow("UPDATE characters SET bank=? WHERE character_id=?", {self["bank"], self["characterID"]})
             TriggerClientEvent("core:updateMoney", self["source"], self["bank"], "bank", "add", math.floor(tonumber(value)))
             TriggerClientEvent("banking:updateBalance", self["source"], self["bank"])
         end
@@ -142,7 +127,7 @@ function setupCharacter(source, data)
     method["removeBank"] = function(value)
         if tonumber(value) ~= nil then
             self["bank"] = self["bank"] - math.floor(tonumber(value))
-            update("characters", "bank='"..self["bank"].."'", self["characterID"])
+            updateRow("UPDATE characters SET bank=? WHERE character_id=?", {self["bank"], self["characterID"]})
             TriggerClientEvent("core:updateMoney", self["source"], self["bank"], "bank", "remove", math.floor(tonumber(value)))
             TriggerClientEvent("banking:updateBalance", self["source"], self["bank"])
         end
@@ -152,7 +137,7 @@ function setupCharacter(source, data)
     method["dirty"] = function(value)
         if tonumber(value) ~= nil then
             self["dirty"] = math.floor(tonumber(value))
-            update("characters", "dirty_cash='"..self["dirty"].."'", self["characterID"])
+            updateRow("UPDATE characters SET dirty_cash=? WHERE character_id=?", {self["dirty"], self["characterID"]})
             TriggerClientEvent("core:updateMoney", self["source"], self["dirty"], "dirty", "set", math.floor(tonumber(value)))
         end
     end
@@ -160,7 +145,7 @@ function setupCharacter(source, data)
     method["addDirty"] = function(value)
         if tonumber(value) ~= nil then
             self["dirty"] = self["dirty"] + math.floor(tonumber(value))
-            update("characters", "dirty_cash='"..self["dirty"].."'", self["characterID"])
+            updateRow("UPDATE characters SET dirty_cash=? WHERE character_id=?", {self["dirty"], self["characterID"]})
             TriggerClientEvent("core:updateMoney", self["source"], self["dirty"], "dirty", "add", math.floor(tonumber(value)))
         end
     end
@@ -171,7 +156,7 @@ function setupCharacter(source, data)
             if self["dirty"] < 0 then
                 self["dirty"] = 0
             end
-            update("characters", "dirty_cash='"..self["dirty"].."'", self["characterID"])
+            updateRow("UPDATE characters SET dirty_cash=? WHERE character_id=?", {self["dirty"], self["characterID"]})
             TriggerClientEvent("core:updateMoney", self["source"], self["dirty"], "dirty", "remove", math.floor(tonumber(value)))
         end
     end
@@ -216,7 +201,7 @@ AddEventHandler("core:updatePlaytime", function(_timeplayed)
     local source = source
     if Characters[source] then
         Characters[source].set("timeplayed", _timeplayed)
-        update("characters", "timeplayed='".._timeplayed.."'", Characters[source].get("characterID"))
+        updateRow("UPDATE characters SET timeplayed=? WHERE character_id=?", {_timeplayed, Characters[source].get("characterID")})
     end
 end)
 
@@ -226,7 +211,7 @@ AddEventHandler("core:updatePosition", function(_x, _y, _z, _update)
     if Characters[source] then
         Characters[source].set("coords", {x = _x, y = _y, z = _z})
         if _update then
-            update("characters", "position_x='".._x.."', position_y='".._y.."', position_z='".._z.."'", Characters[source].get("characterID"))
+            updateRow("UPDATE characters SET position_x=?, position_y=?, position_z=? WHERE character_id=?", {_x, _y, _z, Characters[source].get("characterID")})
         end
     end
 end)
@@ -247,7 +232,7 @@ end)
 RegisterServerEvent("core:retrieveCharacters")
 AddEventHandler("core:retrieveCharacters", function()
     local source = source
-    exports["GHMattiMySQL"]:QueryResultAsync("SELECT * from characters WHERE identifier = @identifier AND dead = 0", {["@identifier"] = Users[source].get("steam")}, function(_Character)
+    exports["ghmattimysql"]:execute("SELECT * from characters WHERE identifier = ? AND dead = 0", {Users[source].get("steam")}, function(_Character)
         _Characters[source] = _Character
         TriggerClientEvent("core:loadCharacters", source, _Characters[source])
     end)
@@ -280,24 +265,18 @@ AddEventHandler("core:deleteCharacter", function(character)
 
     TriggerClientEvent("core:deleteCharacter", source, _Characters[source])
 
-    exports["GHMattiMySQL"]:Query("UPDATE properties_businesses_enterable SET identifier='no', character_id=NULL, expire='0' WHERE (identifier=@identifier) AND (character_id=@character_id)", {["@identifier"] = identifier, ["@character_id"] = character.character_id})
-    exports["GHMattiMySQL"]:Query("UPDATE properties_businesses_normal SET identifier='no', character_id=NULL, expire='0' WHERE (identifier=@identifier) AND (character_id=@character_id)", {["@identifier"] = identifier, ["@character_id"] = character.character_id})
-    exports["GHMattiMySQL"]:Query("UPDATE properties_houses_enterable SET identifier='no', character_id=NULL, expire='0' WHERE (identifier=@identifier) AND (character_id=@character_id)", {["@identifier"] = identifier, ["@character_id"] = character.character_id})
-    exports["GHMattiMySQL"]:Query("UPDATE properties_houses_normal SET identifier='no', character_id=NULL, expire='0' WHERE (identifier=@identifier) AND (character_id=@character_id)", {["@identifier"] = identifier, ["@character_id"] = character.character_id})
-    exports["GHMattiMySQL"]:Query("UPDATE characters SET dead = 1 WHERE character_id=@character_id", {["@character_id"] = character.character_id})
+    exports["ghmattimysql"]:executeSync("UPDATE properties_businesses_enterable SET identifier='no', character_id=NULL, expire='0' WHERE (identifier=?) AND (character_id=?)", {identifier, character.character_id})
+    exports["ghmattimysql"]:executeSync("UPDATE properties_businesses_normal SET identifier='no', character_id=NULL, expire='0' WHERE (identifier=?) AND (character_id=?)", {identifier, character.character_id})
+    exports["ghmattimysql"]:executeSync("UPDATE properties_houses_enterable SET identifier='no', character_id=NULL, expire='0' WHERE (identifier=?) AND (character_id=?)", {identifier, character.character_id})
+    exports["ghmattimysql"]:executeSync("UPDATE properties_houses_normal SET identifier='no', character_id=NULL, expire='0' WHERE (identifier=?) AND (character_id=?)", {identifier, character.character_id})
+    exports["ghmattimysql"]:executeSync("UPDATE characters SET dead = 1 WHERE character_id=?", {character.character_id})
 end)
 
 RegisterServerEvent("core:editCharacter")
 AddEventHandler("core:editCharacter", function(data)
     local source = source
 
-    exports["GHMattiMySQL"]:QueryAsync("UPDATE characters SET first_name=@first_name, last_name=@last_name, dob=@dob, gender=@gender WHERE character_id=@character_id", {
-        ["@character_id"] = data.character.character_id,
-        ["@first_name"] = data.forename, 
-        ["@last_name"] = data.surname, 
-        ["@dob"] = data.dob,
-        ["@gender"] = data.gender,
-    })
+    exports["ghmattimysql"]:execute("UPDATE characters SET first_name=?, last_name=?, dob=?, gender=? WHERE character_id=?", {data.forename, data.surname, data.dob, data.gender, data.character.character_id})
     for _, Character in pairs(_Characters[source]) do
         if Character.character_id then
             if Character.character_id == data.character.character_id then
@@ -317,35 +296,13 @@ AddEventHandler("core:createCharacter", function(data)
     local source = source
     local identifier = Users[source].get("steam")
 
-    exports["GHMattiMySQL"]:Insert("characters", {
-        {
-            ["identifier"] = identifier,
-            ["first_name"] = data.forename,
-            ["last_name"] = data.surname,
-            ["dob"] = data.dob,
-            ["gender"] = data.gender,
-            ["wallet"] = Config["Character"]["Wallet"],
-            ["bank"] = Config["Character"]["Bank"],
-            ["dirty_cash"] = Config["Character"]["Dirty"],
-            ["timeplayed"] = Config["Character"]["Timeplayed"],
-            ["position_x"] = Config["Character"]["Spawn"]["X"],
-            ["position_y"] = Config["Character"]["Spawn"]["Y"],
-            ["position_z"] = Config["Character"]["Spawn"]["Z"],
-            ["weapon_license"] = Config["Character"]["Licenses"]["Weapon"],
-            ["jail_time"] = Config["Character"]["Jail"],
-            ["job_id"] = Config["Character"]["Job"],
-            ["drivers_license"] = Config["Character"]["Licenses"]["Driver"],
-        }
-    }, function(character_id)
-        exports["GHMattiMySQL"]:QueryAsync("INSERT INTO garages (`character_id`,`garage_id`,`cost`,`slots`) VALUES (@character_id,@garage_id,@cost,@slots)", {
-            ["@character_id"] = character_id,
-            ["@garage_id"] = 1,
-            ["@cost"] = 0,
-            ["@slots"] = 1,
-        })
-        table.insert(_Characters[source], { character_id = character_id, identifier = identifier, first_name = data["forename"], last_name = data["surname"], dob = data["dob"], gender = data["gender"], wallet = Config["Character"]["Wallet"], bank = Config["Character"]["Bank"], dirty_cash = Config["Character"]["Dirty"], timeplayed = Config["Character"]["Timeplayed"] })
+    exports["ghmattimysql"]:execute("INSERT INTO characters (`identifier`, `first_name`, `last_name`, `dob`, `gender`, `wallet`, `bank`, `dirty_cash`, `timeplayed`, `position_x`, `position_y`, `position_z`, `weapon_license`, `jail_time`, `job_id`, `drivers_license`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", {identifier, data.forename, data.surname, data.dob, data.gender, Config["Character"]["Wallet"], Config["Character"]["Bank"], Config["Character"]["Dirty"], Config["Character"]["Timeplayed"], Config["Character"]["Spawn"]["X"], Config["Character"]["Spawn"]["Y"], Config["Character"]["Spawn"]["Z"], Config["Character"]["Licenses"]["Weapon"], Config["Character"]["Jail"], Config["Character"]["Job"], Config["Character"]["Licenses"]["Driver"]}, function(rowChanges)
+        local rowId = rowChanges.insertId
+
+        exports["ghmattimysql"]:execute("INSERT INTO garages (`character_id`,`garage_id`,`cost`,`slots`) VALUES (?, ?, ?, ?)", {rowId, 1, 0, 1})
+        table.insert(_Characters[source], { character_id = rowId, identifier = identifier, first_name = data["forename"], last_name = data["surname"], dob = data["dob"], gender = data["gender"], wallet = Config["Character"]["Wallet"], bank = Config["Character"]["Bank"], dirty_cash = Config["Character"]["Dirty"], timeplayed = Config["Character"]["Timeplayed"] })
         TriggerClientEvent("core:createCharacter", source, _Characters[source])
-    end, true)
+    end)
 end)
 
 RegisterServerEvent("core:selectCharacter")
@@ -354,7 +311,7 @@ AddEventHandler("core:selectCharacter", function(data)
     local identifier = Users[source].get("steam")
 
     if identifier ~= nil and data.character_id ~= nil then
-        exports["GHMattiMySQL"]:QueryResultAsync("SELECT * FROM characters WHERE (identifier = @identifier) AND (character_id = @character_id)", {["@identifier"] = identifier, ["@character_id"] = data.character_id}, function(_Character)
+        exports["ghmattimysql"]:execute("SELECT * FROM characters WHERE (identifier = ?) AND (character_id = ?)", {identifier, data.character_id}, function(_Character)
             if _Character[1] then
                 local model = nil
                 if _Character[1].gender == "attack helicopter" or _Character[1].gender == "male" then
@@ -365,7 +322,7 @@ AddEventHandler("core:selectCharacter", function(data)
                 Characters[source] = setupCharacter(source, _Character[1])
                 TriggerClientEvent("core:login", source, Characters[source].get("lastcoords"), Characters[source].get("timeplayed"))
                 TriggerEvent("core:loaded", source, Characters[source], Users[source].get("power"), Users[source].get("group"))
-                TriggerClientEvent("core:loaded", source, Characters[source], Users[source].get("power"), Users[source].get("group"))
+                TriggerClientEvent("core:loaded", source, _Character[1], Users[source].get("power"), Users[source].get("group"))
                 TriggerClientEvent("core:sync", -1, Characters, CharacterNames, Users, UPower, UGroup, MDTCharacters)
                 TriggerEvent("core:sync", Characters, CharacterNames, Users, UPower, UGroup, MDTCharacters)
 
@@ -412,11 +369,11 @@ AddEventHandler("core:killCharacter", function(source)
         local character_id = Characters[source].get("characterID")
         local identifier = Characters[source].get("steam")
         if character_id and identifier then
-            exports["GHMattiMySQL"]:Query("UPDATE properties_businesses_enterable SET identifier='no', character_id=NULL, expire='0' WHERE (identifier=@identifier) AND (character_id=@character_id)", {["@identifier"] = identifier, ["@character_id"] = character_id})
-            exports["GHMattiMySQL"]:Query("UPDATE properties_businesses_normal SET identifier='no', character_id=NULL, expire='0' WHERE (identifier=@identifier) AND (character_id=@character_id)", {["@identifier"] = identifier, ["@character_id"] = character_id})
-            exports["GHMattiMySQL"]:Query("UPDATE properties_houses_enterable SET identifier='no', character_id=NULL, expire='0' WHERE (identifier=@identifier) AND (character_id=@character_id)", {["@identifier"] = identifier, ["@character_id"] = character_id})
-            exports["GHMattiMySQL"]:Query("UPDATE properties_houses_normal SET identifier='no', character_id=NULL, expire='0' WHERE (identifier=@identifier) AND (character_id=@character_id)", {["@identifier"] = identifier, ["@character_id"] = character_id})
-            exports["GHMattiMySQL"]:Query("UPDATE characters SET dead = 1 WHERE character_id=@character_id", {["@character_id"] = character_id})
+            exports["ghmattimysql"]:executeSync("UPDATE properties_businesses_enterable SET identifier='no', character_id=NULL, expire='0' WHERE (identifier=?) AND (character_id=?)", {identifier, character_id})
+            exports["ghmattimysql"]:executeSync("UPDATE properties_businesses_normal SET identifier='no', character_id=NULL, expire='0' WHERE (identifier=?) AND (character_id=?)", {identifier, character_id})
+            exports["ghmattimysql"]:executeSync("UPDATE properties_houses_enterable SET identifier='no', character_id=NULL, expire='0' WHERE (identifier=?) AND (character_id=?)", {identifier, character_id})
+            exports["ghmattimysql"]:executeSync("UPDATE properties_houses_normal SET identifier='no', character_id=NULL, expire='0' WHERE (identifier=?) AND (character_id=?)", {identifier, character_id})
+            exports["ghmattimysql"]:executeSync("UPDATE characters SET dead = 1 WHERE character_id=?", {character_id})
         end
         Characters[source] = nil
     end

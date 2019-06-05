@@ -108,7 +108,7 @@ vehicle_max = 100
 vehicle_weapon_max = 1
 syncing_inventory = false
 
-exports["GHMattiMySQL"]:QueryResultAsync("SELECT * from vehicle_inventory", {}, function(inventory)
+exports["ghmattimysql"]:execute("SELECT * from vehicle_inventory", {}, function(inventory)
     if inventory[1] == nil then
     else
         local inventory_setup = {}
@@ -122,7 +122,7 @@ exports["GHMattiMySQL"]:QueryResultAsync("SELECT * from vehicle_inventory", {}, 
         vehicle_inventory = inventory_setup
     end
 end)
-exports["GHMattiMySQL"]:QueryResultAsync("SELECT * from vehicle_weapon_inventory", {}, function(weapon_inventory)
+exports["ghmattimysql"]:execute("SELECT * from vehicle_weapon_inventory", {}, function(weapon_inventory)
     if weapon_inventory[1] == nil then
     else
         local weapons_setup = {}
@@ -143,7 +143,7 @@ end)
 RegisterServerEvent("inventory:initialise")
 AddEventHandler("inventory:initialise",function(source, identifier, character_id)
     local source = tonumber(source)
-    exports["GHMattiMySQL"]:QueryResultAsync("SELECT * from inventory WHERE character_id=@character_id", {["@character_id"] = character_id}, function(inventory)
+    exports["ghmattimysql"]:execute("SELECT * from inventory WHERE character_id=?", {character_id}, function(inventory)
         if inventory[1] == nil then
             user_inventory[source] = inventory
             TriggerClientEvent("inventory:updateitems", source, inventory)
@@ -179,22 +179,12 @@ AddEventHandler("inventory:take", function(item_id, quantity, target_id)
                             TriggerEvent("core:getuser", source, function(user)
                                 if user_inventory[source][item_id] == nil then
                                     user_inventory[source][item_id] = { character_id = user.get("characterID"), item_id = item_id, name = itemlist[item_id].name, quantity = quantity, canuse = itemlist[item_id].canuse }
-                                    exports["GHMattiMySQL"]:QueryAsync("INSERT INTO inventory (`character_id`,`item_id`,`name`,`quantity`,`canuse`) VALUES (@character_id,@item_id,@name,@quantity,@canuse)", {
-                                        ["@character_id"] = user.get("characterID"), 
-                                        ["@item_id"] = item_id, 
-                                        ["@name"] = itemlist[item_id].name,
-                                        ["@quantity"] = quantity,
-                                        ["@canuse"] = itemlist[item_id].canuse,
-                                    })
+                                    exports["ghmattimysql"]:execute("INSERT INTO inventory (`character_id`,`item_id`,`name`,`quantity`,`canuse`) VALUES (?, ?, ?, ?, ?)", {user.get("characterID"), item_id, itemlist[item_id].name, quantity, itemlist[item_id].canuse})
                                     TriggerClientEvent("inventory:updateitems", source, user_inventory[source])
                                     TriggerClientEvent("inventory:sync", -1, user_inventory)
                                 else
                                     user_inventory[source][item_id]["quantity"] = user_inventory[source][item_id]["quantity"] + quantity
-                                    exports["GHMattiMySQL"]:QueryAsync("UPDATE inventory SET quantity=@quantity WHERE (character_id=@character_id) AND (item_id=@item_id)", {
-                                        ["@character_id"] = user.get("characterID"), 
-                                        ["@item_id"] = item_id, 
-                                        ["@quantity"] = user_inventory[source][item_id]["quantity"]
-                                    })
+                                    exports["ghmattimysql"]:execute("UPDATE inventory SET quantity=? WHERE (character_id=?) AND (item_id=?)", {user_inventory[source][item_id]["quantity"], user.get("characterID"),  item_id})
                                     TriggerClientEvent("inventory:updateitems", source, user_inventory[source])
                                     TriggerClientEvent("inventory:sync", -1, user_inventory)
                                 end
@@ -205,19 +195,12 @@ AddEventHandler("inventory:take", function(item_id, quantity, target_id)
                             TriggerEvent("core:getuser", target_id, function(user)
                                 if (user_inventory[target_id][item_id]["quantity"] - quantity) <= 0 then
                                     user_inventory[target_id][item_id] = nil
-                                    exports["GHMattiMySQL"]:QueryAsync("DELETE FROM inventory WHERE (character_id = @character_id) AND (item_id=@item_id)", {
-                                        ["@character_id"] = user.get("characterID"), 
-                                        ["@item_id"] = item_id
-                                    })
+                                    exports["ghmattimysql"]:execute("DELETE FROM inventory WHERE (character_id = ?) AND (item_id=?)", {user.get("characterID"), item_id})
                                     TriggerClientEvent("inventory:updateitems", target_id, user_inventory[target_id])
                                     TriggerClientEvent("inventory:sync", -1, user_inventory)
                                 else
                                     user_inventory[target_id][item_id]["quantity"] = user_inventory[target_id][item_id]["quantity"] - quantity
-                                    exports["GHMattiMySQL"]:QueryAsync("UPDATE inventory SET quantity=@quantity WHERE (character_id=@character_id) AND (item_id=@item_id)", {
-                                        ["@character_id"] = user.get("characterID"), 
-                                        ["@item_id"] = item_id, 
-                                        ["@quantity"] = user_inventory[target_id][item_id]["quantity"]
-                                    })
+                                    exports["ghmattimysql"]:execute("UPDATE inventory SET quantity=? WHERE (character_id=?) AND (item_id=?)", { user_inventory[target_id][item_id]["quantity"], user.get("characterID"), item_id})
                                     TriggerClientEvent("inventory:updateitems", target_id, user_inventory[target_id])
                                     TriggerClientEvent("inventory:sync", -1, user_inventory)
                                 end
@@ -246,19 +229,12 @@ AddEventHandler("inventory:destroy",function(item_id, quantity, target_id)
                     if user_inventory[target_id][item_id].quantity then
                         if (user_inventory[target_id][item_id].quantity - quantity) <= 0 then
                             user_inventory[target_id][item_id] = nil
-                            exports["GHMattiMySQL"]:QueryAsync("DELETE FROM inventory WHERE (character_id = @character_id) AND (item_id=@item_id)", {
-                                ["@character_id"] = user.get("characterID"), 
-                                ["@item_id"] = item_id
-                            })
+                            exports["ghmattimysql"]:execute("DELETE FROM inventory WHERE (character_id = ?) AND (item_id=?)", {user.get("characterID"), item_id})
                             TriggerClientEvent("inventory:updateitems", target_id, user_inventory[target_id])
                             TriggerClientEvent("inventory:sync", -1, user_inventory)
                         else
                             user_inventory[target_id][item_id].quantity = user_inventory[target_id][item_id].quantity - quantity
-                            exports["GHMattiMySQL"]:QueryAsync("UPDATE inventory SET quantity=@quantity WHERE (character_id=@character_id) AND (item_id=@item_id)", {
-                                ["@character_id"] = user.get("characterID"), 
-                                ["@item_id"] = item_id, 
-                                ["@quantity"] = user_inventory[target_id][item_id].quantity
-                            })
+                            exports["ghmattimysql"]:execute("UPDATE inventory SET quantity=? WHERE (character_id=?) AND (item_id=?)", { user_inventory[target_id][item_id].quantity, user.get("characterID"), item_id})
                             TriggerClientEvent("inventory:updateitems", target_id, user_inventory[target_id])
                             TriggerClientEvent("inventory:sync", -1, user_inventory)
                         end
@@ -285,21 +261,11 @@ AddEventHandler("inventory:add",function(item_id, quantity)
         else
             if user_inventory[source][item_id] == nil then
                 user_inventory[source][item_id] = { character_id = user.get("characterID"), item_id = item_id, name = itemlist[item_id].name, quantity = quantity, canuse = itemlist[item_id].canuse }
-                exports["GHMattiMySQL"]:QueryAsync("INSERT INTO inventory (`character_id`,`item_id`,`name`,`quantity`,`canuse`) VALUES(@character_id,@item_id,@name,@quantity,@canuse)", {
-                    ["@character_id"] = user.get("characterID"), 
-                    ["@item_id"] = item_id, 
-                    ["@name"] = itemlist[item_id].name,
-                    ["@quantity"] = quantity,
-                    ["@canuse"] = itemlist[item_id].canuse,
-                })
+                exports["ghmattimysql"]:execute("INSERT INTO inventory (`character_id`,`item_id`,`name`,`quantity`,`canuse`) VALUES (?, ?, ?, ?, ?)", {user.get("characterID"), item_id, itemlist[item_id].name, quantity, itemlist[item_id].canuse})
                 TriggerClientEvent("inventory:updateitems", source, user_inventory[source])
             else
                 user_inventory[source][item_id].quantity = user_inventory[source][item_id].quantity + quantity
-                exports["GHMattiMySQL"]:QueryAsync("UPDATE inventory SET quantity=@quantity WHERE (character_id=@character_id) AND (item_id=@item_id)", {
-                    ["@character_id"] = user.get("characterID"), 
-                    ["@item_id"] = item_id, 
-                    ["@quantity"] = user_inventory[source][item_id].quantity
-                })
+                exports["ghmattimysql"]:execute("UPDATE inventory SET quantity=? WHERE (character_id=?) AND (item_id=?)", {user_inventory[source][item_id]["quantity"], user.get("characterID"),  item_id})
                 TriggerClientEvent("inventory:updateitems", source, user_inventory[source])
             end
         end
@@ -314,22 +280,12 @@ AddEventHandler("inventory:add_server",function(source, item_id, quantity)
         else
             if user_inventory[source][item_id] == nil then
                 user_inventory[source][item_id] = { character_id = user.get("characterID"), item_id = item_id, name = itemlist[item_id].name, quantity = quantity, canuse = itemlist[item_id].canuse }
-                exports["GHMattiMySQL"]:QueryAsync("INSERT INTO inventory (`character_id`,`item_id`,`name`,`quantity`,`canuse`) VALUES(@character_id,@item_id,@name,@quantity,@canuse)", {
-                    ["@character_id"] = user.get("characterID"), 
-                    ["@item_id"] = item_id, 
-                    ["@name"] = itemlist[item_id].name,
-                    ["@quantity"] = quantity,
-                    ["@canuse"] = itemlist[item_id].canuse,
-                })
+                exports["ghmattimysql"]:execute("INSERT INTO inventory (`character_id`,`item_id`,`name`,`quantity`,`canuse`) VALUES (?, ?, ?, ?, ?)", {user.get("characterID"), item_id, itemlist[item_id].name, quantity, itemlist[item_id].canuse})
                 TriggerClientEvent("inventory:updateitems", source, user_inventory[source])
                 TriggerClientEvent("inventory:sync", -1, user_inventory)
             else
                 user_inventory[source][item_id].quantity = user_inventory[source][item_id].quantity + quantity
-                exports["GHMattiMySQL"]:QueryAsync("UPDATE inventory SET quantity=@quantity WHERE (character_id=@character_id) AND (item_id=@item_id)", {
-                    ["@character_id"] = user.get("characterID"), 
-                    ["@item_id"] = item_id, 
-                    ["@quantity"] = user_inventory[source][item_id].quantity
-                })
+                exports["ghmattimysql"]:execute("UPDATE inventory SET quantity=? WHERE (character_id=?) AND (item_id=?)", {user_inventory[source][item_id]["quantity"], user.get("characterID"),  item_id})
                 TriggerClientEvent("inventory:updateitems", source, user_inventory[source])
                 TriggerClientEvent("inventory:sync", -1, user_inventory)
             end
@@ -345,19 +301,12 @@ AddEventHandler("inventory:remove",function(item_id, quantity)
             if user_inventory[source][item_id].quantity then
                 if (user_inventory[source][item_id].quantity - quantity) <= 0 then
                     user_inventory[source][item_id] = nil
-                    exports["GHMattiMySQL"]:QueryAsync("DELETE FROM inventory WHERE (character_id = @character_id) AND (item_id=@item_id)", {
-                        ["@character_id"] = user.get("characterID"), 
-                        ["@item_id"] = item_id
-                    })
+                    exports["ghmattimysql"]:execute("DELETE FROM inventory WHERE (character_id = ?) AND (item_id=?)", {user.get("characterID"), item_id})
                     TriggerClientEvent("inventory:updateitems", source, user_inventory[source])
                     TriggerClientEvent("inventory:sync", -1, user_inventory)
                 else
                     user_inventory[source][item_id].quantity = user_inventory[source][item_id].quantity - quantity
-                    exports["GHMattiMySQL"]:QueryAsync("UPDATE inventory SET quantity=@quantity WHERE (character_id=@character_id) AND (item_id=@item_id)", {
-                        ["@character_id"] = user.get("characterID"), 
-                        ["@item_id"] = item_id, 
-                        ["@quantity"] = user_inventory[source][item_id].quantity
-                    })
+                    exports["ghmattimysql"]:execute("UPDATE inventory SET quantity=? WHERE (character_id=?) AND (item_id=?)", { user_inventory[source][item_id].quantity, user.get("characterID"), item_id})
                     TriggerClientEvent("inventory:updateitems", source, user_inventory[source])
                     TriggerClientEvent("inventory:sync", -1, user_inventory)
                 end
@@ -371,19 +320,12 @@ AddEventHandler("inventory:remove_server",function(source, item_id, quantity)
     TriggerEvent('core:getuser', source, function(user)
         if (user_inventory[source][item_id].quantity - quantity) <= 0 then
             user_inventory[source][item_id] = nil
-            exports["GHMattiMySQL"]:QueryAsync("DELETE FROM inventory WHERE (character_id = @character_id) AND (item_id=@item_id)", {
-                ["@character_id"] = user.get("characterID"), 
-                ["@item_id"] = item_id
-            })
+            exports["ghmattimysql"]:execute("DELETE FROM inventory WHERE (character_id = ?) AND (item_id=?)", {user.get("characterID"), item_id})
             TriggerClientEvent("inventory:updateitems", source, user_inventory[source])
             TriggerClientEvent("inventory:sync", -1, user_inventory)
         else
             user_inventory[source][item_id].quantity = user_inventory[source][item_id].quantity - quantity
-            exports["GHMattiMySQL"]:QueryAsync("UPDATE inventory SET quantity=@quantity WHERE (character_id=@character_id) AND (item_id=@item_id)", {
-                ["@character_id"] = user.get("characterID"), 
-                ["@item_id"] = item_id, 
-                ["@quantity"] = user_inventory[source][item_id].quantity
-            })
+            exports["ghmattimysql"]:execute("UPDATE inventory SET quantity=? WHERE (character_id=?) AND (item_id=?)", { user_inventory[source][item_id].quantity, user.get("characterID"), item_id})
             TriggerClientEvent("inventory:updateitems", source, user_inventory[source])
             TriggerClientEvent("inventory:sync", -1, user_inventory)
         end
@@ -393,9 +335,7 @@ end)
 AddEventHandler("inventory:delete",function(source)
     local source = tonumber(source)
     TriggerEvent("core:getuser", source, function(user)
-        exports["GHMattiMySQL"]:QueryAsync("DELETE FROM inventory WHERE character_id=@character_id", {
-            ["@character_id"] = user.get("characterID"),
-        })
+        exports["ghmattimysql"]:execute("DELETE FROM inventory WHERE character_id = ?", {user.get("characterID")})
         user_inventory[source] = {}
         TriggerClientEvent("inventory:updateitems", source, user_inventory[source])
         TriggerClientEvent("inventory:sync", -1, user_inventory)
@@ -404,27 +344,29 @@ end)
 
 AddEventHandler("inventory:seize",function(source)
     local source = tonumber(source)
-    local query, illegalitems = "", {}
+    local queryParam = ""
+    local illegalItems = {}
+
     for k,v in pairs(user_inventory[source]) do
         if itemlist[v.item_id] then
-            if itemlist[v.item_id].illegal == true then
-                query = query .. "DELETE FROM inventory WHERE (character_id=@character_id) AND (item_id='"..v.item_id.."'); "
-                table.insert(illegalitems, v.item_id)
+            if itemlist[v.item_id].illegal then
+                table.insert(illegalItems, v.item_id)
             end
         end
     end
-    if query ~= "" then
+    
+    if #illegalItems > 0 then
         TriggerEvent("core:getuser", source, function(user)
-            exports["GHMattiMySQL"]:QueryAsync(query, {
-                ["@character_id"] = user.get("characterID"),
-            })
-            for i = 1, #illegalitems do
+            exports["ghmattimysql"]:execute("DELETE FROM inventory WHERE character_id = ? AND item_id IN(?)", {user.get("characterID"), illegalItems})
+
+            for i = 1, #illegalItems do
                 if user_inventory[source] then
-                    if user_inventory[source][illegalitems[i]] then
-                        user_inventory[source][illegalitems[i]] = nil
+                    if user_inventory[source][illegalItems[i]] then
+                        user_inventory[source][illegalItems[i]] = nil
                     end
                 end
             end
+
             TriggerClientEvent("inventory:updateitems", source, user_inventory[source])
             TriggerClientEvent("inventory:sync", -1, user_inventory)
         end)
@@ -461,20 +403,14 @@ AddEventHandler("inventory:give",function(item_id, item_name, quantity, target)
         if canRecieve then
             if (user_inventory[source][item_id].quantity - quantity) <= 0 then
                 user_inventory[source][item_id] = nil
-                exports["GHMattiMySQL"]:QueryAsync("DELETE FROM inventory WHERE (character_id = @character_id) AND (item_id=@item_id)", {
-                    ["@character_id"] = From.get("characterID"), 
-                    ["@item_id"] = item_id
-                })
+                exports["ghmattimysql"]:execute("DELETE FROM inventory WHERE (character_id = ?) AND (item_id=?)", {From.get("characterID"), item_id})
                 TriggerClientEvent("inventory:updateitems", source, user_inventory[source])
                 TriggerClientEvent("inventory:sync", -1, user_inventory)
                 TriggerClientEvent("inventory:animation", target)
             else
                 user_inventory[source][item_id].quantity = user_inventory[source][item_id].quantity - quantity
-                exports["GHMattiMySQL"]:QueryAsync("UPDATE inventory SET quantity=@quantity WHERE (character_id=@character_id) AND (item_id=@item_id)", {
-                    ["@character_id"] = From.get("characterID"), 
-                    ["@item_id"] = item_id, 
-                    ["@quantity"] = user_inventory[source][item_id].quantity
-                })
+                exports["ghmattimysql"]:execute("UPDATE inventory SET quantity=? WHERE (character_id=?) AND (item_id=?)", {user_inventory[source][item_id].quantity, From.get("characterID"), item_id})
+
                 TriggerClientEvent("inventory:updateitems", source, user_inventory[source])
                 TriggerClientEvent("inventory:sync", -1, user_inventory)
                 TriggerClientEvent("inventory:animation", target)
@@ -482,23 +418,13 @@ AddEventHandler("inventory:give",function(item_id, item_name, quantity, target)
 
             if user_inventory[target][item_id] == nil then
                 user_inventory[target][item_id] = { character_id = To.get("characterID"), item_id = item_id, name = itemlist[item_id].name, quantity = quantity, canuse = itemlist[item_id].canuse }
-                exports["GHMattiMySQL"]:QueryAsync("INSERT INTO inventory (`character_id`,`item_id`,`name`,`quantity`,`canuse`) VALUES(@character_id,@item_id,@name,@quantity,@canuse)", {
-                    ["@character_id"] = To.get("characterID"), 
-                    ["@item_id"] = item_id, 
-                    ["@name"] = itemlist[item_id].name,
-                    ["@quantity"] = quantity,
-                    ["@canuse"] = itemlist[item_id].canuse,
-                })
+                exports["ghmattimysql"]:execute("INSERT INTO inventory (`character_id`,`item_id`,`name`,`quantity`,`canuse`) VALUES(?, ?, ?, ?, ?)", {To.get("characterID"), item_id, itemlist[item_id].name, quantity, itemlist[item_id].canuse})
                 TriggerClientEvent("inventory:updateitems", target, user_inventory[target])
                 TriggerClientEvent("inventory:sync", -1, user_inventory)
                 TriggerClientEvent("inventory:animation", target)
             else
                 user_inventory[target][item_id].quantity = user_inventory[target][item_id].quantity + quantity
-                exports["GHMattiMySQL"]:QueryAsync("UPDATE inventory SET quantity=@quantity WHERE (character_id=@character_id) AND (item_id=@item_id)", {
-                    ["@character_id"] = To.get("characterID"), 
-                    ["@item_id"] = item_id, 
-                    ["@quantity"] = user_inventory[target][item_id].quantity
-                })
+                exports["ghmattimysql"]:execute("UPDATE inventory SET quantity=? WHERE (character_id=?) AND (item_id=?)", {user_inventory[target][item_id].quantity, To.get("characterID"), item_id})
                 TriggerClientEvent("inventory:updateitems", target, user_inventory[target])
                 TriggerClientEvent("inventory:sync", -1, user_inventory)
                 TriggerClientEvent("inventory:animation", target)
@@ -533,10 +459,7 @@ AddEventHandler("inventory:drop",function(item_id, item_name, quantity, nearbyPl
                     end
                 end
             end
-            exports["GHMattiMySQL"]:QueryAsync("DELETE FROM inventory WHERE (character_id = @character_id) AND (item_id=@item_id)", {
-                ["@character_id"] = user.get("characterID"), 
-                ["@item_id"] = item_id
-            })
+            exports["ghmattimysql"]:execute("DELETE FROM inventory WHERE (character_id = ?) AND (item_id=?)", {user.get("characterID"), item_id})
             TriggerClientEvent("inventory:updateitems", source, user_inventory[source])
             TriggerClientEvent("inventory:sync", -1, user_inventory)
         else
@@ -552,11 +475,7 @@ AddEventHandler("inventory:drop",function(item_id, item_name, quantity, nearbyPl
                     end
                 end
             end
-            exports["GHMattiMySQL"]:QueryAsync("UPDATE inventory SET quantity=@quantity WHERE (character_id=@character_id) AND (item_id=@item_id)", {
-                ["@character_id"] = user.get("characterID"), 
-                ["@item_id"] = item_id, 
-                ["@quantity"] = user_inventory[source][item_id].quantity
-            })
+            exports["ghmattimysql"]:execute("UPDATE inventory SET quantity=? WHERE (character_id=?) AND (item_id=?)", {user_inventory[source][item_id].quantity, user.get("characterID"), item_id})
             TriggerClientEvent("inventory:updateitems", source, user_inventory[source])
             TriggerClientEvent("inventory:sync", -1, user_inventory)
         end
@@ -573,41 +492,24 @@ AddEventHandler("inventory:vehicle_withdraw", function(amount, data)
                     if vehicle_inventory[data.plate][data.item_id].quantity >= amount then                
                         if user_inventory[source][data.item_id] == nil then
                             user_inventory[source][data.item_id] = { character_id = user.get("characterID"), item_id = data.item_id, name = itemlist[data.item_id].name, quantity = amount, canuse = itemlist[data.item_id].canuse }
-                            exports["GHMattiMySQL"]:QueryAsync("INSERT INTO inventory (`character_id`,`item_id`,`name`,`quantity`,`canuse`) VALUES(@character_id,@item_id,@name,@quantity,@canuse)", {
-                                ["@character_id"] = user.get("characterID"), 
-                                ["@item_id"] = data.item_id, 
-                                ["@name"] = itemlist[data.item_id].name,
-                                ["@quantity"] = amount,
-                                ["@canuse"] = itemlist[data.item_id].canuse,
-                            })
+                            exports["ghmattimysql"]:execute("INSERT INTO inventory (`character_id`,`item_id`,`name`,`quantity`,`canuse`) VALUES(?, ?, ?, ?, ?)", {user.get("characterID"), data.item_id, itemlist[data.item_id].name, amount, itemlist[data.item_id].canuse})
                             TriggerClientEvent("inventory:updateitems", source, user_inventory[source])
                             TriggerClientEvent("inventory:sync", -1, user_inventory)
                         else
                             user_inventory[source][data.item_id].quantity = user_inventory[source][data.item_id].quantity + amount
-                            exports["GHMattiMySQL"]:QueryAsync("UPDATE inventory SET quantity=@quantity WHERE (character_id=@character_id) AND (item_id=@item_id)", {
-                                ["@character_id"] = user.get("characterID"), 
-                                ["@item_id"] = data.item_id, 
-                                ["@quantity"] = user_inventory[source][data.item_id].quantity
-                            })
+                            exports["ghmattimysql"]:execute("UPDATE inventory SET quantity=? WHERE (character_id=?) AND (item_id=?)", {user_inventory[source][data.item_id].quantity, user.get("characterID"), data.item_id})
                             TriggerClientEvent("inventory:updateitems", source, user_inventory[source])
                             TriggerClientEvent("inventory:sync", -1, user_inventory)
                         end
 
                         if (vehicle_inventory[data.plate][data.item_id].quantity - amount) <= 0 then
                             vehicle_inventory[data.plate][data.item_id] = nil
-                            exports["GHMattiMySQL"]:QueryAsync("DELETE FROM vehicle_inventory WHERE (plate = @plate) AND (item_id=@item_id)", {
-                                ["@plate"] = data.plate, 
-                                ["@item_id"] = data.item_id,
-                            })
+                            exports["ghmattimysql"]:execute("DELETE FROM vehicle_inventory WHERE (plate = ?) AND (item_id=?)", {data.plate, data.item_id})
                             TriggerClientEvent("inventory:updateitems_vehicle", -1, data.plate, vehicle_inventory[data.plate])
                             TriggerClientEvent("inventory:sync", -1, user_inventory)
                         else
                             vehicle_inventory[data.plate][data.item_id].quantity = vehicle_inventory[data.plate][data.item_id].quantity - amount
-                            exports["GHMattiMySQL"]:QueryAsync("UPDATE vehicle_inventory SET quantity=@quantity WHERE (plate = @plate) AND (item_id=@item_id)", {
-                                ["@plate"] = data.plate, 
-                                ["@item_id"] = data.item_id,
-                                ["@quantity"] = vehicle_inventory[data.plate][data.item_id].quantity
-                            })
+                            exports["ghmattimysql"]:execute("UPDATE vehicle_inventory SET quantity=? WHERE (plate = ?) AND (item_id=?)", {vehicle_inventory[data.plate][data.item_id].quantity, data.plate, data.item_id})
                             TriggerClientEvent("inventory:updateitems_vehicle", -1, data.plate, vehicle_inventory[data.plate])
                             TriggerClientEvent("inventory:sync", -1, user_inventory)
                         end
@@ -617,41 +519,24 @@ AddEventHandler("inventory:vehicle_withdraw", function(amount, data)
                         local quantity_available = vehicle_inventory[data.plate][data.item_id].quantity
                         if user_inventory[source][data.item_id] == nil then
                             user_inventory[source][data.item_id] = { character_id = user.get("characterID"), item_id = data.item_id, name = itemlist[data.item_id].name, quantity = quantity_available, canuse = itemlist[data.item_id].canuse }
-                            exports["GHMattiMySQL"]:QueryAsync("INSERT INTO inventory (`character_id`,`item_id`,`name`,`quantity`,`canuse`) VALUES(@character_id,@item_id,@name,@quantity,@canuse)", {
-                                ["@character_id"] = user.get("characterID"), 
-                                ["@item_id"] = data.item_id, 
-                                ["@name"] = itemlist[data.item_id].name,
-                                ["@quantity"] = quantity_available,
-                                ["@canuse"] = itemlist[data.item_id].canuse,
-                            })
+                            exports["ghmattimysql"]:execute("INSERT INTO inventory (`character_id`,`item_id`,`name`,`quantity`,`canuse`) VALUES(?, ?, ?, ?, ?)", {user.get("characterID"), data.item_id, itemlist[data.item_id].name, quantity_available, itemlist[data.item_id].canuse})
                             TriggerClientEvent("inventory:updateitems", source, user_inventory[source])
                             TriggerClientEvent("inventory:sync", -1, user_inventory)
                         else
                             user_inventory[source][data.item_id].quantity = user_inventory[source][data.item_id].quantity + quantity_available
-                            exports["GHMattiMySQL"]:QueryAsync("UPDATE inventory SET quantity=@quantity WHERE (character_id=@character_id) AND (item_id=@item_id)", {
-                                ["@character_id"] = user.get("characterID"), 
-                                ["@item_id"] = data.item_id, 
-                                ["@quantity"] = user_inventory[source][data.item_id].quantity
-                            })
+                            exports["ghmattimysql"]:execute("UPDATE inventory SET quantity=? WHERE (character_id=?) AND (item_id=?)", {user_inventory[source][data.item_id].quantity, user.get("characterID"), data.item_id})
                             TriggerClientEvent("inventory:updateitems", source, user_inventory[source])
                             TriggerClientEvent("inventory:sync", -1, user_inventory)
                         end
 
                         if (vehicle_inventory[data.plate][data.item_id].quantity - quantity_available) <= 0 then
                             vehicle_inventory[data.plate][data.item_id] = nil
-                            exports["GHMattiMySQL"]:QueryAsync("DELETE FROM vehicle_inventory WHERE (plate = @plate) AND (item_id=@item_id)", {
-                                ["@plate"] = data.plate, 
-                                ["@item_id"] = data.item_id,
-                            })
+                            exports["ghmattimysql"]:execute("DELETE FROM vehicle_inventory WHERE (plate = ?) AND (item_id=?)", {data.plate, data.item_id})
                             TriggerClientEvent("inventory:updateitems_vehicle", -1, data.plate, vehicle_inventory[data.plate])
                             TriggerClientEvent("inventory:sync", -1, user_inventory)
                         else
                             vehicle_inventory[data.plate][data.item_id].quantity = vehicle_inventory[data.plate][data.item_id].quantity - quantity_available
-                            exports["GHMattiMySQL"]:QueryAsync("UPDATE vehicle_inventory SET quantity=@quantity WHERE (plate = @plate) AND (item_id=@item_id)", {
-                                ["@plate"] = data.plate, 
-                                ["@item_id"] = data.item_id,
-                                ["@quantity"] = vehicle_inventory[data.plate][data.item_id].quantity
-                            })
+                            exports["ghmattimysql"]:execute("UPDATE vehicle_inventory SET quantity=? WHERE (plate = ?) AND (item_id=?)", {vehicle_inventory[data.plate][data.item_id].quantity, data.plate, data.item_id})
                             TriggerClientEvent("inventory:updateitems_vehicle", -1, data.plate, vehicle_inventory[data.plate])
                             TriggerClientEvent("inventory:sync", -1, user_inventory)
                         end
@@ -663,40 +548,23 @@ AddEventHandler("inventory:vehicle_withdraw", function(amount, data)
                     if vehicle_inventory[data.plate][data.item_id].quantity >= available_space then
                         if user_inventory[source][data.item_id] == nil then
                             user_inventory[source][data.item_id] = { character_id = user.get("characterID"), item_id = data.item_id, name = itemlist[data.item_id].name, quantity = available_space, canuse = itemlist[data.item_id].canuse }
-                            exports["GHMattiMySQL"]:QueryAsync("INSERT INTO inventory (`character_id`,`item_id`,`name`,`quantity`,`canuse`) VALUES(@character_id,@item_id,@name,@quantity,@canuse)", {
-                                ["@character_id"] = user.get("characterID"), 
-                                ["@item_id"] = data.item_id, 
-                                ["@name"] = itemlist[data.item_id].name,
-                                ["@quantity"] = available_space,
-                                ["@canuse"] = itemlist[data.item_id].canuse,
-                            })
+                            exports["ghmattimysql"]:execute("INSERT INTO inventory (`character_id`,`item_id`,`name`,`quantity`,`canuse`) VALUES(?, ?, ?, ?, ?)", {user.get("characterID"), data.item_id, itemlist[data.item_id].name, available_space, itemlist[data.item_id].canuse})
                             TriggerClientEvent("inventory:updateitems", source, user_inventory[source])
                             TriggerClientEvent("inventory:sync", -1, user_inventory)
                         else
                             user_inventory[source][data.item_id].quantity = user_inventory[source][data.item_id].quantity + available_space
-                            exports["GHMattiMySQL"]:QueryAsync("UPDATE inventory SET quantity=@quantity WHERE (character_id=@character_id) AND (item_id=@item_id)", {
-                                ["@character_id"] = user.get("characterID"), 
-                                ["@item_id"] = data.item_id, 
-                                ["@quantity"] = user_inventory[source][data.item_id].quantity
-                            })
+                            exports["ghmattimysql"]:execute("UPDATE inventory SET quantity=? WHERE (character_id=?) AND (item_id=?)", {user_inventory[source][data.item_id].quantity, user.get("characterID"), data.item_id})
                             TriggerClientEvent("inventory:updateitems", source, user_inventory[source])
                             TriggerClientEvent("inventory:sync", -1, user_inventory)
                         end
 
                         if (vehicle_inventory[data.plate][data.item_id].quantity - available_space) <= 0 then
                             vehicle_inventory[data.plate][data.item_id] = nil
-                            exports["GHMattiMySQL"]:QueryAsync("DELETE FROM vehicle_inventory WHERE (plate = @plate) AND (item_id=@item_id)", {
-                                ["@plate"] = data.plate, 
-                                ["@item_id"] = data.item_id,
-                            })
+                            exports["ghmattimysql"]:execute("DELETE FROM vehicle_inventory WHERE (plate = ?) AND (item_id=?)", {data.plate, data.item_id})
                             TriggerClientEvent("inventory:updateitems_vehicle", -1, data.plate, vehicle_inventory[data.plate])
                         else
                             vehicle_inventory[data.plate][data.item_id].quantity = vehicle_inventory[data.plate][data.item_id].quantity - available_space
-                            exports["GHMattiMySQL"]:QueryAsync("UPDATE vehicle_inventory SET quantity=@quantity WHERE (plate = @plate) AND (item_id=@item_id)", {
-                                ["@plate"] = data.plate, 
-                                ["@item_id"] = data.item_id,
-                                ["@quantity"] = vehicle_inventory[data.plate][data.item_id].quantity
-                            })
+                            exports["ghmattimysql"]:execute("UPDATE vehicle_inventory SET quantity=? WHERE (plate = ?) AND (item_id=?)", {vehicle_inventory[data.plate][data.item_id].quantity, data.plate, data.item_id})
                             TriggerClientEvent("inventory:updateitems_vehicle", -1, data.plate, vehicle_inventory[data.plate])
                         end
 
@@ -705,40 +573,23 @@ AddEventHandler("inventory:vehicle_withdraw", function(amount, data)
                         local quantity_available = vehicle_inventory[data.plate][data.item_id].quantity
                         if user_inventory[source][data.item_id] == nil then
                             user_inventory[source][data.item_id] = { identifier = user.get("steam"), character_id = user.get("characterID"), item_id = data.item_id, name = itemlist[data.item_id].name, quantity = quantity_available, canuse = itemlist[data.item_id].canuse }
-                            exports["GHMattiMySQL"]:QueryAsync("INSERT INTO inventory (`character_id`,`item_id`,`name`,`quantity`,`canuse`) VALUES(@character_id,@item_id,@name,@quantity,@canuse)", {
-                                ["@character_id"] = user.get("characterID"), 
-                                ["@item_id"] = data.item_id, 
-                                ["@name"] = itemlist[data.item_id].name,
-                                ["@quantity"] = quantity_available,
-                                ["@canuse"] = itemlist[data.item_id].canuse,
-                            })
+                            exports["ghmattimysql"]:execute("INSERT INTO inventory (`character_id`,`item_id`,`name`,`quantity`,`canuse`) VALUES(?, ?, ?, ?, ?)", {user.get("characterID"), data.item_id, itemlist[data.item_id].name, quantity_available, itemlist[data.item_id].canuse})
                             TriggerClientEvent("inventory:updateitems", source, user_inventory[source])
                             TriggerClientEvent("inventory:sync", -1, user_inventory)
                         else
                             user_inventory[source][data.item_id].quantity = user_inventory[source][data.item_id].quantity + quantity_available
-                            exports["GHMattiMySQL"]:QueryAsync("UPDATE inventory SET quantity=@quantity WHERE (character_id=@character_id) AND (item_id=@item_id)", {
-                                ["@character_id"] = user.get("characterID"), 
-                                ["@item_id"] = data.item_id, 
-                                ["@quantity"] = user_inventory[source][data.item_id].quantity
-                            })
+                            exports["ghmattimysql"]:execute("UPDATE inventory SET quantity=? WHERE (character_id=?) AND (item_id=?)", {user_inventory[source][data.item_id].quantity, user.get("characterID"), data.item_id})
                             TriggerClientEvent("inventory:updateitems", source, user_inventory[source])
                             TriggerClientEvent("inventory:sync", -1, user_inventory)
                         end
 
                         if (vehicle_inventory[data.plate][data.item_id].quantity - quantity_available) <= 0 then
                             vehicle_inventory[data.plate][data.item_id] = nil
-                            exports["GHMattiMySQL"]:QueryAsync("DELETE FROM vehicle_inventory WHERE (plate = @plate) AND (item_id=@item_id)", {
-                                ["@plate"] = data.plate, 
-                                ["@item_id"] = data.item_id,
-                            })
-                            TriggerClientEvent("inventory:updateitems_vehicle", -1, data.plate, vehicle_inventory[data.plate])
+                            exports["ghmattimysql"]:execute("DELETE FROM vehicle_inventory WHERE (plate = ?) AND (item_id=?)", {data.plate, data.item_id})
+                             TriggerClientEvent("inventory:updateitems_vehicle", -1, data.plate, vehicle_inventory[data.plate])
                         else
                             vehicle_inventory[data.plate][data.item_id].quantity = vehicle_inventory[data.plate][data.item_id].quantity - quantity_available
-                            exports["GHMattiMySQL"]:QueryAsync("UPDATE vehicle_inventory SET quantity=@quantity WHERE (plate = @plate) AND (item_id=@item_id)", {
-                                ["@plate"] = data.plate, 
-                                ["@item_id"] = data.item_id,
-                                ["@quantity"] = vehicle_inventory[data.plate][data.item_id].quantity
-                            })
+                            exports["ghmattimysql"]:execute("UPDATE vehicle_inventory SET quantity=? WHERE (plate = ?) AND (item_id=?)", {vehicle_inventory[data.plate][data.item_id].quantity, data.plate, data.item_id})
                             TriggerClientEvent("inventory:updateitems_vehicle", -1, data.plate, vehicle_inventory[data.plate])
                         end
 
@@ -765,40 +616,22 @@ AddEventHandler("inventory:vehicle_deposit", function(amount, plate, data)
                         if vehicle_inventory[plate] then
                             if vehicle_inventory[plate][data.item_id] == nil then
                                 vehicle_inventory[plate][data.item_id] = { plate = plate, item_id = data.item_id, name = itemlist[data.item_id].name, quantity = amount, canuse = itemlist[data.item_id].canuse }
-                                exports["GHMattiMySQL"]:QueryAsync("INSERT INTO vehicle_inventory (`plate`,`item_id`,`name`,`quantity`,`canuse`,`locked`) VALUES(@plate,@item_id,@name,@quantity,@canuse,@locked)", {
-                                    ['@plate'] = plate, 
-                                    ["@item_id"] = data.item_id, 
-                                    ["@name"] = itemlist[data.item_id].name,
-                                    ["@quantity"] = amount,
-                                    ["@canuse"] = itemlist[data.item_id].canuse,
-                                    ["@locked"] = vehicle_inventory[plate].locked,
-                                })
+                                exports["ghmattimysql"]:execute("INSERT INTO vehicle_inventory (`plate`,`item_id`,`name`,`quantity`,`canuse`,`locked`) VALUES(?, ?, ?, ?, ?, ?)", {plate, data.item_id, itemlist[data.item_id].name, amount, itemlist[data.item_id].canuse, vehicle_inventory[plate].locked})
                                 TriggerClientEvent("inventory:updateitems_vehicle", -1, plate, vehicle_inventory[plate])
                             else
                                 vehicle_inventory[plate][data.item_id].quantity = vehicle_inventory[plate][data.item_id].quantity + amount
-                                exports["GHMattiMySQL"]:QueryAsync("UPDATE vehicle_inventory SET quantity=@quantity WHERE (plate=@plate) AND (item_id=@item_id)", {
-                                    ['@plate'] = plate,
-                                    ["@item_id"] = data.item_id, 
-                                    ["@quantity"] = vehicle_inventory[plate][data.item_id].quantity
-                                })
+                                exports["ghmattimysql"]:execute("UPDATE vehicle_inventory SET quantity=? WHERE (plate=?) AND (item_id=?)", {vehicle_inventory[plate][data.item_id].quantity, plate, data.item_id})
                                 TriggerClientEvent("inventory:updateitems_vehicle", -1, plate, vehicle_inventory[plate])
                             end
 
                             if (user_inventory[source][data.item_id].quantity - amount) <= 0 then
                                 user_inventory[source][data.item_id] = nil
-                                exports["GHMattiMySQL"]:QueryAsync("DELETE FROM inventory WHERE (character_id = @character_id) AND (item_id=@item_id)", {
-                                    ["@character_id"] = user.get("characterID"), 
-                                    ["@item_id"] = data.item_id
-                                })
+                                exports["ghmattimysql"]:execute("DELETE FROM inventory WHERE (character_id = ?) AND (item_id=?)", {user.get("characterID"), data.item_id})
                                 TriggerClientEvent("inventory:updateitems", source, user_inventory[source])
                                 TriggerClientEvent("inventory:sync", -1, user_inventory)
                             else
                                 user_inventory[source][data.item_id].quantity = user_inventory[source][data.item_id].quantity - amount
-                                exports["GHMattiMySQL"]:QueryAsync("UPDATE inventory SET quantity=@quantity WHERE (character_id=@character_id) AND (item_id=@item_id)", {
-                                    ["@character_id"] = user.get("characterID"), 
-                                    ["@item_id"] = data.item_id, 
-                                    ["@quantity"] = user_inventory[source][data.item_id].quantity
-                                })
+                                exports["ghmattimysql"]:execute("UPDATE inventory SET quantity=? WHERE (character_id=?) AND (item_id=?)", {user_inventory[source][data.item_id].quantity, user.get("characterID"), data.item_id})
                                 TriggerClientEvent("inventory:updateitems", source, user_inventory[source])
                                 TriggerClientEvent("inventory:sync", -1, user_inventory)
                             end
@@ -809,40 +642,22 @@ AddEventHandler("inventory:vehicle_deposit", function(amount, plate, data)
                             vehicle_inventory[plate].locked = "true"
                             if vehicle_inventory[plate][data.item_id] == nil then
                                 vehicle_inventory[plate][data.item_id] = { plate = plate, item_id = data.item_id, name = itemlist[data.item_id].name, quantity = amount, canuse = itemlist[data.item_id].canuse }
-                                exports["GHMattiMySQL"]:QueryAsync("INSERT INTO vehicle_inventory (`plate`,`item_id`,`name`,`quantity`,`canuse`,`locked`) VALUES(@plate,@item_id,@name,@quantity,@canuse,@locked)", {
-                                    ['@plate'] = plate, 
-                                    ["@item_id"] = data.item_id, 
-                                    ["@name"] = itemlist[data.item_id].name,
-                                    ["@quantity"] = amount,
-                                    ["@canuse"] = itemlist[data.item_id].canuse,
-                                    ["@locked"] = "true",
-                                })
+                                exports["ghmattimysql"]:execute("INSERT INTO vehicle_inventory (`plate`,`item_id`,`name`,`quantity`,`canuse`,`locked`) VALUES(?, ?, ?, ?, ?, ?)", {plate, data.item_id, itemlist[data.item_id].name, amount, itemlist[data.item_id].canuse, "true"})
                                 TriggerClientEvent("inventory:updateitems_vehicle", -1, plate, vehicle_inventory[plate])
                             else
                                 vehicle_inventory[plate][data.item_id].quantity = vehicle_inventory[plate][data.item_id].quantity + amount
-                                exports["GHMattiMySQL"]:QueryAsync("UPDATE vehicle_inventory SET quantity=@quantity WHERE (plate=@plate) AND (item_id=@item_id)", {
-                                    ['@plate'] = plate,
-                                    ["@item_id"] = data.item_id, 
-                                    ["@quantity"] = vehicle_inventory[plate][data.item_id].quantity
-                                })
+                                exports["ghmattimysql"]:execute("UPDATE vehicle_inventory SET quantity=? WHERE (plate=?) AND (item_id=?)", {vehicle_inventory[plate][data.item_id].quantity, plate, data.item_id})
                                 TriggerClientEvent("inventory:updateitems_vehicle", -1, plate, vehicle_inventory[plate])
                             end
 
                             if (user_inventory[source][data.item_id].quantity - amount) <= 0 then
                                 user_inventory[source][data.item_id] = nil
-                                exports["GHMattiMySQL"]:QueryAsync("DELETE FROM inventory WHERE (character_id = @character_id) AND (item_id=@item_id)", {
-                                    ["@character_id"] = user.get("characterID"), 
-                                    ["@item_id"] = data.item_id
-                                })
+                                exports["ghmattimysql"]:execute("DELETE FROM inventory WHERE (character_id = ?) AND (item_id=?)", {user.get("characterID"), data.item_id})
                                 TriggerClientEvent("inventory:updateitems", source, user_inventory[source])
                                 TriggerClientEvent("inventory:sync", -1, user_inventory)
                             else
                                 user_inventory[source][data.item_id].quantity = user_inventory[source][data.item_id].quantity - amount
-                                exports["GHMattiMySQL"]:QueryAsync("UPDATE inventory SET quantity=@quantity WHERE (character_id=@character_id) AND (item_id=@item_id)", {
-                                    ["@character_id"] = user.get("characterID"), 
-                                    ["@item_id"] = data.item_id, 
-                                    ["@quantity"] = user_inventory[source][data.item_id].quantity
-                                })
+                                exports["ghmattimysql"]:execute("UPDATE inventory SET quantity=? WHERE (character_id=?) AND (item_id=?)", {user_inventory[source][data.item_id].quantity, user.get("characterID"), data.item_id})
                                 TriggerClientEvent("inventory:updateitems", source, user_inventory[source])
                                 TriggerClientEvent("inventory:sync", -1, user_inventory)
                             end
@@ -854,40 +669,22 @@ AddEventHandler("inventory:vehicle_deposit", function(amount, plate, data)
                         if vehicle_inventory[plate] then
                             if vehicle_inventory[plate][data.item_id] == nil then
                                 vehicle_inventory[plate][data.item_id] = { plate = plate, item_id = data.item_id, name = itemlist[data.item_id].name, quantity = quantity_available, canuse = itemlist[data.item_id].canuse }
-                                exports["GHMattiMySQL"]:QueryAsync("INSERT INTO vehicle_inventory (`plate`,`item_id`,`name`,`quantity`,`canuse`,`locked`) VALUES(@plate,@item_id,@name,@quantity,@canuse,@locked)", {
-                                    ['@plate'] = plate, 
-                                    ["@item_id"] = data.item_id, 
-                                    ["@name"] = itemlist[data.item_id].name,
-                                    ["@quantity"] = quantity_available,
-                                    ["@canuse"] = itemlist[data.item_id].canuse,
-                                    ["@locked"] = vehicle_inventory[plate].locked,
-                                })
+                                exports["ghmattimysql"]:execute("INSERT INTO vehicle_inventory (`plate`,`item_id`,`name`,`quantity`,`canuse`,`locked`) VALUES(?, ?, ?, ?, ?, ?)", {plate, data.item_id, itemlist[data.item_id].name, quantity_available, itemlist[data.item_id].canuse, vehicle_inventory[plate].locked})
                                 TriggerClientEvent("inventory:updateitems_vehicle", -1, plate, vehicle_inventory[plate])
                             else
-                                vehicle_inventory[plate][data.item_id].quantity =vehicle_inventory[plate][data.item_id].quantity + quantity_available
-                                exports["GHMattiMySQL"]:QueryAsync("UPDATE vehicle_inventory SET quantity=@quantity WHERE (plate=@plate) AND (item_id=@item_id)", {
-                                    ['@plate'] = plate,
-                                    ["@item_id"] = data.item_id, 
-                                    ["@quantity"] = vehicle_inventory[plate][data.item_id].quantity
-                                })
+                                vehicle_inventory[plate][data.item_id].quantity = vehicle_inventory[plate][data.item_id].quantity + quantity_available
+                                exports["ghmattimysql"]:execute("UPDATE vehicle_inventory SET quantity=? WHERE (plate=?) AND (item_id=?)", {vehicle_inventory[plate][data.item_id].quantity, plate, data.item_id})
                                 TriggerClientEvent("inventory:updateitems_vehicle", -1, plate, vehicle_inventory[plate])
                             end
 
                             if (user_inventory[source][data.item_id].quantity - quantity_available) <= 0 then
                                 user_inventory[source][data.item_id] = nil
-                                exports["GHMattiMySQL"]:QueryAsync("DELETE FROM inventory WHERE (character_id = @character_id) AND (item_id=@item_id)", {
-                                    ["@character_id"] = user.get("characterID"), 
-                                    ["@item_id"] = data.item_id
-                                })
+                                exports["ghmattimysql"]:execute("DELETE FROM inventory WHERE (character_id = ?) AND (item_id=?)", {user.get("characterID"), data.item_id})
                                 TriggerClientEvent("inventory:updateitems", source, user_inventory[source])
                                 TriggerClientEvent("inventory:sync", -1, user_inventory)
                             else
                                 user_inventory[source][data.item_id].quantity = user_inventory[source][data.item_id].quantity - quantity_available
-                                exports["GHMattiMySQL"]:QueryAsync("UPDATE inventory SET quantity=@quantity WHERE (character_id=@character_id) AND (item_id=@item_id)", {
-                                    ["@character_id"] = user.get("characterID"), 
-                                    ["@item_id"] = data.item_id, 
-                                    ["@quantity"] = user_inventory[source][data.item_id].quantity
-                                })
+                                exports["ghmattimysql"]:execute("UPDATE inventory SET quantity=? WHERE (character_id=?) AND (item_id=?)", {user_inventory[source][data.item_id].quantity, user.get("characterID"), data.item_id})
                                 TriggerClientEvent("inventory:updateitems", source, user_inventory[source])
                                 TriggerClientEvent("inventory:sync", -1, user_inventory)
                             end
@@ -898,40 +695,22 @@ AddEventHandler("inventory:vehicle_deposit", function(amount, plate, data)
                             vehicle_inventory[plate].locked = "true"
                             if vehicle_inventory[plate][data.item_id] == nil then
                                 vehicle_inventory[plate][data.item_id] = { plate = plate, item_id = data.item_id, name = itemlist[data.item_id].name, quantity = quantity_available, canuse = itemlist[data.item_id].canuse }
-                                exports["GHMattiMySQL"]:QueryAsync("INSERT INTO vehicle_inventory (`plate`,`item_id`,`name`,`quantity`,`canuse`,`locked`) VALUES(@plate,@item_id,@name,@quantity,@canuse,@locked)", {
-                                    ['@plate'] = plate, 
-                                    ["@item_id"] = data.item_id, 
-                                    ["@name"] = itemlist[data.item_id].name,
-                                    ["@quantity"] = quantity_available,
-                                    ["@canuse"] = itemlist[data.item_id].canuse,
-                                    ["@locked"] = "true",
-                                })
+                                exports["ghmattimysql"]:execute("INSERT INTO vehicle_inventory (`plate`,`item_id`,`name`,`quantity`,`canuse`,`locked`) VALUES(?, ?, ?, ?, ?, ?)", {plate, data.item_id, itemlist[data.item_id].name, amount, itemlist[data.item_id].canuse, "true"})
                                 TriggerClientEvent("inventory:updateitems_vehicle", -1, plate, vehicle_inventory[plate])
                             else
                                 vehicle_inventory[plate][data.item_id].quantity =vehicle_inventory[plate][data.item_id].quantity + quantity_available
-                                exports["GHMattiMySQL"]:QueryAsync("UPDATE vehicle_inventory SET quantity=@quantity WHERE (plate=@plate) AND (item_id=@item_id)", {
-                                    ['@plate'] = plate,
-                                    ["@item_id"] = data.item_id, 
-                                    ["@quantity"] = vehicle_inventory[plate][data.item_id].quantity
-                                })
+                                exports["ghmattimysql"]:execute("UPDATE vehicle_inventory SET quantity=? WHERE (plate=?) AND (item_id=?)", {vehicle_inventory[plate][data.item_id].quantity, plate, data.item_id})
                                 TriggerClientEvent("inventory:updateitems_vehicle", -1, plate, vehicle_inventory[plate])
                             end
 
                             if (user_inventory[source][data.item_id].quantity - quantity_available) <= 0 then
                                 user_inventory[source][data.item_id] = nil
-                                exports["GHMattiMySQL"]:QueryAsync("DELETE FROM inventory WHERE (character_id = @character_id) AND (item_id=@item_id)", {
-                                    ["@character_id"] = user.get("characterID"), 
-                                    ["@item_id"] = data.item_id
-                                })
+                                exports["ghmattimysql"]:execute("DELETE FROM inventory WHERE (character_id = ?) AND (item_id=?)", {user.get("characterID"), data.item_id})
                                 TriggerClientEvent("inventory:updateitems", source, user_inventory[source])
                                 TriggerClientEvent("inventory:sync", -1, user_inventory)
                             else
                                 user_inventory[source][data.item_id].quantity = user_inventory[source][data.item_id].quantity - quantity_available
-                                exports["GHMattiMySQL"]:QueryAsync("UPDATE inventory SET quantity=@quantity WHERE (character_id=@character_id) AND (item_id=@item_id)", {
-                                    ["@character_id"] = user.get("characterID"), 
-                                    ["@item_id"] = data.item_id, 
-                                    ["@quantity"] = user_inventory[source][data.item_id].quantity
-                                })
+                                exports["ghmattimysql"]:execute("UPDATE inventory SET quantity=? WHERE (character_id=?) AND (item_id=?)", {user_inventory[source][data.item_id].quantity, user.get("characterID"), data.item_id})
                                 TriggerClientEvent("inventory:updateitems", source, user_inventory[source])
                                 TriggerClientEvent("inventory:sync", -1, user_inventory)
                             end
@@ -945,40 +724,22 @@ AddEventHandler("inventory:vehicle_deposit", function(amount, plate, data)
                         if vehicle_inventory[plate] then
                             if vehicle_inventory[plate][data.item_id] == nil then
                                 vehicle_inventory[plate][data.item_id] = { plate = plate, item_id = data.item_id, name = itemlist[data.item_id].name, quantity = available_space, canuse = itemlist[data.item_id].canuse }
-                                exports["GHMattiMySQL"]:QueryAsync("INSERT INTO vehicle_inventory (`plate`,`item_id`,`name`,`quantity`,`canuse`,`locked`) VALUES(@plate,@item_id,@name,@quantity,@canuse,`locked`)", {
-                                    ['@plate'] = plate, 
-                                    ["@item_id"] = data.item_id, 
-                                    ["@name"] = itemlist[data.item_id].name,
-                                    ["@quantity"] = available_space,
-                                    ["@canuse"] = itemlist[data.item_id].canuse,
-                                    ["@locked"] = "true",
-                                })
+                                exports["ghmattimysql"]:execute("INSERT INTO vehicle_inventory (`plate`,`item_id`,`name`,`quantity`,`canuse`,`locked`) VALUES(?, ?, ?, ?, ?, ?)", {plate, data.item_id, itemlist[data.item_id].name, available_space, itemlist[data.item_id].canuse, "true"})
                                 TriggerClientEvent("inventory:updateitems_vehicle", -1, plate, vehicle_inventory[plate])
                             else
-                                vehicle_inventory[plate][data.item_id].quantity =vehicle_inventory[plate][data.item_id].quantity + available_space
-                                exports["GHMattiMySQL"]:QueryAsync("UPDATE vehicle_inventory SET quantity=@quantity WHERE (plate=@plate) AND (item_id=@item_id)", {
-                                    ['@plate'] = plate,
-                                    ["@item_id"] = data.item_id, 
-                                    ["@quantity"] = vehicle_inventory[plate][data.item_id].quantity
-                                })
+                                vehicle_inventory[plate][data.item_id].quantity = vehicle_inventory[plate][data.item_id].quantity + available_space
+                                exports["ghmattimysql"]:execute("UPDATE vehicle_inventory SET quantity=? WHERE (plate=?) AND (item_id=?)", {vehicle_inventory[plate][data.item_id].quantity, plate, data.item_id})
                                 TriggerClientEvent("inventory:updateitems_vehicle", -1, plate, vehicle_inventory[plate])
                             end
 
                             if (user_inventory[source][data.item_id].quantity - available_space) <= 0 then
                                 user_inventory[source][data.item_id] = nil
-                                exports["GHMattiMySQL"]:QueryAsync("DELETE FROM inventory WHERE (character_id = @character_id) AND (item_id=@item_id)", {
-                                    ["@character_id"] = user.get("characterID"), 
-                                    ["@item_id"] = data.item_id
-                                })
+                                exports["ghmattimysql"]:execute("DELETE FROM inventory WHERE (character_id = ?) AND (item_id=?)", {user.get("characterID"), data.item_id})
                                 TriggerClientEvent("inventory:updateitems", source, user_inventory[source])
                                 TriggerClientEvent("inventory:sync", -1, user_inventory)
                             else
                                 user_inventory[source][data.item_id].quantity = user_inventory[source][data.item_id].quantity - available_space
-                                exports["GHMattiMySQL"]:QueryAsync("UPDATE inventory SET quantity=@quantity WHERE (character_id=@character_id) AND (item_id=@item_id)", {
-                                    ["@character_id"] = user.get("characterID"), 
-                                    ["@item_id"] = data.item_id, 
-                                    ["@quantity"] = user_inventory[source][data.item_id].quantity
-                                })
+                                exports["ghmattimysql"]:execute("UPDATE inventory SET quantity=? WHERE (character_id=?) AND (item_id=?)", {user_inventory[source][data.item_id].quantity, user.get("characterID"), data.item_id})
                                 TriggerClientEvent("inventory:updateitems", source, user_inventory[source])
                                 TriggerClientEvent("inventory:sync", -1, user_inventory)
                             end
@@ -989,40 +750,22 @@ AddEventHandler("inventory:vehicle_deposit", function(amount, plate, data)
                             vehicle_inventory[plate].locked = "true"
                             if vehicle_inventory[plate][data.item_id] == nil then
                                 vehicle_inventory[plate][data.item_id] = { plate = plate, item_id = data.item_id, name = itemlist[data.item_id].name, quantity = available_space, canuse = itemlist[data.item_id].canuse }
-                                exports["GHMattiMySQL"]:QueryAsync("INSERT INTO vehicle_inventory (`plate`,`item_id`,`name`,`quantity`,`canuse`,`locked`) VALUES(@plate,@item_id,@name,@quantity,@canuse,@locked)", {
-                                    ['@plate'] = plate, 
-                                    ["@item_id"] = data.item_id, 
-                                    ["@name"] = itemlist[data.item_id].name,
-                                    ["@quantity"] = available_space,
-                                    ["@canuse"] = itemlist[data.item_id].canuse,
-                                    ["@locked"] = vehicle_inventory[plate].locked,
-                                })
+                                exports["ghmattimysql"]:execute("INSERT INTO vehicle_inventory (`plate`,`item_id`,`name`,`quantity`,`canuse`,`locked`) VALUES(?, ?, ?, ?, ?, ?)", {plate, data.item_id, itemlist[data.item_id].name, available_space, itemlist[data.item_id].canuse, vehicle_inventory[plate].locked})
                                 TriggerClientEvent("inventory:updateitems_vehicle", -1, plate, vehicle_inventory[plate])
                             else
                                 vehicle_inventory[plate][data.item_id].quantity =vehicle_inventory[plate][data.item_id].quantity + available_space
-                                exports["GHMattiMySQL"]:QueryAsync("UPDATE vehicle_inventory SET quantity=@quantity WHERE (plate=@plate) AND (item_id=@item_id)", {
-                                    ['@plate'] = plate,
-                                    ["@item_id"] = data.item_id, 
-                                    ["@quantity"] = vehicle_inventory[plate][data.item_id].quantity
-                                })
+                                exports["ghmattimysql"]:execute("UPDATE vehicle_inventory SET quantity=? WHERE (plate=?) AND (item_id=?)", {vehicle_inventory[plate][data.item_id].quantity, plate, data.item_id})
                                 TriggerClientEvent("inventory:updateitems_vehicle", -1, plate, vehicle_inventory[plate])
                             end
 
                             if (user_inventory[source][data.item_id].quantity - available_space) <= 0 then
                                 user_inventory[source][data.item_id] = nil
-                                exports["GHMattiMySQL"]:QueryAsync("DELETE FROM inventory WHERE (character_id = @character_id) AND (item_id=@item_id)", {
-                                    ["@character_id"] = user.get("characterID"), 
-                                    ["@item_id"] = data.item_id
-                                })
+                                exports["ghmattimysql"]:execute("DELETE FROM inventory WHERE (character_id = ?) AND (item_id=?)", {user.get("characterID"), data.item_id})
                                 TriggerClientEvent("inventory:updateitems", source, user_inventory[source])
                                 TriggerClientEvent("inventory:sync", -1, user_inventory)
                             else
                                 user_inventory[source][data.item_id].quantity = user_inventory[source][data.item_id].quantity - available_space
-                                exports["GHMattiMySQL"]:QueryAsync("UPDATE inventory SET quantity=@quantity WHERE (character_id=@character_id) AND (item_id=@item_id)", {
-                                    ["@character_id"] = user.get("characterID"), 
-                                    ["@item_id"] = data.item_id, 
-                                    ["@quantity"] = user_inventory[source][data.item_id].quantity
-                                })
+                                exports["ghmattimysql"]:execute("UPDATE inventory SET quantity=? WHERE (character_id=?) AND (item_id=?)", {user_inventory[source][data.item_id].quantity, user.get("characterID"), data.item_id})
                                 TriggerClientEvent("inventory:updateitems", source, user_inventory[source])
                                 TriggerClientEvent("inventory:sync", -1, user_inventory)
                             end
@@ -1034,40 +777,22 @@ AddEventHandler("inventory:vehicle_deposit", function(amount, plate, data)
                         if vehicle_inventory[plate] then
                             if vehicle_inventory[plate][data.item_id] == nil then
                                 vehicle_inventory[plate][data.item_id] = { plate = plate, item_id = data.item_id, name = itemlist[data.item_id].name, quantity = quantity_available, canuse = itemlist[data.item_id].canuse }
-                                exports["GHMattiMySQL"]:QueryAsync("INSERT INTO vehicle_inventory (`plate`,`item_id`,`name`,`quantity`,`canuse`,`locked`) VALUES(@plate,@item_id,@name,@quantity,@canuse,@locked)", {
-                                    ['@plate'] = plate, 
-                                    ["@item_id"] = data.item_id, 
-                                    ["@name"] = itemlist[data.item_id].name,
-                                    ["@quantity"] = quantity_available,
-                                    ["@canuse"] = itemlist[data.item_id].canuse,
-                                    ["@locked"] = vehicle_inventory[plate].locked,
-                                })
+                                exports["ghmattimysql"]:execute("INSERT INTO vehicle_inventory (`plate`,`item_id`,`name`,`quantity`,`canuse`,`locked`) VALUES(?, ?, ?, ?, ?, ?)", {plate, data.item_id, itemlist[data.item_id].name, quantity_available, itemlist[data.item_id].canuse, vehicle_inventory[plate].locked})
                                 TriggerClientEvent("inventory:updateitems_vehicle", -1, plate, vehicle_inventory[plate])
                             else
                                 vehicle_inventory[plate][data.item_id].quantity = vehicle_inventory[plate][data.item_id].quantity + quantity_available
-                                exports["GHMattiMySQL"]:QueryAsync("UPDATE vehicle_inventory SET quantity=@quantity WHERE (plate=@plate) AND (item_id=@item_id)", {
-                                    ['@plate'] = plate,
-                                    ["@item_id"] = data.item_id, 
-                                    ["@quantity"] = vehicle_inventory[plate][data.item_id].quantity
-                                })
+                                exports["ghmattimysql"]:execute("UPDATE vehicle_inventory SET quantity=? WHERE (plate=?) AND (item_id=?)", {vehicle_inventory[plate][data.item_id].quantity, plate, data.item_id})
                                 TriggerClientEvent("inventory:updateitems_vehicle", -1, plate, vehicle_inventory[plate])
                             end
 
                             if (user_inventory[source][data.item_id].quantity - quantity_available) <= 0 then
                                 user_inventory[source][data.item_id] = nil
-                                exports["GHMattiMySQL"]:QueryAsync("DELETE FROM inventory WHERE (character_id = @character_id) AND (item_id=@item_id)", {
-                                    ["@character_id"] = user.get("characterID"), 
-                                    ["@item_id"] = data.item_id
-                                })
+                                exports["ghmattimysql"]:execute("DELETE FROM inventory WHERE (character_id = ?) AND (item_id=?)", {user.get("characterID"), data.item_id})
                                 TriggerClientEvent("inventory:updateitems", source, user_inventory[source])
                                 TriggerClientEvent("inventory:sync", -1, user_inventory)
                             else
                                 user_inventory[source][data.item_id].quantity = user_inventory[source][data.item_id].quantity - quantity_available
-                                exports["GHMattiMySQL"]:QueryAsync("UPDATE inventory SET quantity=@quantity WHERE (character_id=@character_id) AND (item_id=@item_id)", {
-                                    ["@character_id"] = user.get("characterID"), 
-                                    ["@item_id"] = data.item_id, 
-                                    ["@quantity"] = user_inventory[source][data.item_id].quantity
-                                })
+                                exports["ghmattimysql"]:execute("UPDATE inventory SET quantity=? WHERE (character_id=?) AND (item_id=?)", {user_inventory[source][data.item_id].quantity, user.get("characterID"), data.item_id})
                                 TriggerClientEvent("inventory:updateitems", source, user_inventory[source])
                                 TriggerClientEvent("inventory:sync", -1, user_inventory)
                             end
@@ -1078,40 +803,21 @@ AddEventHandler("inventory:vehicle_deposit", function(amount, plate, data)
                             vehicle_inventory[plate].locked = "true"
                             if vehicle_inventory[plate][data.item_id] == nil then
                                 vehicle_inventory[plate][data.item_id] = { plate = plate, item_id = data.item_id, name = itemlist[data.item_id].name, quantity = quantity_available, canuse = itemlist[data.item_id].canuse }
-                                exports["GHMattiMySQL"]:QueryAsync("INSERT INTO vehicle_inventory (`plate`,`item_id`,`name`,`quantity`,`canuse`,`locked`) VALUES(@plate,@item_id,@name,@quantity,@canuse,@locked)", {
-                                    ['@plate'] = plate, 
-                                    ["@item_id"] = data.item_id, 
-                                    ["@name"] = itemlist[data.item_id].name,
-                                    ["@quantity"] = quantity_available,
-                                    ["@canuse"] = itemlist[data.item_id].canuse,
-                                    ["@locked"] = "true",
-                                })
+                                exports["ghmattimysql"]:execute("INSERT INTO vehicle_inventory (`plate`,`item_id`,`name`,`quantity`,`canuse`,`locked`) VALUES(?, ?, ?, ?, ?, ?)", {plate, data.item_id, itemlist[data.item_id].name, quantity_available, itemlist[data.item_id].canuse, "true"})
                                 TriggerClientEvent("inventory:updateitems_vehicle", -1, plate, vehicle_inventory[plate])
                             else
                                 vehicle_inventory[plate][data.item_id].quantity = vehicle_inventory[plate][data.item_id].quantity + quantity_available
-                                exports["GHMattiMySQL"]:QueryAsync("UPDATE vehicle_inventory SET quantity=@quantity WHERE (plate=@plate) AND (item_id=@item_id)", {
-                                    ['@plate'] = plate,
-                                    ["@item_id"] = data.item_id, 
-                                    ["@quantity"] = vehicle_inventory[plate][data.item_id].quantity
-                                })
+                                exports["ghmattimysql"]:execute("UPDATE vehicle_inventory SET quantity=? WHERE (plate=?) AND (item_id=?)", {vehicle_inventory[plate][data.item_id].quantity, plate, data.item_id})
                                 TriggerClientEvent("inventory:updateitems_vehicle", -1, plate, vehicle_inventory[plate])
                             end
 
                             if (user_inventory[source][data.item_id].quantity - quantity_available) <= 0 then
                                 user_inventory[source][data.item_id] = nil
-                                exports["GHMattiMySQL"]:QueryAsync("DELETE FROM inventory WHERE (character_id = @character_id) AND (item_id=@item_id)", {
-                                    ["@character_id"] = user.get("characterID"), 
-                                    ["@item_id"] = data.item_id
-                                })
+                                exports["ghmattimysql"]:execute("DELETE FROM inventory WHERE (character_id = ?) AND (item_id=?)", {user.get("characterID"), data.item_id})
                                 TriggerClientEvent("inventory:updateitems", source, user_inventory[source])
                                 TriggerClientEvent("inventory:sync", -1, user_inventory)
                             else
-                                user_inventory[source][data.item_id].quantity = user_inventory[source][data.item_id].quantity - quantity_available
-                                exports["GHMattiMySQL"]:QueryAsync("UPDATE inventory SET quantity=@quantity WHERE (character_id=@character_id) AND (item_id=@item_id)", {
-                                    ["@character_id"] = user.get("characterID"), 
-                                    ["@item_id"] = data.item_id, 
-                                    ["@quantity"] = user_inventory[source][data.item_id].quantity
-                                })
+                                exports["ghmattimysql"]:execute("UPDATE inventory SET quantity=? WHERE (character_id=?) AND (item_id=?)", {user_inventory[source][data.item_id].quantity, user.get("characterID"), data.item_id})
                                 TriggerClientEvent("inventory:updateitems", source, user_inventory[source])
                                 TriggerClientEvent("inventory:sync", -1, user_inventory)
                             end
@@ -1137,7 +843,7 @@ AddEventHandler("inventory:vehicle_lock", function(plate)
         elseif vehicle_inventory[plate].locked == "false" then
             vehicle_inventory[plate].locked = "true"
         end
-        exports["GHMattiMySQL"]:QueryAsync("UPDATE vehicle_inventory SET locked=@locked WHERE plate=@plate", {["@locked"] = vehicle_inventory[plate].locked, ["@plate"] = plate})
+        exports["ghmattimysql"]:execute("UPDATE vehicle_inventory SET locked=? WHERE plate=?", {vehicle_inventory[plate].locked, plate})
         TriggerClientEvent("inventory:updateitems_vehicle", -1, plate, vehicle_inventory[plate])
     else
         Notify("Currently syncing vehicle inventories, try again in a second", 3000, source)
@@ -1151,68 +857,34 @@ AddEventHandler("inventory:vehicle_weapon_deposit", function(plate, weapon)
         if getVehicleWeapons(plate) < vehicle_weapon_max then
             TriggerEvent("core:getuser", source, function(user)
                 if vehicle_weapon_inventory[plate] then
-                    exports["GHMattiMySQL"]:QueryAsync("DELETE FROM weapons WHERE (character_id=@character_id) AND (model=@model)", {
-                        ["@character_id"] = user.get("characterID"),
-                        ["@model"] = weapon.model,
-                    })
+                    exports["ghmattimysql"]:execute("DELETE FROM weapons WHERE (character_id=?) AND (model=?)", {user.get("characterID"), weapon.model})
                     user_weapons[source][weapon.model] = nil
-                    exports["GHMattiMySQL"]:Insert("vehicle_weapon_inventory", {
-                        {
-                            ["plate"] = plate, 
-                            ["sellprice"] = weapon.sellprice, 
-                            ["model"] = weapon.model, 
-                            ["ammo"] = weapon.ammo, 
-                            ["suppressor"] = weapon.suppressor, 
-                            ["flashlight"] = weapon.flashlight, 
-                            ["extended_clip"] = weapon.extended_clip, 
-                            ["scope"] = weapon.scope, 
-                            ["grip"] = weapon.grip, 
-                            ["advanced_scope"] = weapon.advanced_scope, 
-                            ["skin"] = weapon.skin, 
-                            ["locked"] = vehicle_weapon_inventory[plate].locked,
-                            ["owner"] = weapon.owner,
-                        }
-                    }, function(weapon_id)
-                        table.insert(vehicle_weapon_inventory[plate].weapons, { id = weapon_id, wid = weapon.id, plate = plate, sellprice = weapon.sellprice, model = weapon.model, ammo = weapon.ammo, suppressor = weapon.suppressor, flashlight = weapon.flashlight, extended_clip = weapon.extended_clip, scope = weapon.scope, grip = weapon.grip, advanced_scope = weapon.advanced_scope, skin = weapon.skin, locked = vehicle_weapon_inventory[plate].locked, owner = weapon.owner })
+                    exports["ghmattimysql"]:execute("INSERT INTO vehicle_weapon_inventory (`plate`, `sellprice`, `model`, `ammo`, `suppressor`, `flashlight`, `extended_clip`, `scope`, `grip`, `advanced_scope`, `skin`, `locked`, `owner`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", {plate, weapon.sellprice, weapon.model, weapon.ammo, weapon.suppressor, weapon.flashlight, weapon.extended_clip, weapon.scope, weapon.grip, weapon.advanced_scope, weapon.skin, vehicle_weapon_inventory[plate].locked, weapon.owner}, function(rowChanges)
+                        local rowId = rowChanges.insertId
+
+                        table.insert(vehicle_weapon_inventory[plate].weapons, { id = rowId, wid = weapon.id, plate = plate, sellprice = weapon.sellprice, model = weapon.model, ammo = weapon.ammo, suppressor = weapon.suppressor, flashlight = weapon.flashlight, extended_clip = weapon.extended_clip, scope = weapon.scope, grip = weapon.grip, advanced_scope = weapon.advanced_scope, skin = weapon.skin, locked = vehicle_weapon_inventory[plate].locked, owner = weapon.owner })
                         TriggerClientEvent("inventory:updateitems_vehicle_weapon", -1, plate, vehicle_weapon_inventory[plate])
                         TriggerClientEvent("weapon:set", source, user_weapons[source])
                         TriggerClientEvent("weapon:give", source)
-                        TriggerClientEvent("weapon:sync", -1, user_weapons)
-                    end, true)
+                        TriggerClientEvent("weapon:sync", -1, user_weapons)                        
+                    end)
 
                     Notify("Deposited a "..Weapons_names[weapon.model].." with "..weapon.ammo.." bullet(s)", 3000, source)
                 else
                     vehicle_weapon_inventory[plate] = {}
                     vehicle_weapon_inventory[plate].weapons = {}
                     vehicle_weapon_inventory[plate].locked = "true"
-                    exports["GHMattiMySQL"]:QueryAsync("DELETE FROM weapons WHERE (character_id=@character_id) AND (model=@model)", {
-                        ["@character_id"] = user.get("characterID"),
-                        ["@model"] = weapon.model,
-                    })
+                    exports["ghmattimysql"]:execute("DELETE FROM weapons WHERE (character_id=?) AND (model=?)", {user.get("characterID"), weapon.model})
                     user_weapons[source][weapon.model] = nil
-                    exports["GHMattiMySQL"]:Insert("vehicle_weapon_inventory", {
-                        {
-                            ["plate"] = plate, 
-                            ["sellprice"] = weapon.sellprice, 
-                            ["model"] = weapon.model, 
-                            ["ammo"] = weapon.ammo, 
-                            ["suppressor"] = weapon.suppressor, 
-                            ["flashlight"] = weapon.flashlight, 
-                            ["extended_clip"] = weapon.extended_clip, 
-                            ["scope"] = weapon.scope, 
-                            ["grip"] = weapon.grip, 
-                            ["advanced_scope"] = weapon.advanced_scope, 
-                            ["skin"] = weapon.skin, 
-                            ["locked"] = vehicle_weapon_inventory[plate].locked,
-                            ["owner"] = weapon.owner,
-                        }
-                    }, function(weapon_id)
-                        table.insert(vehicle_weapon_inventory[plate].weapons, { id = weapon_id, wid = weapon.id, plate = plate, sellprice = weapon.sellprice, model = weapon.model, ammo = weapon.ammo, suppressor = weapon.suppressor, flashlight = weapon.flashlight, extended_clip = weapon.extended_clip, scope = weapon.scope, grip = weapon.grip, advanced_scope = weapon.advanced_scope, skin = weapon.skin, locked = vehicle_weapon_inventory[plate].locked, owner = weapon.owner })
+                    exports["ghmattimysql"]:execute("INSERT INTO vehicle_weapon_inventory (`plate`, `sellprice`, `model`, `ammo`, `suppressor`, `flashlight`, `extended_clip`, `scope`, `grip`, `advanced_scope`, `skin`, `locked`, `owner`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", {plate, weapon.sellprice, weapon.model, weapon.ammo, weapon.suppressor, weapon.flashlight, weapon.extended_clip, weapon.scope, weapon.grip, weapon.advanced_scope, weapon.skin, vehicle_weapon_inventory[plate].locked, weapon.owner}, function(rowChanges)
+                        local rowId = rowChanges.insertId
+
+                        table.insert(vehicle_weapon_inventory[plate].weapons, { id = rowId, wid = weapon.id, plate = plate, sellprice = weapon.sellprice, model = weapon.model, ammo = weapon.ammo, suppressor = weapon.suppressor, flashlight = weapon.flashlight, extended_clip = weapon.extended_clip, scope = weapon.scope, grip = weapon.grip, advanced_scope = weapon.advanced_scope, skin = weapon.skin, locked = vehicle_weapon_inventory[plate].locked, owner = weapon.owner })
                         TriggerClientEvent("inventory:updateitems_vehicle_weapon", -1, plate, vehicle_weapon_inventory[plate])
                         TriggerClientEvent("weapon:set", source, user_weapons[source])
                         TriggerClientEvent("weapon:give", source)
-                        TriggerClientEvent("weapon:sync", -1, user_weapons)
-                    end, true)
+                        TriggerClientEvent("weapon:sync", -1, user_weapons)                        
+                    end)
 
                     Notify("Deposited a "..Weapons_names[weapon.model].." with "..weapon.ammo.." bullet(s)", 3000, source)
                 end
@@ -1234,33 +906,17 @@ AddEventHandler("inventory:vehicle_weapon_withdraw", function(plate, weapon, wea
                 if vehicle_weapon_inventory[plate]["weapons"][weapon_id] then
                     TriggerEvent("core:getuser", source, function(user)
                         table.remove(vehicle_weapon_inventory[plate].weapons, weapon_id)
-                        exports["GHMattiMySQL"]:QueryAsync("DELETE FROM vehicle_weapon_inventory WHERE (plate=@plate) AND (id=@weapon_id)", {
-                            ["@plate"] = plate,
-                            ["@weapon_id"] = weapon.id,
-                        })
-                        exports["GHMattiMySQL"]:Insert("weapons", {
-                            {
-                                ["character_id"] = user.get("characterID"),            
-                                ["sellprice"] = weapon.sellprice,
-                                ["model"] = weapon.model,
-                                ["ammo"] = weapon.ammo,
-                                ["suppressor"] = weapon.suppressor,
-                                ["flashlight"] = weapon.flashlight,
-                                ["extended_clip"] = weapon.extended_clip,
-                                ["scope"] = weapon.scope,
-                                ["grip"] = weapon.grip,
-                                ["advanced_scope"] = weapon.advanced_scope,
-                                ["skin"] = weapon.skin,
-                                ["owner"] = weapon.owner,
-                            }
-                        }, function(weapon_id)
-                            user_weapons[source][weapon.model] = { id = weapon_id, character_id = user.get("characterID"), sellprice = weapon.sellprice, model = weapon.model, ammo = weapon.ammo, suppressor = weapon.suppressor, flashlight = weapon.flashlight, extended_clip = weapon.extended_clip, scope = weapon.scope, grip = weapon.grip, advanced_scope = weapon.advanced_scope, skin = weapon.skin, owner = weapon.owner }
+                        exports["ghmattimysql"]:execute("DELETE FROM vehicle_weapon_inventory WHERE (plate=?) AND (id=?)", {plate, weapon.id})
+                        exports["ghmattimysql"]:execute("INSERT INTO weapons (`character_id`, `sellprice`, `model`, `ammo`, `suppressor`, `flashlight`, `extended_clip`, `scope`, `grip`, `advanced_scope`, `skin`, `owner` VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", {user.get("characterID"), weapon.sellprice, weapon.model, weapon.ammo, weapon.suppressor, weapon.flashlight, weapon.extended_clip, weapon.scope, weapon.grip, weapon.advanced_scope, weapon.skin, weapon.owner}, function(rowChanges)
+                            local rowId = rowChanges.insertId
+
+                            user_weapons[source][weapon.model] = { id = rowId, character_id = user.get("characterID"), sellprice = weapon.sellprice, model = weapon.model, ammo = weapon.ammo, suppressor = weapon.suppressor, flashlight = weapon.flashlight, extended_clip = weapon.extended_clip, scope = weapon.scope, grip = weapon.grip, advanced_scope = weapon.advanced_scope, skin = weapon.skin, owner = weapon.owner }
                             TriggerClientEvent("inventory:updateitems_vehicle_weapon", -1, plate, vehicle_weapon_inventory[plate])
                             TriggerClientEvent("weapon:set", source, user_weapons[source])
                             TriggerClientEvent("weapon:give", source)
                             TriggerClientEvent("weapon:sync", -1, user_weapons)
-                            Notify("Withdrew a "..Weapons_names[weapon.model].." with "..weapon.ammo.." bullet(s)", 3000, source)
-                        end, true)
+                            Notify("Withdrew a "..Weapons_names[weapon.model].." with "..weapon.ammo.." bullet(s)", 3000, source)                    
+                        end)
                     end)
                 end
             else
@@ -1282,7 +938,7 @@ AddEventHandler("inventory:vehicle_weapon_lock", function(plate)
         elseif vehicle_weapon_inventory[plate].locked == "false" then
             vehicle_weapon_inventory[plate].locked = "true"
         end
-        exports["GHMattiMySQL"]:QueryAsync("UPDATE vehicle_weapon_inventory SET locked=@locked WHERE plate=@plate", {["@locked"] = vehicle_weapon_inventory[plate].locked, ["@plate"] = plate})
+        exports["ghmattimysql"]:execute("UPDATE vehicle_weapon_inventory SET locked=? WHERE plate=?", {vehicle_weapon_inventory[plate].locked, plate})
         TriggerClientEvent("inventory:updateitems_vehicle_weapon", -1, plate, vehicle_weapon_inventory[plate])
     else
         Notify("Currently syncing vehicle inventories, try again in a second", 3000, source)
@@ -1293,11 +949,11 @@ AddEventHandler("inventory:delete_vehicle",function(plate, type)
     if not syncing_inventory then
         local source = tonumber(source)
         if type == "inventory" then
-            exports["GHMattiMySQL"]:QueryAsync("DELETE FROM vehicle_inventory WHERE plate=@plate", {["@plate"] = plate})
+            exports["ghmattimysql"]:execute("DELETE FROM vehicle_inventory WHERE plate=?", {plate})
             vehicle_inventory[plate] = {}
             TriggerClientEvent("inventory:updateitems_vehicle", -1, plate, vehicle_inventory[plate])
         elseif type == "weapons" then
-            exports["GHMattiMySQL"]:QueryAsync("DELETE FROM vehicle_weapon_inventory WHERE plate=@plate", {["@plate"] = plate})
+            exports["ghmattimysql"]:execute("DELETE FROM vehicle_weapon_inventory WHERE plate=?", {plate})
             vehicle_weapon_inventory[plate] = {}
             TriggerClientEvent("inventory:updateitems_vehicle_weapon", -1, plate, vehicle_weapon_inventory[plate])
         end
@@ -1310,32 +966,35 @@ AddEventHandler("inventory:seize_vehicle",function(plate, type)
     if not syncing_inventory then
         local source = tonumber(source)
         if type == "inventory" then
-            local query, illegalitems = "", {}
+            local illegalItems = {}           
+
             if vehicle_inventory[plate] then
                 for k,v in pairs(vehicle_inventory[plate]) do
                     if v.item_id then
                         if itemlist[v.item_id] then
-                            if itemlist[v.item_id].illegal == true then
-                                query = query .. "DELETE FROM vehicle_inventory WHERE (plate=@plate) AND (item_id='"..v.item_id.."'); "
-                                table.insert(illegalitems, v.item_id)
+                            if itemlist[v.item_id].illegal then
+                                table.insert(illegalItems, v.item_id)
                             end
                         end
                     end
                 end
             end
-            if query ~= "" then
-                exports["GHMattiMySQL"]:QueryAsync(query, {["@plate"] = plate})
-                for i = 1, #illegalitems do
+
+            if #illegalItems > 0 then
+                exports["ghmattimysql"]:execute("DELETE FROM vehicle_inventory WHERE plate = ? AND item_id IN(?)", {plate, illegalItems})
+
+                for i = 1, #illegalItems do
                     if vehicle_inventory[plate] then
-                        if vehicle_inventory[plate][illegalitems[i]] then
-                            vehicle_inventory[plate][illegalitems[i]] = nil
+                        if vehicle_inventory[plate][illegalItems[i]] then
+                            vehicle_inventory[plate][illegalItems[i]] = nil
                         end
                     end
                 end
+
                 TriggerClientEvent("inventory:updateitems_vehicle", -1, plate, vehicle_inventory[plate])
             end
         elseif type == "weapons" then
-            exports["GHMattiMySQL"]:QueryAsync("DELETE FROM vehicle_weapon_inventory WHERE plate=@plate", {["@plate"] = plate})
+            exports["ghmattimysql"]:execute("DELETE FROM vehicle_weapon_inventory WHERE plate=?", {plate})
             vehicle_weapon_inventory[plate] = {}
             TriggerClientEvent("inventory:updateitems_vehicle_weapon", -1, plate, vehicle_weapon_inventory[plate])
         end
@@ -1433,7 +1092,7 @@ function updateInventories()
     Citizen.SetTimeout(900000, function()
         syncing_inventory = true
         local p1, p2 = false, false 
-        exports["GHMattiMySQL"]:QueryResultAsync("SELECT * from vehicle_inventory", {}, function(inventory)
+        exports["ghmattimysql"]:execute("SELECT * from vehicle_inventory", {}, function(inventory)
             if inventory[1] == nil then
                 p1 = true
             else
@@ -1449,7 +1108,7 @@ function updateInventories()
                 p1 = true
             end
         end)
-        exports["GHMattiMySQL"]:QueryResultAsync("SELECT * from vehicle_weapon_inventory", {}, function(weapon_inventory)
+        exports["ghmattimysql"]:execute("SELECT * from vehicle_weapon_inventory", {}, function(weapon_inventory)
             if weapon_inventory[1] == nil then
                 p2 = true
             else

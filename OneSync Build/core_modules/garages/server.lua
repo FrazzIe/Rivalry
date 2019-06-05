@@ -341,16 +341,13 @@ local emplacement_garage = {
 
 AddEventHandler("onServerResourceStart", function(resource)
     if resource == GetCurrentResourceName() then
-        exports["GHMattiMySQL"]:QueryAsync("UPDATE vehicles SET state=@state WHERE (state!=@state AND state!=@impound)", {
-            ["@state"] = "~g~Stored",
-            ["@impound"] = "~b~Impounded",
-        })
+        exports["ghmattimysql"]:execute("UPDATE vehicles SET state=? WHERE (state!=? AND state!=?)", {"~g~Stored", "~g~Stored", "~b~Impounded",})
     end
 end)
 
 RegisterServerEvent("garage:initialise")
 AddEventHandler("garage:initialise",function(source, identifier, character_id)
-    exports["GHMattiMySQL"]:QueryResultAsync("SELECT * from vehicles WHERE character_id=@character_id", {["@character_id"] = character_id}, function(vehicles)
+    exports["ghmattimysql"]:execute("SELECT * from vehicles WHERE character_id=?", {character_id}, function(vehicles)
         for k,v in pairs(vehicles) do
             v.plate = string.format("%X", tostring(v.plate))
             v.plate = strpad(v.plate, 8, "0", "STR_PAD_LEFT")
@@ -359,32 +356,8 @@ AddEventHandler("garage:initialise",function(source, identifier, character_id)
         end
         TriggerClientEvent("garage:setvehicles", source, vehicles)
     end)
-    exports["GHMattiMySQL"]:QueryResultAsync("SELECT * from garages WHERE character_id=@character_id", {["@character_id"] = character_id}, function(garages)
+    exports["ghmattimysql"]:execute("SELECT * from garages WHERE character_id=?", {character_id}, function(garages)
         TriggerClientEvent("garage:setgarages", source, garages)
-    end)
-end)
-
-RegisterServerEvent("garage:reload")
-AddEventHandler("garage:reload",function(source)
-    local source = source
-    TriggerEvent('core:getuser', source, function(user)
-        if user ~= nil then
-            exports["GHMattiMySQL"]:QueryAsync("UPDATE vehicles SET state=@state WHERE character_id=@character_id", {
-                ["@identifier"] = user.get("steam"),
-                ["@character_id"] = user.get("characterID"),
-                ["@state"] = "~g~Stored",
-            })
-            exports["GHMattiMySQL"]:QueryResultAsync("SELECT * from vehicles WHERE character_id=@character_id", {["@character_id"] = user.get("characterID")}, function(vehicles)
-                for k,v in pairs(vehicles) do
-                    v.plate = string.format("%X", tostring(v.plate))
-                    v.plate = strpad(v.plate, 8, "0", "STR_PAD_LEFT")
-                end
-                TriggerClientEvent("garage:setvehicles", source, vehicles)
-            end)
-            exports["GHMattiMySQL"]:QueryResultAsync("SELECT * from garages WHERE character_id=@character_id", {["@character_id"] = user.get("characterID")}, function(garages)
-                TriggerClientEvent("garage:setgarages", source, garages)
-            end)
-        end
     end)
 end)
 
@@ -406,11 +379,7 @@ AddEventHandler("garage:transfer",function(plate, gid)
     local source = tonumber(source)
     TriggerEvent('core:getuser', source, function(user)
         GNotify(source,"Vehicle transferred!")
-        exports["GHMattiMySQL"]:QueryAsync("UPDATE vehicles SET garage_id=@garage_id WHERE (character_id = @character_id) AND (plate = @plate)", {
-            ["@character_id"] = user.get("characterID"),
-            ["@garage_id"] = gid,
-            ["@plate"] = tonumber(plate, 16),
-        })
+        exports["ghmattimysql"]:execute("UPDATE vehicles SET garage_id=? WHERE (character_id = ?) AND (plate = ?)", {gid, user.get("characterID"), tonumber(plate, 16)})
         TriggerClientEvent("garage:transfer", source, plate, gid)
     end)
 end)
@@ -422,22 +391,12 @@ AddEventHandler("garage:buy",function(id, slots)
     TriggerEvent('core:getuser', source, function(user)
         if(user.get("wallet") >= tonumber(cost))then
             user.removeWallet(cost)
-            exports["GHMattiMySQL"]:QueryAsync("INSERT INTO garages (`character_id`,`garage_id`,`cost`,`slots`) VALUES (@character_id,@garage_id,@cost,@slots)", {
-                ["@character_id"] = user.get("characterID"),
-                ["@garage_id"] = id,
-                ["@cost"] = cost/2,
-                ["@slots"] = slots,
-            })          
+            exports["ghmattimysql"]:execute("INSERT INTO garages (`character_id`,`garage_id`,`cost`,`slots`) VALUES (?, ?, ?, ?)", {user.get("characterID"), id, cost/2, slots})
             GNotify(source,"Garage purchased!")
             TriggerClientEvent("garage:buy", source, {character_id = user.get("characterID"), garage_id = id, cost = cost/2, slots = slots})
         elseif(user.get("bank") >= tonumber(cost))then
             user.removeBank(cost)
-            exports["GHMattiMySQL"]:QueryAsync("INSERT INTO garages (`character_id`,`garage_id`,`cost`,`slots`) VALUES (@character_id,@garage_id,@cost,@slots)", {
-                ["@character_id"] = user.get("characterID"),
-                ["@garage_id"] = id,
-                ["@cost"] = cost/2,
-                ["@slots"] = slots,
-            })          
+            exports["ghmattimysql"]:execute("INSERT INTO garages (`character_id`,`garage_id`,`cost`,`slots`) VALUES (?, ?, ?, ?)", {user.get("characterID"), id, cost/2, slots})
             GNotify(source,"Garage purchased!")
             TriggerClientEvent("garage:buy", source, {character_id = user.get("characterID"), garage_id = id, cost = cost/2, slots = slots})
         else
@@ -453,22 +412,13 @@ AddEventHandler("garage:buyslots",function(gid, slots, slots_purchased)
     TriggerEvent('core:getuser', source, function(user)
         if(user.get("wallet") >= tonumber(cost))then
             user.removeWallet(cost)
-            exports["GHMattiMySQL"]:QueryAsync("UPDATE garages SET cost=@cost, slots=@slots WHERE (character_id = @character_id) AND (garage_id = @garage_id)", {
-                ["@character_id"] = user.get("characterID"),
-                ["@garage_id"] = gid,
-                ["@cost"] = cost/2, 
-                ["@slots"] = slots,
-            })          
+            exports["ghmattimysql"]:execute("UPDATE garages SET cost=?, slots=? WHERE (character_id = ?) AND (garage_id = ?)", {cost/2, slots, user.get("characterID"), gid})
             GNotify(source,"Garage slots purchased!")
             TriggerClientEvent("garage:buyslots", source, slots, gid)
         elseif(user.get("bank") >= tonumber(cost))then
             user.removeBank(cost)
-            exports["GHMattiMySQL"]:QueryAsync("UPDATE garages SET cost=@cost, slots=@slots WHERE (character_id = @character_id) AND (garage_id = @garage_id)", {
-                ["@character_id"] = user.get("characterID"),
-                ["@garage_id"] = gid,
-                ["@cost"] = cost/2, 
-                ["@slots"] = slots,
-            })          
+            exports["ghmattimysql"]:execute("UPDATE garages SET cost=?, slots=? WHERE (character_id = ?) AND (garage_id = ?)", {cost/2, slots, user.get("characterID"), gid})
+
             GNotify(source,"Garage slots purchased!")
             TriggerClientEvent("garage:buyslots", source, slots, gid)
         else
@@ -483,7 +433,7 @@ AddEventHandler("garage:insurance",function(plate,model,index)
     local cost = (insurance[model] or 125000)/10
     TriggerEvent('core:getuser', source, function(user)
         if(user.get("wallet") >= tonumber(cost))then
-            exports["GHMattiMySQL"]:QueryAsync("UPDATE vehicles SET insurance=@insurance WHERE (character_id = @character_id) AND (plate = @plate)", {
+            exports["ghmattimysql"]:execute("UPDATE vehicles SET insurance=@insurance WHERE (character_id = @character_id) AND (plate = @plate)", {
                 ["@character_id"] = user.get("characterID"),
                 ["@plate"] = tonumber(plate, 16),
                 ["@insurance"] = "true",
@@ -492,7 +442,7 @@ AddEventHandler("garage:insurance",function(plate,model,index)
             GNotify(source,"Insurance purchased!")
             TriggerClientEvent("garage:insurance", source, index)
         elseif(user.get("bank") >= tonumber(cost))then
-            exports["GHMattiMySQL"]:QueryAsync("UPDATE vehicles SET insurance=@insurance WHERE (character_id = @character_id) AND (plate = @plate)", {
+            exports["ghmattimysql"]:execute("UPDATE vehicles SET insurance=@insurance WHERE (character_id = @character_id) AND (plate = @plate)", {
                 ["@character_id"] = user.get("characterID"),
                 ["@plate"] = tonumber(plate, 16),
                 ["@insurance"] = "true",
@@ -511,10 +461,7 @@ AddEventHandler("garage:sell", function(plate, model, index)
     local source = tonumber(source)
     TriggerEvent('core:getuser', source, function(user)
         user.addWallet(cars[model]/2)
-        exports["GHMattiMySQL"]:QueryAsync("DELETE FROM vehicles WHERE (character_id = @character_id) AND (plate = @plate)", {
-            ["@character_id"] = user.get("characterID"),
-            ["@plate"] = tonumber(plate, 16),
-        })
+        exports["ghmattimysql"]:execute("DELETE FROM vehicles WHERE (character_id = ?) AND (plate = ?)", {user.get("characterID"), tonumber(plate, 16)})
         GNotify(source,"Vehicle sold!")
         TriggerClientEvent("garage:sold", source, index)
     end)
@@ -524,12 +471,9 @@ RegisterServerEvent("garage:sellg")
 AddEventHandler("garage:sellg", function(gid)
     local source = tonumber(source)
     TriggerEvent('core:getuser', source, function(user)
-        local cost = exports['GHMattiMySQL']:QueryScalar("SELECT cost FROM garages WHERE (character_id = @character_id) AND (garage_id = @garage_id)", {["@character_id"] = user.get("characterID"), ["@garage_id"] = gid})
+        local cost = exports["ghmattimysql"]:scalarSync("SELECT cost FROM garages WHERE (character_id = ?) AND (garage_id = ?)", {user.get("characterID"), gid})
         user.addBank(cost)
-        exports["GHMattiMySQL"]:QueryAsync("DELETE FROM garages WHERE (character_id = @character_id) AND (garage_id = @garage_id)", {
-            ["@character_id"] = user.get("characterID"),
-            ["@garage_id"] = gid,
-        })         
+        exports["ghmattimysql"]:execute("DELETE FROM garages WHERE (character_id = ?) AND (garage_id = ?)", {user.get("characterID"), gid})
         GNotify(source,"Garage sold!")
         TriggerClientEvent("garage:transfer", source)
     end)
@@ -577,11 +521,11 @@ AddEventHandler("garage:PayClaim", function(plate, cost, claims)
     TriggerEvent('core:getuser', source, function(user)
         if user.get("wallet") >= cost then
             user.removeWallet(cost)
-            exports["GHMattiMySQL"]:QueryAsync("UPDATE vehicles SET claims=@claims WHERE (character_id = @character_id) AND (plate = @plate)", {["@claims"] = Claim, ["@character_id"] = user.get("characterID"), ["@plate"] = tonumber(plate, 16)})
+            exports["ghmattimysql"]:execute("UPDATE vehicles SET claims=? WHERE (character_id = ?) AND (plate = ?)", {Claim, user.get("characterID"), tonumber(plate, 16)})
             GNotify(source,"Paid: $" .. cost)
         elseif user.get("bank") >= cost then
             user.removeBank(cost)
-            exports["GHMattiMySQL"]:QueryAsync("UPDATE vehicles SET claims=@claims WHERE (character_id = @character_id) AND (plate = @plate)", {["@claims"] = Claim, ["@character_id"] = user.get("characterID"), ["@plate"] = tonumber(plate, 16)})
+            exports["ghmattimysql"]:execute("UPDATE vehicles SET claims=? WHERE (character_id = ?) AND (plate = ?)", {Claim, user.get("characterID"), tonumber(plate, 16)})
             GNotify(source,"Paid: $" .. cost)
         end
     end)
@@ -594,81 +538,6 @@ end
 
 function updateCar(source, data)
     TriggerEvent("core:getuser", source, function(user)
-        exports["GHMattiMySQL"]:QueryAsync("UPDATE vehicles SET garage_id=@garage_id, instance=@instance, state=@state, primary_colour=@primary_colour, secondary_colour=@secondary_colour, pearlescent_colour=@pearlescent_colour, wheel_colour=@wheel_colour, smoke_colour=@smoke_colour, plate_colour=@plate_colour, neon_colour=@neon_colour, tint_colour=@tint_colour, mod0=@mod0, mod1=@mod1, mod2=@mod2, mod3=@mod3, mod4=@mod4, mod5=@mod5, mod6=@mod6, mod7=@mod7, mod8=@mod8, mod10=@mod10, mod11=@mod11, mod12=@mod12, mod13=@mod13, mod14=@mod14, mod15=@mod15, mod16=@mod16, mod23=@mod23, mod24=@mod24, mod25=@mod25, mod26=@mod26, mod27=@mod27, mod28=@mod28, mod29=@mod29, mod30=@mod30, mod31=@mod31, mod32=@mod32, mod33=@mod33, mod34=@mod34, mod35=@mod35, mod36=@mod36, mod37=@mod37, mod38=@mod38, mod39=@mod39, mod40=@mod40, mod41=@mod41, mod42=@mod42, mod43=@mod43, mod44=@mod44, mod45=@mod45, mod46=@mod46, mod48=@mod48, tyre_smoke=@tyre_smoke, xenon_lights=@xenon_lights, turbo=@turbo, custom_wheels=@custom_wheels, custom_wheels2=@custom_wheels2, bulletproof_wheels=@bulletproof_wheels, wheeltype=@wheeltype, neon0=@neon0, neon1=@neon1, neon2=@neon2, neon3=@neon3, engine_health=@engine_health, petrol_health=@petrol_health, vehicle_health=@vehicle_health, insurance=@insurance WHERE (character_id = @character_id) AND (plate = @plate)", { 
-            ["@character_id"] = user.get("characterID"),
-            ["@garage_id"] = data.garage_id,
-            ["@model"] = data.model,
-            ["@name"] = data.name,
-            ["@instance"] = data.instance,
-            ["@plate"] = tonumber(data.plate, 16),
-            ["@state"] = data.state,
-            ["@primary_colour"] = data.primary_colour,
-            ["@secondary_colour"] = data.secondary_colour,
-            ["@pearlescent_colour"] = data.pearlescent_colour,
-            ["@wheel_colour"] = data.wheel_colour,
-            ["@smoke_colour"] = json.encode(data.smoke_colour),
-            ["@plate_colour"] = data.plate_colour,
-            ["@neon_colour"] = json.encode(data.neon_colour),
-            ["@tint_colour"] = data.tint_colour,
-            ["@mod0"] = data.mod0,
-            ["@mod1"] = data.mod1,
-            ["@mod2"] = data.mod2,
-            ["@mod3"] = data.mod3,
-            ["@mod4"] = data.mod4,
-            ["@mod5"] = data.mod5,
-            ["@mod6"] = data.mod6,
-            ["@mod7"] = data.mod7,
-            ["@mod8"] = data.mod8,
-            ["@mod9"] = data.mod9,
-            ["@mod10"] = data.mod10,
-            ["@mod11"] = data.mod11,
-            ["@mod12"] = data.mod12,
-            ["@mod13"] = data.mod13,
-            ["@mod14"] = data.mod14,
-            ["@mod15"] = data.mod15,
-            ["@mod16"] = data.mod16,
-            ["@mod23"] = data.mod23,
-            ["@mod24"] = data.mod24,
-            ["@mod25"] = data.mod25,
-            ["@mod26"] = data.mod26,
-            ["@mod27"] = data.mod27,
-            ["@mod28"] = data.mod28,
-            ["@mod29"] = data.mod29,
-            ["@mod30"] = data.mod30,
-            ["@mod31"] = data.mod31,
-            ["@mod32"] = data.mod32,
-            ["@mod33"] = data.mod33,
-            ["@mod34"] = data.mod34,
-            ["@mod35"] = data.mod35,
-            ["@mod36"] = data.mod36,
-            ["@mod37"] = data.mod37,
-            ["@mod38"] = data.mod38,
-            ["@mod39"] = data.mod39,
-            ["@mod40"] = data.mod40,
-            ["@mod41"] = data.mod41,
-            ["@mod42"] = data.mod42,
-            ["@mod43"] = data.mod43,
-            ["@mod44"] = data.mod44,
-            ["@mod45"] = data.mod45,
-            ["@mod46"] = data.mod46,
-            ["@mod48"] = data.mod48,
-            ["@tyre_smoke"] = data.tyre_smoke,
-            ["@xenon_lights"] = data.xenon_lights,
-            ["@turbo"] = data.turbo,
-            ["@custom_wheels"] = data.custom_wheels,
-            ["@custom_wheels2"] = data.custom_wheels2,
-            ["@bulletproof_wheels"] = data.bulletproof_wheels,
-            ["@wheeltype"] = data.wheeltype,
-            ["@neon0"] = data.neon0,
-            ["@neon1"] = data.neon1,
-            ["@neon2"] = data.neon2,
-            ["@neon3"] = data.neon3,
-            ["@engine_health"] = data.engine_health,
-            ["@petrol_health"] = data.petrol_health,
-            ["@vehicle_health"] = data.vehicle_health,
-            ["@body_health"] = data.body_health,
-            ["@insurance"] = data.insurance,
-            ["@claims"] = data.claims,
-        })
+        exports["ghmattimysql"]:execute("UPDATE vehicles SET garage_id=?, instance=?, state=?, primary_colour=?, secondary_colour=?, pearlescent_colour=?, wheel_colour=?, smoke_colour=?, plate_colour=?, neon_colour=?, tint_colour=?, mod0=?, mod1=?, mod2=?, mod3=?, mod4=?, mod5=?, mod6=?, mod7=?, mod8=?, mod10=?, mod11=?, mod12=?, mod13=?, mod14=?, mod15=?, mod16=?, mod23=?, mod24=?, mod25=?, mod26=?, mod27=?, mod28=?, mod29=?, mod30=?, mod31=?, mod32=?, mod33=?, mod34=?, mod35=?, mod36=?, mod37=?, mod38=?, mod39=?, mod40=?, mod41=?, mod42=?, mod43=?, mod44=?, mod45=?, mod46=?, mod48=?, tyre_smoke=?, xenon_lights=?, turbo=?, custom_wheels=?, custom_wheels2=?, bulletproof_wheels=?, wheeltype=?, neon0=?, neon1=?, neon2=?, neon3=?, engine_health=?, petrol_health=?, vehicle_health=?, insurance=? WHERE (character_id = ?) AND (plate = ?)", {data.garage_id, data.instance, data.state, data.primary_colour, data.secondary_colour, data.pearlescent_colour, data.wheel_colour, json.encode(data.smoke_colour), data.plate_colour, json.encode(data.neon_colour), data.tint_colour, data.mod0, data.mod1, data.mod2, data.mod3, data.mod4, data.mod5, data.mod6, data.mod7, data.mod8, data.mod10, data.mod11, data.mod12, data.mod13, data.mod14, data.mod15, data.mod16, data.mod23, data.mod24, data.mod25, data.mod26, data.mod27, data.mod28, data.mod29, data.mod30, data.mod31, data.mod32, data.mod33, data.mod34, data.mod35, data.mod36, data.mod37, data.mod38, data.mod39, data.mod40, data.mod41, data.mod42, data.mod43, data.mod44, data.mod45, data.mod46, data.mod48, data.tyre_smoke, data.xenon_lights, data.turbo, data.custom_wheels, data.custom_wheels2, data.bulletproof_wheels, data.wheeltype, data.neon0, data.neon1, data.neon2, data.neon3, data.engine_health, data.petrol_health, data.vehicle_health, data.insurance, user.get("characterID"), tonumber(data.plate, 16)})
     end)
 end

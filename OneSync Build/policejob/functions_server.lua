@@ -309,7 +309,7 @@ AddEventHandler('police:check_plate', function(plate)
 			TriggerClientEvent("pNotify:SendNotification", source, {text = "The plate <span style 'color:lime'>"..plate.."</span> belongs to the driver school!",type = "error",queue = "left",timeout = 4000,layout = "centerRight"})
 			else
 				if tonumber(plate, 16) ~= nil then
-					exports['GHMattiMySQL']:QueryResultAsync("SELECT first_name, last_name FROM characters WHERE character_id=(SELECT character_id FROM vehicles WHERE plate=@plate)", {["@plate"] = tonumber(plate, 16)}, function(character)
+					exports["ghmattimysql"]:execute("SELECT first_name, last_name FROM characters WHERE character_id=(SELECT character_id FROM vehicles WHERE plate=?)", {tonumber(plate, 16)}, function(character)
 						if character[1] == nil then
 							TriggerClientEvent("pNotify:SendNotification", source, {text = "The plate <span style 'color:lime'>"..plate.."</span> could not be found in the database!",type = "error",queue = "left",timeout = 4000,layout = "centerRight"})
 						else
@@ -331,17 +331,22 @@ end)
 --Impound
 RegisterServerEvent('police:impound')
 AddEventHandler('police:impound', function(plate, amount)
-	if tonumber(plate, 16) ~= nil then
-		exports['GHMattiMySQL']:QueryResultAsync("SELECT characters.identifier FROM vehicles INNER JOIN characters ON vehicles.character_id = characters.character_id WHERE plate=@plate", {["@plate"] = tonumber(plate, 16)}, function(identifier)
-			if identifier[1] == nil then
-			else
-				TriggerEvent("core:getuserfromidentifier", identifier[1].identifier, function(target)
-					if target then
-						TriggerClientEvent("garage:impound", target, plate, amount)
-					end
-				end)
-			end
-		end)
+	if plate ~= nil then
+		local hexPlate = tonumber(plate, 16)
+
+		if hexPlate ~= nil then
+			exports["ghmattimysql"]:execute("UPDATE vehicles SET state=? WHERE plate=?", {"~b~Impounded", hexPlate});
+			exports["ghmattimysql"]:execute("SELECT characters.identifier FROM vehicles INNER JOIN characters ON vehicles.character_id = characters.character_id WHERE plate=?", {hexPlate}, function(identifier)
+				if identifier[1] == nil then
+				else
+					TriggerEvent("core:getuserfromidentifier", identifier[1].identifier, function(target)
+						if target then
+							TriggerClientEvent("garage:impound", target, plate, amount)
+						end
+					end)
+				end
+			end)
+		end
 	end
 end)
 --==============================================================================================================================--
@@ -394,7 +399,7 @@ TriggerEvent("core:addGroupCommand", "runplate", "emergency", function(source, a
 				TriggerClientEvent("chatMessage", source, "Dispatch", {0, 255, 0}, "The plate "..args[1].." belongs to the rental company!")
 			else
 				if tonumber(args[1], 16) ~= nil then
-					exports['GHMattiMySQL']:QueryResultAsync("SELECT first_name, last_name FROM characters WHERE character_id=(SELECT character_id FROM vehicles WHERE plate=@plate)", {["@plate"] = tonumber(args[1], 16)}, function(character)
+					exports["ghmattimysql"]:execute("SELECT first_name, last_name FROM characters WHERE character_id=(SELECT character_id FROM vehicles WHERE plate=?)", {tonumber(args[1], 16)}, function(character)
 						if character[1] == nil then
 							TriggerClientEvent("chatMessage", source, "Dispatch", {0, 255, 0}, "The plate "..args[1].." has been reported 10-99 stolen! Call for backup.")
 						else
@@ -417,7 +422,7 @@ TriggerEvent("core:addGroupCommand", "runserial", "emergency", function(source, 
 		if args[1] == "p" or args[1] == "v" or args[1] == "vehicle" or args[1] == "person" then
 			if args[1] == "p" or args[1] == "person" then
 				if tonumber(args[2]) then
-					exports['GHMattiMySQL']:QueryResultAsync("SELECT CONCAT(characters.first_name, ' ', characters.last_name) AS 'name' FROM weapons INNER JOIN characters ON weapons.owner = characters.character_id WHERE id=@id", {["@id"] = tonumber(args[2])}, function(owner)
+					exports["ghmattimysql"]:execute("SELECT CONCAT(characters.first_name, ' ', characters.last_name) AS 'name' FROM weapons INNER JOIN characters ON weapons.owner = characters.character_id WHERE id=?", {tonumber(args[2])}, function(owner)
 						if owner[1] ~= nil then
 							TriggerClientEvent("chatMessage", source, "Dispatch", {0, 255, 0}, "The weapon with serial number ^3"..tonumber(args[2]).."^0 belongs to "..owner[1].name)
 						else
@@ -429,7 +434,7 @@ TriggerEvent("core:addGroupCommand", "runserial", "emergency", function(source, 
 				end
 			else
 				if tonumber(args[2]) then
-					exports['GHMattiMySQL']:QueryResultAsync("SELECT CONCAT(characters.first_name, ' ', characters.last_name) AS 'name' FROM vehicle_weapon_inventory INNER JOIN characters ON vehicle_weapon_inventory.owner = characters.character_id WHERE id=@id", {["@id"] = tonumber(args[2])}, function(owner)
+					exports["ghmattimysql"]:execute("SELECT CONCAT(characters.first_name, ' ', characters.last_name) AS 'name' FROM vehicle_weapon_inventory INNER JOIN characters ON vehicle_weapon_inventory.owner = characters.character_id WHERE id=?", {tonumber(args[2])}, function(owner)
 						if owner[1] ~= nil then
 							TriggerClientEvent("chatMessage", source, "Dispatch", {0, 255, 0}, "The weapon with serial number ^3"..tonumber(args[2]).."^0 belongs to "..owner[1].name)
 						else

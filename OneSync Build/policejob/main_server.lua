@@ -168,14 +168,14 @@ addRank("recruit", "")
 addRank("cadet", "")
 
 exports("GetCop", function(Player)
-	return cops[Player]
+	return cops[Player] ~= nil
 end)
 
 AddEventHandler('police:initialise', function(source, identifier, character_id)
 	TriggerClientEvent("police:doors_sync", -1, doors)
 	TriggerClientEvent("police:setranks", source, ranks)
 
-	exports['GHMattiMySQL']:QueryResultAsync("SELECT * FROM police WHERE character_id=@character_id", {["@character_id"] = character_id}, function(officer)
+	exports["ghmattimysql"]:execute("SELECT * FROM police WHERE character_id=?", {character_id}, function(officer)
 		if officer[1] == nil then
 			TriggerClientEvent("police:set", source, {}, false, true)
 		else
@@ -212,11 +212,7 @@ TriggerEvent("core:addGroupCommand", "copadd", "command", function(source, args,
 			if ranks[rank:lower()] ~= nil then
 				TriggerEvent("core:getuser", tonumber(args[1]), function(target)
 					cops[tonumber(args[1])] = nil
-					exports['GHMattiMySQL']:QueryAsync("DELETE FROM police WHERE character_id=@character_id; INSERT INTO police (`character_id`, `rank`, `onduty`) VALUES (@character_id, @rank, @onduty)", {
-						["@character_id"] = target.get("characterID"),
-						["@rank"] = rank:lower(),
-						["@onduty"] = "false",
-					})
+					exports["ghmattimysql"]:execute("DELETE FROM police WHERE character_id=?; INSERT INTO police (`character_id`, `rank`, `onduty`) VALUES (?, ?, ?)", {target.get("characterID"), target.get("characterID"), rank:lower(), "false"})
 					cops[tonumber(args[1])] = { character_id = target.get("characterID"), rank = rank:lower(), onduty = "false" }
 					TriggerEvent("mdt.set.permission", tonumber(args[1]), GetPermissionLevel(rank:lower()))
 					TriggerClientEvent("pNotify:SendNotification", -1, {text = "<b style='color:red'>Alert</b> <br><span style='color:lime'>"..target.get("first_name").." "..target.get("last_name").."</span> has been accepted. <br> Congratulations on joining the LSPD!",type = "error",queue = "left",timeout = 10000,layout = "bottomRight"})
@@ -240,7 +236,7 @@ TriggerEvent("core:addGroupCommand", "coprem", "command", function(source, args,
 			if cops[tonumber(args[1])] ~= nil then
 				TriggerEvent("core:getuser", tonumber(args[1]), function(target)
 					cops[tonumber(args[1])] = nil
-					exports['GHMattiMySQL']:QueryAsync("DELETE FROM police WHERE character_id=@character_id", {["@character_id"] = target.get("characterID")})
+					exports["ghmattimysql"]:execute("DELETE FROM police WHERE character_id=?", {target.get("characterID")})
 					TriggerClientEvent("pNotify:SendNotification", -1, {text = "<b style='color:red'>Alert</b> <br><span style='color:lime'>"..target.get("first_name").." "..target.get("last_name").."</span> has been fired. <br> They are no longer an officer of the LSPD!",type = "error",queue = "left",timeout = 10000,layout = "bottomRight"})
 					TriggerClientEvent('police:set', tonumber(args[1]), cops[tonumber(args[1])], false)
 					TriggerEvent("mdt.set.permission", tonumber(args[1]), 0)
@@ -268,7 +264,7 @@ TriggerEvent("core:addGroupCommand", "coppromote", "emergency", function(source,
 							if cb then
 								if canPromote(cops[source].rank) then
 									TriggerEvent("core:getuser", tonumber(args[1]), function(target)
-										exports['GHMattiMySQL']:QueryAsync("UPDATE police SET rank=@rank WHERE character_id=@character_id", {["@character_id"] = target.get("characterID"), ["@rank"] = rank:lower()})
+										exports["ghmattimysql"]:execute("UPDATE police SET rank=? WHERE character_id=?", {rank:lower(), target.get("characterID")})
 										cops[tonumber(args[1])].rank = rank:lower()
 										TriggerClientEvent("pNotify:SendNotification", tonumber(args[1]), {text = "<b style='color:red'>Alert</b> <br><span style='color:lime'>You have been promoted!</span><br> You are now a "..rank,type = "error",queue = "left",timeout = 10000,layout = "bottomRight"})
 										TriggerClientEvent('police:set', tonumber(args[1]), cops[tonumber(args[1])], true)
@@ -310,7 +306,7 @@ TriggerEvent("core:addGroupCommand", "copdemote", "emergency", function(source, 
 							if cb then
 								if canPromote(cops[source].rank) then
 									TriggerEvent("core:getuser", tonumber(args[1]), function(target)
-										exports['GHMattiMySQL']:QueryAsync("UPDATE police SET rank=@rank WHERE character_id=@character_id", {["@character_id"] = target.get("characterID"), ["@rank"] = rank:lower()})
+										exports["ghmattimysql"]:execute("UPDATE police SET rank=? WHERE character_id=?", {rank:lower(), target.get("characterID")})
 										cops[tonumber(args[1])].rank = rank:lower()
 										TriggerClientEvent("pNotify:SendNotification", tonumber(args[1]), {text = "<b style='color:red'>Alert</b> <br><span style='color:lime'>You have been demoted!</span><br> You are now a "..rank,type = "error",queue = "left",timeout = 10000,layout = "bottomRight"})
 										TriggerClientEvent('police:set', tonumber(args[1]), cops[tonumber(args[1])], true)

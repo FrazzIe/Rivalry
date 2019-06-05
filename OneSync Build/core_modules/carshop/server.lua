@@ -351,185 +351,34 @@ cars = {
     ["zombieb"] = 7500,
 
 }
-
 RegisterServerEvent("carshop:buy")
 AddEventHandler("carshop:buy",function(data)
     local source = tonumber(source)
     TriggerEvent('core:getuser', source, function(user)
         if tonumber(user.get("wallet")) >= tonumber(cars[data.model]) then
             user.removeWallet(cars[data.model])
-            exports["GHMattiMySQL"]:Insert("vehicles", {
-                {
-                    ["character_id"] = user.get("characterID"),
-                    ["garage_id"] = data.garage_id,
-                    ["model"] = data.model,
-                    ["name"] = data.name,
-                    ["instance"] = data.instance,
-                    ["state"] = data.state,
-                    ["cost"] = cars[data.model]/2,
-                    ["primary_colour"] = data.primary_colour,
-                    ["secondary_colour"] = data.secondary_colour,
-                    ["pearlescent_colour"] = data.pearlescent_colour,
-                    ["wheel_colour"] = data.wheel_colour,
-                    ["smoke_colour"] = json.encode(data.smoke_colour),
-                    ["plate_colour"] = data.plate_colour,
-                    ["neon_colour"] = json.encode(data.neon_colour),
-                    ["tint_colour"] = data.tint_colour,
-                    ["mod0"] = data.mod0,
-                    ["mod1"] = data.mod1,
-                    ["mod2"] = data.mod2,
-                    ["mod3"] = data.mod3,
-                    ["mod4"] = data.mod4,
-                    ["mod5"] = data.mod5,
-                    ["mod6"] = data.mod6,
-                    ["mod7"] = data.mod7,
-                    ["mod8"] = data.mod8,
-                    ["mod9"] = data.mod9,
-                    ["mod10"] = data.mod1,
-                    ["mod11"] = data.mod11,
-                    ["mod12"] = data.mod12,
-                    ["mod13"] = data.mod13,
-                    ["mod14"] = data.mod14,
-                    ["mod15"] = data.mod15,
-                    ["mod16"] = data.mod16,
-                    ["mod23"] = data.mod23,
-                    ["mod24"] = data.mod24,
-                    ["mod25"] = data.mod25,
-                    ["mod26"] = data.mod26,
-                    ["mod27"] = data.mod27,
-                    ["mod28"] = data.mod28,
-                    ["mod29"] = data.mod29,
-                    ["mod30"] = data.mod30,
-                    ["mod31"] = data.mod31,
-                    ["mod32"] = data.mod32,
-                    ["mod33"] = data.mod33,
-                    ["mod34"] = data.mod34,
-                    ["mod35"] = data.mod35,
-                    ["mod36"] = data.mod36,
-                    ["mod37"] = data.mod37,
-                    ["mod38"] = data.mod38,
-                    ["mod39"] = data.mod39,
-                    ["mod40"] = data.mod40,
-                    ["mod41"] = data.mod41,
-                    ["mod42"] = data.mod42,
-                    ["mod43"] = data.mod43,
-                    ["mod44"] = data.mod44,
-                    ["mod45"] = data.mod45,
-                    ["mod46"] = data.mod46,
-                    ["mod48"] = data.mod48,
-                    ["tyre_smoke"] = data.tyre_smoke,
-                    ["xenon_lights"] = data.xenon_lights,
-                    ["turbo"] = data.turbo,
-                    ["custom_wheels"] = data.custom_wheels,
-                    ["custom_wheels2"] = data.custom_wheels2,
-                    ["bulletproof_wheels"] = data.bulletproof_wheels,
-                    ["wheeltype"] = data.wheeltype,
-                    ["neon0"] = data.neon0,
-                    ["neon1"] = data.neon1,
-                    ["neon2"] = data.neon2,
-                    ["neon3"] = data.neon3,
-                    ["engine_health"] = data.engine_health,
-                    ["petrol_health"] = data.petrol_health,
-                    ["vehicle_health"] = data.vehicle_health,
-                    ["body_health"] = data.body_health,
-                    ["insurance"] = data.insurance,
-                    ["claims"] = data.claims,
-                }
-            }, function(plate)
+            exports["ghmattimysql"]:execute("INSERT INTO vehicles (`character_id`, `garage_id`, `model`, `name`, `instance`, `state`, `cost`, `primary_colour`, `secondary_colour`, `pearlescent_colour`, `wheel_colour`, `smoke_colour`, `plate_colour`, `neon_colour`, `tint_colour`, `mod0`,`mod1`, `mod2`, `mod3`, `mod4`, `mod5`, `mod6`, `mod7`, `mod8`, `mod10`, `mod11`, `mod12`, `mod13`, `mod14`, `mod15`, `mod16`, `mod23`, `mod24`, `mod25`, `mod26`, `mod27`, `mod28`, `mod29`, `mod30`, `mod31`, `mod32`, `mod33`, `mod34`, `mod35`, `mod36`, `mod37`, `mod38`, `mod39`, `mod40`, `mod41`, `mod42`, `mod43`, `mod44`, `mod45`, `mod46`, `mod48`, `tyre_smoke`, `xenon_lights`, `turbo`, `custom_wheels`, `custom_wheels2`, `bulletproof_wheels`, `wheeltype`, `neon0`, `neon1`, `neon2`, `neon3`, `engine_health`, `petrol_health`, `vehicle_health`, `body_health`, `insurance`, `claims`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", {user.get("characterID"), data.garage_id, data.model, data.name, data.instance, data.state, cars[data.model]/2, data.primary_colour, data.secondary_colour, data.pearlescent_colour, data.wheel_colour, json.encode(data.smoke_colour), data.plate_colour, json.encode(data.neon_colour), data.tint_colour, data.mod0, data.mod1, data.mod2, data.mod3, data.mod4, data.mod5, data.mod6, data.mod7, data.mod8, data.mod10, data.mod11, data.mod12, data.mod13, data.mod14, data.mod15, data.mod16, data.mod23, data.mod24, data.mod25, data.mod26, data.mod27, data.mod28, data.mod29, data.mod30, data.mod31, data.mod32, data.mod33, data.mod34, data.mod35, data.mod36, data.mod37, data.mod38, data.mod39, data.mod40, data.mod41, data.mod42, data.mod43, data.mod44, data.mod45, data.mod46, data.mod48, data.tyre_smoke, data.xenon_lights, data.turbo, data.custom_wheels, data.custom_wheels2, data.bulletproof_wheels, data.wheeltype, data.neon0, data.neon1, data.neon2, data.neon3, data.engine_health, data.petrol_health, data.vehicle_health, data.body_health, data.insurance, data.claims}, function(rowChanges)
+                local rowId = rowChanges.insertId
+
                 data.cost = cars[data.model]/2
-                data.plate = plate
+                data.plate = rowId
                 data.plate = string.format("%X", tostring(data.plate))
                 data.plate = strpad(data.plate, 8, "0", "STR_PAD_LEFT")
                 TriggerClientEvent("pNotify:SendNotification", source, {text = "Vehicle purchased!",type = "error",queue = "left",timeout = 2500,layout = "bottomCenter"})
                 TriggerClientEvent("carshop:bought", source, data)
-            end, true)
+            end)
         elseif tonumber(user.get("bank")) >= tonumber(cars[data.model]) then
             user.removeBank(cars[data.model])
-            exports["GHMattiMySQL"]:Insert("vehicles", {
-                {
-                    ["character_id"] = user.get("characterID"),
-                    ["garage_id"] = data.garage_id,
-                    ["model"] = data.model,
-                    ["name"] = data.name,
-                    ["instance"] = data.instance,
-                    ["state"] = data.state,
-                    ["cost"] = cars[data.model]/2,
-                    ["primary_colour"] = data.primary_colour,
-                    ["secondary_colour"] = data.secondary_colour,
-                    ["pearlescent_colour"] = data.pearlescent_colour,
-                    ["wheel_colour"] = data.wheel_colour,
-                    ["smoke_colour"] = json.encode(data.smoke_colour),
-                    ["plate_colour"] = data.plate_colour,
-                    ["neon_colour"] = json.encode(data.neon_colour),
-                    ["tint_colour"] = data.tint_colour,
-                    ["mod0"] = data.mod0,
-                    ["mod1"] = data.mod1,
-                    ["mod2"] = data.mod2,
-                    ["mod3"] = data.mod3,
-                    ["mod4"] = data.mod4,
-                    ["mod5"] = data.mod5,
-                    ["mod6"] = data.mod6,
-                    ["mod7"] = data.mod7,
-                    ["mod8"] = data.mod8,
-                    ["mod9"] = data.mod9,
-                    ["mod10"] = data.mod1,
-                    ["mod11"] = data.mod11,
-                    ["mod12"] = data.mod12,
-                    ["mod13"] = data.mod13,
-                    ["mod14"] = data.mod14,
-                    ["mod15"] = data.mod15,
-                    ["mod16"] = data.mod16,
-                    ["mod23"] = data.mod23,
-                    ["mod24"] = data.mod24,
-                    ["mod25"] = data.mod25,
-                    ["mod26"] = data.mod26,
-                    ["mod27"] = data.mod27,
-                    ["mod28"] = data.mod28,
-                    ["mod29"] = data.mod29,
-                    ["mod30"] = data.mod30,
-                    ["mod31"] = data.mod31,
-                    ["mod32"] = data.mod32,
-                    ["mod33"] = data.mod33,
-                    ["mod34"] = data.mod34,
-                    ["mod35"] = data.mod35,
-                    ["mod36"] = data.mod36,
-                    ["mod37"] = data.mod37,
-                    ["mod38"] = data.mod38,
-                    ["mod39"] = data.mod39,
-                    ["mod40"] = data.mod40,
-                    ["mod41"] = data.mod41,
-                    ["mod42"] = data.mod42,
-                    ["mod43"] = data.mod43,
-                    ["mod44"] = data.mod44,
-                    ["mod45"] = data.mod45,
-                    ["mod46"] = data.mod46,
-                    ["mod48"] = data.mod48,
-                    ["tyre_smoke"] = data.tyre_smoke,
-                    ["xenon_lights"] = data.xenon_lights,
-                    ["turbo"] = data.turbo,
-                    ["custom_wheels"] = data.custom_wheels,
-                    ["custom_wheels2"] = data.custom_wheels2,
-                    ["bulletproof_wheels"] = data.bulletproof_wheels,
-                    ["wheeltype"] = data.wheeltype,
-                    ["neon0"] = data.neon0,
-                    ["neon1"] = data.neon1,
-                    ["neon2"] = data.neon2,
-                    ["neon3"] = data.neon3,
-                    ["engine_health"] = data.engine_health,
-                    ["petrol_health"] = data.petrol_health,
-                    ["vehicle_health"] = data.vehicle_health,
-                    ["body_health"] = data.body_health,
-                    ["insurance"] = data.insurance,
-                    ["claims"] = data.claims,
-                }
-            }, function(plate)
+            exports["ghmattimysql"]:execute("INSERT INTO vehicles (`character_id`, `garage_id`, `model`, `name`, `instance`, `state`, `cost`, `primary_colour`, `secondary_colour`, `pearlescent_colour`, `wheel_colour`, `smoke_colour`, `plate_colour`, `neon_colour`, `tint_colour`, `mod0`,`mod1`, `mod2`, `mod3`, `mod4`, `mod5`, `mod6`, `mod7`, `mod8`, `mod10`, `mod11`, `mod12`, `mod13`, `mod14`, `mod15`, `mod16`, `mod23`, `mod24`, `mod25`, `mod26`, `mod27`, `mod28`, `mod29`, `mod30`, `mod31`, `mod32`, `mod33`, `mod34`, `mod35`, `mod36`, `mod37`, `mod38`, `mod39`, `mod40`, `mod41`, `mod42`, `mod43`, `mod44`, `mod45`, `mod46`, `mod48`, `tyre_smoke`, `xenon_lights`, `turbo`, `custom_wheels`, `custom_wheels2`, `bulletproof_wheels`, `wheeltype`, `neon0`, `neon1`, `neon2`, `neon3`, `engine_health`, `petrol_health`, `vehicle_health`, `body_health`, `insurance`, `claims`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", {user.get("characterID"), data.garage_id, data.model, data.name, data.instance, data.state, cars[data.model]/2, data.primary_colour, data.secondary_colour, data.pearlescent_colour, data.wheel_colour, json.encode(data.smoke_colour), data.plate_colour, json.encode(data.neon_colour), data.tint_colour, data.mod0, data.mod1, data.mod2, data.mod3, data.mod4, data.mod5, data.mod6, data.mod7, data.mod8, data.mod10, data.mod11, data.mod12, data.mod13, data.mod14, data.mod15, data.mod16, data.mod23, data.mod24, data.mod25, data.mod26, data.mod27, data.mod28, data.mod29, data.mod30, data.mod31, data.mod32, data.mod33, data.mod34, data.mod35, data.mod36, data.mod37, data.mod38, data.mod39, data.mod40, data.mod41, data.mod42, data.mod43, data.mod44, data.mod45, data.mod46, data.mod48, data.tyre_smoke, data.xenon_lights, data.turbo, data.custom_wheels, data.custom_wheels2, data.bulletproof_wheels, data.wheeltype, data.neon0, data.neon1, data.neon2, data.neon3, data.engine_health, data.petrol_health, data.vehicle_health, data.body_health, data.insurance, data.claims}, function(rowChanges)
+                local rowId = rowChanges.insertId
+
                 data.cost = cars[data.model]/2
-                data.plate = plate
+                data.plate = rowId
                 data.plate = string.format("%X", tostring(data.plate))
                 data.plate = strpad(data.plate, 8, "0", "STR_PAD_LEFT")
                 TriggerClientEvent("pNotify:SendNotification", source, {text = "Vehicle purchased!",type = "error",queue = "left",timeout = 2500,layout = "bottomCenter"})
                 TriggerClientEvent("carshop:bought", source, data)
-            end, true)
+            end)
         else
             TriggerClientEvent("pNotify:SendNotification", source, {text = "Insufficient funds!",type = "error",queue = "left",timeout = 2500,layout = "bottomCenter"})
         end

@@ -3,7 +3,7 @@ News.Players = {}
 News.OnDutyPlayers = {}
 
 AddEventHandler("News:Initialise", function(source, identifier, character_id)
-	exports['GHMattiMySQL']:QueryResultAsync("SELECT * FROM newsreporter WHERE character_id=@character_id", {["@character_id"] = character_id}, function(result)
+	exports["ghmattimysql"]:execute("SELECT * FROM newsreporter WHERE character_id=?", {character_id}, function(result)
 		if result[1] == nil then
 			TriggerClientEvent("News:Set", source, {}, false, true)
 		else
@@ -51,10 +51,7 @@ TriggerEvent("core:addGroupCommand", "newsadd", "admin", function(source, args, 
 			if News.Ranks[rank:lower()] ~= nil then
 				TriggerEvent("core:getuser", tonumber(args[1]), function(target)
 					News.Players[tonumber(args[1])] = nil
-					exports['GHMattiMySQL']:QueryAsync("DELETE FROM newsreporter WHERE character_id=@character_id; INSERT INTO newsreporter (`character_id`, `rank`) VALUES (@character_id, @rank)", {
-						["@character_id"] = target.get("characterID"),
-						["@rank"] = rank:lower(),
-					})
+					exports["ghmattimysql"]:execute("DELETE FROM newsreporter WHERE character_id=?; INSERT INTO newsreporter (`character_id`, `rank`) VALUES (?, ?)", {target.get("characterID"), target.get("characterID"), rank:lower()})
 					News.Players[tonumber(args[1])] = { character_id = target.get("characterID"), rank = rank:lower(), onduty = "false" }
 					Notify("<b style='color:red'>Alert</b> <br><span style='color:lime'>"..target.get("first_name").." "..target.get("last_name").."</span> has been accepted. <br> Congratulations on joining the News!", 10000, tonumber(args[1]))
 					TriggerClientEvent("News:Set", tonumber(args[1]), News.Players[tonumber(args[1])], true)
@@ -77,7 +74,7 @@ TriggerEvent("core:addGroupCommand", "newsrem", "admin", function(source, args, 
 			if News.Players[tonumber(args[1])] ~= nil then
 				TriggerEvent("core:getuser", tonumber(args[1]), function(target)
 					News.Players[tonumber(args[1])] = nil
-					exports['GHMattiMySQL']:QueryAsync("DELETE FROM newsreporter WHERE character_id=@character_id", {["@character_id"] = target.get("characterID")})
+					exports["ghmattimysql"]:execute("DELETE FROM newsreporter WHERE character_id=?", {target.get("characterID")})
 					Notify("<b style='color:red'>Alert</b> <br><span style='color:lime'>"..target.get("first_name").." "..target.get("last_name").."</span> has been fired. <br> They are no longer an officer of the News!", 10000, tonumber(args[1]))
 					TriggerClientEvent("News:Set", tonumber(args[1]), News.Players[tonumber(args[1])], false)
 				end)
@@ -104,7 +101,7 @@ TriggerEvent("core:addGroupCommand", "newspromote", "emergency", function(source
 							if cb then
 								if canPromote(News.Players[source].rank) then
 									TriggerEvent("core:getuser", tonumber(args[1]), function(target)
-										exports['GHMattiMySQL']:QueryAsync("UPDATE newsreporter SET rank=@rank WHERE character_id=@character_id", {["@character_id"] = target.get("characterID"), ["@rank"] = rank:lower()})
+										exports["ghmattimysql"]:execute("UPDATE newsreporter SET rank=? WHERE character_id=?", {rank:lower(), target.get("characterID")})
 										News.Players[tonumber(args[1])].rank = rank:lower()
 										Notify("<b style='color:red'>Alert</b> <br><span style='color:lime'>You have been promoted!</span><br> You are now a "..rank, 10000, tonumber(args[1]))
 										TriggerClientEvent("News:Set", tonumber(args[1]), News.Players[tonumber(args[1])], true)
@@ -145,7 +142,7 @@ TriggerEvent("core:addGroupCommand", "newsdemote", "emergency", function(source,
 							if cb then
 								if canPromote(News.Players[source].rank) then
 									TriggerEvent("core:getuser", tonumber(args[1]), function(target)
-										exports['GHMattiMySQL']:QueryAsync("UPDATE newsreporter SET rank=@rank WHERE character_id=@character_id", {["@character_id"] = target.get("characterID"), ["@rank"] = rank:lower()})
+										exports["ghmattimysql"]:execute("UPDATE newsreporter SET rank=? WHERE character_id=?", {rank:lower(), target.get("characterID")})
 										News.Players[tonumber(args[1])].rank = rank:lower()
 										Notify("<b style='color:red'>Alert</b> <br><span style='color:lime'>You have been demoted!</span><br> You are now a "..rank, 10000, tonumber(args[1]))
 										TriggerClientEvent("News:Set", tonumber(args[1]), News.Players[tonumber(args[1])], true)

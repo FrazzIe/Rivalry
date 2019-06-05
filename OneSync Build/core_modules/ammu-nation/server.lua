@@ -252,7 +252,7 @@ Skins = {
 }
 RegisterServerEvent("weapon:initialise")
 AddEventHandler("weapon:initialise",function(source, identifier, character_id)
-	exports["GHMattiMySQL"]:QueryResultAsync("SELECT * from weapons WHERE character_id=@character_id", {["@character_id"] = character_id}, function(weapons)
+	exports["ghmattimysql"]:execute("SELECT * from weapons WHERE character_id=?", {character_id}, function(weapons)
 		if weapons[1] == nil then
 			user_weapons[source] = weapons
 			TriggerClientEvent("weapon:set", source, user_weapons[source])
@@ -276,50 +276,24 @@ AddEventHandler("weapon:buy", function(model)
 		TriggerEvent("core:getuser", source, function(user)
 			if user.get("wallet") >= Weapons[model] then
 				user.removeWallet(Weapons[model])
-				exports["GHMattiMySQL"]:Insert("weapons", {
-					{
-						["character_id"] = user.get("characterID"),
-						["sellprice"] = Weapons[model]/2,
-						["model"] = model,
-						["ammo"] = 0,
-						["suppressor"] = "false",
-						["flashlight"] = "false",
-						["extended_clip"] = "false",
-						["scope"] = "false",
-						["grip"] = "false",
-						["advanced_scope"] = "false",
-						["skin"] = 0,
-						["owner"] = user.get("characterID"),
-					}
-				}, function(weapon_id)
-					user_weapons[source][model] = { id = weapon_id, character_id = user.get("characterID"), sellprice = Weapons[model]/2, model = model, ammo = 0, suppressor = "false", flashlight = "false", extended_clip = "false", scope = "false", grip = "false", advanced_scope = "false", skin = 0, owner = user.get("characterID")}
+				exports["ghmattimysql"]:execute("INSERT INTO weapons (`character_id`, `sellprice`, `model`, `ammo`, `suppressor`, `flashlight`, `extended_clip`, `scope`, `grip`, `advanced_scope`, `skin`, `owner`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", {user.get("characterID"), Weapons[model]/2, model, 0, "false", "false", "false", "false", "false", "false", 0, user.get("characterID")}, function(rowChanges)
+					local rowId = rowChanges.insertId
+
+					user_weapons[source][model] = { id = rowId, character_id = user.get("characterID"), sellprice = Weapons[model]/2, model = model, ammo = 0, suppressor = "false", flashlight = "false", extended_clip = "false", scope = "false", grip = "false", advanced_scope = "false", skin = 0, owner = user.get("characterID")}
 					TriggerClientEvent("weapon:set", source, user_weapons[source])
 					TriggerClientEvent("weapon:give", source)
-					TriggerClientEvent("weapon:sync", -1, user_weapons)
-				end, true)
+					TriggerClientEvent("weapon:sync", -1, user_weapons)					
+				end)
 			elseif user.get("bank") >= Weapons[model] then
 				user.removeBank(Weapons[model])
-				exports["GHMattiMySQL"]:Insert("weapons", {
-					{
-						["character_id"] = user.get("characterID"),
-						["sellprice"] = Weapons[model]/2,
-						["model"] = model,
-						["ammo"] = 0,
-						["suppressor"] = "false",
-						["flashlight"] = "false",
-						["extended_clip"] = "false",
-						["scope"] = "false",
-						["grip"] = "false",
-						["advanced_scope"] = "false",
-						["skin"] = 0,
-						["owner"] = user.get("characterID"),
-					}
-				}, function(weapon_id)
-					user_weapons[source][model] = { id = weapon_id, character_id = user.get("characterID"), sellprice = Weapons[model]/2, model = model, ammo = 0, suppressor = "false", flashlight = "false", extended_clip = "false", scope = "false", grip = "false", advanced_scope = "false", skin = 0, owner = user.get("characterID")}
+				exports["ghmattimysql"]:execute("INSERT INTO weapons (`character_id`, `sellprice`, `model`, `ammo`, `suppressor`, `flashlight`, `extended_clip`, `scope`, `grip`, `advanced_scope`, `skin`, `owner`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", {user.get("characterID"), Weapons[model]/2, model, 0, "false", "false", "false", "false", "false", "false", 0, user.get("characterID")}, function(rowChanges)
+					local rowId = rowChanges.insertId
+
+					user_weapons[source][model] = { id = rowId, character_id = user.get("characterID"), sellprice = Weapons[model]/2, model = model, ammo = 0, suppressor = "false", flashlight = "false", extended_clip = "false", scope = "false", grip = "false", advanced_scope = "false", skin = 0, owner = user.get("characterID")}
 					TriggerClientEvent("weapon:set", source, user_weapons[source])
 					TriggerClientEvent("weapon:give", source)
-					TriggerClientEvent("weapon:sync", -1, user_weapons)
-				end, true)
+					TriggerClientEvent("weapon:sync", -1, user_weapons)					
+				end)
 			else
 				Notify("Insufficient funds!", 3000, source)
 			end
@@ -336,27 +310,14 @@ AddEventHandler("weapon:buy_illegal", function(model)
 		TriggerEvent("core:getuser", source, function(user)
 			if user.get("dirty") >= Weapons[model] then
 				user.removeDirty(Weapons[model])
-				exports["GHMattiMySQL"]:Insert("weapons", {
-					{
-						["character_id"] = user.get("characterID"),
-						["sellprice"] = Weapons[model]/2,
-						["model"] = model,
-						["ammo"] = 0,
-						["suppressor"] = "false",
-						["flashlight"] = "false",
-						["extended_clip"] = "false",
-						["scope"] = "false",
-						["grip"] = "false",
-						["advanced_scope"] = "false",
-						["skin"] = 0,
-						["owner"] = 0,
-					}
-				}, function(weapon_id)
-					user_weapons[source][model] = { id = weapon_id, character_id = user.get("characterID"), sellprice = Weapons[model]/2, model = model, ammo = 0, suppressor = "false", flashlight = "false", extended_clip = "false", scope = "false", grip = "false", advanced_scope = "false", skin = 0, owner = 0}
+				exports["ghmattimysql"]:execute("INSERT INTO weapons (`character_id`, `sellprice`, `model`, `ammo`, `suppressor`, `flashlight`, `extended_clip`, `scope`, `grip`, `advanced_scope`, `skin`, `owner`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", {user.get("characterID"), Weapons[model]/2, model, 0, "false", "false", "false", "false", "false", "false", 0, 0}, function(rowChanges)
+					local rowId = rowChanges.insertId
+
+					user_weapons[source][model] = { id = rowId, character_id = user.get("characterID"), sellprice = Weapons[model]/2, model = model, ammo = 0, suppressor = "false", flashlight = "false", extended_clip = "false", scope = "false", grip = "false", advanced_scope = "false", skin = 0, owner = 0}
 					TriggerClientEvent("weapon:set", source, user_weapons[source])
 					TriggerClientEvent("weapon:give", source)
-					TriggerClientEvent("weapon:sync", -1, user_weapons)
-				end, true)
+					TriggerClientEvent("weapon:sync", -1, user_weapons)					
+				end)
 			else
 				Notify("Insufficient funds!", 3000, source)
 			end
@@ -383,12 +344,7 @@ AddEventHandler("weapon:buyattachment", function(model, attachment, cost, hash)
 		TriggerEvent("core:getuser", source, function(user)
 			if user.get("wallet") >= cost then
 				user.removeWallet(cost)
-				exports["GHMattiMySQL"]:QueryAsync("UPDATE weapons SET "..attachment.."=@attachment, sellprice=@sellprice WHERE (character_id=@character_id) AND (model=@model)", {
-					["@character_id"] = user.get("characterID"),
-					["@sellprice"] = user_weapons[source][model].sellprice + math.floor((cost/2)),
-					["@model"] = model,
-					["@attachment"] = hash
-				})
+				exports["ghmattimysql"]:execute("UPDATE weapons SET ??=?, sellprice=? WHERE (character_id=?) AND (model=?)", {attachment, hash, user_weapons[source][model].sellprice + math.floor((cost/2)), user.get("characterID"), model})
 				user_weapons[source][model].sellprice = user_weapons[source][model].sellprice + math.floor((cost/2))
 				user_weapons[source][model][attachment] = hash
 				TriggerClientEvent("weapon:set", source, user_weapons[source])
@@ -396,12 +352,7 @@ AddEventHandler("weapon:buyattachment", function(model, attachment, cost, hash)
 				TriggerClientEvent("weapon:sync", -1, user_weapons)
 			elseif user.get("bank") >= cost then
 				user.removeBank(cost)
-				exports["GHMattiMySQL"]:QueryAsync("UPDATE weapons SET "..attachment.."=@attachment, sellprice=@sellprice WHERE (character_id=@character_id) AND (model=@model)", {
-					["@character_id"] = user.get("characterID"),
-					["@sellprice"] = user_weapons[source][model].sellprice + math.floor((cost/2)),
-					["@model"] = model,
-					["@attachment"] = hash,
-				})
+				exports["ghmattimysql"]:execute("UPDATE weapons SET ??=?, sellprice=? WHERE (character_id=?) AND (model=?)", {attachment, hash, user_weapons[source][model].sellprice + math.floor((cost/2)), user.get("characterID"), model})
 				user_weapons[source][model].sellprice = user_weapons[source][model].sellprice + math.floor((cost/2))
 				user_weapons[source][model][attachment] = hash
 				TriggerClientEvent("weapon:set", source, user_weapons[source])
@@ -419,22 +370,14 @@ AddEventHandler("weapon:buyammo", function(model)
 		if user.get("wallet") >= Ammo[model].Cost then
 			user.removeWallet(Ammo[model].Cost)
 			user_weapons[source][model].ammo = tonumber(user_weapons[source][model].ammo) + Ammo[model].Amount
-			exports["GHMattiMySQL"]:QueryAsync("UPDATE weapons SET ammo=@ammo WHERE (character_id=@character_id) AND (model=@model)", {
-				["@character_id"] = user.get("characterID"),
-				["@model"] = model,
-				["@ammo"] = user_weapons[source][model].ammo,
-			})
+			exports["ghmattimysql"]:execute("UPDATE weapons SET ammo=? WHERE (character_id=?) AND (model=?)", {user_weapons[source][model].ammo, user.get("characterID"), model})
 			TriggerClientEvent("weapon:set", source, user_weapons[source])
 			TriggerClientEvent("weapon:give", source)
 			TriggerClientEvent("weapon:sync", -1, user_weapons)
 		elseif user.get("bank") >= Ammo[model].Cost then
 			user.removeBank(Ammo[model].Cost)
 			user_weapons[source][model].ammo = tonumber(user_weapons[source][model].ammo) + Ammo[model].Amount
-			exports["GHMattiMySQL"]:QueryAsync("UPDATE weapons SET ammo=@ammo WHERE (character_id=@character_id) AND (model=@model)", {
-				["@character_id"] = user.get("characterID"),
-				["@model"] = model,
-				["@ammo"] = user_weapons[source][model].ammo,
-			})
+			exports["ghmattimysql"]:execute("UPDATE weapons SET ammo=? WHERE (character_id=?) AND (model=?)", {user_weapons[source][model].ammo, user.get("characterID"), model})
 			TriggerClientEvent("weapon:set", source, user_weapons[source])
 			TriggerClientEvent("weapon:give", source)
 			TriggerClientEvent("weapon:sync", -1, user_weapons)
@@ -477,11 +420,7 @@ RegisterServerEvent("weapon:updateammo")
 AddEventHandler("weapon:updateammo", function(model, ammo)
 	local source = source
 	TriggerEvent("core:getuser", source, function(user)
-		exports["GHMattiMySQL"]:QueryAsync("UPDATE weapons SET ammo=@ammo WHERE (character_id=@character_id) AND (model=@model)", {
-			["@character_id"] = user.get("characterID"),
-			["@model"] = model,
-			["@ammo"] = ammo,
-		})
+		exports["ghmattimysql"]:execute("UPDATE weapons SET ammo=? WHERE (character_id=?) AND (model=?)", {ammo, user.get("characterID"), model})
 	end)
 	if user_weapons[source] then
 		if user_weapons[source][model] then
@@ -497,10 +436,7 @@ AddEventHandler("weapon:sell", function(model)
 	local source = source
 	TriggerEvent("core:getuser", source, function(user)
 		user.addWallet(tonumber(user_weapons[source][model].sellprice))
-		exports["GHMattiMySQL"]:QueryAsync("DELETE FROM weapons WHERE (character_id=@character_id) AND (model=@model)", {
-			["@character_id"] = user.get("characterID"),
-			["@model"] = model,
-		})
+		exports["ghmattimysql"]:execute("DELETE FROM weapons WHERE (character_id=?) AND (model=?)", {user.get("characterID"), model})
 		user_weapons[source][model] = nil
 		TriggerClientEvent("weapon:set", source, user_weapons[source])
 		TriggerClientEvent("weapon:give", source)
@@ -515,11 +451,7 @@ AddEventHandler("weapon:give", function(model, target)
 		if not user_weapons[target][model] then
 			if tablelength(user_weapons[target]) < max_weapons then
 				TriggerEvent("core:getuser", target, function(user)
-					exports["GHMattiMySQL"]:QueryAsync("UPDATE weapons SET character_id=@new_character_id WHERE (character_id=@character_id) AND (model=@model)", {
-						["@character_id"] = user_weapons[source][model].character_id,
-						["@model"] = user_weapons[source][model].model,
-						["@new_character_id"] = user.get("characterID"),
-					})
+					exports["ghmattimysql"]:execute("UPDATE weapons SET character_id=? WHERE (character_id=?) AND (model=?)", {user.get("characterID"), user_weapons[source][model].character_id, user_weapons[source][model].model})
 					user_weapons[target][model] = user_weapons[source][model]
 					user_weapons[target][model].character_id = user.get("characterID")
 					user_weapons[source][model] = nil
@@ -550,11 +482,7 @@ AddEventHandler("weapon:take", function(model, target)
 					if not user_weapons[source][model] then
 						if tablelength(user_weapons[source]) < max_weapons then
 							TriggerEvent("core:getuser", source, function(user)
-								exports["GHMattiMySQL"]:QueryAsync("UPDATE weapons SET character_id=@new_character_id WHERE (character_id=@character_id) AND (model=@model)", {
-									["@character_id"] = user_weapons[target][model].character_id,
-									["@model"] = user_weapons[target][model].model,
-									["@new_character_id"] = user.get("characterID"),
-								})
+								exports["ghmattimysql"]:execute("UPDATE weapons SET character_id=? WHERE (character_id=?) AND (model=?)", {user.get("characterID"), user_weapons[target][model].character_id, user_weapons[target][model].model})
 								user_weapons[source][model] = user_weapons[target][model]
 								user_weapons[source][model].character_id = user.get("characterID")
 								user_weapons[target][model] = nil
@@ -591,10 +519,7 @@ AddEventHandler("weapon:destroy_target", function(model, target)
 	if handcuffs[target] then
 		if handcuffs[target].cuffed and handcuffs[target].keyholder == source then
 			TriggerEvent("core:getuser", target, function(user)
-				exports["GHMattiMySQL"]:QueryAsync("DELETE FROM weapons WHERE (character_id=@character_id) AND (model=@model)", {
-					["@character_id"] = user.get("characterID"),
-					["@model"] = model,
-				})
+				exports["ghmattimysql"]:execute("DELETE FROM weapons WHERE (character_id=?) AND (model=?)", {user.get("characterID"), model})
 				user_weapons[target][model] = nil
 				TriggerClientEvent("weapon:set", target, user_weapons[target])
 				TriggerClientEvent("weapon:give", target)
@@ -615,10 +540,7 @@ RegisterServerEvent("weapon:destroy")
 AddEventHandler("weapon:destroy", function(model)
 	local source = source
 	TriggerEvent("core:getuser", source, function(user)
-		exports["GHMattiMySQL"]:QueryAsync("DELETE FROM weapons WHERE (character_id=@character_id) AND (model=@model)", {
-			["@character_id"] = user.get("characterID"),
-			["@model"] = model,
-		})
+		exports["ghmattimysql"]:execute("DELETE FROM weapons WHERE (character_id=?) AND (model=?)", {user.get("characterID"), model})
 		user_weapons[source][model] = nil
 		TriggerClientEvent("weapon:set", source, user_weapons[source])
 		TriggerClientEvent("weapon:give", source)
@@ -629,9 +551,7 @@ end)
 AddEventHandler("weapon:delete", function(source)
 	local source = source
 	TriggerEvent("core:getuser", source, function(user)
-		exports["GHMattiMySQL"]:QueryAsync("DELETE FROM weapons WHERE (character_id=@character_id)", {
-			["@character_id"] = user.get("characterID"),
-		})
+		exports["ghmattimysql"]:execute("DELETE FROM weapons WHERE character_id=?", {user.get("characterID")})
 		user_weapons[source] = {}
 		TriggerClientEvent("weapon:set", source, user_weapons[source])
 		TriggerClientEvent("weapon:give", source)

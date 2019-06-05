@@ -1,5 +1,5 @@
 ui_page 'html/ui.html'
-dependency 'GHMattiMySQL'
+
 files {
 	'html/ui.html',
 	'html/logo.png',

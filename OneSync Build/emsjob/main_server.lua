@@ -131,7 +131,7 @@ addRank("probationary", "")
 AddEventHandler("paramedic:initialise", function(source, identifier, character_id)
 	TriggerClientEvent("paramedic:setranks", source, ranks)
 
-	exports['GHMattiMySQL']:QueryResultAsync("SELECT * FROM paramedic WHERE character_id=@character_id", {["@character_id"] = character_id}, function(paramedic)
+	exports["ghmattimysql"]:execute("SELECT * FROM paramedic WHERE character_id=?", {character_id}, function(paramedic)
 		if paramedic[1] == nil then
 			TriggerClientEvent("paramedic:set", source, {}, false, true)
 		else
@@ -155,11 +155,7 @@ TriggerEvent("core:addGroupCommand", "emsadd", "command", function(source, args,
 			if ranks[rank:lower()] ~= nil then
 				TriggerEvent("core:getuser", tonumber(args[1]), function(target)
 					ems[tonumber(args[1])] = nil
-					exports['GHMattiMySQL']:QueryAsync("DELETE FROM paramedic WHERE character_id=@character_id; INSERT INTO paramedic (`character_id`, `rank`, `onduty`) VALUES (@character_id, @rank, @onduty)", {
-						["@character_id"] = target.get("characterID"),
-						["@rank"] = rank:lower(),
-						["@onduty"] = "false",
-					})
+					exports["ghmattimysql"]:execute("DELETE FROM paramedic WHERE character_id=?; INSERT INTO paramedic (`character_id`, `rank`, `onduty`) VALUES (?, ?, ?)", {target.get("characterID"), target.get("characterID"), rank:lower(), "false"})
 					ems[tonumber(args[1])] = {character_id = target.get("characterID"), rank = rank:lower(), onduty = "false" }
 					TriggerEvent("mdt.set.permission", tonumber(args[1]), GetPermissionLevel(rank:lower()))
 					TriggerClientEvent("pNotify:SendNotification", -1, {text = "<b style='color:red'>Alert</b> <br><span style='color:lime'>"..target.get("first_name").." "..target.get("last_name").."</span> has been accepted. <br> Congratulations on joining the LSFD!",type = "error",queue = "left",timeout = 10000,layout = "bottomRight"})
@@ -184,7 +180,7 @@ TriggerEvent("core:addGroupCommand", "emsrem", "command", function(source, args,
 				TriggerEvent("core:getuser", tonumber(args[1]), function(target)
 					ems[tonumber(args[1])] = nil
 					TriggerEvent("mdt.set.permission", tonumber(args[1]), 0)
-					exports['GHMattiMySQL']:QueryAsync("DELETE FROM paramedic WHERE character_id=@character_id", {["@character_id"] = target.get("characterID")})
+					exports["ghmattimysql"]:execute("DELETE FROM paramedic WHERE character_id=?", {target.get("characterID")})
 					TriggerClientEvent("pNotify:SendNotification", -1, {text = "<b style='color:red'>Alert</b> <br><span style='color:lime'>"..target.get("first_name").." "..target.get("last_name").."</span> has been fired. <br> They are no longer part of the LSFD!",type = "error",queue = "left",timeout = 10000,layout = "bottomRight"})
 					TriggerClientEvent('paramedic:set', tonumber(args[1]), ems[tonumber(args[1])], false)
 				end)
@@ -211,7 +207,7 @@ TriggerEvent("core:addGroupCommand", "emspromote", "emergency", function(source,
 							if cb then
 								if canPromote(ems[source].rank) then
 									TriggerEvent("core:getuser", tonumber(args[1]), function(target)
-										exports['GHMattiMySQL']:QueryAsync("UPDATE paramedic SET rank=@rank WHERE character_id=@character_id", {["@character_id"] = target.get("characterID"), ["@rank"] = rank:lower()})
+										exports["ghmattimysql"]:execute("UPDATE paramedic SET rank=? WHERE character_id=?", {rank:lower(), target.get("characterID")})
 										ems[tonumber(args[1])].rank = rank:lower()
 										TriggerEvent("mdt.set.permission", tonumber(args[1]), GetPermissionLevel(rank:lower()))
 										TriggerClientEvent("pNotify:SendNotification", tonumber(args[1]), {text = "<b style='color:red'>Alert</b> <br><span style='color:lime'>You have been promoted!</span><br> You are now a "..rank,type = "error",queue = "left",timeout = 10000,layout = "bottomRight"})
@@ -253,7 +249,7 @@ TriggerEvent("core:addGroupCommand", "emsdemote", "emergency", function(source, 
 							if cb then
 								if canPromote(ems[source].rank) then
 									TriggerEvent("core:getuser", tonumber(args[1]), function(target)
-										exports['GHMattiMySQL']:QueryAsync("UPDATE paramedic SET rank=@rank WHERE character_id=@character_id", {["@character_id"] = target.get("characterID"), ["@rank"] = rank:lower()})
+										exports["ghmattimysql"]:execute("UPDATE paramedic SET rank=? WHERE character_id=?", {rank:lower(), target.get("characterID")})
 										ems[tonumber(args[1])].rank = rank:lower()
 										TriggerEvent("mdt.set.permission", tonumber(args[1]), GetPermissionLevel(rank:lower()))
 										TriggerClientEvent("pNotify:SendNotification", tonumber(args[1]), {text = "<b style='color:red'>Alert</b> <br><span style='color:lime'>You have been demoted!</span><br> You are now a "..rank,type = "error",queue = "left",timeout = 10000,layout = "bottomRight"})

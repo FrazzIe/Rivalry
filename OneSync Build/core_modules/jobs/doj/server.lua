@@ -11,7 +11,7 @@ function GetPermissionLevel(rank)
 end
 
 AddEventHandler("DOJ:Initialise", function(source, identifier, character_id)
-	exports['GHMattiMySQL']:QueryResultAsync("SELECT * FROM doj WHERE character_id=@character_id", {["@character_id"] = character_id}, function(result)
+	exports["ghmattimysql"]:execute("SELECT * FROM doj WHERE character_id=?", {character_id}, function(result)
 		if result[1] == nil then
 			TriggerClientEvent("DOJ:Set", source, {}, false, true)
 		else
@@ -83,10 +83,7 @@ TriggerEvent("core:addGroupCommand", "dojadd", "admin", function(source, args, r
 			if DOJ.Ranks[rank:lower()] ~= nil then
 				TriggerEvent("core:getuser", tonumber(args[1]), function(target)
 					DOJ.Players[tonumber(args[1])] = nil
-					exports['GHMattiMySQL']:QueryAsync("DELETE FROM doj WHERE character_id=@character_id; INSERT INTO doj (`character_id`, `rank`) VALUES (@character_id, @rank)", {
-						["@character_id"] = target.get("characterID"),
-						["@rank"] = rank:lower(),
-					})
+					exports["ghmattimysql"]:execute("DELETE FROM doj WHERE character_id=?; INSERT INTO doj (`character_id`, `rank`) VALUES (?, ?)", {target.get("characterID"), target.get("characterID"), rank:lower()})
 					DOJ.Players[tonumber(args[1])] = { character_id = target.get("characterID"), rank = rank:lower(), onduty = "false" }
 					TriggerEvent("mdt.set.permission", tonumber(args[1]), GetPermissionLevel(rank:lower()))
 					Notify("<b style='color:red'>Alert</b> <br><span style='color:lime'>"..target.get("first_name").." "..target.get("last_name").."</span> has been accepted. <br> Congratulations on joining the DOJ!", 10000, tonumber(args[1]))
@@ -110,7 +107,7 @@ TriggerEvent("core:addGroupCommand", "dojrem", "admin", function(source, args, r
 			if DOJ.Players[tonumber(args[1])] ~= nil then
 				TriggerEvent("core:getuser", tonumber(args[1]), function(target)
 					DOJ.Players[tonumber(args[1])] = nil
-					exports['GHMattiMySQL']:QueryAsync("DELETE FROM doj WHERE character_id=@character_id", {["@character_id"] = target.get("characterID")})
+					exports["ghmattimysql"]:execute("DELETE FROM doj WHERE character_id=?", {target.get("characterID")})
 					TriggerEvent("mdt.set.permission", tonumber(args[1]), 0)
 					Notify("<b style='color:red'>Alert</b> <br><span style='color:lime'>"..target.get("first_name").." "..target.get("last_name").."</span> has been fired. <br> They are no longer an officer of the DOJ!", 10000, tonumber(args[1]))
 					TriggerClientEvent("DOJ:Set", tonumber(args[1]), DOJ.Players[tonumber(args[1])], false)
@@ -138,7 +135,7 @@ TriggerEvent("core:addGroupCommand", "dojpromote", "emergency", function(source,
 							if cb then
 								if canPromote(DOJ.Players[source].rank) then
 									TriggerEvent("core:getuser", tonumber(args[1]), function(target)
-										exports['GHMattiMySQL']:QueryAsync("UPDATE doj SET rank=@rank WHERE character_id=@character_id", {["@character_id"] = target.get("characterID"), ["@rank"] = rank:lower()})
+										exports["ghmattimysql"]:execute("UPDATE doj SET rank=? WHERE character_id=?", {rank:lower(), target.get("characterID")})
 										DOJ.Players[tonumber(args[1])].rank = rank:lower()
 										TriggerEvent("mdt.set.permission", tonumber(args[1]), 0)
 										Notify("<b style='color:red'>Alert</b> <br><span style='color:lime'>You have been promoted!</span><br> You are now a "..rank, 10000, tonumber(args[1]))
@@ -180,7 +177,7 @@ TriggerEvent("core:addGroupCommand", "dojdemote", "emergency", function(source, 
 							if cb then
 								if canPromote(DOJ.Players[source].rank) then
 									TriggerEvent("core:getuser", tonumber(args[1]), function(target)
-										exports['GHMattiMySQL']:QueryAsync("UPDATE doj SET rank=@rank WHERE character_id=@character_id", {["@character_id"] = target.get("characterID"), ["@rank"] = rank:lower()})
+										exports["ghmattimysql"]:execute("UPDATE doj SET rank=? WHERE character_id=?", {rank:lower(), target.get("characterID")})
 										DOJ.Players[tonumber(args[1])].rank = rank:lower()
 										TriggerEvent("mdt.set.permission", tonumber(args[1]), GetPermissionLevel(rank:lower()))
 										Notify("<b style='color:red'>Alert</b> <br><span style='color:lime'>You have been demoted!</span><br> You are now a "..rank, 10000, tonumber(args[1]))

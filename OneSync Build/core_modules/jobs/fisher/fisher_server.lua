@@ -133,50 +133,9 @@ local table = {
 	[11] = 0
 }
 
---[[RegisterServerEvent('fluxiateMarket')
-AddEventHandler('fluxiateMarket', function(id, sold, index)
-	local source = source
-	local mostSoldFishIndex = 0
-	local leastSoldFishIndex = 0
-	for k, v in ipairs(table) do
-		if index == k then
-			v = sold
-		end
-	end
-	exports['GHMattiMySQL']:QueryResultAsync("SELECT * FROM fish_market WHERE (`id` = @id)", {["@id"] = 1}, function(queryTable)
-		fish = exports['GHMattiMySQL']:QueryAsync("UPDATE fish_market SET `Snook` = @Snook AND `Pompano` = @Pompano AND `Snapper` = @Snapper AND `Redfish` = @Redfish AND `Bass` = @Bass AND `Mackerel` = @Mackerel AND `Herring` = @Herring AND `Salmon` = '@Salmon' AND `Barracuda` = @Barracuda AND `Tuna` = @Tuna AND `Yellowfish` = @Yellowfish WHERE ( `id` = @id );", { 
-		    ['@Snook'] = table[1] + queryTable[1].Snook,
-		    ['@Pompano'] = table[2] + queryTable[1].Pompano,
-		    ['@Snapper'] = table[3] + queryTable[1].Snapper,
-		    ['@Redfish'] = table[4] + queryTable[1].Redfish,
-		    ['@Bass'] = table[5] + queryTable[1].Bass,
-		    ['@Mackerel'] = table[6] + queryTable[1].Mackerel,
-		    ['@Herring'] = table[7] + queryTable[1].Herring,
-		    ['@Salmon'] = table[8] + queryTable[1].Salmon,
-		    ['@Barracuda'] = table[9] + queryTable[1].Barracuda,
-		    ['@Tuna'] = table[10] + queryTable[1].Tuna,
-		    ['@Yellowfish'] = table[11] + queryTable[1].Yellowfish,
-	    	['@id'] = 1,
-		})
-
-		for k, v in ipairs(queryTable) do
-			for a, b in ipairs(queryTable) do
-				if v[1] > b[k] then
-					mostSoldFishIndex = k
-				end
-				if v[1] < b[k] then
-					leastSoldFishIndex = k
-				end
-			end
-		end
-		TriggerEvent('updatePrices', mostSoldFishIndex, leastSoldFishIndex)
-	end)
-end)--]]
-
 RegisterServerEvent("Fish.Sell")
 AddEventHandler("Fish.Sell", function(Ids)
 	local Source = source
-	local Query = ""
 
 	TriggerEvent("core:getuser", Source, function(User)
 		if user_inventory[Source] then
@@ -186,15 +145,14 @@ AddEventHandler("Fish.Sell", function(Ids)
 			for Index = 1, #Ids do
 				if user_inventory[Source][Ids[Index]] then
 					if user_inventory[Source][Ids[Index]].quantity > 0 then
-						Query = Query .. "DELETE FROM inventory WHERE (character_id="..character_id..") AND (item_id="..Ids[Index]..");"
 						total = total + (Prices[Ids[Index]] * user_inventory[Source][Ids[Index]].quantity)
 						user_inventory[Source][Ids[Index]] = nil
 					end
 				end
 			end
 
-			if Query ~= "" then
-				exports["GHMattiMySQL"]:QueryAsync(Query)
+			if #Ids > 0 then
+				exports["ghmattimysql"]:execute("DELETE FROM inventory WHERE character_id = ? AND item_id IN(?)", {User.get("characterID"), Ids})
 				User.addWallet(total)
 				TriggerClientEvent("inventory:updateitems", Source, user_inventory[source])
 				TriggerClientEvent("inventory:sync", -1, user_inventory)

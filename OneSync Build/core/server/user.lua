@@ -46,23 +46,9 @@ function setupUser(source, data, new)
     UPower[self["source"]] = self["power"]
 
     if new then
-        exports["GHMattiMySQL"]:QueryAsync("INSERT INTO users (`identifier`,`license`,`ip`,`name`,`timestamp`,`lastplayed`,`power_level`,`group`) VALUES (@identifier,@license,@ip,@name,@timestamp,@lastplayed,@power_level,@group)", {
-            ["@identifier"] = self["steam"],
-            ["@license"] = self["license"],
-            ["@ip"] = self["ip"],
-            ["@name"] = self["name"],
-            ["@timestamp"] = self["timestamp"],
-            ["@lastplayed"] = self["lastplayed"],
-            ["@power_level"] = self["power"],
-            ["@group"] = self["group"]
-        })
+        exports["ghmattimysql"]:execute("INSERT INTO users (`identifier`,`license`,`ip`,`name`,`timestamp`,`lastplayed`,`power_level`,`group`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", {self["steam"], self["license"], self["ip"], self["name"], self["timestamp"], self["lastplayed"], self["power"], self["group"]})
     else
-        exports["GHMattiMySQL"]:QueryAsync("UPDATE users SET ip=@ip, name=@name, lastplayed=@lastplayed WHERE identifier=@identifier", {
-            ["@identifier"] = self["steam"],
-            ["@ip"] = self["ip"],
-            ["@name"] = self["name"],
-            ["@lastplayed"] = self["lastplayed"],
-        })
+        exports["ghmattimysql"]:execute("UPDATE users SET ip=?, name=?, lastplayed=? WHERE identifier=?", {self.ip, self.name, self.lastplayed, self.steam})
     end
     return method
 end
@@ -74,7 +60,7 @@ AddEventHandler("core:initalise", function()
     if license == nil or identifier == nil or ip == nil then
         TriggerClientEvent("core:kickall", source, "We were unable to fetch your steam, and thus kicked you.")
     else
-        local User = exports["GHMattiMySQL"]:QueryResult("SELECT * FROM users WHERE identifier = @identifier", {["@identifier"] = identifier})
+        local User = exports["ghmattimysql"]:executeSync("SELECT * FROM users WHERE identifier = ?", {identifier})
         if User[1] == nil then
             Users[source] = setupUser(source, {
                 ["identifier"] = identifier,

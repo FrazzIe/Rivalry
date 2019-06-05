@@ -69,7 +69,7 @@ AddEventHandler("core:setData", function(data)
 					if tonumber(data.power) < Users[source].get("power") then
 						logMessage({steam = Users[data.id].get("steam"), name = GetPlayerName(data.id)},{steam = Users[source].get("steam"), name = GetPlayerName(source)},"Power set to "..data.power)
 						Users[data.id].set("power", tonumber(data.power))
-						exports["GHMattiMySQL"]:QueryAsync("UPDATE users SET power_level=@power_level WHERE identifier=@identifier", {["@identifier"] = Users[data.id].get("steam"), ["@power_level"] = tonumber(data.power)})
+						exports["ghmattimysql"]:execute("UPDATE users SET power_level=? WHERE identifier=?", {tonumber(data.power), Users[data.id].get("steam")})
 						TriggerClientEvent("core:sync", -1, Characters, CharacterNames, Users, UPower, UGroup)
 					else
 						TriggerClientEvent('chatMessage', source, "^0[^3Panel^0]"..GetPlayerName(source), {255, 0, 0}, "^5You cannot set someones power higher than your own!")
@@ -88,7 +88,7 @@ AddEventHandler("core:setData", function(data)
 								ExecuteCommand("remove_principal identifier."..Users[data.id].get("steam").." group."..Users[data.id].get("group"))
 								ExecuteCommand("add_principal identifier."..Users[data.id].get("steam").." group."..data.group)
 								Users[data.id].set("group", data.group)
-								exports["GHMattiMySQL"]:QueryAsync("UPDATE users SET `group`=@group WHERE identifier=@identifier", {["@identifier"] = Users[data.id].get("steam"), ["@group"] = tostring(data.group)})
+								exports["ghmattimysql"]:execute("UPDATE users SET `group`=? WHERE identifier=?", {tostring(data.group), Users[data.id].get("steam")})
 								TriggerClientEvent("core:sync", -1, Characters, CharacterNames, Users, UPower, UGroup)
 							else
 								TriggerClientEvent('chatMessage', source, "^0[^3Panel^0]"..GetPlayerName(source), {255, 0, 0}, "^5Your group doesn't have the permission to set someones group to: "..data.group)
@@ -132,7 +132,7 @@ AddEventHandler('rconCommand', function(commandName, args)
 					else
 						RconPrint("Power set to "..args[2].."\n")
 						Users[tonumber(args[1])].set("power", tonumber(args[2]))
-						exports["GHMattiMySQL"]:QueryAsync("UPDATE users SET power_level=@power_level WHERE identifier=@identifier", {["@identifier"] = Users[tonumber(args[1])].get("steam"), ["@power_level"] = tonumber(args[2])})
+						exports["ghmattimysql"]:execute("UPDATE users SET power_level=? WHERE identifier=?", {tonumber(args[2]), Users[tonumber(args[1])].get("steam")})
 						TriggerClientEvent("core:sync", -1, Characters, CharacterNames, Users, UPower, UGroup)
 						CancelEvent()
 					end
@@ -160,7 +160,7 @@ AddEventHandler('rconCommand', function(commandName, args)
 						ExecuteCommand("remove_principal identifier."..Users[tonumber(args[1])].get("steam").." group."..Users[tonumber(args[1])].get("group"))
 						ExecuteCommand("add_principal identifier."..Users[tonumber(args[1])].get("steam").." group."..tostring(args[2]))
 						Users[tonumber(args[1])].set("group", tostring(args[2]))
-						exports["GHMattiMySQL"]:QueryAsync("UPDATE users SET `group`=@group WHERE identifier=@identifier", {["@identifier"] = Users[tonumber(args[1])].get("steam"), ["@group"] = tostring(args[2])})
+						exports["ghmattimysql"]:execute("UPDATE users SET `group`=? WHERE identifier=?", {tostring(args[2]), Users[tonumber(args[1])].get("steam")})
 						TriggerClientEvent("core:sync", -1, Characters, CharacterNames, Users, UPower, UGroup)
 						CancelEvent()
 					end
@@ -296,16 +296,8 @@ AddEventHandler('rconCommand', function(commandName, args)
 											duration = os.time() + tonumber(duration)
 										end
 
-										exports["GHMattiMySQL"]:QueryAsync("INSERT INTO bans (`identifier`,`license`,`timestamp`,`expire`,`reason`,`name`,`banner`,`permanent`) VALUES (@identifier, @license, @timestamp, @expire, @reason, @name, @banner, @permanent)", {
-											["@identifier"] = args[2],
-											["@license"] = args[3],
-											["@timestamp"] = os.time(),
-											["@expire"] = duration,
-											["@reason"] = reason,
-											["@name"] = args[1],
-											["@banner"] = "Console",
-											["@permanent"] = tostring(permed),
-										})
+										exports["ghmattimysql"]:execute("INSERT INTO bans (`identifier`,`license`,`timestamp`,`expire`,`reason`,`name`,`banner`,`permanent`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", {args[2], args[3], os.time(), duration, reason, args[1], "Console", tostring(permed)})
+
 
 										if not permed then
 											banMessage(args[1], args[2], args[3], bantime, reason, "Console")
@@ -369,11 +361,11 @@ AddEventHandler('rconCommand', function(commandName, args)
 				else
 					if args[1] == "add" then
 						CancelEvent()
-						exports["GHMattiMySQL"]:Query("INSERT INTO whitelist (`identifier`) VALUES (@identifier)", {["@identifier"] = args[2]})
+						exports["ghmattimysql"]:executeSync("INSERT INTO whitelist (`identifier`) VALUES (?)", {args[2]})
 						RconPrint("[CORE]"..args[2].." has been added to the whitelist!\n")
 					else
 						CancelEvent()
-						exports["GHMattiMySQL"]:Query("DELETE FROM whitelist WHERE identifier=@identifier", {["@identifier"] = args[2]})
+						exports["ghmattimysql"]:executeSync("DELETE FROM whitelist WHERE identifier=?", {args[2]})
 						RconPrint("[CORE]"..args[2].." has been removed from the whitelist!\n")
 					end
 				end
@@ -390,6 +382,6 @@ end)
 Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(1000)
-		TriggerClientEvent("core:synctime", -1, os.time())
+		TriggerClientEvent("core:synctime", -1, os.time(), os.date("*t", os.time()))
 	end
 end)

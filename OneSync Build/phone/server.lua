@@ -86,7 +86,7 @@ AddEventHandler("Phone.Get", function(Source, Callback)
 end)
 
 AddEventHandler("Phone.Start",function(Source, CharacterId)
-	exports["GHMattiMySQL"]:QueryResultAsync("SELECT * FROM phone WHERE character_id=@character_id LIMIT 1", {["@character_id"] = CharacterId}, function(PhoneNumber)
+	exports["ghmattimysql"]:execute("SELECT * FROM phone WHERE character_id=? LIMIT 1", {CharacterId}, function(PhoneNumber)
 		if PhoneNumber[1] == nil then
 			Citizen.CreateThread(function()
 				local Duplicate = true
@@ -100,14 +100,11 @@ AddEventHandler("Phone.Start",function(Source, CharacterId)
 					if not CheckingDuplicate then
 						CheckingDuplicate = true
 
-						exports["GHMattiMySQL"]:QueryResultAsync("SELECT 1 FROM phone WHERE phone_number=@phone_number", {["@phone_number"] = NewPhoneNumber}, function(DupeResult)
+						exports["ghmattimysql"]:execute("SELECT phone.phone_number FROM phone WHERE phone_number=?", {NewPhoneNumber}, function(DupeResult)
 							if DupeResult[1] == nil then
 								Duplicate = false
 
-								exports["GHMattiMySQL"]:QueryAsync("INSERT INTO phone (`character_id`,`phone_number`) VALUES (@character_id,@phone_number)", {
-									["@character_id"] = CharacterId,
-									["@phone_number"] = NewPhoneNumber,
-								})
+								exports["ghmattimysql"]:execute("INSERT INTO phone (`character_id`,`phone_number`) VALUES (?, ?)", {CharacterId, NewPhoneNumber})
 
 
 								Phone.Players[Source] = {}
@@ -119,16 +116,16 @@ AddEventHandler("Phone.Start",function(Source, CharacterId)
 								Phone.PlayerIds[NewPhoneNumber] = Source
 
 								TriggerClientEvent("Phone.Start", Source, Phone.Players[Source])
+							else
+								CheckingDuplicate = false
 							end
-							
-							CheckingDuplicate = false
 						end)
 					end
 				end
 			end)
 		else
-			exports["GHMattiMySQL"]:QueryResultAsync("SELECT * FROM phone_contacts WHERE phone_number=@phone_number", {["@phone_number"] = PhoneNumber[1].phone_number}, function(Contacts)
-				exports["GHMattiMySQL"]:QueryResultAsync("SELECT receiver_number, (SELECT phone_messages.message FROM phone_messages WHERE phone_messages.conversation_id = phone_conversation.id ORDER BY id DESC LIMIT 1) As 'message' FROM phone_conversation WHERE owner_number = @phone_number", {["@phone_number"] = PhoneNumber[1].phone_number}, function(Messages)
+			exports["ghmattimysql"]:execute("SELECT * FROM phone_contacts WHERE phone_number=?", {PhoneNumber[1].phone_number}, function(Contacts)
+				exports["ghmattimysql"]:execute("SELECT receiver_number, (SELECT phone_messages.message FROM phone_messages WHERE phone_messages.conversation_id = phone_conversation.id ORDER BY id DESC LIMIT 1) As 'message' FROM phone_conversation WHERE owner_number = ?", {PhoneNumber[1].phone_number}, function(Messages)
 					Phone.Players[Source] = {}
 					Phone.Players[Source].Has = number_to_bool(PhoneNumber[1].has)
 					Phone.Players[Source].Number = PhoneNumber[1].phone_number
@@ -158,20 +155,15 @@ AddEventHandler("Phone.Contact.Add", function(Data)
 	local Source = source
 
 	if Phone.Players[Source] then
-		exports["GHMattiMySQL"]:Insert("phone_contacts", {
-			{
-				["phone_number"] = Phone.Players[Source].Number,
-				["contact_number"] = Data.phone_number,
-				["first_name"] = Data.first_name,
-				["last_name"] = Data.last_name,
-			}
-		}, function(ContactID)
-			table.insert(Phone.Players[Source].Contacts, {id = ContactID, contact_number = Data.phone_number, first_name = Data.first_name, last_name = Data.last_name})
+		exports["ghmattimysql"]:execute("INSERT INTO phone_contacts (`phone_number`, `contact_number`, `first_name`, `last_name`) VALUES (?, ?, ?, ?)", {Phone.Players[Source].Number, Data.phone_number, Data.first_name, Data.last_name}, function(rowChanges)
+			local rowId = rowChanges.insertId
+
+			table.insert(Phone.Players[Source].Contacts, {id = rowId, contact_number = Data.phone_number, first_name = Data.first_name, last_name = Data.last_name})
 
 			Phone.Players[Source].ContactNames[Data.phone_number] = Data.first_name.." "..Data.last_name
 
-			TriggerClientEvent("Phone.Contact.Add", Source, Phone.Players[Source])
-		end, true)
+			TriggerClientEvent("Phone.Contact.Add", Source, Phone.Players[Source])			
+		end)
 	end
 end)
 
@@ -182,9 +174,7 @@ AddEventHandler("Phone.Contact.Remove", function(Id, Contacts)
 	if Phone.Players[Source] then
 		Phone.Players[Source].Contacts = Contacts
 		
-		exports["GHMattiMySQL"]:QueryAsync("DELETE FROM phone_contacts WHERE id=@id", {
-			["@id"] = Id,
-		})
+		exports["ghmattimysql"]:execute("DELETE FROM phone_contacts WHERE id=?", {Id})
 	end
 end)
 
@@ -207,104 +197,81 @@ AddEventHandler("Phone.Message.Add", function(PhoneNumber, Message)
 	local Source = source
 	local CurrentTime = os.time()
 
-	exports["GHMattiMySQL"]:QueryResultAsync("SELECT * FROM phone WHERE phone_number=@phone_number", {["@phone_number"] = PhoneNumber}, function(Target)
+	exports["ghmattimysql"]:execute("SELECT * FROM phone WHERE phone_number=?", {PhoneNumber}, function(Target)
 		if Target[1] == nil then
 			TriggerClientEvent("Phone.Message.Add", Source, false)
 		else
-			exports["GHMattiMySQL"]:QueryResultAsync("SELECT id, owner_number FROM phone_conversation WHERE (owner_number=@source AND receiver_number=@target) OR (owner_number=@target AND receiver_number=@source)", {
+			exports["ghmattimysql"]:execute("SELECT id, owner_number FROM phone_conversation WHERE (owner_number=@source AND receiver_number=@target) OR (owner_number=@target AND receiver_number=@source)", {
 				["@source"] = Phone.Players[Source].Number,
 				["@target"] = Target[1].phone_number,
 			}, function(Conversations)
 				if Conversations[1] == nil then
-					exports["GHMattiMySQL"]:Insert("phone_conversation", {
-						{
-							["owner_number"] = Phone.Players[Source].Number,
-							["receiver_number"] = Target[1].phone_number,
-						},
-					}, function(ConversationId)
+					exports["ghmattimysql"]:execute("INSERT INTO phone_conversation (`owner_number`, `receiver_number`) VALUES (?, ?)", {Phone.Players[Source].Number, Target[1].phone_number}, function(conversationRowChanges)
+						local conversationRowId = conversationRowChanges.insertId
 
-						exports["GHMattiMySQL"]:Insert("phone_messages", {
-							{
-								["conversation_id"] = ConversationId,
-								["creator"] = Phone.Players[Source].Number,
-								["message"] = Message,
-							}
-						}, function(MessageId)
-							local NewMessage = {id = MessageId, creator = Phone.Players[Source].Number, message = Message, timestamp = CurrentTime}
+						exports["ghmattimysql"]:execute("INSERT INTO phone_messages (`conversation_id`, `creator`, `message`) VALUES (?, ?, ?)", {conversationRowId, Phone.Players[Source].Number, Message}, function(messageRowChanges)
+							local messageRowId = messageRowChanges.insertId
+
+							local NewMessage = {id = messageRowId, creator = Phone.Players[Source].Number, message = Message, timestamp = CurrentTime}
 
 							Phone.Players[Source].Messages[Target[1].phone_number] = Message
 
-							TriggerClientEvent("Phone.Message.Add", Source, true, false, Target[1].phone_number, NewMessage, Phone.Players[Source])
-						end, true)
-					end, true)
+							TriggerClientEvent("Phone.Message.Add", Source, true, false, Target[1].phone_number, NewMessage, Phone.Players[Source])							
+						end)						
+					end)
 
-					exports["GHMattiMySQL"]:Insert("phone_conversation", {
-						{
-							["owner_number"] = Target[1].phone_number,
-							["receiver_number"] = Phone.Players[Source].Number,
-						},
-					}, function(ConversationId)
-						exports["GHMattiMySQL"]:Insert("phone_messages", {
-							{
-								["conversation_id"] = ConversationId,
-								["creator"] = Phone.Players[Source].Number,
-								["message"] = Message,
-							}
-						}, function(MessageId)
+					exports["ghmattimysql"]:execute("INSERT INTO phone_conversation (`owner_number`, `receiver_number`) VALUES (?, ?)", {Target[1].phone_number, Phone.Players[Source].Number}, function(conversationRowChanges)
+						local conversationRowId = conversationRowChanges.insertId
+
+						exports["ghmattimysql"]:execute("INSERT INTO phone_messages (`conversation_id`, `creator`, `message`) VALUES (?, ?, ?)", {conversationRowId, Phone.Players[Source].Number, Message}, function(messageRowChanges)
+							local messageRowId = messageRowChanges.insertId
+
 							if Phone.PlayerIds[Target[1].phone_number] then
 								local TargetId = Phone.PlayerIds[Target[1].phone_number]
 								if Phone.Players[TargetId] then
 									if Phone.Players[TargetId].Number == Target[1].phone_number then
-										local NewMessage = {id = MessageId, creator = Phone.Players[Source].Number, message = Message, timestamp = CurrentTime}
+										local NewMessage = {id = messageRowId, creator = Phone.Players[Source].Number, message = Message, timestamp = CurrentTime}
 
 										Phone.Players[TargetId].Messages[Phone.Players[Source].Number] = Message
 
 										TriggerClientEvent("Phone.Message.Add", TargetId, true, true, Phone.Players[Source].Number, NewMessage, Phone.Players[TargetId])
 									end
 								end
-							end
-						end, true)
-					end, true)
+							end					
+						end)						
+					end)
 				else
 					local SourceConversation, TargetConversation = ParseConversations(Conversations, Phone.Players[Source].Number, Target[1].phone_number)
 
 					if SourceConversation then
-						exports["GHMattiMySQL"]:Insert("phone_messages", {
-							{
-								["conversation_id"] = SourceConversation,
-								["creator"] = Phone.Players[Source].Number,
-								["message"] = Message,
-							}
-						}, function(MessageId)
-							local NewMessage = {id = MessageId, creator = Phone.Players[Source].Number, message = Message, timestamp = CurrentTime}
+						exports["ghmattimysql"]:execute("INSERT INTO phone_messages (`conversation_id`, `creator`, `message`) VALUES (?, ?, ?)", {SourceConversation, Phone.Players[Source].Number, Message}, function(rowChanges)
+							local rowId = rowChanges.insertId
+
+							local NewMessage = {id = rowId, creator = Phone.Players[Source].Number, message = Message, timestamp = CurrentTime}
 
 							Phone.Players[Source].Messages[Target[1].phone_number] = Message
 
-							TriggerClientEvent("Phone.Message.Add", Source, true, false, Target[1].phone_number, NewMessage, Phone.Players[Source])
-						end, true)
+							TriggerClientEvent("Phone.Message.Add", Source, true, false, Target[1].phone_number, NewMessage, Phone.Players[Source])				
+						end)	
 					end
 
 					if TargetConversation then
-						exports["GHMattiMySQL"]:Insert("phone_messages", {
-							{
-								["conversation_id"] = TargetConversation,
-								["creator"] = Phone.Players[Source].Number,
-								["message"] = Message,
-							}
-						}, function(MessageId)
+						exports["ghmattimysql"]:execute("INSERT INTO phone_messages (`conversation_id`, `creator`, `message`) VALUES (?, ?, ?)", {TargetConversation, Phone.Players[Source].Number, Message}, function(rowChanges)
+							local rowId = rowChanges.insertId
+
 							if Phone.PlayerIds[Target[1].phone_number] then
 								local TargetId = Phone.PlayerIds[Target[1].phone_number]
 								if Phone.Players[TargetId] then
 									if Phone.Players[TargetId].Number == Target[1].phone_number then
-										local NewMessage = {id = MessageId, creator = Phone.Players[Source].Number, message = Message, timestamp = CurrentTime}
+										local NewMessage = {id = rowId, creator = Phone.Players[Source].Number, message = Message, timestamp = CurrentTime}
 											
 										Phone.Players[TargetId].Messages[Phone.Players[Source].Number] = Message
 
 										TriggerClientEvent("Phone.Message.Add", TargetId, true, true, Phone.Players[Source].Number, NewMessage, Phone.Players[TargetId])
 									end
 								end
-							end
-						end, true)
+							end					
+						end)
 					end
 				end
 			end)
@@ -316,9 +283,7 @@ RegisterServerEvent("Phone.Message.Remove")
 AddEventHandler("Phone.Message.Remove", function(Id)
 	local Source = source
 
-	exports["GHMattiMySQL"]:QueryAsync("DELETE FROM phone_messages WHERE id=@id", {
-		["@id"] = Id,
-	})
+	exports["ghmattimysql"]:execute("DELETE FROM phone_messages WHERE id=@id", {Id})
 end)
 
 RegisterServerEvent("Phone.Call.Start")
@@ -412,7 +377,7 @@ AddEventHandler("Phone.Conversation.Get", function(TargetNumber)
 
 	if Phone.Players[Source] then
 		if Phone.Players[Source].Number then
-			exports["GHMattiMySQL"]:QueryResultAsync("SELECT phone_messages.id, phone_messages.message, phone_messages.creator, UNIX_TIMESTAMP(phone_messages.timestamp) As 'timestamp' FROM phone_messages WHERE (conversation_id = (SELECT id FROM phone_conversation WHERE owner_number=@owner_number AND receiver_number=@receiver_number) AND (UNIX_TIMESTAMP(phone_messages.timestamp) < (UNIX_TIMESTAMP() + 2592000)))", {["@owner_number"] = Phone.Players[Source].Number, ["@receiver_number"] = TargetNumber}, function(Messages)
+			exports["ghmattimysql"]:execute("SELECT phone_messages.id, phone_messages.message, phone_messages.creator, UNIX_TIMESTAMP(phone_messages.timestamp) As 'timestamp' FROM phone_messages WHERE (conversation_id = (SELECT id FROM phone_conversation WHERE owner_number=? AND receiver_number=?) AND (UNIX_TIMESTAMP(phone_messages.timestamp) < (UNIX_TIMESTAMP() + 2592000)))", {Phone.Players[Source].Number, TargetNumber}, function(Messages)
 				TriggerClientEvent("Phone.Conversation.Set", Source, TargetNumber, Messages)
 			end)
 		end
@@ -424,7 +389,7 @@ AddEventHandler("Phone.Set", function(Source, Value)
 	if Phone.Players[Source] then
 		if type(Value) == "boolean" then
 			Phone.Players[Source].Has = Value
-			exports["GHMattiMySQL"]:QueryAsync("UPDATE phone SET has=@has WHERE phone_number=@number", {["@number"] = Phone.Players[Source].Number, ["@has"] = bool_to_number(Value)})
+			exports["ghmattimysql"]:execute("UPDATE phone SET has=? WHERE phone_number=?", {bool_to_number(Value), Phone.Players[Source].Number})
 
 			TriggerClientEvent("Phone.Set", Source, Value)
 		end

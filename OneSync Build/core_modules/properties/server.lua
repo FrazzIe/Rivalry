@@ -32,7 +32,7 @@ end
 
 AddEventHandler("onServerResourceStart", function(resource)
 	if resource == GetCurrentResourceName() then
-		local houses_normal = exports["GHMattiMySQL"]:QueryResult("SELECT * FROM properties_houses_normal")
+		local houses_normal = exports["ghmattimysql"]:executeSync("SELECT * FROM properties_houses_normal")
 		for k,v in pairs(houses_normal) do
 			if v then
 				if v.id then
@@ -65,7 +65,7 @@ AddEventHandler("onServerResourceStart", function(resource)
 				end
 			end
 		end
-		local houses_enterable = exports["GHMattiMySQL"]:QueryResult("SELECT * FROM properties_houses_enterable")
+		local houses_enterable = exports["ghmattimysql"]:executeSync("SELECT * FROM properties_houses_enterable")
 		for k,v in pairs(houses_enterable) do
 			if v then
 				if v.id then
@@ -100,7 +100,7 @@ AddEventHandler("onServerResourceStart", function(resource)
 				end
 			end
 		end
-		local businesses_normal = exports["GHMattiMySQL"]:QueryResult("SELECT * FROM properties_businesses_normal")
+		local businesses_normal = exports["ghmattimysql"]:executeSync("SELECT * FROM properties_businesses_normal")
 		for k,v in pairs(businesses_normal) do
 			if v then
 				if v.id then
@@ -126,7 +126,7 @@ AddEventHandler("onServerResourceStart", function(resource)
 			end
 		end
 
-		local businesses_enterable = exports["GHMattiMySQL"]:QueryResult("SELECT * FROM properties_businesses_enterable")
+		local businesses_enterable = exports["ghmattimysql"]:executeSync("SELECT * FROM properties_businesses_enterable")
 		for k,v in pairs(businesses_enterable) do
 			if v then
 				if v.id then
@@ -166,7 +166,7 @@ AddEventHandler("onServerResourceStart", function(resource)
 			end
 		end
 
-		exports["GHMattiMySQL"]:QueryResultAsync("SELECT * FROM properties_houses_normal_weapons", {}, function(houses_normal_weapons)
+		exports["ghmattimysql"]:execute("SELECT * FROM properties_houses_normal_weapons", {}, function(houses_normal_weapons)
 			for k,v in pairs(houses_normal_weapons) do
 				if v then
 					if v.property_id then
@@ -176,7 +176,7 @@ AddEventHandler("onServerResourceStart", function(resource)
 			end
 		end)
 
-		exports["GHMattiMySQL"]:QueryResultAsync("SELECT * FROM properties_houses_enterable_weapons", {}, function(houses_enterable_weapons)
+		exports["ghmattimysql"]:execute("SELECT * FROM properties_houses_enterable_weapons", {}, function(houses_enterable_weapons)
 			for k,v in pairs(houses_enterable_weapons) do
 				if v then
 					if v.property_id then
@@ -186,7 +186,7 @@ AddEventHandler("onServerResourceStart", function(resource)
 			end
 		end)
 
-		exports["GHMattiMySQL"]:QueryResultAsync("SELECT * FROM properties_businesses_normal_weapons", {}, function(businesses_normal_weapons)
+		exports["ghmattimysql"]:execute("SELECT * FROM properties_businesses_normal_weapons", {}, function(businesses_normal_weapons)
 			for k,v in pairs(businesses_normal_weapons) do
 				if v then
 					if v.property_id then
@@ -196,7 +196,7 @@ AddEventHandler("onServerResourceStart", function(resource)
 			end
 		end)
 
-		exports["GHMattiMySQL"]:QueryResultAsync("SELECT * FROM properties_businesses_enterable_weapons", {}, function(businesses_enterable_weapons)
+		exports["ghmattimysql"]:execute("SELECT * FROM properties_businesses_enterable_weapons", {}, function(businesses_enterable_weapons)
 			for k,v in pairs(businesses_enterable_weapons) do
 				if v then
 					if v.property_id then
@@ -224,7 +224,7 @@ Citizen.CreateThread(function()
 				print("\n[Properties] Starting payouts in "..properties_income_interval.." minutes!")
 				Citizen.Wait(properties_income_interval * 60000)
 				print("\n[Properties] Starting payouts!")
-				local businesses_normal = exports["GHMattiMySQL"]:QueryResult("SELECT * FROM properties_businesses_normal")
+				local businesses_normal = exports["ghmattimysql"]:executeSync("SELECT * FROM properties_businesses_normal")
 				for Index = 1, #businesses_normal do
 					if businesses_normal[Index] then
 						if businesses_normal[Index].id then
@@ -261,14 +261,14 @@ Citizen.CreateThread(function()
 										end	
 									end
 									if amount_lost ~= properties["businesses"]["normal"][businesses_normal[Index].id]["income"] then
-										exports["GHMattiMySQL"]:QueryAsync("UPDATE properties_businesses_normal SET cash='"..properties["businesses"]["normal"][businesses_normal[Index].id]["storage"]["current"]["cash"].."', dirty='"..properties["businesses"]["normal"][businesses_normal[Index].id]["storage"]["current"]["dirty"].."' WHERE id = '"..businesses_normal[Index].id.."'")
+										exports["ghmattimysql"]:execute("UPDATE properties_businesses_normal SET cash=?, dirty=? WHERE id = ?", {properties["businesses"]["normal"][businesses_normal[Index].id]["storage"]["current"]["cash"], properties["businesses"]["normal"][businesses_normal[Index].id]["storage"]["current"]["dirty"], businesses_normal[Index].id})
 									end
 								end
 							end
 						end
 					end
 				end
-				local businesses_enterable = exports["GHMattiMySQL"]:QueryResult("SELECT * FROM properties_businesses_enterable")
+				local businesses_enterable = exports["ghmattimysql"]:executeSync("SELECT * FROM properties_businesses_enterable")
 				for Index = 1, #businesses_enterable do
 					if businesses_enterable[Index] then
 						if businesses_enterable[Index].id then
@@ -325,7 +325,7 @@ Citizen.CreateThread(function()
 										end
 									end
 									if amount_lost ~= properties["businesses"]["enterable"][businesses_enterable[Index].id]["income"] then
-										exports["GHMattiMySQL"]:QueryAsync("UPDATE properties_businesses_enterable SET cash='"..properties["businesses"]["enterable"][businesses_enterable[Index].id]["storage"]["current"]["cash"].."', dirty='"..properties["businesses"]["enterable"][businesses_enterable[Index].id]["storage"]["current"]["dirty"].."' WHERE id = '"..businesses_normal[Index].id.."'")
+										exports["ghmattimysql"]:execute("UPDATE properties_businesses_enterable SET cash=?, dirty=? WHERE id=?", {properties["businesses"]["enterable"][businesses_enterable[Index].id]["storage"]["current"]["cash"], properties["businesses"]["enterable"][businesses_enterable[Index].id]["storage"]["current"]["dirty"], businesses_normal[Index].id})
 									end
 								end
 							end
@@ -346,8 +346,8 @@ AddEventHandler("properties:deposit", function(property_type, property_variant, 
 		if properties[property_type] then
 			if properties[property_type][property_variant] then
 				if properties[property_type][property_variant][property_id] then
-					local result = exports["GHMattiMySQL"]:QueryResult("SELECT * FROM properties_"..property_type.."_"..property_variant.." WHERE id=@property_id", { ["@property_id"] = property_id})
-					properties[property_type][property_variant][property_id]["storage"]["current"]["weapons"] = exports["GHMattiMySQL"]:QueryResult("SELECT * FROM properties_"..property_type.."_"..property_variant.."_weapons WHERE property_id=@property_id", { ["@property_id"] = property_id})
+					local result = exports["ghmattimysql"]:executeSync("SELECT * FROM properties_"..property_type.."_"..property_variant.." WHERE id=?", {property_id})
+					properties[property_type][property_variant][property_id]["storage"]["current"]["weapons"] = exports["ghmattimysql"]:executeSync("SELECT * FROM properties_"..property_type.."_"..property_variant.."_weapons WHERE property_id=?", { property_id})
 					properties[property_type][property_variant][property_id]["owner"]["identifier"] = result[1].identifier
 					properties[property_type][property_variant][property_id]["owner"]["char_id"] = tonumber(result[1].character_id) or 0
 					properties[property_type][property_variant][property_id]["locked"] = str_to_bool(result[1]["locked"])
@@ -374,7 +374,7 @@ AddEventHandler("properties:deposit", function(property_type, property_variant, 
 							properties[property_type][property_variant][property_id]["owner"]["identifier"] = "no"
 							properties[property_type][property_variant][property_id]["owner"]["char_id"] = 0
 							properties[property_type][property_variant][property_id]["owner"]["id"] = 0
-							exports["GHMattiMySQL"]:QueryAsync("UPDATE properties_"..property_type.."_"..property_variant.." SET `identifier`=@identifier, `character_id`=NULL WHERE id = @property_id", {["@identifier"] = "no", ["@property_id"] = property_id})
+							exports["ghmattimysql"]:execute("UPDATE properties_"..property_type.."_"..property_variant.." SET `identifier`=?, `character_id`=NULL WHERE id = ?", {"no", property_id})
 						end
 					elseif property_type == "businesses" then
 						if os.time() > (tonumber(properties[property_type][property_variant][property_id]["expire"]) + (time_to_pay_businesses_rent*60*60)) then
@@ -384,7 +384,7 @@ AddEventHandler("properties:deposit", function(property_type, property_variant, 
 								end
 							end
 							properties[property_type][property_variant][property_id]["overdue"] = true
-							exports["GHMattiMySQL"]:QueryAsync("UPDATE properties_"..property_type.."_"..property_variant.." SET `overdue`=@overdue WHERE id = @property_id", {["@overdue"] = "true", ["@property_id"] = property_id})
+							exports["ghmattimysql"]:execute("UPDATE properties_"..property_type.."_"..property_variant.." SET `overdue`=? WHERE id = ?", {"true", property_id})
 						end
 					end
 					TriggerClientEvent("properties:sync", -1, properties)
@@ -397,7 +397,7 @@ AddEventHandler("properties:deposit", function(property_type, property_variant, 
 										if user.get("wallet") >= math.floor(_data.amount) then
 											properties[property_type][property_variant][property_id]["storage"]["current"][deposit_type] = properties[property_type][property_variant][property_id]["storage"]["current"][deposit_type] + math.floor(_data.amount)
 											user.removeWallet(_data.amount)
-											exports["GHMattiMySQL"]:QueryAsync("UPDATE properties_"..property_type.."_"..property_variant.." SET "..deposit_type.."=@value WHERE id = @property_id", {["@value"] = properties[property_type][property_variant][property_id]["storage"]["current"][deposit_type], ["@property_id"] = property_id})
+											exports["ghmattimysql"]:execute("UPDATE properties_"..property_type.."_"..property_variant.." SET cash=? WHERE id = ?", {properties[property_type][property_variant][property_id]["storage"]["current"][deposit_type], property_id})
 											TriggerClientEvent("properties:sync", -1, properties)
 										else
 											Notify("Insufficient funds", 3000, source)
@@ -406,7 +406,7 @@ AddEventHandler("properties:deposit", function(property_type, property_variant, 
 										if user.get("wallet") >= math.floor(available_space) then
 											properties[property_type][property_variant][property_id]["storage"]["current"][deposit_type] = properties[property_type][property_variant][property_id]["storage"]["current"][deposit_type] + math.floor(available_space)
 											user.removeWallet(available_space)
-											exports["GHMattiMySQL"]:QueryAsync("UPDATE properties_"..property_type.."_"..property_variant.." SET "..deposit_type.."=@value WHERE id = @property_id", {["@value"] = properties[property_type][property_variant][property_id]["storage"]["current"][deposit_type], ["@property_id"] = property_id})
+											exports["ghmattimysql"]:execute("UPDATE properties_"..property_type.."_"..property_variant.." SET cash=? WHERE id = ?", {properties[property_type][property_variant][property_id]["storage"]["current"][deposit_type], property_id})
 											TriggerClientEvent("properties:sync", -1, properties)
 										else
 											Notify("Insufficient funds", 3000, source)
@@ -422,7 +422,7 @@ AddEventHandler("properties:deposit", function(property_type, property_variant, 
 										if user.get("dirty") >= math.floor(_data.amount) then
 											properties[property_type][property_variant][property_id]["storage"]["current"][deposit_type] = properties[property_type][property_variant][property_id]["storage"]["current"][deposit_type] + math.floor(_data.amount)
 											user.removeDirty(_data.amount)
-											exports["GHMattiMySQL"]:QueryAsync("UPDATE properties_"..property_type.."_"..property_variant.." SET "..deposit_type.."=@value WHERE id = @property_id", {["@value"] = properties[property_type][property_variant][property_id]["storage"]["current"][deposit_type], ["@property_id"] = property_id})
+											exports["ghmattimysql"]:execute("UPDATE properties_"..property_type.."_"..property_variant.." SET dirty=? WHERE id = ?", {properties[property_type][property_variant][property_id]["storage"]["current"][deposit_type], property_id})
 											TriggerClientEvent("properties:sync", -1, properties)
 										else
 											Notify("Insufficient funds", 3000, source)
@@ -431,7 +431,7 @@ AddEventHandler("properties:deposit", function(property_type, property_variant, 
 										if user.get("dirty") >= math.floor(available_space) then
 											properties[property_type][property_variant][property_id]["storage"]["current"][deposit_type] = properties[property_type][property_variant][property_id]["storage"]["current"][deposit_type] + math.floor(available_space)
 											user.removeDirty(available_space)
-											exports["GHMattiMySQL"]:QueryAsync("UPDATE properties_"..property_type.."_"..property_variant.." SET "..deposit_type.."=@value WHERE id = @property_id", {["@value"] = properties[property_type][property_variant][property_id]["storage"]["current"][deposit_type], ["@property_id"] = property_id})
+											exports["ghmattimysql"]:execute("UPDATE properties_"..property_type.."_"..property_variant.." SET dirty=? WHERE id = ?", {properties[property_type][property_variant][property_id]["storage"]["current"][deposit_type], property_id})
 											TriggerClientEvent("properties:sync", -1, properties)
 										else
 											Notify("Insufficient funds", 3000, source)
@@ -444,32 +444,16 @@ AddEventHandler("properties:deposit", function(property_type, property_variant, 
 								if tablelength(properties[property_type][property_variant][property_id]["storage"]["current"][deposit_type]) < properties[property_type][property_variant][property_id]["storage"]["max"][deposit_type] then
 									if user_weapons[source][_data.model] then
 										user_weapons[source][_data.model] = nil
-										exports["GHMattiMySQL"]:QueryAsync("DELETE FROM weapons WHERE (character_id=@character_id) AND (model=@model)", {
-											["@character_id"] = user.get("characterID"),
-											["@model"] = _data.model,
-										})
-										exports["GHMattiMySQL"]:Insert("properties_"..property_type.."_"..property_variant.."_weapons", {
-										    {
-										        ["property_id"] = property_id, 
-										        ["sellprice"] = _data.sellprice, 
-										        ["model"] = _data.model, 
-										        ["ammo"] = _data.ammo, 
-										        ["suppressor"] = _data.suppressor, 
-										        ["flashlight"] = _data.flashlight, 
-										        ["extended_clip"] = _data.extended_clip,
-										        ["scope"] = _data.scope, 
-										        ["grip"] = _data.grip, 
-										        ["advanced_scope"] = _data.advanced_scope, 
-										        ["skin"] = _data.skin,
-										        ["owner"] = _data.owner,
-										    }
-										}, function(weapon_id)
-										    table.insert(properties[property_type][property_variant][property_id]["storage"]["current"][deposit_type], {id = weapon_id, sellprice = _data.sellprice, model = _data.model, ammo = _data.ammo, suppressor = _data.suppressor, flashlight = _data.flashlight, extended_clip = _data.extended_clip, scope = _data.scope, grip = _data.grip, advanced_scope = _data.advanced_scope, skin = _data.skin, owner = _data.owner})
+										exports["ghmattimysql"]:execute("DELETE FROM weapons WHERE (character_id=?) AND (model=?)", {user.get("characterID"), _data.model})
+										exports["ghmattimysql"]:execute("INSERT INTO properties_"..property_type.."_"..property_variant.."_weapons (property_id, sellprice, model, ammo, suppressor, flashlight, extended_clip, scope, grip, advanced_scope, skin, owner) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", {property_id, _data.sellprice, _data.model, _data.ammo, _data.suppressor, _data.flashlight, _data.extended_clip, _data.scope, _data.grip, _data.advanced_scope, _data.skin, _data.owner}, function(rowChanges)
+											local rowId = rowChanges.insertId
+
+										    table.insert(properties[property_type][property_variant][property_id]["storage"]["current"][deposit_type], {id = rowId, sellprice = _data.sellprice, model = _data.model, ammo = _data.ammo, suppressor = _data.suppressor, flashlight = _data.flashlight, extended_clip = _data.extended_clip, scope = _data.scope, grip = _data.grip, advanced_scope = _data.advanced_scope, skin = _data.skin, owner = _data.owner})
 										    TriggerClientEvent("properties:sync", -1, properties)
 										    TriggerClientEvent("weapon:set", source, user_weapons[source])
 										    TriggerClientEvent("weapon:give", source)
-										    TriggerClientEvent("weapon:sync", -1, user_weapons)
-										end, true)
+										    TriggerClientEvent("weapon:sync", -1, user_weapons)											
+										end)
 									end
 								else
 									Notify("The weapon locker is full and cannot hold anymore weapons", 3000, source)
@@ -491,10 +475,10 @@ AddEventHandler("properties:withdraw", function(property_type, property_variant,
 		if properties[property_type] then
 			if properties[property_type][property_variant] then
 				if properties[property_type][property_variant][property_id] then
-					local result = exports["GHMattiMySQL"]:QueryResult("SELECT * FROM properties_"..property_type.."_"..property_variant.." WHERE id=@property_id", { ["@property_id"] = property_id})
-					properties[property_type][property_variant][property_id]["storage"]["current"]["weapons"] = exports["GHMattiMySQL"]:QueryResult("SELECT * FROM properties_"..property_type.."_"..property_variant.."_weapons WHERE property_id=@property_id", { ["@property_id"] = property_id})
+					local result = exports["ghmattimysql"]:executeSync("SELECT * FROM properties_"..property_type.."_"..property_variant.." WHERE id=?", {property_id})
+					properties[property_type][property_variant][property_id]["storage"]["current"]["weapons"] = exports["ghmattimysql"]:executeSync("SELECT * FROM properties_"..property_type.."_"..property_variant.."_weapons WHERE property_id=?", {property_id})
 					properties[property_type][property_variant][property_id]["owner"]["identifier"] = result[1].identifier
-					properties[property_type][property_variant][property_id]["owner"]["character_id"] = tonumber(result[1].character_id)
+					properties[property_type][property_variant][property_id]["owner"]["char_id"] = tonumber(result[1].character_id) or 0
 					properties[property_type][property_variant][property_id]["locked"] = str_to_bool(result[1]["locked"])
 					properties[property_type][property_variant][property_id]["overdue"] = str_to_bool(result[1]["overdue"])
 					properties[property_type][property_variant][property_id]["expire"] = tonumber(result[1]["expire"])
@@ -519,12 +503,17 @@ AddEventHandler("properties:withdraw", function(property_type, property_variant,
 							properties[property_type][property_variant][property_id]["owner"]["identifier"] = "no"
 							properties[property_type][property_variant][property_id]["owner"]["char_id"] = 0
 							properties[property_type][property_variant][property_id]["owner"]["id"] = 0
-							exports["GHMattiMySQL"]:QueryAsync("UPDATE properties_"..property_type.."_"..property_variant.." SET `identifier`=@identifier, `character_id`=NULL WHERE id = @property_id", {["@identifier"] = "no", ["@property_id"] = property_id})
+							exports["ghmattimysql"]:execute("UPDATE properties_"..property_type.."_"..property_variant.." SET `identifier`=?, `character_id`=NULL WHERE id = ?", {"no", property_id})
 						end
 					elseif property_type == "businesses" then
 						if os.time() > (tonumber(properties[property_type][property_variant][property_id]["expire"]) + (time_to_pay_businesses_rent*60*60)) then
+							if properties_owned[property_type][properties[property_type][property_variant][property_id]["owner"]["identifier"]] then
+								if properties_owned[property_type][properties[property_type][property_variant][property_id]["owner"]["identifier"]][tostring(properties[property_type][property_variant][property_id]["owner"]["char_id"])] then
+									properties_owned[property_type][properties[property_type][property_variant][property_id]["owner"]["identifier"]][tostring(properties[property_type][property_variant][property_id]["owner"]["char_id"])] = properties_owned[property_type][properties[property_type][property_variant][property_id]["owner"]["identifier"]][tostring(properties[property_type][property_variant][property_id]["owner"]["char_id"])] - 1
+								end
+							end
 							properties[property_type][property_variant][property_id]["overdue"] = true
-							exports["GHMattiMySQL"]:QueryAsync("UPDATE properties_"..property_type.."_"..property_variant.." SET `overdue`=@overdue WHERE id = @property_id", {["@overdue"] = "true", ["@property_id"] = property_id})
+							exports["ghmattimysql"]:execute("UPDATE properties_"..property_type.."_"..property_variant.." SET `overdue`=? WHERE id = ?", {"true", property_id})
 						end
 					end
 					TriggerClientEvent("properties:sync", -1, properties)
@@ -533,14 +522,14 @@ AddEventHandler("properties:withdraw", function(property_type, property_variant,
 							if withdraw_type == "cash" then
 								if properties[property_type][property_variant][property_id]["storage"]["current"][withdraw_type] >= _data.amount then
 									properties[property_type][property_variant][property_id]["storage"]["current"][withdraw_type] = properties[property_type][property_variant][property_id]["storage"]["current"][withdraw_type] - _data.amount
-									exports["GHMattiMySQL"]:QueryAsync("UPDATE properties_"..property_type.."_"..property_variant.." SET "..withdraw_type.."=@value WHERE id = @property_id", {["@value"] = properties[property_type][property_variant][property_id]["storage"]["current"][withdraw_type], ["@property_id"] = property_id})
+									exports["ghmattimysql"]:execute("UPDATE properties_"..property_type.."_"..property_variant.." SET cash=? WHERE id = ?", {properties[property_type][property_variant][property_id]["storage"]["current"][withdraw_type], property_id})
 									user.addWallet(_data.amount)
 									TriggerClientEvent("properties:sync", -1, properties)
 								else
 									if properties[property_type][property_variant][property_id]["storage"]["current"][withdraw_type] > 0 then
 										local available_cash = properties[property_type][property_variant][property_id]["storage"]["current"][withdraw_type]
 										properties[property_type][property_variant][property_id]["storage"]["current"][withdraw_type] = properties[property_type][property_variant][property_id]["storage"]["current"][withdraw_type] - available_cash
-										exports["GHMattiMySQL"]:QueryAsync("UPDATE properties_"..property_type.."_"..property_variant.." SET "..withdraw_type.."=@value WHERE id = @property_id", {["@value"] = properties[property_type][property_variant][property_id]["storage"]["current"][withdraw_type], ["@property_id"] = property_id})
+										exports["ghmattimysql"]:execute("UPDATE properties_"..property_type.."_"..property_variant.." SET cash=? WHERE id = ?", {properties[property_type][property_variant][property_id]["storage"]["current"][withdraw_type], property_id})
 										user.addWallet(available_cash)
 										TriggerClientEvent("properties:sync", -1, properties)
 									else
@@ -550,14 +539,14 @@ AddEventHandler("properties:withdraw", function(property_type, property_variant,
 							elseif withdraw_type == "dirty" then
 								if properties[property_type][property_variant][property_id]["storage"]["current"][withdraw_type] >= _data.amount then
 									properties[property_type][property_variant][property_id]["storage"]["current"][withdraw_type] = properties[property_type][property_variant][property_id]["storage"]["current"][withdraw_type] - _data.amount
-									exports["GHMattiMySQL"]:QueryAsync("UPDATE properties_"..property_type.."_"..property_variant.." SET "..withdraw_type.."=@value WHERE id = @property_id", {["@value"] = properties[property_type][property_variant][property_id]["storage"]["current"][withdraw_type], ["@property_id"] = property_id})
+									exports["ghmattimysql"]:execute("UPDATE properties_"..property_type.."_"..property_variant.." SET dirty=? WHERE id = ?", {properties[property_type][property_variant][property_id]["storage"]["current"][withdraw_type], property_id})
 									user.addDirty(_data.amount)
 									TriggerClientEvent("properties:sync", -1, properties)
 								else
 									if properties[property_type][property_variant][property_id]["storage"]["current"][withdraw_type] > 0 then
 										local available_cash = properties[property_type][property_variant][property_id]["storage"]["current"][withdraw_type]
 										properties[property_type][property_variant][property_id]["storage"]["current"][withdraw_type] = properties[property_type][property_variant][property_id]["storage"]["current"][withdraw_type] - available_cash
-										exports["GHMattiMySQL"]:QueryAsync("UPDATE properties_"..property_type.."_"..property_variant.." SET "..withdraw_type.."=@value WHERE id = @property_id", {["@value"] = properties[property_type][property_variant][property_id]["storage"]["current"][withdraw_type], ["@property_id"] = property_id})
+										exports["ghmattimysql"]:execute("UPDATE properties_"..property_type.."_"..property_variant.." SET dirty=? WHERE id = ?", {properties[property_type][property_variant][property_id]["storage"]["current"][withdraw_type], property_id})
 										user.addDirty(available_cash)
 										TriggerClientEvent("properties:sync", -1, properties)
 									else
@@ -569,29 +558,16 @@ AddEventHandler("properties:withdraw", function(property_type, property_variant,
 									if not user_weapons[source][_data.weapon.model] then
 										if properties[property_type][property_variant][property_id]["storage"]["current"][withdraw_type][_data.weapon_id] then
 											table.remove(properties[property_type][property_variant][property_id]["storage"]["current"][withdraw_type], _data.weapon_id)
-											exports["GHMattiMySQL"]:QueryAsync("DELETE FROM properties_"..property_type.."_"..property_variant.."_weapons WHERE (property_id=@property_id) AND (id=@weapon_id)", {["@property_id"] = property_id, ["@weapon_id"] = _data.weapon.id})
-											exports["GHMattiMySQL"]:Insert("weapons", {
-												{
-													["character_id"] = user.get("characterID"), 
-													["sellprice"] = _data.weapon.sellprice,
-													["model"] = _data.weapon.model,
-													["ammo"] = _data.weapon.ammo,
-													["suppressor"] = _data.weapon.suppressor,
-													["flashlight"] = _data.weapon.flashlight,
-													["extended_clip"] = _data.weapon.extended_clip,
-													["scope"] = _data.weapon.scope,
-													["grip"] = _data.weapon.grip,
-													["advanced_scope"] = _data.weapon.advanced_scope,
-													["skin"] = _data.weapon.skin,
-													["owner"] = _data.weapon.owner,
-												}
-											}, function(weapon_id)
-												user_weapons[source][_data.weapon.model] = { id = weapon_id, character_id = user.get("characterID"), sellprice = _data.weapon.sellprice, model = _data.weapon.model, ammo = _data.weapon.ammo, suppressor = _data.weapon.suppressor, flashlight = _data.weapon.flashlight, extended_clip = _data.weapon.extended_clip, scope = _data.weapon.scope, grip = _data.weapon.grip, advanced_scope = _data.weapon.advanced_scope, skin = _data.weapon.skin, owner = _data.weapon.owner }
+											exports["ghmattimysql"]:execute("DELETE FROM properties_"..property_type.."_"..property_variant.."_weapons WHERE (property_id=?) AND (id=?)", {property_id, _data.weapon.id})
+											exports["ghmattimysql"]:execute("INSERT INTO weapons (`character_id`, `sellprice`, `model`, `ammo`, `suppressor`, `flashlight`, `extended_clip`, `scope`, `grip`, `advanced_scope`, `skin`, `owner`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", {user.get("characterID"), _data.weapon.sellprice, _data.weapon.model, _data.weapon.ammo, _data.weapon.suppressor, _data.weapon.flashlight, _data.weapon.extended_clip, _data.weapon.scope, _data.weapon.grip, _data.weapon.advanced_scope, _data.weapon.skin, _data.weapon.owner}, function(rowChanges)
+												local rowId = rowChanges.insertId
+
+												user_weapons[source][_data.weapon.model] = { id = rowId, character_id = user.get("characterID"), sellprice = _data.weapon.sellprice, model = _data.weapon.model, ammo = _data.weapon.ammo, suppressor = _data.weapon.suppressor, flashlight = _data.weapon.flashlight, extended_clip = _data.weapon.extended_clip, scope = _data.weapon.scope, grip = _data.weapon.grip, advanced_scope = _data.weapon.advanced_scope, skin = _data.weapon.skin, owner = _data.weapon.owner }
 												TriggerClientEvent("properties:sync", -1, properties)
 												TriggerClientEvent("weapon:set", source, user_weapons[source])
 												TriggerClientEvent("weapon:give", source)
 												TriggerClientEvent("weapon:sync", -1, user_weapons)
-											end, true)
+											end)
 										end
 									else
 										Notify("You cannot carry a weapon that you are already carrying", 3000, source)
@@ -617,8 +593,8 @@ AddEventHandler("properties:rent", function(property_type, property_variant, pro
 			if properties[property_type] then
 				if properties[property_type][property_variant] then
 					if properties[property_type][property_variant][property_id] then
-						local result = exports["GHMattiMySQL"]:QueryResult("SELECT * FROM properties_"..property_type.."_"..property_variant.." WHERE id=@property_id", { ["@property_id"] = property_id})
-						properties[property_type][property_variant][property_id]["storage"]["current"]["weapons"] = exports["GHMattiMySQL"]:QueryResult("SELECT * FROM properties_"..property_type.."_"..property_variant.."_weapons WHERE property_id=@property_id", { ["@property_id"] = property_id})
+						local result = exports["ghmattimysql"]:executeSync("SELECT * FROM properties_"..property_type.."_"..property_variant.." WHERE id=?", { property_id})
+						properties[property_type][property_variant][property_id]["storage"]["current"]["weapons"] = exports["ghmattimysql"]:executeSync("SELECT * FROM properties_"..property_type.."_"..property_variant.."_weapons WHERE property_id=?", { property_id})
 						properties[property_type][property_variant][property_id]["owner"]["identifier"] = result[1].identifier
 						properties[property_type][property_variant][property_id]["owner"]["char_id"] = tonumber(result[1].character_id)
 						properties[property_type][property_variant][property_id]["locked"] = str_to_bool(result[1]["locked"])
@@ -659,7 +635,7 @@ AddEventHandler("properties:rent", function(property_type, property_variant, pro
 										properties[property_type][property_variant][property_id]["owner"]["char_id"] = user.get("characterID")
 										properties[property_type][property_variant][property_id]["owner"]["id"] = source
 										properties[property_type][property_variant][property_id]["overdue"] = false
-										exports["GHMattiMySQL"]:Query("UPDATE properties_"..property_type.."_"..property_variant.." SET `identifier`=@identifier, `character_id`=@character_id, `expire`=@expire, `overdue`=@overdue WHERE `id` = @property_id", {["@identifier"] = user.get("steam"), ["@character_id"] = user.get("characterID"), ["@expire"] = new_expire_time, ["@overdue"] = "false", ["@property_id"] = property_id})
+										exports["ghmattimysql"]:executeSync("UPDATE properties_"..property_type.."_"..property_variant.." SET `identifier`=?, `character_id`=?, `expire`=?, `overdue`=? WHERE `id` = ?", {user.get("steam"), user.get("characterID"), new_expire_time, "false", property_id})
 										TriggerClientEvent("properties:sync", -1, properties)
 									elseif user.get("bank") >= rent_cost then
 										user.removeBank(rent_cost)
@@ -670,7 +646,7 @@ AddEventHandler("properties:rent", function(property_type, property_variant, pro
 										properties[property_type][property_variant][property_id]["owner"]["char_id"] = user.get("characterID")
 										properties[property_type][property_variant][property_id]["owner"]["id"] = source
 										properties[property_type][property_variant][property_id]["overdue"] = false
-										exports["GHMattiMySQL"]:Query("UPDATE properties_"..property_type.."_"..property_variant.." SET `identifier`=@identifier, `character_id`=@character_id, `expire`=@expire, `overdue`=@overdue WHERE `id` = @property_id", {["@identifier"] = user.get("steam"), ["@character_id"] = user.get("characterID"), ["@expire"] = new_expire_time, ["@overdue"] = "false", ["@property_id"] = property_id})
+										exports["ghmattimysql"]:executeSync("UPDATE properties_"..property_type.."_"..property_variant.." SET `identifier`=?, `character_id`=?, `expire`=?, `overdue`=? WHERE `id` = ?", {user.get("steam"), user.get("characterID"), new_expire_time, "false", property_id})
 										TriggerClientEvent("properties:sync", -1, properties)
 									else
 										Notify("Insufficient funds", 3000, source)
@@ -685,7 +661,7 @@ AddEventHandler("properties:rent", function(property_type, property_variant, pro
 										properties[property_type][property_variant][property_id]["owner"]["char_id"] = user.get("characterID")
 										properties[property_type][property_variant][property_id]["owner"]["id"] = source
 										properties[property_type][property_variant][property_id]["overdue"] = false
-										exports["GHMattiMySQL"]:Query("UPDATE properties_"..property_type.."_"..property_variant.." SET `identifier`=@identifier, `character_id`=@character_id, `expire`=@expire, `overdue`=@overdue WHERE `id` = @property_id", {["@identifier"] = user.get("steam"), ["@character_id"] = user.get("characterID"), ["@expire"] = new_expire_time, ["@overdue"] = "false", ["@property_id"] = property_id})
+										exports["ghmattimysql"]:executeSync("UPDATE properties_"..property_type.."_"..property_variant.." SET `identifier`=?, `character_id`=?, `expire`=?, `overdue`=? WHERE `id` = ?", {user.get("steam"), user.get("characterID"), new_expire_time, "false", property_id})
 										TriggerClientEvent("properties:sync", -1, properties)
 									elseif user.get("bank") >= rent_cost then
 										user.removeBank(rent_cost)
@@ -696,7 +672,7 @@ AddEventHandler("properties:rent", function(property_type, property_variant, pro
 										properties[property_type][property_variant][property_id]["owner"]["char_id"] = user.get("characterID")
 										properties[property_type][property_variant][property_id]["owner"]["id"] = source
 										properties[property_type][property_variant][property_id]["overdue"] = false
-										exports["GHMattiMySQL"]:Query("UPDATE properties_"..property_type.."_"..property_variant.." SET `identifier`=@identifier, `character_id`=@character_id, `expire`=@expire, `overdue`=@overdue WHERE `id` = @property_id", {["@identifier"] = user.get("steam"), ["@character_id"] = user.get("characterID"), ["@expire"] = new_expire_time, ["@overdue"] = "false", ["@property_id"] = property_id})
+										exports["ghmattimysql"]:executeSync("UPDATE properties_"..property_type.."_"..property_variant.." SET `identifier`=?, `character_id`=?, `expire`=?, `overdue`=? WHERE `id` = ?", {user.get("steam"), user.get("characterID"), new_expire_time, "false", property_id})
 										TriggerClientEvent("properties:sync", -1, properties)
 									else
 										Notify("Insufficient funds", 3000, source)
@@ -713,8 +689,8 @@ AddEventHandler("properties:rent", function(property_type, property_variant, pro
 			if properties[property_type] then
 				if properties[property_type][property_variant] then
 					if properties[property_type][property_variant][property_id] then
-						local result = exports["GHMattiMySQL"]:QueryResult("SELECT * FROM properties_"..property_type.."_"..property_variant.." WHERE id=@property_id", { ["@property_id"] = property_id})
-						properties[property_type][property_variant][property_id]["storage"]["current"]["weapons"] = exports["GHMattiMySQL"]:QueryResult("SELECT * FROM properties_"..property_type.."_"..property_variant.."_weapons WHERE property_id=@property_id", { ["@property_id"] = property_id})
+						local result = exports["ghmattimysql"]:executeSync("SELECT * FROM properties_"..property_type.."_"..property_variant.." WHERE id=?", { property_id })
+						properties[property_type][property_variant][property_id]["storage"]["current"]["weapons"] = exports["ghmattimysql"]:executeSync("SELECT * FROM properties_"..property_type.."_"..property_variant.."_weapons WHERE property_id=?", { property_id})
 						properties[property_type][property_variant][property_id]["owner"]["identifier"] = result[1].identifier
 						properties[property_type][property_variant][property_id]["owner"]["char_id"] = tonumber(result[1].character_id)
 						properties[property_type][property_variant][property_id]["locked"] = str_to_bool(result[1]["locked"])
@@ -739,7 +715,7 @@ AddEventHandler("properties:rent", function(property_type, property_variant, pro
 							properties[property_type][property_variant][property_id]["owner"]["identifier"] = "no"
 							properties[property_type][property_variant][property_id]["owner"]["char_id"] = 0
 							properties[property_type][property_variant][property_id]["owner"]["id"] = 0
-							exports["GHMattiMySQL"]:Query("UPDATE properties_"..property_type.."_"..property_variant.." SET `identifier`=@identifier, `character_id`=NULL WHERE id = @property_id", {["@identifier"] = "no", ["@property_id"] = property_id})
+							exports["ghmattimysql"]:executeSync("UPDATE properties_"..property_type.."_"..property_variant.." SET `identifier`=?, `character_id`=NULL WHERE id = ?", {"no", property_id})
 						end
 						TriggerClientEvent("properties:sync", -1, properties)
 						if os.time() > (tonumber(properties[property_type][property_variant][property_id]["expire"]) + (time_to_pay_house_rent*60*60)) or os.time() > tonumber(properties[property_type][property_variant][property_id]["expire"]) then
@@ -764,7 +740,7 @@ AddEventHandler("properties:rent", function(property_type, property_variant, pro
 										properties[property_type][property_variant][property_id]["owner"]["identifier"] = user.get("steam")
 										properties[property_type][property_variant][property_id]["owner"]["char_id"] = user.get("characterID")
 										properties[property_type][property_variant][property_id]["owner"]["id"] = source
-										exports["GHMattiMySQL"]:Query("UPDATE properties_"..property_type.."_"..property_variant.." SET `identifier`=@identifier, `character_id`=@character_id, `expire`=@expire WHERE `id` = @property_id", {["@identifier"] = user.get("steam"), ["@character_id"] = user.get("characterID"), ["@expire"] = new_expire_time, ["@property_id"] = property_id})
+										exports["ghmattimysql"]:executeSync("UPDATE properties_"..property_type.."_"..property_variant.." SET `identifier`=?, `character_id`=?, `expire`=? WHERE `id` = ?", {user.get("steam"), user.get("characterID"), new_expire_time, property_id})
 										TriggerClientEvent("properties:sync", -1, properties)
 									elseif user.get("bank") >= rent_cost then
 										user.removeBank(rent_cost)
@@ -774,7 +750,7 @@ AddEventHandler("properties:rent", function(property_type, property_variant, pro
 										properties[property_type][property_variant][property_id]["owner"]["identifier"] = user.get("steam")
 										properties[property_type][property_variant][property_id]["owner"]["char_id"] = user.get("characterID")
 										properties[property_type][property_variant][property_id]["owner"]["id"] = source
-										exports["GHMattiMySQL"]:Query("UPDATE properties_"..property_type.."_"..property_variant.." SET `identifier`=@identifier, `character_id`=@character_id, `expire`=@expire WHERE `id` = @property_id", {["@identifier"] = user.get("steam"), ["@character_id"] = user.get("characterID"), ["@expire"] = new_expire_time, ["@property_id"] = property_id})
+										exports["ghmattimysql"]:executeSync("UPDATE properties_"..property_type.."_"..property_variant.." SET `identifier`=?, `character_id`=?, `expire`=? WHERE `id` = ?", {user.get("steam"), user.get("characterID"), new_expire_time, property_id})
 										TriggerClientEvent("properties:sync", -1, properties)
 									else
 										Notify("Insufficient funds", 3000, source)
@@ -788,7 +764,7 @@ AddEventHandler("properties:rent", function(property_type, property_variant, pro
 										properties[property_type][property_variant][property_id]["owner"]["identifier"] = user.get("steam")
 										properties[property_type][property_variant][property_id]["owner"]["char_id"] = user.get("characterID")
 										properties[property_type][property_variant][property_id]["owner"]["id"] = source
-										exports["GHMattiMySQL"]:Query("UPDATE properties_"..property_type.."_"..property_variant.." SET `identifier`=@identifier, `character_id`=@character_id, `expire`=@expire WHERE `id` = @property_id", {["@identifier"] = user.get("steam"), ["@character_id"] = user.get("characterID"), ["@expire"] = new_expire_time, ["@property_id"] = property_id})
+										exports["ghmattimysql"]:executeSync("UPDATE properties_"..property_type.."_"..property_variant.." SET `identifier`=?, `character_id`=?, `expire`=? WHERE `id` = ?", {user.get("steam"), user.get("characterID"), new_expire_time, property_id})
 										TriggerClientEvent("properties:sync", -1, properties)
 									elseif user.get("bank") >= rent_cost then
 										user.removeBank(rent_cost)
@@ -798,7 +774,7 @@ AddEventHandler("properties:rent", function(property_type, property_variant, pro
 										properties[property_type][property_variant][property_id]["owner"]["identifier"] = user.get("steam")
 										properties[property_type][property_variant][property_id]["owner"]["char_id"] = user.get("characterID")
 										properties[property_type][property_variant][property_id]["owner"]["id"] = source
-										exports["GHMattiMySQL"]:Query("UPDATE properties_"..property_type.."_"..property_variant.." SET `identifier`=@identifier, `character_id`=@character_id, `expire`=@expire WHERE `id` = @property_id", {["@identifier"] = user.get("steam"), ["@character_id"] = user.get("characterID"), ["@expire"] = new_expire_time, ["@property_id"] = property_id})
+										exports["ghmattimysql"]:executeSync("UPDATE properties_"..property_type.."_"..property_variant.." SET `identifier`=?, `character_id`=?, `expire`=? WHERE `id` = ?", {user.get("steam"), user.get("characterID"), new_expire_time, property_id})
 										TriggerClientEvent("properties:sync", -1, properties)
 									else
 										Notify("Insufficient funds", 3000, source)
@@ -823,11 +799,11 @@ AddEventHandler("properties:lock", function(property_type, property_variant, pro
 			if properties[property_type][property_variant][property_id] then
 				if lock_type == "door" then
 					properties[property_type][property_variant][property_id]["locked"] = lock_value
-					exports["GHMattiMySQL"]:QueryAsync("UPDATE properties_"..property_type.."_"..property_variant.." SET `locked`=@locked WHERE `id` = @property_id", {["@locked"] = bool_to_str(lock_value), ["@property_id"] = property_id})
+					exports["ghmattimysql"]:execute("UPDATE properties_"..property_type.."_"..property_variant.." SET `locked`=? WHERE `id` = ?", {bool_to_str(lock_value), property_id})
 					TriggerClientEvent("properties:sync", -1, properties)
 				elseif lock_type == "vault" then
 					properties[property_type][property_variant][property_id]["storage"]["locked"] = lock_value
-					exports["GHMattiMySQL"]:QueryAsync("UPDATE properties_"..property_type.."_"..property_variant.." SET `vault_locked`=@locked WHERE `id` = @property_id", {["@locked"] = bool_to_str(lock_value), ["@property_id"] = property_id})
+					exports["ghmattimysql"]:execute("UPDATE properties_"..property_type.."_"..property_variant.." SET `vault_locked`=? WHERE `id` = ?", {bool_to_str(lock_value), property_id})
 					TriggerClientEvent("properties:sync", -1, properties)
 				end
 			end
@@ -882,7 +858,7 @@ AddEventHandler("properties:rob_finish", function(property_type, property_varian
 						local dirty_reward = properties[property_type][property_variant][property_id]["storage"]["current"]["dirty"] * tonumber(_data.dirty) / 100
 						properties[property_type][property_variant][property_id]["storage"]["current"]["cash"] = properties[property_type][property_variant][property_id]["storage"]["current"]["cash"] - cash_reward
 						properties[property_type][property_variant][property_id]["storage"]["current"]["dirty"] = properties[property_type][property_variant][property_id]["storage"]["current"]["dirty"] - dirty_reward
-						exports["GHMattiMySQL"]:QueryAsync("UPDATE properties_"..property_type.."_"..property_variant.." SET `cash`=@cash, `dirty`=@dirty WHERE `id` = @property_id", {["@cash"] = properties[property_type][property_variant][property_id]["storage"]["current"]["cash"], ["@dirty"] = properties[property_type][property_variant][property_id]["storage"]["current"]["dirty"], ["@property_id"] = property_id})
+						exports["ghmattimysql"]:execute("UPDATE properties_"..property_type.."_"..property_variant.." SET `cash`=?, `dirty`=? WHERE `id` = ?", {properties[property_type][property_variant][property_id]["storage"]["current"]["cash"], properties[property_type][property_variant][property_id]["storage"]["current"]["dirty"], property_id})
 						user.addWallet(cash_reward)
 						user.addDirty(dirty_reward)
 						TriggerClientEvent("properties:sync", -1, properties)
@@ -924,8 +900,8 @@ AddEventHandler("properties:fetch", function(property_type, property_variant, pr
 		if properties[property_type] then
 			if properties[property_type][property_variant] then
 				if properties[property_type][property_variant][property_id] then
-					local result = exports["GHMattiMySQL"]:QueryResult("SELECT * FROM properties_"..property_type.."_"..property_variant.." WHERE id=@property_id", { ["@property_id"] = property_id})
-					properties[property_type][property_variant][property_id]["storage"]["current"]["weapons"] = exports["GHMattiMySQL"]:QueryResult("SELECT * FROM properties_"..property_type.."_"..property_variant.."_weapons WHERE property_id=@property_id", { ["@property_id"] = property_id})
+					local result = exports["ghmattimysql"]:executeSync("SELECT * FROM properties_"..property_type.."_"..property_variant.." WHERE id=?", { property_id})
+					properties[property_type][property_variant][property_id]["storage"]["current"]["weapons"] = exports["ghmattimysql"]:executeSync("SELECT * FROM properties_"..property_type.."_"..property_variant.."_weapons WHERE property_id=?", { property_id})
 					properties[property_type][property_variant][property_id]["owner"]["identifier"] = result[1].identifier
 					properties[property_type][property_variant][property_id]["owner"]["char_id"] = tonumber(result[1].character_id)
 					properties[property_type][property_variant][property_id]["locked"] = str_to_bool(result[1]["locked"])
@@ -952,12 +928,12 @@ AddEventHandler("properties:fetch", function(property_type, property_variant, pr
 							properties[property_type][property_variant][property_id]["owner"]["identifier"] = "no"
 							properties[property_type][property_variant][property_id]["owner"]["char_id"] = 0
 							properties[property_type][property_variant][property_id]["owner"]["id"] = 0
-							exports["GHMattiMySQL"]:QueryAsync("UPDATE properties_"..property_type.."_"..property_variant.." SET `identifier`=@identifier, `character_id`=NULL WHERE id = @property_id", {["@identifier"] = "no", ["@property_id"] = property_id})
+							exports["ghmattimysql"]:execute("UPDATE properties_"..property_type.."_"..property_variant.." SET `identifier`=?, `character_id`=NULL WHERE id = ?", {"no", property_id})
 						end
 					elseif property_type == "businesses" then
 						if os.time() > (tonumber(properties[property_type][property_variant][property_id]["expire"]) + (time_to_pay_businesses_rent*60*60)) then
 							properties[property_type][property_variant][property_id]["overdue"] = true
-							exports["GHMattiMySQL"]:QueryAsync("UPDATE properties_"..property_type.."_"..property_variant.." SET `overdue`=@overdue WHERE id = @property_id", {["@overdue"] = "true", ["@property_id"] = property_id})
+							exports["ghmattimysql"]:execute("UPDATE properties_"..property_type.."_"..property_variant.." SET `overdue`=? WHERE id = ?", {"true", property_id})
 						end
 					end
 					TriggerClientEvent("properties:sync", -1, properties)
@@ -974,7 +950,7 @@ AddEventHandler("properties:check", function(property_type, property_variant, pr
 		if properties[property_type][property_variant] then
 			if properties[property_type][property_variant][property_id] then
 				if properties[property_type][property_variant][property_id]["owner"]["identifier"] ~= "no" then
-					exports["GHMattiMySQL"]:QueryResultAsync("SELECT first_name, last_name FROM characters WHERE (identifier=@identifier) AND (character_id=@character_id)", {["@identifier"] = properties[property_type][property_variant][property_id]["owner"]["identifier"], ["@character_id"] = tonumber(properties[property_type][property_variant][property_id]["owner"]["char_id"])}, function(property_owner)
+					exports["ghmattimysql"]:execute("SELECT first_name, last_name FROM characters WHERE (identifier=?) AND (character_id=?)", {properties[property_type][property_variant][property_id]["owner"]["identifier"], tonumber(properties[property_type][property_variant][property_id]["owner"]["char_id"])}, function(property_owner)
 						if property_owner[1] == nil then
 							Notify("Failed to find the owner of the property!", 3000, source)
 						else
@@ -1021,120 +997,3 @@ AddEventHandler("core:switch", function()
 		end
 	end
 end)
-
-
---[===[
-RegisterServerEvent("properties:pay")
-AddEventHandler("properties:pay", function()
-	local source = source
-	local query = ""
-	for k,property in pairs(properties["businesses"]["normal"]) do
-		if property["owner"]["id"] ~= 0 then
-			Notify(property["property_name"].." has made <span style='color:lime'>$</span><span style='color:white'>"..property["income"].."</span>", 5000, tonumber(property["owner"]["id"]))
-		end
-		if property["storage"]["current"]["cash"] < property["storage"]["max"]["cash"] then
-			local available_space_cash = property["storage"]["max"]["cash"] - property["storage"]["current"]["cash"]
-			if available_space_cash >= math.floor(property["income"]) then
-				property["storage"]["current"]["cash"] = property["storage"]["current"]["cash"] + property["income"]
-			else
-				property["storage"]["current"]["cash"] = property["storage"]["current"]["cash"] + available_space_cash
-				local amount_remaining = property["income"] - available_space_cash
-				if property["storage"]["current"]["dirty"] < property["storage"]["max"]["dirty"] then
-					local available_space_dirty = property["storage"]["max"]["dirty"] - property["storage"]["current"]["dirty"]
-					if available_space_dirty >= math.floor(amount_remaining) then
-						property["storage"]["current"]["dirty"] = property["storage"]["current"]["dirty"] + amount_remaining
-					else
-						property["storage"]["current"]["dirty"] = property["storage"]["current"]["dirty"] + available_space_dirty
-						local amount_lost = amount_remaining - available_space_dirty
-							if amount_lost > 0 then
-							if property["owner"]["id"] ~= 0 then
-								Notify("<span style='color:lime'>$</span><span style='color:white'>"..amount_lost.."</span> of the <span style='color:lime'>$</span><span style='color:white'>"..property["income"].."</span> has been invested into the business!", 5000, tonumber(property["owner"]["id"]))
-							end
-						end
-					end
-				else
-					local amount_lost = amount_remaining
-					if amount_lost > 0 then
-						if property["owner"]["id"] ~= 0 then
-							Notify("<span style='color:lime'>$</span><span style='color:white'>"..amount_lost.."</span> of the <span style='color:lime'>$</span><span style='color:white'>"..property["income"].."</span> has been invested into the business!", 5000, tonumber(property["owner"]["id"]))
-						end
-					end
-				end
-			end
-		elseif property["storage"]["current"]["dirty"] < property["storage"]["max"]["dirty"] then
-			local available_space_dirty = property["storage"]["max"]["dirty"] - property["storage"]["current"]["dirty"]
-			if available_space_dirty >= math.floor(property["income"]) then
-				property["storage"]["current"]["dirty"] = property["storage"]["current"]["dirty"] + property["income"]
-			else
-				property["storage"]["current"]["dirty"] = property["storage"]["current"]["dirty"] + available_space_dirty
-				local amount_lost = property["income"] - available_space_dirty
-				if amount_lost > 0 then
-					if property["owner"]["id"] ~= 0 then
-						Notify("<span style='color:lime'>$</span><span style='color:white'>"..amount_lost.."</span> of the <span style='color:lime'>$</span><span style='color:white'>"..property["income"].."</span> has been invested into the business!", 5000, tonumber(property["owner"]["id"]))
-					end
-				end
-			end
-		else
-			if property["owner"]["id"] ~= 0 then
-				Notify("<span style='color:lime'>$</span><span style='color:white'>"..property["income"].."</span> of the <span style='color:lime'>$</span><span style='color:white'>"..property["income"].."</span> has been invested into the business!", 5000, tonumber(property["owner"]["id"]))
-			end	
-		end
-		query = query .. "UPDATE properties_businesses_normal SET cash='"..property["storage"]["current"]["cash"].."', dirty='"..property["storage"]["current"]["dirty"].."' WHERE id = '"..k.."'; "
-	end
-	for k,property in pairs(properties["businesses"]["enterable"]) do
-		if property["owner"]["id"] ~= 0 then
-			Notify(property["property_name"].." has made <span style='color:lime'>$</span><span style='color:white'>"..property["income"].."</span>", 5000, tonumber(property["owner"]["id"]))
-		end
-		if property["storage"]["current"]["cash"] < property["storage"]["max"]["cash"] then
-			local available_space_cash = property["storage"]["max"]["cash"] - property["storage"]["current"]["cash"]
-			if available_space_cash >= math.floor(property["income"]) then
-				property["storage"]["current"]["cash"] = property["storage"]["current"]["cash"] + property["income"]
-			else
-				property["storage"]["current"]["cash"] = property["storage"]["current"]["cash"] + available_space_cash
-				local amount_remaining = property["income"] - available_space_cash
-				if property["storage"]["current"]["dirty"] < property["storage"]["max"]["dirty"] then
-					local available_space_dirty = property["storage"]["max"]["dirty"] - property["storage"]["current"]["dirty"]
-					if available_space_dirty >= math.floor(amount_remaining) then
-						property["storage"]["current"]["dirty"] = property["storage"]["current"]["dirty"] + amount_remaining
-					else
-						property["storage"]["current"]["dirty"] = property["storage"]["current"]["dirty"] + available_space_dirty
-						local amount_lost = amount_remaining - available_space_dirty
-							if amount_lost > 0 then
-							if property["owner"]["id"] ~= 0 then
-								Notify("<span style='color:lime'>$</span><span style='color:white'>"..amount_lost.."</span> of the <span style='color:lime'>$</span><span style='color:white'>"..property["income"].."</span> has been invested into the business!", 5000, tonumber(property["owner"]["id"]))
-							end
-						end
-					end
-				else
-					local amount_lost = amount_remaining
-					if amount_lost > 0 then
-						if property["owner"]["id"] ~= 0 then
-							Notify("<span style='color:lime'>$</span><span style='color:white'>"..amount_lost.."</span> of the <span style='color:lime'>$</span><span style='color:white'>"..property["income"].."</span> has been invested into the business!", 5000, tonumber(property["owner"]["id"]))
-						end
-					end
-				end
-			end
-		elseif property["storage"]["current"]["dirty"] < property["storage"]["max"]["dirty"] then
-			local available_space_dirty = property["storage"]["max"]["dirty"] - property["storage"]["current"]["dirty"]
-			if available_space_dirty >= math.floor(property["income"]) then
-				property["storage"]["current"]["dirty"] = property["storage"]["current"]["dirty"] + property["income"]
-			else
-				property["storage"]["current"]["dirty"] = property["storage"]["current"]["dirty"] + available_space_dirty
-				local amount_lost = property["income"] - available_space_dirty
-				if amount_lost > 0 then
-					if property["owner"]["id"] ~= 0 then
-						Notify("<span style='color:lime'>$</span><span style='color:white'>"..amount_lost.."</span> of the <span style='color:lime'>$</span><span style='color:white'>"..property["income"].."</span> has been invested into the business!", 5000, tonumber(property["owner"]["id"]))
-					end
-				end
-			end
-		else
-			if property["owner"]["id"] ~= 0 then
-				Notify("<span style='color:lime'>$</span><span style='color:white'>"..property["income"].."</span> has been invested into the business!", 5000, tonumber(property["owner"]["id"]))
-			end	
-		end
-		query = query .. "UPDATE properties_businesses_enterable SET cash='"..property["storage"]["current"]["cash"].."', dirty='"..property["storage"]["current"]["dirty"].."' WHERE id = '"..k.."'; "
-	end
-	exports['GHMattiMySQL']:QueryAsync(query, {})
-	TriggerClientEvent("properties:sync", -1, properties)
-end)
---]===]

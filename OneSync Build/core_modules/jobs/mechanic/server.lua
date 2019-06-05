@@ -2,7 +2,7 @@ Mechanic = {}
 Mechanic.Players = {}
 
 AddEventHandler("Mechanic:Initialise", function(source, identifier, character_id)
-	exports['GHMattiMySQL']:QueryResultAsync("SELECT * FROM mechanic WHERE character_id=@character_id", {["@character_id"] = character_id}, function(result)
+	exports["ghmattimysql"]:execute("SELECT * FROM mechanic WHERE character_id=?", {character_id}, function(result)
 		if result[1] == nil then
 			TriggerClientEvent("Mechanic:Set", source, {}, false, true)
 		else
@@ -22,10 +22,7 @@ TriggerEvent("core:addGroupCommand", "mechanicadd", "command", function(source, 
 			if Mechanic.Ranks[rank:lower()] ~= nil then
 				TriggerEvent("core:getuser", tonumber(args[1]), function(target)
 					Mechanic.Players[tonumber(args[1])] = nil
-					exports['GHMattiMySQL']:QueryAsync("DELETE FROM mechanic WHERE character_id=@character_id; INSERT INTO Mechanic (`character_id`, `rank`) VALUES (@character_id, @rank)", {
-						["@character_id"] = target.get("characterID"),
-						["@rank"] = rank:lower(),
-					})
+					exports["ghmattimysql"]:execute("DELETE FROM mechanic WHERE character_id=?; INSERT INTO Mechanic (`character_id`, `rank`) VALUES (?, ?)", {target.get("characterID"), target.get("characterID"), rank:lower()})
 					Mechanic.Players[tonumber(args[1])] = { character_id = target.get("characterID"), rank = rank:lower(), onduty = "false" }
 					Notify("<b style='color:red'>Alert</b> <br><span style='color:lime'>"..target.get("first_name").." "..target.get("last_name").."</span> has been accepted. <br> Congratulations on joining the Mechanics!", 10000, tonumber(args[1]))
 					TriggerClientEvent("Mechanic:Set", tonumber(args[1]), Mechanic.Players[tonumber(args[1])], true)
@@ -48,7 +45,7 @@ TriggerEvent("core:addGroupCommand", "mechanicrem", "command", function(source, 
 			if Mechanic.Players[tonumber(args[1])] ~= nil then
 				TriggerEvent("core:getuser", tonumber(args[1]), function(target)
 					Mechanic.Players[tonumber(args[1])] = nil
-					exports['GHMattiMySQL']:QueryAsync("DELETE FROM Mechanic WHERE character_id=@character_id", {["@character_id"] = target.get("characterID")})
+					exports["ghmattimysql"]:execute("DELETE FROM Mechanic WHERE character_id=?", {target.get("characterID")})
 					Notify("<b style='color:red'>Alert</b> <br><span style='color:lime'>"..target.get("first_name").." "..target.get("last_name").."</span> has been fired. <br> They are no longer an employee of the Mechanic!", 10000, tonumber(args[1]))
 					TriggerClientEvent("Mechanic:Set", tonumber(args[1]), Mechanic.Players[tonumber(args[1])], false)
 				end)
@@ -75,7 +72,7 @@ TriggerEvent("core:addGroupCommand", "mechanicpromote", "command", function(sour
 							if cb then
 								if canPromote(Mechanic.Players[source].rank) then
 									TriggerEvent("core:getuser", tonumber(args[1]), function(target)
-										exports['GHMattiMySQL']:QueryAsync("UPDATE mechanic SET rank=@rank WHERE character_id=@character_id", {["@character_id"] = target.get("characterID"), ["@rank"] = rank:lower()})
+										exports["ghmattimysql"]:execute("UPDATE mechanic SET rank=? WHERE character_id=?", {rank:lower(), target.get("characterID")})
 										Mechanic.Players[tonumber(args[1])].rank = rank:lower()
 										Notify("<b style='color:red'>Alert</b> <br><span style='color:lime'>You have been promoted!</span><br> You are now a "..rank, 10000, tonumber(args[1]))
 										TriggerClientEvent("Mechanic:Set", tonumber(args[1]), Mechanic.Players[tonumber(args[1])], true)
@@ -116,7 +113,7 @@ TriggerEvent("core:addGroupCommand", "mechanicdemote", "command", function(sourc
 							if cb then
 								if canPromote(Mechanic.Players[source].rank) then
 									TriggerEvent("core:getuser", tonumber(args[1]), function(target)
-										exports['GHMattiMySQL']:QueryAsync("UPDATE mechanic SET rank=@rank WHERE character_id=@character_id", {["@character_id"] = target.get("characterID"), ["@rank"] = rank:lower()})
+										exports["ghmattimysql"]:execute("UPDATE mechanic SET rank=? WHERE character_id=?", {rank:lower(), target.get("characterID")})
 										Mechanic.Players[tonumber(args[1])].rank = rank:lower()
 										Notify("<b style='color:red'>Alert</b> <br><span style='color:lime'>You have been demoted!</span><br> You are now a "..rank, 10000, tonumber(args[1]))
 										TriggerClientEvent("Mechanic:Set", tonumber(args[1]), Mechanic.Players[tonumber(args[1])], true)

@@ -3,18 +3,10 @@ AddEventHandler("Outfit.Create", function(Model, Outfit, LocationIndex)
 	local Source = source
 	TriggerEvent("core:getuser", Source, function(user)
 		if user ~= nil then
-			exports["GHMattiMySQL"]:Insert("outfit", {
-                {
-					["character_id"] = user.get("characterID"),
-					["model"] = Model,
-					["name"] = Outfit.Name,
-					["clothing_drawable"] = json.encode(Outfit.Clothing.Drawable),
-					["clothing_texture"] = json.encode(Outfit.Clothing.Texture),
-					["prop_drawable"] = json.encode(Outfit.Props.Drawable),
-					["prop_texture"] = json.encode(Outfit.Props.Texture),
-                }
-            }, function(Id)
-            	Outfit.Id = Id
+			exports["ghmattimysql"]:execute("INSERT INTO outfit (`character_id`, `model`, `name`, `clothing_drawable`, `clothing_texture`, `prop_drawable`, `prop_texture`) VALUES (?, ?, ?, ?, ?, ?, ?)", {user.get("characterID"), Model, Outfit.Name, json.encode(Outfit.Clothing.Drawable), json.encode(Outfit.Clothing.Texture), json.encode(Outfit.Props.Drawable), json.encode(Outfit.Props.Texture)}, function(rowChanges)
+				local rowId = rowChanges.insertId
+
+            	Outfit.Id = rowId
 
             	if not PlayerCustomisation.Outfits[Source][Model] then
             		PlayerCustomisation.Outfits[Source][Model] = {}
@@ -22,8 +14,8 @@ AddEventHandler("Outfit.Create", function(Model, Outfit, LocationIndex)
 
             	table.insert(PlayerCustomisation.Outfits[Source][Model], Outfit)
 
-            	TriggerClientEvent("Outfit.Load", Source, PlayerCustomisation.Outfits[Source], LocationIndex)
-            end, true)
+            	TriggerClientEvent("Outfit.Load", Source, PlayerCustomisation.Outfits[Source], LocationIndex)				
+			end)
 		end
 	end)
 end)
@@ -33,14 +25,7 @@ AddEventHandler("Outfit.Update", function(Model, Outfit, LocationIndex)
 	local Source = source
 	TriggerEvent("core:getuser", Source, function(user)
 		if user ~= nil then
-			exports["GHMattiMySQL"]:QueryAsync("UPDATE outfit SET clothing_drawable=@clothing_drawable, clothing_texture=@clothing_texture, prop_drawable=@prop_drawable, prop_texture=@prop_texture WHERE id = @id", {
-				["@id"] = Outfit.Id,
-				["@name"] = Outfit.Name,
-				["@clothing_drawable"] = json.encode(Outfit.Clothing.Drawable),
-				["@clothing_texture"] = json.encode(Outfit.Clothing.Texture),
-				["@prop_drawable"] = json.encode(Outfit.Props.Drawable),
-				["@prop_texture"] = json.encode(Outfit.Props.Texture),
-			})
+			exports["ghmattimysql"]:execute("UPDATE outfit SET clothing_drawable=?, clothing_texture=?, prop_drawable=?, prop_texture=? WHERE id = @id", {json.encode(Outfit.Clothing.Drawable), json.encode(Outfit.Clothing.Texture), json.encode(Outfit.Props.Drawable), json.encode(Outfit.Props.Texture), Outfit.Id})
 
 			for Index = 1, #PlayerCustomisation.Outfits[Source][Model] do
 				if PlayerCustomisation.Outfits[Source][Model][Index].Id == Outfit.Id then
@@ -59,9 +44,7 @@ AddEventHandler("Outfit.Delete", function(Model, Id, LocationIndex)
 	local Source = source
 	TriggerEvent("core:getuser", Source, function(user)
 		if user ~= nil then
-			exports["GHMattiMySQL"]:QueryAsync("DELETE FROM outfit WHERE id = @id", {
-				["@id"] = Id,
-			})
+			exports["ghmattimysql"]:execute("DELETE FROM outfit WHERE id = ?", {Id})
 
 			for Index = 1, #PlayerCustomisation.Outfits[Source][Model] do
 				if PlayerCustomisation.Outfits[Source][Model][Index].Id == Id then
@@ -76,7 +59,7 @@ AddEventHandler("Outfit.Delete", function(Model, Id, LocationIndex)
 end)
 
 AddEventHandler("core:loaded", function(Source, user, power, group)
-	exports["GHMattiMySQL"]:QueryResultAsync("SELECT * FROM outfit WHERE character_id=@char_id", {["@char_id"] = user.get("characterID")}, function(Outfits)
+	exports["ghmattimysql"]:execute("SELECT * FROM outfit WHERE character_id=?", {user.get("characterID")}, function(Outfits)
 		if Outfits[1] ~= nil then
 			PlayerCustomisation.Outfits[Source] = {}
 			for Index = 1, #Outfits do

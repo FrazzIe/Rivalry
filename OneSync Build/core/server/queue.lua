@@ -515,27 +515,15 @@ Citizen.CreateThread(function()
         local banned
 
         if Config.CheckBans then
-            exports["GHMattiMySQL"]:QueryResultAsync("SELECT * FROM bans WHERE (identifier=@identifier) OR (license=@license)", {["@identifier"] = getID("steam", src), ["@license"] = getID("license", src)}, function(bans)
+            exports["ghmattimysql"]:execute("SELECT * FROM bans WHERE (identifier=?) OR (license=?)", {getID("steam", src), getID("license", src)}, function(bans)
                 banned = bans
             end)
             while banned == nil do Citizen.Wait(0) end
 
             if banned[1] then 
                 if os_time() > tonumber(banned[1].expire) and banned[1].permanent ~= "true" then
-                    exports["GHMattiMySQL"]:QueryAsync("INSERT INTO bans_archive (`identifier`,`license`,`timestamp`,`expire`,`reason`,`name`,`banner`,`permanent`) VALUES (@identifier, @license, @timestamp, @expire, @reason, @name, @banner, @permanent)", {
-                        ["@identifier"] = banned[1].identifier,
-                        ["@license"] = banned[1].license,
-                        ["@timestamp"] = banned[1].timestamp,
-                        ["@expire"] = banned[1].expire,
-                        ["@reason"] = banned[1].reason,
-                        ["@name"] = banned[1].name,
-                        ["@banner"] = banned[1].banner,
-                        ["@permanent"] = banned[1].permanent,
-                    })
-                    exports["GHMattiMySQL"]:QueryAsync("DELETE FROM bans WHERE (identifier=@identifier) OR (license=@license)",{
-                        ["@identifier"] = banned[1].identifier,
-                        ["@license"] = banned[1].license,                             
-                    })
+                    exports["ghmattimysql"]:execute("INSERT INTO bans_archive (`identifier`,`license`,`timestamp`,`expire`,`reason`,`name`,`banner`,`permanent`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", {banned[1].identifier, banned[1].license, banned[1].timestamp, banned[1].expire, banned[1].reason, banned[1].name, banned[1].banner, banned[1].permanent})
+                    exports["ghmattimysql"]:execute("DELETE FROM bans WHERE (identifier=?) OR (license=?)", {banned[1].identifier, banned[1].license})
                 else
                     if banned[1].permanent ~= "true" then
                         done(name.." you are banned! It will expire on "..os.date("%A the "..ordinal_numbers(os.date("%d", banned[1].expire)).." of %B at %I:%M%p", banned[1].expire)..". Ban reason: "..banned[1].reason.." - rivalryrp.com")
@@ -553,7 +541,7 @@ Citizen.CreateThread(function()
         local whitelisted
 
         if Config.Whitelist then
-            exports["GHMattiMySQL"]:QueryResultAsync("SELECT * FROM whitelist WHERE identifier=@identifier", {["@identifier"] = getID("steam", src)}, function(whitelist)
+            exports["ghmattimysql"]:execute("SELECT * FROM whitelist WHERE identifier=?", {getID("steam", src)}, function(whitelist)
                 whitelisted = whitelist
             end)
             while whitelisted == nil do Citizen.Wait(0) end

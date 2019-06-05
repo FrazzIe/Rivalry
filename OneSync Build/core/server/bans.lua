@@ -128,16 +128,7 @@ AddEventHandler("core:ban", function(target, time, reason, isPerm, banner)
 			--The player you tried to ban is offline and we could not find the target in our list of disconnected players
 		else
 			table.remove(disconnectedPlayers, target_key)
-			exports["GHMattiMySQL"]:QueryAsync("INSERT INTO bans (`identifier`,`license`,`timestamp`,`expire`,`reason`,`name`,`banner`,`permanent`) VALUES (@identifier, @license, @timestamp, @expire, @reason, @name, @banner, @permanent)", {
-				["@identifier"] = target_info.steam,
-				["@license"] = target_info.license,
-				["@timestamp"] = os.time(),
-				["@expire"] = duration,
-				["@reason"] = reason,
-				["@name"] = target_info.name,
-				["@banner"] = name,
-				["@permanent"] = tostring(isPerm),
-			})
+			exports["ghmattimysql"]:execute("INSERT INTO bans (`identifier`,`license`,`timestamp`,`expire`,`reason`,`name`,`banner`,`permanent`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", {target_info.steam, target_info.license, os.time(), duration, reason, target_info.name, name, tostring(isPerm)})
 			if not isPerm then
 				banMessage(target_info.name, target_info.steam, target_info.license, bantime, reason, name)
 			else
@@ -148,16 +139,7 @@ AddEventHandler("core:ban", function(target, time, reason, isPerm, banner)
 		local target_steam = getID("steam", target)
 		local target_license = getID("license", target)
 		local target_name = GetPlayerName(target)
-		exports["GHMattiMySQL"]:QueryAsync("INSERT INTO bans (`identifier`,`license`,`timestamp`,`expire`,`reason`,`name`,`banner`,`permanent`) VALUES (@identifier, @license, @timestamp, @expire, @reason, @name, @banner, @permanent)", {
-			["@identifier"] = target_steam,
-			["@license"] = target_license,
-			["@timestamp"] = os.time(),
-			["@expire"] = duration,
-			["@reason"] = reason,
-			["@name"] = target_name,
-			["@banner"] = name,
-			["@permanent"] = tostring(isPerm),
-		})
+		exports["ghmattimysql"]:execute("INSERT INTO bans (`identifier`,`license`,`timestamp`,`expire`,`reason`,`name`,`banner`,`permanent`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", {target_steam, target_license, os.time(), duration, reason, target_name, name, tostring(isPerm)})
 		if not isPerm then
 			DropPlayer(target, target_name.." you have been banned! It will expire on "..os.date("%A the "..ordinal_numbers(os.date("%d", duration)).." of %B at %I:%M%p", duration)..". Ban reason: "..reason.." - rivalryrp.com")
 			banMessage(target_name, target_steam, target_license, bantime, reason, name)
