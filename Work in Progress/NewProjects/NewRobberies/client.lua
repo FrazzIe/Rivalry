@@ -731,6 +731,7 @@ RegisterNUICallback('lockpickwin', function(data, cb)
 	ClearPedTasks(PlayerPedId())
 	if not IsEntityDead(PlayerPedId()) then)
 		TriggerServerEvent("Rivalry.Lockbox.Payout", WhichBank)
+		WhichBank = nil
 		PlaySound(-1, "PICK_UP", "HUD_FRONTEND_DEFAULT_SOUNDSET", 0, 0, 1)
 	end
 end)
