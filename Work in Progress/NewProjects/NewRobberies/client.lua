@@ -123,8 +123,13 @@ Citizen.CreateThread(function()
 								DisplayHelpText("Press ~INPUT_CONTEXT~ to lockpick safe box!")
 								if IsControlJustPressed(1, 51) then
 									if exports.core_modules:GetItemQuantity(36) > 0 then
-										TriggerServerEvent("Rivalry.Rob.Fleeca.Safebox", Index, BoxNumber, GetPlayerServerId(PlayerId()))
-										break
+										if Index > 2 then
+											if not Rivalry.Robberies.Banks.Fleeca[Index].Locked2 then
+												TriggerServerEvent("Rivalry.Rob.Fleeca.Safebox", Index, BoxNumber, GetPlayerServerId(PlayerId()))
+											end
+										else
+											TriggerServerEvent("Rivalry.Rob.Fleeca.Safebox", Index, BoxNumber, GetPlayerServerId(PlayerId()))
+										end
 									else
 										Notify("You do not have any lockpicks!", 2500)
 									end
@@ -212,7 +217,6 @@ AddEventHandler("Rivalry.Rob.CashRegister", function(StoreNumber, RegisterNumber
 			TaskPlayAnim(PlayerPed, Dictionary, Animation, 4.0, -4, -1, 0, 0, 0, 0, 0)
 			TriggerServerEvent("dispatch:ten-ninety-store-cashregisters", Rivalry.Robberies.Stores[StoreNumber].Name)
 			PlaySoundFrontend(-1, "Drill_Pin_Break", "DLC_HEIST_FLEECA_SOUNDSET", 1);
-			--TriggerEvent('LIFE_CL:Sound:PlayOnOne', "locking", "0.3")
 			Citizen.Wait(2000)
 			Rivalry.Robberies.Stores[StoreNumber].CashRegisters[RegisterNumber].Robbed = true
 			PlaySound(-1, "PICK_UP", "HUD_FRONTEND_DEFAULT_SOUNDSET", 0, 0, 1)
@@ -518,12 +522,6 @@ Citizen.CreateThread(function()
 					TriggerServerEvent("Rivalry.HackVault", 1, 1, "Blaine", 0, GetPlayerServerId(PlayerId()))
 				end
 			end
-			if #(Rivalry.Robberies.Banks.Blaine.TorchPosition - PlayerPosition) <= 1.0 and Rivalry.Robberies.Banks.Blaine.Locked2 then
-				DisplayHelpText("Press ~INPUT_CONTEXT~ to blow torch door lock!")
-				if IsControlJustPressed(1, 51) then
-					TriggerServerEvent("Rivalry.BlowTorch", "Blaine", 0, GetPlayerServerId(PlayerId()))
-				end
-			end
 		end 
 		if #(Rivalry.Robberies.Banks.Pacific.Keypad - PlayerPosition) <= 30.0 then
 			RenderMarker(25, Rivalry.Robberies.Banks.Pacific.Keypad.x, Rivalry.Robberies.Banks.Pacific.Keypad.y, Rivalry.Robberies.Banks.Pacific.Keypad.z, 1.5, 1.5, 2.0, 255, 255, 0, 20)
@@ -714,13 +712,6 @@ RegisterNUICallback('close', function(data, cb)
 end)
 
 RegisterNUICallback('lockpickclose', function(data, cb)
-	TotalLocks = exports.core_modules:GetItemQuantity(36)
-	TotalLocksAfter = data.lockpicks
-	Difference = TotalLocks - TotalLocksAfter
-	if Difference > 0 then
-		Notify("You don't have any more lockpicks!")
-		exports.core_modules:removeQty(36, Difference)
-	end
 	CloseLockPickGui()
 	ClearPedTasks(PlayerPedId())
 end)
@@ -767,6 +758,7 @@ RegisterNUICallback('lockclick', function(data, cb)
 		if TotalComboLocks < 6 then
 			TriggerServerEvent('Rivalry.Vault.Payout')
 			PlaySound(-1, "PICK_UP", "HUD_FRONTEND_DEFAULT_SOUNDSET", 0, 0, 1)
+			NumberOfPins = 0
 		else
 			SendNUIMessage({combolock = false, newnumber = true, numberone = math.random(1, 40), numbertwo = math.random(1, 40), numberthree = math.random(1, 40)})
 		end
