@@ -61,9 +61,9 @@ Rivalry = {
 		},
 		Banks = {
 			SoftCooldown = 0,
-			BlainePayout = {min = 0, max = 0},
-			PacificPayout = {min = 0, max = 0},
-			FleecaPayout = {min = 0, max = 0},
+			BlainePayout = {min = 9800, max = 10200},
+			PacificPayout = {min = 12800, max = 13200},
+			FleecaPayout = {min = 9800, max = 10200},
 			Blaine = {
 				Name = "Blaine County Savings",
 				LockedBoxes = {
