@@ -658,6 +658,7 @@ end
 
 RegisterNetEvent("Rivalry.BlowTorch.Animation")
 AddEventHandler("Rivalry.BlowTorch.Animation", function()
+	exports.core_modules:removeQty(82, 1)
 	TaskStartScenarioInPlace(PlayerPedId(), "WORLD_HUMAN_WELDING", 0, true)
 	Wait(30000)
 	ClearPedTasks(PlayerPedId())
