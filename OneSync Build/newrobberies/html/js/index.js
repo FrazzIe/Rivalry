@@ -8,16 +8,16 @@ $(document).ready(function(){
     $(".num2").hide();
     $(".num3").hide();
     $('#body').hide();
-  function openMain() {
+  function OpenLockMain() {
     $(".container").show();
     $(".combo").show();
     $('#body').show();
   }
-  function closeAll() {
+  function CloseLockAll() {
     $(".container").hide();
     $('#body').hide();
   }
-  function closeMain() {
+  function CloseLockMain() {
     $(".container").hide();
     $(".combo").hide();
     $(".num1").hide();
@@ -113,7 +113,7 @@ $(document).ready(function(){
 
   document.onkeyup = function (data) {
     if (data.which == 27 ) {
-      closeMain();
+      CloseLockMain();
       $.post('http://newrobberies/close', JSON.stringify({}));
     }
   };
@@ -121,10 +121,10 @@ $(document).ready(function(){
   window.addEventListener('message', function(event){
     var item = event.data;
     if(item.combolock === true) {
-      openMain();
+      OpenLockMain();
     }
     if(item.combolock === false) {
-      closeMain();
+      CloseLockMain();
     }
     if(item.newnumber === true) { 
       combo = [item.numberone, item.numbertwo, item.numberthree];

@@ -219,17 +219,19 @@ $(document).ready(function(){
   function outOfPins() {
     gameOver = true;
     $.post('http://newrobberies/lockpickclose', JSON.stringify({lockpicks: numPins}));
-    $("#body").hide();
+    closeMain();
   }
 
   function unlock() {
     if(IsLockpickingDoor === true) {
       gameOver = true;
       $.post('http://newrobberies/lockpickwin2', JSON.stringify({lockpicks: numPins}));
+      closeMain();
     }
     else {
       gameOver = true;
       $.post('http://newrobberies/lockpickwin', JSON.stringify({lockpicks: numPins}));
+      closeMain();
     }
   }
 
