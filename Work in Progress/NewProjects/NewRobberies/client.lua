@@ -246,7 +246,6 @@ AddEventHandler("Rivalry.Rob.Blaine.Safebox", function()
 		if DoesEntityExist(PlayerPedId()) and not IsEntityDead(PlayerPedId()) then
 			OpenLockPickGui()
 			WhichBank = "Blaine"
-			isStillRobbingBlaine = true
 		end
 	end)
 end)
@@ -257,7 +256,6 @@ AddEventHandler("Rivalry.Rob.Pacific.Safebox", function()
 		if DoesEntityExist(PlayerPedId()) and not IsEntityDead(PlayerPedId()) then
 			OpenLockPickGui()
 			WhichBank = "Pacific"
-			isStillRobbingPacific = true
 		end
 	end)
 end)
@@ -267,9 +265,7 @@ AddEventHandler("Rivalry.Rob.Fleeca.Safebox", function(BankNumber)
 	Citizen.CreateThread(function()
 		if DoesEntityExist(PlayerPedId()) and not IsEntityDead(PlayerPedId()) then
 			OpenLockPickGui()
-			isStillRobbingFleeca = true
 			WhichBank = "Fleeca"
-			whichFleeca = BankNumber
 		end
 	end)
 end)
@@ -280,22 +276,25 @@ Citizen.CreateThread(function()
 		if isStillRobbingPacific == true then
 			local Player = PlayerPedId()
 			local PlayerPosition = GetEntityCoords(Player, false)
-			if #(PlayerPosition - Rivalry.Robberies.Banks.Pacific.Vault) > 20 then
+			if #(PlayerPosition - Rivalry.Robberies.Banks.Pacific.Vault) > 17.0 then
 				TriggerServerEvent("Rivalry.Robberies.Stopped.Robbing", "Pacific", 0)
+				print("You ran too far!")
 				isStillRobbingPacific = false
 			end
 		elseif isStillRobbingBlaine == true then
 			local Player = PlayerPedId()
 			local PlayerPosition = GetEntityCoords(Player, false)
-			if #(PlayerPosition - Rivalry.Robberies.Banks.Blaine.Vault) > 20 then
+			if #(PlayerPosition - Rivalry.Robberies.Banks.Blaine.Vault) > 17.0 then
 				TriggerServerEvent("Rivalry.Robberies.Stopped.Robbing", "Blaine", 0)
+				print("You ran too far!")
 				isStillRobbingPacific = false
 			end
 		elseif isStillRobbingFleeca == true then
 			local Player = PlayerPedId()
 			local PlayerPosition = GetEntityCoords(Player, false)
-			if #(PlayerPosition - Rivalry.Robberies.Banks.Fleeca[whichFleeca].Vault) > 20 then
+			if #(PlayerPosition - Rivalry.Robberies.Banks.Fleeca[whichFleeca].Vault) > 17.0 then
 				TriggerServerEvent("Rivalry.Robberies.Stopped.Robbing", "Fleeca", whichFleeca)
+				print("You ran too far!")
 				isStillRobbingFleeca = false
 			end
 		end
@@ -535,7 +534,7 @@ Citizen.CreateThread(function()
 					if not Rivalry.Robberies.Banks.Pacific.Locked3 then
 						TriggerServerEvent("Rivalry.HackVault", 1, 1, "Pacific", 0, GetPlayerServerId(PlayerId()))
 					else
-						Notify("Go back and unlock those first two doors! You will need them open so you can escape right?", 3100)
+						Notify("Go back and unlock the 2nd door! You will need it open so you can escape right?", 3100)
 					end
 				end
 			end
@@ -647,7 +646,7 @@ function OpenLockPickGui2(Door)
 		SetPlayerControl(PlayerId(), 0, 0)
 		SetNuiFocus(true, true)
 		CurrentLockpicked = Door
-		SendNUIMessage({pins = exports.core_modules:GetItemQuantity(36), doorlock = true})
+		SendNUIMessage({pins = exports.core_modules:GetItemQuantity(36), doorlock = true, lockpick = false})
 		RequestAnimDict("mini@safe_cracking")
 		while not HasAnimDictLoaded("mini@safe_cracking") do
 			Wait(0)
@@ -661,6 +660,7 @@ end
 RegisterNetEvent("Rivalry.BlowTorch.Animation")
 AddEventHandler("Rivalry.BlowTorch.Animation", function()
 	exports.core_modules:removeQty(82, 1)
+	Notify("You used a blowtorch!", 3100)
 	TaskStartScenarioInPlace(PlayerPedId(), "WORLD_HUMAN_WELDING", 0, true)
 	Wait(30000)
 	ClearPedTasks(PlayerPedId())
@@ -701,6 +701,18 @@ RegisterNetEvent("Rivalry.EnableCameras")
 AddEventHandler("Rivalry.EnableCameras", function()
 	Rivalry.Cameras[19].Online = true
 	CurrentCamera = 1
+end)
+
+RegisterNetEvent("Rivalry.SetRobbing")
+AddEventHandler("Rivalry.SetRobbing", function(Bank, BankNumber)
+	if Bank == "Pacific" then
+		isStillRobbingPacific = true
+	elseif Bank == "Blaine" then
+		isStillRobbingBlaine = true
+	elseif Bank == "Fleeca" then
+		isStillRobbingFleeca = true
+		whichFleeca = BankNumber
+	end
 end)
 
 RegisterNUICallback('dialsound', function(data, cb)
@@ -745,7 +757,7 @@ RegisterNUICallback('lockpickwin2', function(data, cb)
 	end
 	CloseLockPickGui()
 	ClearPedTasks(PlayerPedId())
-	if not IsEntitydead(PlayerPedId()) then
+	if not IsEntityDead(PlayerPedId()) then
 		TriggerServerEvent("Rivalry.Lockpick", CurrentLockpicked)
 	end
 	CurrentLockpicked = 0
