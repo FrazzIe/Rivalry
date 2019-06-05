@@ -276,7 +276,7 @@ Citizen.CreateThread(function()
 		if isStillRobbingPacific == true then
 			local Player = PlayerPedId()
 			local PlayerPosition = GetEntityCoords(Player, false)
-			if #(PlayerPosition - Rivalry.Robberies.Banks.Pacific.Vault) > 13.0 then
+			if #(PlayerPosition - Rivalry.Robberies.Banks.Pacific.Vault) > 17.0 then
 				TriggerServerEvent("Rivalry.Robberies.Stopped.Robbing", "Pacific", 0)
 				print("You ran too far!")
 				isStillRobbingPacific = false
@@ -284,7 +284,7 @@ Citizen.CreateThread(function()
 		elseif isStillRobbingBlaine == true then
 			local Player = PlayerPedId()
 			local PlayerPosition = GetEntityCoords(Player, false)
-			if #(PlayerPosition - Rivalry.Robberies.Banks.Blaine.Vault) > 13.0 then
+			if #(PlayerPosition - Rivalry.Robberies.Banks.Blaine.Vault) > 17.0 then
 				TriggerServerEvent("Rivalry.Robberies.Stopped.Robbing", "Blaine", 0)
 				print("You ran too far!")
 				isStillRobbingPacific = false
@@ -292,7 +292,7 @@ Citizen.CreateThread(function()
 		elseif isStillRobbingFleeca == true then
 			local Player = PlayerPedId()
 			local PlayerPosition = GetEntityCoords(Player, false)
-			if #(PlayerPosition - Rivalry.Robberies.Banks.Fleeca[whichFleeca].Vault) > 13.0 then
+			if #(PlayerPosition - Rivalry.Robberies.Banks.Fleeca[whichFleeca].Vault) > 17.0 then
 				TriggerServerEvent("Rivalry.Robberies.Stopped.Robbing", "Fleeca", whichFleeca)
 				print("You ran too far!")
 				isStillRobbingFleeca = false
@@ -660,6 +660,7 @@ end
 RegisterNetEvent("Rivalry.BlowTorch.Animation")
 AddEventHandler("Rivalry.BlowTorch.Animation", function()
 	exports.core_modules:removeQty(82, 1)
+	Notify("You used a blowtorch!", 3100)
 	TaskStartScenarioInPlace(PlayerPedId(), "WORLD_HUMAN_WELDING", 0, true)
 	Wait(30000)
 	ClearPedTasks(PlayerPedId())
