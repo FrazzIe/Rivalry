@@ -180,6 +180,7 @@ Citizen.CreateThread(function()
 					DisplayHelpText("Press ~INPUT_CONTEXT~ to disable cameras!")
 					if IsControlJustPressed(1, 51) then
 						TriggerEvent("Rivalry.HackCameras", 1, 6)
+						TriggerServerEvent("dispatch:cameras")
 						TriggerClientEvent('customNotification', Source, "You have just tripped an antitampering system! Better be quick!")
 					end
 				end

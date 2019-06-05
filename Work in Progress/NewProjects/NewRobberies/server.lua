@@ -467,7 +467,6 @@ end)
 RegisterServerEvent("Rivalry.Disable.Pacific.Cameras")
 AddEventHandler("Rivalry.Disable.Pacific.Cameras", function()
 	local Source = source
-	TriggerEvent("dispatch:cameras")
 	TriggerClientEvent('customNotification', Source, "You have just tripped an antitampering system! Better be quick!")
 	TriggerClientEvent("Rivalry.Disable.Pacific.Cameras", -1)
 end)
