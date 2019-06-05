@@ -91,7 +91,19 @@ AddEventHandler("interaction:hud", function()
         hud_off = not hud_off
         TriggerEvent("chat:disable", hud_off)
         TriggerEvent("toggle:watermark")
-        TriggerEvent("toggle:timeandweather")
+        TriggerEvent("toggle:seatbelt")
+        while hud_off do
+            Citizen.Wait(0)
+            HideHudAndRadarThisFrame()
+        end
+    end)
+end)
+
+AddEventHandler("interaction:hud:cameras", function()
+    Citizen.CreateThread(function()
+        hud_off = not hud_off
+        TriggerEvent("chat:disable", hud_off)
+        TriggerEvent("toggle:watermark")
         TriggerEvent("toggle:seatbelt")
         while hud_off do
             Citizen.Wait(0)
