@@ -362,6 +362,7 @@ AddEventHandler("Rivalry.HackVault", function(Level, MaxLevel, Bank, BankNumber,
 	local Source = source
 	if not HasBeenRobbed(Bank, BankNumber, Source) and HasSoftCooldownEnded(Source) then
 		if Bank == "Fleeca" then
+			TriggerClientEvent("Rivalry.SetRobbing", "Fleeca", BankNumber)
 			TriggerClientEvent("Rivalry.HackVault", Source, Level, MaxLevel, Bank, BankNumber)
 			TriggerEvent("dispatch:ten-ninety-bank", Rivalry.Robberies.Banks.Fleeca[BankNumber].Name)
 			Rivalry.Robberies.Banks.SoftCooldown = os.time()
@@ -369,6 +370,7 @@ AddEventHandler("Rivalry.HackVault", function(Level, MaxLevel, Bank, BankNumber,
 			Rivalry.Robberies.Banks.Fleeca[BankNumber].LastRobbed = os.time()
 			Rivalry.Robberies.Banks.Fleeca[BankNumber].Robber = PlayerID
 		elseif Bank == "Blaine" then
+			TriggerClientEvent("Rivalry.SetRobbing", "Blaine", 0)
 			Rivalry.Robberies.Banks.Blaine.LastRobbed = os.time()
 			Rivalry.Robberies.Banks.Blaine.Robber = PlayerID
 			TriggerClientEvent("Rivalry.HackVault", Source, Level, MaxLevel, Bank, BankNumber)
@@ -376,6 +378,7 @@ AddEventHandler("Rivalry.HackVault", function(Level, MaxLevel, Bank, BankNumber,
 			Rivalry.Robberies.Banks.SoftCooldown = os.time()
 			TriggerClientEvent('customNotification', Source, "You have just tripped an antitampering system! Better be quick!")
 		elseif Bank == "Pacific" then
+			TriggerClientEvent("Rivalry.SetRobbing", "Pacific", 0)
 			Rivalry.Robberies.Banks.Pacific.LastRobbed = os.time()
 			Rivalry.Robberies.Banks.Pacific.Robber = PlayerID
 			TriggerClientEvent("Rivalry.HackVault", Source, Level, MaxLevel, Bank, BankNumber)
