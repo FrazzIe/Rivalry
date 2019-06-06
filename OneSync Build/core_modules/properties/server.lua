@@ -891,7 +891,6 @@ AddEventHandler("properties:rob_finish", function(property_type, property_varian
 					end)
 				else
 					TriggerClientEvent("properties:sync", -1, properties)
-					TriggerClientEvent("dispatch:notify-cops", source, "The silent alarm on STREETNAME has stopped!")
 					Notify("Hack was not successful, the property has been locked down", 3000, source)
 				end
 			end

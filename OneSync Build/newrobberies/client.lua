@@ -880,46 +880,6 @@ Citizen.CreateThread(function()
         local Player = PlayerPedId()
         local PlayerPosition = GetEntityCoords(Player, false)
         local PlayerHeading = GetEntityRotation(Player, 2)
-        if exports.policejob:getIsInService() then
-        	if IsPedOnFoot(Player) then
-        		for Computer = 1, #Rivalry.Computers do
-        			if #(PlayerPosition - Rivalry.Computers[Computer]) <= 1.0 then
-		                if IsControlJustPressed(1, 51) and CreatedCamera == 0 and not IsEntityDead(PlayerPedId()) then
-		                    SetFocusArea(Rivalry.Cameras[CurrentCamera].Coords.x, Rivalry.Cameras[CurrentCamera].Coords.y, Rivalry.Cameras[CurrentCamera].Coords.z, Rivalry.Cameras[CurrentCamera].Coords.x, Rivalry.Cameras[CurrentCamera].Coords.y, Rivalry.Cameras[CurrentCamera].Coords.z)
-		                    ChangeSecurityCamera(Rivalry.Cameras[CurrentCamera].Coords.x, Rivalry.Cameras[CurrentCamera].Coords.y, Rivalry.Cameras[CurrentCamera].Coords.z, Rivalry.Cameras[CurrentCamera].Heading)
-		                    SendNUIMessage({
-		                        type = "enablecam",
-		                        label = Rivalry.Cameras[CurrentCamera].Label,
-		                        box = Rivalry.Cameras[CurrentCamera].Title,
-		                    })
-		                    FreezeEntityPosition(Player, true)
-		                    TriggerEvent('interaction:hud:cameras')
-		                end
-		            end
-	            end
-            else
-            	VehicleHandle = GetVehiclePedIsIn(Player, false)
-            	if GetVehicleClass(VehicleHandle) == 18 then
-            		if IsControlJustPressed(1, 217) and CreatedCamera == 0 and not IsEntityDead(PlayerPedId()) then
-        				if IsVehicleStopped(VehicleHandle) then
-	            			SetFocusArea(Rivalry.Cameras[CurrentCamera].Coords.x, Rivalry.Cameras[CurrentCamera].Coords.y, Rivalry.Cameras[CurrentCamera].Coords.z, Rivalry.Cameras[CurrentCamera].Coords.x, Rivalry.Cameras[CurrentCamera].Coords.y, Rivalry.Cameras[CurrentCamera].Coords.z)
-		                    ChangeSecurityCamera(Rivalry.Cameras[CurrentCamera].Coords.x, Rivalry.Cameras[CurrentCamera].Coords.y, Rivalry.Cameras[CurrentCamera].Coords.z, Rivalry.Cameras[CurrentCamera].Heading)
-		                    SendNUIMessage({
-		                        type = "enablecam",
-		                        label = Rivalry.Cameras[CurrentCamera].Label,
-		                        box = Rivalry.Cameras[CurrentCamera].Title,
-		                    })
-		                    FreezeEntityPosition(VehicleHandle, true)
-		                    FreezeEntityPosition(Player, true)
-		                    DisplayRadar(false)
-		                    TriggerEvent('interaction:hud:cameras')
-		                else
-		                	Notify("You cannot use the cameras while the vehicle is moving!", 3300)
-		                end
-            		end
-            	end
-            end
-        end
 
         if CreatedCamera ~= 0 then
             local Instructions = CreateInstuctionScaleform("instructional_buttons")
