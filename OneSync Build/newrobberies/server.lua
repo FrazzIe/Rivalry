@@ -251,6 +251,18 @@ function HasBeenRobbed(TypeOfRobbery, Index, Source)
 	end
 end
 
+function CheckCops()
+	TriggerEvent("police:getCops", function(cops)
+		if tonumber(cops) then
+			if cops > 4 then
+				return true
+			else
+				return false
+			end
+		end
+	end)
+end
+
 RegisterServerEvent("Rivalry.Rob.CashRegister")
 AddEventHandler("Rivalry.Rob.CashRegister", function(StoreNumber, RegisterNumber, PlayerID)
 	local Source = source
@@ -360,7 +372,7 @@ end)
 RegisterServerEvent("Rivalry.HackVault")
 AddEventHandler("Rivalry.HackVault", function(Level, MaxLevel, Bank, BankNumber, PlayerID)
 	local Source = source
-	if not HasBeenRobbed(Bank, BankNumber, Source) and HasSoftCooldownEnded(Source) then
+	if not HasBeenRobbed(Bank, BankNumber, Source) and HasSoftCooldownEnded(Source) and CheckCops() then
 		if Bank == "Fleeca" then
 			TriggerClientEvent("Rivalry.SetRobbing", Source, "Fleeca", BankNumber)
 			TriggerClientEvent("Rivalry.HackVault", Source, Level, MaxLevel, Bank, BankNumber)
