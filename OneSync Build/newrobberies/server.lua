@@ -266,7 +266,7 @@ end
 RegisterServerEvent("Rivalry.Rob.CashRegister")
 AddEventHandler("Rivalry.Rob.CashRegister", function(StoreNumber, RegisterNumber, PlayerID)
 	local Source = source
-	if ( os.time() - Rivalry.Robberies.Stores[StoreNumber].CashRegisters[RegisterNumber] ) > (Cooldown*60) then
+	if ( os.time() - Rivalry.Robberies.Stores[StoreNumber].CashRegisters[RegisterNumber] ) > (Cooldown*60) and CheckCops() then
 		TriggerClientEvent("Rivalry.Rob.CashRegister", Source, StoreNumber, RegisterNumber)
 		Rivalry.Robberies.Stores[StoreNumber].CashRegisters[RegisterNumber] = os.time()
 	else
@@ -277,7 +277,7 @@ end)
 RegisterServerEvent("Rivalry.Rob.StoreVault")
 AddEventHandler("Rivalry.Rob.StoreVault", function(StoreNumber, PlayerID)
 	local Source = source
-	if ( os.time() - Rivalry.Robberies.Stores[StoreNumber].Vault ) > (Cooldown*60) then
+	if ( os.time() - Rivalry.Robberies.Stores[StoreNumber].Vault ) > (Cooldown*60) and CheckCops() then
 		TriggerClientEvent("Rivalry.Rob.StoreVault", Source, StoreNumber)
 		Rivalry.Robberies.Stores[StoreNumber].Vault = os.time()
 	else
@@ -323,7 +323,7 @@ end)
 RegisterServerEvent("Rivalry.Rob.Blaine.Safebox")
 AddEventHandler("Rivalry.Rob.Blaine.Safebox", function(LockBoxNumber, PlayerID)
 	local Source = source
-	if ( Rivalry.Robberies.Banks.Blaine.Robber == PlayerID ) then
+	if ( Rivalry.Robberies.Banks.Blaine.Robber == PlayerID and CheckCops() ) then
 		if Rivalry.Robberies.Banks.Blaine.LockedBoxes[LockBoxNumber] == false then
 			TriggerClientEvent("Rivalry.Rob.Blaine.Safebox", Source)
 			Rivalry.Robberies.Banks.Blaine.LockedBoxes[LockBoxNumber] = true
@@ -334,7 +334,7 @@ end)
 RegisterServerEvent("Rivalry.Rob.Pacific.Safebox")
 AddEventHandler("Rivalry.Rob.Pacific.Safebox", function(LockBoxNumber, PlayerID)
 	local Source = source
-	if ( Rivalry.Robberies.Banks.Pacific.Robber == PlayerID ) then
+	if ( Rivalry.Robberies.Banks.Pacific.Robber == PlayerID and CheckCops() ) then
 		if Rivalry.Robberies.Banks.Pacific.LockedBoxes[LockBoxNumber] == false then
 			TriggerClientEvent("Rivalry.Rob.Pacific.Safebox", Source)
 			Rivalry.Robberies.Banks.Pacific.LockedBoxes[LockBoxNumber] = true
@@ -345,7 +345,7 @@ end)
 RegisterServerEvent("Rivalry.Rob.Fleeca.Safebox")
 AddEventHandler("Rivalry.Rob.Fleeca.Safebox", function(BankNumber, LockBoxNumber, PlayerID)
 	local Source = source
-	if ( Rivalry.Robberies.Banks.Fleeca[BankNumber].Robber == PlayerID ) then
+	if ( Rivalry.Robberies.Banks.Fleeca[BankNumber].Robber == PlayerID and CheckCops() ) then
 		if Rivalry.Robberies.Banks.Fleeca[BankNumber].LockedBoxes[LockBoxNumber] == false then
 			TriggerClientEvent("Rivalry.Rob.Fleeca.Safebox", Source, BankNumber)
 			Rivalry.Robberies.Banks.Fleeca[BankNumber].LockedBoxes[LockBoxNumber] = true
@@ -405,7 +405,7 @@ RegisterServerEvent("Rivalry.BlowTorch")
 AddEventHandler("Rivalry.BlowTorch", function(Bank, Door, BankNumber, PlayerID)
 	local Source = source
 	if Bank == "Blaine" then
-		if ( Rivalry.Robberies.Banks.Blaine.Robber == PlayerID or not HasBeenRobbed(Bank, BankNumber, PlayerID) ) then
+		if ( Rivalry.Robberies.Banks.Blaine.Robber == PlayerID or not HasBeenRobbed(Bank, BankNumber, PlayerID) ) and CheckCops() then
 			if Rivalry.Robberies.Banks.Blaine.Robber == PlayerID then
 				TriggerClientEvent("Rivalry.BlowTorch", -1, Bank, Door, BankNumber)
 				TriggerClientEvent("Rivalry.BlowTorch.Animation", Source)
@@ -415,7 +415,7 @@ AddEventHandler("Rivalry.BlowTorch", function(Bank, Door, BankNumber, PlayerID)
 			end
 		end
 	elseif Bank == "Pacific" then
-		if ( Rivalry.Robberies.Banks.Pacific.Robber == PlayerID or not HasBeenRobbed(Bank, BankNumber, PlayerID) ) then
+		if ( Rivalry.Robberies.Banks.Pacific.Robber == PlayerID or not HasBeenRobbed(Bank, BankNumber, PlayerID) ) and CheckCops() then
 			if Rivalry.Robberies.Banks.Pacific.Robber == PlayerID then
 				TriggerClientEvent("Rivalry.BlowTorch", -1, Bank, Door, BankNumber)
 				TriggerClientEvent("Rivalry.BlowTorch.Animation", Source)
@@ -425,7 +425,7 @@ AddEventHandler("Rivalry.BlowTorch", function(Bank, Door, BankNumber, PlayerID)
 			end
 		end
 	elseif Bank == "Fleeca" then
-		if ( Rivalry.Robberies.Banks.Fleeca[BankNumber].Robber == PlayerID or not HasBeenRobbed(Bank, BankNumber, PlayerID) ) then
+		if ( Rivalry.Robberies.Banks.Fleeca[BankNumber].Robber == PlayerID or not HasBeenRobbed(Bank, BankNumber, PlayerID) ) and CheckCops() then
 			if Rivalry.Robberies.Banks.Fleeca[BankNumber].Robber == PlayerID then
 				TriggerClientEvent("Rivalry.BlowTorch", -1, Bank, Door, BankNumber)
 				TriggerClientEvent("Rivalry.BlowTorch.Animation", Source)
