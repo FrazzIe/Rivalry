@@ -509,6 +509,7 @@ app.controller('ctrl', function($scope, $timeout, $http) {
 
 		switch(key) {
 			case 27:
+			case 113:
 				$scope.phoneToggle = false;
 				
 				$http({
