@@ -3,15 +3,22 @@ dependency 'GHMattiMySQL'
 ui_page 'html/index.html'
 
 files {
+	'html/images/samsung-bg.jpg',
+	'html/images/twitter-bird.png',
+	'html/snd/beepboop.ogg',
+	'html/css/normalize.css',
+	'html/css/simplebar.css',
+	'html/css/style.css',
+	'html/css/style.less',
+	'html/js/jquery.js',
+	'html/js/angular.js',
+	'html/js/nicescroll.js',
+	'html/js/simplebar.js',
+	'html/js/moment.js',
+	'html/js/app.js',
 	'html/index.html',
-	'html/assets/js/jquery.min.js',
-	'html/assets/bootstrap/css/bootstrap.min.css',
-	'html/assets/bootstrap/js/bootstrap.min.js',
-	'html/assets/js/script.js',
-	'html/assets/js/moment.js',
-	'html/assets/css/styles.css',
-	'html/assets/img/ipad.png',
 }
+
 client_script 'client.lua'
 server_script 'server.lua'
 

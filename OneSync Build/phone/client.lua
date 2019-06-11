@@ -15,10 +15,7 @@ Phone = {
 	Data = {},
 	Conversation = {},
 	Open = false,
-	Page = {
-		Current = "",
-		Previous = "",
-	},
+	LifeAlert = false,
 	Call = {
 		Number = nil,
 		Channel = nil,
@@ -38,6 +35,10 @@ Phone = {
 		Call = "cellphone_call_listen_a",
 	}
 }
+
+local newContactCallback = nil
+local messageCallback = nil
+local getConversationCallback = nil
 
 Citizen.CreateThread(function()
 	for Type, Dictionary in pairs(Phone.Animations.Dictionary) do
@@ -115,15 +116,11 @@ function Phone:Toggle(Display)
 	end
 
 	if Dead and self.Open then
-		self.Page.Current = "lifealert"
-		self.Page.Back = ""
-
-		SendNUIMessage({lifealert = true, phone_number = self.Data.Number})
+		self.LifeAlert = true
+		SendNUIMessage({type = "toggleLifeAlert", payload = "true"})
 	else
-		self.Page.Current = "home"
-		self.Page.Back = ""
-
-		SendNUIMessage({open_phone = self.Open, phone_number = self.Data.Number})
+		self.LifeAlert = false
+		SendNUIMessage({type = "togglePhone", payload = tostring(self.Open)})
 	end
 
 	SetNuiFocus(self.Open, self.Open)
@@ -157,14 +154,14 @@ function Phone:DoesConversationMessageExist(Id)
 	return false
 end
 
-function Phone:GetLatestMessages()
-	local Messages = {}
-
-	for Number, Message in pairs(self.Data.Messages) do
-		table.insert(Messages, {sender = Phone.Data.ContactNames[Number] or Number, message = Message, phone_number = Number})
+function Phone:DoesMessageExistFromNumber(Number)
+	for Index = 1, #self.Phone.Data.Messages do
+		if self.Phone.Data.Messages[Index].receiver_number == Number then
+			return true, Index
+		end
 	end
 
-	return Messages
+	return false, nil
 end
 
 Citizen.CreateThread(function()
@@ -174,7 +171,7 @@ Citizen.CreateThread(function()
 
 		if IsEntityDead(PlayerPed) then
 			if Phone.Open then
-				if Phone.Page.Current ~= "lifealert" then
+				if not Phone.LifeAlert then
 					Phone:Toggle(false)
 				end
 			end
@@ -184,488 +181,26 @@ end)
 
 RegisterNetEvent("Phone.Start")
 AddEventHandler("Phone.Start", function(Data)
-	local Messages = {}
-
 	Data.ContactNames = {}
 
 	for Index = 1, #Data.Contacts do
 		Data.ContactNames[Data.Contacts[Index].contact_number] = Data.Contacts[Index].first_name.." "..Data.Contacts[Index].last_name
 	end
 
-	for Index = 1, #Data.Messages do
-		Messages[Data.Messages[Index].receiver_number] = Data.Messages[Index].message
-	end
-
-	Data.Messages = Messages
-
 	Phone.Data = Data
 
-	TriggerServerEvent("Phone.Finish", Data)
-end)
+	local saveData = GetResourceKvpString("phoneData")
 
-RegisterNetEvent("Phone.Contact.Add")
-AddEventHandler("Phone.Contact.Add", function(Data)
-	Phone.Data.Contacts = Data.Contacts
-	Phone.Data.ContactNames = Data.ContactNames
-
-	if Phone.Open then
-		if Phone.Page.Current == "contacts" then
-			SendNUIMessage({open_contacts = true, contacts = Data.Contacts})
-		end
-	end
-end)
-
-RegisterNetEvent("Phone.Message.Add")
-AddEventHandler("Phone.Message.Add", function(Exists, Received, Number, Message, Data)
-	if not Exists then
-		if Phone.Open then
-			SendNUIMessage({alert = true, alert_message = "The message was not sent as the number does not exist!"})
-		end
-	else
-		Phone.Data.Messages = Data.Messages
-
-		if Received then
-			local Sender = Phone.Data.ContactNames[Number] or Number
-
-			Phone:DisplayNotification(Message.message, "CHAR_CHAT_CALL", Sender, "New message")
-
-			if Phone.Open then
-				if Phone.Page.Current == "sub_messages_"..Number then
-					if Phone.Conversation then
-						if Phone.Conversation.Number == Number then
-							if Message.id then
-								if not Phone:DoesConversationMessageExist(Message.id) then
-									table.insert(Phone.Conversation.Messages, Message)
-								end
-							end
-						end
-
-						SendNUIMessage({open_sub_messages = true, messages = Phone.Conversation.Messages})
-					end
-				elseif current_page == "messages" then
-					SendNUIMessage({open_messages = true, latest_messages = Phone:GetLatestMessages()})
-				end
-			end
-		else
-			local Receiver = Phone.Data.ContactNames[Number] or Number
-
-			Phone:DisplayNotification(Message.message, "CHAR_CHAT_CALL", Receiver, "Message sent")
-
-			if Phone.Open then
-				if Phone.Page.Current == "sub_messages_"..Number then
-					if Phone.Conversation then
-						if Phone.Conversation.Number == Number then
-							if Message.id then
-								if not Phone:DoesConversationMessageExist(Message.id) then
-									table.insert(Phone.Conversation.Messages, Message)
-								end
-							end
-						end
-
-						SendNUIMessage({open_sub_messages = true, messages = Phone.Conversation.Messages})
-					end
-				elseif current_page == "messages" then
-					SendNUIMessage({open_messages = true, latest_messages = Phone:GetLatestMessages()})
-				end
-			end
-		end
-	end
-end)
-
-RegisterNetEvent("Phone.Call.Status")
-AddEventHandler("Phone.Call.Status", function(Status)
-	Phone.Call.Status = Status
-
-	if Phone.Open then
-		if Phone.Page.Current == "call" then
-			SendNUIMessage({open_dial = true, message = Status})
-		else
-			SendNUIMessage({update_call = true, message = Status})
-		end
-	else
-		SendNUIMessage({update_call = true, message = Status})
+	if saveData ~= nil and saveData ~= "" then
+		SendNUIMessage({type = "loadSettings", payload = json.decode(saveData)})
 	end
 
-	Phone:DisplayNotification("", "CHAR_CHAT_CALL", Phone.Call.Caller, Status)
-end)
+	SendNUIMessage({type = "setNumber", payload = Data.Number})
+	SendNUIMessage({type = "setContacts", payload = Data.Contacts})
+	SendNUIMessage({type = "setMessages", payload = Data.Messages})
+	SendNUIMessage({type = "setConversation", payload = {}})
 
-RegisterNetEvent("Phone.Call.Request")
-AddEventHandler("Phone.Call.Request", function(Number)
-	Phone.Call.Number = Number
-	Phone.Call.Channel = tonumber(Number)
-	Phone.Call.Caller = Phone.Data.ContactNames[Number] or Number
-
-	if exports.core_modules:IsInJail() or exports.policejob:getIsCuffed() or exports.core_modules:isCuffed() or (not Phone.Data.Has) then
-		SendNUIMessage({update_call = true, message = "The call was cancelled", start = false})
-
-		TriggerServerEvent("Phone.Call.End", Phone.Call.Number, Phone.Call.Channel)
-
-		Phone.Call.Number = nil
-		Phone.Call.Channel = nil
-		Phone.Call.Answered = false
-	else
-		Citizen.CreateThread(function()
-			while Phone.Call.Number and not Phone.Call.Answered do
-				Citizen.Wait(500)
-				PlaySoundFrontend(-1, "Hack_Success", "DLC_HEIST_BIOLAB_PREP_HACKING_SOUNDS", true)
-				Citizen.Wait(750)
-				PlaySoundFrontend(-1, "Hack_Success", "DLC_HEIST_BIOLAB_PREP_HACKING_SOUNDS", true)
-
-				if exports.core_modules:IsInJail() or exports.policejob:getIsCuffed() or exports.core_modules:isCuffed() or not Phone.Data.Has then
-					SendNUIMessage({update_call = true, message = "The call was cancelled", start = false})
-					
-					TriggerServerEvent("Phone.Call.End", Phone.Call.Number, Phone.Call.Channel)
-
-					Phone.Call.Number = nil
-					Phone.Call.Channel = nil
-					Phone.Call.Answered = false
-				end
-			end
-		end)
-
-		if Phone.Open then
-			if Phone.Page.Current == "call" then
-				SendNUIMessage({open_dial_answer = true, caller_id = Phone.Call.Caller, start = true})
-			else
-				SendNUIMessage({update_call = true, message = "Dialing..", start = true})
-			end
-		else
-			SendNUIMessage({update_call = true, message = "Dialing..", start = true})
-		end
-
-		Phone:DisplayNotification("", "CHAR_CHAT_CALL", Phone.Call.Caller, "Incoming call")
-	end
-end)
-
-RegisterNetEvent("Phone.Call.End")
-AddEventHandler("Phone.Call.End", function()
-	Phone.Call.Number = nil
-	Phone.Call.Channel = nil
-	Phone.Call.Answered = false
-	Phone.Call.Hold = false
-	Phone.Call.Status = ""
-
-	if Phone.Open then
-		if Phone.Page.Current == "call" then
-			SendNUIMessage({update_call = true, message = "The call was cancelled", start = false})
-			SendNUIMessage({open_call = true, contacts = Phone.Data.Contacts})
-		else
-			SendNUIMessage({update_call = true, message = "The call was cancelled", start = false})
-		end
-	else
-		SendNUIMessage({update_call = true, message = "The call was cancelled", start = false})
-	end
-
-	Phone:DisplayNotification("", "CHAR_CHAT_CALL", Phone.Call.Caller, "Call ended")
-
-	Phone.Call.Caller = ""
-	NetworkSetVoiceChannel(nil)
-	NetworkSetTalkerProximity(10.0)
-
-	NetworkClearVoiceChannel()
-	ClearPedTasks(PlayerPedId())
-end)
-
-RegisterNetEvent("Phone.Call.Answer")
-AddEventHandler("Phone.Call.Answer", function(Channel)
-	Phone.Call.Status = "Active"
-	Phone.Call.Channel = Channel
-	
-	NetworkClearVoiceChannel()
-	NetworkSetVoiceChannel(tonumber(Phone.Call.Channel))
-	NetworkSetTalkerProximity(10000.0)
-
-	if Phone.Open and Phone.Page.Current == "call" then
-		SendNUIMessage({open_dial = true, message = "Active"})
-	else
-		SendNUIMessage({update_call = true, message = "Active"})
-	end
-end)
-
-RegisterNetEvent("Phone.Conversation.Set")
-AddEventHandler("Phone.Conversation.Set", function(Number, Messages)
-	Phone.Conversation.Number = Number
-	Phone.Conversation.Messages = Messages
-	
-	if Phone.Open then
-		if Phone.Page.Current == "loader" then
-			Phone.Page.Previous = "messages"
-			Phone.Page.Current = "sub_messages_"..Number
-
-			SendNUIMessage({open_sub_messages = true, messages = Messages})
-		end
-	end
-end)
-
-RegisterNUICallback("escape", function(data)
-	Phone:Toggle(false)
-end)
-
-RegisterNUICallback("back", function(data)
-	if Phone.Page.Previous == "messages" then
-		Phone.Page.Previous = "home"
-		Phone.Page.Current = "messages"
-		Phone.Conversation.Number = nil
-		Phone.Conversation.Messages = {}
-		
-		SendNUIMessage({open_messages = true, latest_messages = Phone:GetLatestMessages()})
-	elseif Phone.Page.Previous == "contacts" then
-		Phone.Page.Previous = "home"
-		Phone.Page.Current = "contacts"
-
-		SendNUIMessage({open_contacts = true, contacts = Phone.Data.Contacts})
-	elseif Phone.Page.Previous == "new_messages" then
-		Phone.Page.Previous = "home"
-		Phone.Page.Current = "new_message"
-
-		SendNUIMessage({open_new_messages = true})
-	elseif Phone.Page.Previous == "home" then
-		Phone.Page.Previous = ""
-		SendNUIMessage({open_phone = true, phone_number = Phone.Data.Number})
-	elseif Phone.Page.Previous == "services" then
-		Phone.Page.Previous = "home"
-		Phone.Page.Current = "services"
-
-		SendNUIMessage({services = true})
-	elseif Phone.Page.Previous == "service_police" then
-		Phone.Page.Previous = "services"
-		Phone.Page.Current = "service_police"
-
-		SendNUIMessage({service_police = true})
-	elseif Phone.Page.Previous == "service_ems" then
-		Phone.Page.Previous = "services"
-		Phone.Page.Current = "service_ems"
-
-		SendNUIMessage({service_ems = true})
-	elseif Phone.Page.Previous == "service_taxi" then
-		Phone.Page.Previous = "services"
-		Phone.Page.Current = "service_taxi"
-
-		SendNUIMessage({service_taxi = true})
-	elseif Phone.Page.Previous == "service_mechanic" then
-		Phone.Page.Previous = "services"
-		Phone.Page.Current = "service_mechanic"
-
-		SendNUIMessage({service_mechanic = true})
-	elseif Phone.Page.Previous == "other_services" then
-		Phone.Page.Previous = "home"
-		Phone.Page.Current = "other_services"
-
-		SendNUIMessage({other_services = true})
-	else
-		Phone:Toggle(false)
-	end
-end)
-
-RegisterNUICallback("open", function(data)
-	if data.type == "messages" then
-		Phone.Page.Previous = "home"
-		Phone.Page.Current = "messages"
-
-		SendNUIMessage({open_messages = true, latest_messages = Phone:GetLatestMessages()})
-	elseif data.type == "loader" then
-		Phone.Page.Previous = "messages"
-		Phone.Page.Current = "loader"
-
-		SendNUIMessage({open_loader = true})
-
-		TriggerServerEvent("Phone.Conversation.Get", data.phone_number)
-	elseif data.type == "contacts" then
-		Phone.Page.Previous = "home"
-		Phone.Page.Current = "contacts"
-
-		SendNUIMessage({open_contacts = true, contacts = Phone.Data.Contacts, add = data.add or false})
-	elseif data.type == "new_messages" then
-		Phone.Page.Previous = "home"
-		Phone.Page.Current = "new_message"
-
-		SendNUIMessage({open_new_messages = true})
-	elseif data.type == "services" then
-		Phone.Page.Previous = "home"
-		Phone.Page.Current = "services"
-
-		SendNUIMessage({services = true})	
-	elseif data.type == "service_police" then
-		Phone.Page.Previous = "services"
-		Phone.Page.Current = "service_police"
-
-		SendNUIMessage({service_police = true})
-	elseif data.type == "service_ems" then
-		Phone.Page.Previous = "services"
-		Phone.Page.Current = "service_ems"
-
-		SendNUIMessage({service_ems = true})
-	elseif data.type == "service_taxi" then
-		Phone.Page.Previous = "services"
-		Phone.Page.Current = "service_taxi"
-
-		SendNUIMessage({service_taxi = true})
-	elseif data.type == "service_mechanic" then
-		Phone.Page.Previous = "services"
-		Phone.Page.Current = "service_mechanic"
-
-		SendNUIMessage({service_mechanic = true})
-	elseif data.type == "other_services" then
-		Phone.Page.Previous = "home"
-		Phone.Page.Current = "other_services"
-
-		SendNUIMessage({other_services = true})
-	elseif data.type == "other_service_helix" then
-		Phone.Page.Previous = "other_services"
-		Phone.Page.Current = "other_service_helix"
-
-		SendNUIMessage({other_service_helix = true})
-	elseif data.type == "call" then
-		Phone.Page.Previous = "home"
-		Phone.Page.Current = "call"
-
-		if Phone.Call.Number and Phone.Call.Answered then
-			SendNUIMessage({open_dial = true, message = Phone.Call.Status})
-		elseif Phone.Call.Number and not Phone.Call.Answered then
-			SendNUIMessage({open_dial_answer = true, caller_id = Phone.Call.Caller})
-		else
-			SendNUIMessage({open_call = true, contacts = Phone.Data.Contacts})
-		end
-	end
-end)
-
-RegisterNUICallback("add", function(data)
-	if data.type == "contact" then
-		TriggerServerEvent("Phone.Contact.Add", data)
-	elseif data.type == "message" then
-		TriggerServerEvent("Phone.Message.Add", data.phone_number, data.message)
-	end
-end)
-
-RegisterNUICallback("remove", function(data)
-	if data.type == "contact" then
-		for Index = 1, #Phone.Data.Contacts do
-			if Phone.Data.Contacts[Index].id == data.id then
-				Phone.Data.ContactNames[Phone.Data.Contacts[Index].phone_number] = nil
-
-				table.remove(Phone.Data.Contacts, Index)
-
-				break
-			end
-		end
-
-		if Phone.Open then
-			if Phone.Page.Current == "contacts" then
-				SendNUIMessage({open_contacts = true, contacts = Phone.Data.Contacts})
-			end
-		end
-
-		TriggerServerEvent("Phone.Contact.Remove", data.id, Phone.Data.Contacts)
-	elseif data.type == "messages" then
-		if Phone.Conversation then
-			if Phone.Conversation.Messages then
-				for Index = 1, #Phone.Conversation.Messages do
-					if Phone.Conversation.Messages[Index].id == data.id then
-						table.remove(Phone.Conversation.Messages, Index)
-
-						break
-					end
-				end
-			end
-		end
-
-		if Phone.Open then
-			if Phone.Page.Current == "sub_messages_"..data.phone_number then
-				SendNUIMessage({open_sub_messages = true, messages = Phone.Conversation.Messages})
-			end
-		end
-
-		TriggerServerEvent("Phone.Message.Remove", data.id)
-	end
-end)
-
-RegisterNUICallback("service", function(data)
-	if data.type == "police" then
-		TriggerEvent('police:callPoliceCustom', data.report)
-	elseif data.type == "ems" then
-		TriggerEvent('paramedic:callAmbulanceCustom', data.report)
-	elseif data.type == "taxi" then
-		TriggerEvent("taxi:callService", data.report)
-	elseif data.type == "mechanic" then
-		TriggerEvent("mechanic:callMechanic", data.report)
-	end
-end)
-
-RegisterNUICallback("other_service", function(data)
-	if data.type == "weed" then
-		TriggerEvent("weed:setuptrader")
-	end
-end)
-
-RegisterNUICallback("cancel", function(data)
-	if data.type == "police" then
-		TriggerEvent("police:cancelCall")
-	elseif data.type == "ems" then
-		TriggerEvent("paramedic:cancelCall")
-	elseif data.type == "taxi" then
-		TriggerEvent("taxi:cancelCall")
-	elseif data.type == "mechanic" then
-		TriggerEvent("mechanic:cancelCall")
-	elseif data.type == "weed" then
-		TriggerEvent("weed:canceltrader")
-	end	
-end)
-
-RegisterNUICallback("lifealert", function(data)
-	if data.type == "ambulance" then
-		if not Phone.Data.Has then
-			Notify("As you technically don't have your phone you can only respawn...", 3000)
-		else
-			TriggerEvent("paramedic:callAmbulance", "is in a coma!")
-			Phone:Toggle(false)
-		end
-	elseif data.type == "respawn" then
-		TriggerEvent("paramedic:respawnCheck")
-		Phone:Toggle(false)
-	end
-end)
-
-RegisterNUICallback("call", function(data)
-	if data.type == "start" then
-		Phone.Call.Number = data.phone_number
-		Phone.Call.Channel = tonumber(Phone.Data.Number)
-		Phone.Call.Status = "Dialing..."
-		Phone.Call.Answered = true
-		Phone.Call.Caller = Phone.Data.ContactNames[data.phone_number] or data.phone_number
-
-		SendNUIMessage({open_dial = true, message = Phone.Call.Status, start = true})
-
-		Phone.Page.Current = "call"
-		Phone.Page.Previous = "home"
-		NetworkSetVoiceChannel(Phone.Call.Channel)
-		NetworkSetTalkerProximity(10000.0)
-		TriggerServerEvent("Phone.Call.Start", Phone.Call.Number, Phone.Call.Channel)
-	elseif data.type == "cancel" then
-		SendNUIMessage({open_dial = true, message = "The call was cancelled", start = false})
-
-		TriggerServerEvent("Phone.Call.End", Phone.Call.Number, Phone.Call.Channel)
-
-		Phone.Call.Number = nil
-		Phone.Call.Channel = nil
-		Phone.Call.Answered = false
-		Phone.Call.Status = ""
-
-		Phone.Page.Current = "call"
-		Phone.Page.Back = "home"
-	elseif data.type == "answer" then
-		if not Phone.Call.Answered then
-			Phone.Call.Answered = true
-			Phone.Call.Status = "Active"
-
-			if Phone.Open and Phone.Page.Current == "call" then
-				SendNUIMessage({open_dial = true, message = Phone.Call.Status})
-			else
-				SendNUIMessage({update_call = true, message = Phone.Call.Status})
-			end
-
-			TriggerServerEvent("Phone.Call.Answer", Phone.Call.Number)
-		end
-	end
+	TriggerServerEvent("Phone.Finish", Data.ContactNames)
 end)
 
 Citizen.CreateThread(function()
@@ -734,6 +269,10 @@ Citizen.CreateThread(function()
 			if IsEntityDead(PlayerPed) or not Phone.Data.Has then
 				Phone:Toggle(false)
 
+				if Phone.Call.Number and Phone.Call.Channel then
+					TriggerServerEvent("Phone.Call.End", Phone.Call.Number, Phone.Call.Channel)
+				end
+
 				Phone.Call.Number = nil
 				Phone.Call.Channel = nil
 				Phone.Call.Answered = false
@@ -766,3 +305,336 @@ end)
 function PlayerHasPhone()
 	return Phone.Data.Has
 end
+
+RegisterNUICallback("addContact", function(data, cb)
+	Citizen.Trace("addContact callback: " .. json.encode(data))
+	
+	newContactCallback = cb
+
+	TriggerServerEvent("Phone.Contact.Add", data)
+end)
+
+RegisterNUICallback("addMessage", function(data, cb)
+	Citizen.Trace("addMessage callback: " .. json.encode(data))
+
+	messageCallback = cb
+
+	TriggerServerEvent("Phone.Message.Add", data.phone_number, data.message)
+end)
+
+RegisterNUICallback("newMessage", function(data, cb)
+	Citizen.Trace("newMessage callback: " .. json.encode(data))
+
+	messageCallback = cb
+
+	TriggerServerEvent("Phone.Message.Add", data.phone_number, data.message)
+end)
+
+RegisterNUICallback("getConversation", function(data, cb)
+	Citizen.Trace("getConversation callback: " .. json.encode(data))
+
+	getConversationCallback = cb
+
+	TriggerServerEvent("Phone.Conversation.Get", data)
+end)
+
+RegisterNUICallback("requestTaxi", function(data, cb)
+	TriggerEvent("taxi:callService", data)
+
+	cb("ok")
+end)
+
+RegisterNUICallback("requestMechanic", function(data, cb)
+	Citizen.Trace("requestMechanic callback: " .. json.encode(data))
+
+	TriggerEvent("mechanic:callMechanic", data)
+
+	cb("ok")
+end)
+
+RegisterNUICallback("requestEMT", function(data, cb)
+	Citizen.Trace("requestEMT callback: " .. json.encode(data))
+
+	TriggerEvent('paramedic:callAmbulanceCustom', data)
+
+	cb("ok")
+end)
+
+RegisterNUICallback("requestPolice", function(data, cb)
+	Citizen.Trace("requestPolice callback: " .. json.encode(data))
+
+	TriggerEvent('police:callPoliceCustom', data)
+
+	cb("ok")
+end)
+
+RegisterNUICallback("requestWeed", function(data, cb)
+	Citizen.Trace("requestWeed callback: " .. json.encode(data))
+
+	TriggerEvent("weed:setuptrader")
+
+	cb("ok")
+end)
+
+RegisterNUICallback("cancelTaxi", function(data, cb)
+	Citizen.Trace("cancelTaxi callback: " .. json.encode(data))
+
+	TriggerEvent("taxi:cancelCall")
+
+	cb("ok")
+end)
+
+RegisterNUICallback("cancelMechanic", function(data, cb)
+	Citizen.Trace("cancelMechanic callback: " .. json.encode(data))
+
+	TriggerEvent("mechanic:cancelCall")
+
+	cb("ok")
+end)
+
+RegisterNUICallback("cancelEMT", function(data, cb)
+	Citizen.Trace("cancelEMT callback: " .. json.encode(data))
+
+	TriggerEvent("paramedic:cancelCall")
+
+	cb("ok")
+end)
+
+RegisterNUICallback("cancelPolice", function(data, cb)
+	Citizen.Trace("cancelPolice callback: " .. json.encode(data))
+
+	TriggerEvent("police:cancelCall")
+
+	cb("ok")
+end)
+
+RegisterNUICallback("cancelWeed", function(data, cb)
+	Citizen.Trace("cancelWeed callback: " .. json.encode(data))
+
+	TriggerEvent("weed:canceltrader")
+
+	cb("ok")
+end)
+
+RegisterNUICallback("close", function(data, cb)
+	Phone:Toggle(false)
+end)
+
+RegisterNUICallback("requestAmbulance", function(data, cb)
+	Citizen.Trace("requestAmbulance callback: " .. json.encode(data))
+
+	if not Phone.Data.Has then
+		Notify("As you technically don't have your phone you can only respawn...", 3000)
+	else
+		TriggerEvent("paramedic:callAmbulance", "is in a coma!")
+		Phone:Toggle(false)
+	end
+end)
+
+RegisterNUICallback("requestRespawn", function(data, cb)
+	Citizen.Trace("requestRespawn callback: " .. json.encode(data))
+
+	TriggerEvent("paramedic:respawnCheck")
+	Phone:Toggle(false)
+end)
+
+RegisterNUICallback("startCall", function(data, cb)
+	Citizen.Trace("startCall callback: " .. json.encode(data))
+
+	Phone.Call.Number = data
+	Phone.Call.Channel = tonumber(Phone.Data.Number)
+	Phone.Call.Status = "Dialing..."
+	Phone.Call.Answered = true
+	Phone.Call.Caller = Phone.Data.ContactNames[data] or data
+
+	NetworkSetVoiceChannel(Phone.Call.Channel)
+	NetworkSetTalkerProximity(10000.0)	
+
+	TriggerServerEvent("Phone.Call.Start", Phone.Call.Number, Phone.Call.Channel)
+end)
+
+RegisterNUICallback("answerCall", function(data, cb)
+	Citizen.Trace("answerCall callback: " .. json.encode(data))
+
+	if not Phone.Call.Answered then
+		Phone.Call.Answered = true
+		Phone.Call.Status = "Active"
+
+		TriggerServerEvent("Phone.Call.Answer", Phone.Call.Number)
+	end	
+end)
+
+RegisterNUICallback("removeContact", function(id, cb)
+	for Index = 1, #Phone.Data.Contacts do
+		if Phone.Data.Contacts[Index].id == id then
+			Phone.Data.ContactNames[Phone.Data.Contacts[Index].contact_number] = nil
+
+			table.remove(Phone.Data.Contacts, Index)
+
+			break
+		end
+	end
+
+	TriggerServerEvent("Phone.Contact.Remove", id, Phone.Data.Contacts, Phone.Data.ContactNames)
+
+	cb({type = "setContacts", payload = Phone.Data.Contacts})
+end)
+
+RegisterNUICallback("endCall", function(data, cb)
+	Citizen.Trace("endCall callback: " .. json.encode(data))
+
+	TriggerServerEvent("Phone.Call.End", Phone.Call.Number, Phone.Call.Channel)
+
+	Phone.Call.Number = nil
+	Phone.Call.Channel = nil
+	Phone.Call.Answered = false
+	Phone.Call.Status = ""	
+end)
+
+RegisterNUICallback("saveSettings", function(data, cb)
+	Citizen.Trace("saveSettings callback: " .. json.encode(data))
+
+	SetResourceKvp("phoneData", json.encode(data))
+
+	cb("ok")
+end)
+
+RegisterNetEvent("Phone.Contact.Add")
+AddEventHandler("Phone.Contact.Add", function(Data)
+	Phone.Data.Contacts = Data.Contacts
+	Phone.Data.ContactNames = Data.ContactNames
+	Phone.Data.Messages = Data.Messages
+
+	SendNUIMessage({type = "setContacts", payload = Data.Contacts})
+	SendNUIMessage({type = "setMessages", payload = Data.Messages})
+
+	if newContactCallback ~= nil then
+		newContactCallback("ok")
+	end
+end)
+
+RegisterNetEvent("Phone.Message.Add")
+AddEventHandler("Phone.Message.Add", function(Exists, Received, Number, Message, Data)
+	if not Exists then
+		if Phone.Open then
+			if messageCallback ~= nil then
+				messageCallback({error = "The message was not sent as the number does not exist!"})
+			end
+		end
+	else
+		Phone.Data.Messages = Data.Messages
+
+		SendNUIMessage({type = "setMessages", payload = Phone.Data.Messages})
+
+		if Phone.Conversation then
+			if Phone.Conversation.Number == Number then
+				if Message.id then
+					if not Phone:DoesConversationMessageExist(Message.id) then
+						table.insert(Phone.Conversation.Messages, Message)
+					end
+				end
+			end
+
+			SendNUIMessage({type = "setConversation", payload = Phone.Conversation.Messages})
+		end
+
+		if not Received then
+			if messageCallback ~= nil then
+				messageCallback("ok")
+			end
+		end
+
+		Phone:DisplayNotification(Message.message, "CHAR_CHAT_CALL", Phone.Data.ContactNames[Number] or Number, Received and "New message" or "Message sent")
+	end
+end)
+
+RegisterNetEvent("Phone.Conversation.Set")
+AddEventHandler("Phone.Conversation.Set", function(Number, Messages)
+	Phone.Conversation.Number = Number
+	Phone.Conversation.Messages = Messages
+	
+	SendNUIMessage({type = "setConversation", payload = Phone.Conversation.Messages})
+
+	if getConversationCallback ~= nil then
+		getConversationCallback("ok")
+	end
+end)
+
+RegisterNetEvent("Phone.Call.Status")
+AddEventHandler("Phone.Call.Status", function(Status)
+	Phone.Call.Status = Status
+
+	SendNUIMessage({type = "setCallStatus", payload = Status})
+
+	Phone:DisplayNotification("", "CHAR_CHAT_CALL", Phone.Call.Caller, Status)
+end)
+
+RegisterNetEvent("Phone.Call.Request")
+AddEventHandler("Phone.Call.Request", function(Number)
+	Phone.Call.Number = Number
+	Phone.Call.Channel = tonumber(Number)
+	Phone.Call.Caller = Phone.Data.ContactNames[Number] or Number
+
+	if exports.core_modules:IsInJail() or exports.policejob:getIsCuffed() or exports.core_modules:isCuffed() or (not Phone.Data.Has) then
+		TriggerServerEvent("Phone.Call.End", Phone.Call.Number, Phone.Call.Channel)
+
+		Phone.Call.Number = nil
+		Phone.Call.Channel = nil
+		Phone.Call.Answered = false
+	else
+		Citizen.CreateThread(function()
+			while Phone.Call.Number and not Phone.Call.Answered do
+				Citizen.Wait(500)
+				PlaySoundFrontend(-1, "Hack_Success", "DLC_HEIST_BIOLAB_PREP_HACKING_SOUNDS", true)
+				Citizen.Wait(750)
+				PlaySoundFrontend(-1, "Hack_Success", "DLC_HEIST_BIOLAB_PREP_HACKING_SOUNDS", true)
+
+				if exports.core_modules:IsInJail() or exports.policejob:getIsCuffed() or exports.core_modules:isCuffed() or not Phone.Data.Has then
+					TriggerServerEvent("Phone.Call.End", Phone.Call.Number, Phone.Call.Channel)
+
+					Phone.Call.Number = nil
+					Phone.Call.Channel = nil
+					Phone.Call.Answered = false
+				end
+			end
+		end)
+
+		SendNUIMessage({type = "toggleAnswerBtn", payload = "true"})
+		SendNUIMessage({type = "setCallStatus", payload = "Incoming call"})
+		SendNUIMessage({type = "setCaller", payload = Phone.Call.Caller})
+
+		Phone:DisplayNotification("", "CHAR_CHAT_CALL", Phone.Call.Caller, "Incoming call")
+	end
+end)
+
+RegisterNetEvent("Phone.Call.End")
+AddEventHandler("Phone.Call.End", function()
+	Phone.Call.Number = nil
+	Phone.Call.Channel = nil
+	Phone.Call.Answered = false
+	Phone.Call.Hold = false
+	Phone.Call.Status = ""
+
+	SendNUIMessage({type = "endCall", payload = "true"})
+
+	Phone:DisplayNotification("", "CHAR_CHAT_CALL", Phone.Call.Caller, "Call ended")
+
+	Phone.Call.Caller = ""
+	NetworkSetVoiceChannel(nil)
+	NetworkSetTalkerProximity(10.0)
+
+	NetworkClearVoiceChannel()
+	ClearPedTasks(PlayerPedId())
+end)
+
+RegisterNetEvent("Phone.Call.Answer")
+AddEventHandler("Phone.Call.Answer", function(Channel)
+	Phone.Call.Status = "Active"
+	Phone.Call.Channel = Channel
+	
+	NetworkClearVoiceChannel()
+	NetworkSetVoiceChannel(tonumber(Phone.Call.Channel))
+	NetworkSetTalkerProximity(10000.0)
+
+	SendNUIMessage({type = "setCallStatus", payload = "Active"})
+end)

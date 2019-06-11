@@ -57,6 +57,18 @@ function Phone:GeneratePhoneNumber()
 	return self.Areacode .. Phone:FetchNumbers(Random)
 end
 
+function Phone:DoesMessageExistFromNumber(Source, Number)
+	if self.Players[Source] then
+		for Index = 1, #self.Players[Source].Messages do
+			if self.Players[Source].Messages[Index].receiver_number == Number then
+				return true, Index
+			end
+		end
+	end
+
+	return false, nil
+end
+
 AddEventHandler("playerDropped", function()
 	local Source = source
 
@@ -119,16 +131,16 @@ AddEventHandler("Phone.Start",function(Source, CharacterId)
 								Phone.PlayerIds[NewPhoneNumber] = Source
 
 								TriggerClientEvent("Phone.Start", Source, Phone.Players[Source])
+							else
+								CheckingDuplicate = false
 							end
-							
-							CheckingDuplicate = false
 						end)
 					end
 				end
 			end)
 		else
 			exports["GHMattiMySQL"]:QueryResultAsync("SELECT * FROM phone_contacts WHERE phone_number=@phone_number", {["@phone_number"] = PhoneNumber[1].phone_number}, function(Contacts)
-				exports["GHMattiMySQL"]:QueryResultAsync("SELECT receiver_number, (SELECT phone_messages.message FROM phone_messages WHERE phone_messages.conversation_id = phone_conversation.id ORDER BY id DESC LIMIT 1) As 'message' FROM phone_conversation WHERE owner_number = @phone_number", {["@phone_number"] = PhoneNumber[1].phone_number}, function(Messages)
+				exports["GHMattiMySQL"]:QueryResultAsync("SELECT phone_conversation.receiver_number, (SELECT CONCAT(phone_contacts.first_name, ' ', phone_contacts.last_name) FROM phone_contacts WHERE (phone_contacts.contact_number = phone_conversation.receiver_number) AND (phone_contacts.phone_number = phone_conversation.owner_number) LIMIT 1) AS 'contact_name', (SELECT phone_messages.message FROM phone_messages WHERE phone_messages.conversation_id = phone_conversation.id ORDER BY phone_messages.id DESC LIMIT 1) AS 'message' FROM phone_conversation WHERE phone_conversation.owner_number = @phone_number", {["@phone_number"] = PhoneNumber[1].phone_number}, function(Messages)
 					Phone.Players[Source] = {}
 					Phone.Players[Source].Has = number_to_bool(PhoneNumber[1].has)
 					Phone.Players[Source].Number = PhoneNumber[1].phone_number
@@ -145,11 +157,11 @@ AddEventHandler("Phone.Start",function(Source, CharacterId)
 end)
 
 RegisterServerEvent("Phone.Finish")
-AddEventHandler("Phone.Finish", function(Data)
+AddEventHandler("Phone.Finish", function(ContactNames)
 	local Source = source
 
 	if Phone.Players[Source] then
-		Phone.Players[Source] = Data
+		Phone.Players[Source].ContactNames = ContactNames
 	end
 end)
 
@@ -161,14 +173,20 @@ AddEventHandler("Phone.Contact.Add", function(Data)
 		exports["GHMattiMySQL"]:Insert("phone_contacts", {
 			{
 				["phone_number"] = Phone.Players[Source].Number,
-				["contact_number"] = Data.phone_number,
+				["contact_number"] = Data.contact_number,
 				["first_name"] = Data.first_name,
 				["last_name"] = Data.last_name,
 			}
 		}, function(ContactID)
-			table.insert(Phone.Players[Source].Contacts, {id = ContactID, contact_number = Data.phone_number, first_name = Data.first_name, last_name = Data.last_name})
+			table.insert(Phone.Players[Source].Contacts, {id = ContactID, contact_number = Data.contact_number, first_name = Data.first_name, last_name = Data.last_name})
 
-			Phone.Players[Source].ContactNames[Data.phone_number] = Data.first_name.." "..Data.last_name
+			Phone.Players[Source].ContactNames[Data.contact_number] = Data.first_name.." "..Data.last_name
+
+			local DoesExist, Index = Phone:DoesMessageExistFromNumber(Source, Data.contact_number)
+
+			if DoesExist then
+				Phone.Players[Source].Messages[Index].contact_name = Data.first_name.." "..Data.last_name
+			end
 
 			TriggerClientEvent("Phone.Contact.Add", Source, Phone.Players[Source])
 		end, true)
@@ -176,11 +194,12 @@ AddEventHandler("Phone.Contact.Add", function(Data)
 end)
 
 RegisterServerEvent("Phone.Contact.Remove")
-AddEventHandler("Phone.Contact.Remove", function(Id, Contacts)
+AddEventHandler("Phone.Contact.Remove", function(Id, Contacts, ContactNames)
 	local Source = source
 
 	if Phone.Players[Source] then
 		Phone.Players[Source].Contacts = Contacts
+		Phone.Players[Source].ContactNames = ContactNames
 		
 		exports["GHMattiMySQL"]:QueryAsync("DELETE FROM phone_contacts WHERE id=@id", {
 			["@id"] = Id,
@@ -232,7 +251,13 @@ AddEventHandler("Phone.Message.Add", function(PhoneNumber, Message)
 						}, function(MessageId)
 							local NewMessage = {id = MessageId, creator = Phone.Players[Source].Number, message = Message, timestamp = CurrentTime}
 
-							Phone.Players[Source].Messages[Target[1].phone_number] = Message
+							local DoesExist, Index = Phone:DoesMessageExistFromNumber(Source, Target[1].phone_number)
+
+							if DoesExist then
+								Phone.Players[Source].Messages[Index].message = Message
+							else
+								table.insert(Phone.Players[Source].Messages, {receiver_number = Target[1].phone_number, message = Message, contact_name = Phone.Players[Source].ContactNames[Target[1].phone_number] or nil})
+							end
 
 							TriggerClientEvent("Phone.Message.Add", Source, true, false, Target[1].phone_number, NewMessage, Phone.Players[Source])
 						end, true)
@@ -257,7 +282,13 @@ AddEventHandler("Phone.Message.Add", function(PhoneNumber, Message)
 									if Phone.Players[TargetId].Number == Target[1].phone_number then
 										local NewMessage = {id = MessageId, creator = Phone.Players[Source].Number, message = Message, timestamp = CurrentTime}
 
-										Phone.Players[TargetId].Messages[Phone.Players[Source].Number] = Message
+										local DoesExist, Index = Phone:DoesMessageExistFromNumber(TargetId, Phone.Players[Source].Number)
+
+										if DoesExist then
+											Phone.Players[TargetId].Messages[Index].message = Message											
+										else
+											table.insert(Phone.Players[TargetId].Messages, {receiver_number = Phone.Players[Source].Number, message = Message, contact_name = Phone.Players[TargetId].ContactNames[Phone.Players[Source].Number] or nil})
+										end
 
 										TriggerClientEvent("Phone.Message.Add", TargetId, true, true, Phone.Players[Source].Number, NewMessage, Phone.Players[TargetId])
 									end
@@ -278,7 +309,13 @@ AddEventHandler("Phone.Message.Add", function(PhoneNumber, Message)
 						}, function(MessageId)
 							local NewMessage = {id = MessageId, creator = Phone.Players[Source].Number, message = Message, timestamp = CurrentTime}
 
-							Phone.Players[Source].Messages[Target[1].phone_number] = Message
+							local DoesExist, Index = Phone:DoesMessageExistFromNumber(Source, Target[1].phone_number)
+
+							if DoesExist then
+								Phone.Players[Source].Messages[Index].message = Message
+							else
+								table.insert(Phone.Players[Source].Messages, {receiver_number = Target[1].phone_number, message = Message, contact_name = Phone.Players[Source].ContactNames[Target[1].phone_number] or nil})
+							end
 
 							TriggerClientEvent("Phone.Message.Add", Source, true, false, Target[1].phone_number, NewMessage, Phone.Players[Source])
 						end, true)
@@ -297,8 +334,14 @@ AddEventHandler("Phone.Message.Add", function(PhoneNumber, Message)
 								if Phone.Players[TargetId] then
 									if Phone.Players[TargetId].Number == Target[1].phone_number then
 										local NewMessage = {id = MessageId, creator = Phone.Players[Source].Number, message = Message, timestamp = CurrentTime}
-											
-										Phone.Players[TargetId].Messages[Phone.Players[Source].Number] = Message
+
+										local DoesExist, Index = Phone:DoesMessageExistFromNumber(TargetId, Phone.Players[Source].Number)
+
+										if DoesExist then
+											Phone.Players[TargetId].Messages[Index].message = Message
+										else
+											table.insert(Phone.Players[TargetId].Messages, {receiver_number = Phone.Players[Source].Number, message = Message, contact_name = Phone.Players[TargetId].ContactNames[Phone.Players[Source].Number] or nil})
+										end
 
 										TriggerClientEvent("Phone.Message.Add", TargetId, true, true, Phone.Players[Source].Number, NewMessage, Phone.Players[TargetId])
 									end
@@ -349,7 +392,7 @@ AddEventHandler("Phone.Call.End", function(TargetNumber, Channel)
 
 	if TargetId then
 		if Phone.Calls[TargetId] then
-			if Phone.Calls[TargetId] == Channel then
+			if tostring(Phone.Calls[TargetId]) == tostring(Channel) then
 				TriggerClientEvent("Phone.Call.End", Source)
 				TriggerClientEvent("Phone.Call.End", TargetId)
 

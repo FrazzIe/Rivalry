@@ -1,342 +1,514 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<meta name="description" content="">
+		<meta name="author" content="Jake Anderson">
+		<title>Samsung Galaxy S10 for RivalryRP</title>
+		<link href="./css/normalize.css" rel="stylesheet">
+		<link href="./css/style.css" rel="stylesheet">
+		<link href="./css/simplebar.css" rel="stylesheet">
+		<link href="https://cdnjs.cloudflare.com/ajax/libs/material-design-icons/3.0.1/iconfont/material-icons.min.css" rel="stylesheet">
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>phone</title>
-    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/css/styles.css">
-</head>
+		<script type="application/javascript" src="./js/jquery.js"></script>
+		<script type="application/javascript" src="./js/angular.js"></script>
+		<script type="application/javascript" src="./js/nicescroll.js"></script>
+		<script type="application/javascript" src="./js/simplebar.js"></script>
+		<script type="application/javascript" src="./js/moment.js"></script>
+		<script type="application/javascript" src="./js/app.js"></script>
+	</head>
+	<body ng-app="app">
+		<div class="app-wrapper" ng-controller="ctrl">
+			
+			<!-- ignore this --><!--
+			<div class="phone-actions" style="position: absolute; bottom: 10px; right:0; font-size: 10px;">
+				<button ng-click="toggleView('lifeAlert')" style="background-color: white; border: none;padding:8px;" >toggle life alert</button>
+				<button ng-click="toggleView('calling', 'your maker')"  style="background-color: white; border: none;padding:8px;">toggle incomming call</button>
+				<button ng-click="toggleView('loading')"  style="background-color: white; border: none;padding:8px;">loading</button>
+				<button ng-click="togglePhone(!phoneToggle)"  style="background-color: white; border: none;padding:8px;">toggle phone</button>
+			</div>
+			--><!-- ignore this -->
+		
+			<!-- Phone Container -->
+			<div class="phone-wrapper" ng-class="screenSize" ng-show="phoneToggle">
+				<!-- notch and cell icons -->
+				<div class="screen">
+					<div class="notch"></div>
+					<div class="phone-stats">
+						<i class="material-icons">network_cell</i>
+						<i class="material-icons">wifi</i>
+						<i class="material-icons">battery_full</i>
+					</div>	
 
-<body style="background-color:rgba(255,255,255,0);">
-    <div class="vertical-center">
-        <div class="container" style="background-image:url(&quot;assets/img/ipad.png&quot;);background-repeat:no-repeat;background-size:contain;">
-            <div class="row nav-page" style="margin-left:10%;margin-top:4%;">
-                <div class="col"><button id="btn-back" class="close" style="color:rgb(255,255,255); float: left;"><span aria-hidden="true">←</span></button></div>
-                <div class="col">
-                    <h5 class="text-center text-white" id="phone-number-display" style="color:#000000;">Insert Number</h5>
-                </div>
-                <div class="col"><button class="close" id="btn-close" style="color:rgb(255,255,255);"><span aria-hidden="true">×</span></button></div>
-            </div>
-            <div class="row home-page" style="margin-left:10%; overflow-x: hidden;">
-                <div class="col main-col">
-                    <div class="row" style="margin-bottom:30px;">
-                        <div class="col"><button class="btn btn-success btn-block btn-lg" type="button" id="btn_call">Call </button></div>
-                    </div>
-                    <div class="row" style="margin-bottom:30px;">
-                        <div class="col"><button class="btn btn-primary btn-block btn-lg" type="button" id="btn_open_contacts">Contacts </button></div>
-                    </div>
-                    <div class="row" style="margin-bottom:30px;">
-                        <div class="col"><button class="btn btn-primary btn-block btn-lg" type="button" id="btn_open_messages">Messages </button></div>
-                    </div>
-                    <div class="row" style="margin-bottom:30px;">
-                        <div class="col"><button class="btn btn-primary btn-block btn-lg" type="button" id="btn_open_new_message">New Message</button></div>
-                    </div>
-                    <div class="row" style="margin-bottom:30px;">
-                        <div class="col"><button class="btn btn-primary btn-block btn-lg" type="button" id="btn_open_services">Public Services</button></div>
-                    </div>
-                    <div class="row" style="margin-bottom:30px;">
-                        <div class="col"><button class="btn btn-primary btn-block btn-lg" type="button" id="btn_open_other_services">Other Services</button></div>
-                    </div>
-                </div>
-            </div>
-            <div class="row contact-page" style="margin-left:10%;">
-                <div class="col main-col contact-list" style="margin-top:25px;overflow-x: hidden;"><small class="form-text text-muted">Contacts </small>
-                    <div id="contacts_list"><button class="btn btn-primary btn-block btn-lg" type="button">First Last</button></div><button class="btn btn-outline-success btn-block btn-lg" type="button" id="btn-show-create-contact" style="margin-top:10px;">Create new</button></div>
-                <div
-                    class="col main-col add-contact" style="margin-top:25px;">
-                    <form id="add-contact-form">
-                        <div class="form-group"><small class="form-text text-muted">First name</small><input class="form-control" type="text" required="" minlength="1" id="first-name"></div>
-                        <div class="form-group"><small class="form-text text-muted">Last name</small><input class="form-control" type="text" required="" minlength="1" id="last-name"></div>
-                        <div class="form-group"><small class="form-text text-muted">Phone number</small><input class="form-control" type="number" required="" id="phone-number"></div>
-                        <div class="form-group"><button class="btn btn-success btn-block btn-lg" type="submit" id="btn-create-contact">Add contact</button></div>
-                    </form>
-            </div>
-            <div class="col main-col view-contact" style="margin-top:25px;"><small class="form-text text-muted">First name</small><input class="form-control-lg" type="text" disabled="" readonly="" placeholder="First name" id="view-first-name" style="width:100%;"><small class="form-text text-muted">Last name</small>
-                <input
-                    class="form-control-lg" type="text" disabled="" readonly="" placeholder="Last name" id="view-last-name" style="width:100%;"><small class="form-text text-muted">Phone number</small><input class="form-control-lg" type="text" disabled="" readonly="" placeholder="Phone number" id="view-phone-number" style="width:100%;"><small class="form-text text-muted">Options </small>
-                    <button
-                        class="btn btn-primary btn-block btn-lg" type="button" id="view-message-contact">Message </button><button class="btn btn-danger btn-block btn-lg" type="button" id="view-remove-contact">Remove </button></div>
-        </div>
-        <div class="row no-gutters messages-page" style="margin-left:10%;">
-            <div class="col main-col" style="margin-top:25px;">
-                <h3 class="text-center" style="color:rgb(255,255,255);">Latest Messages</h3>
-                <div class="row justify-content-center" id="latest-messages" style="margin-top:10px;margin-bottom:10px;">
-                    <div class="col-3 rounded" style="margin-top:5px;margin-bottom:5px;background-color:#007bff;margin-right:10px;margin-left:10px; overflow-x: hidden;">
-                        <h5 style="color:#141414;"><span style="text-decoration: underline;">First Last</span></h5>
-                        <p style="color:rgb(255,255,255);">dddddddddddddddddd </p>
-                    </div>
-                    <div class="col-3 rounded" style="margin-top:5px;margin-bottom:5px;background-color:#007bff;margin-right:10px;margin-left:10px; overflow-x: hidden;">
-                        <h5 style="color:#141414;"><span style="text-decoration: underline;">First Last</span></h5>
-                        <p style="color:rgb(255,255,255);">dddddddddddddddddd </p>
-                    </div>
-                    <div class="col-3 rounded" style="margin-top:5px;margin-bottom:5px;background-color:#007bff;margin-right:10px;margin-left:10px; overflow-x: hidden;">
-                        <h5 style="color:#141414;"><span style="text-decoration: underline;">First Last</span></h5>
-                        <p style="color:rgb(255,255,255);">dddddddddddddddddd </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row sub-messages-page" style="margin-left:10%;">
-            <div class="col main-col" style="margin-top:25px;">
-                <h3 class="text-center" id="sub-messages-heading" style="color:rgb(255,255,255);">Insert Name Here</h3>
-                <div id="sub-messages-messages" style="overflow-x:hidden;">
-                    <div class="row no-gutters justify-content-start">
-                        <div class="col-5 rounded" style="margin-top:5px;margin-bottom:5px;background-color:#007bff;margin-right:15px;margin-left:15px;">
-                            <div class="row">
-                                <div class="col">
-                                    <p style="margin-left:2.5%">Yesterday at 15:06</p>
-                                </div>
-                                <div class="col"><button class="close" style="margin-right:2.5%"><span aria-hidden="true">×</span></button></div>
-                            </div>
-                            <div class="row">
-                                <div class="col">
-                                    <p class="text-center" style="color:rgb(255,255,255);word-wrap:break-word;width:95%;margin-left:2.5%;">dddddddddddddddddd ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row no-gutters justify-content-end">
-                        <div class="col-5 rounded" style="margin-top:5px;margin-bottom:5px;background-color:#28a745;margin-right:15px;margin-left:15px;">
-                            <div class="row">
-                                <div class="col"><button class="close"><span aria-hidden="true">×</span></button></div>
-                            </div>
-                            <div class="row">
-                                <div class="col">
-                                    <p class="text-center" style="color:rgb(255,255,255);word-wrap:break-word;width:95%;margin-left:2.5%;">WEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
-                                        </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col rounded" style="margin-top:5px;margin-bottom:5px;background-color:#565959;margin-right:10px;margin-left:10px;">
-                        <form id="instant-message-form">
-                            <div class="form-group" style="margin-top:1%;"><textarea class="form-control" rows="3" required="" minlength="1" id="instant-message-textarea" style="resize: none;"></textarea></div>
-                            <div class="form-group"><button class="btn btn-primary btn-block" type="submit" id="instant-message-submit">Message </button></div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row new-messages-page" style="margin-left:10%;">
-            <div class="col main-col" style="margin-top:25px;">
-                <h3 class="text-center" style="color:rgb(255,255,255);">New Message</h3>
-                <div class="row justify-content-start" style="color:rgba(33,37,41,0);">
-                    <div class="col" style="margin-top:5px;margin-bottom:5px;background-color:rgba(0,123,255,0);margin-right:10px;margin-left:10px;color:#212529;">
-                        <form id="new-message-form">
-                            <div class="form-group"><small class="form-text text-muted">Phone number</small>
-                                <div class="input-group"><input class="form-control" type="text" required="" pattern="[0-9]{1,11}" id="new-message-phonenumber">
-                                    <div class="input-group-append"><button class="btn btn-success" type="button" id="btn-new-messages-contacts">Contacts </button></div>
-                                </div>
-                            </div>
-                            <div class="form-group"><small class="form-text text-muted">Message </small><textarea class="form-control" rows="6" required="" minlength="1" id="new-message-container"></textarea></div>
-                            <div class="form-group"><button class="btn btn-success btn-block" type="submit">Send message</button></div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row services-page" style="margin-left:10%;">
-            <div class="col main-col">
-                <div class="row" style="margin-bottom:30px;">
-                    <div class="col"><button class="btn btn-primary btn-block btn-lg" type="button" id="btn_open_police">Los Santos Police Department</button></div>
-                </div>
-                <div class="row" style="margin-bottom:30px;">
-                    <div class="col"><button class="btn btn-primary btn-block btn-lg" type="button" id="btn_open_ems">Los Santos Fire Department</button></div>
-                </div>
-                <div class="row" style="margin-bottom:30px;">
-                    <div class="col"><button class="btn btn-primary btn-block btn-lg" type="button" id="btn_open_taxi">Downtown Cab Co. </button></div>
-                </div>
-                <div class="row" style="margin-bottom:30px;">
-                    <div class="col"><button class="btn btn-primary btn-block btn-lg" type="button" id="btn_open_mechanic">Choke Repairs</button></div>
-                </div>
-            </div>
-        </div>
-        <div class="row services-police-page" style="margin-left:10%;">
-            <div class="col main-col" style="margin-top:25px;">
-                <h3 class="text-center" style="color:rgb(255,255,255);">Los Santos Police Department</h3>
-                <div class="row justify-content-start" style="color:rgba(33,37,41,0);">
-                    <div class="col" style="margin-top:5px;margin-bottom:5px;background-color:rgba(0,123,255,0);margin-right:10px;margin-left:10px;color:#212529;">
-                        <form id="services-police-form">
-                            <div class="form-group"><small class="form-text text-muted">Message </small><textarea class="form-control" rows="6" required="" minlength="1" id="services-police-textarea" style="resize: none;"></textarea></div>
-                            <div class="form-group"><button class="btn btn-danger btn-block" type="submit" id="btn-services-police-submit">Send Report</button></div>
-                            <div class="form-group"><button class="btn btn-info btn-block" type="button" id="btn-services-police-cancel">Cancel Report</button></div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row services-ems-page" style="margin-left:10%;">
-            <div class="col main-col" style="margin-top:25px;">
-                <h3 class="text-center" style="color:rgb(255,255,255);">Los Santos Fire Department</h3>
-                <div class="row justify-content-start" style="color:rgba(33,37,41,0);">
-                    <div class="col" style="margin-top:5px;margin-bottom:5px;background-color:rgba(0,123,255,0);margin-right:10px;margin-left:10px;color:#212529;">
-                        <form id="services-ems-form">
-                            <div class="form-group"><small class="form-text text-muted">Message </small><textarea class="form-control" rows="8" required="" minlength="1" id="services-ems-textarea" style="resize: none;"></textarea></div>
-                            <div class="form-group"><button class="btn btn-danger btn-block" type="submit" id="btn-services-ems-submit">Send Report</button></div>
-                            <div class="form-group"><button class="btn btn-info btn-block" type="button" id="btn-services-ems-cancel">Cancel Report</button></div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row services-taxi-page" style="margin-left:10%;">
-            <div class="col main-col" style="margin-top:25px;">
-                <h3 class="text-center" style="color:rgb(255,255,255);">Downtown Cab Co.</h3>
-                <div class="row justify-content-start" style="color:rgba(33,37,41,0);">
-                    <div class="col" style="margin-top:5px;margin-bottom:5px;background-color:rgba(0,123,255,0);margin-right:10px;margin-left:10px;color:#212529;">
-                        <form id="services-taxi-form">
-                            <div class="form-group"><small class="form-text text-muted">Passengers </small><select class="form-control" required="" id="services-taxi-select" size="3"><option value="1 passenger" selected="">One</option><option value="2 passengers">Two</option><option value="3 passengers">Three</option></select></div>
-                            <div
-                                class="form-group"><button class="btn btn-success btn-block" type="submit" id="btn-services-taxi-submit">Order Taxi</button></div>
-                    <div class="form-group"><button class="btn btn-info btn-block" type="button" id="btn-services-taxi-cancel">Cancel Order</button></div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row services-mechanic-page" style="margin-left:10%;">
-        <div class="col main-col" style="margin-top:25px;">
-            <h3 class="text-center" style="color:rgb(255,255,255);">Choke Repairs</h3>
-            <div class="row justify-content-start" style="color:rgba(33,37,41,0);">
-                <div class="col" style="margin-top:5px;margin-bottom:5px;background-color:rgba(0,123,255,0);margin-right:10px;margin-left:10px;color:#212529;">
-                    <form id="services-mechanic-form">
-                        <div class="form-group"><small class="form-text text-muted">Type of vehicle?</small><select class="form-control" required="" id="services-mechanic-select" size="4"><option value="Motorbike" selected="">Motorbike</option><option value="Car">Car</option><option value="Van">Van</option><option value="Truck">Truck</option></select></div>
-                        <div
-                            class="form-group"><button class="btn btn-success btn-block" type="submit" id="btn-services-mechanic-submit">Order Mechanic</button></div>
-                <div class="form-group"><button class="btn btn-info btn-block" type="button" id="btn-services-mechanic-cancel">Cancel Order</button></div>
-                </form>
-            </div>
-        </div>
-    </div>
-    </div>
-    <div class="row other-services-page" style="margin-left:10%;">
-        <div class="col main-col">
-            <div class="row" style="margin-bottom:30px;">
-                <div class="col"><button class="btn btn-primary btn-block btn-lg" type="button" id="btn_open_helix">Helix Trading Inc.</button></div>
-            </div>
-        </div>
-    </div>
-    <div class="row other-services-helix-page" style="margin-left:10%;">
-        <div class="col main-col" style="margin-top:25px;">
-            <h3 class="text-center" style="color:rgb(255,255,255);">H3LIX </h3>
-            <div class="row justify-content-start" style="color:rgba(33,37,41,0);">
-                <div class="col" style="margin-top:5px;margin-bottom:5px;background-color:rgba(0,123,255,0);margin-right:10px;margin-left:10px;color:#212529;">
-                    <form id="other-services-helix-form">
-                        <div class="form-group"><small class="form-text text-muted">What trader would you like to order</small><select class="form-control" required="" id="other-services-helix-select" size="4"><option value="weed" selected="">Cannabis</option></select></div>
-                        <div
-                            class="form-group"><button class="btn btn-success btn-block" type="submit" id="btn-other-services-helix-submit">Order Trader</button></div>
-                <div class="form-group"><button class="btn btn-info btn-block" type="button" id="btn-other-services-helix-cancel">Cancel Order</button></div>
-                </form>
-            </div>
-        </div>
-    </div>
-    </div>
-    <div class="row lifealert-page" style="margin-left:10%;overflow-x: hidden;">
-        <div class="col">
-            <div class="row" style="margin-bottom:30px;">
-                <div class="col">
-                    <h1 class="text-truncate text-uppercase text-center text-danger bg-dark">LIFE ALERT</h1>
-                </div>
-            </div>
-            <div class="row" style="margin-bottom:30px;">
-                <div class="col"><button class="btn btn-outline-danger btn-block btn-lg" type="button" id="btn_ambulance">Request an ambulance (and remember everything)</button></div>
-            </div>
-            <div class="row" style="margin-bottom:30px;">
-                <div class="col"><button class="btn btn-outline-danger btn-block btn-lg" type="button" id="btn_respawn"> Wake up at Hospital (You forget what happened) </button></div>
-            </div>
-            <div class="row" style="margin-bottom:30px;">
-                <div class="col rounded border" style="background-color:#565959;">
-                    <p class="text-white" style="margin-top:5px;">Choosing "Wake up at hospital" option will result in all cash in your wallet (clean and dirty), all weapons and all items in your inventory to be lost. This is irreversible and staff members will not reimburse you..</p>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row call-page" style="margin-left:10%; overflow-x: hidden;">
-        <div class="col">
-            <div class="row">
-                <div class="col">
-                    <h1 class="text-center text-light">Make a phone call</h1>
-                    <form id="call_form">
-                        <div class="form-group"><small class="form-text text-muted">Enter number</small><input class="form-control" type="text" id="input_call_number"></div><small class="form-text text-muted">Contacts </small>
-                        <div class="form-group" style="overflow-x:hidden;padding-right:5px;padding-left:5px;padding-top:5px;padding-bottom:5px;">
-                            <div id="contact_list_call"><button class="btn btn-primary btn-block" type="button">Button</button></div>
-                        </div>
-                        <div class="form-group"><button class="btn btn-success btn-block" type="submit" id="btn-submit-call">Dial Number</button></div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row dial-page" style="margin-left:10%; overflow-x: hidden;">
-        <div class="col main-col">
-            <div class="row">
-                <div class="col">
-                    <h1 class="text-center text-light" id="call-status-heading">Dialing..</h1>
-                </div>
-            </div>
-            <div class="row" style="margin-top:50px;margin-bottom:100px;">
-                <div class="col">
-                    <h1 class="text-center text-primary" id="call-duration-heading">0:00:00 </h1>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-3"></div>
-                <div class="col align-self-center"><button class="btn btn-success btn-block" type="button" id="btn-cancel-call">Cancel </button></div>
-                <div class="col-3"></div>
-            </div>
-        </div>
-    </div>
-    <div class="row dial-page-answer" style="margin-left:10%; overflow-x: hidden;">
-        <div class="col main-col">
-            <div class="row">
-                <div class="col">
-                    <h1 class="text-center text-light" id="caller-id-heading">Dialing..</h1>
-                </div>
-            </div>
-            <div class="row" style="margin-top:50px;margin-bottom:100px;">
-                <div class="col">
-                    <h1 class="text-center text-primary" id="call-duration-heading-answer">0:00:00 </h1>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-3"></div>
-                <div class="col align-self-center"><button class="btn btn-success btn-block" type="button" id="btn-call-answer">Answer </button><button class="btn btn-danger btn-block" type="button" id="btn-call-decline">Decline </button></div>
-                <div class="col-3"></div>
-            </div>
-        </div>
-    </div>
-    <div class="row loading-page" style="margin-left:10%; overflow-x: hidden;">
-        <div class="col align-self-center main-col">
-            <div class="row justify-content-center align-items-center">
-                <div class="col-4"></div>
-                <div class="col-auto">
-                    <div class="float-left loader"></div>
-                </div>
-                <div class="col-4"></div>
-            </div>
-        </div>
-    </div>
-    </div>
-    </div>
-    <div class="modal fade" role="dialog" tabindex="-1" id="alert_modal">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header text-danger">
-                    <h4 class="modal-title">Alert</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button></div>
-                <div class="modal-body">
-                    <p id="alert_modal_p">The message was not sent as the number does not exist!</p>
-                </div>
-            </div>
-        </div>
-    </div>
-    <script src="assets/js/jquery.min.js"></script>
-    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
-    <script src="assets/js/moment.js"></script>
-    <script src="assets/js/script.js"></script>
-</body>
+					<div class="error-wrapper" ng-class="{ 'open': error, '': !error }">
+						<p>{{errorMessage}}</p>
+					</div>
 
+					<!-- <button class="twitter-btn" ng-click="toggleView('twitter')"></button> -->
+				
+					<!-- call container -->
+					<div class="call-wrapper" ng-class="{ 'open': callToggle, '': !callToggle }">
+						<i class="material-icons add-contact" ng-click="toggleView('addContact')">
+							add_circle
+						</i>
+						<h1>
+							<i class="material-icons" ng-click="toggleView('call')">
+								arrow_back_ios
+							</i>
+							<span>Phone<span>
+						</h1>
+						<input class="number-input" type="tel" placeholder="enter number" ng-model="callInput" maxlength="10" required/>
+
+						<div class="dialer">
+							<button class="dialer-btn" ng-click="addDialer('1')">1</button>
+							<button class="dialer-btn" ng-click="addDialer('2')">2</button>
+							<button class="dialer-btn" ng-click="addDialer('3')">3</button>
+							<button class="dialer-btn" ng-click="addDialer('4')">4</button>
+							<button class="dialer-btn" ng-click="addDialer('5')">5</button>
+							<button class="dialer-btn" ng-click="addDialer('6')">6</button>
+							<button class="dialer-btn" ng-click="addDialer('7')">7</button>
+							<button class="dialer-btn" ng-click="addDialer('8')">8</button>
+							<button class="dialer-btn" ng-click="addDialer('9')">9</button>
+							<button class="dialer-btn" ng-click="addDialer('0')">0</button>
+						</div>
+
+						<button ng-click="call('start', callInput)">Call</button>	
+					</div>
+						
+					<!-- contacts container -->
+					<div class="contacts-wrapper" ng-class="{ 'open': contactsToggle, '': !contactsToggle }">
+						<i class="material-icons add-contact" ng-click="toggleView('addContact')">
+							add_circle
+						</i>
+						<h1>
+							<i class="material-icons" ng-click="toggleView('contacts')">
+								arrow_back_ios
+							</i>
+							<span>Contacts<span>
+						</h1>
+						<h2>{{contacts.length}} contacts</h2>
+						<ul>
+							<li ng-repeat="contact in contacts track by $index">
+								<p class="name">{{contact.first_name}} {{contact.last_name}}</p>
+								<p class="number">{{contact.contact_number}}</p>
+								<div class="contact-actions">
+									<i class="material-icons" ng-show="callStatus == ''" ng-click="call('start', contact.contact_number, contact.first_name + ' ' + contact.last_name)">
+										call
+									</i>
+									<i class="material-icons" ng-click="viewMessages(contact.contact_number, contact.first_name + ' ' + contact.last_name)">
+										message
+									</i>
+									<i class="material-icons" ng-click="toggleView('confirmation', contact.id)">
+										delete_forever
+									</i>
+								</div>
+							</li>
+						</ul>
+					</div>
+							
+					<!-- messages container -->
+					<div class="messages-wrapper" ng-class="{ 'open': messagesToggle, '': !messagesToggle }">
+						<i class="material-icons add-contact" ng-click="toggleView('newMessage')">
+							add_circle
+						</i>
+						<h1>
+							<i class="material-icons" ng-click="toggleView('messages')">
+								arrow_back_ios
+							</i>
+							<span>Messages<span>							
+						</h1>			
+					
+						<h2>{{messages.length}} messages</h2>
+
+						<ul>
+							<li ng-repeat="message in messages">
+								<p class="name">{{message.contact_name || message.receiver_number}}</p>
+								<p class="msg" ngIf="contact.recent_message > 0" style="min-height: 16px; font-size: 14px;">{{message.message}}</p>
+								<div class="contact-actions">
+									<i class="material-icons" ng-click="viewMessages(message.receiver_number, message.contact_name)">
+										message
+									</i>
+								</div>
+							</li>
+						</ul>
+					</div>
+						
+					<!-- services container -->
+					<div class="services-wrapper" ng-class="{ 'open': servicesToggle, '': !servicesToggle }">
+						<h1>
+							<i class="material-icons" ng-click="toggleView('services')">
+								arrow_back_ios
+							</i>
+							<span>Services<span>
+						</h1>					
+						
+						<ul>
+							<li>
+								<button ng-click="toggleView('serviceMessage', 'Taxi')">
+									<i class="material-icons">
+										local_taxi
+									</i>
+									<p>Taxi</p>
+								</button>
+							</li>
+							<li>
+								<button ng-click="toggleView('serviceMessage', 'Mechanic')">
+									<i class="material-icons">
+										build
+									</i>
+									<p>Mechanic</p>
+								</button>
+							</li>
+							<li>
+								<button ng-click="toggleView('serviceMessage', 'EMT')">
+									<i class="material-icons">
+										local_hospital
+									</i>
+									<p>EMT</p>
+								</button>
+							</li>
+							<li>
+								<button ng-click="toggleView('serviceMessage', 'Police')">
+									<i class="material-icons">
+										security
+									</i>
+									<p>Police</p>
+								</button>
+							</li>
+							<li>
+								<button class="vpn-btn" ng-click="toggleView('serviceMessage', 'Other')">
+									<i class="material-icons">
+										vpn_key
+									</i>
+								</button>
+							</li>
+						</ul>						
+					</div>
+						
+					<div class="service-message-wrapper" ng-class="{ 'open': serviceMessageToggle, '': !serviceMessageToggle }">
+						<h1>
+							<i class="material-icons" ng-click="toggleView('serviceMessage'); toggleView('services')">
+								arrow_back_ios
+							</i>
+							<span>{{serviceName}}<span>
+						</h1>				
+						
+						<div class="service" ng-switch="serviceName">
+							<div ng-switch-when="Taxi">
+								<ul>
+									<li>
+										<input type="radio" id="radio-one" name="switch" value="1 passenger" ng-model="taxiOption" checked>
+										<label for="radio-one">1 person</label>											
+									</li>
+									<li>
+										<input type="radio" id="radio-two" name="switch" value="2 passengers" ng-model="taxiOption">
+										<label for="radio-two">2 person</label>											
+									</li>
+									<li>
+										<input type="radio" id="radio-three" name="switch" value="3 passengers" ng-model="taxiOption">
+										<label for="radio-three">3+ person</label>											
+									</li>
+								</ul>
+								<button style="bottom: 30px; border-bottom: white;" ng-click="requestService('Taxi', taxiOption)">Send Request</button>
+								<button style="background-color: gray; border-color: gray;" ng-click="cancelService('Taxi')">Cancel</button>
+							</div>
+
+							<div ng-switch-when="Mechanic">
+								<ul>
+									<li>
+										<input type="radio" id="radio-one" name="switch" value="Car" ng-model="mechOption" checked>
+										<label for="radio-one">Car</label>											
+									</li>
+									<li>
+										<input type="radio" id="radio-two" name="switch" value="Truck" ng-model="mechOption">
+										<label for="radio-two">Truck</label>											
+									</li>
+									<li>
+										<input type="radio" id="radio-three" name="switch" value="Motorbike" ng-model="mechOption">
+										<label for="radio-three">Motorcycle</label>											
+									</li>
+								</ul>
+								<button style="bottom: 30px; border-bottom: white;" ng-click="requestService('Mechanic', mechOption)">Send Request</button>
+								<button style="background-color: gray; border-color: gray;" ng-click="cancelService('Mechanic')">Cancel</button>
+							</div>
+
+							<div ng-switch-when="EMT">
+								<textarea placeholder="whats your emergency" ng-model="emtMessage"></textarea>
+								<button style="bottom: 30px; border-bottom: white;" ng-click="requestService('EMT', emtMessage)">Send Request</button>
+								<button style="background-color: gray; border-color: gray;" ng-click="cancelService('EMT')">Cancel</button>
+							</div>
+
+							<div ng-switch-when="Police">
+								<textarea placeholder="whats your emergency" ng-model="policeMessage"></textarea>
+								<button style="bottom: 30px; border-bottom: white;" ng-click="requestService('Police', policeMessage)">Send Request</button>
+								<button style="background-color: gray; border-color: gray;" ng-click="cancelService('Police')">Cancel</button>
+							</div>
+
+							<div ng-switch-when="Other">
+								<ul>
+									<li>
+										<input type="radio" id="radio-one" name="switch" value="Weed" ng-model="otherOption" checked>
+										<label for="radio-one">Cannabis</label>							
+									</li>
+								</ul>		
+								<button style="bottom: 30px; border-bottom: white;" ng-click="requestTrader()">Order Trade</button>
+								<button style="background-color: gray; border-color: gray;" ng-click="cancelTrader()">Cancel</button>
+							</div>
+							
+							<div ng-switch-default>
+								
+							</div>
+						</div>						
+					</div>
+						
+					<!-- settings container -->
+					<div class="settings-wrapper" ng-class="{ 'open': settingsToggle, '': !settingsToggle }">
+						<h1>
+							<i class="material-icons" ng-click="toggleView('settings')">
+								arrow_back_ios
+							</i>
+							<span>Settings<span>
+						</h1>		
+						
+						<div class="settings">
+							<ul>
+								<li>
+									<p>Number: {{myNumber}}</p>
+								</li>
+								<!--
+								<li>
+									<p>Notification Settings</p>
+									<ul>
+										<li>
+											<p>Twitter</p>
+											<div class="toggleWrapper">
+												<input type="checkbox" name="toggle1" class="mobileToggle" id="toggle1" checked>
+												<label for="toggle1"></label>
+											</div>
+										</li>
+									</ul>
+								</li>
+								-->
+								<li>
+									<p>Phone Size</p>
+									
+									<div class="switch-phone-size">
+										<ul>
+											<li>
+												<input type="radio" id="radio-one" name="switch" value="extra-large" ng-model="screenSize"/>
+												<label for="radio-one">Extra large</label>
+											</li>
+											<li>
+												<input type="radio" id="radio-two" name="switch" value="large" ng-model="screenSize"/>
+												<label for="radio-two">Large</label>
+											</li>
+											<li>
+												<input type="radio" id="radio-three" name="switch" value="medium" ng-model="screenSize" checked/>
+												<label for="radio-three">Medium</label>
+											</li>
+											<li>
+												<input type="radio" id="radio-four" name="switch" value="small" ng-model="screenSize"/>
+												<label for="radio-four">Small</label>
+											</li>
+										</ul>
+									</div>									
+								</li>
+							</ul>
+							<button ng-click="saveSettings()">Save</button>
+						</div>						
+					</div>
+							
+					<!-- footer navigation actions -->
+					<div class="footer-bar">
+						<button class="footer-btn phone" ng-click="toggleView('call')">
+							<i class="material-icons">
+								phone
+							</i>
+						</button>
+						<button class="footer-btn contacts" ng-click="toggleView('contacts')">
+							<i class="material-icons">
+								contacts
+							</i>
+						</button>
+						<button class="footer-btn message" ng-click="toggleView('messages')">
+							<i class="material-icons">
+								message
+							</i>
+						</button>
+						<button class="footer-btn services" ng-click="toggleView('services')">
+							<i class="material-icons">
+								location_on
+							</i>
+						</button>
+						<button class="footer-btn other-services" ng-click="toggleView('settings')">
+							<i class="material-icons">
+								settings
+							</i>
+						</button>
+					</div>
+							
+					<!-- life alert container -->
+					<div class="life-alert-wrapper" ng-class="{ 'open': lifeAlertToggle, '': !lifeAlertToggle }">
+						<h1>LIFE ALERT!</h1>
+						<button ng-click="requestAmbulance()">
+							<p>Request an Ambulance</p>
+							<strong>(You will remmeber everything)</strong>
+						</button>
+						<button ng-click="requestRespawn()">
+							<p>Wake up at Hospital </p>
+							<strong> (You forget what happened) </strong>
+						</button>
+					
+						<p class="info-text">
+							Choosing "Wake up at hospital" option will result in all cash in your wallet (clean and dirty), all weapons and all items in your inventory to be lost. This is irreversible and staff members will not reimburse you..
+						</p>
+					</div>
+							
+					<!-- calling container -->
+					<div class="phone-call-active-wrapper" ng-class="{ 'open': phoneCallActiveToggle, '': !phoneCallActiveToggle }">
+						<i class="material-icons back-from-call" ng-click="toggleView('calling')">
+							arrow_back_ios
+						</i>
+						<i class="material-icons">
+							phone_in_talk
+						</i>
+						<p>{{callingName}}</p>
+						<p>{{callStatus}}</p>
+						<button class="answer-btn" ng-show="isAcceptVisible" ng-click="call('answer')">Answer</button>
+						<button class="hangup-btn" ng-click="call('end')">Hangup</button>
+					</div>
+							
+					<!-- text message container -->
+					<div class="text-convo-wrapper" ng-class="{ 'open': textMessageToggle, '': !textMessageToggle }">
+						<header>
+							<h1>
+								<i class="material-icons" ng-click="toggleView('textMessage')">
+									arrow_back_ios
+								</i>
+								<div class="name-wrap" ng-show="convoName != ''">
+									<span>{{ convoName }}</span>
+									<span ng-show="convoName != ''">({{ convoNumber }})</span>
+								</div>
+								<span ng-show="convoName == ''">{{ convoNumber }}</span>
+							</h1>
+						</header>
+
+						<div class="conversation-wrapper">
+							<div ng-repeat="message in conversation">
+								<div ng-class="{ 'send': myNumber === message.creator, 'recieve': myNumber != message.creator }">
+									<div class="text-wrap">
+										<p class="number">{{formatMessageTime(message.timestamp)}}</p>
+										<p>{{message.message}}</p>
+									</div>
+								</div>
+							</div>	
+						</div>
+
+						<div class="send-message-wrapper">
+							<input placeholder="Enter Message Here..." maxlength="300" ng-model="message"/>
+							
+							<button ng-click="addMessage(message)">
+								<i class="material-icons">
+									send
+								</i>
+							</button>
+						</div>
+					</div>
+					
+					<!-- new convo message container -->
+					<div class="new-convo-wrapper" ng-class="{ 'open': newMessageToggle, '': !newMessageToggle }">
+						<header>
+							<h1>
+								<i class="material-icons" ng-click="toggleView('newMessage')">
+									arrow_back_ios
+								</i>
+							</h1>
+						</header>
+
+						<div class="send-message-wrapper">
+							<input type="tel" placeholder="Enter Number" maxlength="10" ng-model="phone_number"/>
+
+							<textarea placeholder="Enter Message Here..." maxlength="300" ng-model="message"></textarea>
+							<button ng-click="newMessage(phone_number, message)">
+								<i class="material-icons">
+									send
+								</i>
+							</button>
+						</div>
+					</div>
+
+					<!-- twitter container -->
+					<div class="twitter-wrapper" ng-class="{ 'open': twitterToggle, '': !twitterToggle }">
+						<h1>
+							<i class="material-icons" ng-click="toggleView('twitter')">
+								arrow_back_ios
+							</i> 
+						</h1>		
+						
+						<i class="material-icons send-tweet" ng-click="toggleView('sendTweet')">
+							send
+						</i> 
+
+						<div class="tweets">
+							<div class="tweet">
+								<p class="name">@BobLoblaw</p>
+								<p>Ayy whats good!</p>
+							</div>
+						</div>
+					</div>
+
+					<!-- send tweet container -->
+					<div class="send-tweet-wrapper" ng-class="{ 'open': sendTweetToggle, '': !sendTweetToggle }">
+						<h1>
+							<i class="material-icons" ng-click="toggleView('sendTweet')">
+								arrow_back_ios
+							</i> 
+						</h1>		
+						<button class="tweet-btn" ng-click="toggleView('sendTweet')">Tweet</button>
+
+						<textarea placeholder="whats happening?" maxlength="300"></textarea>
+					</div>
+
+					<!-- text message container -->
+					<div class="add-contact-wrapper" ng-class="{ 'open': addContactToggle, '': !addContactToggle }">
+						<h1>
+							<i class="material-icons" ng-click="toggleView('addContact')">
+								arrow_back_ios
+							</i>
+							<span>Add Contact<span>
+						</h1>
+						<form ng-submit="addContact(first_name, last_name, phone_number)">
+							<input type="text" placeholder="First Name" ng-model="first_name" pattern="[a-zA-Z0-9]+" required/>
+							<input type="text" placeholder="Last Name Name" ng-model="last_name" pattern="[a-zA-Z0-9]+" required/>
+							<input type="tel" placeholder="Phone Number" ng-model="phone_number" maxlength="10" required/>
+							<button type="submit" class="save">Save Contact</button>
+						</form>				
+					</div>
+
+					<!-- contact removal confirmation -->
+					<div class="confirmation-wrapper" ng-class="{ 'open': confirmationToggle, '': !confirmationToggle }">
+						<h1>Are You Sure?</h1>
+						<div class="action-wrapper">
+							<button ng-click="toggleView('confirmation', null)">No</button>
+							<button ng-click="removeContact(contactId)">Yes</button>
+						</div>
+					</div>
+
+					<!-- loading container -->
+					<div class="loading-wrapper" ng-class="{ 'open': loadingToggle, '': !loadingToggle }">
+						<div class="loading-spinner">
+							<div class="hex"></div>
+							<div class="hex"></div>
+							<div class="hex"></div>
+							<div class="hex"></div>
+							<div class="hex"></div>
+							<div class="hex"></div>
+							<div class="hex"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>		
+	</body>
 </html>
