@@ -21,6 +21,10 @@ AddEventHandler("playerDropped", function()
     end
 end)
 
+AddEventHandler("core:loaded", function(source) 
+    Twitter[source] = true
+end)
+
 AddEventHandler('chatMessage', function(source, author, message)
     local source = tonumber(source)
     local args = stringsplit(message, " ")
