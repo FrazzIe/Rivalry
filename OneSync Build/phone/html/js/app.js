@@ -535,6 +535,8 @@ app.controller('ctrl', function($scope, $timeout, $http) {
 					});
 				}
 				break;
+			case 9:
+				event.preventDefault();
 			default:
 				break;
 		};
