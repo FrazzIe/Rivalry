@@ -317,6 +317,8 @@ app.controller('ctrl', function($scope, $timeout, $http) {
 			url: "http://" + $scope.resoureName + "/newMessage",
 			data: angular.toJson({phone_number: number, message: message})
 		}).then(function success(resp) {
+			$scope.message = "";
+			
 			if (resp.data && resp.data.error) {
 				$scope.errorMessage = resp.data.error;
 				$scope.toggleView('error');
@@ -340,6 +342,7 @@ app.controller('ctrl', function($scope, $timeout, $http) {
 			url: "http://" + $scope.resoureName + "/addMessage",
 			data: angular.toJson({phone_number: $scope.convoNumber, message: message})
 		}).then(function success(resp) {
+			$scope.message = "";
 			$scope.loadingToggle = false;
 
 			if (resp.data && resp.data.error) {
