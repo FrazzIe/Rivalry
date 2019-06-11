@@ -457,7 +457,7 @@ AddEventHandler("Phone.Conversation.Get", function(TargetNumber)
 
 	if Phone.Players[Source] then
 		if Phone.Players[Source].Number then
-			exports["GHMattiMySQL"]:QueryResultAsync("SELECT phone_messages.id, phone_messages.message, phone_messages.creator, UNIX_TIMESTAMP(phone_messages.timestamp) As 'timestamp' FROM phone_messages WHERE (conversation_id = (SELECT id FROM phone_conversation WHERE owner_number=@owner_number AND receiver_number=@receiver_number) AND (UNIX_TIMESTAMP(phone_messages.timestamp) < (UNIX_TIMESTAMP() + 2592000)))", {["@owner_number"] = Phone.Players[Source].Number, ["@receiver_number"] = TargetNumber}, function(Messages)
+			exports["GHMattiMySQL"]:QueryResultAsync("SELECT phone_messages.id, phone_messages.message, phone_messages.creator, UNIX_TIMESTAMP(phone_messages.timestamp) AS 'timestamp' FROM phone_messages WHERE conversation_id = (SELECT id FROM phone_conversation WHERE owner_number=@owner_number AND receiver_number=@receiver_number) AND ((UNIX_TIMESTAMP() - UNIX_TIMESTAMP(phone_messages.timestamp)) <= 2592000)", {["@owner_number"] = Phone.Players[Source].Number, ["@receiver_number"] = TargetNumber}, function(Messages)
 				TriggerClientEvent("Phone.Conversation.Set", Source, TargetNumber, Messages)
 			end)
 		end
