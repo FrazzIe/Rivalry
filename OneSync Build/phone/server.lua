@@ -162,6 +162,8 @@ AddEventHandler("Phone.Finish", function(ContactNames)
 
 	if Phone.Players[Source] then
 		Phone.Players[Source].ContactNames = ContactNames
+
+		TriggerEvent("Phone.Finished", source, Phone.Players[Source])
 	end
 end)
 

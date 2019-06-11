@@ -21,10 +21,6 @@ AddEventHandler("playerDropped", function()
     end
 end)
 
-AddEventHandler("core:loaded", function(source) 
-    Twitter[source] = true
-end)
-
 AddEventHandler('chatMessage', function(source, author, message)
     local source = tonumber(source)
     local args = stringsplit(message, " ")
@@ -233,10 +229,8 @@ AddEventHandler("Phone.Set", function(Source, Value)
     end
 end)
 
-RegisterServerEvent("Phone.Finish")
-AddEventHandler("Phone.Finish", function(Data)
-    local Source = source
-
+RegisterServerEvent("Phone.Finished")
+AddEventHandler("Phone.Finished", function(Source, Data)
     Twitter[Source] = Data.Has
 
     TriggerClientEvent("twitter:toggle", Source, Twitter[Source])
