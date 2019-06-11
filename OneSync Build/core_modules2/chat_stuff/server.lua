@@ -229,7 +229,6 @@ AddEventHandler("Phone.Set", function(Source, Value)
     end
 end)
 
-RegisterServerEvent("Phone.Finished")
 AddEventHandler("Phone.Finished", function(Source, Data)
     Twitter[Source] = Data.Has
 
