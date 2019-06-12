@@ -272,14 +272,14 @@ Citizen.CreateThread(function()
 												if GetItemQuantity(Cocaine.Items.Cocaine) >= amount then
 													removeQty(Cocaine.Items.Cocaine, amount)
 													local pay = GetRandomIntInRange(Cocaine.Pay.Min, Cocaine.Pay.Max+1) * amount
-													local money_type = GetRandomIntInRange(1, 3)
+													local money_type = 1
 													if getCops() <= 0 then pay = pay/2 end
 													Notify("You sold "..amount.." gram(s) of coke for <span style='color:lime'>$</span><span style='color:white'>"..math.floor(pay).."</span>")
 													TriggerServerEvent("cocaine:sell", math.floor(pay), money_type)
 												else
 													removeQty(Cocaine.Items.Cocaine, 1)
 													local pay = GetRandomIntInRange(Cocaine.Pay.Min, Cocaine.Pay.Max+1)
-													local money_type = GetRandomIntInRange(1, 3)
+													local money_type = 1
 													if getCops() <= 0 then pay = pay/2 end
 													Notify("You sold "..amount.." gram(s) of coke for <span style='color:lime'>$</span><span style='color:white'>"..math.floor(pay).."</span>")
 													TriggerServerEvent("cocaine:sell", math.floor(pay), money_type)
