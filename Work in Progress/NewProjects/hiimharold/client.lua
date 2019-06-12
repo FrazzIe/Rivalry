@@ -7,6 +7,7 @@ local Rivalry = {
 	}
 }
 local OpenMenu = false
+local Inventory = {}
 -- Russian Market
 Citizen.CreateThread(function()
 	while true do
@@ -44,7 +45,7 @@ Citizen.CreateThread(function()
 end)
 
 RegisterNetEvent("Open.Stash")
-AddEventHandler("Open.Stash", function(Inventory)
+AddEventHandler("Open.Stash", function()
 	if not WarMenu.IsMenuOpened("Stash") then
 		if not WarMenu.DoesMenuExist("Stash") then
 			WarMenu.CreateMenu("Stash", "Convenience store")
@@ -54,10 +55,7 @@ AddEventHandler("Open.Stash", function(Inventory)
 			WarMenu.SetMenuY("Stash", 0.15)
 			WarMenu.SetTitleBackgroundColor("Stash", 0, 107, 87)
 			WarMenu.SetTitle("Stash_Deposit", "Deposit")
-			WarMenu.CreateSubMenu("Withdraw", "Stash", "WIRTHDRAW SECTION")
-			for Index = 1, #Inventory do
-				WarMenu.CreateSubMenu(Inventory[Index].Model, "Withdraw", tostring(Index))
-			end
+			WarMenu.CreateSubMenu("Stash_Withdraw", "Stash", "WIRTHDRAW SECTION")
 			WarMenu.OpenMenu("Stash")
 		else
 			currentItemIndex = 1
@@ -69,17 +67,29 @@ AddEventHandler("Open.Stash", function(Inventory)
 	OpenMenu = true
 end)
 
+RegisterNetEvent("Stash.Sync")
+AddEventHandler("Stash.Sync", function(_Inventory)
+	Inventory = _Inventory
+end)
+
 Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(0)
 		if OpenMenu then
 			if WarMenu.IsMenuOpened("Stash_Deposit") then
+				for k, v in pairs(user_weapons) do
+					if WarMenu.Button(Weapon_names[k].." ["..v.ammo.."]", "Deposit") then
+						TriggerServerEvent("Stash.Deposit", CurrentGang, v)
+					end
+				end
 				WarMenu.Display()
 			end
-		end
-		for Index = 1, #Inventory do
-			if WarMenu.IsMenuOpened(Inventory[Index].Model, "Withdraw", tostring(Index)) then
-				WarMenu.Display()
+			if WarMenu.IsMenuOpened("Stash_Withdraw") then
+				for Index = 1, #Inventory do
+					if WarMenu.Button(Weapon_names[Inventory[Index].model], tostring(Index)) then
+						TriggerServerEvent("Stash.Withdraw", CurrentGang, Index, Inventory[Index])
+					end
+				end
 			end
 		end
 	end
