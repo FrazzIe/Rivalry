@@ -80,7 +80,7 @@ AddEventHandler("Weed.Sell", function(Pay, Clean, Amount)
     else
         if user_inventory[Source][Weed.Items.Joint] then
             if user_inventory[Source][Weed.Items.Joint].quantity >= Amount then
-                TriggerEvent("inventory:remove_server", source, Weed.Items.Joint, Amount)
+                TriggerEvent("inventory:remove_server", Source, Weed.Items.Joint, Amount)
                 TriggerEvent("core:getuser", Source, function(user)
                     if Clean then
                         user.addWallet(Pay)
