@@ -75,7 +75,7 @@ RegisterServerEvent("Weed.Sell")
 AddEventHandler("Weed.Sell", function(Pay, Clean, Amount)
     local Source = source
 
-    if Pay > (Wed.Pay.Maximum * Amount) then
+    if Pay > (Weed.Pay.Maximum * Amount) then
         TriggerEvent("core:anticheat-ban", source)
     else
         if user_inventory[Source][Weed.Items.Joint] then
