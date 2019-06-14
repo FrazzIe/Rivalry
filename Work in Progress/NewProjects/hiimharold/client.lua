@@ -1,9 +1,26 @@
 local Rivalry = {
 	Supplier = vector3(),
 	Gangs = {
-		Russian = vector3(),
-		Italian = vector3(),
+		Russian = vector3(1053.0560302734,-3097.1311035156,-38.999919891357),
+		Italian = vector3(1103.9210205078,-3098.408203125,-38.999961853027),
 		Ballers = vector3()
+	}
+	Teleporters = {
+		Italian = {
+			OutsideDoor = vector3(-44.018558502197,-2519.8591308594,7.3945479393005)
+			OutsideDoorHeading = 236.03332519531,
+			InsideDoor = vector3(1087.3448486328,-3099.4184570313,-38.999961853027),
+			InsideDoorHeading = 269.36706542969
+		},
+		Russian = {
+
+		},
+		Ballers = {
+		OutsideDoor = vector3(-150.23551940918, -1625.5727539063,36.848297119141),
+		OutsideDoorHeading = 50.321853637695,
+		InsideDoor = vecotr3(151.41645812988,-1008.0470581055,-99.000022888184),
+		InsideDoorHeading = 1.0677021741867
+		}
 	}
 }
 local OpenMenu = false
@@ -94,3 +111,13 @@ Citizen.CreateThread(function()
 		end
 	end
 end)
+
+-- Fake ID Lab {x = 1173.150390625, y = -3196.7189941406, z = -39.007984161377, h = 88.140502929688},
+
+-- Meth Lab {x = 1001.2987060547, y = -3198.380859375, z = -37.254100799561, h = 270.0},
+
+-- Weed Lab {x = 1059.7769775391, y = -3193.1926269531, z = -39.161319732666, h = 321.42132568359},
+
+-- Money Laundering {x = 1118.6090087891, y = -3193.7805175781, z = -40.394268035889, h = 291.62646484375},
+
+-- 
