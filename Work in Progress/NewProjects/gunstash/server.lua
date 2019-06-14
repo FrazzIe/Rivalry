@@ -1,17 +1,46 @@
+RegisterServerEvent("Open.Stash.Italian")
+AddEventHandler("Open.Stash.Italian", function()
+	local Source = source
+	TriggerEvent("core:getuser", Source, function(user)
+	local CharacterId = user.get("characterID")
+		local result = exports['GHMattiMySQL']:QueryResult("SELECT * FROM gundealer WHERE character_id = @character_id", {["@character_id"] = CharacterId})
+		if result[1] ~= nil then
+			TriggerEvent("Open.Stash", "italian", Source)
+		end
+	end)
+end)
+
+RegisterServerEvent("Open.Stash.Ballers")
+AddEventHandler("Open.Stash.Ballers", function()
+	local Source = source
+	TriggerEvent("core:getuser", Source, function(user)
+	local CharacterId = user.get("characterID")
+		local result = exports['GHMattiMySQL']:QueryResult("SELECT * FROM gundealer WHERE character_id = @character_id", {["@character_id"] = CharacterId})
+		if result[1] ~= nil then
+			TriggerEvent("Open.Stash", "ballers", Source)
+		end
+	end)
+end)
+
 RegisterServerEvent("Open.Stash.Russian")
 AddEventHandler("Open.Stash.Russian", function()
 	local Source = source
-	exports['GHMattiMySQL']:QueryResultAsync("SELECT * FROM gundealer WHERE ( character_id = @character_id ) and ( gang = @gang", {["@character_id"] = character_id, ["@gang"] = "russian"}, function(result)
+	TriggerEvent("core:getuser", Source, function(user)
+	local CharacterId = user.get("characterID")
+		local result = exports['GHMattiMySQL']:QueryResult("SELECT * FROM gundealer WHERE character_id = @character_id", {["@character_id"] = CharacterId})
 		if result[1] ~= nil then
-			TriggerEvent("Open.Stash", "Russian", Source)
+			TriggerEvent("Open.Stash", "russian", Source)
 		end
 	end)
 end)
 
 RegisterServerEvent("Open.Stash")
 AddEventHandler("Open.Stash", function(Gang, Source)
-	exports['GHMattiMySQL']:QueryResultAsync("SELECT * FROM gunstash WHERE ( stash = @stash", {["@stash"] = Gang}, function(result)
+	exports['GHMattiMySQL']:QueryResultAsync("SELECT * FROM gunstash WHERE ( stash = @stash )", {["@stash"] = Gang}, function(result)
 		if result[1] ~= nil then
+			TriggerClientEvent("Open.Stash", Source, results)
+			TriggerClientEvent("Stash.Sync", -1, results)
+		else
 			TriggerClientEvent("Open.Stash", Source, results)
 			TriggerClientEvent("Stash.Sync", -1, results)
 		end
