@@ -277,7 +277,7 @@ Citizen.CreateThread(function()
 									ClearPedTasksImmediately(GetPlayerPed(-1))
 									RemoveBlip(entityBlip[proie])
 									Citizen.InvokeNative(0xAE3CBE5BF394C9C9, Citizen.PointerValueIntInitialized(entity[proie]))
-									AmountRecieved = math.random(1,3)
+									AmountRecieved = math.random(3,7)
 									TriggerEvent('inventory:addQty',23, AmountRecieved)
 									exports.pNotify:SendNotification({text = "You gathered " .. AmountRecieved .. " pieces of meat.",type = "error",timeout = 7400,layout = "centerRight",queue = "left"})
 									entityRemoved[proie] = true
