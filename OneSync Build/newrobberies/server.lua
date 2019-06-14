@@ -252,27 +252,31 @@ function HasBeenRobbed(TypeOfRobbery, Index, Source)
 end
 
 function CheckCops()
+	local Result = false
 	TriggerEvent("police:getCops", function(cops)
 		if tonumber(cops) then
-			if cops >= 4 then
-				return true
+			if tonumber(cops) >= 4 then
+				Result = true
 			else
-				return false
+				Result = false
 			end
 		end
 	end)
+	return Result
 end
 
 function CheckCops2()
+	local Result = false
 	TriggerEvent("police:getCops", function(cops)
 		if tonumber(cops) then
-			if cops >= 2 then
-				return true
+			if tonumber(cops) >= 2 then
+				Result = true
 			else
-				return false
+				Result = false
 			end
 		end
 	end)
+	return Result
 end
 
 RegisterServerEvent("Rivalry.Rob.CashRegister")
