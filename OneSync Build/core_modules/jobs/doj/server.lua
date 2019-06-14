@@ -47,7 +47,7 @@ AddEventHandler("DOJ:Grant", function(target, type)
 			end
 		end)
 	else
-		TriggerEvent("core:ban", source, 99, "Script tampering", true, "Anticheat")
+		TriggerEvent("core:anticheat-ban", source)
 	end
 end)
 
@@ -69,7 +69,7 @@ AddEventHandler("DOJ:Seize", function(target, type)
 			end
 		end)
 	else
-		TriggerEvent("core:ban", source, 99, "Script tampering", true, "Anticheat")
+		TriggerEvent("core:anticheat-ban", source)
 	end
 end)
 
@@ -241,7 +241,7 @@ AddEventHandler("DOJ:RequestFine", function(sender, amount)
 		Notify("Fine request sent", 3000, source)
 		TriggerClientEvent("DOJ:RequestFine", sender, amount, source)
 	else
-		TriggerEvent("core:ban", source, 99, "Script tampering", true, "Anticheat")
+		TriggerEvent("core:anticheat-ban", source)
 	end
 end)
 
@@ -260,6 +260,6 @@ AddEventHandler("DOJ:Fine", function(sender, amount, bool)
 			Notify("You refused to pay the fee of $"..amount, 3000, source)
 		end
 	else
-		TriggerEvent("core:ban", sender, 99, "Script tampering", true, "Anticheat")
+		TriggerEvent("core:anticheat-ban", source)
 	end
 end)

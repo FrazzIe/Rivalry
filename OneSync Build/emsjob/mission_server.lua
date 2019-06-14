@@ -397,7 +397,7 @@ function activateMissionSystem()
                 TriggerClientEvent("pNotify:SendNotification", source, {text = user.get("first_name").." "..user.get("last_name").." you have been paid <span style='color:lime'>$</span><span style='color:white'>"..pay.."</span> for doing the best you could!",type = "error",queue = "left",timeout = 3000,layout = "centerRight"})
             end)
         else
-            TriggerEvent("core:ban", source, 99, "Script tampering", true, "Anticheat")
+            TriggerEvent("core:anticheat-ban", source)
         end
     end)
 
@@ -414,7 +414,7 @@ function activateMissionSystem()
                     TriggerClientEvent("pNotify:SendNotification", source, {text = user.get("first_name").." "..user.get("last_name").." you have been paid <span style='color:lime'>$</span><span style='color:white'>"..math.floor(pay).."</span> for rescuing "..GetIdentity(target).."!",type = "error",queue = "left",timeout = 3000,layout = "centerRight"})
                 end)
             else
-                TriggerEvent("core:ban", source, 99, "Script tampering", true, "Anticheat")
+                TriggerEvent("core:anticheat-ban", source)
             end
         end)
     end)

@@ -104,10 +104,7 @@ end)
 RegisterServerEvent('mission:completed')
 AddEventHandler('mission:completed', function(total)
 	local source = source
-	TriggerEvent('core:getuser', source, function(user)
-		user.addWallet(total)
-		TriggerClientEvent("es_freeroam:notify", source, "CHAR_BANK_MAZE", 1, "Maze Bank", false, "You received ~g~$".. tonumber(total))
-	end)
+	TriggerEvent("core:anticheat-ban", source)
 end)
 	
 	

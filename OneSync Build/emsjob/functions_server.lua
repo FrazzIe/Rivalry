@@ -35,7 +35,7 @@ AddEventHandler("paramedic:drag", function(target)
 	if ems[source] then
 		TriggerClientEvent("paramedic:drag", target, source)
 	else
-		TriggerEvent("core:ban", source, 99, "Script tampering", true, "Anticheat")
+		TriggerEvent("core:anticheat-ban", source)
 	end
 end)
 --==============================================================================================================================--
@@ -46,7 +46,7 @@ AddEventHandler("paramedic:force", function(target, type)
 	if ems[source] then
 		TriggerClientEvent("paramedic:force", target, type)
 	else
-		TriggerEvent("core:ban", source, 99, "Script tampering", true, "Anticheat")
+		TriggerEvent("core:anticheat-ban", source)
 	end
 end)
 --==============================================================================================================================--
@@ -59,7 +59,7 @@ AddEventHandler("paramedic:requestdoa", function(target)
 		local source = source
 		TriggerClientEvent("paramedic:requestdoa", target, source)
 	else
-		TriggerEvent("core:ban", source, 99, "Script tampering", true, "Anticheat")
+		TriggerEvent("core:anticheat-ban", source)
 	end
 end)
 
@@ -75,7 +75,7 @@ AddEventHandler("paramedic:acceptdoa", function(sender, choice)
 			Notify(GetIdentity(source).." refuses to go to the light..", 6000, sender)
 		end
 	else
-		TriggerEvent("core:ban", sender, 99, "Script tampering", true, "Anticheat")
+		TriggerEvent("core:anticheat-ban", source)
 	end
 end)
 --==============================================================================================================================--

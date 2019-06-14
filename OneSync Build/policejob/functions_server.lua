@@ -75,7 +75,7 @@ AddEventHandler("police:cuff", function(target, type, cuffer)
 		TriggerClientEvent('LIFE_CL:Sound:PlayOnOne', target, "handcuffs", "0.8")
 		TriggerClientEvent('LIFE_CL:Sound:PlayOnOne', source, "handcuffs", "0.8")
 	else
-		TriggerEvent("core:ban", source, 99, "Script tampering", true, "Anticheat")
+		TriggerEvent("core:anticheat-ban", source)
 	end
 end)
 
@@ -91,7 +91,7 @@ AddEventHandler('police:drag', function(target)
 	if cops[source] then
 		TriggerClientEvent('police:drag', target, source)
 	else
-		TriggerEvent("core:ban", source, 99, "Script tampering", true, "Anticheat")
+		TriggerEvent("core:anticheat-ban", source)
 	end
 end)
 --==============================================================================================================================--
@@ -102,7 +102,7 @@ AddEventHandler('police:force', function(target, type)
 	if cops[source] then
 		TriggerClientEvent('police:force', target, type)
 	else
-		TriggerEvent("core:ban", source, 99, "Script tampering", true, "Anticheat")
+		TriggerEvent("core:anticheat-ban", source)
 	end
 end)
 --==============================================================================================================================--
@@ -125,7 +125,7 @@ AddEventHandler('police:frisk', function(target)
 			end
 		end)
 	else
-		TriggerEvent("core:ban", source, 99, "Script tampering", true, "Anticheat")
+		TriggerEvent("core:anticheat-ban", source)
 	end
 end)
 --==============================================================================================================================--
@@ -186,7 +186,7 @@ AddEventHandler('police:search', function(target, type)
 			end)		
 		end
 	else
-		TriggerEvent("core:ban", source, 99, "Script tampering", true, "Anticheat")
+		TriggerEvent("core:anticheat-ban", source)
 	end
 	TriggerClientEvent("chatMessage", target, "You are being searched.")
 end)
@@ -234,7 +234,7 @@ AddEventHandler('police:search_vehicle', function(target, type)
 			end)
 		end
 	else
-		TriggerEvent("core:ban", source, 99, "Script tampering", true, "Anticheat")
+		TriggerEvent("core:anticheat-ban", source)
 	end
 end)
 --==============================================================================================================================--
@@ -278,7 +278,7 @@ AddEventHandler('police:seize', function(target, type)
 			TriggerEvent("Phone.Set", target, false)
 		end
 	else
-		TriggerEvent("core:ban", source, 99, "Script tampering", true, "Anticheat")
+		TriggerEvent("core:anticheat-ban", source)
 	end
 end)
 
@@ -294,7 +294,7 @@ AddEventHandler('police:seize_vehicle', function(target, type)
 			TriggerClientEvent("pNotify:SendNotification", source, {text = "You seized all the weapons in the vehicle",type = "error",queue = "left",timeout = 3000,layout = "centerRight"})
 		end
 	else
-		TriggerEvent("core:ban", source, 99, "Script tampering", true, "Anticheat")
+		TriggerEvent("core:anticheat-ban", source)
 	end
 end)
 --==============================================================================================================================--
@@ -326,7 +326,7 @@ AddEventHandler('police:check_plate', function(plate)
 			TriggerClientEvent("pNotify:SendNotification", source, {text = "An unexpected error occured, please try again!",type = "error",queue = "left",timeout = 4000,layout = "centerRight"})
 		end
 	else
-		TriggerEvent("core:ban", source, 99, "Script tampering", true, "Anticheat")
+		TriggerEvent("core:anticheat-ban", source)
 	end
 end)
 --==============================================================================================================================--
@@ -359,7 +359,7 @@ AddEventHandler('police:finesGranted', function(target, amount)
 	if cops[source] then
 		TriggerClientEvent('police:payFines', target, amount, source)
 	else
-		TriggerEvent("core:ban", source, 99, "Script tampering", true, "Anticheat")
+		TriggerEvent("core:anticheat-ban", source)
 	end
 end)
 
@@ -390,7 +390,7 @@ AddEventHandler('police:finesForced', function(target, amount)
 			end
 		end)
 	else
-		TriggerEvent("core:ban", source, 99, "Script tampering", true, "Anticheat")
+		TriggerEvent("core:anticheat-ban", source)
 	end
 end)
 

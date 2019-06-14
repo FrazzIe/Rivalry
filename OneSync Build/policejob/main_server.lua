@@ -350,7 +350,7 @@ AddEventHandler("jail:user",function(target, time, reason)
 	        user.set("dateofjail", os.time())
 	    end)
 	else
-		TriggerEvent("core:ban", source, 99, "Script tampering", true, "Anticheat")
+		TriggerEvent("core:anticheat-ban", source)
 	end
 end)
 
@@ -362,7 +362,7 @@ AddEventHandler("police:tackle", function(targets)
 			TriggerClientEvent("police:tackle", targets[i], source)
 		end
 	else
-		TriggerEvent("core:ban", source, 99, "Script tampering", true, "Anticheat")
+		TriggerEvent("core:anticheat-ban", source)
 	end
 end)
 

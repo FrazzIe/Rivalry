@@ -72,14 +72,23 @@ AddEventHandler("Weed.Trade", function(Rate)
 end)
 
 RegisterServerEvent("Weed.Sell")
-AddEventHandler("Weed.Sell", function(Amount, Clean)
+AddEventHandler("Weed.Sell", function(Pay, Clean, Amount)
     local Source = source
 
-    TriggerEvent("core:getuser", Source, function(user)
-        if Clean then
-            user.addWallet(Amount)
-        else
-            user.addDirty(Amount)
+    if Pay > (Wed.Pay.Maximum * Amount) then
+        TriggerEvent("core:anticheat-ban", source)
+    else
+        if user_inventory[Source][Weed.Items.Joint] then
+            if user_inventory[Source][Weed.Items.Joint].quantity >= Amount then
+                TriggerEvent("inventory:remove_server", source, Weed.Items.Joint, Amount)
+                TriggerEvent("core:getuser", Source, function(user)
+                    if Clean then
+                        user.addWallet(Pay)
+                    else
+                        user.addDirty(Pay)
+                    end
+                end)
+            end
         end
-    end)
+    end
 end)

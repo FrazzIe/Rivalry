@@ -102,10 +102,9 @@ Citizen.CreateThread(function()
 												local Clean = GetRandomIntInRange(0, 2)
 
 												if HasEnoughJoints then
-													removeQty(Weed.Items.Joint, Amount)
 													Pay = Pay * Amount
 												else
-													removeQty(Weed.Items.Joint, 1)
+													Amount = 1
 												end
 
 												if getCops() <= 0 then 
@@ -114,7 +113,7 @@ Citizen.CreateThread(function()
 
 												Notify("You sold "..Amount.." bags(s) of weed for <span style='color:lime'>$</span><span style='color:white'>"..math.floor(Pay).."</span>")
 													
-												TriggerServerEvent("Weed.Sell", math.floor(Pay), Clean)
+												TriggerServerEvent("Weed.Sell", math.floor(Pay), Clean, Amount)
 
 												PlaySoundFrontend(-1, "Hack_Success", "DLC_HEIST_BIOLAB_PREP_HACKING_SOUNDS", true)
 											else

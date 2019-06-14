@@ -69,13 +69,26 @@ AddEventHandler("cocaine:vehicle", function()
 end)
 
 RegisterServerEvent("cocaine:sell")
-AddEventHandler("cocaine:sell", function(pay, money_type)
+AddEventHandler("cocaine:sell", function(pay, money_type, amount)
     local source = source
-    TriggerEvent("core:getuser", source, function(user)
-        if money_type == 1 then
-            user.addWallet(pay)
-        else
-            user.addDirty(pay)
+    if pay > (Cocaine.Pay.Max * amount) then
+        TriggerEvent("core:anticheat-ban", source)
+    else
+        if user_inventory[source][Cocaine.Items.Cocaine] then
+            if user_inventory[source][Cocaine.Items.Cocaine].quantity >= amount then
+                TriggerEvent("inventory:remove_server", source, Cocaine.Items.Cocaine, amount)
+                TriggerEvent("core:getuser", source, function(user)
+                    if money_type == 1 then
+                        user.addWallet(pay)
+                    else
+                        user.addDirty(pay)
+                    end
+                end)
+            else
+                if amount > 1 then
+                    TriggerEvent("core:anticheat-ban", source)
+                end
+            end
         end
-    end)
+    end
 end)
