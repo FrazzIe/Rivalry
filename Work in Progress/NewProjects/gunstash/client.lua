@@ -1,9 +1,9 @@
 local Rivalry = {
 	--Supplier = vector3(),
 	Gangs = {
-		[1] = vector3(0,0,0),
-		[2] = vector3(1095.060546875,-3098.2133789063,-38.999923706055),
-		[3] = vector3(1053.0560302734,-3097.1311035156,-38.999919891357),
+		[1] = vector3(0,0,0), -- Russian
+		[2] = vector3(1095.060546875,-3098.2133789063,-38.999923706055), -- Italian
+		[3] = vector3(151.70854187012,-1001.5127563477,-98.999984741211), -- Ballers
 	},
 	Teleporters = {
 		Italian = {
@@ -37,6 +37,7 @@ local Inventory = {}
 Dealer = {}
 Dealer.IsDealer = false
 Dealer.Gang = nil
+SupplierGang = ""
 
 function DisplayHelpText(Str)
 	BeginTextCommandDisplayHelp("STRING")
@@ -90,7 +91,20 @@ Citizen.CreateThread(function()
 					DisplayHelpText("Press ~INPUT_CONTEXT~ to open stash!")
 					if IsControlJustPressed(1, 51) then
 						if not IsOpened then
-							TriggerServerEvent("Open.Stash", Dealer.Gang)
+							if Dealer.Gang == "supplier" then
+								if Index == 1 then
+									TriggerServerEvent("Open.Stash", "russian")
+									SupplierGang = "russian"
+								elseif Index == 2 then
+									TriggerServerEvent("Open.Stash", "italian")
+									SupplierGang = "italian"
+								elseif Index == 3 then
+									TriggerServerEvent("Open.Stash", "ballers")
+									SupplierGang = "ballers"
+								end
+							else
+								TriggerServerEvent("Open.Stash", Dealer.Gang)
+							end
 						else
 							Notify("One person at a time please! For now...", 3100)
 						end
@@ -104,7 +118,7 @@ end)
 Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(0)
-		if Dealer.IsDealer and Dealer.Gang == "italian" then
+		if Dealer.IsDealer and ( Dealer.Gang == "italian" or Dealer.Gang == "supplier" ) then
 			local Player = PlayerPedId()
 			local PlayerPosition = GetEntityCoords(Player, false)
 			for Index = 1, #Rivalry.Teleporters.Italian do
@@ -125,7 +139,7 @@ Citizen.CreateThread(function()
 				end
 			end
 		end
-		if Dealer.IsDealer and Dealer.Gang == "ballers" then
+		if Dealer.IsDealer and ( Dealer.Gang == "ballers" or Dealer.Gang == "supplier" ) then
 			local Player = PlayerPedId()
 			local PlayerPosition = GetEntityCoords(Player, false)
 			for Index = 1, #Rivalry.Teleporters.Ballers do
@@ -146,7 +160,7 @@ Citizen.CreateThread(function()
 				end
 			end
 		end
-		-- if Dealer.IsDealer and Dealer.Gang == "russian" then
+		-- if Dealer.IsDealer and ( Dealer.Gang == "russian" or Dealer.Gang == "supplier" ) then
 		-- 	local Player = PlayerPedId()
 		-- 	local PlayerPosition = GetEntityCoords(Player, false)
 		-- 	for Index = 1, #Rivalry.Teleporters.Russian do
@@ -214,9 +228,15 @@ Citizen.CreateThread(function()
 		if WarMenu.IsMenuOpened("Stash_Deposit") then
 			for k, v in pairs(user_weapons) do
 				if WarMenu.Button(Weapons_names[k].." ["..v.ammo.."]", "Deposit") then
-					TriggerServerEvent("Stash.Deposit", user_weapons[k])
-					WarMenu.CloseMenu()
-					TriggerServerEvent("Close.Stash")
+					if Dealer.Gang == "supplier" then
+						TriggerServerEvent("Stash.Deposit", user_weapons[k], SupplierGang)
+						WarMenu.CloseMenu()
+						TriggerServerEvent("Close.Stash")
+					else
+						TriggerServerEvent("Stash.Deposit", user_weapons[k], Dealer.Gang)
+						WarMenu.CloseMenu()
+						TriggerServerEvent("Close.Stash")
+					end
 				end
 			end
 			WarMenu.Display()
@@ -224,9 +244,15 @@ Citizen.CreateThread(function()
 		if WarMenu.IsMenuOpened("Stash_Withdraw") then
 			for k, v in pairs(Inventory) do
 				if WarMenu.Button(Weapons_names[v.model], v.id) then
-					TriggerServerEvent("Stash.Withdraw", v.id, Inventory[k], Dealer.Gang)
-					WarMenu.CloseMenu()
-					TriggerServerEvent("Close.Stash")
+					if Dealer.Gang == "supplier" then
+						TriggerServerEvent("Stash.Withdraw", v.id, Inventory[k], SupplierGang)
+						WarMenu.CloseMenu()
+						TriggerServerEvent("Close.Stash")
+					else
+						TriggerServerEvent("Stash.Withdraw", v.id, Inventory[k], Dealer.Gang)
+						WarMenu.CloseMenu()
+						TriggerServerEvent("Close.Stash")
+					end
 				end
 			end
 			WarMenu.Display()

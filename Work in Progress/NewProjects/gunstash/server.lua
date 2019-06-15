@@ -30,7 +30,7 @@ AddEventHandler("Close.Stash", function()
 end)
 
 RegisterServerEvent("Stash.Deposit")
-AddEventHandler("Stash.Deposit", function(Weapon)
+AddEventHandler("Stash.Deposit", function(Weapon, Gang)
 	local Source = source
 	TriggerEvent("core:getuser", Source, function(user)
 		if user_weapons[Source][Weapon.model] then
@@ -41,7 +41,7 @@ AddEventHandler("Stash.Deposit", function(Weapon)
 			})
 			exports["GHMattiMySQL"]:Insert("gunstash", {
 			    {
-			        ["stash"] = GunDealers[Source].gang, 
+			        ["stash"] = Gang, 
 			        ["model"] = Weapon.model, 
 			        ["ammo"] = Weapon.ammo, 
 			        ["suppressor"] = Weapon.suppressor, 
