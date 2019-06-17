@@ -226,7 +226,7 @@ AddEventHandler("Rivalry.Rob.StoreVault", function(StoreNumber)
 	Citizen.CreateThread(function()
 		if DoesEntityExist(PlayerPedId()) and not IsEntityDead(PlayerPedId()) then
 			OpenComboLockGui()
-			SendNUIMessage({combolock = true, newnumber = true, numberone = math.random(1, 40), numbertwo = math.random(1, 40), numberthree = math.random(1, 40)})
+			SendNUIMessage({combolock = true, newnumber = true, numberone = GetRandomIntInRange(1, 41), numbertwo = GetRandomIntInRange(1, 41), numberthree = GetRandomIntInRange(1, 41)})
 			IsRobbingStoreVault = true
 			TotalLocks = 0
 			NumberOfPins = 0
