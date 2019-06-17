@@ -10,14 +10,14 @@ const CameraApp = new Vue({
 
     methods: {
         OpenCameras(boxLabel, label) {
-            $("#body").show();
+            $("#Camera_Container").show();
             this.camerasOpen = true;
             this.cameraLabel = label;
             this.cameraBoxLabel =  boxLabel;
         },
 
         CloseCameras() {
-            $("#body").hide();
+            $("#Camera_Container").hide();
             this.camerasOpen = false;
         },
 
@@ -34,7 +34,7 @@ const CameraApp = new Vue({
 
 document.onreadystatechange = () => {
     if (document.readyState === "complete") {
-        $("#body").hide();
+        $("#Camera_Container").hide();
 
         function updateClock() {
             var time = new Date();

@@ -1,82 +1,85 @@
-$(document).ready(function(){
-  var documentWidth = document.documentElement.clientWidth;
-  var documentHeight = document.documentElement.clientHeight;
-  $('#body').hide();
+var documentWidth = document.documentElement.clientWidth;
+var documentHeight = document.documentElement.clientHeight;
+var minRot = -90,
+    maxRot = 90,
+    solveDeg = ( Math.random() * 180 ) - 90,
+    solvePadding = 4,
+    maxDistFromSolve = 45,
+    pinRot = 0,
+    cylRot = 0,
+    lastMousePos = 0,
+    mouseSmoothing = 2,
+    keyRepeatRate = 25,
+    cylRotSpeed = 3,
+    pinDamage = 20,
+    pinHealth = 100,
+    pinDamageInterval = 150,
+    numPins = 0,
+    userPushingCyl = false,
+    gameOver = false,
+    gamePaused = false,
+    IsLockpickingDoor = false,
+    pin, cyl, driver, cylRotationInterval, pinLastDamaged;
+
+$(function(){
   $('#wrap').hide();
-  var minRot = -90,
-      maxRot = 90,
-      solveDeg = ( Math.random() * 180 ) - 90,
-      solvePadding = 4,
-      maxDistFromSolve = 45,
-      pinRot = 0,
-      cylRot = 0,
-      lastMousePos = 0,
-      mouseSmoothing = 2,
-      keyRepeatRate = 25,
-      cylRotSpeed = 3,
-      pinDamage = 20,
-      pinHealth = 100,
-      pinDamageInterval = 150,
-      numPins = 0,
-      userPushingCyl = false,
-      gameOver = false,
-      gamePaused = false,
-      IsLockpickingDoor = false,
-      pin, cyl, driver, cylRotationInterval, pinLastDamaged;
-    function openMain(Pins) {
-      reset();
-      $("#body").show();
-      $("#wrap").show();
-      numPins = Pins
+
+  function openMain(Pins) {
+    reset();
+    $("#wrap").show();
+    numPins = Pins
+  }
+  
+  function closeMain() {
+    $("#wrap").hide();
+  }
+
+  //pop vars
+  pin = $('#pin');
+  cyl = $('#cylinder');
+  driver = $('#driver');
+  
+  $('#body').on('mousemove', function(e){
+    if (lastMousePos && !gameOver && !gamePaused) {
+      var pinRotChange = (e.clientX - lastMousePos)/mouseSmoothing;
+      pinRot += pinRotChange;
+      pinRot = Util.clamp(pinRot,maxRot,minRot);
+      pin.css({
+        transform: "rotateZ("+pinRot+"deg)"
+      })
     }
-    function closeMain() {
-      $("#body").hide();
-      $("#wrap").hide();
+    lastMousePos = e.clientX;
+  });
+
+  $('#body').on('mouseleave', function(e){
+    lastMousePos = 0;
+  });
+  
+  document.onkeydown = function(e) {  
+    if ( (e.keyCode == 87 || e.keyCode == 65 || e.keyCode == 83 || e.keyCode == 68 || e.keyCode == 37 || e.keyCode == 39) && !userPushingCyl && !gameOver && !gamePaused) {
+      pushCyl();
+    }
+  };
+  
+  document.onkeyup = function(e) {
+    if (e.which == 8) {
+      $.post('http://newrobberies/lockpickclose', JSON.stringify({lockpicks: numPins}));
+      $.post('http://newrobberies/close', JSON.stringify({}));
     }
 
-  $(function(){
-    
-    //pop vars
-    pin = $('#pin');
-    cyl = $('#cylinder');
-    driver = $('#driver');
-    
-    $('#body').on('mousemove', function(e){
-      if (lastMousePos && !gameOver && !gamePaused) {
-        var pinRotChange = (e.clientX - lastMousePos)/mouseSmoothing;
-        pinRot += pinRotChange;
-        pinRot = Util.clamp(pinRot,maxRot,minRot);
-        pin.css({
-          transform: "rotateZ("+pinRot+"deg)"
-        })
-      }
-      lastMousePos = e.clientX;
-    });
-    $('#body').on('mouseleave', function(e){
-      lastMousePos = 0;
-    });
-    
-    $('#body').on('keydown', function(e){  
-      if ( (e.keyCode == 87 || e.keyCode == 65 || e.keyCode == 83 || e.keyCode == 68 || e.keyCode == 37 || e.keyCode == 39) && !userPushingCyl && !gameOver && !gamePaused) {
-        pushCyl();
-      }
-    });
-    
-    $('#body').on('keyup', function(e){
-      if ( (e.keyCode == 87 || e.keyCode == 65 || e.keyCode == 83 || e.keyCode == 68 || e.keyCode == 37 || e.keyCode == 39) && !gameOver) {
-        unpushCyl();
-      }
-    });
-    
-    //TOUCH HANDLERS
-    $('#body').on('touchstart', function(e){
-      if ( !e.touchList ) {
-      }
-      else if (e.touchList) {
-      }
-    })
-  }); //docready
-    
+    if ( (e.keyCode == 87 || e.keyCode == 65 || e.keyCode == 83 || e.keyCode == 68 || e.keyCode == 37 || e.keyCode == 39) && !gameOver) {
+      unpushCyl();
+    }
+  };
+  
+  //TOUCH HANDLERS
+  $('#body').on('touchstart', function(e){
+    if ( !e.touchList ) {
+    }
+    else if (e.touchList) {
+    }
+  })
+ 
   //CYL INTERACTIVITY EVENTS
   function pushCyl() {
     var distFromSolve, cylRotationAllowance;
@@ -243,13 +246,6 @@ $(document).ready(function(){
   Util.convertRanges = function(OldValue, OldMin, OldMax, NewMin, NewMax) {
     return (((OldValue - OldMin) * (NewMax - NewMin)) / (OldMax - OldMin)) + NewMin
   }
-
-  document.onkeyup = function (data) {
-    if (data.which == 8) {
-      $.post('http://newrobberies/lockpickclose', JSON.stringify({lockpicks: numPins}));
-      $.post('http://newrobberies/close', JSON.stringify({}));
-    }
-  };
 
   window.addEventListener('message', function(event){
     var item = event.data;

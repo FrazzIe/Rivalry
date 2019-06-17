@@ -2,20 +2,19 @@ $(document).ready(function(){
   var documentWidth = document.documentElement.clientWidth;
   var documentHeight = document.documentElement.clientHeight;
   // make dial draggable
-    $(".container").hide();
-    $(".combo").hide();
-    $(".num1").hide();
-    $(".num2").hide();
-    $(".num3").hide();
-    $('#body').hide();
+  $(".container").hide();
+  $(".combo").hide();
+  $(".num1").hide();
+  $(".num2").hide();
+  $(".num3").hide();
+
   function OpenLockMain() {
     $(".container").show();
     $(".combo").show();
-    $('#body').show();
   }
   function CloseLockAll() {
     $(".container").hide();
-    $('#body').hide();
+    $(".combo").hide();
   }
   function CloseLockMain() {
     $(".container").hide();
@@ -23,10 +22,9 @@ $(document).ready(function(){
     $(".num1").hide();
     $(".num2").hide();
     $(".num3").hide();
-    $(".num1").html("");
-    $(".num2").html("");
-    $(".num3").html("");
-    $('#body').hide();
+    $(".num1").text("");
+    $(".num2").text("");
+    $(".num3").text("");
   }
   Draggable.create(".dial", {
     type:"rotation",
@@ -63,7 +61,7 @@ $(document).ready(function(){
                 angle < (comboArr[i] + numOffset) * tickAngle) {
                   $(".num" + (i + 1)).addClass("found");
 
-                  $(".num" + (i + 1)).html(combo[i]);
+                  $(".num" + (i + 1)).text(combo[i]);
                   $(".num" + (i + 1)).show();
                 }
                 // on unlock
@@ -97,7 +95,7 @@ $(document).ready(function(){
         combo[i] = 0;
       }
       $(".num" + (i + 1)).hide();
-      $(".num" + (i + 1)).html(combo[i]);
+      $(".num" + (i + 1)).text(combo[i]);
     }
   }
   // dial interaction (mouse)
