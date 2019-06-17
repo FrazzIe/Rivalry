@@ -32,11 +32,6 @@ function RenderMarker(Type, X, Y, Z, SX, SY, SZ, R, G, B, A, BobUpAndDown)
 	end
 end
 
-RegisterNetEvent('customNotification')
-AddEventHandler('customNotification', function(msg)
-   TriggerEvent("pNotify:SendNotification", { theme = "gta2", text = "".. msg .. "", layout = "centerRight", type = "info", timeout = 6000, animation = {open = "gta_effects_open", close = "gta_effects_close"} } )
-end)
-
 --[[ Store Robberies ]]--
 Citizen.CreateThread(function()
 	while true do

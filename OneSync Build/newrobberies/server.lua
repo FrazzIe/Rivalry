@@ -195,9 +195,13 @@ Rivalry = {
 
 Cooldown = 30
 
+function Notify(Message, Time, Source)
+	TriggerClientEvent("pNotify:SendNotification", Source, {text = Message, type = "error", queue = "left", timeout = Time, layout = "centerRight"})
+end
+
 function HasSoftCooldownEnded(Source)
 	if ( os.time() - Rivalry.Robberies.Banks.SoftCooldown) < (Cooldown * 60) and Rivalry.Robberies.Banks.SoftCooldown ~= 0 then
-		TriggerClientEvent('customNotification', Source, "All the banks are on lockdown for " .. (math.floor(((Cooldown*60) - (os.time() - Rivalry.Robberies.Banks.SoftCooldown))/60)) .. " minutes.")
+		Notify("All the banks are on lockdown for " .. (math.floor(((Cooldown*60) - (os.time() - Rivalry.Robberies.Banks.SoftCooldown))/60)) .. " minutes.", 2500, Source)
 		return false
 	else
 		return true
@@ -229,21 +233,21 @@ end
 function HasBeenRobbed(TypeOfRobbery, Index, Source)
 	if TypeOfRobbery == "Blaine" then
 		if ( os.time() - Rivalry.Robberies.Banks.Blaine.LastRobbed) < (Cooldown*60) and Rivalry.Robberies.Banks.Blaine.LastRobbed ~= 0 then
-			TriggerClientEvent('customNotification', Source, "This has already been robbed recently. Please wait another " .. (math.floor(((Cooldown*60) - (os.time() - Rivalry.Robberies.Banks.Blaine.LastRobbed))/60)) .. " minutes.")
+			Notify("This has already been robbed recently. Please wait another " .. (math.floor(((Cooldown*60) - (os.time() - Rivalry.Robberies.Banks.Blaine.LastRobbed))/60)) .. " minutes.", 2500, Source)
 			return true
 		else
 			return false
 		end
 	elseif TypeOfRobbery == "Fleeca" then
 		if ( os.time() - Rivalry.Robberies.Banks.Fleeca[Index].LastRobbed) < (Cooldown*60) and Rivalry.Robberies.Banks.Fleeca[Index].LastRobbed ~= 0 then
-			TriggerClientEvent('customNotification', Source, "This has already been robbed recently. Please wait another " .. (math.floor(((Cooldown*60) - (os.time() - Rivalry.Robberies.Banks.Fleeca[Index].LastRobbed))/60)) .. " minutes.")
+			Notify("This has already been robbed recently. Please wait another " .. (math.floor(((Cooldown*60) - (os.time() - Rivalry.Robberies.Banks.Fleeca[Index].LastRobbed))/60)) .. " minutes.", 2500, Source)
 			return true
 		else
 			return false
 		end
 	elseif TypeOfRobbery == "Pacific" then
 		if ( os.time() - Rivalry.Robberies.Banks.Pacific.LastRobbed) < (Cooldown*60) and Rivalry.Robberies.Banks.Pacific.LastRobbed ~= 0 then
-			TriggerClientEvent('customNotification', Source, "This has already been robbed recently. Please wait another " .. (math.floor(((Cooldown*60) - (os.time() - Rivalry.Robberies.Banks.Pacific.LastRobbed))/60)) .. " minutes.")
+			Notify("This has already been robbed recently. Please wait another " .. (math.floor(((Cooldown*60) - (os.time() - Rivalry.Robberies.Banks.Pacific.LastRobbed))/60)) .. " minutes.", 2500, Source)
 			return true
 		else
 			return false
@@ -287,10 +291,10 @@ AddEventHandler("Rivalry.Rob.CashRegister", function(StoreNumber, RegisterNumber
 			TriggerClientEvent("Rivalry.Rob.CashRegister", Source, StoreNumber, RegisterNumber)
 			Rivalry.Robberies.Stores[StoreNumber].CashRegisters[RegisterNumber] = os.time()
 		else
-			TriggerClientEvent('customNotification', Source, "This can not be robbed at this time!")
+			Notify("This can not be robbed at this time!", 2500, Source)
 		end
 	else
-		TriggerClientEvent('customNotification', Source, "This has already been robbed recently. Please wait another " .. (math.floor(((Cooldown*60) - (os.time() - Rivalry.Robberies.Stores[StoreNumber].CashRegisters[RegisterNumber]))/60)) .. " minutes.")
+		Notify("This has already been robbed recently. Please wait another " .. (math.floor(((Cooldown*60) - (os.time() - Rivalry.Robberies.Stores[StoreNumber].CashRegisters[RegisterNumber]))/60)) .. " minutes.", 2500, Source)
 	end
 end)
 
@@ -302,10 +306,10 @@ AddEventHandler("Rivalry.Rob.StoreVault", function(StoreNumber, PlayerID)
 			TriggerClientEvent("Rivalry.Rob.StoreVault", Source, StoreNumber)
 			Rivalry.Robberies.Stores[StoreNumber].Vault = os.time()
 		else
-			TriggerClientEvent('customNotification', Source, "This can not be robbed at this time!")
+			Notify("This can not be robbed at this time!", 2500, Source)
 		end
 	else
-		TriggerClientEvent('customNotification', Source, "This has already been robbed recently. Please wait another " .. (math.floor(((Cooldown*60) - (os.time() - Rivalry.Robberies.Stores[StoreNumber].Vault))/60)) .. " minutes.")
+		Notify("This has already been robbed recently. Please wait another " .. (math.floor(((Cooldown*60) - (os.time() - Rivalry.Robberies.Stores[StoreNumber].Vault))/60)) .. " minutes.", 2500, Source)
 	end
 end)
 
@@ -403,7 +407,6 @@ AddEventHandler("Rivalry.HackVault", function(Level, MaxLevel, Bank, BankNumber,
 				TriggerClientEvent("Rivalry.HackVault", Source, Level, MaxLevel, Bank, BankNumber)
 				TriggerEvent("dispatch:ten-ninety-bank", Rivalry.Robberies.Banks.Fleeca[BankNumber].Name)
 				Rivalry.Robberies.Banks.SoftCooldown = os.time()
-				TriggerClientEvent('customNotification', Source, "You have just tripped an antitampering system! Better be quick!")
 				Rivalry.Robberies.Banks.Fleeca[BankNumber].LastRobbed = os.time()
 				Rivalry.Robberies.Banks.Fleeca[BankNumber].Robber = PlayerID
 			elseif Bank == "Blaine" then
@@ -413,7 +416,6 @@ AddEventHandler("Rivalry.HackVault", function(Level, MaxLevel, Bank, BankNumber,
 				TriggerClientEvent("Rivalry.HackVault", Source, Level, MaxLevel, Bank, BankNumber)
 				TriggerEvent("dispatch:ten-ninety-bank", Rivalry.Robberies.Banks.Blaine.Name)
 				Rivalry.Robberies.Banks.SoftCooldown = os.time()
-				TriggerClientEvent('customNotification', Source, "You have just tripped an antitampering system! Better be quick!")
 			elseif Bank == "Pacific" then
 				TriggerClientEvent("Rivalry.SetRobbing", Source, "Pacific", 0)
 				Rivalry.Robberies.Banks.Pacific.LastRobbed = os.time()
@@ -421,10 +423,11 @@ AddEventHandler("Rivalry.HackVault", function(Level, MaxLevel, Bank, BankNumber,
 				TriggerClientEvent("Rivalry.HackVault", Source, Level, MaxLevel, Bank, BankNumber)
 				TriggerEvent("dispatch:ten-ninety-bank", Rivalry.Robberies.Banks.Pacific.Name)
 				Rivalry.Robberies.Banks.SoftCooldown = os.time()
-				TriggerClientEvent('customNotification', Source, "You have just tripped an antitampering system! Better be quick!")
 			end
+
+			Notify("You have just tripped an antitampering system! Better be quick!", 2500, Source)
 		else
-			TriggerClientEvent('customNotification', Source, "This can not be robbed at this time!")
+			Notify("This can not be robbed at this time!", 2500, Source)
 		end
 	end
 end)
@@ -454,7 +457,7 @@ AddEventHandler("Rivalry.BlowTorch", function(Bank, Door, BankNumber, PlayerID)
 				end
 			end
 		else
-			TriggerClientEvent('customNotification', Source, "This can not be robbed at this time!")
+			Notify("This can not be robbed at this time!", 2500, Source)
 		end
 	elseif Bank == "Fleeca" then
 		if ( Rivalry.Robberies.Banks.Fleeca[BankNumber].Robber == PlayerID or not HasBeenRobbed(Bank, BankNumber, PlayerID) ) then
@@ -515,7 +518,7 @@ end)
 RegisterServerEvent("Rivalry.Disable.Pacific.Cameras")
 AddEventHandler("Rivalry.Disable.Pacific.Cameras", function()
 	local Source = source
-	TriggerClientEvent('customNotification', Source, "You have just tripped an antitampering system! Better be quick!")
+	Notify("You have just tripped an antitampering system! Better be quick!", 2500, Source)
 	TriggerClientEvent("Rivalry.Disable.Pacific.Cameras", -1)
 end)
 
@@ -523,9 +526,9 @@ RegisterServerEvent("Rivalry.EnableCameras")
 AddEventHandler("Rivalry.EnableCameras", function()
 	local Source = source
 	if Rivalry.Robberies.Banks.Pacific.Robber == nil then
-		TriggerClientEvent('customNotification', Source, "You have successfully reset the camera system for Pacific Standard Bank.")
+		Notify("You have successfully reset the camera system for Pacific Standard Bank.", 2500, Source)
 		TriggerClientEvent("Rivalry.EnableCameras", -1)
 	else
-		TriggerClientEvent('customNotification', Source, "You cannot reset the camera system yet as there is an active robbery in progress!")
+		Notify("You cannot reset the camera system yet as there is an active robbery in progress!", 2500, Source)
 	end
 end)
