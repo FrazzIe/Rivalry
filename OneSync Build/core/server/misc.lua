@@ -89,6 +89,7 @@ AddEventHandler("core:setData", function(data)
 								ExecuteCommand("add_principal identifier."..Users[data.id].get("steam").." group."..data.group)
 								Users[data.id].set("group", data.group)
 								exports["GHMattiMySQL"]:QueryAsync("UPDATE users SET `group`=@group WHERE identifier=@identifier", {["@identifier"] = Users[data.id].get("steam"), ["@group"] = tostring(data.group)})
+								TriggerClientEvent("core:onGroupChanged", data.id, data.group)
 								TriggerClientEvent("core:sync", -1, Characters, CharacterNames, Users, UPower, UGroup)
 							else
 								TriggerClientEvent('chatMessage', source, "^0[^3Panel^0]"..GetPlayerName(source), {255, 0, 0}, "^5Your group doesn't have the permission to set someones group to: "..data.group)
@@ -157,10 +158,14 @@ AddEventHandler('rconCommand', function(commandName, args)
 						CancelEvent()
 					else
 						RconPrint("Group set to "..args[2].."\n")
-						ExecuteCommand("remove_principal identifier."..Users[tonumber(args[1])].get("steam").." group."..Users[tonumber(args[1])].get("group"))
-						ExecuteCommand("add_principal identifier."..Users[tonumber(args[1])].get("steam").." group."..tostring(args[2]))
+						local steam = Users[tonumber(args[1])].get("steam")
+						
+						ExecuteCommand("remove_principal identifier."..steam.." group."..Users[tonumber(args[1])].get("group"))
+						ExecuteCommand("add_principal identifier."..steam.." group."..tostring(args[2]))
+
 						Users[tonumber(args[1])].set("group", tostring(args[2]))
 						exports["GHMattiMySQL"]:QueryAsync("UPDATE users SET `group`=@group WHERE identifier=@identifier", {["@identifier"] = Users[tonumber(args[1])].get("steam"), ["@group"] = tostring(args[2])})
+						TriggerClientEvent("core:onGroupChanged", tonumber(args[1]), args[2])
 						TriggerClientEvent("core:sync", -1, Characters, CharacterNames, Users, UPower, UGroup)
 						CancelEvent()
 					end
