@@ -71,8 +71,10 @@ end)
 RegisterServerEvent("cocaine:sell")
 AddEventHandler("cocaine:sell", function(pay, money_type, amount)
     local source = source
+
+    print(string.format("pay: %s, match: %s, max: %s, amount: %s", pay, Cocaine.Pay.Max * amount, Cocaine.Pay.Max, amount))
     if pay > (Cocaine.Pay.Max * amount) then
-        TriggerEvent("core:anticheat-ban", source)
+        TriggerEvent("core:anticheat-ban", source, string.format("Script Tampering (p: %s, m: %s, a: %s) (C) (1)", pay, Cocaine.Pay.Max * amount, amount))
     else
         if user_inventory[source][Cocaine.Items.Cocaine] then
             if user_inventory[source][Cocaine.Items.Cocaine].quantity >= amount then
@@ -86,7 +88,7 @@ AddEventHandler("cocaine:sell", function(pay, money_type, amount)
                 end)
             else
                 if amount > 1 then
-                    TriggerEvent("core:anticheat-ban", source)
+                    TriggerEvent("core:anticheat-ban", source, string.format("Script Tampering (p: %s, m: %s, a: %s) (C) (2)", pay, Cocaine.Pay.Max * amount, amount))
                 end
             end
         end

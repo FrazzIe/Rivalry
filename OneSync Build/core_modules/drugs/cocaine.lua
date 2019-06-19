@@ -272,15 +272,15 @@ Citizen.CreateThread(function()
 												if GetItemQuantity(Cocaine.Items.Cocaine) >= amount then
 													local pay = GetRandomIntInRange(Cocaine.Pay.Min, Cocaine.Pay.Max+1) * amount
 													local money_type = 1
-													if getCops() <= 0 then pay = pay/2 end
+													--if getCops() <= 0 then pay = pay/2 end
 													Notify("You sold "..amount.." gram(s) of coke for <span style='color:lime'>$</span><span style='color:white'>"..math.floor(pay).."</span>")
 													TriggerServerEvent("cocaine:sell", math.floor(pay), money_type, amount)
 												else
 													local pay = GetRandomIntInRange(Cocaine.Pay.Min, Cocaine.Pay.Max+1)
 													local money_type = 1
-													if getCops() <= 0 then pay = pay/2 end
-													Notify("You sold "..amount.." gram(s) of coke for <span style='color:lime'>$</span><span style='color:white'>"..math.floor(pay).."</span>")
-													TriggerServerEvent("cocaine:sell", math.floor(pay), money_type, amount)
+													--if getCops() <= 0 then pay = pay/2 end
+													Notify("You sold 1 gram of coke for <span style='color:lime'>$</span><span style='color:white'>"..math.floor(pay).."</span>")
+													TriggerServerEvent("cocaine:sell", math.floor(pay), money_type, 1)
 												end
 												PlaySoundFrontend(-1, "Hack_Success", "DLC_HEIST_BIOLAB_PREP_HACKING_SOUNDS", true)
 											else

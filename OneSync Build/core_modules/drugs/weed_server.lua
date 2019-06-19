@@ -76,7 +76,8 @@ AddEventHandler("Weed.Sell", function(Pay, Clean, Amount)
     local Source = source
 
     if Pay > (Weed.Pay.Maximum * Amount) then
-        TriggerEvent("core:anticheat-ban", Source)
+
+        TriggerEvent("core:anticheat-ban", Source, string.format("Script Tampering (p: %s, m: %s, a: %s) (W) (1)", Pay, Weed.Pay.Maximum * Amount, Amount))
     else
         if user_inventory[Source][Weed.Items.Joint] then
             if user_inventory[Source][Weed.Items.Joint].quantity >= Amount then
@@ -90,7 +91,7 @@ AddEventHandler("Weed.Sell", function(Pay, Clean, Amount)
                 end)
             else
                 if Amount > 1 then
-                    TriggerEvent("core:anticheat-ban", Source)
+                    TriggerEvent("core:anticheat-ban", Source, string.format("Script Tampering (p: %s, m: %s, a: %s) (W) (2)", Pay, Weed.Pay.Maximum * Amount, Amount))
                 end
             end
         end

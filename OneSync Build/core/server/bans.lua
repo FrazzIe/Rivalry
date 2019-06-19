@@ -217,8 +217,8 @@ AddEventHandler("core:kickall", function(reason)
 	DropPlayer(source, reason)
 end)
 
-AddEventHandler("core:anticheat-ban", function(target)
-	local reason = "Script Tampering"
+AddEventHandler("core:anticheat-ban", function(target, reason)
+	local reason = reason or "Script Tampering"
 	local duration = os.time()
 	local name = "Anticheat"
 	local isPerm = true
