@@ -282,7 +282,7 @@ Citizen.CreateThread(function()
 			if #(PlayerPosition - Rivalry.Robberies.Banks.Blaine.Vault) > 17.0 then
 				TriggerServerEvent("Rivalry.Robberies.Stopped.Robbing", "Blaine", 0)
 				print("You ran too far!")
-				isStillRobbingPacific = false
+				isStillRobbingBlaine = false
 			end
 		elseif isStillRobbingFleeca == true then
 			local Player = PlayerPedId()
