@@ -273,7 +273,6 @@ Citizen.CreateThread(function()
 			local PlayerPosition = GetEntityCoords(Player, false)
 			if #(PlayerPosition - Rivalry.Robberies.Banks.Pacific.Vault) > 17.0 then
 				TriggerServerEvent("Rivalry.Robberies.Stopped.Robbing", "Pacific", 0)
-				print("You ran too far!")
 				isStillRobbingPacific = false
 			end
 		elseif isStillRobbingBlaine == true then
@@ -281,7 +280,6 @@ Citizen.CreateThread(function()
 			local PlayerPosition = GetEntityCoords(Player, false)
 			if #(PlayerPosition - Rivalry.Robberies.Banks.Blaine.Vault) > 17.0 then
 				TriggerServerEvent("Rivalry.Robberies.Stopped.Robbing", "Blaine", 0)
-				print("You ran too far!")
 				isStillRobbingBlaine = false
 			end
 		elseif isStillRobbingFleeca == true then
@@ -289,7 +287,6 @@ Citizen.CreateThread(function()
 			local PlayerPosition = GetEntityCoords(Player, false)
 			if #(PlayerPosition - Rivalry.Robberies.Banks.Fleeca[whichFleeca].Vault) > 17.0 then
 				TriggerServerEvent("Rivalry.Robberies.Stopped.Robbing", "Fleeca", whichFleeca)
-				print("You ran too far!")
 				isStillRobbingFleeca = false
 			end
 		end
