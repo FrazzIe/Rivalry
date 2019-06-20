@@ -95,3 +95,18 @@ AddEventHandler("Stash.Withdraw", function(Index, Weapon, Gang)
 		end
 	end)
 end)
+
+RegisterServerEvent("Police.Search.Stash")
+AddEventHandler("Police.Search.Stash", function(Index)
+	local Source = source
+	local Gang = ""
+	if Index == 1 then
+		Gang = "russian"
+	elseif Index == 2 then
+		Gang = "italian"
+	elseif Index == 3 then
+		Gang = "ballers"
+	end
+	local result = exports['GHMattiMySQL']:QueryResult("SELECT * FROM gunstash WHERE stash = @stash", {["@stash"] = Gang})
+	TriggerClientEvent("Police.Search.Stash", Source, result)
+end)

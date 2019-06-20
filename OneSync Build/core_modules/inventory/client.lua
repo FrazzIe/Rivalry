@@ -730,6 +730,8 @@ AddEventHandler("inventory:use",function(data)
             Emote.Playing = true
             Emote:Play(Emote)
             table.insert(Emotes.Active, Emote)
+        elseif data.canuse == 13 then
+            TriggerEvent("Refill.Ammo", GetSelectedPedWeapon(PlayerPedId()), data.item_id)
         end
         removeQty(data.item_id,1)
     elseif data.canuse == -1 then

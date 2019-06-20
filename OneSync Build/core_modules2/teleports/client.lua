@@ -144,6 +144,10 @@ local teleports = {
         outside = {x = -1174.1722412109, y = -1153.5986328125, z = 5.6577277183533, h = 285.49569702148},
         inside = {x = -1569.3054199219, y = -3016.9519042969, z = -74.406150817871, h = 2.6814656257629},
     },
+    [33] = {
+        outside = {x = -57.136474609375, y = -2448.3759765625, z = 7.235764503479, h = 145.50859069824},
+        inside = {x = 1173.7864990234, y = -3196.6555175781, z = -39.007926940918, h = 89.470695495605},
+    },
 }
 
 Citizen.CreateThread(function()
@@ -155,7 +159,7 @@ Citizen.CreateThread(function()
             local InsideDistance = GetDistanceBetweenCoords(pos.x, pos.y, pos.z, teleport.inside.x, teleport.inside.y, teleport.inside.z, true)
             
 			if OutsideDistance < 20 then
-				drawMarker(25, teleport.outside.x, teleport.outside.y, teleport.outside.z, 1.0, 1.0, 1.5, 255, 255, 0, 255)
+				drawMarker(25, teleport.outside.x, teleport.outside.y, teleport.outside.z, 1.5, 1.5, 2.0, 255, 255, 0, 20)
 				if OutsideDistance < 1 then
 					DisplayHelpText("Press ~INPUT_CONTEXT~ to enter")
 					if IsControlJustPressed(1, 51) and teleport.outside.x ~= 441.40780639648 then
@@ -166,7 +170,7 @@ Citizen.CreateThread(function()
 				end
 			end
 			if InsideDistance < 20 then
-				drawMarker(25, teleport.inside.x, teleport.inside.y, teleport.inside.z, 1.0, 1.0, 1.5, 255, 255, 0, 255)
+				drawMarker(25, teleport.inside.x, teleport.inside.y, teleport.inside.z, 1.5, 1.5, 2.0, 255, 255, 0, 20)
 				if InsideDistance < 1 then
 					DisplayHelpText("Press ~INPUT_CONTEXT~ to exit")
 					if IsControlJustPressed(1, 51) and teleport.inside.x ~= 445.9768371582 then

@@ -99,6 +99,91 @@ Weapons = {
 
 	["GADGET_PARACHUTE"] = 500,
 }
+BlackMarket_Weapons = {
+	["WEAPON_PISTOL"] = 1,
+	["WEAPON_COMBATPISTOL"] = 1,
+	["WEAPON_PISTOL50"] = 1,
+	["WEAPON_HEAVYPISTOL"] = 1,
+	["WEAPON_SNSPISTOL"] = 1,
+	["WEAPON_APPISTOL"] = 1,
+	["WEAPON_VINTAGEPISTOL"] = 1,
+	["WEAPON_REVOLVER"] = 0,
+	["WEAPON_MARKSMANPISTOL"] = 1,
+	["WEAPON_FLAREGUN"] = 1,
+	["WEAPON_STUNGUN"] = 1,
+
+	["WEAPON_MINISMG"] = 1,
+	["WEAPON_MACHINEPISTOL"] = 1,
+	["WEAPON_COMBATPDW"] = 1,
+	["WEAPON_MICROSMG"] = 1,
+	["WEAPON_SMG"] = 1,
+	["WEAPON_ASSAULTSMG"] = 1,
+	["WEAPON_GUSENBERG"] = 1,
+	["WEAPON_COMBATMG"] = 1,
+	["WEAPON_MG"] = 1,
+
+	["WEAPON_COMPACTRIFLE"] = 1,
+	["WEAPON_ADVANCEDRIFLE"] = 1,
+	["WEAPON_ASSAULTRIFLE"] = 1,
+	["WEAPON_BULLPUPRIFLE"] = 1,
+	["WEAPON_CARBINERIFLE"] = 1,
+	["WEAPON_SPECIALCARBINE"] = 1,
+
+	["WEAPON_SNIPERRIFLE"] = 1,
+	["WEAPON_HEAVYSNIPER"] = 1,
+	["WEAPON_MARKSMANRIFLE"] = 1,
+
+	["WEAPON_KNIFE"] = 1,
+	["WEAPON_FLASHLIGHT"] = 1,
+	["WEAPON_NIGHTSTICK"] = 1,
+	["WEAPON_HAMMER"] = 1,
+	["WEAPON_BAT"] = 1,
+	["WEAPON_GOLFCLUB"] = 1,
+	["WEAPON_CROWBAR"] = 1,
+	["WEAPON_BOTTLE"] = 1,
+	["WEAPON_DAGGER"] = 1,
+	["WEAPON_KNUCKLE"] = 1,
+	["WEAPON_HATCHET"] = 1,
+	["WEAPON_MACHETE"] = 1,
+	["WEAPON_SWITCHBLADE"] = 1,
+	["WEAPON_BATTLEAXE"] = 1,
+	["WEAPON_POOLCUE"] = 1,
+	["WEAPON_WRENCH"] = 1,
+
+	["WEAPON_SAWNOFFSHOTGUN"] = 1,
+	["WEAPON_DBSHOTGUN"] = 1,
+	["WEAPON_AUTOSHOTGUN"] = 1,
+	["WEAPON_PUMPSHOTGUN"] = 1,
+	["WEAPON_ASSAULTSHOTGUN"] = 1,
+	["WEAPON_BULLPUPSHOTGUN"] = 1,
+	["WEAPON_HEAVYSHOTGUN"] = 1,
+	["WEAPON_MUSKET"] = 1,
+
+	["WEAPON_GRENADELAUNCHER"] = 1,
+	["WEAPON_COMPACTLAUNCHER"] = 1,
+	["WEAPON_RAILGUN"] = 1,
+	["WEAPON_HOMINGLAUNCHER"] = 1,
+	["WEAPON_MINIGUN"] = 1,
+	["WEAPON_RPG"] = 1,
+	["WEAPON_FIREWORK"] = 1,
+
+	["WEAPON_BZGAS"] = 1,
+	["WEAPON_MOLOTOV"] = 1,
+	["WEAPON_SMOKEGRENADE"] = 1,
+	["WEAPON_STICKYBOMB"] = 1,
+	["WEAPON_GRENADE"] = 1,
+	["WEAPON_BALL"] = 1,
+	["WEAPON_FLARE"] = 1,
+	["WEAPON_PROXMINE"] = 1,
+	["WEAPON_PIPEBOMB"] = 1,
+	["WEAPON_PETROLCAN"] = 1,
+	["WEAPON_SNOWBALL"] = 1,
+
+	["WEAPON_DIGISCANNER"] = 1,
+	["WEAPON_REMOTESNIPER"] = 1,
+
+	["GADGET_PARACHUTE"] = 1,
+}
 Attachments_Cost = {
 	["Suppressor"] = {1000, 2000},
 	["Flashlight"] = {300, 872},
@@ -334,12 +419,12 @@ AddEventHandler("weapon:buy_illegal", function(model)
 	local source = source
 	if tablelength(user_weapons[source]) < max_weapons then
 		TriggerEvent("core:getuser", source, function(user)
-			if user.get("dirty") >= Weapons[model] then
-				user.removeDirty(Weapons[model])
+			if user.get("dirty") >= BlackMarket_Weapons[model] then
+				user.removeDirty(BlackMarket_Weapons[model])
 				exports["GHMattiMySQL"]:Insert("weapons", {
 					{
 						["character_id"] = user.get("characterID"),
-						["sellprice"] = Weapons[model]/2,
+						["sellprice"] = BlackMarket_Weapons[model],
 						["model"] = model,
 						["ammo"] = 0,
 						["suppressor"] = "false",
@@ -352,7 +437,7 @@ AddEventHandler("weapon:buy_illegal", function(model)
 						["owner"] = 0,
 					}
 				}, function(weapon_id)
-					user_weapons[source][model] = { id = weapon_id, character_id = user.get("characterID"), sellprice = Weapons[model]/2, model = model, ammo = 0, suppressor = "false", flashlight = "false", extended_clip = "false", scope = "false", grip = "false", advanced_scope = "false", skin = 0, owner = 0}
+					user_weapons[source][model] = { id = weapon_id, character_id = user.get("characterID"), sellprice = BlackMarket_Weapons[model], model = model, ammo = 0, suppressor = "false", flashlight = "false", extended_clip = "false", scope = "false", grip = "false", advanced_scope = "false", skin = 0, owner = 0}
 					TriggerClientEvent("weapon:set", source, user_weapons[source])
 					TriggerClientEvent("weapon:give", source)
 					TriggerClientEvent("weapon:sync", -1, user_weapons)
@@ -439,6 +524,22 @@ AddEventHandler("weapon:buyammo", function(model)
 			TriggerClientEvent("weapon:give", source)
 			TriggerClientEvent("weapon:sync", -1, user_weapons)
 		end
+	end)
+end)
+
+RegisterServerEvent("weapon:refillammo")
+AddEventHandler("weapon:refillammo", function(model)
+	local source = source
+	TriggerEvent("core:getuser", source, function(user)
+		user_weapons[source][model].ammo = Ammo[model].Max
+		exports["GHMattiMySQL"]:QueryAsync("UPDATE weapons SET ammo=@ammo WHERE (character_id=@character_id) AND (model=@model)", {
+			["@character_id"] = user.get("characterID"),
+			["@model"] = model,
+			["@ammo"] = user_weapons[source][model].ammo,
+		})
+		TriggerClientEvent("weapon:set", source, user_weapons[source])
+		TriggerClientEvent("weapon:give", source)
+		TriggerClientEvent("weapon:sync", -1, user_weapons)
 	end)
 end)
 
@@ -665,6 +766,14 @@ local Store = {
     [46] = 50,
     [39] = 300,
     [44] = 30,
+    [83] = 1,
+    [84] = 1,
+    [85] = 1,
+    [86] = 1,
+    [87] = 1,
+    [88] = 1,
+    [89] = 1,
+    [90] = 1,
 }
 
 RegisterServerEvent("bmitem:buy")

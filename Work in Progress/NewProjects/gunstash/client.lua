@@ -1,7 +1,6 @@
 local Rivalry = {
-	--Supplier = vector3(),
 	Gangs = {
-		[1] = vector3(0,0,0), -- Russian
+		[1] = vector3(1067.7310791016,-3104.767578125,-38.999946594238), -- Russian
 		[2] = vector3(1095.060546875,-3098.2133789063,-38.999923706055), -- Italian
 		[3] = vector3(151.70854187012,-1001.5127563477,-98.999984741211), -- Ballers
 	},
@@ -16,9 +15,16 @@ local Rivalry = {
 				InsideDoorHeading = 269.36706542969
 			}
 		},
-		-- Russian = {
-
-		-- },
+		Russian = {
+			[1] = {
+				OutsideDoor = vector3(1019.092956543,-2511.5534667969,28.483037948608),
+				OutsideDoorHeading = 83.333290100098,
+			},
+			[2] = {
+				InsideDoor = vector3(1048.0213623047,-3097.1501464844,-38.999908447266),
+				InsideDoorHeading = 267.96685791016,
+			}
+		},
 		Ballers = {
 			[1] = {
 				OutsideDoor = vector3(-150.23551940918, -1625.5727539063,36.848297119141),
@@ -27,6 +33,16 @@ local Rivalry = {
 			[2] = {
 				InsideDoor = vector3(151.41645812988,-1008.0470581055,-99.000022888184),
 				InsideDoorHeading = 1.0677021741867
+			}
+		},
+		Supplier = {
+			[1] = {
+				OutsideDoor = vector3(-676.60150146484,-2458.1594238281,13.94439125061),
+				OutsideDoorHeading = 147.26322937012,
+			},
+			[2] = {
+				InsideDoor = vector3(992.27966308594,-3097.8132324219,-38.995861053467),
+				InsideDoorHeading = 273.26727294922,
 			}
 		}
 	}
@@ -80,33 +96,49 @@ AddEventHandler("Dealer:Set", function(_Data, _Dealer, first)
 	end
 end)
 
+RegisterNetEvent("Police.Search.Stash")
+AddEventHandler("Police.Search.Stash", function(Stash)
+	TriggerEvent('chatMessage', "Stash:", {255, 0, 0}, "")
+	for k, v in pairs(Stash) do
+		TriggerEvent('chatMessage', tostring(v.id), {0, 0, 255}, tostring(Weapons_names[v.model]))
+	end
+end)
+
 Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(0)
-		if Dealer.IsDealer then
+		if Dealer.IsDealer or exports.policejob:getIsInService() then
 			local Player = PlayerPedId()
 			local PlayerPosition = GetEntityCoords(Player, false)
 			for Index = 1, #Rivalry.Gangs do
 				if #(PlayerPosition - Rivalry.Gangs[Index]) <= 1.0 then
-					DisplayHelpText("Press ~INPUT_CONTEXT~ to open stash!")
+					if exports.policejob:getIsInService() then
+						DisplayHelpText("Press ~INPUT_CONTEXT~ to search the stash!")
+					else
+						DisplayHelpText("Press ~INPUT_CONTEXT~ to open stash!")
+					end
 					if IsControlJustPressed(1, 51) then
-						if not IsOpened then
-							if Dealer.Gang == "supplier" then
-								if Index == 1 then
-									TriggerServerEvent("Open.Stash", "russian")
-									SupplierGang = "russian"
-								elseif Index == 2 then
-									TriggerServerEvent("Open.Stash", "italian")
-									SupplierGang = "italian"
-								elseif Index == 3 then
-									TriggerServerEvent("Open.Stash", "ballers")
-									SupplierGang = "ballers"
+						if exports.policejob:getIsInService() then
+							TriggerServerEvent("Police.Search.Stash", Index)
+						else
+							if not IsOpened then
+								if Dealer.Gang == "supplier" then
+									if Index == 1 then
+										TriggerServerEvent("Open.Stash", "russian")
+										SupplierGang = "russian"
+									elseif Index == 2 then
+										TriggerServerEvent("Open.Stash", "italian")
+										SupplierGang = "italian"
+									elseif Index == 3 then
+										TriggerServerEvent("Open.Stash", "ballers")
+										SupplierGang = "ballers"
+									end
+								else
+									TriggerServerEvent("Open.Stash", Dealer.Gang)
 								end
 							else
-								TriggerServerEvent("Open.Stash", Dealer.Gang)
+								Notify("One person at a time please! For now...", 3100)
 							end
-						else
-							Notify("One person at a time please! For now...", 3100)
 						end
 					end
 				end
@@ -118,69 +150,76 @@ end)
 Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(0)
-		if Dealer.IsDealer and ( Dealer.Gang == "italian" or Dealer.Gang == "supplier" ) then
-			local Player = PlayerPedId()
-			local PlayerPosition = GetEntityCoords(Player, false)
-			for Index = 1, #Rivalry.Teleporters.Italian do
-				if Index == 1 then
-					if #(PlayerPosition - Rivalry.Teleporters.Italian[Index].OutsideDoor) <= 1.0 then
-						DisplayHelpText("Press ~INPUT_CONTEXT~ to enter!")
-						if IsControlJustPressed(1, 51) then
-							TeleportPlayer(Rivalry.Teleporters.Italian[Index + 1].InsideDoor.x, Rivalry.Teleporters.Italian[Index + 1].InsideDoor.y, Rivalry.Teleporters.Italian[Index + 1].InsideDoor.z, Rivalry.Teleporters.Italian[Index + 1].InsideDoorHeading)
-						end
+		local Player = PlayerPedId()
+		local PlayerPosition = GetEntityCoords(Player, false)
+		for Index = 1, #Rivalry.Teleporters.Italian do
+			if Index == 1 then
+				if #(PlayerPosition - Rivalry.Teleporters.Italian[Index].OutsideDoor) <= 1.0 then
+					DisplayHelpText("Press ~INPUT_CONTEXT~ to enter!")
+					if IsControlJustPressed(1, 51) then
+						TeleportPlayer(Rivalry.Teleporters.Italian[Index + 1].InsideDoor.x, Rivalry.Teleporters.Italian[Index + 1].InsideDoor.y, Rivalry.Teleporters.Italian[Index + 1].InsideDoor.z, Rivalry.Teleporters.Italian[Index + 1].InsideDoorHeading)
 					end
-				else
-					if #(PlayerPosition - Rivalry.Teleporters.Italian[Index].InsideDoor) <= 1.0 then
-						DisplayHelpText("Press ~INPUT_CONTEXT~ to enter!")
-						if IsControlJustPressed(1, 51) then
-							TeleportPlayer(Rivalry.Teleporters.Italian[Index - 1].OutsideDoor.x, Rivalry.Teleporters.Italian[Index - 1].OutsideDoor.y, Rivalry.Teleporters.Italian[Index - 1].OutsideDoor.z, Rivalry.Teleporters.Italian[Index - 1].OutsideDoorHeading)
-						end
+				end
+			else
+				if #(PlayerPosition - Rivalry.Teleporters.Italian[Index].InsideDoor) <= 1.0 then
+					DisplayHelpText("Press ~INPUT_CONTEXT~ to enter!")
+					if IsControlJustPressed(1, 51) then
+						TeleportPlayer(Rivalry.Teleporters.Italian[Index - 1].OutsideDoor.x, Rivalry.Teleporters.Italian[Index - 1].OutsideDoor.y, Rivalry.Teleporters.Italian[Index - 1].OutsideDoor.z, Rivalry.Teleporters.Italian[Index - 1].OutsideDoorHeading)
 					end
 				end
 			end
 		end
-		if Dealer.IsDealer and ( Dealer.Gang == "ballers" or Dealer.Gang == "supplier" ) then
-			local Player = PlayerPedId()
-			local PlayerPosition = GetEntityCoords(Player, false)
-			for Index = 1, #Rivalry.Teleporters.Ballers do
-				if Index == 1 then
-					if #(PlayerPosition - Rivalry.Teleporters.Ballers[Index].OutsideDoor) <= 1.0 then
-						DisplayHelpText("Press ~INPUT_CONTEXT~ to enter!")
-						if IsControlJustPressed(1, 51) then
-							TeleportPlayer(Rivalry.Teleporters.Ballers[Index + 1].InsideDoor.x, Rivalry.Teleporters.Ballers[Index + 1].InsideDoor.y, Rivalry.Teleporters.Ballers[Index + 1].InsideDoor.z, Rivalry.Teleporters.Ballers[Index + 1].InsideDoorHeading)
-						end
+		for Index = 1, #Rivalry.Teleporters.Ballers do
+			if Index == 1 then
+				if #(PlayerPosition - Rivalry.Teleporters.Ballers[Index].OutsideDoor) <= 1.0 then
+					DisplayHelpText("Press ~INPUT_CONTEXT~ to enter!")
+					if IsControlJustPressed(1, 51) then
+						TeleportPlayer(Rivalry.Teleporters.Ballers[Index + 1].InsideDoor.x, Rivalry.Teleporters.Ballers[Index + 1].InsideDoor.y, Rivalry.Teleporters.Ballers[Index + 1].InsideDoor.z, Rivalry.Teleporters.Ballers[Index + 1].InsideDoorHeading)
 					end
-				else
-					if #(PlayerPosition - Rivalry.Teleporters.Ballers[Index].InsideDoor) <= 1.0 then
-						DisplayHelpText("Press ~INPUT_CONTEXT~ to enter!")
-						if IsControlJustPressed(1, 51) then
-							TeleportPlayer(Rivalry.Teleporters.Ballers[Index - 1].OutsideDoor.x, Rivalry.Teleporters.Ballers[Index - 1].OutsideDoor.y, Rivalry.Teleporters.Ballers[Index - 1].OutsideDoor.z, Rivalry.Teleporters.Ballers[Index - 1].OutsideDoorHeading)
-						end
+				end
+			else
+				if #(PlayerPosition - Rivalry.Teleporters.Ballers[Index].InsideDoor) <= 1.0 then
+					DisplayHelpText("Press ~INPUT_CONTEXT~ to enter!")
+					if IsControlJustPressed(1, 51) then
+						TeleportPlayer(Rivalry.Teleporters.Ballers[Index - 1].OutsideDoor.x, Rivalry.Teleporters.Ballers[Index - 1].OutsideDoor.y, Rivalry.Teleporters.Ballers[Index - 1].OutsideDoor.z, Rivalry.Teleporters.Ballers[Index - 1].OutsideDoorHeading)
 					end
 				end
 			end
 		end
-		-- if Dealer.IsDealer and ( Dealer.Gang == "russian" or Dealer.Gang == "supplier" ) then
-		-- 	local Player = PlayerPedId()
-		-- 	local PlayerPosition = GetEntityCoords(Player, false)
-		-- 	for Index = 1, #Rivalry.Teleporters.Russian do
-		-- 		if Index == 1 then
-		-- 			if #(PlayerPosition - Rivalry.Teleporters.Russian[Index].OutsideDoor) <= 1.0 then
-		-- 				DisplayHelpText("Press ~INPUT_CONTEXT~ to enter!")
-		-- 				if IsControlJustPressed(1, 51) then
-		-- 					TeleportPlayer(Rivalry.Teleporters.Russian[Index + 1].InsideDoor.x, Rivalry.Teleporters.Russian[Index + 1].InsideDoor.y, Rivalry.Teleporters.Russian[Index + 1].InsideDoor.z, Rivalry.Teleporters.Russian[Index + 1].InsideDoorHeading)
-		-- 				end
-		-- 			end
-		-- 		else
-		-- 			if #(PlayerPosition - Rivalry.Teleporters.Russian[Index].InsideDoor) <= 1.0 then
-		-- 				DisplayHelpText("Press ~INPUT_CONTEXT~ to enter!")
-		-- 				if IsControlJustPressed(1, 51) then
-		--					TeleportPlayer(Rivalry.Teleporters.Russian[Index - 1].OutsideDoor.x, Rivalry.Teleporters.Russian[Index - 1].OutsideDoor.y, Rivalry.Teleporters.Russian[Index - 1].OutsideDoor.z, Rivalry.Teleporters.Russian[Index - 1].OutsideDoorHeading)
-		-- 				end
-		-- 			end
-		-- 		end
-		-- 	end
-		-- end
+		for Index = 1, #Rivalry.Teleporters.Russian do
+	 		if Index == 1 then
+	 			if #(PlayerPosition - Rivalry.Teleporters.Russian[Index].OutsideDoor) <= 1.0 then
+	 				DisplayHelpText("Press ~INPUT_CONTEXT~ to enter!")
+	 				if IsControlJustPressed(1, 51) then
+	 					TeleportPlayer(Rivalry.Teleporters.Russian[Index + 1].InsideDoor.x, Rivalry.Teleporters.Russian[Index + 1].InsideDoor.y, Rivalry.Teleporters.Russian[Index + 1].InsideDoor.z, Rivalry.Teleporters.Russian[Index + 1].InsideDoorHeading)
+	 				end
+	 			end
+	 		else
+	 			if #(PlayerPosition - Rivalry.Teleporters.Russian[Index].InsideDoor) <= 1.0 then
+	 				DisplayHelpText("Press ~INPUT_CONTEXT~ to enter!")
+	 				if IsControlJustPressed(1, 51) then
+						TeleportPlayer(Rivalry.Teleporters.Russian[Index - 1].OutsideDoor.x, Rivalry.Teleporters.Russian[Index - 1].OutsideDoor.y, Rivalry.Teleporters.Russian[Index - 1].OutsideDoor.z, Rivalry.Teleporters.Russian[Index - 1].OutsideDoorHeading)
+	 				end
+	 			end
+	 		end
+	 	end
+		for Index = 1, #Rivalry.Teleporters.Supplier do
+	 		if Index == 1 then
+	 			if #(PlayerPosition - Rivalry.Teleporters.Supplier[Index].OutsideDoor) <= 1.0 then
+	 				DisplayHelpText("Press ~INPUT_CONTEXT~ to enter!")
+	 				if IsControlJustPressed(1, 51) then
+	 					TeleportPlayer(Rivalry.Teleporters.Supplier[Index + 1].InsideDoor.x, Rivalry.Teleporters.Supplier[Index + 1].InsideDoor.y, Rivalry.Teleporters.Supplier[Index + 1].InsideDoor.z, Rivalry.Teleporters.Supplier[Index + 1].InsideDoorHeading)
+	 				end
+	 			end
+	 		else
+	 			if #(PlayerPosition - Rivalry.Teleporters.Supplier[Index].InsideDoor) <= 1.0 then
+	 				DisplayHelpText("Press ~INPUT_CONTEXT~ to enter!")
+	 				if IsControlJustPressed(1, 51) then
+						TeleportPlayer(Rivalry.Teleporters.Supplier[Index - 1].OutsideDoor.x, Rivalry.Teleporters.Supplier[Index - 1].OutsideDoor.y, Rivalry.Teleporters.Supplier[Index - 1].OutsideDoor.z, Rivalry.Teleporters.Supplier[Index - 1].OutsideDoorHeading)
+	 				end
+	 			end
+	 		end
+	 	end
 	end
 end)
 

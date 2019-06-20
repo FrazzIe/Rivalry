@@ -102,6 +102,14 @@ itemlist = {
     [80] = {name = "Wash Cloth", item_id = 80, canuse = 0, illegal = false},
     [81] = {name = "Car Cleaner", item_id = 81, canuse = 0, illegal = false},
     [82] = {name = "Blow Torch", item_id = 82, canuse = 0, illegal = false},
+    [83] = {name = "Ammo Box | 9mm", item_id = 83, canuse = 13, illegal = true},
+    [84] = {name = "Ammo Box | .45mm", item_id = 84, canuse = 13, illegal = true},
+    [85] = {name = "Ammo Box | .50mm", item_id = 85, canuse = 13, illegal = true},
+    [86] = {name = "Ammo Box | 5.56mm", item_id = 86, canuse = 13, illegal = true},
+    [87] = {name = "Ammo Box | 7.62mm", item_id = 87, canuse = 13, illegal = true},
+    [88] = {name = "Ammo Box | .44mm", item_id = 88, canuse = 13, illegal = true},
+    [89] = {name = "Ammo Box | 12g", item_id = 89, canuse = 13, illegal = true},
+    [90] = {name = "Ammo Box | 11g", item_id = 90, canuse = 13, illegal = true},
 }
 
 user_max = 100
