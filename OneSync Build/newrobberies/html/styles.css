@@ -419,18 +419,3 @@ body {
     transform: scale(1, 1);
   }
 }
-
-#Camera_Container {
-    position: absolute;
-    height: 100%;
-    width: 100%;
-    left: 20px;
-    background-color: transparent !important;
-}
-#Camera_Label {
-    position: relative;
-    font-weight: bold;
-    font-family: Courier New, monospace;
-    font-size: 17px;
-    color: white;
-}
