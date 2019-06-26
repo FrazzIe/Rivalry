@@ -29,7 +29,7 @@ ammu_nation = {
 	    {name="Ammunation", colour=1, sprite=110, x= 810.15, y= -2156.88, z= 29.61},
 	},
 	blackmarket = {
-		{name="Black Market", colour=4, id=110, x=1067.7310791016, y=-3104.767578125, z=-38.999946594238},
+		{name="Black Market", colour=4, id=110, x = 1024.017578125, y = -3111.3796386719, z = -38.999870300293},
 	},
 	license = {
 		{name="Gun License", colour=5, id=434, x=437.24404907227, y=-994.11242675781, z=30.68959236145},
