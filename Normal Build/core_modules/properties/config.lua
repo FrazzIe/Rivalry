@@ -2675,7 +2675,7 @@ properties = {
 					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
-			}
+			},
 			[87] = {
 				property_name = "1722 Roy Lowenstein Blvd Apt 7", -- Name of the property (used as the title of the menu)
 				locked = false, --Default (don't touch)
