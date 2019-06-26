@@ -28,7 +28,7 @@ properties = {
 					max = {
 						cash = 10000, --Max cash the property can hold
 						dirty = 50000, --Max marked bills the property can hold
-						weapons = 3, --Max weapons the property can hold
+						weapons = 16, --Max weapons the property can hold
 					},
 				},
 				robbing = {
@@ -59,7 +59,7 @@ properties = {
 					max = {
 						cash = 10000, --Max cash the property can hold
 						dirty = 50000, --Max marked bills the property can hold
-						weapons = 3, --Max weapons the property can hold
+						weapons = 4, --Max weapons the property can hold
 					},
 				},
 				robbing = {
@@ -90,7 +90,7 @@ properties = {
 					max = {
 						cash = 10000, --Max cash the property can hold
 						dirty = 50000, --Max marked bills the property can hold
-						weapons = 3, --Max weapons the property can hold
+						weapons = 16, --Max weapons the property can hold
 					},
 				},
 				robbing = {
@@ -121,7 +121,7 @@ properties = {
 					max = {
 						cash = 10000, --Max cash the property can hold
 						dirty = 50000, --Max marked bills the property can hold
-						weapons = 3, --Max weapons the property can hold
+						weapons = 16, --Max weapons the property can hold
 					},
 				},
 				robbing = {
@@ -152,7 +152,7 @@ properties = {
 					max = {
 						cash = 10000, --Max cash the property can hold
 						dirty = 50000, --Max marked bills the property can hold
-						weapons = 3, --Max weapons the property can hold
+						weapons = 16, --Max weapons the property can hold
 					},
 				},
 				robbing = {
@@ -183,7 +183,7 @@ properties = {
 					max = {
 						cash = 10000, --Max cash the property can hold
 						dirty = 50000, --Max marked bills the property can hold
-						weapons = 3, --Max weapons the property can hold
+						weapons = 16, --Max weapons the property can hold
 					},
 				},
 				robbing = {
@@ -214,7 +214,7 @@ properties = {
 					max = {
 						cash = 10000, --Max cash the property can hold
 						dirty = 50000, --Max marked bills the property can hold
-						weapons = 3, --Max weapons the property can hold
+						weapons = 4, --Max weapons the property can hold
 					},
 				},
 				robbing = {
@@ -245,7 +245,7 @@ properties = {
 					max = {
 						cash = 10000, --Max cash the property can hold
 						dirty = 50000, --Max marked bills the property can hold
-						weapons = 3, --Max weapons the property can hold
+						weapons = 4, --Max weapons the property can hold
 					},
 				},
 				robbing = {
@@ -276,7 +276,7 @@ properties = {
 					max = {
 						cash = 10000, --Max cash the property can hold
 						dirty = 50000, --Max marked bills the property can hold
-						weapons = 3, --Max weapons the property can hold
+						weapons = 4, --Max weapons the property can hold
 					},
 				},
 				robbing = {
@@ -307,7 +307,7 @@ properties = {
 					max = {
 						cash = 10000, --Max cash the property can hold
 						dirty = 50000, --Max marked bills the property can hold
-						weapons = 3, --Max weapons the property can hold
+						weapons = 4, --Max weapons the property can hold
 					},
 				},
              			robbing = {
@@ -338,7 +338,7 @@ properties = {
 				    	max = {
 						cash = 10000, --Max cash the property can hold
 						dirty = 50000, --Max marked bills the property can hold
-						weapons = 3, --Max weapons the property can hold
+						weapons = 4, --Max weapons the property can hold
 					},
                 	},
               		robbing = {
@@ -369,7 +369,7 @@ properties = {
 					max = {
 						cash = 10000, --Max cash the property can hold
 						dirty = 50000, --Max marked bills the property can hold
-						weapons = 3, --Max weapons the property can hold
+						weapons = 4, --Max weapons the property can hold
 					},
 				},
               			robbing = {
@@ -400,7 +400,7 @@ properties = {
 					max = {
 						cash = 10000, --Max cash the property can hold
 						dirty = 50000, --Max marked bills the property can hold
-						weapons = 3, --Max weapons the property can hold
+						weapons = 4, --Max weapons the property can hold
 					},
 				},
               			robbing = {
@@ -431,7 +431,7 @@ properties = {
 					max = {
 						cash = 10000, --Max cash the property can hold
 						dirty = 50000, --Max marked bills the property can hold
-						weapons = 3, --Max weapons the property can hold
+						weapons = 4, --Max weapons the property can hold
 					},
 				},
               			robbing = {
@@ -462,7 +462,7 @@ properties = {
 					max = {
 						cash = 10000, --Max cash the property can hold
 						dirty = 50000, --Max marked bills the property can hold
-						weapons = 3, --Max weapons the property can hold
+						weapons = 4, --Max weapons the property can hold
 					},
 				},
              			robbing = {
@@ -493,7 +493,7 @@ properties = {
 					max = {
 						cash = 10000, --Max cash the property can hold
 						dirty = 50000, --Max marked bills the property can hold
-						weapons = 3, --Max weapons the property can hold
+						weapons = 4, --Max weapons the property can hold
 					},
 				},
               			robbing = {
@@ -524,7 +524,7 @@ properties = {
 					max = {
 						cash = 10000, --Max cash the property can hold
 						dirty = 50000, --Max marked bills the property can hold
-						weapons = 3, --Max weapons the property can hold
+						weapons = 4, --Max weapons the property can hold
 					},
 				},
               			robbing = {
@@ -586,7 +586,7 @@ properties = {
 					max = {
 						cash = 10000, --Max cash the property can hold
 						dirty = 50000, --Max marked bills the property can hold
-						weapons = 3, --Max weapons the property can hold
+						weapons = 4, --Max weapons the property can hold
 					},
 				},
               			robbing = {
@@ -617,7 +617,7 @@ properties = {
 					max = {
 						cash = 10000, --Max cash the property can hold
 						dirty = 50000, --Max marked bills the property can hold
-						weapons = 3, --Max weapons the property can hold
+						weapons = 4, --Max weapons the property can hold
 					},
 				},
               			robbing = {
@@ -648,7 +648,7 @@ properties = {
 					max = {
 						cash = 10000, --Max cash the property can hold
 						dirty = 50000, --Max marked bills the property can hold
-						weapons = 3, --Max weapons the property can hold
+						weapons = 4, --Max weapons the property can hold
 					},
 				},
               			robbing = {
@@ -669,7 +669,7 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {x = 963.25720214844, y = -595.94689941406, z = 59.902702331543, h = 252.17263793945}, -- The location of the property
-				rent = 2500, --How much it costs to rent the property (PER DAY)
+				rent = 1500, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
 						cash = 0, --Default (don't touch)
@@ -679,7 +679,7 @@ properties = {
 					max = {
 						cash = 10000, --Max cash the property can hold
 						dirty = 50000, --Max marked bills the property can hold
-						weapons = 3, --Max weapons the property can hold
+						weapons = 12, --Max weapons the property can hold
 					},
 				},
               			robbing = {
@@ -700,7 +700,7 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {x = 861.56988525391, y = -582.49072265625, z = 58.156490325928, h = 178.8897857666}, -- The location of the property
-				rent = 2500, --How much it costs to rent the property (PER DAY)
+				rent = 1500, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
 						cash = 0, --Default (don't touch)
@@ -710,7 +710,7 @@ properties = {
 					max = {
 						cash = 10000, --Max cash the property can hold
 						dirty = 50000, --Max marked bills the property can hold
-						weapons = 3, --Max weapons the property can hold
+						weapons = 12, --Max weapons the property can hold
 					},
 				},
               			robbing = {
@@ -731,7 +731,7 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {x = 979.74169921875, y = -627.20623779297, z = 59.235836029053, h = 213.00134277344}, -- The location of the property
-				rent = 2500, --How much it costs to rent the property (PER DAY)
+				rent = 1500, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
 						cash = 0, --Default (don't touch)
@@ -741,7 +741,7 @@ properties = {
 					max = {
 						cash = 10000, --Max cash the property can hold
 						dirty = 50000, --Max marked bills the property can hold
-						weapons = 3, --Max weapons the property can hold
+						weapons = 12, --Max weapons the property can hold
 					},
 				},
               			robbing = {
@@ -762,7 +762,7 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {x = 922.28070068359, y = -478.60290527344, z = 61.083583831787, h = 18.485750198364}, -- The location of the property
-				rent = 2500, --How much it costs to rent the property (PER DAY)
+				rent = 1500, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
 						cash = 0, --Default (don't touch)
@@ -772,7 +772,7 @@ properties = {
 					max = {
 						cash = 10000, --Max cash the property can hold
 						dirty = 50000, --Max marked bills the property can hold
-						weapons = 3, --Max weapons the property can hold
+						weapons = 12, --Max weapons the property can hold
 					},
 				},
               			robbing = {
@@ -793,7 +793,7 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {x = 920.23712158203, y = -570.53887939453, z = 58.366363525391, h = 29.028879165649}, -- The location of the property
-				rent = 2500, --How much it costs to rent the property (PER DAY)
+				rent = 1500, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
 						cash = 0, --Default (don't touch)
@@ -803,7 +803,7 @@ properties = {
 					max = {
 						cash = 10000, --Max cash the property can hold
 						dirty = 50000, --Max marked bills the property can hold
-						weapons = 3, --Max weapons the property can hold
+						weapons = 12, --Max weapons the property can hold
 					},
 				},
               			robbing = {
@@ -824,7 +824,7 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {x = 1001.1132202148, y = -594.14642333984, z = 59.232391357422, h = 79.767478942871}, -- The location of the property
-				rent = 2500, --How much it costs to rent the property (PER DAY)
+				rent = 1500, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
 						cash = 0, --Default (don't touch)
@@ -834,7 +834,7 @@ properties = {
 					max = {
 						cash = 10000, --Max cash the property can hold
 						dirty = 50000, --Max marked bills the property can hold
-						weapons = 3, --Max weapons the property can hold
+						weapons = 12, --Max weapons the property can hold
 					},
 				},
               			robbing = {
@@ -855,7 +855,7 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {x = 1046.2370605469, y = -497.13256835938, z = 64.079315185547, h = 164.02305603027}, -- The location of the property
-				rent = 2500, --How much it costs to rent the property (PER DAY)
+				rent = 1500, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
 						cash = 0, --Default (don't touch)
@@ -865,7 +865,7 @@ properties = {
 					max = {
 						cash = 10000, --Max cash the property can hold
 						dirty = 50000, --Max marked bills the property can hold
-						weapons = 3, --Max weapons the property can hold
+						weapons = 12, --Max weapons the property can hold
 					},
 				},
               			robbing = {
@@ -886,7 +886,7 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {x = 1098.4874267578, y = -465.08499145508, z = 67.319396972656, h = 353.05224609375}, -- The location of the property
-				rent = 2500, --How much it costs to rent the property (PER DAY)
+				rent = 1500, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
 						cash = 0, --Default (don't touch)
@@ -896,7 +896,7 @@ properties = {
 					max = {
 						cash = 10000, --Max cash the property can hold
 						dirty = 50000, --Max marked bills the property can hold
-						weapons = 3, --Max weapons the property can hold
+						weapons = 12, --Max weapons the property can hold
 					},
 				},
               			robbing = {
@@ -917,7 +917,7 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {x = 1270.7966308594, y = -682.783203125, z = 66.031616210938, h = 180.47001647949}, -- The location of the property
-				rent = 2500, --How much it costs to rent the property (PER DAY)
+				rent = 1500, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
 						cash = 0, --Default (don't touch)
@@ -927,7 +927,7 @@ properties = {
 					max = {
 						cash = 10000, --Max cash the property can hold
 						dirty = 50000, --Max marked bills the property can hold
-						weapons = 3, --Max weapons the property can hold
+						weapons = 12, --Max weapons the property can hold
 					},
 				},
               			robbing = {
@@ -948,7 +948,7 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {x = 1251.3123779297, y = -515.60803222656, z = 69.349052429199, h = 70.709053039551}, -- The location of the property
-				rent = 2500, --How much it costs to rent the property (PER DAY)
+				rent = 1500, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
 						cash = 0, --Default (don't touch)
@@ -958,7 +958,7 @@ properties = {
 					max = {
 						cash = 10000, --Max cash the property can hold
 						dirty = 50000, --Max marked bills the property can hold
-						weapons = 3, --Max weapons the property can hold
+						weapons = 12, --Max weapons the property can hold
 					},
 				},
               			robbing = {
@@ -979,7 +979,7 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {x = 1263.5560302734, y = -429.26174926758, z = 69.800323486328, h = 114.36005401611}, -- The location of the property
-				rent = 2500, --How much it costs to rent the property (PER DAY)
+				rent = 1500, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
 						cash = 0, --Default (don't touch)
@@ -989,7 +989,7 @@ properties = {
 					max = {
 						cash = 10000, --Max cash the property can hold
 						dirty = 50000, --Max marked bills the property can hold
-						weapons = 3, --Max weapons the property can hold
+						weapons = 12, --Max weapons the property can hold
 					},
 				},
               			robbing = {
@@ -1020,7 +1020,7 @@ properties = {
 					max = {
 						cash = 10000, --Max cash the property can hold
 						dirty = 50000, --Max marked bills the property can hold
-						weapons = 3, --Max weapons the property can hold
+						weapons = 16, --Max weapons the property can hold
 					},
 				},
               			robbing = {
@@ -1051,7 +1051,7 @@ properties = {
 					max = {
 						cash = 10000, --Max cash the property can hold
 						dirty = 50000, --Max marked bills the property can hold
-						weapons = 3, --Max weapons the property can hold
+						weapons = 4, --Max weapons the property can hold
 					},
 				},
 		      		robbing = {
@@ -1082,7 +1082,7 @@ properties = {
 					max = {
 						cash = 10000, --Max cash the property can hold
 						dirty = 50000, --Max marked bills the property can hold
-						weapons = 3, --Max weapons the property can hold
+						weapons = 4, --Max weapons the property can hold
 					},
 				},
               			robbing = {
@@ -1113,7 +1113,7 @@ properties = {
 					max = {
 						cash = 10000, --Max cash the property can hold
 						dirty = 50000, --Max marked bills the property can hold
-						weapons = 3, --Max weapons the property can hold
+						weapons = 4, --Max weapons the property can hold
 					},
 				},
               			robbing = {
@@ -1144,7 +1144,7 @@ properties = {
 					max = {
 						cash = 10000, --Max cash the property can hold
 						dirty = 50000, --Max marked bills the property can hold
-						weapons = 3, --Max weapons the property can hold
+						weapons = 4, --Max weapons the property can hold
 					},
 				},
               			robbing = {
@@ -1175,7 +1175,7 @@ properties = {
 					max = {
 						cash = 10000, --Max cash the property can hold
 						dirty = 50000, --Max marked bills the property can hold
-						weapons = 3, --Max weapons the property can hold
+						weapons = 4, --Max weapons the property can hold
 					},
 				},
               			robbing = {
@@ -1206,7 +1206,7 @@ properties = {
 					max = {
 						cash = 10000, --Max cash the property can hold
 						dirty = 50000, --Max marked bills the property can hold
-						weapons = 3, --Max weapons the property can hold
+						weapons = 4, --Max weapons the property can hold
 					},
 				},
               			robbing = {
@@ -1237,7 +1237,7 @@ properties = {
 					max = {
 						cash = 10000, --Max cash the property can hold
 						dirty = 50000, --Max marked bills the property can hold
-						weapons = 3, --Max weapons the property can hold
+						weapons = 4, --Max weapons the property can hold
 					},
 				},
               			robbing = {
@@ -1268,7 +1268,7 @@ properties = {
 					max = {
 						cash = 10000, --Max cash the property can hold
 						dirty = 50000, --Max marked bills the property can hold
-						weapons = 3, --Max weapons the property can hold
+						weapons = 4, --Max weapons the property can hold
 					},
 				},
               			robbing = {
@@ -1299,7 +1299,7 @@ properties = {
 					max = {
 						cash = 10000, --Max cash the property can hold
 						dirty = 50000, --Max marked bills the property can hold
-						weapons = 3, --Max weapons the property can hold
+						weapons = 4, --Max weapons the property can hold
 					},
 				},
               			robbing = {
@@ -1330,7 +1330,7 @@ properties = {
 					max = {
 						cash = 10000, --Max cash the property can hold
 						dirty = 50000, --Max marked bills the property can hold
-						weapons = 3, --Max weapons the property can hold
+						weapons = 16, --Max weapons the property can hold
 					},
 				},
               			robbing = {
@@ -1361,7 +1361,7 @@ properties = {
 					max = {
 						cash = 10000, --Max cash the property can hold
 						dirty = 50000, --Max marked bills the property can hold
-						weapons = 3, --Max weapons the property can hold
+						weapons = 16, --Max weapons the property can hold
 					},
 				},
               			robbing = {
@@ -1392,7 +1392,7 @@ properties = {
 					max = {
 						cash = 10000, --Max cash the property can hold
 						dirty = 50000, --Max marked bills the property can hold
-						weapons = 3, --Max weapons the property can hold
+						weapons = 4, --Max weapons the property can hold
 					},
 				},
               			robbing = {
@@ -1423,7 +1423,7 @@ properties = {
 					max = {
 						cash = 10000, --Max cash the property can hold
 						dirty = 50000, --Max marked bills the property can hold
-						weapons = 3, --Max weapons the property can hold
+						weapons = 4, --Max weapons the property can hold
 					},
 				},
               			robbing = {
@@ -1454,7 +1454,7 @@ properties = {
 					max = {
 						cash = 10000, --Max cash the property can hold
 						dirty = 50000, --Max marked bills the property can hold
-						weapons = 3, --Max weapons the property can hold
+						weapons = 4, --Max weapons the property can hold
 					},
 				},
               			robbing = {
@@ -1485,7 +1485,7 @@ properties = {
 					max = {
 						cash = 10000, --Max cash the property can hold
 						dirty = 50000, --Max marked bills the property can hold
-						weapons = 3, --Max weapons the property can hold
+						weapons = 4, --Max weapons the property can hold
 					},
 				},
              			robbing = {
@@ -1516,7 +1516,7 @@ properties = {
 					max = {
 						cash = 10000, --Max cash the property can hold
 						dirty = 50000, --Max marked bills the property can hold
-						weapons = 3, --Max weapons the property can hold
+						weapons = 4, --Max weapons the property can hold
 					},
 				},
               			robbing = {
@@ -1547,7 +1547,7 @@ properties = {
 					max = {
 						cash = 10000, --Max cash the property can hold
 						dirty = 50000, --Max marked bills the property can hold
-						weapons = 3, --Max weapons the property can hold
+						weapons = 4, --Max weapons the property can hold
 					},
 				},
               			robbing = {
@@ -1578,7 +1578,7 @@ properties = {
 					max = {
 						cash = 10000, --Max cash the property can hold
 						dirty = 50000, --Max marked bills the property can hold
-						weapons = 3, --Max weapons the property can hold
+						weapons = 4, --Max weapons the property can hold
 					},
 				},
               			robbing = {
@@ -1609,7 +1609,7 @@ properties = {
 					max = {
 						cash = 10000, --Max cash the property can hold
 						dirty = 50000, --Max marked bills the property can hold
-						weapons = 3, --Max weapons the property can hold
+						weapons = 4, --Max weapons the property can hold
 					},
 				},
               			robbing = {
@@ -1640,7 +1640,7 @@ properties = {
 					max = {
 						cash = 10000, --Max cash the property can hold
 						dirty = 50000, --Max marked bills the property can hold
-						weapons = 3, --Max weapons the property can hold
+						weapons = 4, --Max weapons the property can hold
 					},
 				},
               			robbing = {
@@ -1671,7 +1671,7 @@ properties = {
 					max = {
 						cash = 10000, --Max cash the property can hold
 						dirty = 50000, --Max marked bills the property can hold
-						weapons = 3, --Max weapons the property can hold
+						weapons = 16, --Max weapons the property can hold
 					},
 				},
               			robbing = {
@@ -1702,7 +1702,7 @@ properties = {
 					max = {
 						cash = 10000, --Max cash the property can hold
 						dirty = 50000, --Max marked bills the property can hold
-						weapons = 3, --Max weapons the property can hold
+						weapons = 4, --Max weapons the property can hold
 					},
 				},
               			robbing = {
@@ -1733,7 +1733,7 @@ properties = {
 					max = {
 						cash = 10000, --Max cash the property can hold
 						dirty = 50000, --Max marked bills the property can hold
-						weapons = 3, --Max weapons the property can hold
+						weapons = 4, --Max weapons the property can hold
 					},
 				},
               			robbing = {
@@ -1764,7 +1764,7 @@ properties = {
 					max = {
 						cash = 10000, --Max cash the property can hold
 						dirty = 50000, -- Mark marked bills the property can hold
-						weapons = 5, --Max weapons the property can hold
+						weapons = 16, --Max weapons the property can hold
 					},
 				},
               			robbing = {
@@ -1795,10 +1795,1313 @@ properties = {
 					max = {
 						cash = 10000, --Max cash the property can hold
 						dirty = 50000, -- Mark marked bills the property can hold
-						weapons = 5, --Max weapons the property can hold
+						weapons = 16, --Max weapons the property can hold
 					},
 				},
               			robbing = {
+					cooldown = 2700, --Robbery cooldown time in seconds
+					last_robbed = 0, --Default (don't touch)
+					being_robbed = false, --Default (don't touch)
+					time = 300, --The total time the robber has to hack the vault
+					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+				},
+				expire = 1 --Default (don't touch)
+			},
+      			[59] = {
+				property_name = "503 Carson Avenue Apt 7", -- Name of the property (used as the title of the menu)
+				locked = false, --Default (don't touch)
+				owner =  {
+					identifier = "no", --Default (don't touch)
+					char_id = 0, --Default (don't touch)
+					id = 0, --Default (don't touch)
+				},
+              			coordinates = {x = -132.39100646973, y = -1462.7392578125, z = 36.992134094238, h = 234.41467285156}, -- The location of the property
+				rent = 500, --How much it costs to rent the property (PER DAY)
+				storage = {
+					current = {
+						cash = 0, --Default (don't touch)
+						dirty = 0, --Default (don't touch)
+						weapons = {}, --Default (don't touch)
+					},
+					max = {
+						cash = 10000, --Max cash the property can hold
+						dirty = 50000, --Max marked bills the property can hold
+						weapons = 4, --Max weapons the property can hold
+					},
+				},
+				robbing = {
+					cooldown = 2700, --Robbery cooldown time in seconds
+					last_robbed = 0, --Default (don't touch)
+					being_robbed = false, --Default (don't touch)
+					time = 300, --The total time the robber has to hack the vault
+					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+				},
+				expire = 1 --Default (don't touch)
+
+			},
+			[60] = {
+				property_name = "501 Carson Avenue Apt 13", -- Name of the property (used as the title of the menu)
+				locked = false, --Default (don't touch)
+				owner =  {
+					identifier = "no", --Default (don't touch)
+					char_id = 0, --Default (don't touch)
+					id = 0, --Default (don't touch)
+				},
+              			coordinates = {x = -19.607872009277, y = -1550.8292236328, z = 33.821388244629, h = 43.553455352783}, -- The location of the property
+				rent = 500, --How much it costs to rent the property (PER DAY)
+				storage = {
+					current = {
+						cash = 0, --Default (don't touch)
+						dirty = 0, --Default (don't touch)
+						weapons = {}, --Default (don't touch)
+					},
+					max = {
+						cash = 10000, --Max cash the property can hold
+						dirty = 50000, --Max marked bills the property can hold
+						weapons = 4, --Max weapons the property can hold
+					},
+				},
+				robbing = {
+					cooldown = 2700, --Robbery cooldown time in seconds
+					last_robbed = 0, --Default (don't touch)
+					being_robbed = false, --Default (don't touch)
+					time = 300, --The total time the robber has to hack the vault
+					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+				},
+				expire = 1 --Default (don't touch)
+			},
+			[61] = {
+				property_name = "47 Forum Drive", -- Name of the property (used as the title of the menu)
+				locked = false, --Default (don't touch)
+				owner =  {
+					identifier = "no", --Default (don't touch)
+					char_id = 0, --Default (don't touch)
+					id = 0, --Default (don't touch)
+				},
+              			coordinates = {x = -64.129989624023, y = -1449.578125, z = 32.524906158447, h = 99.533142089844}, -- The location of the property
+				rent = 500, --How much it costs to rent the property (PER DAY)
+				storage = {
+					current = {
+						cash = 0, --Default (don't touch)
+						dirty = 0, --Default (don't touch)
+						weapons = {}, --Default (don't touch)
+					},
+					max = {
+						cash = 10000, --Max cash the property can hold
+						dirty = 50000, --Max marked bills the property can hold
+						weapons = 4, --Max weapons the property can hold
+					},
+				},
+				robbing = {
+					cooldown = 2700, --Robbery cooldown time in seconds
+					last_robbed = 0, --Default (don't touch)
+					being_robbed = false, --Default (don't touch)
+					time = 300, --The total time the robber has to hack the vault
+					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+				},
+				expire = 1 --Default (don't touch)
+			},
+			[62] = {
+				property_name = "207 Grove Street", -- Name of the property (used as the title of the menu)
+				locked = false, --Default (don't touch)
+				owner =  {
+					identifier = "no", --Default (don't touch)
+					char_id = 0, --Default (don't touch)
+					id = 0, --Default (don't touch)
+				},
+              			coordinates = {x = 126.75737762451, y = -1929.7243652344, z = 21.382423400879, h = 206.49331665039}, -- The location of the property
+				rent = 500, --How much it costs to rent the property (PER DAY)
+				storage = {
+					current = {
+						cash = 0, --Default (don't touch)
+						dirty = 0, --Default (don't touch)
+						weapons = {}, --Default (don't touch)
+					},
+					max = {
+						cash = 10000, --Max cash the property can hold
+						dirty = 50000, --Max marked bills the property can hold
+						weapons = 4, --Max weapons the property can hold
+					},
+				},
+				robbing = {
+					cooldown = 2700, --Robbery cooldown time in seconds
+					last_robbed = 0, --Default (don't touch)
+					being_robbed = false, --Default (don't touch)
+					time = 300, --The total time the robber has to hack the vault
+					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+				},
+				expire = 1 --Default (don't touch)
+			},
+			[63] = {
+				property_name = "205 Grove Street", -- Name of the property (used as the title of the menu)
+				locked = false, --Default (don't touch)
+				owner =  {
+					identifier = "no", --Default (don't touch)
+					char_id = 0, --Default (don't touch)
+					id = 0, --Default (don't touch)
+				},
+              			coordinates = {x = 85.529296875, y = -1959.4388427734, z = 21.121671676636, h = 230.58880615234}, -- The location of the property
+				rent = 500, --How much it costs to rent the property (PER DAY)
+				storage = {
+					current = {
+						cash = 0, --Default (don't touch)
+						dirty = 0, --Default (don't touch)
+						weapons = {}, --Default (don't touch)
+					},
+					max = {
+						cash = 10000, --Max cash the property can hold
+						dirty = 50000, --Max marked bills the property can hold
+						weapons = 4, --Max weapons the property can hold
+					},
+				},
+				robbing = {
+					cooldown = 2700, --Robbery cooldown time in seconds
+					last_robbed = 0, --Default (don't touch)
+					being_robbed = false, --Default (don't touch)
+					time = 300, --The total time the robber has to hack the vault
+					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+				},
+				expire = 1 --Default (don't touch)
+			},
+			[64] = {
+				property_name = "3507 Didion Drive", -- Name of the property (used as the title of the menu)
+				locked = false, --Default (don't touch)
+				owner =  {
+					identifier = "no", --Default (don't touch)
+					char_id = 0, --Default (don't touch)
+					id = 0, --Default (don't touch)
+				},
+              			coordinates = {x = -371.76879882813, y = 343.6799621582, z = 109.94268798828, h = 1.45365691185}, -- The location of the property
+				rent = 2000, --How much it costs to rent the property (PER DAY)
+				storage = {
+					current = {
+						cash = 0, --Default (don't touch)
+						dirty = 0, --Default (don't touch)
+						weapons = {}, --Default (don't touch)
+					},
+					max = {
+						cash = 10000, --Max cash the property can hold
+						dirty = 50000, --Max marked bills the property can hold
+						weapons = 16, --Max weapons the property can hold
+					},
+				},
+				robbing = {
+					cooldown = 2700, --Robbery cooldown time in seconds
+					last_robbed = 0, --Default (don't touch)
+					being_robbed = false, --Default (don't touch)
+					time = 300, --The total time the robber has to hack the vault
+					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+				},
+				expire = 1 --Default (don't touch)
+			},
+			[65] = {
+				property_name = "6085 North Milton Road", -- Name of the property (used as the title of the menu)
+				locked = false, --Default (don't touch)
+				owner =  {
+					identifier = "no", --Default (don't touch)
+					char_id = 0, --Default (don't touch)
+					id = 0, --Default (don't touch)
+				},
+              			coordinates = {x = -658.56628417969, y = 886.91680908203, z = 229.24890136719, h = 185.53053283691}, -- The location of the property
+				rent = 2000, --How much it costs to rent the property (PER DAY)
+				storage = {
+					current = {
+						cash = 0, --Default (don't touch)
+						dirty = 0, --Default (don't touch)
+						weapons = {}, --Default (don't touch)
+					},
+					max = {
+						cash = 10000, --Max cash the property can hold
+						dirty = 50000, --Max marked bills the property can hold
+						weapons = 16, --Max weapons the property can hold
+					},
+				},
+				robbing = {
+					cooldown = 2700, --Robbery cooldown time in seconds
+					last_robbed = 0, --Default (don't touch)
+					being_robbed = false, --Default (don't touch)
+					time = 300, --The total time the robber has to hack the vault
+					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+				},
+				expire = 1 --Default (don't touch)
+			},
+			[66] = {
+				property_name = "1220 Sam Austin Drive", -- Name of the property (used as the title of the menu)
+				locked = false, --Default (don't touch)
+				owner =  {
+					identifier = "no", --Default (don't touch)
+					char_id = 0, --Default (don't touch)
+					id = 0, --Default (don't touch)
+				},
+              			coordinates = {x = -1464.7447509766, y = -33.984531402588, z = 55.050327301025, h = 130.24604797363}, -- The location of the property
+				rent = 2000, --How much it costs to rent the property (PER DAY)
+				storage = {
+					current = {
+						cash = 0, --Default (don't touch)
+						dirty = 0, --Default (don't touch)
+						weapons = {}, --Default (don't touch)
+					},
+					max = {
+						cash = 10000, --Max cash the property can hold
+						dirty = 50000, --Max marked bills the property can hold
+						weapons = 16, --Max weapons the property can hold
+					},
+				},
+				robbing = {
+					cooldown = 2700, --Robbery cooldown time in seconds
+					last_robbed = 0, --Default (don't touch)
+					being_robbed = false, --Default (don't touch)
+					time = 300, --The total time the robber has to hack the vault
+					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+				},
+				expire = 1 --Default (don't touch)
+			},
+			[67] = {
+				property_name = "4420 Lake Vinewood Estates", -- Name of the property (used as the title of the menu)
+				locked = false, --Default (don't touch)
+				owner =  {
+					identifier = "no", --Default (don't touch)
+					char_id = 0, --Default (don't touch)
+					id = 0, --Default (don't touch)
+				},
+              			coordinates = {x = -168.10064697266, y = 916.34545898438, z = 235.6555480957, h = 224.07659912109}, -- The location of the property
+				rent = 2000, --How much it costs to rent the property (PER DAY)
+				storage = {
+					current = {
+						cash = 0, --Default (don't touch)
+						dirty = 0, --Default (don't touch)
+						weapons = {}, --Default (don't touch)
+					},
+					max = {
+						cash = 10000, --Max cash the property can hold
+						dirty = 50000, --Max marked bills the property can hold
+						weapons = 16, --Max weapons the property can hold
+					},
+				},
+				robbing = {
+					cooldown = 2700, --Robbery cooldown time in seconds
+					last_robbed = 0, --Default (don't touch)
+					being_robbed = false, --Default (don't touch)
+					time = 300, --The total time the robber has to hack the vault
+					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+				},
+				expire = 1 --Default (don't touch)
+			},
+			[68] = {
+				property_name = "1380 South Mo Milton Drive", -- Name of the property (used as the title of the menu)
+				locked = false, --Default (don't touch)
+				owner =  {
+					identifier = "no", --Default (don't touch)
+					char_id = 0, --Default (don't touch)
+					id = 0, --Default (don't touch)
+				},
+              			coordinates = {x = -881.65075683594, y = 363.97253417969, z = 85.362693786621, h = 230.74356079102}, -- The location of the property
+				rent = 2000, --How much it costs to rent the property (PER DAY)
+				storage = {
+					current = {
+						cash = 0, --Default (don't touch)
+						dirty = 0, --Default (don't touch)
+						weapons = {}, --Default (don't touch)
+					},
+					max = {
+						cash = 10000, --Max cash the property can hold
+						dirty = 50000, --Max marked bills the property can hold
+						weapons = 16, --Max weapons the property can hold
+					},
+				},
+				robbing = {
+					cooldown = 2700, --Robbery cooldown time in seconds
+					last_robbed = 0, --Default (don't touch)
+					being_robbed = false, --Default (don't touch)
+					time = 300, --The total time the robber has to hack the vault
+					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+				},
+				expire = 1 --Default (don't touch)
+			},
+			[69] = {
+				property_name = "6442 Buen Vino Road", -- Name of the property (used as the title of the menu)
+				locked = false, --Default (don't touch)
+				owner =  {
+					identifier = "no", --Default (don't touch)
+					char_id = 0, --Default (don't touch)
+					id = 0, --Default (don't touch)
+				},
+              			coordinates = {x = -2587.7463378906, y = 1911.298828125, z = 167.49890136719, h = 184.92570495605}, -- The location of the property
+				rent = 2000, --How much it costs to rent the property (PER DAY)
+				storage = {
+					current = {
+						cash = 0, --Default (don't touch)
+						dirty = 0, --Default (don't touch)
+						weapons = {}, --Default (don't touch)
+					},
+					max = {
+						cash = 10000, --Max cash the property can hold
+						dirty = 50000, --Max marked bills the property can hold
+						weapons = 16, --Max weapons the property can hold
+					},
+				},
+				robbing = {
+					cooldown = 2700, --Robbery cooldown time in seconds
+					last_robbed = 0, --Default (don't touch)
+					being_robbed = false, --Default (don't touch)
+					time = 300, --The total time the robber has to hack the vault
+					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+				},
+				expire = 1 --Default (don't touch)
+			},
+			[70] = {
+				property_name = "1350 Inseno Road", -- Name of the property (used as the title of the menu)
+				locked = false, --Default (don't touch)
+				owner =  {
+					identifier = "no", --Default (don't touch)
+					char_id = 0, --Default (don't touch)
+					id = 0, --Default (don't touch)
+				},
+              			coordinates = {x = -3059.2497558594, y = 454.14767456055, z = 6.3550028800964, h = 152.07705688477}, -- The location of the property
+				rent = 1000, --How much it costs to rent the property (PER DAY)
+				storage = {
+					current = {
+						cash = 0, --Default (don't touch)
+						dirty = 0, --Default (don't touch)
+						weapons = {}, --Default (don't touch)
+					},
+					max = {
+						cash = 10000, --Max cash the property can hold
+						dirty = 50000, --Max marked bills the property can hold
+						weapons = 8, --Max weapons the property can hold
+					},
+				},
+				robbing = {
+					cooldown = 2700, --Robbery cooldown time in seconds
+					last_robbed = 0, --Default (don't touch)
+					being_robbed = false, --Default (don't touch)
+					time = 300, --The total time the robber has to hack the vault
+					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+				},
+				expire = 1 --Default (don't touch)
+			},
+			[71] = {
+				property_name = "1520 Inseno Road", -- Name of the property (used as the title of the menu)
+				locked = false, --Default (don't touch)
+				owner =  {
+					identifier = "no", --Default (don't touch)
+					char_id = 0, --Default (don't touch)
+					id = 0, --Default (don't touch)
+				},
+              			coordinates = {x = -3107.5363769531, y = 718.90008544922, z = 20.646457672119, h = 100.18392181396}, -- The location of the property
+				rent = 1000, --How much it costs to rent the property (PER DAY)
+				storage = {
+					current = {
+						cash = 0, --Default (don't touch)
+						dirty = 0, --Default (don't touch)
+						weapons = {}, --Default (don't touch)
+					},
+					max = {
+						cash = 10000, --Max cash the property can hold
+						dirty = 50000, --Max marked bills the property can hold
+						weapons = 8, --Max weapons the property can hold
+					},
+				},
+				robbing = {
+					cooldown = 2700, --Robbery cooldown time in seconds
+					last_robbed = 0, --Default (don't touch)
+					being_robbed = false, --Default (don't touch)
+					time = 300, --The total time the robber has to hack the vault
+					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+				},
+				expire = 1 --Default (don't touch)
+			},
+			[72] = {
+				property_name = "2642 Barbareno Road", -- Name of the property (used as the title of the menu)
+				locked = false, --Default (don't touch)
+				owner =  {
+					identifier = "no", --Default (don't touch)
+					char_id = 0, --Default (don't touch)
+					id = 0, --Default (don't touch)
+				},
+              			coordinates = {x = -3190.6044921875, y = 1297.5294189453, z = 19.06739616394, h = 63.504241943359}, -- The location of the property
+				rent = 1000, --How much it costs to rent the property (PER DAY)
+				storage = {
+					current = {
+						cash = 0, --Default (don't touch)
+						dirty = 0, --Default (don't touch)
+						weapons = {}, --Default (don't touch)
+					},
+					max = {
+						cash = 10000, --Max cash the property can hold
+						dirty = 50000, --Max marked bills the property can hold
+						weapons = 8, --Max weapons the property can hold
+					},
+				},
+				robbing = {
+					cooldown = 2700, --Robbery cooldown time in seconds
+					last_robbed = 0, --Default (don't touch)
+					being_robbed = false, --Default (don't touch)
+					time = 300, --The total time the robber has to hack the vault
+					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+				},
+				expire = 1 --Default (don't touch)
+			},
+			[73] = {
+				property_name = "4756 Route 68", -- Name of the property (used as the title of the menu)
+				locked = false, --Default (don't touch)
+				owner =  {
+					identifier = "no", --Default (don't touch)
+					char_id = 0, --Default (don't touch)
+					id = 0, --Default (don't touch)
+				},
+              			coordinates = {x = 471.25119018555, y = 2607.8793945313, z = 44.477191925049, h = 7.213906288147}, -- The location of the property
+				rent = 1000, --How much it costs to rent the property (PER DAY)
+				storage = {
+					current = {
+						cash = 0, --Default (don't touch)
+						dirty = 0, --Default (don't touch)
+						weapons = {}, --Default (don't touch)
+					},
+					max = {
+						cash = 10000, --Max cash the property can hold
+						dirty = 50000, --Max marked bills the property can hold
+						weapons = 8, --Max weapons the property can hold
+					},
+				},
+				robbing = {
+					cooldown = 2700, --Robbery cooldown time in seconds
+					last_robbed = 0, --Default (don't touch)
+					being_robbed = false, --Default (don't touch)
+					time = 300, --The total time the robber has to hack the vault
+					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+				},
+				expire = 1 --Default (don't touch)
+			},
+			[74] = {
+				property_name = "7688 Route 68", -- Name of the property (used as the title of the menu)
+				locked = false, --Default (don't touch)
+				owner =  {
+					identifier = "no", --Default (don't touch)
+					char_id = 0, --Default (don't touch)
+					id = 0, --Default (don't touch)
+				},
+              			coordinates = {x = 858.8984375, y = 2876.841796875, z = 57.982616424561, h = 1.5242408514023}, -- The location of the property
+				rent = 500, --How much it costs to rent the property (PER DAY)
+				storage = {
+					current = {
+						cash = 0, --Default (don't touch)
+						dirty = 0, --Default (don't touch)
+						weapons = {}, --Default (don't touch)
+					},
+					max = {
+						cash = 10000, --Max cash the property can hold
+						dirty = 50000, --Max marked bills the property can hold
+						weapons = 4, --Max weapons the property can hold
+					},
+				},
+				robbing = {
+					cooldown = 2700, --Robbery cooldown time in seconds
+					last_robbed = 0, --Default (don't touch)
+					being_robbed = false, --Default (don't touch)
+					time = 300, --The total time the robber has to hack the vault
+					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+				},
+				expire = 1 --Default (don't touch)
+			},
+			[75] = {
+				property_name = "6444 Senora Road", -- Name of the property (used as the title of the menu)
+				locked = false, --Default (don't touch)
+				owner =  {
+					identifier = "no", --Default (don't touch)
+					char_id = 0, --Default (don't touch)
+					id = 0, --Default (don't touch)
+				},
+              			coordinates = {x = 1535.7348632813, y = 2232.0788574219, z = 77.699073791504, h = 263.03094482422}, -- The location of the property
+				rent = 1500, --How much it costs to rent the property (PER DAY)
+				storage = {
+					current = {
+						cash = 0, --Default (don't touch)
+						dirty = 0, --Default (don't touch)
+						weapons = {}, --Default (don't touch)
+					},
+					max = {
+						cash = 10000, --Max cash the property can hold
+						dirty = 50000, --Max marked bills the property can hold
+						weapons = 12, --Max weapons the property can hold
+					},
+				},
+				robbing = {
+					cooldown = 2700, --Robbery cooldown time in seconds
+					last_robbed = 0, --Default (don't touch)
+					being_robbed = false, --Default (don't touch)
+					time = 300, --The total time the robber has to hack the vault
+					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+				},
+				expire = 1 --Default (don't touch)
+			},
+			[76] = {
+				property_name = "1920 East Joshua Road", -- Name of the property (used as the title of the menu)
+				locked = false, --Default (don't touch)
+				owner =  {
+					identifier = "no", --Default (don't touch)
+					char_id = 0, --Default (don't touch)
+					id = 0, --Default (don't touch)
+				},
+              			coordinates = {x = 2639.5302734375, y = 4246.3354492188, z = 44.753509521484, h = 38.061485290527}, -- The location of the property
+				rent = 500, --How much it costs to rent the property (PER DAY)
+				storage = {
+					current = {
+						cash = 0, --Default (don't touch)
+						dirty = 0, --Default (don't touch)
+						weapons = {}, --Default (don't touch)
+					},
+					max = {
+						cash = 10000, --Max cash the property can hold
+						dirty = 50000, --Max marked bills the property can hold
+						weapons = 4, --Max weapons the property can hold
+					},
+				},
+				robbing = {
+					cooldown = 2700, --Robbery cooldown time in seconds
+					last_robbed = 0, --Default (don't touch)
+					being_robbed = false, --Default (don't touch)
+					time = 300, --The total time the robber has to hack the vault
+					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+				},
+				expire = 1 --Default (don't touch)
+			},
+			[77] = {
+				property_name = "1100 Paleto Boulevard", -- Name of the property (used as the title of the menu)
+				locked = false, --Default (don't touch)
+				owner =  {
+					identifier = "no", --Default (don't touch)
+					char_id = 0, --Default (don't touch)
+					id = 0, --Default (don't touch)
+				},
+              			coordinates = {x = 25.744293212891, y = 6602.3432617188, z = 32.470455169678, h = 128.95611572266}, -- The location of the property
+				rent = 500, --How much it costs to rent the property (PER DAY)
+				storage = {
+					current = {
+						cash = 0, --Default (don't touch)
+						dirty = 0, --Default (don't touch)
+						weapons = {}, --Default (don't touch)
+					},
+					max = {
+						cash = 10000, --Max cash the property can hold
+						dirty = 50000, --Max marked bills the property can hold
+						weapons = 4, --Max weapons the property can hold
+					},
+				},
+				robbing = {
+					cooldown = 2700, --Robbery cooldown time in seconds
+					last_robbed = 0, --Default (don't touch)
+					being_robbed = false, --Default (don't touch)
+					time = 300, --The total time the robber has to hack the vault
+					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+				},
+				expire = 1 --Default (don't touch)
+			},
+			[78] = {
+				property_name = "1450 Procopio Drive", -- Name of the property (used as the title of the menu)
+				locked = false, --Default (don't touch)
+				owner =  {
+					identifier = "no", --Default (don't touch)
+					char_id = 0, --Default (don't touch)
+					id = 0, --Default (don't touch)
+				},
+              			coordinates = {x = -407.03759765625, y = 6313.8188476563, z = 28.942161560059, h = 36.930152893066}, -- The location of the property
+				rent = 1000, --How much it costs to rent the property (PER DAY)
+				storage = {
+					current = {
+						cash = 0, --Default (don't touch)
+						dirty = 0, --Default (don't touch)
+						weapons = {}, --Default (don't touch)
+					},
+					max = {
+						cash = 10000, --Max cash the property can hold
+						dirty = 50000, --Max marked bills the property can hold
+						weapons = 8, --Max weapons the property can hold
+					},
+				},
+				robbing = {
+					cooldown = 2700, --Robbery cooldown time in seconds
+					last_robbed = 0, --Default (don't touch)
+					being_robbed = false, --Default (don't touch)
+					time = 300, --The total time the robber has to hack the vault
+					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+				},
+				expire = 1 --Default (don't touch)
+			},
+			[79] = {
+				property_name = "2872 Procopio Drive", -- Name of the property (used as the title of the menu)
+				locked = false, --Default (don't touch)
+				owner =  {
+					identifier = "no", --Default (don't touch)
+					char_id = 0, --Default (don't touch)
+					id = 0, --Default (don't touch)
+				},
+              			coordinates = {x = -14.911129951477, y = 6557.7412109375, z = 33.240463256836, h = 134.61749267578}, -- The location of the property
+				rent = 500, --How much it costs to rent the property (PER DAY)
+				storage = {
+					current = {
+						cash = 0, --Default (don't touch)
+						dirty = 0, --Default (don't touch)
+						weapons = {}, --Default (don't touch)
+					},
+					max = {
+						cash = 10000, --Max cash the property can hold
+						dirty = 50000, --Max marked bills the property can hold
+						weapons = 4, --Max weapons the property can hold
+					},
+				},
+				robbing = {
+					cooldown = 2700, --Robbery cooldown time in seconds
+					last_robbed = 0, --Default (don't touch)
+					being_robbed = false, --Default (don't touch)
+					time = 300, --The total time the robber has to hack the vault
+					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+				},
+				expire = 1 --Default (don't touch)
+			},
+			[80] = {
+				property_name = "208 Fudge Lane", -- Name of the property (used as the title of the menu)
+				locked = false, --Default (don't touch)
+				owner =  {
+					identifier = "no", --Default (don't touch)
+					char_id = 0, --Default (don't touch)
+					id = 0, --Default (don't touch)
+				},
+              			coordinates = {x = 1360.5001220703, y = -1555.7717285156, z = 56.341423034668, h = 194.07998657227}, -- The location of the property
+				rent = 500, --How much it costs to rent the property (PER DAY)
+				storage = {
+					current = {
+						cash = 0, --Default (don't touch)
+						dirty = 0, --Default (don't touch)
+						weapons = {}, --Default (don't touch)
+					},
+					max = {
+						cash = 10000, --Max cash the property can hold
+						dirty = 50000, --Max marked bills the property can hold
+						weapons = 4, --Max weapons the property can hold
+					},
+				},
+				robbing = {
+					cooldown = 2700, --Robbery cooldown time in seconds
+					last_robbed = 0, --Default (don't touch)
+					being_robbed = false, --Default (don't touch)
+					time = 300, --The total time the robber has to hack the vault
+					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+				},
+				expire = 1 --Default (don't touch)
+			},
+			[81] = {
+				property_name = "219 Fudge Lane", -- Name of the property (used as the title of the menu)
+				locked = false, --Default (don't touch)
+				owner =  {
+					identifier = "no", --Default (don't touch)
+					char_id = 0, --Default (don't touch)
+					id = 0, --Default (don't touch)
+				},
+              			coordinates = {x = 1411.6381835938, y = -1490.7341308594, z = 60.657409667969, h = 306.6891784668}, -- The location of the property
+				rent = 500, --How much it costs to rent the property (PER DAY)
+				storage = {
+					current = {
+						cash = 0, --Default (don't touch)
+						dirty = 0, --Default (don't touch)
+						weapons = {}, --Default (don't touch)
+					},
+					max = {
+						cash = 10000, --Max cash the property can hold
+						dirty = 50000, --Max marked bills the property can hold
+						weapons = 4, --Max weapons the property can hold
+					},
+				},
+				robbing = {
+					cooldown = 2700, --Robbery cooldown time in seconds
+					last_robbed = 0, --Default (don't touch)
+					being_robbed = false, --Default (don't touch)
+					time = 300, --The total time the robber has to hack the vault
+					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+				},
+				expire = 1 --Default (don't touch)
+			},
+			[82] = {
+				property_name = "106 Fudge Lane", -- Name of the property (used as the title of the menu)
+				locked = false, --Default (don't touch)
+				owner =  {
+					identifier = "no", --Default (don't touch)
+					char_id = 0, --Default (don't touch)
+					id = 0, --Default (don't touch)
+				},
+              			coordinates = {x = 1261.3873291016, y = -1616.44140625, z = 54.742874145508, h = 206.98286437988}, -- The location of the property
+				rent = 500, --How much it costs to rent the property (PER DAY)
+				storage = {
+					current = {
+						cash = 0, --Default (don't touch)
+						dirty = 0, --Default (don't touch)
+						weapons = {}, --Default (don't touch)
+					},
+					max = {
+						cash = 10000, --Max cash the property can hold
+						dirty = 50000, --Max marked bills the property can hold
+						weapons = 4, --Max weapons the property can hold
+					},
+				},
+				robbing = {
+					cooldown = 2700, --Robbery cooldown time in seconds
+					last_robbed = 0, --Default (don't touch)
+					being_robbed = false, --Default (don't touch)
+					time = 300, --The total time the robber has to hack the vault
+					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+				},
+				expire = 1 --Default (don't touch)
+			},
+			[83] = {
+				property_name = "103 Fudge Lane", -- Name of the property (used as the title of the menu)
+				locked = false, --Default (don't touch)
+				owner =  {
+					identifier = "no", --Default (don't touch)
+					char_id = 0, --Default (don't touch)
+					id = 0, --Default (don't touch)
+				},
+              			coordinates = {x = 1210.6195068359, y = -1606.9620361328, z = 50.736507415771, h = 33.236686706543}, -- The location of the property
+				rent = 500, --How much it costs to rent the property (PER DAY)
+				storage = {
+					current = {
+						cash = 0, --Default (don't touch)
+						dirty = 0, --Default (don't touch)
+						weapons = {}, --Default (don't touch)
+					},
+					max = {
+						cash = 10000, --Max cash the property can hold
+						dirty = 50000, --Max marked bills the property can hold
+						weapons = 4, --Max weapons the property can hold
+					},
+				},
+				robbing = {
+					cooldown = 2700, --Robbery cooldown time in seconds
+					last_robbed = 0, --Default (don't touch)
+					being_robbed = false, --Default (don't touch)
+					time = 300, --The total time the robber has to hack the vault
+					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+				},
+				expire = 1 --Default (don't touch)
+			},
+			[84] = {
+				property_name = "16 Amarillo Vista", -- Name of the property (used as the title of the menu)
+				locked = false, --Default (don't touch)
+				owner =  {
+					identifier = "no", --Default (don't touch)
+					char_id = 0, --Default (don't touch)
+					id = 0, --Default (don't touch)
+				},
+              			coordinates = {x = 1259.2507324219, y = -1761.4506835938, z = 49.658252716064, h = 154.0729675293}, -- The location of the property
+				rent = 500, --How much it costs to rent the property (PER DAY)
+				storage = {
+					current = {
+						cash = 0, --Default (don't touch)
+						dirty = 0, --Default (don't touch)
+						weapons = {}, --Default (don't touch)
+					},
+					max = {
+						cash = 10000, --Max cash the property can hold
+						dirty = 50000, --Max marked bills the property can hold
+						weapons = 4, --Max weapons the property can hold
+					},
+				},
+				robbing = {
+					cooldown = 2700, --Robbery cooldown time in seconds
+					last_robbed = 0, --Default (don't touch)
+					being_robbed = false, --Default (don't touch)
+					time = 300, --The total time the robber has to hack the vault
+					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+				},
+				expire = 1 --Default (don't touch)
+			},
+			[85] = {
+				property_name = "36 Amarillo Vista", -- Name of the property (used as the title of the menu)
+				locked = false, --Default (don't touch)
+				owner =  {
+					identifier = "no", --Default (don't touch)
+					char_id = 0, --Default (don't touch)
+					id = 0, --Default (don't touch)
+				},
+              			coordinates = {x = 1365.4884033203, y = -1721.302734375, z = 65.634101867676, h = 185.66697692871}, -- The location of the property
+				rent = 500, --How much it costs to rent the property (PER DAY)
+				storage = {
+					current = {
+						cash = 0, --Default (don't touch)
+						dirty = 0, --Default (don't touch)
+						weapons = {}, --Default (don't touch)
+					},
+					max = {
+						cash = 10000, --Max cash the property can hold
+						dirty = 50000, --Max marked bills the property can hold
+						weapons = 4, --Max weapons the property can hold
+					},
+				},
+				robbing = {
+					cooldown = 2700, --Robbery cooldown time in seconds
+					last_robbed = 0, --Default (don't touch)
+					being_robbed = false, --Default (don't touch)
+					time = 300, --The total time the robber has to hack the vault
+					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+				},
+				expire = 1 --Default (don't touch)
+			},
+			[86] = {
+				property_name = "1722 Roy Lowenstein Blvd Apt 6", -- Name of the property (used as the title of the menu)
+				locked = false, --Default (don't touch)
+				owner =  {
+					identifier = "no", --Default (don't touch)
+					char_id = 0, --Default (don't touch)
+					id = 0, --Default (don't touch)
+				},
+              			coordinates = {x = 471.39886474609, y = -1561.8111572266, z = 32.792301177979, h = 48.319713592529}, -- The location of the property
+				rent = 500, --How much it costs to rent the property (PER DAY)
+				storage = {
+					current = {
+						cash = 0, --Default (don't touch)
+						dirty = 0, --Default (don't touch)
+						weapons = {}, --Default (don't touch)
+					},
+					max = {
+						cash = 10000, --Max cash the property can hold
+						dirty = 50000, --Max marked bills the property can hold
+						weapons = 4, --Max weapons the property can hold
+					},
+				},
+				robbing = {
+					cooldown = 2700, --Robbery cooldown time in seconds
+					last_robbed = 0, --Default (don't touch)
+					being_robbed = false, --Default (don't touch)
+					time = 300, --The total time the robber has to hack the vault
+					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+				},
+				expire = 1 --Default (don't touch)
+			}
+			[87] = {
+				property_name = "1722 Roy Lowenstein Blvd Apt 7", -- Name of the property (used as the title of the menu)
+				locked = false, --Default (don't touch)
+				owner =  {
+					identifier = "no", --Default (don't touch)
+					char_id = 0, --Default (don't touch)
+					id = 0, --Default (don't touch)
+				},
+              			coordinates = {x = 442.3971862793, y = -1569.4049072266, z = 32.792285919189, h = 138.60717773438}, -- The location of the property
+				rent = 500, --How much it costs to rent the property (PER DAY)
+				storage = {
+					current = {
+						cash = 0, --Default (don't touch)
+						dirty = 0, --Default (don't touch)
+						weapons = {}, --Default (don't touch)
+					},
+					max = {
+						cash = 10000, --Max cash the property can hold
+						dirty = 50000, --Max marked bills the property can hold
+						weapons = 4, --Max weapons the property can hold
+					},
+				},
+				robbing = {
+					cooldown = 2700, --Robbery cooldown time in seconds
+					last_robbed = 0, --Default (don't touch)
+					being_robbed = false, --Default (don't touch)
+					time = 300, --The total time the robber has to hack the vault
+					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+				},
+				expire = 1 --Default (don't touch)
+			},
+			[88] = {
+				property_name = "2520 Palomino Ave Apt 3", -- Name of the property (used as the title of the menu)
+				locked = false, --Default (don't touch)
+				owner =  {
+					identifier = "no", --Default (don't touch)
+					char_id = 0, --Default (don't touch)
+					id = 0, --Default (don't touch)
+				},
+              			coordinates = {x = -712.11029052734, y = -1028.6617431641, z = 16.424047470093, h = 121.3800201416}, -- The location of the property
+				rent = 1000, --How much it costs to rent the property (PER DAY)
+				storage = {
+					current = {
+						cash = 0, --Default (don't touch)
+						dirty = 0, --Default (don't touch)
+						weapons = {}, --Default (don't touch)
+					},
+					max = {
+						cash = 10000, --Max cash the property can hold
+						dirty = 50000, --Max marked bills the property can hold
+						weapons = 8, --Max weapons the property can hold
+					},
+				},
+				robbing = {
+					cooldown = 2700, --Robbery cooldown time in seconds
+					last_robbed = 0, --Default (don't touch)
+					being_robbed = false, --Default (don't touch)
+					time = 300, --The total time the robber has to hack the vault
+					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+				},
+				expire = 1 --Default (don't touch)
+			},
+			[89] = {
+				property_name = "2520 Palomino Ave Apt 2", -- Name of the property (used as the title of the menu)
+				locked = false, --Default (don't touch)
+				owner =  {
+					identifier = "no", --Default (don't touch)
+					char_id = 0, --Default (don't touch)
+					id = 0, --Default (don't touch)
+				},
+              			coordinates = {x = -699.21520996094, y = -1032.4124755859, z = 16.418918609619, h = 294.57928466797}, -- The location of the property
+				rent = 1000, --How much it costs to rent the property (PER DAY)
+				storage = {
+					current = {
+						cash = 0, --Default (don't touch)
+						dirty = 0, --Default (don't touch)
+						weapons = {}, --Default (don't touch)
+					},
+					max = {
+						cash = 10000, --Max cash the property can hold
+						dirty = 50000, --Max marked bills the property can hold
+						weapons = 8, --Max weapons the property can hold
+					},
+				},
+				robbing = {
+					cooldown = 2700, --Robbery cooldown time in seconds
+					last_robbed = 0, --Default (don't touch)
+					being_robbed = false, --Default (don't touch)
+					time = 300, --The total time the robber has to hack the vault
+					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+				},
+				expire = 1 --Default (don't touch)
+			},
+			[90] = {
+				property_name = "408 Ginger Street Apt", -- Name of the property (used as the title of the menu)
+				locked = false, --Default (don't touch)
+				owner =  {
+					identifier = "no", --Default (don't touch)
+					char_id = 0, --Default (don't touch)
+					id = 0, --Default (don't touch)
+				},
+              			coordinates = {x = -815.11804199219, y = -957.5654296875, z = 15.466663360596, h = 188.34242248535}, -- The location of the property
+				rent = 1000, --How much it costs to rent the property (PER DAY)
+				storage = {
+					current = {
+						cash = 0, --Default (don't touch)
+						dirty = 0, --Default (don't touch)
+						weapons = {}, --Default (don't touch)
+					},
+					max = {
+						cash = 10000, --Max cash the property can hold
+						dirty = 50000, --Max marked bills the property can hold
+						weapons = 8, --Max weapons the property can hold
+					},
+				},
+				robbing = {
+					cooldown = 2700, --Robbery cooldown time in seconds
+					last_robbed = 0, --Default (don't touch)
+					being_robbed = false, --Default (don't touch)
+					time = 300, --The total time the robber has to hack the vault
+					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+				},
+				expire = 1 --Default (don't touch)
+			},
+			[91] = {
+				property_name = "308 Invention Court", -- Name of the property (used as the title of the menu)
+				locked = false, --Default (don't touch)
+				owner =  {
+					identifier = "no", --Default (don't touch)
+					char_id = 0, --Default (don't touch)
+					id = 0, --Default (don't touch)
+				},
+              			coordinates = {x = -942.99798583984, y = -1075.6263427734, z = 2.745269536972, h = 26.929084777832}, -- The location of the property
+				rent = 1000, --How much it costs to rent the property (PER DAY)
+				storage = {
+					current = {
+						cash = 0, --Default (don't touch)
+						dirty = 0, --Default (don't touch)
+						weapons = {}, --Default (don't touch)
+					},
+					max = {
+						cash = 10000, --Max cash the property can hold
+						dirty = 50000, --Max marked bills the property can hold
+						weapons = 8, --Max weapons the property can hold
+					},
+				},
+				robbing = {
+					cooldown = 2700, --Robbery cooldown time in seconds
+					last_robbed = 0, --Default (don't touch)
+					being_robbed = false, --Default (don't touch)
+					time = 300, --The total time the robber has to hack the vault
+					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+				},
+				expire = 1 --Default (don't touch)
+			},
+			[92] = {
+				property_name = "303 Invention Court", -- Name of the property (used as the title of the menu)
+				locked = false, --Default (don't touch)
+				owner =  {
+					identifier = "no", --Default (don't touch)
+					char_id = 0, --Default (don't touch)
+					id = 0, --Default (don't touch)
+				},
+              			coordinates = {x = -991.61370849609, y = -1103.7797851563, z = 2.1503117084503, h = 24.974100112915}, -- The location of the property
+				rent = 1000, --How much it costs to rent the property (PER DAY)
+				storage = {
+					current = {
+						cash = 0, --Default (don't touch)
+						dirty = 0, --Default (don't touch)
+						weapons = {}, --Default (don't touch)
+					},
+					max = {
+						cash = 10000, --Max cash the property can hold
+						dirty = 50000, --Max marked bills the property can hold
+						weapons = 8, --Max weapons the property can hold
+					},
+				},
+				robbing = {
+					cooldown = 2700, --Robbery cooldown time in seconds
+					last_robbed = 0, --Default (don't touch)
+					being_robbed = false, --Default (don't touch)
+					time = 300, --The total time the robber has to hack the vault
+					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+				},
+				expire = 1 --Default (don't touch)
+			},
+			[93] = {
+				property_name = "205 Invention Court", -- Name of the property (used as the title of the menu)
+				locked = false, --Default (don't touch)
+				owner =  {
+					identifier = "no", --Default (don't touch)
+					char_id = 0, --Default (don't touch)
+					id = 0, --Default (don't touch)
+				},
+              			coordinates = {x = -1047.8273925781, y = -1123.2091064453, z = 2.1585984230042, h = 116.91257476807}, -- The location of the property
+				rent = 1000, --How much it costs to rent the property (PER DAY)
+				storage = {
+					current = {
+						cash = 0, --Default (don't touch)
+						dirty = 0, --Default (don't touch)
+						weapons = {}, --Default (don't touch)
+					},
+					max = {
+						cash = 10000, --Max cash the property can hold
+						dirty = 50000, --Max marked bills the property can hold
+						weapons = 8, --Max weapons the property can hold
+					},
+				},
+				robbing = {
+					cooldown = 2700, --Robbery cooldown time in seconds
+					last_robbed = 0, --Default (don't touch)
+					being_robbed = false, --Default (don't touch)
+					time = 300, --The total time the robber has to hack the vault
+					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+				},
+				expire = 1 --Default (don't touch)
+			},
+			[94] = {
+				property_name = "102 Imagination Court Apt 4", -- Name of the property (used as the title of the menu)
+				locked = false, --Default (don't touch)
+				owner =  {
+					identifier = "no", --Default (don't touch)
+					char_id = 0, --Default (don't touch)
+					id = 0, --Default (don't touch)
+				},
+              			coordinates = {x = -1160.9432373047, y = -1101.5782470703, z = 6.5313601493835, h = 202.93789672852}, -- The location of the property
+				rent = 500, --How much it costs to rent the property (PER DAY)
+				storage = {
+					current = {
+						cash = 0, --Default (don't touch)
+						dirty = 0, --Default (don't touch)
+						weapons = {}, --Default (don't touch)
+					},
+					max = {
+						cash = 10000, --Max cash the property can hold
+						dirty = 50000, --Max marked bills the property can hold
+						weapons = 4, --Max weapons the property can hold
+					},
+				},
+				robbing = {
+					cooldown = 2700, --Robbery cooldown time in seconds
+					last_robbed = 0, --Default (don't touch)
+					being_robbed = false, --Default (don't touch)
+					time = 300, --The total time the robber has to hack the vault
+					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+				},
+				expire = 1 --Default (don't touch)
+			},
+			[95] = {
+				property_name = "302 Imagination Court", -- Name of the property (used as the title of the menu)
+				locked = false, --Default (don't touch)
+				owner =  {
+					identifier = "no", --Default (don't touch)
+					char_id = 0, --Default (don't touch)
+					id = 0, --Default (don't touch)
+				},
+              			coordinates = {x = -1022.548828125, y = -1022.6267700195, z = 2.1503598690033, h = 210.671875}, -- The location of the property
+				rent = 1000, --How much it costs to rent the property (PER DAY)
+				storage = {
+					current = {
+						cash = 0, --Default (don't touch)
+						dirty = 0, --Default (don't touch)
+						weapons = {}, --Default (don't touch)
+					},
+					max = {
+						cash = 10000, --Max cash the property can hold
+						dirty = 50000, --Max marked bills the property can hold
+						weapons = 8, --Max weapons the property can hold
+					},
+				},
+				robbing = {
+					cooldown = 2700, --Robbery cooldown time in seconds
+					last_robbed = 0, --Default (don't touch)
+					being_robbed = false, --Default (don't touch)
+					time = 300, --The total time the robber has to hack the vault
+					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+				},
+				expire = 1 --Default (don't touch)
+			},
+			[96] = {
+				property_name = "4430 Lake Vinewood Estates", -- Name of the property (used as the title of the menu)
+				locked = false, --Default (don't touch)
+				owner =  {
+					identifier = "no", --Default (don't touch)
+					char_id = 0, --Default (don't touch)
+					id = 0, --Default (don't touch)
+				},
+              			coordinates = {x = -111.59775543213, y = 1000.1704101563, z = 235.75880432129, h = 195.96371459961}, -- The location of the property
+				rent = 2000, --How much it costs to rent the property (PER DAY)
+				storage = {
+					current = {
+						cash = 0, --Default (don't touch)
+						dirty = 0, --Default (don't touch)
+						weapons = {}, --Default (don't touch)
+					},
+					max = {
+						cash = 10000, --Max cash the property can hold
+						dirty = 50000, --Max marked bills the property can hold
+						weapons = 16, --Max weapons the property can hold
+					},
+				},
+				robbing = {
+					cooldown = 2700, --Robbery cooldown time in seconds
+					last_robbed = 0, --Default (don't touch)
+					being_robbed = false, --Default (don't touch)
+					time = 300, --The total time the robber has to hack the vault
+					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+				},
+				expire = 1 --Default (don't touch)
+			},
+			[97] = {
+				property_name = "108 Forum Drive Apt 4", -- Name of the property (used as the title of the menu)
+				locked = false, --Default (don't touch)
+				owner =  {
+					identifier = "no", --Default (don't touch)
+					char_id = 0, --Default (don't touch)
+					id = 0, --Default (don't touch)
+				},
+              			coordinates = {x = -191.87155151367, y = -1559.3280029297, z = 34.954601287842, h = 143.27642822266}, -- The location of the property
+				rent = 500, --How much it costs to rent the property (PER DAY)
+				storage = {
+					current = {
+						cash = 0, --Default (don't touch)
+						dirty = 0, --Default (don't touch)
+						weapons = {}, --Default (don't touch)
+					},
+					max = {
+						cash = 10000, --Max cash the property can hold
+						dirty = 50000, --Max marked bills the property can hold
+						weapons = 4, --Max weapons the property can hold
+					},
+				},
+				robbing = {
+					cooldown = 2700, --Robbery cooldown time in seconds
+					last_robbed = 0, --Default (don't touch)
+					being_robbed = false, --Default (don't touch)
+					time = 300, --The total time the robber has to hack the vault
+					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+				},
+				expire = 1 --Default (don't touch)
+			},
+			[98] = {
+				property_name = "207 Occupation Avenue Apt 3", -- Name of the property (used as the title of the menu)
+				locked = false, --Default (don't touch)
+				owner =  {
+					identifier = "no", --Default (don't touch)
+					char_id = 0, --Default (don't touch)
+					id = 0, --Default (don't touch)
+				},
+              			coordinates = {x = 142.86106872559, y = -280.38284301758, z = 50.449626922607, h = 251.34434509277}, -- The location of the property
+				rent = 1500, --How much it costs to rent the property (PER DAY)
+				storage = {
+					current = {
+						cash = 0, --Default (don't touch)
+						dirty = 0, --Default (don't touch)
+						weapons = {}, --Default (don't touch)
+					},
+					max = {
+						cash = 10000, --Max cash the property can hold
+						dirty = 50000, --Max marked bills the property can hold
+						weapons = 12, --Max weapons the property can hold
+					},
+				},
+				robbing = {
+					cooldown = 2700, --Robbery cooldown time in seconds
+					last_robbed = 0, --Default (don't touch)
+					being_robbed = false, --Default (don't touch)
+					time = 300, --The total time the robber has to hack the vault
+					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+				},
+				expire = 1 --Default (don't touch)
+			},
+			[99] = {
+				property_name = "103 Occupation Avenue Apt 2", -- Name of the property (used as the title of the menu)
+				locked = false, --Default (don't touch)
+				owner =  {
+					identifier = "no", --Default (don't touch)
+					char_id = 0, --Default (don't touch)
+					id = 0, --Default (don't touch)
+				},
+              			coordinates = {x = 98.019378662109, y = -255.47189331055, z = 47.416328430176, h = 157.43153381348}, -- The location of the property
+				rent = 1500, --How much it costs to rent the property (PER DAY)
+				storage = {
+					current = {
+						cash = 0, --Default (don't touch)
+						dirty = 0, --Default (don't touch)
+						weapons = {}, --Default (don't touch)
+					},
+					max = {
+						cash = 10000, --Max cash the property can hold
+						dirty = 50000, --Max marked bills the property can hold
+						weapons = 12, --Max weapons the property can hold
+					},
+				},
+				robbing = {
+					cooldown = 2700, --Robbery cooldown time in seconds
+					last_robbed = 0, --Default (don't touch)
+					being_robbed = false, --Default (don't touch)
+					time = 300, --The total time the robber has to hack the vault
+					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+				},
+				expire = 1 --Default (don't touch)
+			},
+			[100] = {
+				property_name = "202 Alta Place Apt 1", -- Name of the property (used as the title of the menu)
+				locked = false, --Default (don't touch)
+				owner =  {
+					identifier = "no", --Default (don't touch)
+					char_id = 0, --Default (don't touch)
+					id = 0, --Default (don't touch)
+				},
+              			coordinates = {x = 98.019378662109, y = -255.47189331055, z = 47.416328430176, h = 157.43153381348}, -- The location of the property
+				rent = 1500, --How much it costs to rent the property (PER DAY)
+				storage = {
+					current = {
+						cash = 0, --Default (don't touch)
+						dirty = 0, --Default (don't touch)
+						weapons = {}, --Default (don't touch)
+					},
+					max = {
+						cash = 10000, --Max cash the property can hold
+						dirty = 50000, --Max marked bills the property can hold
+						weapons = 12, --Max weapons the property can hold
+					},
+				},
+				robbing = {
 					cooldown = 2700, --Robbery cooldown time in seconds
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
