@@ -197,7 +197,7 @@ Blackmarket_Weapons = {
 	{Category = "Illegal", Items = {
         {Name = "Lockpick", Id=36, Cost = 0, Max = 10},
         {Name = "Hotwire kit", Id=46, Cost = 0, Max = 5},
-        {Name = "Body Armor", Id=39, Cost = 0, Max = 2},
+        {Name = "Body Armor", Id=39, Cost = 0, Max = 51},
         {Name = "Ammo Box | 9mm", Id=83, Cost = 0, Max = 51},
         {Name = "Ammo Box | .45mm", Id=84, Cost = 0, Max = 51},
         {Name = "Ammo Box | .50mm", Id=85, Cost = 0, Max = 51},

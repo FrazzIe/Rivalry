@@ -787,11 +787,7 @@ AddEventHandler("bmitem:buy", function(id, quantity)
 			local available_space = 100 - user_quantity
 			if user.get("dirty") >= (Store[id]*available_space) then
 				user.removeDirty(Store[id]*available_space)
-				if id ~= 39 then
-					TriggerEvent("inventory:add_server", source, id, available_space)
-				else
-					TriggerClientEvent("bm:armour", source)
-				end
+				TriggerEvent("inventory:add_server", source, id, available_space)
 				TriggerClientEvent("pNotify:SendNotification", source, {text = "Successfully purchased "..available_space.." "..itemlist[id].name.."(s)!",type = "error",queue = "left",timeout = 2500,layout = "bottomCenter"})
 			else
 				TriggerClientEvent("pNotify:SendNotification", source, {text = "Insufficient funds!",type = "error",queue = "left",timeout = 2500,layout = "bottomCenter"})
@@ -799,11 +795,7 @@ AddEventHandler("bmitem:buy", function(id, quantity)
 		else
 			if user.get("dirty") >= (Store[id]*tonumber(quantity)) then
 				user.removeDirty(Store[id]*tonumber(quantity))
-				if id ~= 39 then
-					TriggerEvent("inventory:add_server", source, id, tonumber(quantity))
-				else
-					TriggerClientEvent("bm:armour", source)
-				end
+				TriggerEvent("inventory:add_server", source, id, tonumber(quantity))
 				TriggerClientEvent("pNotify:SendNotification", source, {text = "Successfully purchased "..quantity.." "..itemlist[id].name.."(s)!",type = "error",queue = "left",timeout = 2500,layout = "bottomCenter"})
 			else
 				TriggerClientEvent("pNotify:SendNotification", source, {text = "Insufficient funds!",type = "error",queue = "left",timeout = 2500,layout = "bottomCenter"})
