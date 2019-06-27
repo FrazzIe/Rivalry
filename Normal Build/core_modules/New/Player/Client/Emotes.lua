@@ -33,7 +33,7 @@ WalkStyles = {
 		{Id = "sad", Name = "Sad", Clipset = "move_m@sad@a"},
 		{Id = "nonchalant", Name = "Non Chalant", Clipset = "MOVE_M@non_chalant"},
 		{Id = "sassy", Name = "Sassy", Clipset = "move_f@sassy"},
-		{Id = "business", Name = "Business", Clipset = "MOVE_M@BUISNESS@A"},
+		{Id = "business", Name = "Business", Clipset = "MOVE_M@BUSINESS@A"},
 		{Id = "casual1", Name = "Casual1", Clipset = "MOVE_M@CASUAL@A"},
 		{Id = "casual2", Name = "Casual2", Clipset = "MOVE_M@CASUAL@B"},
 		{Id = "casual3", Name = "Casual3", Clipset = "MOVE_M@CASUAL@C"},
