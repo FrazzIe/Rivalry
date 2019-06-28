@@ -388,7 +388,7 @@ Citizen.CreateThread(function()
             local hasWeapon, currentWeapon = GetCurrentPedWeapon(PlayerPed, 1)
             if currentWeapon ~= nil then
                 if IsPedArmed(PlayerPed, 7) then
-                	local Weaponstring = Weaponhashes[tostring(currentWeapon)]
+                	local Weaponstring = Weaponhashes[currentWeapon] or Weaponhashes[tostring(currentWeapon)]
                 	local Weaponhash = GetHashKey(Weaponstring)
                     if user_weapons[Weaponstring] then
                         if IsPedShooting(PlayerPed) then
