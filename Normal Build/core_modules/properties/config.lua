@@ -3087,7 +3087,7 @@ properties = {
 					char_id = 0, --Default (don't touch)
 					id = 0, --Default (don't touch)
 				},
-              			coordinates = {x = 98.019378662109, y = -255.47189331055, z = 47.416328430176, h = 157.43153381348}, -- The location of the property
+              			coordinates = {x = 202.22776794434, y = -133.30009460449, z = 63.494342803955, h = 343.13046264648}, -- The location of the property
 				rent = 1500, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
