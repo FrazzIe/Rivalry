@@ -171,7 +171,7 @@ Citizen.CreateThread(function()
 		local Player = PlayerPedId()
 		if IsPedSittingInAnyVehicle(Player) then
 			local Vehicle = GetVehiclePedIsIn(Player, false)
-			if not DecorExistOn(vehicle, "hotwire") and GetPedInVehicleSeat(Vehicle, -1) == Player and not IsVehicleOwned(GetVehicleNumberPlateText(Vehicle)) then
+			if not DecorGetBool(Vehicle, "hotwire") and GetPedInVehicleSeat(Vehicle, -1) == Player and not IsVehicleOwned(GetVehicleNumberPlateText(Vehicle)) then
 				DisplayHelpText("Press ~INPUT_CONTEXT~ to try and hotwire this vehicle, or use a hotwire kit from your inventory!")
 				if IsControlJustPressed(1, 51) then
 					TriggerEvent("Hotwire.Car", Player)

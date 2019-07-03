@@ -372,6 +372,7 @@ Citizen.CreateThread(function()
 											if WasInVehicle then
 												TriggerEvent("Robbing.Local.Keys", TargetPedVehicle)
 												TargetPedVehicle = nil
+												Notify("They have given you there car keys!", 3100)
 												WasInVehicle = false
 											end
 										else
@@ -379,6 +380,7 @@ Citizen.CreateThread(function()
 											if WasInVehicle then
 												TriggerEvent("Robbing.Local.Keys", TargetPedVehicle)
 												TargetPedVehicle = nil
+												Notify("They have given you there car keys!", 3100)
 												WasInVehicle = false
 											end
 										end
