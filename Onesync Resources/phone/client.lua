@@ -246,7 +246,7 @@ Citizen.CreateThread(function()
 				ScreenDrawPositionEnd()
 			end
 
-			if IsControlJustPressed(0, 288) and IsInputDisabled(2) then -- F1
+			if IsControlJustPressed(0, 288) and IsInputDisabled(2) and not IsControlPressed(0, 21) then -- F1
 				if not Phone.Call.Hold then
 					ClearPedTasks(PlayerPed)
 
