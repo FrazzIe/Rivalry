@@ -198,8 +198,8 @@ function activateMissionSystem()
     end
 
 
-    RegisterServerEvent('paramedic:paramedic:setService')
-    AddEventHandler('paramedic:paramedic:setService', function (isInService)
+    RegisterServerEvent('paramedic:setService')
+    AddEventHandler('paramedic:setService', function (isInService)
         local source = source
         if isInService then
             ms_addMedic(source)
