@@ -149,7 +149,7 @@ AddEventHandler("Hotwire.Car", function(Player)
 			TaskPlayAnim(Player,"mini@repair","fixing_a_player", 8.0, 0.0, -1, 1, 0, 0, 0, 0)
 			TriggerEvent("dispatch:lockpick")
 			Citizen.Wait(60000)
-			ClearPedTasksImmediately(PlayerPedId())
+			ClearPedTasks(PlayerPedId())
 			if GetRandomIntInRange(1, 101) >= 100 - ((hotwire_rates[VehicleClass] or 60)) then
 				Notify("Successfully hotwired!", 3100)
 				DecorSetBool(Vehicle, "hotwire", true)
