@@ -765,6 +765,7 @@ Citizen.CreateThread(function()
                                             vehicle_health = GetEntityHealth(veh),
                                             insurance = "true",
                                             claims = 1,
+                                            fuel = DecorGetFloat(veh, "_Fuel_Level")
                                         }
 
                                         for i = 0, 8 do

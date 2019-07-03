@@ -434,6 +434,7 @@ AddEventHandler("carshop:buy",function(data)
                     ["body_health"] = data.body_health,
                     ["insurance"] = data.insurance,
                     ["claims"] = data.claims,
+                    ["fuel"] = data.fuel,
                 }
             }, function(plate)
                 data.cost = cars[data.model]/2
@@ -521,6 +522,7 @@ AddEventHandler("carshop:buy",function(data)
                     ["body_health"] = data.body_health,
                     ["insurance"] = data.insurance,
                     ["claims"] = data.claims,
+                    ["fuel"] = data.fuel,
                 }
             }, function(plate)
                 data.cost = cars[data.model]/2

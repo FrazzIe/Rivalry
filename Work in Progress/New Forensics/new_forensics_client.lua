@@ -15,6 +15,7 @@ local ChosenEvidence = {
 	Firearms = {},
 	ControlledSubstances = {}
 }
+local EvidenceTaken = {}
 local EvidenceLocker = vector3(470.86749267578,-984.74786376953,30.689680099487)
 
 RegisterNetEvent('Forensics.Sync')
@@ -274,7 +275,7 @@ end)
 
 AddEventHandler("Locker.Take", function(Data)
 	if Data.type == "fingerprints" then
-		if Data.status == 0 then
+		if not EvidenceTaken[Data.id] then
 			table.insert(ChosenEvidence.Fingerprints, Data)
 			TriggerServerEvent("Locker.Take", Data)
 			Notify("Evidence Taken!", 2600)
@@ -282,7 +283,7 @@ AddEventHandler("Locker.Take", function(Data)
 			Notify("Evidence Missing!", 2600)
 		end
 	elseif Data.type == "ballistics" then
-		if Data.status == 0 then
+		if not EvidenceTaken[Data.id] then
 			table.insert(ChosenEvidence.Ballistics, Data)
 			TriggerServerEvent("Locker.Take", Data)
 			Notify("Evidence Taken!", 2600)
@@ -290,7 +291,7 @@ AddEventHandler("Locker.Take", function(Data)
 			Notify("Evidence Missing!", 2600)
 		end
 	elseif Data.type == "firearms" then
-		if Data.status == 0 then
+		if not EvidenceTaken[Data.id] then
 			table.insert(Collected_Firearms, Data)
 			TriggerServerEvent("Locker.Take", Data)
 			Notify("Evidence Taken!", 2600)
@@ -298,7 +299,7 @@ AddEventHandler("Locker.Take", function(Data)
 			Notify("Evidence Missing!", 2600)
 		end
 	elseif Data.type == "cds" then
-		if Data.status == 0 then
+		if not EvidenceTaken[Data.id] then
 			table.insert(ChosenEvidence.CDS, Data)
 			TriggerServerEvent("Locker.Take", Data)
 			Notify("Evidence Taken!", 2600)
@@ -346,6 +347,11 @@ AddEventHandler("Forensics.FingerPrint.Result", function(Result, Name)
 	elseif Result == "nomatch" then
 		Chat_Message("This fingerprint has no matches!", 255, 0, 0, true)
 	end
+end)
+
+RegisterNetEvent("Locker.TakeOutEvidence")
+AddEventHandler("Locker.TakeOutEvidence", function(Data)
+	EvidenceTaken[Data.id] = true
 end)
 
 function BulletCasingNearBy(PlayerPosition)
