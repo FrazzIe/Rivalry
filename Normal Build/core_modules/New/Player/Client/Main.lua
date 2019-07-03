@@ -275,115 +275,182 @@ function TypeOfWeapon(Weapon)
 	return false
 end
 
-local HasTriggered = false
-
 Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(0)
-		local PlayerPed = PlayerPedId()
-		local Aiming, TargetPed = GetEntityPlayerIsFreeAimingAt(PlayerId())
-		local PlayerPosition, TargetPedPosition = GetEntityCoords(PlayerPed, 0), GetEntityCoords(TargetPed, 0)
-		local PreviouslyRobbed = {}
-		local Dictionary, AnimationName, AnimationName2 = "random@arrests@busted", "enter", "idle_a"
-		RequestAnimDict(Dictionary)
-		while not HasAnimDictLoaded(Dictionary) do
-			Citizen.Wait(0)
-		end
-	 	if Aiming and TypeOfWeapon(GetSelectedPedWeapon(PlayerPed)) and not exports.policejob:getIsInService() and not IsPedShooting(PlayerPed) and not IsPedInAnyVehicle(PlayerPed, false) then
-	 		local Model = GetEntityModel(TargetPed)
-	  		if DoesEntityExist(TargetPed) and not IsEntityDead(TargetPed) and IsEntityAPed(TargetPed) and HasPlayerRecentlyRobbed(TargetPed, PreviouslyRobbed) and not IsPedAPlayer(TargetPed) and not IsPedAnAnimal(Model) then
-		  		if #(PlayerPosition - TargetPedPosition) < 5 then
-			  		TaskSetBlockingOfNonTemporaryEvents(TargetPed, true)
-			  		SetPedFleeAttributes(TargetPed, 0, 0)
-			  		SetPedCombatAttributes(TargetPed, 46, 1)
-			  		SetPedSeeingRange(TargetPed, 0.0)
-			  		SetPedHearingRange(TargetPed, 0.0)
-			  		SetPedAlertness(TargetPed, 0)
-			  		SetEntityAsMissionEntity(TargetPed, true, true)
-			  		if IsPedInAnyVehicle(TargetPed, 0) then
-			  			local Vehicle = GetVehiclePedIsIn(TargetPed)
-			  			TaskLeaveVehicle(TargetPed, Vehicle)
-			  			Citizen.Wait(3000)
-			  			if HasTriggered == false then
-			  				FreezeEntityPosition(TargetPed, true)
-			  				TaskPlayAnim(TargetPed, Dictionary, AnimationName2, 4.0, -4, -1, 1, 0, false, false, false)
-			  				HasTriggered = true
-			  			end
-			  			if #(PlayerPosition - TargetPedPosition) < 3 then
-				  			DisplayHelpText("Press ~INPUT_CONTEXT~ to rob!")
-				  			if IsControlJustPressed(1,51) then
-				  				TaskPlayAnim(TargetPed, Dictionary, AnimationName2, 4.0, -4, -1, 1, 0, false, false, false)
-				  				street, crossing = GetStreetNameAtCoord(PlayerPosition.x, PlayerPosition.y, PlayerPosition.z)
-				  				local Area = GetNameOfZone(PlayerPosition.x, PlayerPosition.y, PlayerPosition.z)
-					            if crossing ~= "" and crossing ~= nil then
-					                cross = "Unknown"
-					            else
-					            	cross = GetStreetNameFromHashKey(crossing)
-					            end
-				  				TriggerServerEvent("dispatch:ten-thirtytwo-r", {x = PlayerPosition.x, y = PlayerPosition.y, z = PlayerPosition.z}, GetStreetNameFromHashKey(street), cross, GetLabelText(Area))
-				  				Notify("You're robbing a mothafucka. Dont move and keep them at gunpoint until you get that lettuce!", 30000)
-				  				Citizen.Wait(30000)
-				  				PlayerPosition, TargetPedPosition = GetEntityCoords(PlayerPed, 0), GetEntityCoords(TargetPed, 0)
-				  				if #(PlayerPosition - TargetPedPosition) < 3 then
-					  				if getCops() <= 0 then 
-										TriggerServerEvent("Rob:Sucessful", false)
-									else
-										TriggerServerEvent("Rob:Sucessful", true)
-									end
-								else
-									Notify("You ran too far from the individual! So you didn't get payed!", 2500)
-								end
-				  				table.insert(PreviouslyRobbed, TargetPed)
-				  				TaskSetBlockingOfNonTemporaryEvents(TargetPed, false)
-				  				FreezeEntityPosition(TargetPed, false)
-				  				TaskReactAndFleePed(TargetPed, PlayerPed)
-				  				Citizen.Wait(30000)
-				  				HasTriggered = false
-				  				DeletePed(TargetPed)
-				  			end
-				  		end
-			  		else
-			  			if HasTriggered == false then
-			  				FreezeEntityPosition(TargetPed, true)
-		  					TaskPlayAnim(TargetPed, Dictionary, AnimationName2, 4.0, -4, -1, 1, 0, false, false, false)
-		  					HasTriggered = true
-		  				end
-			  			if #(PlayerPosition - TargetPedPosition) < 3 then
-				  			DisplayHelpText("Press ~INPUT_CONTEXT~ to rob!")
-				  			if IsControlJustPressed(1,51) then
-				  				TaskPlayAnim(TargetPed, Dictionary, AnimationName2, 4.0, -4, -1, 1, 0, false, false, false)
-				  				street, crossing = GetStreetNameAtCoord(PlayerPosition.x, PlayerPosition.y, PlayerPosition.z)
-				  				local Area = GetNameOfZone(PlayerPosition.x, PlayerPosition.y, PlayerPosition.z)
-					            if crossing ~= "" and crossing ~= nil then
-					                cross = "Unknown"
-					            else
-					            	cross = GetStreetNameFromHashKey(crossing)
-					            end
-				  				TriggerServerEvent("dispatch:ten-thirtytwo-r", {x = PlayerPosition.x, y = PlayerPosition.y, z = PlayerPosition.z}, GetStreetNameFromHashKey(street), cross, GetLabelText(Area))
-				  				Notify("You're robbing a mothafucka. Dont move and keep them at gunpoint until you get that lettuce!", 30000)
-				  				Citizen.Wait(30000)
-				  				PlayerPosition, TargetPedPosition = GetEntityCoords(PlayerPed, 0), GetEntityCoords(TargetPed, 0)
-				  				if #(PlayerPosition - TargetPedPosition) < 3 then
-					  				if getCops() <= 0 then 
-										TriggerServerEvent("Rob:Sucessful", false)
-									else
-										TriggerServerEvent("Rob:Sucessful", true)
-									end
-								else
-									Notify("You ran too far from the individual! So you didn't get payed!", 2500)
-								end
-				  				table.insert(PreviouslyRobbed, TargetPed)
-				  				TaskSetBlockingOfNonTemporaryEvents(TargetPed, false)
-				  				FreezeEntityPosition(TargetPed, false)
-				  				TaskReactAndFleePed(TargetPed, PlayerPed)
-				  				Citizen.Wait(30000)
-				  				HasTriggered = false
-				  				DeletePed(TargetPed)
-				  			end
+		if exports.policejob:getIsInService() then
+			local Player = PlayerPedId()
+			local Aiming, TargetPed = GetEntityPlayerIsFreeAimingAt(PlayerId())
+			local PlayerPosition, TargetPedPosition = GetEntityCoords(PlayerPed, 0), GetEntityCoords(TargetPed, 0)
+			if Aiming and TypeOfWeapon(GetSelectedPedWeapon(Player)) then
+				local Model = GetEntityModel(TargetPed)
+		  		if DoesEntityExist(TargetPed) and not IsEntityDead(TargetPed) and IsEntityAPed(TargetPed) and not IsPedAPlayer(TargetPed) and not IsPedAnAnimal(Model) then
+			  		if #(PlayerPosition - TargetPedPosition) < 5 then
+			  			TaskSetBlockingOfNonTemporaryEvents(TargetPed, true)
+				  		SetPedFleeAttributes(TargetPed, 0, 0)
+				  		SetPedCombatAttributes(TargetPed, 46, 1)
+				  		SetPedSeeingRange(TargetPed, 0.0)
+				  		SetPedHearingRange(TargetPed, 0.0)
+				  		SetPedAlertness(TargetPed, 0)
+				  		SetEntityAsMissionEntity(TargetPed, true, true)
+				  		if IsPedInAnyVehicle(TargetPed, 0) then
+				  			local Vehicle = GetVehiclePedIsIn(TargetPed)
+				  			TaskLeaveVehicle(TargetPed, Vehicle)
+				  			if #(PlayerPosition - TargetPedPosition) < 3 and not IsPedInAnyVehicle(TargetPed, false) then
+					  			DisplayHelpText("Press ~INPUT_CONTEXT~ to take keys!")
+					  			if IsControlJustPressed(1,51) then
+									TriggerEvent("Robbing.Local.Keys", Vehicle)
+					  				TaskSetBlockingOfNonTemporaryEvents(TargetPed, false)
+					  				TaskReactAndFleePed(TargetPed, PlayerPed)
+					  				Citizen.Wait(30000)
+					  				DeletePed(TargetPed)
+					  			end
+					  		end
 				  		end
 			  		end
+				end
+			end
+		end
+	end
+end)
+
+local HasTriggered = false
+local WasInVehicle, TargetPedVehicle = false, nil
+Citizen.CreateThread(function()
+	while true do
+		Citizen.Wait(0)
+		if not exports.policejob:getIsInService() then
+			local PlayerPed = PlayerPedId()
+			local Aiming, TargetPed = GetEntityPlayerIsFreeAimingAt(PlayerId())
+			local PlayerPosition, TargetPedPosition = GetEntityCoords(PlayerPed, 0), GetEntityCoords(TargetPed, 0)
+			local PreviouslyRobbed = {}
+			local Dictionary, AnimationName, AnimationName2 = "random@arrests@busted", "enter", "idle_a"
+			RequestAnimDict(Dictionary)
+			while not HasAnimDictLoaded(Dictionary) do
+				Citizen.Wait(0)
+			end
+		 	if Aiming and TypeOfWeapon(GetSelectedPedWeapon(PlayerPed)) and not IsPedShooting(PlayerPed) and not IsPedInAnyVehicle(PlayerPed, false) then
+		 		local Model = GetEntityModel(TargetPed)
+		  		if DoesEntityExist(TargetPed) and not IsEntityDead(TargetPed) and IsEntityAPed(TargetPed) and HasPlayerRecentlyRobbed(TargetPed, PreviouslyRobbed) and not IsPedAPlayer(TargetPed) and not IsPedAnAnimal(Model) then
+			  		if #(PlayerPosition - TargetPedPosition) < 5 then
+				  		TaskSetBlockingOfNonTemporaryEvents(TargetPed, true)
+				  		SetPedFleeAttributes(TargetPed, 0, 0)
+				  		SetPedCombatAttributes(TargetPed, 46, 1)
+				  		SetPedSeeingRange(TargetPed, 0.0)
+				  		SetPedHearingRange(TargetPed, 0.0)
+				  		SetPedAlertness(TargetPed, 0)
+				  		SetEntityAsMissionEntity(TargetPed, true, true)
+				  		if IsPedInAnyVehicle(TargetPed, 0) then
+				  			local Vehicle = GetVehiclePedIsIn(TargetPed)
+				  			WasInVehicle = true
+				  			TargetPedVehicle = Vehicle
+				  			TaskLeaveVehicle(TargetPed, Vehicle)
+				  			Citizen.Wait(3000)
+				  			if HasTriggered == false then
+				  				FreezeEntityPosition(TargetPed, true)
+				  				TaskPlayAnim(TargetPed, Dictionary, AnimationName2, 4.0, -4, -1, 1, 0, false, false, false)
+				  				HasTriggered = true
+				  			end
+				  			if #(PlayerPosition - TargetPedPosition) < 3 then
+					  			DisplayHelpText("Press ~INPUT_CONTEXT~ to rob!")
+					  			if IsControlJustPressed(1,51) then
+					  				TaskPlayAnim(TargetPed, Dictionary, AnimationName2, 4.0, -4, -1, 1, 0, false, false, false)
+					  				street, crossing = GetStreetNameAtCoord(PlayerPosition.x, PlayerPosition.y, PlayerPosition.z)
+					  				local Area = GetNameOfZone(PlayerPosition.x, PlayerPosition.y, PlayerPosition.z)
+						            if crossing ~= "" and crossing ~= nil then
+						                cross = "Unknown"
+						            else
+						            	cross = GetStreetNameFromHashKey(crossing)
+						            end
+					  				TriggerServerEvent("dispatch:ten-thirtytwo-r", {x = PlayerPosition.x, y = PlayerPosition.y, z = PlayerPosition.z}, GetStreetNameFromHashKey(street), cross, GetLabelText(Area))
+					  				Notify("You're robbing a mothafucka. Dont move and keep them at gunpoint until you get that lettuce!", 30000)
+					  				Citizen.Wait(30000)
+					  				PlayerPosition, TargetPedPosition = GetEntityCoords(PlayerPed, 0), GetEntityCoords(TargetPed, 0)
+					  				if #(PlayerPosition - TargetPedPosition) < 3 then
+						  				if getCops() <= 0 then 
+											TriggerServerEvent("Rob:Sucessful", false)
+											if WasInVehicle then
+												TriggerEvent("Robbing.Local.Keys", TargetPedVehicle)
+												TargetPedVehicle = nil
+												WasInVehicle = false
+											end
+										else
+											TriggerServerEvent("Rob:Sucessful", true)
+											if WasInVehicle then
+												TriggerEvent("Robbing.Local.Keys", TargetPedVehicle)
+												TargetPedVehicle = nil
+												WasInVehicle = false
+											end
+										end
+									else
+										Notify("You ran too far from the individual! So you didn't get payed!", 2500)
+									end
+					  				table.insert(PreviouslyRobbed, TargetPed)
+					  				TaskSetBlockingOfNonTemporaryEvents(TargetPed, false)
+					  				FreezeEntityPosition(TargetPed, false)
+					  				TaskReactAndFleePed(TargetPed, PlayerPed)
+					  				Citizen.Wait(30000)
+					  				HasTriggered = false
+					  				TargetPedVehicle = nil
+									WasInVehicle = false
+					  				DeletePed(TargetPed)
+					  			end
+					  		end
+				  		else
+				  			if HasTriggered == false then
+				  				FreezeEntityPosition(TargetPed, true)
+			  					TaskPlayAnim(TargetPed, Dictionary, AnimationName2, 4.0, -4, -1, 1, 0, false, false, false)
+			  					HasTriggered = true
+			  				end
+				  			if #(PlayerPosition - TargetPedPosition) < 3 then
+					  			DisplayHelpText("Press ~INPUT_CONTEXT~ to rob!")
+					  			if IsControlJustPressed(1,51) then
+					  				TaskPlayAnim(TargetPed, Dictionary, AnimationName2, 4.0, -4, -1, 1, 0, false, false, false)
+					  				street, crossing = GetStreetNameAtCoord(PlayerPosition.x, PlayerPosition.y, PlayerPosition.z)
+					  				local Area = GetNameOfZone(PlayerPosition.x, PlayerPosition.y, PlayerPosition.z)
+						            if crossing ~= "" and crossing ~= nil then
+						                cross = "Unknown"
+						            else
+						            	cross = GetStreetNameFromHashKey(crossing)
+						            end
+					  				TriggerServerEvent("dispatch:ten-thirtytwo-r", {x = PlayerPosition.x, y = PlayerPosition.y, z = PlayerPosition.z}, GetStreetNameFromHashKey(street), cross, GetLabelText(Area))
+					  				Notify("You're robbing a mothafucka. Dont move and keep them at gunpoint until you get that lettuce!", 30000)
+					  				Citizen.Wait(30000)
+					  				PlayerPosition, TargetPedPosition = GetEntityCoords(PlayerPed, 0), GetEntityCoords(TargetPed, 0)
+					  				if #(PlayerPosition - TargetPedPosition) < 3 then
+						  				if getCops() <= 0 then 
+											TriggerServerEvent("Rob:Sucessful", false)
+											if WasInVehicle then
+												TriggerEvent("Robbing.Local.Keys", TargetPedVehicle)
+												TargetPedVehicle = nil
+												WasInVehicle = false
+											end
+										else
+											TriggerServerEvent("Rob:Sucessful", true)
+											if WasInVehicle then
+												TriggerEvent("Robbing.Local.Keys", TargetPedVehicle)
+												TargetPedVehicle = nil
+												WasInVehicle = false
+											end
+										end
+									else
+										Notify("You ran too far from the individual! So you didn't get payed!", 2500)
+									end
+					  				table.insert(PreviouslyRobbed, TargetPed)
+					  				TaskSetBlockingOfNonTemporaryEvents(TargetPed, false)
+					  				FreezeEntityPosition(TargetPed, false)
+					  				TaskReactAndFleePed(TargetPed, PlayerPed)
+					  				Citizen.Wait(30000)
+					  				HasTriggered = false
+					  				TargetPedVehicle = nil
+									WasInVehicle = false
+					  				DeletePed(TargetPed)
+					  			end
+					  		end
+				  		end
+				  	end
 			  	end
-		  	end
+			end
 		end
 	end
 end)

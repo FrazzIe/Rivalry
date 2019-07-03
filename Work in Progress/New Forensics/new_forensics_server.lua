@@ -238,15 +238,7 @@ end)
 
 RegisterServerEvent("Locker.Take")
 AddEventHandler("Locker.Take", function(Data)
-	if Data.type == "fingerprints" then
-		exports["GHMattiMySQL"]:QueryAsync("UPDATE police_evidence_fingerprints SET status=@status WHERE (id=@id)", {["@id"] = Data.id, ["@status"] = 1})
-	elseif Data.type == "ballistics" then
-		exports["GHMattiMySQL"]:QueryAsync("UPDATE police_evidence_ballistics SET status=@status WHERE (id=@id)", {["@id"] = Data.id, ["@status"] = 1})
-	elseif Data.type == "firearms" then
-		exports["GHMattiMySQL"]:QueryAsync("UPDATE police_evidence_firearms SET status=@status WHERE (id=@id)", {["@id"] = Data.id, ["@status"] = 1})
-	elseif Data.type == "cds" then
-		exports["GHMattiMySQL"]:QueryAsync("UPDATE police_evidence_inventory SET status=@status WHERE (id=@id)", {["@id"] = Data.id, ["@status"] = 1})
-	end
+	TriggerClientEvent("Locker.TakeOutEvidence", -1, Data)
 end)
 
 RegisterServerEvent("Locker.PutBackEvidence")

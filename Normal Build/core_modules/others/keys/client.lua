@@ -111,12 +111,8 @@ AddEventHandler("keys:hotwire", function(ped, id)
 			TriggerEvent("dispatch:lockpick")
 			Citizen.Wait(30000)
 			ClearPedTasks(PlayerPedId())
-			if GetRandomIntInRange(1, 101) >= 100 - ((hotwire_rates[vehicle_class] or 60)) then
-				Notify("Successfully hotwired!")
-				DecorSetBool(vehicle, "hotwire", true)
-			else
-				Notify("Hotwiring failed!")
-			end
+			Notify("Successfully hotwired!")
+			DecorSetBool(vehicle, "hotwire", true)
 		else
 			Notify("You must be in the drivers seat to hotwire!")
 			addQty(tonumber(id), 1)
@@ -141,6 +137,47 @@ AddEventHandler("keys:trigger", function(vehicle, bool)
 		SetVehicleDoorsLocked(vehicle, 2)
 	else
 		SetVehicleDoorsLocked(vehicle, 1)
+	end
+end)
+
+RegisterNetEvent("Hotwire.Car")
+AddEventHandler("Hotwire.Car", function(Player)
+	if IsPedSittingInAnyVehicle(Player) then
+		local Vehicle = GetVehiclePedIsIn(Player, false)
+		local VehicleClass = GetVehicleClass(Vehicle)
+		if not DecorExistOn(vehicle, "hotwire") and GetPedInVehicleSeat(Vehicle, -1) == Player then
+			TaskPlayAnim(Player,"mini@repair","fixing_a_player", 8.0, 0.0, -1, 1, 0, 0, 0, 0)
+			TriggerEvent("dispatch:lockpick")
+			Citizen.Wait(60000)
+			ClearPedTasksImmediately(PlayerPedId())
+			if GetRandomIntInRange(1, 101) >= 100 - ((hotwire_rates[VehicleClass] or 60)) then
+				Notify("Successfully hotwired!", 3100)
+				DecorSetBool(Vehicle, "hotwire", true)
+			else
+				Notify("Hotwiring failed!", 3100)
+			end
+		end
+	end
+end)
+
+RegisterNetEvent("Robbing.Local.Keys")
+AddEventHandler("Robbing.Local.Keys", function(Vehicle)
+	DecorSetBool(Vehicle, "hotwire", true)
+end)
+
+Citizen.CreateThread(function()
+	while true do
+		Citizen.Wait(0)
+		local Player = PlayerPedId()
+		if IsPedSittingInAnyVehicle(Player) then
+			local Vehicle = GetVehiclePedIsIn(Player, false)
+			if not DecorExistOn(vehicle, "hotwire") and GetPedInVehicleSeat(Vehicle, -1) == Player and not IsVehicleOwned(GetVehicleNumberPlateText(Vehicle)) then
+				DisplayHelpText("Press ~INPUT_CONTEXT~ to try and hotwire this vehicle, or use a hotwire kit from your inventory!")
+				if IsControlJustPressed(1, 51) then
+					TriggerEvent("Hotwire.Car", Player)
+				end
+			end
+		end
 	end
 end)
 

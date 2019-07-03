@@ -1097,6 +1097,7 @@ function StoreVehicle()
                                 vehicle_health = GetEntityHealth(veh),
                                 insurance = user_vehicles[i].insurance,
                                 claims = user_vehicles[i].claims,
+                                fuel = DecorGetFloat(veh, "_Fuel_Level")
                             }
 
                             for i = 0, 8 do
@@ -1151,6 +1152,7 @@ function StoreVehicle()
                                 body_health = GetVehicleBodyHealth(veh),
                                 insurance = user_vehicles[i].insurance,
                                 claims = user_vehicles[i].claims,
+                                fuel = DecorGetFloat(veh, "_Fuel_Level")
                             }
 
                             for i = 0, 8 do
@@ -1166,7 +1168,6 @@ function StoreVehicle()
                             end
 
                             data["mod48"] = GetVehicleMod(veh, 48)
-
                             TriggerServerEvent("garage:stored", data)
                             Citizen.InvokeNative(0xEA386986E786A54F, Citizen.PointerValueIntInitialized(veh))
                             exports.pNotify:SendNotification({text = "Vehicle stored", type = "success", queue = "left", timeout = 3000, layout = "centerRight"})
@@ -1293,7 +1294,10 @@ function SpawnVehicle(data, index)
                 TaskWarpPedIntoVehicle(GetPlayerPed(-1),veh,-1)
                 
                 SetEntityInvincible(veh, false)
-
+                if data.fuel == nil then
+                    data.fuel = GetVehicleHandlingFloat(veh, "CHandlingData", "fPetrolTankVolume")
+                end
+                DecorSetFloat(veh, "_Fuel_Level", data.fuel)
                 user_vehicles[index].state = "~r~Missing"
                 user_vehicles[index].instance = veh
 
