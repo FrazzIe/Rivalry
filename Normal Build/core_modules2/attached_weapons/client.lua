@@ -172,6 +172,12 @@ bone_config = {
 		rotation = {x = 0.0, y = 125.0, z = 0.0},
 		model = "w_sb_smg"
 	},
+	["WEAPON_ASSAULTSMG"] = {
+		bone = 24818,
+		coordinates = {x = -0.1, y = -0.15, z = 0.07},
+		rotation = {x = 0.0, y = 125.0, z = 0.0},
+		model = "w_sb_assaultsmg"
+	},
 }
 
 local attached_weapons = {}
