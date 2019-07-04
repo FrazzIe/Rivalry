@@ -1,9 +1,15 @@
 bone_config = {
 	["WEAPON_BAT"] = {
 		bone = 24818,
-		coordinates = {x = -0.1, y = -0.15, z = 0.07},
+		coordinates = {x = 0.0, y = 0.0, z = 0.0},
 		rotation = {x = 0.0, y = 125.0, z = 0.0},
 		model = "w_me_bat"
+	},
+	["WEAPON_HAMMER"] = {
+		bone = 51826,
+		coordinates = {x = -0.01, y = 0.10, z = 0.1},
+		rotation = {x = 85.0, y = 0.0,  z = 45.0},
+		model = "prop_tool_hammer"
 	},
 	["WEAPON_GOLFCLUB"] = {		
 		bone = 24818,		
@@ -64,6 +70,12 @@ bone_config = {
 		rotation = {x = -115.0, y = 0.0,  z = 0.0},
 		model = "w_sb_minismg"
 	},
+	["WEAPON_FLASHLIGHT"] = {
+		bone = 51826,
+		coordinates = {x = -0.01, y = 0.10, z = 0.07},
+		rotation = {x = -115.0, y = 0.0,  z = 0.0},
+		model = "w_sb_minismg"
+	},
 	["WEAPON_CARBINERIFLE"] = {
 		bone = 24818,
 		coordinates = {x = 0.09, y = -0.15, z = 0.1}, 
@@ -106,13 +118,13 @@ bone_config = {
 		rotation = {x = 0.0, y = 0.0, z = 0.0}, 
 		model = "w_ar_musket"
 	},
---[[	["WEAPON_DBSHOTGUN"] = {
+	["WEAPON_DBSHOTGUN"] = {
 		bone = 57597,		
 		coordinates = {x = 0.08, y = -0.15, z = 0.07}, 
 		rotation = {x = 0.0, y = 75.0, z = 0.0}, 
 		model = "w_sg_doublebarrel"
-	},--]]
-	--[[["WEAPON_SNIPERRIFLE"] = {
+	},
+	["WEAPON_SNIPERRIFLE"] = {
 		bone = 24818,
 		coordinates = {x = 0.1, y = -0.15, z = 0.0}, 
 		rotation = {x = 0.0, y = 0.0, z = 0.0},
@@ -129,7 +141,7 @@ bone_config = {
 		coordinates = {x = 0.1, y = -0.15, z = 0.0}, 
 		rotation = {x = 0.0, y = 0.0, z = 0.0}, 
 		model = "w_sr_marksmanrifle"
-	},--]]
+	},
 	["WEAPON_BATTLEAXE"] = {
 		bone = 24818,
 		coordinates = {x = -0.1, y = -0.15, z = 0.07},
@@ -147,6 +159,24 @@ bone_config = {
 		coordinates = {x = -0.01, y = 0.10, z = 0.08},
 		rotation = {x = 90.0, y = 90.0,  z = 0.0},
 		model = "w_me_wrench"
+	},
+	["WEAPON_COMBATPDW"] = {
+		bone = ,
+		coordinates = {},
+		rotation = {},
+		model = ""
+	}
+	["WEAPON_MG"] = {
+		bone = 24818,
+		coordinates = {x = -0.1, y = -0.15, z = 0.07},
+		rotation = {x = 0.0, y = 125.0, z = 0.0},
+		model = "w_mg_mg"
+	},
+	["WEAPON_SMG"] = {
+		bone = 24818,
+		coordinates = {x = -0.1, y = -0.15, z = 0.07},
+		rotation = {x = 0.0, y = 125.0, z = 0.0},
+		model = "w_sb_smg"
 	},
 }
 
@@ -325,6 +355,8 @@ local weaponstable = {
     "WEAPON_PISTOL_MK2",
     "WEAPON_VINTAGEPISTOL",
     "WEAPON_SNSPISTOL",
+    "WEAPON_REVOLVER",
+    "WEAPON_VINTAGEPISTOL"
 }
 
 local riflestable = {
@@ -340,6 +372,15 @@ local riflestable = {
     "WEAPON_GUSENBERG",
     "WEAPON_BULLPUPRIFLE",
     "WEAPON_ASSAULTRIFLE",
+    "WEAPON_SMG",
+    "WEAPON_COMBATPDW",
+    "WEAPON_ASSAULTSMG",
+    "WEAPON_MG",
+    "WEAPON_ADVANCEDRIFLE",
+    "WEAPON_SNIPERIFLE",
+    "WEAPON_MARKSMANRIFLE",
+    "WEAPON_BULLPUPSHOTGUN",
+    "WEAPON_HEAVYSHOTGUN"
 }
 
 function CheckWeapon(ped)
