@@ -160,12 +160,6 @@ bone_config = {
 		rotation = {x = 90.0, y = 90.0,  z = 0.0},
 		model = "w_me_wrench"
 	},
-	["WEAPON_COMBATPDW"] = {
-		bone = ,
-		coordinates = {},
-		rotation = {},
-		model = ""
-	}
 	["WEAPON_MG"] = {
 		bone = 24818,
 		coordinates = {x = -0.1, y = -0.15, z = 0.07},
