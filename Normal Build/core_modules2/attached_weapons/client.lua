@@ -1,7 +1,7 @@
 bone_config = {
 	["WEAPON_BAT"] = {
 		bone = 24818,
-		coordinates = {x = 0.0, y = 0.0, z = 0.0},
+		coordinates = {x = -0.1, y = -0.15, z = 0.07},
 		rotation = {x = 0.0, y = 125.0, z = 0.0},
 		model = "w_me_bat"
 	},
