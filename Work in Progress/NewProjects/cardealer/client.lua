@@ -8,6 +8,8 @@ local Data = {
 CarDealer = {}
 CarDealer.IsDealer = false
 CarDealer.OnDuty = false
+CarDealer.Sold = nil
+CarDealer.Rank = nil
 
 local DisplayedVehicles = {}
 
@@ -16,7 +18,15 @@ AddEventHandler("CarDealer:Set", function(_Data, _CarDealer, first)
 	CarDealer.IsDealer = _CarDealer
 
 	if not CarDealer.IsDealer then
-		CarDealer.OnDuty = false
+		CarDealer.Sold = nil
+		CarDealer.Rank = nil
+	else
+		if _Data ~= nil then
+			if _Data.sold ~= nil and _Data.rank ~= nil then
+				CarDealer.Sold = _Data.sold
+				CarDealer.Rank = _Data.rank
+			end
+		end
 	end
 end)
 
@@ -26,10 +36,11 @@ AddEventHandler("DisplayVehicles.Sync", function(Table)
 end)
 
 RegisterNetEvent("carshop:bought")
-AddEventHandler("carshop:bought",function(data, veh)
+AddEventHandler("carshop:bought",function(data, networkid)
     Citizen.CreateThread(function()
         Citizen.Wait(0)
 
+		local veh = NetworkGetEntityFromNetworkId(networkid)
         local count = #user_vehicles + 1
         user_vehicles[count] = data
         user_vehicles[count].state = "~g~Stored"
@@ -125,6 +136,28 @@ AddEventHandler("carshop:bought",function(data, veh)
             SetVehicleWindowTint(veh, tonumber(data.tint_colour))
         end
     end)
+end)
+
+RegisterNetEvent("Dealer.SoldVehicle")
+AddEventHandler("Dealer.SoldVehicle", function(Price)
+	if CarDealer.IsDealer and CarDealer.OnDuty then
+		local Profit = nil
+		CarDealer.Sold = CarDealer.Sold + 1
+		if CarDealer.Rank == "Associate" then
+			Profit = Price * 0.05
+		elseif CarDealer.Rank == "Senior Associate" then
+			Profit = Price * 0.08
+		elseif CarDealer.Rank == "Supervisor " then
+			Profit = Price * 0.12
+		elseif CarDealer.Rank == "Manager" then
+			Profit = Price * 0.15
+		end
+		if Profit ~= nil then
+			if Profit > 0 then
+				TriggerServerEvent("Dealer.GivePayment", Profit)
+			end
+		end
+	end
 end)
 
 function GetGarage()
@@ -348,7 +381,7 @@ Citizen.CreateThread(function()
 							end
 
 							data["mod48"] = GetVehicleMod(Vehicle, 48)
-							TriggerServerEvent("Spawn.DisplayVehicle", {Entity = NetworkGetNetworkIdFromEntity(Vehicle), Data = data, Price = 0, Intrest = 0, Weeks = 0, CashDown = 0, DealerText = ""})
+							TriggerServerEvent("Spawn.DisplayVehicle", {Entity = NetworkGetNetworkIdFromEntity(Vehicle), Data = data, Price = 0, Intrest = 0, Weeks = 0, CashDown = 0, DealerText = "", Seller = GetPlayerServerId(PlayerId())})
 							WarMenu.CloseMenu()
 						end
 					end
@@ -359,7 +392,11 @@ Citizen.CreateThread(function()
 				for Index = 1, #DisplayedVehicles do
 					local VehicleCoords = GetEntityCoords(NetworkGetEntityFromNetworkId(DisplayedVehicles[Index].Entity), false)
 					if #(PlayerPosition - VehicleCoords) <= 2.0 and not IsPedInAnyVehicle(Player) then
-						Draw3DText(VehicleCoords.x, VehicleCoords.y, VehicleCoords.z, "[E] - Press to set information")
+						if DisplayedVehicles[Index].DealerText == "" then
+							Draw3DText(VehicleCoords.x, VehicleCoords.y, VehicleCoords.z, "[E] - Press to set information")
+						else
+							Draw3DText(VehicleCoords.x, VehicleCoords.y, VehicleCoords.z - 0.1, "[E] - Press to set information")
+						end
 						if IsControlJustPressed(1, 51) then
 							-- Create Inputs here
 							local Price = tonumber(KeyboardInput("Enter Total Price:", "100000", 11))

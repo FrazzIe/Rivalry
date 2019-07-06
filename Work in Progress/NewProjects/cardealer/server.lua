@@ -125,6 +125,7 @@ AddEventHandler("CarDealer.BuyCar", function(Type, Index, GarageID, Reduction)
                     data.plate = strpad(data.plate, 8, "0", "STR_PAD_LEFT")
                     TriggerClientEvent("pNotify:SendNotification", Source, {text = "Vehicle purchased!",type = "error",queue = "left",timeout = 2500,layout = "bottomCenter"})
                     TriggerClientEvent("carshop:bought", Source, data, DisplayedVehicles[Index].Entity)
+                    DealerSoldVehicle(DisplayedVehicles[Index].Seller)
                     table.remove(DisplayedVehicles, Index)
                     TriggerClientEvent("DisplayVehicles.Sync", -1, DisplayedVehicles)
                 end, true)
@@ -218,6 +219,7 @@ AddEventHandler("CarDealer.BuyCar", function(Type, Index, GarageID, Reduction)
                     data.plate = strpad(data.plate, 8, "0", "STR_PAD_LEFT")
                     TriggerClientEvent("pNotify:SendNotification", Source, {text = "Vehicle purchased!",type = "error",queue = "left",timeout = 2500,layout = "bottomCenter"})
                     TriggerClientEvent("carshop:bought", Source, data, DisplayedVehicles[Index].Entity)
+                    DealerSoldVehicle(DisplayedVehicles[Index].Seller)
                     table.remove(DisplayedVehicles, Index)
                     TriggerClientEvent("DisplayVehicles.Sync", -1, DisplayedVehicles)
                 end, true)
@@ -335,6 +337,7 @@ AddEventHandler("CarDealer.BuyCar", function(Type, Index, GarageID, Reduction)
                     data.plate = strpad(data.plate, 8, "0", "STR_PAD_LEFT")
                     TriggerClientEvent("pNotify:SendNotification", Source, {text = "Vehicle purchased!",type = "error",queue = "left",timeout = 2500,layout = "bottomCenter"})
                     TriggerClientEvent("carshop:bought", Source, data, DisplayedVehicles[Index].Entity)
+                    DealerSoldVehicle(DisplayedVehicles[Index].Seller)
                     table.remove(DisplayedVehicles, Index)
                     TriggerClientEvent("DisplayVehicles.Sync", -1, DisplayedVehicles)
                 end, true)
@@ -430,6 +433,8 @@ AddEventHandler("CarDealer.BuyCar", function(Type, Index, GarageID, Reduction)
                     data.plate = strpad(data.plate, 8, "0", "STR_PAD_LEFT")
                     TriggerClientEvent("pNotify:SendNotification", Source, {text = "Vehicle purchased!",type = "error",queue = "left",timeout = 2500,layout = "bottomCenter"})
                     TriggerClientEvent("carshop:bought", Source, data, DisplayedVehicles[Index].Entity)
+                    TriggerClientEvent("Dealer.SoldCar", DisplayedVehicles[Index].Seller)
+                    DealerSoldVehicle(DisplayedVehicles[Index].Seller, Intrest, DisplayedVehicles[Index].Price)
                     table.remove(DisplayedVehicles, Index)
                     TriggerClientEvent("DisplayVehicles.Sync", -1, DisplayedVehicles)
                 end, true)
@@ -449,5 +454,28 @@ AddEventHandler("CarDealer.BuyCar", function(Type, Index, GarageID, Reduction)
     end)
 end)
 
+RegisterServerEvent("Dealer.GivePayment")
+AddEventHandler("Dealer.GivePayment", function(Profit)
+    local Source = source
+    TriggerEvent("core:getuser", Source, function(User)
+        if Profit ~= nil then
+            if Profit > 0 then
+                TriggerClientEvent("pNotify:SendNotification", Source, {text = "You've made $"..Profit.." of commissionn from that sale!",type = "error",queue = "left",timeout = 2500,layout = "bottomCenter"})
+                User.addBank(Profit)
+            end
+        end
+    end)
+end)
 
-
+function DealerSoldVehicle(Seller, Intrest, Price)
+    TriggerEvent("core:getuser", Seller, function(Dealer)
+        exports["GHMattiMySQL"]:QueryAsync("UPDATE cardealer SET sold = sold + 1 WHERE (character_id = @character_id)", {
+            ["@character_id"] = Dealer.get("characterID"),
+        })
+        exports["GHMattiMySQL"]:QueryAsync("UPDATE carsales SET bank = bank + @intrest WHERE (id = @id)", {
+            ["@intrest"] = Intrest,
+            ["@id"] = 1
+        })
+        TriggerClientEvent("Dealer.SoldVehicle", Seller, Price)
+    end)
+end
