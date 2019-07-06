@@ -412,6 +412,11 @@ AddEventHandler("core:ready", function()
             end
         end
     end, false, {Help = "Lye down on the nearest hospital bed", Params = {}})
+
+    -- Chat.Command("carpayment", function(source, args, rawCommand)
+        
+    -- end, false, {Help = "Repay a car payment", Params {{name = "plate", help = "string"}})
+
 end)
 
 Citizen.CreateThread(function()
