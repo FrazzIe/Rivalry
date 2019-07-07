@@ -36,25 +36,30 @@ AddEventHandler("DisplayVehicles.Sync", function(Table)
 end)
 
 RegisterNetEvent("carshop:bought")
-AddEventHandler("carshop:bought",function(data, networkid)
+AddEventHandler("carshop:bought",function(data, NetworkID)
     Citizen.CreateThread(function()
         Citizen.Wait(0)
 
-		local veh = NetworkGetEntityFromNetworkId(networkid)
+		local veh = NetworkGetEntityFromNetworkId(NetworkID)
+		print("NetworkID: "..NetworkID)
         local count = #user_vehicles + 1
         user_vehicles[count] = data
-        user_vehicles[count].state = "~g~Stored"
+		user_vehicles[count].state = "~g~Stored"
+		print("Vehicle: "..veh)
 
-        if veh ~= nil and veh ~= 0 then
+		if veh ~= nil and veh ~= 0 then
+			print("Vehicle is true")
             table.insert(out, veh)
             user_vehicles[count].instance = veh
             user_vehicles[count].state = "~r~Missing"
             SetVehicleOnGroundProperly(veh)
 			DecorSetBool(veh, "hotwire", true)
+			print("Gave Hotwire")
             SetVehicleColours(veh, data.primary_colour, data.secondary_colour)
             SetVehicleExtraColours(veh, tonumber(data.pearlescent_colour), tonumber(data.wheel_colour))
             SetVehicleNumberPlateTextIndex(veh, data.plate_colour)
-            SetVehicleNumberPlateText(veh, data.plate)
+			SetVehicleNumberPlateText(veh, data.plate)
+			print("Set plate to "..data.plate)
             SetVehicleNeonLightsColour(veh, tonumber(data.neon_colour[1]), tonumber(data.neon_colour[2]), tonumber(data.neon_colour[3]))
             SetVehicleTyreSmokeColor(veh, tonumber(data.smoke_colour[1]), tonumber(data.smoke_colour[2]), tonumber(data.smoke_colour[3]))
             SetVehicleModKit(veh, 0)
@@ -158,6 +163,12 @@ AddEventHandler("Dealer.SoldVehicle", function(Price)
 			end
 		end
 	end
+end)
+
+RegisterNetEvent("carshop:setplate")
+AddEventHandler("carshop:setplate", function(Plate, NetworkID)
+	local Vehicle = NetworkGetEntityFromNetworkId(NetworkID)
+	SetVehicleNumberPlateText(Vehicle, Plate)
 end)
 
 function GetGarage()
