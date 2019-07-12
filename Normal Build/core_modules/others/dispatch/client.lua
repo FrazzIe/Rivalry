@@ -310,7 +310,7 @@ Citizen.CreateThread(function()
 			if IsPedShooting(PlayerPed) then
 				local hasWeapon, currentWeapon = GetCurrentPedWeapon(PlayerPed, 1)
 				if currentWeapon ~= nil then
-					local WeaponStr = Weaponhashes[tostring(currentWeapon)]
+					local WeaponStr = Weaponhashes[currentWeapon] or Weaponhashes[tostring(currentWeapon)]
 					if WeaponStr then
                         local Weaponhash = GetHashKey(WeaponStr)
 						if GetAmmoInPedWeapon(PlayerPed, Weaponhash) > 0 then
@@ -349,7 +349,7 @@ Citizen.CreateThread(function()
             if IsPedArmed(PlayerPed, 4) then
                 if IsPedInAnyVehicle(PlayerPed, false) == false then
                     if currentWeapon ~= nil and not IsPedShooting(PlayerPed) then
-                        local WeaponStr = Weaponhashes[tostring(currentWeapon)]
+                        local WeaponStr = Weaponhashes[currentWeapon] or Weaponhashes[tostring(currentWeapon)]
                         if WeaponStr then
                             local Weaponhash = GetHashKey(WeaponStr)
                             if not weapons_whitelist[WeaponStr] then
