@@ -471,7 +471,8 @@ AddEventHandler("Hospital.ServiceHeal", function()
     local PlayerPosition = GetEntityCoords(Ped, false)
     local Dictionary = "missfinale_c1@"
     local Animation = "lying_dead_player0"
-    if not IsEntityDead(Ped) then
+	if not IsEntityDead(Ped) then
+		TriggerEvent("Recieved.Medical.Attention")
         RequestAnimDict(Dictionary)
         while not HasAnimDictLoaded(Dictionary) do
             Wait(0)
@@ -503,7 +504,7 @@ Citizen.CreateThread(function()
                     Citizen.Wait(0)
                 end
                 DetachEntity(Ped, true, true)
-                SetEntityHeading(Ped, GetEntityHeading(CurrentBed) - 90)
+                SetEntityHeading(Ped, GetEntityHeading(CurrentBed) - 45)
                 TaskPlayAnim(Ped, Dictionary, Animation, 100.0, 1.0, -1, 8, -1, 0, 0, 0)
                 InBed = false
             end

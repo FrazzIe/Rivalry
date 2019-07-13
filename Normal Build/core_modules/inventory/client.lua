@@ -499,6 +499,7 @@ end
 local function heal()
     Citizen.CreateThread(function()
         if not IsEntityDead(PlayerPedId()) then
+            TriggerEvent("Stop.Bleeding")
             Citizen.Wait(200)
             TaskPlayAnim(PlayerPedId(), armour_anim_dict, "002334_02_fras_v2_11_getting_dressed_exit", 4.0, -4, -1, 1, 0, false, false, false)
             Citizen.Wait(500)
@@ -722,8 +723,10 @@ AddEventHandler("inventory:use",function(data)
             TaskStartScenarioInPlace(PlayerPedId(), "WORLD_HUMAN_SMOKING_POT", 0, true)
             Wait(11000)
             drugged = true
+            TriggerEvent("Lower.Stress", 50)
         elseif data.canuse == 11 then --Cigarette
             TaskStartScenarioInPlace(PlayerPedId(), "WORLD_HUMAN_SMOKING", 0, true)
+            TriggerEvent("Lower.Stress", 25)
         elseif data.canuse == 12 then
             local Emote = Emotes.Find("cigar")
             Emotes.Stop()

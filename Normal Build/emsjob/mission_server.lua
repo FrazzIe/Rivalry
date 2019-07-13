@@ -408,6 +408,7 @@ function activateMissionSystem()
             if ems[source] or ispolice then
                 ms_cancelMissionclient(target)
                 TriggerClientEvent("paramedic:heal", tonumber(target))
+                TriggerClientEvent("Recieved.Medical.Attention", tonumber(target))
                 TriggerEvent('core:getuser', source, function(user)
                     local pay = math.random(150,250)
                     user.addWallet(pay)
