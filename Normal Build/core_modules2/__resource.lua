@@ -46,7 +46,6 @@ client_script 'recoil/client.lua'
 client_script 'density.lua'
 
 client_script 'stress/client.lua'
-server_script 'stress/server.lua'
 
 --client_script 'mouth_movement.lua'
 
