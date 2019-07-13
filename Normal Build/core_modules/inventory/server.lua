@@ -53,7 +53,7 @@ itemlist = {
     [25] = {name = "Beer", item_id = 25, canuse = 1, illegal = false},
     [26] = {name = "Grapes", item_id = 26, canuse = 2, illegal = false},
     [27] = {name = "Bottle of wine", item_id = 27, canuse = 1, illegal = false},
-    [28] = {name = "Cocaine", item_id = 28, canuse = 0, illegal = true},
+    [28] = {name = "Cocaine", item_id = 28, canuse = 14, illegal = true},
     [34] = {name = "Bandage", item_id = 34, canuse = 3, illegal = false},
     [35] = {name = "Cheap Medkit", item_id = 35, canuse = 3, illegal = true},
     [36] = {name = "Lockpick", item_id = 36, canuse = 5, illegal = true},
