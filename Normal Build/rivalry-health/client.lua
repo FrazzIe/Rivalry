@@ -31,7 +31,7 @@ Citizen.CreateThread(function()
 				for Index = 1, #Utilities.Data.Weapons.List do
 					if HasPedBeenDamagedByWeapon(PlayerPed, Utilities:GetWeaponHash(Utilities.Data.Weapons.List[Index]), 0) then
 						TriggerServerEvent("Health.Injury.Add", DamagedBodyPart, Utilities:GetWeaponLabel(Utilities.Data.Weapons.List[Index]), DamageTaken)
-						TriggerServerEvent("Damage.StartBleeding", DamagedBodyPart, Utilities.Data.Weapons.List[Index], DamageTaken)
+						TriggerEvent("Damage.StartBleeding", DamagedBodyPart, Utilities.Data.Weapons.List[Index], DamageTaken)
 						ClearEntityLastDamageEntity(PlayerPed)
 					end
 				end

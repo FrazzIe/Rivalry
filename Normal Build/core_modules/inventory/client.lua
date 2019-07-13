@@ -723,10 +723,10 @@ AddEventHandler("inventory:use",function(data)
             TaskStartScenarioInPlace(PlayerPedId(), "WORLD_HUMAN_SMOKING_POT", 0, true)
             Wait(11000)
             drugged = true
-            TriggerEvent("Lower.Stress", 50)
+            TriggerEvent("Lower.Stress", 25)
         elseif data.canuse == 11 then --Cigarette
             TaskStartScenarioInPlace(PlayerPedId(), "WORLD_HUMAN_SMOKING", 0, true)
-            TriggerEvent("Lower.Stress", 25)
+            TriggerEvent("Lower.Stress", 10)
         elseif data.canuse == 12 then
             local Emote = Emotes.Find("cigar")
             Emotes.Stop()
@@ -735,6 +735,11 @@ AddEventHandler("inventory:use",function(data)
             table.insert(Emotes.Active, Emote)
         elseif data.canuse == 13 then
             TriggerEvent("Refill.Ammo", GetSelectedPedWeapon(PlayerPedId()), data.item_id)
+        elseif data.canuse == 14 then
+            TriggerEvent("Add.Stress", 25)
+            Wait(11000)
+            drugged = true
+            TriggerEvent("Cocaine.Speed")
         end
         removeQty(data.item_id,1)
     elseif data.canuse == -1 then
