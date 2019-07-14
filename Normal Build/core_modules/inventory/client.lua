@@ -282,6 +282,7 @@ AddEventHandler("inventory:vehicle_weapon_open", function()
     if IsPedSittingInAnyVehicle(PlayerPedId()) then
         local vehicleHandle = GetVehiclePedIsIn(PlayerPedId(), false)
         local plate = GetVehicleNumberPlateText(vehicleHandle)
+        local class = GetVehicleClass(vehicleHandle)
         if vehicle_weapon_inventory[plate] then
             if keys_users[GetPlayerServerId(PlayerId())][plate] or vehicle_weapon_inventory[plate].locked == "false" then
                 exports.ui:reset()
@@ -293,7 +294,7 @@ AddEventHandler("inventory:vehicle_weapon_open", function()
                         exports.ui:addOption("Lock weapon container", "inventory:vehicle_weapon_lock", plate)
                     end
                 end
-                exports.ui:addOption("Deposit", "inventory:vehicle_weapon_deposit", plate)
+                exports.ui:addOption("Deposit", "inventory:vehicle_weapon_deposit", {plate = plate, class = class})
                 for k,v in pairs(vehicle_weapon_inventory[plate].weapons) do
                     if k ~= "locked" then
                         if v.ammo ~= 0 then
@@ -312,7 +313,7 @@ AddEventHandler("inventory:vehicle_weapon_open", function()
             if keys_users[GetPlayerServerId(PlayerId())][plate] then
                 exports.ui:reset()
                 exports.ui:open("vehicle_inventory")
-                exports.ui:addOption("Deposit", "inventory:vehicle_weapon_deposit", plate)
+                exports.ui:addOption("Deposit", "inventory:vehicle_weapon_deposit", {plate = plate, class = class})
                 exports.ui:back([[TriggerEvent("interaction:vehicle")]])
             else
                 TriggerEvent("interaction:vehicle")
@@ -329,6 +330,7 @@ AddEventHandler("inventory:vehicle_weapon_open", function()
         if vehicleHandle ~= nil then
             if DoesEntityExist(vehicleHandle) then
                 local plate = GetVehicleNumberPlateText(vehicleHandle)
+                local class = GetVehicleClass(vehicleHandle)
                 if vehicle_weapon_inventory[plate] then
                     if keys_users[GetPlayerServerId(PlayerId())][plate] or vehicle_weapon_inventory[plate].locked == "false" then
                         exports.ui:reset()
@@ -340,7 +342,7 @@ AddEventHandler("inventory:vehicle_weapon_open", function()
                                 exports.ui:addOption("Lock weapon container", "inventory:vehicle_weapon_lock", plate)
                             end
                         end
-                        exports.ui:addOption("Deposit", "inventory:vehicle_weapon_deposit", plate)
+                        exports.ui:addOption("Deposit", "inventory:vehicle_weapon_deposit", {plate = plate, class = class})
                         for k,v in pairs(vehicle_weapon_inventory[plate].weapons) do
                             if k ~= "locked" then
                                 if v.ammo ~= 0 then
@@ -359,7 +361,7 @@ AddEventHandler("inventory:vehicle_weapon_open", function()
                     if keys_users[GetPlayerServerId(PlayerId())][plate] then
                         exports.ui:reset()
                         exports.ui:open("vehicle_inventory")
-                        exports.ui:addOption("Deposit", "inventory:vehicle_weapon_deposit", plate)
+                        exports.ui:addOption("Deposit", "inventory:vehicle_weapon_deposit", {plate = plate, class = class})
                         exports.ui:back([[TriggerEvent("interaction:vehicle")]])
                     else
                         TriggerEvent("interaction:vehicle")
@@ -381,14 +383,14 @@ AddEventHandler("inventory:vehicle_weapon_withdraw", function(data)
     TriggerServerEvent("inventory:vehicle_weapon_withdraw", data.plate, data.weapon, data.weapon_id)
 end)
 
-AddEventHandler("inventory:vehicle_weapon_deposit", function(plate)
+AddEventHandler("inventory:vehicle_weapon_deposit", function(data)
     exports.ui:reset()
     exports.ui:open("deposit_weapons")
     for k,v in pairs(user_weapons) do
         if GetMaxAmmoInClip(PlayerPedId(), GetHashKey(k), 1) ~= 0 then
-            exports.ui:addOption(Weapons_names[k].." ["..GetAmmoInPedWeapon(PlayerPedId(), GetHashKey(k)).."]", "inventory:vehicle_weapon_deposited", {plate = plate, weapon = v})
+            exports.ui:addOption(Weapons_names[k].." ["..GetAmmoInPedWeapon(PlayerPedId(), GetHashKey(k)).."]", "inventory:vehicle_weapon_deposited", {plate = data.plate, weapon = v, class = data.class})
         else
-            exports.ui:addOption(Weapons_names[k], "inventory:vehicle_weapon_deposited", {plate = plate, weapon = v})
+            exports.ui:addOption(Weapons_names[k], "inventory:vehicle_weapon_deposited", {plate = data.plate, weapon = v, class = data.class})
         end
     end
     exports.ui:back([[TriggerEvent("inventory:vehicle_weapon_open")]])
@@ -397,7 +399,7 @@ end)
 AddEventHandler("inventory:vehicle_weapon_deposited", function(data)
     exports.ui:reset()
     exports.ui:open("vehicle_weapon_inventory")
-    TriggerServerEvent("inventory:vehicle_weapon_deposit", data.plate, data.weapon)
+    TriggerServerEvent("inventory:vehicle_weapon_deposit", data.plate, data.weapon, data.class)
 end)
 
 AddEventHandler("inventory:vehicle_weapon_lock", function(plate)
@@ -740,6 +742,18 @@ AddEventHandler("inventory:use",function(data)
             Wait(11000)
             drugged = true
             TriggerEvent("Cocaine.Speed")
+        elseif data.canuse == 15 then
+            TriggerEvent("Use.Medkit")
+        elseif data.canuse == 16 then
+            TriggerEvent("Use.FirstAidKit")
+        elseif data.canuse == 17 then
+            TriggerEvent("Use.Gauze")
+        elseif data.canuse == 18 then
+            TriggerEvent("Use.Vicodin")
+        elseif data.canuse == 19 then
+            TriggerEvent("Use.Hydrocodone")
+        elseif data.canuse == 20 then
+            TriggerEvent("Use.Morphine")
         end
         removeQty(data.item_id,1)
     elseif data.canuse == -1 then
