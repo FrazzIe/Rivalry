@@ -110,6 +110,37 @@ itemlist = {
     [88] = {name = "Ammo Box | .44mm", item_id = 88, canuse = 13, illegal = true},
     [89] = {name = "Ammo Box | 12g", item_id = 89, canuse = 13, illegal = true},
     [90] = {name = "Ammo Box | 11g", item_id = 90, canuse = 13, illegal = true},
+    [91] = {name = "Medkit", item_id = 91, canuse = 15, illegal = false}
+    [92] = {name = "First Aid Kit", item_id = 92, canuse = 16, illegal = false}
+    [93] = {name = "Gauze", item_id = 93, canuse = 17, illegal = false}
+    [94] = {name = "Vicodin", item_id = 94, canuse = 18, illegal = false}
+    [95] = {name = "Hydrocodone", item_id = 95, canuse = 19, illegal = false}
+    [96] = {name = "Morphine", item_id = 96, canuse = 20, illegal = false}
+}
+
+local MaxWeaponsForClass = {
+    [0] = 3, -- Compacts
+    [1] = 4, -- Sedans
+    [2] = 5, -- SUVs
+    [3] = 3, -- Coupes
+    [4] = 3, -- Muscle
+    [5] = 3, -- Sports Classics
+    [6] = 2, -- Sports
+    [7] = 2, -- Super
+    [8] = 1, -- Motorcycles
+    [9] = 5, -- Off-road
+    [10] = 100, -- Industrial
+    [11] = 9, -- Utility
+    [12] = 15, -- Vans
+    [13] = 0,
+    [14] = 0,
+    [15] = 0,
+    [16] = 0,
+    [17] = 50,
+    [18] = 0,
+    [19] = 0,
+    [20] = 50,
+    [21] = 0
 }
 
 user_max = 100
@@ -1154,9 +1185,10 @@ AddEventHandler("inventory:vehicle_lock", function(plate)
 end)
 
 RegisterServerEvent("inventory:vehicle_weapon_deposit")
-AddEventHandler("inventory:vehicle_weapon_deposit", function(plate, weapon)
+AddEventHandler("inventory:vehicle_weapon_deposit", function(plate, weapon, class)
     local source = source
     if not syncing_inventory then
+        if not MaxWeaponsForClass[class] then vehicle_weapon_max = 1 else vehicle_weapon_max = MaxWeaponsForClass[class] end
         if getVehicleWeapons(plate) < vehicle_weapon_max then
             TriggerEvent("core:getuser", source, function(user)
                 if vehicle_weapon_inventory[plate] then
