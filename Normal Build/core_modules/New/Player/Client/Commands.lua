@@ -405,7 +405,7 @@ AddEventHandler("core:ready", function()
                 Wait(0)
             end
             for Index = 1, #BedLocations do
-                if #(PlayerPosition - BedLocations[Index]) < 2.0 then
+                if #(PlayerPosition - BedLocations[Index].Coords) < 2.0 then
                     NearestBed = GetClosestObjectOfType(BedLocations[Index].Coords.x, BedLocations[Index].Coords.y, BedLocations[Index].Coords.z, 2.0, BedLocations[Index].Model, 0, 0, 0)
                     AttachEntityToEntity(Ped, NearestBed, 1, -0.2, -0.2, 1.4, 0.0, 0.0, 180.0, true, true, true, true, 1, true)
                     TaskPlayAnim(Ped, Dictionary, Animation, 8.0, 1.0, -1, 1, 0, 0, 0, 0 )
@@ -436,7 +436,7 @@ Citizen.CreateThread(function()
                     Citizen.Wait(0)
                 end
                 DetachEntity(Ped, true, true)
-                SetEntityHeading(Ped, GetEntityHeading(CurrentBed) - 90)
+                SetEntityHeading(Ped, GetEntityHeading(CurrentBed) + 90)
                 TaskPlayAnim(Ped, Dictionary, Animation, 100.0, 1.0, -1, 8, -1, 0, 0, 0)
                 InBed = false
             end
