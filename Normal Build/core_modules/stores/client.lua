@@ -64,6 +64,20 @@ ToolMarket = {
     }},
 }
 
+EMSMarket = {
+    {Category = "Drugs", Items = {
+		{Name = "Vicodin", Id = 94, Cost = 50, Max = 10},
+		{Name = "Hydrocodone", Id = 95, Cost = 50, Max = 10},
+		{Name = "Morphine", Id = 96, Cost = 50, Max = 10},
+    }},
+    {Category = "Medical", Items = {
+		{Name = "Medkit", Id = 91, Cost = 50, Max = 10},
+		{Name = "First Aid Kit", Id = 92, Cost = 50, Max = 10},
+		{Name = "Gauze", Id = 93, Cost = 50, Max = 10},
+		{Name = "Bandage", Id = 34, Cost = 50, Max = 10},
+    }},
+}
+
 for k,v in pairs(Store) do
 	for i,j in pairs(v.Items) do
 		j.Quantity = {}
@@ -73,6 +87,13 @@ end
 
 for k,v in pairs(ToolMarket) do
 	for i,j in pairs(v.Items) do
+		j.Quantity = {}
+		for index = 1, j.Max do j.Quantity[#j.Quantity+1] = tostring(index) end
+	end
+end
+
+for k, v in pairs(EMSMarket) do
+	for i, j in pairs(v.Items) do
 		j.Quantity = {}
 		for index = 1, j.Max do j.Quantity[#j.Quantity+1] = tostring(index) end
 	end
@@ -115,8 +136,10 @@ Tools = {
 ToolsBlips = {
 	{ x = 45.837783813477, y = -1749.1278076172, z = 29.622262954712},
 	{ x = 2747.8273925781, y = 3472.5925292969, z = 55.673179626465},
-        { x = -3152.12890625, y = 1109.6646728516, z = 20.86190032959}
+    { x = -3152.12890625, y = 1109.6646728516, z = 20.86190032959}
 }
+
+EMSShop = vector3(311.0012512207,-599.30615234375,43.291805267334)
 
 stores2 = {
 	normal = {
@@ -304,6 +327,84 @@ Citizen.CreateThread(function()
                 	end
                 end
             end
+		end
+	end
+end)
+
+Citizen.CreateThread(function()
+	while true do
+		Citizen.Wait(0)
+		if exports.emsjob:getIsInService() then
+			local Player = PlayerPedId()
+			local PlayerPosition = GetEntityCoords(Player, false)
+			if #(PlayerPosition - EMSShop) <= 10 then
+				RenderMarker(25, EMSShop.x, EMSShop.y, EMSShop.z, 1.5, 1.5, 2.0, 255, 255, 0, 20)
+				if #(PlayerPosition - EMSShop) <= 1 then
+					DisplayHelpText("Press ~INPUT_CONTEXT to open medical closet!")
+					if IsControlJustPressed(1, 51) then
+						if not WarMenu.IsMenuOpened("MedicalStore") then
+							if not WarMenu.DoesMenuExist("MedicalStore") then
+								WarMenu.CreateMenu("MedicalStore", "Department Store")
+								WarMenu.SetSpriteTitle("MedicalStore", "shopui_title_clubhousemod")
+								WarMenu.SetSubTitle("MedicalStore", "CATEGORIES")
+								WarMenu.SetMenuX("MedicalStore", 0.6)
+								WarMenu.SetMenuY("MedicalStore", 0.15)
+								WarMenu.SetTitleBackgroundColor("MedicalStore", 0, 107, 87)
+								for k,v in pairs(EMSMarket) do
+									WarMenu.CreateSubMenu(v.Category, "MedicalStore", v.Category.." SECTION")
+									for i,j in pairs(v.Items) do
+										WarMenu.CreateSubMenu(j.Name, v.Category, j.Name)
+									end
+								end
+								WarMenu.OpenMenu("MedicalStore")
+							else
+								currentItemIndex = 1
+								WarMenu.OpenMenu("MedicalStore")
+							end
+						else
+							WarMenu.CloseMenu()
+						end		
+					end
+					if WarMenu.IsMenuOpened("MedicalStore") then
+						for k,v in pairs(EMSMarket) do
+							WarMenu.MenuButton(v.Category, v.Category)
+						end
+						if WarMenu.Button("Close") then
+							WarMenu.CloseMenu()
+						end
+						WarMenu.Display()
+					end
+					for k,v in pairs(EMSMarket) do
+						if WarMenu.IsMenuOpened(v.Category) then
+							for i,j in pairs(v.Items) do
+								if WarMenu.MenuButton(j.Name, j.Name) then
+									currentItemIndex = 1
+								end
+							end
+							WarMenu.Display()
+						end
+					end
+					for k,v in pairs(EMSMarket) do
+						for i,j in pairs(v.Items) do
+							if WarMenu.IsMenuOpened(j.Name) then
+								if WarMenu.Button("Buy "..currentItemIndex.." "..j.Name.."(s)", "$"..j.Cost*currentItemIndex) then
+									TriggerServerEvent("item:buy", j.Id, currentItemIndex)
+								end
+								if WarMenu.ComboBox("Quantity", j.Quantity, currentItemIndex, selectedItemIndex, function(currentIndex, selectedIndex)
+									currentItemIndex = currentIndex
+									selectedItemIndex = selectedIndex
+								end) then
+								end
+								WarMenu.Display()
+							end
+						end
+					end
+                elseif #(PlayerPosition - EMSShop) > 1.0 then
+                	if WarMenu.IsMenuOpened("MedicalStore") then
+                		WarMenu.CloseMenu()
+                	end
+                end
+			end
 		end
 	end
 end)

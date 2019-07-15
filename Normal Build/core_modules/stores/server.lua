@@ -53,6 +53,15 @@ Store = {
     [46] = 50,
     [82] = 100,
 -- Tools End
+
+-- Medical Shop ( EMS Only ) Begin
+	[91] = 50,
+	[92] = 50,
+	[93] = 50,
+	[94] = 50,
+	[95] = 50,
+	[96] = 50,
+-- Medical Shop Begin ( EMS Only ) End
 }
 
 RegisterServerEvent("item:buy")

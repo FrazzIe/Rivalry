@@ -74,7 +74,7 @@ bone_config = {
 		bone = 51826,
 		coordinates = {x = -0.01, y = 0.10, z = 0.07},
 		rotation = {x = -115.0, y = 0.0,  z = 0.0},
-		model = "w_sb_minismg"
+		model = "w_me_flashlight"
 	},
 	["WEAPON_CARBINERIFLE"] = {
 		bone = 24818,
