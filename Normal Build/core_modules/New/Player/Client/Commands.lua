@@ -416,10 +416,22 @@ AddEventHandler("core:ready", function()
         end
     end, false, {Help = "Lye down on the nearest hospital bed", Params = {}})
 
-    -- Chat.Command("carpayment", function(source, args, rawCommand)
-        
-    -- end, false, {Help = "Repay a car payment", Params {{name = "plate", help = "string"}})
+    Chat.Command("carpayment", function(source, args, rawCommand)
+        local Plate = args[1]
+        TriggerServerEvent("Pay.CarPayment", Plate)
+    end, false, {Help = "Repay a car payment", Params = {{name = "plate", help = "string"}}})
 
+    Chat.Command("checkhistory", function(source, args, rawCommand)
+        local Target = tonumber(args[1])
+        TriggerServerEvent("CarDealer.CheckHistory", Target)
+    end, false, {Help = "Car Dealers: Check Client History", Params = {{name = "id", help = "number"}}})
+
+    -- Chat.Command("sellcar", function(source, args, rawCommand)
+    --     local Plate = tonumber(args[1])
+    --     local Price = tonumber(args[2])
+    --     local Buyer = tonumber(args[3])
+    --     TriggerServerEvent("Sell.Car", Plate, Price, Buyer)
+    -- end, false, {Help = "Car Dealers: Check Client History", Params = {{name = "id", help = "number"}}})
 end)
 
 Citizen.CreateThread(function()

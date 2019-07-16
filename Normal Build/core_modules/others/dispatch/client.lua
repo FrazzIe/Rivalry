@@ -315,7 +315,7 @@ Citizen.CreateThread(function()
                         local Weaponhash = GetHashKey(WeaponStr)
 						if GetAmmoInPedWeapon(PlayerPed, Weaponhash) > 0 then
                             if not weapons_whitelist[WeaponStr] then
-                                TriggerEvent("Add.Stress", 1)
+                                TriggerEvent("Add.Stress", 0.5)
 								local pos = GetEntityCoords(PlayerPed, false)
 								if #(pos - lastpos) > 50 then
 									if willNPCreport("gunshots") then
@@ -336,7 +336,23 @@ Citizen.CreateThread(function()
 					end
 				end
 			end
-		end
+        else
+            local PlayerPed = PlayerPedId()
+			if IsPedShooting(PlayerPed) then
+				local hasWeapon, currentWeapon = GetCurrentPedWeapon(PlayerPed, 1)
+				if currentWeapon ~= nil then
+					local WeaponStr = Weaponhashes[currentWeapon] or Weaponhashes[tostring(currentWeapon)]
+					if WeaponStr then
+                        local Weaponhash = GetHashKey(WeaponStr)
+						if GetAmmoInPedWeapon(PlayerPed, Weaponhash) > 0 then
+                            if not weapons_whitelist[WeaponStr] then
+                                TriggerEvent("Add.Stress", 0.5)
+							end
+						end
+					end
+				end
+			end
+        end
 	end
 end)
 

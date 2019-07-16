@@ -119,7 +119,6 @@ AddEventHandler("CarDealer.BuyCar", function(Type, Index, GarageID, Reduction)
                         ["payedoff"] = 0
                     }
                 }, function(plate)
-                    data.cost = MonthlyPayment
                     data.plate = plate
                     data.plate = string.format("%X", tostring(data.plate))
                     data.plate = strpad(data.plate, 8, "0", "STR_PAD_LEFT")
@@ -214,7 +213,6 @@ AddEventHandler("CarDealer.BuyCar", function(Type, Index, GarageID, Reduction)
                         ["payedoff"] = 0
                     }
                 }, function(plate)
-                    data.cost = MonthlyPayment
                     data.plate = plate
                     data.plate = string.format("%X", tostring(data.plate))
                     data.plate = strpad(data.plate, 8, "0", "STR_PAD_LEFT")
@@ -467,6 +465,93 @@ AddEventHandler("Dealer.GivePayment", function(Profit)
                 User.addBank(Profit)
             end
         end
+    end)
+end)
+
+RegisterServerEvent("CarDealer.CheckHistory")
+AddEventHandler("CarDealer.CheckHistory", function(PersonsID)
+    local Source = source
+    if CarDealers[Source] ~= nil then
+        TriggerEvent("core:getuser", PersonsID, function(User)
+            local character_id = User.get("characterID")
+            exports['GHMattiMySQL']:QueryResultAsync("SELECT * FROM vehicles WHERE character_id = @character_id", {["@character_id"] = character_id}, function(result)
+                if result[1] == nil then
+                    TriggerClientEvent("chatMessage", Source, "Database", {16, 102, 158}, "No Information Found")
+                else
+                    TriggerClientEvent("chatMessage", Source, "Database", {16, 102, 158}, "Information Found")
+                    for k, v in pairs(result) do
+                        local financed = ""
+                        local repoed = ""
+                        if v.lastpayment == 0 and v.nextpayment == 0 then
+                            financed = "False"
+                        else
+                            financed = "True"
+                        end
+                        if v.escrowed == 0 then
+                            repoed = "False"
+                        else
+                            repoed = "True"
+                        end
+                        local lastpaymenttime = os.date("*t", v.lastpaymenttime)
+                        local nextpaymenttime os.date("*t", v.nextpaymenttime)
+                        TriggerClientEvent("chatMessage", Source, "Result", {16, 102, 158}, "Model: "..v.model.." | Price: "..v.cost.." Financed: "..financed.." | Repoed: "..repoed.." | Last Payment: "..lastpaymenttime.month.."/"..lastpaymenttime.day.." | Next Payment: "..nextpaymenttime.month.."/"..nextpaymenttime.day)
+                    end
+                end
+            end)
+        end)
+    end
+end)
+
+RegisterServerEvent("Pay.CarPayment")
+AddEventHandler("Pay.CarPayment", function(Plate)
+    local Source = source
+    TriggerEvent("core:getuser", Source, function(User)
+        local character_id = User.get("characterID")
+        exports['GHMattiMySQL']:QueryResultAsync("SELECT * FROM vehicles WHERE character_id = @character_id", {["@character_id"] = character_id}, function(result)
+            if result[1] == nil then
+                TriggerClientEvent("chatMessage", source, "[SYSTEM]", {16, 102, 158}, "Error!")
+            else
+                for k, v in pairs(result) do
+                    if tonumber(Plate, 16) == v.plate then
+                        local Intrest = ( ( v.cost * ( v.intrest / 100) ) * ( ( v.weeks * 7 ) / 360 ) )
+                        local MonthlyPayment = ( ( v.cost / v.weeks ) + Intrest )
+                        local WeeksMissed = math.floor( (  ( os.time() - v.lastpayment)  / 604800 ) )
+                        if WeeksMissed >= 2 then
+                            MonthlyPayment = MonthlyPayment * WeeksMissed
+                        end
+                        if User.get("wallet") > MonthlyPayment then
+                            User.removeWallet(MonthlyPayment)
+                            v.payedoff = v.payedoff - MonthlyPayment
+                            v.lastpayment = os.time()
+                            v.nextpayment = os.time() + 604800
+                            time = os.date("*t", v.nextpayment)
+                            exports["GHMattiMySQL"]:QueryAsync("UPDATE vehicles SET payedoff = @payedoff, lastpayment = @lastpayment, nextpayment = @nextpayment WHERE (plate = @plate)", {
+                                ["@payedoff"] = v.payedoff,
+                                ["@lastpayment"] = v.lastpayment,
+                                ["@nextpayment"] = v.nextpayment,
+                                ["@plate"] = v.plate
+                            })
+                            TriggerClientEvent("pNotify:SendNotification", Source, {text = "Weekly Payment Successful! Next Payment is due on "..time.month.."/"..time.day,type = "error",queue = "left",timeout = 2500,layout = "bottomCenter"})
+                        elseif User.get("bank") > MonthlyPayment then
+                            User.removeBank(MonthlyPayment)
+                            v.payedoff = v.payedoff - MonthlyPayment
+                            v.lastpayment = os.time()
+                            v.nextpayment = os.time() + 604800
+                            time = os.date("*t", v.nextpayment)
+                            exports["GHMattiMySQL"]:QueryAsync("UPDATE vehicles SET payedoff = @payedoff, lastpayment = @lastpayment, nextpayment = @nextpayment WHERE (plate = @plate)", {
+                                ["@payedoff"] = v.payedoff,
+                                ["@lastpayment"] = v.lastpayment,
+                                ["@nextpayment"] = v.nextpayment,
+                                ["@plate"] = v.plate
+                            })
+                            TriggerClientEvent("pNotify:SendNotification", Source, {text = "Weekly Payment Successful! Next Payment is due on "..time.month.."/"..time.day,type = "error",queue = "left",timeout = 2500,layout = "bottomCenter"})
+                        else
+                            TriggerClientEvent("pNotify:SendNotification", Source, {text = "Insufficient Funds!",type = "error",queue = "left",timeout = 2500,layout = "bottomCenter"})
+                        end
+                    end
+                end
+            end
+        end)
     end)
 end)
 

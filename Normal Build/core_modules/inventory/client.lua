@@ -725,10 +725,10 @@ AddEventHandler("inventory:use",function(data)
             TaskStartScenarioInPlace(PlayerPedId(), "WORLD_HUMAN_SMOKING_POT", 0, true)
             Wait(11000)
             drugged = true
-            TriggerEvent("Lower.Stress", 25)
+            TriggerEvent("Use.Weed")
         elseif data.canuse == 11 then --Cigarette
             TaskStartScenarioInPlace(PlayerPedId(), "WORLD_HUMAN_SMOKING", 0, true)
-            TriggerEvent("Lower.Stress", 10)
+            TriggerEvent("Use.Cigarette")
         elseif data.canuse == 12 then
             local Emote = Emotes.Find("cigar")
             Emotes.Stop()
