@@ -350,14 +350,43 @@ end)
 
 RegisterServerEvent("garage:initialise")
 AddEventHandler("garage:initialise",function(source, identifier, character_id)
+    local FinancedVehicles = {}
     exports["GHMattiMySQL"]:QueryResultAsync("SELECT * from vehicles WHERE character_id=@character_id", {["@character_id"] = character_id}, function(vehicles)
         for k,v in pairs(vehicles) do
-            v.plate = string.format("%X", tostring(v.plate))
-            v.plate = strpad(v.plate, 8, "0", "STR_PAD_LEFT")
-            v.neon_colour = json.decode(v.neon_colour)
-            v.smoke_colour = json.decode(v.smoke_colour)
+            if v.escrowed == 1 then
+                table.remove(vehicles, k)
+            else
+                if os.time() > tonumber( v.lastpayment ) + (604800 * 3) and v.payedoff > 0 and v.weeks > 0 then
+                    exports["GHMattiMySQL"]:QueryAsync("UPDATE vehicles SET escrowed = @value WHERE (id = @id and character_id = @character_id)", {
+                        ["value"] = 1,
+                        ["@id"] = v.id,
+                        ["@character_id"] = character_id,
+                    })
+                    table.remove(vehicles, k)
+                    TriggerClientEvent("es_freeroam:notify", source, "CHAR_CARSITE", 1, "Legendary Motorsport", false, "Your "..v.model.." has been repoed. No refunds will be given with no exceptions.")
+
+                else
+                    v.plate = string.format("%X", tostring(v.plate))
+                    v.plate = strpad(v.plate, 8, "0", "STR_PAD_LEFT")
+                    v.neon_colour = json.decode(v.neon_colour)
+                    v.smoke_colour = json.decode(v.smoke_colour)
+                    if tonumber( v.nextpayment ) < os.time() and payedoff ~= 0 then
+                        table.insert(FinancedVehicles, v)
+                    end
+                end
+            end
         end
         TriggerClientEvent("garage:setvehicles", source, vehicles)
+        if #FinancedVehicles > 0 then
+            for k, v in pairs(FinancedVehicles) do
+                if os.time() > ( tonumber( v.lastpayment ) +  604800 ) and v.payedoff > 0 and v.weeks > 0 then
+                    TriggerClientEvent("es_freeroam:notify", source, "CHAR_CARSITE", 1, "Legendary Motorsport", false, "Payment is due for your "..v.model)
+
+                elseif os.time() > ( tonumber( v.lastpayment ) + ( 604800 * 2 ) ) and v.payedoff > 0 and v.weeks > 0 then
+                    TriggerClientEvent("es_freeroam:notify", source, "CHAR_CARSITE", 1, "Legendary Motorsport", false, "Two payments are due for your "..v.model.." if it is not payed in the next 7 days. The car will be repoed and you will be given no refunds, or exceptions")
+                end
+            end
+        end
     end)
     exports["GHMattiMySQL"]:QueryResultAsync("SELECT * from garages WHERE character_id=@character_id", {["@character_id"] = character_id}, function(garages)
         TriggerClientEvent("garage:setgarages", source, garages)
