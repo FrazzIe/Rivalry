@@ -492,9 +492,17 @@ AddEventHandler("CarDealer.CheckHistory", function(PersonsID)
                         else
                             repoed = "True"
                         end
-                        local lastpaymenttime = os.date("*t", v.lastpaymenttime)
-                        local nextpaymenttime os.date("*t", v.nextpaymenttime)
-                        TriggerClientEvent("chatMessage", Source, "Result", {16, 102, 158}, "Model: "..v.model.." | Price: "..v.cost.." Financed: "..financed.." | Repoed: "..repoed.." | Last Payment: "..lastpaymenttime.month.."/"..lastpaymenttime.day.." | Next Payment: "..nextpaymenttime.month.."/"..nextpaymenttime.day)
+                        local lastpaymenttime = os.date("*t", v.lastpayment)
+                        local nextpaymenttime = os.date("*t", v.nextpayment)
+                        local LastTimePayed = "Unknown"
+                        local NextTimePayed = "Unknown"
+                        if v.lastpayment ~= "0" then
+                            LastTimePayed = lastpaymenttime.month.."/"..lastpaymenttime.day
+                        end
+                        if v.nextpayment ~= "0" then
+                            NextTimePayed = nextpaymenttime.month.."/"..nextpaymenttime.day
+                        end
+                        TriggerClientEvent("chatMessage", Source, "Result", {16, 102, 158}, "Model: "..v.model.." | Price: "..v.cost.." | Financed: "..financed.." | Repoed: "..repoed.." | Last Payment: "..LastTimePayed.." | Next Payment: "..NextTimePayed)
                     end
                 end
             end)
@@ -554,6 +562,15 @@ AddEventHandler("Pay.CarPayment", function(Plate)
         end)
     end)
 end)
+
+-- RegisterServerEvent("Sell.Car")
+-- AddEventHandler("Sell.Car", function()
+--     local Source = source
+--     local Seller = nil
+--     TriggerEvent("core:getuser", Source, function(User)
+--         Seller = User.get(characterID)
+--     end)
+-- end)
 
 function DealerSoldVehicle(Seller, Intrest, Price)
     TriggerEvent("core:getuser", Seller, function(Dealer)

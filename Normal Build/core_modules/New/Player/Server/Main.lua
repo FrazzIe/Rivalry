@@ -16,7 +16,7 @@ AddEventHandler("Hospital.ServiceHeal", function()
 	local Source = source
 	local Cost = 500
 	TriggerEvent("core:getuser", Source, function(User)
-		if User.get("wallet") > Cost then
+		if User.get("wallet") >= Cost then
 			User.removeWallet(Cost)
 			TriggerClientEvent("Hospital.ServiceHeal", Source)
 		else

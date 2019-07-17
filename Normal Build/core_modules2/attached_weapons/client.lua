@@ -42,9 +42,9 @@ bone_config = {
 		model = "w_am_jerrycan"
 	},
 	["WEAPON_PUMPSHOTGUN"] = {
-		bone = 24818,		
-		coordinates = {x = 0.1, y = -0.15, z = 0.0},
-		rotation = {x = 0.0, y = 0.0, z = 0.0}, 
+		bone = 24818,
+		coordinates = {x = 0.02, y = -0.15, z = 0.0},
+		rotation = {x = 0.0, y = 215.0, z = 0.0},
 		model = "w_sg_pumpshotgun"
 	}, 
 	["WEAPON_MICROSMG"] = {
@@ -70,22 +70,16 @@ bone_config = {
 		rotation = {x = -115.0, y = 0.0,  z = 0.0},
 		model = "w_sb_minismg"
 	},
-	["WEAPON_FLASHLIGHT"] = {
-		bone = 51826,
-		coordinates = {x = -0.01, y = 0.10, z = 0.07},
-		rotation = {x = -115.0, y = 0.0,  z = 0.0},
-		model = "w_me_flashlight"
-	},
 	["WEAPON_CARBINERIFLE"] = {
 		bone = 24818,
-		coordinates = {x = 0.09, y = -0.15, z = 0.1}, 
-		rotation = {x = 0.0, y = 0.0, z = 0.0},
+		coordinates = {x = 0.02, y = -0.15, z = -0.02},
+		rotation = {x = 0.0, y = 145.0, z = 0.0},
 		model = "w_ar_carbinerifle"
 	},
 	["WEAPON_ASSAULTRIFLE"] = {
 		bone = 24818,
-		coordinates = {x = 0.09, y = -0.15, z = 0.1}, 
-		rotation = {x = 0.0, y = 0.0, z = 0.0},
+		coordinates = {x = -0.1, y = -0.15, z = 0.07},
+		rotation = {x = 0.0, y = 125.0, z = 0.0},
 		model = "w_ar_assaultrifle"
 	},
 	["WEAPON_BULLPUPRIFLE"] = {
@@ -126,20 +120,20 @@ bone_config = {
 	},
 	["WEAPON_SNIPERRIFLE"] = {
 		bone = 24818,
-		coordinates = {x = 0.1, y = -0.15, z = 0.0}, 
-		rotation = {x = 0.0, y = 0.0, z = 0.0},
+		coordinates = {x = -0.1, y = -0.15, z = 0.07},
+		rotation = {x = 0.0, y = 125.0, z = 0.0},
 		model = "w_sr_sniperrifle"
 	},
 	["WEAPON_HEAVYSNIPER"] = {
-		bone = 24818,		
-		coordinates = {x = 0.1, y = -0.15, z = 0.0}, 
-		rotation = {x = 0.0, y = 0.0, z = 0.0}, 
+		bone = 24818,
+		coordinates = {x = -0.1, y = -0.15, z = 0.07},
+		rotation = {x = 0.0, y = 125.0, z = 0.0},
 		model = "w_sr_heavysniper"
 	},
 	["WEAPON_MARKSMANRIFLE"] = {
-		bone = 24818,		
-		coordinates = {x = 0.1, y = -0.15, z = 0.0}, 
-		rotation = {x = 0.0, y = 0.0, z = 0.0}, 
+		bone = 24818,
+		coordinates = {x = -0.1, y = -0.15, z = 0.07},
+		rotation = {x = 0.0, y = 125.0, z = 0.0},
 		model = "w_sr_marksmanrifle"
 	},
 	["WEAPON_BATTLEAXE"] = {

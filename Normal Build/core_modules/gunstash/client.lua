@@ -226,75 +226,77 @@ end)
 Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(0)
-		if OpenMenu then
-			if not WarMenu.IsMenuOpened("Stash") then
-				if not WarMenu.DoesMenuExist("Stash") then
-					WarMenu.CreateMenu("Stash", "Gun Stash")
-					WarMenu.SetSpriteTitle("Stash", "shopui_title_gr_gunmod")
-					WarMenu.SetSubTitle("Stash", "CATEGORIES")
-					WarMenu.SetMenuX("Stash", 0.6)
-					WarMenu.SetMenuY("Stash", 0.15)
-					WarMenu.SetTitleBackgroundColor("Stash", 0, 107, 87)
-					WarMenu.CreateSubMenu("Stash_Deposit", "Stash", "DEPOSIT SECTION")
-					WarMenu.CreateSubMenu("Stash_Withdraw", "Stash", "WITHDRAW SECTION")
-					WarMenu.OpenMenu("Stash")
+		if Dealer.IsDealer then
+			if OpenMenu then
+				if not WarMenu.IsMenuOpened("Stash") then
+					if not WarMenu.DoesMenuExist("Stash") then
+						WarMenu.CreateMenu("Stash", "Gun Stash")
+						WarMenu.SetSpriteTitle("Stash", "shopui_title_gr_gunmod")
+						WarMenu.SetSubTitle("Stash", "CATEGORIES")
+						WarMenu.SetMenuX("Stash", 0.6)
+						WarMenu.SetMenuY("Stash", 0.15)
+						WarMenu.SetTitleBackgroundColor("Stash", 0, 107, 87)
+						WarMenu.CreateSubMenu("Stash_Deposit", "Stash", "DEPOSIT SECTION")
+						WarMenu.CreateSubMenu("Stash_Withdraw", "Stash", "WITHDRAW SECTION")
+						WarMenu.OpenMenu("Stash")
+					else
+						currentItemIndex = 1
+						WarMenu.OpenMenu("Stash")
+					end
 				else
-					currentItemIndex = 1
-					WarMenu.OpenMenu("Stash")
+					WarMenu.CloseMenu()
 				end
-			else
-				WarMenu.CloseMenu()
+				OpenMenu = false
 			end
-			OpenMenu = false
-		end
-		if WarMenu.IsMenuOpened("Stash") then
-			if WarMenu.Button("Deposit") then
-				WarMenu.OpenMenu("Stash_Deposit")
+			if WarMenu.IsMenuOpened("Stash") then
+				if WarMenu.Button("Deposit") then
+					WarMenu.OpenMenu("Stash_Deposit")
+				end
+				if WarMenu.Button("Withdraw") then
+					WarMenu.OpenMenu("Stash_Withdraw")
+				end
+				if WarMenu.Button("Close") then
+					WarMenu.CloseMenu()
+					TriggerServerEvent("Close.Stash")
+				end
+				if IsControlJustPressed(1, 177) then
+					WarMenu.CloseMenu()
+					TriggerServerEvent("Close.Stash")
+				end
+				WarMenu.Display()
 			end
-			if WarMenu.Button("Withdraw") then
-				WarMenu.OpenMenu("Stash_Withdraw")
-			end
-			if WarMenu.Button("Close") then
-				WarMenu.CloseMenu()
-				TriggerServerEvent("Close.Stash")
-			end
-			if IsControlJustPressed(1, 177) then
-				WarMenu.CloseMenu()
-				TriggerServerEvent("Close.Stash")
-			end
-			WarMenu.Display()
-		end
-		if WarMenu.IsMenuOpened("Stash_Deposit") then
-			for k, v in pairs(user_weapons) do
-				if WarMenu.Button(Weapons_names[k].." ["..v.ammo.."]", "Deposit") then
-					if Dealer.Gang == "supplier" then
-						TriggerServerEvent("Stash.Deposit", user_weapons[k], SupplierGang)
-						WarMenu.CloseMenu()
-						TriggerServerEvent("Close.Stash")
-					else
-						TriggerServerEvent("Stash.Deposit", user_weapons[k], Dealer.Gang)
-						WarMenu.CloseMenu()
-						TriggerServerEvent("Close.Stash")
+			if WarMenu.IsMenuOpened("Stash_Deposit") then
+				for k, v in pairs(user_weapons) do
+					if WarMenu.Button(Weapons_names[k].." ["..v.ammo.."]", "Deposit") then
+						if Dealer.Gang == "supplier" then
+							TriggerServerEvent("Stash.Deposit", user_weapons[k], SupplierGang)
+							WarMenu.CloseMenu()
+							TriggerServerEvent("Close.Stash")
+						else
+							TriggerServerEvent("Stash.Deposit", user_weapons[k], Dealer.Gang)
+							WarMenu.CloseMenu()
+							TriggerServerEvent("Close.Stash")
+						end
 					end
 				end
+				WarMenu.Display()
 			end
-			WarMenu.Display()
-		end
-		if WarMenu.IsMenuOpened("Stash_Withdraw") then
-			for k, v in pairs(Inventory) do
-				if WarMenu.Button(Weapons_names[v.model], v.id) then
-					if Dealer.Gang == "supplier" then
-						TriggerServerEvent("Stash.Withdraw", v.id, Inventory[k], SupplierGang)
-						WarMenu.CloseMenu()
-						TriggerServerEvent("Close.Stash")
-					else
-						TriggerServerEvent("Stash.Withdraw", v.id, Inventory[k], Dealer.Gang)
-						WarMenu.CloseMenu()
-						TriggerServerEvent("Close.Stash")
+			if WarMenu.IsMenuOpened("Stash_Withdraw") then
+				for k, v in pairs(Inventory) do
+					if WarMenu.Button(Weapons_names[v.model], v.id) then
+						if Dealer.Gang == "supplier" then
+							TriggerServerEvent("Stash.Withdraw", v.id, Inventory[k], SupplierGang)
+							WarMenu.CloseMenu()
+							TriggerServerEvent("Close.Stash")
+						else
+							TriggerServerEvent("Stash.Withdraw", v.id, Inventory[k], Dealer.Gang)
+							WarMenu.CloseMenu()
+							TriggerServerEvent("Close.Stash")
+						end
 					end
 				end
+				WarMenu.Display()
 			end
-			WarMenu.Display()
 		end
 	end
 end)

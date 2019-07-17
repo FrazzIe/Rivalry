@@ -743,17 +743,43 @@ AddEventHandler("inventory:use",function(data)
             drugged = true
             TriggerEvent("Cocaine.Speed")
         elseif data.canuse == 15 then
-            TriggerEvent("Use.Medkit")
+            local t, distance = GetClosestPlayer()
+            if(distance ~= -1 and distance < 3) then
+                if GetEntityHealth(GetPlayerPed(t)) < 10 then
+                    TriggerServerEvent("Use.Medkit", GetPlayerServerId(t))
+                end
+            else
+                Notify("Please get closer to the target!", 2500)
+                addQty(data.item_id, 1)
+            end
         elseif data.canuse == 16 then
             TriggerEvent("Use.FirstAidKit")
         elseif data.canuse == 17 then
             TriggerEvent("Use.Gauze")
         elseif data.canuse == 18 then
-            TriggerEvent("Use.Vicodin")
+            local t, distance = GetClosestPlayer()
+            if(distance ~= -1 and distance < 3) then
+                TriggerServerEvent("Use.Vicodin", GetPlayerServerId(t))
+            else
+                Notify("Please get closer to the target!", 2500)
+                addQty(data.item_id, 1)
+            end
         elseif data.canuse == 19 then
-            TriggerEvent("Use.Hydrocodone")
+            local t, distance = GetClosestPlayer()
+            if(distance ~= -1 and distance < 3) then
+                TriggerServerEvent("Use.Hydrocodone", GetPlayerServerId(t))
+            else
+                Notify("Please get closer to the target!", 2500)
+                addQty(data.item_id, 1)
+            end
         elseif data.canuse == 20 then
-            TriggerEvent("Use.Morphine")
+            local t, distance = GetClosestPlayer()
+            if(distance ~= -1 and distance < 3) then
+                TriggerServerEvent("Use.Morphine", GetPlayerServerId(t))
+            else
+                Notify("Please get closer to the target!", 2500)
+                addQty(data.item_id, 1)
+            end
         end
         removeQty(data.item_id,1)
     elseif data.canuse == -1 then

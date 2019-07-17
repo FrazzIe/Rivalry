@@ -423,14 +423,39 @@ AddEventHandler("core:ready", function()
 
     Chat.Command("checkhistory", function(source, args, rawCommand)
         local Target = tonumber(args[1])
-        TriggerServerEvent("CarDealer.CheckHistory", Target)
+        if GetPlayerFromServerId(Target) ~= nil and Target ~= nil then
+            TriggerServerEvent("CarDealer.CheckHistory", Target)
+        end
     end, false, {Help = "Car Dealers: Check Client History", Params = {{name = "id", help = "number"}}})
 
     -- Chat.Command("sellcar", function(source, args, rawCommand)
     --     local Plate = tonumber(args[1])
     --     local Price = tonumber(args[2])
     --     local Buyer = tonumber(args[3])
-    --     TriggerServerEvent("Sell.Car", Plate, Price, Buyer)
+    --     local Target = GetPlayerPed(GetPlayerFromServerId(Buyer))
+    --     local Ped = PlayerPedId()
+    --     local TargetPosition = GetEntityCoords(Target, 0)
+    --     local PlayerPosition = GetEntityCoords(Ped, 0)
+    --     local Distance = #(PlayerPosition - TargetPosition)
+    --     if not exports.policejob:getIsCuffed() and not isCuffed() then
+    --         if not IsPlayerDead(Ped) and not IsEntityDead(Ped) then
+    --             if Target ~= Ped and GetPlayerFromServerId(Buyer) ~= nil and Target ~= nil then
+    --                 if(Distance ~= -1 and Distance < 3) then
+    --                     if Price ~= nil then
+    --                         if math.floor(Price) >= 0 then
+    --                             TriggerServerEvent("Sell.Car", Plate, math.floor(Price), Buyer)
+    --                         end
+    --                     end
+    --                 end
+    --             else
+    --                 Notify("This player doesn't exist, and also can't be yourself!", 2500)
+    --             end
+    --         else
+    --             Notify("You can't sell a vehicle while dead!", 2500)
+    --         end
+    --     else
+    --         Notify("You can't sell cars while restrained!", 2500)
+    --     end
     -- end, false, {Help = "Car Dealers: Check Client History", Params = {{name = "id", help = "number"}}})
 end)
 

@@ -72,9 +72,9 @@ EMSMarket = {
     }},
     {Category = "Medical", Items = {
 		{Name = "Medkit", Id = 91, Cost = 50, Max = 10},
-		{Name = "First Aid Kit", Id = 92, Cost = 50, Max = 10},
-		{Name = "Gauze", Id = 93, Cost = 50, Max = 10},
-		{Name = "Bandage", Id = 34, Cost = 50, Max = 10},
+		-- {Name = "First Aid Kit", Id = 92, Cost = 50, Max = 10},
+		-- {Name = "Gauze", Id = 93, Cost = 50, Max = 10},
+		-- {Name = "Bandage", Id = 34, Cost = 50, Max = 10},
     }},
 }
 
