@@ -11,6 +11,10 @@
 
 	Copy, re-release, re-distribute it without my written permission.
 --]]
+local currentItemIndex = 1
+local selectedItemIndex = 1
+local quantity = {}
+
 local AmmoTypes = {
 	["9mm"] = 83,
 	[".45mm"] = 84,
@@ -22,9 +26,6 @@ local AmmoTypes = {
 	["11g"] = 90
 }
 
-local currentItemIndex = 1
-local selectedItemIndex = 1
-local quantity = {}
 for k,v in pairs(Blackmarket_Weapons) do
 	if v.Category == "Illegal" then
 		for i,j in pairs(v.Items) do
@@ -211,7 +212,7 @@ Citizen.CreateThread(function()
 			end
 		end
 		--Blackmarket
-		if Dealer.IsDealer and Dealer.Gang == "supplier" then
+		if ( Dealer.IsDealer and Dealer.Gang == "supplier" ) or ( Dealer.IsDealer and Dealer.Gang == "italian" ) or ( Dealer.IsDealer and Dealer.Gang == "russian" ) or ( Dealer.IsDealer and Dealer.Gang == "ballers" ) then
 			for k,v in ipairs(ammu_nation.blackmarket) do
 				local Distance = GetDistanceBetweenCoords(pos.x, pos.y, pos.z, v.x, v.y, v.z, true)
 				if Distance < 15.0 then

@@ -389,6 +389,7 @@ AddEventHandler("core:selectCharacter", function(data)
                 TriggerEvent("doors:initialise", source)
                 TriggerEvent("weed:initialise", source)
                 TriggerClientEvent("Recieved.Medical.Attention", source)
+                TriggerEvent("GunStash.InitialiseInventory", source)
             else
                 if GetPlayerName(source) then
                     logError(GetPlayerName(source).." was kicked! | STEAM: "..identifier.." | CHAR ID: "..data.character_id.." | 2")

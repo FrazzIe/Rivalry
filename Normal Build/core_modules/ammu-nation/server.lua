@@ -335,6 +335,8 @@ Skins = {
 	["Airborne tint"] = 1,
 	["Sunrise tint"] = 1,
 }
+
+local GunStash_Inventory = {}
 RegisterServerEvent("weapon:initialise")
 AddEventHandler("weapon:initialise",function(source, identifier, character_id)
 	exports["GHMattiMySQL"]:QueryResultAsync("SELECT * from weapons WHERE character_id=@character_id", {["@character_id"] = character_id}, function(weapons)
@@ -350,6 +352,15 @@ AddEventHandler("weapon:initialise",function(source, identifier, character_id)
 			user_weapons[source] = weapons_setup
 			TriggerClientEvent("weapon:set", source, user_weapons[source])
 			TriggerClientEvent("weapon:sync", -1, user_weapons)
+		end
+	end)
+end)
+
+RegisterServerEvent("GunStash.InitialiseInventory")
+AddEventHandler("GunStash.InitialiseInventory", function(Source)
+	exports["GHMattiMySQL"]:QueryResultAsync("SELECT * FROM gunstash_inventory" {}, function(Inventory)
+		if Inventory[1] ~= nil then
+			GunStash_Inventory = Inventory
 		end
 	end)
 end)
@@ -419,31 +430,46 @@ AddEventHandler("weapon:buy_illegal", function(model)
 	local source = source
 	if tablelength(user_weapons[source]) < max_weapons then
 		TriggerEvent("core:getuser", source, function(user)
-			if user.get("dirty") >= BlackMarket_Weapons[model] then
-				user.removeDirty(BlackMarket_Weapons[model])
-				exports["GHMattiMySQL"]:Insert("weapons", {
-					{
-						["character_id"] = user.get("characterID"),
-						["sellprice"] = BlackMarket_Weapons[model],
-						["model"] = model,
-						["ammo"] = 0,
-						["suppressor"] = "false",
-						["flashlight"] = "false",
-						["extended_clip"] = "false",
-						["scope"] = "false",
-						["grip"] = "false",
-						["advanced_scope"] = "false",
-						["skin"] = 0,
-						["owner"] = 0,
-					}
-				}, function(weapon_id)
-					user_weapons[source][model] = { id = weapon_id, character_id = user.get("characterID"), sellprice = BlackMarket_Weapons[model], model = model, ammo = 0, suppressor = "false", flashlight = "false", extended_clip = "false", scope = "false", grip = "false", advanced_scope = "false", skin = 0, owner = 0}
-					TriggerClientEvent("weapon:set", source, user_weapons[source])
-					TriggerClientEvent("weapon:give", source)
-					TriggerClientEvent("weapon:sync", -1, user_weapons)
-				end, true)
+			local Index = 0
+			for k, v in pairs(GunStash_Inventory) do
+				if model = v.name then
+					Index = k
+				end
+			end
+			if GunStash_Inventory[Index].amount > 0 then
+				if user.get("dirty") >= BlackMarket_Weapons[model] then
+					user.removeDirty(BlackMarket_Weapons[model])
+					exports["GHMattiMySQL"]:Insert("weapons", {
+						{
+							["character_id"] = user.get("characterID"),
+							["sellprice"] = BlackMarket_Weapons[model],
+							["model"] = model,
+							["ammo"] = 0,
+							["suppressor"] = "false",
+							["flashlight"] = "false",
+							["extended_clip"] = "false",
+							["scope"] = "false",
+							["grip"] = "false",
+							["advanced_scope"] = "false",
+							["skin"] = 0,
+							["owner"] = 0,
+						}
+					}, function(weapon_id)
+						user_weapons[source][model] = { id = weapon_id, character_id = user.get("characterID"), sellprice = BlackMarket_Weapons[model], model = model, ammo = 0, suppressor = "false", flashlight = "false", extended_clip = "false", scope = "false", grip = "false", advanced_scope = "false", skin = 0, owner = 0}
+						TriggerClientEvent("weapon:set", source, user_weapons[source])
+						TriggerClientEvent("weapon:give", source)
+						TriggerClientEvent("weapon:sync", -1, user_weapons)
+						GunStash_Inventory[Index].amount = GunStash_Inventory[Index].amount - 1
+						exports["GHMattiMySQL"]:QueryAsync("UPDATE gunstash_inventory SET amount = @amount WHERE ( name = @model )", {
+							["@amount"] = GunStash_Inventory[Index].amount,
+							["@model"] = model,
+						})
+					end, true)
+				else
+					Notify("Insufficient funds!", 3000, source)
+				end
 			else
-				Notify("Insufficient funds!", 3000, source)
+				Notify("That weapon supply has ran out!", 3100, source)
 			end
 		end)
 	else
