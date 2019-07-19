@@ -437,8 +437,8 @@ AddEventHandler("weapon:buy_illegal", function(model)
 				end
 			end
 			if GunStash_Inventory[Index].amount > 0 then
-				if user.get("dirty") >= BlackMarket_Weapons[model] then
-					user.removeDirty(BlackMarket_Weapons[model])
+				if user.get("wallet") >= BlackMarket_Weapons[model] then
+					user.removeWallet(BlackMarket_Weapons[model])
 					exports["GHMattiMySQL"]:Insert("weapons", {
 						{
 							["character_id"] = user.get("characterID"),
