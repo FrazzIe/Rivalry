@@ -364,7 +364,7 @@ local weaponstable = {
     "WEAPON_REVOLVER",
 	"WEAPON_VINTAGEPISTOL",
 	"WEAPON_MACHINEPISTOL",
-	"WEAPON_HEAVYPISTOL"
+	"WEAPON_HEAVYPISTOL",
 }
 
 local riflestable = {
@@ -388,7 +388,7 @@ local riflestable = {
     "WEAPON_SNIPERIFLE",
     "WEAPON_MARKSMANRIFLE",
     "WEAPON_BULLPUPSHOTGUN",
-    "WEAPON_HEAVYSHOTGUN"
+    "WEAPON_HEAVYSHOTGUN",
 }
 
 function CheckWeapon(ped)
