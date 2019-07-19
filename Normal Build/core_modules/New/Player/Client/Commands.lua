@@ -81,7 +81,7 @@ AddEventHandler("core:ready", function()
                 end
             end
         end
-    end, false, {Help = "Play an emote", Params = {{name = "emote", help = Emotes.GenerateDescription()}}})
+    end, false, {Help = "Play an emote", Params = {{name = "emote", help = "Find a list of emotes on the rivalryrp forums"}}})
 
     Chat.Command({"wash"}, function(source, args, fullCommand)
         if Mechanic.Active then
