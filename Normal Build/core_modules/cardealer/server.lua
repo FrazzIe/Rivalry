@@ -1,5 +1,6 @@
 local DisplayedVehicles = {}
 local CarDealers = {}
+
 AddEventHandler("CarDealer:Initialise", function(source, identifier, character_id)
 	exports['GHMattiMySQL']:QueryResultAsync("SELECT * FROM cardealer WHERE character_id = @character_id", {["@character_id"] = character_id}, function(result)
 		if result[1] == nil then
@@ -10,6 +11,119 @@ AddEventHandler("CarDealer:Initialise", function(source, identifier, character_i
 		end
 	end)
 end)
+
+TriggerEvent("core:addGroupCommand", "cardealeradd", "command", function(source, args, rawCommand, data, power, group)
+	local source = source
+	if(#args < 2) then
+		TriggerClientEvent('chatMessage', source, 'SYSTEM', {255, 0, 0}, "Usage : /cardealeradd [ID]")	
+	else
+		if GetPlayerName(tonumber(args[1])) ~= nil then
+            TriggerEvent("core:getuser", tonumber(args[1]), function(target)
+                CarDealers[tonumber(args[1])] = nil
+                exports['GHMattiMySQL']:QueryAsync("INSERT INTO cardealer (`character_id`) VALUES (@character_id)", {
+                    ["@character_id"] = target.get("characterID"),
+                })
+                CarDealers[tonumber(args[1])] = { IsDealer = true, OnDuty = false, character_id = target.get("characterID"), rank = "Associate", sold = 0 }
+                Notify("<b style='color:red'>Alert</b> <br><span style='color:lime'>"..target.get("first_name").." "..target.get("last_name").."</span> has been accepted. <br> Congratulations on joining the Car Dealership!", 10000, tonumber(args[1]))
+                TriggerClientEvent("CarDealer:Set", tonumber(args[1]), CarDealers[source], true, true)
+            end)
+		else
+			TriggerClientEvent('chatMessage', source, 'SYSTEM', {255, 0, 0}, "Usage : /cardealer [ID]")
+		end
+	end
+end, {help = "Add a player to the Whitelisted Car Dealer", params = {{name = "id", help = "The id of the player"}}})
+
+TriggerEvent("core:addGroupCommand", "cardealerrem", "command", function(source, args, rawCommand, data, power, group)
+	local source = source
+	if(not args[1]) then
+		TriggerClientEvent('chatMessage', source, 'SYSTEM', {255, 0, 0}, "Usage : /cardealerrem [ID]")	
+	else
+		if GetPlayerName(tonumber(args[1])) then
+			if CarDealers[tonumber(args[1])] ~= nil then
+				TriggerEvent("core:getuser", tonumber(args[1]), function(target)
+					CarDealers[tonumber(args[1])] = nil
+					exports['GHMattiMySQL']:QueryAsync("DELETE FROM cardealer WHERE character_id=@character_id", {["@character_id"] = target.get("characterID")})
+					TriggerClientEvent("CarDealer:Set", source, {}, false, true)
+				end)
+			else
+				Notify("This user is not apart of the Car Dealership", 3000, source)
+			end
+		else
+			Notify("No player with this ID !", 3000, source)
+		end
+	end
+end, {help = "Remove a player from the Whitelisted Car Dealer", params = {{name = "id", help = "The id of the player"}}})
+
+TriggerEvent("core:addGroupCommand", "cardealerpromote", "command", function(source, args, rawCommand, data, power, group)
+	local source = source
+	if(#args < 2) then
+		TriggerClientEvent('chatMessage', source, 'SYSTEM', {255, 0, 0}, "Usage : /cardealerpromote [ID] [RANK]")	
+	else
+		if(GetPlayerName(tonumber(args[1])) ~= nil and tostring(args[2]) ~= nil)then
+			local rank = table.concat(args, " ", 2)
+			if CarDealers[source] ~= nil then
+				if CarDealers[tonumber(args[1])] ~= nil then
+					if rank == "Associate" or rank == "Seniro Associate" or rank == "Supervisor" or rank == "Manager" then
+                        if CarDealers[source].rank == "Manager" then
+                            TriggerEvent("core:getuser", tonumber(args[1]), function(target)
+                                exports['GHMattiMySQL']:QueryAsync("UPDATE cardealer SET rank=@rank WHERE character_id=@character_id", {["@character_id"] = target.get("characterID"), ["@rank"] = rank})
+                                CarDealers[tonumber(args[1])].rank = rank
+                                Notify("<b style='color:red'>Alert</b> <br><span style='color:lime'>You have been promoted!</span><br> You are now a "..rank, 10000, tonumber(args[1]))
+                                TriggerClientEvent("CarDealer:Set", tonumber(args[1]), CarDealers[tonumber(args[1])], true, true)
+                            end)
+                        else
+                            Notify("You cannot target this player", 3000, source)
+                        end
+					else
+						Notify("This rank does not exist", 3000, source)
+					end
+				else
+					Notify("This user is not apart of the Car Dealership", 3000, source)
+				end
+			else
+				Notify("You aren't apart of the Car Dealership", 3000, source)
+			end
+		else
+			Notify("Player could not be found", 3000, source)
+		end
+	end
+end, {help = "Promote to Whitelisted Car Dealership", params = {{name = "id", help = "The id of the player"},{name = "rank", help = "Associate | Senior Associate | Supervisor | Manager"}}})
+
+TriggerEvent("core:addGroupCommand", "cardealerdemote", "command", function(source, args, rawCommand, data, power, group)
+	local source = source
+	if(#args < 2) then
+		TriggerClientEvent('chatMessage', source, 'SYSTEM', {255, 0, 0}, "Usage : /cardealerdemote [ID] [RANK]")	
+	else
+		if(GetPlayerName(tonumber(args[1])) ~= nil and tostring(args[2]) ~= nil)then
+			local rank = table.concat(args, " ", 2)
+			if CarDealers[source] ~= nil then
+				if CarDealers[tonumber(args[1])] ~= nil then
+					if rank == "Associate" or rank == "Seniro Associate" or rank == "Supervisor" or rank == "Manager" then
+                        if CarDealers[source].rank == "Manager" then
+                            TriggerEvent("core:getuser", tonumber(args[1]), function(target)
+                                exports['GHMattiMySQL']:QueryAsync("UPDATE cardealer SET rank=@rank WHERE character_id=@character_id", {["@character_id"] = target.get("characterID"), ["@rank"] = rank:lower()})
+                                CarDealers.Players[tonumber(args[1])].rank = rank:lower()
+                                Notify("<b style='color:red'>Alert</b> <br><span style='color:lime'>You have been demoted!</span><br> You are now a "..rank, 10000, tonumber(args[1]))
+                                TriggerClientEvent("CarDealer:Set", tonumber(args[1]), CarDealers[tonumber(args[1])], false, true)
+                            end)
+                        else
+                            Notify("You cannot demote anyone", 3000, source)
+                        end
+					else
+						Notify("This rank does not exist", 3000, source)
+					end
+				else
+					Notify("This user is not apart of the Car Dealership", 3000, source)
+				end
+			else
+				Notify("You aren't apart of the Car Dealership", 3000, source)
+			end
+		else
+			Notify("Player could not be found", 3000, source)
+		end
+	end
+end, {help = "Demote from Whitelisted Car Dealership", params = {{name = "id", help = "The id of the player"},{name = "rank", help = "Associate | Senior Associate | Supervisor | Manager"}}})
+
 
 RegisterServerEvent("Spawn.DisplayVehicle")
 AddEventHandler("Spawn.DisplayVehicle", function(Vehicle)
