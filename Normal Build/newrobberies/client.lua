@@ -42,7 +42,7 @@ Citizen.CreateThread(function()
 			for StoreNumber = 1, #Rivalry.Robberies.Stores do
 				if #(PlayerPosition - Rivalry.Robberies.Stores[StoreNumber].Vault) < 15.0 then
 					for RegisterNumber = 1, #Rivalry.Robberies.Stores[StoreNumber].CashRegisters do
-						if #(PlayerPosition - Rivalry.Robberies.Stores[StoreNumber].CashRegisters[RegisterNumber].Coords) < 1 then
+						if #(PlayerPosition - Rivalry.Robberies.Stores[StoreNumber].CashRegisters[RegisterNumber].Coords) < 1 and GetSelectedPedWeapon(PlayerPed) ~= GetHashKey("WEAPON_UNARMED") then
 							DisplayHelpText("Press ~INPUT_CONTEXT~ to break open the cash register!")
 							if IsControlJustPressed(1, 51) then
 								TriggerServerEvent("Rivalry.Rob.CashRegister", StoreNumber, RegisterNumber, GetPlayerServerId(PlayerId()))

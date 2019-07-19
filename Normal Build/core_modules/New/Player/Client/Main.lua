@@ -548,3 +548,57 @@ Citizen.CreateThread(function()
 		end
 	end
 end)
+
+RegisterNetEvent("Phone.Use.Animations")
+AddEventHandler("Phone.Use.Animations", function(Dictionary, Animation)
+	if ( Dictionary == "Call" and Animation == "Animation" ) then
+		local Emote = Emotes.Find("phonecall3")
+		if Emote then
+			Emotes.Stop()
+			Emote.Playing = true
+			Emote:Play(Emote)
+			table.insert(Emotes.Active, Emote)
+		end
+	elseif ( Dictionary == "cellphone@" and Animation == "cellphone_text_in" ) or ( Dictionary == "cellphone@" and Animation == "cellphone_text_out" ) then
+		if Animation == "cellphone_text_out" then
+			local Emote = Emotes.Find("closephonenormal")
+			if Emote then
+				Emotes.Stop()
+				Emote.Playing = true
+				Emote:Play(Emote)
+				table.insert(Emotes.Active, Emote)
+			end
+		elseif Animation == "cellphone_text_in" then
+			local Emote = Emotes.Find("usephonenormal")
+			if Emote then
+				Emotes.Stop()
+				Emote.Playing = true
+				Emote:Play(Emote)
+				table.insert(Emotes.Active, Emote)
+			end
+		end
+	elseif ( Dictionary == "cellphone@in_car@ds" and Animation == "cellphone_text_in" ) or ( Dictionary == "cellphone@" and Animation == "cellphone_text_out" ) then
+		if Animation == "cellphone_text_in" then
+			local Emote = Emotes.Find("usephonevehicle")
+			if Emote then
+				Emotes.Stop()
+				Emote.Playing = true
+				Emote:Play(Emote)
+				table.insert(Emotes.Active, Emote)
+			end
+		elseif Animation == "cellphone_text_out" then
+			local Emote = Emotes.Find("closephonevehicle")
+			if Emote then
+				Emotes.Stop()
+				Emote.Playing = true
+				Emote:Play(Emote)
+				table.insert(Emotes.Active, Emote)
+			end
+		end
+	end
+end)
+
+RegisterNetEvent("Phone.Stop.Animations")
+AddEventHandler("Phone.Stop.Animations", function()
+	Emotes.Stop()
+end)

@@ -176,7 +176,7 @@ function Emotes.GenerateDescription()
 	local Str = "stop | "
 	for Index = 1, #Emotes.List do
 		Str = Str .. Emotes.List[Index].Id .. " | "
-	end
+    end
 	return Str
 end
 
@@ -2316,6 +2316,117 @@ Emote.Add("phonecall2", "Phonecall", "Idle", {"amb@code_human_wander_mobile@male
     SetModelAsNoLongerNeeded(Model)
 
     TaskPlayAnim(PlayerPedId(), self.Dictionaries[1], self.Animations[1], 2.0, 2.0, -1, 49, 0, false, false, false)
+end)
+
+Emote.Add("phonecall3", "Phonecall", "Idle", {"cellphone@str"}, {"cellphone_call_listen_a"}, {}, {}, function(self)
+    local Model = GetHashKey("p_amb_phone_01")
+    RequestModel(Model)
+    while not HasModelLoaded(Model) do
+        Citizen.Wait(150)
+    end
+
+    local object = CreateObject(Model, 0.01, 0, 0, true, false, false)
+
+    self:Object(object)
+
+    AttachEntityToEntity(object, PlayerPedId(), GetPedBoneIndex(PlayerPedId(), 28422), 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, true, true, false, true, 1, true)
+
+    SetModelAsNoLongerNeeded(Model)
+
+    TaskPlayAnim(PlayerPedId(), self.Dictionaries[1], self.Animations[1], 8.0, -8, -1, 49, 0, 0, 0, 0)
+end)
+
+Emote.Add("tablet", "Tablet", "Idle", {"amb@code_human_in_bus_passenger_idles@female@tablet@base"}, {"base"}, {}, {}, function(self)
+    local Model = GetHashKey("prop_cs_tablet")
+    RequestModel(Model)
+    while not HasModelLoaded(Model) do
+        Citizen.Wait(150)
+    end
+
+    local object = CreateObject(Model, 0.01, 0, 0, true, false, false)
+
+    self:Object(object)
+    AttachEntityToEntity(object, PlayerPedId(), GetPedBoneIndex(PlayerPedId(), 60309), 0.03, 0.002, -0.0, 10.0, 160.0, 0.0, true, false, false, false, 2, true)
+
+    SetModelAsNoLongerNeeded(Model)
+
+    TaskPlayAnim(PlayerPedId(), self.Dictionaries[1], self.Animations[1], 3.0, 3.0, -1, 49, 0, false, false, false)
+end)
+
+Emote.Add("rag", "Rag", "Idle", {}, {}, {"WORLD_HUMAN_MAID_CLEAN"}, {}, function(self)
+    TaskStartScenarioInPlace(PlayerPedId(), self.Scenarios[1], 0, false)
+end)
+
+Emote.Add("usephonenormal", "Use Phone Normal", "Idle", {"cellphone@"}, {"cellphone_text_in"}, {}, {}, function(self)
+    local Model = GetHashKey("p_amb_phone_01")
+    RequestModel(Model)
+    while not HasModelLoaded(Model) do
+        Citizen.Wait(150)
+    end
+
+    local object = CreateObject(Model, 0.01, 0, 0, true, false, false)
+
+    self:Object(object)
+
+    AttachEntityToEntity(object, PlayerPedId(), GetPedBoneIndex(PlayerPedId(), 28422), 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, true, true, false, true, 1, true)
+
+    SetModelAsNoLongerNeeded(Model)
+
+    TaskPlayAnim(PlayerPedId(), self.Dictionaries[1], self.Animations[1], 4.0, -1, -1, 50, 0, false, false, false)
+end)
+
+Emote.Add("closephonenormal", "Use Phone Normal", "Idle", {"cellphone@"}, {"cellphone_text_out"}, {}, {}, function(self)
+    local Model = GetHashKey("p_amb_phone_01")
+    RequestModel(Model)
+    while not HasModelLoaded(Model) do
+        Citizen.Wait(150)
+    end
+
+    local object = CreateObject(Model, 0.01, 0, 0, true, false, false)
+
+    self:Object(object)
+
+    AttachEntityToEntity(object, PlayerPedId(), GetPedBoneIndex(PlayerPedId(), 28422), 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, true, true, false, true, 1, true)
+
+    SetModelAsNoLongerNeeded(Model)
+
+    TaskPlayAnim(PlayerPedId(), self.Dictionaries[1], self.Animations[1], 4.0, -1, -1, 50, 0, false, false, false)
+end)
+
+Emote.Add("usephonevehicle", "Use Phone Vehicle", "Idle", {"cellphone@in_car@ds"}, {"cellphone_text_in"}, {}, {}, function(self)
+    local Model = GetHashKey("p_amb_phone_01")
+    RequestModel(Model)
+    while not HasModelLoaded(Model) do
+        Citizen.Wait(150)
+    end
+
+    local object = CreateObject(Model, 0.01, 0, 0, true, false, false)
+
+    self:Object(object)
+
+    AttachEntityToEntity(object, PlayerPedId(), GetPedBoneIndex(PlayerPedId(), 28422), 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, true, true, false, true, 1, true)
+
+    SetModelAsNoLongerNeeded(Model)
+
+    TaskPlayAnim(PlayerPedId(), self.Dictionaries[1], self.Animations[1], 4.0, -1, -1, 50, 0, false, false, false)
+end)
+
+Emote.Add("closephonevehicle", "Use Phone Vehicle", "Idle", {"cellphone@in_car@ds"}, {"cellphone_text_out"}, {}, {}, function(self)
+    local Model = GetHashKey("p_amb_phone_01")
+    RequestModel(Model)
+    while not HasModelLoaded(Model) do
+        Citizen.Wait(150)
+    end
+
+    local object = CreateObject(Model, 0.01, 0, 0, true, false, false)
+
+    self:Object(object)
+
+    AttachEntityToEntity(object, PlayerPedId(), GetPedBoneIndex(PlayerPedId(), 28422), 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, true, true, false, true, 1, true)
+
+    SetModelAsNoLongerNeeded(Model)
+
+    TaskPlayAnim(PlayerPedId(), self.Dictionaries[1], self.Animations[1], 4.0, -1, -1, 50, 0, false, false, false)
 end)
 
 --[[Emote.Add("12rally", "SWAT Rally", "Police", {"swat"}, {"rally_point"}, {}, {}, function(self)
