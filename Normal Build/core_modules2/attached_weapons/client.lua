@@ -48,9 +48,9 @@ bone_config = {
 		model = "w_sg_pumpshotgun"
 	}, 
 	["WEAPON_MICROSMG"] = {
-		bone = 24818,
-		coordinates = {x = 0.1, y = -0.15, z = 0.0}, 
-		rotation = {x = 0.0, y = 0.0, z = 0.0},
+		bone = 51826,
+		coordinates = {x = -0.01, y = 0.10, z = 0.07},
+		rotation = {x = -115.0, y = 0.0,  z = 0.0},
 		model = "w_sb_microsmg"
 	},
 	["WEAPON_GUSENBERG"] = {
@@ -62,7 +62,7 @@ bone_config = {
 		bone = 24818,
 		coordinates = {x = 0.1, y = -0.15, z = 0.0}, 
 		rotation = {x = 0.0, y = 0.0, z = 0.0},
-		model = "w_sb_combatpdw"
+		model = "w_sb_pdw"
 	},
 	["WEAPON_MINISMG"] = {
 		bone = 51826,
@@ -78,38 +78,44 @@ bone_config = {
 	},
 	["WEAPON_ASSAULTRIFLE"] = {
 		bone = 24818,
-		coordinates = {x = -0.1, y = -0.15, z = 0.07},
-		rotation = {x = 0.0, y = 125.0, z = 0.0},
+		coordinates = {x = 0.02, y = -0.15, z = -0.02},
+		rotation = {x = 0.0, y = 145.0, z = 0.0},
 		model = "w_ar_assaultrifle"
 	},
 	["WEAPON_BULLPUPRIFLE"] = {
 		bone = 24818,
-		coordinates = {x = 0.09, y = -0.15, z = 0.1}, 
-		rotation = {x = 0.0, y = 0.0, z = 0.0},
+		coordinates = {x = 0.02, y = -0.15, z = -0.02},
+		rotation = {x = 0.0, y = 145.0, z = 0.0},
 		model = "w_ar_bullpuprifle"
 	},
 	["WEAPON_COMPACTRIFLE"] = {
-		bone = 24818,
-		coordinates = {x = 0.09, y = -0.15, z = 0.1}, 
-		rotation = {x = 0.0, y = 0.0, z = 0.0},
+		bone = 57597,		
+		coordinates = {x = 0.08, y = -0.15, z = 0.07}, 
+		rotation = {x = 0.0, y = 75.0, z = 0.0}, 
 		model = "w_ar_assaultrifle_smg"
 	},
-	["WEAPON_SAWNOFFSHOTGUN"] = {
+	["WEAPON_ADVANCEDRIFLE"] = {
 		bone = 24818,
-		coordinates = {x = 0.1, y = -0.15, z = 0.0}, 
-		rotation = {x = 0.0, y = 0.0, z = 0.0},
+		coordinates = {x = 0.02, y = -0.15, z = -0.02},
+		rotation = {x = 0.0, y = 145.0, z = 0.0},
+		model = "w_ar_advancedrifle"
+	},
+	["WEAPON_SAWNOFFSHOTGUN"] = {
+		bone = 57597,		
+		coordinates = {x = 0.08, y = -0.15, z = 0.07}, 
+		rotation = {x = 0.0, y = 75.0, z = 0.0}, 
 		model = "w_sg_sawnoff"
 	},
 	["WEAPON_BULLPUPSHOTGUN"] = {
-		bone = 24818,		
-		coordinates = {x = 0.1, y = -0.15, z = 0.0}, 
-		rotation = {x = 0.0, y = 0.0, z = 0.0}, 
+		bone = 24818,
+		coordinates = {x = 0.02, y = -0.15, z = -0.02},
+		rotation = {x = 0.0, y = 145.0, z = 0.0},
 		model = "w_sg_bullpupshotgun"
 	},
 	["WEAPON_MUSKET"] = {
-		bone = 24818,		
-		coordinates = {x = 0.09, y = -0.15, z = 0.1}, 
-		rotation = {x = 0.0, y = 0.0, z = 0.0}, 
+		bone = 24818,
+		coordinates = {x = 0.02, y = -0.15, z = -0.02},
+		rotation = {x = 0.0, y = 145.0, z = 0.0},
 		model = "w_ar_musket"
 	},
 	["WEAPON_DBSHOTGUN"] = {
@@ -118,22 +124,28 @@ bone_config = {
 		rotation = {x = 0.0, y = 75.0, z = 0.0}, 
 		model = "w_sg_doublebarrel"
 	},
+	["WEAPON_HEAVYSHOTGUN"] = {
+		bone = 24818,
+		coordinates = {x = 0.02, y = -0.15, z = -0.02},
+		rotation = {x = 0.0, y = 145.0, z = 0.0},
+		model = "w_sg_heavyshotgun"
+	},
 	["WEAPON_SNIPERRIFLE"] = {
 		bone = 24818,
-		coordinates = {x = -0.1, y = -0.15, z = 0.07},
-		rotation = {x = 0.0, y = 125.0, z = 0.0},
+		coordinates = {x = 0.02, y = -0.15, z = -0.02},
+		rotation = {x = 0.0, y = 145.0, z = 0.0},
 		model = "w_sr_sniperrifle"
 	},
 	["WEAPON_HEAVYSNIPER"] = {
 		bone = 24818,
-		coordinates = {x = -0.1, y = -0.15, z = 0.07},
-		rotation = {x = 0.0, y = 125.0, z = 0.0},
+		coordinates = {x = 0.02, y = -0.15, z = -0.02},
+		rotation = {x = 0.0, y = 145.0, z = 0.0},
 		model = "w_sr_heavysniper"
 	},
 	["WEAPON_MARKSMANRIFLE"] = {
 		bone = 24818,
-		coordinates = {x = -0.1, y = -0.15, z = 0.07},
-		rotation = {x = 0.0, y = 125.0, z = 0.0},
+		coordinates = {x = 0.02, y = -0.15, z = -0.02},
+		rotation = {x = 0.0, y = 145.0, z = 0.0},
 		model = "w_sr_marksmanrifle"
 	},
 	["WEAPON_BATTLEAXE"] = {
@@ -162,14 +174,14 @@ bone_config = {
 	},
 	["WEAPON_SMG"] = {
 		bone = 24818,
-		coordinates = {x = -0.1, y = -0.15, z = 0.07},
-		rotation = {x = 0.0, y = 125.0, z = 0.0},
+		coordinates = {x = 0.02, y = -0.15, z = -0.02},
+		rotation = {x = 0.0, y = 145.0, z = 0.0},
 		model = "w_sb_smg"
 	},
 	["WEAPON_ASSAULTSMG"] = {
 		bone = 24818,
-		coordinates = {x = -0.1, y = -0.15, z = 0.07},
-		rotation = {x = 0.0, y = 125.0, z = 0.0},
+		coordinates = {x = 0.02, y = -0.15, z = -0.02},
+		rotation = {x = 0.0, y = 145.0, z = 0.0},
 		model = "w_sb_assaultsmg"
 	},
 }
@@ -350,7 +362,8 @@ local weaponstable = {
     "WEAPON_VINTAGEPISTOL",
     "WEAPON_SNSPISTOL",
     "WEAPON_REVOLVER",
-    "WEAPON_VINTAGEPISTOL"
+	"WEAPON_VINTAGEPISTOL",
+	"WEAPON_MACHINEPISTOL"
 }
 
 local riflestable = {

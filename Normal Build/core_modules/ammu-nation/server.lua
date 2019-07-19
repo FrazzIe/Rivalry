@@ -358,7 +358,7 @@ end)
 
 RegisterServerEvent("GunStash.InitialiseInventory")
 AddEventHandler("GunStash.InitialiseInventory", function(Source)
-	exports["GHMattiMySQL"]:QueryResultAsync("SELECT * FROM gunstash_inventory" {}, function(Inventory)
+	exports["GHMattiMySQL"]:QueryResultAsync("SELECT * FROM gunstash_inventory", {}, function(Inventory)
 		if Inventory[1] ~= nil then
 			GunStash_Inventory = Inventory
 		end
@@ -432,7 +432,7 @@ AddEventHandler("weapon:buy_illegal", function(model)
 		TriggerEvent("core:getuser", source, function(user)
 			local Index = 0
 			for k, v in pairs(GunStash_Inventory) do
-				if model = v.name then
+				if model == v.name then
 					Index = k
 				end
 			end

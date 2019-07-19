@@ -214,149 +214,155 @@ Citizen.CreateThread(function()
 		--Blackmarket
 		if ( Dealer.IsDealer and Dealer.Gang == "supplier" ) or ( Dealer.IsDealer and Dealer.Gang == "italian" ) or ( Dealer.IsDealer and Dealer.Gang == "russian" ) or ( Dealer.IsDealer and Dealer.Gang == "ballers" ) then
 			for k,v in ipairs(ammu_nation.blackmarket) do
-				local Distance = GetDistanceBetweenCoords(pos.x, pos.y, pos.z, v.x, v.y, v.z, true)
-				if Distance < 15.0 then
-					RenderMarker(25, v.x, v.y, v.z, 1.5, 1.5, 2.0, 255, 255, 0, 20)
-					if Distance < 1.0 then
-						DisplayHelpText("Press ~INPUT_CONTEXT~ to buy illegal items!")
-						if IsControlJustPressed(1, 51) then
-							if not WarMenu.IsMenuOpened("Blackmarket_Weapons") then
-								if not WarMenu.DoesMenuExist("Blackmarket_Weapons") then
-									WarMenu.CreateMenu("Blackmarket_Weapons", "Gun store")
-									WarMenu.SetSpriteTitle("Blackmarket_Weapons", {"shopui_title_blackmarket","shopui_title_gunclub"})
-									WarMenu.SetSubTitle("Blackmarket_Weapons", "WEAPONS")
-									WarMenu.SetMenuX("Blackmarket_Weapons", 0.6)
-									WarMenu.SetMenuY("Blackmarket_Weapons", 0.15)
-									for k,v in pairs(Blackmarket_Weapons) do
-										WarMenu.CreateSubMenu(v.Category.."_BLACKMARKET", "Blackmarket_Weapons", v.Category)
-										if v.Category == "Illegal" then
-											for i,j in pairs(v.Items) do
-												WarMenu.CreateSubMenu(j.Name.."_BLACKMARKET", v.Category.."_BLACKMARKET", j.Name.." SHOPPING CART")
-											end
-										else
-											for i,j in pairs(v.Items) do
-												WarMenu.CreateSubMenu(j.Weapon.."_BLACKMARKET", v.Category.."_BLACKMARKET", j.Name.." UPGRADES")
+				if Dealer.Gang == v.Gang then
+					local Distance = GetDistanceBetweenCoords(pos.x, pos.y, pos.z, v.x, v.y, v.z, true)
+					if Distance < 15.0 then
+						RenderMarker(25, v.x, v.y, v.z, 1.5, 1.5, 2.0, 255, 255, 0, 20)
+						if Distance < 1.0 then
+							DisplayHelpText("Press ~INPUT_CONTEXT~ to buy illegal items!")
+							if IsControlJustPressed(1, 51) then
+								if not WarMenu.IsMenuOpened("Blackmarket_Weapons") then
+									if not WarMenu.DoesMenuExist("Blackmarket_Weapons") then
+										WarMenu.CreateMenu("Blackmarket_Weapons", "Gun store")
+										WarMenu.SetSpriteTitle("Blackmarket_Weapons", {"shopui_title_blackmarket","shopui_title_gunclub"})
+										WarMenu.SetSubTitle("Blackmarket_Weapons", "WEAPONS")
+										WarMenu.SetMenuX("Blackmarket_Weapons", 0.6)
+										WarMenu.SetMenuY("Blackmarket_Weapons", 0.15)
+										for k,v in pairs(Blackmarket_Weapons) do
+											WarMenu.CreateSubMenu(v.Category.."_BLACKMARKET", "Blackmarket_Weapons", v.Category)
+											if v.Category == "Illegal" then
+												for i,j in pairs(v.Items) do
+													WarMenu.CreateSubMenu(j.Name.."_BLACKMARKET", v.Category.."_BLACKMARKET", j.Name.." SHOPPING CART")
+												end
+											else
+												for i,j in pairs(v.Items) do
+													WarMenu.CreateSubMenu(j.Weapon.."_BLACKMARKET", v.Category.."_BLACKMARKET", j.Name.." UPGRADES")
+												end
 											end
 										end
-									end
-									WarMenu.OpenMenu("Blackmarket_Weapons")
-								else
-									currentItemIndex = 1
-									WarMenu.OpenMenu("Blackmarket_Weapons")
-								end
-							else
-								WarMenu.CloseMenu()
-							end
-						end
-						if WarMenu.IsMenuOpened("Blackmarket_Weapons") then
-							for k,v in pairs(Blackmarket_Weapons) do
-								if WarMenu.MenuButton(v.Category, v.Category.."_BLACKMARKET") then
-								end
-							end
-							if WarMenu.Button("Close") then
-								WarMenu.CloseMenu()
-							end
-							WarMenu.Display()
-						end
-						for k,v in pairs(Blackmarket_Weapons) do
-							if WarMenu.IsMenuOpened(v.Category.."_BLACKMARKET") then
-								if v.Category == "Illegal" then
-									for i,j in pairs(v.Items) do
-										if WarMenu.Button(j.Name, "$"..j.Cost) then
-											TriggerServerEvent("bmitem:buy", j.Id, 1)
-										end
+										WarMenu.OpenMenu("Blackmarket_Weapons")
+									else
+										currentItemIndex = 1
+										WarMenu.OpenMenu("Blackmarket_Weapons")
 									end
 								else
-									for i,j in pairs(v.Items) do
-										if user_weapons[j.Weapon] ~= nil then
-											if WarMenu.MenuButton(j.Name, j.Weapon.."_BLACKMARKET") then
-											end
-										else
-											if WarMenu.Button(j.Name, "$"..j.Cost) then
-												TriggerServerEvent("weapon:buy_illegal", j.Weapon)
-											end
-										end
+									WarMenu.CloseMenu()
+								end
+							end
+							if WarMenu.IsMenuOpened("Blackmarket_Weapons") then
+								for k,v in pairs(Blackmarket_Weapons) do
+									if WarMenu.MenuButton(v.Category, v.Category.."_BLACKMARKET") then
 									end
+								end
+								if WarMenu.Button("Close") then
+									WarMenu.CloseMenu()
 								end
 								WarMenu.Display()
 							end
-						end
-						for k,v in pairs(Blackmarket_Weapons) do
-							for i,j in pairs(v.Items) do
-								if user_weapons[j.Weapon] ~= nil then
-									if WarMenu.IsMenuOpened(j.Weapon.."_BLACKMARKET") then
-										if Ammo[j.Weapon] then
-											if WarMenu.Button("Current Ammo", GetAmmoInPedWeapon(PlayerPed, GetHashKey(j.Weapon)).."/"..Ammo[j.Weapon].Max) then
+							for k,v in pairs(Blackmarket_Weapons) do
+								if WarMenu.IsMenuOpened(v.Category.."_BLACKMARKET") then
+									if v.Category == "Illegal" then
+										for i,j in pairs(v.Items) do
+											if WarMenu.Button(j.Name, "$"..j.Cost) then
+												TriggerServerEvent("bmitem:buy", j.Id, 1)
 											end
-											if GetAmmoInPedWeapon(PlayerPed, GetHashKey(j.Weapon)) < Ammo[j.Weapon].Max then
-												if WarMenu.Button(Ammo[j.Weapon].Name..Ammo[j.Weapon].Amount, "$"..Ammo[j.Weapon].Cost) then
-													TriggerServerEvent("weapon:buyammo", j.Weapon)
+										end
+									else
+										for i,j in pairs(v.Items) do
+											if user_weapons[j.Weapon] ~= nil then
+												if ( Dealer.Gang == j.Gang and Dealer.IsDealer ) or ( Dealer.Gang == j.SecondaryGang and Dealer.IsDealer ) or ( j.Gang == "all" and Dealer.IsDealer ) then
+													if WarMenu.MenuButton(j.Name, j.Weapon.."_BLACKMARKET") then
+													end
 												end
 											else
-												if WarMenu.Button(Ammo[j.Weapon].Name..Ammo[j.Weapon].Amount, "FULL") then
-												end
-											end
-										end
-										if Attachments[j.Weapon] then
-											for a,attachment in pairs(Attachments[j.Weapon]) do
-												if attachment.Name ~= "Yusuf Amir Luxury Finish" and attachment.Name ~= "Platinum Pearl Deluxe Finish" and attachment.Name ~= "Etched Wood Grip Finish" and attachment.Name ~= "Gilded Gun Metal Finish" and attachment.Name ~= "Eteched Gun Metal Finish" and attachment.Name ~= "Bodyguard Variant" and attachment.Name ~= "VIP Variant" and attachment.Name ~= "Base Model" and attachment.Name ~= "The Pimp" and attachment.Name ~= "The Ballas" and attachment.Name ~= "The Hustler" and attachment.Name ~= "The Rock" and attachment.Name ~= "The Hater" and attachment.Name ~= "The Lover" and attachment.Name ~= "The Player" and attachment.Name ~= "The King" and attachment.Name ~= "The Vagos" then
-													local key = attachment.Name:lower()
-													key = string.gsub(key, " ", "_")
-													if user_weapons[j.Weapon][key] == "false" then
-														if WarMenu.Button(attachment.Name, "$"..math.floor(attachment.Cost)) then
-															TriggerServerEvent("weapon:buyattachment", j.Weapon, attachment.Name, math.floor(attachment.Cost), attachment.Hash)
-														end
-													else
-														if WarMenu.Button(attachment.Name) then
-														end
-													end
-												else
-													if user_weapons[j.Weapon].skin == attachment.Hash then
-														if WarMenu.Button(attachment.Name) then
-														end			        			
-													else
-														if WarMenu.Button(attachment.Name, "$"..math.floor(attachment.Cost)) then
-															TriggerServerEvent("weapon:buyattachment", j.Weapon, attachment.Name, math.floor(attachment.Cost), attachment.Hash)
-														end			        			
+												if ( Dealer.Gang == j.Gang and Dealer.IsDealer ) or ( Dealer.Gang == j.SecondaryGang and Dealer.IsDealer ) or ( j.Gang == "all" and Dealer.IsDealer ) then
+													if WarMenu.Button(j.Name, "$"..j.Cost) then
+														TriggerServerEvent("weapon:buy_illegal", j.Weapon)
 													end
 												end
 											end
 										end
-										for a,tint in pairs(Tints) do
-											if v.Category ~= "Melee" and v.Category ~= "Throwables" and v.Category ~= "Specials" and j.Weapon ~= "GADGET_PARACHUTE" then
-												if user_weapons[j.Weapon].skin == tint.Index then
-													if WarMenu.Button(tint.Name) then
-													end			        			
+									end
+									WarMenu.Display()
+								end
+							end
+							for k,v in pairs(Blackmarket_Weapons) do
+								for i,j in pairs(v.Items) do
+									if user_weapons[j.Weapon] ~= nil then
+										if WarMenu.IsMenuOpened(j.Weapon.."_BLACKMARKET") then
+											if Ammo[j.Weapon] then
+												if WarMenu.Button("Current Ammo", GetAmmoInPedWeapon(PlayerPed, GetHashKey(j.Weapon)).."/"..Ammo[j.Weapon].Max) then
+												end
+												if GetAmmoInPedWeapon(PlayerPed, GetHashKey(j.Weapon)) < Ammo[j.Weapon].Max then
+													if WarMenu.Button(Ammo[j.Weapon].Name..Ammo[j.Weapon].Amount, "$"..Ammo[j.Weapon].Cost) then
+														TriggerServerEvent("weapon:buyammo", j.Weapon)
+													end
 												else
-													if WarMenu.Button(tint.Name, "$"..math.floor(tint.Cost)) then
-														TriggerServerEvent("weapon:buyattachment", j.Weapon, tint.Name, math.floor(tint.Cost), tint.Index)
+													if WarMenu.Button(Ammo[j.Weapon].Name..Ammo[j.Weapon].Amount, "FULL") then
 													end
 												end
-											end        				
-										end
-										for _, tint in pairs(ParachuteTints) do
-											if j.Weapon == "GADGET_PARACHUTE" then
-												if user_weapons[j.Weapon].skin == tint.Index then
-													if WarMenu.Button(tint.Name) then
-													end			        			
-												else
-													if WarMenu.Button(tint.Name, "$"..math.floor(tint.Cost)) then
-														TriggerServerEvent("weapon:buyattachment", j.Weapon, tint.Name, math.floor(tint.Cost), tint.Index)
+											end
+											if Attachments[j.Weapon] then
+												for a,attachment in pairs(Attachments[j.Weapon]) do
+													if attachment.Name ~= "Yusuf Amir Luxury Finish" and attachment.Name ~= "Platinum Pearl Deluxe Finish" and attachment.Name ~= "Etched Wood Grip Finish" and attachment.Name ~= "Gilded Gun Metal Finish" and attachment.Name ~= "Eteched Gun Metal Finish" and attachment.Name ~= "Bodyguard Variant" and attachment.Name ~= "VIP Variant" and attachment.Name ~= "Base Model" and attachment.Name ~= "The Pimp" and attachment.Name ~= "The Ballas" and attachment.Name ~= "The Hustler" and attachment.Name ~= "The Rock" and attachment.Name ~= "The Hater" and attachment.Name ~= "The Lover" and attachment.Name ~= "The Player" and attachment.Name ~= "The King" and attachment.Name ~= "The Vagos" then
+														local key = attachment.Name:lower()
+														key = string.gsub(key, " ", "_")
+														if user_weapons[j.Weapon][key] == "false" then
+															if WarMenu.Button(attachment.Name, "$"..math.floor(attachment.Cost)) then
+																TriggerServerEvent("weapon:buyattachment", j.Weapon, attachment.Name, math.floor(attachment.Cost), attachment.Hash)
+															end
+														else
+															if WarMenu.Button(attachment.Name) then
+															end
+														end
+													else
+														if user_weapons[j.Weapon].skin == attachment.Hash then
+															if WarMenu.Button(attachment.Name) then
+															end			        			
+														else
+															if WarMenu.Button(attachment.Name, "$"..math.floor(attachment.Cost)) then
+																TriggerServerEvent("weapon:buyattachment", j.Weapon, attachment.Name, math.floor(attachment.Cost), attachment.Hash)
+															end			        			
+														end
 													end
 												end
-											end											
+											end
+											for a,tint in pairs(Tints) do
+												if v.Category ~= "Melee" and v.Category ~= "Throwables" and v.Category ~= "Specials" and j.Weapon ~= "GADGET_PARACHUTE" then
+													if user_weapons[j.Weapon].skin == tint.Index then
+														if WarMenu.Button(tint.Name) then
+														end			        			
+													else
+														if WarMenu.Button(tint.Name, "$"..math.floor(tint.Cost)) then
+															TriggerServerEvent("weapon:buyattachment", j.Weapon, tint.Name, math.floor(tint.Cost), tint.Index)
+														end
+													end
+												end        				
+											end
+											for _, tint in pairs(ParachuteTints) do
+												if j.Weapon == "GADGET_PARACHUTE" then
+													if user_weapons[j.Weapon].skin == tint.Index then
+														if WarMenu.Button(tint.Name) then
+														end			        			
+													else
+														if WarMenu.Button(tint.Name, "$"..math.floor(tint.Cost)) then
+															TriggerServerEvent("weapon:buyattachment", j.Weapon, tint.Name, math.floor(tint.Cost), tint.Index)
+														end
+													end
+												end											
+											end
+											if WarMenu.Button("Sell", "$"..math.floor(tonumber(user_weapons[j.Weapon].sellprice))) then
+												TriggerServerEvent("weapon:sell", j.Weapon)
+											end
+											WarMenu.Display()
 										end
-										if WarMenu.Button("Sell", "$"..math.floor(tonumber(user_weapons[j.Weapon].sellprice))) then
-											TriggerServerEvent("weapon:sell", j.Weapon)
-										end
-										WarMenu.Display()
 									end
 								end
 							end
-						end
-					elseif Distance > 1.0 then
-						if WarMenu.IsMenuOpened("Blackmarket_Weapons") then
-							WarMenu.CloseMenu()
+						elseif Distance > 1.0 then
+							if WarMenu.IsMenuOpened("Blackmarket_Weapons") then
+								WarMenu.CloseMenu()
+							end
 						end
 					end
 				end
