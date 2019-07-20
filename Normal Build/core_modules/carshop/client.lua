@@ -805,20 +805,6 @@ end)
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 --Useful functions
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-function drawLoadingTxt(text,font,centre,x,y,scale,r,g,b,a)
-    SetTextFont(font)
-    SetTextProportional(0)
-    SetTextScale(scale, scale)
-    SetTextColour(r, g, b, a)
-    SetTextDropShadow(0, 0, 0, 0,255)
-    SetTextEdge(1, 0, 0, 0, 255)
-    SetTextDropShadow()
-    SetTextOutline()
-    SetTextCentre(centre)
-    SetTextEntry("STRING")
-    AddTextComponentString(text)
-    DrawText(x , y)
-end
 
 function GetGarage()
     local garages_used, garages_slots, available_garages = {}, {}, {}
