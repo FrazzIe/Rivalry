@@ -13,6 +13,73 @@ CarDealer.Rank = nil
 
 local DisplayedVehicles = {}
 
+Citizen.CreateThread(function())
+	function CarDealer:SpawnVehicle(model, coords, heading, clearArea)
+		local clearRadius = 1.5
+		local modelHash = (type(model) == "string" and GetHashKey(model) or model)
+		local startTime = GetGameTimer()
+
+		if not IsModelInCdimage(modelHash) then
+			Citizen.Trace("[Export]:SpawnVehicle -> Invalid model")
+			return nil
+		end
+
+		if not IsModelAVehicle(modelHash) then
+			Citizen.Trace("[Export]:SpawnVehicle -> Model is not a vehicle")
+			return nil
+		end
+
+		if not CanRegisterMissionVehicles(1) then
+			Citizen.Trace("[Export]:SpawnVehicle -> Unable to register mission vehicles")
+			return nil
+		end
+
+		RequestModel(modelHash)
+
+		while not HasModelLoaded(modelHash) do
+			Citizen.Wait(25)
+
+			if (GetGameTimer() - startTime) > 15000 then
+				break
+			end
+		end
+
+		if not HasModelLoaded(modelHash) then
+			Citizen.Trace("[Export]:SpawnVehicle -> Unable to load model")
+			return nil
+		end
+		
+		if model == "bombushka" then
+			clearRadius = 20.0
+		end
+
+		if clearArea then
+			ClearAreaOfVehicles(coords.x, coords.y, coords.z, clearRadius, false, false, false, false, false)
+		end
+
+		local handle = CreateVehicle(modelHash, coords.x, coords.y, coords.z, heading, true, false)
+
+		if DoesEntityExist(handle) then
+			local netHandle = VehToNet(handle)
+
+			SetEntitySomething(handle, true)
+
+			if NetworkGetEntityIsNetworked(handle) then
+				SetNetworkIdExistsOnAllMachines(netHandle, true)
+			end
+
+			SetVehicleIsStolen(handle, false)
+			N_0xb2e0c0d6922d31f2(handle, true)
+			SetModelAsNoLongerNeeded(modelHash)
+			
+			return handle
+		else
+			Citizen.Trace("[Export]:SpawnVehicle -> Vehicle does not exist")
+			return nil
+		end
+	end
+end)
+
 RegisterNetEvent("CarDealer:Set")
 AddEventHandler("CarDealer:Set", function(_Data, _CarDealer, first)
 	CarDealer.IsDealer = _CarDealer
@@ -255,7 +322,7 @@ Citizen.CreateThread(function()
 				if WarMenu.IsMenuOpened(v.title) then
 					for i,j in pairs(v.vehicles) do
 						if WarMenu.Button(j.name) then
-							local Vehicle = exports["core"]:SpawnVehicle(j.model, { x = Data.VehicleSpawnArea.x, y = Data.VehicleSpawnArea.y, z = Data.VehicleSpawnArea.z }, Data.VehicleSpawnAreaHeading, false)
+							local Vehicle = CarDealer:SpawnVehicle(j.model, { x = Data.VehicleSpawnArea.x, y = Data.VehicleSpawnArea.y, z = Data.VehicleSpawnArea.z }, Data.VehicleSpawnAreaHeading, false)
 							SetVehicleOnGroundProperly(Vehicle)
 							SetPedIntoVehicle(Player, Vehicle, -1)
 							DecorSetBool(Vehicle, "hotwire", true)
