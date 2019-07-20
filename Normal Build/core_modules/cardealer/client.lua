@@ -202,7 +202,8 @@ AddEventHandler("carshop:bought",function(data, NetworkID)
 
             SetVehicleWindowTint(veh, tonumber(data.tint_colour))
         end
-    end)
+	end)
+	TriggerServerEvent("CarDealer.RemoveVehicle", NetworkID)
 end)
 
 RegisterNetEvent("Dealer.SoldVehicle")

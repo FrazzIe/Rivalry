@@ -240,8 +240,6 @@ AddEventHandler("CarDealer.BuyCar", function(Type, Index, GarageID, Reduction)
                     TriggerClientEvent("carshop:bought", Source, data, DisplayedVehicles[Index].Entity)
                     TriggerClientEvent("carshop:setplate", -1, data.plate, DisplayedVehicles[Index].Entity)
                     DealerSoldVehicle(DisplayedVehicles[Index].Seller, 0, DisplayedVehicles[Index].Price)
-                    table.remove(DisplayedVehicles, Index)
-                    TriggerClientEvent("DisplayVehicles.Sync", -1, DisplayedVehicles)
                 end, true)
             elseif tonumber(User.get("bank")) >= tonumber(DisplayedVehicles[Index].Price) then
                 User.removeBank(DisplayedVehicles[Index].Price)
@@ -334,8 +332,6 @@ AddEventHandler("CarDealer.BuyCar", function(Type, Index, GarageID, Reduction)
                     TriggerClientEvent("carshop:bought", Source, data, DisplayedVehicles[Index].Entity)
                     TriggerClientEvent("carshop:setplate", -1, data.plate, DisplayedVehicles[Index].Entity)
                     DealerSoldVehicle(DisplayedVehicles[Index].Seller, 0, DisplayedVehicles[Index].Price)
-                    table.remove(DisplayedVehicles, Index)
-                    TriggerClientEvent("DisplayVehicles.Sync", -1, DisplayedVehicles)
                 end, true)
             else
                 TriggerClientEvent("pNotify:SendNotification", Source, {text = "Insufficient funds!",type = "error",queue = "left",timeout = 2500,layout = "bottomCenter"})
@@ -453,8 +449,6 @@ AddEventHandler("CarDealer.BuyCar", function(Type, Index, GarageID, Reduction)
                     TriggerClientEvent("carshop:bought", Source, data, DisplayedVehicles[Index].Entity)
                     TriggerClientEvent("carshop:setplate", -1, data.plate, DisplayedVehicles[Index].Entity)
                     DealerSoldVehicle(DisplayedVehicles[Index].Seller, Intrest, DisplayedVehicles[Index].Price)
-                    table.remove(DisplayedVehicles, Index)
-                    TriggerClientEvent("DisplayVehicles.Sync", -1, DisplayedVehicles)
                 end, true)
             elseif tonumber(User.get("bank")) >= tonumber(MonthlyPayment + DisplayedVehicles[Index].CashDown) then
                 User.removeBank(MonthlyPayment + DisplayedVehicles[Index].CashDown)
@@ -550,8 +544,6 @@ AddEventHandler("CarDealer.BuyCar", function(Type, Index, GarageID, Reduction)
                     TriggerClientEvent("carshop:bought", Source, data, DisplayedVehicles[Index].Entity)
                     TriggerClientEvent("carshop:setplate", -1, data.plate, DisplayedVehicles[Index].Entity)
                     DealerSoldVehicle(DisplayedVehicles[Index].Seller, Intrest, DisplayedVehicles[Index].Price)
-                    table.remove(DisplayedVehicles, Index)
-                    TriggerClientEvent("DisplayVehicles.Sync", -1, DisplayedVehicles)
                 end, true)
             else
                 TriggerClientEvent("pNotify:SendNotification", Source, {text = "Insufficient funds!",type = "error",queue = "left",timeout = 2500,layout = "bottomCenter"})
@@ -675,6 +667,17 @@ AddEventHandler("Pay.CarPayment", function(Plate)
             end
         end)
     end)
+end)
+
+RegisterServerEvent("CarDealer.RemoveVehicle")
+AddEventHandler("CarDealer.RemoveVehicle", function(NetworkID)
+    local Source = source
+    for Index = 1, #DisplayedVehicles do
+        if NetworkID == DisplayedVehicles[Index].Entity then
+            table.remove(DisplayedVehicles, Index)
+            TriggerClientEvent("DisplayVehicles.Sync", -1, DisplayedVehicles)
+        end
+    end
 end)
 
 -- RegisterServerEvent("Sell.Car")
