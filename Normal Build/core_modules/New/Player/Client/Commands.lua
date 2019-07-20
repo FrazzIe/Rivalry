@@ -7,17 +7,14 @@ local DisplayTenCodes = false
 local DisplayCameras = false
 local DisplayImmersionBars = false
 local BedLocations = {
-    [1] = { Coords = vector3(357.38882446289,-594.37078857422,42.878852844238), Model = 2117668672},
-    [2] = { Coords = vector3(360.41680908203,-587.03009033203,42.871894836426), Model = -1091386327},
-    [3] = { Coords = vector3(354.23416137695,-592.67858886719,42.871894836426), Model = 2117668672},
-    [4] = { Coords = vector3(356.7373046875,-585.93511962891,42.871894836426), Model = 1631638868},
-    [5] = { Coords = vector3(350.72268676758,-591.75512695313,42.871894836426), Model = 2117668672},
-    [6] = { Coords = vector3(353.24450683594,-584.68627929688,42.871894836426), Model = 1631638868},
-    [7] = { Coords = vector3(346.90606689453,-590.63903808594,42.871894836426), Model = 2117668672},
-    [8] = { Coords = vector3(349.69018554688,-583.60992431641,42.871894836426), Model = -1091386327},
-    [9] = { Coords = vector3(344.70373535156,-581.04907226563,42.871894836426), Model = -1091386327},
-    [10] = { Coords = vector3(323.49407958984,-571.77935791016,42.877216339111), Model = -1091386327},
-    [11] = { Coords = vector3(329.10028076172,-574.57482910156,42.877216339111), Model = 1631638868},
+    [1] = vector3(349.42709350586,-583.51416015625,42.871894836426),
+    [2] = vector3(353.52642822266,-584.78887939453,42.871894836426),
+    [3] = vector3(356.7373046875,-585.93511962891,42.871894836426),
+    [4] = vector3(360.41680908203,-587.03009033203,42.871894836426),
+    [5] = vector3(357.39080810547,-594.36395263672,42.871894836426),
+    [6] = vector3(354.23416137695,-592.67858886719,42.871894836426),
+    [7] = vector3(350.72268676758,-591.75512695313,42.871894836426),
+    [8] = vector3(346.90606689453,-590.63903808594,42.871894836426),
 }
 local InBed = false
 local CurrentBed = nil
@@ -406,7 +403,7 @@ AddEventHandler("core:ready", function()
             end
             for Index = 1, #BedLocations do
                 if #(PlayerPosition - BedLocations[Index].Coords) < 2.0 then
-                    NearestBed = GetClosestObjectOfType(BedLocations[Index].Coords.x, BedLocations[Index].Coords.y, BedLocations[Index].Coords.z, 2.0, BedLocations[Index].Model, 0, 0, 0)
+                	NearestBed = GetClosestObjectOfType(BedLocations[Index].x, BedLocations[Index].y, BedLocations[Index].z, 2.0, -1091386327, 0, 0, 0)
                     AttachEntityToEntity(Ped, NearestBed, 1, -0.2, -0.2, 1.4, 0.0, 0.0, 180.0, true, true, true, true, 1, true)
                     TaskPlayAnim(Ped, Dictionary, Animation, 8.0, 1.0, -1, 1, 0, 0, 0, 0 )
                     InBed = true
