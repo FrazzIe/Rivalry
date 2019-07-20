@@ -271,6 +271,16 @@ AddEventHandler("interaction:buy_drivers_license", function()
     end)
 end)
 
+RegisterServerEvent("interaction:buy_fishing_license")
+AddEventHandler("interaction:buy_fishing_license", function()
+    local source = source
+    TriggerEvent("core:getuser", source, function(user)
+        user.set("fishing_license", "true")
+        TriggerClientEvent("interaction:set_fishing_license", source, "true")
+        Notify("You have recieved a fishing license!", 3000, source)
+    end)
+end)
+
 --[[ Robbing - Phone removal ]]--
 RegisterNetEvent("interaction:take_phone")
 AddEventHandler("interaction:take_phone", function(target)

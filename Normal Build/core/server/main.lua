@@ -32,6 +32,7 @@ Config = {
         ["Licenses"] = {
             ["Weapon"] = "false",
             ["Driver"] = "true",
+            ["Fishing"] = "false",
         },
         ["Jail"] = 0,
         ["Job"] = 1,

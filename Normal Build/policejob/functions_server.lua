@@ -183,6 +183,14 @@ AddEventHandler('police:search', function(target, type)
 				else
 					TriggerClientEvent("chatMessage", source, "Drivers License:", {16, 102, 158}, " ^1Suspended")
 				end
+			end)
+		elseif type == "fl" then
+			TriggerEvent("core:getuser", target, function(_target)
+				if _target.get("fishing_license") == "true" then
+					TriggerClientEvent("chatMessage", source, "Fishing License:", {16, 102, 158}, " ^2Yes")
+				else
+					TriggerClientEvent("chatMessage", source, "Fishing License:", {16, 102, 158}, " ^1No")
+				end
 			end)		
 		end
 	else
@@ -271,6 +279,13 @@ AddEventHandler('police:seize', function(target, type)
 				TriggerClientEvent("interaction:set_drivers_license", target, "false")
 				TriggerClientEvent("pNotify:SendNotification", source, {text = "You suspended their drivers license",type = "error",queue = "left",timeout = 3000,layout = "centerRight"})
 				TriggerClientEvent("pNotify:SendNotification", target, {text = "Your drivers license has been suspended..",type = "error",queue = "left",timeout = 3000,layout = "centerRight"})
+			end)
+		elseif type == "fl" then
+			TriggerEvent("core:getuser", target, function(_target)
+				_target.set("fishing_license", "false")
+				TriggerClientEvent("interaction:set_fishing_license", target, "false")
+				TriggerClientEvent("pNotify:SendNotification", source, {text = "You suspended their fishing license",type = "error",queue = "left",timeout = 3000,layout = "centerRight"})
+				TriggerClientEvent("pNotify:SendNotification", target, {text = "Your fishing license has been suspended..",type = "error",queue = "left",timeout = 3000,layout = "centerRight"})
 			end)
 		elseif type == "phone" then
 			TriggerClientEvent("pNotify:SendNotification", source, {text = "You seized their phone",type = "error",queue = "left",timeout = 3000,layout = "centerRight"})

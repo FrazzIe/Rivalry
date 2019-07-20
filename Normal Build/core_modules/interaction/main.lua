@@ -13,6 +13,7 @@
 --]]
 --[[ Open Menu ]]--
 drivers_license = "false"
+fishing_license = "false"
 controller = false
 
 local seat_cooldown = -1
@@ -433,6 +434,9 @@ AddEventHandler("interaction:licenses",function()
 	if tobool(drivers_license) then
 		exports.ui:addOption("Drivers license", [[]])
 	end
+	if tobool(fishing_license) then
+		exports.ui:addOption("Fishing license", [[]])
+	end
 	exports.ui:back([[TriggerEvent("interaction:wallet")]])
 end)
 
@@ -563,6 +567,14 @@ end)
 RegisterNetEvent("interaction:set_drivers_license")
 AddEventHandler("interaction:set_drivers_license", function(_license)
 	drivers_license = _license
+	if exports.ui:currentmenu() == "licenses" then
+		TriggerEvent("interaction:licenses")
+	end
+end)
+
+RegisterNetEvent("interaction:set_fishing_license")
+AddEventHandler("interaction:set_fishing_license", function(_license)
+	fishing_license = _license
 	if exports.ui:currentmenu() == "licenses" then
 		TriggerEvent("interaction:licenses")
 	end

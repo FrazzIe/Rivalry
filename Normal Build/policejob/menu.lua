@@ -45,7 +45,8 @@ AddEventHandler("police:menu_citizen", function()
     exports.ui:addOption("Seize", [[TriggerEvent("police:menu_citizen_seize")]])
     exports.ui:addOption("Breathalyzer", [[TriggerEvent("police:menu_citizen_breathalyzer")]])
     exports.ui:addOption("Gun residue", [[TriggerEvent("police:menu_citizen_gun_residue")]])
-    exports.ui:addOption("Supply user with a weapon license", [[TriggerEvent("police:menu_citizen_give_license")]])
+    exports.ui:addOption("Supply person with a weapon license", [[TriggerEvent("police:menu_citizen_give_license")]])
+    exports.ui:addOption("Supply person with a fishing license", [[TriggerEvent("police:menu_citizen_give_fishing_license")]])
     --exports.ui:addOption("Reinstate Drivers License", [[TriggerEvent("police:menu_citizen_give_drivers_license")]])
     if activeMedics == 0 then
         exports.ui:addOption("Revive", [[TriggerEvent("paramedic:menu_revive")]])
@@ -99,6 +100,7 @@ AddEventHandler("police:menu_citizen_search", function()
     exports.ui:addOption("Weapons", [[TriggerEvent("police:menu_citizen_search_execute", "weapons")]])
     exports.ui:addOption("Weapon License", [[TriggerEvent("police:menu_citizen_search_execute", "wl")]])
     exports.ui:addOption("Drivers License", [[TriggerEvent("police:menu_citizen_search_execute", "dl")]])
+    exports.ui:addOption("Fishing License", [[TriggerEvent("police:menu_citizen_search_execute", "fl")]])
     exports.ui:addOption("Identification", [[TriggerEvent("police:menu_citizen_search_execute", "id")]])
     exports.ui:addOption("Wallet", [[TriggerEvent("police:menu_citizen_search_execute", "wallet")]])
     exports.ui:back([[TriggerEvent("police:menu_citizen")]])
@@ -122,6 +124,7 @@ AddEventHandler("police:menu_citizen_seize", function()
     exports.ui:addOption("Weapons", [[TriggerEvent("police:menu_citizen_seize_execute", "weapons")]])
     exports.ui:addOption("Weapon License", [[TriggerEvent("police:menu_citizen_seize_execute", "wl")]])
     exports.ui:addOption("Drivers License", [[TriggerEvent("police:menu_citizen_seize_execute", "dl")]])
+    exports.ui:addOption("Fishing License", [[TriggerEvent("police:menu_citizen_seize_execute", "fl")]])
     exports.ui:addOption("Wallet", [[TriggerEvent("police:menu_citizen_seize_execute", "wallet")]])
     exports.ui:addOption("Phone", [[TriggerEvent("police:menu_citizen_seize_execute", "phone")]])
     exports.ui:back([[TriggerEvent("police:menu_citizen")]])
@@ -183,6 +186,15 @@ AddEventHandler("police:menu_citizen_give_drivers_license", function()
     local t, distance = GetClosestPlayer()
     if(distance ~= -1 and distance < 3) then
         TriggerServerEvent("interaction:buy_drivers_license", GetPlayerServerId(t))
+    else
+        Notify("Please get closer to the target!", 2500)
+    end
+end)
+
+AddEventHandler("police:menu_citizen_give_fishing_license", function()
+    local t, distance = GetClosestPlayer()
+    if(distance ~= -1 and distance < 3) then
+        TriggerServerEvent("interaction:buy_fishing_license", GetPlayerServerId(t))
     else
         Notify("Please get closer to the target!", 2500)
     end
