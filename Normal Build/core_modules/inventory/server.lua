@@ -113,7 +113,7 @@ itemlist = {
     [91] = {name = "Medkit", item_id = 91, canuse = 15, illegal = false},
     [92] = {name = "First Aid Kit", item_id = 92, canuse = 16, illegal = false},
     [93] = {name = "Gauze", item_id = 93, canuse = 17, illegal = false},
-    [94] = {name = "Vicodin", item_id = 94, canuse = 18, illegal = false},
+    [94] = {name = "Ibuprofen", item_id = 94, canuse = 18, illegal = false},
     [95] = {name = "Hydrocodone", item_id = 95, canuse = 19, illegal = false},
     [96] = {name = "Morphine", item_id = 96, canuse = 20, illegal = false}
 }

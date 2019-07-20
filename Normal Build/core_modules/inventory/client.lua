@@ -745,9 +745,7 @@ AddEventHandler("inventory:use",function(data)
         elseif data.canuse == 15 then
             local t, distance = GetClosestPlayer()
             if(distance ~= -1 and distance < 3) then
-                if GetEntityHealth(GetPlayerPed(t)) < 10 then
-                    TriggerServerEvent("Use.Medkit", GetPlayerServerId(t))
-                end
+                TriggerServerEvent("Use.Medkit", GetPlayerServerId(t))
             else
                 Notify("Please get closer to the target!", 2500)
                 addQty(data.item_id, 1)

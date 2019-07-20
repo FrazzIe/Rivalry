@@ -12,16 +12,16 @@
     Copy, re-release, re-distribute it without my written permission.
 --]]
 cars = {
-    ["cheburek"] = 0,
-    ["ellie"] = 0,
-    ["entity2"] = 0,
-    ["fagaloa"] = 0,
-    ["flashgt"] = 0,
-    ["gb200"] = 0,
-    ["issi3"] = 0,
-    ["michelli"] = 0,
-    ["tezeract"] = 0,
-    ["tyrant"] = 0,
+    -- ["cheburek"] = 0,
+    -- ["ellie"] = 0,
+    -- ["entity2"] = 0,
+    -- ["fagaloa"] = 0,
+    -- ["flashgt"] = 0,
+    -- ["gb200"] = 0,
+    -- ["issi3"] = 0,
+    -- ["michelli"] = 0,
+    -- ["tezeract"] = 0,
+    -- ["tyrant"] = 0,
 
     ["taxi"] = 9500,
     ["towtruck"] = 15000,
@@ -350,9 +350,9 @@ cars = {
     ["zombiea"] = 6500,
     ["zombieb"] = 7500,
 
-    ["pounder2"] = 0,
-    ["mule2"] = 0,
-    ["benson"] = 0,
+    -- ["pounder2"] = 0,
+    -- ["mule2"] = 0,
+    -- ["benson"] = 0,
 
 }
 

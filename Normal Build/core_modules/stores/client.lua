@@ -66,7 +66,7 @@ ToolMarket = {
 
 EMSMarket = {
     {Category = "Drugs", Items = {
-		{Name = "Vicodin", Id = 94, Cost = 50, Max = 10},
+		{Name = "Ibuprofen", Id = 94, Cost = 50, Max = 10},
 		{Name = "Hydrocodone", Id = 95, Cost = 50, Max = 10},
 		{Name = "Morphine", Id = 96, Cost = 50, Max = 10},
     }},

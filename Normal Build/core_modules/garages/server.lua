@@ -357,9 +357,9 @@ AddEventHandler("garage:initialise",function(source, identifier, character_id)
                 table.remove(vehicles, k)
             else
                 if os.time() > tonumber( v.lastpayment ) + (604800 * 3) and v.payedoff > 0 and v.weeks > 0 then
-                    exports["GHMattiMySQL"]:QueryAsync("UPDATE vehicles SET escrowed = @value WHERE (id = @id and character_id = @character_id)", {
+                    exports["GHMattiMySQL"]:QueryAsync("UPDATE vehicles SET escrowed = @value WHERE (plate = @plate and character_id = @character_id)", {
                         ["value"] = 1,
-                        ["@id"] = v.id,
+                        ["@plate"] = v.plate,
                         ["@character_id"] = character_id,
                     })
                     table.remove(vehicles, k)

@@ -117,7 +117,7 @@ AddEventHandler("carshop:bought",function(data, NetworkID)
             user_vehicles[count].instance = veh
             user_vehicles[count].state = "~r~Missing"
             SetVehicleOnGroundProperly(veh)
-			DecorSetBool(veh, "hotwire", false)
+			DecorSetBool(veh, "hotwire", true)
             SetVehicleColours(veh, data.primary_colour, data.secondary_colour)
             SetVehicleExtraColours(veh, tonumber(data.pearlescent_colour), tonumber(data.wheel_colour))
             SetVehicleNumberPlateTextIndex(veh, data.plate_colour)

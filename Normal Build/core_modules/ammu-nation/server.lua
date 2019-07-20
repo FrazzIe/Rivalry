@@ -812,16 +812,16 @@ AddEventHandler("bmitem:buy", function(id, quantity)
 			TriggerClientEvent("pNotify:SendNotification", source, {text = "You cannot hold anymore items!",type = "error",queue = "left",timeout = 2500,layout = "bottomCenter"})
 		elseif user_quantity + tonumber(quantity) >= 100 then
 			local available_space = 100 - user_quantity
-			if user.get("dirty") >= (Store[id]*available_space) then
-				user.removeDirty(Store[id]*available_space)
+			if user.get("wallet") >= (Store[id]*available_space) then
+				user.removeWallet(Store[id]*available_space)
 				TriggerEvent("inventory:add_server", source, id, available_space)
 				TriggerClientEvent("pNotify:SendNotification", source, {text = "Successfully purchased "..available_space.." "..itemlist[id].name.."(s)!",type = "error",queue = "left",timeout = 2500,layout = "bottomCenter"})
 			else
 				TriggerClientEvent("pNotify:SendNotification", source, {text = "Insufficient funds!",type = "error",queue = "left",timeout = 2500,layout = "bottomCenter"})
 			end
 		else
-			if user.get("dirty") >= (Store[id]*tonumber(quantity)) then
-				user.removeDirty(Store[id]*tonumber(quantity))
+			if user.get("bank") >= (Store[id]*tonumber(quantity)) then
+				user.removeBank(Store[id]*tonumber(quantity))
 				TriggerEvent("inventory:add_server", source, id, tonumber(quantity))
 				TriggerClientEvent("pNotify:SendNotification", source, {text = "Successfully purchased "..quantity.." "..itemlist[id].name.."(s)!",type = "error",queue = "left",timeout = 2500,layout = "bottomCenter"})
 			else
