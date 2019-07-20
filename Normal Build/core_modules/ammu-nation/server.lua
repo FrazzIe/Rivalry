@@ -436,6 +436,7 @@ AddEventHandler("weapon:buy_illegal", function(model)
 					Index = k
 				end
 			end
+			if Index == 0 then Index = 1 end
 			if GunStash_Inventory[Index].amount > 0 then
 				if user.get("wallet") >= BlackMarket_Weapons[model] then
 					user.removeWallet(BlackMarket_Weapons[model])
