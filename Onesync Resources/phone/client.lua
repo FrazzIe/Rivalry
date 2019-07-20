@@ -135,11 +135,12 @@ function Phone:Animation(PlayerPed, Dead)
 		SetCurrentPedWeapon(PlayerPed, "WEAPON_UNARMED", true)
 
 		if self.Open then
-			TaskPlayAnim(PlayerPed, Dictionary, self.Animations.Open, 4.0, -1, -1, 50, 0, false, false, false)
+			TriggerEvent("Phone.Use.Animations", Dictionary, self.Animations.Open)
 		else
-			TaskPlayAnim(PlayerPed, Dictionary, self.Animations.Close, 4.0, -1, -1, 50, 0, false, false, false)
+			TriggerEvent("Phone.Use.Animations", Dictionary, self.Animations.Open)
 			Citizen.Wait(700)
 			StopAnimTask(PlayerPed, Dictionary, self.Animations.Close, 1.0)
+			TriggerEvent("Phone.Stop.Animations")
 		end
 	end
 end
@@ -227,8 +228,7 @@ Citizen.CreateThread(function()
 
 		if Phone.Call.Number and Phone.Call.Answered and Phone.Call.Channel then
 			if not Phone.Call.Hold and not IsEntityPlayingAnim(PlayerPed, Phone.Animations.Dictionary.Call, Phone.Animations.Call, 3) then
-				TaskPlayAnim(PlayerPed, Phone.Animations.Dictionary.Call, Phone.Animations.Call, 8.0, -8, -1, 49, 0, 0, 0, 0)
-
+				TriggerEvent("Phone.Use.Animations", "Call", "Animation")
 				SetCurrentPedWeapon(PlayerPed, "WEAPON_UNARMED", true)
 			end
 
@@ -255,12 +255,16 @@ Citizen.CreateThread(function()
 					TriggerServerEvent("Phone.Call.Hold", Phone.Call.Number, true)
 
 					exports["tokovoip_script"]:removePlayerFromCall()
+
+					TriggerEvent("Phone.Stop.Animations")
 				else
 					Phone.Call.Hold = false
 
 					TriggerServerEvent("Phone.Call.Hold", Phone.Call.Number, false)
 
 					exports["tokovoip_script"]:addPlayerToCall(Phone.Call.Channel)
+
+					TriggerEvent("Phone.Stop.Animations")
 				end
 			end
 
@@ -617,6 +621,7 @@ AddEventHandler("Phone.Call.End", function()
 	Phone.Call.Caller = ""
 
 	ClearPedTasks(PlayerPedId())
+	TriggerEvent("Phone.Stop.Animations")
 end)
 
 RegisterNetEvent("Phone.Call.Answer")
