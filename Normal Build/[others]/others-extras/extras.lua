@@ -9,8 +9,10 @@ end)
 Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(0)
-        SetPlayerWantedLevel(PlayerId(), 0, false)
-        SetPlayerWantedLevelNow(PlayerId(), false)
+		local playerId  = PlayerId()
+		if GetPlayerWantedLevel(playerId) > 0 then
+			ClearPlayerWantedLevel(playerId)
+		end
 	end
 end)
 
@@ -18,6 +20,7 @@ end)
 Citizen.CreateThread(function()
     while true do
         Citizen.Wait(0)
+
         if IsPedArmed(PlayerPedId(), 6) then
 	    	DisableControlAction(1, 140, true)
             DisableControlAction(1, 141, true)
