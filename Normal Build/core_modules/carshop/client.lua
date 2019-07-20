@@ -309,6 +309,9 @@ cars = {
         {name = "Surfer (Beater)", price = 14500, model = "surfer2"},
         {name = "Youga", price = 12000, model = "youga"},
         {name = "Youga Classic", price = 14000, model = "youga2"},
+        {name = "Pounder Custom", price = 0, model = "pounder2"},
+        {name = "Benson", price = 0, model = "benson"},
+        {name = "Mule", price = 0, model = "mule2"}
     }},
     {title = "Sedans", vehicles = {
         {name = "Asea", price = 10000, model = "asea"},

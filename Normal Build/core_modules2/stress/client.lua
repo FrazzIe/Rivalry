@@ -366,6 +366,14 @@ end)
 
 -- Condensed Thread
 Citizen.CreateThread(function()
+    local blip = AddBlipForCoord(YogaPlace.x, YogaPlace.y, YogaPlace.z)
+    SetBlipSprite(blip, 480)
+    SetBlipColour(blip, 8)
+    SetBlipAsShortRange(blip, true)
+    SetBlipScale(blip, 0.6)
+    BeginTextCommandSetBlipName("STRING")
+    AddTextComponentString("Yoga Park")
+    EndTextCommandSetBlipName(blip)
     while true do
         Citizen.Wait(0)
         if not HasRecievedMedicalAttention and not BleedingOut then

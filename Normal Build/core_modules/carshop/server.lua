@@ -350,6 +350,10 @@ cars = {
     ["zombiea"] = 6500,
     ["zombieb"] = 7500,
 
+    ["pounder2"] = 0,
+    ["mule2"] = 0,
+    ["benson"] = 0,
+
 }
 
 RegisterServerEvent("carshop:buy")

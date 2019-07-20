@@ -41,6 +41,7 @@ function setupCharacter(source, data)
     self["job"] = jobs[data["job_id"]]
     self["weapon_license"] = data["weapon_license"]
     self["drivers_license"] = data["drivers_license"]
+    self["fishers_license"] = data["fishers_license"]
     self["jail_time"] = data["jail_time"]
     self["dateofjail"] = data["dateofjail"]
 
@@ -67,7 +68,7 @@ function setupCharacter(source, data)
 
     method["update"] = function()
         self["lastcoords"] = self["coords"]
-        exports["GHMattiMySQL"]:QueryAsync("UPDATE characters SET wallet=@wallet, bank=@bank, dirty_cash=@dirty_cash, timeplayed=@timeplayed, position_x=@position_x, position_y=@position_y, position_z=@position_z, weapon_license=@weapon_license, jail_time=@jail_time, dateofjail=@dateofjail, job_id=@job_id, drivers_license=@drivers_license WHERE (identifier=@identifier) AND (character_id=@character_id)", {
+        exports["GHMattiMySQL"]:QueryAsync("UPDATE characters SET wallet=@wallet, bank=@bank, dirty_cash=@dirty_cash, timeplayed=@timeplayed, position_x=@position_x, position_y=@position_y, position_z=@position_z, weapon_license=@weapon_license, jail_time=@jail_time, dateofjail=@dateofjail, job_id=@job_id, drivers_license=@drivers_license, fishers_license=@fishers_license WHERE (identifier=@identifier) AND (character_id=@character_id)", {
             ["@identifier"] = self["steam"],
             ["@character_id"] = self["characterID"],
             ["@wallet"] = self["wallet"],
@@ -82,6 +83,7 @@ function setupCharacter(source, data)
             ["@dateofjail"] = self["dateofjail"],
             ["@job_id"] = self["job"]["id"],
             ["@drivers_license"] = self["drivers_license"],
+            ["@fishers_license"] = self["fishers_license"],
         })
     end
 
@@ -335,6 +337,7 @@ AddEventHandler("core:createCharacter", function(data)
             ["jail_time"] = Config["Character"]["Jail"],
             ["job_id"] = Config["Character"]["Job"],
             ["drivers_license"] = Config["Character"]["Licenses"]["Driver"],
+            ["fishers_license"] = Config["Character"]["Licenses"]["Fishing"],
         }
     }, function(character_id)
         exports["GHMattiMySQL"]:QueryAsync("INSERT INTO garages (`character_id`,`garage_id`,`cost`,`slots`) VALUES (@character_id,@garage_id,@cost,@slots)", {
@@ -377,6 +380,7 @@ AddEventHandler("core:selectCharacter", function(data)
                 TriggerEvent("Dealer:Initialise", source, identifier, tonumber(data.character_id))
                 TriggerEvent("CarDealer:Initialise", source, identifier, tonumber(data.character_id))
                 TriggerClientEvent("weapon:set_license", source, Characters[source].get("weapon_license"))
+                TriggerClientEvent("fisher:set_license", source, Characters[source].get("fishers_license"))
                 TriggerEvent("jail:initialise", source, Characters[source].get("jail_time"), Characters[source].get("dateofjail"))
                 TriggerEvent('jobcenter:initialise', source, Characters[source].get("job"))
                 TriggerEvent("properties:initialise", source, identifier, tonumber(data.character_id))
