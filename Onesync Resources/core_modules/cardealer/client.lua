@@ -118,13 +118,14 @@ AddEventHandler("carshop:bought",function(data, NetworkID)
             user_vehicles[count].state = "~r~Missing"
             SetVehicleOnGroundProperly(veh)
 			DecorSetBool(veh, "hotwire", true)
+			DecorSetFloat(veh, "_Fuel_Level", 100)
             SetVehicleColours(veh, data.primary_colour, data.secondary_colour)
             SetVehicleExtraColours(veh, tonumber(data.pearlescent_colour), tonumber(data.wheel_colour))
             SetVehicleNumberPlateTextIndex(veh, data.plate_colour)
 			SetVehicleNumberPlateText(veh, data.plate)
             SetVehicleNeonLightsColour(veh, tonumber(data.neon_colour[1]), tonumber(data.neon_colour[2]), tonumber(data.neon_colour[3]))
             SetVehicleTyreSmokeColor(veh, tonumber(data.smoke_colour[1]), tonumber(data.smoke_colour[2]), tonumber(data.smoke_colour[3]))
-            SetVehicleModKit(veh, 0)
+			SetVehicleModKit(veh, 0)
 
             for i = 0, 8 do
                 SetVehicleMod(veh, i, tonumber(data["mod"..i]))
@@ -439,7 +440,7 @@ Citizen.CreateThread(function()
 								vehicle_health = GetEntityHealth(Vehicle),
 								insurance = "true",
 								claims = 1,
-								fuel = DecorGetFloat(Vehicle, "_Fuel_Level")
+								fuel = 100
 							}
 
 							for i = 0, 8 do
