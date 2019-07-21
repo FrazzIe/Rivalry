@@ -18,7 +18,6 @@ controller = false
 
 local seat_cooldown = -1
 Citizen.CreateThread(function()
-	local voice_count = 1
 	while true do
 		Citizen.Wait(0)
 		local PlayerPed = PlayerPedId()
@@ -35,12 +34,6 @@ Citizen.CreateThread(function()
 
 			if IsControlJustPressed(1, 182) and IsInputDisabled(2) and not controller and not exports.policejob:getIsInService() then
 				TriggerEvent("keys:toggle")
-			end
-
-			if IsControlJustPressed(1, 170) and IsInputDisabled(2) and not controller then
-				voice_count = voice_count + 1
-				if voice_count > 3 then voice_count = 1 end
-				TriggerEvent("interaction:voice_change", voice_count)
 			end
 
 			if exports.policejob:getIsInService() then 
@@ -579,7 +572,6 @@ AddEventHandler("interaction:set_fishing_license", function(_license)
 		TriggerEvent("interaction:licenses")
 	end
 end)
-
 RegisterNetEvent("interaction:controller")
 AddEventHandler("interaction:controller", function()
 	controller = not controller

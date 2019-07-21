@@ -40,6 +40,8 @@ AddEventHandler("police:set", function(_data, _iscop, first)
 	if not isCop and isInService then
 		isInService = false
 		exports["core_modules"]:SetPolice(isCop, isInService)
+		exports["tokovoip_script"]:removePlayerFromRadio(2)
+		exports["tokovoip_script"]:removePlayerFromRadio(1)
 		TriggerServerEvent("jobcenter:jobs", 1)
 		TriggerServerEvent("police:setService", isInService)
 		BlipRemoval()
@@ -65,6 +67,8 @@ AddEventHandler("paramedic:dead", function()
 	if isCop and isInService then
 		isInService = false
 		exports["core_modules"]:SetPolice(isCop, isInService)
+		exports["tokovoip_script"]:removePlayerFromRadio(2)
+		exports["tokovoip_script"]:removePlayerFromRadio(1)
 		TriggerServerEvent("jobcenter:jobs", 1)
 		TriggerServerEvent("police:setService", isInService)
 		TriggerServerEvent("PlayerCustomisation.ModelType", "Default")
@@ -102,6 +106,15 @@ Citizen.CreateThread(function()
 				if IsControlJustReleased(1, 38)  then
 					isInService = not isInService
 					exports["core_modules"]:SetPolice(isCop, isInService)
+
+					if isInService then
+						exports["tokovoip_script"]:addPlayerToRadio(2)
+						exports["tokovoip_script"]:addPlayerToRadio(1)
+					else
+						exports["tokovoip_script"]:removePlayerFromRadio(2)
+						exports["tokovoip_script"]:removePlayerFromRadio(1)
+					end
+					
 					TriggerServerEvent("police:setService", isInService)
 					
 					if(isInService) then
