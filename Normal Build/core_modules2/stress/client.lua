@@ -533,7 +533,6 @@ Citizen.CreateThread(function()
         if BleedingOut then
             SetPedMovementClipset(PlayerPedId(), "move_injured_generic", 1.0)
             Citizen.Wait(5000)
-            print("Movement Clipset!")
         end
     end
 end)
