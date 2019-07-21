@@ -68,23 +68,6 @@ function GetLocation(PlayerPosition)
     return GetLabelText(Area), GetStreetNameFromHashKey(Street), GetStreetNameFromHashKey(Crossing)
 end
 
-AddEventHandler('onClientMapStart', function()
-    NetworkSetTalkerProximity(10.0)
-end)
-
-AddEventHandler("interaction:voice_change",function(_type)
-    if _type == 1 then
-        NetworkSetTalkerProximity(2.0)
-        voice = "Whisper"
-    elseif _type == 2 then
-        NetworkSetTalkerProximity(10.0)
-        voice = "Normal"
-    elseif _type == 3 then
-        NetworkSetTalkerProximity(30.0)
-        voice = "Shout"
-    end
-end)
-
 AddEventHandler("interaction:hud", function()
     exports.ui:open()
     Citizen.CreateThread(function()
@@ -251,12 +234,6 @@ Citizen.CreateThread(function()
 
             local PlayerPed = PlayerPedId()
 
-            if NetworkIsPlayerTalking(PlayerId()) then
-                VoiceHud = ("~r~" .. voice)
-            else
-                VoiceHud = voice
-            end
-
             if IsPedSittingInAnyVehicle(PlayerPed) then
                 local vehicle = GetVehiclePedIsIn(PlayerPed, false)
                 if GetPedInVehicleSeat(vehicle, -1) == PlayerPed or GetPedInVehicleSeat(vehicle, 0) == PlayerPed then
@@ -266,7 +243,7 @@ Citizen.CreateThread(function()
                 DisplayRadar(false)
             end
             --.. "  " .. string.sub(Weather.Current, 1, 1)..string.lower(string.sub(Weather.Current, 2, string.len(Weather.Current))) .. "  " Add Weather
-            drawHelpTxt(0.6601, 1.444, 1.0,1.0,0.45, CreateTimeString(Time.Hour, Time.Minute) .. "  " .. VoiceHud, 255, 255, 255, 250, 6)
+            drawHelpTxt(0.6601, 1.444, 1.0,1.0,0.45, CreateTimeString(Time.Hour, Time.Minute), 255, 255, 255, 250, 6)
 
             if Location.Direction then
                 if Location.Street ~= "" and Location.Area ~= "" then

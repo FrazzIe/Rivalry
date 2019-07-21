@@ -229,7 +229,6 @@ Citizen.CreateThread(function()
 		if Phone.Call.Number and Phone.Call.Answered and Phone.Call.Channel then
 			if not Phone.Call.Hold and not IsEntityPlayingAnim(PlayerPed, Phone.Animations.Dictionary.Call, Phone.Animations.Call, 3) then
 				TriggerEvent("Phone.Use.Animations", "Call", "Animation")
-
 				SetCurrentPedWeapon(PlayerPed, "WEAPON_UNARMED", true)
 			end
 
@@ -247,7 +246,7 @@ Citizen.CreateThread(function()
 				ScreenDrawPositionEnd()
 			end
 
-			if IsControlJustPressed(0, 288) and IsInputDisabled(2) then -- F1
+			if IsControlJustPressed(0, 288) and IsInputDisabled(2) and not IsControlPressed(0, 21) then -- F1
 				if not Phone.Call.Hold then
 					ClearPedTasks(PlayerPed)
 
@@ -255,15 +254,17 @@ Citizen.CreateThread(function()
 
 					TriggerServerEvent("Phone.Call.Hold", Phone.Call.Number, true)
 
-					NetworkClearVoiceChannel()
-					NetworkSetTalkerProximity(10.0)
+					exports["tokovoip_script"]:removePlayerFromCall()
+
+					TriggerEvent("Phone.Stop.Animations")
 				else
 					Phone.Call.Hold = false
 
 					TriggerServerEvent("Phone.Call.Hold", Phone.Call.Number, false)
 
-					NetworkSetVoiceChannel(tonumber(Phone.Call.Channel))
-					NetworkSetTalkerProximity(10000.0)
+					exports["tokovoip_script"]:addPlayerToCall(Phone.Call.Channel)
+
+					TriggerEvent("Phone.Stop.Animations")
 				end
 			end
 
@@ -275,7 +276,6 @@ Citizen.CreateThread(function()
 				end
 
 				Phone.Call.Number = nil
-				Phone.Call.Channel = nil
 				Phone.Call.Answered = false
 				Phone.Call.Hold = false
 				Phone.Call.Status = ""
@@ -448,9 +448,6 @@ RegisterNUICallback("startCall", function(data, cb)
 	Phone.Call.Answered = true
 	Phone.Call.Caller = Phone.Data.ContactNames[data] or data
 
-	NetworkSetVoiceChannel(Phone.Call.Channel)
-	NetworkSetTalkerProximity(10000.0)	
-
 	TriggerServerEvent("Phone.Call.Start", Phone.Call.Number, Phone.Call.Channel)
 end)
 
@@ -487,7 +484,6 @@ RegisterNUICallback("endCall", function(data, cb)
 	TriggerServerEvent("Phone.Call.End", Phone.Call.Number, Phone.Call.Channel)
 
 	Phone.Call.Number = nil
-	Phone.Call.Channel = nil
 	Phone.Call.Answered = false
 	Phone.Call.Status = ""	
 end)
@@ -580,7 +576,6 @@ AddEventHandler("Phone.Call.Request", function(Number)
 		TriggerServerEvent("Phone.Call.End", Phone.Call.Number, Phone.Call.Channel)
 
 		Phone.Call.Number = nil
-		Phone.Call.Channel = nil
 		Phone.Call.Answered = false
 	else
 		Citizen.CreateThread(function()
@@ -594,7 +589,6 @@ AddEventHandler("Phone.Call.Request", function(Number)
 					TriggerServerEvent("Phone.Call.End", Phone.Call.Number, Phone.Call.Channel)
 
 					Phone.Call.Number = nil
-					Phone.Call.Channel = nil
 					Phone.Call.Answered = false
 				end
 			end
@@ -610,6 +604,10 @@ end)
 
 RegisterNetEvent("Phone.Call.End")
 AddEventHandler("Phone.Call.End", function()
+	if Phone.Call.Channel then
+		exports["tokovoip_script"]:removePlayerFromCall()
+	end
+
 	Phone.Call.Number = nil
 	Phone.Call.Channel = nil
 	Phone.Call.Answered = false
@@ -621,10 +619,7 @@ AddEventHandler("Phone.Call.End", function()
 	Phone:DisplayNotification("", "CHAR_CHAT_CALL", Phone.Call.Caller, "Call ended")
 
 	Phone.Call.Caller = ""
-	NetworkSetVoiceChannel(nil)
-	NetworkSetTalkerProximity(10.0)
 
-	NetworkClearVoiceChannel()
 	ClearPedTasks(PlayerPedId())
 	TriggerEvent("Phone.Stop.Animations")
 end)
@@ -634,9 +629,7 @@ AddEventHandler("Phone.Call.Answer", function(Channel)
 	Phone.Call.Status = "Active"
 	Phone.Call.Channel = Channel
 	
-	NetworkClearVoiceChannel()
-	NetworkSetVoiceChannel(tonumber(Phone.Call.Channel))
-	NetworkSetTalkerProximity(10000.0)
+	exports["tokovoip_script"]:addPlayerToCall(Phone.Call.Channel)
 
 	SendNUIMessage({type = "setCallStatus", payload = "Active"})
 end)

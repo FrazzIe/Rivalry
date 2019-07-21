@@ -39,6 +39,8 @@ AddEventHandler('paramedic:set', function(_data, _isparamedic, first)
 	isParamedic = _isparamedic
 	if not isParamedic and isInService then
 		isInService = false
+		exports["tokovoip_script"]:removePlayerFromRadio(2)
+		exports["tokovoip_script"]:removePlayerFromRadio(1)
 		exports["core_modules"]:SetParamedic(isParamedic, isInService)
 		TriggerServerEvent("jobcenter:jobs", 1)
 		TriggerServerEvent("paramedic:setService", isInService)
@@ -90,7 +92,15 @@ Citizen.CreateThread(function()
 					isInService = not isInService
 					exports["core_modules"]:SetParamedic(isParamedic, isInService)
 					TriggerServerEvent("paramedic:setService", isInService)
-					
+
+					if isInService then
+						exports["tokovoip_script"]:addPlayerToRadio(1)
+						exports["tokovoip_script"]:addPlayerToRadio(2)
+					else
+						exports["tokovoip_script"]:removePlayerFromRadio(2)
+						exports["tokovoip_script"]:removePlayerFromRadio(1)
+					end
+
 					if isInService then
 						TriggerServerEvent("jobcenter:jobs", 15)
 						TriggerServerEvent("PlayerCustomisation.ModelType", "Paramedic")
@@ -109,8 +119,11 @@ end)
 
 AddEventHandler("paramedic:dead", function()
 	if isParamedic and isInService then
-		exports["core_modules"]:SetParamedic(isParamedic, isInService)
 		isInService = false
+		exports["core_modules"]:SetParamedic(isParamedic, isInService)
+		exports["tokovoip_script"]:removePlayerFromRadio(2)
+		exports["tokovoip_script"]:removePlayerFromRadio(1)
+
 		TriggerServerEvent("jobcenter:jobs", 1)
 		TriggerServerEvent("paramedic:setService", isInService)
 		RemoveParamedicBlips()
