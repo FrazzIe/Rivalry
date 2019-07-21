@@ -11,7 +11,6 @@ end
 Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(0)
-		local anchor = GetMinimapAnchor()
 		SetWeather(Weather.Current)
 		NetworkOverrideClockTime(Time.Hour, Time.Minute, Time.Second)
 	end

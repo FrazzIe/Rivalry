@@ -169,7 +169,6 @@ Citizen.CreateThread(function()
 end)
 
 Citizen.CreateThread(function()
-    local minimap = GetMinimapAnchor()
     while true do
         Citizen.Wait(0)
         if WarMenu.IsMenuOpened("Scoreboard") or WarMenu.IsMenuOpened("player_info") or WarMenu.IsMenuOpened("player_info_disconnected") or WarMenu.IsMenuOpened("disconnected") then

@@ -24,7 +24,8 @@ Citizen.CreateThread(function()
         if GetEntityMaxHealth(GetPlayerPed(-1)) ~= 200 then
             SetEntityMaxHealth(GetPlayerPed(-1), 200)
             SetEntityHealth(GetPlayerPed(-1), 200)
-        end 
+        end
+        
         if Oxygen > 0 and not exports.core_modules2:ScubaHas() and IsPedSwimmingUnderWater(GetPlayerPed(-1)) then
             Oxygen = Oxygen - 0.1
         elseif Oxygen > 0 and exports.core_modules2:ScubaHas() and IsPedSwimmingUnderWater(GetPlayerPed(-1)) then
@@ -32,7 +33,7 @@ Citizen.CreateThread(function()
         elseif not IsPedSwimmingUnderWater(PlayerPedId()) then
             Oxygen = 100
         end
-        local minimap = GetMinimapAnchor()
+
         if not hud_off then
             local PlayerPed = PlayerPedId()
             local Air = 0.070 * (Oxygen / 100)
