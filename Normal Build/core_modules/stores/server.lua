@@ -55,12 +55,12 @@ Store = {
 -- Tools End
 
 -- Medical Shop ( EMS Only ) Begin
-	[91] = 50,
+	[91] = 0,
 	-- [92] = 50,
 	-- [93] = 50,
-	[94] = 50,
-	[95] = 50,
-	[96] = 50,
+	[94] = 0,
+	[95] = 0,
+	[96] = 0,
 -- Medical Shop Begin ( EMS Only ) End
 }
 
