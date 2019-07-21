@@ -17,7 +17,7 @@ properties = {
 					char_id = 0, --Default (don't touch)
 					id = 0, --Default (don't touch)
 				},
-				coordinates = {x = -1541.1848144531, y = 92.128402709961, z = 53.897403717041, h = 196.31907653809}, -- The location of the property
+				coordinates = vector3(-1541.1848144531,92.128402709961,53.897403717041), -- The location of the property
 				rent = 5000, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
@@ -48,7 +48,7 @@ properties = {
 					char_id = 0, --Default (don't touch)
 					id = 0, --Default (don't touch)
 				},
-              			coordinates = {x = -10.622609138489, y = -1428.7703857422, z = 31.101453781128, h = 323.42373657227}, -- The location of the property
+              			coordinates = vector3(-10.622609138489,-1428.7703857422,31.101453781128), -- The location of the property
 				rent = 2500, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
@@ -79,7 +79,7 @@ properties = {
 					char_id = 0, --Default (don't touch)
 					id = 0, --Default (don't touch)
 				},
-				coordinates = {x = -5.1676306724548, y = 522.70458984375, z = 174.62725830078, h = 83.613456726074}, -- The location of the property
+				coordinates = vector3(-5.1676306724548,522.70458984375,174.62725830078), -- The location of the property
 				rent = 5000, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
@@ -110,7 +110,7 @@ properties = {
 					char_id = 0, --Default (don't touch)
 					id = 0, --Default (don't touch)
 				},
-				coordinates = {x = -874.56011962891, y = 561.56439208984, z = 96.61930847168, h = 302.44467163086}, -- The location of the property
+				coordinates = vector3(-874.56011962891,561.56439208984,96.61930847168), -- The location of the property
 				rent = 3000, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
@@ -141,7 +141,7 @@ properties = {
 					char_id = 0, --Default (don't touch)
 					id = 0, --Default (don't touch)
 				},
-				coordinates = {x = -687.80926513672, y = 597.47955322266, z = 143.64202880859, h = 212.60356140137}, -- The location of the property
+				coordinates = vector3(-687.80926513672,597.47955322266,143.64202880859), -- The location of the property
 				rent = 5000, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
@@ -172,7 +172,7 @@ properties = {
 					char_id = 0, --Default (don't touch)
 					id = 0, --Default (don't touch)
 				},
-				coordinates = {x = -109.58322906494, y = 504.18048095703, z = 143.32385253906, h = 182.41125488281}, -- The location of the property
+				coordinates = vector3(-109.58322906494,504.18048095703,143.32385253906), -- The location of the property
 				rent = 2000, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
@@ -203,7 +203,7 @@ properties = {
 					char_id = 0, --Default (don't touch)
 					id = 0, --Default (don't touch)
 				},
-				coordinates = {x = 1273.9063720703, y = -1709.2525634766, z = 54.771488189697, h = 10.599884033203}, -- The location of the property
+				coordinates = vector3(1273.9063720703,-1709.2525634766,54.771488189697), -- The location of the property
 				rent = 2000, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
@@ -234,7 +234,7 @@ properties = {
 					char_id = 0, --Default (don't touch)
 					id = 0, --Default (don't touch)
 				},
-				coordinates = {x = -293.64105224609, y = 601.70745849609, z = 181.57548522949, h = 188.13056945801}, -- The location of the property
+				coordinates = vector3(-293.64105224609,601.70745849609,181.57548522949), -- The location of the property
 				rent = 2000, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
@@ -265,7 +265,7 @@ properties = {
 					char_id = 0, --Default (don't touch)
 					id = 0, --Default (don't touch)
 				},
-				coordinates = {x = -110.5061, y = 8.684491, z = 70.51956, h = 11.29703}, -- The location of the property
+				coordinates = vector3(-110.5061,8.684491,70.51956), -- The location of the property
 				rent = 2000, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
@@ -296,7 +296,7 @@ properties = {
 					char_id = 0, --Default (don't touch)
 					id = 0, --Default (don't touch)
 				},
-				coordinates = {x = -1147.9143066406, y = -1512.1651611328, z = 10.632730484009, h = 126.85916137695}, -- The location of the property
+				coordinates = vector3(-1147.9143066406,-1512.1651611328,10.632730484009), -- The location of the property
 				rent = 2500, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
@@ -327,7 +327,7 @@ properties = {
 				    char_id = 0, --Default (don't touch)
 				    id = 0, --Default (don't touch)
 				},
-				coordinates = {x = -1246.8986816406, y = -1358.9464111328, z = 7.820433139801, h = 195.0079498291}, -- The location of the property
+				coordinates = vector3(-1246.8986816406,-1358.9464111328,7.820433139801), -- The location of the property
 				rent = 500, --How much it costs to rent the property (PER DAY)
 				storage = {
 				    current = {
@@ -358,7 +358,7 @@ properties = {
 					char_id = 0, --Default (don't touch)
 					id = 0, --Default (don't touch)
 				},
-				coordinates = {x = -50.729301452637, y = -1783.642578125, z = 28.300817489624, h = 321.58792114258}, -- The location of the property
+				coordinates = vector3(-50.729301452637,-1783.642578125,28.300817489624), -- The location of the property
 				rent = 500, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
@@ -389,7 +389,7 @@ properties = {
 					char_id = 0, --Default (don't touch)
 					id = 0, --Default (don't touch)
 				},
-				coordinates = {x = -20.934959411621, y = -1858.5444335938, z = 25.408670425415, h = 222.03269958496}, -- The location of the property
+				coordinates = vector3(-20.934959411621,-1858.5444335938,25.408670425415), -- The location of the property
 				rent = 500, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
@@ -420,7 +420,7 @@ properties = {
 					char_id = 0, --Default (don't touch)
 					id = 0, --Default (don't touch)
 				},
-				coordinates = {x = 45.59850692749, y = -1864.7054443359, z = 23.278276443481, h = 307.71499633789}, -- The location of the property
+				coordinates = vector3(45.59850692749,-1864.7054443359,23.278276443481), -- The location of the property
 				rent = 500, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
@@ -451,7 +451,7 @@ properties = {
 					char_id = 0, --Default (don't touch)
 					id = 0, --Default (don't touch)
 				},
-				coordinates = {x = 171.11489868164, y = -1871.2814941406, z = 24.400232315063, h = 43.02961730957}, -- The location of the property
+				coordinates = vector3(171.11489868164,-1871.2814941406,24.400232315063), -- The location of the property
 				rent = 500, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
@@ -482,7 +482,7 @@ properties = {
 					char_id = 0, --Default (don't touch)
 					id = 0, --Default (don't touch)
 				},
-				coordinates = {x = 280.91455078125, y = -1897.8674316406, z = 26.887641906738, h = 230.37760925293}, -- The location of the property
+				coordinates = vector3(280.91455078125,-1897.8674316406,26.887641906738), -- The location of the property
 				rent = 500, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
@@ -513,7 +513,7 @@ properties = {
 					char_id = 0, --Default (don't touch)
 					id = 0, --Default (don't touch)
 				},
-				coordinates = {x = 349.32568359375, y = -1819.98046875, z = 28.894096374512, h = 144.47277832031}, -- The location of the property
+				coordinates = vector3(349.32568359375,-1819.98046875,28.894096374512), -- The location of the property
 				rent = 500, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
@@ -544,7 +544,7 @@ properties = {
 					char_id = 0, --Default (don't touch)
 					id = 0, --Default (don't touch)
 				},
-				coordinates = {x = 299.49032592773, y = -1784.9488525391, z = 28.438663482666, h = 320.19543457031}, -- The location of the property
+				coordinates = vector3(299.49032592773,-1784.9488525391,28.438663482666), -- The location of the property
 				rent = 500, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
@@ -575,7 +575,7 @@ properties = {
 					char_id = 0, --Default (don't touch)
 					id = 0, --Default (don't touch)
 				},
-				coordinates = {x = 269.47137451172, y = -1713.2081298828, z = 29.668771743774, h = 324.40893554688}, -- The location of the property
+				coordinates = vector3(269.47137451172,-1713.2081298828,29.668771743774), -- The location of the property
 				rent = 500, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
@@ -606,7 +606,7 @@ properties = {
 					char_id = 0, --Default (don't touch)
 					id = 0, --Default (don't touch)
 				},
-				coordinates = {x = 474.80480957031, y = -1757.6700439453, z = 29.092624664307, h = 81.332870483398}, -- The location of the property
+				coordinates = vector3(474.80480957031,-1757.6700439453,29.092624664307), -- The location of the property
 				rent = 500, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
@@ -637,7 +637,7 @@ properties = {
 					char_id = 0, --Default (don't touch)
 					id = 0, --Default (don't touch)
 				},
-				coordinates = {x = 496.01403808594, y = -1822.4757080078, z = 28.869703292847, h = 140.79151916504}, -- The location of the property
+				coordinates = vector3(496.01403808594,-1822.4757080078,28.869703292847), -- The location of the property
 				rent = 500, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
@@ -668,7 +668,7 @@ properties = {
 					char_id = 0, --Default (don't touch)
 					id = 0, --Default (don't touch)
 				},
-				coordinates = {x = 963.25720214844, y = -595.94689941406, z = 59.902702331543, h = 252.17263793945}, -- The location of the property
+				coordinates = vector3(963.25720214844,-595.94689941406,59.902702331543), -- The location of the property
 				rent = 1500, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
@@ -699,7 +699,7 @@ properties = {
 					char_id = 0, --Default (don't touch)
 					id = 0, --Default (don't touch)
 				},
-				coordinates = {x = 861.56988525391, y = -582.49072265625, z = 58.156490325928, h = 178.8897857666}, -- The location of the property
+				coordinates = vector3(861.56988525391,-582.49072265625,58.156490325928), -- The location of the property
 				rent = 1500, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
@@ -730,7 +730,7 @@ properties = {
 					char_id = 0, --Default (don't touch)
 					id = 0, --Default (don't touch)
 				},
-				coordinates = {x = 979.74169921875, y = -627.20623779297, z = 59.235836029053, h = 213.00134277344}, -- The location of the property
+				coordinates = vector3(979.74169921875,-627.20623779297,59.235836029053), -- The location of the property
 				rent = 1500, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
@@ -761,7 +761,7 @@ properties = {
 					char_id = 0, --Default (don't touch)
 					id = 0, --Default (don't touch)
 				},
-				coordinates = {x = 922.28070068359, y = -478.60290527344, z = 61.083583831787, h = 18.485750198364}, -- The location of the property
+				coordinates = vector3(922.28070068359, -478.60290527344,61.083583831787), -- The location of the property
 				rent = 1500, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
@@ -792,7 +792,7 @@ properties = {
 					char_id = 0, --Default (don't touch)
 					id = 0, --Default (don't touch)
 				},
-				coordinates = {x = 920.23712158203, y = -570.53887939453, z = 58.366363525391, h = 29.028879165649}, -- The location of the property
+				coordinates = vector3(920.23712158203,-570.53887939453,58.366363525391), -- The location of the property
 				rent = 1500, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
@@ -823,7 +823,7 @@ properties = {
 					char_id = 0, --Default (don't touch)
 					id = 0, --Default (don't touch)
 				},
-				coordinates = {x = 1001.1132202148, y = -594.14642333984, z = 59.232391357422, h = 79.767478942871}, -- The location of the property
+				coordinates = vector3(1001.1132202148,-594.14642333984,59.232391357422), -- The location of the property
 				rent = 1500, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
@@ -854,7 +854,7 @@ properties = {
 					char_id = 0, --Default (don't touch)
 					id = 0, --Default (don't touch)
 				},
-				coordinates = {x = 1046.2370605469, y = -497.13256835938, z = 64.079315185547, h = 164.02305603027}, -- The location of the property
+				coordinates = vector3(1046.2370605469,-497.13256835938,64.079315185547), -- The location of the property
 				rent = 1500, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
@@ -885,7 +885,7 @@ properties = {
 					char_id = 0, --Default (don't touch)
 					id = 0, --Default (don't touch)
 				},
-				coordinates = {x = 1098.4874267578, y = -465.08499145508, z = 67.319396972656, h = 353.05224609375}, -- The location of the property
+				coordinates = vector3(1098.4874267578,-465.08499145508,67.319396972656), -- The location of the property
 				rent = 1500, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
@@ -916,7 +916,7 @@ properties = {
 					char_id = 0, --Default (don't touch)
 					id = 0, --Default (don't touch)
 				},
-				coordinates = {x = 1270.7966308594, y = -682.783203125, z = 66.031616210938, h = 180.47001647949}, -- The location of the property
+				coordinates = vector3(1270.7966308594,-682.783203125,66.031616210938), -- The location of the property
 				rent = 1500, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
@@ -947,7 +947,7 @@ properties = {
 					char_id = 0, --Default (don't touch)
 					id = 0, --Default (don't touch)
 				},
-				coordinates = {x = 1251.3123779297, y = -515.60803222656, z = 69.349052429199, h = 70.709053039551}, -- The location of the property
+				coordinates = vector3(1251.3123779297,-515.60803222656,69.349052429199), -- The location of the property
 				rent = 1500, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
@@ -978,7 +978,7 @@ properties = {
 					char_id = 0, --Default (don't touch)
 					id = 0, --Default (don't touch)
 				},
-				coordinates = {x = 1263.5560302734, y = -429.26174926758, z = 69.800323486328, h = 114.36005401611}, -- The location of the property
+				coordinates = vector3(1263.5560302734,-429.26174926758,69.800323486328), -- The location of the property
 				rent = 1500, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
@@ -1009,7 +1009,7 @@ properties = {
 					char_id = 0, --Default (don't touch)
 					id = 0, --Default (don't touch)
 				},
-				coordinates = {x = 2435.7275390625, y = 4966.2797851563, z = 42.347606658936, h = 266.12255859375}, -- The location of the property
+				coordinates = vector3(2435.7275390625,4966.2797851563,42.347606658936), -- The location of the property
 				rent = 2500, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
@@ -1040,7 +1040,7 @@ properties = {
 					char_id = 0, --Default (don't touch)
 					id = 0, --Default (don't touch)
 				},
-				coordinates = {x = 1978.2546386719, y = 3819.4265136719, z = 33.450054168701, h = 24.174715042114}, -- The location of the property
+				coordinates = vector3(1978.2546386719,3819.4265136719,33.450054168701), -- The location of the property
 				rent = 500, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
@@ -1071,7 +1071,7 @@ properties = {
 					char_id = 0, --Default (don't touch)
 					id = 0, --Default (don't touch)
 				},
-				coordinates = {x = 1803.0750732422, y = 3913.681640625, z = 37.057018280029, h = 15.705402374268}, -- The location of the property
+				coordinates = vector3(1803.0750732422,3913.681640625,37.057018280029), -- The location of the property
 				rent = 500, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
@@ -1102,7 +1102,7 @@ properties = {
 					char_id = 0, --Default (don't touch)
 					id = 0, --Default (don't touch)
 				},
-				coordinates = {x = 1781.9161376953, y = 3744.7509765625, z = 34.656623840332, h = 21.048610687256}, -- The location of the property
+				coordinates = vector3(1781.9161376953,3744.7509765625,34.656623840332), -- The location of the property
 				rent = 500, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
@@ -1133,7 +1133,7 @@ properties = {
 					char_id = 0, --Default (don't touch)
 					id = 0, --Default (don't touch)
 				},
-				coordinates = {x = 1651.0162353516, y = 3806.7937011719, z = 35.013919830322, h = 43.992961883545}, -- The location of the property
+				coordinates = vector3(1651.0162353516,3806.7937011719,35.013919830322), -- The location of the property
 				rent = 500, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
@@ -1164,7 +1164,7 @@ properties = {
 					char_id = 0, --Default (don't touch)
 					id = 0, --Default (don't touch)
 				},
-				coordinates = {x = 1639.7318115234, y = 3731.7133789063, z = 35.067100524902, h = 121.82363128662}, -- The location of the property
+				coordinates = vector3(1639.7318115234,3731.7133789063,35.067100524902), -- The location of the property
 				rent = 500, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
@@ -1195,7 +1195,7 @@ properties = {
 					char_id = 0, --Default (don't touch)
 					id = 0, --Default (don't touch)
 				},
-				coordinates = {x = 52.523105621338, y = 3740.5842285156, z = 39.589405059814, h = 19.637350082397}, -- The location of the property
+				coordinates = vector3(52.523105621338,3740.5842285156,9.589405059814), -- The location of the property
 				rent = 500, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
@@ -1226,7 +1226,7 @@ properties = {
 					char_id = 0, --Default (don't touch)
 					id = 0, --Default (don't touch)
 				},
-				coordinates = {x = 195.34185791016, y = 3031.1162109375, z = 43.886692047119, h = 270.18508911133}, -- The location of the property
+				coordinates = vector3(195.34185791016,3031.1162109375,43.886692047119), -- The location of the property
 				rent = 500, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
@@ -1257,7 +1257,7 @@ properties = {
 					char_id = 0, --Default (don't touch)
 					id = 0, --Default (don't touch)
 				},
-				coordinates = {x = 1724.4509277344, y = 4641.951171875, z = 43.875457763672, h = 298.48852539063}, -- The location of the property
+				coordinates = vector3(1724.4509277344,4641.951171875,43.875457763672), -- The location of the property
 				rent = 500, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
@@ -1288,7 +1288,7 @@ properties = {
 					char_id = 0, --Default (don't touch)
 					id = 0, --Default (don't touch)
 				},
-				coordinates = {x = 1663.0693359375, y = 4776.2231445313, z = 42.007556915283, h = 72.134742736816}, -- The location of the property
+				coordinates = vector3(1663.0693359375,4776.2231445313,42.007556915283), -- The location of the property
 				rent = 500, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
@@ -1319,7 +1319,7 @@ properties = {
 					char_id = 0, --Default (don't touch)
 					id = 0, --Default (don't touch)
 				},
-				coordinates = {x = 1984.9240722656, y = 5175.1635742188, z = 47.639125823975, h = 276.42691040039}, -- The location of the property
+				coordinates = vector3(1984.9240722656,5175.1635742188,47.639125823975), -- The location of the property
 				rent = 2500, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
@@ -1350,7 +1350,7 @@ properties = {
 					char_id = 0, --Default (don't touch)
 					id = 0, --Default (don't touch)
 				},
-				coordinates = {x = 3311.2243652344, y = 5176.1728515625, z = 19.614582061768, h = 51.796821594238}, -- The location of the property
+				coordinates = vector3(3311.2243652344,5176.1728515625,19.614582061768), -- The location of the property
 				rent = 2500, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
@@ -1381,7 +1381,7 @@ properties = {
 					char_id = 0, --Default (don't touch)
 					id = 0, --Default (don't touch)
 				},
-				coordinates = {x = 3688.7797851563, y = 4562.9462890625, z = 25.183052062988, h = 90.358489990234}, -- The location of the property
+				coordinates = vector3(3688.7797851563,4562.9462890625,25.183052062988), -- The location of the property
 				rent = 500, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
@@ -1412,7 +1412,7 @@ properties = {
 					char_id = 0, --Default (don't touch)
 					id = 0, --Default (don't touch)
 				},
-				coordinates = {x = 1365.9959716797, y = 4358.8271484375, z = 44.500511169434, h = 180.97372436523}, -- The location of the property
+				coordinates = vector3(1365.9959716797,4358.8271484375,44.500511169434), -- The location of the property
 				rent = 500, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
@@ -1443,7 +1443,7 @@ properties = {
 					char_id = 0, --Default (don't touch)
 					id = 0, --Default (don't touch)
 				},
-				coordinates = {x = 741.68121337891, y = 4170.390625, z = 41.087860107422, h = 343.5768737793}, -- The location of the property
+				coordinates = vector3(741.68121337891,4170.390625,41.087860107422), -- The location of the property
 				rent = 500, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
@@ -1474,7 +1474,7 @@ properties = {
 					char_id = 0, --Default (don't touch)
 					id = 0, --Default (don't touch)
 				},
-				coordinates = {x = 722.92016601563, y = 4187.0991210938, z = 40.882667541504, h = 185.83708190918}, -- The location of the property
+				coordinates = vector3(722.92016601563,4187.0991210938,40.882667541504), -- The location of the property
 				rent = 500, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
@@ -1505,7 +1505,7 @@ properties = {
 					char_id = 0, --Default (don't touch)
 					id = 0, --Default (don't touch)
 				},
-				coordinates = {x = 436.2356262207, y = 2997.0383300781, z = 41.283229827881, h = 192.28036499023}, -- The location of the property
+				coordinates = vector3(436.2356262207,2997.0383300781,41.283229827881), -- The location of the property
 				rent = 500, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
@@ -1536,7 +1536,7 @@ properties = {
 					char_id = 0, --Default (don't touch)
 					id = 0, --Default (don't touch)
 				},
-				coordinates = {x = 412.08709716797, y = 2965.7241210938, z = 41.888053894043, h = 222.50732421875}, -- The location of the property
+				coordinates = vector3(412.08709716797,2965.7241210938,41.888053894043), -- The location of the property
 				rent = 500, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
@@ -1567,7 +1567,7 @@ properties = {
 					char_id = 0, --Default (don't touch)
 					id = 0, --Default (don't touch)
 				},
-				coordinates = {x = 180.46072387695, y = 3087.2543945313, z = 43.262702941895, h = 240.33563232422}, -- The location of the property
+				coordinates = vector3(180.46072387695,3087.2543945313,43.262702941895), -- The location of the property
 				rent = 500, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
@@ -1598,7 +1598,7 @@ properties = {
 					char_id = 0, --Default (don't touch)
 					id = 0, --Default (don't touch)
 				},
-				coordinates = {x = 240.93174743652, y = 3107.90625, z = 42.487194061279, h = 86.731803894043}, -- The location of the property
+				coordinates = vector3(240.93174743652,3107.90625,42.487194061279), -- The location of the property
 				rent = 500, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
@@ -1629,7 +1629,7 @@ properties = {
 					char_id = 0, --Default (don't touch)
 					id = 0, --Default (don't touch)
 				},
-				coordinates = {x = -34.51997756958, y = 1951.2297363281, z = 190.35537719727, h = 119.89051055908}, -- The location of the property
+				coordinates = vector3(-34.51997756958,1951.2297363281,190.35537719727), -- The location of the property
 				rent = 500, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
@@ -1660,7 +1660,7 @@ properties = {
 					char_id = 0, --Default (don't touch)
 					id = 0, --Default (don't touch)
 				},
-				coordinates = {x = 791.92803955078, y = 2177.1506347656, z = 52.648387908936, h = 153.18553161621}, -- The location of the property
+				coordinates = vector3(791.92803955078,2177.1506347656,52.648387908936), -- The location of the property
 				rent = 2500, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
@@ -1691,7 +1691,7 @@ properties = {
 					char_id = 0, --Default (don't touch)
 					id = 0, --Default (don't touch)
 				},
-				coordinates = {x = -33.481433868408, y = -1847.3713378906, z = 26.193550109863, h = 77.506813049316}, -- The location of the property
+				coordinates = vector3(-33.481433868408,-1847.3713378906,26.193550109863), -- The location of the property
 				rent = 500, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
@@ -1722,7 +1722,7 @@ properties = {
 					char_id = 0, --Default (don't touch)
 					id = 0, --Default (don't touch)
 				},
-				coordinates = {x = -5.2547397613525, y = -1871.6096191406, z = 24.1510181427, h = 355.76708984375}, -- The location of the property
+				coordinates = vector3(-5.2547397613525,-1871.6096191406,24.1510181427), -- The location of the property
 				rent = 500, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
@@ -1753,7 +1753,7 @@ properties = {
 					char_id = 0, --Default (don't touch)
 					id = 0, --Default (don't touch)
 				},
-				coordinates = {x = -949.37628173828, y = 196.32981872559, z = 67.390480041504, h = 163.91000366211}, -- The location of the property
+				coordinates = vector3(-949.37628173828,196.32981872559,67.390480041504), -- The location of the property
 				rent = 5000, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
@@ -1784,7 +1784,7 @@ properties = {
 					char_id = 0, --Default (don't touch)
 					id = 0, --Default (don't touch)
 				},
-				coordinates = {x = -811.47985839844, y = 167.77639770508, z = 72.227897644043, h = 296.10760498047}, -- The location of the property
+				coordinates = vector3(-811.47985839844,167.77639770508,72.227897644043), -- The location of the property
 				rent = 5000, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
@@ -1815,7 +1815,7 @@ properties = {
 					char_id = 0, --Default (don't touch)
 					id = 0, --Default (don't touch)
 				},
-              			coordinates = {x = -132.39100646973, y = -1462.7392578125, z = 36.992134094238, h = 234.41467285156}, -- The location of the property
+              			coordinates = vector3(-132.39100646973,-1462.7392578125,36.992134094238), -- The location of the property
 				rent = 500, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
@@ -1847,7 +1847,7 @@ properties = {
 					char_id = 0, --Default (don't touch)
 					id = 0, --Default (don't touch)
 				},
-              			coordinates = {x = -19.607872009277, y = -1550.8292236328, z = 33.821388244629, h = 43.553455352783}, -- The location of the property
+              			coordinates = vector3(-19.607872009277,-1550.8292236328,33.821388244629), -- The location of the property
 				rent = 500, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
@@ -1878,7 +1878,7 @@ properties = {
 					char_id = 0, --Default (don't touch)
 					id = 0, --Default (don't touch)
 				},
-              			coordinates = {x = -64.129989624023, y = -1449.578125, z = 32.524906158447, h = 99.533142089844}, -- The location of the property
+              			coordinates = vector3(-64.129989624023,-1449.578125,32.524906158447), -- The location of the property
 				rent = 500, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
@@ -1909,7 +1909,7 @@ properties = {
 					char_id = 0, --Default (don't touch)
 					id = 0, --Default (don't touch)
 				},
-              			coordinates = {x = 126.75737762451, y = -1929.7243652344, z = 21.382423400879, h = 206.49331665039}, -- The location of the property
+              			coordinates = vector3(126.75737762451,-1929.7243652344,21.382423400879), -- The location of the property
 				rent = 500, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
@@ -1940,7 +1940,7 @@ properties = {
 					char_id = 0, --Default (don't touch)
 					id = 0, --Default (don't touch)
 				},
-              			coordinates = {x = 85.529296875, y = -1959.4388427734, z = 21.121671676636, h = 230.58880615234}, -- The location of the property
+              			coordinates = vector3(85.529296875,-1959.4388427734,21.121671676636), -- The location of the property
 				rent = 500, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
@@ -1971,7 +1971,7 @@ properties = {
 					char_id = 0, --Default (don't touch)
 					id = 0, --Default (don't touch)
 				},
-              			coordinates = {x = -371.76879882813, y = 343.6799621582, z = 109.94268798828, h = 1.45365691185}, -- The location of the property
+              			coordinates = vector3(-371.76879882813,343.6799621582,109.94268798828), -- The location of the property
 				rent = 2000, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
@@ -2002,7 +2002,7 @@ properties = {
 					char_id = 0, --Default (don't touch)
 					id = 0, --Default (don't touch)
 				},
-              			coordinates = {x = -658.56628417969, y = 886.91680908203, z = 229.24890136719, h = 185.53053283691}, -- The location of the property
+              			coordinates = vector3(-658.56628417969,886.91680908203,229.24890136719), -- The location of the property
 				rent = 2000, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
@@ -2033,7 +2033,7 @@ properties = {
 					char_id = 0, --Default (don't touch)
 					id = 0, --Default (don't touch)
 				},
-              			coordinates = {x = -1464.7447509766, y = -33.984531402588, z = 55.050327301025, h = 130.24604797363}, -- The location of the property
+              			coordinates = vector3(-1464.7447509766,-33.984531402588,55.050327301025), -- The location of the property
 				rent = 2000, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
@@ -2064,7 +2064,7 @@ properties = {
 					char_id = 0, --Default (don't touch)
 					id = 0, --Default (don't touch)
 				},
-              			coordinates = {x = -168.10064697266, y = 916.34545898438, z = 235.6555480957, h = 224.07659912109}, -- The location of the property
+              			coordinates = vector3(-168.10064697266,916.34545898438,235.6555480957), -- The location of the property
 				rent = 2000, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
@@ -2095,7 +2095,7 @@ properties = {
 					char_id = 0, --Default (don't touch)
 					id = 0, --Default (don't touch)
 				},
-              			coordinates = {x = -881.65075683594, y = 363.97253417969, z = 85.362693786621, h = 230.74356079102}, -- The location of the property
+              			coordinates = vector3(-881.65075683594,363.97253417969,85.362693786621), -- The location of the property
 				rent = 2000, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
@@ -2126,7 +2126,7 @@ properties = {
 					char_id = 0, --Default (don't touch)
 					id = 0, --Default (don't touch)
 				},
-              			coordinates = {x = -2587.7463378906, y = 1911.298828125, z = 167.49890136719, h = 184.92570495605}, -- The location of the property
+              			coordinates = vector3(-2587.7463378906,1911.298828125,167.49890136719), -- The location of the property
 				rent = 2000, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
@@ -2157,7 +2157,7 @@ properties = {
 					char_id = 0, --Default (don't touch)
 					id = 0, --Default (don't touch)
 				},
-              			coordinates = {x = -3059.2497558594, y = 454.14767456055, z = 6.3550028800964, h = 152.07705688477}, -- The location of the property
+              			coordinates = vector3(-3059.2497558594,454.14767456055,6.3550028800964), -- The location of the property
 				rent = 1000, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
@@ -2188,7 +2188,7 @@ properties = {
 					char_id = 0, --Default (don't touch)
 					id = 0, --Default (don't touch)
 				},
-              			coordinates = {x = -3107.5363769531, y = 718.90008544922, z = 20.646457672119, h = 100.18392181396}, -- The location of the property
+              			coordinates = vector3(-3107.5363769531,718.90008544922,20.646457672119), -- The location of the property
 				rent = 1000, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
@@ -2219,7 +2219,7 @@ properties = {
 					char_id = 0, --Default (don't touch)
 					id = 0, --Default (don't touch)
 				},
-              			coordinates = {x = -3190.6044921875, y = 1297.5294189453, z = 19.06739616394, h = 63.504241943359}, -- The location of the property
+              			coordinates = vector3(-3190.6044921875,1297.5294189453,19.06739616394), -- The location of the property
 				rent = 1000, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
@@ -2250,7 +2250,7 @@ properties = {
 					char_id = 0, --Default (don't touch)
 					id = 0, --Default (don't touch)
 				},
-              			coordinates = {x = 471.25119018555, y = 2607.8793945313, z = 44.477191925049, h = 7.213906288147}, -- The location of the property
+              			coordinates = vector3(471.25119018555,2607.8793945313,44.477191925049), -- The location of the property
 				rent = 1000, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
@@ -2281,7 +2281,7 @@ properties = {
 					char_id = 0, --Default (don't touch)
 					id = 0, --Default (don't touch)
 				},
-              			coordinates = {x = 858.8984375, y = 2876.841796875, z = 57.982616424561, h = 1.5242408514023}, -- The location of the property
+              			coordinates = vector3(858.8984375,2876.841796875,57.982616424561), -- The location of the property
 				rent = 500, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
@@ -2312,7 +2312,7 @@ properties = {
 					char_id = 0, --Default (don't touch)
 					id = 0, --Default (don't touch)
 				},
-              			coordinates = {x = 1535.7348632813, y = 2232.0788574219, z = 77.699073791504, h = 263.03094482422}, -- The location of the property
+              			coordinates = vector3(1535.7348632813,2232.0788574219,77.699073791504), -- The location of the property
 				rent = 1500, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
@@ -2343,7 +2343,7 @@ properties = {
 					char_id = 0, --Default (don't touch)
 					id = 0, --Default (don't touch)
 				},
-              			coordinates = {x = 2639.5302734375, y = 4246.3354492188, z = 44.753509521484, h = 38.061485290527}, -- The location of the property
+              			coordinates = vector3(2639.5302734375,4246.3354492188,44.753509521484), -- The location of the property
 				rent = 500, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
@@ -2374,7 +2374,7 @@ properties = {
 					char_id = 0, --Default (don't touch)
 					id = 0, --Default (don't touch)
 				},
-              			coordinates = {x = 25.744293212891, y = 6602.3432617188, z = 32.470455169678, h = 128.95611572266}, -- The location of the property
+              			coordinates = vector3(25.744293212891,6602.3432617188,32.470455169678), -- The location of the property
 				rent = 500, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
@@ -2405,7 +2405,7 @@ properties = {
 					char_id = 0, --Default (don't touch)
 					id = 0, --Default (don't touch)
 				},
-              			coordinates = {x = -407.03759765625, y = 6313.8188476563, z = 28.942161560059, h = 36.930152893066}, -- The location of the property
+              			coordinates = vector3(-407.03759765625,6313.8188476563,28.942161560059), -- The location of the property
 				rent = 1000, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
@@ -2436,7 +2436,7 @@ properties = {
 					char_id = 0, --Default (don't touch)
 					id = 0, --Default (don't touch)
 				},
-              			coordinates = {x = -14.911129951477, y = 6557.7412109375, z = 33.240463256836, h = 134.61749267578}, -- The location of the property
+              			coordinates = vector3(-14.911129951477,6557.7412109375,33.240463256836), -- The location of the property
 				rent = 500, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
@@ -2467,7 +2467,7 @@ properties = {
 					char_id = 0, --Default (don't touch)
 					id = 0, --Default (don't touch)
 				},
-              			coordinates = {x = 1360.5001220703, y = -1555.7717285156, z = 56.341423034668, h = 194.07998657227}, -- The location of the property
+              			coordinates = vector3(1360.5001220703,-1555.7717285156,56.341423034668), -- The location of the property
 				rent = 500, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
@@ -2498,7 +2498,7 @@ properties = {
 					char_id = 0, --Default (don't touch)
 					id = 0, --Default (don't touch)
 				},
-              			coordinates = {x = 1411.6381835938, y = -1490.7341308594, z = 60.657409667969, h = 306.6891784668}, -- The location of the property
+              			coordinates = vector3(1411.6381835938,-1490.7341308594,60.657409667969), -- The location of the property
 				rent = 500, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
@@ -2529,7 +2529,7 @@ properties = {
 					char_id = 0, --Default (don't touch)
 					id = 0, --Default (don't touch)
 				},
-              			coordinates = {x = 1261.3873291016, y = -1616.44140625, z = 54.742874145508, h = 206.98286437988}, -- The location of the property
+              			coordinates = vector3(1261.3873291016,-1616.44140625,54.742874145508), -- The location of the property
 				rent = 500, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
@@ -2560,7 +2560,7 @@ properties = {
 					char_id = 0, --Default (don't touch)
 					id = 0, --Default (don't touch)
 				},
-              			coordinates = {x = 1210.6195068359, y = -1606.9620361328, z = 50.736507415771, h = 33.236686706543}, -- The location of the property
+              			coordinates = vector3(1210.6195068359,-1606.9620361328,50.736507415771), -- The location of the property
 				rent = 500, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
@@ -2591,7 +2591,7 @@ properties = {
 					char_id = 0, --Default (don't touch)
 					id = 0, --Default (don't touch)
 				},
-              			coordinates = {x = 1259.2507324219, y = -1761.4506835938, z = 49.658252716064, h = 154.0729675293}, -- The location of the property
+              			coordinates = vector3(1259.2507324219,-1761.4506835938,49.658252716064), -- The location of the property
 				rent = 500, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
@@ -2622,7 +2622,7 @@ properties = {
 					char_id = 0, --Default (don't touch)
 					id = 0, --Default (don't touch)
 				},
-              			coordinates = {x = 1365.4884033203, y = -1721.302734375, z = 65.634101867676, h = 185.66697692871}, -- The location of the property
+              			coordinates = vector3(1365.4884033203,-1721.302734375,65.634101867676), -- The location of the property
 				rent = 500, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
@@ -2653,7 +2653,7 @@ properties = {
 					char_id = 0, --Default (don't touch)
 					id = 0, --Default (don't touch)
 				},
-              			coordinates = {x = 471.39886474609, y = -1561.8111572266, z = 32.792301177979, h = 48.319713592529}, -- The location of the property
+              			coordinates = vector3(471.39886474609,-1561.8111572266,32.792301177979), -- The location of the property
 				rent = 500, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
@@ -2684,7 +2684,7 @@ properties = {
 					char_id = 0, --Default (don't touch)
 					id = 0, --Default (don't touch)
 				},
-              			coordinates = {x = 442.3971862793, y = -1569.4049072266, z = 32.792285919189, h = 138.60717773438}, -- The location of the property
+              			coordinates = vector3(442.3971862793,-1569.4049072266,32.792285919189), -- The location of the property
 				rent = 500, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
@@ -2715,7 +2715,7 @@ properties = {
 					char_id = 0, --Default (don't touch)
 					id = 0, --Default (don't touch)
 				},
-              			coordinates = {x = -712.11029052734, y = -1028.6617431641, z = 16.424047470093, h = 121.3800201416}, -- The location of the property
+              			coordinates = vector3(-712.11029052734,-1028.6617431641,16.424047470093), -- The location of the property
 				rent = 1000, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
@@ -2746,7 +2746,7 @@ properties = {
 					char_id = 0, --Default (don't touch)
 					id = 0, --Default (don't touch)
 				},
-              			coordinates = {x = -699.21520996094, y = -1032.4124755859, z = 16.418918609619, h = 294.57928466797}, -- The location of the property
+              			coordinates = vector3(-699.21520996094,-1032.4124755859,16.418918609619), -- The location of the property
 				rent = 1000, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
@@ -2777,7 +2777,7 @@ properties = {
 					char_id = 0, --Default (don't touch)
 					id = 0, --Default (don't touch)
 				},
-              			coordinates = {x = -815.11804199219, y = -957.5654296875, z = 15.466663360596, h = 188.34242248535}, -- The location of the property
+              			coordinates = vector3(-815.11804199219,-957.5654296875,15.466663360596), -- The location of the property
 				rent = 1000, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
@@ -2808,7 +2808,7 @@ properties = {
 					char_id = 0, --Default (don't touch)
 					id = 0, --Default (don't touch)
 				},
-              			coordinates = {x = -942.99798583984, y = -1075.6263427734, z = 2.745269536972, h = 26.929084777832}, -- The location of the property
+              			coordinates = vector3(-942.99798583984,-1075.6263427734,2.745269536972), -- The location of the property
 				rent = 1000, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
@@ -2839,7 +2839,7 @@ properties = {
 					char_id = 0, --Default (don't touch)
 					id = 0, --Default (don't touch)
 				},
-              			coordinates = {x = -991.61370849609, y = -1103.7797851563, z = 2.1503117084503, h = 24.974100112915}, -- The location of the property
+              			coordinates = vector3(-991.61370849609,-1103.7797851563,2.1503117084503), -- The location of the property
 				rent = 1000, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
@@ -2870,7 +2870,7 @@ properties = {
 					char_id = 0, --Default (don't touch)
 					id = 0, --Default (don't touch)
 				},
-              			coordinates = {x = -1047.8273925781, y = -1123.2091064453, z = 2.1585984230042, h = 116.91257476807}, -- The location of the property
+              			coordinates = vector3(-1047.8273925781,-1123.2091064453,2.1585984230042), -- The location of the property
 				rent = 1000, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
@@ -2901,7 +2901,7 @@ properties = {
 					char_id = 0, --Default (don't touch)
 					id = 0, --Default (don't touch)
 				},
-              			coordinates = {x = -1160.9432373047, y = -1101.5782470703, z = 6.5313601493835, h = 202.93789672852}, -- The location of the property
+              			coordinates = vector3(-1160.9432373047,-1101.5782470703,6.5313601493835), -- The location of the property
 				rent = 500, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
@@ -2932,7 +2932,7 @@ properties = {
 					char_id = 0, --Default (don't touch)
 					id = 0, --Default (don't touch)
 				},
-              			coordinates = {x = -1022.548828125, y = -1022.6267700195, z = 2.1503598690033, h = 210.671875}, -- The location of the property
+              			coordinates = vector3(-1022.548828125,-1022.6267700195,2.1503598690033), -- The location of the property
 				rent = 1000, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
@@ -2963,7 +2963,7 @@ properties = {
 					char_id = 0, --Default (don't touch)
 					id = 0, --Default (don't touch)
 				},
-              			coordinates = {x = -111.59775543213, y = 1000.1704101563, z = 235.75880432129, h = 195.96371459961}, -- The location of the property
+              			coordinates = vector3(-111.59775543213,1000.1704101563,235.75880432129), -- The location of the property
 				rent = 2000, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
@@ -2994,7 +2994,7 @@ properties = {
 					char_id = 0, --Default (don't touch)
 					id = 0, --Default (don't touch)
 				},
-              			coordinates = {x = -191.87155151367, y = -1559.3280029297, z = 34.954601287842, h = 143.27642822266}, -- The location of the property
+              			coordinates = vector3(-191.87155151367,-1559.3280029297,34.954601287842), -- The location of the property
 				rent = 500, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
@@ -3025,7 +3025,7 @@ properties = {
 					char_id = 0, --Default (don't touch)
 					id = 0, --Default (don't touch)
 				},
-              			coordinates = {x = 142.86106872559, y = -280.38284301758, z = 50.449626922607, h = 251.34434509277}, -- The location of the property
+              			coordinates = vector3(142.86106872559,-280.38284301758,50.449626922607), -- The location of the property
 				rent = 1500, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
@@ -3056,7 +3056,7 @@ properties = {
 					char_id = 0, --Default (don't touch)
 					id = 0, --Default (don't touch)
 				},
-              			coordinates = {x = 98.019378662109, y = -255.47189331055, z = 47.416328430176, h = 157.43153381348}, -- The location of the property
+              			coordinates = vector3(98.019378662109,-255.47189331055,47.416328430176), -- The location of the property
 				rent = 1500, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
@@ -3087,7 +3087,7 @@ properties = {
 					char_id = 0, --Default (don't touch)
 					id = 0, --Default (don't touch)
 				},
-              			coordinates = {x = 202.22776794434, y = -133.30009460449, z = 63.494342803955, h = 343.13046264648}, -- The location of the property
+              			coordinates = vector3(202.22776794434,-133.30009460449,63.494342803955), -- The location of the property
 				rent = 1500, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
@@ -3121,9 +3121,11 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {
-					outside = {x = -761.84692382813, y = 352.1750793457, z = 87.997917175293, h = 177.28384399414}, -- The marker outside (used for teleporting inside)
-					inside = {x = -784.75231933594, y = 323.61608886719, z = 211.99726867676, h = 283.5973815918}, -- The marker inside (used for teleporting outside)
-					vault = {x = -765.59680175781, y = 327.7966003418, z = 211.396484375, h = 143.80198669434}, -- The marker for the vault
+					outside = vector3(-761.84692382813,352.1750793457,87.997917175293), -- The marker outside (used for teleporting inside)
+					outsideheading = 177.28384399414,
+					inside = vector3(-784.75231933594,323.61608886719,211.99726867676), -- The marker inside (used for teleporting outside)
+					insideheading = 283.5973815918,
+					vault = vector3(-765.59680175781,327.7966003418,211.396484375), -- The marker for the vault
 				},
 				rent = 7500, --How much it costs to rent the property (PER DAY)
 				storage = {
@@ -3161,9 +3163,11 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {
-					outside = {x = -773.74420166016, y = 311.87872314453, z = 85.698234558105, h = 358.59246826172}, -- The marker outside (used for teleporting inside)
-					inside = {x = -781.81390380859, y = 326.27362060547, z = 176.80383300781, h = 179.322265625}, -- The marker inside (used for teleporting outside)
-					vault = {x = -759.46441650391, y = 325.38388061523, z = 170.6071472168, h = 271.9319152832}, -- The marker for the vault
+					outside = vector3(-773.74420166016,311.87872314453,85.698234558105), -- The marker outside (used for teleporting inside)
+					outsideheading = 358.59246826172,
+					inside = vector3(-781.81390380859,326.27362060547,176.80383300781), -- The marker inside (used for teleporting outside)
+					insideheading = 179.322265625,
+					vault = vector3(-759.46441650391,325.38388061523,170.6071472168), -- The marker for the vault
 				},
 				rent = 7000, --How much it costs to rent the property (PER DAY)
 				storage = {
@@ -3201,9 +3205,11 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {
-					outside = {x = -618.09936523438, y = 36.833522796631, z = 43.57621383667, h = 358.09335327148}, -- The marker outside (used for teleporting inside)
-					inside = {x = -603.44000244141, y = 58.969806671143, z = 98.2001953125, h = 96.099281311035}, -- The marker inside (used for teleporting outside)
-					vault = {x = -622.85327148438, y = 54.74146270752, z = 97.599494934082, h = 326.84490966797}, -- The marker for the vault
+					outside = vector3(-618.09936523438,36.833522796631,43.57621383667), -- The marker outside (used for teleporting inside)
+					outsideheading = 358.09335327148,
+					inside = vector3(-603.44000244141,58.969806671143,98.2001953125), -- The marker inside (used for teleporting outside)
+					insideheading = 96.099281311035,
+					vault = vector3(-622.85327148438,54.74146270752,97.599494934082), -- The marker for the vault
 				},
 				rent = 6800, --How much it costs to rent the property (PER DAY)
 				storage = {
@@ -3241,9 +3247,11 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {
-					outside = {x = -1150.7808837891, y = -1474.0367431641, z = 4.3797407150269, h = 301.61361694336}, -- The marker outside (used for teleporting inside)
-					inside = {x = 266.0615234375, y = -1007.2471313477, z = -101.00849914551, h = 177.8150177002}, -- The marker inside (used for teleporting outside)
-					vault = {x = 259.7912902832, y = -1003.4866943359, z = -99.00853729248, h = 140.61070251465}, -- The marker for the vault
+					outside = vector3(-1150.7808837891,-1474.0367431641,4.3797407150269), -- The marker outside (used for teleporting inside)
+					outsideheading = 301.61361694336, 
+					inside = vector3(266.0615234375,-1007.2471313477,-101.00849914551), -- The marker inside (used for teleporting outside)
+					insideheading = 177.8150177002,
+					vault = vector3(259.7912902832,-1003.4866943359,-99.00853729248), -- The marker for the vault
 				},
 				rent = 6400, --How much it costs to rent the property (PER DAY)
 				storage = {
@@ -3281,9 +3289,11 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {
-					outside = {x = -1098.0579833984, y = -1673.5573730469, z = 8.3939523696899, h = 299.7341003418}, -- The marker outside (used for teleporting inside)
-					inside = {x = 346.63479614258, y = -1012.7304077148, z = -99.196174621582, h = 351.94812011719}, -- The marker inside (used for teleporting outside)
-					vault = {x = 351.9665222168, y = -994.28277587891, z = -99.196128845215, h = 323.93228149414}, -- The marker for the vault
+					outside = vector3(-1098.0579833984,-1673.5573730469,8.3939523696899), -- The marker outside (used for teleporting inside)
+					outsideheading = 299.7341003418,
+					inside = vector3(346.63479614258,-1012.7304077148,-99.196174621582), -- The marker inside (used for teleporting outside)
+					insideheading = 351.94812011719,
+					vault = vector3(351.9665222168,-994.28277587891,-99.196128845215), -- The marker for the vault
 				},
 				rent = 5900, --How much it costs to rent the property (PER DAY)
 				storage = {
@@ -3321,9 +3331,11 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {
-					outside = {x = -175.1568, y = 502.5597, z = 137.4205, h = 274.7941}, -- The marker outside (used for teleporting inside)
-					inside = {x = -174.0973, y = 497.194, z = 137.667, h = 222.1987}, -- The marker inside (used for teleporting outside)
-					vault = {x = -175.24800109863, y = 492.56127929688, z = 130.04359436035, h = 59.443283081055}, -- The marker for the vault
+					outside = vector3(-175.1568,502.5597,137.4205), -- The marker outside (used for teleporting inside)
+					ousideheading = 274.7941,
+					inside = vector3(-174.0973,497.194,137.667), -- The marker inside (used for teleporting outside)
+					insideheading = 222.1987,
+					vault = vector3(-175.24800109863,492.56127929688,130.04359436035), -- The marker for the vault
 				},
 				rent = 8400, --How much it costs to rent the property (PER DAY)
 				storage = {
@@ -3361,9 +3373,11 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {
-					outside = {x = 1394.5866699219, y = 1141.7231445313, z = 114.61329650879, h = 266.94152832031}, -- The marker outside (used for teleporting inside)
-					inside = {x = 1397.9954833984, y = 1141.7806396484, z = 114.33367156982, h = 91.478500366211}, -- The marker inside (used for teleporting outside)
-					vault = {x = 1398.7845458984, y = 1164.8054199219, z = 114.33367156982, h = 42.698337554932}, -- The marker for the vault
+					outside = vector3(1394.5866699219,1141.7231445313,114.61329650879), -- The marker outside (used for teleporting inside)
+					outsideheading = 266.94152832031,
+					inside = vector3(1397.9954833984,1141.7806396484,114.33367156982), -- The marker inside (used for teleporting outside)
+					insideheading = 91.478500366211,
+					vault = vector3(1398.7845458984,1164.8054199219,114.33367156982), -- The marker for the vault
 				},
 				rent = 9000, --How much it costs to rent the property (PER DAY)
 				storage = {
@@ -3401,9 +3415,11 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {
-					outside = {x = -1447.2314453125, y = -537.86743164063, z = 34.740283966064, h = 29.66982460022}, -- The marker outside (used for teleporting inside)
-					inside = {x = -1452.3041992188, y = -540.70257568359, z = 74.044326782227, h = 30.716178894043}, -- The marker inside (used for teleporting outside)
-					vault = {x = -1466.970703125, y = -527.34332275391, z = 73.443649291992, h = 275.67248535156}, -- The marker for the vault
+					outside = vector3(-1447.2314453125,-537.86743164063,34.740283966064), -- The marker outside (used for teleporting inside)
+					outsideheading = 29.66982460022,
+					inside = vector3(-1452.3041992188,-540.70257568359,74.044326782227), -- The marker inside (used for teleporting outside)
+					insideheading = 30.716178894043,
+					vault = vector3(-1466.970703125,-527.34332275391,73.443649291992), -- The marker for the vault
 				},
 				rent = 6800, --How much it costs to rent the property (PER DAY)
 				storage = {
@@ -3441,9 +3457,11 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {
-					outside = {x = 346.87228393555, y = 440.48822021484, z = 147.70236206055, h = 297.46057128906}, -- The marker outside (used for teleporting inside)
-					inside = {x = 341.88668823242, y = 437.70236206055, z = 149.39407348633, h = 112.42232513428}, -- The marker inside (used for teleporting outside)
-					vault = {x = 336.27679443359, y = 437.85833740234, z = 141.77076721191, h = 205.91784667969}, -- The marker for the vault
+					outside = vector3(346.87228393555,440.48822021484,147.70236206055), -- The marker outside (used for teleporting inside)
+					outsideheading = 297.46057128906,
+					inside = vector3(341.88668823242,437.70236206055,149.39407348633), -- The marker inside (used for teleporting outside)
+					insideheading = 112.42232513428,
+					vault = vector3(36.27679443359,437.85833740234,141.77076721191), -- The marker for the vault
 				},
 				rent = 7200, --How much it costs to rent the property (PER DAY)
 				storage = {
@@ -3481,9 +3499,11 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {
-					outside = {x = 372.83941650391, y = 428.42868041992, z = 145.68545532227, h = 27.829916000366}, -- The marker outside (used for teleporting inside)
-					inside = {x = 373.44293212891, y = 422.17086791992, z = 145.90786743164, h = 166.06129455566}, -- The marker inside (used for teleporting outside)
-					vault = {x = 378.92767333984, y = 430.19302368164, z = 138.30014038086, h = 74.124572753906}, -- The marker for the vault
+					outside = vector3(372.83941650391,428.42868041992,145.68545532227), -- The marker outside (used for teleporting inside)
+					outsideheading = 27.829916000366,
+					inside = vector3(373.44293212891,422.17086791992,145.90786743164), -- The marker inside (used for teleporting outside)
+					insideheading = 166.06129455566,
+					vault = vector3(378.92767333984,430.19302368164,138.30014038086), -- The marker for the vault
 				},
 				rent = 7300, --How much it costs to rent the property (PER DAY)
 				storage = {
@@ -3521,9 +3541,11 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {
-					outside = {x = -1294.3826904297, y = 454.62731933594, z = 97.528312683105, h = 10.007172584534}, -- The marker outside (used for teleporting inside)
-					inside = {x = -1289.8400878906, y = 449.45440673828, z = 97.902503967285, h = 180.92395019531}, -- The marker inside (used for teleporting outside)
-					vault = {x = -1286.1497802734, y = 457.09368896484, z = 90.29468536377, h = 91.985801696777}, -- The marker for the vault
+					outside = vector3(-1294.3826904297,454.62731933594,97.528312683105), -- The marker outside (used for teleporting inside)
+					outsideheading = 10.007172584534,
+					inside = vector3(-1289.8400878906,449.45440673828,97.902503967285), -- The marker inside (used for teleporting outside)
+					insideheading = 180.92395019531,
+					vault = vector3(-1286.1497802734,457.09368896484,90.29468536377), -- The marker for the vault
 				},
 				rent = 7600, --How much it costs to rent the property (PER DAY)
 				storage = {
@@ -3561,9 +3583,11 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {
-					outside = {x = -704.32666015625, y = 589.54858398438, z = 141.93055725098, h = 83.275207519531}, -- The marker outside (used for teleporting inside)
-					inside = {x = -682.41345214844, y = 592.49420166016, z = 145.39202880859, h = 219.58547973633}, -- The marker inside (used for teleporting outside)
-					vault = {x = -681.16217041016, y = 586.90997314453, z = 137.76972961426, h = 310.35000610352}, -- The marker for the vault
+					outside = vector3(-704.32666015625,589.54858398438,141.93055725098), -- The marker outside (used for teleporting inside)
+					outsideheading = 83.275207519531,
+					inside = vector3(-682.41345214844,592.49420166016,145.39202880859), -- The marker inside (used for teleporting outside)
+					insideheading = 219.58547973633,
+					vault = vector3(-681.16217041016,586.90997314453,137.76972961426), -- The marker for the vault
 				},
 				rent = 6700, --How much it costs to rent the property (PER DAY)
 				storage = {
@@ -3601,9 +3625,11 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {
-					outside = {x = -751.87976074219, y = 620.81994628906, z = 142.22148132324, h = 286.69158935547}, -- The marker outside (used for teleporting inside)
-					inside = {x = -758.46026611328, y = 619.11779785156, z = 144.1537322998, h = 110.82205963135}, -- The marker inside (used for teleporting outside)
-					vault = {x = -764.01904296875, y = 619.67431640625, z = 136.53062438965, h = 18.327989578247}, -- The marker for the vault
+					outside = vector3(-751.87976074219,620.81994628906,142.22148132324), -- The marker outside (used for teleporting inside)
+					outsideheading = 286.69158935547,
+					inside = vector3(-758.46026611328,619.11779785156,144.1537322998), -- The marker inside (used for teleporting outside)
+					insideheading = 110.82205963135,
+					vault = vector3(-764.01904296875,619.67431640625,136.53062438965), -- The marker for the vault
 				},
 				rent = 6800, --How much it costs to rent the property (PER DAY)
 				storage = {
@@ -3641,9 +3667,11 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {
-					outside = {x = -852.92742919922, y = 695.83508300781, z = 148.78746032715, h = 4.3718523979187}, -- The marker outside (used for teleporting inside)
-					inside = {x = -860.21350097656, y = 691.0048828125, z = 152.86070251465, h = 193.40473937988}, -- The marker inside (used for teleporting outside)
-					vault = {x = -856.89422607422, y = 699.02001953125, z = 145.25294494629, h = 270.23968505859}, -- The marker for the vault
+					outside = vector3(-852.92742919922,695.83508300781,148.78746032715), -- The marker outside (used for teleporting inside)
+					outsideheading = 4.3718523979187,
+					inside = vector3(-860.21350097656,691.0048828125,152.86070251465), -- The marker inside (used for teleporting outside)
+					insideheading = 193.40473937988,
+					vault = vector3(-856.89422607422,699.02001953125,145.25294494629), -- The marker for the vault
 				},
 				rent = 6900, --How much it costs to rent the property (PER DAY)
 				storage = {
@@ -3805,7 +3833,7 @@ properties = {
 					char_id = 0, --Default (don't touch)
 					id = 0, --Default (don't touch)
 				},
-				coordinates = {x = 93.631385803223, y = -1291.7485351563, z = 29.268758773804, h = 80.385093688965}, -- The location of the property
+				coordinates = vector3(93.631385803223,-1291.7485351563,29.268758773804), -- The location of the property
 				rent = 1625, --How much it costs to rent the property (PER DAY)
 				income = 500, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
 				storage = {

@@ -456,7 +456,9 @@ Citizen.CreateThread(function()
 							end
 
 							data["mod48"] = GetVehicleMod(Vehicle, 48)
-							TriggerServerEvent("Spawn.DisplayVehicle", {Entity = NetworkGetNetworkIdFromEntity(Vehicle), Data = data, Price = 0, Intrest = 0, Weeks = 0, CashDown = 0, DealerText = "", Seller = GetPlayerServerId(PlayerId())})
+							--DecorSetBool(Vehicle, "_Is_DealerShip_Car", true)
+							--DecorSetBool(Vehicle, "_Is_CarDealer_Car", true)
+							TriggerServerEvent("Spawn.DisplayVehicle", {Model = j.model, Entity = NetworkGetNetworkIdFromEntity(Vehicle), Data = data, Price = 0, Intrest = 0, Weeks = 0, CashDown = 0, DealerText = "", Seller = GetPlayerServerId(PlayerId())})
 							WarMenu.CloseMenu()
 						end
 					end
@@ -466,34 +468,36 @@ Citizen.CreateThread(function()
 			if #DisplayedVehicles > 0 then
 				for Index = 1, #DisplayedVehicles do
 					if NetworkDoesNetworkIdExist(DisplayedVehicles[Index].Entity) then
-						local VehicleCoords = GetEntityCoords(NetworkGetEntityFromNetworkId(DisplayedVehicles[Index].Entity), false)
-						if #(PlayerPosition - VehicleCoords) <= 2.0 and not IsPedInAnyVehicle(Player) then
-							if DisplayedVehicles[Index].DealerText == "" then
-								Draw3DText(VehicleCoords.x, VehicleCoords.y, VehicleCoords.z, "[E] - Press to set information")
-							else
-								Draw3DText(VehicleCoords.x, VehicleCoords.y, VehicleCoords.z - 0.1, "[E] - Press to set information")
-							end
-							if IsControlJustPressed(1, 51) then
-								-- Create Inputs here
-								local Price = tonumber(KeyboardInput("Enter Total Price:", "100000", 11))
-								local Weeks = tonumber(KeyboardInput("Enter Total Weeks:", "8", 11))
-								local Intrest = tonumber(KeyboardInput("Enter Intrest Rate:", "10", 11))
-								if Intrest > 20 then
-									Intrest = 20
-								elseif Intrest < 5 then
-									Intrest = 5
+						if GetHashKey(DisplayedVehicles[Index].Model) == GetEntityModel(NetworkGetEntityFromNetworkId(DisplayedVehicles[Index].Entity)) then
+							local VehicleCoords = GetEntityCoords(NetworkGetEntityFromNetworkId(DisplayedVehicles[Index].Entity), false)
+							if #(PlayerPosition - VehicleCoords) <= 2.0 and not IsPedInAnyVehicle(Player) then
+								if DisplayedVehicles[Index].DealerText == "" then
+									Draw3DText(VehicleCoords.x, VehicleCoords.y, VehicleCoords.z, "[E] - Press to set information")
+								else
+									Draw3DText(VehicleCoords.x, VehicleCoords.y, VehicleCoords.z - 0.1, "[E] - Press to set information")
 								end
-								local CashDown = tonumber(KeyboardInput("Enter Cash Down: ", "0", 11))
-								if CashDown > ( Price * 0.05) then
-									CashDown = Price * 0.05
-									CashDown = tonumber(CashDown)
+								if IsControlJustPressed(1, 51) then
+									-- Create Inputs here
+									local Price = tonumber(KeyboardInput("Enter Total Price:", "100000", 11))
+									local Weeks = tonumber(KeyboardInput("Enter Total Weeks:", "8", 11))
+									local Intrest = tonumber(KeyboardInput("Enter Intrest Rate:", "10", 11))
+									if Intrest > 20 then
+										Intrest = 20
+									elseif Intrest < 5 then
+										Intrest = 5
+									end
+									local CashDown = tonumber(KeyboardInput("Enter Cash Down: ", "0", 11))
+									if CashDown > ( Price * 0.05) then
+										CashDown = Price * 0.05
+										CashDown = tonumber(CashDown)
+									end
+									DisplayedVehicles[Index].Price = Price
+									DisplayedVehicles[Index].Weeks = Weeks
+									DisplayedVehicles[Index].Intrest = Intrest
+									DisplayedVehicles[Index].CashDown = CashDown
+									DisplayedVehicles[Index].DealerText = "[E] - Price: $"..DisplayedVehicles[Index].Price.." | Weeks: "..DisplayedVehicles[Index].Weeks.. " | Interest: "..DisplayedVehicles[Index].Intrest.."%".." | Cash Down: $"..DisplayedVehicles[Index].CashDown
+									TriggerServerEvent("Change.DisplayVehicle", DisplayedVehicles[Index], Index)
 								end
-								DisplayedVehicles[Index].Price = Price
-								DisplayedVehicles[Index].Weeks = Weeks
-								DisplayedVehicles[Index].Intrest = Intrest
-								DisplayedVehicles[Index].CashDown = CashDown
-								DisplayedVehicles[Index].DealerText = "[E] - Price: $"..DisplayedVehicles[Index].Price.." | Weeks: "..DisplayedVehicles[Index].Weeks.. " | Interest: "..DisplayedVehicles[Index].Intrest.."%".." | Cash Down: $"..DisplayedVehicles[Index].CashDown
-								TriggerServerEvent("Change.DisplayVehicle", DisplayedVehicles[Index], Index)
 							end
 						end
 					end
@@ -513,59 +517,61 @@ Citizen.CreateThread(function()
 			for Index = 1, #DisplayedVehicles do
 				if DisplayedVehicles[Index].Price > 0 and DisplayedVehicles[Index].Price ~= nil and DisplayedVehicles[Index].Weeks > 0 and DisplayedVehicles[Index].Weeks ~= nil and DisplayedVehicles[Index].Intrest > 0 and DisplayedVehicles[Index].Intrest ~= nil then
 					if NetworkDoesNetworkIdExist(DisplayedVehicles[Index].Entity) then
-						local VehicleCoords = GetEntityCoords(NetworkGetEntityFromNetworkId(DisplayedVehicles[Index].Entity), false)
-						if #(PlayerPosition - VehicleCoords) <= 6.0 then
-							Draw3DText(VehicleCoords.x, VehicleCoords.y, VehicleCoords.z, DisplayedVehicles[Index].DealerText)
-							if CarDealer.OnDuty == false then
-								if #(PlayerPosition - VehicleCoords) <= 2.0 and not IsPedInAnyVehicle(Player) then
-									if IsControlJustPressed(1, 51) then
-										local available_garage = GetGarage()
-										if available_garage then
-											if DisplayedVehicles[Index].Price > 0 and DisplayedVehicles[Index].Price ~= nil and DisplayedVehicles[Index].Weeks > 0 and DisplayedVehicles[Index].Weeks ~= nil and DisplayedVehicles[Index].Intrest > 0 and DisplayedVehicles[Index].Intrest ~= nil then
-												Citizen.CreateThread(function()
-													if(lockBuyingCar ~= true) then
-														lockBuyingCar = true
-														local notifReceivedAt = GetGameTimer()
-														local msg = "Press <span style='color:lime'>Y</span> to buy with cash, press <span style='color:white'>L</span> to lease it, or press <span style='color:red'>M</span> to refuse!"
-														exports.pNotify:SendNotification({text = msg,type = "error",timeout = 30000,layout = "centerRight",queue = "left"})
-														while(true) do
-															Wait(0)
-															
-															if (GetTimeDifference(GetGameTimer(), notifReceivedAt) > 30000) then
-																exports.pNotify:SendNotification({text = "The application for the fine has expired.",type = "error",timeout = 10000,layout = "centerRight",queue = "left"})
-																lockBuyingCar = false
-																break
-															end
-															
-															if IsControlPressed(1, 246) then
-																local msg = "You paid the full price of $"..DisplayedVehicles[Index].Price
-																exports.pNotify:SendNotification({text = msg,type = "error",timeout = 10000,layout = "centerRight",queue = "left"})
-																TriggerServerEvent('CarDealer.BuyCar', 0, Index, available_garage, 0)
-																lockBuyingCar = false
-																break
-															end
-															
-															if IsControlPressed(1, 182) then
-																local CashDown = tonumber(KeyboardInput("Would you like to put more cash down? If so enter it now:", "0", 11))
-																local msg = "You have accepted to finance the car."
-																exports.pNotify:SendNotification({text = msg,type = "error",timeout = 10000,layout = "centerRight",queue = "left"})
-																TriggerServerEvent('CarDealer.BuyCar', 1, Index, available_garage, CashDown)
-																lockBuyingCar = false
-																break
-															end
+						if GetHashKey(DisplayedVehicles[Index].Model) == GetEntityModel(NetworkGetEntityFromNetworkId(DisplayedVehicles[Index].Entity)) then
+							local VehicleCoords = GetEntityCoords(NetworkGetEntityFromNetworkId(DisplayedVehicles[Index].Entity), false)
+							if #(PlayerPosition - VehicleCoords) <= 6.0 then
+								Draw3DText(VehicleCoords.x, VehicleCoords.y, VehicleCoords.z, DisplayedVehicles[Index].DealerText)
+								if CarDealer.OnDuty == false then
+									if #(PlayerPosition - VehicleCoords) <= 2.0 and not IsPedInAnyVehicle(Player) then
+										if IsControlJustPressed(1, 51) then
+											local available_garage = GetGarage()
+											if available_garage then
+												if DisplayedVehicles[Index].Price > 0 and DisplayedVehicles[Index].Price ~= nil and DisplayedVehicles[Index].Weeks > 0 and DisplayedVehicles[Index].Weeks ~= nil and DisplayedVehicles[Index].Intrest > 0 and DisplayedVehicles[Index].Intrest ~= nil then
+													Citizen.CreateThread(function()
+														if(lockBuyingCar ~= true) then
+															lockBuyingCar = true
+															local notifReceivedAt = GetGameTimer()
+															local msg = "Press <span style='color:lime'>Y</span> to buy with cash, press <span style='color:white'>L</span> to lease it, or press <span style='color:red'>M</span> to refuse!"
+															exports.pNotify:SendNotification({text = msg,type = "error",timeout = 30000,layout = "centerRight",queue = "left"})
+															while(true) do
+																Wait(0)
+																
+																if (GetTimeDifference(GetGameTimer(), notifReceivedAt) > 30000) then
+																	exports.pNotify:SendNotification({text = "The application for the fine has expired.",type = "error",timeout = 10000,layout = "centerRight",queue = "left"})
+																	lockBuyingCar = false
+																	break
+																end
+																
+																if IsControlPressed(1, 246) then
+																	local msg = "You paid the full price of $"..DisplayedVehicles[Index].Price
+																	exports.pNotify:SendNotification({text = msg,type = "error",timeout = 10000,layout = "centerRight",queue = "left"})
+																	TriggerServerEvent('CarDealer.BuyCar', 0, Index, available_garage, 0)
+																	lockBuyingCar = false
+																	break
+																end
+																
+																if IsControlPressed(1, 182) then
+																	local CashDown = tonumber(KeyboardInput("Would you like to put more cash down? If so enter it now:", "0", 11))
+																	local msg = "You have accepted to finance the car."
+																	exports.pNotify:SendNotification({text = msg,type = "error",timeout = 10000,layout = "centerRight",queue = "left"})
+																	TriggerServerEvent('CarDealer.BuyCar', 1, Index, available_garage, CashDown)
+																	lockBuyingCar = false
+																	break
+																end
 
-															if IsControlPressed(1, 301) then
-																local msg = "You refused the offer."
-																exports.pNotify:SendNotification({text = msg,type = "error",timeout = 10000,layout = "centerRight",queue = "left"})
-																lockBuyingCar = false
-																break
+																if IsControlPressed(1, 301) then
+																	local msg = "You refused the offer."
+																	exports.pNotify:SendNotification({text = msg,type = "error",timeout = 10000,layout = "centerRight",queue = "left"})
+																	lockBuyingCar = false
+																	break
+																end
 															end
 														end
-													end
-												end)
+													end)
+												end
+											else
+												Notify("You do not have any room in your garage!", 3100)
 											end
-										else
-											Notify("You do not have any room in your garage!", 3100)
 										end
 									end
 								end

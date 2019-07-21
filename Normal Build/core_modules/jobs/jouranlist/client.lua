@@ -246,10 +246,9 @@ Citizen.CreateThread(function()
 
 		Citizen.Wait(10)
 
-		local lPed = GetPlayerPed(-1)
-		local vehicle = GetVehiclePedIsIn(lPed)
-
 		if holdingCam and IsControlJustReleased(1, 244) then
+			local lPed = GetPlayerPed(-1)
+			local vehicle = GetVehiclePedIsIn(lPed)
 			movcamera = true
 
 			SetTimecycleModifier("default")
@@ -335,10 +334,10 @@ Citizen.CreateThread(function()
 
 		Citizen.Wait(10)
 
-		local lPed = GetPlayerPed(-1)
-		local vehicle = GetVehiclePedIsIn(lPed)
-
 		if holdingCam and IsControlJustReleased(1, 38) then
+			local lPed = GetPlayerPed(-1)
+			local vehicle = GetVehiclePedIsIn(lPed)
+
 			newscamera = true
 
 			SetTimecycleModifier("default")

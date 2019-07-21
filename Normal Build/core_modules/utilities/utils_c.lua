@@ -451,7 +451,7 @@ function GetTimeRemaining(time1, time2, _type)
     return result
 end
 
-function teleportPlayer(coords)
+function teleportPlayer(coords, heading)
     WarMenu.CloseMenu()
     Citizen.CreateThread(function()
         DoScreenFadeOut(1000)
@@ -459,7 +459,7 @@ function teleportPlayer(coords)
         NetworkFadeOutEntity(PlayerPedId(), true, false)
         Citizen.Wait(1000)
         SetEntityCoords(PlayerPedId(), coords.x, coords.y, coords.z)
-        SetEntityHeading(PlayerPedId(), coords.h or 90.0)
+        SetEntityHeading(PlayerPedId(), heading or 90.0)
         NetworkFadeInEntity(PlayerPedId(), 0)
         Citizen.Wait(1000)
         SimulatePlayerInputGait(PlayerId(), 1.0, 100, 1.0, 1, 0)

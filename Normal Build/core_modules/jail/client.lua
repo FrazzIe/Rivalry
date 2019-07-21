@@ -202,7 +202,7 @@ end)
 Citizen.CreateThread(function()
     while true do
         Citizen.Wait(0)
-        if not IsInJail() then
+        if removeSentance then
             local Player = PlayerPedId()
             local PlayerPosition = GetEntityCoords(Player, false)
             if #(PlayerPosition - JailBreak) < 10 then
@@ -210,7 +210,9 @@ Citizen.CreateThread(function()
                 if #(PlayerPosition - JailBreak) < 1 then
                     DisplayHelpText("Press ~INPUT_CONTEXT~ to initiate a jailbreak!")
                     if IsControlJustPressed(1, 51) then
-                        TriggerServerEvent("Jailbreak.Start")
+                        if not IsInJail() then
+                            TriggerServerEvent("Jailbreak.Start")
+                        end
                     end
                 end
             end

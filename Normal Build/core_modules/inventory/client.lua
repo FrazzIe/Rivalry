@@ -651,12 +651,6 @@ Citizen.CreateThread(function()
             SetPedIsDrunk(PlayerPedId(), false)
             SetPedMotionBlur(PlayerPedId(), false)
         end
-    end
-end)
-
-Citizen.CreateThread(function()
-    while true do
-        Citizen.Wait(0)
         if drugged then
             drugged = false
             Citizen.Wait(5000)

@@ -16,10 +16,9 @@ Citizen.CreateThread(function()
 		local Ped = PlayerPedId()
 		local PlayerPosition = GetEntityCoords(Ped, 0)
 		for Index = 1, #ChopShops.Locations do
-			local Distance = #(PlayerPosition - ChopShops.Locations[Index])
-			if Distance < 20 then
+			if #(PlayerPosition - ChopShops.Locations[Index]) < 20 then
 				RenderMarker(25, ChopShops.Locations[Index].x, ChopShops.Locations[Index].y, ChopShops.Locations[Index].z, 1.5, 1.5, 2.0, 255, 255, 0, 20)
-				if Distance < 2 then
+				if #(PlayerPosition - ChopShops.Locations[Index]) < 2 then
 					if IsPedSittingInAnyVehicle(Ped) then
 						local Vehicle = GetVehiclePedIsIn(Ped, false)
 						if GetPedInVehicleSeat(Vehicle, -1) == Ped then

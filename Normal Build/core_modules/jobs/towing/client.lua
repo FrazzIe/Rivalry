@@ -58,8 +58,8 @@ Citizen.CreateThread(function()
     end
     while true do
         Citizen.Wait(0)
-        local pos = GetEntityCoords(GetPlayerPed(-1), true)
-        if isTow then
+		if isTow then
+			local pos = GetEntityCoords(GetPlayerPed(-1), true)
 	        for k,v in ipairs(tow_locations.signOn) do
 	            if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 15.0)then
 	                RenderMarker(25, v.x, v.y, v.z, 1.5, 1.5, 2.0, 255, 255, 0, 20)
