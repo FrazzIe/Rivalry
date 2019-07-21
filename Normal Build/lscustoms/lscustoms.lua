@@ -509,7 +509,6 @@ local function DriveInGarage()
 	            end
 	        end)
 			SetEntityInvincible(veh,true)
-			SetEntityLocallyVisible(veh, true)
 			SetVehRadioStation(veh, 255)
 			
 			gameplaycam = GetRenderingCam()
