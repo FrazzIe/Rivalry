@@ -464,34 +464,36 @@ Citizen.CreateThread(function()
 			end
 			if #DisplayedVehicles > 0 then
 				for Index = 1, #DisplayedVehicles do
-					local VehicleCoords = GetEntityCoords(NetworkGetEntityFromNetworkId(DisplayedVehicles[Index].Entity), false)
-					if #(PlayerPosition - VehicleCoords) <= 2.0 and not IsPedInAnyVehicle(Player) then
-						if DisplayedVehicles[Index].DealerText == "" then
-							Draw3DText(VehicleCoords.x, VehicleCoords.y, VehicleCoords.z, "[E] - Press to set information")
-						else
-							Draw3DText(VehicleCoords.x, VehicleCoords.y, VehicleCoords.z - 0.1, "[E] - Press to set information")
-						end
-						if IsControlJustPressed(1, 51) then
-							-- Create Inputs here
-							local Price = tonumber(KeyboardInput("Enter Total Price:", "100000", 11))
-							local Weeks = tonumber(KeyboardInput("Enter Total Weeks:", "8", 11))
-							local Intrest = tonumber(KeyboardInput("Enter Intrest Rate:", "10", 11))
-							if Intrest > 20 then
-								Intrest = 20
-							elseif Intrest < 5 then
-								Intrest = 5
+					if NetworkDoesNetworkIdExist(DisplayedVehicles[Index].Entity) then
+						local VehicleCoords = GetEntityCoords(NetworkGetEntityFromNetworkId(DisplayedVehicles[Index].Entity), false)
+						if #(PlayerPosition - VehicleCoords) <= 2.0 and not IsPedInAnyVehicle(Player) then
+							if DisplayedVehicles[Index].DealerText == "" then
+								Draw3DText(VehicleCoords.x, VehicleCoords.y, VehicleCoords.z, "[E] - Press to set information")
+							else
+								Draw3DText(VehicleCoords.x, VehicleCoords.y, VehicleCoords.z - 0.1, "[E] - Press to set information")
 							end
-							local CashDown = tonumber(KeyboardInput("Enter Cash Down: ", "0", 11))
-							if CashDown > ( Price * 0.05) then
-								CashDown = Price * 0.05
-								CashDown = tonumber(CashDown)
+							if IsControlJustPressed(1, 51) then
+								-- Create Inputs here
+								local Price = tonumber(KeyboardInput("Enter Total Price:", "100000", 11))
+								local Weeks = tonumber(KeyboardInput("Enter Total Weeks:", "8", 11))
+								local Intrest = tonumber(KeyboardInput("Enter Intrest Rate:", "10", 11))
+								if Intrest > 20 then
+									Intrest = 20
+								elseif Intrest < 5 then
+									Intrest = 5
+								end
+								local CashDown = tonumber(KeyboardInput("Enter Cash Down: ", "0", 11))
+								if CashDown > ( Price * 0.05) then
+									CashDown = Price * 0.05
+									CashDown = tonumber(CashDown)
+								end
+								DisplayedVehicles[Index].Price = Price
+								DisplayedVehicles[Index].Weeks = Weeks
+								DisplayedVehicles[Index].Intrest = Intrest
+								DisplayedVehicles[Index].CashDown = CashDown
+								DisplayedVehicles[Index].DealerText = "[E] - Price: $"..DisplayedVehicles[Index].Price.." | Weeks: "..DisplayedVehicles[Index].Weeks.. " | Interest: "..DisplayedVehicles[Index].Intrest.."%".." | Cash Down: $"..DisplayedVehicles[Index].CashDown
+								TriggerServerEvent("Change.DisplayVehicle", DisplayedVehicles[Index], Index)
 							end
-							DisplayedVehicles[Index].Price = Price
-							DisplayedVehicles[Index].Weeks = Weeks
-							DisplayedVehicles[Index].Intrest = Intrest
-							DisplayedVehicles[Index].CashDown = CashDown
-							DisplayedVehicles[Index].DealerText = "[E] - Price: $"..DisplayedVehicles[Index].Price.." | Weeks: "..DisplayedVehicles[Index].Weeks.. " | Interest: "..DisplayedVehicles[Index].Intrest.."%".." | Cash Down: $"..DisplayedVehicles[Index].CashDown
-							TriggerServerEvent("Change.DisplayVehicle", DisplayedVehicles[Index], Index)
 						end
 					end
 				end
