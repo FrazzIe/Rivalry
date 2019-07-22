@@ -325,7 +325,7 @@ RegisterNetEvent("Use.Medkit.Effects")
 AddEventHandler("Use.Medkit.Effects", function(Type)
     if Type == "Medic" then
         if IsEntityDead(PlayerPedId()) then
-            TriggerServerEvent("paramedic:revive", GetPlayerServerId(PlayerId()))
+            TriggerServerEvent("medkit:revive", GetPlayerServerId(PlayerId()))
         else
             SetEntityHealth(PlayerPedId(), GetEntityMaxHealth(PlayerPedId()))
             TriggerEvent('mythic_hospital:client:RemoveBleed')

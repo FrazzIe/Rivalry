@@ -331,7 +331,6 @@ function ProcessRunStuff(ped)
         end
     else
         SetPedMoveRateOverride(ped, 1.0)
-        ResetPedMovementClipset(ped, 0)
         if DecorGetInt(ped, 'player_thirst') > 25 or onPainKiller > 0 then
             SetPlayerSprint(PlayerId(), true)
         end
