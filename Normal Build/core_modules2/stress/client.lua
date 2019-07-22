@@ -1,16 +1,12 @@
 local StressLevel = 0
 local HasToldAboutStress = false
-local BleedingOut = false
-local HasRecievedMedicalAttention = true
 local YogaPlace = vector3(-1495.3853759766, 829.42315673828,181.62339782715)
 DecorSetFloat(PlayerPedId(), "_Stress_Level", StressLevel)
 local UsedCocaine =  false
 local UsedCigarette = false
 local UsedWeed = false
 local CocaineTimer = nil
-local BleedingOutStage = 0
 local ToggleFlashes = false
-local ToggleSpeed = false
 
 RegisterNetEvent("Add.Stress")
 AddEventHandler("Add.Stress", function(Stress)
@@ -61,19 +57,6 @@ AddEventHandler("Lower.Stress", function(Value)
     DecorSetFloat(PlayerPedId(), "_Stress_Level", StressLevel)
 end)
 
-RegisterNetEvent("Damage.StartBleeding")
-AddEventHandler("Damage.StartBleeding", function(Bone, WeaponUsed, DamageTaken)
-    Citizen.CreateThread(function()
-        if Bone == "Neck" or Bone == "Stomach" or Bone == "Head" or Bone == "Upper chest" or Bone == "Right leg" or Bone == "Left leg" then
-            if WeaponUsed ~= "WEAPON_UNARMED" and WeaponUsed ~= "WEAPON_POOLCLUB" and WeaponUsed ~= "WEAPON_FLASHLIGHT" and WeaponUsed ~= "WEAPON_BATON" and WeaponUsed ~= "WEAPON_BAT" and WeaponUsed ~= "WEAPON_GOLFCLUB" and WeaponUsed ~= "WEAPON_CROWBAR" and WeaponUsed ~= "WEAPON_WRENCH" then
-                BleedingOut = true
-                HasRecievedMedicalAttention = false
-                ToggleFlashes = false
-            end
-        end
-    end)
-end)
-
 RegisterNetEvent("Stop.Bleeding")
 AddEventHandler("Stop.Bleeding", function()
     if BleedingOut == true then
@@ -99,7 +82,7 @@ AddEventHandler("Cocaine.Speed", function()
 end)
 
 RegisterNetEvent("Use.Gauze")
-AddEventHandler("Use.Gauze", function(item)
+AddEventHandler("Use.Gauze", function(Target)
     exports['mythic_progbar']:Progress({
         name = "firstaid_action",
         duration = 1500,
@@ -122,8 +105,7 @@ AddEventHandler("Use.Gauze", function(item)
         }
     }, function(status)
         if not status then
-            BleedingOut = false
-            HasRecievedMedicalAttention = true
+            TriggerServerEvent("Use.Gauze.Effects", Target)
         end
     end)
 end)
@@ -155,9 +137,7 @@ AddEventHandler("Use.Bandage", function(item)
 			local maxHealth = GetEntityMaxHealth(PlayerPedId())
 			local health = GetEntityHealth(PlayerPedId())
 			local newHealth = math.min(maxHealth, math.floor(health + maxHealth / 16))
-            SetEntityHealth(PlayerPedId(), newHealth)
-            BleedingOut = false
-            HasRecievedMedicalAttention = false
+			SetEntityHealth(PlayerPedId(), newHealth)
         end
     end)
 end)
@@ -186,10 +166,10 @@ AddEventHandler("Use.FirstAidKit", function(item)
         },
     }, function(status)
         if not status then
-            BleedingOut = false
-            HasRecievedMedicalAttention = true
-            StressLevel = 0
-            DecorSetFloat(PlayerPedId(), "_Stress_Level", 0)
+            local maxHealth = GetEntityMaxHealth(PlayerPedId())
+			local health = GetEntityHealth(PlayerPedId())
+			local newHealth = math.min(maxHealth, math.floor(health + maxHealth / 8))
+			SetEntityHealth(PlayerPedId(), newHealth)
         end
     end)
 end)
@@ -220,11 +200,11 @@ AddEventHandler("Use.Medkit", function(Target)
         },
     }, function(status)
         if not status then
-            TriggerServerEvent("paramedic:revive", Target)
-            BleedingOut = false
-            HasRecievedMedicalAttention = true
-            StressLevel = 0
-            DecorSetFloat(PlayerPedId(), "_Stress_Level", 0)
+            if exports.emsjob:getIsInService() then
+                TriggerServerEvent("Use.Medkit.Effects", Target, "Medic")
+            else
+                TriggerServerEvent("Use.Medkit.Effects", Target, "Civilian")
+            end
         end
     end)
 end)
@@ -234,7 +214,7 @@ AddEventHandler("Use.Vicodin", function(item)
     exports['mythic_progbar']:Progress({
         name = "firstaid_action",
         duration = 3000,
-        label = "Taking Vicodin",
+        label = "Taking Ibuprofen",
         useWhileDead = false,
         canCancel = true,
         controlDisables = {
@@ -256,8 +236,7 @@ AddEventHandler("Use.Vicodin", function(item)
         },
     }, function(status)
         if not status then
-            ToggleSpeed = false
-            ToggleFlashes = true
+            TriggerEvent('mythic_hospital:client:UsePainKiller', 1)
             StressLevel = 0
             DecorSetFloat(PlayerPedId(), "_Stress_Level", 0)
         end
@@ -291,8 +270,7 @@ AddEventHandler("Use.Hydrocodone", function(item)
         },
     }, function(status)
         if not status then
-            ToggleSpeed = false
-            ToggleFlashes = true
+            TriggerEvent('mythic_hospital:client:UsePainKiller', 2)
             StressLevel = 0
             DecorSetFloat(PlayerPedId(), "_Stress_Level", 0)
         end
@@ -326,8 +304,7 @@ AddEventHandler("Use.Morphine", function(item)
         },
     }, function(status)
         if not status then
-            ToggleSpeed = false
-            ToggleFlashes = true
+            TriggerEvent('mythic_hospital:client:UsePainKiller', 6)
             StressLevel = 0
             DecorSetFloat(PlayerPedId(), "_Stress_Level", 0)
         end
@@ -342,6 +319,31 @@ end)
 RegisterNetEvent("Use.Weed")
 AddEventHandler("Use.Weed", function()
     UsedWeed = true
+end)
+
+RegisterNetEvent("Use.Medkit.Effects")
+AddEventHandler("Use.Medkit.Effects", function(Type)
+    if Type == "Medic" then
+        if IsEntityDead(PlayerPedId()) then
+            TriggerServerEvent("paramedic:revive", GetPlayerServerId(PlayerId()))
+        else
+            SetEntityHealth(PlayerPedId(), GetEntityMaxHealth(PlayerPedId()))
+            TriggerEvent('mythic_hospital:client:RemoveBleed')
+            TriggerEvent('mythic_hospital:client:ResetLimbs')
+            StressLevel = 0
+            DecorSetFloat(PlayerPedId(), "_Stress_Level", 0)
+        end
+    else
+        if IsEntityDead(PlayerPedId()) then
+            TriggerServerEvent("medkit:revive", GetPlayerServerId(PlayerId()))
+        else
+            SetEntityHealth(PlayerPedId(), GetEntityMaxHealth(PlayerPedId()))
+            TriggerEvent('mythic_hospital:client:RemoveBleed')
+            TriggerEvent('mythic_hospital:client:ResetLimbs')
+            StressLevel = 0
+            DecorSetFloat(PlayerPedId(), "_Stress_Level", 0)
+        end
+    end
 end)
 
 -- Stress Thread
@@ -374,28 +376,6 @@ Citizen.CreateThread(function()
     BeginTextCommandSetBlipName("STRING")
     AddTextComponentString("Yoga Park")
     EndTextCommandSetBlipName(blip)
-    while true do
-        Citizen.Wait(0)
-        if not HasRecievedMedicalAttention and not BleedingOut then
-            StressLevel = 75
-            DecorSetFloat(PlayerPedId(), "_Stress_Level", StressLevel)
-            Citizen.Wait(900000)
-            if HasRecievedMedicalAttention == false and not BleedingOut then
-                Notify("Your wound has been infected! You need to go to a hospital!", 3100)
-                -- BleedingOutStage = 2
-            end
-            Citizen.Wait(900000)
-            if HasRecievedMedicalAttention == false and not BleedingOut then
-                -- BleedingOutStage = 3
-                Notify("Your wound has worsened!", 3100)
-            end
-            Citizen.Wait(300000)
-            if HasRecievedMedicalAttention == false and not BleedingOut then
-                Notify("You drop to the floor in shock due to infection!", 3100)
-                SetEntityHealth(PlayerPedId(), 0)
-            end
-        end
-    end
 end)
 
 -- Movement Threads
@@ -404,42 +384,6 @@ Citizen.CreateThread(function()
         Citizen.Wait(0)
         if UsedCocaine then
             SetPedMoveRateOverride(PlayerPedId(), 1.5)
-        end
-        if ToggleSpeed then
-            SetPedMoveRateOverride(PlayerPedId(), 0.8)
-        end
-    end
-end)
-
-Citizen.CreateThread(function()
-    while true do
-        Citizen.Wait(0)
-        if BleedingOut and not ToggleFlashes then
-            if BleedingOutStage == 1 then
-                -- SetFlash(0, 0, 100, 100, 100)
-                DoScreenFadeOut(2000)
-                Citizen.Wait(2000)
-                DoScreenFadeIn(2000)
-            -- elseif BleedingOutStage == 2 then
-            --     -- SetFlash(0, 0, 100, 250, 100)
-            -- elseif BleedingOutStage == 3 then
-            --     -- SetFlash(0, 0, 100, 500, 100)
-            end
-            Citizen.Wait(4000)
-        end
-    end
-end)
-
-Citizen.CreateThread(function()
-    while true do
-        Citizen.Wait(0)
-        if BleedingOut and not HasRecievedMedicalAttention then
-            Citizen.Wait(120000)
-            if BleedingOut and not HasRecievedMedicalAttention then
-                ApplyDamageToPed(PlayerPedId(), 5, true)
-                BleedingOutStage = 1
-                Notify("You are bleeding out! You need medical attention!", 3100)
-            end
         end
     end
 end)
@@ -523,16 +467,6 @@ Citizen.CreateThread(function()
             Citizen.Wait(10000)
             StressLevel = StressLevel - 0.5
             DecorSetFloat(PlayerPedId(), "_Stress_Level", StressLevel)
-        end
-    end
-end)
-
-Citizen.CreateThread(function()
-    while true do
-        Citizen.Wait(0)
-        if BleedingOut then
-            SetPedMovementClipset(PlayerPedId(), "move_injured_generic", 1.0)
-            Citizen.Wait(5000)
         end
     end
 end)

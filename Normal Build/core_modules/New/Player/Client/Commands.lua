@@ -394,23 +394,7 @@ AddEventHandler("core:ready", function()
     Chat.Command("bed", function(source, args, rawCommand)
         local Ped = PlayerPedId()
         local PlayerPosition = GetEntityCoords(Ped, false)
-        local Dictionary = "missfinale_c1@"
-        local Animation = "lying_dead_player0"
-        if not IsEntityDead(Ped) then
-            RequestAnimDict(Dictionary)
-            while not HasAnimDictLoaded(Dictionary) do
-                Wait(0)
-            end
-            for Index = 1, #BedLocations do
-                if #(PlayerPosition - BedLocations[Index]) < 2.0 then
-                	NearestBed = GetClosestObjectOfType(BedLocations[Index].x, BedLocations[Index].y, BedLocations[Index].z, 2.0, -1091386327, 0, 0, 0)
-                    AttachEntityToEntity(Ped, NearestBed, 1, -0.2, -0.2, 1.4, 0.0, 0.0, 180.0, true, true, true, true, 1, true)
-                    TaskPlayAnim(Ped, Dictionary, Animation, 8.0, 1.0, -1, 1, 0, 0, 0, 0 )
-                    InBed = true
-                    CurrentBed = NearestBed
-                end
-            end
-        end
+        TriggerServerEvent("mythic_hospital:server:RPRequestBed", PlayerPosition)
     end, false, {Help = "Lye down on the nearest hospital bed", Params = {}})
 
     Chat.Command("carpayment", function(source, args, rawCommand)

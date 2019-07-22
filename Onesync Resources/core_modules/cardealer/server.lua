@@ -567,7 +567,7 @@ AddEventHandler("Dealer.GivePayment", function(Profit)
     TriggerEvent("core:getuser", Source, function(User)
         if Profit ~= nil then
             if Profit > 0 then
-                TriggerClientEvent("pNotify:SendNotification", Source, {text = "You've made $"..Profit.." of commissionn from that sale!",type = "error",queue = "left",timeout = 2500,layout = "bottomCenter"})
+                TriggerClientEvent("pNotify:SendNotification", Source, {text = "You've made $"..Profit.." of commission from that sale!",type = "error",queue = "left",timeout = 2500,layout = "bottomCenter"})
                 User.addBank(Profit)
             end
         end
@@ -628,8 +628,8 @@ AddEventHandler("Pay.CarPayment", function(Plate)
                 for k, v in pairs(result) do
                     if tonumber(Plate, 16) == v.plate then
                         local Intrest = ( ( v.cost * ( v.intrest / 100) ) * ( ( v.weeks * 7 ) / 360 ) )
-                        local MonthlyPayment = ( ( v.cost / v.weeks ) + Intrest )
-                        local WeeksMissed = math.floor( (  ( os.time() - v.lastpayment)  / 604800 ) )
+                        local MonthlyPayment = math.floor( ( v.cost / v.weeks ) + Intrest )
+                        local WeeksMissed = math.floor( ( os.time() - v.lastpayment)  / 604800 )
                         if WeeksMissed >= 2 then
                             MonthlyPayment = MonthlyPayment * WeeksMissed
                         end

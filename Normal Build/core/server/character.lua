@@ -392,7 +392,8 @@ AddEventHandler("core:selectCharacter", function(data)
                 TriggerEvent("handcuffs:initialise", source)
                 TriggerEvent("doors:initialise", source)
                 TriggerEvent("weed:initialise", source)
-                TriggerClientEvent("Recieved.Medical.Attention", source)
+                TriggerClientEvent('mythic_hospital:client:RemoveBleed', source)
+                TriggerClientEvent('mythic_hospital:client:ResetLimbs', source)
                 TriggerEvent("GunStash.InitialiseInventory", source)
             else
                 if GetPlayerName(source) then

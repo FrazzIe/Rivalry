@@ -193,3 +193,5 @@ export 'HudElementsDisabled'
 
 export 'DisableProne'
 export 'EnableProne'
+
+export 'RenderMarker'

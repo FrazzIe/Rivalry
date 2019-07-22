@@ -215,11 +215,11 @@ AddEventHandler("Dealer.SoldVehicle", function(Price)
 		if CarDealer.Rank == "Associate" then
 			Profit = Price * 0.05
 		elseif CarDealer.Rank == "Senior Associate" then
-			Profit = Price * 0.08
+			Profit = Price * 0.05
 		elseif CarDealer.Rank == "Supervisor" then
-			Profit = Price * 0.12
+			Profit = Price * 0.05
 		elseif CarDealer.Rank == "Manager" then
-			Profit = Price * 0.15
+			Profit = Price * 0.05
 		end
 		if Profit ~= nil then
 			if Profit > 0 then

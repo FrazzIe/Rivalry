@@ -747,7 +747,13 @@ AddEventHandler("inventory:use",function(data)
         elseif data.canuse == 16 then
             TriggerEvent("Use.FirstAidKit")
         elseif data.canuse == 17 then
-            TriggerEvent("Use.Gauze")
+            local t, distance = GetClosestPlayer()
+            if(distance ~= -1 and distance < 3) then
+                TriggerServerEvent("Use.Gauze", GetPlayerServerId(t))
+            else
+                Notify("Please get closer to the target!", 2500)
+                addQty(data.item_id, 1)
+            end
         elseif data.canuse == 18 then
             local t, distance = GetClosestPlayer()
             if(distance ~= -1 and distance < 3) then

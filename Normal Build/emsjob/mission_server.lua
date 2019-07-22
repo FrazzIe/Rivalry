@@ -420,6 +420,12 @@ function activateMissionSystem()
         end)
     end)
 
+    RegisterServerEvent("medkit:revive")
+    AddEventHandler("medkit:revive",function(target)
+        local source = tonumber(source)
+        TriggerClientEvent("paramedic:heal", tonumber(target))
+    end)
+
     AddEventHandler('playerDropped', function()
         local source = source
         ms_exitMission(source)

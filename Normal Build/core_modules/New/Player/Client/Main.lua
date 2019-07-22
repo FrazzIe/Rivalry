@@ -514,24 +514,24 @@ end)
 
 local BedLocations = {}
 local HealVacinity = vector3(305.56661987305,-596.14038085938,43.291828155518)
-Citizen.CreateThread(function()
-	while true do
-		Citizen.Wait(0)
-		local Ped = PlayerPedId()
-		local PlayerPosition = GetEntityCoords(Ped, false)
-		if #(PlayerPosition - HealVacinity) < 10 then
-			RenderMarker(25, HealVacinity.x, HealVacinity.y, HealVacinity.z, 1.5, 1.5, 2.0, 255, 255, 0, 20)
-			if #(PlayerPosition - HealVacinity) < 2 then
-				DisplayHelpText("Press ~INPUT_CONTEXT~ to recieve medical treatment ($500)")
-				if IsControlJustPressed(1, 51) then
-					if not IsEntityDead(Ped) and IsPedAPlayer(Ped) and DoesEntityExist(Ped) then
-						TriggerServerEvent("Hospital.ServiceHeal")
-					end
-				end
-			end
-		end
-	end
-end)
+-- Citizen.CreateThread(function()
+-- 	while true do
+-- 		Citizen.Wait(0)
+-- 		local Ped = PlayerPedId()
+-- 		local PlayerPosition = GetEntityCoords(Ped, false)
+-- 		if #(PlayerPosition - HealVacinity) < 10 then
+-- 			RenderMarker(25, HealVacinity.x, HealVacinity.y, HealVacinity.z, 1.5, 1.5, 2.0, 255, 255, 0, 20)
+-- 			if #(PlayerPosition - HealVacinity) < 2 then
+-- 				DisplayHelpText("Press ~INPUT_CONTEXT~ to recieve medical treatment ($500)")
+-- 				if IsControlJustPressed(1, 51) then
+-- 					if not IsEntityDead(Ped) and IsPedAPlayer(Ped) and DoesEntityExist(Ped) then
+-- 						TriggerServerEvent("Hospital.ServiceHeal")
+-- 					end
+-- 				end
+-- 			end
+-- 		end
+-- 	end
+-- end)
 
 Citizen.CreateThread(function()
 	while true do
