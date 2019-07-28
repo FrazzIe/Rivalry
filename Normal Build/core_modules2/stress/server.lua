@@ -37,5 +37,10 @@ end)
 RegisterServerEvent("Use.Medkit.Effects")
 AddEventHandler("Use.Medkit.Effects", function(Target, Type)
 	local Source = source
+	if Type == "Medic" then
+		TriggerEvent("core:getuser", Source, function(User)
+			User.addBank(500)
+		end)
+	end
 	TriggerClientEvent("Use.Medkit.Effects", Target, Type)
 end)

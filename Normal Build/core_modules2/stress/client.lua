@@ -166,10 +166,11 @@ AddEventHandler("Use.FirstAidKit", function(item)
         },
     }, function(status)
         if not status then
-            local maxHealth = GetEntityMaxHealth(PlayerPedId())
-			local health = GetEntityHealth(PlayerPedId())
-			local newHealth = math.min(maxHealth, math.floor(health + maxHealth / 8))
-			SetEntityHealth(PlayerPedId(), newHealth)
+            SetEntityHealth(PlayerPedId(), GetEntityMaxHealth(PlayerPedId()))
+            TriggerEvent('mythic_hospital:client:RemoveBleed')
+            TriggerEvent('mythic_hospital:client:ResetLimbs')
+            StressLevel = 0
+            DecorSetFloat(PlayerPedId(), "_Stress_Level", 0)
         end
     end)
 end)
@@ -237,8 +238,8 @@ AddEventHandler("Use.Vicodin", function(item)
     }, function(status)
         if not status then
             TriggerEvent('mythic_hospital:client:UsePainKiller', 1)
-            StressLevel = 0
-            DecorSetFloat(PlayerPedId(), "_Stress_Level", 0)
+            StressLevel = StressLevel - 25
+            DecorSetFloat(PlayerPedId(), "_Stress_Level", StressLevel)
         end
     end)
 end)
@@ -304,7 +305,7 @@ AddEventHandler("Use.Morphine", function(item)
         },
     }, function(status)
         if not status then
-            TriggerEvent('mythic_hospital:client:UsePainKiller', 6)
+            TriggerEvent('mythic_hospital:client:UsePainKiller', 4)
             StressLevel = 0
             DecorSetFloat(PlayerPedId(), "_Stress_Level", 0)
         end

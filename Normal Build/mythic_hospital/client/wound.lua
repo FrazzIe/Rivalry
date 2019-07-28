@@ -5,6 +5,7 @@ local blackoutTimer = 0
 
 local onPainKiller = 0
 local wasOnPainKillers = false
+local whichPainKiller = 0
 
 local onDrugs = 0
 local wasOnDrugs = false
@@ -206,13 +207,9 @@ local weapons = {
     [`WEAPON_GARBAGEBAG`] = WeaponClasses['WILDLIFE'], -- Garbage Bag
     [`WEAPON_BRIEFCASE`] = WeaponClasses['WILDLIFE'], -- Briefcase
     [`WEAPON_BRIEFCASE_02`] = WeaponClasses['WILDLIFE'], -- Briefcase 2
-    [`WEAPON_BALL`] = WeaponClasses['LIGHT_IMPACT'],
     [`WEAPON_FLASHLIGHT`] = WeaponClasses['LIGHT_IMPACT'],
     [`WEAPON_KNUCKLE`] = WeaponClasses['LIGHT_IMPACT'],
     [`WEAPON_NIGHTSTICK`] = WeaponClasses['LIGHT_IMPACT'],
-    [`WEAPON_SNOWBALL`] = WeaponClasses['LIGHT_IMPACT'],
-    [`WEAPON_UNARMED`] = WeaponClasses['LIGHT_IMPACT'],
-    [`WEAPON_PARACHUTE`] = WeaponClasses['LIGHT_IMPACT'],
     [`WEAPON_NIGHTVISION`] = WeaponClasses['LIGHT_IMPACT'],
     
     --[[ Heavy Impact ]]--
@@ -243,6 +240,10 @@ local weapons = {
     [`WEAPON_RUN_OVER_BY_CAR`] = WeaponClasses['OTHER'], -- Ran Over
     [`WEAPON_HELI_CRASH`] = WeaponClasses['OTHER'], -- Heli Crash
     [`WEAPON_STUNGUN`] = WeaponClasses['OTHER'],
+    [`WEAPON_SNOWBALL`] = WeaponClasses['OTHER'],
+    [`WEAPON_UNARMED`] = WeaponClasses['OTHER'],
+    [`WEAPON_BALL`] = WeaponClasses['OTHER'],
+    [`WEAPON_PARACHUTE`] = WeaponClasses['OTHER'],
     
     --[[ Fire ]]--
     [`WEAPON_ELECTRIC_FENCE`] = WeaponClasses['FIRE'], -- Electric Fence 
@@ -312,7 +313,7 @@ function ProcessRunStuff(ped)
         while not HasAnimSetLoaded("move_m@injured") do
             Citizen.Wait(0)
         end
-        SetPedMovementClipset(ped, "move_m@injured", 1 )
+        SetPedMovementClipset(ped, "move_m@injured", 1.0 )
         SetPlayerSprint(PlayerId(), false)
 
         local level = 0
@@ -325,14 +326,23 @@ function ProcessRunStuff(ped)
         SetPedMoveRateOverride(ped, MovementRate[level])
 
         if wasOnPainKillers then
-            SetPedToRagdoll(PlayerPedId(), 1500, 2000, 3, true, true, false)
             wasOnPainKillers = false
-            exports['mythic_notify']:DoCustomHudText('inform', 'You\'ve Realized Doing Drugs Does Not Fix All Your Problems', 5000)
+            if whichPainKiller == 4 then
+                exports['mythic_notify']:DoCustomHudText('inform', 'You feel very euphoric!', 5000)
+            else
+                exports['mythic_notify']:DoCustomHudText('inform', 'You feel really good!', 5000)
+            end
         end
     else
         SetPedMoveRateOverride(ped, 1.0)
         if DecorGetInt(ped, 'player_thirst') > 25 or onPainKiller > 0 then
             SetPlayerSprint(PlayerId(), true)
+        end
+
+        if whichPainKiller == 4 then -- Morphine
+            SetPedMovementClipset(ped, "move_m@drunk@verydrunk", 1.0)
+        elseif whichPainKiller == 2 then -- Hydrocodone
+            SetPedMovementClipset(ped, "move_m@drunk@slightlydrunk", 1.0)
         end
 
         if not wasOnPainKillers and (onPainKiller > 0) then wasOnPainKillers = true end
@@ -411,7 +421,7 @@ function ProcessDamage(ped)
         end
     else
         onDrugs = onDrugs - 1
-
+        
         if not wasOnDrugs then
             wasOnDrugs = true
         end
@@ -427,7 +437,7 @@ function CheckDamage(ped, bone, weapon, weaponName, healthLossed)
             BodyParts[parts[bone]].severity = 1
             exports['mythic_notify']:DoHudText('inform', 'Your ' .. BodyParts[parts[bone]].label .. ' feels ' .. WoundStates[BodyParts[parts[bone]].severity])
 
-            if weapon == WeaponClasses['SMALL_CALIBER'] or weapon == WeaponClasses['MEDIUM_CALIBER'] or weapon == WeaponClasses['CUTTING'] or weapon == WeaponClasses['WILDLIFE'] or weapon == WeaponClasses['OTHER'] or weapon == WeaponClasses['LIGHT_IMPACT'] then
+            if weapon == WeaponClasses['SMALL_CALIBER'] or weapon == WeaponClasses['MEDIUM_CALIBER'] or weapon == WeaponClasses['CUTTING'] or weapon == WeaponClasses['WILDLIFE'] --[[or weapon == WeaponClasses['OTHER']] or weapon == WeaponClasses['LIGHT_IMPACT'] then
                 if isBleeding < 4 then
                     isBleeding = tonumber(isBleeding) + 1
                 end
@@ -452,7 +462,7 @@ function CheckDamage(ped, bone, weapon, weaponName, healthLossed)
 
             TriggerServerEvent("Health.Injury.Add", parts[bone], Utilities:GetWeaponLabel(weaponName), healthLossed)
         else
-            if weapon == WeaponClasses['SMALL_CALIBER'] or weapon == WeaponClasses['MEDIUM_CALIBER'] or weapon == WeaponClasses['CUTTING'] or weapon == WeaponClasses['WILDLIFE'] or weapon == WeaponClasses['OTHER'] or weapon == WeaponClasses['LIGHT_IMPACT'] then
+            if weapon == WeaponClasses['SMALL_CALIBER'] or weapon == WeaponClasses['MEDIUM_CALIBER'] or weapon == WeaponClasses['CUTTING'] or weapon == WeaponClasses['WILDLIFE'] --[[or weapon == WeaponClasses['OTHER']] or weapon == WeaponClasses['LIGHT_IMPACT'] then
                 if isBleeding < 4 then
                     isBleeding = tonumber(isBleeding) + 1
                 end
@@ -539,6 +549,7 @@ RegisterNetEvent('mythic_hospital:client:UsePainKiller')
 AddEventHandler('mythic_hospital:client:UsePainKiller', function(tier)
     if tier < 4 then
         onPainKiller = 90 * tier
+        whichPainKiller = tier
     end
 
     exports['mythic_notify']:DoCustomHudText('inform', 'You feel the pain subside temporarily', 5000)

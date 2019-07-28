@@ -501,7 +501,7 @@ end
 local function heal()
     Citizen.CreateThread(function()
         if not IsEntityDead(PlayerPedId()) then
-            TriggerEvent("Stop.Bleeding")
+            TriggerEvent('mythic_hospital:client:FieldTreatBleed')
             Citizen.Wait(200)
             TaskPlayAnim(PlayerPedId(), armour_anim_dict, "002334_02_fras_v2_11_getting_dressed_exit", 4.0, -4, -1, 1, 0, false, false, false)
             Citizen.Wait(500)
