@@ -541,11 +541,11 @@ Citizen.CreateThread(function()
 	local GSR_LastShot = 0
 	local GSR_ExpireTime = 15 -- Minutes
 	local GSR_Whitelist = {
-		["WEAPON_BALL"]	= 1,
-		["WEAPON_PETROLCAN"] = 1,
-		["WEAPON_SNOWBALL"] = 1,
-		["WEAPON_STUNGUN"] = 1,
-		["WEAPON_FIREEXTINGUISHER"] = 1,
+		[`WEAPON_BALL`]	= 1,
+		[`WEAPON_PETROLCAN`] = 1,
+		[`WEAPON_SNOWBALL`] = 1,
+		[`WEAPON_STUNGUN`] = 1,
+		[`WEAPON_FIREEXTINGUISHER`] = 1,
 	}
 
 	RequestAnimDict(AnimDict)
@@ -690,7 +690,7 @@ Citizen.CreateThread(function()
 		if IsPedShooting(PlayerPed) then
 			local hasWeapon, currentWeapon = GetCurrentPedWeapon(PlayerPed, 1)
 			if currentWeapon ~= nil then
-				local WeaponStr = Weaponhashes[tostring(currentWeapon)]
+				local WeaponStr = Weaponhashes[currentWeapon] or Weaponhashes[tostring(currentWeapon)]
 				if WeaponStr then
 					if GetAmmoInPedWeapon(PlayerPed, currentWeapon) > 0 then
 						if not GSR_Whitelist[WeaponStr] then
