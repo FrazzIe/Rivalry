@@ -24,3 +24,7 @@
 	- Public Parking fees
 	- Los Santos Water & Power Job
  	- Rework DOA / hospital check-in
+
+	So I dont lose this:
+		- https://jscalc.io/calc/cKNv1hI4q1zDlxae
+		- https://jscalc.io/calc/cKNv1hI4q1zDlxae
