@@ -39,6 +39,7 @@ cars = {
     {name = "2011 Marked CVPI", model = "pd1", type = "", rank = "recruit"},
     {name = "2010 Marked Charger", model = "pd9", type = "", rank = "officer i"},
     {name = "2014 Marked Charger", model = "pd2", type = "", rank = "officer i"},
+    {name = "2014 Marked Charger EXL", model = "statep2", type = "", rank = "officer ii"},
     {name = "Marked Motorcycle", model = "policebmw", type = "", rank = "officer i"},
     {name = "2016 Marked Raptor", model = "fraptor", type = "", rank = "officer i"},
     {name = "2014 Marked Tahoe", model = "pd8", type = "", rank = "officer ii"},
