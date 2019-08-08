@@ -514,7 +514,7 @@ Citizen.CreateThread(function()
 			if #(Rivalry.Robberies.Banks.Blaine.Keypad - PlayerPosition) <= 1.0 then
 				DisplayHelpText("Press ~INPUT_CONTEXT~ to hack vault security lock!")
 				if IsControlJustPressed(1, 51) then
-					TriggerServerEvent("Rivalry.HackVault", 1, 20, "Blaine", 0, GetPlayerServerId(PlayerId()))
+					TriggerServerEvent("Rivalry.HackVault", 1, 10, "Blaine", 0, GetPlayerServerId(PlayerId()))
 				end
 			end
 		end 
@@ -524,7 +524,7 @@ Citizen.CreateThread(function()
 				DisplayHelpText("Press ~INPUT_CONTEXT~ to hack vault security lock!")
 				if IsControlJustPressed(1, 51) then
 					if not Rivalry.Robberies.Banks.Pacific.Locked3 then
-						TriggerServerEvent("Rivalry.HackVault", 1, 20, "Pacific", 0, GetPlayerServerId(PlayerId()))
+						TriggerServerEvent("Rivalry.HackVault", 1, 15, "Pacific", 0, GetPlayerServerId(PlayerId()))
 					else
 						Notify("Go back and unlock the 2nd door! You will need it open so you can escape right?", 3100)
 					end
@@ -583,7 +583,7 @@ Citizen.CreateThread(function()
 				if #(Rivalry.Robberies.Banks.Fleeca[Index].Keypad - PlayerPosition) <= 1.0 then
 					DisplayHelpText("Press ~INPUT_CONTEXT~ to hack vault security lock!")
 					if IsControlJustPressed(1, 51) then
-						TriggerServerEvent("Rivalry.HackVault", 1, 20, "Fleeca", Index, GetPlayerServerId(PlayerId()))
+						TriggerServerEvent("Rivalry.HackVault", 1, 10, "Fleeca", Index, GetPlayerServerId(PlayerId()))
 					end
 				end
 				if #(Rivalry.Robberies.Banks.Fleeca[Index].TorchPosition - PlayerPosition) <= 1.0 and Rivalry.Robberies.Banks.Fleeca[Index].Locked2 then
