@@ -48,6 +48,8 @@ client_script 'density.lua'
 client_script 'stress/client.lua'
 server_script 'stress/server.lua'
 
+client_script 'me/client.lua'
+server_script 'me/server.lua'
 --client_script 'mouth_movement.lua'
 
 export 'SeatbeltActive'
