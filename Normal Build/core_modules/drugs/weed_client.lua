@@ -95,7 +95,7 @@ Citizen.CreateThread(function()
 
 												DestroyObject(Weed.Bag.Handle)
 
-												local Amount = GetRandomIntInRange(1, 8)
+												local Amount = GetRandomIntInRange(2, 5)
 												local HasEnoughJoints = GetItemQuantity(Weed.Items.Joint) >= Amount
 
 												local Pay = GetRandomIntInRange(Weed.Pay.Minimum, Weed.Pay.Maximum + 1)
@@ -213,7 +213,7 @@ Citizen.CreateThread(function()
 
 								TriggerServerEvent("Weed.Trade", Weed.Traders[Weed.Trading.Index].Rate)
 
-								Weed.Traders[Weed.Trading.Index].Rate = GetRandomIntInRange(40, 101)
+								Weed.Traders[Weed.Trading.Index].Rate = GetRandomIntInRange(60, 101)
 
 
 								if Weed.Traders[Weed.Trading.Index].Handle ~= nil then
@@ -234,7 +234,7 @@ Citizen.CreateThread(function()
 							else
 								Notify("Trade failed!", 3500)
 
-								Weed.Traders[Weed.Trading.Index].Rate = GetRandomIntInRange(40, 101)
+								Weed.Traders[Weed.Trading.Index].Rate = GetRandomIntInRange(60, 101)
 
 
 								if Weed.Traders[Weed.Trading.Index].Handle ~= nil then
