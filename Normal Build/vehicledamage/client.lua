@@ -21,21 +21,21 @@ local fBrakeForce = 1.0
 local isBrakingForward = false
 local isBrakingReverse = false
 
-local healthEngineLast = 1000.0
-local healthEngineCurrent = 1000.0
-local healthEngineNew = 1000.0
+local healthEngineLast = 5000.0
+local healthEngineCurrent = 5000.0
+local healthEngineNew = 5000.0
 local healthEngineDelta = 0.0
 local healthEngineDeltaScaled = 0.0
 
-local healthBodyLast = 1000.0
-local healthBodyCurrent = 1000.0
-local healthBodyNew = 1000.0
+local healthBodyLast = 5000.0
+local healthBodyCurrent = 5000.0
+local healthBodyNew = 5000.0
 local healthBodyDelta = 0.0
 local healthBodyDeltaScaled = 0.0
 
-local healthPetrolTankLast = 1000.0
-local healthPetrolTankCurrent = 1000.0
-local healthPetrolTankNew = 1000.0
+local healthPetrolTankLast = 5000.0
+local healthPetrolTankCurrent = 5000.0
+local healthPetrolTankNew = 5000.0
 local healthPetrolTankDelta = 0.0
 local healthPetrolTankDeltaScaled = 0.0
 local tireBurstLuckyNumber
@@ -158,7 +158,7 @@ local function tireBurstLottery()
 		else
 			affectedTire = 0
 		end
-		SetVehicleTyreBurst(vehicle, affectedTire, false, 1000.0)
+		SetVehicleTyreBurst(vehicle, affectedTire, false, 5000.0)
 		tireBurstLuckyNumber = math.random(tireBurstMaxNumber)			-- Select a new number to hit, just in case some numbers occur more often than others
 	end
 end
@@ -280,13 +280,13 @@ Citizen.CreateThread(function()
 			vehicle = GetVehiclePedIsIn(ped, false)
 			vehicleClass = GetVehicleClass(vehicle)
 			healthEngineCurrent = GetVehicleEngineHealth(vehicle)
-			if healthEngineCurrent == 1000 then healthEngineLast = 1000.0 end
+			if healthEngineCurrent == 5000 then healthEngineLast = 5000.0 end
 			healthEngineNew = healthEngineCurrent
 			healthEngineDelta = healthEngineLast - healthEngineCurrent
 			healthEngineDeltaScaled = healthEngineDelta * cfg.damageFactorEngine * cfg.classDamageMultiplier[vehicleClass]
 
 			healthBodyCurrent = GetVehicleBodyHealth(vehicle)
-			if healthBodyCurrent == 1000 then healthBodyLast = 1000.0 end
+			if healthBodyCurrent == 5000 then healthBodyLast = 5000.0 end
 			healthBodyNew = healthBodyCurrent
 			healthBodyDelta = healthBodyLast - healthBodyCurrent
 			healthBodyDeltaScaled = healthBodyDelta * cfg.damageFactorBody * cfg.classDamageMultiplier[vehicleClass]
@@ -297,7 +297,7 @@ Citizen.CreateThread(function()
 				--	healthPetrolTankCurrent = healthPetrolTankLast
 				healthPetrolTankLast = healthPetrolTankCurrent
 			end
-			if healthPetrolTankCurrent == 1000 then healthPetrolTankLast = 1000.0 end
+			if healthPetrolTankCurrent == 5000 then healthPetrolTankLast = 5000.0 end
 			healthPetrolTankNew = healthPetrolTankCurrent
 			healthPetrolTankDelta = healthPetrolTankLast-healthPetrolTankCurrent
 			healthPetrolTankDeltaScaled = healthPetrolTankDelta * cfg.damageFactorPetrolTank * cfg.classDamageMultiplier[vehicleClass]
@@ -322,7 +322,7 @@ Citizen.CreateThread(function()
 				-- Damage happened while in the car = can be multiplied
 
 				-- Only do calculations if any damage is present on the car. Prevents weird behavior when fixing using trainer or other script
-				if healthEngineCurrent ~= 1000.0 or healthBodyCurrent ~= 1000.0 or healthPetrolTankCurrent ~= 1000.0 then
+				if healthEngineCurrent ~= 5000.0 or healthBodyCurrent ~= 5000.0 or healthPetrolTankCurrent ~= 5000.0 then
 
 					-- Combine the delta values (Get the largest of the three)
 					local healthEngineCombinedDelta = math.max(healthEngineDeltaScaled, healthBodyDeltaScaled, healthPetrolTankDeltaScaled)
