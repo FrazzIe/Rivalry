@@ -230,19 +230,25 @@ function AddMessage(src, msg)
 end
 
 RegisterNetEvent(eventName)
-AddEventHandler(eventName, function(src, msg)
-    if #(GetEntityCoords(PlayerPedId()) - GetEntityCoords(GetPlayerPed(GetPlayerFromServerId(src)))) < messageRadius then
-        local charCount = GetCharacterCount(msg)
-
-        if charCount > textCommandStrMaxLength then
-            local strCount = (charCount % textCommandStrMaxLength == 0) and charCount / textCommandStrMaxLength or (charCount / textCommandStrMaxLength)
-            
-            for i = 0, math.floor(strCount) do
-                local subStart = i * textCommandStrMaxLength
-                AddMessage(src, msg:sub(subStart, subStart + textCommandStrMaxLength))
-            end
+AddEventHandler(eventName, function(src, name, msg)
+    local playerPed = PlayerPedId()
+    local targetPed = GetPlayerPed(GetPlayerFromServerId(src)))
+    if #(GetEntityCoords(playerPed) - GetEntityCoords(targetPed) < messageRadius then
+        if IsEntityDead(playerPed) then
+            TriggerEvent('chatMessage', "^0-", {255, 0, 0}, "^5" .. name .."  ".."^3  " .. msg)
         else
-            AddMessage(src, msg)
+            local charCount = GetCharacterCount(msg)
+
+            if charCount > textCommandStrMaxLength then
+                local strCount = (charCount % textCommandStrMaxLength == 0) and charCount / textCommandStrMaxLength or (charCount / textCommandStrMaxLength)
+                
+                for i = 0, math.floor(strCount) do
+                    local subStart = i * textCommandStrMaxLength
+                    AddMessage(src, msg:sub(subStart, subStart + textCommandStrMaxLength))
+                end
+            else
+                AddMessage(src, msg)
+            end
         end
     end
 end)
