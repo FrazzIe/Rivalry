@@ -344,7 +344,7 @@ AddEventHandler("Rivalry.HackVault", function(phase, phase_max, bank, banknumber
 				TriggerEvent("mhacking:hide")
 				TriggerServerEvent("Rivalry.Robberies.Sync.Vault", bank, banknumber, false)
 			else
-				TriggerEvent("Rivalry.HackVault", phase+1, 20, bank, banknumber)
+				TriggerEvent("Rivalry.HackVault", phase+1, phase_max, bank, banknumber)
 			end
 		else
 			isRobbing = false
