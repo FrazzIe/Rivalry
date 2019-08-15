@@ -16,7 +16,8 @@
             {name="Pool Cleaner", id=20}, 
         	{name="Garbage Collector", id=21},
         	{name="Taxi", id=17},
-        	{name="Trucker", id=24},
+			{name="Trucker", id=24},
+			{name="News Reporter", id=25},
 		}
 	    Menu.SetupMenu("jobcenter_menu","Job Center")
 	    Menu.Switch(nil,"jobcenter_menu")

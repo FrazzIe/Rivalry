@@ -1,5 +1,5 @@
 News = {}
-News.IsNews = false
+News.IsNews = true
 News.Active = false
 News.Rank = nil
 NewsVan = nil
@@ -113,20 +113,11 @@ Chat.Command("bmic", function(source, args, fullCommand)
 	end
 end, false, {Help = "Toggle News Boom Mic",  Params = {}})
 
+
 RegisterNetEvent("News:Set")
-AddEventHandler("News:Set", function(_Data, _News, first)
-	News.Rank = _Data.rank
-	News.IsNews = _News
-	if not News.IsNews and News.Active then
-		News.Active = false
-		TriggerServerEvent("jobcenter:jobs", 1)
-	elseif not News.IsNews and not News.Active then
-		if not first then
-			TriggerServerEvent("jobcenter:jobs", 1)
-		end
-	elseif News.IsNews then
-		TriggerServerEvent("jobcenter:jobs", 25)
-	end
+AddEventHandler("News:Set", function(_IsNews)
+	News.Active = false
+	News.IsNews = _IsNews
 end)
 
 RegisterNetEvent("NewsVan.Rent")

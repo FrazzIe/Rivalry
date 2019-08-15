@@ -16,6 +16,7 @@ jobList = {
 	{name="Pool Cleaner", id=20}, 
 	{name="Garbage Collector", id=21},
 	{name="Trucker", id=24},
+	{name="News Reporter", id=25},
 }
 
 RegisterServerEvent('jobcenter:initialise')
@@ -36,6 +37,7 @@ AddEventHandler('jobcenter:initialise', function(source, currentJob)
 	TriggerClientEvent("fisher:set", source, (currentJob.id == 10))
 	TriggerClientEvent("GoPostal.Set", source, (currentJob.id == 19))
 	TriggerClientEvent("Garbage.Set", source, (currentJob.id == 21))
+	TriggerClientEvent("News:Set", source,  (currentJob.id == 25))
 
 	TriggerClientEvent("jobcenter:updateJob", source, currentJob.name)
 end)
@@ -75,7 +77,8 @@ AddEventHandler('jobcenter:jobs', function(id)
         TriggerClientEvent("trucker:set", source, (id == 24))
         TriggerClientEvent("fisher:set", source, (id == 10))
         TriggerClientEvent("GoPostal.Set", source, (id == 19))
-        TriggerClientEvent("Garbage.Set", source, (id == 21))
+		TriggerClientEvent("Garbage.Set", source, (id == 21))
+		TriggerClientEvent("News:Set", source, (id == 25))
 
 		TriggerClientEvent("jobcenter:updateJob", source, data.name)
 

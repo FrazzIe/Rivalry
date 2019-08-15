@@ -43,6 +43,8 @@ RegisterNetEvent("Forensics.Give")
 RegisterNetEvent("Forensics.Destroy")
 RegisterNetEvent("Forensics.PutInEvidence")
 RegisterNetEvent("Forensics.PutWeaponInEvidence")
+RegisterNetEvent("Forensic:InventoryOptions")
+RegisterNetEvent("Forensic:WeaponOptions")
 
 AddEventHandler("inventory:police_evidence", function()
     exports.ui:reset()
@@ -78,7 +80,10 @@ AddEventHandler("Forensics.Firearms", function()
 	exports.ui:reset()
     exports.ui:open()
 	for Index = 1, #Collected_Firearms do
-		exports.ui:addOption(Weapons_names[Collected_Firearms[Index].model], "Forensic:Options", Collected_Firearms[Index])
+		for IndexTwo = 1, #Collected_Firearms[Index] do
+			Collected_Firearms[Index][IndexTwo].CharactersName = Collected_Firearms[Index].CharactersName
+		end
+		exports.ui:addOption(Collected_Firearms[Index].CharactersName, "Forensic:WeaponOptions", Collected_Firearms[Index])
 	end
 	exports.ui:back([[TriggerEvent("inventory:police_evidence")]])
 end)
@@ -87,7 +92,20 @@ AddEventHandler("Forensics.Controlled.Substances", function()
 	exports.ui:reset()
     exports.ui:open()
 	for Index = 1, #Collected_Inventory do
-		exports.ui:addOption(Collected_Inventory[Index].quantity.." | "..Collected_Inventory[Index].name, "Forensic:Options", Collected_Inventory[Index])
+		for IndexTwo = 1, #Collected_Inventory[Index] do
+			Collected_Inventory[Index][IndexTwo].CharactersName = Collected_Inventory[Index].CharactersName
+		end
+		exports.ui:addOption(Collected_Inventory[Index].CharactersName, "Forensic:InventoryOptions", Collected_Inventory[Index])
+	end
+	exports.ui:back([[TriggerEvent("inventory:police_evidence")]])
+end)
+
+AddEventHandler("Forensic:WeaponOptions", function(Data)
+	exports.ui:reset()
+    exports.ui:open()
+	for Index = 1, #Data do
+		Data[Index].type = "firearms"
+		exports.ui:addOption(Weapons_names[Data[Index].model], "Forensic:Options", Data[Index])
 	end
 	exports.ui:back([[TriggerEvent("inventory:police_evidence")]])
 end)
@@ -101,14 +119,25 @@ AddEventHandler("Forensic:Options", function(Data)
 	exports.ui:back([[TriggerEvent("inventory:police_evidence")]])
 end)
 
+AddEventHandler("Forensic:InventoryOptions", function(Data)
+	exports.ui:reset()
+	exports.ui:open()
+	for Index = 1, #Data do
+		Data[Index].type = "cds"
+		exports.ui:addOption(Data[Index].quantity.." | "..Data[Index].name, "Forensic:Options", Data[Index])
+	end
+	exports.ui:back([[TriggerEvent("Forensics.Controlled.Substances")]])
+end)
+
 AddEventHandler("Forensics.Store", function(Data)
 	local Player = PlayerPedId()
 	local PlayerPosition = GetEntityCoords(Player, false)
 	if #(PlayerPosition - EvidenceLocker) <= 2 then
+		local Title = tostring(KeyboardInput("Enter Title", "", 1000))
 		local Description = tostring(KeyboardInput("Enter Description:", "", 1000))
-		if Description ~= nil then
+		if Description ~= nil and Title ~= nil then
 			RemoveFromCollected(Data)
-			TriggerServerEvent("Forensics.Store", Data, Description, Data.type)
+			TriggerServerEvent("Forensics.Store", Data, Description, Title, Data.type)
 		else
 			Notify("Your evidence needs a description to be processed!", 2500)
 		end
@@ -176,15 +205,13 @@ AddEventHandler("Forensics.Destroy", function(Data)
 end)
 
 AddEventHandler("Forensics.PutInEvidence", function(Data)
-	Type = "cds"
-	table.insert(Data, Type)
+	Data.Type = "cds"
 	table.insert(Collected_Inventory, Data)
 end)
 
 RegisterNetEvent("Forensics.ConfiscateWeapon")
 AddEventHandler("Forensics.ConfiscateWeapon", function(Weapons)
-	Type = "firearms"
-	table.insert(Weapons, Type)
+	Weapons.Type = "Weapons"
 	table.insert(Collected_Firearms, Weapons)
 end)
 
@@ -246,7 +273,7 @@ AddEventHandler("Create.Locker.Firearms", function(Firearms)
 	exports.ui:reset()
 	exports.ui:open()
 	for Index = 1, #Firearms do
-		exports.ui:addOption(Weapons_names[Firearms[Index].model].." - "..Firearms[Index].timestamp, "Locker.Options", Firearms[Index])
+		exports.ui:addOption(Firearms[Index].title.." - "..Firearms[Index].timestamp, "Locker.Options", Firearms[Index])
 	end
 	exports.ui:back([[TriggerEvent("Forensics.Locker")]])
 end)
@@ -255,7 +282,7 @@ AddEventHandler("Create.Locker.Controlled.Substances", function(ControlledSubsta
 	exports.ui:reset()
 	exports.ui:open()
 	for Index = 1, #ControlledSubstances do
-		exports.ui:addOption(ControlledSubstances[Index].name.." - "..ControlledSubstances[Index].timestamp, "Locker.Options", ControlledSubstances[Index])
+		exports.ui:addOption(ControlledSubstances[Index].title.." - "..ControlledSubstances[Index].timestamp, "Locker.Options", ControlledSubstances[Index])
 	end
 	exports.ui:back([[TriggerEvent("Forensics.Locker")]])
 end)
@@ -395,38 +422,87 @@ function RemoveFromCollected(Data)
 		end
 	elseif Data.type == "firearms" then
 		for Index = 1, #Collected_Firearms do
-			if Data.id == Collected_Firearms[Index].id then
-				table.remove(Collected_Firearms, Index)
+			if Data.CharactersName == Collected_Firearms[Index].CharactersName then
+				 for IndexTwo = 1, #Collected_Firearms[Index][IndexTwo] do
+					if Collected_Firearms[Index][IndexTwo].model == Data.model then
+						table.remove(Collected_Firearms[Index][IndexTwo], IndexTwo)
+					end
+					if #Collected_Firearms[Index] < 1 then
+						table.remove(Collected_Firearms[Index], Index)
+					end
+				 end
 			end
 		end
 	elseif Data.type == "cds" then
 		for Index = 1, #Collected_Inventory do
-			if Data.name == Collected_Inventory[Index].name and Data.quantity == Collected_Inventory[Index].quantity then
-				table.remove(Collected_Inventory, Index)
-			end
+			if Data.CharactersName == Collected_Inventory[Index].CharactersName then
+				for IndexTwo = 1, #Collected_Inventory[Index][IndexTwo] do
+				   if Collected_Inventory[Index][IndexTwo].name == Data.name and Collected_Inventory[Index][IndexTwo].quantity == Data.quantity then
+					   table.remove(Collected_Inventory[Index][IndexTwo], IndexTwo)
+				   end
+				   if #Collected_Inventory[Index] < 1 then
+					   table.remove(Collected_Inventory[Index], Index)
+				   end
+				end
+		   end
 		end
 	end
 end
 
+local function Draw3DText(x,y,z, text, _size) -- some useful function, use it if you want!
+    local onScreen,_x,_y=World3dToScreen2d(x,y,z)
+    local px,py,pz=table.unpack(GetGameplayCamCoords())
+    local dist = GetDistanceBetweenCoords(px,py,pz, x,y,z, 1)
+
+    local scale = (1/dist)*2
+    local fov = (1/GetGameplayCamFov())*100
+    local scale = scale*fov
+
+    if onScreen then
+        local size = _size or 0.3
+        SetTextScale(0.0*scale, size*scale)
+        SetTextFont(6)
+        SetTextProportional(1)
+        -- SetTextScale(0.0, 0.55)
+        SetTextColour(255, 255, 255, 255)
+        SetTextDropshadow(0, 0, 0, 0, 55)
+        SetTextEdge(2, 0, 0, 0, 150)
+        SetTextDropShadow()
+        SetTextOutline()
+        SetTextEntry("STRING")
+        SetTextCentre(1)
+        AddTextComponentString(text)
+        DrawText(_x,_y)
+    end
+end
+
 Citizen.CreateThread(function()
+	local HasWeapon, CurrentWeapon = nil, nil
 	while true do
 		Citizen.Wait(0)
 		local Ped = PlayerPedId()
 		local PlayerPosition = GetEntityCoords(Ped, false)
 		if IsPedShooting(Ped) and IsPedAPlayer(Ped) then
-			if IsWeaponValid(GetSelectedPedWeapon(Ped)) and GetAmmoInPedWeapon(Ped, GetSelectedPedWeapon(Ped)) > 0 then
-				if BulletCasingNearBy(PlayerPosition) == false then
-					local Street, Crossing = GetStreetNameAtCoord(PlayerPosition.x, PlayerPosition.y, PlayerPosition.z)
-					local BulletCasing = {
-						player = GetPlayerServerId(PlayerId()),
-						weaponused = Weaponhashes[tostring(GetSelectedPedWeapon(Ped))],
-						location = GetStreetNameFromHashKey(Street),
-						coords = vector3(PlayerPosition.x, PlayerPosition.y, PlayerPosition.z),
-						serialnumber = 0,
-						type = "ballistics"
-					}
-					table.insert(ClientBulletCasings, PlayerPosition)
-					TriggerServerEvent('Forensics.Sync', BulletCasing, "bulletcasing")
+			HasWeapon, CurrentWeapon = GetCurrentPedWeapon(Ped, 1)
+			if CurrentWeapon ~= nil then
+				local WeaponString = Weaponhashes[CurrentWeapon] or Weaponhashes[tostring(CurrentWeapon)]
+				if WeaponString then
+					local WeaponHash = GetHashKey(WeaponString)
+					if GetAmmoInPedWeapon(Ped, WeaponHash) > 0 then
+						if not BulletCasingNearBy(PlayerPosition) then
+							local Street, Crossing = GetStreetNameAtCoord(PlayerPosition.x, PlayerPosition.y, PlayerPosition.z)
+							local BulletCasing = {
+								player = GetPlayerServerId(PlayerId()),
+								weaponused = Weaponhashes[tostring(GetSelectedPedWeapon(Ped))],
+								location = GetStreetNameFromHashKey(Street),
+								coords = vector3(PlayerPosition.x, PlayerPosition.y, PlayerPosition.z),
+								serialnumber = 0,
+								type = "ballistics"
+							}
+							table.insert(ClientBulletCasings, PlayerPosition)
+							TriggerServerEvent('Forensics.Sync', BulletCasing, "bulletcasing")
+						end
+					end
 				end
 			end
 		end
@@ -459,21 +535,31 @@ end)
 Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(0)
-		if isInService and Investigating then
+		if isInService then
 			local Ped = PlayerPedId()
 			local PlayerPosition = GetEntityCoords(Ped, false)
-			if #UnCollected_BulletCasings > 0 then
-				for Index = 1, #UnCollected_BulletCasings do
-					if #(PlayerPosition - UnCollected_BulletCasings[Index].coords) < 5 then
-						DrawMarker(25, UnCollected_BulletCasings[Index].coords.x, UnCollected_BulletCasings[Index].coords.y, UnCollected_BulletCasings[Index].coords.z-1.0, 0, 0, 0, 0, 0, 0, 0.5, 0.5, 1.0, 0, 0, 255, 25, 0, 0, 2, 0, 0, 0, 0)
-						if #(PlayerPosition - UnCollected_BulletCasings[Index].coords) < 1 then
-							DisplayHelpText("Press ~INPUT_CONTEXT~ to collect bullet casing!")
-							if IsControlJustPressed(1,51) then
-								TriggerServerEvent('Forensics.PickUp.Evidence', UnCollected_BulletCasings[Index] ,"bulletcasing", 0)
-								UnCollected_BulletCasings[Index].coords = 0
-								table.insert(Collected_BulletCasings, UnCollected_BulletCasings[Index])
-								Notify("You have picked up evidence!", 2900)
-								Citizen.Wait(5000)
+			local HasWeapon, WeaponInHand = GetCurrentPedWeapon(Ped, 1)
+			if WeaponInHand ~= nil then
+				if WeaponInHand == GetHashKey("WEAPON_FLASHLIGHT") then
+					if IsPlayerFreeAiming(PlayerId()) then
+						if #UnCollected_BulletCasings > 0 then
+							for Index = 1, #UnCollected_BulletCasings do
+								if #(PlayerPosition - UnCollected_BulletCasings[Index].coords) < 5 then
+									DrawMarker(28, UnCollected_BulletCasings[Index].coords.x, UnCollected_BulletCasings[Index].coords.y, UnCollected_BulletCasings[Index].coords.z-1.0, 0, 0, 0, 0, 0, 0, 0.1, 0.1, 0.1, 255, 239, 0, 11, 0, 0, 2, 0, 0, 0, 0)
+									if #(PlayerPosition - UnCollected_BulletCasings[Index].coords) < 3 then
+										Draw3DText(UnCollected_BulletCasings[Index].coords.x, UnCollected_BulletCasings[Index].coords.y, UnCollected_BulletCasings[Index].coords.z-1.0, "Bullet Casing", 0.20)
+										if #(PlayerPosition - UnCollected_BulletCasings[Index].coords) < 1 then
+											DisplayHelpText("Press ~INPUT_CONTEXT~ to collect bullet casing!")
+											if IsControlJustPressed(1,51) then
+												TriggerServerEvent('Forensics.PickUp.Evidence', UnCollected_BulletCasings[Index] ,"bulletcasing", 0)
+												UnCollected_BulletCasings[Index].coords = 0
+												table.insert(Collected_BulletCasings, UnCollected_BulletCasings[Index])
+												Notify("You have picked up evidence!", 2900)
+												Citizen.Wait(5000)
+											end
+										end
+									end
+								end
 							end
 						end
 					end
