@@ -58,19 +58,22 @@ function activateMissionSystem()
     function ms_addMission(source, position, reason)
         local sMission = availableMissions[source]
         if sMission == nil then
+            local Timestamp = os.date("%H:%M".os.time())
+            
             availableMissions[source] = {
                 id = source,
-                name = GetPlayerName(source),
+                name = "["..source.."]",
                 pos = position,
                 acceptBy = {},
-                type = reason
+                type = reason,
+                time = Timestamp
             }
             ms_messageClient(source, 'Confirmation\nYour call has been registered')
             ms_setCallstatus(source, callstatus.onHold)
-            ms_messageCops('A new alert has been posted, it has been added to your list of missions')
+            ms_messageCops('Someone called 911! Check your missions to respond.')
             ms_setMission()
         else
-            ms_messageClient(source, 'You already have a request ...')
+            ms_messageClient(source, 'You have already placed a call...')
         end
     end
 
@@ -78,7 +81,7 @@ function activateMissionSystem()
         if availableMissions[missionId] ~= nil then
             for _, v in pairs(availableMissions[missionId].acceptBy) do 
                 if v ~= source then
-                    ms_messageCop(v, 'Your customer has canceled')
+                    ms_messageCop(v, 'Your mission was canceled by the caller.')
                     ms_cancelMission(v)
                 end
                 ms_setCopAvailable(v)
@@ -96,20 +99,21 @@ function activateMissionSystem()
         if sMission == nil then
             ms_messageCop(source,'The mission is no longer available')
         elseif #sMission.acceptBy ~= 0  and not acceptMultiple then 
-            ms_messageCop(source, 'This mission is already under way')
+            ms_messageCop(source, "You're already responding to this call")
         else
             ms_exitMission(source)
             if #sMission.acceptBy >= 1 then
                 if sMission.acceptBy[1] ~= source then
                     for _, m in pairs(sMission.acceptBy) do
-                        ms_messageCop(m, 'You are several on the go')
+                        ms_messageCop(m, 'An additional unit is responding!')
+                        ms_messageClient(sMission.id, "An additional unit is responding!")
                     end
                     table.insert(sMission.acceptBy, source)
                 end
             else
                 table.insert(sMission.acceptBy, source)
-                ms_messageClient(sMission.id, 'Your call has been accepted, a Policeman is on the way')
-                ms_messageCop(source, 'Mission accepted, get started')
+                ms_messageClient(sMission.id, 'An officer is en-route!')
+                ms_messageCop(source, 'Call Accepted. Your GPS has been updated!')
             end
             TriggerClientEvent('police:acceptMission', source, sMission)
             ms_setCallstatus(missionId, callstatus.accepted)
@@ -125,10 +129,10 @@ function activateMissionSystem()
                 if v == personnelId then
                     table.remove(mission.acceptBy, k)
                     if #mission.acceptBy == 0 then
-                        ms_messageClient(mission.id, 'The policeman has just abandoned your call')
+                        ms_messageClient(mission.id, 'The responding officer was re-assigned. Your call has been placed back in queue.')
                         TriggerClientEvent('police:callStatus', mission.id, 2)
                         ms_setCallstatus(mission.id, callstatus.onHold)
-                        ms_messageCops('A new alert has been posted, it has been added to your list of missions')
+                        ms_messageCops('Someone called 911! Check your missions to respond!')
                     end
                     break
                 end
@@ -141,7 +145,7 @@ function activateMissionSystem()
     function ms_cancelMissionclient(clientId)
         if availableMissions[clientId] ~= nil then
             for _, v in pairs(availableMissions[clientId].acceptBy) do 
-                ms_messageCop(v, 'Your customer has canceled')
+                ms_messageCop(v, 'Your mission was canceled by the caller')
                 ms_cancelMission(v)
                 ms_setCopAvailable(v)
             end
