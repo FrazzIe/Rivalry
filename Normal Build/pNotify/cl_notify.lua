@@ -153,7 +153,7 @@ end)
 
 RegisterNetEvent("pNotify:SendNotificationJail")
 AddEventHandler("pNotify:SendNotificationJail", function(options)
-    exports.mythic_notify:DoCustomHudText('alert', options.text, 6000)
+    SendNotificationJail(options)
 end)
 
 
