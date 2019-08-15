@@ -31,18 +31,18 @@ PayCheck = {
 		[6] = {Rank = "state attorney", Pay = 750},
 		[7] = {Rank = "paralegal", Pay = 500},
 	},
-	-- News = {
-	-- 	[1] = {Rank = "chief executive", Pay = 750},
-	-- 	[2] = {Rank = "lead reporter", Pay = 500},
-	-- 	[3] = {Rank = "lead cameraman", Pay = 500},
-	-- 	[4] = {Rank = "journalist ii", Pay = 400},
-	-- 	[5] = {Rank = "photographer ii", Pay = 400},
-	-- 	[6] = {Rank = "cameraman ii", Pay = 400},
-	-- 	[7] = {Rank = "journalist i", Pay = 300},
-	-- 	[8] = {Rank = "photographer i", Pay = 300},
-	-- 	[9] = {Rank = "cameraman i", Pay = 300},
-	-- 	[10] = {Rank = "intern", Pay = 150},
-	-- },
+	News = {
+		[1] = {Rank = "chief executive", Pay = 750},
+		[2] = {Rank = "lead reporter", Pay = 500},
+		[3] = {Rank = "lead cameraman", Pay = 500},
+		[4] = {Rank = "journalist ii", Pay = 400},
+		[5] = {Rank = "photographer ii", Pay = 400},
+		[6] = {Rank = "cameraman ii", Pay = 400},
+		[7] = {Rank = "journalist i", Pay = 300},
+		[8] = {Rank = "photographer i", Pay = 300},
+		[9] = {Rank = "cameraman i", Pay = 300},
+		[10] = {Rank = "intern", Pay = 150},
+	},
 }
 
 RegisterServerEvent('paycheck:salary')
@@ -85,17 +85,17 @@ AddEventHandler('paycheck:salary', function(rank)
 				else
 		    		salary = salary + j.pay	    		
 		    	end	   
-		    -- elseif j.name == "News Reporter" then
-		    -- 	local isInService = user.getSessionVar('newsInService')
-		    -- 	if isInService then
-			-- 		for k, v in ipairs(PayCheck.News) do
-			-- 			if v.Rank == rank then
-			-- 				salary = salary + v.Pay
-			-- 			end
-			-- 		end
-			-- 	else
-		    -- 		salary = salary + j.pay	    		
-		    -- 	end	   		
+		    elseif j.name == "News Reporter" then
+		    	local isInService = user.getSessionVar('newsInService')
+		    	if isInService then
+					for k, v in ipairs(PayCheck.News) do
+						if v.Rank == rank then
+							salary = salary + v.Pay
+						end
+					end
+				else
+		    		salary = salary + j.pay	    		
+		    	end	   		
 			else
 				salary = salary + j.pay		    	
 		 	end

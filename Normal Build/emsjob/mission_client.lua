@@ -222,7 +222,7 @@ Citizen.CreateThread(function()
                     end
                     if distance < 3.0 then
 
-                        if tostring(currentMissions.type) == "Someone is critically injured!" then
+                        if tostring(currentMissions.type) == "is in a coma!" then
                             dht('Press ~g~E~w~ to revive player')
                             if (IsControlJustReleased(1, 51)) then
                                 TaskStartScenarioInPlace(GetPlayerPed(-1), 'CODE_HUMAN_MEDIC_KNEEL', 0, true)

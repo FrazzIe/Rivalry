@@ -10,9 +10,9 @@ Citizen.CreateThread(function ()
 		elseif exports.core_modules:DOJisdoj() then
 			DojRank = exports.core_modules:DOJgetrank()
 			TriggerServerEvent('paycheck:salary', DojRank)
-		-- elseif exports.core_modules:NewsIsNews() then
-		-- 	JournalistRank = exports.core_modules:NewsGetRank()
-		-- 	TriggerServerEvent('paycheck:salary', JournalistRank)
+		elseif exports.core_modules:NewsIsNews() then
+			JournalistRank = exports.core_modules:NewsGetRank()
+			TriggerServerEvent('paycheck:salary', JournalistRank)
 		else
 			TriggerServerEvent('paycheck:salary')
 		end

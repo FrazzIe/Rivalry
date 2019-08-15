@@ -60,17 +60,17 @@ function activateMissionSystem()
         if sMission == nil then
             availableMissions[source] = {
                 id = source,
-                name = "["..source.."]",
+                name = GetPlayerName(source),
                 pos = position,
                 acceptBy = {},
                 type = reason
             }
             ms_messageClient(source, 'Confirmation\nYour call has been registered')
             ms_setCallstatus(source, callstatus.onHold)
-            ms_messageMedics('Someone is critically injured! Check your missions and respond!')
+            ms_messageMedics('A new alert has been posted, it has been added to your list of missions')
             ms_setMission()
         else
-            ms_messageClient(source, 'You have already placed a call...')
+            ms_messageClient(source, 'You already have a request ...')
         end
     end
 
@@ -94,23 +94,22 @@ function activateMissionSystem()
     function ms_acceptMission(source, missionId)
         local sMission = availableMissions[missionId]
         if sMission == nil then
-            ms_messageMedic(source, 'Another paramedic resolved this call')
+            ms_messageMedic(source,'The mission is no longer current')
         elseif #sMission.acceptBy ~= 0  and not acceptMultiple then 
-            ms_messageMedic(source, "You're already responding to this call")
+            ms_messageMedic(source, 'This mission is already under way')
         else
             ms_exitMission(source)
             if #sMission.acceptBy >= 1 then
                 if sMission.acceptBy[1] ~= source then
                     for _, m in pairs(sMission.acceptBy) do
-                        ms_messageMedic(m, 'An additional paramedic is responding!')
-                        ms_messageClient(sMission.id, "An additional paramedic is responding!")
+                        ms_messageMedic(m, 'You are several on the spot')
                     end
                     table.insert(sMission.acceptBy, source)
                 end
             else
                 table.insert(sMission.acceptBy, source)
                 ms_messageClient(sMission.id, 'Your call has been accepted, a Paramedic is on the way')
-                ms_messageMedic(source, 'Call Accepted. Your GPS has been updated!')
+                ms_messageMedic(source, 'Mission accepted, get started')
             end
             TriggerClientEvent('paramedic:acceptMission', source, sMission)
             ms_setCallstatus(missionId, callstatus.accepted)
@@ -126,10 +125,10 @@ function activateMissionSystem()
                 if v == personnelId then
                     table.remove(mission.acceptBy, k)
                     if #mission.acceptBy == 0 then
-                        ms_messageClient(mission.id, 'The responding paramedic was re-assigned. Your call has been placed back in queue.')
+                        ms_messageClient(mission.id, 'The paramedic has just abandoned your call')
                         TriggerClientEvent('paramedic:callStatus', mission.id, 2)
                         ms_setCallstatus(mission.id, callstatus.onHold)
-                        ms_messageMedics('Someone is critically injured! Check your missions and respond!')
+                        ms_messageMedics('A new alert has been posted, it has been added to your list of missions')
                     end
                     break
                 end
