@@ -45,6 +45,10 @@ end)
 
 -- 
 AddEventHandler("police:accept_mission", function(data)
+    local Message = data.type
+    Message = Message:gsub("[%%%][20]", '*')
+    Message = Message:gsub("***", " ")
+    TriggerEvent("chatMessage", "Dispatch", {16, 102, 158}, data.name.." - "..Message)
     TriggerServerEvent('police:acceptMission', data.id)
 end)
 
@@ -65,8 +69,9 @@ function updateMissionMenu()
     end
     for _,m in pairs(availableMissions) do
         local data = {
-            name = '' .. m.name .. ' reported ' .. m.type,
+            name = '' .. m.name .. ' call recieved at ' .. m.time,
             mission = m,
+            type = m.type,
             event = "police:accept_mission",
         }
         if #m.acceptBy ~= 0 then
