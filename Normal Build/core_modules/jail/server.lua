@@ -119,7 +119,7 @@ TriggerEvent("core:addGroupCommand", "jail", "emergency", function(source, args,
             if tonumber(args[2]) ~= nil then
                 if tostring(args[3]) ~= nil then
                     TriggerEvent("core:getuser", tonumber(tonumber(args[1])), function(target)
-                        TriggerClientEvent("pNotify:SendNotification", -1, {text = "<b style='color:red'>Alert</b> <br><span style='color:lime'>"..target.get("first_name").." "..target.get("last_name").."</span> has been jailed. <br> Time: <span style='color:lime'>".. tonumber(args[2]) .."</span> months <br> Charges: <span style='color:lime'>".. table.concat(args, " ", 3) .."</span>", type = "error", queue = "left", timeout = 15000, layout = "bottomRight"})
+                        --TriggerClientEvent("pNotify:SendNotification", -1, {text = "<b style='color:red'>Alert</b> <br><span style='color:lime'>"..target.get("first_name").." "..target.get("last_name").."</span> has been jailed. <br> Time: <span style='color:lime'>".. tonumber(args[2]) .."</span> months <br> Charges: <span style='color:lime'>".. table.concat(args, " ", 3) .."</span>", type = "error", queue = "left", timeout = 15000, layout = "bottomRight"})
                         TriggerClientEvent("pNotify:SendNotification", tonumber(args[1]), {text = "You have arrived at the San Andreas Bolingbroke Penitentiary...",type = "error", queue = "left",timeout = 10000,layout = "bottomCenter"})
                         TriggerClientEvent("jail:jail", tonumber(args[1]) , tonumber(args[2]) * 60)
                         target.set("jail_time", tonumber(args[2]) * 60)

@@ -343,7 +343,7 @@ AddEventHandler("jail:user",function(target, time, reason)
 	local source = source
 	if cops[source] then
 	    TriggerEvent("core:getuser", target, function(user)
-	        TriggerClientEvent("pNotify:SendNotification", -1, {text = "<b style='color:red'>Alert</b> <br><span style='color:lime'>"..user.get("first_name").." "..user.get("last_name").."</span> has been arrested! <br> Time: <span style='color:lime'>".. time .."</span> months <br> Charges: <span style='color:lime'>".. reason .. " - " .. GetIdentity(source) .."</span>",type = "error",queue = "left",timeout = 15000,layout = "bottomRight"})
+	        --TriggerClientEvent("pNotify:SendNotification", -1, {text = "<b style='color:red'>Alert</b> <br><span style='color:lime'>"..user.get("first_name").." "..user.get("last_name").."</span> has been arrested! <br> Time: <span style='color:lime'>".. time .."</span> months <br> Charges: <span style='color:lime'>".. reason .. " - " .. GetIdentity(source) .."</span>",type = "error",queue = "left",timeout = 15000,layout = "bottomRight"})
 	        TriggerClientEvent("pNotify:SendNotification", tonumber(target), {text = "You have arrived at the Bolingbroke San Andreas State Penitentiary...",type = "error",queue = "left",timeout = 10000,layout = "bottomCenter"})
 	        TriggerClientEvent("jail:jail", target , tonumber(time) * 60)
 	        user.set("jail_time", tonumber(time))

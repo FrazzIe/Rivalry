@@ -35,6 +35,11 @@ body {
     color: #ffffff;
 }
 
+.alert {
+    background-color: rgb(163, 114, 0);
+    color: #fff;
+}
+
 .error {
     background: rgb(224, 50, 50);
     color: #fff;

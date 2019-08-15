@@ -236,6 +236,8 @@ AddEventHandler(eventName, function(src, name, msg)
     if #(GetEntityCoords(playerPed) - GetEntityCoords(targetPed) < messageRadius then
         if IsEntityDead(playerPed) then
             TriggerEvent('chatMessage', "^0-", {255, 0, 0}, "^5" .. name .."  ".."^3  " .. msg)
+        elseif IsEntityDead(targetPed) then
+            TriggerEvent('chatMessage', "^0-", {255, 0, 0}, "^5" .. name .."  ".."^3  " .. msg)
         else
             local charCount = GetCharacterCount(msg)
 

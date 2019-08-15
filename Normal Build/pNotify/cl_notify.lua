@@ -144,7 +144,7 @@ end
 
 RegisterNetEvent("pNotify:SendNotification")
 AddEventHandler("pNotify:SendNotification", function(options)
-    SendNotification(options)
+    exports.mythic_notify:DoCustomHudText('alert', options.text, 6000)
 end)
 
 RegisterNetEvent("pNotify:SetQueueMax")
