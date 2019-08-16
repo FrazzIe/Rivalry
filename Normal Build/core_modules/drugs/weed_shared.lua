@@ -182,7 +182,7 @@ if not IsDuplicityVersion() then
 		["CALAFB"] = 10, -- Calafia Bridge
 		["CANNY"] = 10, -- Raton Canyon
 		["CCREAK"] = 10, -- Cassidy Creek
-		["CHAMH"] = 10, -- Chamberlain Hills
+		["CHAMH"] = 70, -- Chamberlain Hills
 		["CHIL"] = 10, -- Vinewood Hills
 		["CHU"] = 10, -- Chumash
 		["CMSW"] = 10, -- Chiliad Mountain State Wilderness 
@@ -190,7 +190,7 @@ if not IsDuplicityVersion() then
 		["DAVIS"] = 70, -- Davis 
 		["DELBE"] = 50, -- Del Perro Beach 
 		["DELPE"] = 10, -- Del Perro
-		["DELSOL"] = 10, -- La Puerta
+		["DELSOL"] = 50, -- La Puerta
 		["DESRT"] = 10, -- Grand Senora Desert
 		["DOWNT"] = 10, -- Downtown
 		["DTVINE"] = 10, -- Downtown Vinewood
@@ -213,7 +213,7 @@ if not IsDuplicityVersion() then
 		["LDAM"] = 10, -- Land Act Dam
 		["LEGSQU"] = 10, -- Legion Square
 		["LMESA"] = 70, -- La Mesa
-		["LOSPUER"] = 10, -- La Puerta
+		["LOSPUER"] = 50, -- La Puerta
 		["MIRR"] = 10, -- Mirror Park 
 		["MORN"] = 10, -- Morningwood
 		["MOVIE"] = 10, -- Richards Majestic
