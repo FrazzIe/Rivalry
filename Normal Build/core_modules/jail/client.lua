@@ -202,7 +202,7 @@ end)
 Citizen.CreateThread(function()
     while true do
         Citizen.Wait(0)
-        if removeSentance then
+        if removeSentence then
             local Player = PlayerPedId()
             local PlayerPosition = GetEntityCoords(Player, false)
             if #(PlayerPosition - JailBreak) < 10 then
