@@ -593,7 +593,11 @@ Citizen.CreateThread(function()
                                 if tostring(plate) == tostring(user_vehicles[i].plate) or veh == tonumber(user_vehicles[i].instance) then
                                     Citizen.InvokeNative(0xEA386986E786A54F, Citizen.PointerValueIntInitialized(veh))
                                     stored = true
-                                    TriggerServerEvent("garage:sell", user_vehicles[i].plate, user_vehicles[i].model, i, user_vehicles[i].cost)
+                                    if user_vehicles[i].payedoff == 0 then
+                                        TriggerServerEvent("garage:sell", user_vehicles[i].plate, user_vehicles[i].model, i, user_vehicles[i].cost)
+                                    else
+                                        exports.pNotify:SendNotification({text = "You cannot sell a financed car!", type = "success", queue = "left", timeout = 3100, layout = "centerRight"})
+                                    end
                                 end
                             end
                             if not stored then
