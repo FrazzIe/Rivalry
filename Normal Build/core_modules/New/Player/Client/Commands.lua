@@ -440,63 +440,79 @@ AddEventHandler("core:ready", function()
     end, false, {Help = "Car Dealers: Check Client History", Params = {{name = "id", help = "number"}}})
 
     Chat.Command("carry", function(source, args, rawCommand)
-        local t, distance = GetClosestPlayer()
-        if(distance ~= -1 and distance < 3) then
-            local Player = PlayerPedId()
-            local TargetPlayer = GetPlayerServerId(t)
-            RequestAnimDict('missfinale_c2mcs_1')
-            while not RequestAnimDict('missfinale_c2mcs_1') do
-                Wait(0)
+        if not IsBeingCarried and not ForcedIntoTrunk and not IsInTrunk then
+            local t, distance = GetClosestPlayer()
+            if(distance ~= -1 and distance < 3) then
+                local Player = PlayerPedId()
+                local TargetPlayer = GetPlayerServerId(t)
+                RequestAnimDict('missfinale_c2mcs_1')
+                while not RequestAnimDict('missfinale_c2mcs_1') do
+                    Wait(0)
+                end
+                TaskPlayAnim(Player, 'missfinale_c2mcs_1', 'fin_c2_mcs_1_camman', 1.0, -1, -1, 50, 0, 0, 0, 0)
+                TriggerServerEvent("Carry.Player", TargetPlayer)
             end
-            TaskPlayAnim(Player, 'missfinale_c2mcs_1', 'fin_c2_mcs_1_camman', 1.0, -1, -1, 50, 0, 0, 0, 0)
-            TriggerServerEvent("Carry.Player", TargetPlayer)
+        else
+            Notify("You can't carry someone while being carried!", 3100)
         end
     end, false, {Help = "Carry a player", Params = {}})
 
     Chat.Command("kidnap", function(source, args, rawCommand)
-        local t, distance = GetClosestPlayer()
-        if(distance ~= -1 and distance < 3) then
-            local TargetPlayer = GetPlayerServerId(t)
-            local PlayerPosition = GetEntityCoords(PlayerPedId(), false)
-            local Vehicle = GetClosestVehicle(PlayerPosition.x, PlayerPosition.y, PlayerPosition.z, 5.001, 0, 70)
-            if Vehicle ~= nil then
-                TriggerServerEvent("Kidnap.Player", TargetPlayer)
+        if not ForcedIntoTrunk and not IsInTrunk then
+            local t, distance = GetClosestPlayer()
+            if(distance ~= -1 and distance < 3) then
+                local TargetPlayer = GetPlayerServerId(t)
+                local PlayerPosition = GetEntityCoords(PlayerPedId(), false)
+                local Vehicle = GetClosestVehicle(PlayerPosition.x, PlayerPosition.y, PlayerPosition.z, 5.001, 0, 70)
+                if Vehicle ~= nil then
+                    TriggerServerEvent("Kidnap.Player", TargetPlayer)
+                end
+            else
+                Notify("No player is nearby!", 3100)
             end
         else
-            Notify("No player is nearby!", 3100)
+            Notify("You can not kidnap someone if you are already kidnapped!", 3100)
         end
     end, false, {Help = "Kidnap a player", Params = {}})
 
     Chat.Command("hideintrunk", function(source, args, rawCommand)
-        local player = PlayerPedId()
-        local pos = GetEntityCoords(player, false)
-        local entityWorld = GetOffsetFromEntityInWorldCoords(player, 0.0, 20.0, 0.0)
-        local rayHandle = CastRayPointToPoint(pos.x, pos.y, pos.z, entityWorld.x, entityWorld.y, entityWorld.z, 10, player, 0)
-        local _, _, _, _, vehicle = GetRaycastResult(rayHandle)
-        RequestAnimDict("timetable@floyd@cryingonbed@base")
-        while not HasAnimDictLoaded("timetable@floyd@cryingonbed@base") do
-            Wait(0)
+        if not IsInTrunk and not ForcedIntoTrunk then
+            local player = PlayerPedId()
+            local pos = GetEntityCoords(player, false)
+            local entityWorld = GetOffsetFromEntityInWorldCoords(player, 0.0, 20.0, 0.0)
+            local rayHandle = CastRayPointToPoint(pos.x, pos.y, pos.z, entityWorld.x, entityWorld.y, entityWorld.z, 10, player, 0)
+            local _, _, _, _, vehicle = GetRaycastResult(rayHandle)
+            RequestAnimDict("timetable@floyd@cryingonbed@base")
+            while not HasAnimDictLoaded("timetable@floyd@cryingonbed@base") do
+                Wait(0)
+            end
+            AttachEntityToEntity(player, vehicle, -1, 0.0, -2.2, 0.5, 0.0, 0.0, 0.0, false, false, false, false, 20, true)	       		
+            RaiseConvertibleRoof(vehicle, false)
+            if IsEntityAttached(player) and HasAnimDictLoaded("timetable@floyd@cryingonbed@base") then
+                TaskPlayAnim(player, 'timetable@floyd@cryingonbed@base', 'base', 1.0, -1, -1, 1, 0, 0, 0, 0)	
+                SetEntityHeading(player, GetEntityHeading(180)) -- My attempt at fixing setting player back to the trunk
+            end
+            IsInTrunk = true
+        else
+            Notify("You are already in the trunk! Or you are kidnapped!", 3100)
         end
-        AttachEntityToEntity(player, vehicle, -1, 0.0, -2.2, 0.5, 0.0, 0.0, 0.0, false, false, false, false, 20, true)	       		
-        RaiseConvertibleRoof(vehicle, false)
-        if IsEntityAttached(player) and HasAnimDictLoaded("timetable@floyd@cryingonbed@base") then
-            TaskPlayAnim(player, 'timetable@floyd@cryingonbed@base', 'base', 1.0, -1, -1, 1, 0, 0, 0, 0)	
-            SetEntityHeading(player, GetEntityHeading(180)) -- My attempt at fixing setting player back to the trunk
-        end
-        IsInTrunk = true
     end, false, {Help = "Hide yourself in trunk | Look at Vehicle", Params = {}})
 
     Chat.Command("helpouttrunk", function(source, args, rawCommand)
-        local t, distance = GetClosestPlayer()
-        if(distance ~= -1 and distance < 3) then
-            local TargetPlayer = GetPlayerServerId(t)
-            local PlayerPosition = GetEntityCoords(PlayerPedId(), false)
-            local Vehicle = GetClosestVehicle(PlayerPosition.x, PlayerPosition.y, PlayerPosition.z, 5.001, 0, 70)
-            if Vehicle ~= nil then
-                TriggerServerEvent("Remove.Player.From.Trunk", TargetPlayer)
+        if not IsInTrunk and not ForcedIntoTrunk then
+            local t, distance = GetClosestPlayer()
+            if(distance ~= -1 and distance < 3) then
+                local TargetPlayer = GetPlayerServerId(t)
+                local PlayerPosition = GetEntityCoords(PlayerPedId(), false)
+                local Vehicle = GetClosestVehicle(PlayerPosition.x, PlayerPosition.y, PlayerPosition.z, 5.001, 0, 70)
+                if Vehicle ~= nil then
+                    TriggerServerEvent("Remove.Player.From.Trunk", TargetPlayer)
+                end
+            else
+                Notify("No player is nearby!", 3100)
             end
         else
-            Notify("No player is nearby!", 3100)
+            Notify("You are inside of a trunk right now or been kidnapped! You can't do that!", 3100)
         end
     end, false, {Help = "Hide yourself in trunk | Look at Vehicle", Params = {}})
 

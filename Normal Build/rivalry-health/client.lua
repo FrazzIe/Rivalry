@@ -44,7 +44,7 @@ end, false)
 
 RegisterCommand("mi", function(source, args, fullCommand)
 	SetNuiFocus(true, true)
-	SendNUIMessage({["type"] = "DisplayInjuries", ["payload"] = {name = exports.core:GetCharacterName(GetPlayerServerId(PlayerId())), injuries = Health.Injuries or {}}})
+	TriggerServerEvent("Health.Injury.Get", exports.core:GetCharacterName(PlayerId()), PlayerId())
 end, false)
 
 RegisterNUICallback("close", function(data, cb)
