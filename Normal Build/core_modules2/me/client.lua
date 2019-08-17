@@ -134,7 +134,7 @@ local eventName = "proximity:msg"
 local textCommandStr = "CELL_EMAIL_BCON"
 local textCommandStrMaxLength = 297
 local textCommandStrLength = 99
-local messageExpire = 3500
+local messageExpire = 6500
 local messageRadius = 12.5
 local messageSeparator = 0.0012
 local background = {
@@ -234,10 +234,12 @@ AddEventHandler(eventName, function(src, name, msg)
     local playerPed = PlayerPedId()
     local targetPed = GetPlayerPed(GetPlayerFromServerId(src)))
     if #(GetEntityCoords(playerPed) - GetEntityCoords(targetPed) < messageRadius then
-        if IsEntityDead(playerPed) then
-            TriggerEvent('chatMessage', "^0-", {255, 0, 0}, "^5" .. name .."  ".."^3  " .. msg)
-        elseif IsEntityDead(targetPed) then
-            TriggerEvent('chatMessage', "^0-", {255, 0, 0}, "^5" .. name .."  ".."^3  " .. msg)
+        if IsEntityDead(playerPed) or IsEntityDead(targetPed) then
+            TriggerEvent("chat:addMessage", {
+                color = {255, 0, 0},
+                multiline = true,
+                args = {"^0-", "^5" .. name .."  ".."^3  " .. msg},
+            })
         else
             local charCount = GetCharacterCount(msg)
 
