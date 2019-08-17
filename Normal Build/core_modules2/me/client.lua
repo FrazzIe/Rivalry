@@ -232,8 +232,8 @@ end
 RegisterNetEvent(eventName)
 AddEventHandler(eventName, function(src, name, msg)
     local playerPed = PlayerPedId()
-    local targetPed = GetPlayerPed(GetPlayerFromServerId(src)))
-    if #(GetEntityCoords(playerPed) - GetEntityCoords(targetPed) < messageRadius then
+    local targetPed = GetPlayerPed(GetPlayerFromServerId(src))
+    if #(GetEntityCoords(playerPed) - GetEntityCoords(targetPed)) < messageRadius then
         if IsEntityDead(playerPed) or IsEntityDead(targetPed) then
             TriggerEvent("chat:addMessage", {
                 color = {255, 0, 0},
