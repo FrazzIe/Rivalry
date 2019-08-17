@@ -18,6 +18,9 @@ local BedLocations = {
 }
 local InBed = false
 local CurrentBed = nil
+local IsInTrunk = false
+local ForcedIntoTrunk = false
+local IsBeingCarried = false
 
 recycleAmount = 0
 local Animations = {
@@ -326,6 +329,33 @@ AddEventHandler("core:ready", function()
         end
     end, false, {Help = "Open/Close your trunk!", Params = {}})
 
+    -- Chat.Command("extras", function(source, args, fullCommand)
+    --     local PossibleTypes = {"lighting", "panel", "ladder"}
+    --     if exports.emsjob:getIsInService() then
+    --         if args[1] == PossibleTypes[1] or args[1] == PossibleTypes[2] or args[1] == PossibleTypes[3] then
+    --             local pos = GetEntityCoords(PlayerPedId(), false)
+    --             local entityWorld = GetOffsetFromEntityInWorldCoords(PlayerPedId(), 0.0, 20.0, 0.0)
+    --             local rayHandle = CastRayPointToPoint(pos.x, pos.y, pos.z, entityWorld.x, entityWorld.y, entityWorld.z, 10, PlayerPedId(), 0)
+    --             local _, _, _, _, vehicleHandle = GetRaycastResult(rayHandle)
+                    
+    --             if vehicleHandle ~= nil and vehicleHandle ~= 0 then
+    --                 local distanceToVeh = GetDistanceBetweenCoords(GetEntityCoords(PlayerPedId()), GetEntityCoords(vehicleHandle), 1)    
+    --                 if distanceToVeh <= 3.5 and DoesEntityExist(vehicleHandle) then
+    --                     TriggerEvent("EMS.VehicleExtras", GetEntityModel(vehicleHandle), args[1], args[2])
+    --                 else
+    --                     Notify("You must be near your vehicle to do that!")
+    --                 end
+    --             else
+    --                 Notify("No vehicle in range!")
+    --             end
+    --         else
+    --             Notify("Invalid Type!")
+    --         end
+    --     else
+    --         ChatMessage("INFO", "You must be on duty to use this command!", 255, 0, 0, true)
+    --     end
+    -- end, false, {Help = "EMSONLY: Toggle Components on vehicle!", Params = {}})
+
     Chat.Command({"ar", "rifle"}, function(source, args, rawCommand)
         if exports.policejob:getIsInService() then
             local pos = GetEntityCoords(PlayerPedId(), false)
@@ -409,6 +439,67 @@ AddEventHandler("core:ready", function()
         end
     end, false, {Help = "Car Dealers: Check Client History", Params = {{name = "id", help = "number"}}})
 
+    Chat.Command("carry", function(source, args, rawCommand)
+        local t, distance = GetClosestPlayer()
+        if(distance ~= -1 and distance < 3) then
+            local Player = PlayerPedId()
+            local TargetPlayer = GetPlayerServerId(t)
+            RequestAnimDict('missfinale_c2mcs_1')
+            while not RequestAnimDict('missfinale_c2mcs_1') do
+                Wait(0)
+            end
+            TaskPlayAnim(Player, 'missfinale_c2mcs_1', 'fin_c2_mcs_1_camman', 1.0, -1, -1, 50, 0, 0, 0, 0)
+            TriggerServerEvent("Carry.Player", TargetPlayer)
+        end
+    end, false, {Help = "Carry a player", Params = {}})
+
+    Chat.Command("kidnap", function(source, args, rawCommand)
+        local t, distance = GetClosestPlayer()
+        if(distance ~= -1 and distance < 3) then
+            local TargetPlayer = GetPlayerServerId(t)
+            local PlayerPosition = GetEntityCoords(PlayerPedId(), false)
+            local Vehicle = GetClosestVehicle(PlayerPosition.x, PlayerPosition.y, PlayerPosition.z, 5.001, 0, 70)
+            if Vehicle ~= nil then
+                TriggerServerEvent("Kidnap.Player", TargetPlayer)
+            end
+        else
+            Notify("No player is nearby!", 3100)
+        end
+    end, false, {Help = "Kidnap a player", Params = {}})
+
+    Chat.Command("hideintrunk", function(source, args, rawCommand)
+        local player = PlayerPedId()
+        local pos = GetEntityCoords(player, false)
+        local entityWorld = GetOffsetFromEntityInWorldCoords(player, 0.0, 20.0, 0.0)
+        local rayHandle = CastRayPointToPoint(pos.x, pos.y, pos.z, entityWorld.x, entityWorld.y, entityWorld.z, 10, player, 0)
+        local _, _, _, _, vehicle = GetRaycastResult(rayHandle)
+        RequestAnimDict("timetable@floyd@cryingonbed@base")
+        while not HasAnimDictLoaded("timetable@floyd@cryingonbed@base") do
+            Wait(0)
+        end
+        AttachEntityToEntity(player, vehicle, -1, 0.0, -2.2, 0.5, 0.0, 0.0, 0.0, false, false, false, false, 20, true)	       		
+        RaiseConvertibleRoof(vehicle, false)
+        if IsEntityAttached(player) and HasAnimDictLoaded("timetable@floyd@cryingonbed@base") then
+            TaskPlayAnim(player, 'timetable@floyd@cryingonbed@base', 'base', 1.0, -1, -1, 1, 0, 0, 0, 0)	
+            SetEntityHeading(player, GetEntityHeading(180)) -- My attempt at fixing setting player back to the trunk
+        end
+        IsInTrunk = true
+    end, false, {Help = "Hide yourself in trunk | Look at Vehicle", Params = {}})
+
+    Chat.Command("helpouttrunk", function(source, args, rawCommand)
+        local t, distance = GetClosestPlayer()
+        if(distance ~= -1 and distance < 3) then
+            local TargetPlayer = GetPlayerServerId(t)
+            local PlayerPosition = GetEntityCoords(PlayerPedId(), false)
+            local Vehicle = GetClosestVehicle(PlayerPosition.x, PlayerPosition.y, PlayerPosition.z, 5.001, 0, 70)
+            if Vehicle ~= nil then
+                TriggerServerEvent("Remove.Player.From.Trunk", TargetPlayer)
+            end
+        else
+            Notify("No player is nearby!", 3100)
+        end
+    end, false, {Help = "Hide yourself in trunk | Look at Vehicle", Params = {}})
+
     -- Chat.Command("sellcar", function(source, args, rawCommand)
     --     local Plate = tonumber(args[1])
     --     local Price = tonumber(args[2])
@@ -457,6 +548,22 @@ Citizen.CreateThread(function()
                 SetEntityHeading(Ped, GetEntityHeading(CurrentBed) + 90)
                 TaskPlayAnim(Ped, Dictionary, Animation, 100.0, 1.0, -1, 8, -1, 0, 0, 0)
                 InBed = false
+            end
+        end
+    end
+end)
+
+Citizen.CreateThread(function()
+    while true do
+        Citizen.Wait(0)
+        if IsInTrunk and not ForcedIntoTrunk then
+            local Ped = PlayerPedId()
+            DisplayHelpText("Press ~INPUT_CONTEXT~ to get out of trunk!")
+            if IsControlJustPressed(1, 51) then
+                DetachEntity(Ped, true, true)
+                ClearPedTasksImmediately(Ped)
+                IsInTrunk = false
+                ForcedIntoTrunk = false
             end
         end
     end
@@ -611,4 +718,99 @@ Citizen.CreateThread(function()
             TriggerEvent('interaction:hud:cameras')
         end
     end
+end)
+
+RegisterNetEvent("Force.Into.Trunk")
+AddEventHandler("Force.Into.Trunk", function(Vehicle)
+    local Player = PlayerPedId()
+    local PlayerPosition = GetEntityCoords(Player, false)
+    local Vehicle = GetClosestVehicle(PlayerPosition.x, PlayerPosition.y, PlayerPosition.z, 5.001, 0, 70)
+    RequestAnimDict("timetable@floyd@cryingonbed@base")
+    while not HasAnimDictLoaded("timetable@floyd@cryingonbed@base") do
+        Wait(0)
+    end
+    if Vehicle ~= nil then
+        AttachEntityToEntity(Player, Vehicle, -1, 0.0, -2.2, 0.5, 0.0, 0.0, 0.0, false, false, false, false, 20, true)	       		
+        RaiseConvertibleRoof(Vehicle, false)
+        if IsEntityAttached(Player) and HasAnimDictLoaded("timetable@floyd@cryingonbed@base") then
+            TaskPlayAnim(Player, 'timetable@floyd@cryingonbed@base', 'base', 1.0, -1, -1, 1, 0, 0, 0, 0)	
+            SetEntityHeading(Player, GetEntityHeading(180))
+        end
+        IsInTrunk = true
+        ForcedIntoTrunk = true
+    end
+end)
+
+RegisterNetEvent("Carry.Player")
+AddEventHandler("Carry.Player", function(OtherPlayer)
+	local Player = PlayerPedId()
+    local OtherPlayerId = GetPlayerFromServerId(OtherPlayer)
+    if not IsBeingCarried then
+        if OtherPlayerId ~= nil then
+            local OtherPlayerPed = GetPlayerPed(OtherPlayerId)
+            if OtherPlayerPed ~= nil then
+                RequestAnimDict('nm')
+                while not HasAnimDictLoaded('nm') do
+                    Wait(0)
+                end
+                AttachEntityToEntity(Player, OtherPlayerPed, GetPedBoneIndex(OtherPlayerPed, 40269), -0.1, 0.0, 0.1, 25.0, -290.0, -150.0, 1, 1, 0, 1, 0, 1)
+                TaskPlayAnim(Player, 'nm', 'firemans_carry', 8.0, -1, -1, 1, 1, 0, 0, 0)
+            end
+            IsBeingCarried = true
+        end
+    else
+        DetachEntity(Player, true, true)
+        ClearPedTasksImmediately(Player)
+        IsBeingCarried = false
+    end
+end)
+
+RegisterNetEvent("Remove.Player.From.Trunk")
+AddEventHandler("Remove.Player.From.Trunk", function()
+    if IsInTrunk or ForcedIntoTrunk then
+        local Player = PlayerPedId()
+        DetachEntity(Player, true, true)
+        ClearPedTasksImmediately(Player)
+        IsInTrunk = false
+        ForcedIntoTrunk = false
+    end
+end)
+
+Citizen.CreateThread(function()
+    while true do
+        Citizen.Wait(0)
+        local Player = PlayerPedId()
+        if IsInTrunk or ForcedIntoTrunk then
+            if not IsEntityPlayingAnim(Player, 'timetable@floyd@cryingonbed@base', 'base', 1) then
+                TaskPlayAnim(Player, 'timetable@floyd@cryingonbed@base', 'base', 1.0, -1, -1, 1, 0, 0, 0, 0)	
+            end
+        end
+        if IsBeingCarried then
+            if not IsEntityPlayingAnim(Player, 'nm', 'firemans_carry', 1) then
+                TaskPlayAnim(Player, 'nm', 'firemans_carry', 8.0, -1, -1, 1, 1, 0, 0, 0)
+            end
+        end
+    end
+end)
+
+Citizen.CreateThread(function()
+    while true do
+        Citizen.Wait(0)
+        if IsInTrunk or ForcedIntoTrunk then
+            local Player = PlayerPedId()
+            local PlayerPosition = GetEntityCoords(Player, false)
+            local Vehicle = GetClosestVehicle(PlayerPosition.x, PlayerPosition.y, PlayerPosition.z, 5.001, 0, 70)
+            if IsEntityInWater(Player) or IsEntityInWater(Vehicle) then
+                SetEntityHealth(Player, 0)
+            end
+            Citizen.Wait(11000)
+        end
+    end
+end)
+
+RegisterNetEvent("Reset.Carry.And.Kidnap")
+AddEventHandler("Reset.Carry.And.Kidnap", function()
+    IsBeingCarried = false
+    ForcedIntoTrunk = false
+    IsInTrunk = false
 end)

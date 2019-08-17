@@ -59,6 +59,24 @@ AddEventHandler('sync:jailedPlayersClearTable', function()
     jailed = {}
 end)
 
+RegisterServerEvent("Carry.Player")
+AddEventHandler("Carry.Player", function(TargetPlayer)
+    local Source = source
+    TriggerClientEvent("Carry.Player", TargetPlayer, source)
+end)
+
+RegisterServerEvent("Kidnap.Player")
+AddEventHandler("Kidnap.Player", function(TargetPlayer)
+    local Source = source
+    TriggerClientEvent("Force.Into.Trunk", TargetPlayer)
+end)
+
+RegisterServerEvent("Remove.Player.From.Trunk")
+AddEventHandler("Remove.Player.From.Trunk", function(TargetPlayer)
+    local Source = source
+    TriggerClientEvent("Remove.Player.From.Trunk", TargetPlayer)
+end)
+
 --[[Chat.Command("whojail", function(source, args, fullCommand)
     local source = source
     Chat.Message(source, "CURRENTLY JAILED", "", 255, 0, 0, true)
