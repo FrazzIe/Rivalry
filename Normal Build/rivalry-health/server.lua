@@ -11,6 +11,12 @@ AddEventHandler("Health.Injury.Add", function(Bodypart, Weapon, Damage)
 	end
 
 	if not Health.Injuries[Source][Bodypart][Weapon] then
+		if Bodypart == nil then
+			"Head"
+		end
+		if Weapon == nil then
+			"WT_UNARMED"
+		end
 		Health.Injuries[Source][Bodypart][Weapon] = Damage
 	else
 		Health.Injuries[Source][Bodypart][Weapon] = Health.Injuries[Source][Bodypart][Weapon] + Damage
