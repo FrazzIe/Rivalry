@@ -368,6 +368,7 @@ AddEventHandler("core:selectCharacter", function(data)
                     model = Config["Character"]["Models"]["Female"][math.random(1, #Config["Character"]["Models"]["Female"])]
                 end
                 Characters[source] = setupCharacter(source, _Character[1])
+                TriggerClientEvent("Reset.Carry.And.Kidnap", source)
                 TriggerClientEvent("core:login", source, Characters[source].get("lastcoords"), Characters[source].get("timeplayed"))
                 TriggerEvent("core:loaded", source, Characters[source], Users[source].get("power"), Users[source].get("group"))
                 TriggerClientEvent("core:loaded", source, Characters[source], Users[source].get("power"), Users[source].get("group"))
