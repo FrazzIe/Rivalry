@@ -37,7 +37,7 @@ AddEventHandler('jobcenter:initialise', function(source, currentJob)
 	TriggerClientEvent("fisher:set", source, (currentJob.id == 10))
 	TriggerClientEvent("GoPostal.Set", source, (currentJob.id == 19))
 	TriggerClientEvent("Garbage.Set", source, (currentJob.id == 21))
-	TriggerClientEvent("News:Set", source,  (currentJob.id == 25))
+	TriggerClientEvent("News:Set", source, (currentJob.id == 25))
 
 	TriggerClientEvent("jobcenter:updateJob", source, currentJob.name)
 end)
