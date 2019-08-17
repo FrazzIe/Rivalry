@@ -75,7 +75,7 @@ Citizen.CreateThread(function()
                                 local hasWeapon, currentWeapon = GetCurrentPedWeapon(PlayerPed, 1)
                                 if currentWeapon ~= nil then
                                     if IsPedArmed(PlayerPed, 7) then
-                                        local WeaponStr = Weaponhashes[tostring(currentWeapon)]
+                                        local WeaponStr = Weaponhashes[currentWeapon] or Weaponhashes[tostring(currentWeapon)]
                                         if WeaponStr then
                                             if Attachments[WeaponStr] then
                                                 for k,v in pairs(Attachments[WeaponStr]) do
