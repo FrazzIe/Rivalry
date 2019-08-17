@@ -36,7 +36,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -67,7 +67,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -98,7 +98,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -129,7 +129,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -160,7 +160,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -191,7 +191,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -222,7 +222,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -253,7 +253,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -284,7 +284,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -315,7 +315,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 250, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -346,7 +346,7 @@ properties = {
                     		last_robbed = 0, --Default (don't touch)
                     		being_robbed = false, --Default (don't touch)
                     		time = 180, --The total time the robber has to hack the vault
-                    		max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+                    		max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
                 		},
                 		expire = 1 --Default (don't touch)
             		},
@@ -377,7 +377,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -408,7 +408,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -439,7 +439,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -470,7 +470,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -501,7 +501,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -532,7 +532,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -563,7 +563,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -594,7 +594,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -625,7 +625,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -656,7 +656,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -687,7 +687,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -718,7 +718,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -749,7 +749,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -780,7 +780,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -811,7 +811,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -842,7 +842,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -873,7 +873,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -904,7 +904,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -935,7 +935,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -966,7 +966,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -997,7 +997,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -1028,7 +1028,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -1059,7 +1059,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -1090,7 +1090,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -1121,7 +1121,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -1152,7 +1152,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -1183,7 +1183,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -1214,7 +1214,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -1245,7 +1245,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -1276,7 +1276,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -1307,7 +1307,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -1338,7 +1338,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -1369,7 +1369,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -1400,7 +1400,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -1431,7 +1431,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -1462,7 +1462,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -1493,7 +1493,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -1524,7 +1524,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -1555,7 +1555,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -1586,7 +1586,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -1617,7 +1617,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -1648,7 +1648,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -1679,7 +1679,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -1710,7 +1710,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -1741,7 +1741,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -1772,7 +1772,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -1803,7 +1803,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -1834,7 +1834,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 
@@ -1866,7 +1866,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -1897,7 +1897,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -1928,7 +1928,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -1959,7 +1959,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -1990,7 +1990,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -2021,7 +2021,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -2052,7 +2052,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -2083,7 +2083,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -2114,7 +2114,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -2145,7 +2145,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -2176,7 +2176,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -2207,7 +2207,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -2238,7 +2238,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -2269,7 +2269,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -2300,7 +2300,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -2331,7 +2331,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -2362,7 +2362,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -2393,7 +2393,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -2424,7 +2424,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -2455,7 +2455,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -2486,7 +2486,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -2517,7 +2517,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -2548,7 +2548,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -2579,7 +2579,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -2610,7 +2610,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -2641,7 +2641,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -2672,7 +2672,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -2703,7 +2703,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -2734,7 +2734,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -2765,7 +2765,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -2796,7 +2796,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -2827,7 +2827,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -2858,7 +2858,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -2889,7 +2889,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -2920,7 +2920,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -2951,7 +2951,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -2982,7 +2982,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -3013,7 +3013,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -3044,7 +3044,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -3075,7 +3075,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -3106,7 +3106,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -3146,7 +3146,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				lockpicking = {
 					cooldown = 300, --Cooldown between lockpicking attempts
@@ -3188,7 +3188,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				lockpicking = {
 					cooldown = 300, --Cooldown between lockpicking attempts
@@ -3230,7 +3230,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				lockpicking = {
 					cooldown = 300, --Cooldown between lockpicking attempts
@@ -3272,7 +3272,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				lockpicking = {
 					cooldown = 300, --Cooldown between lockpicking attempts
@@ -3314,7 +3314,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				lockpicking = {
 					cooldown = 300, --Cooldown between lockpicking attempts
@@ -3356,7 +3356,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				lockpicking = {
 					cooldown = 300, --Cooldown between lockpicking attempts
@@ -3398,7 +3398,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				lockpicking = {
 					cooldown = 300, --Cooldown between lockpicking attempts
@@ -3440,7 +3440,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				lockpicking = {
 					cooldown = 300, --Cooldown between lockpicking attempts
@@ -3482,7 +3482,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				lockpicking = {
 					cooldown = 300, --Cooldown between lockpicking attempts
@@ -3524,7 +3524,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				lockpicking = {
 					cooldown = 300, --Cooldown between lockpicking attempts
@@ -3566,7 +3566,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				lockpicking = {
 					cooldown = 300, --Cooldown between lockpicking attempts
@@ -3608,7 +3608,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				lockpicking = {
 					cooldown = 300, --Cooldown between lockpicking attempts
@@ -3650,7 +3650,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				lockpicking = {
 					cooldown = 300, --Cooldown between lockpicking attempts
@@ -3692,7 +3692,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				lockpicking = {
 					cooldown = 300, --Cooldown between lockpicking attempts
@@ -3732,7 +3732,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				lockpicking = {
 					cooldown = 300, --Cooldown between lockpicking attempts
@@ -3772,7 +3772,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				lockpicking = {
 					cooldown = 300, --Cooldown between lockpicking attempts
@@ -3812,7 +3812,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 10, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				lockpicking = {
 					cooldown = 300, --Cooldown between lockpicking attempts
@@ -3853,7 +3853,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 20, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},
@@ -3886,7 +3886,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 5, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				expire = 1 --Default (don't touch)
 			},--]]
@@ -3926,7 +3926,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 8, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				lockpicking = {
 					cooldown = 300, --Colldown between lockpicking attempts
@@ -3968,7 +3968,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 8, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				lockpicking = {
 					cooldown = 300, --Colldown between lockpicking attempts
@@ -4010,7 +4010,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 8, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				lockpicking = {
 					cooldown = 300, --Colldown between lockpicking attempts
