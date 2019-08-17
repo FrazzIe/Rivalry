@@ -536,10 +536,10 @@ AddEventHandler("garage:insurance",function(plate,model,index)
 end)]]
 
 RegisterServerEvent("garage:sell")
-AddEventHandler("garage:sell", function(plate, model, index)
+AddEventHandler("garage:sell", function(plate, model, index, price)
     local source = tonumber(source)
     TriggerEvent('core:getuser', source, function(user)
-        user.addWallet(cars[model]/2)
+        user.addWallet(price/2)
         exports["GHMattiMySQL"]:QueryAsync("DELETE FROM vehicles WHERE (character_id = @character_id) AND (plate = @plate)", {
             ["@character_id"] = user.get("characterID"),
             ["@plate"] = tonumber(plate, 16),

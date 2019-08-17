@@ -373,6 +373,15 @@ emplacement_garage = {
     [14] = {name="Public Garage", colour=1, sprite=357, x=379.36770629883,y=-1678.8072509766,z=27.309490203857,id=14,gname="Rancho [14]",cost=3000,heading=227.73773193359,maxslots=3}, -- Public
 }
 
+PoliceGarages = {
+    [1] = vector3(452.115966796875,1018.10681152344,28.4786586761475),
+	[2] = vector3(-457.88,6024.79,31.34),
+	[3] = vector3(1866.84,3697.15,33.60),
+	[4] = vector3(-1068.95,-859.73,4.87),
+	[5] = vector3(-570.28,-145.50,37.79),
+	[6] = vector3(367.40277099609,790.59448242188,187.22383117676), -- Park Ranger Station
+}
+
 --[[emplacement_insurance = {
     {name="Buy Insurance", colour=69, sprite=498, x=-32.958335876465,y=-1111.619140625,z=26.422338485718},
 }]]
@@ -433,7 +442,7 @@ end)
 RegisterNetEvent("garage:transfer")
 AddEventHandler("garage:transfer",function(_plate, _gid)
     for k,v in pairs(user_vehicles) do
-        if v.plate == _plate then
+        if v.plate == _plate and v.police == 0 then
             v.garage_id = _gid
             break
         end
@@ -669,7 +678,9 @@ function getCarQ()
     local count = 0
     for i=1,#user_vehicles do
         if user_vehicles[i].garage_id == currentgarage.id then
-            count = count + 1
+            if user_vehicles[i].police == 0 then
+                count = count + 1
+            end
         end
     end
     return count
@@ -690,7 +701,7 @@ function GetVehicles()
     Menu.Switch("garage_menu","vehicle_list")
     for i = 1,#user_vehicles do
         if (user_vehicles[i] ~= nil) then
-            if user_vehicles[i].garage_id == currentgarage.id then
+            if user_vehicles[i].garage_id == currentgarage.id and user_vehicles[i].police == 0 then
                 Menu.addOption("vehicle_list", function()
                     if(Menu.Bool(tostring(user_vehicles[i].name), vehiclebool, tostring(user_vehicles[i].state),tostring(user_vehicles[i].state),function(cb)   vehiclebool = cb end))then
                         if user_vehicles[i].state ~= "~r~Missing" and not string.starts(user_vehicles[i].state, "~b~Impounded") then
@@ -707,6 +718,14 @@ function GetVehicles()
             end
         end
     end
+end
+
+function GetVehiclesTable()
+    return user_vehicles
+end
+
+function UpdateUserVehicles(vehicles)
+    user_vehicles = vehicles
 end
 --==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--
 --==============================================================================================================================--
@@ -936,7 +955,7 @@ function transferVehicle(garage)
             if(Menu.TransferBool(user_vehicles[i].name, vehiclebool, emplacement_garage[user_vehicles[i].garage_id].gname, emplacement_garage[user_vehicles[i].garage_id].gname, function(cb)   vehiclebool = cb end))then
                 local count = 0
                 for a = 1, #user_vehicles do
-                    if user_vehicles[a].garage_id == garage.garage_id then
+                    if user_vehicles[a].garage_id == garage.garage_id  and user_vehicles[a].police == 0 then
                         count = count + 1
                     end
                 end
@@ -1055,7 +1074,7 @@ function StoreVehicle()
                     if tostring(plate) == tostring(user_vehicles[i].plate) then
                         local count = 0
                         for a = 1,#user_vehicles do
-                            if user_vehicles[a].garage_id == currentgarage.id then
+                            if user_vehicles[a].garage_id == currentgarage.id and user_vehicles[a].poilice == 0 then
                                 count = count + 1
                             end
                         end
@@ -1097,7 +1116,8 @@ function StoreVehicle()
                                 vehicle_health = GetEntityHealth(veh),
                                 insurance = user_vehicles[i].insurance,
                                 claims = user_vehicles[i].claims,
-                                fuel = DecorGetFloat(veh, "_Fuel_Level")
+                                fuel = DecorGetFloat(veh, "_Fuel_Level"),
+                                police = user_vehicles[i].police
                             }
 
                             for i = 0, 8 do
@@ -1152,7 +1172,8 @@ function StoreVehicle()
                                 body_health = GetVehicleBodyHealth(veh),
                                 insurance = user_vehicles[i].insurance,
                                 claims = user_vehicles[i].claims,
-                                fuel = DecorGetFloat(veh, "_Fuel_Level")
+                                fuel = DecorGetFloat(veh, "_Fuel_Level"),
+                                police = user_vehicles[i].police
                             }
 
                             for i = 0, 8 do
@@ -1305,6 +1326,286 @@ function SpawnVehicle(data, index)
                 data.instance = veh
                 TriggerServerEvent("garage:out", data)
             end
+        end
+    end)
+end
+
+function SpawnPoliceVehicle(data, index, coordinates, heading)
+    Citizen.CreateThread(function()
+        Citizen.Wait(0)
+        local isAreaCrowded = GetNearestVehicle(PlayerPedId(), false, 3.0)
+        if DoesEntityExist(isAreaCrowded) then
+            exports.pNotify:SendNotification({text = "The area is crowded", type = "error", queue = "left", timeout = 3000, layout = "centerRight"})
+        else
+            local veh = exports["core"]:SpawnVehicle(data.model, vector3(coordinates.x, coordinates.y, coordinates.z), heading, false)
+
+            if veh ~= nil and veh ~= 0 then
+                table.insert(out, veh)
+                SetVehicleOnGroundProperly(veh)
+
+                SetVehicleColours(veh, data.primary_colour, data.secondary_colour)
+                SetVehicleExtraColours(veh, tonumber(data.pearlescent_colour), tonumber(data.wheel_colour))
+                SetVehicleNumberPlateTextIndex(veh, data.plate_colour)
+                SetVehicleNumberPlateText(veh, data.plate)
+                SetVehicleNeonLightsColour(veh, tonumber(data.neon_colour[1]), tonumber(data.neon_colour[2]), tonumber(data.neon_colour[3]))
+                SetVehicleTyreSmokeColor(veh, tonumber(data.smoke_colour[1]), tonumber(data.smoke_colour[2]), tonumber(data.smoke_colour[3]))
+                SetVehicleModKit(veh, 0)
+
+                for i = 0, 8 do
+                    SetVehicleMod(veh, i, tonumber(data["mod"..i]))
+                end
+
+                for i = 10, 16 do
+                    SetVehicleMod(veh, i, tonumber(data["mod"..i]))
+                end
+
+                for i = 23, 46 do
+                    SetVehicleMod(veh, i, tonumber(data["mod"..i]))
+                end
+
+                SetVehicleMod(veh, 48, tonumber(data.mod48))
+
+                if data.turbo == "on" then
+                    ToggleVehicleMod(veh, 18, true)
+                else
+                    ToggleVehicleMod(veh, 18, false)
+                end
+
+                if data.tyre_smoke == "on" then
+                    ToggleVehicleMod(veh, 20, true)
+                else
+                    ToggleVehicleMod(veh, 20, false)
+                end
+
+                if data.xenon_lights == "on" then
+                    ToggleVehicleMod(veh, 22, true)
+                else
+                    ToggleVehicleMod(veh, 22, false)
+                end
+
+                SetVehicleWheelType(veh, tonumber(data.wheeltype))
+                SetVehicleMod(veh, 23, tonumber(data.mod23))
+                SetVehicleMod(veh, 24, tonumber(data.mod24))
+
+                if data.custom_wheels == "on" then
+                    SetVehicleMod(veh, 23, GetVehicleMod(veh, 23), true)
+                end
+
+                if data.custom_wheels2 == "on" then
+                    SetVehicleMod(veh, 24, GetVehicleMod(veh, 24), true)
+                end
+
+                if data.neon0 == "on" then
+                    SetVehicleNeonLightEnabled(veh, 0, true)
+                else
+                    SetVehicleNeonLightEnabled(veh, 0, false)
+                end
+
+                if data.neon1 == "on" then
+                    SetVehicleNeonLightEnabled(veh, 1, true)
+                else
+                    SetVehicleNeonLightEnabled(veh, 1, false)
+                end
+
+                if data.neon2 == "on" then
+                    SetVehicleNeonLightEnabled(veh, 2, true)
+                else
+                    SetVehicleNeonLightEnabled(veh, 2, false)
+                end
+
+                if data.neon3 == "on" then
+                    SetVehicleNeonLightEnabled(veh, 3, true)
+                else
+                    SetVehicleNeonLightEnabled(veh, 3, false)
+                end
+
+                if data.bulletproof_wheels == "on" then
+                    SetVehicleTyresCanBurst(veh, false)
+                else
+                    SetVehicleTyresCanBurst(veh, true)
+                end
+
+                SetVehicleWindowTint(veh, tonumber(data.tint_colour))
+
+                TaskWarpPedIntoVehicle(GetPlayerPed(-1),veh,-1)
+                
+                SetEntityInvincible(veh, false)
+                
+                SetVehicleDirtLevel(veh, 0)
+                if data.fuel == nil then
+                    data.fuel = GetVehicleHandlingFloat(veh, "CHandlingData", "fPetrolTankVolume")
+                end
+                DecorSetFloat(veh, "_Fuel_Level", data.fuel)
+                user_vehicles[index].state = "~r~Missing"
+                user_vehicles[index].instance = veh
+
+                data.state = "~r~Missing"
+                data.instance = veh
+                data.garage_id = 911
+                TriggerServerEvent("garage:out", data)
+                TriggerServerEvent("keys:get", veh, data.plate)
+            end
+        end
+    end)
+end
+
+function StorePoliceVehicle(Coordinates)
+    Citizen.CreateThread(function()
+        Citizen.Wait(0)
+        local veh = GetNearestVehicle(PlayerPedId(), false, 3.0)
+        print("Vehicle: "..veh)
+        print("X: "..Coordinates.x)
+        print("Y: "..Coordinates.y)
+        print("Z: "..Coordinates.z)
+        if DoesEntityExist(veh) then
+            for i = 1, #out do
+                if out[i] == veh then
+                    table.remove(out, i)
+                end
+            end
+            SetEntityAsMissionEntity(veh, true, true)
+            local turbo
+            local tiresmoke
+            local xenon
+            local neon0
+            local neon1
+            local neon2
+            local neon3
+            local bulletproof
+            local custom_wheels
+            local custom_wheels2
+            local plate = GetVehicleNumberPlateText(veh)
+            local colors = table.pack(GetVehicleColours(veh))
+            local extra_colors = table.pack(GetVehicleExtraColours(veh))
+            local neoncolor = table.pack(GetVehicleNeonLightsColour(veh))
+            local smokecolor = table.pack(GetVehicleTyreSmokeColor(veh))
+
+            if IsToggleModOn(veh,18) then
+                turbo = "on"
+            else
+                turbo = "off"
+            end
+
+            if IsToggleModOn(veh,20) then
+                tiresmoke = "on"
+            else
+                tiresmoke = "off"
+            end
+
+            if IsToggleModOn(veh,22) then
+                xenon = "on"
+            else
+                xenon = "off"
+            end
+
+            if IsVehicleNeonLightEnabled(veh,0) then
+                neon0 = "on"
+            else
+                neon0 = "off"
+            end
+
+            if IsVehicleNeonLightEnabled(veh,1) then
+                neon1 = "on"
+            else
+                neon1 = "off"
+            end
+
+            if IsVehicleNeonLightEnabled(veh,2) then
+                neon2 = "on"
+            else
+                neon2 = "off"
+            end
+
+            if IsVehicleNeonLightEnabled(veh,3) then
+                neon3 = "on"
+            else
+                neon3 = "off"
+            end
+
+            if GetVehicleTyresCanBurst(veh) then
+                bulletproof = "off"
+            else
+                bulletproof = "on"
+            end
+
+            if GetVehicleModVariation(veh, 23) then
+                custom_wheels = "on"
+            else
+                custom_wheels = "off"
+            end
+
+            if GetVehicleModVariation(veh, 24) then
+                custom_wheels2 = "on"
+            else
+                custom_wheels2 = "off"
+            end
+
+            local stored = false
+            for i = 1, #user_vehicles do
+                if tostring(plate) == tostring(user_vehicles[i].plate) then
+                    local data = {
+                        garage_id = 911,
+                        model = user_vehicles[i].model,
+                        name = user_vehicles[i].name,
+                        instance = veh,
+                        plate = GetVehicleNumberPlateText(veh),
+                        state = "~g~Stored",
+                        primary_colour = colors[1],
+                        secondary_colour = colors[2],
+                        pearlescent_colour = extra_colors[1],
+                        wheel_colour = extra_colors[2],
+                        smoke_colour = {smokecolor[1],smokecolor[2],smokecolor[3]},
+                        plate_colour = GetVehicleNumberPlateTextIndex(veh),
+                        neon_colour = {neoncolor[1],neoncolor[2],neoncolor[3]},
+                        tint_colour = GetVehicleWindowTint(veh),
+                        tyre_smoke = tiresmoke,
+                        xenon_lights = xenon,
+                        turbo = turbo,
+                        custom_wheels = custom_wheels,
+                        custom_wheels2 = custom_wheels2,
+                        bulletproof_wheels = bulletproof,
+                        wheeltype = GetVehicleWheelType(veh),
+                        neon0 = neon0,
+                        neon1 = neon1,
+                        neon2 = neon2,
+                        neon3 = neon3,
+                        engine_health = GetVehicleEngineHealth(veh),
+                        petrol_health = GetVehiclePetrolTankHealth(veh),
+                        vehicle_health = GetEntityHealth(veh),
+                        body_health = GetVehicleBodyHealth(veh),
+                        insurance = user_vehicles[i].insurance,
+                        claims = user_vehicles[i].claims,
+                        fuel = DecorGetFloat(veh, "_Fuel_Level"),
+                        police = user_vehicles[i].police
+                    }
+
+                    for i = 0, 8 do
+                        data["mod"..i] = GetVehicleMod(veh, i)
+                    end
+
+                    for i = 10, 16 do
+                        data["mod"..i] = GetVehicleMod(veh, i)
+                    end
+
+                    for i = 23, 46 do
+                        data["mod"..i] = GetVehicleMod(veh, i)
+                    end
+
+                    data["mod48"] = GetVehicleMod(veh, 48)
+                    TriggerServerEvent("garage:stored", data)
+                    Citizen.InvokeNative(0xEA386986E786A54F, Citizen.PointerValueIntInitialized(veh))
+                    exports.pNotify:SendNotification({text = "Vehicle stored", type = "success", queue = "left", timeout = 3000, layout = "centerRight"})
+                    garage_menu = false
+                    stored = true
+                end
+            end
+            if not stored then
+                exports.pNotify:SendNotification({text = "This is not your vehicle!", type = "success", queue = "left", timeout = 3000, layout = "centerRight"})
+                garage_menu = false
+            end
+        else
+            exports.pNotify:SendNotification({text = "No veh!", type = "success", queue = "left", timeout = 3000, layout = "centerRight"})
+            garage_menu = false
         end
     end)
 end
