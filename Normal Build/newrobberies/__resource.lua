@@ -4,14 +4,20 @@ ui_page 'html/index.html'
 
 files {
   'html/index.html',
-  'html/index.pug',
-  'html/styles.css',
+  'img/cylinder.png',
+  'img/driver.png',
+  'img/keyhole.png',
+  'img/pinBott.png',
+  'img/pinTop.png',
+  'html/css/normalize.min.css',
+  'html/css/style.css',
+  'html/js/TweenMax.min.js',
+  'html/js/Draggable.min.js',
+  'html/js/jquery.min.js',
   'html/js/index.js',
   'html/js/lockpick.js',
   "html/js/vue.min.js",
   "html/js/script.js",
-  'html/css/style.css',
-  'html/scss/style.scss',
 }
 
 client_script 'client.lua'
