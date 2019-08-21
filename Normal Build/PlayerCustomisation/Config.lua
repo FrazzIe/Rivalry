@@ -623,6 +623,15 @@ PlayerCustomisation.Locations = {
 			Marker = {x = 319.60491943359, y = -580.68133544922, z = 43.3173828125, h = 338.38342285156},
 			Banner = "shopui_title_midfashion",
 		},
+		[17] = { -- Sandy Shores
+			Blip = {
+				Name = "Clothing store",
+				Sprite = 73,
+				Colour = 0,
+			},
+			Marker = {x = 1840.85546875, y = 3691.669921875, z = 34.286605834961, h = 208.97016906738},
+			Banner = "shopui_title_midfashion",
+		},
 	},
 	Barbers = {
 		[1] = {
@@ -916,7 +925,7 @@ PlayerCustomisation.Locations = {
 				Sprite = 366, 
 				Colour = 0,
 			},
-			Marker = {x = 1856.0681152344, y = 3688.7253417969, z = 34.267070770264, h = 204.30473327637},
+			Marker = {x = 1839.4202880859, y = 3690.6901855469, z = 34.286605834961, h = 251.24005126953},
 			Banner = "shopui_title_midfashion",
 		},
 	},

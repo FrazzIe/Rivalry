@@ -14,7 +14,7 @@
 local armoury = {
     {name = "Armoury", sprite = 175, colour = 39, x=452.28164672852, y=-980.19580078125, z=30.689605712891}, -- Mission row
     {name = "Armoury", sprite = 175, colour = 39, x=-450.52, y=6011.33, z=31.72}, -- Paleto Bay
-    {name = "Armoury", sprite = 175, colour = 39, x=1852.49, y=3691.61, z=34.27}, -- Sandy Shores
+    {name = "Armoury", sprite = 175, colour = 39, x=1853.7486572266, y=3689.9702148438, z=34.286651611328}, -- Sandy Shores
     {name = "Armoury", sprite = 175, colour = 39, x=-1078.54, y=-857.00, z=5.04}, -- San Andreas Ave
     {name = "Armoury", sprite = 175, colour = 39, x=-566.57, y=-132.83, z=37.96}, -- Rockford Hills
     {name = "Armoury", sprite = 175, colour = 39, x=389.47625732422, y=798.86975097656, z=187.67149353027}, -- Park Ranger Station
@@ -47,7 +47,7 @@ Citizen.CreateThread(function()
         	for k,v in ipairs(armoury) do
                 local Distance = GetDistanceBetweenCoords(PlayerPosition.x, PlayerPosition.y, PlayerPosition.z, v.x, v.y, v.z, true)
             	if Distance < 15.0 then
-                	DrawMarker(25, v.x, v.y, v.z-0.9, 0, 0, 0, 0, 0, 0, 1.0, 1.0, 1.5, 0, 0, 255, 155, 0, 0, 2, 0, 0, 0, 0)
+                	exports.core_modules:RenderMarker(25, v.x, v.y, v.z - 0.1, 1.5, 1.5, 2.0, 0, 102, 204, 20)
                 	if Distance < 1.0 then
                     	if not armoury_menu then
                         	DisplayHelpText("Press ~INPUT_CONTEXT~ to ~b~open the armoury~w~!")
