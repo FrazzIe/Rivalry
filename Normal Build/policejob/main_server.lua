@@ -31,11 +31,21 @@ local doors = {
 		true, -- Mission Row Police Station Roof Access Door
 		true, -- Mission Row Police Station Roof Door
 		true, -- Sandy Shores Main Door
-		true, -- Sandy Jail Cell 1
-		true, -- Sandy Jail Cell 2
-		true, -- Sandy Jail Cell 3
-		true, -- Sandy Jail Cell 4 Lockdown
-		true, -- Sandy Jail Cell 5 Lockdown
+		-- OLD
+		-- true, -- Sandy Jail Cell 1
+		-- true, -- Sandy Jail Cell 2
+		-- true, -- Sandy Jail Cell 3
+		-- true, -- Sandy Jail Cell 4 Lockdown
+		-- true, -- Sandy Jail Cell 5 Lockdown
+		true, -- Waiting Room Entrance
+		true, -- Waiting Room To Office
+		true, -- Hallway Office to Office
+		true, -- Main Lobby to Hallway
+		true, -- Locker Room
+		true, -- Hallway Office to Cells
+		true, -- Main Lobby to Cells
+		true, -- Cell 1
+		true, -- Cells Room Cell 2
 	},
 	double = {
 		{

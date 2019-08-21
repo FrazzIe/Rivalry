@@ -22,7 +22,7 @@ user_cop = {}
 local takingService = {
 	{name="Police Station", sprite = 60, colour = 28, x=457.956909179688, y=-992.72314453125, z=30.6895866394043},  -- Mission Row
 	{name="Police Station", sprite = 60, colour = 28, x=-449.90, y=6016.22, z= 31.72}, -- Paleto Bay
-	{name="Police Station", sprite = 60, colour = 28, x=1849.4110107422, y=3690.2810058594, z=34.267074584961}, -- Sandy Shores
+	{name="Police Station", sprite = 60, colour = 28, x=1840.41796875, y=3688.6987304688, z=34.286643981934}, -- Sandy Shores
 	{name="Police Station", sprite = 60, colour = 28, x=-1113.65, y=-849.21, z=13.45}, -- San Andreas Ave
 	{name="Police Station", sprite = 60, colour = 28, x=-561.28, y=-132.60, z=38.04}, -- Rockford Hills
 	{name="Park Ranger Station", sprite = 175, colour = 39, x = 387.07974243164, y = 792.12249755859, z = 187.69355773926}, -- Park Ranger Station
