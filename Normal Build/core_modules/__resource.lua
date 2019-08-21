@@ -96,8 +96,12 @@ server_script 'jobs/mechanic/shared.lua'
 client_script 'vehicle_rentals/client.lua'
 server_script 'vehicle_rentals/server.lua'
 --Carshop
-client_script 'carshop/client.lua'
-server_script 'carshop/server.lua'
+--client_script 'carshop/client.lua'
+--server_script 'carshop/server.lua'
+--CarDealer
+client_script 'cardealer/client.lua'
+client_script 'cardealer/config.lua'
+server_script 'cardealer/server.lua'
 --Ammu-nation
 client_script 'ammu-nation/config.lua'
 client_script 'ammu-nation/client.lua'
@@ -195,3 +199,11 @@ export 'DisableProne'
 export 'EnableProne'
 
 export 'RenderMarker'
+
+export 'GetVehiclesTable'
+export 'SpawnPoliceVehicle'
+export 'StorePoliceVehicle'
+export 'GetTime'
+
+export 'DestroyVehicle'
+export 'DestroyObject'

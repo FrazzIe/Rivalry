@@ -21,3 +21,6 @@ AddEventHandler("Environment:Sync", function(H, M, S, W)
 	Time.Hour, Time.Minute, Time.Second, Weather.Current = H, M, S, W
 end)
 
+function GetTime()
+	return CreateTimeString(Time.Hour, Time.Minute)
+end
