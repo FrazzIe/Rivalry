@@ -102,6 +102,7 @@ AddEventHandler('paramedic:respawn', function()
 	TriggerEvent("paramedic:dead")
 	TriggerEvent("police:undrag")
 	TriggerEvent("interaction:undrag")
+	TriggerEvent("Reset.Carry.And.Kidnap", source)
 	DetachEntity(PlayerPedId(), true, false)
 	secondsRemaining = -1
 	SetEntityHealth(GetPlayerPed(-1), GetPedMaxHealth(GetPlayerPed(-1)))
