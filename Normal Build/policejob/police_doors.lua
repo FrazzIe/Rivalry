@@ -126,10 +126,12 @@ local doors = {
 			["left"] = {coords = vector3(443.0298, -994.5412, 30.8393), model = -131296141, heading = 270.0, locked = true},
 			["right"] = {coords = vector3(443.0298, -991.941, 30.8393), model = -131296141, heading = 90.0, locked = true},
 		}, -- Mission Row Police Station Briefing Doors
-		{
-			["left"] = {coords = vector3(465.65545, -988.7089, 25.063995), model = 185711165, heading = 90.0, locked = false},
-			["right"] = {coords = vector3(465.6554, -991.3040, 25.06399), model = 185711165, heading = 270.0, locked = false},
-		}, -- Mission Row Police Station Interrogation Main Doors
+		-- OLD (Lamars)
+		-- {
+		-- 	["left"] = {coords = vector3(465.65545, -988.7089, 25.063995), model = 185711165, heading = 90.0, locked = false},
+		--	["right"] = {coords = vector3(465.6554, -991.3040, 25.06399), model = 185711165, heading = 270.0, locked = false},
+		-- }, -- Mission Row Police Station Interrogation Main Doors
+		-- END
 		-- NEW ALPHA MRPD
 		{
 			["left"] = {coords = vector3(429.17147827148,-996.22595214844,36.168766021729), model = -603023671, heading = 269.99044799805, locked = true},
