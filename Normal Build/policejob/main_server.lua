@@ -16,10 +16,12 @@ cops = {}
 user_models = {}
 local doors = {
 	single = {
-		true, -- Mission Row Interrogation Cell Door 1
-		true, -- Mission Row Interrogation Cell Door 2
-		true, -- Mission Row Interrogation Observe
-		true, -- Mission Row Mug Shot
+		-- OLD (Lamars)
+		-- true, -- Mission Row Interrogation Cell Door 1
+		-- true, -- Mission Row Interrogation Cell Door 2
+		-- true, -- Mission Row Interrogation Observe
+		-- true, -- Mission Row Mug Shot
+		-- END
 		true, -- Mission Row Door To Cells Back
 		true, -- Mission Row Cell Door 1
 		true, -- Mission Row Cell Door 2
@@ -30,6 +32,22 @@ local doors = {
 		true, -- Mission Row Police Station Locker Room 1 Door
 		true, -- Mission Row Police Station Roof Access Door
 		true, -- Mission Row Police Station Roof Door
+		-- NEW ALPHA MRPD
+		true, -- Back 2nd Floor Exit
+		true, -- 2nd Floor Stair Door
+		true, -- 1st Interrogation Room
+		true, -- 1st Interrogation Room Observe
+		true, -- 2nd Interrogation Room
+		true, -- 2nd Interrogation Room Observe
+		true, -- 1st Cell
+		true, -- 2nd Cell
+		true, -- 3rd Cell
+		true, -- 4th Cell
+		true, -- Forensics Lab
+		true, -- Server Room
+		true, -- Evidence Locker
+		true, -- Mugshot
+		-- END
 		true, -- Sandy Shores Main Door
 		-- OLD
 		-- true, -- Sandy Jail Cell 1
@@ -64,10 +82,22 @@ local doors = {
 			["left"] = true,
 			["right"] = true,
 		}, -- Mission Row Police Station Briefing Doors
+		-- OLD (Lamars)
+		-- {
+		--  ["left"] = true,
+		--  ["right"] = true,
+		-- }, -- Mission Row Police Station Interrogation Main Doors
+		-- END
+		-- NEW ALPHA MRPD
 		{
 			["left"] = true,
 			["right"] = true,
-		}, -- Mission Row Police Station Interrogation Main Doors
+		}, -- Front 2nd Floor Balcony Doors
+		{
+			["left"] = true,
+			["right"] = true,
+		},  -- 1st Floor Exit to Motor pool
+		-- END
 	},
 }
 

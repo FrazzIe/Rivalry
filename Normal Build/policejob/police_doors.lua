@@ -57,10 +57,12 @@ end
 
 local doors = {
 	single = {
-		{coords = vector3(471.04309, -987.978, 24.9137), model = 452874391, heading = 180.0, locked = true}, -- Mission Row Interrogation Cell Door 1
-		{coords = vector3(478.5546, -987.878, 25.0524), model = 452874391, heading = 180.0, locked = true}, -- Mission Row Interrogation Cell Door 2
-		{coords = vector3(474.4076, -987.878, 25.0675), model = -340230128, heading = 0.0, locked = true}, -- Mission Row Interrogation Observe
-		{coords = vector3(478.1655, -992.1209, 25.060), model = 452874391, heading = 0, locked = true}, -- Mission Row Mug Shot
+		-- OLD (Lamars)
+		-- {coords = vector3(471.04309, -987.978, 24.9137), model = 452874391, heading = 180.0, locked = true}, -- Mission Row Interrogation Cell Door 1
+		-- {coords = vector3(478.5546, -987.878, 25.0524), model = 452874391, heading = 180.0, locked = true}, -- Mission Row Interrogation Cell Door 2
+		-- {coords = vector3(474.4076, -987.878, 25.0675), model = -340230128, heading = 0.0, locked = true}, -- Mission Row Interrogation Observe
+		-- {coords = vector3(478.1655, -992.1209, 25.060), model = 452874391, heading = 0, locked = true}, -- Mission Row Mug Shot
+		-- END
 		{coords = vector3(463.4782, -1003.538, 25.00599), model = -1033001619, heading = 0.0, locked = true}, -- Mission Row Door To Cells Back
 		{coords = vector3(461.8065, -994.4086, 25.06443), model = 631614199, heading = 270.0, locked = true}, -- Mission Row Cell Door 1
 		{coords = vector3(461.8065, -997.6583, 25.06443), model = 631614199, heading = 90.0, locked = true}, -- Mission Row Cell Door 2
@@ -71,6 +73,22 @@ local doors = {
 		{coords = vector3(452.6248, -987.3626, 30.8393), model = -2023754432, heading = 179.75776672363, locked = true}, -- Mission Row Police Station Locker Room 1 Door
 		{coords = vector3(461.2865, -985.3206, 30.83926), model = 749848321, heading = 90.0, locked = true}, -- Mission Row Police Station Roof Access Door
 		{coords = vector3(464.3613, -984.678, 43.83443), model = -340230128, heading = 90.0, locked = true}, -- Mission Row Police Station Roof Door
+		-- NEW ALPHA MRPD
+		{coords = vector3(464.15835571289,-1011.2600097656,33.011207580566), model = 507213820, heading = 0.87829905748367, locked = true}, -- Back 2nd Floor Exit
+		{coords = vector3(463.69995117188,-983.37902832031,35.99437713623), model = -131296141, heading = 89.447227478027, locked = true}, -- 2nd Floor Stair Door
+		{coords = vector3(467.18310546875,-1003.5381469727,25.005992889404), model = -1033001619, heading = 0.13817027211189, locked = true}, -- 1st Interrogation Room
+		{coords = vector3(471.46899414063,-1003.5381469727,25.005992889404), model = -1033001619, heading = 0.046020869165659, locked = true}, -- 1st Interrogation Room Observe
+		{coords = vector3(475.75552368164,-1003.5381469727,25.005992889404), model = -1033001619, heading = 359.99917602539, locked = true}, -- 2nd Interrogation Room
+		{coords = vector3(480.03005981445,-1003.5381469727,25.005992889404), model = -1033001619, heading = 359.82995605469, locked = true}, -- 2nd Interrogation Room Observe
+		{coords = vector3(467.19216918945,-996.45935058594,25.005992889404), model = -1033001619, heading = 359.86532592773, locked = true}, -- 1st Cell
+		{coords = vector3(471.47552490234,-996.45935058594,25.005992889404), model = -1033001619, heading = 359.90072631836, locked = true}, -- 2nd Cell
+		{coords = vector3(475.75427246094,-996.45935058594,25.005992889404), model = -1033001619, heading = 0.29999488592148, locked = true}, -- 3rd Cell
+		{coords = vector3(480.03005981445,-996.45935058594,25.005992889404), model = -1033001619, heading = 359.71765136719, locked = true}, -- 4th Cell
+		{coords = vector3(463.61459350586,-980.58135986328,25.057952880859), model = -131296141, heading = 90.584655761719, locked = true}, -- Forensics Lab
+		{coords = vector3(467.59359741211,-977.99334716797,25.057952880859), model = -131296141, heading = 180.23388671875, locked = true}, -- Server Room
+		{coords = vector3(471.3154296875,-986.10906982422,25.057952880859), model = -131296141, heading = 270.37399291992, locked = true}, -- Evidence Locker
+		{coords = vector3(442.66253662109,-988.24133300781,26.819765090942), model = -131296141, heading = 178.92091369629, locked = true}, -- Mugshot
+		-- END
 		{coords = vector3(1855.2312011719, 3683.5375976563, 34.266860961914), model = -1765048490, heading = 30.19642829895, locked = false}, -- Sandy Shores Main Door
 		-- OLD
 		-- {coords = vector3(1846.4598388672, 3662.5939941406, -116.789894104), model = -642608865, heading = 30.000001907349, locked = true}, -- Sandy Jail Cell 1
@@ -112,6 +130,16 @@ local doors = {
 			["left"] = {coords = vector3(465.65545, -988.7089, 25.063995), model = 185711165, heading = 90.0, locked = false},
 			["right"] = {coords = vector3(465.6554, -991.3040, 25.06399), model = 185711165, heading = 270.0, locked = false},
 		}, -- Mission Row Police Station Interrogation Main Doors
+		-- NEW ALPHA MRPD
+		{
+			["left"] = {coords = vector3(429.17147827148,-996.22595214844,36.168766021729), model = -603023671, heading = 269.99044799805, locked = true},
+			["right"] = {coords = vector3(429.20233154297,-994.04864501953,36.168766021729), model = -603023671, heading = 89.235107421875, locked = true},
+		}, -- Front 2nd Floor Balcony Doors
+		{
+			["left"] = {coords = vector3(447.21844482422,-999.00231933594,30.789419174194), model = -1033001619, heading = 180.0746307373, locked = true},
+			["right"] = {coords = vector3(444.62118530273,-999.00103759766,30.788663864136), model = -1033001619, heading = 359.98760986328, locked = true},
+		},  -- 1st Floor Exit to Motor pool
+		-- END
 	},
 }
 
