@@ -693,7 +693,7 @@ Citizen.CreateThread(function()
 				local WeaponStr = Weaponhashes[currentWeapon] or Weaponhashes[tostring(currentWeapon)]
 				if WeaponStr then
 					if GetAmmoInPedWeapon(PlayerPed, currentWeapon) > 0 then
-						if not GSR_Whitelist[WeaponStr] then
+						if not GSR_Whitelist[currentWeapon] then
 							GSR_LastShot = GetGameTimer()
 							DecorSetBool(PlayerPed, "GSR_Active", true)
 						end
