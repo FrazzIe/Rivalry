@@ -141,7 +141,7 @@ local function canTargetRank(user, target, callback)
 end
 
 local function canPromote(rank)
-	if rank == "chief of police" or rank == "colonel" or rank == "deputy chief of police" or rank == "lieutenant colonel" or rank == "captain" or rank == "director" or rank == "lieutenant" then
+	if rank == "chief of police" or rank == "sheriff" or rank == "undersheriff" or rank == "captain" or rank == "lieutenant" then
 		return true
 	else
 		return false
@@ -149,13 +149,13 @@ local function canPromote(rank)
 end
 
 local function GetCallSign(rank)
-	if rank == "chief of police" or rank == "assistant chief" or rank == "deputy chief of police" then
+	if rank == "chief of police" or rank == "sheriff" or rank == "undersheriff" then
 		return "O-"
-	elseif rank == "captain ii" or rank == "captain" or rank == "lieutenant ii" or rank == "lieutenant" then
+	elseif rank == "captain" or rank == "lieutenant" then
 		return "S-"
-	elseif rank == "sergeant ii" or rank == "sergeant i" then
+	elseif rank == "sergeant" then
 		return "L-"
-	elseif rank == "detective" or rank == "senior detective" or rank == "chief inspector" then
+	elseif rank == "detective ii" or rank == "detective" then
 		return "D-"
 	elseif rank == "officer ii" or rank == "officer i" then
 		return "A-"
@@ -194,13 +194,12 @@ function Notify(source,msg)
 end
 
 addRank("chief of police", "")
-addRank("colonel", "")
-addRank("deputy chief of police", "")
-addRank("lieutenant colonel", "")
+addRank("sheriff", "")
+addRank("undersheriff", "")
 addRank("captain", "")
-addRank("director", "")
 addRank("lieutenant", "")
 addRank("sergeant", "")
+addRank("detective ii", "")
 addRank("detective", "")
 addRank("officer ii", "")
 addRank("officer i", "")
@@ -259,7 +258,7 @@ TriggerEvent("core:addGroupCommand", "copadd", "command", function(source, args,
 					})
 					cops[tonumber(args[1])] = { character_id = target.get("characterID"), rank = rank:lower(), onduty = "false" }
 					TriggerEvent("mdt.set.permission", tonumber(args[1]), GetPermissionLevel(rank:lower()))
-					TriggerClientEvent("pNotify:SendNotification", -1, {text = "<b style='color:red'>Alert</b> <br><span style='color:lime'>"..target.get("first_name").." "..target.get("last_name").."</span> has been accepted. <br> Congratulations on joining the LSPD!",type = "error",queue = "left",timeout = 10000,layout = "bottomRight"})
+					TriggerClientEvent("pNotify:SendNotification", -1, {text = "<b style='color:red'>SALE Public Notification System</b> <br><span style='color:lime'>"..target.get("first_name").." "..target.get("last_name").."</span> has been accepted. <br> Congratulations on joining San Andreas Law Enforcement!",type = "error",queue = "left",timeout = 10000,layout = "bottomRight"})
 					TriggerClientEvent('police:set', tonumber(args[1]), cops[tonumber(args[1])], true)
 				end)
 			else
@@ -269,7 +268,7 @@ TriggerEvent("core:addGroupCommand", "copadd", "command", function(source, args,
 			TriggerClientEvent('chatMessage', source, 'SYSTEM', {255, 0, 0}, "Usage : /copadd [ID] [RANK]")
 		end
 	end
-end, {help = "Add a player to the police force", params = {{name = "id", help = "The id of the player"},{name = "rank", help = "Cadet | Officer I | Officer II | Detective | Trooper | Sergeant | Trooper Sergeant | Lieutenant | Director | Captain | Lieutenant Colonel | Deputy Chief of Police | Colonel | Chief of Police"}}})
+end, {help = "Add a player to the police force", params = {{name = "id", help = "The id of the player"},{name = "rank", help = "cadet | officer i | officer ii | detective | detective ii | sergeant | lieutenant | captain | undersheriff | sheriff | chief of police"}}})
 
 TriggerEvent("core:addGroupCommand", "coprem", "command", function(source, args, rawCommand, data, power, group)
 	local source = source
@@ -281,7 +280,7 @@ TriggerEvent("core:addGroupCommand", "coprem", "command", function(source, args,
 				TriggerEvent("core:getuser", tonumber(args[1]), function(target)
 					cops[tonumber(args[1])] = nil
 					exports['GHMattiMySQL']:QueryAsync("DELETE FROM police WHERE character_id=@character_id", {["@character_id"] = target.get("characterID")})
-					TriggerClientEvent("pNotify:SendNotification", -1, {text = "<b style='color:red'>Alert</b> <br><span style='color:lime'>"..target.get("first_name").." "..target.get("last_name").."</span> has been fired. <br> They are no longer an officer of the LSPD!",type = "error",queue = "left",timeout = 10000,layout = "bottomRight"})
+					TriggerClientEvent("pNotify:SendNotification", -1, {text = "<b style='color:red'>SALE Public Notification System</b> <br><span style='color:lime'>"..target.get("first_name").." "..target.get("last_name").."</span> has been fired. <br> They are no longer part of San Andreas Law Enforcement!",type = "error",queue = "left",timeout = 10000,layout = "bottomRight"})
 					TriggerClientEvent('police:set', tonumber(args[1]), cops[tonumber(args[1])], false)
 					TriggerEvent("mdt.set.permission", tonumber(args[1]), 0)
 				end)
@@ -310,7 +309,7 @@ TriggerEvent("core:addGroupCommand", "coppromote", "emergency", function(source,
 									TriggerEvent("core:getuser", tonumber(args[1]), function(target)
 										exports['GHMattiMySQL']:QueryAsync("UPDATE police SET rank=@rank WHERE character_id=@character_id", {["@character_id"] = target.get("characterID"), ["@rank"] = rank:lower()})
 										cops[tonumber(args[1])].rank = rank:lower()
-										TriggerClientEvent("pNotify:SendNotification", tonumber(args[1]), {text = "<b style='color:red'>Alert</b> <br><span style='color:lime'>You have been promoted!</span><br> You are now a "..rank,type = "error",queue = "left",timeout = 10000,layout = "bottomRight"})
+										TriggerClientEvent("pNotify:SendNotification", tonumber(args[1]), {text = "<b style='color:red'>SALE Public Notification System</b> <br><span style='color:lime'>You have been promoted!</span><br> You are now a "..rank,type = "error",queue = "left",timeout = 10000,layout = "bottomRight"})
 										TriggerClientEvent('police:set', tonumber(args[1]), cops[tonumber(args[1])], true)
 										TriggerEvent("mdt.set.permission", tonumber(args[1]), GetPermissionLevel(rank:lower()))
 									end)
@@ -334,7 +333,7 @@ TriggerEvent("core:addGroupCommand", "coppromote", "emergency", function(source,
 			Notify(source,"Player could not be found")
 		end
 	end
-end, {help = "Promote an officer", params = {{name = "id", help = "The id of the player"},{name = "rank", help = "Cadet | Officer I | Officer II | Detective | Trooper | Sergeant | Trooper Sergeant | Lieutenant | Director | Captain | Lieutenant Colonel | Deputy Chief of Police | Colonel | Chief of Police"}}})
+end, {help = "Promote an officer", params = {{name = "id", help = "The id of the player"},{name = "rank", help = "cadet | officer i | officer ii | detective | detective ii | sergeant | lieutenant | captain | undersheriff | sheriff | chief of police"}}})
 
 TriggerEvent("core:addGroupCommand", "copdemote", "emergency", function(source, args, rawCommand, data, power, group)
 	local source = source
@@ -352,7 +351,7 @@ TriggerEvent("core:addGroupCommand", "copdemote", "emergency", function(source, 
 									TriggerEvent("core:getuser", tonumber(args[1]), function(target)
 										exports['GHMattiMySQL']:QueryAsync("UPDATE police SET rank=@rank WHERE character_id=@character_id", {["@character_id"] = target.get("characterID"), ["@rank"] = rank:lower()})
 										cops[tonumber(args[1])].rank = rank:lower()
-										TriggerClientEvent("pNotify:SendNotification", tonumber(args[1]), {text = "<b style='color:red'>Alert</b> <br><span style='color:lime'>You have been demoted!</span><br> You are now a "..rank,type = "error",queue = "left",timeout = 10000,layout = "bottomRight"})
+										TriggerClientEvent("pNotify:SendNotification", tonumber(args[1]), {text = "<b style='color:red'>SALE Public Notification System</b> <br><span style='color:lime'>You have been demoted!</span><br> You are now a "..rank,type = "error",queue = "left",timeout = 10000,layout = "bottomRight"})
 										TriggerClientEvent('police:set', tonumber(args[1]), cops[tonumber(args[1])], true)
 										TriggerEvent("mdt.set.permission", tonumber(args[1]), GetPermissionLevel(rank:lower()))
 									end)
@@ -376,7 +375,7 @@ TriggerEvent("core:addGroupCommand", "copdemote", "emergency", function(source, 
 			Notify(source,"Player could not be found")
 		end
 	end
-end, {help = "Demote an Officer", params = {{name = "id", help = "The id of the player"},{name = "rank", help = "Cadet | Officer I | Officer II | Detective | Trooper | Sergeant | Trooper Sergeant | Lieutenant | Director | Captain | Lieutenant Colonel | Deputy Chief of Police | Colonel | Chief of Police"}}})
+end, {help = "Demote an Officer", params = {{name = "id", help = "The id of the player"},{name = "rank", help = "cadet | officer i | officer ii | detective | detective ii | sergeant | lieutenant | captain | undersheriff | sheriff | chief of police"}}})
 
 RegisterServerEvent("jail:user")
 AddEventHandler("jail:user",function(target, time, reason)
