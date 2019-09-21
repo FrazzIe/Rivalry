@@ -228,7 +228,8 @@ AddEventHandler("Spawn.PoliceCar", function(DataTable, Vehicle)
                 ["weeks"] = 0,
                 ["intrest"] = 0,
                 ["payedoff"] = 0,
-                ["police"] = 1
+                ["police"] = 1,
+                ["livery"] = data.livery,
             }
         }, function(plate)
             data.plate = plate
@@ -328,7 +329,8 @@ AddEventHandler("CarDealer.BuyCar", function(Type, Index, GarageID, Reduction)
                         ["fuel"] = data.fuel,
                         ["weeks"] = DisplayedVehicles[Index].Weeks,
                         ["intrest"] = DisplayedVehicles[Index].Intrest,
-                        ["payedoff"] = 0
+                        ["payedoff"] = 0,
+                        ["livery"] = data.livery,
                     }
                 }, function(plate)
                     data.plate = plate
@@ -420,7 +422,8 @@ AddEventHandler("CarDealer.BuyCar", function(Type, Index, GarageID, Reduction)
                         ["fuel"] = data.fuel,
                         ["weeks"] = DisplayedVehicles[Index].Weeks,
                         ["intrest"] = DisplayedVehicles[Index].Intrest,
-                        ["payedoff"] = 0
+                        ["payedoff"] = 0,
+                        ["livery"] = data.livery,
                     }
                 }, function(plate)
                     data.plate = plate
@@ -536,7 +539,8 @@ AddEventHandler("CarDealer.BuyCar", function(Type, Index, GarageID, Reduction)
                         ["intrest"] = DisplayedVehicles[Index].Intrest,
                         ["payedoff"] = ( MonthlyPayment * DisplayedVehicles[Index].Weeks ) - MonthlyPayment,
                         ["lastpayment"] = tostring(os.time()),
-                        ["nextpayment"] = tostring(os.time() + 604800)
+                        ["nextpayment"] = tostring(os.time() + 604800),
+                        ["livery"] = data.livery,
                     }
                 }, function(plate)
                     data.cost = MonthlyPayment
@@ -631,7 +635,8 @@ AddEventHandler("CarDealer.BuyCar", function(Type, Index, GarageID, Reduction)
                         ["intrest"] = DisplayedVehicles[Index].Intrest,
                         ["payedoff"] = ( MonthlyPayment * DisplayedVehicles[Index].Weeks ) - MonthlyPayment,
                         ["lastpayment"] = tostring(os.time()),
-                        ["nextpayment"] = tostring(os.time() + 604800)
+                        ["nextpayment"] = tostring(os.time() + 604800),
+                        ["livery"] = data.livery,
                     }
                 }, function(plate)
                     data.cost = MonthlyPayment

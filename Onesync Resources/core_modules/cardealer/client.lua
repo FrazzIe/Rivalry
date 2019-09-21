@@ -142,6 +142,8 @@ AddEventHandler("carshop:bought",function(data, NetworkID)
 
             SetVehicleMod(veh, 48, tonumber(data.mod48))
 
+			SetVehicleLivery(veh, data.livery)
+
             if data.turbo == "on" then
                 ToggleVehicleMod(veh, 18, true)
             else
@@ -470,7 +472,8 @@ Citizen.CreateThread(function()
 								vehicle_health = GetEntityHealth(Vehicle),
 								insurance = "true",
 								claims = 1,
-								fuel = 100
+								fuel = 100,
+								livery = GetVehicleLivery(Vehicle),
 							}
 
 							for i = 0, 8 do

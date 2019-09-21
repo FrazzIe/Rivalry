@@ -214,6 +214,7 @@ local function DriveInGarage()
 		myveh.smokecolor = table.pack(GetVehicleTyreSmokeColor(veh))
 		myveh.plateindex = GetVehicleNumberPlateTextIndex(veh)
 		myveh.mods = {}
+		myveh.livery = GetVehicleLivery(veh)
 		for i = 0, 48 do
 			myveh.mods[i] = {mod = nil}
 		end
@@ -318,6 +319,20 @@ local function DriveInGarage()
 		--AddMod(49, LSCMenu.categories, "UNK49", "unk49", "",true)
 		AddMod(38,LSCMenu.categories,"HYDRAULICS","Hydraulics","",true)
 		AddMod(48,LSCMenu.categories,"Liveries", "Liveries", "A selection of decals for your vehicle.",true)
+
+		local liveryCount = GetVehicleLiveryCount(veh)
+
+		if liveryCount > 0 then
+			liveries = LSCMenu.categories:addSubMenu("LIVERIES 2", "Liveries 2", "A selection of decals for your vehicle.", true)
+			local liveryCost = LSC_Config.prices.liveries.startprice
+			for livery = 0, liveryCount do
+				local liveryName = GetLiveryName(veh, livery)
+				local liveryLabel = GetLabelText(liveryName)
+				local btn = liveries:addPurchase((liveryLabel ~= "NULL") and liveryLabel or ("Livery #" .. livery), liveryCost)
+				btn.livery = livery
+				liveryCost = liveryCost + LSC_Config.prices.liveries.increaseby
+			end
+		end
 		
 		if bumper then
 			LSCMenu.categories:addSubMenu("BUMPERS", "Bumpers", "Custom front and rear bumpers.",true)
@@ -771,6 +786,10 @@ function LSCMenu:onSelectedIndexChanged(name, button)
 		SetVehicleExtraColours(veh, button.colorindex, myveh.extracolor[2])
 	end
 
+	if m == "liveries 2" then
+		SetVehicleLivery(veh, button.livery)
+	end
+
 	--set up temporary shitt, or in other words show preview of selected mod
 	if m == "chrome" or m ==  "classic" or m ==  "matte" or m ==  "metals" then
 		if p == "primary color" then
@@ -837,6 +856,12 @@ AddEventHandler("LSC:buttonSelected", function(name, button, canpurchase)
 	end
 	
 	mname = m.name:lower()
+
+	if mname == "liveries 2" then
+		if button.purchased or CanPurchase(price, canpurchase) then
+			myveh.livery = button.livery
+		end
+	end
 
 	--Bunch of button shitt, that gets executed if button is selected + goes through checks
 	if mname == "pearlescent color" and m.parent == "Respray" then
@@ -1143,6 +1168,18 @@ end
 function CheckPurchases(m)
 	name = m.name:lower()
 
+	if name == "liveries 2" then
+		for i,b in pairs(m.buttons) do
+			if b.purchased and b.livery ~= myveh.livery then
+				if b.purchased ~= nil then b.purchased = false end
+				b.sprite = nil
+			elseif b.purchased == false and b.livery == myveh.livery then
+				if b.purchased ~= nil then b.purchased = true end
+				b.sprite = "garage"
+			end
+		end		
+	end
+
 	if name == "pearlescent color" and m.parent == "Respray" then
 		for i,b in pairs(m.buttons) do
 			if b.purchased and b.colorindex ~= myveh.extracolor[1] then
@@ -1377,6 +1414,7 @@ function UnfakeVeh()
 	SetVehicleNeonLightsColour(veh,myveh.neoncolor[1],myveh.neoncolor[2],myveh.neoncolor[3])
 	SetVehicleNumberPlateTextIndex(veh, myveh.plateindex)
 	SetVehicleWindowTint(veh, myveh.windowtint)
+	SetVehicleLivery(veh, myveh.livery)
 end
 
 --Still the good old way of adding blips

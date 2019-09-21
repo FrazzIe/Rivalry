@@ -1101,7 +1101,8 @@ function StoreVehicle()
                                 vehicle_health = GetEntityHealth(veh),
                                 insurance = user_vehicles[i].insurance,
                                 claims = user_vehicles[i].claims,
-                                fuel = DecorGetFloat(veh, "_Fuel_Level")
+                                fuel = DecorGetFloat(veh, "_Fuel_Level"),
+                                livery = GetVehicleLivery(veh),
                             }
 
                             for i = 0, 8 do
@@ -1156,7 +1157,8 @@ function StoreVehicle()
                                 body_health = GetVehicleBodyHealth(veh),
                                 insurance = user_vehicles[i].insurance,
                                 claims = user_vehicles[i].claims,
-                                fuel = DecorGetFloat(veh, "_Fuel_Level")
+                                fuel = DecorGetFloat(veh, "_Fuel_Level"),
+                                livery = GetVehicleLivery(veh),
                             }
 
                             for i = 0, 8 do
@@ -1232,6 +1234,8 @@ function SpawnVehicle(data, index)
                 end
 
                 SetVehicleMod(veh, 48, tonumber(data.mod48))
+
+                SetVehicleLivery(veh, data.livery)
 
                 if data.turbo == "on" then
                     ToggleVehicleMod(veh, 18, true)
@@ -1346,6 +1350,8 @@ function SpawnReplacement(data, index)
             end
 
             SetVehicleMod(veh, 48, tonumber(data.mod48))
+
+            SetVehicleLivery(veh, data.livery)
 
             if data.turbo == "on" then
                 ToggleVehicleMod(veh, 18, true)

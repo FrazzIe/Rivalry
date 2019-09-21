@@ -406,7 +406,11 @@ LSC_Config.prices = {
 		colors = colors,
 		price = 600
 	},
-	
+----------Liveries 2-----------
+	liveries = {
+		startprice = 150,
+		increaseby = 250
+	},
 ----------Mods-----------
 	mods = {
 	
