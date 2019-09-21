@@ -410,61 +410,68 @@ AddEventHandler('police:finesForced', function(target, amount)
 end)
 
 TriggerEvent("core:addGroupCommand", "runplate", "emergency", function(source, args, rawCommand, data, power, group)
-	if args[1] then
-		if args[1] ~= nil then
-			if string.sub(args[1], 1, 2) == "RR" then
-				TriggerClientEvent("chatMessage", source, "Dispatch", {0, 255, 0}, "The plate "..args[1].." belongs to the rental company!")
-			else
-				if tonumber(args[1], 16) ~= nil then
-					exports['GHMattiMySQL']:QueryResultAsync("SELECT first_name, last_name FROM characters WHERE character_id=(SELECT character_id FROM vehicles WHERE plate=@plate)", {["@plate"] = tonumber(args[1], 16)}, function(character)
-						if character[1] == nil then
-							TriggerClientEvent("chatMessage", source, "Dispatch", {0, 255, 0}, "The plate "..args[1].." has been reported 10-99 stolen! Call for backup.")
-						else
-							TriggerClientEvent("chatMessage", source, "Dispatch", {0, 255, 0}, "The plate "..args[1].." is owned by a "..character[1].first_name.." "..character[1].last_name)
-						end
-					end)
+	if cops[source] then
+		if args[1] then
+			if args[1] ~= nil then
+				if string.sub(args[1], 1, 2) == "RR" then
+					TriggerClientEvent("chatMessage", source, "Dispatch", {0, 255, 0}, "The plate "..args[1].." belongs to the rental company!")
 				else
-					TriggerClientEvent("chatMessage", source, "Dispatch", {0, 255, 0}, "The plate "..args[1].." could not be found in the database!")
+					if tonumber(args[1], 16) ~= nil then
+						exports['GHMattiMySQL']:QueryResultAsync("SELECT first_name, last_name FROM characters WHERE character_id=(SELECT character_id FROM vehicles WHERE plate=@plate)", {["@plate"] = tonumber(args[1], 16)}, function(character)
+							if character[1] == nil then
+								TriggerClientEvent("chatMessage", source, "Dispatch", {0, 255, 0}, "The plate "..args[1].." has been reported 10-99 stolen! Call for backup.")
+							else
+								TriggerClientEvent("chatMessage", source, "Dispatch", {0, 255, 0}, "The plate "..args[1].." is owned by a "..character[1].first_name.." "..character[1].last_name)
+							end
+						end)
+					else
+						TriggerClientEvent("chatMessage", source, "Dispatch", {0, 255, 0}, "The plate "..args[1].." could not be found in the database!")
+					end
 				end
+			else
+				TriggerClientEvent("chatMessage", source, "Dispatch", {0, 255, 0}, "An unexpected error occured, please try again!")
 			end
-		else
-			TriggerClientEvent("chatMessage", source, "Dispatch", {0, 255, 0}, "An unexpected error occured, please try again!")
 		end
 	else
+		Notify("You must be on duty to run plates!", 3100)
 	end
 end, {help = "Run a plate"})
 
 TriggerEvent("core:addGroupCommand", "runserial", "emergency", function(source, args, rawCommand, data, power, group)
-	if args[2] then
-		if args[1] == "p" or args[1] == "v" or args[1] == "vehicle" or args[1] == "person" then
-			if args[1] == "p" or args[1] == "person" then
-				if tonumber(args[2]) then
-					exports['GHMattiMySQL']:QueryResultAsync("SELECT CONCAT(characters.first_name, ' ', characters.last_name) AS 'name' FROM weapons INNER JOIN characters ON weapons.owner = characters.character_id WHERE id=@id", {["@id"] = tonumber(args[2])}, function(owner)
-						if owner[1] ~= nil then
-							TriggerClientEvent("chatMessage", source, "Dispatch", {0, 255, 0}, "The weapon with serial number ^3"..tonumber(args[2]).."^0 belongs to "..owner[1].name)
-						else
-							TriggerClientEvent("chatMessage", source, "Dispatch", {0, 255, 0}, "The weapon with serial number ^3"..tonumber(args[2]).."^0 isn't registered!")
-						end
-					end)
+	if cops[source] then
+		if args[2] then
+			if args[1] == "p" or args[1] == "v" or args[1] == "vehicle" or args[1] == "person" then
+				if args[1] == "p" or args[1] == "person" then
+					if tonumber(args[2]) then
+						exports['GHMattiMySQL']:QueryResultAsync("SELECT CONCAT(characters.first_name, ' ', characters.last_name) AS 'name' FROM weapons INNER JOIN characters ON weapons.owner = characters.character_id WHERE id=@id", {["@id"] = tonumber(args[2])}, function(owner)
+							if owner[1] ~= nil then
+								TriggerClientEvent("chatMessage", source, "Dispatch", {0, 255, 0}, "The weapon with serial number ^3"..tonumber(args[2]).."^0 belongs to "..owner[1].name)
+							else
+								TriggerClientEvent("chatMessage", source, "Dispatch", {0, 255, 0}, "The weapon with serial number ^3"..tonumber(args[2]).."^0 isn't registered!")
+							end
+						end)
+					else
+						TriggerClientEvent("chatMessage", source, "Dispatch", {0, 255, 0}, "An unexpected error occured, please try again!")
+					end
 				else
-					TriggerClientEvent("chatMessage", source, "Dispatch", {0, 255, 0}, "An unexpected error occured, please try again!")
+					if tonumber(args[2]) then
+						exports['GHMattiMySQL']:QueryResultAsync("SELECT CONCAT(characters.first_name, ' ', characters.last_name) AS 'name' FROM vehicle_weapon_inventory INNER JOIN characters ON vehicle_weapon_inventory.owner = characters.character_id WHERE id=@id", {["@id"] = tonumber(args[2])}, function(owner)
+							if owner[1] ~= nil then
+								TriggerClientEvent("chatMessage", source, "Dispatch", {0, 255, 0}, "The weapon with serial number ^3"..tonumber(args[2]).."^0 belongs to "..owner[1].name)
+							else
+								TriggerClientEvent("chatMessage", source, "Dispatch", {0, 255, 0}, "The weapon with serial number ^3"..tonumber(args[2]).."^0 isn't registered!")
+							end
+						end)
+					else
+						TriggerClientEvent("chatMessage", source, "Dispatch", {0, 255, 0}, "An unexpected error occured, please try again!")
+					end
 				end
 			else
-				if tonumber(args[2]) then
-					exports['GHMattiMySQL']:QueryResultAsync("SELECT CONCAT(characters.first_name, ' ', characters.last_name) AS 'name' FROM vehicle_weapon_inventory INNER JOIN characters ON vehicle_weapon_inventory.owner = characters.character_id WHERE id=@id", {["@id"] = tonumber(args[2])}, function(owner)
-						if owner[1] ~= nil then
-							TriggerClientEvent("chatMessage", source, "Dispatch", {0, 255, 0}, "The weapon with serial number ^3"..tonumber(args[2]).."^0 belongs to "..owner[1].name)
-						else
-							TriggerClientEvent("chatMessage", source, "Dispatch", {0, 255, 0}, "The weapon with serial number ^3"..tonumber(args[2]).."^0 isn't registered!")
-						end
-					end)
-				else
-					TriggerClientEvent("chatMessage", source, "Dispatch", {0, 255, 0}, "An unexpected error occured, please try again!")
-				end
+				TriggerClientEvent("chatMessage", source, "Dispatch", {0, 255, 0}, "An unexpected error occured, please try again!")
 			end
-		else
-			TriggerClientEvent("chatMessage", source, "Dispatch", {0, 255, 0}, "An unexpected error occured, please try again!")
 		end
+	else 
+		Notify("You must be on duty to run plates!", 3100)	
 	end
 end, {help = "Run a weapon serial number", params = {{name = "location", help = "p | person | v | vehicle - Is the gun on a person or in a vehicle"},{name = "serial", help = "Serial number"}}})
 
