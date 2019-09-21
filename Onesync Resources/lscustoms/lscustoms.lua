@@ -325,7 +325,7 @@ local function DriveInGarage()
 		if liveryCount > 0 then
 			liveries = LSCMenu.categories:addSubMenu("LIVERIES 2", "Liveries 2", "A selection of decals for your vehicle.", true)
 			local liveryCost = LSC_Config.prices.liveries.startprice
-			for livery = 0, liveryCount do
+			for livery = 0, (liveryCount - 1) do
 				local liveryName = GetLiveryName(veh, livery)
 				local liveryLabel = GetLabelText(liveryName)
 				local btn = liveries:addPurchase((liveryLabel ~= "NULL") and liveryLabel or ("Livery #" .. livery), liveryCost)
