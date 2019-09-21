@@ -54,23 +54,23 @@ local function round(num, idp)
 end
 
 local function StartFade()
-	Citizen.CreateThread(function()
-		DoScreenFadeOut(0)
-		while IsScreenFadingOut() do
-			Citizen.Wait(0)
-		end
-	end)
+	--print("do screen fade out")
+	DoScreenFadeOut(500)
+	while not IsScreenFadedOut() do
+		--print("while is fading out")
+		Citizen.Wait(0)
+	end
 end
 local function EndFade()
-	Citizen.CreateThread(function()
-		ShutdownLoadingScreen()
-
+	--print("do screen fade in")
+	if IsScreenFadedOut() then
 		DoScreenFadeIn(500)
 
-		while IsScreenFadingIn() do
+		while not IsScreenFadedIn() do
+			--print("while is fading in")
 			Citizen.Wait(0)
 		end
-	end)
+	end
 end
 
 --Setup main menu
