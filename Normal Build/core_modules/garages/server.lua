@@ -350,70 +350,55 @@ end)
 
 RegisterServerEvent("garage:initialise")
 AddEventHandler("garage:initialise",function(source, identifier, character_id)
-    local FinancedVehicles = {}
-    exports["GHMattiMySQL"]:QueryResultAsync("SELECT * from vehicles WHERE character_id=@character_id", {["@character_id"] = character_id}, function(vehicles)
-        for k,v in pairs(vehicles) do
-            if v.escrowed == 1 then
-                table.remove(vehicles, k)
+    local src = source
+    local financedVehicles = {}
+    local removedKeys = {}
+    local table_remove = table.remove
+
+    exports["GHMattiMySQL"]:QueryResultAsync("SELECT * from vehicles WHERE character_id=@character_id AND vehicles.escrowed = 0", {["@character_id"] = character_id}, function(vehicles)
+        for i = 1, #vehicles do
+            if os.time() > (tonumber(vehicles[i].lastpayment) + (604800 * 3)) and vehicles[i].payedoff > 0 and vehicles[i].weeks > 0 then
+                exports["GHMattiMySQL"]:QueryAsync("UPDATE vehicles SET escrowed = 1 WHERE plate = @plate", {
+                    ["@plate"] = vehicles[i].plate,
+                })
+
+                removedKeys[#removedKeys + 1] = i
+
+                TriggerClientEvent("es_freeroam:notify", src, "CHAR_CARSITE", 1, "Legendary Motorsport", false, string.format("Your %s has been repoed. No refunds will be given with no exceptions.", vehicles[i].model))
             else
-                if os.time() > tonumber( v.lastpayment ) + (604800 * 3) and v.payedoff > 0 and v.weeks > 0 then
-                    exports["GHMattiMySQL"]:QueryAsync("UPDATE vehicles SET escrowed = @value WHERE (plate = @plate and character_id = @character_id)", {
-                        ["value"] = 1,
-                        ["@plate"] = v.plate,
-                        ["@character_id"] = character_id,
-                    })
-                    table.remove(vehicles, k)
-                    TriggerClientEvent("es_freeroam:notify", source, "CHAR_CARSITE", 1, "Legendary Motorsport", false, "Your "..v.model.." has been repoed. No refunds will be given with no exceptions.")
+                vehicles[i].plate = string.format("%X", tostring(v.plate))
+                vehicles[i].plate = strpad(v.plate, 8, "0", "STR_PAD_LEFT")
+                vehicles[i].neon_colour = json.decode(v.neon_colour)
+                vehicles[i].smoke_colour = json.decode(v.smoke_colour)
 
-                else
-                    v.plate = string.format("%X", tostring(v.plate))
-                    v.plate = strpad(v.plate, 8, "0", "STR_PAD_LEFT")
-                    v.neon_colour = json.decode(v.neon_colour)
-                    v.smoke_colour = json.decode(v.smoke_colour)
-                    if tonumber( v.nextpayment ) < os.time() and payedoff ~= 0 then
-                        table.insert(FinancedVehicles, v)
-                    end
+                if tonumber(vehicles[i].nextpayment) < os.time() and vehicles[i].payedoff ~= 0 then
+                    financedVehicles[#financedVehicles + 1] = vehicles[i]
                 end
             end
         end
-        TriggerClientEvent("garage:setvehicles", source, vehicles)
-        if #FinancedVehicles > 0 then
-            for k, v in pairs(FinancedVehicles) do
-                if os.time() > ( tonumber( v.lastpayment ) +  604800 ) and v.payedoff > 0 and v.weeks > 0 then
-                    TriggerClientEvent("es_freeroam:notify", source, "CHAR_CARSITE", 1, "Legendary Motorsport", false, "Payment is due for your "..v.model)
 
-                elseif os.time() > ( tonumber( v.lastpayment ) + ( 604800 * 2 ) ) and v.payedoff > 0 and v.weeks > 0 then
-                    TriggerClientEvent("es_freeroam:notify", source, "CHAR_CARSITE", 1, "Legendary Motorsport", false, "Two payments are due for your "..v.model.." if it is not payed in the next 7 days. The car will be repoed and you will be given no refunds, or exceptions")
+        for i = 1, #removedKeys do 
+            table_remove(vehicles, removedKeys[i])
+        end
+
+        removedKeys = {}
+
+        TriggerClientEvent("garage:setvehicles", src, vehicles)
+
+        if #financedVehicles > 0 then
+            for i = 1, #financedVehicles do
+                if os.time() > (tonumber(financedVehicles[i].lastpayment) + 604800) and financedVehicles[i].payedoff > 0 and financedVehicles[i].weeks > 0 then
+                    TriggerClientEvent("es_freeroam:notify", src, "CHAR_CARSITE", 1, "Legendary Motorsport", false, string.format("Payment is due for your %s", financedVehicles[i].model))
+
+                elseif os.time() > (tonumber( financedVehicles[i].lastpayment) + (604800 * 2)) and financedVehicles[i].payedoff > 0 and financedVehicles[i].weeks > 0 then
+                    TriggerClientEvent("es_freeroam:notify", src, "CHAR_CARSITE", 1, "Legendary Motorsport", false, string.format("Two payments are due for your %s if it is not payed in the next 7 days. The car will be repoed and you will be given no refunds, or exceptions", financedVehicles[i].model))
                 end
             end
         end
     end)
+
     exports["GHMattiMySQL"]:QueryResultAsync("SELECT * from garages WHERE character_id=@character_id", {["@character_id"] = character_id}, function(garages)
-        TriggerClientEvent("garage:setgarages", source, garages)
-    end)
-end)
-
-RegisterServerEvent("garage:reload")
-AddEventHandler("garage:reload",function(source)
-    local source = source
-    TriggerEvent('core:getuser', source, function(user)
-        if user ~= nil then
-            exports["GHMattiMySQL"]:QueryAsync("UPDATE vehicles SET state=@state WHERE character_id=@character_id", {
-                ["@identifier"] = user.get("steam"),
-                ["@character_id"] = user.get("characterID"),
-                ["@state"] = "~g~Stored",
-            })
-            exports["GHMattiMySQL"]:QueryResultAsync("SELECT * from vehicles WHERE character_id=@character_id", {["@character_id"] = user.get("characterID")}, function(vehicles)
-                for k,v in pairs(vehicles) do
-                    v.plate = string.format("%X", tostring(v.plate))
-                    v.plate = strpad(v.plate, 8, "0", "STR_PAD_LEFT")
-                end
-                TriggerClientEvent("garage:setvehicles", source, vehicles)
-            end)
-            exports["GHMattiMySQL"]:QueryResultAsync("SELECT * from garages WHERE character_id=@character_id", {["@character_id"] = user.get("characterID")}, function(garages)
-                TriggerClientEvent("garage:setgarages", source, garages)
-            end)
-        end
+        TriggerClientEvent("garage:setgarages", src, garages)
     end)
 end)
 
