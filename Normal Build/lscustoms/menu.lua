@@ -389,7 +389,7 @@ function Menu:draw()
 							DrawRect(x,  y, width, height,cfg.sbg_color.r,cfg.sbg_color.g,cfg.sbg_color.b,cfg.sbg_color.a)
 							if btn.sprite ~= nil then
 								if btn.sprite == "garage" then
-									DrawSprite("commonmenu", "shop_garage_icon_b", x + (width/2.4), y, scale/10 -0.01, scale/10 +0.01, 0.00,cfg.text_color.r,cfg.text_color.g,cfg.text_color.b,cfg.text_color.a)
+									DrawSprite("commonmenu", "shop_garage_icon_b", x + (width/2.3), y, 0.02083333333, 0.03703703703, 0.00,255,255,255,255)
 								end
 							elseif btn.price ~= nil then	
 								if btn.price == 0 then
@@ -402,9 +402,16 @@ function Menu:draw()
 									end
 								end
 							elseif btn.menu ~= nil then
-									DrawSprite("commonmenutu", "arrowright", x + (width/2.2), y, scale/14 -0.01, scale/19 +0.01, 0.00,cfg.stext_color.r,cfg.stext_color.g,cfg.stext_color.b,cfg.stext_color.a)
+								DrawSprite("commonmenu", "arrowright", x + (width/2.2), y, 0.015625, 0.02777777777, 0.00,0, 0, 0, 255)
 							end
 							if  IsControlJustReleased(1,self.config.controls.menu_select) or IsDisabledControlJustReleased(1,self.config.controls.menu_select) then
+								if btn.checkbox ~= nil then
+									btn.checkbox = not btn.checkbox
+									if self.onCheckboxChange ~= nil then
+										self:onCheckboxChange(btn.name,btn)
+									end
+								end
+
 								if self.onButtonSelected ~= nil then
 										self:onButtonSelected(btn.name,btn)
 								end
@@ -416,18 +423,12 @@ function Menu:draw()
 									self.currentmenu = btn.menu
 									lastselect = nil
 								end
-								if btn.checkbox ~= nil then
-									btn.checkbox = not btn.checkbox
-									if self.onCheckboxChange ~= nil then
-										self:onCheckboxChange(btn.name,btn.checkbox)
-									end
-								end
 							end
 							if btn.checkbox ~= nil then
 								if btn.checkbox then
-									DrawSprite("commonmenu", "shop_box_tickb", x + (width/2.3), y, scale/10, scale/10, 0.00,cfg.stext_color.r,cfg.stext_color.g,cfg.stext_color.b,cfg.stext_color.a)
+									DrawSprite("commonmenu", "shop_box_tickb", x + (width/2.3), y, 0.02604166666, 0.04629629629, 0.00,255,255,255,255)
 								else
-									DrawSprite("commonmenu", "shop_box_blankb",  x + (width/2.3), y, scale/10, scale/10, 0.00,cfg.stext_color.r,cfg.stext_color.g,cfg.stext_color.b,cfg.stext_color.a)
+									DrawSprite("commonmenu", "shop_box_blankb",  x + (width/2.3), y, 0.02604166666, 0.04629629629, 0.00,255,255,255,255)
 								end
 							end
 							if btn.list then
@@ -461,7 +462,7 @@ function Menu:draw()
 							DrawRect(x,  y, width, height,cfg.bg_color.r,cfg.bg_color.g,cfg.bg_color.b,cfg.bg_color.a)
 							if btn.sprite ~= nil then
 								if btn.sprite == "garage" then
-									DrawSprite("commonmenu", "shop_garage_icon_a", x + (width/2.4), y, scale/10 -0.01, scale/10 +0.01, 0.00,cfg.text_color.r,cfg.text_color.g,cfg.text_color.b,cfg.text_color.a)
+									DrawSprite("commonmenu", "shop_garage_icon_a", x + (width/2.3), y, 0.02083333333, 0.03703703703, 0.00,255,255,255,255)
 								end
 							elseif btn.price ~= nil then
 								if btn.price ~= 0 then
@@ -472,13 +473,13 @@ function Menu:draw()
 									end
 								end
 							elseif btn.menu ~= nil then
-									DrawSprite("commonmenu", "arrowright", x + (width/2.2), y, scale/14 -0.01, scale/19 +0.01, 0.00,cfg.text_color.r,cfg.text_color.g,cfg.text_color.b,cfg.text_color.a)
+								DrawSprite("commonmenu", "arrowright", x + (width/2.2), y, 0.015625, 0.02777777777, 0.00,255,255,255,255)
 							end
 							if btn.checkbox ~= nil then
 								if btn.checkbox then
-									DrawSprite("commonmenu", "shop_box_tick", x + (width/2.3), y, scale/10, scale/10, 0.00,cfg.text_color.r,cfg.text_color.g,cfg.text_color.b,cfg.text_color.a)
+									DrawSprite("commonmenu", "shop_box_tick", x + (width/2.3), y,  0.02604166666, 0.04629629629, 0.00,255,255,255,255)
 								else
-									DrawSprite("commonmenu", "shop_box_blank",  x + (width/2.3), y, scale/10, scale/10, 0.00,cfg.text_color.r,cfg.text_color.g,cfg.text_color.b,cfg.text_color.a)
+									DrawSprite("commonmenu", "shop_box_blank",  x + (width/2.3), y,  0.02604166666, 0.04629629629, 0.00,255,255,255,255)
 								end
 							end
 						end
@@ -489,7 +490,7 @@ function Menu:draw()
 				end
 				if tablelength(buttons) > menu.maxbuttons then
 					DrawRect(x,  y, width, height,cfg.bg_color.r,cfg.bg_color.g,cfg.bg_color.b,255)
-					DrawSprite("commonmenu", "shop_arrows_upanddown", x , y, scale/13, scale/9, 0.00,cfg.text_color.r,cfg.text_color.g,cfg.text_color.b,cfg.text_color.a)
+					DrawSprite("commonmenu", "shop_arrows_upanddown", x , y, 0.02604166666, 0.04629629629, 0.00,cfg.text_color.r,cfg.text_color.g,cfg.text_color.b,cfg.text_color.a)
 					y = y + height
 					ty = y - height/2.8
 				end

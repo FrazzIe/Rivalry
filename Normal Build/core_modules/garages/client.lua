@@ -1119,6 +1119,14 @@ function StoreVehicle()
 
                             data["mod48"] = GetVehicleMod(veh, 48)
 
+                            for i = 1, 15 do
+                                if DoesExtraExist(veh, i-1) then
+                                    data["extra"..i] = IsVehicleExtraTurnedOn(veh, i-1) and true or false
+                                else
+                                    data["extra"..i] = false
+                                end
+                            end
+
                             TriggerServerEvent("garage:stored", data)
                             Citizen.InvokeNative(0xEA386986E786A54F, Citizen.PointerValueIntInitialized(veh))
                             exports.pNotify:SendNotification({text = "Vehicle stored", type = "success", queue = "left", timeout = 3000, layout = "centerRight"})
@@ -1174,6 +1182,15 @@ function StoreVehicle()
                             end
 
                             data["mod48"] = GetVehicleMod(veh, 48)
+
+                            for i = 1, 15 do
+                                if DoesExtraExist(veh, i-1) then
+                                    data["extra"..i] = IsVehicleExtraTurnedOn(veh, i-1) and true or false
+                                else
+                                    data["extra"..i] = false
+                                end
+                            end
+                            
                             TriggerServerEvent("garage:stored", data)
                             Citizen.InvokeNative(0xEA386986E786A54F, Citizen.PointerValueIntInitialized(veh))
                             exports.pNotify:SendNotification({text = "Vehicle stored", type = "success", queue = "left", timeout = 3000, layout = "centerRight"})
@@ -1236,6 +1253,12 @@ function SpawnVehicle(data, index)
                 SetVehicleMod(veh, 48, tonumber(data.mod48))
 
                 SetVehicleLivery(veh, data.livery)
+
+                for i = 1, 15 do
+                    if DoesExtraExist(veh, i-1) and data["extra"..i] then
+                        SetVehicleExtra(veh, i-1, not data["extra"..i])
+                    end
+                end
 
                 if data.turbo == "on" then
                     ToggleVehicleMod(veh, 18, true)
@@ -1353,6 +1376,12 @@ function SpawnReplacement(data, index)
 
             SetVehicleLivery(veh, data.livery)
 
+            for i = 1, 15 do
+                if DoesExtraExist(veh, i-1) and data["extra"..i] then
+                    SetVehicleExtra(veh, i-1, not data["extra"..i])
+                end
+            end
+            
             if data.turbo == "on" then
                 ToggleVehicleMod(veh, 18, true)
             else

@@ -441,6 +441,12 @@ AddEventHandler("carshop:bought",function(data)
             SetVehicleMod(veh, 48, tonumber(data.mod48))
 
             SetVehicleLivery(veh, data.livery)
+
+            for i = 1, 15 do
+                if DoesExtraExist(veh, i-1) and data["extra"..i] then
+                    SetVehicleExtra(veh, i-1, not data["extra"..i])
+                end
+            end
             
             if data.turbo == "on" then
                 ToggleVehicleMod(veh, 18, true)
@@ -787,6 +793,14 @@ Citizen.CreateThread(function()
                                         end
 
                                         data["mod48"] = GetVehicleMod(veh, 48)
+
+                                        for i = 1, 15 do
+                                            if DoesExtraExist(veh, i-1) then
+                                                data["extra"..i] = IsVehicleExtraTurnedOn(veh, i-1) and true or false
+                                            else
+                                                data["extra"..i] = false
+                                            end
+                                        end
 
                                         TriggerServerEvent("carshop:buy", data)
                                     else

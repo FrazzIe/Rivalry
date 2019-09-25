@@ -362,6 +362,11 @@ AddEventHandler("carshop:buy",function(data)
     TriggerEvent('core:getuser', source, function(user)
         if tonumber(user.get("wallet")) >= tonumber(cars[data.model]) then
             user.removeWallet(cars[data.model])
+            local _data = {}
+
+            for i = 1, 15 do
+                _data["extra"..i] = (data["extra"..i] == true) and 1 or 0
+            end
             exports["GHMattiMySQL"]:Insert("vehicles", {
                 {
                     ["character_id"] = user.get("characterID"),
@@ -440,6 +445,21 @@ AddEventHandler("carshop:buy",function(data)
                     ["claims"] = data.claims,
                     ["fuel"] = data.fuel,
                     ["livery"] = data.livery,
+                    ["extra1"] = _data.extra1,
+                    ["extra2"] = _data.extra2,
+                    ["extra3"] = _data.extra3,
+                    ["extra4"] = _data.extra4,
+                    ["extra5"] = _data.extra5,
+                    ["extra6"] = _data.extra6,
+                    ["extra7"] = _data.extra7,
+                    ["extra8"] = _data.extra8,
+                    ["extra9"] = _data.extra9,
+                    ["extra10"] = _data.extra10,
+                    ["extra11"] = _data.extra11,
+                    ["extra12"] = _data.extra12,
+                    ["extra13"] = _data.extra13,
+                    ["extra14"] = _data.extra14,
+                    ["extra15"] = _data.extra15,
                 }
             }, function(plate)
                 data.cost = cars[data.model]/2
@@ -451,6 +471,11 @@ AddEventHandler("carshop:buy",function(data)
             end, true)
         elseif tonumber(user.get("bank")) >= tonumber(cars[data.model]) then
             user.removeBank(cars[data.model])
+            local _data = {}
+
+            for i = 1, 15 do
+                _data["extra"..i] = (data["extra"..i] == true) and 1 or 0
+            end
             exports["GHMattiMySQL"]:Insert("vehicles", {
                 {
                     ["character_id"] = user.get("characterID"),
@@ -529,6 +554,21 @@ AddEventHandler("carshop:buy",function(data)
                     ["claims"] = data.claims,
                     ["fuel"] = data.fuel,
                     ["livery"] = data.livery,
+                    ["extra1"] = _data.extra1,
+                    ["extra2"] = _data.extra2,
+                    ["extra3"] = _data.extra3,
+                    ["extra4"] = _data.extra4,
+                    ["extra5"] = _data.extra5,
+                    ["extra6"] = _data.extra6,
+                    ["extra7"] = _data.extra7,
+                    ["extra8"] = _data.extra8,
+                    ["extra9"] = _data.extra9,
+                    ["extra10"] = _data.extra10,
+                    ["extra11"] = _data.extra11,
+                    ["extra12"] = _data.extra12,
+                    ["extra13"] = _data.extra13,
+                    ["extra14"] = _data.extra14,
+                    ["extra15"] = _data.extra15,
                 }
             }, function(plate)
                 data.cost = cars[data.model]/2

@@ -366,11 +366,15 @@ AddEventHandler("garage:initialise",function(source, identifier, character_id)
 
                 TriggerClientEvent("es_freeroam:notify", src, "CHAR_CARSITE", 1, "Legendary Motorsport", false, string.format("Your %s has been repoed. No refunds will be given with no exceptions.", vehicles[i].model))
             else
-                vehicles[i].plate = string.format("%X", tostring(v.plate))
-                vehicles[i].plate = strpad(v.plate, 8, "0", "STR_PAD_LEFT")
-                vehicles[i].neon_colour = json.decode(v.neon_colour)
-                vehicles[i].smoke_colour = json.decode(v.smoke_colour)
+                vehicles[i].plate = string.format("%X", tostring(vehicles[i].plate))
+                vehicles[i].plate = strpad(vehicles[i].plate, 8, "0", "STR_PAD_LEFT")
+                vehicles[i].neon_colour = json.decode(vehicles[i].neon_colour)
+                vehicles[i].smoke_colour = json.decode(vehicles[i].smoke_colour)
 
+                for j = 1, 15 do
+                    vehicles[i]["extra"..j] = (vehicles[i]["extra"..j] == 1 or vehicles[i]["extra"..j] == true) and true or false
+                end
+                
                 if tonumber(vehicles[i].nextpayment) < os.time() and vehicles[i].payedoff ~= 0 then
                     financedVehicles[#financedVehicles + 1] = vehicles[i]
                 end
@@ -608,7 +612,13 @@ end
 
 function updateCar(source, data)
     TriggerEvent("core:getuser", source, function(user)
-        exports["GHMattiMySQL"]:QueryAsync("UPDATE vehicles SET garage_id=@garage_id, instance=@instance, state=@state, primary_colour=@primary_colour, secondary_colour=@secondary_colour, pearlescent_colour=@pearlescent_colour, wheel_colour=@wheel_colour, smoke_colour=@smoke_colour, plate_colour=@plate_colour, neon_colour=@neon_colour, tint_colour=@tint_colour, mod0=@mod0, mod1=@mod1, mod2=@mod2, mod3=@mod3, mod4=@mod4, mod5=@mod5, mod6=@mod6, mod7=@mod7, mod8=@mod8, mod10=@mod10, mod11=@mod11, mod12=@mod12, mod13=@mod13, mod14=@mod14, mod15=@mod15, mod16=@mod16, mod23=@mod23, mod24=@mod24, mod25=@mod25, mod26=@mod26, mod27=@mod27, mod28=@mod28, mod29=@mod29, mod30=@mod30, mod31=@mod31, mod32=@mod32, mod33=@mod33, mod34=@mod34, mod35=@mod35, mod36=@mod36, mod37=@mod37, mod38=@mod38, mod39=@mod39, mod40=@mod40, mod41=@mod41, mod42=@mod42, mod43=@mod43, mod44=@mod44, mod45=@mod45, mod46=@mod46, mod48=@mod48, tyre_smoke=@tyre_smoke, xenon_lights=@xenon_lights, turbo=@turbo, custom_wheels=@custom_wheels, custom_wheels2=@custom_wheels2, bulletproof_wheels=@bulletproof_wheels, wheeltype=@wheeltype, neon0=@neon0, neon1=@neon1, neon2=@neon2, neon3=@neon3, engine_health=@engine_health, petrol_health=@petrol_health, vehicle_health=@vehicle_health, insurance=@insurance, livery=@livery WHERE (character_id = @character_id) AND (plate = @plate)", { 
+        local _data = {}
+
+        for i = 1, 15 do
+            _data["extra"..i] = (data["extra"..i] == true) and 1 or 0
+        end
+
+        exports["GHMattiMySQL"]:QueryAsync("UPDATE vehicles SET garage_id=@garage_id, instance=@instance, state=@state, primary_colour=@primary_colour, secondary_colour=@secondary_colour, pearlescent_colour=@pearlescent_colour, wheel_colour=@wheel_colour, smoke_colour=@smoke_colour, plate_colour=@plate_colour, neon_colour=@neon_colour, tint_colour=@tint_colour, mod0=@mod0, mod1=@mod1, mod2=@mod2, mod3=@mod3, mod4=@mod4, mod5=@mod5, mod6=@mod6, mod7=@mod7, mod8=@mod8, mod10=@mod10, mod11=@mod11, mod12=@mod12, mod13=@mod13, mod14=@mod14, mod15=@mod15, mod16=@mod16, mod23=@mod23, mod24=@mod24, mod25=@mod25, mod26=@mod26, mod27=@mod27, mod28=@mod28, mod29=@mod29, mod30=@mod30, mod31=@mod31, mod32=@mod32, mod33=@mod33, mod34=@mod34, mod35=@mod35, mod36=@mod36, mod37=@mod37, mod38=@mod38, mod39=@mod39, mod40=@mod40, mod41=@mod41, mod42=@mod42, mod43=@mod43, mod44=@mod44, mod45=@mod45, mod46=@mod46, mod48=@mod48, tyre_smoke=@tyre_smoke, xenon_lights=@xenon_lights, turbo=@turbo, custom_wheels=@custom_wheels, custom_wheels2=@custom_wheels2, bulletproof_wheels=@bulletproof_wheels, wheeltype=@wheeltype, neon0=@neon0, neon1=@neon1, neon2=@neon2, neon3=@neon3, engine_health=@engine_health, petrol_health=@petrol_health, vehicle_health=@vehicle_health, insurance=@insurance, livery=@livery, extra1 = @extra1, extra2 = @extra2, extra3 = @extra3, extra4 = @extra4, extra5 = @extra5, extra6 = @extra6, extra7 = @extra7, extra8 = @extra8, extra9 = @extra9, extra10 = @extra10, extra11 = @extra11, extra12 = @extra12, extra13 = @extra13, extra14 = @extra14, extra15 = @extra15 WHERE (character_id = @character_id) AND (plate = @plate)", { 
             ["@character_id"] = user.get("characterID"),
             ["@garage_id"] = data.garage_id,
             ["@model"] = data.model,
@@ -685,6 +695,21 @@ function updateCar(source, data)
             ["@claims"] = data.claims,
             ["@fuel"] = data.fuel,
             ["@livery"] = data.livery,
+            ["@extra1"] = _data.extra1,
+            ["@extra2"] = _data.extra2,
+            ["@extra3"] = _data.extra3,
+            ["@extra4"] = _data.extra4,
+            ["@extra5"] = _data.extra5,
+            ["@extra6"] = _data.extra6,
+            ["@extra7"] = _data.extra7,
+            ["@extra8"] = _data.extra8,
+            ["@extra9"] = _data.extra9,
+            ["@extra10"] = _data.extra10,
+            ["@extra11"] = _data.extra11,
+            ["@extra12"] = _data.extra12,
+            ["@extra13"] = _data.extra13,
+            ["@extra14"] = _data.extra14,
+            ["@extra15"] = _data.extra15,
         })
     end)
 end

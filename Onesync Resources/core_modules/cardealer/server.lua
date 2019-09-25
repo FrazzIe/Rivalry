@@ -147,6 +147,13 @@ RegisterServerEvent("Spawn.PoliceCar")
 AddEventHandler("Spawn.PoliceCar", function(DataTable, Vehicle)
     local Source = source
     local data = DataTable
+
+    local _data = {}
+
+    for i = 1, 15 do
+        _data["extra"..i] = (data["extra"..i] == true) and 1 or 0
+    end
+
     TriggerEvent("core:getuser", Source, function(User)
         exports["GHMattiMySQL"]:Insert("vehicles", {
             {
@@ -230,6 +237,21 @@ AddEventHandler("Spawn.PoliceCar", function(DataTable, Vehicle)
                 ["payedoff"] = 0,
                 ["police"] = 1,
                 ["livery"] = data.livery,
+                ["extra1"] = _data.extra1,
+                ["extra2"] = _data.extra2,
+                ["extra3"] = _data.extra3,
+                ["extra4"] = _data.extra4,
+                ["extra5"] = _data.extra5,
+                ["extra6"] = _data.extra6,
+                ["extra7"] = _data.extra7,
+                ["extra8"] = _data.extra8,
+                ["extra9"] = _data.extra9,
+                ["extra10"] = _data.extra10,
+                ["extra11"] = _data.extra11,
+                ["extra12"] = _data.extra12,
+                ["extra13"] = _data.extra13,
+                ["extra14"] = _data.extra14,
+                ["extra15"] = _data.extra15,
             }
         }, function(plate)
             data.plate = plate
@@ -247,6 +269,13 @@ AddEventHandler("CarDealer.BuyCar", function(Type, Index, GarageID, Reduction)
     local Source = source
     TriggerEvent("core:getuser", Source, function(User)
         local data = DisplayedVehicles[Index].Data
+
+        local _data = {}
+
+        for i = 1, 15 do
+            _data["extra"..i] = (data["extra"..i] == true) and 1 or 0
+        end
+        
         if Type == 0 then
             if tonumber(User.get("wallet")) >= tonumber(DisplayedVehicles[Index].Price) then
                 User.removeWallet(DisplayedVehicles[Index].Price)
@@ -331,6 +360,21 @@ AddEventHandler("CarDealer.BuyCar", function(Type, Index, GarageID, Reduction)
                         ["intrest"] = DisplayedVehicles[Index].Intrest,
                         ["payedoff"] = 0,
                         ["livery"] = data.livery,
+                        ["extra1"] = _data.extra1,
+                        ["extra2"] = _data.extra2,
+                        ["extra3"] = _data.extra3,
+                        ["extra4"] = _data.extra4,
+                        ["extra5"] = _data.extra5,
+                        ["extra6"] = _data.extra6,
+                        ["extra7"] = _data.extra7,
+                        ["extra8"] = _data.extra8,
+                        ["extra9"] = _data.extra9,
+                        ["extra10"] = _data.extra10,
+                        ["extra11"] = _data.extra11,
+                        ["extra12"] = _data.extra12,
+                        ["extra13"] = _data.extra13,
+                        ["extra14"] = _data.extra14,
+                        ["extra15"] = _data.extra15,
                     }
                 }, function(plate)
                     data.plate = plate
@@ -424,6 +468,21 @@ AddEventHandler("CarDealer.BuyCar", function(Type, Index, GarageID, Reduction)
                         ["intrest"] = DisplayedVehicles[Index].Intrest,
                         ["payedoff"] = 0,
                         ["livery"] = data.livery,
+                        ["extra1"] = _data.extra1,
+                        ["extra2"] = _data.extra2,
+                        ["extra3"] = _data.extra3,
+                        ["extra4"] = _data.extra4,
+                        ["extra5"] = _data.extra5,
+                        ["extra6"] = _data.extra6,
+                        ["extra7"] = _data.extra7,
+                        ["extra8"] = _data.extra8,
+                        ["extra9"] = _data.extra9,
+                        ["extra10"] = _data.extra10,
+                        ["extra11"] = _data.extra11,
+                        ["extra12"] = _data.extra12,
+                        ["extra13"] = _data.extra13,
+                        ["extra14"] = _data.extra14,
+                        ["extra15"] = _data.extra15,
                     }
                 }, function(plate)
                     data.plate = plate
@@ -541,6 +600,21 @@ AddEventHandler("CarDealer.BuyCar", function(Type, Index, GarageID, Reduction)
                         ["lastpayment"] = tostring(os.time()),
                         ["nextpayment"] = tostring(os.time() + 604800),
                         ["livery"] = data.livery,
+                        ["extra1"] = _data.extra1,
+                        ["extra2"] = _data.extra2,
+                        ["extra3"] = _data.extra3,
+                        ["extra4"] = _data.extra4,
+                        ["extra5"] = _data.extra5,
+                        ["extra6"] = _data.extra6,
+                        ["extra7"] = _data.extra7,
+                        ["extra8"] = _data.extra8,
+                        ["extra9"] = _data.extra9,
+                        ["extra10"] = _data.extra10,
+                        ["extra11"] = _data.extra11,
+                        ["extra12"] = _data.extra12,
+                        ["extra13"] = _data.extra13,
+                        ["extra14"] = _data.extra14,
+                        ["extra15"] = _data.extra15,
                     }
                 }, function(plate)
                     data.cost = MonthlyPayment
@@ -637,6 +711,21 @@ AddEventHandler("CarDealer.BuyCar", function(Type, Index, GarageID, Reduction)
                         ["lastpayment"] = tostring(os.time()),
                         ["nextpayment"] = tostring(os.time() + 604800),
                         ["livery"] = data.livery,
+                        ["extra1"] = _data.extra1,
+                        ["extra2"] = _data.extra2,
+                        ["extra3"] = _data.extra3,
+                        ["extra4"] = _data.extra4,
+                        ["extra5"] = _data.extra5,
+                        ["extra6"] = _data.extra6,
+                        ["extra7"] = _data.extra7,
+                        ["extra8"] = _data.extra8,
+                        ["extra9"] = _data.extra9,
+                        ["extra10"] = _data.extra10,
+                        ["extra11"] = _data.extra11,
+                        ["extra12"] = _data.extra12,
+                        ["extra13"] = _data.extra13,
+                        ["extra14"] = _data.extra14,
+                        ["extra15"] = _data.extra15,
                     }
                 }, function(plate)
                     data.cost = MonthlyPayment

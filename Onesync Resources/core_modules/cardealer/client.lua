@@ -144,6 +144,12 @@ AddEventHandler("carshop:bought",function(data, NetworkID)
 
 			SetVehicleLivery(veh, data.livery)
 
+			for i = 1, 15 do
+				if DoesExtraExist(veh, i-1) and data["extra"..i] then
+					SetVehicleExtra(veh, i-1, not data["extra"..i])
+				end
+			end
+			
             if data.turbo == "on" then
                 ToggleVehicleMod(veh, 18, true)
             else
@@ -489,6 +495,15 @@ Citizen.CreateThread(function()
 							end
 
 							data["mod48"] = GetVehicleMod(Vehicle, 48)
+
+                            for i = 1, 15 do
+                                if DoesExtraExist(veh, i-1) then
+                                    data["extra"..i] = IsVehicleExtraTurnedOn(veh, i-1) and true or false
+                                else
+                                    data["extra"..i] = false
+                                end
+                            end
+							
 							--DecorSetBool(Vehicle, "_Is_DealerShip_Car", true)
 							--DecorSetBool(Vehicle, "_Is_CarDealer_Car", true)
 							TriggerServerEvent("Spawn.DisplayVehicle", {Model = j.model, Entity = NetworkGetNetworkIdFromEntity(Vehicle), Data = data, Price = 0, Intrest = 0, Weeks = 0, CashDown = 0, DealerText = "", Seller = GetPlayerServerId(PlayerId())})

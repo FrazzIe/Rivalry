@@ -213,10 +213,18 @@ local function DriveInGarage()
 		myveh.neoncolor = table.pack(GetVehicleNeonLightsColour(veh))
 		myveh.smokecolor = table.pack(GetVehicleTyreSmokeColor(veh))
 		myveh.plateindex = GetVehicleNumberPlateTextIndex(veh)
+		myveh.extras = {}
 		myveh.mods = {}
 		myveh.livery = GetVehicleLivery(veh)
 		for i = 0, 48 do
 			myveh.mods[i] = {mod = nil}
+		end
+		for i = 0, 14 do
+			if DoesExtraExist(veh, i) then
+				myveh.extras[#myveh.extras + 1] = IsVehicleExtraTurnedOn(veh, i) and true or false
+			else
+				myveh.extras[#myveh.extras + 1] = false
+			end
 		end
 		for i,t in pairs(myveh.mods) do 
 			if i == 22 or i == 18 then
@@ -333,7 +341,24 @@ local function DriveInGarage()
 				liveryCost = liveryCost + LSC_Config.prices.liveries.increaseby
 			end
 		end
-		
+
+		local _extras = {}
+
+		for i = 0, 14 do			
+			if DoesExtraExist(veh, i) then
+				_extras[#_extras + 1] = i
+			end
+		end
+
+		if #_extras > 0 then
+			extras = LSCMenu.categories:addSubMenu("EXTRAS", "Extras", "A selection of extra parts for your vehicle.", true)
+			
+			for i = 1, #_extras do
+				local btn = extras:addCheckbox("Extra #" .. i, IsVehicleExtraTurnedOn(veh, _extras[i]) and true or false)
+				btn.extra = _extras[i]
+			end
+		end
+
 		if bumper then
 			LSCMenu.categories:addSubMenu("BUMPERS", "Bumpers", "Custom front and rear bumpers.",true)
 			if fbumper then
@@ -857,6 +882,11 @@ AddEventHandler("LSC:buttonSelected", function(name, button, canpurchase)
 	
 	mname = m.name:lower()
 
+	if mname == "extras" and button.extra then
+		myveh.extras[button.extra + 1] = button.checkbox
+		SetVehicleExtra(veh, button.extra, not button.checkbox)
+	end
+	
 	if mname == "liveries 2" then
 		if button.purchased or CanPurchase(price, canpurchase) then
 			myveh.livery = button.livery
