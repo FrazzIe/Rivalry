@@ -1103,6 +1103,7 @@ function StoreVehicle()
                                 claims = user_vehicles[i].claims,
                                 fuel = DecorGetFloat(veh, "_Fuel_Level"),
                                 livery = GetVehicleLivery(veh),
+                                headlight_colour = GetVehicleHeadlightsColour(veh),
                             }
 
                             for i = 0, 8 do
@@ -1167,6 +1168,7 @@ function StoreVehicle()
                                 claims = user_vehicles[i].claims,
                                 fuel = DecorGetFloat(veh, "_Fuel_Level"),
                                 livery = GetVehicleLivery(veh),
+                                headlight_colour = GetVehicleHeadlightsColour(veh),
                             }
 
                             for i = 0, 8 do
@@ -1320,6 +1322,7 @@ function SpawnVehicle(data, index)
                     SetVehicleTyresCanBurst(veh, true)
                 end
 
+                SetVehicleHeadlightsColour(veh, data.headlight_colour)
                 SetVehicleWindowTint(veh, tonumber(data.tint_colour))
 
                 TaskWarpPedIntoVehicle(GetPlayerPed(-1),veh,-1)
@@ -1442,6 +1445,7 @@ function SpawnReplacement(data, index)
                 SetVehicleTyresCanBurst(veh, true)
             end
 
+            SetVehicleHeadlightsColour(veh, data.headlight_colour)
             SetVehicleWindowTint(veh, tonumber(data.tint_colour))
 
             TaskWarpPedIntoVehicle(PlayerPedId(),veh,-1)

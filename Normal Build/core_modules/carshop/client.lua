@@ -508,6 +508,7 @@ AddEventHandler("carshop:bought",function(data)
                 SetVehicleTyresCanBurst(veh, true)
             end
 
+            SetVehicleHeadlightsColour(veh, data.headlight_colour)
             SetVehicleWindowTint(veh, tonumber(data.tint_colour))
             TaskWarpPedIntoVehicle(PlayerPedId(),veh,-1)
             SetEntityInvincible(veh, false)
@@ -778,6 +779,7 @@ Citizen.CreateThread(function()
                                             claims = 1,
                                             fuel = DecorGetFloat(veh, "_Fuel_Level"),
                                             livery = GetVehicleLivery(veh),
+                                            headlight_colour = GetVehicleHeadlightsColour(veh),
                                         }
 
                                         for i = 0, 8 do

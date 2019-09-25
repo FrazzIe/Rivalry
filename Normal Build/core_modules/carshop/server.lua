@@ -460,6 +460,7 @@ AddEventHandler("carshop:buy",function(data)
                     ["extra13"] = _data.extra13,
                     ["extra14"] = _data.extra14,
                     ["extra15"] = _data.extra15,
+                    ["headlight_colour"] = data.headlight_colour,
                 }
             }, function(plate)
                 data.cost = cars[data.model]/2
@@ -569,6 +570,7 @@ AddEventHandler("carshop:buy",function(data)
                     ["extra13"] = _data.extra13,
                     ["extra14"] = _data.extra14,
                     ["extra15"] = _data.extra15,
+                    ["headlight_colour"] = data.headlight_colour,
                 }
             }, function(plate)
                 data.cost = cars[data.model]/2

@@ -210,6 +210,7 @@ AddEventHandler("carshop:bought",function(data, NetworkID)
                 SetVehicleTyresCanBurst(veh, true)
             end
 
+			SetVehicleHeadlightsColour(veh, data.headlight_colour)
             SetVehicleWindowTint(veh, tonumber(data.tint_colour))
         end
 	end)
@@ -480,6 +481,7 @@ Citizen.CreateThread(function()
 								claims = 1,
 								fuel = 100,
 								livery = GetVehicleLivery(Vehicle),
+								headlight_colour = GetVehicleHeadlightsColour(Vehicle)
 							}
 
 							for i = 0, 8 do

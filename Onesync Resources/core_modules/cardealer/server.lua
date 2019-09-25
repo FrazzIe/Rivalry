@@ -252,6 +252,7 @@ AddEventHandler("Spawn.PoliceCar", function(DataTable, Vehicle)
                 ["extra13"] = _data.extra13,
                 ["extra14"] = _data.extra14,
                 ["extra15"] = _data.extra15,
+                ["headlight_colour"] = data.headlight_colour,
             }
         }, function(plate)
             data.plate = plate
@@ -375,6 +376,7 @@ AddEventHandler("CarDealer.BuyCar", function(Type, Index, GarageID, Reduction)
                         ["extra13"] = _data.extra13,
                         ["extra14"] = _data.extra14,
                         ["extra15"] = _data.extra15,
+                        ["headlight_colour"] = data.headlight_colour,
                     }
                 }, function(plate)
                     data.plate = plate
@@ -483,6 +485,7 @@ AddEventHandler("CarDealer.BuyCar", function(Type, Index, GarageID, Reduction)
                         ["extra13"] = _data.extra13,
                         ["extra14"] = _data.extra14,
                         ["extra15"] = _data.extra15,
+                        ["headlight_colour"] = data.headlight_colour,
                     }
                 }, function(plate)
                     data.plate = plate
@@ -615,6 +618,7 @@ AddEventHandler("CarDealer.BuyCar", function(Type, Index, GarageID, Reduction)
                         ["extra13"] = _data.extra13,
                         ["extra14"] = _data.extra14,
                         ["extra15"] = _data.extra15,
+                        ["headlight_colour"] = data.headlight_colour,
                     }
                 }, function(plate)
                     data.cost = MonthlyPayment
@@ -726,6 +730,7 @@ AddEventHandler("CarDealer.BuyCar", function(Type, Index, GarageID, Reduction)
                         ["extra13"] = _data.extra13,
                         ["extra14"] = _data.extra14,
                         ["extra15"] = _data.extra15,
+                        ["headlight_colour"] = data.headlight_colour,
                     }
                 }, function(plate)
                     data.cost = MonthlyPayment

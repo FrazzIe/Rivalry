@@ -94,18 +94,26 @@ local function AddMod(mod,parent,header,name,info,stock)
 				local lbl = GetModTextLabel(veh,mod,i)
 				if lbl ~= nil then
 					local mname = tostring(GetLabelText(lbl))
-					if mname ~= "NULL" then
-						local btn = m:addPurchase(mname,price)
-						btn.modtype = mod
-						btn.mod = i
-						price = price + LSC_Config.prices.mods[mod].increaseby
-					end
+					local btn = m:addPurchase((mname ~= "NULL") and mname or ("Option #"..i),price)
+					btn.modtype = mod
+					btn.mod = i
+					price = price + LSC_Config.prices.mods[mod].increaseby
+
 				end
 			end		
 		else
 			for n, v in pairs(LSC_Config.prices.mods[mod]) do
 				btn = m:addPurchase(v.name,v.price)btn.modtype = mod
 				btn.mod = v.mod
+			end
+
+			if mod == 22 then
+				lightcolors = m:addSubMenu("HEADLIGHT COLOR", "Headlight Color", "Colored headlights, Xenon Lights only!", true)
+
+				for i = 1, #LSC_Config.prices.lightcolor.colors do 
+					local btn = lightcolors:addPurchase(LSC_Config.prices.lightcolor.colors[i].name, LSC_Config.prices.lightcolor.price)
+					btn.colorindex = LSC_Config.prices.lightcolor.colors[i].colorindex
+				end
 			end
 		end
 	end
@@ -216,6 +224,7 @@ local function DriveInGarage()
 		myveh.extras = {}
 		myveh.mods = {}
 		myveh.livery = GetVehicleLivery(veh)
+		myveh.lightcolor = GetVehicleHeadlightsColour(veh)
 		for i = 0, 48 do
 			myveh.mods[i] = {mod = nil}
 		end
@@ -815,6 +824,10 @@ function LSCMenu:onSelectedIndexChanged(name, button)
 		SetVehicleLivery(veh, button.livery)
 	end
 
+	if m == "headlight color" then
+		SetVehicleHeadlightsColour(veh, button.colorindex)
+	end
+
 	--set up temporary shitt, or in other words show preview of selected mod
 	if m == "chrome" or m ==  "classic" or m ==  "matte" or m ==  "metals" then
 		if p == "primary color" then
@@ -943,6 +956,11 @@ AddEventHandler("LSC:buttonSelected", function(name, button, canpurchase)
 		if button.name == "None" or button.name == "Stock Lights" or button.purchased or CanPurchase(price, canpurchase) then
 			myveh.mods[button.modtype].mod = button.mod
 			ToggleVehicleMod(veh, button.modtype, button.mod)
+		end
+	elseif mname == "headlight color" then
+		if button.name == "Default" or button.purchased or CanPurchase(price, canpurchase) then
+			myveh.lightcolor = button.colorindex
+			SetVehicleHeadlightsColour(veh, button.colorindex)
 		end
 	elseif mname == "neon layout" then
 		if button.name == "None"  then
@@ -1197,6 +1215,18 @@ end
 --Bunch of checks
 function CheckPurchases(m)
 	name = m.name:lower()
+	
+	if name == "headlight color" and m.parent == "Headlights" then
+		for i,b in pairs(m.buttons) do
+			if b.purchased and b.colorindex ~= myveh.lightcolor then
+				if b.purchased ~= nil then b.purchased = false end
+				b.sprite = nil
+			elseif b.purchased == false and b.colorindex == myveh.lightcolor then
+				if b.purchased ~= nil then b.purchased = true end
+				b.sprite = "garage"
+			end
+		end
+	end
 
 	if name == "liveries 2" then
 		for i,b in pairs(m.buttons) do
@@ -1401,10 +1431,12 @@ function CheckPurchases(m)
 		end
 	elseif name == "tank" or name == "ornaments" or name == "arch cover" or name == "aerials" or name == "roof scoops" or name == "doors" or name == "roll cage" or name == "engine block" or name == "cam cover" or name == "strut brace" or name == "trim design" or name == "ornametns" or name == "dashboard" or name == "dials" or name == "seats" or name == "steering wheels" or name == "plate holder" or name == "vanity plates" or name == "shifter leavers" or name == "plaques" or name == "speakers" or name == "trunk" or name == "headlights" or name == "turbo" or  name == "hydraulics" or name == "liveries" or name == "horn" then
 		for i,b in pairs(m.buttons) do
-			if myveh.mods[b.modtype].mod == b.mod then
-				b.sprite = "garage"
-			else
-				b.sprite = nil
+			if b.modtype and b.mod then
+				if myveh.mods[b.modtype].mod == b.mod then
+					b.sprite = "garage"
+				else
+					b.sprite = nil
+				end
 			end
 		end
 	end
@@ -1445,6 +1477,7 @@ function UnfakeVeh()
 	SetVehicleNumberPlateTextIndex(veh, myveh.plateindex)
 	SetVehicleWindowTint(veh, myveh.windowtint)
 	SetVehicleLivery(veh, myveh.livery)
+	SetVehicleHeadlightsColour(veh, myveh.lightcolor)
 end
 
 --Still the good old way of adding blips
