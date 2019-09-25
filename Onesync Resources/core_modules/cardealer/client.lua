@@ -497,8 +497,8 @@ Citizen.CreateThread(function()
 							data["mod48"] = GetVehicleMod(Vehicle, 48)
 
                             for i = 1, 15 do
-                                if DoesExtraExist(veh, i-1) then
-                                    data["extra"..i] = IsVehicleExtraTurnedOn(veh, i-1) and true or false
+                                if DoesExtraExist(Vehicle, i-1) then
+                                    data["extra"..i] = IsVehicleExtraTurnedOn(Vehicle, i-1) and true or false
                                 else
                                     data["extra"..i] = false
                                 end
