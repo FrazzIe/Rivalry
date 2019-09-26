@@ -87,16 +87,24 @@ AddEventHandler("Withdraw.Evidence", function(Index, SelectedEvidence)
     if FetchedLocker ~= nil and #FetchedLocker > 0 then
         if SelectedEvidence == "Ballistics" then
             Data = FetchedLocker["Ballistics"][Index]
-            exports["GHMattiMySQL"]:QueryAsync(" ", {})  
+            exports["GHMattiMySQL"]:QueryAsync("UPDATE police_evidence_ballistics SET status = @status WHERE id = "..Data.id, {
+                 ["@status"] = 1,                   
+             })  
         elseif SelectedEvidence == "Fingerprints" then
              Data = FetchedLocker["Fingerprints"][Index]
-            exports["GHMattiMySQL"]:QueryAsync(" ", {})              
+             exports["GHMattiMySQL"]:QueryAsync("UPDATE police_evidence_fingerprints SET status = @status WHERE id = "..Data.id, {
+                 ["@status"] = 1,
+             })              
         elseif SelectedEvidence == "Inventory" then
             Data = FetchedLocker["Inventory"][Index]
-            exports["GHMattiMySQL"]:QueryAsync(" ", {})            
+            exports["GHMattiMySQL"]:QueryAsync("UPDATE police_evidence_inventory SET status = @status WHERE id = "..Data.id, {
+                 ["@status"] = 1,
+             })            
         elseif SelectedEvidence == "Firearms" then
             Data = FetchedLocker["Firearms"][Index]
-            exports["GHMattiMySQL"]:QueryAsync(" ", {})  
+            exports["GHMattiMySQL"]:QueryAsync("UPDATE police_evidence_firearms SET status = @status WHERE id = "..Data.id, {
+                 ["@status"] = 1,
+             })    
         end
     end
 end)
@@ -118,8 +126,8 @@ AddEventHandler("Fetch.Evidence.Locker", function()
     TriggerClientEvent("Fetch.Evidence.Locker", Data)
 end)
                             
-RegisterServerEvenT("Sync.Evidence")
-AddEvenTHandler("Sync.Evidence", function(Data, Type)
+RegisterServerEvent("Sync.Evidence")
+AddEventHandler("Sync.Evidence", function(Data, Type)
     local Source = source
     if Type == "Ballistics" or Type == "Fingerprints" or Type == "Inventory" or Type == "Firearms" then
         table.insert(Evidence[Type], Data)
