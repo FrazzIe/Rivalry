@@ -366,6 +366,7 @@ AddEventHandler("core:ready", function()
                     GiveWeaponToPed(PlayerPedId(), weaponhash, 250, false, true)
                     GiveWeaponComponentToPed(PlayerPedId(), weaponhash, 2076495324)
                     GiveWeaponComponentToPed(PlayerPedId(), weaponhash, 202788691)
+                    GiveWeaponComponentToPed(PlayerPedId(), weaponhash, 2698550338)
                     SetPedWeaponTintIndex(PlayerPedId(), weaponhash, 7)
                 else
                     RemoveWeaponFromPed(PlayerPedId(), weaponhash)
