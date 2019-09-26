@@ -12,7 +12,7 @@ local toggle_helicam = 51 -- control id of the button by which to toggle the hel
 local toggle_vision = 25 -- control id to toggle vision mode. Default: INPUT_AIM (Right mouse btn)
 local toggle_rappel = 154 -- control id to rappel out of the heli. Default: INPUT_DUCK (X)
 local toggle_spotlight = 183 -- control id to toggle the various spotlight states Default: INPUT_PhoneCameraGrid (G)
-local toggle_lock_on = 22 -- control id to lock onto a vehicle with the camera or unlock from vehicle (with or without camera). Default is INPUT_SPRINT (spacebar)
+--local toggle_lock_on = 22 -- control id to lock onto a vehicle with the camera or unlock from vehicle (with or without camera). Default is INPUT_SPRINT (spacebar)
 local toggle_display = 44 -- control id to toggle vehicle info display. Default: INPUT_COVER (Q)
 local lightup_key = 246 -- control id to increase spotlight brightness. Default: INPUT_MP_TEXT_CHAT_TEAM (Y)
 local lightdown_key = 173 -- control id to decrease spotlight brightness. Default: INPUT_CELLPHONE_DOWN  (ARROW-DOWN)
@@ -113,22 +113,22 @@ Citizen.CreateThread(function()
 				ChangeDisplay()
 			end
 
-			if target_vehicle and GetPedInVehicleSeat(heli, -1) == lPed then
-				local coords1 = GetEntityCoords(heli)
-				local coords2 = GetEntityCoords(target_vehicle)
-				local target_distance = GetDistanceBetweenCoords(coords1.x, coords1.y, coords1.z, coords2.x, coords2.y, coords2.z, false)
-				if IsControlJustPressed(0, toggle_lock_on) or target_distance > maxtargetdistance then
-					--Citizen.Trace("Heli: target vehicle released or lost")
-					DecorRemove(target_vehicle, "Target")
-					if tracking_spotlight then
-						TriggerServerEvent("heli:tracking.spotlight.toggle")
-					end
-					tracking_spotlight = false
-					pause_Tspotlight = false
-					target_vehicle = nil					
-					PlaySoundFrontend(-1, "SELECT", "HUD_FRONTEND_DEFAULT_SOUNDSET", false)
-				end
-			end
+			-- if target_vehicle and GetPedInVehicleSeat(heli, -1) == lPed then
+			-- 	local coords1 = GetEntityCoords(heli)
+			-- 	local coords2 = GetEntityCoords(target_vehicle)
+			-- 	local target_distance = GetDistanceBetweenCoords(coords1.x, coords1.y, coords1.z, coords2.x, coords2.y, coords2.z, false)
+			-- 	if IsControlJustPressed(0, toggle_lock_on) or target_distance > maxtargetdistance then
+			-- 		--Citizen.Trace("Heli: target vehicle released or lost")
+			-- 		DecorRemove(target_vehicle, "Target")
+			-- 		if tracking_spotlight then
+			-- 			TriggerServerEvent("heli:tracking.spotlight.toggle")
+			-- 		end
+			-- 		tracking_spotlight = false
+			-- 		pause_Tspotlight = false
+			-- 		target_vehicle = nil					
+			-- 		PlaySoundFrontend(-1, "SELECT", "HUD_FRONTEND_DEFAULT_SOUNDSET", false)
+			-- 	end
+			-- end
 
 		end
 		
@@ -237,26 +237,6 @@ Citizen.CreateThread(function()
 						local coords1 = GetEntityCoords(heli)
 						local coords2 = GetEntityCoords(locked_on_vehicle)
 						local target_distance = GetDistanceBetweenCoords(coords1.x, coords1.y, coords1.z, coords2.x, coords2.y, coords2.z, false)
-						if IsControlJustPressed(0, toggle_lock_on) or target_distance > maxtargetdistance then
-							--Citizen.Trace("Heli: locked_on_vehicle unlocked or lost")
-							PlaySoundFrontend(-1, "SELECT", "HUD_FRONTEND_DEFAULT_SOUNDSET", false)
-							DecorRemove(target_vehicle, "Target")
-							if tracking_spotlight then
-								TriggerServerEvent("heli:tracking.spotlight.toggle")
-								tracking_spotlight = false
-							end
-							target_vehicle = nil
-							locked_on_vehicle = nil
-							local rot = GetCamRot(cam, 2) -- All this because I can't seem to get the camera unlocked from the entity
-							local fov = GetCamFov(cam)
-							local old cam = cam
-							DestroyCam(old_cam, false)
-							cam = CreateCam("DEFAULT_SCRIPTED_FLY_CAMERA", true)
-							AttachCamToEntity(cam, heli, 0.0,0.0,-1.5, true)
-							SetCamRot(cam, rot, 2)
-							SetCamFov(cam, fov)
-							RenderScriptCams(true, false, 0, 1, 0)
-						end
 					else
 						locked_on_vehicle = nil -- Cam will auto unlock when entity doesn't exist anyway
 						target_vehicle = nil
@@ -267,42 +247,6 @@ Citizen.CreateThread(function()
 					local vehicle_detected = GetVehicleInView(cam)
 					if DoesEntityExist(vehicle_detected) then
 						RenderVehicleInfo(vehicle_detected)
-						if IsControlJustPressed(0, toggle_lock_on) then
-							PlaySoundFrontend(-1, "SELECT", "HUD_FRONTEND_DEFAULT_SOUNDSET", false)
-							locked_on_vehicle = vehicle_detected
-			
-							if target_vehicle then -- If previous target exists, remove old target decorator before updating target vehicle
-								DecorRemove(target_vehicle, "Target")
-							end
-							
-							target_vehicle = vehicle_detected
-							NetworkRequestControlOfEntity(target_vehicle)
-							local target_netID = VehToNet(target_vehicle) 
-							SetNetworkIdCanMigrate(target_netID, true)
-							NetworkRegisterEntityAsNetworked(VehToNet(target_vehicle))
-							SetNetworkIdExistsOnAllMachines(target_vehicle, true) 
-							SetEntityAsMissionEntity(target_vehicle, true, true) 
-							target_plate = GetVehicleNumberPlateText(target_vehicle)
-							DecorSetInt(locked_on_vehicle, "Target", 2)
-
-							if tracking_spotlight then -- If tracking previous target, terminate and start tracking new target
-								TriggerServerEvent("heli:tracking.spotlight.toggle")
-								target_vehicle = locked_on_vehicle
-								
-								if not pause_Tspotlight then -- If spotlight was paused when tracking old target, 
-									local target_netID = VehToNet(target_vehicle)
-									local target_plate = GetVehicleNumberPlateText(target_vehicle)
-									local targetposx, targetposy, targetposz = table.unpack(GetEntityCoords(target_vehicle))
-									pause_Tspotlight = false
-									tracking_spotlight = true
-									TriggerServerEvent("heli:tracking.spotlight", target_netID, target_plate, targetposx, targetposy, targetposz)
-									PlaySoundFrontend(-1, "SELECT", "HUD_FRONTEND_DEFAULT_SOUNDSET", false)
-								else
-									tracking_spotlight = false
-									pause_Tspotlight = false
-								end
-							end
-						end
 					end
 				end
 
@@ -500,12 +444,8 @@ function ChangeVision()
 	if vision_state == 0 then
 		SetNightvision(true)
 		vision_state = 1
-	elseif vision_state == 1 then
-		SetNightvision(false)
-		SetSeethrough(true)
-		vision_state = 2
 	else
-		SetSeethrough(false)
+		SetNightvision(false)
 		vision_state = 0
 	end
 end
