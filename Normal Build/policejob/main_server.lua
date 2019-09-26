@@ -64,6 +64,17 @@ local doors = {
 		true, -- Main Lobby to Cells
 		true, -- Cell 1
 		true, -- Cells Room Cell 2
+		true,-- Interrogation Viewing
+		true, -- Interrogation Room
+		true, -- Back Door Number One
+		true, -- Back Door Number Two
+		true, -- Office One
+		true, -- Office Two
+		true, -- Evidence Locker Door Entrance
+		true, -- Evidence Locker Gate Entrance
+		true, -- Cell Area Entrance One
+		true, -- Cell 2
+		true, -- Cell 1
 	},
 	double = {
 		{
@@ -98,6 +109,19 @@ local doors = {
 			["right"] = true,
 		},  -- 1st Floor Exit to Motor pool
 		-- END
+		-- New Paleto
+		{
+			["left"] = false,
+			["right"] = false,
+		},  -- Double Front Entrance Doors
+		{
+			["left"] = true,
+			["right"] = true,
+		},  -- Double Office Doors Area
+		{
+			["left"] = true,
+			["right"] = true,
+		},  -- Hallyway Double Door Area
 	},
 }
 

@@ -13,7 +13,7 @@
 --]]
 local armoury = {
     {name = "Armoury", sprite = 175, colour = 39, x=452.28164672852, y=-980.19580078125, z=30.689605712891}, -- Mission row
-    {name = "Armoury", sprite = 175, colour = 39, x=-450.52, y=6011.33, z=31.72}, -- Paleto Bay
+    {name = "Armoury", sprite = 175, colour = 39, x = -437.8244934082, y = 5988.9809570313, z = 31.716171264648},-- Paleto Bay
     {name = "Armoury", sprite = 175, colour = 39, x=1853.7486572266, y=3689.9702148438, z=34.286651611328}, -- Sandy Shores
     {name = "Armoury", sprite = 175, colour = 39, x=-1078.54, y=-857.00, z=5.04}, -- San Andreas Ave
     {name = "Armoury", sprite = 175, colour = 39, x=-566.57, y=-132.83, z=37.96}, -- Rockford Hills

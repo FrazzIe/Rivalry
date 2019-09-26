@@ -108,6 +108,18 @@ local doors = {
 		{coords = vector3(1847.9862060547,3681.6884765625,34.40397644043), model = 631614199, heading = 120.21669006348, locked = true}, -- Cell 1
 		{coords = vector3(1846.3916015625,3684.4504394531,34.40397644043), model = 631614199, heading = 299.81994628906, locked = true}, -- Cells Room Cell 2
 		-- Sheriffs Office
+		-- Paleto Office
+		{coords = vector3(-449.79461669922,6015.4482421875,31.866329193115), model = -2023754432, heading = 135.06001281738, locked = true}, -- Interrogation Viewing
+		{coords = vector3(-454.53598022461,6011.2578125,31.869819641113), model = -519068795, heading = 10.008575439453, locked = true}, -- Interrogation Room
+		{coords = vector3(-450.97872924805,6006.0747070313,31.994165420532), model = 452874391, heading = 315.33605957031, locked = true}, -- Back Door Number One
+		{coords = vector3(-447.2262878418,6002.3286132813,31.839426040649), model = 452874391, heading = 134.83694458008, locked = true}, -- Back Door Number Two
+		{coords = vector3(-437.68914794922,6008.3637695313,31.864067077637), model = -952356348, heading = 45.045776367188, locked = true}, -- Office One
+		{coords = vector3(-441.05389404297,6004.9970703125,31.864400863647), model = -952356348, heading = 44.928436279297, locked = true}, -- Office Two
+		{coords = vector3(-437.61444091797,5992.8193359375,31.936056137085), model = -1011692606, heading = 314.71322631836, locked = true}, -- Evidence Locker Door Entrance
+		{coords = vector3(-441.47674560547,5990.244140625,32.333431243896), model = -1156020871, heading = 315.2255859375, locked = true}, -- Evidence Locker Gate Entrance
+		{coords = vector3(-432.17544555664,5992.1215820313,31.873119354248), model = 631614199, heading = 315.49444580078, locked = true}, -- Cell Area Entrance One
+		{coords = vector3(-428.06463623047,5996.671875,31.873123168945), model = 631614199, heading = 315.51547241211, locked = true}, -- Cell 2
+		{coords = vector3(-431.19207763672,5999.7416992188,31.873123168945), model = 631614199, heading = 315.51547241211, locked = true}, -- Cell 1
 	},
 	double = {
 		{
@@ -142,6 +154,19 @@ local doors = {
 			["right"] = {coords = vector3(444.62118530273,-999.00103759766,30.788663864136), model = -1033001619, heading = 359.98760986328, locked = true},
 		},  -- 1st Floor Exit to Motor pool
 		-- END
+		-- New Paleto
+		{
+			["left"] = {coords = vector3(-444.49850463867,6017.0600585938,31.866329193115), model = -1501157055, heading = 135.03819274902, locked = false},
+			["right"] = {coords = vector3(-442.66006469727,6015.2216796875,31.866329193115), model = -1501157055, heading = 314.99880981445, locked = false},
+		},
+		{
+			["left"] = {coords = vector3(-440.98068237305,6012.771484375,31.866329193115), model = 964838196, heading = 45.062015533447, locked = true},
+			["right"] = {coords = vector3(-442.82150268555,6010.9306640625,31.866329193115), model = 964838196, heading = 224.77478027344, locked = true},
+		},
+		{
+			["left"] = {coords = vector3(-447.70916748047,6006.716796875,31.8088722229), model = 245182344, heading = 315.00006103516, locked = true},
+			["right"] = {coords = vector3(-449.55001831055,6008.5576171875,31.8088722229), model = -681066206, heading = 135.00007629395, locked = true},
+		},
 	},
 }
 
