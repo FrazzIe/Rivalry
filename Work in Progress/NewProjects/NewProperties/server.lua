@@ -1,5 +1,6 @@
 local Player.InstancedPlayers = {}
 local AllInstances = {}
+local Properties = {}
 
 RegisterServerEvent("Properties.Instance")
 AddEventHandler("Properties,.Instance", function(Instanced)
@@ -17,6 +18,19 @@ AddEventHandler("Properties.Motel.Sync", function(ServerId, NewTable)
 			table.insert(AllInstances, NewTable)
 		end
 	end
+end)
+
+RegisterServerEvent("Properties.Initalize")
+AddEventHandler("Properties.Initalize", function()
+	local Source = source
+	local Result = {}
+	TriggerEvent("core:getuser", Source, function(User)
+		Result = exports["GHMattiMySQL"]:QueryResultAsync("SELECT * FROM properties_houses WHERE character_id = @character_id", {
+			["@character_id"] = User.get("characterID"),		
+		})
+	end)
+	Properties[Source] = Result
+	TriggerClientEvent("Properties.Initalize", Source, Result)
 end)
 
 RegisterServerEvent("Storage.Insert")
@@ -52,7 +66,7 @@ AddEventHandler("Storage.Insert", function(HouseNumber, Type, Data)
 					["@dirty"] = Data.Dirty,
 					["@character_id"] = CharacterID,
 					["@house_number"] = HouseNumber,
-				}
+				})
 			end
 		end
 	end)
