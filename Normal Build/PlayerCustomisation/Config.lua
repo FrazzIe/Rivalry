@@ -620,7 +620,7 @@ PlayerCustomisation.Locations = {
 				Sprite = 73, 
 				Colour = 0,
 			},
-			Marker = {x = 319.60491943359, y = -580.68133544922, z = 43.3173828125, h = 338.38342285156},
+			Marker = {x = 336.98593139648, y = -581.65216064453, z = 28.791465759277, h = 68.848915100098},
 			Banner = "shopui_title_midfashion",
 		},
 		[17] = { -- Sandy Shores
@@ -916,7 +916,7 @@ PlayerCustomisation.Locations = {
 				Sprite = 366, 
 				Colour = 0,
 			},
-			Marker = {x = 318.93661499023, y = -577.39385986328, z = 43.317371368408, h = 250.49789428711},
+			Marker = {x = 337.25042724609, y = -580.20056152344, z = 28.791465759277, h = 165.14468383789},
 			Banner = "shopui_title_midfashion",
 		},
 		[18] = { -- Sandy Shores PD

@@ -20,7 +20,7 @@ user_paramedic = {}
 local takingService = {
 	{name = "Hospital", sprite = 61, colour = 2, x = 1155.26, y = -1520.82, z = 34.84},
 	{name = "Hospital", sprite = 61, colour = 2, x = 295.411, y = -1446.88, z = 29.9666},
-	{name = "Hospital", sprite = 61, colour = 2, x = 309.36868286133, y = -602.63208007813, z = 43.291839599609}, -- Pillbox hill
+	{name = "Hospital", sprite = 61, colour = 2, x = 335.02651977539, y = -580.20587158203, z = 28.791460037231}, -- Pillbox hill
 	{name = "Hospital", sprite = 61, colour = 2, x = -449.639, y = -340.586, z = 34.5018},
 	{name = "Hospital", sprite = 61, colour = 2, x = -874.467, y = -307.896, z = 39.5699},
 	{name = "Hospital", sprite = 61, colour = 2, x = -677.135, y = 310.275, z = 83.0842},

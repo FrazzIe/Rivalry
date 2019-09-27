@@ -21,6 +21,14 @@ local doors = {
 		true, -- Computing room, 3rd floor, door 1
 		true, -- Computing room, 3rd floor, door 2
 		true, -- Medical office, 3rd floor
+		-- LOWER PILLBOX NEW INTERIOR
+		true,
+		true,
+		true,
+		true,
+		true,
+		true,
+		true,
 	},
 	double = {
 		{
@@ -47,6 +55,55 @@ local doors = {
 			["left"] = false,
 			["right"] = false,
 		}, -- Forensics Lab, 3rd floor Right doors
+		-- LOWER PILLBOX NEW INTERIOR
+		{
+			["left"] = true,
+			["right"] = true,
+		},
+		{
+			["left"] = true,
+			["right"] = true,
+		},
+		{
+			["left"] = true,
+			["right"] = true,
+		},
+		{
+			["left"] = true,
+			["right"] = true,
+		},
+		{
+			["left"] = true,
+			["right"] = true,
+		},
+		{
+			["left"] = true,
+			["right"] = true,
+		},
+		{
+			["left"] = true,
+			["right"] = true,
+		},
+		{
+			["left"] = true,
+			["right"] = true,
+		},
+		{
+			["left"] = true,
+			["right"] = true,
+		},
+		{
+			["left"] = true,
+			["right"] = true,
+		},
+		{
+			["left"] = true,
+			["right"] = true,
+		},
+		{
+			["left"] = true,
+			["right"] = true,
+		},
 	}
 }
 local function addRank(rank, inherit)
@@ -121,6 +178,7 @@ addRank("chief", "")
 addRank("assistant chief", "")
 addRank("captain", "")
 addRank("lieutenant", "")
+addRank("firefighter", "")
 addRank("fto", "")
 addRank("specialist", "")
 addRank("doctor", "")
