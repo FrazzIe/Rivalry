@@ -110,7 +110,7 @@ local function AddMod(mod,parent,header,name,info,stock)
 			if mod == 22 then
 				lightcolors = m:addSubMenu("HEADLIGHT COLOR", "Headlight Color", "Colored headlights, Xenon Lights only!", true)
 
-				for i = 1, #LSC_Config.prices.lightcolors.colors do 
+				for i = 1, #LSC_Config.prices.lightcolor.colors do 
 					local btn = lightcolors:addPurchase(LSC_Config.prices.lightcolor.colors[i].name, LSC_Config.prices.lightcolor.price)
 					btn.colorindex = LSC_Config.prices.lightcolor.colors[i].colorindex
 				end
