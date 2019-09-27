@@ -1,4 +1,4 @@
-local HospitalCheckin = vector3(308.06161499023,-595.19683837891,43.291839599609)
+local HospitalCheckin = vector3(341.45745849609,-583.11956787109,28.791477203369)
 local BedOccupying = nil
 local BedOccupyingData = nil
 local Cam = nil
