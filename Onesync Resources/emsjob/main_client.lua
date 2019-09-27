@@ -67,7 +67,7 @@ function isNearTakeService()
 		local pos = GetEntityCoords(PlayerPedId(), 0)
 		local distance = GetDistanceBetweenCoords(takingService[i].x, takingService[i].y, takingService[i].z, pos.x, pos.y, pos.z, true)
 		if(distance < 30) then
-			DrawMarker(25, takingService[i].x, takingService[i].y, takingService[i].z-0.9, 0, 0, 0, 0, 0, 0, 2.0, 2.0, 1.5, 243, 44, 82, 155, 0, 0, 2, 0, 0, 0, 0)
+			DrawMarker(25, takingService[i].x, takingService[i].y, takingService[i].z-0.9, 0, 0, 0, 0, 0, 0, 2.0, 2.0, 1.5, 243, 44, 82, 20, 0, 0, 2, 0, 0, 0, 0)
 		end
 		if(distance < 2) then
 			return true

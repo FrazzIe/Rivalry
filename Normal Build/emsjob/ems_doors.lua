@@ -73,8 +73,8 @@ local doors = {
 	},
 	double = {
 		{
-			["left"] = {coords = vector3(328.62420654297,-585.201171875, 43.327369689941), model = -770740285, heading = 160.00001525879, locked = false},
-			["right"] = {coords = vector3(330.7939453125,-585.99090576172,43.327369689941), model = -770740285, heading = 340.00003051758, locked = false},
+			["left"] = {coords = vector3(325.05090332031, -588.92846679688, 43.344619750977), model = -770740285, heading = 160.00001525879, locked = false},
+			["right"] = {coords = vector3(327.2121887207, -589.71508789063, 43.344619750977), model = -770740285, heading = 340.00003051758, locked = false},
 		}, -- Inner Pillbox hospital doors
 		{
 			["left"] = {coords = vector3(249.54711914063, -1383.7418212891, 39.744342803955), model = 374758529, heading = 49.99995803833, locked = false},
@@ -103,8 +103,8 @@ local doors = {
 			["right"] = {coords = vector3(346.0309753418, -574.18878173828, 28.797302246094), model = -770740285, heading = 250.0055847168, locked = true},
 		},
 		{ 
-			["left"] = {coords = vector3(345.05859375, -567.96478271484, 28.820510864258), model = -770740285, heading = 159.99555969238, locked = true}, -- Infirmary
-			["right"] = {coords = vector3(347.22665405273, -568.73327636719, 28.820510864258), model = -770740285, heading = 339.98083496094, locked = true},
+			["left"] = {coords = vector3(345.05859375, -567.96478271484, 28.820510864258), model = -770740285, heading = 159.99555969238, locked = false}, -- Infirmary
+			["right"] = {coords = vector3(347.22665405273, -568.73327636719, 28.820510864258), model = -770740285, heading = 339.98083496094, locked = false},
 		},
 		{
 			["left"] = {coords = vector3(341.39196777344, -572.50708007813, 28.818971633911), model = -770740285, heading = 250.0055847168, locked = true}, -- Hall Entrance

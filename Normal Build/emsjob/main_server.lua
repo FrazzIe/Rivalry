@@ -61,8 +61,8 @@ local doors = {
 			["right"] = true,
 		},
 		{
-			["left"] = true,
-			["right"] = true,
+			["left"] = false,
+			["right"] = false,
 		},
 		{
 			["left"] = true,
