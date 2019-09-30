@@ -437,7 +437,7 @@ function CheckDamage(ped, bone, weapon, weaponName, healthLossed)
             BodyParts[parts[bone]].severity = 1
             exports['mythic_notify']:DoHudText('inform', 'Your ' .. BodyParts[parts[bone]].label .. ' feels ' .. WoundStates[BodyParts[parts[bone]].severity])
 
-            if weapon == WeaponClasses['SMALL_CALIBER'] or weapon == WeaponClasses['MEDIUM_CALIBER'] or weapon == WeaponClasses['CUTTING'] or weapon == WeaponClasses['WILDLIFE'] --[[or weapon == WeaponClasses['OTHER']] or weapon == WeaponClasses['LIGHT_IMPACT'] then
+            if weapon == WeaponClasses['SMALL_CALIBER'] or weapon == WeaponClasses['MEDIUM_CALIBER'] or weapon == WeaponClasses['CUTTING'] or weapon == WeaponClasses['WILDLIFE'] or weapon == WeaponClasses['OTHER'] or weapon == WeaponClasses['LIGHT_IMPACT'] then
                 if isBleeding < 4 then
                     isBleeding = tonumber(isBleeding) + 1
                 end
@@ -462,7 +462,7 @@ function CheckDamage(ped, bone, weapon, weaponName, healthLossed)
 
             TriggerServerEvent("Health.Injury.Add", parts[bone], Utilities:GetWeaponLabel(weaponName), healthLossed)
         else
-            if weapon == WeaponClasses['SMALL_CALIBER'] or weapon == WeaponClasses['MEDIUM_CALIBER'] or weapon == WeaponClasses['CUTTING'] or weapon == WeaponClasses['WILDLIFE'] --[[or weapon == WeaponClasses['OTHER']] or weapon == WeaponClasses['LIGHT_IMPACT'] then
+            if weapon == WeaponClasses['SMALL_CALIBER'] or weapon == WeaponClasses['MEDIUM_CALIBER'] or weapon == WeaponClasses['CUTTING'] or weapon == WeaponClasses['WILDLIFE'] or weapon == WeaponClasses['OTHER'] or weapon == WeaponClasses['LIGHT_IMPACT'] then
                 if isBleeding < 4 then
                     isBleeding = tonumber(isBleeding) + 1
                 end
