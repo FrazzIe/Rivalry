@@ -30,7 +30,9 @@ local FriskWeapons = {
     ["WEAPON_KNUCKLE"] = "You feel a round metal object, with large holes inside of it.",
     ["WEAPON_FLASHLIGHT"] = "You feel a metal cylinder, with a round head near the persons waist.",
     ["WEAPON_SWITCHBLADE"] = "You feel a small metal object in their pocket.",
-    ["WEAPON_DBSHOTGUN"] = "You feel a thicc metal object with 2 rounded barrels near their waist.",
+	["WEAPON_DBSHOTGUN"] = "You feel a thicc metal object with 2 rounded barrels near their waist.",
+	["WEAPON_APPISTOL"] = "You feel a bulky metal L shaped object near the persons waist.",
+	["WEAPON_HEAVYPISTOL"] = "You feel a slightly large bulky metal L shaped object near the persons waist.",
 }
 
 RegisterServerEvent('police:setService')
@@ -113,6 +115,7 @@ AddEventHandler('police:frisk', function(target)
 	if cops[source] then
 		TriggerEvent("weapon:getuser", target, function(_weapon)
 			if _weapon ~= nil then
+				TriggerClientEvent("pNotify:SendNotification", target, {text = "You are being frisked!",type = "alert",queue = "left",timeout = 2500,layout = "centerRight"})
 				if tablelength(_weapon) > 0 then
 					for k,v in pairs(_weapon) do
 						if FriskWeapons[k] then
