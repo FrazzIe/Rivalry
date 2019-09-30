@@ -82,7 +82,8 @@ local Meetings = {
 		PedTaskCoord = vector3(70.65601348877,-1433.3870849609,29.311664581299),
 		PedTaskHeading = 235.28324890137,
 		CarModel = "oracle2",
-		PedModel = "",
+		PedModel = -459818001,
+		PedName = "Tyrone",
 	},
 	[2] = { -- Ghetto Area
 		VehicleTaskCoord = vector3(-56.684638977051,-1420.5627441406,28.841323852539),
@@ -90,25 +91,47 @@ local Meetings = {
 		PedTaskCoord = vector3(-58.642837524414,-1419.3937988281,29.326471328735), 
 		PedTaskHeading = 0.071580804884434,
 		CarModel = "buffalo",
-		PedModel = "",
+		PedModel = -459818001,
+		PedName = "George",
 	},
 	[3] = { -- Vinewood Hills
 		VehicleTaskCoord = vector3(-467.49334716797,73.980682373047,58.181781768799), 
 		VehicleTaskCoordHeading = 314.72985839844,
 		PedTaskCoord = vector3(-469.59292602539,73.564575195313,58.661449432373), 
 		PedTaskHeading = 41.771751403809,
-		CarModel = "",
-		PedModel = "",
+		CarModel = "ocelot2",
+		PedModel = 1182012905,
+		PedName = "Adam",
 	},
 	[4] = { -- Rockford Hills
 		VehicleTaskCoord = vector3(-863.73602294922,-240.89419555664,39.008407592773), 
 		VehicleTaskCoordHeading = 206.2218170166,
 		PedTaskCoord = vector3(-863.60601806641,-238.53485107422,39.519733428955), 
 		PedTaskHeading = 300.31268310547,
-		CarModel = "",
-		PedModel = "",
+		CarModel = "rumpo",
+		PedModel = 1182012905,
+		PedName = "Jake",
 	},
 },
+
+RegisterNetEvent("Create.Public.Market.Meeting")
+AddEventHandler("Create.Public.Market.Meeting", function()
+	if Data.Meeting == nil and Data.HasJobTask == false then
+		Data.Meeting = math.random(1, #Meetings)
+		Data.HasJobTask = true
+		Notify("The dealer has sent you a location!")
+	else
+		if DoesEntityExist(Data.MeetingPed) then
+			DeletePed(Data.MeetingPed)
+		end
+		if DoesEntityExist(Data.MeetingVehicle) then
+			DestroyVehicle(Data.MeetingVehicle)
+		end
+		Data.Meeting = math.random(1, #Meetings)
+		Data.HasJobTask = true
+		Notify("The dealer has sent you a new location!")
+	end
+end)
 
 Citizen.CreateThread(function()
     while true do
@@ -117,20 +140,20 @@ Citizen.CreateThread(function()
         local PlayerPosition = GetEntityCoords(Player, false)
         if Data.HasJobTask then
             if Data.Meeting ~= nil then
-                if #(PlayerPosition - Meeting) <= 47.0)
-                    if not DoesEntityExist(MeetingPed) and not DoesEntityExist(MettingVehicle) then
-						Data.MeetingPed = CreatePed()
-						Data.MeetingVehicle = 
+                if #(PlayerPosition - Meetings[Data.Meeting].PedTaskCoord) <= 47.0)
+					if not DoesEntityExist(Data.MeetingPed) and not DoesEntityExist(Data.MeetingVehicle) then
+						Data.MeetingVehicle = exports["core"]:SpawnVehicle(Meetings[Data.Meeting].CarModel, Meetings[Data.Meeting].VehicleTaskCoord, Meetings[Data.Meeting].VehicleTaskCoordHeading, false)
+						Data.MeetingPed = CreatePedInsideVehicle(Data.MeetingVehicle, 1, Meetings[Data.Meeting].PedModel, -1, true, false)
                     else
                         if #(PlayerPosition - Data.Meeting) <= 6.0 then
-                            TaskPedOutOfVehicle(MeetingPed)
+                            TaskPedOutOfVehicle(Data.MeetingPed)
                             Citizen.Wait(4000)
-                            TaskGoStraightToCoord(Ped ped, float x, float y, float z, float speed, int timeout, float targetHeading, float distanceToSlide)
-                            if DoesEntityExist(MeetingVehicle) then
-                                SedVehicleDoorOpen(MeetingVehicle, 2)
-                                if #(PlayerPosition - Meeting) <= 2.2 then
+                            TaskGoStraightToCoord(Data.MeetingPed, Meetings[Data.Meeting].PedTaskCoord.x, Meetings[Data.Meeting].PedTaskCoord.y, Meetings[Data.Meeting].PedTaskCoord.z, 1.0, 0, Meetings[Data.Meeting].PedTaskHeading, 0.0)
+                            if DoesEntityExist(Data.MeetingVehicle) then
+                                SedVehicleDoorOpen(Data.MeetingVehicle, 2)
+                                if #(PlayerPosition - Meetings[Data.Meeting].PedTaskCoord) <= 2.2 then
                                     for Index = 1, #Data.Dialogue do
-                                        TriggerEvent("chatMessage", "DIALOGUE", {255,255,255}, Data.Dialogue[Index])
+                                        TriggerEvent("chatMessage", Meetings[Data.Meeting].PedName, {255,255,255}, Data.Dialogue[Index])
                                         Citizen.Wait(8000)
                                         if Index == #Data.Dialogue then
                                             Data.DialogueCompleted = true    
