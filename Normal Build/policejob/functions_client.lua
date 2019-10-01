@@ -527,26 +527,11 @@ Citizen.CreateThread(function()
 	end
 end)
 --==============================================================================================================================--
---Gunshot residue test 
-
-DecorRegister("GSR_Active", 2)
-DecorSetBool(PlayerPedId(), "GSR_Active", false)
-
---==============================================================================================================================--
 --==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--
 
 Citizen.CreateThread(function()
 	local AnimDict = "random@arrests"
 	local Anim1, Anim2 = "generic_radio_enter", "radio_chatter"
-	local GSR_LastShot = 0
-	local GSR_ExpireTime = 15 -- Minutes
-	local GSR_Whitelist = {
-		[`WEAPON_BALL`]	= 1,
-		[`WEAPON_PETROLCAN`] = 1,
-		[`WEAPON_SNOWBALL`] = 1,
-		[`WEAPON_STUNGUN`] = 1,
-		[`WEAPON_FIREEXTINGUISHER`] = 1,
-	}
 
 	RequestAnimDict(AnimDict)
 
@@ -684,29 +669,6 @@ Citizen.CreateThread(function()
 			SetPedPathCanUseLadders(PlayerPed, false)
 			if IsPedInAnyVehicle(PlayerPed, false) then
 				DisableControlAction(0, 59, true)
-			end
-		end
-
-		if IsPedShooting(PlayerPed) then
-			local hasWeapon, currentWeapon = GetCurrentPedWeapon(PlayerPed, 1)
-			if currentWeapon ~= nil then
-				local WeaponStr = Weaponhashes[currentWeapon] or Weaponhashes[tostring(currentWeapon)]
-				if WeaponStr then
-					if GetAmmoInPedWeapon(PlayerPed, currentWeapon) > 0 then
-						if not GSR_Whitelist[currentWeapon] then
-							GSR_LastShot = GetGameTimer()
-							DecorSetBool(PlayerPed, "GSR_Active", true)
-						end
-					end
-				end
-			end
-		end
-
-		local isGSRactive = DecorGetBool(PlayerPed, "GSR_Active")
-
-		if isGSRactive then
-			if GSR_LastShot + (GSR_ExpireTime * 1000 * 60) <= GetGameTimer() then
-				DecorSetBool(PlayerPed, "GSR_Active", false)   
 			end
 		end
 

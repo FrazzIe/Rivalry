@@ -355,7 +355,7 @@ Citizen.CreateThread(function()
         end
 	end
 end)
-
+--[===[
 Citizen.CreateThread(function()
     local lastpos = vector3(0,0,0)
     while true do
@@ -403,7 +403,7 @@ Citizen.CreateThread(function()
         end
     end
 end)
-
+--]===]
 RegisterNetEvent("dispatch:ten-thirtytwo")
 AddEventHandler("dispatch:ten-thirtytwo", function(coords)
 	Citizen.CreateThread(function()
