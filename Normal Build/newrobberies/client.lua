@@ -176,23 +176,19 @@ Citizen.CreateThread(function()
 		local PlayerPed = PlayerPedId()
 		local PlayerPosition = GetEntityCoords(PlayerPed, false)
 		if not exports.policejob:getIsInService() then
-			if #(PlayerPosition - Rivalry.Robberies.Banks.Pacific.CameraDisable) < 11.0 then
-				if #(PlayerPosition - Rivalry.Robberies.Banks.Pacific.CameraDisable) <= 1.0 then
-					DisplayHelpText("Press ~INPUT_CONTEXT~ to disable cameras!")
-					if IsControlJustPressed(1, 51) then
-						TriggerEvent("Rivalry.HackCameras", 1, 6)
-						TriggerServerEvent("dispatch:cameras")
-						TriggerClientEvent('customNotification', Source, "You have just tripped an antitampering system! Better be quick!")
-					end
+			if #(PlayerPosition - Rivalry.Robberies.Banks.Pacific.CameraDisable) <= 1.0 then
+				DisplayHelpText("Press ~INPUT_CONTEXT~ to disable cameras!")
+				if IsControlJustPressed(1, 51) then
+					TriggerEvent("Rivalry.HackCameras", 1, 6)
+					TriggerServerEvent("dispatch:cameras")
+					TriggerClientEvent('customNotification', Source, "You have just tripped an antitampering system! Better be quick!")
 				end
 			end
 		else
-			if #(PlayerPosition - Rivalry.Robberies.Banks.Pacific.CameraDisable) < 11.0 then
-				if #(PlayerPosition - Rivalry.Robberies.Banks.Pacific.CameraDisable) <= 1.0 then
-					DisplayHelpText("Press ~INPUT_CONTEXT~ to enable cameras!")
-					if IsControlJustPressed(1, 51) then
-						TriggerServerEvent("Rivalry.EnableCameras")
-					end
+			if #(PlayerPosition - Rivalry.Robberies.Banks.Pacific.CameraDisable) <= 1.0 then
+				DisplayHelpText("Press ~INPUT_CONTEXT~ to enable cameras!")
+				if IsControlJustPressed(1, 51) then
+					TriggerServerEvent("Rivalry.EnableCameras")
 				end
 			end
 		end
