@@ -252,11 +252,13 @@ local colorNames = {
 }
 
 local weapons_whitelist = {
-	["WEAPON_BALL"]	= 1,
-	["WEAPON_PETROLCAN"] = 1,
-	["WEAPON_SNOWBALL"] = 1,
-	["WEAPON_STUNGUN"] = 1,
-	["WEAPON_FIREEXTINGUISHER"] = 1,
+	[`WEAPON_BALL`]	= true,
+	[`WEAPON_PETROLCAN`] = true,
+	[`WEAPON_SNOWBALL`] = true,
+	[`WEAPON_STUNGUN`] = true,
+    [`WEAPON_FIREEXTINGUISHER`] = true,
+    [`WEAPON_ANIMAL`] = true,
+    [`WEAPON_COUGAR`] = true,
 }
 
 local knifes = {
@@ -303,53 +305,44 @@ end
 
 Citizen.CreateThread(function()
 	local lastpos = vector3(0,0,0)
-	while true do
-		Citizen.Wait(0)
+    while true do
+        Citizen.Wait(0)
+        local PlayerPed = PlayerPedId()
 		if not exports.policejob:getIsInService() then
-            local PlayerPed = PlayerPedId()
 			if IsPedShooting(PlayerPed) then
 				local hasWeapon, currentWeapon = GetCurrentPedWeapon(PlayerPed, 1)
 				if currentWeapon ~= nil then
-					local WeaponStr = Weaponhashes[currentWeapon] or Weaponhashes[tostring(currentWeapon)]
-					if WeaponStr then
-                        local Weaponhash = GetHashKey(WeaponStr)
-						if GetAmmoInPedWeapon(PlayerPed, Weaponhash) > 0 then
-                            if not weapons_whitelist[WeaponStr] then
-                                TriggerEvent("Add.Stress", 0.5)
-								local pos = GetEntityCoords(PlayerPed, false)
-								if #(pos - lastpos) > 50 then
-									if willNPCreport("gunshots") then
-										lastpos = pos
-										local street, crossing = GetStreetNameAtCoord(pos.x, pos.y, pos.z)
-                                        local Area = GetNameOfZone(pos.x, pos.y, pos.z)
-                                        if crossing == "" and crossing == nil then
-                                            cross = "Unknown"
-                                        else
-                                            cross = GetStreetNameFromHashKey(crossing)
-                                        end
-										TriggerServerEvent("dispatch:ten-thirtytwo", {x = pos.x, y = pos.y, z = pos.z}, GetStreetNameFromHashKey(street), cross, GetLabelText(Area))
-                                        TriggerServerEvent("News:Dispatch", GetStreetNameFromHashKey(street), cross)
-									end
-								end
-							end
-						end
-					end
+                    if GetAmmoInPedWeapon(PlayerPed, currentWeapon) > 0 then
+                        if not weapons_whitelist[currentWeapon] then
+                            TriggerEvent("Add.Stress", 0.5)
+                            local pos = GetEntityCoords(PlayerPed, false)
+                            if #(pos - lastpos) > 50 then
+                                if willNPCreport("gunshots") then
+                                    lastpos = pos
+                                    local street, crossing = GetStreetNameAtCoord(pos.x, pos.y, pos.z)
+                                    local Area = GetNameOfZone(pos.x, pos.y, pos.z)
+                                    if crossing == "" and crossing == nil then
+                                        cross = "Unknown"
+                                    else
+                                        cross = GetStreetNameFromHashKey(crossing)
+                                    end
+                                    TriggerServerEvent("dispatch:ten-thirtytwo", {x = pos.x, y = pos.y, z = pos.z}, GetStreetNameFromHashKey(street), cross, GetLabelText(Area))
+                                    TriggerServerEvent("News:Dispatch", GetStreetNameFromHashKey(street), cross)
+                                end
+                            end
+                        end
+                    end
 				end
 			end
         else
-            local PlayerPed = PlayerPedId()
 			if IsPedShooting(PlayerPed) then
 				local hasWeapon, currentWeapon = GetCurrentPedWeapon(PlayerPed, 1)
 				if currentWeapon ~= nil then
-					local WeaponStr = Weaponhashes[currentWeapon] or Weaponhashes[tostring(currentWeapon)]
-					if WeaponStr then
-                        local Weaponhash = GetHashKey(WeaponStr)
-						if GetAmmoInPedWeapon(PlayerPed, Weaponhash) > 0 then
-                            if not weapons_whitelist[WeaponStr] then
-                                TriggerEvent("Add.Stress", 0.5)
-							end
-						end
-					end
+                    if GetAmmoInPedWeapon(PlayerPed, currentWeapon) > 0 then
+                        if not weapons_whitelist[currentWeapon] then
+                            TriggerEvent("Add.Stress", 0.5)
+                        end
+                    end
 				end
 			end
         end
