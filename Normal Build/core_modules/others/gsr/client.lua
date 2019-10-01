@@ -4,7 +4,7 @@ local GSR = {
 }
 
 AddEventHandler("GSR.Add", function()
-    Residue.Expire = GetGameTimer() + (GSR.Time * 1000 * 60)
+    GSR.Expire = GetGameTimer() + (GSR.Time * 1000 * 60)
     DecorSetBool(PlayerPedId(), "_GSR")
 end)
 
@@ -16,7 +16,7 @@ Citizen.CreateThread(function()
 		local playerPed = PlayerPedId()
         local currentTime = GetGameTimer()
 
-        if currentTime > Residue.Expire then
+        if currentTime > GSR.Expire then
             DecorSetBool(playerPed, "_GSR", false)
         else
             DecorSetBool(playerPed, "_GSR", true)
