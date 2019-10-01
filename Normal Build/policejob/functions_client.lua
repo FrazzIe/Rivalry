@@ -535,12 +535,6 @@ DecorSetBool(PlayerPedId(), "GSR_Active", false)
 --==============================================================================================================================--
 --==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--
 
-RegisterNetEvent("Add.GSR")
-AddEventHandler("Add.GSR", function()
-	GSR_LastShot = GetGameTimer()
-	DecorSetBool(PlayerPed, "GSR_Active", true)
-end)
-
 Citizen.CreateThread(function()
 	local AnimDict = "random@arrests"
 	local Anim1, Anim2 = "generic_radio_enter", "radio_chatter"
@@ -690,6 +684,21 @@ Citizen.CreateThread(function()
 			SetPedPathCanUseLadders(PlayerPed, false)
 			if IsPedInAnyVehicle(PlayerPed, false) then
 				DisableControlAction(0, 59, true)
+			end
+		end
+
+		if IsPedShooting(PlayerPed) then
+			local hasWeapon, currentWeapon = GetCurrentPedWeapon(PlayerPed, 1)
+			if currentWeapon ~= nil then
+				local WeaponStr = Weaponhashes[currentWeapon] or Weaponhashes[tostring(currentWeapon)]
+				if WeaponStr then
+					if GetAmmoInPedWeapon(PlayerPed, currentWeapon) > 0 then
+						if not GSR_Whitelist[currentWeapon] then
+							GSR_LastShot = GetGameTimer()
+							DecorSetBool(PlayerPed, "GSR_Active", true)
+						end
+					end
+				end
 			end
 		end
 
