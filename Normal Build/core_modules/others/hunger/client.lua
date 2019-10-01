@@ -21,27 +21,29 @@ local Oxygen = 100
 Citizen.CreateThread(function()
     while true do
         Citizen.Wait(0)
-        if GetEntityMaxHealth(GetPlayerPed(-1)) ~= 200 then
-            SetEntityMaxHealth(GetPlayerPed(-1), 200)
-            SetEntityHealth(GetPlayerPed(-1), 200)
+        local PlayerPed = PlayerPedId()
+        if GetEntityMaxHealth(PlayerPed) ~= 200 then
+            SetEntityMaxHealth(PlayerPed, 200)
+            SetEntityHealth(PlayerPed, 200)
         end
         
-        if Oxygen > 0 and not exports.core_modules2:ScubaHas() and IsPedSwimmingUnderWater(GetPlayerPed(-1)) then
-            Oxygen = Oxygen - 0.1
-        elseif Oxygen > 0 and exports.core_modules2:ScubaHas() and IsPedSwimmingUnderWater(GetPlayerPed(-1)) then
-            Oxygen = Oxygen - 0.00325
-        elseif not IsPedSwimmingUnderWater(PlayerPedId()) then
+        if IsPedSwimmingUnderWater(PlayerPedId()) then
+            if Oxygen > 0 and not exports.core_modules2:ScubaHas() then
+                Oxygen = Oxygen - 0.1
+            elseif Oxygen > 0 and exports.core_modules2:ScubaHas() then
+                Oxygen = Oxygen - 0.00325
+            end
+        elseif Oxygen ~= 100 then
             Oxygen = 100
         end
 
         if not hud_off then
-            local PlayerPed = PlayerPedId()
             local Air = 0.070 * (Oxygen / 100)
             local Hunger = 0.070 * (food / 100)
             local Thirst = 0.070 * (water / 100)
-            local parmor = GetPedArmour(GetPlayerPed(-1))
+            local parmor = GetPedArmour(PlayerPed)
             local Armor = 0.070 * (parmor / 100)
-            local phealth = GetEntityHealth(GetPlayerPed(-1)) - 100
+            local phealth = GetEntityHealth(PlayerPed) - 100
             local Health = 0.070 * (phealth / 100)
             if exports.core_modules2:SeatbeltActive() then
                 Seat = "~g~ BELT"
@@ -50,10 +52,11 @@ Citizen.CreateThread(function()
             end
             if(IsPedInAnyVehicle(PlayerPed, false))then
                 local cVeh = GetVehiclePedIsIn(PlayerPed, false)
-                local Mph = GetEntitySpeed(GetVehiclePedIsIn(GetPlayerPed(-1), false)) * 2.236936
+                local Mph = GetEntitySpeed(GetVehiclePedIsIn(PlayerPed, false)) * 2.236936
                 local Height = GetEntityHeightAboveGround(PlayerPedId())
                 local currentfuel = (DecorGetFloat(cVeh, "_Fuel_Level")*1.53846153846)
-                if GetVehicleClass(cVeh) == 15 or GetVehicleClass(cVeh) == 16 then
+                local VehicleClass = GetVehicleClass(cVeh)
+                if VehicleClass == 15 or VehicleClass == 16 then
                     drawHelpTxt(.66, 1.418, 1.0,1.0,0.55 , "~w~" .. math.ceil(Mph), 255, 255, 255, 250, 6)  -- Speed
                     drawHelpTxt(0.676, 1.428, 1.0,1.0,0.3, "~w~ MPH", 255, 255, 255, 250, 6)  -- MPH
                     drawHelpTxt(0.696, 1.418, 1.0,1.0,0.55 , "~w~" .. math.ceil(Height), 255, 255, 255, 250, 6)  -- Height
@@ -67,7 +70,7 @@ Citizen.CreateThread(function()
                     drawRct(0.015, 0.983, Hunger,0.01,180,162,53,200) -- Hunger Main
                     drawRct(0.0855, 0.983, 0.070,0.01,83,115,124,200) -- Thirst Background
                     drawRct(0.0855, 0.983, Thirst,0.01,95,156,178,200) -- Thirst Main
-                elseif GetVehicleClass(cVeh) == 14 then
+                elseif VehicleClass == 14 then
                     drawHelpTxt(.66, 1.418, 1.0,1.0,0.55 , "~w~" .. math.ceil(Mph), 255, 255, 255, 250, 6)  -- Speed
                     drawHelpTxt(0.676, 1.428, 1.0,1.0,0.3, "~w~ MPH", 255, 255, 255, 250, 6)  -- MPH
                     drawRct(0.015, 0.967, 0.1405,0.03,0,0,0,150) -- main
@@ -79,7 +82,7 @@ Citizen.CreateThread(function()
                     drawRct(0.015, 0.983, Hunger,0.01,180,162,53,200) -- Hunger Main
                     drawRct(0.0855, 0.983, 0.070,0.01,83,115,124,200) -- Thirst Background
                     drawRct(0.0855, 0.983, Thirst,0.01,95,156,178,200) -- Thirst Main
-                elseif GetVehicleClass(cVeh) == 13 then
+                elseif VehicleClass == 13 then
                     drawRct(0.015, 0.967, 0.1405,0.03,0,0,0,150) -- main
                     drawRct(0.015, 0.97, 0.070,0.01,68,102,68,200) -- Health Background
                     drawRct(0.015, 0.97, Health,0.01,55,185,55,200) -- Health Main
@@ -204,10 +207,11 @@ Citizen.CreateThread(function()
     while true do
         Citizen.Wait(0)
         if not isAdmin then
-            if IsPedRunning(GetPlayerPed(-1)) then
+            local PlayerPed = PlayerPedId()
+            if IsPedRunning(PlayerPed) then
                 food = food - 1
                 water = water - 0.8
-            elseif IsPedWalking(GetPlayerPed(-1)) then
+            elseif IsPedWalking(PlayerPed) then
                 food = food - 0.2
                 water = water - 0.1
             else
@@ -216,8 +220,8 @@ Citizen.CreateThread(function()
             end
             Citizen.Wait(40000)
             if food < 20 or water < 20 then
-                local newhealth = GetEntityHealth(GetPlayerPed(-1)) - 15
-                SetEntityHealth(GetPlayerPed(-1), newhealth)
+                local newhealth = GetEntityHealth(PlayerPed) - 15
+                SetEntityHealth(PlayerPed, newhealth)
             end
         end
     end
@@ -229,7 +233,7 @@ Citizen.CreateThread(function()
         if food <= 1 or water <= 1 then
             food = 0
             water = 0
-            SetEntityHealth(GetPlayerPed(-1), 0)
+            SetEntityHealth(PlayerPed, 0)
             food = 40
             water = 40
         end
