@@ -159,18 +159,15 @@ AddEventHandler("police:menu_citizen_breathalyzer", function()
 end)
 
 AddEventHandler("police:menu_citizen_gun_residue", function()
-    exports.ui:open()
-    local t, distance = GetClosestPlayer()
-    if(distance ~= -1 and distance < 3) then
-        isGSRactive = DecorGetBool(GetPlayerPed(t), "GSR_Active")
-        if isGSRactive then
-            Notify("Subject tested <b style='color:red'>Positive</b><br>They have discharged a firearm recently!", 3000)
+    TriggerEvent("GSR.Get", function(active)
+        exports.ui:open()
+
+        if active ~= nil then
+            Notify("Subject tested " .. (active and "<b style='color:red'>Positive</b>" or "<b style='color:lime'>Negative</b>") .. "<br>They have discharged a firearm recently!", 3000)
         else
-            Notify("Subject tested <b style='color:lime'>Negative</b><br>They haven't discharged a firearm recently!", 3000)
+            Notify("Please get closer to the target!", 2500)
         end
-    else
-        Notify("Please get closer to the target!", 2500)
-    end
+    end)
 end)
 
 AddEventHandler("police:menu_citizen_give_license", function()
