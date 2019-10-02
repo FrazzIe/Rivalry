@@ -32,10 +32,10 @@ AddEventHandler("Mechanic:Set", function(_Data, _Mechanic, first)
 	end
 end)
 
-function IsMechanic
+function IsMechanic()
 	return Mechanic.IsMechanic	
 end
 
-function MechanicIsInService
+function MechanicIsInService()
 	return Mechanic.Active	
 end
