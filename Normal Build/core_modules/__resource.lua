@@ -189,6 +189,9 @@ export 'NewsGetRank'
 export 'NewsOnDuty'
 export 'NewsIsNews'
 
+export 'IsMechanic'
+export 'MechanicIsInService'
+
 export 'SetParamedic'
 export 'SetPolice'
 
