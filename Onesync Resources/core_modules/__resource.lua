@@ -144,6 +144,8 @@ client_script 'others/environment/client.lua'
 server_script 'others/environment/config.lua'
 server_script 'others/environment/server.lua'
 
+client_script 'others/gsr/client.lua'
+
 --Interaction --Big point of interest
 client_script 'interaction/main.lua'
 server_script 'interaction/server.lua'
