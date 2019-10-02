@@ -4,6 +4,8 @@ Mechanic.Active = false
 Mechanic.Rank = nil
 Mechanic.Position = nil
 
+local SelectedVehicle = nil
+
 RegisterNetEvent("Mechanic:Set")
 AddEventHandler("Mechanic:Set", function(_Data, _Mechanic, first)
 	Mechanic.IsMechanic = _Mechanic
@@ -29,3 +31,11 @@ AddEventHandler("Mechanic:Set", function(_Data, _Mechanic, first)
 		TriggerServerEvent("jobcenter:jobs", 16)
 	end
 end)
+
+function IsMechanic
+	return Mechanic.IsMechanic	
+end
+
+function MechanicIsInService
+	return Mechanic.Active	
+end
