@@ -295,10 +295,12 @@ AddEventHandler('police:seize', function(target, type)
 			TriggerClientEvent("pNotify:SendNotification", target, {text = "Your phone was confiscated!",type = "error",queue = "left",timeout = 3000,layout = "centerRight"})
 			TriggerEvent("Phone.Set", target, false)
 		elseif type == "radio" then
-			_target.set("radio", "false")
-			TriggerClientEvent("pNotify:SendNotification", source, {text = "You seized their radio",type = "error",queue = "left",timeout = 3000,layout = "centerRight"})
-			TriggerClientEvent("pNotify:SendNotification", target, {text = "Your radio was confiscated!",type = "error",queue = "left",timeout = 3000,layout = "centerRight"})
-			TriggerClientEvent("Radio.Set", target, false)
+			TriggerEvent("core:getuser", target, function(_target)
+				_target.set("radio", "false")
+				TriggerClientEvent("pNotify:SendNotification", source, {text = "You seized their radio",type = "error",queue = "left",timeout = 3000,layout = "centerRight"})
+				TriggerClientEvent("pNotify:SendNotification", target, {text = "Your radio was confiscated!",type = "error",queue = "left",timeout = 3000,layout = "centerRight"})
+				TriggerClientEvent("Radio.Set", target, false)
+			end)
 		end
 	else
 		TriggerEvent("core:anticheat-ban", source)
