@@ -210,7 +210,7 @@ Citizen.CreateThread(function()
 		Citizen.Wait(0)
 		local PlayerPed = PlayerPedId()
 
-		if IsControlJustPressed(0, 289) and IsInputDisabled(2) and not IsPedFalling(PlayerPed) and not exports.core_modules:IsInJail() and not exports.policejob:getIsCuffed() and not exports.core_modules:isCuffed() then -- F2
+		if IsControlJustPressed(0, 289) and IsInputDisabled(2) and not IsPedFalling(PlayerPed) and not exports.core_modules:IsInJail() and not exports.policejob:getIsCuffed() and not exports.core_modules:isCuffed() and not IsControlPressed(0, 21) then -- F2
 			Phone:Toggle(true)
 		end
 
