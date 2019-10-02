@@ -408,6 +408,7 @@ AddEventHandler("interaction:wallet", function()
 	exports.ui:open()
 	if not IsInJail() and not exports.policejob:getIsCuffed() and not isCuffed() then
 		exports.ui:addOption("Phone", [[TriggerEvent("Phone.Open")]])
+		exports.ui:addOption("Radio", [[TriggerEvent("Radio.Toggle")]])
 	end
 
 	exports.ui:addOption("Licenses", [[TriggerEvent("interaction:licenses")]])
