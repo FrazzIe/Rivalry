@@ -17,6 +17,16 @@ local falpha = 200
 local walpha = 200
 local fualpha = 200
 local Oxygen = 100
+local SeatbeltStatus = false
+local Seat = "~r~ BELT"
+
+function SetSeatbeltStatus()
+    if SeatbeltStatus then
+        Seat = "~r~ BELT"
+    else
+        Seat = "~g~ BELT"
+    end
+end
 
 Citizen.CreateThread(function()
     while true do
@@ -45,11 +55,7 @@ Citizen.CreateThread(function()
             local Armor = 0.070 * (parmor / 100)
             local phealth = GetEntityHealth(PlayerPed) - 100
             local Health = 0.070 * (phealth / 100)
-            if exports.core_modules2:SeatbeltActive() then
-                Seat = "~g~ BELT"
-            else
-                Seat = "~r~ BELT"
-            end
+
             if(IsPedInAnyVehicle(PlayerPed, false))then
                 local cVeh = GetVehiclePedIsIn(PlayerPed, false)
                 local Mph = GetEntitySpeed(GetVehiclePedIsIn(PlayerPed, false)) * 2.236936

@@ -201,3 +201,8 @@ export 'DisableProne'
 export 'EnableProne'
 
 export 'RenderMarker'
+
+export 'DestroyVehicle'
+export 'DestroyObject'
+
+export 'SetSeatbeltStatus'

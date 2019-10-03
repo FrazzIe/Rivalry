@@ -74,6 +74,7 @@ Citizen.CreateThread(function()
 					if IsControlJustPressed(1, 29) then
 						Seatbelt.Active = not Seatbelt.Active
 						Notify(Seatbelt.Active and "Seatbelt: <span style='color:lime'>On</span>" or "Seatbelt: <span style='color:red'>Off</span>", 3000)
+						exports.core_modules:SetSeatbeltStatus()
 					end
 				else
 					Buffer.Speed[1], Buffer.Speed[2] = 0.0, 0.0
