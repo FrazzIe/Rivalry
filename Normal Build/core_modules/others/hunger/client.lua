@@ -23,9 +23,9 @@ local Seat = "~r~ BELT"
 function SetSeatbeltStatus()
     SeatbeltStatus = not SeatbeltStatus
     if SeatbeltStatus then
-        Seat = "~r~ BELT"
-    else
         Seat = "~g~ BELT"
+    else
+        Seat = "~r~ BELT"
     end
 end
 
