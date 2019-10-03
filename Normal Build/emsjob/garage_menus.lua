@@ -44,6 +44,17 @@ cars = {
     {name = "Explorer", model = "fdcar1", type = "", rank = "lieutenant"},
     {name = "Charger", model = "fdcar2", type = "", rank = "lieutenant"},
     {name = "Van", model = "emsvan", type = "", rank = "doctor"},
+    {name = "F150 Rescue", model = "chief", type = "", rank = "probationary"},
+    {name = "Chevy Tahoe 1", model = "chief2", type = "", rank = "paramedic"},
+    {name = "Chevy Tahoe 2", model = "chief3", type = "", rank = "paramedic"},
+    {name = "Ford Explorer", model = "chief4", type = "", rank = "lieutenant"},
+    {name = "Ambulance", model = "medic", type = "", rank = "probationary"},
+    {name = "Ambulance 2", model = "intflat", type = "", rank = "probationary"},
+    {name = "Ambulance 3", model = "intround", type = "", rank = "probationary"},
+    {name = "Heavy Duty Rescue Truck", model = "specops", type = "", rank = "specialist"},
+    {name = "Brush Truck", model = "wasp", type = "", rank = "specialist"},
+    {name = "Engine 22", model = "engine22", type = "", rank = "firefighter"},
+    {name = "Ladder 47", model = "tower", type = "", rank = "firefighter"}
 }
 
 heli = {
