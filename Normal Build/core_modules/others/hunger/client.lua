@@ -21,6 +21,7 @@ local SeatbeltStatus = false
 local Seat = "~r~ BELT"
 
 function SetSeatbeltStatus()
+    SeatbeltStatus = not SeatbeltStatus
     if SeatbeltStatus then
         Seat = "~r~ BELT"
     else
