@@ -212,3 +212,5 @@ export 'GetTime'
 
 export 'DestroyVehicle'
 export 'DestroyObject'
+
+export 'SetSeatbeltStatus'
