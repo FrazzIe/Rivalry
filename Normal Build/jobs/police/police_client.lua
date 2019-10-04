@@ -171,25 +171,20 @@ Citizen.CreateThread(function()
     while true do
         Citizen.Wait(10)
         if spikes_deployed then
-            for peeps = 0, 255 do
-                if NetworkIsPlayerActive(GetPlayerFromServerId(peeps)) then
-                    
-                    local currentVeh = GetVehiclePedIsIn(GetPlayerPed(GetPlayerFromServerId(peeps)), false)
-                    if currentVeh ~= nil and currentVeh ~= false then
-                        local currentVehcoords = GetEntityCoords(currentVeh, true)
-                        local obj1coords = GetEntityCoords(obj1, true)
-                        local obj2coords = GetEntityCoords(obj2, true)
-                        local obj3coords = GetEntityCoords(obj3, true)
-                        local DistanceBetweenObj1 = Vdist(obj1coords['x'], obj1coords['y'], obj1coords['z'], currentVehcoords['x'], currentVehcoords['y'], currentVehcoords['z'])
-                        local DistanceBetweenObj2 = Vdist(obj2coords['x'], obj2coords['y'], obj2coords['z'], currentVehcoords['x'], currentVehcoords['y'], currentVehcoords['z'])
-                        local DistanceBetweenObj3 = Vdist(obj3coords['x'], obj3coords['y'], obj3coords['z'], currentVehcoords['x'], currentVehcoords['y'], currentVehcoords['z'])
-                        if DistanceBetweenObj1 < 2.2 or DistanceBetweenObj2 < 2.2 or DistanceBetweenObj3 < 2.2 then
-                            
-							TriggerServerEvent("police:spikes", currentVeh, peeps)
-                            --TriggerEvent("police:Deploy")
-                        end
-                    end
-                end
+			for _, peeps in ipairs(GetActivePlayers()) do
+				local currentVeh = GetVehiclePedIsIn(GetPlayerPed(GetPlayerFromServerId(peeps)), false)
+				if currentVeh ~= nil and currentVeh ~= false then
+					local currentVehcoords = GetEntityCoords(currentVeh, true)
+					local obj1coords = GetEntityCoords(obj1, true)
+					local obj2coords = GetEntityCoords(obj2, true)
+					local obj3coords = GetEntityCoords(obj3, true)
+					local DistanceBetweenObj1 = Vdist(obj1coords['x'], obj1coords['y'], obj1coords['z'], currentVehcoords['x'], currentVehcoords['y'], currentVehcoords['z'])
+					local DistanceBetweenObj2 = Vdist(obj2coords['x'], obj2coords['y'], obj2coords['z'], currentVehcoords['x'], currentVehcoords['y'], currentVehcoords['z'])
+					local DistanceBetweenObj3 = Vdist(obj3coords['x'], obj3coords['y'], obj3coords['z'], currentVehcoords['x'], currentVehcoords['y'], currentVehcoords['z'])
+					if DistanceBetweenObj1 < 2.2 or DistanceBetweenObj2 < 2.2 or DistanceBetweenObj3 < 2.2 then
+						TriggerServerEvent("police:spikes", currentVeh, peeps)
+					end
+				end
             end
         end
     end
@@ -359,8 +354,8 @@ function enableCopBlips()
 	blipsCops = {}
 	
 	local localIdCops = {}
-	for id = 0, 255 do
-		if(NetworkIsPlayerActive(id) and GetPlayerPed(id) ~= GetPlayerPed(-1)) then
+	for _, id in ipairs(GetActivePlayers()) do
+		if (GetPlayerPed(id) ~= GetPlayerPed(-1)) then
 			for i,c in pairs(allServiceCops) do
 				if(i == GetPlayerServerId(id)) then
 					localIdCops[id] = c
@@ -409,10 +404,8 @@ end
 function GetPlayers()
     local players = {}
 
-    for i = 0, 255 do
-        if NetworkIsPlayerActive(i) then
-            table.insert(players, i)
-        end
+    for _, player in ipairs(GetActivePlayers()) do
+        table.insert(players, player)
     end
 
     return players

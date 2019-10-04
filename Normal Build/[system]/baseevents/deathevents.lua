@@ -492,8 +492,8 @@ Citizen.CreateThread(function()
 end)
 
 function GetPlayerByEntityID(id)
-	for i=0,255 do
-		if(NetworkIsPlayerActive(i) and GetPlayerPed(i) == id) then return i end
+	for _, player in ipairs(GetActivePlayers()) do
+		if(GetPlayerPed(player) == id) then return player end
 	end
 	return nil
 end

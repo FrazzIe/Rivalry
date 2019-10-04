@@ -69,14 +69,14 @@ Citizen.CreateThread(function()
 
 		if not hud_off then
 			if WarMenu.IsMenuOpened("Scoreboard") or WarMenu.IsMenuOpened("player_info") or WarMenu.IsMenuOpened("player_info_disconnected") or WarMenu.IsMenuOpened("disconnected") then
-				for PlayerIndex = 0, 255 do
+				for _, PlayerIndex in ipairs(GetActivePlayers()) do
 					RemoveMpGamerTag(PlayerIndex)
 				end
 
 				local PlayerPosition = GetEntityCoords(PlayerPed, false)
 
-				for PlayerIndex = 0, 255 do
-					if NetworkIsPlayerActive(PlayerIndex) and GetPlayerPed(PlayerIndex) ~= PlayerPed then
+				for _, PlayerIndex in ipairs(GetActivePlayers()) do
+					if GetPlayerPed(PlayerIndex) ~= PlayerPed then
 						local OtherPed = GetPlayerPed(PlayerIndex)
 						local OtherPlayerPosition = GetEntityCoords(OtherPed, false)
 						local Distance = GetDistanceBetweenCoords(PlayerPosition.x, PlayerPosition.y, PlayerPosition.z, OtherPlayerPosition.x, OtherPlayerPosition.y, OtherPlayerPosition.z, true)

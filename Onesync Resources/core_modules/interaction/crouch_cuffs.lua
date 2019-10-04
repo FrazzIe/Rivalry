@@ -268,33 +268,31 @@ Citizen.CreateThread(function()
 		local PlayerPed = PlayerPedId()
 		local PlayerPosition = GetEntityCoords(PlayerPed, false)
 
-		for PlayerIndex = 0, 255 do
-			if NetworkIsPlayerActive(PlayerIndex) then
-				if PlayerId ~= PlayerIndex then
-					local OtherPed = GetPlayerPed(PlayerIndex)
-					if DoesEntityExist(OtherPed) then
-						local OtherPlayerPosition = GetEntityCoords(OtherPed, false)
-						if GetDistanceBetweenCoords(PlayerPosition.x, PlayerPosition.y, PlayerPosition.z, OtherPlayerPosition.x, OtherPlayerPosition.y, OtherPlayerPosition.z, true) < 2 then
-							local OtherServerId = GetPlayerServerId(PlayerIndex)
-							if handcuffs[OtherServerId] then
-								if handcuffs[OtherServerId].cuffed then
-									if GetCurrentPedWeapon(PlayerPed, KnifeHash, true) or handcuffs[OtherServerId].keyholder == ServerId then
-										DisplayHelpText("Press ~INPUT_CONTEXT~ to uncuff "..exports.core:GetCharacterName(OtherServerId))
-										if IsControlJustPressed(1, 51) then
-                                    		local uncuffing = GetGameTimer() + 4000
-                                    		while uncuffing > GetGameTimer() do
-                                        		Citizen.Wait(0)
-                                        		PlayerPed = PlayerPedId()
+		for _, PlayerIndex in ipairs(GetActivePlayers()) do
+			if PlayerId ~= PlayerIndex then
+				local OtherPed = GetPlayerPed(PlayerIndex)
+				if DoesEntityExist(OtherPed) then
+					local OtherPlayerPosition = GetEntityCoords(OtherPed, false)
+					if GetDistanceBetweenCoords(PlayerPosition.x, PlayerPosition.y, PlayerPosition.z, OtherPlayerPosition.x, OtherPlayerPosition.y, OtherPlayerPosition.z, true) < 2 then
+						local OtherServerId = GetPlayerServerId(PlayerIndex)
+						if handcuffs[OtherServerId] then
+							if handcuffs[OtherServerId].cuffed then
+								if GetCurrentPedWeapon(PlayerPed, KnifeHash, true) or handcuffs[OtherServerId].keyholder == ServerId then
+									DisplayHelpText("Press ~INPUT_CONTEXT~ to uncuff "..exports.core:GetCharacterName(OtherServerId))
+									if IsControlJustPressed(1, 51) then
+										local uncuffing = GetGameTimer() + 4000
+										while uncuffing > GetGameTimer() do
+											Citizen.Wait(0)
+											PlayerPed = PlayerPedId()
 
-                                        		if not IsEntityPlayingAnim(PlayerPed, "weapons@first_person@aim_idle@p_m_zero@melee@knife@fidgets@b", "fidget_low_loop", 3) then
-                                            		TaskPlayAnim(PlayerPed, "weapons@first_person@aim_idle@p_m_zero@melee@knife@fidgets@b", "fidget_low_loop", 8.0, -4.0, -1, 9, 0, false, false, false)
-                                        		end
-                                    		end
-                                    		ClearPedTasks(PlayerPed)
-
-                                    		if not IsEntityDead(PlayerPed) and not cuffed then 
-												TriggerServerEvent("handcuffs:uncuff", OtherServerId)
+											if not IsEntityPlayingAnim(PlayerPed, "weapons@first_person@aim_idle@p_m_zero@melee@knife@fidgets@b", "fidget_low_loop", 3) then
+												TaskPlayAnim(PlayerPed, "weapons@first_person@aim_idle@p_m_zero@melee@knife@fidgets@b", "fidget_low_loop", 8.0, -4.0, -1, 9, 0, false, false, false)
 											end
+										end
+										ClearPedTasks(PlayerPed)
+
+										if not IsEntityDead(PlayerPed) and not cuffed then 
+											TriggerServerEvent("handcuffs:uncuff", OtherServerId)
 										end
 									end
 								end

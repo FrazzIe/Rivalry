@@ -48,10 +48,8 @@ end
 
 function GetPlayers()
 	local Players = {}
-	for Index = 0, 255 do
-		if NetworkIsPlayerActive(Index) then
-			table.insert(Players, Index)
-		end
+	for _, player in ipairs(GetActivePlayers()) do
+		table.insert(Players, player)
 	end
 	return Players
 end

@@ -112,27 +112,27 @@ AddEventHandler("interaction:hud:cameras", function()
     end)
 end)
 
-Citizen.CreateThread(function()
-    while true do
-        local VoiceRange = GetVoiceRange()
-        for ID = 0, 255 do
-            if ((NetworkIsPlayerActive(ID)) and GetPlayerPed(ID) ~= GetPlayerPed(-1)) then
-                Ped = GetPlayerPed(ID)
-                Player = GetEntityCoords(PlayerPedId(), true)
-                OtherPlayer = GetEntityCoords(GetPlayerPed(ID), true)
-                x2, y2, z2 = table.unpack(OtherPlayer)
-                Distance = #(OtherPlayer - Player)
-                local ToFeet = 0.95
-                if ((Distance < VoiceRange) and IsEntityVisible(GetPlayerPed(ID))) ~= GetPlayerPed(-1) then
-                    if NetworkIsPlayerTalking(ID) then
-                        DrawMarker(25,x2,y2,z2-ToFeet, 0, 0, 0, 0, 0, 0, 1.0, 1.0, 10.3, 55, 160, 205, 105, 0, 0, 2, 0, 0, 0, 0)
-                    end
-                end  
-            end
-        end
-        Citizen.Wait(0)
-    end
-end)
+-- Citizen.CreateThread(function()
+--     while true do
+--         local VoiceRange = GetVoiceRange()
+--         for ID = 0, 255 do
+--             if ((NetworkIsPlayerActive(ID)) and GetPlayerPed(ID) ~= GetPlayerPed(-1)) then
+--                 Ped = GetPlayerPed(ID)
+--                 Player = GetEntityCoords(PlayerPedId(), true)
+--                 OtherPlayer = GetEntityCoords(GetPlayerPed(ID), true)
+--                 x2, y2, z2 = table.unpack(OtherPlayer)
+--                 Distance = #(OtherPlayer - Player)
+--                 local ToFeet = 0.95
+--                 if ((Distance < VoiceRange) and IsEntityVisible(GetPlayerPed(ID))) ~= GetPlayerPed(-1) then
+--                     if NetworkIsPlayerTalking(ID) then
+--                         DrawMarker(25,x2,y2,z2-ToFeet, 0, 0, 0, 0, 0, 0, 1.0, 1.0, 10.3, 55, 160, 205, 105, 0, 0, 2, 0, 0, 0, 0)
+--                     end
+--                 end  
+--             end
+--         end
+--         Citizen.Wait(0)
+--     end
+-- end)
 
 Citizen.CreateThread(function()
     while true do

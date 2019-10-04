@@ -55,8 +55,8 @@ end
 local function FindNearbyPlayers(distance)
 
 	local results = {}
-	for i=-1,255 do
-		if NetworkIsPlayerActive(i) and GetPlayerPed(i) ~= nil then
+	for _, i in ipairs(GetActivePlayers()) do
+		if GetPlayerPed(i) ~= nil then
 			local targetPed = GetPlayerPed(i)
 			if GetDistanceBetweenCoords(GetEntityCoords(targetPed),GetEntityCoords(GetPlayerPed(-1))) < distance then
 				if GetPlayerPed(-1) ~= GetPlayerPed(i) then
@@ -253,11 +253,9 @@ AddEventHandler("core:pvp", function()
 	Citizen.CreateThread(function()
 		while true do
 			Citizen.Wait(0)
-			for i = 0,255 do
-				if NetworkIsPlayerActive(i) then
-					SetCanAttackFriendly(GetPlayerPed(i), true, true)
-					NetworkSetFriendlyFireOption(true)
-				end
+			for _, player in ipairs(GetActivePlayers()) do
+				SetCanAttackFriendly(GetPlayerPed(player), true, true)
+				NetworkSetFriendlyFireOption(true)
 			end
 		end
 	end)

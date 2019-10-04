@@ -257,26 +257,24 @@ Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(0)
 		if Spikes.Spawned then
-			for Index = 0, 255 do
-				if NetworkIsPlayerActive(Index) then
-					local TargetPed = GetPlayerPed(Index)
-					if DoesEntityExist(TargetPed) then
-						local Vehicle = GetVehiclePedIsUsing(TargetPed)
-						if DoesEntityExist(Vehicle) then
-							local VehiclePosition = GetEntityCoords(Vehicle, false)
-							local Spikestrip = GetClosestObjectOfType(VehiclePosition.x, VehiclePosition.y, VehiclePosition.z, 30.0, GetHashKey(Spikes.Model), false, 1, 1)
-							if DoesEntityExist(Spikestrip) then
-								local SpikestripPosition = GetEntityCoords(Spikestrip, false)
-								local Distance = Vdist(VehiclePosition.x, VehiclePosition.y, VehiclePosition.z, SpikestripPosition.x, SpikestripPosition.y, SpikestripPosition.z)
-								if Distance < 15 then
-									for Wheel = 1, #Spikes.Tyres do
-										local TyrePosition = GetWorldPositionOfEntityBone(Vehicle, GetEntityBoneIndexByName(Vehicle, Spikes.Tyres[Wheel].Bone))
-										Distance = Vdist(TyrePosition.x, TyrePosition.y, TyrePosition.z, SpikestripPosition.x, SpikestripPosition.y, SpikestripPosition.z)
-										if Distance < 1.8 then
-											if not IsVehicleTyreBurst(Vehicle, Spikes.Tyres[Wheel].Index, true) or IsVehicleTyreBurst(Vehicle, Spikes.Tyres[Wheel].Index, false) then
-												SetVehicleTyreBurst(Vehicle, Spikes.Tyres[Wheel].Index, false, 1000.0)
-												TriggerServerEvent("Spikes.Burst", GetPlayerServerId(Index), Spikes.Tyres[Wheel].Index)
-											end
+			for _, player in ipairs(GetActivePlayers()) do
+				local TargetPed = GetPlayerPed(player)
+				if DoesEntityExist(TargetPed) then
+					local Vehicle = GetVehiclePedIsUsing(TargetPed)
+					if DoesEntityExist(Vehicle) then
+						local VehiclePosition = GetEntityCoords(Vehicle, false)
+						local Spikestrip = GetClosestObjectOfType(VehiclePosition.x, VehiclePosition.y, VehiclePosition.z, 30.0, GetHashKey(Spikes.Model), false, 1, 1)
+						if DoesEntityExist(Spikestrip) then
+							local SpikestripPosition = GetEntityCoords(Spikestrip, false)
+							local Distance = Vdist(VehiclePosition.x, VehiclePosition.y, VehiclePosition.z, SpikestripPosition.x, SpikestripPosition.y, SpikestripPosition.z)
+							if Distance < 15 then
+								for Wheel = 1, #Spikes.Tyres do
+									local TyrePosition = GetWorldPositionOfEntityBone(Vehicle, GetEntityBoneIndexByName(Vehicle, Spikes.Tyres[Wheel].Bone))
+									Distance = Vdist(TyrePosition.x, TyrePosition.y, TyrePosition.z, SpikestripPosition.x, SpikestripPosition.y, SpikestripPosition.z)
+									if Distance < 1.8 then
+										if not IsVehicleTyreBurst(Vehicle, Spikes.Tyres[Wheel].Index, true) or IsVehicleTyreBurst(Vehicle, Spikes.Tyres[Wheel].Index, false) then
+											SetVehicleTyreBurst(Vehicle, Spikes.Tyres[Wheel].Index, false, 1000.0)
+											TriggerServerEvent("Spikes.Burst", GetPlayerServerId(Index), Spikes.Tyres[Wheel].Index)
 										end
 									end
 								end
@@ -565,49 +563,47 @@ Citizen.CreateThread(function()
 					if IsPlayerFreeAiming(PlayerId) then
 						local PlayerPosition = GetEntityCoords(PlayerPed, false)
 
-						for PlayerIndex = 0, 255 do
-							if NetworkIsPlayerActive(PlayerIndex) then
-								if PlayerId ~= PlayerIndex then
-									local OtherPed = GetPlayerPed(PlayerIndex)
+						for _, PlayerIndex in ipairs(GetActivePlayers()) do
+							if PlayerId ~= PlayerIndex then
+								local OtherPed = GetPlayerPed(PlayerIndex)
 
-									if DoesEntityExist(OtherPed) then
-										local OtherPosition = GetEntityCoords(OtherPed, false)
-										local Distance = GetDistanceBetweenCoords(PlayerPosition.x, PlayerPosition.y, PlayerPosition.z, OtherPosition.x, OtherPosition.y, OtherPosition.z, true)
+								if DoesEntityExist(OtherPed) then
+									local OtherPosition = GetEntityCoords(OtherPed, false)
+									local Distance = GetDistanceBetweenCoords(PlayerPosition.x, PlayerPosition.y, PlayerPosition.z, OtherPosition.x, OtherPosition.y, OtherPosition.z, true)
 
-										if Distance < 1.0 then
-											local isUserCuffed, cuffType = DecorGetBool(OtherPed, "policeCuffed"), DecorGetBool(OtherPed, "Cuffedtype")
-											local OtherServerId = GetPlayerServerId(PlayerIndex)
-											local OtherCharacterName = exports.core:GetCharacterName(OtherServerId)
-											if not isUserCuffed then
-												DisplayHelpText("Press ~INPUT_CONTEXT~ to cuff "..OtherCharacterName)
+									if Distance < 1.0 then
+										local isUserCuffed, cuffType = DecorGetBool(OtherPed, "policeCuffed"), DecorGetBool(OtherPed, "Cuffedtype")
+										local OtherServerId = GetPlayerServerId(PlayerIndex)
+										local OtherCharacterName = exports.core:GetCharacterName(OtherServerId)
+										if not isUserCuffed then
+											DisplayHelpText("Press ~INPUT_CONTEXT~ to cuff "..OtherCharacterName)
 
-												if IsControlJustPressed(1, 51) then
-													RequestAnimDict(Animations.Arresting.Dictionary)
-													while not HasAnimDictLoaded(Animations.Arresting.Dictionary) do
-														Citizen.Wait(0)
-													end
-													TaskPlayAnim(PlayerPed, Animations.Arresting.Dictionary, Animations.Arresting.Cop, 8.0, -8, -1, 48, 0, 0, 0, 0)
-													TriggerServerEvent("police:cuff", OtherServerId, "normal", GetPlayerServerId(PlayerPed))
-													Citizen.Wait(3500)
-													ClearPedTasksImmediately(PlayerPed)
+											if IsControlJustPressed(1, 51) then
+												RequestAnimDict(Animations.Arresting.Dictionary)
+												while not HasAnimDictLoaded(Animations.Arresting.Dictionary) do
+													Citizen.Wait(0)
 												end
+												TaskPlayAnim(PlayerPed, Animations.Arresting.Dictionary, Animations.Arresting.Cop, 8.0, -8, -1, 48, 0, 0, 0, 0)
+												TriggerServerEvent("police:cuff", OtherServerId, "normal", GetPlayerServerId(PlayerPed))
+												Citizen.Wait(3500)
+												ClearPedTasksImmediately(PlayerPed)
+											end
+										else
+											if cuffType then
+												DisplayHelpText("Press ~INPUT_CONTEXT~ to uncuff "..OtherCharacterName.."\nPress ~INPUT_INTERACTION_MENU~ to loosen")
 											else
-												if cuffType then
-													DisplayHelpText("Press ~INPUT_CONTEXT~ to uncuff "..OtherCharacterName.."\nPress ~INPUT_INTERACTION_MENU~ to loosen")
-												else
-													DisplayHelpText("Press ~INPUT_CONTEXT~ to uncuff "..OtherCharacterName.."\nPress ~INPUT_INTERACTION_MENU~ to tighten")
-												end
+												DisplayHelpText("Press ~INPUT_CONTEXT~ to uncuff "..OtherCharacterName.."\nPress ~INPUT_INTERACTION_MENU~ to tighten")
+											end
 
-												if IsControlJustPressed(1, 51) then
-													TriggerServerEvent("police:uncuff", OtherServerId)
-												end
-												
-												if IsControlJustPressed(1, 244) then
-													if cuffType then
-														TriggerServerEvent("police:cuff", OtherServerId, "normal")
-													else
-														TriggerServerEvent("police:cuff", OtherServerId, "freeze")
-													end
+											if IsControlJustPressed(1, 51) then
+												TriggerServerEvent("police:uncuff", OtherServerId)
+											end
+											
+											if IsControlJustPressed(1, 244) then
+												if cuffType then
+													TriggerServerEvent("police:cuff", OtherServerId, "normal")
+												else
+													TriggerServerEvent("police:cuff", OtherServerId, "freeze")
 												end
 											end
 										end
@@ -732,37 +728,35 @@ Citizen.CreateThread(function()
 				local PlayerPosition = GetEntityCoords(PlayerPed, false)
 
 
-				for PlayerIndex = 0, 255 do
-					if NetworkIsPlayerActive(PlayerIndex) then
-						if PlayerId ~= PlayerIndex then
-							local OtherPed = GetPlayerPed(PlayerIndex)
-							if DoesEntityExist(OtherPed) then
-								local OtherPosition = GetEntityCoords(OtherPed, false)
-								local Distance = GetDistanceBetweenCoords(PlayerPosition.x, PlayerPosition.y, PlayerPosition.z, OtherPosition.x, OtherPosition.y, OtherPosition.z, true)
+				for _, PlayerIndex in ipairs(GetActivePlayers()) do
+					if PlayerId ~= PlayerIndex then
+						local OtherPed = GetPlayerPed(PlayerIndex)
+						if DoesEntityExist(OtherPed) then
+							local OtherPosition = GetEntityCoords(OtherPed, false)
+							local Distance = GetDistanceBetweenCoords(PlayerPosition.x, PlayerPosition.y, PlayerPosition.z, OtherPosition.x, OtherPosition.y, OtherPosition.z, true)
 
-								if Distance < 1.0 then
-									local isUserCuffed = DecorGetBool(OtherPed, "policeCuffed")
-									if isUserCuffed then
-										local OtherServerId = GetPlayerServerId(PlayerIndex)
+							if Distance < 1.0 then
+								local isUserCuffed = DecorGetBool(OtherPed, "policeCuffed")
+								if isUserCuffed then
+									local OtherServerId = GetPlayerServerId(PlayerIndex)
 
-										DisplayHelpText("Press ~INPUT_CONTEXT~ to uncuff "..exports.core:GetCharacterName(OtherServerId))
+									DisplayHelpText("Press ~INPUT_CONTEXT~ to uncuff "..exports.core:GetCharacterName(OtherServerId))
 
-										if IsControlJustPressed(1, 51) then
-											local uncuffing = GetGameTimer() + 7500
+									if IsControlJustPressed(1, 51) then
+										local uncuffing = GetGameTimer() + 7500
+										
+										while uncuffing > GetGameTimer() do
+											Citizen.Wait(0)
+
+											if not IsEntityPlayingAnim(PlayerPed, AnimDict, Anim, 3) then
+												TaskPlayAnim(PlayerPed, AnimDict, Anim, 8.0, -4.0, -1, 9, 0, false, false, false)
+											end
+										end
 											
-											while uncuffing > GetGameTimer() do
-												Citizen.Wait(0)
-
-												if not IsEntityPlayingAnim(PlayerPed, AnimDict, Anim, 3) then
-													TaskPlayAnim(PlayerPed, AnimDict, Anim, 8.0, -4.0, -1, 9, 0, false, false, false)
-												end
-											end
-												
-											ClearPedTasks(PlayerPed)
-												
-											if not IsEntityDead(PlayerPed) and not cuffed then 
-												TriggerServerEvent("police:uncuff", OtherServerId)
-											end
+										ClearPedTasks(PlayerPed)
+											
+										if not IsEntityDead(PlayerPed) and not cuffed then 
+											TriggerServerEvent("police:uncuff", OtherServerId)
 										end
 									end
 								end

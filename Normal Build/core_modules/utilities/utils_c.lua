@@ -496,8 +496,8 @@ end
 
 function FindNearbyPlayers(distance)
     local results = {}
-    for i = -1, 255 do
-        if NetworkIsPlayerActive(i) and GetPlayerPed(i) ~= nil then
+    for _, i in ipairs(GetActivePlayers()) do
+        if GetPlayerPed(i) ~= nil then
             local targetPed = GetPlayerPed(i)
             if GetDistanceBetweenCoords(GetEntityCoords(targetPed),GetEntityCoords(PlayerPedId())) < distance then
                 if PlayerPedId() ~= GetPlayerPed(i) then

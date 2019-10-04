@@ -128,8 +128,8 @@ function enableCopBlips() --Needs worked on
 	blipsCops = {}
 	
 	local localIdCops = {}
-	for id = 0, 255 do
-		if(NetworkIsPlayerActive(id) and GetPlayerPed(id) ~= GetPlayerPed(-1)) then
+	for _, id in ipairs(GetActivePlayers()) do
+		if(GetPlayerPed(id) ~= GetPlayerPed(-1)) then
 			for i,c in pairs(allServiceCops) do
 				if(i == GetPlayerServerId(id)) then
 					localIdCops[id] = c

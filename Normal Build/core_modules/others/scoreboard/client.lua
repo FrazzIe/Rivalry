@@ -41,10 +41,8 @@ Citizen.CreateThread(function()
 			if not isCarshopOpen and not isCarRentalOpen and not isBoatRentalOpen and not isBikeRentalOpen then
 				if not WarMenu.IsMenuOpened("Scoreboard") then
 					local players = {}
-					for i = 1,255 do
-						if NetworkIsPlayerActive(i) then
-							table.insert(players, {id = GetPlayerServerId(i), name = GetPlayerName(i), steam = "Not found", license = "Not found", ip = "Not found"})
-						end
+					for _, player in ipairs(GetActivePlayers()) do
+						table.insert(players, {id = GetPlayerServerId(player), name = GetPlayerName(player), steam = "Not found", license = "Not found", ip = "Not found"})
 					end
 					TriggerServerEvent("scoreboard:getUserInformation", players)
 

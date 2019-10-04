@@ -16,10 +16,8 @@ local InstructionalButtons = nil
 
 local function getPlayers() --Get all users
 	local players = {}
-	for i = 0, 255 do
-		if NetworkIsPlayerActive(i) then
-			table.insert(players, {id = GetPlayerServerId(i), name = GetPlayerName(i)})
-		end
+	for _, player in ipairs(GetActivePlayers()) do
+		table.insert(players, {id = GetPlayerServerId(player), name = GetPlayerName(player)})
 	end
 	return players
 end

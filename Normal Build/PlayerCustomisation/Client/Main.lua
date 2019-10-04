@@ -616,15 +616,13 @@ Citizen.CreateThread(function()
 				SetTextRenderId(1)
 			end
 
-			for Player = 0, 255 do
-				if NetworkIsPlayerActive(Player) then
-					local OtherPed = GetPlayerPed(Player)
-					if OtherPed ~= PlayerPed then
-						SetEntityVisible(OtherPed, false)
-						SetEntityNoCollisionEntity(PlayerPed, OtherPed, true)
-					else
-						SetEntityVisible(PlayerPed, true)
-					end
+			for _, Player in ipairs(GetActivePlayers()) do
+				local OtherPed = GetPlayerPed(Player)
+				if OtherPed ~= PlayerPed then
+					SetEntityVisible(OtherPed, false)
+					SetEntityNoCollisionEntity(PlayerPed, OtherPed, true)
+				else
+					SetEntityVisible(PlayerPed, true)
 				end
 			end
 		else
