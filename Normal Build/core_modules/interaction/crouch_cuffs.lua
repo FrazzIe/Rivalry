@@ -259,7 +259,7 @@ Citizen.CreateThread(function()
 end)
 
 Citizen.CreateThread(function()
-	local KnifeHash = GetHashKey("WEAPON_KNIFE")
+	local KnifeHash = `WEAPON_KNIFE`
 	while true do
 		Citizen.Wait(0)
 
@@ -273,11 +273,13 @@ Citizen.CreateThread(function()
 				local OtherPed = GetPlayerPed(PlayerIndex)
 				if DoesEntityExist(OtherPed) then
 					local OtherPlayerPosition = GetEntityCoords(OtherPed, false)
-					if GetDistanceBetweenCoords(PlayerPosition.x, PlayerPosition.y, PlayerPosition.z, OtherPlayerPosition.x, OtherPlayerPosition.y, OtherPlayerPosition.z, true) < 2 then
+					local Distance = #(PlayerPosition - OtherPlayerPosition)
+					if Distance < 2 then
 						local OtherServerId = GetPlayerServerId(PlayerIndex)
 						if handcuffs[OtherServerId] then
 							if handcuffs[OtherServerId].cuffed then
-								if GetCurrentPedWeapon(PlayerPed, KnifeHash, true) or handcuffs[OtherServerId].keyholder == ServerId then
+								local hasWeapon, currentWeapon = GetCurrentPedWeapon(PlayerPed, 1)
+								if currentWeapon == KnifeHash or handcuffs[OtherServerId].keyholder == ServerId then
 									DisplayHelpText("Press ~INPUT_CONTEXT~ to uncuff "..exports.core:GetCharacterName(OtherServerId))
 									if IsControlJustPressed(1, 51) then
 										local uncuffing = GetGameTimer() + 4000

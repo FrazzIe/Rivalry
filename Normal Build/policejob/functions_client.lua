@@ -710,7 +710,7 @@ end)
 Citizen.CreateThread(function()
 	local AnimDict = "weapons@first_person@aim_idle@p_m_zero@melee@knife@fidgets@b"
 	local Anim = "fidget_low_loop"
-	local Knifehash = GetHashKey("WEAPON_KNIFE")
+	local knifeHash = `WEAPON_KNIFE`
 
 	RequestAnimDict(AnimDict)
 
@@ -722,8 +722,8 @@ Citizen.CreateThread(function()
 		Citizen.Wait(0)
 		if not isInService then
 			local PlayerPed = PlayerPedId()
-
-			if GetCurrentPedWeapon(PlayerPed, Knifehash, true) then
+			local hasWeapon, currentWeapon = GetCurrentPedWeapon(PlayerPed, 1)
+			if currentWeapon == knifeHash then
 				local PlayerId = PlayerId()
 				local PlayerPosition = GetEntityCoords(PlayerPed, false)
 
@@ -733,7 +733,7 @@ Citizen.CreateThread(function()
 						local OtherPed = GetPlayerPed(PlayerIndex)
 						if DoesEntityExist(OtherPed) then
 							local OtherPosition = GetEntityCoords(OtherPed, false)
-							local Distance = GetDistanceBetweenCoords(PlayerPosition.x, PlayerPosition.y, PlayerPosition.z, OtherPosition.x, OtherPosition.y, OtherPosition.z, true)
+							local Distance = #(PlayerPosition - OtherPosition)
 
 							if Distance < 1.0 then
 								local isUserCuffed = DecorGetBool(OtherPed, "policeCuffed")
