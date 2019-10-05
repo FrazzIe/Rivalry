@@ -89,7 +89,7 @@
 						</h1>
 						<h2>{{contacts.length}} contacts</h2>
 						<ul>
-							<li ng-repeat="contact in contacts track by $index">
+							<li ng-repeat="contact in contacts | orderBy:['first_name','last_name']">
 								<p class="name">{{contact.first_name}} {{contact.last_name}}</p>
 								<p class="number">{{contact.contact_number}}</p>
 								<div class="contact-actions">
