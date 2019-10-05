@@ -171,3 +171,17 @@ AddEventHandler("informer:chopshop", function()
 		end
 	end)
 end)
+
+RegisterServerEvent("informer:uncuff")
+AddEventHandler("informer:uncuff", function()
+	local source = tonumber(source)
+	TriggerEvent('core:getuser', source, function(user)
+		local price = 1000
+		if (tonumber(user.get("wallet")) >= tonumber(price)) then
+			user.removeWallet(price)
+			TriggerClientEvent('chatMessage', source, 'Informer ', {0, 255, 100}, "I heard there is some guy that operates at some tractor part place in sandy" )
+		else
+			TriggerClientEvent('chatMessage', source, 'Informer ', {0, 255, 100}, "Information isn't free, get your bread up!")
+		end
+	end)
+end)
