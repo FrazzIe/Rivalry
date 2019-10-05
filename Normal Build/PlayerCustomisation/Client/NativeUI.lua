@@ -2862,7 +2862,7 @@ function UIMenu:ProcessControl()
 	end
 
 	if not self.UpPressed then
-		if self.Controls.Up.Enabled and (IsDisabledControlJustPressed(0, 172) or IsDisabledControlJustPressed(1, 172) or IsDisabledControlJustPressed(2, 172) or IsDisabledControlJustPressed(0, 241) or IsDisabledControlJustPressed(1, 241) or IsDisabledControlJustPressed(2, 241) or IsDisabledControlJustPressed(2, 241)) then
+		if self.Controls.Up.Enabled and (IsDisabledControlJustPressed(0, 172) or IsDisabledControlJustPressed(1, 172) or IsDisabledControlJustPressed(2, 172) or IsDisabledControlJustPressed(0, 241) or IsDisabledControlJustPressed(1, 241) or IsDisabledControlJustPressed(2, 241)) then
 			Citizen.CreateThread(function()
 				self.UpPressed = true
 				if #self.Items > self.Pagination.Total + 1 then
@@ -2872,7 +2872,7 @@ function UIMenu:ProcessControl()
 				end
 				self:UpdateScaleform()
 				Citizen.Wait(175)
-				while self.Controls.Up.Enabled and (IsDisabledControlPressed(0, 172) or IsDisabledControlPressed(1, 172) or IsDisabledControlPressed(2, 172) or IsDisabledControlPressed(0, 241) or IsDisabledControlPressed(1, 241) or IsDisabledControlPressed(2, 241) or IsDisabledControlPressed(2, 241)) do
+				while self.Controls.Up.Enabled and (IsDisabledControlPressed(0, 172) or IsDisabledControlPressed(1, 172) or IsDisabledControlPressed(2, 172) or IsDisabledControlPressed(0, 241) or IsDisabledControlPressed(1, 241) or IsDisabledControlPressed(2, 241)) do
 					if #self.Items > self.Pagination.Total + 1 then
 						self:GoUpOverflow()
 					else
@@ -2912,7 +2912,7 @@ function UIMenu:ProcessControl()
 	end
 
 	if not self.LeftPressed then
-		if self.Controls.Left.Enabled and (IsDisabledControlPressed(0, 174) or IsDisabledControlPressed(1, 174) or IsDisabledControlPressed(2, 174)) then
+		if self.Controls.Left.Enabled and (IsDisabledControlJustPressed(0, 174) or IsDisabledControlJustPressed(1, 174) or IsDisabledControlJustPressed(2, 174)) then
 			Citizen.CreateThread(function()
 				self.LeftPressed = true
 				self:GoLeft()
@@ -2927,7 +2927,7 @@ function UIMenu:ProcessControl()
 	end
 
 	if not self.RightPressed then
-		if self.Controls.Right.Enabled and (IsDisabledControlPressed(0, 175) or IsDisabledControlPressed(1, 175) or IsDisabledControlPressed(2, 175)) then
+		if self.Controls.Right.Enabled and (IsDisabledControlJustPressed(0, 175) or IsDisabledControlJustPressed(1, 175) or IsDisabledControlJustPressed(2, 175)) then
 			Citizen.CreateThread(function()
 				self.RightPressed = true
 				self:GoRight()
