@@ -8,11 +8,12 @@ AddEventHandler("uncuff:remove", function()
 		if user.get("dirty") >= uncuffCost then
             user.removeDirty(uncuffCost)
             TriggerClientEvent("police:uncuff", src)
-			TriggerEvent("handcuffs:uncuff", src)
+			TriggerEvent("handcuffs:uncuff2", src)
         elseif user.get("wallet") >= (uncuffCost * 3) then
             user.removeWallet(uncuffCost * 3)
             TriggerClientEvent("police:uncuff", src)
-			TriggerEvent("handcuffs:uncuff", src)
+			TriggerEvent("handcuffs:uncuff2", src)
+		else
 			Notify("Insufficient funds!", 2500, src)
 		end
 	end)

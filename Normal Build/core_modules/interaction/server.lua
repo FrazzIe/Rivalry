@@ -184,6 +184,29 @@ AddEventHandler("handcuffs:uncuff", function(target)
     end
 end)
 
+RegisterServerEvent("handcuffs:uncuff2")
+AddEventHandler("handcuffs:uncuff2", function(target)
+    if handcuffs[target] then
+        if handcuffs[target].keyholder then
+            if handcuffs[target].keyholder == target then
+                handcuffs[target].cuffed = false
+                handcuffs[target].keyholder = nil
+                TriggerClientEvent("handcuffs:sync", -1, handcuffs)
+                TriggerClientEvent("handcuffs:sync_keys", target, handcuff_keys[target])
+                TriggerClientEvent("handcuffs:uncuff", target)
+                TriggerEvent("inventory:add_server", target, 44, 1)
+            else
+                handcuffs[target].cuffed = false
+                handcuffs[target].keyholder = nil
+                handcuff_keys[target][target] = nil
+                TriggerClientEvent("handcuffs:sync", -1, handcuffs)
+                TriggerClientEvent("handcuffs:sync_keys", target, handcuff_keys[target])
+                TriggerClientEvent("handcuffs:uncuff", target)
+            end
+        end
+    end
+end)
+
 RegisterServerEvent("handcuffs:success")
 AddEventHandler("handcuffs:success", function(_source)
     local source = source

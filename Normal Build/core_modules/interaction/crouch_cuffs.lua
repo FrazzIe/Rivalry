@@ -267,15 +267,15 @@ Citizen.CreateThread(function()
 		local ServerId = GetPlayerServerId(PlayerId)
 		local PlayerPed = PlayerPedId()
 		local PlayerPosition = GetEntityCoords(PlayerPed, false)
-
-		for _, PlayerIndex in ipairs(GetActivePlayers()) do
-			if PlayerId ~= PlayerIndex then
-				local OtherPed = GetPlayerPed(PlayerIndex)
+		local Players = GetActivePlayers()
+		for i = 1, #Players do
+			if PlayerId ~= Players[i] then
+				local OtherPed = GetPlayerPed(Players[i])
 				if DoesEntityExist(OtherPed) then
 					local OtherPlayerPosition = GetEntityCoords(OtherPed, false)
 					local Distance = #(PlayerPosition - OtherPlayerPosition)
 					if Distance < 2 then
-						local OtherServerId = GetPlayerServerId(PlayerIndex)
+						local OtherServerId = GetPlayerServerId(Players[i])
 						if handcuffs[OtherServerId] then
 							if handcuffs[OtherServerId].cuffed then
 								local hasWeapon, currentWeapon = GetCurrentPedWeapon(PlayerPed, 1)
