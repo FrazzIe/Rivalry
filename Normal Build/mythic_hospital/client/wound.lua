@@ -240,10 +240,10 @@ local weapons = {
     [`WEAPON_RUN_OVER_BY_CAR`] = WeaponClasses['OTHER'], -- Ran Over
     [`WEAPON_HELI_CRASH`] = WeaponClasses['OTHER'], -- Heli Crash
     [`WEAPON_STUNGUN`] = WeaponClasses['OTHER'],
-    [`WEAPON_SNOWBALL`] = WeaponClasses['OTHER'],
-    [`WEAPON_UNARMED`] = WeaponClasses['OTHER'],
-    [`WEAPON_BALL`] = WeaponClasses['OTHER'],
-    [`WEAPON_PARACHUTE`] = WeaponClasses['OTHER'],
+    [`WEAPON_SNOWBALL`] = WeaponClasses['NOTHING'],
+    [`WEAPON_UNARMED`] = WeaponClasses['NOTHING'],
+    [`WEAPON_BALL`] = WeaponClasses['NOTHING'],
+    [`WEAPON_PARACHUTE`] = WeaponClasses['NOTHING'],
     
     --[[ Fire ]]--
     [`WEAPON_ELECTRIC_FENCE`] = WeaponClasses['FIRE'], -- Electric Fence 
