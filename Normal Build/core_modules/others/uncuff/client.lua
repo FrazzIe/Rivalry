@@ -9,7 +9,7 @@ Citizen.CreateThread(function()
         local playerPed = PlayerPedId()
 
         for i = 1, #uncuffLocations do
-            local distance = #(GetEntityCoords(playerPed) - coords[i])
+            local distance = #(GetEntityCoords(playerPed) - uncuffLocations[i])
 
             if distance < 20 then
                 if distance < 2 then
