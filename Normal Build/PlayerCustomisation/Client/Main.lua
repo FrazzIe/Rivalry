@@ -782,3 +782,21 @@ RegisterNetEvent("PlayerCustomisation.OpenCreator")
 AddEventHandler("PlayerCustomisation.OpenCreator", function(Coordinates, Name, CharacterId, Gender)
 	OpenCharacterCreatorMenu(Coordinates, Name, CharacterId, Gender)
 end)
+
+function AddOutfitMarker(x, y, z, h, banner, blip)
+	if blip then
+		CreateBlip("Outfits", 366, 0, x, y, z)
+	end
+
+	table.insert(PlayerCustomisation.Locations.Outfits, {
+		Blip = {
+			Name = "Outfits",
+			Sprite = 366, 
+			Colour = 0,
+		},
+		Marker = {x = x, y = y, z = z, h = h},
+		Banner = banner or "shopui_title_lowendfashion",
+	})
+end
+
+exports("AddOutfitMarker", AddOutfitMarker)
