@@ -315,7 +315,6 @@ Citizen.CreateThread(function()
                     if GetAmmoInPedWeapon(PlayerPed, currentWeapon) > 0 then
                         if not weapons_whitelist[currentWeapon] then
                             TriggerEvent("Add.Stress", 0.5)
-                            TriggerEvent("GSR.Add")
                             local pos = GetEntityCoords(PlayerPed, false)
                             if #(pos - lastpos) > 50 then
                                 if willNPCreport("gunshots") then
