@@ -1,7 +1,7 @@
 local Cocaine = {
 	Locations = {
-		Pickup = vector3(-495.73739624023,-2911.3024902344,6.0003871917725),
-		Van = vector3(-488.9792175293,-2909.376953125,6.000385761261),
+		Pickup = vector3(-435.94665527344, 6154.8129882813, 31.478202819824),
+		Van = vector3(-440.83245849609, 6145.2016601563, 31.478328704834),
 	},
 	Cost = {
 		Dirty = 50,
@@ -146,7 +146,7 @@ function PlayConcaineAnimation(ped)
 end
 
 function CreateCocaineVan()
-	Cocaine.Vehicle.Handle = exports["core"]:SpawnVehicle(Cocaine.Vehicle.Model, Cocaine.Locations.Van, 316.04577636719, false)
+	Cocaine.Vehicle.Handle = exports["core"]:SpawnVehicle(Cocaine.Vehicle.Model, Cocaine.Locations.Van, 223.54110717773, false)
 
 	if Cocaine.Vehicle.Handle ~= nil and Cocaine.Vehicle.Handle ~= 0 then
 		DecorSetBool(Cocaine.Vehicle.Handle, "hotwire", true)
