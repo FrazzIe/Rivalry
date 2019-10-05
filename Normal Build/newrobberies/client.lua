@@ -199,6 +199,7 @@ RegisterNetEvent("Rivalry.Rob.CashRegister")
 AddEventHandler("Rivalry.Rob.CashRegister", function(StoreNumber, RegisterNumber)
 	Citizen.CreateThread(function()
 		if DoesEntityExist(PlayerPedId()) and not IsEntityDead(PlayerPedId()) then
+			exports["core_modules"]:StanceAllowed(false)
 			local PlayerPed = PlayerPedId()
 			local Dictionary = "missheist_jewel"
 			local Animation = "smash_case"
@@ -213,6 +214,7 @@ AddEventHandler("Rivalry.Rob.CashRegister", function(StoreNumber, RegisterNumber
 			TaskPlayAnim(PlayerPed, Dictionary, Animation, 4.0, -4, -1, 0, 0, 0, 0, 0)
 			Citizen.Wait(2000)
 			Rivalry.Robberies.Stores[StoreNumber].CashRegisters[RegisterNumber].Robbed = true
+			exports["core_modules"]:StanceAllowed(true)
 			PlaySound(-1, "PICK_UP", "HUD_FRONTEND_DEFAULT_SOUNDSET", 0, 0, 1)
 			TriggerServerEvent("Rivalry.CashRegister.Payout")
 		end
