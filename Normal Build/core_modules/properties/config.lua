@@ -3168,7 +3168,7 @@ properties = {
 					outsideheading = 358.59246826172,
 					inside = vector3(-781.81390380859,326.27362060547,176.80383300781), -- The marker inside (used for teleporting outside)
 					insideheading = 179.322265625,
-					vault = vector3(-759.46441650391,325.38388061523,170.6071472168), -- The marker for the vault
+					vault = vector3(-773.29376220703,326.64651489258,176.81155395508), -- The marker for the vault
 					outfit = { coords = vector3(-760.35125732422, 325.41180419922, 170.60707092285), heading = 267.22537231445 },
 				},
 				rent = 7000, --How much it costs to rent the property (PER DAY)
