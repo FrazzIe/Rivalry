@@ -612,7 +612,6 @@ local function armour()
             Citizen.Wait(1700)
             ClearPedTasks(PlayerPedId())
             exports.pNotify:SendNotification({text = "Body armour equipped!",type = "error",queue = "left",timeout = 3000,layout = "centerRight"}) 
-            TriggerEvent("inventory:open")
         else
             exports.pNotify:SendNotification({text = "You already have body armour equipped!",type = "error",queue = "left",timeout = 3000,layout = "centerRight"})
             addQty(39,1)
