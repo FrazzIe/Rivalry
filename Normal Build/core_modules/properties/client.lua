@@ -10,7 +10,7 @@ local currentWeaponIndex, selectedWeaponIndex = 1, 1
 local isRobbing = false
 local shownHelp, shownInsideHelp, shownVaultHelp = false, false, false
 local firstspawn = true
-local Faggots = {7,8,9,10,11,12,13,14}
+local rentDays = {7,8,9,10,11,12,13,14}
 
 local function willPlayerLockpick()
 	if getPercentage() > 40 then
@@ -155,8 +155,8 @@ Citizen.CreateThread(function()
 							end
 							if WarMenu.IsMenuOpened("properties_menu_rent") then
 								if v.owner.identifier == "no" then --If no one owns it
-									if WarMenu.Button("Rent for "..Faggots[currentRentIndex].." days", "$"..v.rent*Faggots[currentRentIndex]) then
-										TriggerServerEvent("properties:rent", "houses", "normal", k, Faggots[currentRentIndex])
+									if WarMenu.Button("Rent for "..rentDays[currentRentIndex].." days", "$"..v.rent*rentDays[currentRentIndex]) then
+										TriggerServerEvent("properties:rent", "houses", "normal", k, rentDays[currentRentIndex])
 										TriggerEvent('play:animation')
 									end
 									if WarMenu.ComboBox("No. of Days", {"7","8","9","10","11","12","13","14"}, currentRentIndex, selectedRentIndex, function(currentIndex, selectedIndex)
@@ -169,8 +169,8 @@ Citizen.CreateThread(function()
 	                    			end								
 								elseif v.owner.id == GetPlayerServerId(PlayerId()) then --If the person owns it
 									if GetCurrentServerTime() < (tonumber(v.expire) + (time_to_pay_house_rent*60*60)) and GetCurrentServerTime() > tonumber(v.expire) then
-										if WarMenu.Button("Rent for "..Faggots[currentRentIndex].." days", "$"..v.rent*Faggots[currentRentIndex]) then
-											TriggerServerEvent("properties:rent", "houses", "normal", k, Faggots[currentRentIndex])
+										if WarMenu.Button("Rent for "..rentDays[currentRentIndex].." days", "$"..v.rent*rentDays[currentRentIndex]) then
+											TriggerServerEvent("properties:rent", "houses", "normal", k, rentDays[currentRentIndex])
 											TriggerEvent('play:animation')
 										end
 										if WarMenu.ComboBox("No. of Days", {"7","8","9","10","11","12","13", "14"}, currentRentIndex, selectedHouseRentIndex, function(currentIndex, selectedIndex)
@@ -488,8 +488,8 @@ Citizen.CreateThread(function()
 							end
 							if WarMenu.IsMenuOpened("properties_menu_rent") then
 								if v.owner.identifier == "no" then --If no one owns it
-									if WarMenu.Button("Rent for "..Faggots[currentRentIndex].." days", "$"..v.rent*Faggots[currentRentIndex]) then
-										TriggerServerEvent("properties:rent", "houses", "enterable", k, Faggots[currentRentIndex])
+									if WarMenu.Button("Rent for "..rentDays[currentRentIndex].." days", "$"..v.rent*rentDays[currentRentIndex]) then
+										TriggerServerEvent("properties:rent", "houses", "enterable", k, rentDays[currentRentIndex])
 										TriggerEvent('play:animation')
 									end
 									if WarMenu.ComboBox("No. of Days", {"7","8","9","10","11","12","13", "14"}, currentRentIndex, selectedRentIndex, function(currentIndex, selectedIndex)
@@ -502,8 +502,8 @@ Citizen.CreateThread(function()
 	                    			end								
 								elseif v.owner.id == GetPlayerServerId(PlayerId()) then --If the person owns it
 									if GetCurrentServerTime() < (tonumber(v.expire) + (time_to_pay_house_rent*60*60)) and GetCurrentServerTime() > tonumber(v.expire) then
-										if WarMenu.Button("Rent for "..Faggots[currentRentIndex].." days", "$"..v.rent*Faggots[currentRentIndex]) then
-											TriggerServerEvent("properties:rent", "houses", "enterable", k, Faggots[currentRentIndex])
+										if WarMenu.Button("Rent for "..rentDays[currentRentIndex].." days", "$"..v.rent*rentDays[currentRentIndex]) then
+											TriggerServerEvent("properties:rent", "houses", "enterable", k, rentDays[currentRentIndex])
 											TriggerEvent('play:animation')
 										end
 										if WarMenu.ComboBox("No. of Days", {"7","8","9","10","11","12","13", "14"}, currentRentIndex, selectedRentIndex, function(currentIndex, selectedIndex)
