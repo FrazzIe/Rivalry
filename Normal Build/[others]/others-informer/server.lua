@@ -18,7 +18,7 @@ AddEventHandler("informer:dirtycoke", function()
 		local price = 5000
 		if (tonumber(user.get("wallet")) >= tonumber(price)) then
 			user.removeWallet(price)
-			TriggerClientEvent('chatMessage', source, 'Informer ', {0, 255, 100}, "I heard some shipment company is fronting the illegal cocaine trade from somewhere in the Elysian Islands. That's all I know." )
+			TriggerClientEvent('chatMessage', source, 'Informer ', {0, 255, 100}, "Some mail company building up north." )
 		else
 			TriggerClientEvent('chatMessage', source, 'Informer ', {0, 255, 100}, "Information isn't free, get your bread up!")
 		end
