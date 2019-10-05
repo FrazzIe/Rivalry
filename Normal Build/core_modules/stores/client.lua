@@ -255,6 +255,7 @@ Citizen.CreateThread(function()
 	CreateBlip("Davis Mega Mall", 402, 21, Tools[1].x, Tools[1].y, Tools[1].z)
 	CreateBlip("You Tool", 402, 21, Tools[2].x, Tools[2].y, Tools[2].z)
 	CreateBlip("Nelsons General", 402, 21, Tools[3].x, Tools[3].y, Tools[3].z)
+	CreateBlip("Hardware Store", 402, 21, Tools[4].x, Tools[4].y, Tools[4].z)
 	while true do
 		Citizen.Wait(0)
 		local PlayerPed = PlayerPedId()
