@@ -16,7 +16,11 @@ Citizen.CreateThread(function()
                 if distance < 2 then
                     DisplayHelpText("Press ~INPUT_CONTEXT~ to remove handcuffs for ~r~$~s~".. uncuffCost .. "/~g~$~s~".. (uncuffCost * 3) .. "!")
                     if IsControlJustPressed(0, 51) then
-                        TriggerServerEvent("uncuff:remove")
+                        if exports.policejob:getIsCuffed() or exports.core_modules:isCuffed() then
+                            TriggerServerEvent("uncuff:remove")
+                        else
+                            Notify("You aren't cuffed!", 2500)
+                        end
                     end
                 end
             end
