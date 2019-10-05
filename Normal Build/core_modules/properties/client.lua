@@ -44,6 +44,7 @@ AddEventHandler("properties:setup", function(_properties, identifier, char_id)
 	for k,v in pairs(_properties.houses.enterable) do
 		if firstspawn then
 			addBlip({name = "Houses | Enterable", sprite = 350, x = v.coordinates.outside.x, y = v.coordinates.outside.y, z = v.coordinates.outside.z})
+			exports["PlayerCustomisation"]:AddOutfitMarker(v.coordinates.outfit.coords.x, v.coordinates.outfit.coords.y, v.coordinates.outfit.coords.z, v.coordinates.outfit.heading)
 		end
 	end
 	for k,v in pairs(_properties.businesses.normal) do

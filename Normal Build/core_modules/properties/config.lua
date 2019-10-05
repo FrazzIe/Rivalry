@@ -3126,6 +3126,7 @@ properties = {
 					inside = vector3(-784.75231933594,323.61608886719,211.99726867676), -- The marker inside (used for teleporting outside)
 					insideheading = 283.5973815918,
 					vault = vector3(-765.59680175781,327.7966003418,211.396484375), -- The marker for the vault
+					outfit = { coords = vector3(-793.40850830078, 325.78433227539, 210.79666137695), heading = 183.02235412598 },
 				},
 				rent = 7500, --How much it costs to rent the property (PER DAY)
 				storage = {
@@ -3168,6 +3169,7 @@ properties = {
 					inside = vector3(-781.81390380859,326.27362060547,176.80383300781), -- The marker inside (used for teleporting outside)
 					insideheading = 179.322265625,
 					vault = vector3(-759.46441650391,325.38388061523,170.6071472168), -- The marker for the vault
+					outfit = { coords = vector3(-760.35125732422, 325.41180419922, 170.60707092285), heading = 267.22537231445 },
 				},
 				rent = 7000, --How much it costs to rent the property (PER DAY)
 				storage = {
@@ -3178,9 +3180,9 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 10000, --Max cash the property can hold
-						dirty = 150000, --Max marked bills the property can hold
-						weapons = 6, --Max weapons the property can hold
+						cash = 100000, --Max cash the property can hold
+						dirty = 1000000, --Max marked bills the property can hold
+						weapons = 100, --Max weapons the property can hold
 					},
 				},
 				robbing = {
@@ -3210,6 +3212,7 @@ properties = {
 					inside = vector3(-603.44000244141,58.969806671143,98.2001953125), -- The marker inside (used for teleporting outside)
 					insideheading = 96.099281311035,
 					vault = vector3(-622.85327148438,54.74146270752,97.599494934082), -- The marker for the vault
+					outfit = { coords = vector3(-594.68609619141, 56.971042633057, 96.999534606934), heading = 183.02235412598 },
 				},
 				rent = 6800, --How much it costs to rent the property (PER DAY)
 				storage = {
@@ -3252,6 +3255,7 @@ properties = {
 					inside = vector3(266.0615234375,-1007.2471313477,-101.00849914551), -- The marker inside (used for teleporting outside)
 					insideheading = 177.8150177002,
 					vault = vector3(259.7912902832,-1003.4866943359,-99.00853729248), -- The marker for the vault
+					outfit = { coords = vector3(261.56909179688, -1002.7084960938, -99.008605957031), heading = 10.835154533386 },
 				},
 				rent = 6400, --How much it costs to rent the property (PER DAY)
 				storage = {
@@ -3294,6 +3298,7 @@ properties = {
 					inside = vector3(346.63479614258,-1012.7304077148,-99.196174621582), -- The marker inside (used for teleporting outside)
 					insideheading = 351.94812011719,
 					vault = vector3(351.9665222168,-994.28277587891,-99.196128845215), -- The marker for the vault
+					outfit = { coords = vector3(351.17416381836, -998.52661132813, -99.196250915527), heading = 167.89753723145 },
 				},
 				rent = 5900, --How much it costs to rent the property (PER DAY)
 				storage = {
@@ -3336,6 +3341,7 @@ properties = {
 					inside = vector3(-174.0973,497.194,137.667), -- The marker inside (used for teleporting outside)
 					insideheading = 222.1987,
 					vault = vector3(-175.24800109863,492.56127929688,130.04359436035), -- The marker for the vault
+					outfit = { coords = vector3(-167.27754211426, 487.27554321289, 133.84382629395), heading = 9.4727191925049 },
 				},
 				rent = 8400, --How much it costs to rent the property (PER DAY)
 				storage = {
@@ -3378,6 +3384,7 @@ properties = {
 					inside = vector3(1397.9954833984,1141.7806396484,114.33367156982), -- The marker inside (used for teleporting outside)
 					insideheading = 91.478500366211,
 					vault = vector3(1398.7845458984,1164.8054199219,114.33367156982), -- The marker for the vault
+					outfit = { coords = vector3(1401.4949951172, 1134.0328369141, 114.33367919922), heading = 148.47058105469 },
 				},
 				rent = 9000, --How much it costs to rent the property (PER DAY)
 				storage = {
@@ -3420,6 +3427,7 @@ properties = {
 					inside = vector3(-1452.3041992188,-540.70257568359,74.044326782227), -- The marker inside (used for teleporting outside)
 					insideheading = 30.716178894043,
 					vault = vector3(-1466.970703125,-527.34332275391,73.443649291992), -- The marker for the vault
+					outfit = { coords = vector3(-1449.6156005859, -548.95849609375, 72.843757629395), heading = 124.10266113281 },
 				},
 				rent = 6800, --How much it costs to rent the property (PER DAY)
 				storage = {
@@ -3462,6 +3470,7 @@ properties = {
 					inside = vector3(341.88668823242,437.70236206055,149.39407348633), -- The marker inside (used for teleporting outside)
 					insideheading = 112.42232513428,
 					vault = vector3(36.27679443359,437.85833740234,141.77076721191), -- The marker for the vault
+					outfit = { coords = vector3(334.07015991211, 428.33767700195, 145.57089233398), heading = 302.9069519043 },
 				},
 				rent = 7200, --How much it costs to rent the property (PER DAY)
 				storage = {
@@ -3504,6 +3513,7 @@ properties = {
 					inside = vector3(373.44293212891,422.17086791992,145.90786743164), -- The marker inside (used for teleporting outside)
 					insideheading = 166.06129455566,
 					vault = vector3(378.92767333984,430.19302368164,138.30014038086), -- The marker for the vault
+					outfit = { coords = vector3(374.29946899414, 411.26510620117, 142.10011291504), heading = 359.80517578125 },
 				},
 				rent = 7300, --How much it costs to rent the property (PER DAY)
 				storage = {
@@ -3546,6 +3556,7 @@ properties = {
 					inside = vector3(-1289.8400878906,449.45440673828,97.902503967285), -- The marker inside (used for teleporting outside)
 					insideheading = 180.92395019531,
 					vault = vector3(-1286.1497802734,457.09368896484,90.29468536377), -- The marker for the vault
+					outfit = { coords = vector3(-1286.107421875, 437.89971923828, 94.094787597656), heading = 23.086545944214 },
 				},
 				rent = 7600, --How much it costs to rent the property (PER DAY)
 				storage = {
@@ -3588,6 +3599,7 @@ properties = {
 					inside = vector3(-682.41345214844,592.49420166016,145.39202880859), -- The marker inside (used for teleporting outside)
 					insideheading = 219.58547973633,
 					vault = vector3(-681.16217041016,586.90997314453,137.76972961426), -- The marker for the vault
+					outfit = { coords = vector3(-671.29089355469, 587.04840087891, 141.5699005127), heading = 221.00025939941 },
 				},
 				rent = 6700, --How much it costs to rent the property (PER DAY)
 				storage = {
@@ -3630,6 +3642,7 @@ properties = {
 					inside = vector3(-758.46026611328,619.11779785156,144.1537322998), -- The marker inside (used for teleporting outside)
 					insideheading = 110.82205963135,
 					vault = vector3(-764.01904296875,619.67431640625,136.53062438965), -- The marker for the vault
+					outfit = { coords = vector3(-767.66778564453, 610.80554199219, 140.33074951172), heading = 287.12338256836 },
 				},
 				rent = 6800, --How much it costs to rent the property (PER DAY)
 				storage = {
@@ -3672,6 +3685,7 @@ properties = {
 					inside = vector3(-860.21350097656,691.0048828125,152.86070251465), -- The marker inside (used for teleporting outside)
 					insideheading = 193.40473937988,
 					vault = vector3(-856.89422607422,699.02001953125,145.25294494629), -- The marker for the vault
+					outfit = { coords = vector3(-855.27825927734, 679.57427978516, 149.05313110352), heading = 8.154712677002 },
 				},
 				rent = 6900, --How much it costs to rent the property (PER DAY)
 				storage = {
