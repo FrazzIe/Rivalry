@@ -45,7 +45,7 @@
 						<p>{{errorMessage}}</p>
 					</div>
 
-					<!-- <button class="twitter-btn" ng-click="toggleView('twitter')"></button> -->
+					<button class="twitter-btn" ng-click="toggleView('twitter')"></button>
 				
 					<!-- call container -->
 					<div class="call-wrapper" ng-class="{ 'open': callToggle, '': !callToggle }">
@@ -451,9 +451,11 @@
 						</i> 
 
 						<div class="tweets">
-							<div class="tweet">
-								<p class="name">@BobLoblaw</p>
-								<p>Ayy whats good!</p>
+							<div ng-repeat="twet in twittermessages">						
+								<div class="tweet">
+									<p class="name">{{twet.Name}}</p>
+									<p>{{twet.Message}}</p>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -465,9 +467,10 @@
 								arrow_back_ios
 							</i> 
 						</h1>		
-						<button class="tweet-btn" ng-click="toggleView('sendTweet')">Tweet</button>
 
-						<textarea placeholder="whats happening?" maxlength="300"></textarea>
+						<textarea placeholder="whats happening?" maxlength="300" ng-model="message"></textarea>
+
+						<button class="tweet-btn" ng-click="sendTweet(message)">Tweet</button>
 					</div>
 
 					<!-- text message container -->

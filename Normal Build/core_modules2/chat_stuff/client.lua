@@ -45,17 +45,17 @@ AddEventHandler("killfeed", function(msg)
     TriggerServerEvent("killfeed", msg)
 end)
 
-RegisterNetEvent("twitter:message")
-AddEventHandler("twitter:message", function(msg)
-    if Twitter then
-        TriggerEvent("chat:addMessage", msg)
-    end
-end)
+-- RegisterNetEvent("twitter:message")
+-- AddEventHandler("twitter:message", function(msg)
+--     if Twitter then
+--         TriggerEvent("chat:addMessage", msg)
+--     end
+-- end)
 
-RegisterNetEvent("twitter:toggle")
-AddEventHandler("twitter:toggle", function(toggle)
-    Twitter = toggle
-end)
+-- RegisterNetEvent("twitter:toggle")
+-- AddEventHandler("twitter:toggle", function(toggle)
+--     Twitter = toggle
+-- end)
 
 RegisterNetEvent("core:ready")
 AddEventHandler("core:ready", function(user, power, group)

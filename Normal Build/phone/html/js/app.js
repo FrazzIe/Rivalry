@@ -96,6 +96,8 @@ app.controller('ctrl', function($scope, $timeout, $http) {
 		}
 	];
 
+	$scope.twittermessages = [];
+
 	$scope.taxiOption = '1 passenger';
 	$scope.mechOption = 'Car';
 	$scope.otherOption = "Weed";
@@ -157,8 +159,8 @@ app.controller('ctrl', function($scope, $timeout, $http) {
 		}
 		if (val == 'sendTweet') {
 			$scope.sendTweetToggle = !$scope.sendTweetToggle;
+			$scope.twitterToggle = true;
 		}
-
 		if (val == 'lifeAlert') {
 			$scope.lifeAlertToggle = !$scope.lifeAlertToggle;
 		}
@@ -256,6 +258,9 @@ app.controller('ctrl', function($scope, $timeout, $http) {
 				$scope.callToggle = false;
 				$scope.phoneCallActiveToggle = true;
 			}
+		},
+		setTwitter(payload) {
+			$scope.twittermessages.unshift(payload);
 		},
 		setCaller(payload) {
 			$scope.callingName = payload;
@@ -381,6 +386,28 @@ app.controller('ctrl', function($scope, $timeout, $http) {
 		}, function error(resp) {
 			$scope.loadingToggle = false;
 			$scope.messagesToggle = true;
+			console.log(resp);
+		});
+	};
+
+	$scope.sendTweet = function(message) {
+		$scope.sendTweetToggle = false;
+		
+		$http({
+			method: "POST",
+			url: "http://" + $scope.resoureName + "/sendTweet",
+			data: angular.toJson({message})
+		}).then(function success(resp) {
+			$scope.message = "";
+			
+			if (resp.data && resp.data.error) {
+				$scope.errorMessage = resp.data.error;
+				$scope.toggleView('error');
+			}
+
+			$scope.twitterToggle = true;			
+		}, function error(resp) {
+			$scope.twitterToggle = true;
 			console.log(resp);
 		});
 	};

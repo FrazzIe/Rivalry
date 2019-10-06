@@ -475,3 +475,16 @@ AddEventHandler("Phone.Set", function(Source, Value)
 		end
 	end
 end)
+
+RegisterServerEvent("Twitter.Message.Add")
+AddEventHandler("Twitter.Message.Add", function(Message)
+	local Source = source
+	local CharacterName = "@Unknown"
+	TriggerEvent("core:getuser", Source, function(User)
+		CharacterName = "@"..User.get("first_name")..User.get('last_name')
+	end)
+	TriggerClientEvent("Twitter.Set.Messages", -1, {
+		Name = CharacterName,
+		Message = Message,
+	})
+end)

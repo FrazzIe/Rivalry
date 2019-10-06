@@ -71,9 +71,9 @@ local Data = {
         [3] = "As well we have a lot of customers, so our stock runs out often.",
         [4] = "Anyways.. Check out the goods. Everytihng is in the trunk.",
     },
-    DialogueCompeted = false,
+    DialogueCompleted = false,
     OpenMenu = false,
-},
+}
 
 local Meetings = {
     [1] = { -- Ghetto Area
@@ -112,7 +112,7 @@ local Meetings = {
 		PedModel = 1182012905,
 		PedName = "Jake",
 	},
-},
+}
 
 RegisterNetEvent("Create.Public.Market.Meeting")
 AddEventHandler("Create.Public.Market.Meeting", function()
@@ -133,6 +133,20 @@ AddEventHandler("Create.Public.Market.Meeting", function()
 	end
 end)
 
+RegisterNetEvent("Cancel.Public.Market.Meeting")
+AddEventHandler("Cancel.Public.Market.Meeting", function()
+	Data.Meeting = nil
+	Data.HasJobTask = false
+	Data.OpenMenu = false
+	Data.DialogueCompleted = false
+	if DoesEntityExist(Data.MeetingPed) then
+		DestroyPed(Data.MeetingPed)
+	end
+	if DoesEntityExist(Data.MeetingVehicle) then
+		DestroyVehicle(Data.MeetingVehicle)
+	end
+end)
+
 Citizen.CreateThread(function()
     while true do
         Citizen.Wait(0)
@@ -140,7 +154,7 @@ Citizen.CreateThread(function()
         local PlayerPosition = GetEntityCoords(Player, false)
         if Data.HasJobTask then
             if Data.Meeting ~= nil then
-                if #(PlayerPosition - Meetings[Data.Meeting].PedTaskCoord) <= 47.0)
+                if #(PlayerPosition - Meetings[Data.Meeting].PedTaskCoord) <= 47.0 then
 					if not DoesEntityExist(Data.MeetingPed) and not DoesEntityExist(Data.MeetingVehicle) then
 						Data.MeetingVehicle = exports["core"]:SpawnVehicle(Meetings[Data.Meeting].CarModel, Meetings[Data.Meeting].VehicleTaskCoord, Meetings[Data.Meeting].VehicleTaskCoordHeading, false)
 						Data.MeetingPed = CreatePedInsideVehicle(Data.MeetingVehicle, 1, Meetings[Data.Meeting].PedModel, -1, true, false)

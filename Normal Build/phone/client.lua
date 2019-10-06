@@ -315,6 +315,14 @@ RegisterNUICallback("addContact", function(data, cb)
 	TriggerServerEvent("Phone.Contact.Add", data)
 end)
 
+RegisterNUICallback("sendTweet", function(data, cb)
+	Citizen.Trace("addMessage callback: " .. json.encode(data))
+
+	tweetCallback = cb
+
+	TriggerServerEvent("Twitter.Message.Add", data.message)
+end)
+
 RegisterNUICallback("addMessage", function(data, cb)
 	Citizen.Trace("addMessage callback: " .. json.encode(data))
 
@@ -377,6 +385,14 @@ RegisterNUICallback("requestWeed", function(data, cb)
 	cb("ok")
 end)
 
+RegisterNUICallback("requestWeapons", function(data, cb)
+	Citizen.Trace("requestWeapons callback: " .. json.encode(data))
+
+	TriggerEvent("Create.Public.Market.Meeting")
+
+	cb("ok")
+end)
+
 RegisterNUICallback("cancelTaxi", function(data, cb)
 	Citizen.Trace("cancelTaxi callback: " .. json.encode(data))
 
@@ -413,6 +429,14 @@ RegisterNUICallback("cancelWeed", function(data, cb)
 	Citizen.Trace("cancelWeed callback: " .. json.encode(data))
 
 	TriggerEvent("weed:canceltrader")
+
+	cb("ok")
+end)
+
+RegisterNUICallback("cancelWeapons", function(data, cb)
+	Citizen.Trace("cancelWeapons callback: " .. json.encode(data))
+
+	TriggerEvent("blackmarket:cancelWeapons")
 
 	cb("ok")
 end)
@@ -639,4 +663,9 @@ AddEventHandler("Phone.Call.Answer", function(Channel)
 	NetworkSetTalkerProximity(10000.0)
 
 	SendNUIMessage({type = "setCallStatus", payload = "Active"})
+end)
+
+RegisterNetEvent("Twitter.Set.Messages")
+AddEventHandler("Twitter.Set.Messages", function(Data)
+	SendNUIMessage({type = "setTwitter", payload = Data})
 end)

@@ -49,67 +49,67 @@ TriggerEvent('core:addCommand', 'ooc', function(source, args, rawCommand, data)
 
 end, {help = "Out of character chat"})
 
-TriggerEvent('core:addCommand', 'tweet', function(source, args, rawCommand, data)
-    local message = table.concat(args, " ")
-    local author = data.get("first_name").." "..data.get("last_name")
-    TriggerEvent("Phone.Get", source, function(Phone)
-        if Phone then
-            if Phone.Has then
-                if Twitter[source] then
-                    TriggerClientEvent("twitter:message", -1, {templateId = "tweet", color = {255, 255, 255}, multiline = true, args = {author, message}})
-                end
-            else
-                TriggerClientEvent('chatMessage', source, "ERROR", {0, 255, 0}, "You don't have a phone!")
-            end
-        else
-            TriggerClientEvent('chatMessage', source, "ERROR", {0, 255, 0}, "You don't have a phone!")
-        end
-    end)
-end, {help = "Post a tweet"})
+-- TriggerEvent('core:addCommand', 'tweet', function(source, args, rawCommand, data)
+--     local message = table.concat(args, " ")
+--     local author = data.get("first_name").." "..data.get("last_name")
+--     TriggerEvent("Phone.Get", source, function(Phone)
+--         if Phone then
+--             if Phone.Has then
+--                 if Twitter[source] then
+--                     TriggerClientEvent("twitter:message", -1, {templateId = "tweet", color = {255, 255, 255}, multiline = true, args = {author, message}})
+--                 end
+--             else
+--                 TriggerClientEvent('chatMessage', source, "ERROR", {0, 255, 0}, "You don't have a phone!")
+--             end
+--         else
+--             TriggerClientEvent('chatMessage', source, "ERROR", {0, 255, 0}, "You don't have a phone!")
+--         end
+--     end)
+-- end, {help = "Post a tweet"})
 
-TriggerEvent('core:addCommand', 't', function(source, args, rawCommand, data)
-    local message = table.concat(args, " ")
-    local author = data.get("first_name").." "..data.get("last_name")
-    TriggerEvent("Phone.Get", source, function(Phone)
-        if Phone then
-            if Phone.Has then
-                if Twitter[source] then
-                    TriggerClientEvent("twitter:message", -1, {templateId = "tweet", color = {255, 255, 255}, multiline = true, args = {author, message}})
-                end
-            else
-                TriggerClientEvent('chatMessage', source, "ERROR", {0, 255, 0}, "You don't have a phone!")
-            end
-        else
-            TriggerClientEvent('chatMessage', source, "ERROR", {0, 255, 0}, "You don't have a phone!")
-        end
-    end)
-end, {help = "Post a tweet"})
+-- TriggerEvent('core:addCommand', 't', function(source, args, rawCommand, data)
+--     local message = table.concat(args, " ")
+--     local author = data.get("first_name").." "..data.get("last_name")
+--     TriggerEvent("Phone.Get", source, function(Phone)
+--         if Phone then
+--             if Phone.Has then
+--                 if Twitter[source] then
+--                     TriggerClientEvent("twitter:message", -1, {templateId = "tweet", color = {255, 255, 255}, multiline = true, args = {author, message}})
+--                 end
+--             else
+--                 TriggerClientEvent('chatMessage', source, "ERROR", {0, 255, 0}, "You don't have a phone!")
+--             end
+--         else
+--             TriggerClientEvent('chatMessage', source, "ERROR", {0, 255, 0}, "You don't have a phone!")
+--         end
+--     end)
+-- end, {help = "Post a tweet"})
 
-TriggerEvent('core:addCommand', "twitter", function(source, args, rawCommand, data)
-    if Twitter[source] == nil then
-        Twitter[source] = true
-    end
+-- TriggerEvent('core:addCommand', "twitter", function(source, args, rawCommand, data)
+--     if Twitter[source] == nil then
+--         Twitter[source] = true
+--     end
 
-    TriggerEvent("Phone.Get", source, function(Phone)
-        if Phone then
-            if Phone.Has then
-                Twitter[source] = not Twitter[source]
+--     TriggerEvent("Phone.Get", source, function(Phone)
+--         if Phone then
+--             if Phone.Has then
+--                 Twitter[source] = not Twitter[source]
 
-                local message = (Twitter[source] and "^*^2Activated" or "^*^1Deactivated")
-                TriggerClientEvent("chat:addMessage", source, {templateId = "tweet", color = {255, 255, 255}, multiline = true, args = {"Twitter", message}})
-                TriggerClientEvent("twitter:toggle", source, Twitter[source])
-            else
-                TriggerClientEvent('chatMessage', source, "ERROR", {0, 255, 0}, "You don't have a phone!")
-                Twitter[source] = false
-                TriggerClientEvent("twitter:toggle", source, Twitter[source])
-            end
-        else
-            TriggerClientEvent('chatMessage', source, "ERROR", {0, 255, 0}, "You don't have a phone!")
-            Twitter[source] = false
-            TriggerClientEvent("twitter:toggle", source, Twitter[source])
-        end
-    end)
-end, {help = "Toggle Twitter"})
+--                 local message = (Twitter[source] and "^*^2Activated" or "^*^1Deactivated")
+--                 TriggerClientEvent("chat:addMessage", source, {templateId = "tweet", color = {255, 255, 255}, multiline = true, args = {"Twitter", message}})
+--                 TriggerClientEvent("twitter:toggle", source, Twitter[source])
+--             else
+--                 TriggerClientEvent('chatMessage', source, "ERROR", {0, 255, 0}, "You don't have a phone!")
+--                 Twitter[source] = false
+--                 TriggerClientEvent("twitter:toggle", source, Twitter[source])
+--             end
+--         else
+--             TriggerClientEvent('chatMessage', source, "ERROR", {0, 255, 0}, "You don't have a phone!")
+--             Twitter[source] = false
+--             TriggerClientEvent("twitter:toggle", source, Twitter[source])
+--         end
+--     end)
+-- end, {help = "Toggle Twitter"})
 
 TriggerEvent('core:addCommand', 'balance', function(source, args, rawCommand, data)
     local author = "$"..data.get("bank").." is your current balance."
