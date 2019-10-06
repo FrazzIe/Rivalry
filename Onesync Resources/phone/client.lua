@@ -315,6 +315,23 @@ RegisterNUICallback("addContact", function(data, cb)
 	TriggerServerEvent("Phone.Contact.Add", data)
 end)
 
+RegisterNUICallback("sendTweet", function(data, cb)
+	Citizen.Trace("addTweet callback: " .. json.encode(data))
+
+	tweetCallback = cb
+
+	TriggerServerEvent("Twitter.Message.Add", data.message)
+end)
+
+
+RegisterNUICallback("sendAdvertisement", function(data, cb)
+	Citizen.Trace("addAdvertisement callback: " .. json.encode(data))
+
+	advertisementCallback = cb
+
+	TriggerServerEvent("Advertisement.Add", data.title, data.message)
+end)
+
 RegisterNUICallback("addMessage", function(data, cb)
 	Citizen.Trace("addMessage callback: " .. json.encode(data))
 
@@ -632,4 +649,23 @@ AddEventHandler("Phone.Call.Answer", function(Channel)
 	exports["tokovoip_script"]:addPlayerToCall(Phone.Call.Channel)
 
 	SendNUIMessage({type = "setCallStatus", payload = "Active"})
+end)
+
+RegisterNetEvent("Twitter.Set.Messages")
+AddEventHandler("Twitter.Set.Messages", function(Data)
+	if Phone.Data.Has then
+		local CharacterName = "@"..string.gsub(exports.core:GetCharacterName(GetPlayerServerId(PlayerId())), "%s", "")
+		if string.match(Data.Message:lower(), CharacterName:lower()) then
+			Notify("Twitter Notification: You have been mentioned!", 3100)
+		end
+	end
+	SendNUIMessage({type = "setTwitter", payload = Data})
+end)
+
+RegisterNetEvent("Yellowpages.Set.Advertisements")
+AddEventHandler("Yellowpages.Set.Advertisements", function(Data)
+	if Phone.Data.Has then
+		Notify("New Advertisement was posted! Check the yellow pages!")
+	end
+	SendNUIMessage({type = "setYellowpages", payload = Data})
 end)
