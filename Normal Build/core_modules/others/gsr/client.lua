@@ -10,14 +10,11 @@ local GSR = {
         [`WEAPON_ANIMAL`] = true,
         [`WEAPON_COUGAR`] = true,
     },
+    Players = {}
 }
 
-AddEventHandler("GSR.Add", function()
-    GSR.Expire = GetGameTimer() + (GSR.Time * 1000 * 60)
-    DecorSetBool(PlayerPedId(), "_GSR", true)
-end)
-
 Citizen.CreateThread(function()
+    local serverId = GetPlayerServerId(PlayerId())
     while true do
         Citizen.Wait(0)
         local playerPed = PlayerPedId()
@@ -28,7 +25,7 @@ Citizen.CreateThread(function()
                 if GetAmmoInPedWeapon(playerPed, currentWeapon) > 0 then
                     if not GSR.Whitelist[currentWeapon] then
                         GSR.Expire = GetGameTimer() + (GSR.Time * 1000 * 60)
-                        DecorSetBool(playerPed, "_GSR", true)
+                        TriggerServerEvent("GSR.Set", true)
                     end
                 end
             end
@@ -37,27 +34,36 @@ Citizen.CreateThread(function()
 end)
 
 Citizen.CreateThread(function()
-    DecorRegister("_GSR", 2)
-    
+    local serverId = GetPlayerServerId(PlayerId())
 	while true do
 		Citizen.Wait(5000)
 		local playerPed = PlayerPedId()
         local currentTime = GetGameTimer()
 
-        if currentTime > GSR.Expire then
-            DecorSetBool(playerPed, "_GSR", false)
-        else
-            DecorSetBool(playerPed, "_GSR", true)
+        if currentTime > GSR.Expire and GSR.Players[serverId] then
+            TriggerServerEvent("GSR.Set", false)
+            GSR.Expire = 0
         end
 	end
 end)
 
+AddEventHandler("GSR.Add", function()
+    GSR.Expire = GetGameTimer() + (GSR.Time * 1000 * 60)
+    TriggerServerEvent("GSR.Set", true)
+end)
+
 AddEventHandler("GSR.Get", function(cb)
     local player, distance = GetClosestPlayer()
-    
+
     if distance ~= -1 and distance < 3 then
-        cb(DecorGetBool(player, "_GSR"))
+        local serverId = GetPlayerServerId(player)
+        cb(GSR.Players[serverId])
     else
         cb(nil)
     end
+end)
+
+RegisterNetEvent("GSR.Sync")
+AddEventHandler("GSR.Sync", function(src, value)
+    GSR.Players[src] = value
 end)

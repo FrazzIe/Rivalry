@@ -145,6 +145,7 @@ server_script 'others/environment/config.lua'
 server_script 'others/environment/server.lua'
 
 client_script 'others/gsr/client.lua'
+server_script 'others/gsr/server.lua'
 
 client_script 'others/uncuff/client.lua'
 server_script 'others/uncuff/server.lua'
