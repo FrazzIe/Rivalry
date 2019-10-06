@@ -44,7 +44,7 @@ end, false)
 
 RegisterCommand("mi", function(source, args, fullCommand)
 	SetNuiFocus(true, true)
-	TriggerServerEvent("Health.Injury.Get", exports.core:GetCharacterName(GetPlayerServerId(PlayerId()), GetPlayerServerId(PlayerId()))
+	TriggerServerEvent("Health.Injury.Get", exports.core:GetCharacterName(GetPlayerServerId(PlayerId())), GetPlayerServerId(PlayerId()))
 end, false)
 
 RegisterNUICallback("close", function(data, cb)
