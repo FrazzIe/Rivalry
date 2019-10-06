@@ -357,7 +357,7 @@ claimspots = {
 }
 
 emplacement_garage = {
-    [1] = {name="Public Garage", colour=1, sprite=357, x = -333.53753662109, y = -779.95513916016, z = 33.965061187744,id=1,gname="North Rockford Dr [1]",cost=3000,heading=127.01721191406,maxslots=4}, -- North Rockford Dr
+    [1] = {name="Public Garage", colour=1, sprite=357, x = -333.53753662109, y = -779.95513916016, z = 33.965061187744,id=1,gname="Peaceful St [1]",cost=3000,heading=127.01721191406,maxslots=4}, -- Peaceful St
     [2] = {name="Public Garage", colour=1, sprite=357, x=-443.00497436523,y=185.29835510254,z=75.203712463379,id=2,gname="North LS [2]",cost=2000,heading=0.0,maxslots=2}, -- Public Upper City
     [3] = {name="Public Garage", colour=1, sprite=357, x=1232.4792480469,y=2708.3212890625,z=38.005790710449,id=3,gname="Sandy [3]",cost=1000,heading=0.0,maxslots=1}, -- Public Sandy
     [4] = {name="Public Garage", colour=1, sprite=357, x=117.96788024902,y=6599.45703125,z=32.013603210449,id=4,gname="Paleto [4]",cost=1000,heading=-90.0,maxslots=1}, -- Public Paleto
