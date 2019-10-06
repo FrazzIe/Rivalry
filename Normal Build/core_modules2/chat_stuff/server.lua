@@ -121,25 +121,25 @@ TriggerEvent('core:addCommand', 'wallet', function(source, args, rawCommand, dat
     TriggerClientEvent('chatMessage', source, "Wallet", {0, 255, 0}, author)
 end, {help = "Returns Cash and Dirty Cash"})
 
-TriggerEvent("core:addCommand", "ad", function(source, args, rawCommand, data, power, group)
-    local message = table.concat(args, " ")
-    TriggerEvent("Phone.Get", source, function(Phone)
-        if Phone then
-            if Phone.Has then
-                if data.get("bank") >= 1000 then
-                    data.removeBank(1000)
-                    TriggerClientEvent('chatMessage', -1, "ADVERTISEMENT", {0, 255, 0}, message)
-                else
-                    TriggerClientEvent('chatMessage', source, "ADVERTISEMENT", {0, 255, 0}, "The cost for an ad is $1000")
-                end
-            else
-                TriggerClientEvent('chatMessage', source, "ERROR", {0, 255, 0}, "You don't have a phone!")
-            end
-        else
-            TriggerClientEvent('chatMessage', source, "ERROR", {0, 255, 0}, "You don't have a phone!")
-        end
-    end)
-end, {help = "Advertisment"})
+-- TriggerEvent("core:addCommand", "ad", function(source, args, rawCommand, data, power, group)
+--     local message = table.concat(args, " ")
+--     TriggerEvent("Phone.Get", source, function(Phone)
+--         if Phone then
+--             if Phone.Has then
+--                 if data.get("bank") >= 1000 then
+--                     data.removeBank(1000)
+--                     TriggerClientEvent('chatMessage', -1, "ADVERTISEMENT", {0, 255, 0}, message)
+--                 else
+--                     TriggerClientEvent('chatMessage', source, "ADVERTISEMENT", {0, 255, 0}, "The cost for an ad is $1000")
+--                 end
+--             else
+--                 TriggerClientEvent('chatMessage', source, "ERROR", {0, 255, 0}, "You don't have a phone!")
+--             end
+--         else
+--             TriggerClientEvent('chatMessage', source, "ERROR", {0, 255, 0}, "You don't have a phone!")
+--         end
+--     end)
+-- end, {help = "Advertisment"})
 
 
 function stringsplit(inputstr, sep)

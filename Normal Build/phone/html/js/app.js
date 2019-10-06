@@ -40,6 +40,8 @@ app.controller('ctrl', function($scope, $timeout, $http) {
 	$scope.lifeAlertToggle = false;
 	$scope.twitterToggle = false;
 	$scope.sendTweetToggle = false;
+	$scope.yellowPageToggle = false;
+	$scope.sendAdvertisementToggle = false;
 	$scope.serviceMessageToggle = false;
 	$scope.loadingToggle = false;
 	$scope.confirmationToggle = false;
@@ -97,6 +99,8 @@ app.controller('ctrl', function($scope, $timeout, $http) {
 	];
 
 	$scope.twittermessages = [];
+
+	$scope.advertisements = [];
 
 	$scope.taxiOption = '1 passenger';
 	$scope.mechOption = 'Car';
@@ -161,6 +165,13 @@ app.controller('ctrl', function($scope, $timeout, $http) {
 			$scope.sendTweetToggle = !$scope.sendTweetToggle;
 			$scope.twitterToggle = true;
 		}
+		if (val == "sendAdvertisement") {
+			$scope.sendAdvertisementToggle = !$scope.sendAdvertisementToggle;
+			$scope.yellowPageToggle = true;
+		}
+		if ( val == "yellowpages") {
+			$scope.yellowPageToggle = !$scope.yellowPageToggle;
+		}
 		if (val == 'lifeAlert') {
 			$scope.lifeAlertToggle = !$scope.lifeAlertToggle;
 		}
@@ -187,11 +198,11 @@ app.controller('ctrl', function($scope, $timeout, $http) {
 	};
 
 	$scope.isAnyViewActive = function() {
-		return $scope.callToggle || $scope.contactsToggle || $scope.messagesToggle || $scope.servicesToggle || $scope.settingsToggle || $scope.newMessageToggle || $scope.addContactToggle || $scope.lifeAlertToggle || $scope.twitterToggle || $scope.sendTweetToggle || $scope.serviceMessageToggle || $scope.loadingToggle || $scope.confirmationToggle
+		return $scope.callToggle || $scope.contactsToggle || $scope.messagesToggle || $scope.servicesToggle || $scope.settingsToggle || $scope.newMessageToggle || $scope.addContactToggle || $scope.lifeAlertToggle || $scope.twitterToggle || $scope.sendTweetToggle || $scope.yellowPageToggle || $scope.sendAdvertisementToggle || $scope.serviceMessageToggle || $scope.loadingToggle || $scope.confirmationToggle
 	};
 
 	$scope.isAnyInputViewActive = function() {
-		return $scope.newMessageToggle || $scope.addContactToggle || $scope.sendTweetToggle || $scope.serviceMessageToggle || $scope.textMessageToggle || $scope.callToggle
+		return $scope.newMessageToggle || $scope.addContactToggle || $scope.sendTweetToggle || $scope.sendAdvertisementToggle || $scope.serviceMessageToggle || $scope.textMessageToggle || $scope.callToggle
 	};
 
 	$scope.addDialer = function(val) {
@@ -261,6 +272,9 @@ app.controller('ctrl', function($scope, $timeout, $http) {
 		},
 		setTwitter(payload) {
 			$scope.twittermessages.unshift(payload);
+		},
+		setYellowpages(payload) {
+			$scope.advertisements = payload;
 		},
 		setCaller(payload) {
 			$scope.callingName = payload;
@@ -408,6 +422,28 @@ app.controller('ctrl', function($scope, $timeout, $http) {
 			$scope.twitterToggle = true;			
 		}, function error(resp) {
 			$scope.twitterToggle = true;
+			console.log(resp);
+		});
+	};
+
+	$scope.sendAdvertisement = function(titl, messag) {
+		$scope.sendAdvertisementToggle = false;
+		
+		$http({
+			method: "POST",
+			url: "http://" + $scope.resoureName + "/sendAdvertisement",
+			data: angular.toJson({title: titl, message: messag})
+		}).then(function success(resp) {
+			$scope.message = "";
+			
+			if (resp.data && resp.data.error) {
+				$scope.errorMessage = resp.data.error;
+				$scope.toggleView('error');
+			}
+
+			$scope.yellowPageToggle = true;			
+		}, function error(resp) {
+			$scope.yellowPageToggle = true;
 			console.log(resp);
 		});
 	};

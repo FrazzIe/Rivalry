@@ -5,6 +5,7 @@ ui_page 'html/index.html'
 files {
 	'html/images/samsung-bg.jpg',
 	'html/images/twitter-bird.png',
+	'html/images/yellow-page.png',
 	'html/snd/beepboop.ogg',
 	'html/css/normalize.css',
 	'html/css/simplebar.css',

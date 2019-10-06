@@ -46,7 +46,7 @@
 					</div>
 
 					<button class="twitter-btn" ng-click="toggleView('twitter')"></button>
-				
+					<button class="yellowpage-btn" ng-click="toggleView('yellowpages')"></button>
 					<!-- call container -->
 					<div class="call-wrapper" ng-class="{ 'open': callToggle, '': !callToggle }">
 						<i class="material-icons add-contact" ng-click="toggleView('addContact')">
@@ -468,10 +468,50 @@
 							</i> 
 						</h1>		
 
-						<textarea placeholder="whats happening?" maxlength="300" ng-model="message"></textarea>
+						<textarea placeholder="Whats happening?" maxlength="300" ng-model="message"></textarea>
 
 						<button class="tweet-btn" ng-click="sendTweet(message)">Tweet</button>
 					</div>
+
+					<!-- yellowpage container -->
+					<div class="yellowpage-wrapper" ng-class="{ 'open': yellowPageToggle, '': !yellowPageToggle }">
+							<h1>
+								<i class="material-icons" ng-click="toggleView('yellowpages')">
+									arrow_back_ios
+								</i>
+								<p style="font-weight: bold;font-size: 13px">Yellow Pages</p> 
+							</h1>		
+							
+							<i class="material-icons send-ad" ng-click="toggleView('sendAdvertisement')">
+								send
+							</i> 
+	
+							<div class="ads">
+								<div ng-repeat="somead in advertisements">						
+									<div class="ad">
+										<p class="name" style="font-weight: bold">{{somead.Title}}</p>
+										<p>{{somead.Message}}</p>
+										<p class="number" style = "font-size: 8px">{{formatMessageTime(somead.Timestamp)}}</p>
+									</div>
+								</div>
+							</div>
+						</div>
+	
+						<!-- send advertisement container -->
+						<div class="send-tweet-wrapper" ng-class="{ 'open': sendAdvertisementToggle, '': !sendAdvertisementToggle }">
+							<h1>
+								<i class="material-icons" ng-click="toggleView('sendAdvertisement')">
+									arrow_back_ios
+								</i> 
+							</h1>		
+	
+							<form ng-submit="sendAdvertisement(title, message)">
+								<input type="text" placeholder="Advertisement Title" ng-model="title" required/>
+								<textarea placeholder="Description here" maxlength="300" ng-model="message"></textarea>
+								<button type="submit" class="save">Advertise</button>
+							</form>	
+	
+						</div>
 
 					<!-- text message container -->
 					<div class="add-contact-wrapper" ng-class="{ 'open': addContactToggle, '': !addContactToggle }">

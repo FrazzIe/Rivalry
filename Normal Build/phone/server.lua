@@ -150,10 +150,12 @@ AddEventHandler("Phone.Start",function(Source, CharacterId)
 					Phone.PlayerIds[Phone.Players[Source].Number] = Source
 
 					TriggerClientEvent("Phone.Start", Source, Phone.Players[Source])
+
 				end)
 			end)
 		end
 	end)
+	TriggerClientEvent("Yellowpages.Set.Advertisements", Source, Advertisements)
 end)
 
 RegisterServerEvent("Phone.Finish")
@@ -487,4 +489,27 @@ AddEventHandler("Twitter.Message.Add", function(Message)
 		Name = CharacterName,
 		Message = Message,
 	})
+end)
+
+local Advertisements = {}
+
+RegisterServerEvent("Advertisement.Add")
+AddEventHandler("Advertisement.Add", function(TitleData, MessageData)
+	local Source = source
+	TriggerEvent("core:getuser", Source, function(User)
+		if User.get("bank") >= 1000 then
+			table.insert(Advertisements, {Title = TitleData, Message = MessageData, Timestamp = os.time()})
+			User.removeBank(1000)
+		else
+			TriggerClientEvent("pNotify:SendNotification", source, {text = "Insufficient funds!",type = "error",queue = "left",timeout = 3100,layout = "bottomCenter"})
+		end
+	end)
+	if #Advertisements > 0 then
+		for Index = 1, #Advertisements do
+			if os.time() >= Advertisements[Index].Timestamp + 7200 then
+				table.remove(Advertisements, Index)
+			end
+		end
+	end
+	TriggerClientEvent("Yellowpages.Set.Advertisements", -1, Advertisements)
 end)

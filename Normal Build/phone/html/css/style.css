@@ -187,6 +187,26 @@ button:focus {
   background-color: #e0e0e0;
   border: 1px solid #e0e0e0;
 }
+
+.app-wrapper .phone-wrapper .screen .yellowpage-btn {
+  background-color: white;
+  background-image: url("../images/yellow-page.png");
+  width: 40px;
+  height: 40px;
+  background-size: cover;
+  padding: 0;
+  border: 1px solid whitesmoke;
+  border-radius: 10px;
+  position: relative;
+  top: 50px;
+  margin-left: 20px;
+}
+.app-wrapper .phone-wrapper .screen .yellowpage-btn:hover {
+  cursor: pointer;
+  background-color: #e0e0e0;
+  border: 1px solid #e0e0e0;
+}
+
 .app-wrapper .phone-wrapper .screen .add-contact {
   position: absolute;
   top: 56px;
@@ -439,6 +459,126 @@ button:focus {
 .app-wrapper .phone-wrapper .screen .send-tweet-wrapper .tweets .tweet .name {
   color: #1da1f2;
 }
+
+/* Yellow Pages */
+
+.app-wrapper .phone-wrapper .screen .yellowpage-wrapper,
+.app-wrapper .phone-wrapper .screen .send-advertisement-wrapper {
+  display: block;
+  bottom: -1000px;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  z-index: 4;
+  background-color: rgb(240, 209, 126);
+  transition: all 1s ease-in-out;
+  border-radius: 100px;
+  opacity: 0.5;
+  background-color: rgb(240, 209, 126);
+  z-index: 10;
+}
+.app-wrapper .phone-wrapper .screen .yellowpage-wrapper h1,
+.app-wrapper .phone-wrapper .screen .send-advertisement-wrapper h1 {
+  font-weight: 100;
+  padding-left: 10px;
+  margin-bottom: 0;
+  font-size: 24px;
+}
+.app-wrapper .phone-wrapper .screen .yellowpage-wrapper h1 i,
+.app-wrapper .phone-wrapper .screen .send-advertisement-wrapper h1 i {
+  display: block;
+  background: rgb(240, 209, 126);
+  width: 34px;
+  padding: 5px;
+  text-align: center;
+  border-radius: 10px;
+  margin-bottom: 5px;
+  transition: all 0.5s ease-in-out;
+}
+.app-wrapper .phone-wrapper .screen .yellowpage-wrapper h1 i:hover,
+.app-wrapper .phone-wrapper .screen .send-advertisement-wrapper h1 i:hover {
+  cursor: pointer;
+  background-color: rgb(240, 209, 126);
+  color: white;
+  transition: all 0.5s ease-in-out;
+}
+.app-wrapper .phone-wrapper .screen .yellowpage-wrapper.open,
+.app-wrapper .phone-wrapper .screen .send-advertisement-wrapper.open {
+  transition: all 1s ease-in-out;
+  bottom: 0;
+  border-radius: 0px;
+  opacity: 1;
+}
+.app-wrapper .phone-wrapper .screen .yellowpage-wrapper .send-ad,
+.app-wrapper .phone-wrapper .screen .send-advertisement-wrapper .send-ad {
+  background-color: white;
+  color: rgb(98, 98, 98);
+  padding: 10px;
+  border-radius: 100px;
+  text-align: center;
+  position: absolute;
+  top: 7px;
+  right: 0;
+  margin: 10px;
+  font-size: 14px;
+}
+.app-wrapper .phone-wrapper .screen .yellowpage-wrapper .send-ad:hover,
+.app-wrapper .phone-wrapper .screen .send-advertisement-wrapper .send-ad:hover {
+  cursor: pointer;
+  background-color: white
+}
+.app-wrapper .phone-wrapper .screen .yellowpage-wrapper .send-advertisement-btn,
+.app-wrapper .phone-wrapper .screen .send-advertisement-wrapper .send-advertisement-btn {
+  background-color: white;
+  border: 1px solid rgb(98, 98, 98);
+  border-radius: 10px;
+  color: white;
+  padding: 5px 10px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 18px 10px;
+  font-size: 14px;
+}
+.app-wrapper .phone-wrapper .screen .twityellowpageter-wrapper .send-advertisement-btn:hover,
+.app-wrapper .phone-wrapper .screen .send-advertisement-wrapper .send-advertisement-btn:hover {
+  cursor: pointer;
+  background-color: white;
+}
+.app-wrapper .phone-wrapper .screen .yellowpage-wrapper textarea,
+.app-wrapper .phone-wrapper .screen .send-advertisement-wrapper textarea {
+  border: none;
+  padding: 10px;
+  width: 100%;
+  height: 100%;
+}
+.app-wrapper .phone-wrapper .screen .yellowpage-wrapper .ads,
+.app-wrapper .phone-wrapper .screen .send-advertisement-wrapper .ads {
+  padding: 10px 0;
+}
+.app-wrapper .phone-wrapper .screen .yellowpage-wrapper .ads .ad,
+.app-wrapper .phone-wrapper .screen .send-advertisement-wrapper .ads .ads {
+  width: auto;
+  padding: 5px;
+  border-bottom: 1px solid black;
+}
+.app-wrapper .phone-wrapper .screen .yellowpage-wrapper .ads .ad:first-child,
+.app-wrapper .phone-wrapper .screen .send-advertisement-wrapper .ads .ad:first-child {
+  border-top: 1px solid black;
+}
+.app-wrapper .phone-wrapper .screen .yellowpage-wrapper .ads .ad p,
+.app-wrapper .phone-wrapper .screen .send-advertisement-wrapper .ads .ad p {
+  padding: 0;
+  margin: 0;
+}
+.app-wrapper .phone-wrapper .screen .yellowpage-wrapper .ads .ad .name .timestamp,
+.app-wrapper .phone-wrapper .screen .send-advertisement-wrapper .ads .ad .name .timestamp{
+  color: white;
+}
+
+/* Contacts Page */
+
 .app-wrapper .phone-wrapper .screen .contacts-wrapper {
   display: block;
   bottom: -1000px;
