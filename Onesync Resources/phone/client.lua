@@ -52,6 +52,10 @@ Citizen.CreateThread(function()
 	Citizen.Trace("Phone: Loaded animations!")
 end)
 
+function Notify(Message, Time)
+	exports.pNotify:SendNotification({text = Message or "", type = "error", timeout = Time or 3000, layout = "centerRight", queue = "left"})
+end
+
 function Phone:DisplayNotification(Text, Icon, Sender, Subject)
 	SetNotificationTextEntry("STRING")
 	AddTextComponentString(Text)
