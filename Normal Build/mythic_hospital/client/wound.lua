@@ -334,21 +334,30 @@ function ProcessRunStuff(ped)
             end
         end
     else
-        SetPedMoveRateOverride(ped, 1.0)
         if DecorGetInt(ped, 'player_thirst') > 25 or onPainKiller > 0 then
             SetPlayerSprint(PlayerId(), true)
+            SetPedMoveRateOverride(ped, 1.0)
         end
 
-        if whichPainKiller == 4 then -- Morphine
+        if whichPainKiller == 4 and onPainKiller > 0 then -- Morphine
             SetPedMovementClipset(ped, "move_m@drunk@verydrunk", 1.0)
-        elseif whichPainKiller == 2 then -- Hydrocodone
+            SetPedMoveRateOverride(ped, 1.0)
+            SetPlayerSprint(PlayerId(), true)
+        elseif whichPainKiller == 2 and  onPainKiller > 0 then -- Hydrocodone
             SetPedMovementClipset(ped, "move_m@drunk@slightlydrunk", 1.0)
+            SetPedMoveRateOverride(ped, 1.0)
+            SetPlayerSprint(PlayerId(), true)
         end
 
         if not wasOnPainKillers and (onPainKiller > 0) then wasOnPainKillers = true end
 
         if onPainKiller > 0 then
             onPainKiller = onPainKiller - 1
+            if onPainKiller == 0 then
+                ResetPedMovementClipset(PlayerPedId())
+                SetPedMoveRateOverride(ped, 1.0)
+                SetPlayerSprint(PlayerId(), true)
+            end
         end
     end
 end
