@@ -251,9 +251,13 @@
 										<input type="radio" id="radio-one" name="switch" value="Weed" ng-model="otherOption" checked>
 										<label for="radio-one">Cannabis</label>							
 									</li>
+									<li>
+										<input type="radio" id="radio-two" name="switch" value="Weapons" ng-model="otherOption" checked>
+										<label for="radio-two">Public Weapons Dealer</label>							
+									</li>
 								</ul>		
-								<button style="bottom: 30px; border-bottom: white;" ng-click="requestTrader()">Order Trade</button>
-								<button style="background-color: gray; border-color: gray;" ng-click="cancelTrader()">Cancel</button>
+								<button style="bottom: 30px; border-bottom: white;" ng-click="requestTrader(otherOption)">Order Trade</button>
+								<button style="background-color: gray; border-color: gray;" ng-click="cancelTrader(otherOption)">Cancel</button>
 							</div>
 							
 							<div ng-switch-default>

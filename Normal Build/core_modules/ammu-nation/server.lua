@@ -110,7 +110,7 @@ BlackMarket_Weapons = {
 	["WEAPON_REVOLVER"] = 800,
 	["WEAPON_MARKSMANPISTOL"] = 1,
 	["WEAPON_FLAREGUN"] = 1,
-	["WEAPON_STUNGUN"] = 1,
+	["WEAPON_STUNGUN"] = 300,
 
 	["WEAPON_MINISMG"] = 1000,
 	["WEAPON_MACHINEPISTOL"] = 1050,
@@ -133,25 +133,25 @@ BlackMarket_Weapons = {
 	["WEAPON_HEAVYSNIPER"] = 1,
 	["WEAPON_MARKSMANRIFLE"] = 50000,
 
-	["WEAPON_KNIFE"] = 50,
-	["WEAPON_FLASHLIGHT"] = 10,
+	["WEAPON_KNIFE"] = 60,
+	["WEAPON_FLASHLIGHT"] = 20,
 	["WEAPON_NIGHTSTICK"] = 10,
-	["WEAPON_HAMMER"] = 10,
-	["WEAPON_BAT"] = 10,
-	["WEAPON_GOLFCLUB"] = 10,
-	["WEAPON_CROWBAR"] = 10,
-	["WEAPON_BOTTLE"] = 10,
-	["WEAPON_DAGGER"] = 10,
+	["WEAPON_HAMMER"] = 50,
+	["WEAPON_BAT"] = 100,
+	["WEAPON_GOLFCLUB"] = 150,
+	["WEAPON_CROWBAR"] = 100,
+	["WEAPON_BOTTLE"] = 50,
+	["WEAPON_DAGGER"] = 50,
 	["WEAPON_KNUCKLE"] = 150,
-	["WEAPON_HATCHET"] = 25,
-	["WEAPON_MACHETE"] = 25,
-	["WEAPON_SWITCHBLADE"] = 50,
-	["WEAPON_BATTLEAXE"] = 150,
-	["WEAPON_POOLCUE"] = 10,
-	["WEAPON_WRENCH"] = 10,
+	["WEAPON_HATCHET"] = 70,
+	["WEAPON_MACHETE"] = 140,
+	["WEAPON_SWITCHBLADE"] = 150,
+	["WEAPON_BATTLEAXE"] = 300,
+	["WEAPON_POOLCUE"] = 50,
+	["WEAPON_WRENCH"] = 30,
 
 	["WEAPON_SAWNOFFSHOTGUN"] = 1200,
-	["WEAPON_DBSHOTGUN"] = 1300,
+	["WEAPON_DBSHOTGUN"] = 1700,
 	["WEAPON_AUTOSHOTGUN"] = 1,
 	["WEAPON_PUMPSHOTGUN"] = 1500,
 	["WEAPON_ASSAULTSHOTGUN"] = 1,
@@ -172,17 +172,17 @@ BlackMarket_Weapons = {
 	["WEAPON_SMOKEGRENADE"] = 1,
 	["WEAPON_STICKYBOMB"] = 1,
 	["WEAPON_GRENADE"] = 1,
-	["WEAPON_BALL"] = 1,
+	["WEAPON_BALL"] = 50,
 	["WEAPON_FLARE"] = 1,
 	["WEAPON_PROXMINE"] = 1,
 	["WEAPON_PIPEBOMB"] = 1,
-	["WEAPON_PETROLCAN"] = 1,
+	["WEAPON_PETROLCAN"] = 100,
 	["WEAPON_SNOWBALL"] = 1,
 
 	["WEAPON_DIGISCANNER"] = 1,
 	["WEAPON_REMOTESNIPER"] = 1,
 
-	["GADGET_PARACHUTE"] = 1,
+	["GADGET_PARACHUTE"] = 500,
 }
 Attachments_Cost = {
 	["Suppressor"] = {100, 200},
@@ -423,6 +423,111 @@ AddEventHandler("weapon:buy", function(model)
 	else
 		TriggerClientEvent("customNotification", "The maximum number of weapons you can carry is "..max_weapons)
 	end
+end)
+
+RegisterServerEvent("weapon:public_buy_illegal")
+AddEventHandler("weapon:public_buy_illegal", function(model)
+	local source = source
+	if tablelength(user_weapons[source]) < max_weapons then
+		TriggerEvent("core:getuser", source, function(user)
+			local Index = 0
+			for k, v in pairs(GunStash_Inventory) do
+				if model == v.name then
+					Index = k
+				end
+			end
+			if Index == 0 then Index = 1 end
+			if GunStash_Inventory[Index].amount > 0 then
+				if user.get("dirty") >= BlackMarket_Weapons[model] then
+					user.removeDirty(BlackMarket_Weapons[model])
+					exports["GHMattiMySQL"]:Insert("weapons", {
+						{
+							["character_id"] = user.get("characterID"),
+							["sellprice"] = BlackMarket_Weapons[model],
+							["model"] = model,
+							["ammo"] = 0,
+							["suppressor"] = "false",
+							["flashlight"] = "false",
+							["extended_clip"] = "false",
+							["scope"] = "false",
+							["grip"] = "false",
+							["advanced_scope"] = "false",
+							["skin"] = 0,
+							["owner"] = 0,
+						}
+					}, function(weapon_id)
+						user_weapons[source][model] = { id = weapon_id, character_id = user.get("characterID"), sellprice = BlackMarket_Weapons[model], model = model, ammo = 0, suppressor = "false", flashlight = "false", extended_clip = "false", scope = "false", grip = "false", advanced_scope = "false", skin = 0, owner = 0}
+						TriggerClientEvent("weapon:set", source, user_weapons[source])
+						TriggerClientEvent("weapon:give", source)
+						TriggerClientEvent("weapon:sync", -1, user_weapons)
+						GunStash_Inventory[Index].amount = GunStash_Inventory[Index].amount - 1
+						exports["GHMattiMySQL"]:QueryAsync("UPDATE gunstash_inventory SET amount = @amount WHERE ( name = @model )", {
+							["@amount"] = GunStash_Inventory[Index].amount,
+							["@model"] = model,
+						})
+					end, true)
+				else
+					Notify("Insufficient funds!", 3000, source)
+				end
+			else
+				Notify("That weapon supply has ran out!", 3100, source)
+			end
+		end)
+	else
+		TriggerClientEvent("customNotification", "The maximum number of weapons you can carry is "..max_weapons)
+	end
+end)
+
+RegisterServerEvent("weapon:buyattachment_illegal")
+AddEventHandler("weapon:buyattachment_illegal", function(model, attachment, cost, hash)
+	local source = source
+	if Attachments_Cost[attachment] then
+		if cost < Attachments_Cost[attachment][1] or cost > Attachments_Cost[attachment][2] then
+			cost = math.random(Attachments_Cost[attachment][1], Attachments_Cost[attachment][2])
+			cost = math.floor(cost)
+		end
+		if Skins[attachment] then
+			attachment = "skin"
+		else
+			attachment = attachment:lower()
+			attachment = string.gsub(attachment, " ", "_")
+		end
+		TriggerEvent("core:getuser", source, function(user)
+			if user.get("dirty") >= cost then
+				user.removeDirty(cost)
+				exports["GHMattiMySQL"]:QueryAsync("UPDATE weapons SET "..attachment.."=@attachment, sellprice=@sellprice WHERE (character_id=@character_id) AND (model=@model)", {
+					["@character_id"] = user.get("characterID"),
+					["@sellprice"] = user_weapons[source][model].sellprice + math.floor((cost/2)),
+					["@model"] = model,
+					["@attachment"] = hash
+				})
+				user_weapons[source][model].sellprice = user_weapons[source][model].sellprice + math.floor((cost/2))
+				user_weapons[source][model][attachment] = hash
+				TriggerClientEvent("weapon:set", source, user_weapons[source])
+				TriggerClientEvent("weapon:give", source)
+				TriggerClientEvent("weapon:sync", -1, user_weapons)
+			end
+		end)
+	end
+end)
+
+RegisterServerEvent("weapon:buyammo_illegal")
+AddEventHandler("weapon:buyammo_illegal", function(model)
+	local source = source
+	TriggerEvent("core:getuser", source, function(user)
+		if user.get("dirty") >= Ammo[model].Cost then
+			user.removeDirty(Ammo[model].Cost)
+			user_weapons[source][model].ammo = tonumber(user_weapons[source][model].ammo) + Ammo[model].Amount
+			exports["GHMattiMySQL"]:QueryAsync("UPDATE weapons SET ammo=@ammo WHERE (character_id=@character_id) AND (model=@model)", {
+				["@character_id"] = user.get("characterID"),
+				["@model"] = model,
+				["@ammo"] = user_weapons[source][model].ammo,
+			})
+			TriggerClientEvent("weapon:set", source, user_weapons[source])
+			TriggerClientEvent("weapon:give", source)
+			TriggerClientEvent("weapon:sync", -1, user_weapons)
+		end
+	end)
 end)
 
 RegisterServerEvent("weapon:buy_illegal")

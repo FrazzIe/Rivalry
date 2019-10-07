@@ -59,6 +59,275 @@ AddEventHandler("Refill.Ammo", function(SelectedWeapon, Item)
 	end	
 end)
 
+local Data = {
+    HasJobTask = false,
+    Meeting = nil,
+    PedestrianModel = nil,
+    MeetingPed = nil,
+    MeetingVehicle = nil,
+    Dialogue = {
+        [1] = "What's cracking cuh. You didn't have the cops follow you now did you?",
+        [2] = "Good... Well I have some inventory, but it's a bit limited. We don't get the big toys.",
+        [3] = "As well we have a lot of customers, so our stock runs out often.",
+        [4] = "Anyways.. Check out the goods. Everytihng is in the trunk.",
+    },
+    DialogueCompleted = false,
+	OpenMenu = false,
+	HasVisited = false,
+}
+
+local Meetings = {
+    [1] = { -- Ghetto Area
+		VehicleTaskCoord = vector3(68.527618408203,-1434.1994628906,28.828746795654),
+		VehicleTaskCoordHeading = 141.74494934082,
+		PedTaskCoord = vector3(70.65601348877,-1433.3870849609,29.311664581299),
+		PedTaskHeading = 235.28324890137,
+		CarModel = "oracle2",
+	},
+	[2] = { -- Ghetto Area
+		VehicleTaskCoord = vector3(-56.684638977051,-1420.5627441406,28.841323852539),
+		VehicleTaskCoordHeading = 269.96051025391,
+		PedTaskCoord = vector3(-58.642837524414,-1419.3937988281,29.326471328735), 
+		PedTaskHeading = 0.071580804884434,
+		CarModel = "buffalo",
+	},
+	[3] = { -- Vinewood Hills
+		VehicleTaskCoord = vector3(-467.49334716797,73.980682373047,58.181781768799), 
+		VehicleTaskCoordHeading = 314.72985839844,
+		PedTaskCoord = vector3(-469.59292602539,73.564575195313,58.661449432373), 
+		PedTaskHeading = 41.771751403809,
+		CarModel = "cog55",
+	},
+	[4] = { -- Rockford Hills
+		VehicleTaskCoord = vector3(-863.73602294922,-240.89419555664,39.008407592773), 
+		VehicleTaskCoordHeading = 206.2218170166,
+		PedTaskCoord = vector3(-863.60601806641,-238.53485107422,39.519733428955), 
+		PedTaskHeading = 300.31268310547,
+		CarModel = "baller",
+	},
+}
+
+RegisterNetEvent("Create.Public.Market.Meeting")
+AddEventHandler("Create.Public.Market.Meeting", function()
+	if Data.Meeting == nil and Data.HasJobTask == false then
+		Data.Meeting = math.random(1, #Meetings)
+		Data.HasJobTask = true
+		Notify("The dealer has sent you a location!")
+		SetNewWaypoint(Meetings[Data.Meeting].PedTaskCoord.x, Meetings[Data.Meeting].PedTaskCoord.y)
+	else
+		if DoesEntityExist(Data.MeetingVehicle) then
+			DestroyVehicle(Data.MeetingVehicle)
+			Data.MeetingVehicle = nil
+		end
+		Data.Meeting = math.random(1, #Meetings)
+		Data.HasJobTask = true
+		Notify("The dealer has sent you a new location!")
+		SetNewWaypoint(Meetings[Data.Meeting].PedTaskCoord.x, Meetings[Data.Meeting].PedTaskCoord.y)
+	end
+	Data.HasVisited = false
+end)
+
+RegisterNetEvent("Cancel.Public.Market.Meeting")
+AddEventHandler("Cancel.Public.Market.Meeting", function()
+	Data.Meeting = nil
+	Data.HasJobTask = false
+	Data.OpenMenu = false
+	if DoesEntityExist(Data.MeetingVehicle) then
+		DestroyVehicle(Data.MeetingVehicle)
+		Data.MeetingVehicle = nil
+	end
+	ClearGpsPlayerWaypoint()
+	Data.HasVisited = false
+end)
+
+Citizen.CreateThread(function()
+    while true do
+        Citizen.Wait(0)
+        if Data.HasJobTask then
+			if Data.Meeting ~= nil then
+				local Player = PlayerPedId()
+				local PlayerPosition = GetEntityCoords(Player, false)
+                if #(PlayerPosition - Meetings[Data.Meeting].PedTaskCoord) <= 47.0 then
+					if not DoesEntityExist(Data.MeetingPed) and not DoesEntityExist(Data.MeetingVehicle) then
+						Data.MeetingVehicle = exports["core"]:SpawnVehicle(Meetings[Data.Meeting].CarModel, Meetings[Data.Meeting].VehicleTaskCoord, Meetings[Data.Meeting].VehicleTaskCoordHeading, false)
+                    else
+                        if #(PlayerPosition - Meetings[Data.Meeting].PedTaskCoord) <= 6.0 then
+                           if DoesEntityExist(Data.MeetingVehicle) then
+                                SetVehicleDoorOpen(Data.MeetingVehicle, 5)
+                                if #(PlayerPosition - Meetings[Data.Meeting].PedTaskCoord) <= 2.2 then
+									DisplayHelpText("Press ~INPUT_CONTEXT~ to view weapon stock")
+									if IsControlJustPressed(1, 51) then
+										Data.HasVisited = true
+										Data.OpenMenu = true  
+									end
+                                end
+                            end
+                        end
+                    end
+				else
+					if Data.HasVisited then
+						TriggerEvent("Cancel.Public.Market.Meeting")
+						Data.HasVisited = false
+					end
+				end
+            end
+        end
+    end
+end)
+
+Citizen.CreateThread(function()
+    while true do
+		Citizen.Wait(0)
+		if Data.HasJobTask then
+			if Data.Meeting ~= nil then
+				if Data.OpenMenu then
+					if not WarMenu.IsMenuOpened("Blackmarket_Public_Stash_Shit") then
+						if not WarMenu.DoesMenuExist("Blackmarket_Public_Stash_Shit") then
+							WarMenu.CreateMenu("Blackmarket_Public_Stash_Shit", "Trunk Stash")
+							WarMenu.SetSpriteTitle("Blackmarket_Public_Stash_Shit", {"shopui_title_blackmarket","shopui_title_gunclub"})
+							WarMenu.SetSubTitle("Blackmarket_Public_Stash_Shit", "WEAPONS")
+							WarMenu.SetMenuX("Blackmarket_Public_Stash_Shit", 0.6)
+							WarMenu.SetMenuY("Blackmarket_Public_Stash_Shit", 0.15)
+							for k,v in pairs(Public_Blackmarket_Weapons) do
+								WarMenu.CreateSubMenu(v.Category.."_BLACKMARKET_PUBLIC_STASH", "Blackmarket_Public_Stash_Shit", v.Category)
+								if v.Category == "Illegal" then
+									for i,j in pairs(v.Items) do
+										WarMenu.CreateSubMenu(j.Name.."_BLACKMARKET_PUBLIC_STASH", v.Category.."_BLACKMARKET_PUBLIC_STASH", j.Name.." SHOPPING CART")
+									end
+								else
+									for i,j in pairs(v.Items) do
+										WarMenu.CreateSubMenu(j.Weapon.."_BLACKMARKET_PUBLIC_STASH", v.Category.."_BLACKMARKET_PUBLIC_STASH", j.Name.." UPGRADES")
+									end
+								end
+							end
+							WarMenu.OpenMenu("Blackmarket_Public_Stash_Shit")
+						else
+							currentItemIndex = 1
+							WarMenu.OpenMenu("Blackmarket_Public_Stash_Shit")
+						end
+					end
+					Data.OpenMenu = false
+				end
+				if WarMenu.IsMenuOpened("Blackmarket_Public_Stash_Shit") then
+					for k,v in pairs(Public_Blackmarket_Weapons) do
+						if WarMenu.MenuButton(v.Category, v.Category.."_BLACKMARKET_PUBLIC_STASH") then
+						end
+					end
+					if WarMenu.Button("Close") then
+						WarMenu.CloseMenu()
+					end
+					WarMenu.Display()
+				end
+				for k,v in pairs(Public_Blackmarket_Weapons) do
+					if WarMenu.IsMenuOpened(v.Category.."_BLACKMARKET_PUBLIC_STASH") then
+						if v.Category == "Illegal" then
+							for i,j in pairs(v.Items) do
+								if WarMenu.Button(j.Name, "$"..j.Cost) then
+									TriggerServerEvent("bmitem:buy", j.Id, 1)
+								end
+							end
+						else
+							for i,j in pairs(v.Items) do
+								if user_weapons[j.Weapon] ~= nil then
+									if WarMenu.MenuButton(j.Name, j.Weapon.."_BLACKMARKET_PUBLIC_STASH") then
+										
+									end
+								else
+									if WarMenu.Button(j.Name, "$"..j.Cost) then
+										TriggerServerEvent("weapon:public_buy_illegal", j.Weapon)
+									end
+								end
+							end
+						end
+						WarMenu.Display()
+					end
+				end
+				for k,v in pairs(Public_Blackmarket_Weapons) do
+					for i,j in pairs(v.Items) do
+						if user_weapons[j.Weapon] ~= nil then
+							if WarMenu.IsMenuOpened(j.Weapon.."_BLACKMARKET_PUBLIC_STASH") then
+								if Ammo[j.Weapon] then
+									if WarMenu.Button("Current Ammo", GetAmmoInPedWeapon(PlayerPed, GetHashKey(j.Weapon)).."/"..Ammo[j.Weapon].Max) then
+									end
+									if GetAmmoInPedWeapon(PlayerPed, GetHashKey(j.Weapon)) < Ammo[j.Weapon].Max then
+										if WarMenu.Button(Ammo[j.Weapon].Name..Ammo[j.Weapon].Amount, "$"..Ammo[j.Weapon].Cost) then
+											TriggerServerEvent("weapon:buyammo_illegal", j.Weapon)
+										end
+									else
+										if WarMenu.Button(Ammo[j.Weapon].Name..Ammo[j.Weapon].Amount, "FULL") then
+										end
+									end
+								end
+								if Attachments[j.Weapon] then
+									for a,attachment in pairs(Attachments[j.Weapon]) do
+										if attachment.Name ~= "Yusuf Amir Luxury Finish" and attachment.Name ~= "Platinum Pearl Deluxe Finish" and attachment.Name ~= "Etched Wood Grip Finish" and attachment.Name ~= "Gilded Gun Metal Finish" and attachment.Name ~= "Eteched Gun Metal Finish" and attachment.Name ~= "Bodyguard Variant" and attachment.Name ~= "VIP Variant" and attachment.Name ~= "Base Model" and attachment.Name ~= "The Pimp" and attachment.Name ~= "The Ballas" and attachment.Name ~= "The Hustler" and attachment.Name ~= "The Rock" and attachment.Name ~= "The Hater" and attachment.Name ~= "The Lover" and attachment.Name ~= "The Player" and attachment.Name ~= "The King" and attachment.Name ~= "The Vagos" then
+											local key = attachment.Name:lower()
+											key = string.gsub(key, " ", "_")
+											if user_weapons[j.Weapon][key] == "false" then
+												if WarMenu.Button(attachment.Name, "$"..math.floor(attachment.Cost)) then
+													TriggerServerEvent("weapon:buyattachment_illegal", j.Weapon, attachment.Name, math.floor(attachment.Cost), attachment.Hash)
+												end
+											else
+												if WarMenu.Button(attachment.Name) then
+												end
+											end
+										else
+											if user_weapons[j.Weapon].skin == attachment.Hash then
+												if WarMenu.Button(attachment.Name) then
+												end			        			
+											else
+												if WarMenu.Button(attachment.Name, "$"..math.floor(attachment.Cost)) then
+													TriggerServerEvent("weapon:buyattachment_illegal", j.Weapon, attachment.Name, math.floor(attachment.Cost), attachment.Hash)
+												end			        			
+											end
+										end
+									end
+								end
+								for a,tint in pairs(Tints) do
+									if v.Category ~= "Melee" and v.Category ~= "Throwables" and v.Category ~= "Specials" and j.Weapon ~= "GADGET_PARACHUTE" then
+										if user_weapons[j.Weapon].skin == tint.Index then
+											if WarMenu.Button(tint.Name) then
+											end			        			
+										else
+											if WarMenu.Button(tint.Name, "$"..math.floor(tint.Cost)) then
+												TriggerServerEvent("weapon:buyattachment_illegal", j.Weapon, tint.Name, math.floor(tint.Cost), tint.Index)
+											end
+										end
+									end        				
+								end
+								for _, tint in pairs(ParachuteTints) do
+									if j.Weapon == "GADGET_PARACHUTE" then
+										if user_weapons[j.Weapon].skin == tint.Index then
+											if WarMenu.Button(tint.Name) then
+											end			        			
+										else
+											if WarMenu.Button(tint.Name, "$"..math.floor(tint.Cost)) then
+												TriggerServerEvent("weapon:buyattachment_illegal", j.Weapon, tint.Name, math.floor(tint.Cost), tint.Index)
+											end
+										end
+									end											
+								end
+								if WarMenu.Button("Sell", "$"..math.floor(tonumber(user_weapons[j.Weapon].sellprice))) then
+									TriggerServerEvent("weapon:sell", j.Weapon)
+								end
+								WarMenu.Display()
+							end
+						end
+					end
+				end
+			end
+		end
+    end
+end)
+
+RegisterNetEvent("Create.Job.Task")
+AddEventHandler("Create.Job.Task", function()
+    local Randomizer = math.random(1, #Meetings)
+    Data.Meeting = Meetings[Randomizer].Coordinates
+    Data.PedestrianModel = Meetings[Randomizer].Model
+    Data.HasJobTask = true
+end)
+
 weapon_license = "false"
 Citizen.CreateThread(function()
 	for k,v in pairs(ammu_nation.normal) do

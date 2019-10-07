@@ -215,6 +215,37 @@ Blackmarket_Weapons = {
 	}},
 }
 
+Public_Blackmarket_Weapons = {
+	{Category = "Pistols", Items = {
+		{Weapon = "WEAPON_PISTOL", Name = "Pistol", Cost = 550},
+		{Weapon = "WEAPON_COMBATPISTOL", Name = "Combat Pistol", Cost = 625},
+		{Weapon = "WEAPON_VINTAGEPISTOL", Name = "Vintage Pistol", Cost = 1050},
+		{Weapon = "WEAPON_STUNGUN", Name = "Stungun", Cost =300},
+	}},
+	{Category = "Melee", Items = {
+		{Weapon = "WEAPON_KNIFE", Name = "Knife", Cost = 65},
+		{Weapon = "WEAPON_FLASHLIGHT", Name = "Flashlight", Cost = 20},
+		{Weapon = "WEAPON_HAMMER", Name = "Hammer", Cost = 50},
+		{Weapon = "WEAPON_BAT", Name = "Baseball Bat", Cost = 100},
+		{Weapon = "WEAPON_GOLFCLUB", Name = "Golfclub", Cost = 150},
+		{Weapon = "WEAPON_CROWBAR", Name = "Crowbar", Cost = 100},
+		{Weapon = "WEAPON_BOTTLE", Name = "Smashed Bottle", Cost = 50},
+		{Weapon = "WEAPON_DAGGER", Name = "Dagger", Cost = 50},
+		{Weapon = "WEAPON_HATCHET", Name = "Hatchet", Cost = 70},
+		{Weapon = "WEAPON_MACHETE", Name = "Machete", Cost = 140},
+		{Weapon = "WEAPON_SWITCHBLADE", Name = "Switchblade", Cost = 150},
+		{Weapon = "WEAPON_BATTLEAXE", Name = "Battleaxe", Cost = 300},
+		{Weapon = "WEAPON_POOLCUE", Name = "Poolcue", Cost = 50},
+		{Weapon = "WEAPON_WRENCH", Name = "Wrench", Cost = 30},
+	}},
+	{Category = "Shotguns", Items = {
+		{Weapon = "WEAPON_DBSHOTGUN", Name = "Double Barrel Shotgun", Cost = 1700},
+	}},
+	{Category = "Gadgets", Items = {
+		{Weapon = "GADGET_PARACHUTE", Name = "Parachute", Cost = 500},
+	}},
+}
+
 Weapons_names = {
 	["WEAPON_PISTOL"] = "Pistol",
 	["WEAPON_COMBATPISTOL"] = "Combat Pistol",
