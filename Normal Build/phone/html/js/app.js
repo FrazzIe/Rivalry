@@ -3,7 +3,7 @@ var app = angular.module('app', []);
 app.controller('ctrl', function($scope, $timeout, $http) {	
 	// Scroll Bar needs to be fixed...
 	$(function() {
-		$(".contacts-wrapper, .conversation-wrapper, .call-wrapper, .twitter-wrapper, .messages-wrapper").niceScroll({
+		$(".contacts-wrapper, .conversation-wrapper, .call-wrapper, .twitter-wrapper, .messages-wrapper, .yellowpage-wrapper").niceScroll({
 			cursorcolor: "#FFFFFF",
 			cursorborder: "0px solid #fff",
 			cursoropacitymax: 0.1,
