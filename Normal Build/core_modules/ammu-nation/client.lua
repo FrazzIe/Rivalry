@@ -234,7 +234,7 @@ Citizen.CreateThread(function()
 									end
 								else
 									if WarMenu.Button(j.Name, "$"..j.Cost) then
-										TriggerServerEvent("weapon:public_buy_illegal", j.Weapon)
+										TriggerServerEvent("weapon:buy_illegal", j.Weapon)
 									end
 								end
 							end
@@ -251,7 +251,7 @@ Citizen.CreateThread(function()
 									end
 									if GetAmmoInPedWeapon(PlayerPed, GetHashKey(j.Weapon)) < Ammo[j.Weapon].Max then
 										if WarMenu.Button(Ammo[j.Weapon].Name..Ammo[j.Weapon].Amount, "$"..Ammo[j.Weapon].Cost) then
-											TriggerServerEvent("weapon:buyammo_illegal", j.Weapon)
+											TriggerServerEvent("weapon:buyammo", j.Weapon)
 										end
 									else
 										if WarMenu.Button(Ammo[j.Weapon].Name..Ammo[j.Weapon].Amount, "FULL") then
@@ -265,7 +265,7 @@ Citizen.CreateThread(function()
 											key = string.gsub(key, " ", "_")
 											if user_weapons[j.Weapon][key] == "false" then
 												if WarMenu.Button(attachment.Name, "$"..math.floor(attachment.Cost)) then
-													TriggerServerEvent("weapon:buyattachment_illegal", j.Weapon, attachment.Name, math.floor(attachment.Cost), attachment.Hash)
+													TriggerServerEvent("weapon:buyattachment", j.Weapon, attachment.Name, math.floor(attachment.Cost), attachment.Hash)
 												end
 											else
 												if WarMenu.Button(attachment.Name) then
@@ -277,7 +277,7 @@ Citizen.CreateThread(function()
 												end			        			
 											else
 												if WarMenu.Button(attachment.Name, "$"..math.floor(attachment.Cost)) then
-													TriggerServerEvent("weapon:buyattachment_illegal", j.Weapon, attachment.Name, math.floor(attachment.Cost), attachment.Hash)
+													TriggerServerEvent("weapon:buyattachment", j.Weapon, attachment.Name, math.floor(attachment.Cost), attachment.Hash)
 												end			        			
 											end
 										end
@@ -290,7 +290,7 @@ Citizen.CreateThread(function()
 											end			        			
 										else
 											if WarMenu.Button(tint.Name, "$"..math.floor(tint.Cost)) then
-												TriggerServerEvent("weapon:buyattachment_illegal", j.Weapon, tint.Name, math.floor(tint.Cost), tint.Index)
+												TriggerServerEvent("weapon:buyattachment", j.Weapon, tint.Name, math.floor(tint.Cost), tint.Index)
 											end
 										end
 									end        				
@@ -302,7 +302,7 @@ Citizen.CreateThread(function()
 											end			        			
 										else
 											if WarMenu.Button(tint.Name, "$"..math.floor(tint.Cost)) then
-												TriggerServerEvent("weapon:buyattachment_illegal", j.Weapon, tint.Name, math.floor(tint.Cost), tint.Index)
+												TriggerServerEvent("weapon:buyattachment", j.Weapon, tint.Name, math.floor(tint.Cost), tint.Index)
 											end
 										end
 									end											
