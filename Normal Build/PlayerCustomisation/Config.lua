@@ -614,13 +614,13 @@ PlayerCustomisation.Locations = {
 			Marker = {x = 454.44635009766, y = -988.86938476563, z = 30.689607620239, h = 172.5439453125},
 			Banner = "shopui_title_midfashion",
 		},
-		[16] = { -- Los Santos Medical Center
+		[16] = { -- Pillbox Hospital
 			Blip = {
 				Name = "Clothing store",
 				Sprite = 73, 
 				Colour = 0,
 			},
-			Marker = {x = 369.78155517578, y = -1402.0100097656, z = 32.936382293701, h = 139.20364379883},
+			Marker = {x = 336.98593139648, y = -581.65216064453, z = 28.791465759277, h = 68.848915100098},
 			Banner = "shopui_title_midfashion",
 		},
 		[17] = { -- Sandy Shores
@@ -916,7 +916,7 @@ PlayerCustomisation.Locations = {
 				Sprite = 366, 
 				Colour = 0,
 			},
-			Marker = {x = 366.62850952148, y = -1407.0114746094, z = 32.936233520508, h = 316.91781616211},
+			Marker = {x = 337.25042724609, y = -580.20056152344, z = 28.791465759277, h = 165.14468383789},
 			Banner = "shopui_title_midfashion",
 		},
 		[18] = { -- Sandy Shores PD
@@ -936,7 +936,7 @@ PlayerCustomisation.Locations = {
 				Sprite = 102, 
 				Colour = 0,
 			},
-			Marker = { x = 354.72802734375, y = -1408.4028320313, z = 32.428936004639, h = 184.17863464355},
+			Marker = {x = 318.15679931641, y = -598.37371826172, z = 43.291828155518, h = 159.2621307373},
 			Banner = "",
 		},
 	},

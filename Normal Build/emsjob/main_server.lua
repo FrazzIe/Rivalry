@@ -14,7 +14,6 @@
 ems = {}
 ranks = {}
 user_models = {}
-
 local doors = {
 	single = {
 		true, -- Morgue, reception door
@@ -22,10 +21,17 @@ local doors = {
 		true, -- Computing room, 3rd floor, door 1
 		true, -- Computing room, 3rd floor, door 2
 		true, -- Medical office, 3rd floor
-		-- Sandy Shores
-		true, -- Locker Room
-		true, -- Desk Entrance
-		true, -- Locker Room
+		-- LOWER PILLBOX NEW INTERIOR
+		true,
+		true,
+		true,
+		true,
+		true,
+		true,
+		true,
+		true,
+		true,
+		true,
 	},
 	double = {
 		{
@@ -52,34 +58,57 @@ local doors = {
 			["left"] = false,
 			["right"] = false,
 		}, -- Forensics Lab, 3rd floor Right doors
-		-- LOS SANTOS MEDICAL CENTER
+		-- LOWER PILLBOX NEW INTERIOR
 		{
-			["left"] = true, -- Office Doors
-			["right"] = true, -- Office Doors
+			["left"] = true,
+			["right"] = true,
 		},
 		{
-			["left"] = true, -- Meeting Doors Right Hospital
-			["right"] = true, -- Meeting Doors Right Hospital
+			["left"] = false,
+			["right"] = false,
 		},
 		{
-			["left"] = true, -- Storage Entrance
-			["right"] = true, -- Storage Entrance
+			["left"] = true,
+			["right"] = true,
 		},
 		{
-			["left"] = true, -- EMS Lockers Entrance
-			["right"] = true, -- EMS Lockers Entrance
+			["left"] = true,
+			["right"] = true,
 		},
 		{
-			["left"] = true, -- Office Doors		
-			["right"] = true, -- Office Doors
+			["left"] = true,
+			["right"] = true,
 		},
 		{
-			["left"] = true, -- Pillbox Surgery
-			["right"] = true, -- Pillbox Surgery
-		}
+			["left"] = true,
+			["right"] = true,
+		},
+		{
+			["left"] = true,
+			["right"] = true,
+		},
+		{
+			["left"] = true,
+			["right"] = true,
+		},
+		{
+			["left"] = true,
+			["right"] = true,
+		},
+		{
+			["left"] = true,
+			["right"] = true,
+		},
+		{
+			["left"] = true,
+			["right"] = true,
+		},
+		{
+			["left"] = true,
+			["right"] = true,
+		},
 	}
 }
-
 local function addRank(rank, inherit)
 	if ranks[inherit] then
 		local table = {}
