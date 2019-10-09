@@ -89,7 +89,6 @@ local doors = {
 		{coords = vector3(471.3154296875,-986.10906982422,25.057952880859), model = -131296141, heading = 270.37399291992, locked = true}, -- Evidence Locker
 		{coords = vector3(442.66253662109,-988.24133300781,26.819765090942), model = -131296141, heading = 178.92091369629, locked = true}, -- Mugshot
 		-- END
-		{coords = vector3(1855.2312011719, 3683.5375976563, 34.266860961914), model = -1765048490, heading = 30.19642829895, locked = false}, -- Sandy Shores Main Door
 		-- OLD
 		-- {coords = vector3(1846.4598388672, 3662.5939941406, -116.789894104), model = -642608865, heading = 30.000001907349, locked = true}, -- Sandy Jail Cell 1
 		-- {coords = vector3(1852.0426025391, 3665.8259277344, -116.789894104), model = -642608865, heading = 30.000001907349, locked = true}, -- Sandy Jail Cell 2
@@ -97,17 +96,6 @@ local doors = {
 		-- {coords = vector3(1867.9284667969, 3674.638671875, -116.77992248535), model = 871712474, heading = 30.000001907349, locked = true}, -- Sandy Jail Cell 4 Lockdown
 		-- {coords = vector3(1872.2075195313, 3676.9758300781, -116.7799911499), model = 871712474, heading = 30.000001907349, locked = true}, -- Sandy Jail Cell 5 Lockdown
 		-- END
-		-- Sandy Shores
-		{coords = vector3(1857.2680664063,3690.2788085938,34.41955947876), model = 1557126584, heading = 30.111738204956, locked = true}, -- Waiting Room Entrance
-		{coords = vector3(1854.9256591797,3694.3391113281,34.41633605957), model = 1557126584, heading = 29.974342346191, locked = true}, -- Waiting Room To Office
-		{coords = vector3(1850.8364257813,3694.5400390625,34.412601470947), model = 1557126584, heading = 120.17262268066, locked = true}, -- Hallway Office to Office
-		{coords = vector3(1849.3331298828,3691.1318359375,34.414325714111), model = 1557126584, heading = 30.056873321533, locked = true}, -- Main Lobby to Hallway
-		{coords = vector3(1843.2575683594,3690.3137207031,34.426197052002), model = 1557126584, heading = 299.7370300293, locked = true}, -- Locker Room
-		{coords = vector3(1846.1160888672,3689.2670898438,34.416423797607), model = 1557126584, heading = 30.094488143921, locked = true}, -- Hallway Office to Cells
-		{coords = vector3(1850.3798828125,3683.4541015625,34.409999847412), model = 1557126584, heading = 119.90841674805, locked = true}, -- Main Lobby to Cells
-		{coords = vector3(1847.9862060547,3681.6884765625,34.40397644043), model = 631614199, heading = 120.21669006348, locked = true}, -- Cell 1
-		{coords = vector3(1846.3916015625,3684.4504394531,34.40397644043), model = 631614199, heading = 299.81994628906, locked = true}, -- Cells Room Cell 2
-		-- Sheriffs Office
 		-- Paleto Office
 		{coords = vector3(-449.79461669922,6015.4482421875,31.866329193115), model = -2023754432, heading = 135.06001281738, locked = true}, -- Interrogation Viewing
 		{coords = vector3(-454.53598022461,6011.2578125,31.869819641113), model = -519068795, heading = 10.008575439453, locked = true}, -- Interrogation Room
@@ -120,6 +108,13 @@ local doors = {
 		{coords = vector3(-432.17544555664,5992.1215820313,31.873119354248), model = 631614199, heading = 315.49444580078, locked = true}, -- Cell Area Entrance One
 		{coords = vector3(-428.06463623047,5996.671875,31.873123168945), model = 631614199, heading = 315.51547241211, locked = true}, -- Cell 2
 		{coords = vector3(-431.19207763672,5999.7416992188,31.873123168945), model = 631614199, heading = 315.51547241211, locked = true}, -- Cell 1
+		-- New Sandy Shores
+		{ coords = vector3(1856.1451416016, 3689.67578125, 34.435485839844), heading = 30.165987014771, model = -2023754432, locked = true }, -- Locker Room / Armory Room
+		{ coords = vector3(1848.1761474609, 3681.4304199219, 34.404941558838), heading = 299.81994628906, model = 631614199, locked = true }, -- Cell 1
+		{ coords = vector3(1846.4395751953, 3684.4345703125, 34.40397644043), heading = 299.81994628906, model = 631614199, locked = true },-- Cell 2
+		{ coords = vector3(1844.0726318359, 3688.5341796875, 34.40397644043), heading = 119.99996948242, model = 631614199, locked = true }, -- Cell 3
+		{ coords = vector3(1853.8251953125, 3695.8830566406, 34.52759552002), heading = 298.60534667969, model = 1817008884, locked = true }, -- Evidence Gate
+		{ coords = vector3(1855.6870117188, 3683.9265136719, 34.585845947266), heading = 30.196424484253, model = -1765048490, locked = false }, -- Front Door
 	},
 	double = {
 		{
@@ -166,6 +161,15 @@ local doors = {
 		{
 			["left"] = {coords = vector3(-447.70916748047,6006.716796875,31.8088722229), model = 245182344, heading = 315.00006103516, locked = true},
 			["right"] = {coords = vector3(-449.55001831055,6008.5576171875,31.8088722229), model = -681066206, heading = 135.00007629395, locked = true},
+		},
+		-- Sandy Shores
+		{
+			["left"] = { coords = vector3(1851.2661132813, 3681.8745117188, 34.40412902832), heading = 119.31882476807, model = -2023754432, locked = true }, -- Left Doors
+			["right"] = { coords = vector3(1849.9934082031, 3684.140625, 34.40412902832), heading = 299.99996948242, model = -2023754432, locked = true }, -- Left Doors
+		},
+		{
+			["left"] = { coords = vector3(1847.1619873047, 3689.912109375, 34.423355102539), heading = 29.999992370605, model = -2023754432, locked = true }, -- Center Doors
+			["right"] = { coords = vector3(1849.4134521484, 3691.2119140625, 34.423355102539), heading = 210.07531738281, model = -2023754432, locked = true }, -- Center Doors
 		},
 	},
 }

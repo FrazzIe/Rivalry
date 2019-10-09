@@ -16,12 +16,6 @@ cops = {}
 user_models = {}
 local doors = {
 	single = {
-		-- OLD (Lamars)
-		-- true, -- Mission Row Interrogation Cell Door 1
-		-- true, -- Mission Row Interrogation Cell Door 2
-		-- true, -- Mission Row Interrogation Observe
-		-- true, -- Mission Row Mug Shot
-		-- END
 		true, -- Mission Row Door To Cells Back
 		true, -- Mission Row Cell Door 1
 		true, -- Mission Row Cell Door 2
@@ -48,23 +42,8 @@ local doors = {
 		true, -- Evidence Locker
 		true, -- Mugshot
 		-- END
-		true, -- Sandy Shores Main Door
-		-- OLD
-		-- true, -- Sandy Jail Cell 1
-		-- true, -- Sandy Jail Cell 2
-		-- true, -- Sandy Jail Cell 3
-		-- true, -- Sandy Jail Cell 4 Lockdown
-		-- true, -- Sandy Jail Cell 5 Lockdown
-		true, -- Waiting Room Entrance
-		true, -- Waiting Room To Office
-		true, -- Hallway Office to Office
-		true, -- Main Lobby to Hallway
-		true, -- Locker Room
-		true, -- Hallway Office to Cells
-		true, -- Main Lobby to Cells
-		true, -- Cell 1
-		true, -- Cells Room Cell 2
-		true,-- Interrogation Viewing
+		-- Paleto Office
+		true, -- Interrogation Viewing
 		true, -- Interrogation Room
 		true, -- Back Door Number One
 		true, -- Back Door Number Two
@@ -75,6 +54,13 @@ local doors = {
 		true, -- Cell Area Entrance One
 		true, -- Cell 2
 		true, -- Cell 1
+		-- New Sandy Shores
+		true, -- Locker Room / Armory Room
+		true, -- Cell 1
+		true,-- Cell 2
+		true, -- Cell 3
+		true, -- Evidence Gate
+		true, -- Front Door
 	},
 	double = {
 		{
@@ -93,12 +79,6 @@ local doors = {
 			["left"] = true,
 			["right"] = true,
 		}, -- Mission Row Police Station Briefing Doors
-		-- OLD (Lamars)
-		-- {
-		--  ["left"] = true,
-		--  ["right"] = true,
-		-- }, -- Mission Row Police Station Interrogation Main Doors
-		-- END
 		-- NEW ALPHA MRPD
 		{
 			["left"] = true,
@@ -111,17 +91,27 @@ local doors = {
 		-- END
 		-- New Paleto
 		{
-			["left"] = false,
-			["right"] = false,
-		},  -- Double Front Entrance Doors
+			["left"] = true,
+			["right"] = true,
+		},
 		{
 			["left"] = true,
 			["right"] = true,
-		},  -- Double Office Doors Area
+		},
 		{
 			["left"] = true,
 			["right"] = true,
-		},  -- Hallyway Double Door Area
+		},
+		-- END
+		-- Sandy Shores
+		{
+			["left"] = true,
+			["right"] = true,
+		},
+		{
+			["left"] = true,
+			["right"] = true,
+		},
 	},
 }
 

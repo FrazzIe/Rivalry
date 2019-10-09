@@ -4,7 +4,7 @@ DOJ.Active = false
 DOJ.Rank = nil
 DOJ.Position = nil
 DOJ.Locations = {
-	vector3(227.40411376953,-414.59469604492,-118.19954681396),
+	vector3(-552.6015625, -191.19027709961, 38.219696044922),
 }
 
 function DOJonduty()
@@ -139,12 +139,15 @@ AddEventHandler("DOJ:Set", function(_Data, _DOJ, first)
 
 	if not DOJ.IsDOJ and DOJ.Active then
 		DOJ.Active = false
+		exports["core_modules2"]:SetDOJ(DOJ.IsDOJ)
 		TriggerServerEvent("jobcenter:jobs", 1)
 	elseif not DOJ.IsDOJ and not DOJ.Active then
 		if not first then
+			exports["core_modules2"]:SetDOJ(DOJ.IsDOJ)
 			TriggerServerEvent("jobcenter:jobs", 1)
 		end
 	elseif DOJ.IsDOJ then
+		exports["core_modules2"]:SetDOJ(DOJ.IsDOJ)
 		TriggerServerEvent("jobcenter:jobs", 23)
 	end
 end)
@@ -152,8 +155,10 @@ end)
 RegisterNetEvent("Lawyer:Set")
 AddEventHandler("Lawyer:Set", function(Status)
 	if Status == true then
+		exports["core_modules2"]:SetDOJ(DOJ.IsDOJ)
 		TriggerServerEvent("jobcenter:jobs", 5)
 	else
+		exports["core_modules2"]:SetDOJ(DOJ.IsDOJ)
 		TriggerServerEvent("jobcenter:jobs", 1)
 	end
 end)

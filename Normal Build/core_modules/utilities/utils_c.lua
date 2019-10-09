@@ -54,7 +54,7 @@ local extrablips = {
     {name="Prison", sprite=285, x=1679.049, y=2513.711, z=45.565},
     {name="Impound Lot", sprite=68, x=401.05154418945, y=-1631.6422119141, z=29.291933059692},
     {name="Impound Lot", sprite=68, x=1727.1442871094, y=3710.8161621094, z=34.258625030518},
-    {name="LS Courthouse", sprite=419, x=235.60780334473, y=-411.32336425781, z=48.111949920654},
+    {name="City Hall", sprite=419, x=-544.49243164063, y=-204.81297302246, z=38.218723297119},
 }
 
 local InstructionalButtons = nil

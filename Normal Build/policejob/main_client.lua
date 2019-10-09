@@ -22,7 +22,7 @@ user_cop = {}
 local takingService = {
 	{name="Police Station", sprite = 60, colour = 28, x=457.956909179688, y=-992.72314453125, z=30.6895866394043},  -- Mission Row
 	{name="Police Station", sprite = 60, colour = 28, x = -436.96978759766, y = 6010.173828125, z = 31.716234207153}, -- Paleto Bay
-	{name="Police Station", sprite = 60, colour = 28, x=1840.41796875, y=3688.6987304688, z=34.286643981934}, -- Sandy Shores
+	{name="Police Station", sprite = 60, colour = 28, x = 1860.1091308594, y = 3693.3352050781, z = 34.243644714355}, -- Sandy Shores
 	{name="Police Station", sprite = 60, colour = 28, x=-1113.65, y=-849.21, z=13.45}, -- San Andreas Ave
 	{name="Police Station", sprite = 60, colour = 28, x=-561.28, y=-132.60, z=38.04}, -- Rockford Hills
 	{name="Park Ranger Station", sprite = 175, colour = 39, x = 387.07974243164, y = 792.12249755859, z = 187.69355773926}, -- Park Ranger Station
@@ -40,6 +40,7 @@ AddEventHandler("police:set", function(_data, _iscop, first)
 	if not isCop and isInService then
 		isInService = false
 		exports["core_modules"]:SetPolice(isCop, isInService)
+		exports["core_modules2"]:SetPolice(isCop)
 		TriggerServerEvent("jobcenter:jobs", 1)
 		TriggerServerEvent("police:setService", isInService)
 		BlipRemoval()
@@ -54,10 +55,12 @@ AddEventHandler("police:set", function(_data, _iscop, first)
 		if not first then
 			TriggerServerEvent("jobcenter:jobs", 1)
 			exports["core_modules"]:SetPolice(isCop, isInService)
+			exports["core_modules2"]:SetPolice(isCop)
 		end
 	elseif isCop then
 		TriggerServerEvent("jobcenter:jobs", 2)
 		exports["core_modules"]:SetPolice(isCop, isInService)
+		exports["core_modules2"]:SetPolice(isCop)
 	end
 end)
 
@@ -65,6 +68,7 @@ AddEventHandler("paramedic:dead", function()
 	if isCop and isInService then
 		isInService = false
 		exports["core_modules"]:SetPolice(isCop, isInService)
+		exports["core_modules2"]:SetPolice(isCop)
 		TriggerServerEvent("jobcenter:jobs", 1)
 		TriggerServerEvent("police:setService", isInService)
 		TriggerServerEvent("PlayerCustomisation.ModelType", "Default")
@@ -102,6 +106,7 @@ Citizen.CreateThread(function()
 				if IsControlJustReleased(1, 38)  then
 					isInService = not isInService
 					exports["core_modules"]:SetPolice(isCop, isInService)
+					exports["core_modules2"]:SetPolice(isCop)
 					TriggerServerEvent("police:setService", isInService)
 					
 					if(isInService) then

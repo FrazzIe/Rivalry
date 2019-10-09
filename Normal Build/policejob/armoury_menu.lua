@@ -14,7 +14,7 @@
 local armoury = {
     {name = "Armoury", sprite = 175, colour = 39, x=452.28164672852, y=-980.19580078125, z=30.689605712891}, -- Mission row
     {name = "Armoury", sprite = 175, colour = 39, x = -437.8244934082, y = 5988.9809570313, z = 31.716171264648},-- Paleto Bay
-    {name = "Armoury", sprite = 175, colour = 39, x=1853.7486572266, y=3689.9702148438, z=34.286651611328}, -- Sandy Shores
+    {name = "Armoury", sprite = 175, colour = 39, x = 1861.7764892578, y = 3689.1826171875, z = 34.260852813721}, -- Sandy Shores
     {name = "Armoury", sprite = 175, colour = 39, x=-1078.54, y=-857.00, z=5.04}, -- San Andreas Ave
     {name = "Armoury", sprite = 175, colour = 39, x=-566.57, y=-132.83, z=37.96}, -- Rockford Hills
     {name = "Armoury", sprite = 175, colour = 39, x=389.47625732422, y=798.86975097656, z=187.67149353027}, -- Park Ranger Station

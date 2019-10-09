@@ -50,7 +50,11 @@ server_script 'stress/server.lua'
 
 client_script 'me/client.lua'
 server_script 'me/server.lua'
---client_script 'mouth_movement.lua'
+
+client_script 'shareddoors/client.lua'
+server_script 'shareddoors/server.lua'
 
 export 'SeatbeltActive'
 export 'ScubaHas'
+export 'SetPolice'
+export 'SetDOJ'
