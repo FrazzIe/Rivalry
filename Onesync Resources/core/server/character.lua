@@ -403,6 +403,7 @@ AddEventHandler("core:selectCharacter", function(data)
                 TriggerClientEvent('mythic_hospital:client:RemoveBleed', source)
                 TriggerClientEvent('mythic_hospital:client:ResetLimbs', source)
                 TriggerEvent("GunStash.InitialiseInventory", source)
+                TriggerEvent("Shared.Doors.Initialise", source)
             else
                 if GetPlayerName(source) then
                     logError(GetPlayerName(source).." was kicked! | STEAM: "..identifier.." | CHAR ID: "..data.character_id.." | 2")
