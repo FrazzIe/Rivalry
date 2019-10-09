@@ -49,6 +49,7 @@ local Map = {
 			"CS3_07_MPGates", -- Zancudo Gates (GTAO like,: -1600.30100000, 2806.73100000, 18.79683000
 			--"rc12b_default", -- Pillbox Hill Hospital
 			"rc12b_hospitalinterior",
+			"rc12b_destroyed",
 			--"rc12b_hospitalinterior_lod",
 			"bh1_47_joshhse_unburnt", -- Josh's house: -1117.1632080078, 303.090698, 66.52217
 			"bh1_47_joshhse_unburnt_lod",
