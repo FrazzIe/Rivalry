@@ -473,10 +473,10 @@ app.controller('ctrl', function($scope, $timeout, $http) {
 	};
 
 	//Service requests
-	$scope.requestTrader = function() {
+	$scope.requestTrader = function(traderName) {
 		$http({
 			method: "POST",
-			url: "http://" + $scope.resoureName + "/request" + $scope.otherOption
+			url: "http://" + $scope.resoureName + "/request" + traderName
 		}).then(function success(resp) {
 
 		}, function error(resp) {
@@ -484,10 +484,10 @@ app.controller('ctrl', function($scope, $timeout, $http) {
 		});
 	};
 
-	$scope.cancelTrader = function() {
+	$scope.cancelTrader = function(traderName) {
 		$http({
 			method: "POST",
-			url: "http://" + $scope.resoureName + "/cancel" + $scope.otherOption
+			url: "http://" + $scope.resoureName + "/cancel" + traderName
 		}).then(function success(resp) {
 
 		}, function error(resp) {

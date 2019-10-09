@@ -395,7 +395,6 @@ RegisterNUICallback("requestWeed", function(data, cb)
 
 	TriggerEvent("weed:setuptrader")
 
-	cb("ok")
 end)
 
 RegisterNUICallback("requestWeapons", function(data, cb)
@@ -403,7 +402,6 @@ RegisterNUICallback("requestWeapons", function(data, cb)
 
 	TriggerEvent("Create.Public.Market.Meeting")
 
-	cb("ok")
 end)
 
 RegisterNUICallback("cancelTaxi", function(data, cb)
@@ -443,15 +441,13 @@ RegisterNUICallback("cancelWeed", function(data, cb)
 
 	TriggerEvent("weed:canceltrader")
 
-	cb("ok")
 end)
 
 RegisterNUICallback("cancelWeapons", function(data, cb)
 	Citizen.Trace("cancelWeapons callback: " .. json.encode(data))
 
-	TriggerEvent("blackmarket:cancelWeapons")
+	TriggerEvent("Cancel.Public.Market.Meeting")
 
-	cb("ok")
 end)
 
 RegisterNUICallback("close", function(data, cb)
