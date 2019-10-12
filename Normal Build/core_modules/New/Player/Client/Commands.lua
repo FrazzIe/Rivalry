@@ -21,6 +21,7 @@ local CurrentBed = nil
 local IsInTrunk = false
 local ForcedIntoTrunk = false
 local IsBeingCarried = false
+local MaskOn = false
 
 recycleAmount = 0
 local Animations = {
@@ -230,6 +231,24 @@ AddEventHandler("core:ready", function()
             ClearPedTasks(PlayerPedId())
         end
     end, false, {Help = "Put on/Take off your gloves!", Params = {}})
+
+    Chat.Command("fmask", function(source, args, fullCommand)
+        if GetEntityModel(PlayerPedId()) == GetHashKey("player_one") then
+            if MaskOn then
+                MaskOn = false
+                TaskPlayAnim(PlayerPedId(), Animations.Mask.Off.Dictionary, Animations.Mask.Off.Animation, 8.0, 8.0, -1, 50, 0, false, false, false)
+                Citizen.Wait(500)
+                SetPedComponentVariation(PlayerPedId(), 8, 0, 1, 0)
+                ClearPedTasks(PlayerPedId())
+            else
+                MaskOn = true
+                TaskPlayAnim(PlayerPedId(), Animations.Mask.On.Dictionary, Animations.Mask.On.Animation, 8.0, 8.0, -1, 50, 0, false, false, false)
+                Citizen.Wait(1000)
+                SetPedComponentVariation(PlayerPedId(), 8, 9, 0, 0)
+                ClearPedTasks(PlayerPedId())
+            end
+        end
+    end, false, {Help = "Put franklin's green mask on and off!", Params = {}})
 
     Chat.Command("codes", function(source, args, rawCommand)
         if exports.policejob:getIsInService() then
