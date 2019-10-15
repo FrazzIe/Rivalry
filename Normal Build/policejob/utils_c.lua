@@ -308,7 +308,11 @@ function getIsCuffed()
 end
 
 function getPoliceRank()
-    return user_cop.rank
+    if user_cop then
+        return user_cop.rank
+    else
+        return "Unknown"
+    end
 end
 
 function getIsCop()
