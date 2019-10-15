@@ -18,7 +18,7 @@ blipsCops = {}
 allServiceCops = {}
 ranks = {}
 user_cop = {}
-{x = 1860.6026611328, y = 3692.9455566406, z = 34.247074127197, h = 39.350841522217},
+
 local takingService = {
 	{name="Police Station", sprite = 60, colour = 28, x=457.956909179688, y=-992.72314453125, z=30.6895866394043},  -- Mission Row
 	{name="Police Station", sprite = 60, colour = 28, x = -436.96978759766, y = 6010.173828125, z = 31.716234207153}, -- Paleto Bay
