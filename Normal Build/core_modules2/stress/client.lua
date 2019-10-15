@@ -1,6 +1,10 @@
 local StressLevel = 0
 local HasToldAboutStress = false
-local YogaPlace = vector3(-1495.3853759766, 829.42315673828,181.62339782715)
+local YogaAreas = {
+    vector3(-1495.3853759766, 829.42315673828,181.62339782715),
+    vector3(-1224.2456054688, -1545.6127929688, 4.6459374427795), -- Vespucci Beach
+    vector3(444.64099121094, -222.59527587891, 56.016399383545), -- Near Elgin Mechanic
+}
 DecorSetFloat(PlayerPedId(), "_Stress_Level", StressLevel)
 local UsedCocaine =  false
 local UsedCigarette = false
@@ -369,14 +373,17 @@ end)
 
 -- Condensed Thread
 Citizen.CreateThread(function()
-    local blip = AddBlipForCoord(YogaPlace.x, YogaPlace.y, YogaPlace.z)
-    SetBlipSprite(blip, 480)
-    SetBlipColour(blip, 8)
-    SetBlipAsShortRange(blip, true)
-    SetBlipScale(blip, 0.6)
-    BeginTextCommandSetBlipName("STRING")
-    AddTextComponentString("Yoga Park")
-    EndTextCommandSetBlipName(blip)
+    AddTextEntry("FRZL_BLIP_YOGA", "Yoga Park")
+
+    for i = 1, #YogaAreas do
+        local blip = AddBlipForCoord(YogaAreas[i].x, YogaAreas[i].y, YogaAreas[i].z)
+        SetBlipSprite(blip, 480)
+        SetBlipColour(blip, 8)
+        SetBlipAsShortRange(blip, true)
+        SetBlipScale(blip, 0.6)
+        BeginTextCommandSetBlipName("FRZL_BLIP_YOGA")
+        EndTextCommandSetBlipName(blip)
+    end
 end)
 
 -- Movement Threads
@@ -395,15 +402,18 @@ Citizen.CreateThread(function()
         if StressLevel > 0 then
             local Player = PlayerPedId()
             local PlayerPosition = GetEntityCoords(Player, false)
-            if #(PlayerPosition - YogaPlace) < 4 then
-                DisplayHelpText("Press ~INPUT_CONTEXT~ to De-Stress and Unwind!")
-                if IsControlJustPressed(1, 51) then
-                    TaskStartScenarioInPlace(Player, "WORLD_HUMAN_YOGA", 0, true)
-                end
-                if IsPedUsingScenario(Player, "WORLD_HUMAN_YOGA") then
-                    StressLevel = StressLevel - 0.5
-                    DecorSetFloat(PlayerPedId(), "_Stress_Level", StressLevel)
-                    Citizen.Wait(1000)
+
+            for i = 1, #YogaAreas do
+                if #(PlayerPosition - YogaAreas[i]) < 4 then
+                    DisplayHelpText("Press ~INPUT_CONTEXT~ to De-Stress and Unwind!")
+                    if IsControlJustPressed(1, 51) then
+                        TaskStartScenarioInPlace(Player, "WORLD_HUMAN_YOGA", 0, true)
+                    end
+                    if IsPedUsingScenario(Player, "WORLD_HUMAN_YOGA") then
+                        StressLevel = StressLevel - 0.5
+                        DecorSetFloat(PlayerPedId(), "_Stress_Level", StressLevel)
+                        Citizen.Wait(1000)
+                    end
                 end
             end
         end
