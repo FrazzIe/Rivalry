@@ -31,7 +31,7 @@ AddEventHandler("informer:cleancoke", function()
 		local price = 5000
 		if (tonumber(user.get("wallet")) >= tonumber(price)) then
 			user.removeWallet(price)
-			TriggerClientEvent('chatMessage', source, 'Informer ', {0, 255, 100}, "I like to plant seeds in Grapeseed." )
+			TriggerClientEvent('chatMessage', source, 'Informer ', {0, 255, 100}, "The lab has been moved to ditch the heat, a view of the sea seems nice this time of year." )
 		else
 			TriggerClientEvent('chatMessage', source, 'Informer ', {0, 255, 100}, "Information isn't free, get your bread up!")
 		end
@@ -151,7 +151,7 @@ AddEventHandler("informer:resthouse", function()
 		local price = 3000
 		if (tonumber(user.get("wallet")) >= tonumber(price)) then
 			user.removeWallet(price)
-			TriggerClientEvent('chatMessage', source, 'Informer ', {0, 255, 100}, "I heard that a house once owned by Walter White has people providing medical attention to the injured." )
+			TriggerClientEvent('chatMessage', source, 'Informer ', {0, 255, 100}, "A field medic from Fort Zancudo recently setup shop near his base. Check out the back room clinic for all of your shadier medical needs." )
 		else
 			TriggerClientEvent('chatMessage', source, 'Informer ', {0, 255, 100}, "Information isn't free, get your bread up!")
 		end
