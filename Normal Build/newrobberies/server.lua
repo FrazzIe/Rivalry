@@ -318,7 +318,7 @@ AddEventHandler("Rivalry.CashRegister.Payout", function()
 	local Source = source
 	TriggerEvent("core:getuser", Source, function(User)
 		local RegisterPayOut = math.random(300,500)
-		User.addDirty(RegisterPayOut)
+		User.addWallet(RegisterPayOut)
 	end)
 end)
 
@@ -327,7 +327,7 @@ AddEventHandler("Rivalry.Vault.Payout", function()
 	local Source = source
 	TriggerEvent("core:getuser", Source, function(User)
 		Payout = math.random(400, 800)
-		User.addDirty(Payout)
+		User.addWallet(Payout)
 	end)
 end)
 
