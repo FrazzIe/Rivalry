@@ -24,8 +24,8 @@ local takingService = {
 	{name = "Hospital", sprite = 61, colour = 2, x = -449.639, y = -340.586, z = 34.5018},
 	{name = "Hospital", sprite = 61, colour = 2, x = -874.467, y = -307.896, z = 39.5699},
 	{name = "Hospital", sprite = 61, colour = 2, x = -677.135, y = 310.275, z = 83.0842},
-	{name = "Hospital", sprite = 61, colour = 2, x = 1839.5745849609, y = 3688.7849121094, z = 34.270038604736},
-	{name = "Hospital", sprite = 61, colour = 2, x = -242.968, y = 6326.29, z = 32.4262},
+	{name = "Hospital", sprite = 61, colour = 2, x = 1840.4024658203, y = 3685.2512207031, z = 34.270053863525}, -- Sandy Shores
+	{name = "Hospital", sprite = 61, colour = 2, x = -264.64517211914, y = 6313.8935546875, z = 32.436405181885}, -- Paleto bay
 	{name = "Hospital", sprite = 61, colour = 2, x = 337.56130981445, y = -576.15032958984, z = 43.328758239746},
 }
 
@@ -66,7 +66,7 @@ function isNearTakeService()
 		local pos = GetEntityCoords(PlayerPedId(), 0)
 		local distance = GetDistanceBetweenCoords(takingService[i].x, takingService[i].y, takingService[i].z, pos.x, pos.y, pos.z, true)
 		if(distance < 30) then
-			DrawMarker(25, takingService[i].x, takingService[i].y, takingService[i].z-0.9, 0, 0, 0, 0, 0, 0, 2.0, 2.0, 1.5, 243, 44, 82, 20, 0, 0, 2, 0, 0, 0, 0)
+			DrawMarker(25, takingService[i].x, takingService[i].y, takingService[i].z-0.9, 0, 0, 0, 0, 0, 0, 1.0, 1.0, 1.5, 243, 44, 82, 20, 0, 0, 2, 0, 0, 0, 0)
 		end
 		if(distance < 2) then
 			return true
