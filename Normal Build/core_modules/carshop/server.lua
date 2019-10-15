@@ -461,6 +461,8 @@ AddEventHandler("carshop:buy",function(data)
                     ["extra14"] = _data.extra14,
                     ["extra15"] = _data.extra15,
                     ["headlight_colour"] = data.headlight_colour,
+                    ["dashboard_colour"] = data.dashboard_colour,
+                    ["interior_colour"] = data.interior_colour,
                 }
             }, function(plate)
                 data.cost = cars[data.model]/2
@@ -571,6 +573,8 @@ AddEventHandler("carshop:buy",function(data)
                     ["extra14"] = _data.extra14,
                     ["extra15"] = _data.extra15,
                     ["headlight_colour"] = data.headlight_colour,
+                    ["dashboard_colour"] = data.dashboard_colour,
+                    ["interior_colour"] = data.interior_colour,
                 }
             }, function(plate)
                 data.cost = cars[data.model]/2

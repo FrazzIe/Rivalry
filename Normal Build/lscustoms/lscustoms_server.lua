@@ -122,7 +122,7 @@ AddEventHandler("LSC:finished", function(veh)
 
 	if tonumber(veh.lplate, 16) ~= nil then
 		TriggerEvent("core:getuser", source, function(user)
-			exports['GHMattiMySQL']:QueryAsync("UPDATE vehicles SET primary_colour=@primary_colour, secondary_colour=@secondary_colour, pearlescent_colour=@pearlescent_colour, wheel_colour=@wheel_colour, smoke_colour=@smoke_colour, plate_colour=@plate_colour, neon_colour=@neon_colour, tint_colour=@tint_colour, mod0=@mod0, mod1=@mod1, mod2=@mod2, mod3=@mod3, mod4=@mod4, mod5=@mod5, mod6=@mod6, mod7=@mod7, mod8=@mod8, mod10=@mod10, mod11=@mod11, mod12=@mod12, mod13=@mod13, mod14=@mod14, mod15=@mod15, mod16=@mod16, mod23=@mod23, mod24=@mod24, mod25=@mod25, mod26=@mod26, mod27=@mod27, mod28=@mod28, mod29=@mod29, mod30=@mod30, mod31=@mod31, mod32=@mod32, mod33=@mod33, mod34=@mod34, mod35=@mod35, mod36=@mod36, mod37=@mod37, mod38=@mod38, mod39=@mod39, mod40=@mod40, mod41=@mod41, mod42=@mod42, mod43=@mod43, mod44=@mod44, mod45=@mod45, mod46=@mod46, mod48=@mod48, tyre_smoke=@tyre_smoke, xenon_lights=@xenon_lights, turbo=@turbo, custom_wheels=@custom_wheels, custom_wheels2=@custom_wheels2, bulletproof_wheels=@bulletproof_wheels, wheeltype=@wheeltype, neon0=@neon0, neon1=@neon1, neon2=@neon2, neon3=@neon3, engine_health=@engine_health, petrol_health=@petrol_health, vehicle_health=@vehicle_health, body_health=@body_health, livery=@livery, extra1 = @extra1, extra2 = @extra2, extra3 = @extra3, extra4 = @extra4, extra5 = @extra5, extra6 = @extra6, extra7 = @extra7, extra8 = @extra8, extra9 = @extra9, extra10 = @extra10, extra11 = @extra11, extra12 = @extra12, extra13 = @extra13, extra14 = @extra14, extra15 = @extra15, headlight_colour = @headlight_colour WHERE (character_id = @character_id) AND (plate = @plate)", { 
+			exports['GHMattiMySQL']:QueryAsync("UPDATE vehicles SET primary_colour=@primary_colour, secondary_colour=@secondary_colour, pearlescent_colour=@pearlescent_colour, wheel_colour=@wheel_colour, smoke_colour=@smoke_colour, plate_colour=@plate_colour, neon_colour=@neon_colour, tint_colour=@tint_colour, mod0=@mod0, mod1=@mod1, mod2=@mod2, mod3=@mod3, mod4=@mod4, mod5=@mod5, mod6=@mod6, mod7=@mod7, mod8=@mod8, mod10=@mod10, mod11=@mod11, mod12=@mod12, mod13=@mod13, mod14=@mod14, mod15=@mod15, mod16=@mod16, mod23=@mod23, mod24=@mod24, mod25=@mod25, mod26=@mod26, mod27=@mod27, mod28=@mod28, mod29=@mod29, mod30=@mod30, mod31=@mod31, mod32=@mod32, mod33=@mod33, mod34=@mod34, mod35=@mod35, mod36=@mod36, mod37=@mod37, mod38=@mod38, mod39=@mod39, mod40=@mod40, mod41=@mod41, mod42=@mod42, mod43=@mod43, mod44=@mod44, mod45=@mod45, mod46=@mod46, mod48=@mod48, tyre_smoke=@tyre_smoke, xenon_lights=@xenon_lights, turbo=@turbo, custom_wheels=@custom_wheels, custom_wheels2=@custom_wheels2, bulletproof_wheels=@bulletproof_wheels, wheeltype=@wheeltype, neon0=@neon0, neon1=@neon1, neon2=@neon2, neon3=@neon3, engine_health=@engine_health, petrol_health=@petrol_health, vehicle_health=@vehicle_health, body_health=@body_health, livery=@livery, extra1 = @extra1, extra2 = @extra2, extra3 = @extra3, extra4 = @extra4, extra5 = @extra5, extra6 = @extra6, extra7 = @extra7, extra8 = @extra8, extra9 = @extra9, extra10 = @extra10, extra11 = @extra11, extra12 = @extra12, extra13 = @extra13, extra14 = @extra14, extra15 = @extra15, headlight_colour = @headlight_colour, dashboard_colour = @dashboard_colour, interior_colour = @interior_colour WHERE (character_id = @character_id) AND (plate = @plate)", { 
 				["@character_id"] = user.get("characterID"),
 				["@plate"] = tonumber(veh.lplate, 16),
 				["@primary_colour"] = color[1],
@@ -206,7 +206,9 @@ AddEventHandler("LSC:finished", function(veh)
 				["@extra13"] = veh.extras[13],
 				["@extra14"] = veh.extras[14],
 				["@extra15"] = veh.extras[15],
-				["@headlight_colour"] =  veh.lightcolor,
+				["@headlight_colour"] = veh.lightcolor,
+				["@dashboard_colour"] = veh.dashboardcolor,
+				["@interior_colour"] = veh.interiorcolor,
 			})
 		end)
 	end

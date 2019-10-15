@@ -253,6 +253,8 @@ AddEventHandler("Spawn.PoliceCar", function(DataTable, Vehicle)
                 ["extra14"] = _data.extra14,
                 ["extra15"] = _data.extra15,
                 ["headlight_colour"] = data.headlight_colour,
+                ["dashboard_colour"] = data.dashboard_colour,
+                ["interior_colour"] = data.interior_colour,
             }
         }, function(plate)
             data.plate = plate
@@ -378,6 +380,8 @@ AddEventHandler("CarDealer.BuyCar", function(Type, Index, GarageID, Reduction)
                             ["extra14"] = _data.extra14,
                             ["extra15"] = _data.extra15,
                             ["headlight_colour"] = data.headlight_colour,
+                            ["dashboard_colour"] = data.dashboard_colour,
+                            ["interior_colour"] = data.interior_colour,
                             ["seller"] = Dealer.get("characterID"),
                         }
                     }, function(plate)
@@ -488,6 +492,8 @@ AddEventHandler("CarDealer.BuyCar", function(Type, Index, GarageID, Reduction)
                             ["extra14"] = _data.extra14,
                             ["extra15"] = _data.extra15,
                             ["headlight_colour"] = data.headlight_colour,
+                            ["dashboard_colour"] = data.dashboard_colour,
+                            ["interior_colour"] = data.interior_colour,
                             ["seller"] = Dealer.get("characterID"),
                         }
                     }, function(plate)
@@ -622,6 +628,8 @@ AddEventHandler("CarDealer.BuyCar", function(Type, Index, GarageID, Reduction)
                             ["extra14"] = _data.extra14,
                             ["extra15"] = _data.extra15,
                             ["headlight_colour"] = data.headlight_colour,
+                            ["dashboard_colour"] = data.dashboard_colour,
+                            ["interior_colour"] = data.interior_colour,
                             ["seller"] = Dealer.get("characterID"),
                         }
                     }, function(plate)
@@ -735,6 +743,8 @@ AddEventHandler("CarDealer.BuyCar", function(Type, Index, GarageID, Reduction)
                             ["extra14"] = _data.extra14,
                             ["extra15"] = _data.extra15,
                             ["headlight_colour"] = data.headlight_colour,
+                            ["dashboard_colour"] = data.dashboard_colour,
+                            ["interior_colour"] = data.interior_colour,
                             ["seller"] = Dealer.get("characterID"),
                         }
                     }, function(plate)

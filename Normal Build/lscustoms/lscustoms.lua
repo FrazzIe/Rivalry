@@ -225,6 +225,8 @@ local function DriveInGarage()
 		myveh.extras = {}
 		myveh.livery = GetVehicleLivery(veh)
 		myveh.lightcolor = GetVehicleHeadlightsColour(veh)
+		myveh.dashboardcolor = GetVehicleDashboardColour(veh)
+		myveh.interiorcolor = GetVehicleInteriorColour(veh)
 		for i = 0, 48 do
 			myveh.mods[i] = {mod = nil}
 		end
@@ -472,6 +474,20 @@ local function DriveInGarage()
 			for n, c in pairs(LSC_Config.prices.classic3.colors) do
 				local btn = pcol:addPurchase(c.name,LSC_Config.prices.classic3.price)btn.colorindex = c.colorindex
 				if btn.colorindex == myveh.extracolor[1] then
+					btn.purchased = true
+				end
+			end
+			dcol = respray:addSubMenu("DASHBOARD COLORS", "Dashboard color", nil,true)
+			for n, c in pairs(LSC_Config.prices.classic3.colors) do
+				local btn = dcol:addPurchase(c.name,LSC_Config.prices.classic3.price)btn.colorindex = c.colorindex
+				if btn.colorindex == myveh.dashboardcolor then
+					btn.purchased = true
+				end
+			end
+			icol = respray:addSubMenu("INTERIOR/TRIM COLORS", "Interior/Trim color", nil,true)
+			for n, c in pairs(LSC_Config.prices.classic3.colors) do
+				local btn = icol:addPurchase(c.name,LSC_Config.prices.classic3.price)btn.colorindex = c.colorindex
+				if btn.colorindex == myveh.interiorcolor then
 					btn.purchased = true
 				end
 			end
@@ -816,6 +832,14 @@ function LSCMenu:onSelectedIndexChanged(name, button)
 	m = m.name:lower()
 	p = p:lower()
 
+	if m == "dashboard color" and p == "respray" then
+		SetVehicleDashboardColour(veh, button.colorindex)
+	end
+
+	if m == "interior/trim color" and p == "respray" then
+		SetVehicleInteriorColour(veh, button.colorindex)
+	end
+
 	if m == "pearlescent color" and p == "respray" then
 		SetVehicleColours(veh,myveh.color[1],myveh.color[2])
 		SetVehicleExtraColours(veh, button.colorindex, myveh.extracolor[2])
@@ -911,6 +935,18 @@ AddEventHandler("LSC:buttonSelected", function(name, button, canpurchase)
 	if mname == "pearlescent color" and m.parent == "Respray" then
 		if button.name == "Stock" or button.purchased or CanPurchase(price, canpurchase) then
 			myveh.extracolor[1] = button.colorindex
+		end
+	end
+
+	if mname == "dashboard color" and m.parent == "Respray" then
+		if button.name == "Stock" or button.purchased or CanPurchase(price, canpurchase) then
+			myveh.dashboardcolor = button.colorindex
+		end
+	end
+
+	if mname == "interior/trim color" and m.parent == "Respray" then
+		if button.name == "Stock" or button.purchased or CanPurchase(price, canpurchase) then
+			myveh.interiorcolor = button.colorindex
 		end
 	end
 
@@ -1253,6 +1289,30 @@ function CheckPurchases(m)
 		end
 	end
 
+	if name == "dashboard color" and m.parent == "Respray" then
+		for i,b in pairs(m.buttons) do
+			if b.purchased and b.colorindex ~= myveh.dashboardcolor then
+				if b.purchased ~= nil then b.purchased = false end
+				b.sprite = nil
+			elseif b.purchased == false and b.colorindex == myveh.dashboardcolor then
+				if b.purchased ~= nil then b.purchased = true end
+				b.sprite = "garage"
+			end
+		end
+	end
+
+	if name == "interior/trim color" and m.parent == "Respray" then
+		for i,b in pairs(m.buttons) do
+			if b.purchased and b.colorindex ~= myveh.interiorcolor then
+				if b.purchased ~= nil then b.purchased = false end
+				b.sprite = nil
+			elseif b.purchased == false and b.colorindex == myveh.interiorcolor then
+				if b.purchased ~= nil then b.purchased = true end
+				b.sprite = "garage"
+			end
+		end
+	end
+
 	if name == "chrome" or name ==  "classic" or name ==  "matte" or name ==  "metals" then
 		if m.parent == "Primary color" then
 			for i,b in pairs(m.buttons) do
@@ -1479,6 +1539,8 @@ function UnfakeVeh()
 	SetVehicleWindowTint(veh, myveh.windowtint)
 	SetVehicleLivery(veh, myveh.livery)
 	SetVehicleHeadlightsColour(veh, myveh.lightcolor)
+	SetVehicleDashboardColour(veh, myveh.dashboardcolor)
+	SetVehicleInteriorColour(veh, myveh.interiorcolor)
 end
 
 --Still the good old way of adding blips

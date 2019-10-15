@@ -1104,6 +1104,8 @@ function StoreVehicle()
                                 fuel = DecorGetFloat(veh, "_Fuel_Level"),
                                 livery = GetVehicleLivery(veh),
                                 headlight_colour = GetVehicleHeadlightsColour(veh),
+                                dashboard_colour = GetVehicleDashboardColour(veh),
+                                interior_colour = GetVehicleInteriorColour(veh),
                             }
 
                             for i = 0, 8 do
@@ -1169,6 +1171,8 @@ function StoreVehicle()
                                 fuel = DecorGetFloat(veh, "_Fuel_Level"),
                                 livery = GetVehicleLivery(veh),
                                 headlight_colour = GetVehicleHeadlightsColour(veh),
+                                dashboard_colour = GetVehicleDashboardColour(veh),
+                                interior_colour = GetVehicleInteriorColour(veh),
                             }
 
                             for i = 0, 8 do
@@ -1323,6 +1327,8 @@ function SpawnVehicle(data, index)
                 end
 
                 SetVehicleHeadlightsColour(veh, data.headlight_colour)
+                SetVehicleDashboardColour(veh, data.dashboard_colour)
+                SetVehicleInteriorColour(veh, data.interior_colour)
                 SetVehicleWindowTint(veh, tonumber(data.tint_colour))
                 SetVehicleDirtLevel(veh, 0)
 
@@ -1447,6 +1453,8 @@ function SpawnReplacement(data, index)
             end
 
             SetVehicleHeadlightsColour(veh, data.headlight_colour)
+            SetVehicleDashboardColour(veh, data.dashboard_colour)
+            SetVehicleInteriorColour(veh, data.interior_colour)
             SetVehicleWindowTint(veh, tonumber(data.tint_colour))
             SetVehicleDirtLevel(veh, 0)
             

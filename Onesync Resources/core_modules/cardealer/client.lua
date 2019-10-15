@@ -211,6 +211,8 @@ AddEventHandler("carshop:bought",function(data, NetworkID)
             end
 
 			SetVehicleHeadlightsColour(veh, data.headlight_colour)
+			SetVehicleDashboardColour(veh, data.dashboard_colour)
+			SetVehicleInteriorColour(veh, data.interior_colour)
             SetVehicleWindowTint(veh, tonumber(data.tint_colour))
         end
 	end)
@@ -481,7 +483,9 @@ Citizen.CreateThread(function()
 								claims = 1,
 								fuel = 100,
 								livery = GetVehicleLivery(Vehicle),
-								headlight_colour = GetVehicleHeadlightsColour(Vehicle)
+								headlight_colour = GetVehicleHeadlightsColour(Vehicle),
+                                dashboard_colour = GetVehicleDashboardColour(Vehicle),
+                                interior_colour = GetVehicleInteriorColour(Vehicle),
 							}
 
 							for i = 0, 8 do
