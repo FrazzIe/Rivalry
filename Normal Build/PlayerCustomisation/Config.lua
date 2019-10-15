@@ -928,6 +928,24 @@ PlayerCustomisation.Locations = {
 			Marker = {x = 1856.89453125, y = 3694.2956542969, z = 34.224922180176, h = 210.61024475098},
 			Banner = "shopui_title_midfashion",
 		},
+		[18] = { -- Sandy Shores Medical Center
+			Blip = {
+				Name = "Outfits",
+				Sprite = 366, 
+				Colour = 0,
+			},
+			Marker = {x = 1838.4073486328, y = 3689.4011230469, z = 34.270046234131, h = 205.09393310547},
+			Banner = "shopui_title_midfashion",
+		},
+		[18] = { -- Paleto Bay Medical Center
+			Blip = {
+				Name = "Outfits",
+				Sprite = 366, 
+				Colour = 0,
+			},
+			Marker = {x = -254.04301452637, y = 6313.8842773438, z = 32.436405181885, h = 45.609973907471},
+			Banner = "shopui_title_midfashion",
+		},
 	},
 	PlasticSurgery = {
 		[1] = {
