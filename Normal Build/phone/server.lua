@@ -497,9 +497,9 @@ RegisterServerEvent("Advertisement.Add")
 AddEventHandler("Advertisement.Add", function(TitleData, MessageData)
 	local Source = source
 	TriggerEvent("core:getuser", Source, function(User)
-		if User.get("bank") >= 1000 then
+		if User.get("bank") >= 500 then
 			table.insert(Advertisements, {Title = TitleData, Message = MessageData, Timestamp = os.time()})
-			User.removeBank(1000)
+			User.removeBank(500)
 		else
 			TriggerClientEvent("pNotify:SendNotification", source, {text = "Insufficient funds!",type = "error",queue = "left",timeout = 3100,layout = "bottomCenter"})
 		end
