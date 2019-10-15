@@ -1324,6 +1324,7 @@ function SpawnVehicle(data, index)
 
                 SetVehicleHeadlightsColour(veh, data.headlight_colour)
                 SetVehicleWindowTint(veh, tonumber(data.tint_colour))
+                SetVehicleDirtLevel(veh, 0)
 
                 TaskWarpPedIntoVehicle(GetPlayerPed(-1),veh,-1)
                 
@@ -1447,7 +1448,8 @@ function SpawnReplacement(data, index)
 
             SetVehicleHeadlightsColour(veh, data.headlight_colour)
             SetVehicleWindowTint(veh, tonumber(data.tint_colour))
-
+            SetVehicleDirtLevel(veh, 0)
+            
             TaskWarpPedIntoVehicle(PlayerPedId(),veh,-1)
 
             SetEntityInvincible(veh, false)
