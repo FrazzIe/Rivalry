@@ -3,7 +3,7 @@ local Data = {
 	DisplayMenu = vector3(-56.683197021484,-1098.8134765625,26.422353744507),
 	VehicleSpawnArea = vector3(-15.347786903381,-1084.8883056641,26.675786972046),
 	VehicleSpawnAreaHeading = 72.441734313965,
-	ReturnCars = vector3(-18.617851257324,-1101.2210693359,26.672069549561),
+	ReturnCars = vector3(-18.606876373291, -1101.9809570313, 26.671327590942),
 }
 
 CarDealer = {}
@@ -332,7 +332,7 @@ Citizen.CreateThread(function()
 				end
 			end
 			if #(PlayerPosition - Data.ReturnCars) <= 11.0 then
-				RenderMarker(25, Data.ReturnCars.x, Data.ReturnCars.y, Data.ReturnCars.z - 1.0, 1.5, 1.5, 2.0, 255, 255, 0, 20)
+				RenderMarker(25, Data.ReturnCars.x, Data.ReturnCars.y, Data.ReturnCars.z - 0.9, 1.5, 1.5, 2.0, 255, 255, 0, 20)
 				if #(PlayerPosition - Data.ReturnCars) <= 4.0 then
 					DisplayHelpText("Press ~INPUT_CONTEXT~ to return vehicle!")
 					if IsControlJustPressed(1, 51) then
