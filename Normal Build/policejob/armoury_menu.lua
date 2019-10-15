@@ -46,8 +46,8 @@ Citizen.CreateThread(function()
 
         	for k,v in ipairs(armoury) do
                 local Distance = GetDistanceBetweenCoords(PlayerPosition.x, PlayerPosition.y, PlayerPosition.z, v.x, v.y, v.z, true)
-            	if Distance < 15.0 then
-                	exports.core_modules:RenderMarker(25, v.x, v.y, v.z - 0.1, 1.5, 1.5, 2.0, 0, 102, 204, 20)
+                if Distance < 15.0 then
+                    DrawMarker(25, v.x, v.y, v.z-0.9, 0, 0, 0, 0, 0, 0, 1.0, 1.0, 1.5, 0, 0, 255, 155, 0, 0, 2, 0, 0, 0, 0)
                 	if Distance < 1.0 then
                     	if not armoury_menu then
                         	DisplayHelpText("Press ~INPUT_CONTEXT~ to ~b~open the armoury~w~!")

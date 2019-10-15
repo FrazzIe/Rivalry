@@ -18,11 +18,11 @@ blipsCops = {}
 allServiceCops = {}
 ranks = {}
 user_cop = {}
-
+{x = 1860.6026611328, y = 3692.9455566406, z = 34.247074127197, h = 39.350841522217},
 local takingService = {
 	{name="Police Station", sprite = 60, colour = 28, x=457.956909179688, y=-992.72314453125, z=30.6895866394043},  -- Mission Row
 	{name="Police Station", sprite = 60, colour = 28, x = -436.96978759766, y = 6010.173828125, z = 31.716234207153}, -- Paleto Bay
-	{name="Police Station", sprite = 60, colour = 28, x = 1860.1091308594, y = 3693.3352050781, z = 34.243644714355}, -- Sandy Shores
+	{name="Police Station", sprite = 60, colour = 28, x = 1860.6026611328, y = 3692.9455566406, z = 34.247074127197}, -- Sandy Shores
 	{name="Police Station", sprite = 60, colour = 28, x=-1113.65, y=-849.21, z=13.45}, -- San Andreas Ave
 	{name="Police Station", sprite = 60, colour = 28, x=-561.28, y=-132.60, z=38.04}, -- Rockford Hills
 	{name="Park Ranger Station", sprite = 175, colour = 39, x = 387.07974243164, y = 792.12249755859, z = 187.69355773926}, -- Park Ranger Station
