@@ -755,7 +755,8 @@ function claimMenu()
         if (user_vehicles[i] ~= nil) then
             if user_vehicles[i].state == "~r~Missing" then
                 local claims = user_vehicles[i].claims
-                local cost = ((insurance[user_vehicles[i].model] * (claims * 1.5))/100)
+                local baseCost = insurance[user_vehicles[i].model] or 1000
+                local cost = ((baseCost * (claims * 1.5))/100)
                 Menu.addOption("claim_menu", function()
                     if(Menu.Bool(tostring(user_vehicles[i].name), vehiclebool, "$" .. math.ceil(cost), "$" .. math.ceil(cost), function(cb)   vehiclebool = cb end))then
                         TriggerServerEvent("garage:claim", user_vehicles[i].plate, cost)
