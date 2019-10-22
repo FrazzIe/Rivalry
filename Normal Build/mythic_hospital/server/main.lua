@@ -1,10 +1,12 @@
 local beds = {
-    { x = 351.83090209961, y = -568.70837402344, z = 28.355701446533, h = 160.0, taken = false },
-    { x = 355.248046875, y = -569.95239257813, z = 28.355701446533, h = 160.0, taken = false },
-    { x = 358.57180786133, y = -571.16241455078, z = 28.355701446533, h = 160.0, taken = false },
-    { x = 354.33316040039, y = -562.06158447266, z = 28.355701446533, h = -20.0, taken = false },
-    { x = 357.73266601563, y = -563.30017089844, z = 28.355701446533, h = -20.0, taken = false },
-    { x = 361.12408447266, y = -564.53582763672, z = 28.355701446533, h = -20.0, taken = false },
+    { -- Lower Pillbox
+        { coords = vector3(351.83090209961, -568.70837402344, 28.355701446533), h = 160.0, taken = false },
+        { coords = vector3(355.248046875, -569.95239257813, 28.355701446533), h = 160.0, taken = false },
+        { coords = vector3(358.57180786133, -571.16241455078, 28.355701446533), h = 160.0, taken = false },
+        { coords = vector3(354.33316040039, -562.06158447266, 28.355701446533), h = -20.0, taken = false },
+        { coords = vector3(357.73266601563, -563.30017089844, 28.355701446533), h = -20.0, taken = false },
+        { coords = vector3(361.12408447266, -564.53582763672, 28.355701446533), h = -20.0, taken = false },
+    },
 }
 
 local bedsTaken = {}
@@ -12,18 +14,26 @@ local injuryBasePrice = 100
 
 AddEventHandler('playerDropped', function()
     if bedsTaken[source] ~= nil then
-        beds[bedsTaken[source]].taken = false
+        local hospital = bedsTaken[source][1]
+        local bed = bedsTaken[source][2]
+        if beds[hospital] ~= nil then
+            if beds[hospital][bed] ~= nil then
+                beds[hospital][bed].taken = false
+            end
+        end
     end
 end)
 
 RegisterServerEvent('mythic_hospital:server:RequestBed')
-AddEventHandler('mythic_hospital:server:RequestBed', function()
-    for k, v in pairs(beds) do
-        if not v.taken then
-            v.taken = true
-            bedsTaken[source] = k
-            TriggerClientEvent('mythic_hospital:client:SendToBed', source, k, v)
-            return
+AddEventHandler('mythic_hospital:server:RequestBed', function(hospital)
+    if beds[hosptial] ~= nil then
+        for i = 1, #beds[hospital] do
+            if not beds[hospital][i].taken then
+                beds[hospital][i].taken = true
+                bedsTaken[source] = { hospital, i }
+                TriggerClientEvent('mythic_hospital:client:SendToBed', source, hospital, i, beds[hospital][i])
+                break
+            end
         end
     end
 
@@ -32,22 +42,28 @@ end)
 
 RegisterServerEvent('mythic_hospital:server:RPRequestBed')
 AddEventHandler('mythic_hospital:server:RPRequestBed', function(plyCoords)
-    local foundbed = false
-    for k, v in pairs(beds) do
-        local distance = #(vector3(v.x, v.y, v.z) - plyCoords)
-        if distance < 3.0 then
-            if not v.taken then
-                v.taken = true
-                foundbed = true
-                TriggerClientEvent('mythic_hospital:client:RPSendToBed', source, k, v)
-                return
-            else
-                TriggerEvent('mythic_chat:server:System', source, 'That Bed Is Taken')
+    local foundBed = false
+    
+    for i = 1, #beds do
+        for j = 1, #beds[i] do
+            local distance = #(beds[i][j].coords - plyCoords)
+
+            if distance < 3.0 then
+                if not beds[i][j].taken then
+                    beds[i][j].taken = true
+                    bedsTaken[source] = { i, j }
+                    TriggerClientEvent('mythic_hospital:client:RPSendToBed', source, i, j,  beds[i][j])
+                else
+                    TriggerEvent('mythic_chat:server:System', source, 'That Bed Is Taken')
+                end
+
+                foundBed = true
+                break
             end
         end
     end
 
-    if not foundbed then
+    if not foundBed then
         TriggerEvent('mythic_chat:server:System', source, 'Not Near A Hospital Bed')
     end
 end)
@@ -78,6 +94,11 @@ AddEventHandler('mythic_hospital:server:EnteredBed', function()
 end)
 
 RegisterServerEvent('mythic_hospital:server:LeaveBed')
-AddEventHandler('mythic_hospital:server:LeaveBed', function(id)
-    beds[id].taken = false
+AddEventHandler('mythic_hospital:server:LeaveBed', function(hospital, bed)
+    if beds[hospital] ~= nil then
+        if beds[hospital][bed] ~= nil then
+            beds[hospital][bed].taken = false
+            bedsTaken[source] = nil
+        end
+    end
 end)

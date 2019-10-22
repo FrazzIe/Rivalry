@@ -1,4 +1,7 @@
-local HospitalCheckin = vector3(341.45745849609,-583.11956787109,28.791477203369)
+local HospitalCheckins = {
+    vector3(341.45745849609,-583.11956787109,28.791477203369), -- Lower Pillbox
+}
+local BedHospital = nil
 local BedOccupying = nil
 local BedOccupyingData = nil
 local Cam = nil
@@ -27,8 +30,9 @@ function LeaveBed()
     Citizen.Wait(5000)
     ClearPedTasks(PlayerPedId())
     FreezeEntityPosition(PlayerPedId(), false)
-    TriggerServerEvent('mythic_hospital:server:LeaveBed', BedOccupying)
+    TriggerServerEvent('mythic_hospital:server:LeaveBed', BedHospital, BedOccupying)
 
+    BedHospital = nil
     BedOccupying = nil
     BedOccupyingData = nil
 end
@@ -39,11 +43,12 @@ AddEventHandler('mythic_hospital:client:RPCheckPos', function()
 end)
 
 RegisterNetEvent('mythic_hospital:client:RPSendToBed')
-AddEventHandler('mythic_hospital:client:RPSendToBed', function(id, data)
-    BedOccupying = id
+AddEventHandler('mythic_hospital:client:RPSendToBed', function(hospital, bed, data)
+    BedHospital = hospital
+    BedOccupying = bed
     BedOccupyingData = data
 
-    SetEntityCoords(PlayerPedId(), data.x, data.y, data.z - 0.5)
+    SetEntityCoords(PlayerPedId(), data.coords.x, data.coords.y, data.coords.z - 0.5)
     
     RequestAnimDict(InBedDict)
     while not HasAnimDictLoaded(InBedDict) do
@@ -73,11 +78,12 @@ AddEventHandler('mythic_hospital:client:RPSendToBed', function(id, data)
 end)
 
 RegisterNetEvent('mythic_hospital:client:SendToBed')
-AddEventHandler('mythic_hospital:client:SendToBed', function(id, data)
-    BedOccupying = id
+AddEventHandler('mythic_hospital:client:SendToBed', function(hospital, bed, data)
+    BedHospital = hospital
+    BedOccupying = bed
     BedOccupyingData = data
 
-    SetEntityCoords(PlayerPedId(), data.x, data.y, data.z - 0.3)
+    SetEntityCoords(PlayerPedId(), data.coords.x, data.coords.y, data.coords.z - 0.3)
     RequestAnimDict(InBedDict)
     while not HasAnimDictLoaded(InBedDict) do
         Citizen.Wait(0)
@@ -117,11 +123,15 @@ end)
 Citizen.CreateThread(function()
     while true do
         Citizen.Wait(1)
-			local PlayerPosition = GetEntityCoords(PlayerPedId(), 0)
-            if #(HospitalCheckin - PlayerPosition) < 10 then
-                exports.core_modules:RenderMarker(25, HospitalCheckin.x, HospitalCheckin.y, HospitalCheckin.z, 1.5, 1.5, 2.0, 255, 255, 0, 20)
-                if not IsPedInAnyVehicle(PlayerPedId(), true) then
-                    if #(HospitalCheckin - PlayerPosition) < 1 then
+        local playerPed = PlayerPedId()
+        local playerCoords = GetEntityCoords(playerPed, false)
+            
+        for i = 1, #HospitalCheckins do
+            local distance = #(HospitalCheckins[i] - playerCoords)
+            if distance < 10 then
+                DrawMarker(25, HospitalCheckins[i].x, HospitalCheckins[i].y, HospitalCheckins[i].z - 0.9, 0, 0, 0, 0, 0, 0,1.5, 1.5, 2.0,255, 255, 0, 20, false, 0, 2, 0, 0, 0, 0)
+                if not IsPedInAnyVehicle(playerPed, true) then
+                    if distance < 1 then
                         DisplayHelpText('Press ~INPUT_CONTEXT~ ~s~to check in')
                         if IsControlJustReleased(0, 54) then
                             if (GetEntityHealth(PlayerPedId()) < 200) or (IsInjuredOrBleeding()) then
@@ -145,18 +155,18 @@ Citizen.CreateThread(function()
                                     prop = {
                                         model = "p_amb_clipboard_01",
                                         bone = 18905,
-										coords = { x = 0.10, y = 0.02, z = 0.08 },
-										rotation = { x = -80.0, y = 0.0, z = 0.0 },
+                                        coords = { x = 0.10, y = 0.02, z = 0.08 },
+                                        rotation = { x = -80.0, y = 0.0, z = 0.0 },
                                     },
                                     propTwo = {
                                         model = "prop_pencil_01",
                                         bone = 58866,
-										coords = { x = 0.12, y = 0.0, z = 0.001 },
-										rotation = { x = -150.0, y = 0.0, z = 0.0 },
+                                        coords = { x = 0.12, y = 0.0, z = 0.001 },
+                                        rotation = { x = -150.0, y = 0.0, z = 0.0 },
                                     },
                                 }, function(status)
                                     if not status then
-                                        TriggerServerEvent('mythic_hospital:server:RequestBed')
+                                        TriggerServerEvent('mythic_hospital:server:RequestBed', i)
                                     end
                                 end)
                             else
@@ -165,8 +175,7 @@ Citizen.CreateThread(function()
                         end
                     end
                 end
-            else
-                Citizen.Wait(1000)
             end
+        end
     end
 end)
