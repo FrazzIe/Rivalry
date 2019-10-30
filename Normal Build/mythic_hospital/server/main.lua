@@ -7,6 +7,16 @@ local beds = {
         { coords = vector3(357.73266601563, -563.30017089844, 28.355701446533), h = -20.0, taken = false },
         { coords = vector3(361.12408447266, -564.53582763672, 28.355701446533), h = -20.0, taken = false },
     },
+    { -- Sandy Medical
+        { coords = vector3(1825.7750244141,3678.5363769531,33.822647094727), h = 120.61444091797, taken = false },
+        { coords = vector3(1829.6729736328,3676.1083984375,33.822647094727), h = 210.4328918457, taken = false },
+        { coords = vector3(1820.3516845703,3671.4311523438,33.82999420166), h = 121.3650894165, taken = false },
+    },
+    { -- Paleto Medical
+        { coords = vector3(-260.17749023438,6320.3125,31.996198654175), h = 314.46951293945, taken = false },
+        { coords = vector3(-257.83325195313,6317.9829101563,31.996198654175), h = 315.89712524414, taken = false },
+        { coords = vector3(-255.45822143555,6325.1264648438,31.996198654175), h = 45.455837249756, taken = false },
+    },
 }
 
 local bedsTaken = {}
@@ -26,7 +36,7 @@ end)
 
 RegisterServerEvent('mythic_hospital:server:RequestBed')
 AddEventHandler('mythic_hospital:server:RequestBed', function(hospital)
-    if beds[hosptial] ~= nil then
+    if beds[hospital] ~= nil then
         for i = 1, #beds[hospital] do
             if not beds[hospital][i].taken then
                 beds[hospital][i].taken = true

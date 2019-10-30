@@ -1,5 +1,7 @@
 local HospitalCheckins = {
     vector3(341.45745849609,-583.11956787109,28.791477203369), -- Lower Pillbox
+    vector3(1836.5725097656,3680.501953125,34.270072937012), -- Sandy Medical
+    vector3(-263.15798950195,6314.9931640625,32.436393737793), -- Paleto Medical
 }
 local BedHospital = nil
 local BedOccupying = nil
