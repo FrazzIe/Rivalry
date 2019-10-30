@@ -58,6 +58,36 @@ Rivalry = {
 				LastRobbed = 0,
 				Robber = nil
 			},
+			[7] = {
+				Name = "Grove Convience Store",
+				Vault = 0,
+				CashRegisters = {
+					[1] = 0,
+					[2] = 0,
+				},
+				LastRobbed = 0,
+				Robber = nil
+			},
+			[8] = {
+				Name = "Mirror Park Convience Store",
+				Vault = 0,
+				CashRegisters = {
+					[1] = 0,
+					[2] = 0,
+				},
+				LastRobbed = 0,
+				Robber = nil
+			},
+			[9] = {
+				Name = "Grapeseed Convience Store",
+				Vault = 0,
+				CashRegisters = {
+					[1] = 0,
+					[2] = 0,
+				},
+				LastRobbed = 0,
+				Robber = nil
+			},
 		},
 		Banks = {
 			SoftCooldown = 0,

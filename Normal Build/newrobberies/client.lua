@@ -685,13 +685,13 @@ end)
 
 RegisterNetEvent("Rivalry.Disable.Pacific.Cameras")
 AddEventHandler("Rivalry.Disable.Pacific.Cameras", function()
-	Rivalry.Cameras[19].Online = false
+	Rivalry.Cameras[25].Online = false
 	CurrentCamera = 1
 end)
 
 RegisterNetEvent("Rivalry.EnableCameras")
 AddEventHandler("Rivalry.EnableCameras", function()
-	Rivalry.Cameras[19].Online = true
+	Rivalry.Cameras[25].Online = true
 	CurrentCamera = 1
 end)
 
@@ -779,7 +779,7 @@ RegisterNetEvent("Set.Current.Camera")
 AddEventHandler("Set.Current.Camera", function(CurrentCam)
 	local Player = PlayerPedId()
 	local PlayerPosition = GetEntityCoords(Player, false)
-	if Rivalry.Cameras[19].Online then
+	if Rivalry.Cameras[25].Online then
 		CurrentCamera = CurrentCam
 		if exports.policejob:getIsInService() then
         	if IsPedOnFoot(Player) then
@@ -818,7 +818,7 @@ AddEventHandler("Set.Current.Camera", function(CurrentCam)
             end
         end
 	else
-		if CurrentCam >= 19 then
+		if CurrentCam >= 25 then
 			Notify("Pacific Standard Camera's are Offline!")
 		else
 			CurrentCamera = CurrentCam
@@ -876,8 +876,8 @@ Citizen.CreateThread(function()
         if CreatedCamera ~= 0 then
             local Instructions = CreateInstuctionScaleform("instructional_buttons")
             DrawScaleformMovieFullscreen(Instructions, 255, 255, 255, 255, 0)
-            if CurrentCamera > 18 then
-	            if Rivalry.Cameras[19].Online then
+            if CurrentCamera > 24 then
+	            if Rivalry.Cameras[25].Online then
 	            	SetTimecycleModifier("scanline_cam_cheap")
 	            	SetTimecycleModifierStrength(2.0)
 	            else
