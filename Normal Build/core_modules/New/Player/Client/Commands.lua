@@ -460,7 +460,7 @@ AddEventHandler("core:ready", function()
     end, false, {Help = "Car Dealers: Check Client History", Params = {{name = "id", help = "number"}}})
 
     Chat.Command("carry", function(source, args, rawCommand)
-        if not IsBeingCarried and not ForcedIntoTrunk and not IsInTrunk then
+        if not IsBeingCarried and not ForcedIntoTrunk and not IsInTrunk and not IsPedSittingInAnyVehicle(PlayerPedId()) then
             local t, distance = GetClosestPlayer()
             if(distance ~= -1 and distance < 3) then
                 local Player = PlayerPedId()
@@ -480,7 +480,7 @@ AddEventHandler("core:ready", function()
     end, false, {Help = "Carry a player", Params = {}})
 
     Chat.Command("kidnap", function(source, args, rawCommand)
-        if not ForcedIntoTrunk and not IsInTrunk then
+        if not ForcedIntoTrunk and not IsInTrunk and not IsPedSittingInAnyVehicle(PlayerPedId()) then
             local t, distance = GetClosestPlayer()
             if(distance ~= -1 and distance < 3) then
                 local TargetPlayer = GetPlayerServerId(t)
