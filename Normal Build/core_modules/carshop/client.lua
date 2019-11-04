@@ -167,7 +167,7 @@ cars = {
         {name = "Viseris", price = 45000, model = "viseris"},
         {name = "Z-type", price = 44500, model = "ztype"},
     }},
-    {title = "Super", vehicles = {
+    --[[{title = "Super", vehicles = {
         --{name = "811", price = 1350000, model = "pfister811"},
         {name = "Adder", price = 1700000, model = "adder"},
         --{name = "Bullet", price = 1120000, model = "bullet"},
@@ -201,7 +201,7 @@ cars = {
         {name = "Zentorno", price = 1100000, model = "zentorno"},
         {name = "Taipan", price = 2175000, model = "taipan"}, -- Assault Pack
         {name = "Entity XXR", price = 975000, model = "entity2"}, -- Assault Pack
-    }},
+    }},--]]
     {title = "Muscle", vehicles = {
         {name = "Blade", price = 12500, model = "blade"},
         {name = "Buccaneer", price = 11000, model = "buccaneer"},
