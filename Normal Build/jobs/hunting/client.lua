@@ -103,7 +103,7 @@ end)
 
 Citizen.CreateThread(function()
 		TriggerEvent('hunting:createBlip', 141, -1492.2, 4971.5, 64.2)
-		TriggerEvent('hunting:createBlip2', 141, 994.641, -2158.57, 29.4765)
+		TriggerEvent('hunting:createBlip2', 141, -91.732620239258,6514.8525390625,32.100456237793)
 
 	local entityCoords = {
 	{x=0, y=0, z=0},
@@ -134,7 +134,7 @@ Citizen.CreateThread(function()
 					-- RemoveBlip(entityBlip[proie])
 					-- Citizen.InvokeNative(0xAE3CBE5BF394C9C9, Citizen.PointerValueIntInitialized(entity[proie]))
 				-- end
-				if GetDistanceBetweenCoords(GetEntityCoords(GetPlayerPed(-1)), 994.641,-2158.57,29.4765, true) <= 5 then
+				if GetDistanceBetweenCoords(GetEntityCoords(GetPlayerPed(-1)), -91.732620239258,6514.8525390625,32.100456237793, true) <= 5 then
 					TriggerServerEvent('hunting:serverRequest', "SellViande")
 					Citizen.Wait(4000)
 				end
