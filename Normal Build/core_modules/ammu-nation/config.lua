@@ -29,8 +29,8 @@ ammu_nation = {
 	    {name="Ammunation", colour=1, sprite=110, x= 810.15, y= -2156.88, z= 29.61},
 	},
 	blackmarket = {
-		{name="Black Market", colour=4, id=110, x = 837.75616455078, y = -2881.1220703125, z = 11.265096664429, Gang = "ballers"}, -- Ballers
-		{name="Black Market", colour=4, id=110, x = 1232.6315917969, y = -2971.3522949219, z = 11.967492103577, Gang = "italian"}, -- Italians
+		{name="Black Market", colour=4, id=110, x = 1009.8732299805, y = -2869.1584472656, z = 11.260106086731, Gang = "ballers"}, -- Ballers
+		{name="Black Market", colour=4, id=110, x = 1248.4548339844, y = -3034.0766601563, z = 9.3649196624756, Gang = "italian"}, -- Italians
 		{name="Black Market", colour=4, id=110, x = 470.47378540039, y = -2912.8369140625, z = 6.7312407493591, Gang = "russian"}, -- Russians
 	},
 	license = {
@@ -147,7 +147,7 @@ Blackmarket_Weapons = {
 		{Weapon = "WEAPON_PISTOL50", Name = "Pistol .50", Cost = 900, AmmoType = ".50mm", Gang = "all", SecondaryGang = "none"},
 		{Weapon = "WEAPON_HEAVYPISTOL", Name = "Heavy Pistol", Cost = 700, AmmoType = ".45mm", Gang = "all", SecondaryGang = "none"},
 		{Weapon = "WEAPON_SNSPISTOL", Name = "SNS Pistol", Cost = 700, AmmoType = ".45mm", Gang = "all", SecondaryGang = "none"},
-		{Weapon = "WEAPON_APPISTOL", Name = "AP Pistol", Cost = 1250, AmmoType = "9mm", Gang = "all", SecondaryGang = "none"},
+		{Weapon = "WEAPON_APPISTOL", Name = "AP Pistol", Cost = 1250, AmmoType = "9mm", Gang = "russian", SecondaryGang = "none"},
 		{Weapon = "WEAPON_VINTAGEPISTOL", Name = "Vintage Pistol", Cost = 700, AmmoType = "9mm", Gang = "all", SecondaryGang = "none"},
 		{Weapon = "WEAPON_REVOLVER", Name = "Revolver", Cost = 800, AmmoType = ".44mm", Gang = "all", SecondaryGang = "none"},
 	}},
@@ -156,7 +156,7 @@ Blackmarket_Weapons = {
 		{Weapon = "WEAPON_MACHINEPISTOL", Name = "Machine Pistol", Cost = 1050, AmmoType = "9mm", Gang = "ballers", SecondaryGang = "none"},
 		{Weapon = "WEAPON_COMBATPDW", Name = "Combat PDW", Cost = 2000, AmmoType = "5.56mm", Gang = "russian", SecondaryGang = "none"},
 		{Weapon = "WEAPON_MICROSMG", Name = "Micro SMG", Cost = 1750, AmmoType = ".45mm", Gang = "all", SecondaryGang = "none"},
-		{Weapon = "WEAPON_SMG", Name = "MP5", Cost = 2150, AmmoType = "5.56mm", Gang = "russian", SecondaryGang = "none"},
+		{Weapon = "WEAPON_SMG", Name = "MP5", Cost = 2150, AmmoType = "5.56mm", Gang = "italian", SecondaryGang = "none"},
 		{Weapon = "WEAPON_ASSAULTSMG", Name = "Assault SMG", Cost = 2150, AmmoType = "5.56mm", Gang = "russian", SecondaryGang = "none"},
 		{Weapon = "WEAPON_GUSENBERG", Name = "Gusenberg Sweeper", Cost = 2500, AmmoType = ".45mm", Gang = "italian", SecondaryGang = "none"},
 		{Weapon = "WEAPON_MG", Name = "MG", Cost = 5000, AmmoType = "7.62mm", Gang = "russian", SecondaryGang = "none"},
