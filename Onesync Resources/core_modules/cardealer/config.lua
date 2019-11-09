@@ -11,7 +11,7 @@ cars = {
         {name = "Tyrant", price = 0, model = "tyrant"},
     }},--]]
     {title = "Job Vehicles", vehicles = {
-        {name = "Taxi", model = "taxi"},
+        --{name = "Taxi", model = "taxi"},
         {name = "Taco Truck", model = "taco"},
         {name = "Tour Bus", model = "tourbus"},
     }},
@@ -130,7 +130,9 @@ cars = {
         {name = "Turismo Classic", model = "turismo2"},
         {name = "Viseris", model = "viseris"},
         {name = "Z-type", model = "ztype"},
+		{name = "Stafford", model = "stafford"},
     }},
+	--[[
     {title = "Super", vehicles = {
         --{name = "811", price = 1350000, model = "pfister811"},
         {name = "Adder", model = "adder"},
@@ -165,7 +167,7 @@ cars = {
         {name = "Zentorno", model = "zentorno"},
         {name = "Taipan", model = "taipan"}, -- Assault Pack
         {name = "Entity XXR", model = "entity2"}, -- Assault Pack
-    }},
+    }},--]]
     {title = "Muscle", vehicles = {
         {name = "Blade", model = "blade"},
         {name = "Buccaneer", model = "buccaneer"},
@@ -273,6 +275,7 @@ cars = {
         {name = "Surfer (Beater)", model = "surfer2"},
         {name = "Youga", model = "youga"},
         {name = "Youga Classic", model = "youga2"},
+        {name = "Speedo", model = "speedo"},
     }},
     {title = "Sedans", vehicles = {
         {name = "Asea", model = "asea"},

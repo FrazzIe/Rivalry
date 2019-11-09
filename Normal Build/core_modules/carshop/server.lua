@@ -140,6 +140,7 @@ cars = {
     ["turismo2"] = 292500,
     ["viseris"] = 45000,
     ["ztype"] = 44500,
+	["stafford"] = 24500,
 
     --[[
 	--["pfister811"] = 1350000,

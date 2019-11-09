@@ -166,6 +166,7 @@ cars = {
         {name = "Turismo Classic", price = 292500, model = "turismo2"},
         {name = "Viseris", price = 45000, model = "viseris"},
         {name = "Z-type", price = 44500, model = "ztype"},
+		{name = "Stafford", price = 24500, model = "stafford"},
     }},
     --[[{title = "Super", vehicles = {
         --{name = "811", price = 1350000, model = "pfister811"},
@@ -312,6 +313,7 @@ cars = {
         {name = "Pounder Custom", price = 0, model = "pounder2"},
         {name = "Benson", price = 0, model = "benson"},
         {name = "Mule", price = 0, model = "mule2"}
+        {name = "Speedo", price = 0, model = "speedo"}
     }},
     {title = "Sedans", vehicles = {
         {name = "Asea", price = 10000, model = "asea"},
