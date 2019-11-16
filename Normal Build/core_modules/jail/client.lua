@@ -191,6 +191,7 @@ AddEventHandler("jail:jail", function(JailTime)
             SetEntityInvincible(PlayerPedId(), false)
             TriggerEvent("anticheat:set", "invincible", false, function(callback)
             TriggerServerEvent('RemoveJailedPlayer', GetPlayerServerId(PlayerId()))
+            Notify("You have been released from prison. Good luck!", 2500)
             end)
             if not removeSentence then
                 TriggerServerEvent("jail:update", 0)
