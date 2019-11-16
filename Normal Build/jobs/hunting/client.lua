@@ -48,7 +48,10 @@ local missionCoords = {
   {x=-1201.3, y=4641.62, z=138.192},
   {x=-974.802, y=4409.66, z=19.3078},
   {x=-1820.96, y=4691.03, z=4.4164},
-  {x=-1671.7, y=5018.13, z=34.1412}
+  {x=-1671.7, y=5018.13, z=34.1412},
+  {x=-1563.7701,y=5133.1293,z=22.3102},
+  {x=-1449.1556,y=4964.9472,z=83.6150},
+  {x=-1305.9284,y=4940.4038,z=154.0614}
 }
 
 local entityRemoved = {}
@@ -103,7 +106,7 @@ end)
 
 Citizen.CreateThread(function()
 		TriggerEvent('hunting:createBlip', 141, -1492.2, 4971.5, 64.2)
-		TriggerEvent('hunting:createBlip2', 141, -82.247848510742,6496.0209960938,31.490911483765,)
+		TriggerEvent('hunting:createBlip2', 141, -82.247848510742,6496.0209960938,31.490911483765)
 
 	local entityCoords = {
 	{x=0, y=0, z=0},
