@@ -86,7 +86,7 @@ AddEventHandler("jail:initialise", function(source, time, dateofjail)
         if dateofjail ~= 0 then
             if os.time() > dateofjail and os.time() - dateofjail > 300 then
                 local difference = os.time() - dateofjail
-                local halfhours = math.floor(difference / 3600)
+                local halfhours = math.floor(difference / 1)
                 time = time - halfhours
                 TriggerClientEvent("pNotify:SendNotification", source, {text = "You served "..halfhours.." months while sleeping!",type = "error", queue = "left",timeout = 10000,layout = "bottomCenter"})
                 if time > 0 then
