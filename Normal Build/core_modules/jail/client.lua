@@ -185,7 +185,7 @@ AddEventHandler("jail:jail", function(JailTime)
                     JailTime = JailTime - 0.5
                 end
             end
-            SetEntityCoords(PlayerPedId(), 1848.1318359375, 2607.603515625, 45.582920074463)
+            SetEntityCoords(PlayerPedId(), 1678.5708007813, 2593.865234375, 45.564895629883)
             IsJailed = false
             RemoveBlip(job_blip)
             SetEntityInvincible(PlayerPedId(), false)
