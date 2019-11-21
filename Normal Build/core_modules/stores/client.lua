@@ -144,6 +144,7 @@ EMSShops = {
 	vector3(1820.7316894531, 3674.8110351563, 34.270053863525), -- Sandy Shores Medical Center
 	vector3(-249.94438171387, 6325.3369140625, 32.43399810791), -- Paleto Bay Medical Center
 }
+
 stores2 = {
 	normal = {
 	    {name="Convenience store", sprite=52, x=1961.1140136719, y=3741.4494628906,z=32.34375 },
