@@ -255,6 +255,7 @@ cars = {
         {name = "Seminole", model = "seminole"},
         {name = "Serrano", model = "serrano"},
         {name = "XLS", model = "xls"},
+        {name = "Toros", model = "toros"},
     }}, 
     {title = "Vans", vehicles = {
         {name = "Burrito", model = "burrito3"},
