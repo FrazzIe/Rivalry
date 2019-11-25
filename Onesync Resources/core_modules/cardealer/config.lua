@@ -279,6 +279,7 @@ cars = {
         {name = "Speedo", model = "speedo"},
     }},
     {title = "Trucks", vehicles = {
+        {name = "Sadler", model = "sadler"},
 	}},
     }},
     {title = "Sedans", vehicles = {
