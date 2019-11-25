@@ -1,7 +1,7 @@
 local ragdoll_time_source = 1500
 local ragdoll_time_target = 3000
 local ragdoll_time_target_ai = 4000
-local area_of_effect_radius = 2.125
+local area_of_effect_radius = 1.995
 
 function math.pow(x, y)
 	for i = 1, y-1 do
