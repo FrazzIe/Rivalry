@@ -585,7 +585,7 @@ LSC_Config.prices = {
 -----------Armor-------------
 	[16] = {
 		{name = "Armor Upgrade 20%",modtype = 16, mod = 0, price = 5000},
-		{name = "Armor Upgrade 40%",modtype = 16, mod = 1, price = 30000},
+		{name = "Armor Upgrade 40%",modtype = 16, mod = 1, price = 10000},
 		--{name = "Armor Upgrade 60%",modtype = 16, mod = 2, price = 7500},
 		--{name = "Armor Upgrade 80%",modtype = 16, mod = 3, price = 10000},
 		--{name = "Armor Upgrade 100%",modtype = 16, mod = 4, price = 15000},
