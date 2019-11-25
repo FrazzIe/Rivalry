@@ -33,7 +33,7 @@ local FriskWeapons = {
 	["WEAPON_DBSHOTGUN"] = "You feel a thicc metal object with 2 rounded barrels near their waist.",
 	["WEAPON_APPISTOL"] = "You feel a bulky metal L shaped object near the persons waist.",
 	["WEAPON_HEAVYPISTOL"] = "You feel a slightly large bulky metal L shaped object near the persons waist.",
-	["WEAPON_MACHINEPISTOL"] = "You feel a metal L shaped object with a long barrel near their waist."
+	["WEAPON_MACHINEPISTOL"] = "You feel a metal L shaped object with a long barrel near their waist.",
 }
 
 RegisterServerEvent('police:setService')
