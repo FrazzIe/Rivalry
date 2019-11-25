@@ -20,7 +20,7 @@ local FriskWeapons = {
     ["WEAPON_COMBATPISTOL"] = "You feel a metal L shaped object near the persons waist.",
     ["WEAPON_PISTOL50"] = "You feel a large metal L shaped object near the persons waist.",
     ["WEAPON_SNSPISTOL"] = "You feel a small metal L shaped object near the persons waist.",
-    ["WEAPON_VINTAGEPISTOL"] = "You feel a metal object with a long barrel near the person waist.",
+    ["WEAPON_VINTAGEPISTOL"] = "You feel an L shaped metal object near the person waist.",
     ["WEAPON_STUNGUN"] = "You feel a thicc plastic object on their waist.",
     ["WEAPON_KNIFE"] = "You feel a very sharp object, with a round base.",
     ["WEAPON_NIGHTSTICK"] = "You feel a long L shaped object.",
@@ -33,6 +33,7 @@ local FriskWeapons = {
 	["WEAPON_DBSHOTGUN"] = "You feel a thicc metal object with 2 rounded barrels near their waist.",
 	["WEAPON_APPISTOL"] = "You feel a bulky metal L shaped object near the persons waist.",
 	["WEAPON_HEAVYPISTOL"] = "You feel a slightly large bulky metal L shaped object near the persons waist.",
+	["WEAPON_MACHINEPISTOL"] = "You feel a metal L shaped object with a long barrel near their waist."
 }
 
 RegisterServerEvent('police:setService')
