@@ -244,7 +244,6 @@ cars = {
         {name = "BeeJay XL", model = "bjxl"},
         {name = "Cavalcade", model = "cavalcade"},
         {name = "Cavalcade 2nd Gen",model = "cavalcade2"},
-        {name = "Contender", model = "contender"},
         {name = "Dubsta", model = "dubsta2"},
         {name = "FQ 2", model = "fq2"},
         {name = "Granger", model = "granger"},
@@ -280,6 +279,7 @@ cars = {
         {name = "Sadler", model = "sadler"},
         {name = "Bison", model = "bison"},
         {name = "Bobcat XL", model = "bobcatxl"},
+        {name = "Contender", model = "contender"},
 	}},
     }},
     {title = "Sedans", vehicles = {
