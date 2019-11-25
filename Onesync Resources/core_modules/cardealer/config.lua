@@ -261,7 +261,6 @@ cars = {
         {name = "XLS", model = "xls"},
     }}, 
     {title = "Vans", vehicles = {
-        {name = "Bobcat XL", model = "bobcatxl"},
         {name = "Burrito", model = "burrito3"},
         {name = "Camper", model = "camper"},
         {name = "Gang Burrito", model = "gburrito2"},
@@ -280,6 +279,7 @@ cars = {
     {title = "Trucks", vehicles = {
         {name = "Sadler", model = "sadler"},
         {name = "Bison", model = "bison"},
+        {name = "Bobcat XL", model = "bobcatxl"},
 	}},
     }},
     {title = "Sedans", vehicles = {
