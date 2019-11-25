@@ -231,8 +231,6 @@ cars = {
         {name = "Riata", model = "riata"},
         {name = "Rebel", model = "rebel2"},
         {name = "Rusty Rebel", model = "rebel"},
-        {name = "Sandking SWB", model = "sandking2"},
-        {name = "Sandking XL", model = "sandking"},
         {name = "Trophy Truck", model = "trophytruck"},
     }}, 
     {title = "SUV", vehicles = {
@@ -280,8 +278,9 @@ cars = {
         {name = "Bobcat XL", model = "bobcatxl"},
         {name = "Contender", model = "contender"},
         {name = "Rancher XL", model = "rancherxl"},
+        {name = "Sandking SWB", model = "sandking2"},
+        {name = "Sandking XL", model = "sandking"},
 	}},
-    }},
     {title = "Sedans", vehicles = {
         {name = "Asea", model = "asea"},
         {name = "Asterope", model = "asterope"},
