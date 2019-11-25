@@ -83,7 +83,7 @@ cars = {
         {name = "Raptor", model = "raptor"},
         {name = "Revolter", model = "revolter"},
         {name = "Ruston", model = "ruston"},
-        {name = "Schafter LWB", model = "schafter2"},
+        {name = "Schafter LWB", model = "schafter4"},
         {name = "Schafter V12", model = "schafter3"},
         {name = "Sentinel Classic", model = "sentinel3"},
         {name = "Seven-70", model = "seven70"},
