@@ -278,6 +278,9 @@ cars = {
         {name = "Youga Classic", model = "youga2"},
         {name = "Speedo", model = "speedo"},
     }},
+    {title = "Trucks", vehicles = {
+	}},
+    }},
     {title = "Sedans", vehicles = {
         {name = "Asea", model = "asea"},
         {name = "Asterope", model = "asterope"},
