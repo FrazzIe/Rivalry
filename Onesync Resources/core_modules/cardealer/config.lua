@@ -228,7 +228,6 @@ cars = {
         {name = "Kalahari", model = "kalahari"},
         {name = "Mesa (Caged)", model = "mesa3"},
         --{name = "Nightshark", price = 0, model = "nightshark"}, -- Armoured car
-        {name = "Rancher XL", model = "rancherxl"},
         {name = "Riata", model = "riata"},
         {name = "Rebel", model = "rebel2"},
         {name = "Rusty Rebel", model = "rebel"},
@@ -280,6 +279,7 @@ cars = {
         {name = "Bison", model = "bison"},
         {name = "Bobcat XL", model = "bobcatxl"},
         {name = "Contender", model = "contender"},
+        {name = "Rancher XL", model = "rancherxl"},
 	}},
     }},
     {title = "Sedans", vehicles = {
