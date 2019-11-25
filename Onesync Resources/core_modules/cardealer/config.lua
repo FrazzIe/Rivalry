@@ -85,7 +85,7 @@ cars = {
         {name = "Ruston", model = "ruston"},
         {name = "Schafter LWB", model = "schafter4"},
         {name = "Schafter V12", model = "schafter3"},
-		{name = "Schwarzer", model = "schwarzer"},
+		{name = "Schwarzer"}, model = "schwarzer"},
         {name = "Sentinel Classic", model = "sentinel3"},
         {name = "Seven-70", model = "seven70"},
         {name = "Specter", model = "specter"},
@@ -215,7 +215,7 @@ cars = {
         {name = "Voodoo Custom", model = "voodoo"},
         {name = "Yosemite", model = "yosemite"},
     }},
-    {title = "Trucks/Offroad", vehicles = {
+    {title = "Offroad", vehicles = {
         {name = "Bifta", model = "bifta"},
         {name = "Bodhi", model = "bodhi2"},
         {name = "Brawler", model = "brawler"},
