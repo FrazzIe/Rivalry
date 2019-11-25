@@ -11,7 +11,7 @@ cars = {
         {name = "Tyrant", price = 0, model = "tyrant"},
     }},--]]
     {title = "Job Vehicles", vehicles = {
-        --{name = "Taxi", model = "taxi"},
+        {name = "Taxi", model = "taxi"},
         {name = "Taco Truck", model = "taco"},
         {name = "Tour Bus", model = "tourbus"},
     }},
