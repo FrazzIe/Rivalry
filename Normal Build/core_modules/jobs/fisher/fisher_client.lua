@@ -359,8 +359,8 @@ end
 
 	Citizen.CreateThread(function()
 		CreateBlip("Turtle Head Fishing", 356, 68, Fishing.Data.Locations.Service[1].x, Fishing.Data.Locations.Service[1].y, Fishing.Data.Locations.Service[1].z)
-		CreateBlip("Turtle Head Fishing", 356, 68, Fishing.Data.Locations.Service[2].x, Fishing.Data.Locations.Service[2].y, Fishing.Data.Locations.Service[2].z)
-		CreateBlip("Turtle Head Fishing", 356, 68, Fishing.Data.Locations.Service[3].x, Fishing.Data.Locations.Service[3].y, Fishing.Data.Locations.Service[3].z)
+		--CreateBlip("Turtle Head Fishing", 356, 68, Fishing.Data.Locations.Service[2].x, Fishing.Data.Locations.Service[2].y, Fishing.Data.Locations.Service[2].z)
+		--CreateBlip("Turtle Head Fishing", 356, 68, Fishing.Data.Locations.Service[3].x, Fishing.Data.Locations.Service[3].y, Fishing.Data.Locations.Service[3].z)
 		while true do
 			Citizen.Wait(0)
 			local Ped = PlayerPedId()
