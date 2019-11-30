@@ -4002,9 +4002,12 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {
-					outside = {x = -379.6051, y = 6062.196, z = 31.50013, h = 222.5358}, -- The marker outside (used for teleporting inside)
-					inside = {x = 1120.963, y = -3152.196, z = -37.06273, h = 222.8231}, -- The marker inside (used for teleporting outside)
-					vault = {x = 1112.419, y = -3145.239, z = -37.06273, h = 235.9401}, -- The marker for the vault
+					outside = vector3(-379.6051,6062.196,31.50013), -- The marker outside (used for teleporting inside)
+					outsideheading = 222.5358,
+					inside = vector3(1120.963,-3152.196,-37.06273), -- The marker inside (used for teleporting outside)
+					insideheading = 222.8231,
+					vault = vector3(1112.419,-3145.239,-37.06273), -- The marker for the vault
+					outfit = { coords = vector3(1116.833984375,-3162.8041992188,-36.870498657227), heading = 185.3567199707 },
 				},
 				rent = 6900, --How much it costs to rent the property (PER DAY)
 				storage = {
