@@ -481,11 +481,7 @@ end, {help = "Run a weapon serial number", params = {{name = "location", help = 
 
 TriggerEvent("core:addGroupCommand", "checktow", "emergency", function(source, args, rawCommand, data, power, group)
 	TriggerEvent("getMechs", function(mechanics)
-		if mechanics > 0 then
-			TriggerClientEvent("chatMessage", source, "Dispatch", {0, 255, 0}, "There are "..mechanics.." tows online!")
-		else
-			TriggerClientEvent("chatMessage", source, "Dispatch", {0, 255, 0}, "Unfortunately there are no tows in service!")
-		end
+		TriggerClientEvent("police:checktow", source, mechanics)
 	end)
 end, {help = "Check if any tows are online"})
 

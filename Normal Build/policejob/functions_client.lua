@@ -779,3 +779,14 @@ Citizen.CreateThread(function()
 		end
 	end
 end)
+
+RegisterNetEvent("police:checktow")
+AddEventHandler("police:checktow", function(amount)
+	if isInService then
+		if amount > 0 then
+			TriggerEvent("chatMessage", "Dispatch", {0, 255, 0}, "There are "..amount.." tows online!")
+		else
+			TriggerEvent("chatMessage", "Dispatch", {0, 255, 0}, "Unfortunately there are no tows in service!")
+		end	
+	end
+end)
