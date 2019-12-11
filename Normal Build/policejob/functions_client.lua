@@ -257,8 +257,9 @@ Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(0)
 		if Spikes.Spawned then
-			for _, player in ipairs(GetActivePlayers()) do
-				local TargetPed = GetPlayerPed(player)
+			local Players = GetActivePlayers()
+			for Index = 1, #Players do
+				local TargetPed = GetPlayerPed(Players[Index])
 				if DoesEntityExist(TargetPed) then
 					local Vehicle = GetVehiclePedIsUsing(TargetPed)
 					if DoesEntityExist(Vehicle) then
@@ -274,7 +275,7 @@ Citizen.CreateThread(function()
 									if Distance < 1.8 then
 										if not IsVehicleTyreBurst(Vehicle, Spikes.Tyres[Wheel].Index, true) or IsVehicleTyreBurst(Vehicle, Spikes.Tyres[Wheel].Index, false) then
 											SetVehicleTyreBurst(Vehicle, Spikes.Tyres[Wheel].Index, false, 1000.0)
-											TriggerServerEvent("Spikes.Burst", GetPlayerServerId(Index), Spikes.Tyres[Wheel].Index)
+											TriggerServerEvent("Spikes.Burst", GetPlayerServerId(Players[Index]), Spikes.Tyres[Wheel].Index)
 										end
 									end
 								end
