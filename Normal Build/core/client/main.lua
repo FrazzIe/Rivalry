@@ -233,7 +233,7 @@ RegisterNetEvent("core:loadCharacters")
 AddEventHandler("core:loadCharacters", function(_Characters)
 	open(_Characters)
 end)
-
+--[[
 RegisterNetEvent("core:deleteCharacter")
 AddEventHandler("core:deleteCharacter", function(_Characters)
 	open(_Characters)
@@ -243,7 +243,7 @@ RegisterNetEvent("core:editCharacter")
 AddEventHandler("core:editCharacter", function(_Characters)
 	open(_Characters)
 end)
-
+--]]
 RegisterNetEvent("core:createCharacter")
 AddEventHandler("core:createCharacter", function(_Characters)
 	open(_Characters)
@@ -275,7 +275,7 @@ RegisterNUICallback("create_character", function(data, cb)
 
 	TriggerServerEvent("core:createCharacter", data)
 end)
-
+--[[
 RegisterNUICallback("edit_character", function(data, cb)
 	local split_dob = stringsplit(data.dob, "-")
 	if #split_dob == 3 then
@@ -284,7 +284,7 @@ RegisterNUICallback("edit_character", function(data, cb)
 
 	TriggerServerEvent("core:editCharacter", data)
 end)
-
+--]]
 RegisterNUICallback("select_character", function(data, cb)
 	TriggerServerEvent("core:selectCharacter", data.character)
 end)

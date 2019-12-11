@@ -267,7 +267,7 @@ AddEventHandler("core:switchCharacter", function()
     end
     TriggerClientEvent("core:switchCharacter", source)
 end)
-
+--[[
 RegisterServerEvent("core:deleteCharacter")
 AddEventHandler("core:deleteCharacter", function(character)
     local source = source
@@ -315,7 +315,7 @@ AddEventHandler("core:editCharacter", function(data)
     end
     TriggerClientEvent("core:editCharacter", source, _Characters[source])
 end)
-
+--]]
 RegisterServerEvent("core:createCharacter")
 AddEventHandler("core:createCharacter", function(data)
     local source = source
