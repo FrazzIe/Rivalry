@@ -576,36 +576,46 @@ Citizen.CreateThread(function()
 										local isUserCuffed, cuffType = DecorGetBool(OtherPed, "policeCuffed"), DecorGetBool(OtherPed, "Cuffedtype")
 										local OtherServerId = GetPlayerServerId(PlayerIndex)
 										local OtherCharacterName = exports.core:GetCharacterName(OtherServerId)
-										if not isUserCuffed then
-											DisplayHelpText("Press ~INPUT_CONTEXT~ to cuff "..OtherCharacterName)
+										local isRunning = IsPedRunning(PlayerPed)
 
-											if IsControlJustPressed(1, 51) then
-												RequestAnimDict(Animations.Arresting.Dictionary)
-												while not HasAnimDictLoaded(Animations.Arresting.Dictionary) do
-													Citizen.Wait(0)
+										if not isUserCuffed then
+											if not isRunning then
+												DisplayHelpText("Press ~INPUT_CONTEXT~ to cuff "..OtherCharacterName)
+
+												if IsControlJustPressed(1, 51) then
+													RequestAnimDict(Animations.Arresting.Dictionary)
+													while not HasAnimDictLoaded(Animations.Arresting.Dictionary) do
+														Citizen.Wait(0)
+													end
+													TaskPlayAnim(PlayerPed, Animations.Arresting.Dictionary, Animations.Arresting.Cop, 8.0, -8, -1, 48, 0, 0, 0, 0)
+													TriggerServerEvent("police:cuff", OtherServerId, "normal", GetPlayerServerId(PlayerPed))
+													Citizen.Wait(3500)
+													ClearPedTasksImmediately(PlayerPed)
 												end
-												TaskPlayAnim(PlayerPed, Animations.Arresting.Dictionary, Animations.Arresting.Cop, 8.0, -8, -1, 48, 0, 0, 0, 0)
-												TriggerServerEvent("police:cuff", OtherServerId, "normal", GetPlayerServerId(PlayerPed))
-												Citizen.Wait(3500)
-												ClearPedTasksImmediately(PlayerPed)
+											else
+												DisplayHelpText("Stop running to cuff "..OtherCharacterName)
 											end
 										else
-											if cuffType then
-												DisplayHelpText("Press ~INPUT_CONTEXT~ to uncuff "..OtherCharacterName.."\nPress ~INPUT_INTERACTION_MENU~ to loosen")
-											else
-												DisplayHelpText("Press ~INPUT_CONTEXT~ to uncuff "..OtherCharacterName.."\nPress ~INPUT_INTERACTION_MENU~ to tighten")
-											end
-
-											if IsControlJustPressed(1, 51) then
-												TriggerServerEvent("police:uncuff", OtherServerId)
-											end
-											
-											if IsControlJustPressed(1, 244) then
+											if not isRunning then
 												if cuffType then
-													TriggerServerEvent("police:cuff", OtherServerId, "normal")
+													DisplayHelpText("Press ~INPUT_CONTEXT~ to uncuff "..OtherCharacterName.."\nPress ~INPUT_INTERACTION_MENU~ to loosen")
 												else
-													TriggerServerEvent("police:cuff", OtherServerId, "freeze")
+													DisplayHelpText("Press ~INPUT_CONTEXT~ to uncuff "..OtherCharacterName.."\nPress ~INPUT_INTERACTION_MENU~ to tighten")
 												end
+
+												if IsControlJustPressed(1, 51) then
+													TriggerServerEvent("police:uncuff", OtherServerId)
+												end
+												
+												if IsControlJustPressed(1, 244) then
+													if cuffType then
+														TriggerServerEvent("police:cuff", OtherServerId, "normal")
+													else
+														TriggerServerEvent("police:cuff", OtherServerId, "freeze")
+													end
+												end
+											else
+												DisplayHelpText("Stop running to uncuff "..OtherCharacterName)
 											end
 										end
 									end
