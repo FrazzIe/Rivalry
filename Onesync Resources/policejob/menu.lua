@@ -58,7 +58,12 @@ end)
 AddEventHandler("police:menu_citizen_cuffing", function(type)
     local t, distance = GetClosestPlayer()
     if(distance ~= -1 and distance < 3) then
-        TriggerServerEvent("police:cuff", GetPlayerServerId(t), type)
+        local isRunning = IsPedRunning(PlayerPedId())
+        if not isRunning then
+            TriggerServerEvent("police:cuff", GetPlayerServerId(t), type)
+        else
+            Notify("Please stop running!", 2500)
+        end
     else
         Notify("Please get closer to the target!", 2500)
     end
