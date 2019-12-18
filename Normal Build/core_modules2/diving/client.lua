@@ -168,14 +168,12 @@ AddEventHandler("diving:bought", function()
 	Scuba.equip(PlayerPedId())
 end)
 
-RegisterNetEvent("diving:emergency")
-AddEventHandler("diving:emergency", function()
-	if exports.policejob:getIsInService() then
-		if ScubaHas() then
-			Scuba.delete()
-			Scuba.reset(PlayerPedId())
-		else
-			Scuba.equip(PlayerPedId())
-		end
+RegisterNetEvent("diving:toggleScuba")
+AddEventHandler("diving:toggleScuba", function()
+	if ScubaHas() then
+		Scuba.delete()
+		Scuba.reset(PlayerPedId())
+	elseif exports.policejob:getIsInService() or exports.emsjob:getIsInService() then
+		Scuba.equip(PlayerPedId())
 	end
 end)

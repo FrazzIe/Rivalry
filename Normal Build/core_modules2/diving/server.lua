@@ -16,6 +16,6 @@ AddEventHandler("diving:buy", function()
 	end)
 end)
 
-TriggerEvent("core:addGroupCommand", "scuba", "emergency", function(source, args, rawCommand, data, power, group)
-	TriggerClientEvent("diving:emergency", source)
+TriggerEvent("core:addCommand", "scuba", function(source, args, rawCommand, data, power, group)
+	TriggerClientEvent("diving:toggleScuba", source)
 end, {help = "Toggle scuba gear"})
