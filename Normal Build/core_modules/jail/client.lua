@@ -109,7 +109,7 @@ Citizen.CreateThread(function()
                         RemoveBlip(job_blip)
                         job_blip = nil
                         drawJobBlips(randomizedJob)
-                        TriggerServerEvent('jail:payout', 10)
+                        TriggerServerEvent('jail:payout', 25)
                         Notify("Your sentence has been reduced for your hard work!")
                     end
                 end
