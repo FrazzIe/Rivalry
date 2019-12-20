@@ -96,7 +96,7 @@ button:focus {
   background-size: cover;
   background-repeat: norepeat;
 }
-.app-wrapper .phone-wrapper {
+/* .app-wrapper .phone-wrapper {
   position: absolute;
   bottom: 10px;
   right: 10px;
@@ -110,6 +110,19 @@ button:focus {
   border-radius: 25px;
   padding: 8px 1px;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+} */
+.app-wrapper .phone-wrapper {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  display: block;
+  margin: auto;
+  width: 248px;
+  height: 518px;
+  padding: 11px 9px;
+  /* background-image: url("https://i.imgur.com/ajaffSA.png"); */
+  background-image: url("../images/phone.png");
+  background-size: cover;
 }
 .app-wrapper .phone-wrapper.small {
   zoom: 75%;
