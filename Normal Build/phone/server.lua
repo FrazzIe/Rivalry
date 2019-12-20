@@ -515,7 +515,7 @@ AddEventHandler("Advertisement.Update", function()
 	local Source = source
 	local Data = {}
 
-	print(tostring(Phone).." "..tostring(#Phone.Players).." "..tostring(#Phone.PlayerIds).." "..tostring(#Phone.Calls))
+	-- print(tostring(Phone).." "..tostring(#Phone.Players).." "..tostring(#Phone.PlayerIds).." "..tostring(#Phone.Calls))
 
 	for key, peer in ipairs(Phone.Players) do
 		if key and peer then
