@@ -330,10 +330,11 @@ end)
 
 RegisterNUICallback("sendAdvertisement", function(data, cb)
 	Citizen.Trace("addAdvertisement callback: " .. json.encode(data))
-
+	
 	advertisementCallback = cb
-
-	TriggerServerEvent("Advertisement.Add", data.title, data.message)
+	
+	TriggerServerEvent("Advertisement.Add", data.message)
+	TriggerEvent("Yellowpages.Request")
 end)
 
 RegisterNUICallback("addMessage", function(data, cb)
@@ -686,9 +687,23 @@ AddEventHandler("Twitter.Set.Messages", function(Data)
 end)
 
 RegisterNetEvent("Yellowpages.Set.Advertisements")
-AddEventHandler("Yellowpages.Set.Advertisements", function(Data)
-	if Phone.Data.Has then
-		Notify("New Advertisement was posted! Check the yellow pages!")
+AddEventHandler("Yellowpages.Set.Advertisements", function(Name)
+	if Name == "" then
+		Notify("Your advertisement has been deleted!")
+	elseif Phone.Data.Has then
+		Notify("Advertisement published by "..Name.."!")
 	end
+
+	if Phone.Open then
+		TriggerServerEvent("Advertisement.Update")
+	end
+end)
+
+RegisterNetEvent("Yellowpages.Update")
+AddEventHandler("Yellowpages.Update", function(Data)
 	SendNUIMessage({type = "setYellowpages", payload = Data})
+end)
+
+RegisterNUICallback("updateAdvertisements", function()
+	TriggerServerEvent("Advertisement.Update")
 end)

@@ -30,6 +30,7 @@ app.controller('ctrl', function($scope, $timeout, $http) {
 
 	// set views to false
 	$scope.phoneToggle = false;
+	//$scope.phoneToggle = true; // Debug
 	$scope.callToggle = false;
 	$scope.contactsToggle = false;
 	$scope.messagesToggle = false;
@@ -101,6 +102,26 @@ app.controller('ctrl', function($scope, $timeout, $http) {
 	$scope.twittermessages = [];
 
 	$scope.advertisements = [];
+	// $scope.advertisements = [
+	// 	{
+	// 		name: "Kei Satou", text: "Satou's Sushi | Don't be shy, my sushi is sly! Eat it or die!!!", number: "6349826234"
+	// 	},
+	// 	{
+	// 		name:  "John Doe", text: "☝️ That guy's sushi sucks! Would rather suckle my own toes than eat this!", number: "6920434723"
+	// 	},
+	// 	{
+	// 		name:  "Cool Name", text: "Cool Taxi! Call today for cheap rides starting at ten grand a mile.", number: "9792637258"
+	// 	},
+	// 	{
+	// 		name:  "Billy Mays", text: "Billy Mays here, with the finest rags around. Call today and get a free bottle of bleach with your next order!", number: "6666666666"
+	// 	},
+	// 	{
+	// 		name:  "little bob", text: "im new here on this server what do i do lol", number: "6969696969"
+	// 	},
+	// 	{
+	// 		name:  "Long Man", text: "This text is just a little longer to test the scrolling and sticky stuff. Speaking of sticky stuff have you heard of Long Man? No? That's me so come get my long stuff.", number: ":):):)"
+	// 	}
+	// ]; // Debug
 
 	$scope.taxiOption = '1 passenger';
 	$scope.mechOption = 'Car';
@@ -171,6 +192,10 @@ app.controller('ctrl', function($scope, $timeout, $http) {
 		}
 		if ( val == "yellowpages") {
 			$scope.yellowPageToggle = !$scope.yellowPageToggle;
+
+			if ($scope.yellowPageToggle) {
+				$scope.updateAdvertisements();
+			}
 		}
 		if (val == 'lifeAlert') {
 			$scope.lifeAlertToggle = !$scope.lifeAlertToggle;
@@ -238,6 +263,10 @@ app.controller('ctrl', function($scope, $timeout, $http) {
 		togglePhone(payload) { //Toggle phone visibility
 			$scope.lifeAlertToggle = false;
 			$scope.phoneToggle = payload === "true";
+
+			if ($scope.yellowPageToggle && $scope.phoneToggle) {
+				$scope.updateAdvertisements();
+			}
 		},
 		toggleLifeAlert(payload) { //Toggle lifealert
 			$scope.phoneToggle = true;
@@ -426,13 +455,34 @@ app.controller('ctrl', function($scope, $timeout, $http) {
 		});
 	};
 
-	$scope.sendAdvertisement = function(titl, messag) {
+	$scope.sendAdvertisement = function(messag) {
 		$scope.sendAdvertisementToggle = false;
 		
 		$http({
 			method: "POST",
 			url: "http://" + $scope.resoureName + "/sendAdvertisement",
-			data: angular.toJson({title: titl, message: messag})
+			data: angular.toJson({message: messag})
+		}).then(function success(resp) {
+			$scope.message = "";
+			
+			if (resp.data && resp.data.error) {
+				$scope.errorMessage = resp.data.error;
+				$scope.toggleView('error');
+			}
+
+			$scope.yellowPageToggle = true;			
+		}, function error(resp) {
+			$scope.yellowPageToggle = true;
+			console.log(resp);
+		});
+
+		$scope.updateAdvertisements();
+	};
+
+	$scope.updateAdvertisements = function() {
+		$http({
+			method: "POST",
+			url: "http://" + $scope.resoureName + "/updateAdvertisements"
 		}).then(function success(resp) {
 			$scope.message = "";
 			

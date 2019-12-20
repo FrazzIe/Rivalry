@@ -479,39 +479,45 @@
 
 					<!-- yellowpage container -->
 					<div class="yellowpage-wrapper" ng-class="{ 'open': yellowPageToggle, '': !yellowPageToggle }">
-							<h1>
-								<i class="material-icons" ng-click="toggleView('yellowpages')">
+							<h1>Yellow Pages</h1>
+							<div class="header">
+								<i class="material-icons ad-option" ng-click="toggleView('yellowpages')" style="width:34px;text-align:left">
 									arrow_back_ios
 								</i>
-								<p style="font-weight: bold;font-size: 13px">Yellow Pages</p> 
-							</h1>		
+								<i class="material-icons ad-option" ng-click="toggleView('sendAdvertisement')" style="margin-left:94px">
+									send
+								</i>
+								<i class="material-icons ad-option" ng-click="sendAdvertisement('')">
+									delete
+								</i>
+							</div>
 							
-							<i class="material-icons send-ad" ng-click="toggleView('sendAdvertisement')">
-								send
-							</i> 
-	
 							<div class="ads">
 								<div ng-repeat="somead in advertisements">						
 									<div class="ad">
-										<p class="name" style="font-weight: bold">{{somead.Title}}</p>
-										<p>{{somead.Message}}</p>
-										<p class="number" style = "font-size: 8px">{{formatMessageTime(somead.Timestamp)}}</p>
+										<!-- <p class="title" style="font-weight: bold">{{somead.title}}</p> -->
+										<p style="font-weight:bold; font-size:14px; user-select:none">{{somead.text}}</p>
+										<div class="info" style="height:14px; margin:4px; margin-top:0px">
+											<p class="info" style="font-size:12px; float:left; user-select:none">{{(somead.name)}}</p>
+											<p class="info" style="font-size:12px; float:right">{{(somead.number)}}</p>
+										</div>
 									</div>
 								</div>
 							</div>
 						</div>
 	
 						<!-- send advertisement container -->
-						<div class="send-tweet-wrapper" ng-class="{ 'open': sendAdvertisementToggle, '': !sendAdvertisementToggle }">
-							<h1>
-								<i class="material-icons" ng-click="toggleView('sendAdvertisement')">
+						<div class="send-advertisement-wrapper" ng-class="{ 'open': sendAdvertisementToggle, '': !sendAdvertisementToggle }">
+							<h1>Yellow Pages</h1>
+							<div class="header">
+								<i class="material-icons ad-option" ng-click="toggleView('sendAdvertisement')" style="width:34px">
 									arrow_back_ios
-								</i> 
-							</h1>		
+								</i>
+							</div>
 	
-							<form ng-submit="sendAdvertisement(title, message)">
-								<input type="text" placeholder="Advertisement Title" ng-model="title" required/>
-								<textarea placeholder="Description here" maxlength="300" ng-model="message"></textarea>
+							<form ng-submit="sendAdvertisement(message)">
+								<!-- <input type="text" placeholder="Advertisement Title" ng-model="title" required/> -->
+								<textarea placeholder="What are you advertising?" maxlength="255" ng-model="message" style="resize:none; padding:10px; height: 400px"></textarea>
 								<button type="submit" class="save">Advertise</button>
 							</form>	
 	

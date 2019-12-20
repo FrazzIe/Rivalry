@@ -69,15 +69,15 @@ function Phone:DoesMessageExistFromNumber(Source, Number)
 	return false, nil
 end
 
-AddEventHandler("playerDropped", function()
-	local Source = source
+-- AddEventHandler("playerDropped", function(reason)
+-- 	local Source = Source
 
-	if Phone.Players[Source] then
-		Phone.PlayerIds[Phone.Players[Source].Number] = nil
-		Phone.Players[Source] = nil
-		Phone.Calls[Source] = nil
-	end
-end)
+-- 	if Phone.Players[Source] then
+-- 		Phone.PlayerIds[Phone.Players[Source].Number] = nil
+-- 		Phone.Players[Source] = nil
+-- 		Phone.Calls[Source] = nil
+-- 	end
+-- end)
 
 AddEventHandler("core:switch", function(source)
 	local Source = source
@@ -161,7 +161,7 @@ end)
 RegisterServerEvent("Phone.Finish")
 AddEventHandler("Phone.Finish", function(ContactNames)
 	local Source = source
-
+	
 	if Phone.Players[Source] then
 		Phone.Players[Source].ContactNames = ContactNames
 
@@ -491,25 +491,47 @@ AddEventHandler("Twitter.Message.Add", function(Message)
 	})
 end)
 
-local Advertisements = {}
+--local Advertisements = {}
 
 RegisterServerEvent("Advertisement.Add")
-AddEventHandler("Advertisement.Add", function(TitleData, MessageData)
+AddEventHandler("Advertisement.Add", function(MessageData)
 	local Source = source
+	local CharacterName = "Unknown"
+
 	TriggerEvent("core:getuser", Source, function(User)
-		if User.get("bank") >= 500 then
-			table.insert(Advertisements, {Title = TitleData, Message = MessageData, Timestamp = os.time()})
-			User.removeBank(500)
-		else
-			TriggerClientEvent("pNotify:SendNotification", source, {text = "Insufficient funds!",type = "error",queue = "left",timeout = 3100,layout = "bottomCenter"})
-		end
+		CharacterName = User.get("first_name").." "..User.get('last_name')
+		User.setAd(MessageData)
 	end)
-	if #Advertisements > 0 then
-		for Index = 1, #Advertisements do
-			if os.time() >= Advertisements[Index].Timestamp + 7200 then
-				table.remove(Advertisements, Index)
-			end
+	
+	if MessageData ~= nil and MessageData ~= "" then
+		TriggerClientEvent("Yellowpages.Set.Advertisements", -1, CharacterName)
+	else
+		TriggerClientEvent("Yellowpages.Set.Advertisements", Source, "")
+	end
+end)
+
+RegisterServerEvent("Advertisement.Update")
+AddEventHandler("Advertisement.Update", function()
+	local Source = source
+	local Data = {}
+
+	print(tostring(Phone).." "..tostring(#Phone.Players).." "..tostring(#Phone.PlayerIds).." "..tostring(#Phone.Calls))
+
+	for key, peer in ipairs(Phone.Players) do
+		if key and peer then
+			TriggerEvent("core:getuser", key, function(User)
+				if User then
+					local name = User.get("first_name").." "..User.get('last_name')
+					local text = User.get("ad_text")
+					local number = peer.Number
+
+					if text ~= nil and text ~= "" then
+						table.insert(Data, { name =  name, text = text, number = number })
+					end
+				end
+			end)
 		end
 	end
-	TriggerClientEvent("Yellowpages.Set.Advertisements", -1, Advertisements)
+
+	TriggerClientEvent("Yellowpages.Update", Source, Data)
 end)
