@@ -48,7 +48,7 @@ cars = {
     {name = "2016 Marked Charger", model = "pd3", type = "", rank = "officer ii"},
     {name = "2016 Marked Tahoe", model = "pd6", type = "", rank = "officer ii"},
     {name = "2016 Marked Explorer", model = "pd5", type = "", rank = "officer ii"},
-    --{name = "Interceptor Mustang", model = "2015polstang", type = "", rank = "officer ii"},
+    {name = "Interceptor Mustang", model = "2015polstang", type = "", rank = "officer ii"},
     {name = "2011 Slicktop CVPI", model = "pd11", type = "", rank = "detective"},
     {name = "2014 Slicktop Charger", model = "pd12", type = "", rank = "detective"},
     {name = "2016 Slicktop Charger", model = "pd13", type = "", rank = "detective"},
