@@ -21,12 +21,13 @@ local armoury = {
 }
 
 guns = {
-    {name = "Pistol", model = "WEAPON_PISTOL"},
-    {name = "Knife", model = "WEAPON_KNIFE"},
+    {name = "9mm Pistol", model = "WEAPON_PISTOL"},
+    {name = "45mm Pistol", model = "WEAPON_COMBATPISTOL"},
+    {name = "Revolver (BCSO)", model = "WEAPON_REVOLVER"},
+    {name = "Combat Knife", model = "WEAPON_KNIFE"},
     {name = "Stun Gun", model = "WEAPON_STUNGUN"},
     {name = "Flashlight", model = "WEAPON_FLASHLIGHT"},
     {name = "Nightstick", model = "WEAPON_NIGHTSTICK"},
-    --{name = "Combat Pistol", model = "WEAPON_COMBATPISTOL"},
 }
 
 local options = {"Equip", "Remove"}
