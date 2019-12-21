@@ -56,11 +56,14 @@ cars = {
     {name = "Unmarked CVPI", model = "police4", type = "", rank = "detective"},
     {name = "Unmarked Panto", model = "upanto", type = "", rank = "detective"},
     {name = "Unmarked Buffalo", model = "fbi", type = "", rank = "detective"},
-    {name = "Unmarked Granger", model = "fbi2", type = "", rank = "detective"},
+    {name = "Unmarked Taxi", model = "uc_taxi", type = "", rank = "detective"},
+    {name = "Unmarked Coquette", model = "uc_coquette", type = "", rank = "detective"},
+    {name = "Unmarked Sultan", model = "uc_sultan", type = "", rank = "detective"},
+    {name = "Unmarked Kuruma", model = "uc_kuruma", type = "", rank = "detective"},
     {name = "Unmarked 2013 Impala", model = "um1", type = "", rank = "detective"},
-    {name = "Unmarked 2016 Tahoe", model = "um4", type = "", rank = "lieutenant"},
     {name = "Unmarked 2016 Raptor", model = "um6", type = "", rank = "lieutenant"},
     {name = "Unmarked 2018 Charger", model = "18charger", type = "", rank = "lieutenant"},
+    {name = "Unmarked 2016 Tahoe", model = "um4", type = "", rank = "captain"},
 }
 
 heli = {
