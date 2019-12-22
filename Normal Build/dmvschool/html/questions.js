@@ -27,12 +27,12 @@ var tableauQuestion = [
         propositionD : "All of the above",
         reponse : "D"},
         
-    {   question : "What blood alcohol level is classified as driving while intoxicated?",
-        propositionA : "0.05%",
-        propositionB : "0.18%",
+    {   question : "What is the lowest blood alcohol level that is classified as driving while intoxicated?",
+        propositionA : "80%",
+        propositionD : "8%",
+        propositionB : "0.8%",
         propositionC : "0.08%",
-        propositionD : "0.06%",
-        reponse : "C"},
+        reponse : "D"},
         
     {   question : "You must pull over and stop until any emergency vehicle with a siren has passed, unless:",
         propositionA : "You are in a hurry",
@@ -265,12 +265,12 @@ var tableauQuestion = [
         propositionD : "Increase your speed",
         reponse : "C"},
     
-    {   question : "What is the illegal window tint amount?",
+    {   question : "What is the legal window tint?",
         propositionA : "Pure Black",
         propositionB : "Dark Smoke",
         propositionC : "Light Smoke",
-        propositionD : "Green",
-        reponse : "A"},
+        propositionD : "Broken Window",
+        reponse : "C"},
     
     {   question : "What is considered Reckless Driving?",
         propositionA : "Speeding 30mph over the speed limit",
