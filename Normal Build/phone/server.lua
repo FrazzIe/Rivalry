@@ -69,15 +69,15 @@ function Phone:DoesMessageExistFromNumber(Source, Number)
 	return false, nil
 end
 
--- AddEventHandler("playerDropped", function(reason)
--- 	local Source = Source
+AddEventHandler("playerDropped", function(reason)
+	local Source = Source
 
--- 	if Phone.Players[Source] then
--- 		Phone.PlayerIds[Phone.Players[Source].Number] = nil
--- 		Phone.Players[Source] = nil
--- 		Phone.Calls[Source] = nil
--- 	end
--- end)
+	if Phone.Players[Source] ~= nill then
+		Phone.PlayerIds[Phone.Players[Source].Number] = nil
+		Phone.Players[Source] = nil
+		Phone.Calls[Source] = nil
+	end
+end)
 
 AddEventHandler("core:switch", function(source)
 	local Source = source
@@ -517,7 +517,7 @@ AddEventHandler("Advertisement.Update", function()
 
 	-- print(tostring(Phone).." "..tostring(#Phone.Players).." "..tostring(#Phone.PlayerIds).." "..tostring(#Phone.Calls))
 
-	for key, peer in ipairs(Phone.Players) do
+	for key, peer in pairs(Phone.Players) do
 		if key and peer then
 			TriggerEvent("core:getuser", key, function(User)
 				if User then

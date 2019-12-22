@@ -91,7 +91,7 @@ function setupCharacter(source, data)
             ["@drivers_license"] = self["drivers_license"],
             ["@fishing_license"] = self["fishing_license"],
             ["@radio"] = self["radio"],
-            ["@ad_text"] = self["ad_text"]
+            ["@ad_text"] = self["ad_text"] or "NULL"
         })
     end
 
