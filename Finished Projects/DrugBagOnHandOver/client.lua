@@ -1,6 +1,0 @@
-object3 = CreateObject(GetHashKey("prop_meth_bag_01"), 0.01, 0, 0, 1, 1, 0)
-AttachEntityToEntity(object3, GetPlayerPed(-1), GetPedBoneIndex(GetPlayerPed(-1), 64096), 0.0, 0.0, 0.020, 90.0, -10.0, -130.0 ,true, true, false, true, 1, true)
-TaskPlayAnim(GetPlayerPed(-1), "mp_common", "givetake1_a", 4.0, -4, -1, 1, 0, false, false, false)
-Citizen.Wait(500)
-DeleteEntity(object3)
-ClearPedTasks(GetPlayerPed(-1))
