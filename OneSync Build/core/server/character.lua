@@ -14,7 +14,7 @@ jobs = {
     [12] = {id = 12, name = "Brewer", pay = 100},
     [13] = {id = 13, name = "Vigneron", pay = 100},
     [14] = {id = 14, name = "Livreur", pay = 100},
-    [15] = {id = 15, name = "Emergency", pay = {on = 250, off = 250}},
+    [15] = {id = 15, name = "Emergency", pay = {on = 1000, off = 250}},
     [16] = {id = 16, name = "Mechanic", pay = 750},
     [17] = {id = 17, name = "Taxi", pay = 250},
     [18] = {id = 18, name = "FBI", pay = 100},
@@ -61,6 +61,8 @@ function setupCharacter(source, data)
     self["coords"] = {x = data["position_x"], y = data["position_y"], z = data["position_z"]}
     self["lastcoords"] = {x = data["position_x"], y = data["position_y"], z = data["position_z"]}
 
+    self["ad_text"] = data["ad_text"]
+
     TriggerClientEvent("core:updateMoney", self["source"], self["wallet"], "wallet", "set", math.floor(tonumber(self["wallet"])))
     TriggerClientEvent("core:updateMoney", self["source"], self["dirty"], "dirty", "set", math.floor(tonumber(self["dirty"])))
     TriggerClientEvent("core:updateMoney", self["source"], self["bank"], "bank", "set", math.floor(tonumber(self["bank"])))
@@ -72,7 +74,7 @@ function setupCharacter(source, data)
 
     method["update"] = function()
         self["lastcoords"] = self["coords"]
-        exports["GHMattiMySQL"]:QueryAsync("UPDATE characters SET wallet=@wallet, bank=@bank, dirty_cash=@dirty_cash, timeplayed=@timeplayed, position_x=@position_x, position_y=@position_y, position_z=@position_z, weapon_license=@weapon_license, jail_time=@jail_time, dateofjail=@dateofjail, job_id=@job_id, drivers_license=@drivers_license, fishing_license=@fishing_license, radio=@radio WHERE (identifier=@identifier) AND (character_id=@character_id)", {
+        exports["GHMattiMySQL"]:QueryAsync("UPDATE characters SET wallet=@wallet, bank=@bank, dirty_cash=@dirty_cash, timeplayed=@timeplayed, position_x=@position_x, position_y=@position_y, position_z=@position_z, weapon_license=@weapon_license, jail_time=@jail_time, dateofjail=@dateofjail, job_id=@job_id, drivers_license=@drivers_license, fishing_license=@fishing_license, radio=@radio, ad_text=@ad_text WHERE (identifier=@identifier) AND (character_id=@character_id)", {
             ["@identifier"] = self["steam"],
             ["@character_id"] = self["characterID"],
             ["@wallet"] = self["wallet"],
@@ -89,6 +91,7 @@ function setupCharacter(source, data)
             ["@drivers_license"] = self["drivers_license"],
             ["@fishing_license"] = self["fishing_license"],
             ["@radio"] = self["radio"],
+            ["@ad_text"] = self["ad_text"] or "NULL"
         })
     end
 
@@ -183,6 +186,21 @@ function setupCharacter(source, data)
         end
     end
 
+    --[[ Ads ]]--
+    method["setAd"] = function(text)
+        local queryText
+
+        if text == nil or text == "" then
+            queryText = "NULL"
+        else
+            queryText = "'"..string.gsub(string.gsub(text, "\\", "/"), "\'", "\\'").."'"
+        end
+
+        self["ad_text"] = text
+
+        update("characters", "ad_text="..queryText, self["characterID"])
+    end
+
     --[[ Set and Get session variables ]]--
     method["setSessionVar"] = function(key, value)
         self["session"][key] = value
@@ -270,7 +288,7 @@ AddEventHandler("core:switchCharacter", function()
     end
     TriggerClientEvent("core:switchCharacter", source)
 end)
---[[
+
 RegisterServerEvent("core:deleteCharacter")
 AddEventHandler("core:deleteCharacter", function(character)
     local source = source
@@ -318,7 +336,7 @@ AddEventHandler("core:editCharacter", function(data)
     end
     TriggerClientEvent("core:editCharacter", source, _Characters[source])
 end)
---]]
+
 RegisterServerEvent("core:createCharacter")
 AddEventHandler("core:createCharacter", function(data)
     local source = source
@@ -344,6 +362,7 @@ AddEventHandler("core:createCharacter", function(data)
             ["drivers_license"] = Config["Character"]["Licenses"]["Driver"],
             ["fishing_license"] = Config["Character"]["Licenses"]["Fishing"],
             ["radio"] = "false",
+            ["ad_text"] = "NULL"
         }
     }, function(character_id)
         exports["GHMattiMySQL"]:QueryAsync("INSERT INTO garages (`character_id`,`garage_id`,`cost`,`slots`) VALUES (@character_id,@garage_id,@cost,@slots)", {
@@ -352,7 +371,18 @@ AddEventHandler("core:createCharacter", function(data)
             ["@cost"] = 0,
             ["@slots"] = 1,
         })
-        table.insert(_Characters[source], { character_id = character_id, identifier = identifier, first_name = data["forename"], last_name = data["surname"], dob = data["dob"], gender = data["gender"], wallet = Config["Character"]["Wallet"], bank = Config["Character"]["Bank"], dirty_cash = Config["Character"]["Dirty"], timeplayed = Config["Character"]["Timeplayed"], radio = true })
+        table.insert(_Characters[source], { character_id = character_id,
+            identifier = identifier,
+            first_name = data["forename"],
+            last_name = data["surname"],
+            dob = data["dob"],
+            gender = data["gender"],
+            wallet = Config["Character"]["Wallet"],
+            bank = Config["Character"]["Bank"],
+            dirty_cash = Config["Character"]["Dirty"],
+            timeplayed = Config["Character"]["Timeplayed"],
+            radio = true,
+            ad_text = "NULL" })
         TriggerClientEvent("core:createCharacter", source, _Characters[source])
     end, true)
 end)
