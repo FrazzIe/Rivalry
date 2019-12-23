@@ -525,7 +525,7 @@ AddEventHandler("Advertisement.Update", function()
 					local text = User.get("ad_text")
 					local number = peer.Number
 
-					if text ~= nil and text ~= "" then
+					if text ~= nil and text ~= "" and text ~= "NULL" then
 						table.insert(Data, { name =  name, text = text, number = number })
 					end
 				end
