@@ -382,7 +382,7 @@ function activateMissionSystem()
     RegisterServerEvent('paramedic:doa')
     AddEventHandler('paramedic:doa', function(target)
         local source = tonumber(source)
-        if ems[source] then
+        if ems[source] or exports["policejob"]:GetCop(source) then
             ms_cancelMissionclient(target)
             TriggerEvent('core:getuser', target, function(t)
                 t.wallet(0)
