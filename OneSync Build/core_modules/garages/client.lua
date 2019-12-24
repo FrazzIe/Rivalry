@@ -371,6 +371,7 @@ emplacement_garage = {
     [12] = {name="Personal Garage", colour=3, sprite=357, x=-84.019691467285,y=-820.99694824219,z=36.028030395508,id=12,gname="Maze Tower [12]",cost=5000,heading=-365.0,maxslots=5}, -- Personal
     [13] = {name="Personal Garage", colour=3, sprite=357, x=1958.3830566406,y=3767.013671875,z=32.208053619385,id=13,gname="Sandy Shores [13]",cost=3000,heading=29.273107528687,maxslots=3}, -- Personal
     [14] = {name="Public Garage", colour=1, sprite=357, x=379.36770629883,y=-1678.8072509766,z=27.309490203857,id=14,gname="Rancho [14]",cost=3000,heading=227.73773193359,maxslots=3}, -- Public
+    [15] = {name="Personal Garage", colour=3, sprite=357, x=324.15,y=-684.08,z=29.31,id=15,gname="Integrity [15]",cost=3000,heading=250.24,maxslots=2}, -- Personal
 }
 
 --[[emplacement_insurance = {
