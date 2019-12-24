@@ -332,8 +332,8 @@ RegisterNUICallback("sendAdvertisement", function(data, cb)
 	Citizen.Trace("addAdvertisement callback: " .. json.encode(data))
 
 	advertisementCallback = cb
-
-	TriggerServerEvent("Advertisement.Add", data.title, data.message)
+	
+	TriggerServerEvent("Advertisement.Add", data.message)
 end)
 
 RegisterNUICallback("addMessage", function(data, cb)
