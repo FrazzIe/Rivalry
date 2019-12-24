@@ -132,6 +132,7 @@ Tools = {
 	vector3(-3152.12890625,1109.6646728516,20.86190032959),
 	vector3(-11.827798843384, 6500.1225585938, 31.498636245728),
 	vector3(-502.7, 277.33, 83.29),
+	vector3(1695.18, 4785.18, 41.98),
 }
 
 ToolsBlips = {
@@ -260,6 +261,7 @@ Citizen.CreateThread(function()
 	CreateBlip("You Tool", 402, 21, Tools[2].x, Tools[2].y, Tools[2].z)
 	CreateBlip("Nelsons General", 402, 21, Tools[3].x, Tools[3].y, Tools[3].z)
 	CreateBlip("Vinewood Strip Mall", 402, 21, Tools[5].x, Tools[5].y, Tools[5].z)
+	CreateBlip("Grapeseed Supermarket", 402, 21, Tools[6].x, Tools[6].y, Tools[6].z)
 	while true do
 		Citizen.Wait(0)
 		local PlayerPed = PlayerPedId()
