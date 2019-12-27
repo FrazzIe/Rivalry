@@ -4,8 +4,7 @@ Weather.Current, Weather.Types = "CLEAR", {
     "SUNNY",
     "EXTRASUNNY",  
     "OVERCAST", 
-    "CLOUDS",
-    "FOGGY",	
+    "CLOUDS",	
 }
 
 --[[Weather.Current, Weather.Types = "SUNNY", {
