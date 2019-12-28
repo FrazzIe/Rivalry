@@ -369,7 +369,9 @@ function spawncar(model, type, livery, extras)
             for i = 1, 25 do 
 				if DoesExtraExist(existingVeh, i) then
 					local disableExtra = true
-					if extras ~= nil then
+					if helicopter then
+						disableExtra = false
+					elseif extras ~= nil then
 						for k, v in ipairs(extras) do
 							if v == i then
 								disableExtra = false
