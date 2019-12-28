@@ -199,7 +199,7 @@ Citizen.CreateThread(function()
                         for k,v in pairs(cars) do
                             if ranks[user_paramedic.rank][v.rank] or user_paramedic.rank == v.rank then
                                 if WarMenu.Button(v.name) then
-                                    spawncar(v.model, v.type)
+                                    spawncar(v.model, v.type, v.livery, v.extras)
                                 end
                             end
                         end
@@ -327,7 +327,7 @@ Citizen.CreateThread(function()
     end
 end)
 
-function spawncar(model, type)
+function spawncar(model, type, livery, extras)
     Citizen.CreateThread(function()
         local plate = "LSFD"..math.random(1,999)
         local helicopter = false
@@ -357,14 +357,27 @@ function spawncar(model, type)
             elseif helicopter then
                 SetVehicleLivery(existingVeh, 1)
             else
-                SetVehicleWindowTint(existingVeh, 0)
+				SetVehicleWindowTint(existingVeh, 0)
+				
+				if livery ~= nil then
+					SetVehicleLivery(existingVeh, livery)
+				end
             end
 
             SetVehicleDirtLevel(existingVeh, 0)
 
             for i = 1, 25 do 
-                if DoesExtraExist(existingVeh, i) then
-                    SetVehicleExtra(existingVeh, i, false)
+				if DoesExtraExist(existingVeh, i) then
+					local disableExtra = true
+					if extras ~= nil then
+						for k, v in ipairs(extras) do
+							if v == i then
+								disableExtra = false
+							end
+						end
+					end
+
+                    SetVehicleExtra(existingVeh, i, disableExtra)
                 end 
             end
 
