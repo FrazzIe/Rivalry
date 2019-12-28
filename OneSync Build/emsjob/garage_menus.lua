@@ -21,6 +21,7 @@ local stationGarage = {
     {name = "Paramedic Garage", sprite = 50, colour = 2, x=303.086, y=-1439.04, z=29.8019},
     {name = "Paramedic Garage", sprite = 50, colour = 2, x=342.47305297852,y=-557.20935058594,z=28.743783950806},
     {name = "Paramedic Garage", sprite = 50, colour = 2, x=-475.254, y=-352.322, z=34.3147},
+    {name = "Paramedic Garage", sprite = 50, colour = 2, x=-1465.16, y=-1003.4, z=6.26},
 }
 
 local stationHeliGarage = {
