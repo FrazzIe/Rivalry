@@ -438,25 +438,36 @@ function ProcessDamage(ped)
 end
 
 function CheckDamage(ped, bone, weapon, weaponName, healthLossed)
-    if weapon == nil then return end
+	if weapon == nil then return end
 
-    if parts[bone] ~= nil then
-        if not BodyParts[parts[bone]].isDamaged then
+	if parts[bone] ~= nil then
+		local isDamaged = BodyParts[parts[bone]].isDamaged
+		if weapon == WeaponClasses['SMALL_CALIBER'] or weapon == WeaponClasses['MEDIUM_CALIBER'] or weapon == WeaponClasses['CUTTING'] or weapon == WeaponClasses['WILDLIFE'] or weapon == WeaponClasses['LIGHT_IMPACT'] then
+			if isBleeding < 4 then
+				isBleeding = tonumber(isBleeding) + 1
+			end
+		elseif weapon == WeaponClasses['HIGH_CALIBER'] or weapon == WeaponClasses['HEAVY_IMPACT'] or weapon == WeaponClasses['SHOTGUN'] or weapon == WeaponClasses['EXPLOSIVE'] then
+			if isBleeding < 3 then
+				isBleeding = tonumber(isBleeding) + 2
+			elseif isBleeding < 4 then
+				isBleeding = tonumber(isBleeding) + 1
+			end
+		elseif weapon == WeaponClasses['OTHER'] then
+			if healthLossed < -25 then
+				if isBleeding < 2 then
+					isBleeding = tonumber(isBleeding) + 1
+				end
+			elseif isDamaged and BodyParts[parts[bone]].severity > 2 then
+				if isBleeding < 2 then
+					isBleeding = tonumber(isBleeding) + 1
+				end
+			end
+		end
+		
+        if not isDamaged then
             BodyParts[parts[bone]].isDamaged = true
             BodyParts[parts[bone]].severity = 1
             exports['mythic_notify']:DoHudText('inform', 'Your ' .. BodyParts[parts[bone]].label .. ' feels ' .. WoundStates[BodyParts[parts[bone]].severity])
-
-            if weapon == WeaponClasses['SMALL_CALIBER'] or weapon == WeaponClasses['MEDIUM_CALIBER'] or weapon == WeaponClasses['CUTTING'] or weapon == WeaponClasses['WILDLIFE'] or weapon == WeaponClasses['OTHER'] or weapon == WeaponClasses['LIGHT_IMPACT'] then
-                if isBleeding < 4 then
-                    isBleeding = tonumber(isBleeding) + 1
-                end
-            elseif weapon == WeaponClasses['HIGH_CALIBER'] or weapon == WeaponClasses['HEAVY_IMPACT'] or weapon == WeaponClasses['SHOTGUN'] or weapon == WeaponClasses['EXPLOSIVE'] then
-                if isBleeding < 3 then
-                    isBleeding = tonumber(isBleeding) + 2
-                elseif isBleeding < 4 then
-                    isBleeding = tonumber(isBleeding) + 1
-                end
-            end
 
             table.insert(injured, {
                 part = parts[bone],
@@ -471,18 +482,6 @@ function CheckDamage(ped, bone, weapon, weaponName, healthLossed)
 
             TriggerServerEvent("Health.Injury.Add", parts[bone], Utilities:GetWeaponLabel(weaponName), healthLossed)
         else
-            if weapon == WeaponClasses['SMALL_CALIBER'] or weapon == WeaponClasses['MEDIUM_CALIBER'] or weapon == WeaponClasses['CUTTING'] or weapon == WeaponClasses['WILDLIFE'] or weapon == WeaponClasses['OTHER'] or weapon == WeaponClasses['LIGHT_IMPACT'] then
-                if isBleeding < 4 then
-                    isBleeding = tonumber(isBleeding) + 1
-                end
-            elseif weapon == WeaponClasses['HIGH_CALIBER'] or weapon == WeaponClasses['HEAVY_IMPACT'] or weapon == WeaponClasses['SHOTGUN'] or weapon == WeaponClasses['EXPLOSIVE'] then
-                if isBleeding < 3 then
-                    isBleeding = tonumber(isBleeding) + 2
-                elseif isBleeding < 4 then
-                    isBleeding = tonumber(isBleeding) + 1
-                end
-            end
-
             if BodyParts[parts[bone]].severity < 4 then
                 BodyParts[parts[bone]].severity = BodyParts[parts[bone]].severity + 1
                 TriggerServerEvent('mythic_hospital:server:SyncInjuries', {
