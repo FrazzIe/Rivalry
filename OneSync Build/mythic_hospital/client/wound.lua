@@ -263,13 +263,18 @@ local weapons = {
 local injured = {}
 
 function IsInjuryCausingLimp()
+	local limps = 0
     for k, v in pairs(BodyParts) do
-        if v.causeLimp and v.isDamaged then
-            return true
+		if v.causeLimp and v.isDamaged then
+			if v.severity > 1 then
+				return true
+			else
+				limps = limps + 1
+			end
         end
     end
 
-    return false
+    return limps > 1
 end
 
 function IsInjuredOrBleeding()
