@@ -2,6 +2,7 @@ local isLoggedIn = false
 local isBleeding = 0
 local advanceBleedTimer = 0
 local blackoutTimer = 0
+local healTimer = 0
 
 local onPainKiller = 0
 local wasOnPainKillers = false
@@ -444,6 +445,8 @@ end
 
 function CheckDamage(ped, bone, weapon, weaponName, healthLossed)
 	if weapon == nil then return end
+	
+	healTimer = 0
 
 	if parts[bone] ~= nil then
 		local isDamaged = BodyParts[parts[bone]].isDamaged
@@ -597,6 +600,32 @@ Citizen.CreateThread(function()
 				end
 		
 				exports['mythic_notify']:DoCustomHudText('inform', str, 15000)
+
+				healTimer = healTimer + math.random(2)
+
+				if healTimer > 15 then
+					healTimer = 0
+					local healed = true
+					for k, v in pairs(injured) do
+						if v.severity > 0 and v.severity < 3 then
+							v.severity = v.severity - 1
+							if v.severity ~= 0 then
+								healed = false
+							end
+						end
+					end
+					if healed then
+						exports['mythic_notify']:DoCustomHudText('inform', 'Your body feels well rested', 5000)
+						injured = {}
+						TriggerServerEvent("mythic_hospital:server:SyncInjuries", {
+							limbs = BodyParts,
+							isBleeding = tonumber(isBleeding)
+						})
+						TriggerServerEvent("Health.Injury.Reset")
+					else
+						exports['mythic_notify']:DoCustomHudText('inform', 'Your body feels a little better', 5000)
+					end
+				end
 			end
 
 			if isBleeding > 0 then
