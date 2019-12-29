@@ -66,7 +66,7 @@ end)
 RegisterServerEvent("paramedic:acceptdoa")
 AddEventHandler("paramedic:acceptdoa", function(sender, choice)
 	local source = source
-	if ems[sender] or exports["policejob"]:GetCop(source) then
+	if ems[sender] or exports["policejob"]:GetCop(sender) then
 		if choice then
 			Notify("You are now dead!", 6000, source)
 			Notify(GetIdentity(source).." has accepted their fate...", 6000, sender)
