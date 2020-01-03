@@ -70,9 +70,9 @@ function Phone:DoesMessageExistFromNumber(Source, Number)
 end
 
 AddEventHandler("playerDropped", function(reason)
-	local Source = Source
+	local Source = source
 
-	if Phone.Players[Source] ~= nill then
+	if Phone.Players[Source] ~= nil then
 		Phone.PlayerIds[Phone.Players[Source].Number] = nil
 		Phone.Players[Source] = nil
 		Phone.Calls[Source] = nil
