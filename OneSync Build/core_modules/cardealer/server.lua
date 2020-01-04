@@ -801,7 +801,7 @@ AddEventHandler("CarDealer.CheckHistory", function(PersonsID)
                     for k, v in pairs(result) do
                         local financed = ""
                         local repoed = ""
-                        if v.lastpayment == 0 and v.nextpayment == 0 then
+                        if tonumber(v.lastpayment) <= 0 and tonumber(v.nextpayment) <= 0 then
                             financed = "False"
                         else
                             financed = "True"
