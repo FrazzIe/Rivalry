@@ -14,7 +14,7 @@ end)
 
 TriggerEvent("core:addGroupCommand", "cardealeradd", "command", function(source, args, rawCommand, data, power, group)
 	local source = source
-	if(#args < 2) then
+	if(#args < 1) then
 		TriggerClientEvent('chatMessage', source, 'SYSTEM', {255, 0, 0}, "Usage : /cardealeradd [ID]")	
 	else
 		if GetPlayerName(tonumber(args[1])) ~= nil then
