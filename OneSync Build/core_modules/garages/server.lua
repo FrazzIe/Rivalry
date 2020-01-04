@@ -376,16 +376,14 @@ AddEventHandler("garage:initialise",function(source, identifier, character_id)
                     vehicles[i]["extra"..j] = (vehicles[i]["extra"..j] == 1 or vehicles[i]["extra"..j] == true) and true or false
                 end
                 
-                if tonumber(vehicles[i].nextpayment) < os.time() and vehicles[i].payedoff ~= 0 then
-                    if vehicles[i].payedoff < 0 or vehicles[i].payedoff == 0 then
-                        if vehicles[i].payedoff < 0 then
-                            exports["GHMattiMySQL"]:QueryAsync("UPDATE vehicles SET lastpayment = @lastpayment AND nextpayment = @nextpayment AND payedoff = @payedoff WHERE plate = @plate", {
-                                ["lastpayment"] = "0",
-                                ["nextpayment"] = "0",
-                                ["payedoff"] = 0,
-                                ["@plate"] = vehicles[i].plate,
-                            })
-                        end
+                if tonumber(vehicles[i].nextpayment) < os.time() and tonumber(vehicles[i].payedoff) ~= 0 then
+                    if tonumber(vehicles[i].payedoff) <= 0 then
+						exports["GHMattiMySQL"]:QueryAsync("UPDATE vehicles SET lastpayment = @lastpayment AND nextpayment = @nextpayment AND payedoff = @payedoff WHERE plate = @plate", {
+							["lastpayment"] = "0",
+							["nextpayment"] = "0",
+							["payedoff"] = 0,
+							["@plate"] = vehicles[i].plate,
+						})
                     else
                         financedVehicles[#financedVehicles + 1] = vehicles[i]
                     end
