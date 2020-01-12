@@ -21,6 +21,7 @@ local CurrentBed = nil
 local IsInTrunk = false
 local ForcedIntoTrunk = false
 local IsBeingCarried = false
+local CarryingTarget = nil
 local MaskOn = false
 
 recycleAmount = 0
@@ -460,20 +461,28 @@ AddEventHandler("core:ready", function()
     end, false, {Help = "Car Dealers: Check Client History", Params = {{name = "id", help = "number"}}})
 
     Chat.Command("carry", function(source, args, rawCommand)
-        if not IsBeingCarried and not ForcedIntoTrunk and not IsInTrunk and not IsPedSittingInAnyVehicle(PlayerPedId()) then
-            local t, distance = GetClosestPlayer()
-            if(distance ~= -1 and distance < 3) then
-                local Player = PlayerPedId()
-                local TargetPlayer = GetPlayerServerId(t)
-                RequestAnimDict('missfinale_c2mcs_1')
-                while not RequestAnimDict('missfinale_c2mcs_1') do
-                    Wait(0)
-                end
-                TaskPlayAnim(Player, 'missfinale_c2mcs_1', 'fin_c2_mcs_1_camman', 1.0, -1, -1, 50, 0, 0, 0, 0)
-                TriggerServerEvent("Carry.Player", TargetPlayer)
-            else
-                Notify("No player is nearby!", 3100)
-            end
+		local Player = PlayerPedId()
+		if not IsBeingCarried and not ForcedIntoTrunk and not IsInTrunk and not IsPedSittingInAnyVehicle(Player) then
+			if CarryingTarget ~= nil then
+				ClearPedTasksImmediately(Player)
+				TriggerServerEvent("Carry.Player", CarryingTarget)
+			else
+				local t, distance = GetClosestPlayer()
+				if(distance ~= -1 and distance < 3) then
+					CarryingTarget = GetPlayerServerId(t)
+					RequestAnimDict('missfinale_c2mcs_1')
+					while not RequestAnimDict('missfinale_c2mcs_1') do
+						Wait(0)
+					end
+					TaskPlayAnim(Player, 'missfinale_c2mcs_1', 'fin_c2_mcs_1_camman', 1.0, -1, -1, 50, 0, 0, 0, 0)
+				else
+					Notify("No player is nearby!", 3100)
+				end
+			end
+			
+			if CarryingTarget ~= nil then
+				TriggerServerEvent("Carry.Player", CarryingTarget)
+			end
         else
             Notify("You can't carry someone while being carried!", 3100)
         end
