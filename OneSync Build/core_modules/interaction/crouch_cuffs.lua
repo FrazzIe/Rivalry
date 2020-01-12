@@ -60,7 +60,8 @@ end
 function setStance(_stance)
 	if _stance == "standing" then
 		ClearPedTasks(PlayerPedId())
-		ResetPedMovementClipset(PlayerPedId(), 0)
+		--ResetPedMovementClipset(PlayerPedId(), 0)
+		TriggerEvent("ResetWalkStyle")
 		if stance == "prone" then
 			TaskPlayAnim(PlayerPedId(), "get_up@directional@movement@from_knees@action", "getup_l_0", 8.0, -8.0, -1, 0, 0, false, false, false)
 		end
