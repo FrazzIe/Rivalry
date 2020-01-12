@@ -540,7 +540,8 @@ AddEventHandler('mythic_hospital:client:ResetLimbs', function()
         v.severity = 0
     end
 
-    injured = {}
+	injured = {}
+	TriggerEvent("ResetWalkStyle")
 end)
 
 RegisterNetEvent('mythic_hospital:client:FieldTreatBleed')
