@@ -91,6 +91,9 @@ end
 
 RegisterNetEvent('paramedic:acceptMission')
 AddEventHandler('paramedic:acceptMission',function(mission)
+	if currentMissionBlip ~= nil then
+		RemoveBlip(currentMissionBlip)
+	end
     currentMissions = mission
     SetNewWaypoint(mission.pos[1], mission.pos[2])
     currentMissionBlip = AddBlipForCoord(mission.pos[1], mission.pos[2], mission.pos[3])
