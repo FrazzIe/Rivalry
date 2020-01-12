@@ -605,7 +605,7 @@ Citizen.CreateThread(function()
 
 				healTimer = healTimer + math.random(2)
 
-				if healTimer > 15 then
+				if healTimer > 30 then
 					healTimer = 0
 					local healed = true
 					for k, v in pairs(injured) do
