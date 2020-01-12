@@ -360,7 +360,8 @@ function ProcessRunStuff(ped)
         if onPainKiller > 0 then
             onPainKiller = onPainKiller - 1
             if onPainKiller == 0 then
-                ResetPedMovementClipset(PlayerPedId())
+				--ResetPedMovementClipset(PlayerPedId())
+				TriggerEvent("ResetWalkStyle")
                 SetPedMoveRateOverride(ped, 1.0)
                 SetPlayerSprint(PlayerId(), true)
             end
@@ -622,6 +623,8 @@ Citizen.CreateThread(function()
 							isBleeding = tonumber(isBleeding)
 						})
 						TriggerServerEvent("Health.Injury.Reset")
+						--ResetPedMovementClipset(PlayerPedId(), 1.0)
+						TriggerEvent("ResetWalkStyle")
 					else
 						exports['mythic_notify']:DoCustomHudText('inform', 'Your body feels a little better', 5000)
 					end
