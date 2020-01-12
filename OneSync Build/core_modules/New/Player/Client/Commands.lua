@@ -469,7 +469,6 @@ AddEventHandler("core:ready", function()
 		if not IsBeingCarried and not ForcedIntoTrunk and not IsInTrunk and not IsPedSittingInAnyVehicle(Player) then
 			if CarryingTarget ~= nil then
 				ClearPedTasksImmediately(Player)
-				TriggerServerEvent("Carry.Player", CarryingTarget)
 			else
 				local t, distance = GetClosestPlayer()
 				if(distance ~= -1 and distance < 3) then
@@ -486,6 +485,7 @@ AddEventHandler("core:ready", function()
 			
 			if CarryingTarget ~= nil then
 				TriggerServerEvent("Carry.Player", CarryingTarget)
+				CarryingTarget = nil
 			end
         else
             Notify("You can't carry someone while being carried!", 3100)
