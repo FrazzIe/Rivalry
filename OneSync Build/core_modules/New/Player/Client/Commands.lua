@@ -23,6 +23,7 @@ local ForcedIntoTrunk = false
 local IsBeingCarried = false
 local CarryingTarget = nil
 local MaskOn = false
+local CurrentWalkStyle = nil
 
 recycleAmount = 0
 local Animations = {
@@ -130,10 +131,13 @@ AddEventHandler("core:ready", function()
     Chat.Command({"ws", "walkstyle"}, function(source, args, fullCommand)
         if args[1] then
             if args[1] == "reset" then 
-                ResetPedMovementClipset(PlayerPedId(), 1.0)
+				CurrentWalkStyle = nil
+				ResetPedMovementClipset(PlayerPedId(), 1.0)
             else
                 local WalkStyle = WalkStyles.Find(args[1]:lower())
-                if WalkStyle then
+				if WalkStyle then
+					CurrentWalkStyle = WalkStyle
+					ResetPedMovementClipset(PlayerPedId(), 1.0)
                     SetPedMovementClipset(PlayerPedId(), WalkStyle.Clipset, 1.0)
                 end
             end
@@ -864,4 +868,12 @@ AddEventHandler("Reset.Carry.And.Kidnap", function()
     IsBeingCarried = false
     ForcedIntoTrunk = false
     IsInTrunk = false
+end)
+
+AddEventHandler("ResetWalkStyle", function()
+	ResetPedMovementClipset(PlayerPedId(), 1.0)
+
+	if CurrentWalkStyle then 
+		SetPedMovementClipset(PlayerPedId(), CurrentWalkStyle.Clipset, 1.0)
+	end
 end)
