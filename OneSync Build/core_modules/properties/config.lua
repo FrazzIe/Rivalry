@@ -1940,7 +1940,7 @@ properties = {
 					char_id = 0, --Default (don't touch)
 					id = 0, --Default (don't touch)
 				},
-              			coordinates = vector3(85.529296875,-1959.4388427734,21.121671676636), -- The location of the property
+              			coordinates = vector3(75.601333618164,-1967.0650634766,21.117897033691), -- The location of the property
 				rent = 500, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {
@@ -1951,7 +1951,7 @@ properties = {
 					max = {
 						cash = 10000, --Max cash the property can hold
 						dirty = 50000, --Max marked bills the property can hold
-						weapons = 4, --Max weapons the property can hold
+						weapons = 6, --Max weapons the property can hold
 					},
 				},
 				robbing = {
