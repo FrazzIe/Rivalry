@@ -468,7 +468,7 @@ AddEventHandler("core:ready", function()
 		local Player = PlayerPedId()
 		if not IsBeingCarried and not ForcedIntoTrunk and not IsInTrunk and not IsPedSittingInAnyVehicle(Player) then
 			if CarryingTarget ~= nil then
-				ClearPedTasksImmediately(Player)
+				ClearPedTasks(Player)
 			else
 				local t, distance = GetClosestPlayer()
 				if(distance ~= -1 and distance < 3) then
