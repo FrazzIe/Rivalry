@@ -75,7 +75,8 @@ AddEventHandler("Recieved.Medical.Attention", function()
     HasRecievedMedicalAttention = true
     StressLevel = 0
     DecorSetFloat(PlayerPedId(), "_Stress_Level", StressLevel)
-    ResetPedMovementClipset(PlayerPedId(), 1.0)
+	--ResetPedMovementClipset(PlayerPedId(), 1.0)
+	TriggerEvent("ResetWalkStyle")
 end)
 
 RegisterNetEvent("Cocaine.Speed")
