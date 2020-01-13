@@ -62,7 +62,7 @@ Store = {
 	[94] = 25,
 	[95] = 25,
 	[96] = 25,
--- Medical Shop Begin ( EMS Only ) End
+-- Medical Shop ( EMS Only ) End
 }
 
 RegisterServerEvent("item:buy")
