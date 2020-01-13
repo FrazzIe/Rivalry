@@ -67,14 +67,14 @@ ToolMarket = {
 
 EMSMarket = {
     {Category = "Drugs", Items = {
-		{Name = "Ibuprofen", Id = 94, Cost = 0, Max = 10},
-		{Name = "Hydrocodone", Id = 95, Cost = 0, Max = 10},
-		{Name = "Morphine", Id = 96, Cost = 0, Max = 10},
+		{Name = "Ibuprofen", Id = 94, Cost = 25, Max = 10},
+		{Name = "Hydrocodone", Id = 95, Cost = 25, Max = 10},
+		{Name = "Morphine", Id = 96, Cost = 25, Max = 10},
     }},
     {Category = "Medical", Items = {
-		{Name = "Medkit", Id = 91, Cost = 0, Max = 10},
-		{Name = "First Aid Kit", Id = 92, Cost = 0, Max = 10},
-		{Name = "Gauze", Id = 93, Cost = 0, Max = 10},
+		{Name = "Medkit", Id = 91, Cost = 250, Max = 10},
+		{Name = "First Aid Kit", Id = 92, Cost = 150, Max = 10},
+		{Name = "Gauze", Id = 93, Cost = 50, Max = 10},
     }},
 }
 
