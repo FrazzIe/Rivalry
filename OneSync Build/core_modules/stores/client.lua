@@ -47,9 +47,9 @@ ToolMarket = {
     {Category = "Tools", Items = {
 		{Name = "Phone", Id = 200, Cost = 250, Max = 1},
 		{Name = "Radio", Id = 300, Cost = 250, Max = 1},
-        {Name = "Repair kit", Id = 37, Cost = 45, Max = 10},
+        {Name = "Repair kit", Id = 37, Cost = 75, Max = 10},
         {Name = "Fishing Rod", Id = 76, Cost = 150, Max = 10},
-        {Name = "Binoculars", Id = 78, Cost = 50, Max = 10},
+        {Name = "Binoculars", Id = 78, Cost = 100, Max = 10},
         {Name = "Handcuffs", Id=44, Cost = 30, Max = 10},
         {Name = "Bleach", Id = 53, Cost = 50, Max = 10},
         {Name = "Cleaning Rag", Id = 80, Cost = 5, Max = 10},
