@@ -69,7 +69,7 @@ local Data = {
         [1] = "What's cracking cuh. You didn't have the cops follow you now did you?",
         [2] = "Good... Well I have some inventory, but it's a bit limited. We don't get the big toys.",
         [3] = "As well we have a lot of customers, so our stock runs out often.",
-        [4] = "Anyways.. Check out the goods. Everytihng is in the trunk.",
+        [4] = "Anyways.. Check out the goods. Everything is in the trunk.",
     },
     DialogueCompleted = false,
 	OpenMenu = false,
