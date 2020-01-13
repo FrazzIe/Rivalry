@@ -153,13 +153,13 @@ Blackmarket_Weapons = {
 	}},
 	{Category = "Submachine guns", Items = {
 		{Weapon = "WEAPON_MINISMG", Name = "Mini SMG", Cost = 1000, AmmoType = "9mm", Gang = "all", SecondaryGang = "none"},
-		{Weapon = "WEAPON_MACHINEPISTOL", Name = "Machine Pistol", Cost = 1050, AmmoType = "9mm", Gang = "ballers", SecondaryGang = "none"},
-		{Weapon = "WEAPON_COMBATPDW", Name = "Combat PDW", Cost = 2000, AmmoType = "5.56mm", Gang = "russian", SecondaryGang = "none"},
+		{Weapon = "WEAPON_MACHINEPISTOL", Name = "Machine Pistol", Cost = 1050, AmmoType = "9mm", Gang = "ballers", SecondaryGang = "russian"},
+		{Weapon = "WEAPON_COMBATPDW", Name = "Combat PDW", Cost = 2000, AmmoType = "5.56mm", Gang = "italian", SecondaryGang = "none"},
 		{Weapon = "WEAPON_MICROSMG", Name = "Micro SMG", Cost = 1750, AmmoType = ".45mm", Gang = "all", SecondaryGang = "none"},
 		{Weapon = "WEAPON_SMG", Name = "MP5", Cost = 2150, AmmoType = "5.56mm", Gang = "italian", SecondaryGang = "none"},
-		{Weapon = "WEAPON_ASSAULTSMG", Name = "Assault SMG", Cost = 2150, AmmoType = "5.56mm", Gang = "russian", SecondaryGang = "none"},
+		{Weapon = "WEAPON_ASSAULTSMG", Name = "Assault SMG", Cost = 2150, AmmoType = "5.56mm", Gang = "none", SecondaryGang = "none"},
 		{Weapon = "WEAPON_GUSENBERG", Name = "Gusenberg Sweeper", Cost = 2500, AmmoType = ".45mm", Gang = "italian", SecondaryGang = "none"},
-		{Weapon = "WEAPON_MG", Name = "MG", Cost = 5000, AmmoType = "7.62mm", Gang = "russian", SecondaryGang = "none"},
+		{Weapon = "WEAPON_MG", Name = "MG", Cost = 5000, AmmoType = "7.62mm", Gang = "italian", SecondaryGang = "none"},
 	}},
 	{Category = "Assault Rifles", Items = {
 		{Weapon = "WEAPON_COMPACTRIFLE", Name = "Compact Rifle", Cost = 2250, AmmoType = "7.62mm", Gang = "all", SecondaryGang = "none"},
