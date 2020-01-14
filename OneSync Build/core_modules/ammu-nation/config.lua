@@ -29,9 +29,9 @@ ammu_nation = {
 	    {name="Ammunation", colour=1, sprite=110, x= 810.15, y= -2156.88, z= 29.61},
 	},
 	blackmarket = {
-		{name="Black Market", colour=4, id=110, x = 1009.8732299805, y = -2869.1584472656, z = 11.260106086731, Gang = "ballers"}, -- Ballers
-		{name="Black Market", colour=4, id=110, x = 1248.4548339844, y = -3034.0766601563, z = 9.3649196624756, Gang = "italian"}, -- Italians
-		{name="Black Market", colour=4, id=110, x = 470.47378540039, y = -2912.8369140625, z = 6.7312407493591, Gang = "russian"}, -- Russians
+		{name="Black Market", colour=4, id=110, x = 144.82066345215, y = -2203.7106933594, z = 4.6880202293396, Gang = "ballers"}, -- Ballers
+		{name="Black Market", colour=4, id=110, x = 1098.2238769531, y = -1984.7767333984, z = 31.014657974243, Gang = "italian"}, -- Italians
+		{name="Black Market", colour=4, id=110, x = -540.51623535156, y = -1637.9060058594, z = 19.892721176147, Gang = "russian"}, -- Russians
 	},
 	license = {
 		{name="Gun License", colour=5, id=434, x=437.24404907227, y=-994.11242675781, z=30.68959236145},
