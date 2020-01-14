@@ -142,14 +142,14 @@ Weapons = {
 
 Blackmarket_Weapons = {
 	{Category = "Pistols", Items = {
-		{Weapon = "WEAPON_PISTOL", Name = "Pistol", Cost = 550, AmmoType = "9mm", Gang = "all", SecondaryGang = "none"},
-		{Weapon = "WEAPON_COMBATPISTOL", Name = "Combat Pistol", Cost = 625, AmmoType = ".45mm", Gang = "all", SecondaryGang = "none"},
-		{Weapon = "WEAPON_PISTOL50", Name = "Pistol .50", Cost = 900, AmmoType = ".50mm", Gang = "all", SecondaryGang = "none"},
-		{Weapon = "WEAPON_HEAVYPISTOL", Name = "Heavy Pistol", Cost = 700, AmmoType = ".45mm", Gang = "all", SecondaryGang = "none"},
-		{Weapon = "WEAPON_SNSPISTOL", Name = "SNS Pistol", Cost = 700, AmmoType = ".45mm", Gang = "all", SecondaryGang = "none"},
-		{Weapon = "WEAPON_APPISTOL", Name = "AP Pistol", Cost = 1250, AmmoType = "9mm", Gang = "russian", SecondaryGang = "none"},
-		{Weapon = "WEAPON_VINTAGEPISTOL", Name = "Vintage Pistol", Cost = 700, AmmoType = "9mm", Gang = "all", SecondaryGang = "none"},
-		{Weapon = "WEAPON_REVOLVER", Name = "Revolver", Cost = 800, AmmoType = ".44mm", Gang = "all", SecondaryGang = "none"},
+		{Weapon = "WEAPON_PISTOL", Name = "Pistol", Cost = 500, AmmoType = "9mm", Gang = "all", SecondaryGang = "none"},
+		{Weapon = "WEAPON_COMBATPISTOL", Name = "Combat Pistol", Cost = 750, AmmoType = ".45mm", Gang = "all", SecondaryGang = "none"},
+		{Weapon = "WEAPON_PISTOL50", Name = "Pistol .50", Cost = 1000, AmmoType = ".50mm", Gang = "all", SecondaryGang = "none"},
+		{Weapon = "WEAPON_HEAVYPISTOL", Name = "Heavy Pistol", Cost = 1000, AmmoType = ".45mm", Gang = "all", SecondaryGang = "none"},
+		{Weapon = "WEAPON_SNSPISTOL", Name = "SNS Pistol", Cost = 750, AmmoType = ".45mm", Gang = "all", SecondaryGang = "none"},
+		{Weapon = "WEAPON_APPISTOL", Name = "AP Pistol", Cost = 1500, AmmoType = "9mm", Gang = "russian", SecondaryGang = "italian"},
+		{Weapon = "WEAPON_VINTAGEPISTOL", Name = "Vintage Pistol", Cost = 750, AmmoType = "9mm", Gang = "all", SecondaryGang = "none"},
+		{Weapon = "WEAPON_REVOLVER", Name = "Revolver", Cost = 1000, AmmoType = ".44mm", Gang = "all", SecondaryGang = "none"},
 	}},
 	{Category = "Submachine guns", Items = {
 		{Weapon = "WEAPON_MINISMG", Name = "Mini SMG", Cost = 1000, AmmoType = "9mm", Gang = "all", SecondaryGang = "none"},
@@ -174,7 +174,7 @@ Blackmarket_Weapons = {
 	{Category = "Melee", Items = {
 		{Weapon = "WEAPON_KNIFE", Name = "Knife", Cost = 50, Gang = "all", SecondaryGang = "none"},
 		{Weapon = "WEAPON_FLASHLIGHT", Name = "Flashlight", Cost = 10, Gang = "all", SecondaryGang = "none"},
-		{Weapon = "WEAPON_NIGHTSTICK", Name = "Nightstick", Cost = 10, Gang = "all", SecondaryGang = "none"},
+		--{Weapon = "WEAPON_NIGHTSTICK", Name = "Nightstick", Cost = 10, Gang = "all", SecondaryGang = "none"},
 		{Weapon = "WEAPON_HAMMER", Name = "Hammer", Cost = 10, Gang = "all", SecondaryGang = "none"},
 		{Weapon = "WEAPON_BAT", Name = "Baseball Bat", Cost = 10, Gang = "all", SecondaryGang = "none"},
 		{Weapon = "WEAPON_GOLFCLUB", Name = "Golfclub", Cost = 10, Gang = "all", SecondaryGang = "none"},
