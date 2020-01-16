@@ -593,6 +593,6 @@ exports("CanRob", function(target_id)
 			return {false, "You're not close enough to the target!"}
 		end
 	else
-		return {false, "The target is not vulnreable!"}
+		return {false, "The target is not vulnerable!"}
 	end
 end)
