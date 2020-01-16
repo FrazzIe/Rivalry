@@ -411,7 +411,7 @@ function activateMissionSystem()
                 TriggerClientEvent("paramedic:heal", tonumber(target))
                 TriggerClientEvent("Recieved.Medical.Attention", tonumber(target))
                 TriggerEvent('core:getuser', source, function(user)
-                    local pay = math.random(150,250)
+                    local pay = 250
                     user.addWallet(pay)
                     TriggerClientEvent("pNotify:SendNotification", source, {text = user.get("first_name").." "..user.get("last_name").." you have been paid <span style='color:lime'>$</span><span style='color:white'>"..math.floor(pay).."</span> for rescuing "..GetIdentity(target).."!",type = "error",queue = "left",timeout = 3000,layout = "centerRight"})
                 end)

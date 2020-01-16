@@ -220,19 +220,34 @@ Citizen.CreateThread(function()
 
                     local distance = GetDistanceBetweenCoords(GetEntityCoords(GetPlayerPed(-1)), pos.x, pos.y, pos.z, false)
 
-                    if distance < 13.0 then
+                    if distance < 20.0 then
                         DrawMarker(1,pos.x, pos.y, 0.0 , 0, 0, 0, 0, 0, 0, 2.001, 2.0001, 350.0, 0, 155, 255, 64, 0, 0, 0, 0)
                     end
-                    if distance < 3.0 then
-
-                        if tostring(currentMissions.type) == "Someone is critically injured!" then
-                            dht('Press ~g~E~w~ to revive player')
+                    if distance < 4.0 then
+                        if tostring(currentMissions.type) == "is in a coma!" then
+							dht('Press ~g~E~w~ to revive player')
                             if (IsControlJustReleased(1, 51)) then
-                                TaskStartScenarioInPlace(GetPlayerPed(-1), 'CODE_HUMAN_MEDIC_KNEEL', 0, true)
-                                Citizen.Wait(8000)
-                                ClearPedTasks(GetPlayerPed(-1));
-                                TriggerServerEvent("paramedic:revive", currentMissions.id)
-                                TriggerEvent("paramedic:finish_mission")
+								TaskStartScenarioInPlace(GetPlayerPed(-1), 'CODE_HUMAN_MEDIC_KNEEL', 0, true)
+								
+								exports.mythic_progbar:Progress({
+									name = "reviving",
+									duration = 14000,
+									label = "Reviving",
+									useWhileDead = false,
+									canCancel = true,
+									controlDisables = {
+										disableMovement = false,
+										disableCarMovement = false,
+										disableMouse = false,
+										disableCombat = false,
+									},
+								}, function(status)
+									if not status then
+										ClearPedTasks(GetPlayerPed(-1));
+										TriggerServerEvent("paramedic:revive", currentMissions.id)
+										TriggerEvent("paramedic:finish_mission")
+									end
+								end)
                             end
                         else
                             TriggerEvent("paramedic:finish_mission")
