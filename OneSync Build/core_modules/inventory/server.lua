@@ -206,114 +206,104 @@ end)
 
 RegisterServerEvent("inventory:take")
 AddEventHandler("inventory:take", function(item_id, quantity, target_id)
-    local source = source
-    if handcuffs[target_id] then
-        if handcuffs[target_id].cuffed and handcuffs[target_id].keyholder == source then
-            if getQuantity(source) < user_max then
-                if getQuantity(source) + quantity > user_max then
-                    quantity = user_max - getQuantity(source)
-                end
-                if user_inventory[target_id] then
-                    if user_inventory[target_id][item_id] then
-                        if user_inventory[target_id][item_id]["quantity"] >= quantity then
-                            TriggerEvent("core:getuser", source, function(user)
-                                if user_inventory[source][item_id] == nil then
-                                    user_inventory[source][item_id] = { character_id = user.get("characterID"), item_id = item_id, name = itemlist[item_id].name, quantity = quantity, canuse = itemlist[item_id].canuse }
-                                    exports["GHMattiMySQL"]:QueryAsync("INSERT INTO inventory (`character_id`,`item_id`,`name`,`quantity`,`canuse`) VALUES (@character_id,@item_id,@name,@quantity,@canuse)", {
-                                        ["@character_id"] = user.get("characterID"), 
-                                        ["@item_id"] = item_id, 
-                                        ["@name"] = itemlist[item_id].name,
-                                        ["@quantity"] = quantity,
-                                        ["@canuse"] = itemlist[item_id].canuse,
-                                    })
-                                    TriggerClientEvent("inventory:updateitems", source, user_inventory[source])
-                                    TriggerClientEvent("inventory:sync", -1, user_inventory)
-                                else
-                                    user_inventory[source][item_id]["quantity"] = user_inventory[source][item_id]["quantity"] + quantity
-                                    exports["GHMattiMySQL"]:QueryAsync("UPDATE inventory SET quantity=@quantity WHERE (character_id=@character_id) AND (item_id=@item_id)", {
-                                        ["@character_id"] = user.get("characterID"), 
-                                        ["@item_id"] = item_id, 
-                                        ["@quantity"] = user_inventory[source][item_id]["quantity"]
-                                    })
-                                    TriggerClientEvent("inventory:updateitems", source, user_inventory[source])
-                                    TriggerClientEvent("inventory:sync", -1, user_inventory)
-                                end
+	local source = source
+	if getQuantity(source) < user_max then
+		if getQuantity(source) + quantity > user_max then
+			quantity = user_max - getQuantity(source)
+		end
+		if user_inventory[target_id] then
+			if user_inventory[target_id][item_id] then
+				if user_inventory[target_id][item_id]["quantity"] >= quantity then
+					TriggerEvent("core:getuser", source, function(user)
+						if user_inventory[source][item_id] == nil then
+							user_inventory[source][item_id] = { character_id = user.get("characterID"), item_id = item_id, name = itemlist[item_id].name, quantity = quantity, canuse = itemlist[item_id].canuse }
+							exports["GHMattiMySQL"]:QueryAsync("INSERT INTO inventory (`character_id`,`item_id`,`name`,`quantity`,`canuse`) VALUES (@character_id,@item_id,@name,@quantity,@canuse)", {
+								["@character_id"] = user.get("characterID"), 
+								["@item_id"] = item_id, 
+								["@name"] = itemlist[item_id].name,
+								["@quantity"] = quantity,
+								["@canuse"] = itemlist[item_id].canuse,
+							})
+							TriggerClientEvent("inventory:updateitems", source, user_inventory[source])
+							TriggerClientEvent("inventory:sync", -1, user_inventory)
+						else
+							user_inventory[source][item_id]["quantity"] = user_inventory[source][item_id]["quantity"] + quantity
+							exports["GHMattiMySQL"]:QueryAsync("UPDATE inventory SET quantity=@quantity WHERE (character_id=@character_id) AND (item_id=@item_id)", {
+								["@character_id"] = user.get("characterID"), 
+								["@item_id"] = item_id, 
+								["@quantity"] = user_inventory[source][item_id]["quantity"]
+							})
+							TriggerClientEvent("inventory:updateitems", source, user_inventory[source])
+							TriggerClientEvent("inventory:sync", -1, user_inventory)
+						end
 
-                                Notify(user.get("first_name").." "..user.get("last_name").." stole "..quantity.." "..itemlist[item_id].name, 3000, target_id)
-                            end)
+						Notify(user.get("first_name").." "..user.get("last_name").." stole "..quantity.." "..itemlist[item_id].name, 3000, target_id)
+					end)
 
-                            TriggerEvent("core:getuser", target_id, function(user)
-                                if (user_inventory[target_id][item_id]["quantity"] - quantity) <= 0 then
-                                    user_inventory[target_id][item_id] = nil
-                                    exports["GHMattiMySQL"]:QueryAsync("DELETE FROM inventory WHERE (character_id = @character_id) AND (item_id=@item_id)", {
-                                        ["@character_id"] = user.get("characterID"), 
-                                        ["@item_id"] = item_id
-                                    })
-                                    TriggerClientEvent("inventory:updateitems", target_id, user_inventory[target_id])
-                                    TriggerClientEvent("inventory:sync", -1, user_inventory)
-                                else
-                                    user_inventory[target_id][item_id]["quantity"] = user_inventory[target_id][item_id]["quantity"] - quantity
-                                    exports["GHMattiMySQL"]:QueryAsync("UPDATE inventory SET quantity=@quantity WHERE (character_id=@character_id) AND (item_id=@item_id)", {
-                                        ["@character_id"] = user.get("characterID"), 
-                                        ["@item_id"] = item_id, 
-                                        ["@quantity"] = user_inventory[target_id][item_id]["quantity"]
-                                    })
-                                    TriggerClientEvent("inventory:updateitems", target_id, user_inventory[target_id])
-                                    TriggerClientEvent("inventory:sync", -1, user_inventory)
-                                end
+					TriggerEvent("core:getuser", target_id, function(user)
+						if (user_inventory[target_id][item_id]["quantity"] - quantity) <= 0 then
+							user_inventory[target_id][item_id] = nil
+							exports["GHMattiMySQL"]:QueryAsync("DELETE FROM inventory WHERE (character_id = @character_id) AND (item_id=@item_id)", {
+								["@character_id"] = user.get("characterID"), 
+								["@item_id"] = item_id
+							})
+							TriggerClientEvent("inventory:updateitems", target_id, user_inventory[target_id])
+							TriggerClientEvent("inventory:sync", -1, user_inventory)
+						else
+							user_inventory[target_id][item_id]["quantity"] = user_inventory[target_id][item_id]["quantity"] - quantity
+							exports["GHMattiMySQL"]:QueryAsync("UPDATE inventory SET quantity=@quantity WHERE (character_id=@character_id) AND (item_id=@item_id)", {
+								["@character_id"] = user.get("characterID"), 
+								["@item_id"] = item_id, 
+								["@quantity"] = user_inventory[target_id][item_id]["quantity"]
+							})
+							TriggerClientEvent("inventory:updateitems", target_id, user_inventory[target_id])
+							TriggerClientEvent("inventory:sync", -1, user_inventory)
+						end
 
-                                Notify("You stole "..quantity.." "..itemlist[item_id].name.." from "..user.get("first_name").." "..user.get("last_name"), 3000, source)
-                            end)
-                        end
-                    end
-                end
-            end
-        else
-            Notify("The target is handcuffed, but you do not have the keys!", 3000, source)
-        end
-    else
-        Notify("The target is not handcuffed!", 3000, source)
-    end
+						Notify("You stole "..quantity.." "..itemlist[item_id].name.." from "..user.get("first_name").." "..user.get("last_name"), 3000, source)
+					end)
+				end
+			end
+		end
+	end
 end)
 
 RegisterServerEvent("inventory:destroy")
 AddEventHandler("inventory:destroy",function(item_id, quantity, target_id)
-    local source = tonumber(source)
-    if handcuffs[target_id] then
-        if handcuffs[target_id].cuffed and handcuffs[target_id].keyholder == source then
-            TriggerEvent('core:getuser', target_id, function(user)
-                if user_inventory[target_id][item_id] then
-                    if user_inventory[target_id][item_id].quantity then
-                        if (user_inventory[target_id][item_id].quantity - quantity) <= 0 then
-                            user_inventory[target_id][item_id] = nil
-                            exports["GHMattiMySQL"]:QueryAsync("DELETE FROM inventory WHERE (character_id = @character_id) AND (item_id=@item_id)", {
-                                ["@character_id"] = user.get("characterID"), 
-                                ["@item_id"] = item_id
-                            })
-                            TriggerClientEvent("inventory:updateitems", target_id, user_inventory[target_id])
-                            TriggerClientEvent("inventory:sync", -1, user_inventory)
-                        else
-                            user_inventory[target_id][item_id].quantity = user_inventory[target_id][item_id].quantity - quantity
-                            exports["GHMattiMySQL"]:QueryAsync("UPDATE inventory SET quantity=@quantity WHERE (character_id=@character_id) AND (item_id=@item_id)", {
-                                ["@character_id"] = user.get("characterID"), 
-                                ["@item_id"] = item_id, 
-                                ["@quantity"] = user_inventory[target_id][item_id].quantity
-                            })
-                            TriggerClientEvent("inventory:updateitems", target_id, user_inventory[target_id])
-                            TriggerClientEvent("inventory:sync", -1, user_inventory)
-                        end
-
-                        Notify(GetIdentity(source).." destroyed "..quantity.." of your "..itemlist[item_id].name, 3000, target_id)
-                        Notify("You destroyed "..quantity.." of "..user.get("first_name").." "..user.get("last_name").."'s "..itemlist[item_id].name, 3000, source)
-                    end
-                end
-            end)
-        else
-            Notify("The target is handcuffed, but you do not have the keys!", 3000, source)
-        end
-    else
-        Notify("The target is not handcuffed!", 3000, source)
-    end
+	local source = tonumber(source)
+	local _canRob = exports.core_modules:CanRob(target_id)
+	local canRob, error = _canRob[1], _canRob[2]
+	if canRob then
+		TriggerEvent('core:getuser', target_id, function(user)
+			if user_inventory[target_id][item_id] then
+				if user_inventory[target_id][item_id].quantity then
+					if (user_inventory[target_id][item_id].quantity - quantity) <= 0 then
+						user_inventory[target_id][item_id] = nil
+						exports["GHMattiMySQL"]:QueryAsync("DELETE FROM inventory WHERE (character_id = @character_id) AND (item_id=@item_id)", {
+							["@character_id"] = user.get("characterID"), 
+							["@item_id"] = item_id
+						})
+						TriggerClientEvent("inventory:updateitems", target_id, user_inventory[target_id])
+						TriggerClientEvent("inventory:sync", -1, user_inventory)
+					else
+						user_inventory[target_id][item_id].quantity = user_inventory[target_id][item_id].quantity - quantity
+						exports["GHMattiMySQL"]:QueryAsync("UPDATE inventory SET quantity=@quantity WHERE (character_id=@character_id) AND (item_id=@item_id)", {
+							["@character_id"] = user.get("characterID"), 
+							["@item_id"] = item_id, 
+							["@quantity"] = user_inventory[target_id][item_id].quantity
+						})
+						TriggerClientEvent("inventory:updateitems", target_id, user_inventory[target_id])
+						TriggerClientEvent("inventory:sync", -1, user_inventory)
+					end
+	
+					Notify(GetIdentity(source).." destroyed "..quantity.." of your "..itemlist[item_id].name, 3000, target_id)
+					Notify("You destroyed "..quantity.." of "..user.get("first_name").." "..user.get("last_name").."'s "..itemlist[item_id].name, 3000, source)
+				end
+			end
+		end)
+	else
+		Notify(error, 3000)
+	end
 end)
 
 RegisterServerEvent("inventory:add")

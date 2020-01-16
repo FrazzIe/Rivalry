@@ -671,72 +671,56 @@ end)
 RegisterServerEvent("weapon:take")
 AddEventHandler("weapon:take", function(model, target)
 	local source = source
-	if handcuffs[target] then
-		if handcuffs[target].cuffed and handcuffs[target].keyholder == source then
-			if user_weapons[target] then
-				if user_weapons[target][model] then
-					if not user_weapons[source][model] then
-						if tablelength(user_weapons[source]) < max_weapons then
-							TriggerEvent("core:getuser", source, function(user)
-								exports["GHMattiMySQL"]:QueryAsync("UPDATE weapons SET character_id=@new_character_id WHERE (character_id=@character_id) AND (model=@model)", {
-									["@character_id"] = user_weapons[target][model].character_id,
-									["@model"] = user_weapons[target][model].model,
-									["@new_character_id"] = user.get("characterID"),
-								})
-								user_weapons[source][model] = user_weapons[target][model]
-								user_weapons[source][model].character_id = user.get("characterID")
-								user_weapons[target][model] = nil
-								TriggerClientEvent("weapon:set", target, user_weapons[target])
-								TriggerClientEvent("weapon:give", target)
-								TriggerClientEvent("weapon:set", source, user_weapons[source])
-								TriggerClientEvent("weapon:give", source)
-								TriggerClientEvent("weapon:sync", -1, user_weapons)
+	if user_weapons[target] then
+		if user_weapons[target][model] then
+			if not user_weapons[source][model] then
+				if tablelength(user_weapons[source]) < max_weapons then
+					TriggerEvent("core:getuser", source, function(user)
+						exports["GHMattiMySQL"]:QueryAsync("UPDATE weapons SET character_id=@new_character_id WHERE (character_id=@character_id) AND (model=@model)", {
+							["@character_id"] = user_weapons[target][model].character_id,
+							["@model"] = user_weapons[target][model].model,
+							["@new_character_id"] = user.get("characterID"),
+						})
+						user_weapons[source][model] = user_weapons[target][model]
+						user_weapons[source][model].character_id = user.get("characterID")
+						user_weapons[target][model] = nil
+						TriggerClientEvent("weapon:set", target, user_weapons[target])
+						TriggerClientEvent("weapon:give", target)
+						TriggerClientEvent("weapon:set", source, user_weapons[source])
+						TriggerClientEvent("weapon:give", source)
+						TriggerClientEvent("weapon:sync", -1, user_weapons)
 
-								Notify(user.get("first_name").." "..user.get("last_name").." stole your "..Weapons_names[model], 3000, target)
-								Notify("You stole a "..Weapons_names[model].." from "..GetIdentity(target), 3000, source)
-							end)
-						else
-							Notify("You cannot hold anymore weapons", 3000, source)
-						end
-					else
-						Notify("This user already has this weapon", 3000, source)
-					end
+						Notify(user.get("first_name").." "..user.get("last_name").." stole your "..Weapons_names[model], 3000, target)
+						Notify("You stole a "..Weapons_names[model].." from "..GetIdentity(target), 3000, source)
+					end)
 				else
-					Notify("You don't have this weapon", 3000, source)
+					Notify("You cannot hold anymore weapons", 3000, source)
 				end
+			else
+				Notify("This user already has this weapon", 3000, source)
 			end
 		else
-			Notify("The target is handcuffed, but you do not have the keys!", 3000, source)
+			Notify("You don't have this weapon", 3000, source)
 		end
-	else
-		Notify("The target is not handcuffed!", 3000, source)
 	end
 end)
 
 RegisterServerEvent("weapon:destroy_target")
 AddEventHandler("weapon:destroy_target", function(model, target)
 	local source = source
-	if handcuffs[target] then
-		if handcuffs[target].cuffed and handcuffs[target].keyholder == source then
-			TriggerEvent("core:getuser", target, function(user)
-				exports["GHMattiMySQL"]:QueryAsync("DELETE FROM weapons WHERE (character_id=@character_id) AND (model=@model)", {
-					["@character_id"] = user.get("characterID"),
-					["@model"] = model,
-				})
-				user_weapons[target][model] = nil
-				TriggerClientEvent("weapon:set", target, user_weapons[target])
-				TriggerClientEvent("weapon:give", target)
-				TriggerClientEvent("weapon:sync", -1, user_weapons)
+	TriggerEvent("core:getuser", target, function(user)
+		exports["GHMattiMySQL"]:QueryAsync("DELETE FROM weapons WHERE (character_id=@character_id) AND (model=@model)", {
+			["@character_id"] = user.get("characterID"),
+			["@model"] = model,
+		})
+		user_weapons[target][model] = nil
+		TriggerClientEvent("weapon:set", target, user_weapons[target])
+		TriggerClientEvent("weapon:give", target)
+		TriggerClientEvent("weapon:sync", -1, user_weapons)
 
-				Notify(GetIdentity(source).." destroyed your "..Weapons_names[model], 3000, target)
-				Notify("You destroyed "..user.get("first_name").." "..user.get("last_name").."'s "..Weapons_names[model], 3000, source)
-			end)
-		else
-			Notify("The target is handcuffed, but you do not have the keys!", 3000, source)
-		end
-	else
-		Notify("The target is not handcuffed!", 3000, source)
-	end
+		Notify(GetIdentity(source).." destroyed your "..Weapons_names[model], 3000, target)
+		Notify("You destroyed "..user.get("first_name").." "..user.get("last_name").."'s "..Weapons_names[model], 3000, source)
+	end)
 end)
 
 RegisterServerEvent("weapon:destroy")

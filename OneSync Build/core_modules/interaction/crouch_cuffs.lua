@@ -16,6 +16,7 @@ local handcuffs = {}
 local handcuff_keys = {}
 local cuffed = false
 local cuffable = false
+local cuffables = {}
 --[[ STANCE ]]--
 local stance = "standing"
 local Timer = {}
@@ -212,7 +213,8 @@ Citizen.CreateThread(function()
     end
     while true do
         Citizen.Wait(0)
-        local PlayerPed = PlayerPedId()
+		local PlayerPed = PlayerPedId()
+		local wasCuffable = cuffable
         if IsControlJustPressed(1, 323) and not cuffed and not exports.policejob:getIsCuffed() then
             if not cuffable and stance ~= "prone" and not IsPedSittingInAnyVehicle(PlayerPed) then
                 TaskPlayAnim(PlayerPed, dict, "handsup_enter", 8.0, 8.0, -1, 50, 0, false, false, false)
@@ -233,7 +235,9 @@ Citizen.CreateThread(function()
                 end
             end
         end
-
+		if cuffable ~= wasCuffable then
+			TriggerServerEvent("handcuffs:handsup", cuffable)
+		end
     end
 end)
 
@@ -306,6 +310,14 @@ Citizen.CreateThread(function()
 	end
 end)
 
+exports("IsHandcuffed", function(target)
+	return handcuffs[target].cuffed
+end)
+
+exports("IsCuffable", function(target)
+	return cuffables[target] or false
+end)
+
 RegisterNetEvent("handcuffs:sync")
 AddEventHandler("handcuffs:sync", function(_handcuffs)
 	handcuffs = _handcuffs
@@ -314,6 +326,11 @@ end)
 RegisterNetEvent("handcuffs:sync_keys")
 AddEventHandler("handcuffs:sync_keys", function(_handcuff_keys)
 	handcuff_keys = _handcuff_keys
+end)
+
+RegisterNetEvent("handcuffs:sync_cuffable")
+AddEventHandler("handcuffs:sync_cuffable", function(_cuffables)
+	cuffables = _cuffables
 end)
 
 RegisterNetEvent("handcuffs:check")
@@ -428,357 +445,294 @@ Citizen.CreateThread(function()
 	end
 end)
 
-AddEventHandler("interaction:rob", function()
-    local t, distance = GetClosestPlayer()
-    if(distance ~= -1 and distance < 3) then
-    	local target_id = GetPlayerServerId(t)
-    	if handcuffs[target_id] then
-    		if handcuffs[target_id].cuffed and handcuffs[target_id].keyholder == GetPlayerServerId(PlayerId()) then
-    			if server_weapons[target_id] and inventories[target_id] then
-    				exports.ui:reset()
-    				exports.ui:open("rob")
-					exports.ui:addOption("Inventory", "interaction:rob_inventory", target_id)
-					exports.ui:addOption("Weapons", "interaction:rob_weapons", target_id)
-					exports.ui:addOption("Money", "interaction:rob_money", target_id)
-					exports.ui:addOption("Phone", "interaction:rob_phone", target_id)
-					exports.ui:addOption("Radio", "interaction:rob_radio", target_id)
-					if EmergencyPlayers[target_id] then
-						exports.ui:addOption("Turn off tracker", "interaction:remove_tracker", target_id)
+local function Rob(target_id)
+	local _canRob = exports.core_modules:CanRob(target_id)
+	local canRob, error = _canRob[1], _canRob[2]
+	if canRob then
+		if server_weapons[target_id] and inventories[target_id] then
+			exports.ui:reset()
+			exports.ui:open("rob")
+			exports.ui:addOption("Inventory", "interaction:rob_inventory", target_id)
+			exports.ui:addOption("Weapons", "interaction:rob_weapons", target_id)
+			exports.ui:addOption("Money", "interaction:rob_money", target_id)
+			exports.ui:addOption("Phone", "interaction:rob_phone", target_id)
+			exports.ui:addOption("Radio", "interaction:rob_radio", target_id)
+			if EmergencyPlayers[target_id] then
+				exports.ui:addOption("Turn off tracker", "interaction:remove_tracker", target_id)
+			end
+			exports.ui:back([[TriggerEvent("interaction:actions_emotes")]])
+		end
+	else
+		Notify(error, 3000)
+	end
+end
+
+AddEventHandler("interaction:rob", function(useProgress)
+	local t, distance = GetClosestPlayer()
+	
+	if(distance ~= -1 and distance < 3) then
+		local target_id = GetPlayerServerId(t)
+		if useProgress then
+			local _canRob = exports.core_modules:CanRob(target_id)
+			local canRob, error = _canRob[1], _canRob[2]
+			if canRob then
+				exports.mythic_progbar:Progress({
+					name = "robbing",
+					duration = 7000,
+					label = "Robbing",
+					useWhileDead = false,
+					canCancel = true,
+					controlDisables = {
+						disableMovement = false,
+						disableCarMovement = false,
+						disableMouse = false,
+						disableCombat = false,
+					},
+					animation = {
+						animDict = "random@shop_robbery",
+						anim = "robbery_intro_loop_b",
+						flags = 49,
+					},
+				}, function(status)
+					if not status then
+						Rob(target_id)
 					end
-					exports.ui:back([[TriggerEvent("interaction:actions_emotes")]])			
-    			end
-    		else
-    			Notify("The target is handcuffed, but you do not have the keys!", 3000)
-    		end
-    	else
-    		Notify("The target is not handcuffed!", 3000)
-    	end
-    else
-        Messages(5)
-    end
+				end)
+			else
+				Notify(error, 3000)
+			end
+		else
+			Rob(target_id)
+		end
+	else
+		Messages(5)
+	end
 end)
 
 AddEventHandler("interaction:remove_tracker", function(target_id)
-    if handcuffs[target_id] then
-    	local player_pos, target_pos = GetEntityCoords(PlayerPedId(), false), GetEntityCoords(GetPlayerPed(GetPlayerFromServerId(target_id)), false)
-    	if handcuffs[target_id].cuffed and handcuffs[target_id].keyholder == GetPlayerServerId(PlayerId()) then
-    		if GetDistanceBetweenCoords(player_pos.x, player_pos.y, player_pos.z, target_pos.x, target_pos.y, target_pos.z, true) < 3 then
-    			local Position = GetEntityCoords(PlayerPedId(), false)
-				local Street, Crossing = GetStreetNameAtCoord(Position.x, Position.y, Position.z)
-				EmergencyPlayers[target_id] = nil
-    			TriggerServerEvent("EmergencyBlips.Remove", GetStreetNameFromHashKey(Street), target_id)
-    			TriggerEvent("interaction:rob")
-	    	else
-	    		Notify("You're not close enough to the target!", 3000)
-	    	end
-	    else
-	    	Notify("The target is handcuffed, but you do not have the keys!", 3000)
-    	end
-    else
-    	Notify("The target is not handcuffed!", 3000)
-    end
+	local _canRob = exports.core_modules:CanRob(target_id)
+	local canRob, error = _canRob[1], _canRob[2]
+	if canRob then
+		local Position = GetEntityCoords(PlayerPedId(), false)
+		local Street, Crossing = GetStreetNameAtCoord(Position.x, Position.y, Position.z)
+		EmergencyPlayers[target_id] = nil
+		TriggerServerEvent("EmergencyBlips.Remove", GetStreetNameFromHashKey(Street), target_id)
+		TriggerEvent("interaction:rob")
+	else
+		Notify(error, 3000)
+	end
 end)
 
 AddEventHandler("interaction:rob_inventory", function(target_id)
 	exports.ui:reset()
 	exports.ui:open("rob_inventory")
-    if handcuffs[target_id] then
-    	local player_pos, target_pos = GetEntityCoords(PlayerPedId(), false), GetEntityCoords(GetPlayerPed(GetPlayerFromServerId(target_id)), false)
-    	if handcuffs[target_id].cuffed and handcuffs[target_id].keyholder == GetPlayerServerId(PlayerId()) then
-    		if GetDistanceBetweenCoords(player_pos.x, player_pos.y, player_pos.z, target_pos.x, target_pos.y, target_pos.z, true) < 3 then
-	    		if server_weapons[target_id] and inventories[target_id] then
-					for k,v in pairs(inventories[target_id]) do
-						exports.ui:addOption(v.quantity.." | "..v.name, "interaction:rob_inventory_options", {target_id = target_id, item = v})
-					end
-	    		end
-	    	else
-	    		Notify("You're not close enough to the target!", 3000)
-	    	end
-	    else
-	    	Notify("The target is handcuffed, but you do not have the keys!", 3000)
-    	end
-    else
-    	Notify("The target is not handcuffed!", 3000)
-    end
+	local _canRob = exports.core_modules:CanRob(target_id)
+	local canRob, error = _canRob[1], _canRob[2]
+	if canRob then
+		if server_weapons[target_id] and inventories[target_id] then
+			for k,v in pairs(inventories[target_id]) do
+				exports.ui:addOption(v.quantity.." | "..v.name, "interaction:rob_inventory_options", {target_id = target_id, item = v})
+			end
+		end
+	else
+		Notify(error, 3000)
+	end
     exports.ui:back([[TriggerEvent("interaction:rob")]])
 end)
 
 AddEventHandler("interaction:rob_inventory_options", function(data)
 	exports.ui:reset()
 	exports.ui:open("rob_inventory")
-    if handcuffs[data.target_id] then
-    	local player_pos, target_pos = GetEntityCoords(PlayerPedId(), false), GetEntityCoords(GetPlayerPed(GetPlayerFromServerId(data.target_id)), false)
-    	if handcuffs[data.target_id].cuffed and handcuffs[data.target_id].keyholder == GetPlayerServerId(PlayerId()) then
-    		if GetDistanceBetweenCoords(player_pos.x, player_pos.y, player_pos.z, target_pos.x, target_pos.y, target_pos.z, true) < 3 then
-	    		if server_weapons[data.target_id] and inventories[data.target_id] then
-					exports.ui:addOption("Take "..data.item.name, "interaction:rob_inventory_take", data)
-					exports.ui:addOption("Destroy "..data.item.name, "interaction:rob_inventory_destroy", data)    			
-	    		end
-	    	else
-	    		Notify("You're not close enough to the target!", 3000)
-	    	end
-	    else
-	    	Notify("The target is handcuffed, but you do not have the keys!", 3000)
-    	end
-    else
-    	Notify("The target is not handcuffed!", 3000)
-    end
+
+	local _canRob = exports.core_modules:CanRob(data.target_id)
+	local canRob, error = _canRob[1], _canRob[2]
+	if canRob then
+		if server_weapons[data.target_id] and inventories[data.target_id] then
+			exports.ui:addOption("Take "..data.item.name, "interaction:rob_inventory_take", data)
+			exports.ui:addOption("Destroy "..data.item.name, "interaction:rob_inventory_destroy", data)    			
+		end
+	else
+		Notify(error, 3000)
+	end
     exports.ui:back("interaction:rob_inventory", data.target_id)
 end)
 
 AddEventHandler("interaction:rob_inventory_take", function(data)
-    if handcuffs[data.target_id] then
-    	local player_pos, target_pos = GetEntityCoords(PlayerPedId(), false), GetEntityCoords(GetPlayerPed(GetPlayerFromServerId(data.target_id)), false)
-    	if handcuffs[data.target_id].cuffed and handcuffs[data.target_id].keyholder == GetPlayerServerId(PlayerId()) then
-    		if GetDistanceBetweenCoords(player_pos.x, player_pos.y, player_pos.z, target_pos.x, target_pos.y, target_pos.z, true) < 3 then
-	    		if server_weapons[data.target_id] and inventories[data.target_id] then
-	    			local amount = tonumber(KeyboardInput("Enter quantity:", 0, 10))
-			        if amount ~= nil then
-			        	if math.floor(amount) > 0 then
-				            exports.ui:reset()
-				            exports.ui:open("rob_inventory")
-				            TriggerServerEvent("inventory:take", tonumber(data.item.item_id), math.floor(amount), data.target_id)
-				        else
-				        	TriggerEvent("interaction:rob_inventory", data.target_id)
-				        end
-			        else
-			            TriggerEvent("interaction:rob_inventory", data.target_id)
-			        end
-	    		end
-	    	else
-	    		Notify("You're not close enough to the target!", 3000)
-	    	end
-	    else
-	    	Notify("The target is handcuffed, but you do not have the keys!", 3000)
-    	end
-    else
-    	Notify("The target is not handcuffed!", 3000)
-    end
+	local _canRob = exports.core_modules:CanRob(data.target_id)
+	local canRob, error = _canRob[1], _canRob[2]
+	if canRob then
+		if server_weapons[data.target_id] and inventories[data.target_id] then
+			local amount = tonumber(KeyboardInput("Enter quantity:", 0, 10))
+			if amount ~= nil then
+				if math.floor(amount) > 0 then
+					exports.ui:reset()
+					exports.ui:open("rob_inventory")
+					TriggerServerEvent("inventory:take", tonumber(data.item.item_id), math.floor(amount), data.target_id)
+				else
+					TriggerEvent("interaction:rob_inventory", data.target_id)
+				end
+			else
+				TriggerEvent("interaction:rob_inventory", data.target_id)
+			end
+		end
+	else
+		Notify(error, 3000)
+	end
 end)
 
 AddEventHandler("interaction:rob_inventory_destroy", function(data)
-    if handcuffs[data.target_id] then
-    	local player_pos, target_pos = GetEntityCoords(PlayerPedId(), false), GetEntityCoords(GetPlayerPed(GetPlayerFromServerId(data.target_id)), false)
-    	if handcuffs[data.target_id].cuffed and handcuffs[data.target_id].keyholder == GetPlayerServerId(PlayerId()) then
-    		if GetDistanceBetweenCoords(player_pos.x, player_pos.y, player_pos.z, target_pos.x, target_pos.y, target_pos.z, true) < 3 then
-	    		if server_weapons[data.target_id] and inventories[data.target_id] then
-	    			local amount = tonumber(KeyboardInput("Enter quantity:", 0, 10))
-			        if amount ~= nil then
-			        	if math.floor(amount) > 0 then
-				            exports.ui:reset()
-				            exports.ui:open("rob_inventory")
-				            TriggerServerEvent("inventory:destroy", tonumber(data.item.item_id), math.floor(amount), data.target_id)
-				        else
-				        	TriggerEvent("interaction:rob_inventory", data.target_id)
-				        end
-			        else
-			            TriggerEvent("interaction:rob_inventory", data.target_id)
-			        end  
-	    		end
-	    	else
-	    		Notify("You're not close enough to the target!", 3000)
-	    	end
-	    else
-	    	Notify("The target is handcuffed, but you do not have the keys!", 3000)
-    	end
-    else
-    	Notify("The target is not handcuffed!", 3000)
-    end
+	local _canRob = exports.core_modules:CanRob(data.target_id)
+	local canRob, error = _canRob[1], _canRob[2]
+	if canRob then
+		if server_weapons[data.target_id] and inventories[data.target_id] then
+			local amount = tonumber(KeyboardInput("Enter quantity:", 0, 10))
+			if amount ~= nil then
+				if math.floor(amount) > 0 then
+					exports.ui:reset()
+					exports.ui:open("rob_inventory")
+					TriggerServerEvent("inventory:destroy", tonumber(data.item.item_id), math.floor(amount), data.target_id)
+				else
+					TriggerEvent("interaction:rob_inventory", data.target_id)
+				end
+			else
+				TriggerEvent("interaction:rob_inventory", data.target_id)
+			end  
+		end
+	else
+		Notify(error, 3000)
+	end
 end)
 
 AddEventHandler("interaction:rob_weapons", function(target_id)
 	exports.ui:reset()
 	exports.ui:open("rob_weapons")
-    if handcuffs[target_id] then
-    	local target_ped = GetPlayerPed(GetPlayerFromServerId(target_id))
-    	local player_pos, target_pos = GetEntityCoords(PlayerPedId(), false), GetEntityCoords(target_ped, false)
-    	if handcuffs[target_id].cuffed and handcuffs[target_id].keyholder == GetPlayerServerId(PlayerId()) then
-    		if GetDistanceBetweenCoords(player_pos.x, player_pos.y, player_pos.z, target_pos.x, target_pos.y, target_pos.z, true) < 3 then
-	    		if server_weapons[target_id] and inventories[target_id] then
-					for k,v in pairs(server_weapons[target_id]) do
-				    	if GetMaxAmmoInClip(target_ped, GetHashKey(k), 1) ~= 0 then
-				    		exports.ui:addOption(Weapons_names[k].." ["..v.ammo.."]", "interaction:rob_weapons_options", {target_id = target_id, weapon = v})
-				    	else
-				    		exports.ui:addOption(Weapons_names[k], "interaction:rob_weapons_options", {target_id = target_id, weapon = v})
-				    	end
-					end
-	    		end
-	    	else
-	    		Notify("You're not close enough to the target!", 3000)
-	    	end
-	    else
-	    	Notify("The target is handcuffed, but you do not have the keys!", 3000)
-    	end
-    else
-    	Notify("The target is not handcuffed!", 3000)
-    end
+	local _canRob = exports.core_modules:CanRob(target_id)
+	local canRob, error = _canRob[1], _canRob[2]
+	if canRob then
+		if server_weapons[target_id] and inventories[target_id] then
+			local target_ped = GetPlayerPed(GetPlayerFromServerId(target_id))
+			for k,v in pairs(server_weapons[target_id]) do
+				if GetMaxAmmoInClip(target_ped, GetHashKey(k), 1) ~= 0 then
+					exports.ui:addOption(Weapons_names[k].." ["..v.ammo.."]", "interaction:rob_weapons_options", {target_id = target_id, weapon = v})
+				else
+					exports.ui:addOption(Weapons_names[k], "interaction:rob_weapons_options", {target_id = target_id, weapon = v})
+				end
+			end
+		end
+	else
+		Notify(error, 3000)
+	end
     exports.ui:back([[TriggerEvent("interaction:rob")]])
 end)
 
 AddEventHandler("interaction:rob_weapons_options", function(data)
 	exports.ui:reset()
 	exports.ui:open("rob_weapons")
-    if handcuffs[data.target_id] then
-    	local player_pos, target_pos = GetEntityCoords(PlayerPedId(), false), GetEntityCoords(GetPlayerPed(GetPlayerFromServerId(data.target_id)), false)
-    	if handcuffs[data.target_id].cuffed and handcuffs[data.target_id].keyholder == GetPlayerServerId(PlayerId()) then
-    		if GetDistanceBetweenCoords(player_pos.x, player_pos.y, player_pos.z, target_pos.x, target_pos.y, target_pos.z, true) < 3 then
-	    		if server_weapons[data.target_id] and inventories[data.target_id] then
-					exports.ui:addOption("Take "..Weapons_names[data.weapon.model], "interaction:rob_weapons_take", data)
-					exports.ui:addOption("Destroy "..Weapons_names[data.weapon.model], "interaction:rob_weapons_destroy", data)    
-	    		end
-	    	else
-	    		Notify("You're not close enough to the target!", 3000)
-	    	end
-	    else
-	    	Notify("The target is handcuffed, but you do not have the keys!", 3000)
-    	end
-    else
-    	Notify("The target is not handcuffed!", 3000)
-    end
+	local _canRob = exports.core_modules:CanRob(data.target_id)
+	local canRob, error = _canRob[1], _canRob[2]
+	if canRob then
+		if server_weapons[data.target_id] and inventories[data.target_id] then
+			exports.ui:addOption("Take "..Weapons_names[data.weapon.model], "interaction:rob_weapons_take", data)
+			exports.ui:addOption("Destroy "..Weapons_names[data.weapon.model], "interaction:rob_weapons_destroy", data)    
+		end
+	else
+		Notify(error, 3000)
+	end
     exports.ui:back([[TriggerEvent("interaction:rob_weapons")]])
 end)
 
 AddEventHandler("interaction:rob_weapons_take", function(data)
-    if handcuffs[data.target_id] then
-    	local player_pos, target_pos = GetEntityCoords(PlayerPedId(), false), GetEntityCoords(GetPlayerPed(GetPlayerFromServerId(data.target_id)), false)
-    	if handcuffs[data.target_id].cuffed and handcuffs[data.target_id].keyholder == GetPlayerServerId(PlayerId()) then
-    		if GetDistanceBetweenCoords(player_pos.x, player_pos.y, player_pos.z, target_pos.x, target_pos.y, target_pos.z, true) < 3 then
-	    		if server_weapons[data.target_id] and inventories[data.target_id] then
-					exports.ui:reset()
-					exports.ui:open("rob_weapons")
-					TriggerServerEvent("weapon:take", data.weapon.model, data.target_id)
-	    		end
-	    	else
-	    		Notify("You're not close enough to the target!", 3000)
-	    	end
-	    else
-	    	Notify("The target is handcuffed, but you do not have the keys!", 3000)
-    	end
-    else
-    	Notify("The target is not handcuffed!", 3000)
-    end
+	local _canRob = exports.core_modules:CanRob(data.target_id)
+	local canRob, error = _canRob[1], _canRob[2]
+	if canRob then
+		if server_weapons[data.target_id] and inventories[data.target_id] then
+			exports.ui:reset()
+			exports.ui:open("rob_weapons")
+			TriggerServerEvent("weapon:take", data.weapon.model, data.target_id)
+		end
+	else
+		Notify(error, 3000)
+	end
 end)
 
 AddEventHandler("interaction:rob_weapons_destroy", function(data)
-    if handcuffs[data.target_id] then
-    	local player_pos, target_pos = GetEntityCoords(PlayerPedId(), false), GetEntityCoords(GetPlayerPed(GetPlayerFromServerId(data.target_id)), false)
-    	if handcuffs[data.target_id].cuffed and handcuffs[data.target_id].keyholder == GetPlayerServerId(PlayerId()) then
-    		if GetDistanceBetweenCoords(player_pos.x, player_pos.y, player_pos.z, target_pos.x, target_pos.y, target_pos.z, true) < 3 then
-	    		if server_weapons[data.target_id] and inventories[data.target_id] then
-					exports.ui:reset()
-					exports.ui:open("rob_weapons")
-					TriggerServerEvent("weapon:destroy_target", data.weapon.model, data.target_id)
-	    		end
-	    	else
-	    		Notify("You're not close enough to the target!", 3000)
-	    	end
-	    else
-	    	Notify("The target is handcuffed, but you do not have the keys!", 3000)
-    	end
-    else
-    	Notify("The target is not handcuffed!", 3000)
-    end
+	local _canRob = exports.core_modules:CanRob(data.target_id)
+	local canRob, error = _canRob[1], _canRob[2]
+	if canRob then
+		if server_weapons[data.target_id] and inventories[data.target_id] then
+			exports.ui:reset()
+			exports.ui:open("rob_weapons")
+			TriggerServerEvent("weapon:destroy_target", data.weapon.model, data.target_id)
+		end
+	else
+		Notify(error, 3000)
+	end
 end)
 
 AddEventHandler("interaction:rob_money", function(target_id)
 	exports.ui:reset()
 	exports.ui:open("rob_money")
-    if handcuffs[target_id] then
-    	local player_pos, target_pos = GetEntityCoords(PlayerPedId(), false), GetEntityCoords(GetPlayerPed(GetPlayerFromServerId(target_id)), false)
-    	if handcuffs[target_id].cuffed and handcuffs[target_id].keyholder == GetPlayerServerId(PlayerId()) then
-    		if GetDistanceBetweenCoords(player_pos.x, player_pos.y, player_pos.z, target_pos.x, target_pos.y, target_pos.z, true) < 3 then
-	    		if server_weapons[target_id] and inventories[target_id] then
-					exports.ui:addOption("Take ", "interaction:rob_money_take", target_id)
-					exports.ui:addOption("Destroy ", "interaction:rob_money_destroy", target_id)    
-	    		end
-	    	else
-	    		Notify("You're not close enough to the target!", 3000)
-	    	end
-	    else
-	    	Notify("The target is handcuffed, but you do not have the keys!", 3000)
-    	end
-    else
-    	Notify("The target is not handcuffed!", 3000)
-    end
+	local _canRob = exports.core_modules:CanRob(target_id)
+	local canRob, error = _canRob[1], _canRob[2]
+	if canRob then
+		if server_weapons[target_id] and inventories[target_id] then
+			exports.ui:addOption("Take ", "interaction:rob_money_take", target_id)
+			exports.ui:addOption("Destroy ", "interaction:rob_money_destroy", target_id)    
+		end
+	else
+		Notify(error, 3000)
+	end
     exports.ui:back([[TriggerEvent("interaction:rob")]])
 end)
 
 AddEventHandler("interaction:rob_money_take", function(target_id)
-    if handcuffs[target_id] then
-    	local player_pos, target_pos = GetEntityCoords(PlayerPedId(), false), GetEntityCoords(GetPlayerPed(GetPlayerFromServerId(target_id)), false)
-    	if handcuffs[target_id].cuffed and handcuffs[target_id].keyholder == GetPlayerServerId(PlayerId()) then
-    		if GetDistanceBetweenCoords(player_pos.x, player_pos.y, player_pos.z, target_pos.x, target_pos.y, target_pos.z, true) < 3 then
-	    		if server_weapons[target_id] and inventories[target_id] then
-					TriggerServerEvent("interaction:take_money", target_id)
-					TriggerEvent("interaction:rob")
-	    		end
-	    	else
-	    		Notify("You're not close enough to the target!", 3000)
-	    	end
-	    else
-	    	Notify("The target is handcuffed, but you do not have the keys!", 3000)
-    	end
-    else
-    	Notify("The target is not handcuffed!", 3000)
-    end
+	local _canRob = exports.core_modules:CanRob(target_id)
+	local canRob, error = _canRob[1], _canRob[2]
+	if canRob then
+		if server_weapons[target_id] and inventories[target_id] then
+			TriggerServerEvent("interaction:take_money", target_id)
+			TriggerEvent("interaction:rob")
+		end
+	else
+		Notify(error, 3000)
+	end
 end)
 
 AddEventHandler("interaction:rob_money_destroy", function(target_id)
-    if handcuffs[target_id] then
-    	local player_pos, target_pos = GetEntityCoords(PlayerPedId(), false), GetEntityCoords(GetPlayerPed(GetPlayerFromServerId(target_id)), false)
-    	if handcuffs[target_id].cuffed and handcuffs[target_id].keyholder == GetPlayerServerId(PlayerId()) then
-    		if GetDistanceBetweenCoords(player_pos.x, player_pos.y, player_pos.z, target_pos.x, target_pos.y, target_pos.z, true) < 3 then
-	    		if server_weapons[target_id] and inventories[target_id] then
-					TriggerServerEvent("interaction:destroy_money", target_id)
-					TriggerEvent("interaction:rob")
-	    		end
-	    	else
-	    		Notify("You're not close enough to the target!", 3000)
-	    	end
-	    else
-	    	Notify("The target is handcuffed, but you do not have the keys!", 3000)
-    	end
-    else
-    	Notify("The target is not handcuffed!", 3000)
-    end
+	local _canRob = exports.core_modules:CanRob(target_id)
+	local canRob, error = _canRob[1], _canRob[2]
+	if canRob then
+		if server_weapons[target_id] and inventories[target_id] then
+			TriggerServerEvent("interaction:destroy_money", target_id)
+			TriggerEvent("interaction:rob")
+		end
+	else
+		Notify(error, 3000)
+	end
 end)
 
 AddEventHandler("interaction:rob_phone", function(target_id)
-    if handcuffs[target_id] then
-    	local player_pos, target_pos = GetEntityCoords(PlayerPedId(), false), GetEntityCoords(GetPlayerPed(GetPlayerFromServerId(target_id)), false)
-    	if handcuffs[target_id].cuffed and handcuffs[target_id].keyholder == GetPlayerServerId(PlayerId()) then
-    		if GetDistanceBetweenCoords(player_pos.x, player_pos.y, player_pos.z, target_pos.x, target_pos.y, target_pos.z, true) < 3 then
-	    		if server_weapons[target_id] and inventories[target_id] then
-					TriggerServerEvent("interaction:take_phone", target_id)
-					TriggerEvent("interaction:rob")
-	    		end
-	    	else
-	    		Notify("You're not close enough to the target!", 3000)
-	    	end
-	    else
-	    	Notify("The target is handcuffed, but you do not have the keys!", 3000)
-    	end
-    else
-    	Notify("The target is not handcuffed!", 3000)
-    end
+	local _canRob = exports.core_modules:CanRob(target_id)
+	local canRob, error = _canRob[1], _canRob[2]
+	if canRob then
+		if server_weapons[target_id] and inventories[target_id] then
+			TriggerServerEvent("interaction:take_phone", target_id)
+			TriggerEvent("interaction:rob")
+		end
+	else
+		Notify(error, 3000)
+	end
 end)
 
 AddEventHandler("interaction:rob_radio", function(target_id)
-    if handcuffs[target_id] then
-    	local player_pos, target_pos = GetEntityCoords(PlayerPedId(), false), GetEntityCoords(GetPlayerPed(GetPlayerFromServerId(target_id)), false)
-    	if handcuffs[target_id].cuffed and handcuffs[target_id].keyholder == GetPlayerServerId(PlayerId()) then
-    		if GetDistanceBetweenCoords(player_pos.x, player_pos.y, player_pos.z, target_pos.x, target_pos.y, target_pos.z, true) < 3 then
-	    		if server_weapons[target_id] and inventories[target_id] then
-					TriggerServerEvent("interaction:take_radio", target_id)
-					TriggerEvent("interaction:rob")
-	    		end
-	    	else
-	    		Notify("You're not close enough to the target!", 3000)
-	    	end
-	    else
-	    	Notify("The target is handcuffed, but you do not have the keys!", 3000)
-    	end
-    else
-    	Notify("The target is not handcuffed!", 3000)
-    end
+	local _canRob = exports.core_modules:CanRob(target_id)
+	local canRob, error = _canRob[1], _canRob[2]
+	if canRob then
+		if server_weapons[target_id] and inventories[target_id] then
+			TriggerServerEvent("interaction:take_radio", target_id)
+			TriggerEvent("interaction:rob")
+		end
+	else
+		Notify(error, 3000)
+	end
 end)

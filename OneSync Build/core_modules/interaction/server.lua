@@ -81,54 +81,39 @@ end)
 
 RegisterNetEvent("interaction:take_money")
 AddEventHandler("interaction:take_money", function(target)
-    local source = source
-    if handcuffs[target] then
-        if handcuffs[target].cuffed and handcuffs[target].keyholder == source then
-            TriggerEvent("core:getuser", target, function(user)
-                local dirty_money = user.get("dirty")
-                local wallet = user.get("wallet")
-                user.dirty(0)
-                user.wallet(0)
-                Notify("You stole all of "..user.get("first_name").." "..user.get("last_name").."'s cash!", 3000, source)
-                if dirty_money >= 10000 or wallet >= 10000 then
-                    logMoney({steam = getID("steam", target), name = GetIdentity(target)},{steam = getID("steam", source), name = GetIdentity(source)},"Stole $" .. math.floor(wallet) .. " clean and $" .. math.floor(dirty_money) .. " dirty")
-                end
-                TriggerEvent("core:getuser", source, function(user2)
-                    user2.addWallet(wallet)
-                    user2.addDirty(dirty_money)
-                    Notify(user2.get("first_name").." "..user2.get("last_name").." stole all of your cash!", 3000, target)
-                end)            
-            end)
-        else
-            Notify("The target is handcuffed, but you do not have the keys!", 3000, source)
-        end
-    else
-        Notify("The target is not handcuffed!", 3000, source)
-    end
+	local source = source
+	TriggerEvent("core:getuser", target, function(user)
+		local dirty_money = user.get("dirty")
+		local wallet = user.get("wallet")
+		user.dirty(0)
+		user.wallet(0)
+		Notify("You stole all of "..user.get("first_name").." "..user.get("last_name").."'s cash!", 3000, source)
+		if dirty_money >= 10000 or wallet >= 10000 then
+			logMoney({steam = getID("steam", target), name = GetIdentity(target)},{steam = getID("steam", source), name = GetIdentity(source)},"Stole $" .. math.floor(wallet) .. " clean and $" .. math.floor(dirty_money) .. " dirty")
+		end
+		TriggerEvent("core:getuser", source, function(user2)
+			user2.addWallet(wallet)
+			user2.addDirty(dirty_money)
+			Notify(user2.get("first_name").." "..user2.get("last_name").." stole all of your cash!", 3000, target)
+		end)            
+	end)
 end)
 
 RegisterNetEvent("interaction:destroy_money")
 AddEventHandler("interaction:destroy_money", function(target)
-    local source = source
-    if handcuffs[target] then
-        if handcuffs[target].cuffed and handcuffs[target].keyholder == source then
-            TriggerEvent("core:getuser", target, function(user)
-                user.dirty(0)
-                user.wallet(0)
-                Notify("You destroyed all of "..user.get("first_name").." "..user.get("last_name").."'s cash!", 3000, source)        
-            end)
-            Notify(GetIdentity(source).." destroyed all of your cash!", 3000, target)
-        else
-            Notify("The target is handcuffed, but you do not have the keys!", 3000, source)
-        end
-    else
-        Notify("The target is not handcuffed!", 3000, source)
-    end
+	local source = source
+	TriggerEvent("core:getuser", target, function(user)
+		user.dirty(0)
+		user.wallet(0)
+		Notify("You destroyed all of "..user.get("first_name").." "..user.get("last_name").."'s cash!", 3000, source)        
+	end)
+	Notify(GetIdentity(source).." destroyed all of your cash!", 3000, target)
 end)
 
 --[[ Handcuffs ]]--
 handcuffs = {}
 handcuff_keys = {}
+cuffables = {}
 
 AddEventHandler("handcuffs:initialise", function(source)
     handcuffs[source] = {cuffed = false, keyholder = nil}
@@ -182,6 +167,15 @@ AddEventHandler("handcuffs:uncuff", function(target)
             end
         end
     end
+end)
+
+RegisterServerEvent("handcuffs:handsup")
+AddEventHandler("handcuffs:handsup", function(toggle)
+	if toggle ~= true and toggle ~= false then return end
+	local source = source
+
+	cuffables[source] = toggle
+	TriggerClientEvent("handcuffs:sync_cuffable", -1, cuffables)
 end)
 
 RegisterServerEvent("handcuffs:success")
@@ -284,36 +278,20 @@ end)
 --[[ Robbing - Phone removal ]]--
 RegisterNetEvent("interaction:take_phone")
 AddEventHandler("interaction:take_phone", function(target)
-    local source = source
-    if handcuffs[target] then
-        if handcuffs[target].cuffed and handcuffs[target].keyholder == source then
-            TriggerEvent("Phone.Set", target, false)
-            Notify("You destroyed "..GetIdentity(target).."'s phone!", 3000, source)
-            Notify(GetIdentity(source).." destroyed your phone!", 3000, target)
-        else
-            Notify("The target is handcuffed, but you do not have the keys!", 3000, source)
-        end
-    else
-        Notify("The target is not handcuffed!", 3000, source)
-    end
+	local source = source
+	TriggerEvent("Phone.Set", target, false)
+	Notify("You destroyed "..GetIdentity(target).."'s phone!", 3000, source)
+	Notify(GetIdentity(source).." destroyed your phone!", 3000, target)
 end)
 
 --[[ Robbing - Radio removal ]]--
 RegisterNetEvent("interaction:take_radio")
 AddEventHandler("interaction:take_radio", function(target)
-    local source = source
-    if handcuffs[target] then
-        if handcuffs[target].cuffed and handcuffs[target].keyholder == source then
-            TriggerEvent("core:getuser", target, function(user)
-                user.set("radio", "false")
-                TriggerClientEvent("Radio.Set", target, false)
-                Notify("You destroyed "..GetIdentity(target).."'s radio!", 3000, source)
-                Notify(GetIdentity(source).." destroyed your radio!", 3000, target)
-            end)
-        else
-            Notify("The target is handcuffed, but you do not have the keys!", 3000, source)
-        end
-    else
-        Notify("The target is not handcuffed!", 3000, source)
-    end
+	local source = source
+	TriggerEvent("core:getuser", target, function(user)
+		user.set("radio", "false")
+		TriggerClientEvent("Radio.Set", target, false)
+		Notify("You destroyed "..GetIdentity(target).."'s radio!", 3000, source)
+		Notify(GetIdentity(source).." destroyed your radio!", 3000, target)
+	end)
 end)

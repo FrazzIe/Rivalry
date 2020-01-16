@@ -218,7 +218,7 @@ end)
 AddEventHandler("interaction:actions_emotes", function()
 	exports.ui:reset()
 	exports.ui:open()
-	exports.ui:addOption("Rob", [[TriggerEvent("interaction:rob")]])
+	exports.ui:addOption("Rob", [[TriggerEvent("interaction:rob", true)]])
 	exports.ui:addOption("Escort", [[TriggerEvent("interaction:drag_execute")]])
 	if exports.policejob:getIsCop() or exports.emsjob:getIsParamedic() then 
 		if exports.policejob:getIsInService() or exports.emsjob:getIsInService() then 
@@ -576,4 +576,23 @@ end)
 RegisterNetEvent("interaction:controller")
 AddEventHandler("interaction:controller", function()
 	controller = not controller
+end)
+
+--[[ Robbing ]]--
+exports("CanRob", function(target_id)
+	local otherPed = GetPlayerPed(GetPlayerFromServerId(target_id))
+	print("robbing "..tostring(IsEntityDead(otherPed)).." "..tostring(exports.core_modules:IsCuffable(target_id)).." "..tostring(exports.core_modules:IsHandcuffed(target_id)))
+	if not IsPedArmed(PlayerPedId(), 7) then
+		return {false, "You must be armed!"}
+	end
+	if IsEntityDead(otherPed) or exports.core_modules:IsCuffable(target_id) or exports.core_modules:IsHandcuffed(target_id) then
+		local player_pos, target_pos = GetEntityCoords(PlayerPedId(), false), GetEntityCoords(otherPed, false)
+		if GetDistanceBetweenCoords(player_pos.x, player_pos.y, player_pos.z, target_pos.x, target_pos.y, target_pos.z, true) < 2 then
+			return {true}
+		else
+			return {false, "You're not close enough to the target!"}
+		end
+	else
+		return {false, "The target is not vulnreable!"}
+	end
 end)
