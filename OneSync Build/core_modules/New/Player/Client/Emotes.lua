@@ -1933,6 +1933,10 @@ Emote.Add("search", "Search the Ground", "Misc", {"clothingshoes"}, {"check_out_
     TaskPlayAnim(PlayerPedId(), self.Dictionaries[1], self.Animations[1], 2.0, 2.0, -1, 129, 0, false, false, false)
 end)
 
+Emote.Add("whistle", "Whistle", "Misc", {"rcmnigel1c"}, {"hailing_whistle_waive_a"}, {}, {}, function(self)
+    TaskPlayAnim(PlayerPedId(), self.Dictionaries[1], self.Animations[1], 2.0, 2.0, -1, 48, 0, false, false, false)
+end)
+
 Emote.Add("whocares", "Who cares?", "Misc", {"anim@mp_celebration@draw@female"}, {"draw_react_female_b"}, {}, {}, function(self)
     TaskPlayAnim(PlayerPedId(), self.Dictionaries[1], self.Animations[1], 2.0, 2.0, -1, 128, 0, false, false, false)
 end)
