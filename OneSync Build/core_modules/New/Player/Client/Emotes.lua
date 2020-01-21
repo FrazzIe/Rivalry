@@ -344,6 +344,26 @@ Emote.Add("notepad2", "Notepad 2", "Job", {}, {}, {"CODE_HUMAN_MEDIC_TIME_OF_DEA
 	TaskStartScenarioInPlace(PlayerPedId(), self.Scenarios[1], 0, false)
 end)
 
+Emote.Add("badge", "Badge", "Job", {"paper_1_rcm_alt1-9"}, {"player_one_dual-9"}, {}, {}, function(self)
+    if exports.policejob:getIsCop() then
+        local Model = GetHashKey("prop_fib_badge")
+        RequestModel(Model)
+        while not HasModelLoaded(Model) do
+            Citizen.Wait(150)
+        end
+
+        local object = CreateObject(Model, 0.01, 0, 0, true, false, false)
+
+        self:Object(object)
+
+        AttachEntityToEntity(object, PlayerPedId(), GetPedBoneIndex(PlayerPedId(), 28422), 0.12, 0.0042, -0.04, 90.0, 90.0, 45.0, 1, 1, 0, 0, 2, 1)
+
+        SetModelAsNoLongerNeeded(Model)
+
+        TaskPlayAnim(PlayerPedId(), self.Dictionaries[1], self.Animations[1], 2.0, 2.0, -1, 48, 0, false, false, false)
+    end
+end)
+
 Emote.Add("clipboard", "Clipboard", "Job", {"amb@world_human_clipboard@male@base"}, {"base"}, {}, {}, function(self)
 	local Model = GetHashKey("p_cs_clipboard")
 	RequestModel(Model)
