@@ -115,8 +115,60 @@ itemlist = {
     [93] = {name = "Gauze", item_id = 93, canuse = 17, illegal = false},
     [94] = {name = "Ibuprofen", item_id = 94, canuse = 18, illegal = false},
     [95] = {name = "Hydrocodone", item_id = 95, canuse = 19, illegal = false},
-    [96] = {name = "Morphine", item_id = 96, canuse = 20, illegal = false}
+    [96] = {name = "Morphine", item_id = 96, canuse = 20, illegal = false},
+	[97] = {name = "Blood Sample Kit", item_id = 97, canuse = 0, illegal = false},
+	[98] = {name = "Evidence Collection Kit", item_id = 98, canuse = 0, illegal = false},
+	[99] = {name = "Cotton-Tipped Swab", item_id = 99, canuse = 0, illegal = false},
+	[100] = {name = "Beer", item_id = 100, canuse = 1, illegal = false},
+	[101] = {name = "Whiskey", item_id = 101, canuse = 1, illegal = false},
+	[102] = {name = "Bourbon", item_id = 102, canuse = 1, illegal = false},
+	[103] = {name = "Wine", item_id = 103, canuse = 1, illegal = false},
+	[104] = {name = "Martini", item_id = 104, canuse = 1, illegal = false},
+	[105] = {name = "Rum", item_id = 105, canuse = 1, illegal = false},
+	[106] = {name = "Tequila", item_id = 106, canuse = 1, illegal = false},
+	[107] = {name = "Soda", item_id = 107, canuse = 1, illegal = false},
+	[108] = {name = "Energy Drink", item_id = 108, canuse = 1, illegal = false},
+	[109] = {name = "Sushi", item_id = 109, canuse = 2, illegal = false},
+	[110] = {name = "Banana", item_id = 110, canuse = 2, illegal = false},
+	[111] = {name = "Bubble Gum", item_id = 111, canuse = 2, illegal = false},
+	[112] = {name = "Rose", item_id = 112, canuse = 0, illegal = false},
+	[113] = {name = "Bouquet", item_id = 113, canuse = 0, illegal = false},
+	[114] = {name = "Cassette", item_id = 114, canuse = 0, illegal = false},
+	[115] = {name = "Smelly Shoe", item_id = 115, canuse = 0, illegal = false},
+	[116] = {name = "Lighter", item_id = 116, canuse = 0, illegal = false},
+	[117] = {name = "Digital Watch", item_id = 117, canuse = 0, illegal = false},
+	[118] = {name = "Manga", item_id = 118, canuse = 0, illegal = false},
+	[119] = {name = "Anime Figurine", item_id = 119, canuse = 0, illegal = false},
+	[120] = {name = "Transformers Figurine", item_id = 120, canuse = 0, illegal = false},
+	[121] = {name = "Pen", item_id = 121, canuse = 0, illegal = false},
+	[122] = {name = "Pencil", item_id = 122, canuse = 0, illegal = false},
+	[123] = {name = "Notepad", item_id = 123, canuse = 0, illegal = false},
+	[124] = {name = "Briefcase", item_id = 124, canuse = 0, illegal = false},
+	[125] = {name = "Boombox", item_id = 125, canuse = 0, illegal = false},
+	[126] = {name = "Bong", item_id = 126, canuse = 0, illegal = false},
+	[127] = {name = "Crack Pipe", item_id = 127, canuse = 0, illegal = false},
+	[128] = {name = "Tiara", item_id = 128, canuse = 0, illegal = false},
+	[129] = {name = "Wedding Ring", item_id = 129, canuse = 0, illegal = false},
+	[130] = {name = "Gold Watch", item_id = 130, canuse = 0, illegal = false},
+	[131] = {name = "Diamond Stud", item_id = 131, canuse = 0, illegal = false},
+	[132] = {name = "Hairpin", item_id = 132, canuse = 0, illegal = false},
+	[133] = {name = "Choker", item_id = 133, canuse = 0, illegal = false},
 }
+
+-- Debug
+-- base = 99
+-- output = ""
+-- toAdd = {
+	
+-- }
+
+-- for k, v in ipairs(toAdd) do
+-- 	local n = k + base
+-- 	local str = ("[%s] = {name = \"%s\", item_id = %s, canuse = 0, illegal = false},\n"):format(n, v, k)
+-- 	output = output .. str
+-- end
+
+-- print(output)
 
 local MaxWeaponsForClass = {
     [0] = 3, -- Compacts

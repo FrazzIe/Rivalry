@@ -29,14 +29,28 @@ Store = {
         {Name = "Pizza slice", Id = 43, Cost = 8, Max = 10},
         {Name = "Yams", Id = 45, Cost = 5, Max = 10},
         {Name = "Taco", Id = 49, Cost = 3, Max = 10},
-        {Name = "Dog Biscuit", Id = 52, Cost = 3, Max = 10},
+		{Name = "Dog Biscuit", Id = 52, Cost = 3, Max = 10},
+		{Name = "Sushi", Id = 109, Cost = 60, Max = 10},
+		{Name = "Banana", Id = 110, Cost = 8, Max = 10},
+		{Name = "Bubble Gum", Id = 111, Cost = 2, Max = 10},
     }},
-    {Category = "Drink", Items = {
+    {Category = "Beverage", Items = {
         {Name = "Water", Id = 6, Cost = 3, Max = 10},
-        {Name = "Vodka", Id = 41, Cost = 10, Max = 10},
         {Name = "Irn Bru", Id = 17, Cost = 4, Max = 10},
         {Name = "Coffee", Id = 18, Cost = 5, Max = 10},
-    }},
+		{Name = "Soda", Id = 107, Cost = 3, Max = 10},
+		{Name = "Energy Drink", Id = 108, Cost = 6, Max = 10},
+	}},
+	{Category = "Alcohol", Items = {
+		{Name = "Vodka", Id = 41, Cost = 10, Max = 10},
+		{Name = "Beer", Id = 100, Cost = 10, Max = 10},
+		{Name = "Whiskey", Id = 101, Cost = 10, Max = 10},
+		{Name = "Bourbon", Id = 102, Cost = 10, Max = 10},
+		{Name = "Wine", Id = 103, Cost = 10, Max = 10},
+		{Name = "Martini", Id = 104, Cost = 10, Max = 10},
+		{Name = "Rum", Id = 105, Cost = 10, Max = 10},
+		{Name = "Tequila", Id = 106, Cost = 10, Max = 10},
+	}},
     {Category = "Misc", Items = {
         {Name = "Cigarette", Id=77, Cost = 10, Max = 10},
         {Name = "Cigar", Id=79, Cost = 10, Max = 10},
@@ -62,7 +76,33 @@ ToolMarket = {
     {Category = "Illegal", Items = {
         {Name = "Lockpick", Id=36, Cost = 25, Max = 5},
         {Name = "Hotwire kit", Id=46, Cost = 50, Max = 5},
-    }},
+	}},
+	{Category = "Misc", Items = {
+		{Name = "Rose", Id=112, Cost = 5, Max = 5},
+		{Name = "Bouquet", Id=113, Cost = 15, Max = 5},
+		{Name = "Cassette", Id=114, Cost = 80, Max = 5},
+		{Name = "Smelly Shoe", Id=115, Cost = 20, Max = 5},
+		{Name = "Lighter", Id=116, Cost = 5, Max = 5},
+		{Name = "Digital Watch", Id=117, Cost = 40, Max = 5},
+		{Name = "Manga", Id=118, Cost = 30, Max = 5},
+		{Name = "Anime Figurine", Id=119, Cost = 900, Max = 5},
+		{Name = "Transformers Figurine", Id=120, Cost = 901, Max = 5},
+		{Name = "Pen", Id=121, Cost = 6, Max = 5},
+		{Name = "Pencil", Id=122, Cost = 4, Max = 5},
+		{Name = "Notepad", Id=123, Cost = 10, Max = 5},
+		{Name = "Briefcase", Id=124, Cost = 1000, Max = 5},
+		{Name = "Boombox", Id=125, Cost = 350, Max = 5},
+		{Name = "Bong", Id=126, Cost = 200, Max = 5},
+		{Name = "Crack Pipe", Id=127, Cost = 200, Max = 5},
+	}},
+	{Category = "Jewelry", Items = {
+		{Name = "Tiara", Id=128, Cost = 450, Max = 5},
+		{Name = "Wedding Ring", Id=1289, Cost = 630, Max = 5},
+		{Name = "Gold Watch", Id=130, Cost = 890, Max = 5},
+		{Name = "Diamond Stud", Id=131, Cost = 1240, Max = 5},
+		{Name = "Hairpin", Id=132, Cost = 30, Max = 5},
+		{Name = "Choker", Id=133, Cost = 90, Max = 5},
+	}},
 }
 
 EMSMarket = {
@@ -75,6 +115,11 @@ EMSMarket = {
 		{Name = "Medkit", Id = 91, Cost = 250, Max = 10},
 		{Name = "First Aid Kit", Id = 92, Cost = 150, Max = 10},
 		{Name = "Gauze", Id = 93, Cost = 50, Max = 10},
+	}},
+    {Category = "Evidence", Items = {
+		{Name = "Blood Sample Kit", Id = 97, Cost = 500, Max = 1},
+		{Name = "Evidence Collection Kit", Id = 98, Cost = 1000, Max = 1},
+		{Name = "Cotton-Tipped Swab", Id = 99, Cost = 10, Max = 10},
     }},
 }
 
