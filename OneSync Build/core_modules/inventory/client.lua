@@ -479,15 +479,7 @@ local function drink(item)
     RequestAnimDict("amb@world_human_drinking@coffee@male@idle_a")
     while (not HasAnimDictLoaded("amb@world_human_drinking@coffee@male@idle_a")) do Citizen.Wait(0) end
     TaskPlayAnim(pid, 'amb@world_human_drinking@coffee@male@idle_a', 'idle_a', 1.0, -1.0, 2000, 0, 1, true, true, true)
-    if item == 25 then
-        TriggerEvent("fm:drink", -5)
-        addBAC(0.4)
-        drunk = true
-    elseif item == 27 then
-        TriggerEvent("fm:drink", -5)
-        addBAC(0.4)
-        drunk = true
-    elseif item == 41 then
+    if item == 25 or item == 27 or item == 41 or (item >= 100 and item <= 106) then
         TriggerEvent("fm:drink", -5)
         addBAC(0.4)
         drunk = true
