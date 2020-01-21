@@ -315,6 +315,31 @@ Emote.Add("notepad", "Notepad", "Job", {"anim@amb@business@bgen@bgen_inspecting@
     TaskPlayAnim(PlayerPedId(), self.Dictionaries[1], self.Animations[1], -4.0, 4.0, -1, 49, 0, false, false, false)
 end)
 
+Emote.Add("ticket", "Ticket", "Job", {"veh@busted_std"}, {"issue_ticket_cop"}, {}, {}, function(self)
+	local Model = GetHashKey("p_notepad_01_s")
+    local Model2 = GetHashKey("prop_pencil_01")
+	
+    RequestModel(Model)
+    RequestModel(Model2)
+	while not HasModelLoaded(Model) and HasModelLoaded(Model2) do
+		Citizen.Wait(250)
+	end
+
+    local object = CreateObject(Model, 0.01, 0, 0, true, false, false)
+    local object2 = CreateObject(Model2, 0.01, 0, 0, true, false, false)
+
+    self:Object(object)
+    self:Object(object2)
+
+    AttachEntityToEntity(object, PlayerPedId(), GetPedBoneIndex(PlayerPedId(), 4090), .06, -0.001, 0.022, 130.0, 125.0, 200.0, true, true, false, true, 1, true)
+    AttachEntityToEntity(object2, PlayerPedId(), GetPedBoneIndex(PlayerPedId(), 64017), 0.010, 0.003, 0.014, 45.0, 75.0, 235.0, true, true, false, true, 1, true)
+
+    SetModelAsNoLongerNeeded(Model)
+    SetModelAsNoLongerNeeded(Model2)
+    
+    TaskPlayAnim(PlayerPedId(), self.Dictionaries[1], self.Animations[1], 2.0, 2.0, -1, 48, 0, false, false, false)
+end)
+
 Emote.Add("notepad2", "Notepad 2", "Job", {}, {}, {"CODE_HUMAN_MEDIC_TIME_OF_DEATH"}, {}, function(self)
 	TaskStartScenarioInPlace(PlayerPedId(), self.Scenarios[1], 0, false)
 end)
@@ -960,6 +985,12 @@ end)
 
 Emote.Add("kc", "Knucklecrunch", "Gesture", {"anim@mp_player_intcelebrationfemale@knuckle_crunch"}, {"knuckle_crunch"}, {}, {}, function(self)
     TaskPlayAnim(PlayerPedId(), self.Dictionaries[1], self.Animations[1], 2.0, 2.0, -1, 48, 0, false, false, false)
+end)
+
+Emote.Add("frisk", "Frisk", "Job", {"car_steal_3_mcs_3-4"}, {"player_two_dual-4"}, {}, {}, function(self)
+    PlayerPosition = GetEntityCoords(PlayerPedId())
+    PlayerRotation = GetEntityRotation(PlayerPedId())
+    TaskPlayAnimAdvanced(PlayerPedId(), self.Dictionaries[1], self.Animations[1], PlayerPosition.x, PlayerPosition.y, PlayerPosition.z, PlayerRotation.x, PlayerRotation.y, PlayerRotation.z, 2.0, 2.0, -1, 48, 0.7, false, false, false)
 end)
 
 Emote.Add("slowclap2", "Slow Clap 2", "Cheers", {"anim@mp_player_intcelebrationfemale@slow_clap"}, {"slow_clap"}, {}, {}, function(self)
