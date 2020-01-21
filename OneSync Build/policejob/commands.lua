@@ -220,7 +220,14 @@ AddEventHandler("playerSpawned", function()
 		if isInService then
 			local t, distance = GetClosestPlayer()
 			if(distance ~= -1 and distance < 3) then
+				RequestAnimDict("car_steal_3_mcs_3-4")
+				while not HasAnimDictLoaded("car_steal_3_mcs_3-4") do
+					Wait(0)
+				end
 				TriggerServerEvent("police:frisk", GetPlayerServerId(t))
+				PlayerPosition = GetEntityCoords(PlayerPedId())
+				PlayerRotation = GetEntityRotation(PlayerPedId())
+				TaskPlayAnimAdvanced(PlayerPedId(), "car_steal_3_mcs_3-4", "player_two_dual-4", PlayerPosition.x, PlayerPosition.y, PlayerPosition.z, PlayerRotation.x, PlayerRotation.y, PlayerRotation.z, 2.0, 2.0, -1, 48, 0.7, false, false, false)
 			else
 				Notify("Please get closer to the target!", 2500)
 			end
