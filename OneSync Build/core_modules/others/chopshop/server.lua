@@ -75,7 +75,7 @@ ChopShop = {
         },
         [8] = {
             [1] = {Model = "Bullet", Payout = 1500},
-            [2] = {Model = "Schwartzer", Payout = 750},
+            [2] = {Model = "Schwarzer", Payout = 750},
             [3] = {Model = "Buffalo2", Payout = 750},
             [4] = {Model = "Ruiner", Payout = 600},
             [5] = {Model = "Dominator", Payout = 600},
