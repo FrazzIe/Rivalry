@@ -357,7 +357,7 @@ AddEventHandler("Rivalry.Vault.Payout", function()
 	local Source = source
 	TriggerEvent("core:getuser", Source, function(User)
 		Payout = math.random(400, 800)
-		User.addDirty(Payout)
+		User.addWallet(Payout)
 	end)
 end)
 
