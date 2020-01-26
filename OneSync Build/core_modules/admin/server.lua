@@ -85,7 +85,7 @@ TriggerEvent("core:addCommand", "livery", function(source, args, rawCommand, dat
 	end
 end, {help = "Change livery of a vehicle", params = {{name = "number", help = "The vehicle livery"}}})
 
-TriggerEvent("core:addGroupCommand", "revive", "staff", function(source, args, rawCommand, data, power, group)
+TriggerEvent("core:addGroupCommand", "revive", "admin", function(source, args, rawCommand, data, power, group)
 	local source = source
 	if not args[1] then
 		TriggerClientEvent('chatMessage', source, "^0[^1SYSTEM^0]", {255, 0, 0}, "^3/revive [ID]")
