@@ -12,7 +12,7 @@
 	Copy, re-release, re-distribute it without my written permission.
 --]]
 
-TriggerEvent("core:addGroupCommand", "spawn", "owner", function(source, args, rawCommand, data, power, group)
+TriggerEvent("core:addGroupCommand", "spawn", "staff", function(source, args, rawCommand, data, power, group)
 	local source = source
 	if not args[2] then
 		TriggerClientEvent('chatMessage', source, "^0[^1SYSTEM^0]", {255, 0, 0}, "^3/spawn [model] [normal|upgrade]")
@@ -31,7 +31,7 @@ TriggerEvent("core:addGroupCommand", "spawn", "owner", function(source, args, ra
 	end
 end, {help = "Spawn a vehicle", params = {{name = "model", help = "The vehicle model (turismor)"},{name = "type", help = "normal or upgrade"}}})
 
-TriggerEvent("core:addGroupCommand", "weapon", "owner", function(source, args, rawCommand, data, power, group)
+TriggerEvent("core:addGroupCommand", "weapon", "staff", function(source, args, rawCommand, data, power, group)
 	local source = source
 	if not args[1] then
 		TriggerClientEvent('chatMessage', source, "^0[^1SYSTEM^0]", {255, 0, 0}, "^3/weapon [model]")
