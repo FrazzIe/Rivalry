@@ -433,7 +433,7 @@ end
 RegisterNetEvent('client:launderingVan')
 AddEventHandler('client:launderingVan', function()
 	Citizen.CreateThread(function()
-		local model = "pony"
+		local model = "boxville2"
 		RequestModel(model)
 		while not HasModelLoaded(model) do
 			Citizen.Wait(0)
@@ -441,26 +441,24 @@ AddEventHandler('client:launderingVan', function()
 		if DoesEntityExist(delivery_truck) then
 			DestroyVehicle(delivery_truck)
 			delivery_truck = nil
-			delivery_truck = exports["core"]:SpawnVehicle("pony", laundering.vehicle, 127.42662811279, false)
+			delivery_truck = exports["core"]:SpawnVehicle(model, laundering.vehicle, 127.42662811279, false)
 			
 			if delivery_truck ~= nil and delivery_truck ~= 0 then
 				local plate = "GP"..GetVehicleNumberPlateText(delivery_truck)
 				SetVehicleNumberPlateText(delivery_truck, plate)
 				SetEntityInvincible(delivery_truck, false)
 				SetPedIntoVehicle(PlayerPedId(), delivery_truck, -1)
-				SetVehicleLivery(delivery_truck, 1)
 				DecorSetBool(delivery_truck, "hotwire", true)
 				startDelivery()
 			end
 		else
-			delivery_truck = exports["core"]:SpawnVehicle("pony", laundering.vehicle, 127.42662811279, false)
+			delivery_truck = exports["core"]:SpawnVehicle(model, laundering.vehicle, 127.42662811279, false)
 			
 			if delivery_truck ~= nil and delivery_truck ~= 0 then
 				local plate = "GP"..GetVehicleNumberPlateText(delivery_truck)
 				SetVehicleNumberPlateText(delivery_truck, plate)
 				SetEntityInvincible(delivery_truck, false)
 				SetPedIntoVehicle(PlayerPedId(), delivery_truck, -1)
-				SetVehicleLivery(delivery_truck, 1)
 				DecorSetBool(delivery_truck, "hotwire", true)
 				startDelivery()
 			end
@@ -514,7 +512,7 @@ Citizen.CreateThread(function()
 				if #(PlayerPosition - delivery_points[l].coords) < 1 then
 					local Vehicle = GetVehiclePedIsIn(Ped, false)
 					local Model = GetEntityModel(Vehicle)
-					if Model == GetHashKey("pony") then
+					if Model == GetHashKey("boxville2") then
 						DisplayHelpText("Press ~INPUT_CONTEXT~ to deliver your ~b~package", 2, 1, 0.5, 0.8, 0.6, 255, 255, 255, 255)
 						if (IsControlJustReleased(1, 51)) then
 							deliverysuccess()
