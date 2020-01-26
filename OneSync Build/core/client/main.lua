@@ -253,6 +253,7 @@ AddEventHandler("core:pvp", function()
 	Citizen.CreateThread(function()
 		while true do
 			Citizen.Wait(0)
+			SetPedSuffersCriticalHits(PlayerPedId(), false)
 			for _, player in ipairs(GetActivePlayers()) do
 				SetCanAttackFriendly(GetPlayerPed(player), true, true)
 				NetworkSetFriendlyFireOption(true)
