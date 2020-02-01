@@ -427,7 +427,7 @@ Citizen.CreateThread(function()
         if UsedCigarette then
             Citizen.Wait(1000)
             if IsPedUsingScenario(PlayerPedId(), "WORLD_HUMAN_SMOKING") then
-                StressLevel = StressLevel - 0.5
+                StressLevel = StressLevel - 10.0
                 DecorSetFloat(PlayerPedId(), "_Stress_Level", StressLevel)
                 if StressLevel == 0 then
                     Notify("You are not longer stressed!")
@@ -440,7 +440,7 @@ Citizen.CreateThread(function()
         elseif UsedWeed then
             Citizen.Wait(1000)
             if IsPedUsingScenario(PlayerPedId(), "WORLD_HUMAN_SMOKING_POT") then
-                StressLevel = StressLevel - 1.0
+                StressLevel = StressLevel - 20.0
                 DecorSetFloat(PlayerPedId(), "_Stress_Level", StressLevel)
                 if StressLevel == 0 then
                     Notify("You are not longer stressed!")
