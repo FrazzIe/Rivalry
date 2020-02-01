@@ -120,7 +120,7 @@ Citizen.CreateThread(function()
 												TriggerServerEvent("Weed.Sell", math.floor(Pay), Clean, Amount)
 
 												PlaySoundFrontend(-1, "Hack_Success", "DLC_HEIST_BIOLAB_PREP_HACKING_SOUNDS", true)
-											else
+											elseif math.random() < 0.5 then
 												PlaySoundFrontend(-1, "Hack_Failed", "DLC_HEIST_BIOLAB_PREP_HACKING_SOUNDS", true)
 												
 												TaskReactAndFleePed(RandomPed, PlayerPed)
@@ -134,6 +134,10 @@ Citizen.CreateThread(function()
 												if not IsEntityDead(RandomPed) then
 													TriggerEvent("dispatch:drug")
 												end
+											else
+												ClearPedTasksImmediately(RandomPed)
+												TaskPlayAnim(RandomPed, "gestures@m@standing@casual", "gesture_nod_no_hard", 100.0, 200.0, 0.3, 16, 0.2, 0, 0, 0)
+												TriggerEvent("chatMessage", "Local", {0, 255, 0}, "^7I'm not interested.")
 											end
 										end 
 									end
