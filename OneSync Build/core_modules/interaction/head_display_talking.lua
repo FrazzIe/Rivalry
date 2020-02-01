@@ -152,6 +152,11 @@ Citizen.CreateThread(function()
 		if IsHudComponentActive(0) and not IsPedInAnyVehicle(PlayerPed, true) then 
 			HideHudComponentThisFrame(0)
 		end
+
+		-- Disable action mode.
+		if IsPedUsingActionMode(PlayerPed) then
+			SetPedUsingActionMode(PlayerPed, false, -1, 0)
+		end
 	end
 end)
 
