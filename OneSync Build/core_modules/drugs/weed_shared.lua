@@ -259,7 +259,7 @@ if not IsDuplicityVersion() then
 		["ZQ_UAR"] = 10, -- Davis Quartz
 	}
 
-	Weed.Animation = {Dictionary = "mp_common", Player = "givetake1_a", Ped = "givetake1_b"}
+	Weed.Animation = {Dictionary = "mp_safehousevagos@", Player = "package_dropoff", Ped = "givetake1_b"}
 	Weed.Scenario = "WORLD_HUMAN_GARDENER_PLANT"
 	Weed.Bag = {
 		Model = GetHashKey("prop_meth_bag_01"),

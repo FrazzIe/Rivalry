@@ -259,9 +259,9 @@ Citizen.CreateThread(function()
 
 												AttachEntityToEntity(methbag, PlayerPed, GetPedBoneIndex(PlayerPed, 64096), 0.0, 0.0, 0.020, 90.0, -10.0, -130.0 ,true, true, false, true, 1, true)
 
-												TaskPlayAnim(PlayerPed, "mp_common", "givetake1_a", 100.0, 200.0, 0.3, 16, 0.2, 0, 0, 0)
 												ClearPedTasksImmediately(PlayerPed)
 
+												TaskPlayAnim(PlayerPed, "mp_safehousevagos@", "package_dropoff", 100.0, 200.0, 0.3, 16, 0.2, 0, 0, 0)
 
 												ClearPedTasksImmediately(ped)
 
