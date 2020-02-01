@@ -723,7 +723,7 @@ AddEventHandler("inventory:use",function(data)
         elseif data.canuse == 13 then
             TriggerEvent("Refill.Ammo", GetSelectedPedWeapon(PlayerPedId()), data.item_id)
         elseif data.canuse == 14 then
-            TriggerEvent("Add.Stress", 25)
+            TriggerEvent("Add.Stress", 20)
             Wait(11000)
             drugged = true
             TriggerEvent("Cocaine.Speed")
