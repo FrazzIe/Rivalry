@@ -539,7 +539,7 @@ AddEventHandler("dispatch:drug", function()
             else
                 cross = GetStreetNameFromHashKey(crossing)
             end
-            TriggerEvent("chatMessage", "Local", {0, 255, 0}, "^7Hey im calling the cops!")
+            TriggerEvent("chatMessage", "Local", {0, 255, 0}, "^7Help, somebody is trying to sell me drugs!")
 			TriggerServerEvent("dispatch:ten-fifthteen", {x = pos.x, y = pos.y, z = pos.z}, GetStreetNameFromHashKey(street), cross, GetLabelText(Area))
 		end
 	end
