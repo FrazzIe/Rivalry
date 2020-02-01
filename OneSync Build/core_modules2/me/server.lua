@@ -21,9 +21,9 @@ TriggerEvent("core:addCommand", "me", function(source, args, rawCommand, data)
 
         TriggerClientEvent("proximity:msg", -1, source, name, msg)
 
-        PerformHttpRequest("https://discordapp.com/api/webhooks/611315975052066836/5y7B37qMNxSFvXzabKjb9gqE7spujq1gW5En95JW8RnfLog2iInJYpKULpj_vItnu0VP", function(err, text, headers) end, 'POST', json.encode(
+        PerformHttpRequest("https://discordapp.com/api/webhooks/673281686863347752/ZgiPizh03p1fuKHFbqsLTGIwc0G2M-Gg2ViihCIv2st8cP3ZXvj0MghZc6G29zDmNa2O", function(err, text, headers) end, 'POST', json.encode(
         {
-            username = "ERP",
+            username = "Me",
             embeds = {
                 {
                     title = name .. " (" .. steam .. ")",
