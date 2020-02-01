@@ -87,8 +87,12 @@ Citizen.CreateThread(function()
 
 												SetEntityHeading(RandomPed, GetEntityHeading(PlayerPed) - 180)
 
+												ClearPedTasksImmediately(PlayerPed)
+												
 												TaskPlayAnim(PlayerPed, Weed.Animation.Dictionary, Weed.Animation.Player, 100.0, 200.0, 0.3, 16, 0.2, 0, 0, 0)
 
+												ClearPedTasksImmediately(RandomPed)
+												
 												TaskPlayAnim(RandomPed, Weed.Animation.Dictionary, Weed.Animation.Ped, 100.0, 200.0, 0.3, 16, 0.2, 0, 0, 0)
 
 												Citizen.Wait(500)
