@@ -1036,12 +1036,10 @@ Citizen.CreateThread(function()
                         previous_mission_coords = currentMissions.pos
                         TriggerServerEvent("mechanic:PayPlayer")
                         TriggerServerEvent('mechanic:FinishMission', currentMissions.id)
-                        currentMissions = nil
                     elseif previous_mission_coords == 0 or previous_mission_coords == nil and Distance < 10 then
                         previous_mission_coords = currentMissions.pos
                         TriggerServerEvent("mechanic:PayPlayer")
                         TriggerServerEvent('mechanic:FinishMission', currentMissions.id)
-                        currentMissions = nil
                     end
                 else
                     local Distance = #(PlayerPosition - CurrentMissionVector)
@@ -1049,7 +1047,6 @@ Citizen.CreateThread(function()
                         previous_mission_coords = currentMissions.pos
                         TriggerServerEvent("mechanic:PayPlayer")
                         TriggerServerEvent('mechanic:FinishMission', currentMissions.id)
-                        currentMissions = nil
                     end
                 end
             end
@@ -1071,12 +1068,10 @@ AddEventHandler("mechanic:finish_mission", function()
                 local LastMission = #(CurrentMissionVector - PreviousMissionVector)
                 if Distance < 10 and LastMission > 20 then
                     previous_mission_coords = currentMissions.pos
-                    TriggerServerEvent("mechanic:PayPlayer")
                     TriggerServerEvent('mechanic:FinishMission', currentMissions.id)
                     currentMissions = nil
                 elseif previous_mission_coords == 0 or previous_mission_coords == nil and Distance < 10 then
                     previous_mission_coords = currentMissions.pos
-                    TriggerServerEvent("mechanic:PayPlayer")
                     TriggerServerEvent('mechanic:FinishMission', currentMissions.id)
                     currentMissions = nil
                 end
@@ -1084,7 +1079,6 @@ AddEventHandler("mechanic:finish_mission", function()
                 local Distance = #(PlayerPosition - CurrentMissionVector)
                 if Distance < 10 then
                     previous_mission_coords = currentMissions.pos
-                    TriggerServerEvent("mechanic:PayPlayer")
                     TriggerServerEvent('mechanic:FinishMission', currentMissions.id)
                     currentMissions = nil
                 end

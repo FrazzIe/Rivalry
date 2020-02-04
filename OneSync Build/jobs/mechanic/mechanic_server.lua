@@ -252,6 +252,11 @@ function closures_mechanic_server()
         closeMission(source, id)
     end)
 
+    RegisterServerEvent(preFixEventName .. ':finish_mission')
+    AddEventHandler(preFixEventName .. ':finish_mission', function (id)
+        closeMission(source, id)
+    end)
+
     RegisterServerEvent(preFixEventName .. ':cancelCall')
     AddEventHandler(preFixEventName .. ':cancelCall', function ()
         removeClient(source)
