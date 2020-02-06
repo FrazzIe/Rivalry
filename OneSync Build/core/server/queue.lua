@@ -94,7 +94,7 @@ Config.Language = {
     connectingerr = "Error adding you to connecting list",
     banned = "%s",
     steam = "Error: Steam must be running",
-    prio = "You must be whitelisted to join this server. You may apply at www.rivalryrp.com/forums"
+    prio = "Hey thanks for clicking on us! All we ask is that you register on our website and get some tags! Register to play at www.rivalryrp.com/forums"
 }
 -----------------------------------------------------------------------------------------------------------------------
 
