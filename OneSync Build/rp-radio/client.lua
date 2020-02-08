@@ -43,7 +43,7 @@ local Radio = {
         { "FRZL_RADIO_INPUT", "Enter Frequency"},
     },
     Frequency = {
-        Current = 5,
+        Current = 6,
         Min = 0,
         Max = 800,
     }
@@ -206,6 +206,7 @@ Citizen.CreateThread(function()
         isPrisoner = exports["core_modules"]:IsInJail()
         isCuffed = exports["policejob"]:getIsCuffed() or exports["core_modules"]:isCuffed()
         isEmergency = exports["policejob"]:getIsInService() or exports["emsjob"]:getIsInService()
+        isMechanic = exports["mechanicjob"]:getIsInService()
     end
 end)
 
@@ -243,12 +244,22 @@ Citizen.CreateThread(function()
         end
 
         -- Remove player from emergency services comms if not part of the emergency services
-        if not isEmergency and Radio.Frequency.Current < 5 and Radio.On then
-            Radio:Remove(Radio.Frequency.Current)
-            Radio.Frequency.Current = 5
-            Radio:Add(Radio.Frequency.Current)
-        elseif not isEmergency and Radio.Frequency.Current < 5 and not Radio.On then
-            Radio.Frequency.Current = 5
+        if not isMechanic then
+            if not isEmergency and Radio.Frequency.Current < 6 and Radio.On then
+                Radio:Remove(Radio.Frequency.Current)
+                Radio.Frequency.Current = 6
+                Radio:Add(Radio.Frequency.Current)
+            elseif not isEmergency and Radio.Frequency.Current < 6 and not Radio.On then
+                Radio.Frequency.Current = 6
+            end
+        else
+            if not isEmergency and Radio.Frequency.Current < 5 and Radio.On then
+                Radio:Remove(Radio.Frequency.Current)
+                Radio.Frequency.Current = 5
+                Radio:Add(Radio.Frequency.Current)
+            elseif not isEmergency and Radio.Frequency.Current < 5 and not Radio.On then
+                Radio.Frequency.Current = 5
+            end
         end
 
         -- Check if player is holding radio
