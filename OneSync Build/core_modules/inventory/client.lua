@@ -771,6 +771,7 @@ AddEventHandler("inventory:use",function(data)
             end
         elseif data.canuse == 21 then
             GiveWeaponToPed(PlayerPedId(), GetHashKey("weapon_briefcase_02"), 1, 0, 1)
+            addQty(data.item_id, 1)
         end
         removeQty(data.item_id,1)
     elseif data.canuse == -1 then
