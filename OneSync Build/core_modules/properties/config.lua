@@ -4400,7 +4400,7 @@ properties = {
 					vault = {x = -1375.394, y = -624.3627, z = 30.81958, h = 295.184}, -- The marker for the vault
 				},
 				rent = 8000, --How much it costs to rent the property (PER DAY)
-				income = 500, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
+				income = 250, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
 				storage = {
 					locked = false, --Default (don't touch)
 					current = {
@@ -4409,9 +4409,9 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 10000, --Max cash the property can hold
-						dirty = 10000, --Max marked bills the property can hold
-						weapons = 1, --Max weapons the property can hold
+						cash = 100000, --Max cash the property can hold
+						dirty = 250000, --Max marked bills the property can hold
+						weapons = 13, --Max weapons the property can hold
 					},
 				},
 				robbing = {
@@ -4419,7 +4419,7 @@ properties = {
 					last_robbed = 0, --Default (don't touch)
 					being_robbed = false, --Default (don't touch)
 					time = 300, --The total time the robber has to hack the vault
-					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+					max_phases = 13, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
 				},
 				lockpicking = {
 					cooldown = 300, --Colldown between lockpicking attempts

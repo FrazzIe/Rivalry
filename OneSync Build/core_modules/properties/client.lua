@@ -1175,423 +1175,424 @@ Citizen.CreateThread(function()
 					end
 				end
 			end
-			-- for k,v in pairs(properties.businesses.enterable) do
-			-- 	local OutsideDistance = GetDistanceBetweenCoords(pos.x, pos.y, pos.z, v.coordinates.outside.x, v.coordinates.outside.y, v.coordinates.outside.z, true)
-			-- 	local InsideDistance = GetDistanceBetweenCoords(pos.x, pos.y, pos.z, v.coordinates.inside.x, v.coordinates.inside.y, v.coordinates.inside.z, true)
-			-- 	local VaultDistance = GetDistanceBetweenCoords(pos.x, pos.y, pos.z, v.coordinates.vault.x, v.coordinates.vault.y, v.coordinates.vault.z, true)
+			for k,v in pairs(properties.businesses.enterable) do
+				local OutsideDistance = GetDistanceBetweenCoords(pos.x, pos.y, pos.z, v.coordinates.outside.x, v.coordinates.outside.y, v.coordinates.outside.z, true)
+				local InsideDistance = GetDistanceBetweenCoords(pos.x, pos.y, pos.z, v.coordinates.inside.x, v.coordinates.inside.y, v.coordinates.inside.z, true)
+				local VaultDistance = GetDistanceBetweenCoords(pos.x, pos.y, pos.z, v.coordinates.vault.x, v.coordinates.vault.y, v.coordinates.vault.z, true)
 
-			-- 	if OutsideDistance < 10 then
-			-- 		RenderMarker(25, v.coordinates.outside.x, v.coordinates.outside.y, v.coordinates.outside.z, 1.5, 1.5, 2.0, 255, 255, 0, 20)
-			-- 		if OutsideDistance < 2 then
-			-- 			if not shownHelp then
-			-- 				shownHelp = true
-			-- 				DisplayHelpText("Press ~INPUT_CONTEXT~ to view property")
-			-- 			end
-			-- 			if IsControlJustPressed(1, 51) then
-			-- 				properties_synced = false
-			-- 				TriggerServerEvent("properties:fetch", "businesses", "enterable", k)
-			-- 				if not WarMenu.IsMenuOpened("properties_menu") then
-			-- 					WarMenu.OpenMenu("properties_menu")
-			-- 					WarMenu.SetTitle("properties_menu", v.property_name)
-			-- 					WarMenu.SetTitle("properties_menu_tax", v.property_name)
-			-- 					WarMenu.SetTitle("properties_menu_information", v.property_name)
-			-- 				else
-			-- 					WarMenu.CloseMenu("properties_menu")
-			-- 				end
-			-- 			end
-			-- 			if properties_synced then
-			-- 				if WarMenu.IsMenuOpened("properties_menu") then
-			-- 					if v.owner.id == GetPlayerServerId(PlayerId()) then --If the person owns it
-			-- 						if GetCurrentServerTime() > tonumber(v.expire) then
-			-- 							WarMenu.MenuButton("Tax", "properties_menu_tax")
-			-- 						end
-			-- 						if not v.overdue then
-			-- 							if v.locked then
-			-- 								if WarMenu.Button("Unlock") then
-			-- 									TriggerServerEvent("properties:lock", "businesses", "enterable", k, "door", false)
-			-- 								end
-			-- 							else
-			-- 								if WarMenu.Button("Lock") then
-			-- 									TriggerServerEvent("properties:lock", "businesses", "enterable", k, "door", true)
-			-- 								end
-			-- 							end
-			-- 							if WarMenu.Button("Enter") then
-			-- 								teleportPlayer(v.coordinates.inside)
-			-- 							end
-			-- 						end
-			-- 						WarMenu.MenuButton("Information", "properties_menu_information")
-			-- 					else --If someone owns it but it the person doesn't own it
-			-- 						if not v.overdue then
-			-- 							if not v.locked then
-			-- 								if WarMenu.Button("Enter") then
-			-- 									teleportPlayer(v.coordinates.inside)
-			-- 								end
-			-- 							end
-			-- 						end
-			-- 						if WarMenu.Button("Attempt to pick the lock") then
-			-- 							TriggerServerEvent("properties:lockpick", "businesses", "enterable", k)
-			-- 						end
-			-- 						WarMenu.MenuButton("Information", "properties_menu_information")
-			-- 					end
-			-- 					WarMenu.Display()
-			-- 				end
-			-- 				if WarMenu.IsMenuOpened("properties_menu_tax") then						
-			-- 					if v.owner.id == GetPlayerServerId(PlayerId()) then --If the person owns it
-			-- 						if GetCurrentServerTime() > tonumber(v.expire) then
-			-- 							if WarMenu.Button("Pay tax for 28 days", "$"..v.rent*28) then
-			-- 								TriggerServerEvent("properties:rent", "businesses", "enterable", k, 28)
-			-- 								TriggerEvent('play:animation')
-			-- 							end								
-			-- 						else
-			-- 							WarMenu.Button("This property already belongs to you")
-			-- 							WarMenu.Button("You will have a 8 hour window")
-			-- 							WarMenu.Button("to pay taxes when due")
-			-- 						end
-			-- 					else --If someone owns it but it the person doesn't own it
-			-- 						WarMenu.Button("This property already belongs to someone")
-			-- 					end
-			-- 					WarMenu.Display()
-			-- 				end
-			-- 				if WarMenu.IsMenuOpened("properties_menu_information") then
-			-- 					if v.owner.identifier == "no" then --If no one owns it
-			-- 						WarMenu.Button("Tax:", "$"..v.rent)
-			-- 						WarMenu.Button("Due in:", "N/A")
-			-- 						WarMenu.Button("Income:", "$"..v.income)
-			-- 						WarMenu.Button("Storage Type", "~w~Max")
-			-- 						WarMenu.Button("Cash:", "$"..v.storage.max.cash)
-			-- 						WarMenu.Button("Dirty cash:", "$"..v.storage.max.dirty)
-			-- 						WarMenu.Button("Weapons:", v.storage.max.weapons)
-			-- 						if exports.policejob:getIsInService() then
-			-- 							if WarMenu.Button("Check Owner") then
-			-- 								TriggerServerEvent("properties:check", "businesses", "enterable", k)
-			-- 							end
-			-- 						end
-			-- 					elseif v.owner.id == GetPlayerServerId(PlayerId()) then --If the person owns it
-			-- 						WarMenu.Button("Tax:", "$"..v.rent)
-			-- 						WarMenu.Button("Due in:", GetTimeRemaining(GetCurrentServerTime(), v.expire, "short"))
-			-- 						WarMenu.Button("Income:", "$"..v.income)
-			-- 						WarMenu.Button("Storage Type", "~w~Current / Max")
-			-- 						WarMenu.Button("Cash:", "$"..v.storage.current.cash.."/$"..v.storage.max.cash)
-			-- 						WarMenu.Button("Dirty cash:", "$"..v.storage.current.dirty.."/$"..v.storage.max.dirty)
-			-- 						WarMenu.Button("Weapons:", tablelength(v.storage.current.weapons).."/"..v.storage.max.weapons)
-			-- 						if exports.policejob:getIsInService() then
-			-- 							if WarMenu.Button("Check Owner") then
-			-- 								TriggerServerEvent("properties:check", "businesses", "enterable", k)
-			-- 							end
-			-- 						end
-			-- 					else --If someone owns it but it the person doesn't own it
-			-- 						WarMenu.Button("Tax:", "$"..v.rent)
-			-- 						WarMenu.Button("Due in:", GetTimeRemaining(GetCurrentServerTime(), v.expire, "short"))
-			-- 						WarMenu.Button("Income:", "$"..v.income)
-			-- 						WarMenu.Button("Storage Type", "~w~Max")
-			-- 						WarMenu.Button("Cash:", "$"..v.storage.max.cash)
-			-- 						WarMenu.Button("Dirty cash:", "$"..v.storage.max.dirty)
-			-- 						WarMenu.Button("Weapons:", v.storage.max.weapons)
-			-- 						if exports.policejob:getIsInService() then
-			-- 							if WarMenu.Button("Check Owner") then
-			-- 								TriggerServerEvent("properties:check", "businesses", "enterable", k)
-			-- 							end
-			-- 						end
-			-- 					end
-			-- 					WarMenu.Display()
-			-- 				end
-			-- 			end
-			-- 		elseif OutsideDistance > 2 then
-			-- 			shownHelp = false
-			-- 			if WarMenu.IsMenuOpened("properties_menu") then
-			-- 				WarMenu.CloseMenu("properties_menu")
-			-- 			end
-			-- 			if WarMenu.IsMenuOpened("properties_menu_tax") then
-			-- 				WarMenu.CloseMenu("properties_menu_tax")
-			-- 			end
-			-- 			if WarMenu.IsMenuOpened("properties_menu_information") then
-			-- 				WarMenu.CloseMenu("properties_menu_information")
-			-- 			end
-			-- 		end
-			-- 	end
-			-- 	if InsideDistance < 10 then
-			-- 		RenderMarker(25, v.coordinates.inside.x, v.coordinates.inside.y, v.coordinates.inside.z, 1.5, 1.5, 2.0, 255, 255, 0, 20)
-			-- 		if InsideDistance < 2 then
-			-- 			if not shownInsideHelp then
-			-- 				shownInsideHelp = true
-			-- 				DisplayHelpText("Press ~INPUT_CONTEXT~ to view property")
-			-- 			end
-			-- 			if IsControlJustPressed(1, 51) then
-			-- 				if not WarMenu.IsMenuOpened("properties_menu_inside") then
-			-- 					WarMenu.SetTitle("properties_menu_inside", v.property_name)
-			-- 					WarMenu.OpenMenu("properties_menu_inside")
-			-- 				else
-			-- 					WarMenu.CloseMenu("properties_menu_inside")
-			-- 				end
-			-- 			end
-			-- 			if WarMenu.IsMenuOpened("properties_menu_inside") then
-			-- 				if v.owner.identifier == "no" then --If no one owns it
-			-- 					if WarMenu.Button("Exit") then
-			-- 						teleportPlayer(v.coordinates.outside)
-			-- 					end
-			-- 				elseif v.owner.id == GetPlayerServerId(PlayerId()) then --If the person owns it
-			-- 					if not v.overdue then
-			-- 						if v.locked then
-			-- 							if WarMenu.Button("Unlock") then
-			-- 								TriggerServerEvent("properties:lock", "businesses", "enterable", k, "door", false)
-			-- 							end
-			-- 						else
-			-- 							if WarMenu.Button("Lock") then
-			-- 								TriggerServerEvent("properties:lock", "businesses", "enterable", k, "door", true)
-			-- 							end
-			-- 						end
-			-- 					end
-			-- 					if WarMenu.Button("Exit") then
-			-- 						teleportPlayer(v.coordinates.outside)
-			-- 					end
-			-- 				else --If someone owns it but it the person doesn't own it
-			-- 					if WarMenu.Button("Exit") then
-			-- 						teleportPlayer(v.coordinates.outside)
-			-- 					end
-			-- 				end
-			-- 				WarMenu.Display()
-			-- 			end
-			-- 		elseif InsideDistance > 2 then
-			-- 			shownInsideHelp = false
-			-- 			if WarMenu.IsMenuOpened("properties_menu_inside") then
-			-- 				WarMenu.CloseMenu("properties_menu_inside")
-			-- 			end
-			-- 		end					
-			-- 	end
-			-- 	if VaultDistance < 10 then
-			-- 		RenderMarker(25, v.coordinates.vault.x, v.coordinates.vault.y, v.coordinates.vault.z, 1.5, 1.5, 2.0, 255, 255, 0, 20)
-			-- 		if VaultDistance < 2 then
-			-- 			if not shownVaultHelp then
-			-- 				shownVaultHelp = true
-			-- 				DisplayHelpText("Press ~INPUT_CONTEXT~ to open vault")
-			-- 			end
-			-- 			if IsControlJustPressed(1, 51) then
-			-- 				properties_synced = false
-			-- 				TriggerServerEvent("properties:fetch", "businesses", "enterable", k)
-			-- 				if not v.overdue then
-			-- 					if not WarMenu.IsMenuOpened("properties_vault") then
-			-- 						WarMenu.SetTitle("properties_vault", v.property_name)
-			-- 						WarMenu.SetTitle("properties_vault_weapons_withdraw", v.property_name)
-			-- 						WarMenu.SetTitle("properties_vault_weapons_deposit", v.property_name)
-			-- 						currentRentIndex, selectedRentIndex = 1, 1
-			-- 						currentMoneyIndex, selectedMoneyIndex = 1, 1
-			-- 						currentDirtyMoneyIndex, selectedDirtyMoneyIndex = 1, 1
-			-- 						currentWeaponIndex, selectedWeaponIndex = 1, 1
-			-- 						WarMenu.OpenMenu("properties_vault")
-			-- 					else
-			-- 						WarMenu.CloseMenu("properties_vault")
-			-- 					end
-			-- 				else
-			-- 					if not WarMenu.IsMenuOpened("properties_vault") then
-			-- 						currentRentIndex, selectedRentIndex = 1, 1
-			-- 						currentMoneyIndex, selectedMoneyIndex = 1, 1
-			-- 						currentDirtyMoneyIndex, selectedDirtyMoneyIndex = 1, 1
-			-- 						currentWeaponIndex, selectedWeaponIndex = 1, 1
-			-- 						WarMenu.OpenMenu("properties_vault")
-			-- 					else
-			-- 						WarMenu.CloseMenu("properties_vault")
-			-- 					end
-			-- 				end
-			-- 			end
-			-- 			if properties_synced then
-			-- 				if not v.overdue then
-			-- 					if WarMenu.IsMenuOpened("properties_vault") then
-			-- 						if v.owner.identifier == "no" then --If no one owns it
-			-- 						elseif v.owner.id == GetPlayerServerId(PlayerId()) then --If the person owns it
-			-- 							if v.storage.locked then
-			-- 								if WarMenu.Button("Unlock") then
-			-- 									TriggerServerEvent("properties:lock", "businesses", "enterable", k, "vault", false)
-			-- 								end
-			-- 							else
-			-- 								if WarMenu.Button("Lock") then
-			-- 									TriggerServerEvent("properties:lock", "businesses", "enterable", k, "vault", true)
-			-- 								end
-			-- 							end
-			-- 							if WarMenu.ComboBox("Cash ["..v.storage.current.cash.."/"..v.storage.max.cash.."]", {"Deposit", "Withdraw"}, currentMoneyIndex, selectedMoneyIndex, function(currentIndex, selectedIndex)
-		    --                 					currentMoneyIndex = currentIndex
-		    --                 					selectedMoneyIndex = selectedIndex
+				if OutsideDistance < 10 then
+					RenderMarker(25, v.coordinates.outside.x, v.coordinates.outside.y, v.coordinates.outside.z, 1.5, 1.5, 2.0, 255, 255, 0, 20)
+					if OutsideDistance < 2 then
+						if not shownHelp then
+							shownHelp = true
+							DisplayHelpText("Press ~INPUT_CONTEXT~ to view property")
+						end
+						if IsControlJustPressed(1, 51) then
+							properties_synced = false
+							TriggerServerEvent("properties:fetch", "businesses", "enterable", k)
+							if not WarMenu.IsMenuOpened("properties_menu") then
+								WarMenu.OpenMenu("properties_menu")
+								WarMenu.SetTitle("properties_menu", v.property_name)
+								WarMenu.SetTitle("properties_menu_tax", v.property_name)
+								WarMenu.SetTitle("properties_menu_information", v.property_name)
+							else
+								WarMenu.CloseMenu("properties_menu")
+							end
+						end
+						if properties_synced then
+							if WarMenu.IsMenuOpened("properties_menu") then
+								if v.owner.id == GetPlayerServerId(PlayerId()) then --If the person owns it
+									if GetCurrentServerTime() > tonumber(v.expire) then
+										WarMenu.MenuButton("Tax", "properties_menu_tax")
+									end
+									if not v.overdue then
+										if v.locked then
+											if WarMenu.Button("Unlock") then
+												TriggerServerEvent("properties:lock", "businesses", "enterable", k, "door", false)
+											end
+										else
+											if WarMenu.Button("Lock") then
+												TriggerServerEvent("properties:lock", "businesses", "enterable", k, "door", true)
+											end
+										end
+										if WarMenu.Button("Enter") then
+											teleportPlayer(v.coordinates.inside)
+										end
+									end
+									WarMenu.MenuButton("Information", "properties_menu_information")
+								else --If someone owns it but it the person doesn't own it
+									if not v.overdue then
+										if not v.locked then
+											if WarMenu.Button("Enter") then
+												teleportPlayer(v.coordinates.inside)
+											end
+										end
+									end
+									if WarMenu.Button("Attempt to pick the lock") then
+										TriggerServerEvent("properties:lockpick", "businesses", "enterable", k)
+									end
+									WarMenu.MenuButton("Information", "properties_menu_information")
+								end
+								WarMenu.Display()
+							end
+							if WarMenu.IsMenuOpened("properties_menu_tax") then						
+								if v.owner.id == GetPlayerServerId(PlayerId()) then --If the person owns it
+									if GetCurrentServerTime() > tonumber(v.expire) then
+										if WarMenu.Button("Pay tax for 28 days", "$"..v.rent*28) then
+											TriggerServerEvent("properties:rent", "businesses", "enterable", k, 28)
+											TriggerEvent('play:animation')
+										end								
+									else
+										WarMenu.Button("This property already belongs to you")
+										WarMenu.Button("You will have a 8 hour window")
+										WarMenu.Button("to pay taxes when due")
+									end
+								else --If someone owns it but it the person doesn't own it
+									WarMenu.Button("This property already belongs to someone")
+								end
+								WarMenu.Display()
+							end
+							if WarMenu.IsMenuOpened("properties_menu_information") then
+								if v.owner.identifier == "no" then --If no one owns it
+									WarMenu.Button("Tax:", "$"..v.rent)
+									WarMenu.Button("Due in:", "N/A")
+									WarMenu.Button("Income:", "$"..v.income)
+									WarMenu.Button("Storage Type", "~w~Max")
+									WarMenu.Button("Cash:", "$"..v.storage.max.cash)
+									WarMenu.Button("Dirty cash:", "$"..v.storage.max.dirty)
+									WarMenu.Button("Weapons:", v.storage.max.weapons)
+									if exports.policejob:getIsInService() then
+										if WarMenu.Button("Check Owner") then
+											TriggerServerEvent("properties:check", "businesses", "enterable", k)
+										end
+									end
+								elseif v.owner.id == GetPlayerServerId(PlayerId()) then --If the person owns it
+									WarMenu.Button("Tax:", "$"..v.rent)
+									WarMenu.Button("Due in:", GetTimeRemaining(GetCurrentServerTime(), v.expire, "short"))
+									WarMenu.Button("Income:", "$"..v.income)
+									WarMenu.Button("Storage Type", "~w~Current / Max")
+									WarMenu.Button("Cash:", "$"..v.storage.current.cash.."/$"..v.storage.max.cash)
+									WarMenu.Button("Dirty cash:", "$"..v.storage.current.dirty.."/$"..v.storage.max.dirty)
+									WarMenu.Button("Weapons:", tablelength(v.storage.current.weapons).."/"..v.storage.max.weapons)
+									if exports.policejob:getIsInService() then
+										if WarMenu.Button("Check Owner") then
+											TriggerServerEvent("properties:check", "businesses", "enterable", k)
+										end
+									end
+								else --If someone owns it but it the person doesn't own it
+									WarMenu.Button("Tax:", "$"..v.rent)
+									WarMenu.Button("Due in:", GetTimeRemaining(GetCurrentServerTime(), v.expire, "short"))
+									WarMenu.Button("Income:", "$"..v.income)
+									WarMenu.Button("Storage Type", "~w~Max")
+									WarMenu.Button("Cash:", "$"..v.storage.max.cash)
+									WarMenu.Button("Dirty cash:", "$"..v.storage.max.dirty)
+									WarMenu.Button("Weapons:", v.storage.max.weapons)
+									if exports.policejob:getIsInService() then
+										if WarMenu.Button("Check Owner") then
+											TriggerServerEvent("properties:check", "businesses", "enterable", k)
+										end
+									end
+								end
+								WarMenu.Display()
+							end
+						end
+					elseif OutsideDistance > 2 then
+						shownHelp = false
+						if WarMenu.IsMenuOpened("properties_menu") then
+							WarMenu.CloseMenu("properties_menu")
+						end
+						if WarMenu.IsMenuOpened("properties_menu_tax") then
+							WarMenu.CloseMenu("properties_menu_tax")
+						end
+						if WarMenu.IsMenuOpened("properties_menu_information") then
+							WarMenu.CloseMenu("properties_menu_information")
+						end
+					end
+				end
+				if InsideDistance < 10 then
+					RenderMarker(25, v.coordinates.inside.x, v.coordinates.inside.y, v.coordinates.inside.z, 1.5, 1.5, 2.0, 255, 255, 0, 20)
+					if InsideDistance < 2 then
+						if not shownInsideHelp then
+							shownInsideHelp = true
+							DisplayHelpText("Press ~INPUT_CONTEXT~ to view property")
+						end
+						if IsControlJustPressed(1, 51) then
+							if not WarMenu.IsMenuOpened("properties_menu_inside") then
+								WarMenu.SetTitle("properties_menu_inside", v.property_name)
+								WarMenu.OpenMenu("properties_menu_inside")
+							else
+								WarMenu.CloseMenu("properties_menu_inside")
+							end
+						end
+						if WarMenu.IsMenuOpened("properties_menu_inside") then
+							if v.owner.identifier == "no" then --If no one owns it
+								if WarMenu.Button("Exit") then
+									teleportPlayer(v.coordinates.outside)
+								end
+							elseif v.owner.id == GetPlayerServerId(PlayerId()) then --If the person owns it
+								if not v.overdue then
+									if v.locked then
+										if WarMenu.Button("Unlock") then
+											TriggerServerEvent("properties:lock", "businesses", "enterable", k, "door", false)
+										end
+									else
+										if WarMenu.Button("Lock") then
+											TriggerServerEvent("properties:lock", "businesses", "enterable", k, "door", true)
+										end
+									end
+								end
+								if WarMenu.Button("Exit") then
+									teleportPlayer(v.coordinates.outside)
+								end
+							else --If someone owns it but it the person doesn't own it
+								if WarMenu.Button("Exit") then
+									teleportPlayer(v.coordinates.outside)
+								end
+							end
+							WarMenu.Display()
+						end
+					elseif InsideDistance > 2 then
+						shownInsideHelp = false
+						if WarMenu.IsMenuOpened("properties_menu_inside") then
+							WarMenu.CloseMenu("properties_menu_inside")
+						end
+					end					
+				end
+				if VaultDistance < 10 then
+					RenderMarker(25, v.coordinates.vault.x, v.coordinates.vault.y, v.coordinates.vault.z, 1.5, 1.5, 2.0, 255, 255, 0, 20)
+					if VaultDistance < 2 then
+						if not shownVaultHelp then
+							shownVaultHelp = true
+							DisplayHelpText("Press ~INPUT_CONTEXT~ to open vault")
+						end
+						if IsControlJustPressed(1, 51) then
+							properties_synced = false
+							TriggerServerEvent("properties:fetch", "businesses", "enterable", k)
+							if not v.overdue then
+								if not WarMenu.IsMenuOpened("properties_vault") then
+									WarMenu.SetTitle("properties_vault", v.property_name)
+									WarMenu.SetTitle("properties_vault_weapons_withdraw", v.property_name)
+									WarMenu.SetTitle("properties_vault_weapons_deposit", v.property_name)
+									currentRentIndex, selectedRentIndex = 1, 1
+									currentMoneyIndex, selectedMoneyIndex = 1, 1
+									currentDirtyMoneyIndex, selectedDirtyMoneyIndex = 1, 1
+									currentWeaponIndex, selectedWeaponIndex = 1, 1
+									WarMenu.OpenMenu("properties_vault")
+								else
+									WarMenu.CloseMenu("properties_vault")
+								end
+							else
+								if not WarMenu.IsMenuOpened("properties_vault") then
+									currentRentIndex, selectedRentIndex = 1, 1
+									currentMoneyIndex, selectedMoneyIndex = 1, 1
+									currentDirtyMoneyIndex, selectedDirtyMoneyIndex = 1, 1
+									currentWeaponIndex, selectedWeaponIndex = 1, 1
+									WarMenu.OpenMenu("properties_vault")
+								else
+									WarMenu.CloseMenu("properties_vault")
+								end
+							end
+						end
+						if properties_synced then
+							if not v.overdue then
+								if WarMenu.IsMenuOpened("properties_vault") then
+									if v.owner.identifier == "no" then --If no one owns it
+									elseif v.owner.id == GetPlayerServerId(PlayerId()) then --If the person owns it
+										if v.storage.locked then
+											if WarMenu.Button("Unlock") then
+												TriggerServerEvent("properties:lock", "businesses", "enterable", k, "vault", false)
+											end
+										else
+											if WarMenu.Button("Lock") then
+												TriggerServerEvent("properties:lock", "businesses", "enterable", k, "vault", true)
+											end
+										end
+										if WarMenu.ComboBox("Cash ["..v.storage.current.cash.."/"..v.storage.max.cash.."]", {"Deposit", "Withdraw"}, currentMoneyIndex, selectedMoneyIndex, function(currentIndex, selectedIndex)
+		                    					currentMoneyIndex = currentIndex
+		                    					selectedMoneyIndex = selectedIndex
 
-		    --                 					-- Do your stuff here if current index was changed (don't forget to check it)
-		    --            						end) then
-		    --                 					-- Do your stuff here if current item was activated
-		    --                 					if currentMoneyIndex == 1 then
-		    --                 						local amount = tonumber(KeyboardInput("How much will you be depositing?", 1000, 11))
-		    --                 						if amount ~= nil then
-		    --                 							if math.floor(amount) > 0 then
-		    --                 								TriggerServerEvent("properties:deposit", "businesses", "enterable", "cash", k, {amount = math.floor(amount)})
-		    --                 							end
-		    --                 						end
-		    --                 					elseif currentMoneyIndex == 2 then
-		    --                 						local amount = tonumber(KeyboardInput("How much will you be withdrawing?", 1000, 11))
-		    --                 						if amount ~= nil then
-		    --                 							if math.floor(amount) > 0 then
-		    --                 								TriggerServerEvent("properties:withdraw", "businesses", "enterable", "cash", k, {amount = math.floor(amount)})
-		    --                 							end
-		    --                 						end
-		    --                 					end
-		    --                 			end
-			-- 							if WarMenu.ComboBox("Dirty cash ["..v.storage.current.dirty.."/"..v.storage.max.dirty.."]", {"Deposit", "Withdraw"}, currentDirtyMoneyIndex, selectedDirtyMoneyIndex, function(currentIndex, selectedIndex)
-		    --                 					currentDirtyMoneyIndex = currentIndex
-		    --                 					selectedDirtyMoneyIndex = selectedIndex
+		                    					-- Do your stuff here if current index was changed (don't forget to check it)
+		               						end) then
+		                    					-- Do your stuff here if current item was activated
+		                    					if currentMoneyIndex == 1 then
+		                    						local amount = tonumber(KeyboardInput("How much will you be depositing?", 1000, 11))
+		                    						if amount ~= nil then
+		                    							if math.floor(amount) > 0 then
+		                    								TriggerServerEvent("properties:deposit", "businesses", "enterable", "cash", k, {amount = math.floor(amount)})
+		                    							end
+		                    						end
+		                    					elseif currentMoneyIndex == 2 then
+		                    						local amount = tonumber(KeyboardInput("How much will you be withdrawing?", 1000, 11))
+		                    						if amount ~= nil then
+		                    							if math.floor(amount) > 0 then
+		                    								TriggerServerEvent("properties:withdraw", "businesses", "enterable", "cash", k, {amount = math.floor(amount)})
+		                    							end
+		                    						end
+		                    					end
+		                    			end
+										if WarMenu.ComboBox("Dirty cash ["..v.storage.current.dirty.."/"..v.storage.max.dirty.."]", {"Deposit", "Withdraw"}, currentDirtyMoneyIndex, selectedDirtyMoneyIndex, function(currentIndex, selectedIndex)
+		                    					currentDirtyMoneyIndex = currentIndex
+		                    					selectedDirtyMoneyIndex = selectedIndex
 
-		    --                 					-- Do your stuff here if current index was changed (don't forget to check it)
-		    --            						end) then
-		    --                 					-- Do your stuff here if current item was activated
-		    --                 					if currentDirtyMoneyIndex == 1 then
-		    --                 						local amount = tonumber(KeyboardInput("How much will you be depositing?", 1000, 11))
-		    --                 						if amount ~= nil then
-		    --                 							if math.floor(amount) > 0 then
-		    --                 								TriggerServerEvent("properties:deposit", "businesses", "enterable", "dirty", k, {amount = math.floor(amount)})
-		    --                 							end
-		    --                 						end
-		    --                 					elseif currentDirtyMoneyIndex == 2 then
-		    --                 						local amount = tonumber(KeyboardInput("How much will you be withdrawing?", 1000, 11))
-		    --                 						if amount ~= nil then
-		    --                 							if math.floor(amount) > 0 then
-		    --                 								TriggerServerEvent("properties:withdraw", "businesses", "enterable", "dirty", k, {amount = math.floor(amount)})
-		    --                 							end
-		    --                 						end
-		    --                 					end
-		    --                 			end
-			-- 							if WarMenu.ComboBox("Weapons ["..tablelength(v.storage.current.weapons).."/"..v.storage.max.weapons.."]", {"Deposit", "Withdraw"}, currentWeaponIndex, selectedWeaponIndex, function(currentIndex, selectedIndex)
-			--                     				currentWeaponIndex = currentIndex
-			--                     				selectedWeaponIndex = selectedIndex
+		                    					-- Do your stuff here if current index was changed (don't forget to check it)
+		               						end) then
+		                    					-- Do your stuff here if current item was activated
+		                    					if currentDirtyMoneyIndex == 1 then
+		                    						local amount = tonumber(KeyboardInput("How much will you be depositing?", 1000, 11))
+		                    						if amount ~= nil then
+		                    							if math.floor(amount) > 0 then
+		                    								TriggerServerEvent("properties:deposit", "businesses", "enterable", "dirty", k, {amount = math.floor(amount)})
+		                    							end
+		                    						end
+		                    					elseif currentDirtyMoneyIndex == 2 then
+		                    						local amount = tonumber(KeyboardInput("How much will you be withdrawing?", 1000, 11))
+		                    						if amount ~= nil then
+		                    							if math.floor(amount) > 0 then
+		                    								TriggerServerEvent("properties:withdraw", "businesses", "enterable", "dirty", k, {amount = math.floor(amount)})
+		                    							end
+		                    						end
+		                    					end
+		                    			end
+										if WarMenu.ComboBox("Weapons ["..tablelength(v.storage.current.weapons).."/"..v.storage.max.weapons.."]", {"Deposit", "Withdraw"}, currentWeaponIndex, selectedWeaponIndex, function(currentIndex, selectedIndex)
+			                    				currentWeaponIndex = currentIndex
+			                    				selectedWeaponIndex = selectedIndex
 
-			--                     					-- Do your stuff here if current index was changed (don't forget to check it)
-			--                					end) then
-			--                     					-- Do your stuff here if current item was activated
-			--                     				if currentWeaponIndex == 1 then
-			--                     					WarMenu.OpenMenu("properties_vault_weapons_deposit")
-			--                     				elseif currentWeaponIndex == 2 then
-			--                     					WarMenu.OpenMenu("properties_vault_weapons_withdraw")
-			--                     				end
-			--                     		end
-			-- 						else --If someone owns it but it the person doesn't own it
-			-- 							if not v.storage.locked then
-			-- 								if WarMenu.ComboBox("Cash ["..v.storage.current.cash.."/"..v.storage.max.cash.."]", {"Deposit", "Withdraw"}, currentMoneyIndex, selectedMoneyIndex, function(currentIndex, selectedIndex)
-			--                     					currentMoneyIndex = currentIndex
-			--                     					selectedMoneyIndex = selectedIndex
+			                    					-- Do your stuff here if current index was changed (don't forget to check it)
+			               					end) then
+			                    					-- Do your stuff here if current item was activated
+			                    				if currentWeaponIndex == 1 then
+			                    					WarMenu.OpenMenu("properties_vault_weapons_deposit")
+			                    				elseif currentWeaponIndex == 2 then
+			                    					WarMenu.OpenMenu("properties_vault_weapons_withdraw")
+			                    				end
+			                    		end
+									else --If someone owns it but it the person doesn't own it
+										if not v.storage.locked then
+											if WarMenu.ComboBox("Cash ["..v.storage.current.cash.."/"..v.storage.max.cash.."]", {"Deposit", "Withdraw"}, currentMoneyIndex, selectedMoneyIndex, function(currentIndex, selectedIndex)
+			                    					currentMoneyIndex = currentIndex
+			                    					selectedMoneyIndex = selectedIndex
 
-			--                     					-- Do your stuff here if current index was changed (don't forget to check it)
-			--                						end) then
-			--                     					-- Do your stuff here if current item was activated
-			--                     					if currentMoneyIndex == 1 then
-			--                     						local amount = tonumber(KeyboardInput("How much will you be depositing?", 1000, 11))
-			--                     						if amount ~= nil then
-			--                     							if math.floor(amount) > 0 then
-			--                     								TriggerServerEvent("properties:deposit", "businesses", "enterable", "cash", k, {amount = math.floor(amount)})
-			--                     							end
-			--                     						end
-			--                     					elseif currentMoneyIndex == 2 then
-			--                     						local amount = tonumber(KeyboardInput("How much will you be withdrawing?", 1000, 11))
-			--                     						if amount ~= nil then
-			--                     							if math.floor(amount) > 0 then
-			--                     								TriggerServerEvent("properties:withdraw", "businesses", "enterable", "cash", k, {amount = math.floor(amount)})
-			--                     							end
-			--                     						end
-			--                     					end
-			--                     			end
-			-- 								if WarMenu.ComboBox("Dirty cash ["..v.storage.current.dirty.."/"..v.storage.max.dirty.."]", {"Deposit", "Withdraw"}, currentDirtyMoneyIndex, selectedDirtyMoneyIndex, function(currentIndex, selectedIndex)
-			--                     					currentDirtyMoneyIndex = currentIndex
-			--                     					selectedDirtyMoneyIndex = selectedIndex
+			                    					-- Do your stuff here if current index was changed (don't forget to check it)
+			               						end) then
+			                    					-- Do your stuff here if current item was activated
+			                    					if currentMoneyIndex == 1 then
+			                    						local amount = tonumber(KeyboardInput("How much will you be depositing?", 1000, 11))
+			                    						if amount ~= nil then
+			                    							if math.floor(amount) > 0 then
+			                    								TriggerServerEvent("properties:deposit", "businesses", "enterable", "cash", k, {amount = math.floor(amount)})
+			                    							end
+			                    						end
+			                    					elseif currentMoneyIndex == 2 then
+			                    						local amount = tonumber(KeyboardInput("How much will you be withdrawing?", 1000, 11))
+			                    						if amount ~= nil then
+			                    							if math.floor(amount) > 0 then
+			                    								TriggerServerEvent("properties:withdraw", "businesses", "enterable", "cash", k, {amount = math.floor(amount)})
+			                    							end
+			                    						end
+			                    					end
+			                    			end
+											if WarMenu.ComboBox("Dirty cash ["..v.storage.current.dirty.."/"..v.storage.max.dirty.."]", {"Deposit", "Withdraw"}, currentDirtyMoneyIndex, selectedDirtyMoneyIndex, function(currentIndex, selectedIndex)
+			                    					currentDirtyMoneyIndex = currentIndex
+			                    					selectedDirtyMoneyIndex = selectedIndex
 
-			--                     					-- Do your stuff here if current index was changed (don't forget to check it)
-			--                						end) then
-			--                     					-- Do your stuff here if current item was activated
-			--                     					if currentDirtyMoneyIndex == 1 then
-			--                     						local amount = tonumber(KeyboardInput("How much will you be depositing?", 1000, 11))
-			--                     						if amount ~= nil then
-			--                     							if math.floor(amount) > 0 then
-			--                     								TriggerServerEvent("properties:deposit", "businesses", "enterable", "dirty", k, {amount = math.floor(amount)})
-			--                     							end
-			--                     						end
-			--                     					elseif currentDirtyMoneyIndex == 2 then
-			--                     						local amount = tonumber(KeyboardInput("How much will you be withdrawing?", 1000, 11))
-			--                     						if amount ~= nil then
-			--                     							if math.floor(amount) > 0 then
-			--                     								TriggerServerEvent("properties:withdraw", "businesses", "enterable", "dirty", k, {amount = math.floor(amount)})
-			--                     							end
-			--                     						end
-			--                     					end
-			--                     			end
-			-- 								if WarMenu.ComboBox("Weapons ["..tablelength(v.storage.current.weapons).."/"..v.storage.max.weapons.."]", {"Deposit", "Withdraw"}, currentWeaponIndex, selectedWeaponIndex, function(currentIndex, selectedIndex)
-			-- 	                    				currentWeaponIndex = currentIndex
-			-- 	                    				selectedWeaponIndex = selectedIndex
+			                    					-- Do your stuff here if current index was changed (don't forget to check it)
+			               						end) then
+			                    					-- Do your stuff here if current item was activated
+			                    					if currentDirtyMoneyIndex == 1 then
+			                    						local amount = tonumber(KeyboardInput("How much will you be depositing?", 1000, 11))
+			                    						if amount ~= nil then
+			                    							if math.floor(amount) > 0 then
+			                    								TriggerServerEvent("properties:deposit", "businesses", "enterable", "dirty", k, {amount = math.floor(amount)})
+			                    							end
+			                    						end
+			                    					elseif currentDirtyMoneyIndex == 2 then
+			                    						local amount = tonumber(KeyboardInput("How much will you be withdrawing?", 1000, 11))
+			                    						if amount ~= nil then
+			                    							if math.floor(amount) > 0 then
+			                    								TriggerServerEvent("properties:withdraw", "businesses", "enterable", "dirty", k, {amount = math.floor(amount)})
+			                    							end
+			                    						end
+			                    					end
+			                    			end
+											if WarMenu.ComboBox("Weapons ["..tablelength(v.storage.current.weapons).."/"..v.storage.max.weapons.."]", {"Deposit", "Withdraw"}, currentWeaponIndex, selectedWeaponIndex, function(currentIndex, selectedIndex)
+				                    				currentWeaponIndex = currentIndex
+				                    				selectedWeaponIndex = selectedIndex
 
-			-- 	                    					-- Do your stuff here if current index was changed (don't forget to check it)
-			-- 	               					end) then
-			-- 	                    					-- Do your stuff here if current item was activated
-			-- 	                    				if currentWeaponIndex == 1 then
-			-- 	                    					WarMenu.OpenMenu("properties_vault_weapons_deposit")
-			-- 	                    				elseif currentWeaponIndex == 2 then
-			-- 	                    					WarMenu.OpenMenu("properties_vault_weapons_withdraw")
-			-- 	                    				end
-			-- 	                    		end
-			-- 	                    	else
-			-- 	                    		if WarMenu.Button("Crack vault") then
-			-- 									TriggerServerEvent("properties:rob", "businesses", "enterable", k)
-			-- 								end
-			-- 	                    	end
-			-- 						end
-			-- 						WarMenu.Display()
-			-- 					end
-			-- 				end
-			-- 				if WarMenu.IsMenuOpened("properties_vault_weapons_deposit") then
-			-- 					if v.owner.identifier == "no" then --If no one owns it
-			-- 					elseif v.owner.id == GetPlayerServerId(PlayerId()) then --If the person owns it
-			-- 						for i,j in pairs(user_weapons) do
-			-- 							if WarMenu.Button(Weapons_names[i].." ["..j.ammo.."]", "Deposit") then
-			-- 								TriggerServerEvent("properties:deposit", "businesses", "enterable", "weapons", k, j)
-			-- 							end
-			-- 						end
-			-- 					else --If someone owns it but it the person doesn't own it
-			-- 						if not v.storage.locked then
-			-- 							for i,j in pairs(user_weapons) do
-			-- 								if WarMenu.Button(Weapons_names[i].." ["..j.ammo.."]", "Deposit") then
-			-- 									TriggerServerEvent("properties:deposit", "businesses", "enterable", "weapons", k, j)
-			-- 								end
-			-- 							end
-			-- 						end
-			-- 					end
-			-- 					WarMenu.Display()
-			-- 				end
-			-- 				if WarMenu.IsMenuOpened("properties_vault_weapons_withdraw") then
-			-- 					if v.owner.identifier == "no" then --If no one owns it
-			-- 					elseif v.owner.id == GetPlayerServerId(PlayerId()) then --If the person owns it
-			-- 						for i,j in pairs(v.storage.current.weapons) do
-			-- 							if WarMenu.Button(Weapons_names[j.model].." ["..j.ammo.."]", "Withdraw") then
-			-- 								TriggerServerEvent("properties:withdraw", "businesses", "enterable", "weapons", k, {weapon_id = i, weapon = j})
-			-- 							end
-			-- 						end
-			-- 					else --If someone owns it but it the person doesn't own it
-			-- 						if not v.storage.locked  then
-			-- 							for i,j in pairs(v.storage.current.weapons) do
-			-- 								if WarMenu.Button(Weapons_names[j.model].." ["..j.ammo.."]", "Withdraw") then
-			-- 									TriggerServerEvent("properties:withdraw", "businesses", "enterable", "weapons", k, {weapon_id = i, weapon = j})
-			-- 								end
-			-- 							end
-			-- 						end
-			-- 					end
-			-- 					WarMenu.Display()
-			-- 				end
-			-- 			end
-			-- 		elseif VaultDistance > 2 then
-			-- 			shownVaultHelp = false
-			-- 			if WarMenu.IsMenuOpened("properties_vault") then
-			-- 				WarMenu.CloseMenu("properties_vault")
-			-- 			end
-			-- 			if WarMenu.IsMenuOpened("properties_vault_weapons_deposit") then
-			-- 				WarMenu.CloseMenu("properties_vault_weapons_deposit")
-			-- 			end
-			-- 			if WarMenu.IsMenuOpened("properties_vault_weapons_withdraw") then
-			-- 				WarMenu.CloseMenu("properties_vault_weapons_withdraw")
-			-- 			end
-			-- 		end
-			-- 	end
-			-- end
+				                    					-- Do your stuff here if current index was changed (don't forget to check it)
+				               					end) then
+				                    					-- Do your stuff here if current item was activated
+				                    				if currentWeaponIndex == 1 then
+				                    					WarMenu.OpenMenu("properties_vault_weapons_deposit")
+				                    				elseif currentWeaponIndex == 2 then
+				                    					WarMenu.OpenMenu("properties_vault_weapons_withdraw")
+				                    				end
+				                    		end
+				                    	else
+				                    		if WarMenu.Button("Crack vault") then
+												TriggerServerEvent("properties:rob", "businesses", "enterable", k)
+											end
+				                    	end
+									end
+									WarMenu.Display()
+								end
+							end
+							if WarMenu.IsMenuOpened("properties_vault_weapons_deposit") then
+								if v.owner.identifier == "no" then --If no one owns it
+								elseif v.owner.id == GetPlayerServerId(PlayerId()) then --If the person owns it
+									for i,j in pairs(user_weapons) do
+										if WarMenu.Button(Weapons_names[i].." ["..j.ammo.."]", "Deposit") then
+											TriggerServerEvent("properties:deposit", "businesses", "enterable", "weapons", k, j)
+										end
+									end
+								else --If someone owns it but it the person doesn't own it
+									if not v.storage.locked then
+										for i,j in pairs(user_weapons) do
+											if WarMenu.Button(Weapons_names[i].." ["..j.ammo.."]", "Deposit") then
+												TriggerServerEvent("properties:deposit", "businesses", "enterable", "weapons", k, j)
+											end
+										end
+									end
+								end
+								WarMenu.Display()
+							end
+							if WarMenu.IsMenuOpened("properties_vault_weapons_withdraw") then
+								if v.owner.identifier == "no" then --If no one owns it
+								elseif v.owner.id == GetPlayerServerId(PlayerId()) then --If the person owns it
+									for i,j in pairs(v.storage.current.weapons) do
+										if WarMenu.Button(Weapons_names[j.model].." ["..j.ammo.."]", "Withdraw") then
+											TriggerServerEvent("properties:withdraw", "businesses", "enterable", "weapons", k, {weapon_id = i, weapon = j})
+										end
+									end
+								else --If someone owns it but it the person doesn't own it
+									if not v.storage.locked  then
+										for i,j in pairs(v.storage.current.weapons) do
+											if WarMenu.Button(Weapons_names[j.model].." ["..j.ammo.."]", "Withdraw") then
+												TriggerServerEvent("properties:withdraw", "businesses", "enterable", "weapons", k, {weapon_id = i, weapon = j})
+											end
+										end
+									end
+								end
+								WarMenu.Display()
+							end
+						end
+					elseif VaultDistance > 2 then
+						shownVaultHelp = false
+						if WarMenu.IsMenuOpened("properties_vault") then
+							WarMenu.CloseMenu("properties_vault")
+						end
+						if WarMenu.IsMenuOpened("properties_vault_weapons_deposit") then
+							WarMenu.CloseMenu("properties_vault_weapons_deposit")
+						end
+						if WarMenu.IsMenuOpened("properties_vault_weapons_withdraw") then
+							WarMenu.CloseMenu("properties_vault_weapons_withdraw")
+						end
+					end
+				end
+			end
 		end
 	end
 end)
+
 RegisterNetEvent("properties:rob")
 AddEventHandler("properties:rob", function(property_type, property_variant, property_id, phase, phase_max)
 	WarMenu.CloseMenu()
