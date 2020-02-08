@@ -54,14 +54,13 @@ function CuffAnimation(cuffer)
 	end
 	local cuffer = GetPlayerPed(GetPlayerFromServerId(cuffer))
 	local dir = GetEntityHeading(cuffer)
-	SetEntityCoords(PlayerPedId(), GetOffsetFromEntityInWorldCoords(cuffer, 0.0, 0.45, 0.0))
-	AttachEntityToEntity(PlayerPed, cuffer, 4103, 11816, 0.45, 0.00, 0.0, 0.0, 0.0, 0.0, false, false, false, false, 2, true)
+	SetEntityCoords(PlayerPedId(), GetOffsetFromEntityInWorldCoords(cuffer, 0.0, 0.45, -0.9))
+	FreezeEntityPosition(PlayerPedId(), true)
 	Citizen.Wait(100)
 	SetEntityHeading(PlayerPedId(), dir)
 	TaskPlayAnim(PlayerPedId(), Animations.Arresting.Dictionary, Animations.Arresting.Criminal, 8.0, -8, -1, 32, 0, 0, 0, 0)
 	Citizen.Wait(3100)
-	DetachEntity(PlayerPed, true, false)
-	DetachEntity(cuffer, true, false)
+	FreezeEntityPosition(PlayerPedId(), false)
 	exports.core_modules:EnableProne()
 end
 
