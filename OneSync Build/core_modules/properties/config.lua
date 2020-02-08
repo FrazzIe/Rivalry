@@ -4259,133 +4259,133 @@ properties = {
 			},--]]
 		},
 		enterable = {
-			--[[[1] = {
-				property_name = "Warehouse 1", -- Name of the property (used as the title of the menu)
-				locked = false, --Default (don't touch)
-				overdue = false,
-				owner =  {
-					identifier = "no", --Default (don't touch)
-					char_id = 0, --Default (don't touch)
-					id = 0, --Default (don't touch)
-				},
-				coordinates = {
-					outside = {x = 714.0797, y = -718.3225, z = 26.09685, h = 359.4313}, -- The marker outside (used for teleporting inside)
-					inside = {x = 992.7667, y = -3098.174, z = -38.99586, h = 228.594}, -- The marker inside (used for teleporting outside)
-					vault = {x = 1014.362, y = -3105.95, z = -38.99986, h = 267.0504}, -- The marker for the vault
-				},
-				rent = 8000, --How much it costs to rent the property (PER DAY)
-				income = 500, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
-				storage = {
-					locked = false, --Default (don't touch)
-					current = {
-						cash = 0, --Default (don't touch)
-						dirty = 0, --Default (don't touch)
-						weapons = {}, --Default (don't touch)
-					},
-					max = {
-						cash = 10000, --Max cash the property can hold
-						dirty = 10000, --Max marked bills the property can hold
-						weapons = 6, --Max weapons the property can hold
-					},
-				},
-				robbing = {
-					cooldown = 2700, --Robbery cooldown time in seconds
-					last_robbed = 0, --Default (don't touch)
-					being_robbed = false, --Default (don't touch)
-					time = 300, --The total time the robber has to hack the vault
-					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
-				},
-				lockpicking = {
-					cooldown = 300, --Colldown between lockpicking attempts
-					last_picked = 0, --Default (don't touch)
-				},
-				expire = 1 --Default (don't touch)
-			},
-			[2] = {
-				property_name = "MC Clubhouse", -- Name of the property (used as the title of the menu)
-				locked = false, --Default (don't touch)
-				overdue = false,
-				owner =  {
-					identifier = "no", --Default (don't touch)
-					char_id = 0, --Default (don't touch)
-					id = 0, --Default (don't touch)
-				},
-				coordinates = {
-					outside = {x = 2471.213, y = 4110.867, z = 38.06467, h = 247.3684}, -- The marker outside (used for teleporting inside)
-					inside = {x = 997.0413, y = -3158.019, z = -38.90715, h = 247.4221}, -- The marker inside (used for teleporting outside)
-					vault = {x = 1001.748, y = -3167.127, z = -34.07746, h = 263.3291}, -- The marker for the vault
-				},
-				rent = 7500, --How much it costs to rent the property (PER DAY)
-				income = 500, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
-				storage = {
-					locked = false, --Default (don't touch)
-					current = {
-						cash = 0, --Default (don't touch)
-						dirty = 0, --Default (don't touch)
-						weapons = {}, --Default (don't touch)
-					},
-					max = {
-						cash = 10000, --Max cash the property can hold
-						dirty = 10000, --Max marked bills the property can hold
-						weapons = 6, --Max weapons the property can hold
-					},
-				},
-				robbing = {
-					cooldown = 2700, --Robbery cooldown time in seconds
-					last_robbed = 0, --Default (don't touch)
-					being_robbed = false, --Default (don't touch)
-					time = 300, --The total time the robber has to hack the vault
-					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
-				},
-				lockpicking = {
-					cooldown = 300, --Colldown between lockpicking attempts
-					last_picked = 0, --Default (don't touch)
-				},
-				expire = 1 --Default (don't touch)
-			},
-			[3] = {
-				property_name = "MC Clubhouse 2", -- Name of the property (used as the title of the menu)
-				locked = false, --Default (don't touch)
-				overdue = false,
-				owner =  {
-					identifier = "no", --Default (don't touch)
-					char_id = 0, --Default (don't touch)
-					id = 0, --Default (don't touch)
-				},
-				coordinates = {
-					outside = {x = -379.6051, y = 6062.196, z = 31.50013, h = 222.5358}, -- The marker outside (used for teleporting inside)
-					inside = {x = 1120.963, y = -3152.196, z = -37.06273, h = 222.8231}, -- The marker inside (used for teleporting outside)
-					vault = {x = 1112.419, y = -3145.239, z = -37.06273, h = 235.9401}, -- The marker for the vault
-				},
-				rent = 7500, --How much it costs to rent the property (PER DAY)
-				income = 500, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
-				storage = {
-					locked = false, --Default (don't touch)
-					current = {
-						cash = 0, --Default (don't touch)
-						dirty = 0, --Default (don't touch)
-						weapons = {}, --Default (don't touch)
-					},
-					max = {
-						cash = 10000, --Max cash the property can hold
-						dirty = 10000, --Max marked bills the property can hold
-						weapons = 6, --Max weapons the property can hold
-					},
-				},
-				robbing = {
-					cooldown = 2700, --Robbery cooldown time in seconds
-					last_robbed = 0, --Default (don't touch)
-					being_robbed = false, --Default (don't touch)
-					time = 300, --The total time the robber has to hack the vault
-					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
-				},
-				lockpicking = {
-					cooldown = 300, --Colldown between lockpicking attempts
-					last_picked = 0, --Default (don't touch)
-				},
-				expire = 1 --Default (don't touch)
-			},
-			[4] = {
+			-- [1] = {
+			-- 	property_name = "Warehouse 1", -- Name of the property (used as the title of the menu)
+			-- 	locked = false, --Default (don't touch)
+			-- 	overdue = false,
+			-- 	owner =  {
+			-- 		identifier = "no", --Default (don't touch)
+			-- 		char_id = 0, --Default (don't touch)
+			-- 		id = 0, --Default (don't touch)
+			-- 	},
+			-- 	coordinates = {
+			-- 		outside = {x = 714.0797, y = -718.3225, z = 26.09685, h = 359.4313}, -- The marker outside (used for teleporting inside)
+			-- 		inside = {x = 992.7667, y = -3098.174, z = -38.99586, h = 228.594}, -- The marker inside (used for teleporting outside)
+			-- 		vault = {x = 1014.362, y = -3105.95, z = -38.99986, h = 267.0504}, -- The marker for the vault
+			-- 	},
+			-- 	rent = 8000, --How much it costs to rent the property (PER DAY)
+			-- 	income = 500, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
+			-- 	storage = {
+			-- 		locked = false, --Default (don't touch)
+			-- 		current = {
+			-- 			cash = 0, --Default (don't touch)
+			-- 			dirty = 0, --Default (don't touch)
+			-- 			weapons = {}, --Default (don't touch)
+			-- 		},
+			-- 		max = {
+			-- 			cash = 10000, --Max cash the property can hold
+			-- 			dirty = 10000, --Max marked bills the property can hold
+			-- 			weapons = 6, --Max weapons the property can hold
+			-- 		},
+			-- 	},
+			-- 	robbing = {
+			-- 		cooldown = 2700, --Robbery cooldown time in seconds
+			-- 		last_robbed = 0, --Default (don't touch)
+			-- 		being_robbed = false, --Default (don't touch)
+			-- 		time = 300, --The total time the robber has to hack the vault
+			-- 		max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+			-- 	},
+			-- 	lockpicking = {
+			-- 		cooldown = 300, --Colldown between lockpicking attempts
+			-- 		last_picked = 0, --Default (don't touch)
+			-- 	},
+			-- 	expire = 1 --Default (don't touch)
+			-- },
+			-- [2] = {
+			-- 	property_name = "MC Clubhouse", -- Name of the property (used as the title of the menu)
+			-- 	locked = false, --Default (don't touch)
+			-- 	overdue = false,
+			-- 	owner =  {
+			-- 		identifier = "no", --Default (don't touch)
+			-- 		char_id = 0, --Default (don't touch)
+			-- 		id = 0, --Default (don't touch)
+			-- 	},
+			-- 	coordinates = {
+			-- 		outside = {x = 2471.213, y = 4110.867, z = 38.06467, h = 247.3684}, -- The marker outside (used for teleporting inside)
+			-- 		inside = {x = 997.0413, y = -3158.019, z = -38.90715, h = 247.4221}, -- The marker inside (used for teleporting outside)
+			-- 		vault = {x = 1001.748, y = -3167.127, z = -34.07746, h = 263.3291}, -- The marker for the vault
+			-- 	},
+			-- 	rent = 7500, --How much it costs to rent the property (PER DAY)
+			-- 	income = 500, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
+			-- 	storage = {
+			-- 		locked = false, --Default (don't touch)
+			-- 		current = {
+			-- 			cash = 0, --Default (don't touch)
+			-- 			dirty = 0, --Default (don't touch)
+			-- 			weapons = {}, --Default (don't touch)
+			-- 		},
+			-- 		max = {
+			-- 			cash = 10000, --Max cash the property can hold
+			-- 			dirty = 10000, --Max marked bills the property can hold
+			-- 			weapons = 6, --Max weapons the property can hold
+			-- 		},
+			-- 	},
+			-- 	robbing = {
+			-- 		cooldown = 2700, --Robbery cooldown time in seconds
+			-- 		last_robbed = 0, --Default (don't touch)
+			-- 		being_robbed = false, --Default (don't touch)
+			-- 		time = 300, --The total time the robber has to hack the vault
+			-- 		max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+			-- 	},
+			-- 	lockpicking = {
+			-- 		cooldown = 300, --Colldown between lockpicking attempts
+			-- 		last_picked = 0, --Default (don't touch)
+			-- 	},
+			-- 	expire = 1 --Default (don't touch)
+			-- },
+			-- [3] = {
+			-- 	property_name = "MC Clubhouse 2", -- Name of the property (used as the title of the menu)
+			-- 	locked = false, --Default (don't touch)
+			-- 	overdue = false,
+			-- 	owner =  {
+			-- 		identifier = "no", --Default (don't touch)
+			-- 		char_id = 0, --Default (don't touch)
+			-- 		id = 0, --Default (don't touch)
+			-- 	},
+			-- 	coordinates = {
+			-- 		outside = {x = -379.6051, y = 6062.196, z = 31.50013, h = 222.5358}, -- The marker outside (used for teleporting inside)
+			-- 		inside = {x = 1120.963, y = -3152.196, z = -37.06273, h = 222.8231}, -- The marker inside (used for teleporting outside)
+			-- 		vault = {x = 1112.419, y = -3145.239, z = -37.06273, h = 235.9401}, -- The marker for the vault
+			-- 	},
+			-- 	rent = 7500, --How much it costs to rent the property (PER DAY)
+			-- 	income = 500, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
+			-- 	storage = {
+			-- 		locked = false, --Default (don't touch)
+			-- 		current = {
+			-- 			cash = 0, --Default (don't touch)
+			-- 			dirty = 0, --Default (don't touch)
+			-- 			weapons = {}, --Default (don't touch)
+			-- 		},
+			-- 		max = {
+			-- 			cash = 10000, --Max cash the property can hold
+			-- 			dirty = 10000, --Max marked bills the property can hold
+			-- 			weapons = 6, --Max weapons the property can hold
+			-- 		},
+			-- 	},
+			-- 	robbing = {
+			-- 		cooldown = 2700, --Robbery cooldown time in seconds
+			-- 		last_robbed = 0, --Default (don't touch)
+			-- 		being_robbed = false, --Default (don't touch)
+			-- 		time = 300, --The total time the robber has to hack the vault
+			-- 		max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+			-- 	},
+			-- 	lockpicking = {
+			-- 		cooldown = 300, --Colldown between lockpicking attempts
+			-- 		last_picked = 0, --Default (don't touch)
+			-- 	},
+			-- 	expire = 1 --Default (don't touch)
+			-- },
+			[1] = {
 				property_name = "Bahama Mamas", -- Name of the property (used as the title of the menu)
 				locked = false, --Default (don't touch)
 				overdue = false,
@@ -4427,7 +4427,7 @@ properties = {
 				},
 				expire = 1 --Default (don't touch)
 			},
-			[5] = {
+			[2] = {
 				property_name = "Galaxy Nightclub", -- Name of the property (used as the title of the menu)
 				locked = false, --Default (don't touch)
 				overdue = false,
@@ -4437,8 +4437,8 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = {
-					outside = {x = -1174.1722412109, y = -1153.5986328125, z = 5.6577277183533, h = 285.49569702148}, -- The marker outside (used for teleporting inside)
-					inside = {x = -1569.3054199219, y = -3016.9519042969, z = -74.406150817871, h = 2.6814656257629}, -- The marker inside (used for teleporting outside)
+					outside = {x = -15.761074066162, y = 216.64323425293, z = 106.7442779541, h = 83.192993164063}, -- The marker outside (used for teleporting inside)
+        			inside = {x = -1569.3054199219, y = -3016.9519042969, z = -74.406150817871, h = 2.6814656257629}, -- The marker inside (used for teleporting outside)
 					vault = {x = -1581.7600097656, y = -3018.3195800781, z = -79.005935668945, h = 91.424942016602}, -- The marker for the vault
 				},
 				rent = 8000, --How much it costs to rent the property (PER DAY)
@@ -4468,7 +4468,7 @@ properties = {
 					last_picked = 0, --Default (don't touch)
 				},
 				expire = 1 --Default (don't touch)
-			},--]]
+			},
 		},
 	},
 }
