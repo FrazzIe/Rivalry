@@ -4,6 +4,10 @@ Mechanic.Active = false
 Mechanic.Rank = nil
 Mechanic.Position = nil
 
+function MechanicIsMechanic()
+	return Mechanic.IsMechanic
+end
+
 RegisterNetEvent("Mechanic:Set")
 AddEventHandler("Mechanic:Set", function(_Data, _Mechanic, first)
 	Mechanic.IsMechanic = _Mechanic

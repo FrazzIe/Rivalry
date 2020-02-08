@@ -206,7 +206,7 @@ Citizen.CreateThread(function()
         isPrisoner = exports["core_modules"]:IsInJail()
         isCuffed = exports["policejob"]:getIsCuffed() or exports["core_modules"]:isCuffed()
         isEmergency = exports["policejob"]:getIsInService() or exports["emsjob"]:getIsInService()
-        isMechanic = exports["mechanicjob"]:getIsInService()
+        isMechanic = exports["core_modules"]:MechanicIsMechanic()
     end
 end)
 
