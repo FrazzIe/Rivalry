@@ -143,7 +143,7 @@ itemlist = {
 	[121] = {name = "Pen", item_id = 121, canuse = 0, illegal = false},
 	[122] = {name = "Pencil", item_id = 122, canuse = 0, illegal = false},
 	[123] = {name = "Notepad", item_id = 123, canuse = 0, illegal = false},
-	[124] = {name = "Briefcase", item_id = 124, canuse = 0, illegal = false},
+	[124] = {name = "Briefcase", item_id = 124, canuse = 21, illegal = false},
 	[125] = {name = "Boombox", item_id = 125, canuse = 0, illegal = false},
 	[126] = {name = "Bong", item_id = 126, canuse = 0, illegal = false},
 	[127] = {name = "Crack Pipe", item_id = 127, canuse = 0, illegal = false},
