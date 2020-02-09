@@ -295,7 +295,6 @@ end
 function GetDamagingWeapon(ped)
     for k, v in pairs(weapons) do
         if HasPedBeenDamagedByWeapon(ped, k, 0) then
-            ClearEntityLastDamageEntity(ped)
             return v
         end
     end
@@ -304,7 +303,7 @@ function GetDamagingWeapon(ped)
 end
 
 function GetDamagingWeaponName(ped)
-    for k, v in pairs(weapons) do
+	for k, v in pairs(weapons) do
         if HasPedBeenDamagedByWeapon(ped, k, 0) then
             return k
         end
@@ -472,7 +471,7 @@ function CheckDamage(ped, bone, weapon, weaponName, healthLossed)
 				end
 			end
 		end
-		
+		TriggerServerEvent("Health.Injury.Add", parts[bone], Utilities:GetWeaponLabel(weaponName), healthLossed)
         if not isDamaged then
             BodyParts[parts[bone]].isDamaged = true
             BodyParts[parts[bone]].severity = 1
@@ -488,8 +487,6 @@ function CheckDamage(ped, bone, weapon, weaponName, healthLossed)
                 limbs = BodyParts,
                 isBleeding = tonumber(isBleeding)
             })
-
-            TriggerServerEvent("Health.Injury.Add", parts[bone], Utilities:GetWeaponLabel(weaponName), healthLossed)
         else
             if BodyParts[parts[bone]].severity < 4 then
                 BodyParts[parts[bone]].severity = BodyParts[parts[bone]].severity + 1
@@ -717,7 +714,8 @@ Citizen.CreateThread(function()
             if hit and bodypart ~= 'NONE' then
                 local checkDamage = true
                 local weapon = GetDamagingWeapon(player)
-                local weaponName = GetDamagingWeaponName(player)
+				local weaponName = GetDamagingWeaponName(player)
+				ClearEntityLastDamageEntity(ped)
                 if weapon ~= nil then
                     if armourDamaged and (bodypart == 'SPINE' or bodypart == 'LOWER_BODY') and weapon <= WeaponClasses['LIGHT_IMPACT'] and weapon ~= WeaponClasses['NOTHING'] then
                         checkDamage = false -- Don't check damage if the it was a body shot and the weapon class isn't that strong

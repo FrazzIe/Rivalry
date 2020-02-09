@@ -1068,11 +1068,13 @@ for WeaponIndex = 1, #Utilities.Data.Weapons.List do
 end
 
 function Utilities:GetWeaponLabel(Weapon)
-	if self.Data.Weapons.Labels[Weapon] then
-		return GetLabelText(self.Data.Weapons.Labels[Weapon])
-	else
-		return nil
+	for k, v in pairs(self.Data.Weapons.Labels) do
+		if GetHashKey(k) == Weapon then
+			print(Weapon)
+			return GetLabelText(v)
+		end
 	end
+	return nil
 end
 
 function Utilities:GetWeaponHash(Weapon)
