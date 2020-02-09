@@ -772,7 +772,7 @@ AddEventHandler("Garage:ClaimSuccess", function(plate)
     for i = 1,#user_vehicles do
         if user_vehicles[i].plate == plate then
             local Claim = user_vehicles[i].claims
-            local cost = ((insurance[user_vehicles[i].model] * (Claim * 1.5))/100)
+            local cost = (((insurance[user_vehicles[i].model] or 1000) * (Claim * 1.5))/100)
             Citizen.CreateThread(function()
                 local instance = user_vehicles[i].instance
                 Citizen.Trace("CURRENT instance == "..instance)
