@@ -83,7 +83,12 @@ RegisterNetEvent('mythic_hospital:client:SendToBed')
 AddEventHandler('mythic_hospital:client:SendToBed', function(hospital, bed, data)
     BedHospital = hospital
     BedOccupying = bed
-    BedOccupyingData = data
+	BedOccupyingData = data
+	
+	if IsPedDeadOrDying(PlayerPedId()) then
+		local playerPos = GetEntityCoords(PlayerPedId(), true)
+		NetworkResurrectLocalPlayer(playerPos, true, true, false)
+	end
 
     SetEntityCoords(PlayerPedId(), data.coords.x, data.coords.y, data.coords.z - 0.3)
     RequestAnimDict(InBedDict)
@@ -110,7 +115,8 @@ end)
 
 RegisterNetEvent('mythic_hospital:client:FinishServices')
 AddEventHandler('mythic_hospital:client:FinishServices', function()
-	SetEntityHealth(PlayerPedId(), GetEntityMaxHealth(PlayerPedId()))
+	local ped = PlayerPedId()
+	SetEntityHealth(ped, GetEntityMaxHealth(ped))
     TriggerEvent('mythic_hospital:client:RemoveBleed')
     TriggerEvent('mythic_hospital:client:ResetLimbs')
     exports['mythic_notify']:DoHudText('inform', 'You\'ve Been Treated & Billed')
@@ -135,8 +141,26 @@ Citizen.CreateThread(function()
                 if not IsPedInAnyVehicle(playerPed, true) then
                     if distance < 1 then
                         DisplayHelpText('Press ~INPUT_CONTEXT~ ~s~to check in')
-                        if IsControlJustReleased(0, 54) then
-                            if (GetEntityHealth(PlayerPedId()) < 200) or (IsInjuredOrBleeding()) then
+						if IsControlJustReleased(0, 54) then
+							if IsEntityDead(PlayerPedId()) then
+								exports['mythic_progbar']:Progress({
+									name = "hospital_action",
+									duration = 10500,
+									label = "Checking In",
+									useWhileDead = true,
+									canCancel = true,
+									controlDisables = {
+										disableMovement = true,
+										disableCarMovement = true,
+										disableMouse = false,
+										disableCombat = true,
+									}
+								}, function(status)
+									if not status then
+										TriggerServerEvent('mythic_hospital:server:RequestBed', i)
+									end
+								end)
+                            elseif (GetEntityHealth(PlayerPedId()) < 200) or (IsInjuredOrBleeding()) then
                                 exports['mythic_progbar']:Progress({
                                     name = "hospital_action",
                                     duration = 10500,
