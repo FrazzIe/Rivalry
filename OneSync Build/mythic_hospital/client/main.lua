@@ -139,7 +139,7 @@ Citizen.CreateThread(function()
             if distance < 10 then
                 DrawMarker(25, HospitalCheckins[i].x, HospitalCheckins[i].y, HospitalCheckins[i].z - 0.9, 0, 0, 0, 0, 0, 0,1.5, 1.5, 2.0,255, 255, 0, 20, false, 0, 2, 0, 0, 0, 0)
                 if not IsPedInAnyVehicle(playerPed, true) then
-                    if distance < 1 then
+                    if distance < 1.5 then
                         DisplayHelpText('Press ~INPUT_CONTEXT~ ~s~to check in')
 						if IsControlJustReleased(0, 54) then
 							if IsEntityDead(PlayerPedId()) then
