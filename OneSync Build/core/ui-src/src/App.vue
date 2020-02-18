@@ -1,28 +1,31 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+	<v-app>
+		<v-content>
+			<v-container fluid full-height>
+				<v-layout align-center justify-center>
+					<v-flex xs7 sm10 md10 lg10 xl7>						
+						<v-layout>
+							<Character/>
+							<Changelog/>
+						</v-layout>
+					</v-flex>
+				</v-layout>
+			</v-container>
+		</v-content>
+	</v-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
+import Character from './components/Character.vue'
+import Changelog from './components/Changelof.vue'
 export default {
-  name: 'App',
-  components: {
-    HelloWorld
-  }
+	name: "char-ss",
+	components: {
+		Character,
+		Changelog
+	}
 }
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
 </style>
