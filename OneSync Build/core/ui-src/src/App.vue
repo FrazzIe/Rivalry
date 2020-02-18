@@ -1,5 +1,5 @@
 <template>
-	<v-app>
+	<v-app v-show="visible">
 		<v-content>
 			<v-container fluid fill-height grid-list-xl>
 				<v-layout align-center justify-center>
@@ -18,11 +18,27 @@
 <script>
 import Character from './components/Character.vue'
 import Changelog from './components/Changelog.vue'
+
 export default {
 	name: "char-ss",
 	components: {
 		Character,
 		Changelog
+	},
+	data: () => ({
+		listener: null,
+		visible: true,
+	}),
+	methods: {
+		SetVisible(payload) {
+			this.visible = payload === true;
+		}
+	},
+	mounted() {
+		this.listener = window.addEventListener("message", (event) => {
+			const item = event.data || event.detail;
+			if (this[item.type] != null && item.payload != null) this[item.type](item.payload);
+		});
 	}
 }
 </script>
@@ -31,6 +47,6 @@ export default {
 	.css-content {
 		min-height: 600px;
 		max-height: 600px;
-		height: 100%
+		height: 100%;
 	}
 </style>
