@@ -17,7 +17,7 @@
 
 <script>
 import Character from './components/Character.vue'
-import Changelog from './components/Changelof.vue'
+import Changelog from './components/Changelog.vue'
 export default {
 	name: "char-ss",
 	components: {
