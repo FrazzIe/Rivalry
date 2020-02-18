@@ -2,7 +2,8 @@ local Config = {}
 ----------------------------------------------------------------------------------------------------------------------
 -- Priority list can be any identifier. (hex steamid, steamid32, ip) Integer = power over other priorities
 Config.Priority = {
-	--[Management]--
+    --[Management]--
+    ["steam:1100001057052a0"] = 9002, -- Frazzle
 	["steam:110000117ace560"] = 9001, -- Frazzle
 	["steam:110000101599554"] = 9000, -- Chef Noonab
 	["steam:110000106e0c14b"] = 2005, -- Ructar
