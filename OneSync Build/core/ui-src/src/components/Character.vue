@@ -28,9 +28,25 @@ export default {
 		characters: [
 		],
 	}),
+	computed: {
+		currentDate() {
+			return new Date();
+		}
+	},
 	methods: {
 		SetCharacters(payload) {
 			this.characters = payload;
+		},
+		calculateAge(dob) {
+			var birthDate = new Date(dob);
+			var age = this.currentDate.getFullYear() - birthDate.getFullYear();
+			var monthRange = this.currentDate.getMonth() - birthDate.getMonth();
+
+			if (monthRange < 0 || (monthRange === 0 && this.currentDate.getDate() < birthDate.getDate())) {
+				age--;
+			}
+
+			return age;
 		},
 	},
 	mounted() {
