@@ -290,13 +290,13 @@ AddEventHandler("core:switchCharacter", function()
 end)
 
 RegisterServerEvent("core:deleteCharacter")
-AddEventHandler("core:deleteCharacter", function(character)
+AddEventHandler("core:deleteCharacter", function(character_id)
     local source = source
     local identifier = Users[source].get("steam")
 
     for _, Character in pairs(_Characters[source]) do
         if Character.character_id then
-            if tonumber(Character.character_id) == tonumber(character.character_id) then
+            if tonumber(Character.character_id) == tonumber(character_id) then
                 table.remove(_Characters[source], _)
                 break
             end
@@ -305,11 +305,11 @@ AddEventHandler("core:deleteCharacter", function(character)
 
     TriggerClientEvent("core:deleteCharacter", source, _Characters[source])
 
-    exports["GHMattiMySQL"]:Query("UPDATE properties_businesses_enterable SET identifier='no', character_id=NULL, expire='0' WHERE (identifier=@identifier) AND (character_id=@character_id)", {["@identifier"] = identifier, ["@character_id"] = character.character_id})
-    exports["GHMattiMySQL"]:Query("UPDATE properties_businesses_normal SET identifier='no', character_id=NULL, expire='0' WHERE (identifier=@identifier) AND (character_id=@character_id)", {["@identifier"] = identifier, ["@character_id"] = character.character_id})
-    exports["GHMattiMySQL"]:Query("UPDATE properties_houses_enterable SET identifier='no', character_id=NULL, expire='0' WHERE (identifier=@identifier) AND (character_id=@character_id)", {["@identifier"] = identifier, ["@character_id"] = character.character_id})
-    exports["GHMattiMySQL"]:Query("UPDATE properties_houses_normal SET identifier='no', character_id=NULL, expire='0' WHERE (identifier=@identifier) AND (character_id=@character_id)", {["@identifier"] = identifier, ["@character_id"] = character.character_id})
-    exports["GHMattiMySQL"]:Query("UPDATE characters SET dead = 1 WHERE character_id=@character_id", {["@character_id"] = character.character_id})
+    exports["GHMattiMySQL"]:Query("UPDATE properties_businesses_enterable SET identifier='no', character_id=NULL, expire='0' WHERE (identifier=@identifier) AND (character_id=@character_id)", {["@identifier"] = identifier, ["@character_id"] = character_id})
+    exports["GHMattiMySQL"]:Query("UPDATE properties_businesses_normal SET identifier='no', character_id=NULL, expire='0' WHERE (identifier=@identifier) AND (character_id=@character_id)", {["@identifier"] = identifier, ["@character_id"] = character_id})
+    exports["GHMattiMySQL"]:Query("UPDATE properties_houses_enterable SET identifier='no', character_id=NULL, expire='0' WHERE (identifier=@identifier) AND (character_id=@character_id)", {["@identifier"] = identifier, ["@character_id"] = character_id})
+    exports["GHMattiMySQL"]:Query("UPDATE properties_houses_normal SET identifier='no', character_id=NULL, expire='0' WHERE (identifier=@identifier) AND (character_id=@character_id)", {["@identifier"] = identifier, ["@character_id"] = character_id})
+    exports["GHMattiMySQL"]:Query("UPDATE characters SET dead = 1 WHERE character_id=@character_id", {["@character_id"] = character_id})
 end)
 
 RegisterServerEvent("core:editCharacter")
@@ -345,10 +345,10 @@ AddEventHandler("core:createCharacter", function(data)
     exports["GHMattiMySQL"]:Insert("characters", {
         {
             ["identifier"] = identifier,
-            ["first_name"] = data.forename,
-            ["last_name"] = data.surname,
-            ["dob"] = data.dob,
-            ["gender"] = data.gender,
+            ["first_name"] = data.firstName,
+            ["last_name"] = data.lastName,
+            ["dob"] = data.birthDate,
+            ["gender"] = (data.sex == 0) and "male" or "female",
             ["wallet"] = Config["Character"]["Wallet"],
             ["bank"] = Config["Character"]["Bank"],
             ["dirty_cash"] = Config["Character"]["Dirty"],
@@ -362,7 +362,8 @@ AddEventHandler("core:createCharacter", function(data)
             ["drivers_license"] = Config["Character"]["Licenses"]["Driver"],
             ["fishing_license"] = Config["Character"]["Licenses"]["Fishing"],
             ["radio"] = "false",
-            ["ad_text"] = "NULL"
+            ["ad_text"] = "NULL",
+            ["background"] = data.background,
         }
     }, function(character_id)
         exports["GHMattiMySQL"]:QueryAsync("INSERT INTO garages (`character_id`,`garage_id`,`cost`,`slots`) VALUES (@character_id,@garage_id,@cost,@slots)", {
@@ -373,16 +374,18 @@ AddEventHandler("core:createCharacter", function(data)
         })
         table.insert(_Characters[source], { character_id = character_id,
             identifier = identifier,
-            first_name = data["forename"],
-            last_name = data["surname"],
-            dob = data["dob"],
-            gender = data["gender"],
+            first_name = data["firstName"],
+            last_name = data["lastName"],
+            dob = data["birthDate"],
+            gender = (data.sex == 0) and "male" or "female",
             wallet = Config["Character"]["Wallet"],
             bank = Config["Character"]["Bank"],
             dirty_cash = Config["Character"]["Dirty"],
             timeplayed = Config["Character"]["Timeplayed"],
             radio = true,
-            ad_text = "NULL" })
+            ad_text = "NULL",
+            background = data["background"],
+        })
         TriggerClientEvent("core:createCharacter", source, _Characters[source])
     end, true)
 end)
@@ -391,17 +394,21 @@ RegisterServerEvent("core:selectCharacter")
 AddEventHandler("core:selectCharacter", function(data)
     local source = source
     local identifier = Users[source].get("steam")
+    local character_id = tonumber(data)
 
-    if identifier ~= nil and data.character_id ~= nil then
-        exports["GHMattiMySQL"]:QueryResultAsync("SELECT * FROM characters WHERE (identifier = @identifier) AND (character_id = @character_id)", {["@identifier"] = identifier, ["@character_id"] = data.character_id}, function(_Character)
+    if identifier ~= nil and character_id ~= nil then
+        exports["GHMattiMySQL"]:QueryResultAsync("SELECT * FROM characters WHERE (identifier = @identifier) AND (character_id = @character_id)", {["@identifier"] = identifier, ["@character_id"] = character_id}, function(_Character)
             if _Character[1] then
                 local model = nil
+
                 if _Character[1].gender == "attack helicopter" or _Character[1].gender == "male" then
                     model = Config["Character"]["Models"]["Male"][math.random(1, #Config["Character"]["Models"]["Male"])]
                 else
                     model = Config["Character"]["Models"]["Female"][math.random(1, #Config["Character"]["Models"]["Female"])]
                 end
+
                 Characters[source] = setupCharacter(source, _Character[1])
+
                 TriggerClientEvent("Reset.Carry.And.Kidnap", source)
                 TriggerClientEvent("core:login", source, Characters[source].get("lastcoords"), Characters[source].get("timeplayed"))
                 TriggerEvent("core:loaded", source, Characters[source], Users[source].get("power"), Users[source].get("group"))
@@ -409,46 +416,51 @@ AddEventHandler("core:selectCharacter", function(data)
                 TriggerClientEvent("core:sync", -1, Characters, CharacterNames, Users, UPower, UGroup, MDTCharacters)
                 TriggerEvent("core:sync", Characters, CharacterNames, Users, UPower, UGroup, MDTCharacters)
 
-                TriggerEvent("police:initialise", source, identifier, tonumber(data.character_id))
-                TriggerEvent("paramedic:initialise", source, identifier, tonumber(data.character_id))
-                TriggerEvent("DOJ:Initialise", source, identifier, tonumber(data.character_id))
-                TriggerEvent("Mechanic:Initialise", source, identifier, tonumber(data.character_id))
-                TriggerEvent("News:Initialise", source, identifier, tonumber(data.character_id))
-                TriggerEvent("Dealer:Initialise", source, identifier, tonumber(data.character_id))
-                TriggerEvent("CarDealer:Initialise", source, identifier, tonumber(data.character_id))
+                TriggerEvent("police:initialise", source, identifier, tonumber(character_id))
+                TriggerEvent("paramedic:initialise", source, identifier, tonumber(character_id))
+                TriggerEvent("DOJ:Initialise", source, identifier, tonumber(character_id))
+                TriggerEvent("Mechanic:Initialise", source, identifier, tonumber(character_id))
+                TriggerEvent("News:Initialise", source, identifier, tonumber(character_id))
+                TriggerEvent("Dealer:Initialise", source, identifier, tonumber(character_id))
+                TriggerEvent("CarDealer:Initialise", source, identifier, tonumber(character_id))
+
                 TriggerClientEvent("weapon:set_license", source, Characters[source].get("weapon_license"))
                 TriggerClientEvent("fisher:set_license", source, Characters[source].get("fishing_license"))
                 TriggerClientEvent("Radio.Set", source, Characters[source].get("radio"))
+
                 TriggerEvent("jail:initialise", source, Characters[source].get("jail_time"), Characters[source].get("dateofjail"))
                 TriggerEvent('jobcenter:initialise', source, Characters[source].get("job"))
-                TriggerEvent("properties:initialise", source, identifier, tonumber(data.character_id))
-                TriggerEvent("Phone.Start", source, tonumber(data.character_id))
-                TriggerEvent("garage:initialise", source, identifier, tonumber(data.character_id))
-                TriggerEvent("inventory:initialise", source, identifier, tonumber(data.character_id))
-                TriggerEvent("weapon:initialise", source, identifier, tonumber(data.character_id))
+                TriggerEvent("properties:initialise", source, identifier, tonumber(character_id))
+                TriggerEvent("Phone.Start", source, tonumber(character_id))
+                TriggerEvent("garage:initialise", source, identifier, tonumber(character_id))
+                TriggerEvent("inventory:initialise", source, identifier, tonumber(character_id))
+                TriggerEvent("weapon:initialise", source, identifier, tonumber(character_id))
                 TriggerEvent("interaction:initialise_keys", source)
                 TriggerEvent("handcuffs:initialise", source)
                 TriggerEvent("doors:initialise", source)
                 TriggerEvent("weed:initialise", source)
+
                 TriggerClientEvent('mythic_hospital:client:RemoveBleed', source)
                 TriggerClientEvent('mythic_hospital:client:ResetLimbs', source)
+
                 TriggerEvent("GunStash.InitialiseInventory", source)
                 TriggerEvent("Shared.Doors.Initialise", source)
             else
                 if GetPlayerName(source) then
-                    logError(GetPlayerName(source).." was kicked! | STEAM: "..identifier.." | CHAR ID: "..data.character_id.." | 2")
+                    logError(GetPlayerName(source).." was kicked! | STEAM: "..identifier.." | CHAR ID: "..character_id.." | 2")
                 else
-                    logError("Someone was kicked! | STEAM: "..identifier.." | CHAR ID: "..data.character_id.." | 2")
+                    logError("Someone was kicked! | STEAM: "..identifier.." | CHAR ID: "..character_id.." | 2")
                 end
                 DropPlayer(source, "An error occured getting either you steam identifier or character id, hopefully i'll be able to prevent this from happening soon!")
             end
         end)
     else
         if GetPlayerName(source) then
-            logError(GetPlayerName(source).." was kicked! | STEAM: "..identifier.." | CHAR ID: "..data.character_id)
+            logError(GetPlayerName(source).." was kicked! | STEAM: "..identifier.." | CHAR ID: "..character_id)
         else
-            logError("Someone was kicked! | STEAM: "..identifier.." | CHAR ID: "..data.character_id)
+            logError("Someone was kicked! | STEAM: "..identifier.." | CHAR ID: "..character_id)
         end
+
         DropPlayer(source, "An error occured getting either you steam identifier or character id, hopefully i'll be able to prevent this from happening soon!")
     end
 end)

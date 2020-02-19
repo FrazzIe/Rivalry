@@ -25,16 +25,10 @@ local timeout = 0
 local time = -1
 local selected = false
 
-local function open(_characters)
-	SetPlayerControl(PlayerId(), 0, 0)
-	SetNuiFocus(true, true)
-	SendNUIMessage({open = true, characters = _characters})
-end
-
-local function close()
-	SetNuiFocus(false, false)
-	SendNUIMessage({open = false})
-	SetPlayerControl(PlayerId(), 1, 0)
+function ToggleSelectionScreen(val)
+	SetPlayerControl(PlayerId(), val and 0 or 1, 0)
+	SetNuiFocus(val, val)
+	SendNUIMessage({ type = "SetVisible", payload = val })
 end
 
 local function drawTimedMissionScaleform(heading, desc)
@@ -199,7 +193,9 @@ end)
 RegisterNetEvent("core:login")
 AddEventHandler("core:login", function(coords, _timeplayed)
 	timeplayed = _timeplayed
-	close()
+	
+	ToggleSelectionScreen(false)
+
 	FreezeEntityPosition(PlayerPedId(), false)
 
 	SwitchOutPlayer(PlayerPedId(), 0, 1)
@@ -230,22 +226,45 @@ end)
 
 RegisterNetEvent("core:loadCharacters")
 AddEventHandler("core:loadCharacters", function(_Characters)
-	open(_Characters)
+	ToggleSelectionScreen(true)
+
+	SendNUIMessage({ type = "SetCharacters", payload = _Characters })
 end)
 
-RegisterNetEvent("core:deleteCharacter")
-AddEventHandler("core:deleteCharacter", function(_Characters)
-	open(_Characters)
+RegisterNUICallback("select", function(data, cb)
+	TriggerServerEvent("core:selectCharacter", data)
 end)
 
-RegisterNetEvent("core:editCharacter")
-AddEventHandler("core:editCharacter", function(_Characters)
-	open(_Characters)
+RegisterNUICallback("delete", function(data, cb)
+	TriggerServerEvent("core:deleteCharacter", data)
+end)
+
+RegisterNUICallback("create", function(data, cb)
+	TriggerServerEvent("core:createCharacter", data)
+end)
+
+RegisterNUICallback("refresh", function(data, cb)
+	TriggerServerEvent("core:refeshChangelog")
+end)
+
+RegisterNetEvent("core:refreshChangelog")
+AddEventHandler("core:refreshChangelog", function(changelog)
+	SendNUIMessage({ type = "SetChangelog", payload = changelog })
+end)
+
+RegisterNetEvent("core:enableDeletion")
+AddEventHandler("core:enableDeletion", function(val)
+	SendNUIMessage({ type = "EnableCharRemoval", payload = val })
+end)
+
+RegisterNetEvent("core:setCharLimit")
+AddEventHandler("core:setCharLimit", function(val)
+	SendNUIMessage({ type = "SetCharLimit", payload = val })
 end)
 
 RegisterNetEvent("core:createCharacter")
 AddEventHandler("core:createCharacter", function(_Characters)
-	open(_Characters)
+	SendNUIMessage({ type = "SetCharacters", payload = _Characters })
 end)
 
 RegisterNetEvent("core:pvp")
@@ -265,32 +284,6 @@ end)
 RegisterNetEvent("core:kickall")
 AddEventHandler("core:kickall", function(reason)
 	TriggerServerEvent("core:kickall", reason)
-end)
-
-RegisterNUICallback("create_character", function(data, cb)
-	local split_dob = stringsplit(data.dob, "-")
-	if #split_dob == 3 then
-		data.dob = split_dob[2].."/"..split_dob[3].."/"..split_dob[1]
-	end
-
-	TriggerServerEvent("core:createCharacter", data)
-end)
-
-RegisterNUICallback("edit_character", function(data, cb)
-	local split_dob = stringsplit(data.dob, "-")
-	if #split_dob == 3 then
-		data.dob = split_dob[2].."/"..split_dob[3].."/"..split_dob[1]
-	end
-
-	TriggerServerEvent("core:editCharacter", data)
-end)
-
-RegisterNUICallback("select_character", function(data, cb)
-	TriggerServerEvent("core:selectCharacter", data.character)
-end)
-
-RegisterNUICallback("delete_character", function(data, cb)
-	TriggerServerEvent("core:deleteCharacter", data.character)
 end)
 
 --[[	Time Played	   ]]--

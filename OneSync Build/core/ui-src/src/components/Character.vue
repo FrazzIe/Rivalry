@@ -146,7 +146,6 @@ import marked from 'marked';
 
 export default {
 	data: () => ({
-		resourceName: "",
 		listener: null,
 		characters: [
 			{ character_id: 1, identifier: "steam:1100001057052a0", first_name: "Shin", last_name: "Wolford", dob: "07/15/1999", timeplayed: 1848985 },
@@ -173,6 +172,7 @@ export default {
 	props: {
 		deleteEnabled: Boolean,
 		characterLimit: Number,
+		resourceName: String,
 	},
 	computed: {
 		currentDate() {
