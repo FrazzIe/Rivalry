@@ -44,9 +44,37 @@ export default {
 </script>
 
 <style>
-	.css-content {
+	#app {
+		background-color: rgba(0, 0, 0, 0.0);
+	}
+	
+	.main-content {
 		min-height: 600px;
 		max-height: 600px;
 		height: 100%;
 	}
+	
+  ::-webkit-scrollbar { 
+    display: none; 
+  }
+
+  .scroll-bar::-webkit-scrollbar-track
+  {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.1);
+    background-color: #F5F5F5;
+  }
+
+  .scroll-bar::-webkit-scrollbar
+  {
+		display: block;
+    height: 6px;
+    width: 6px;
+    background-color: #F5F5F5;
+  }
+
+  .scroll-bar::-webkit-scrollbar-thumb
+  {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+    background-color: #555;
+  }
 </style>

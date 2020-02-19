@@ -1,6 +1,6 @@
 <template>
 	<v-flex xs4>
-		<v-card class="elevation-12 css-content" tile>
+		<v-card class="elevation-12 main-content" tile>
 			<v-toolbar dense color="primary" dark flat card height="45">
 				<v-toolbar-title>Changelog</v-toolbar-title>
 					<v-spacer></v-spacer>

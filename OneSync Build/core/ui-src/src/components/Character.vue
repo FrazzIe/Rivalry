@@ -1,6 +1,6 @@
 <template>
 	<v-flex xs8>
-		<v-card class="elevation-12 css-content" tile>
+		<v-card class="elevation-12 main-content" tile>
 			<v-toolbar dense color="primary" dark flat card height="45">
 				<v-toolbar-title>Character selection</v-toolbar-title>
 
@@ -14,7 +14,7 @@
 					</v-tooltip>
 			</v-toolbar>
 
-			<v-card-text>
+			<v-card-text class="css-content scroll-bar">
 				<v-layout row wrap>
 					<v-flex xs12 v-for="(item, index) in characters" :key="index">
 						<v-card class="elevation-6" color="grey lighten-5">
@@ -70,6 +70,8 @@ export default {
 		characters: [
 			{ character_id: 1, identifier: "steam:1100001057052a0", first_name: "Shin", last_name: "Wolford", dob: "07/15/1999", timeplayed: 1848985 },
 			{ character_id: 2, identifier: "steam:1100001057052a0", first_name: "Danny", last_name: "Phantom", dob: "07/15/1999", timeplayed: 1848985, background: "Is a shit cop who is corrupt as fuck..." },
+			{ character_id: 3, identifier: "steam:1100001057052a0", first_name: "Shin", last_name: "Wolford", dob: "07/15/1999", timeplayed: 1848985 },
+			{ character_id: 4, identifier: "steam:1100001057052a0", first_name: "Shin", last_name: "Wolford", dob: "07/15/1999", timeplayed: 1848985 },
 		],
 	}),
 	computed: {
@@ -109,10 +111,17 @@ export default {
 </script>
 
 <style scoped>
+	.css-content {
+		min-height: 555px;
+		max-height: 555px;
+		overflow-y: auto;
+	}
+
 	.bg-content {
 		max-height: 300px;
 		overflow-y: auto;
 		overflow-x: hidden;
 		word-wrap: break-word;
 	}
+
 </style>
