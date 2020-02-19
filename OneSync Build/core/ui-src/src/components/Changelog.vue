@@ -39,7 +39,7 @@ export default {
 			}).catch((error) => {
 				console.log(error);
 			});
-		}
+		},
 		md(t) {
 			return marked(t);
 		},
