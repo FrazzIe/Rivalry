@@ -33,7 +33,7 @@ export default {
 		...mapState(["visible"]),
 	},
 	methods: {
-		...mapMutations([""]),
+		...mapMutations(["SetVisible", "EnableCharRemoval", "SetCharLimit", "SetCharacters", "SetChangelog"]),
 	},
 	mounted() {
 		this.listener = window.addEventListener("message", (event) => {
