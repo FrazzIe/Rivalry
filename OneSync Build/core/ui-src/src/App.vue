@@ -5,7 +5,7 @@
 				<v-layout align-center justify-center>
 					<v-flex xs7 sm10 md10 lg10 xl7>
 						<v-layout>
-							<Character/>
+							<Character :deleteEnabled="charRemoval"/>
 							<Changelog/>
 						</v-layout>
 					</v-flex>
@@ -28,11 +28,15 @@ export default {
 	data: () => ({
 		listener: null,
 		visible: true,
+		charRemoval: false,
 	}),
 	methods: {
 		SetVisible(payload) {
 			this.visible = payload === true;
-		}
+		},
+		EnableCharRemoval(payload) {
+			this.charRemoval = payload === true;
+		} 
 	},
 	mounted() {
 		this.listener = window.addEventListener("message", (event) => {
@@ -47,7 +51,7 @@ export default {
 	#app {
 		background-color: rgba(0, 0, 0, 0.0);
 	}
-	
+
 	.main-content {
 		min-height: 600px;
 		max-height: 600px;

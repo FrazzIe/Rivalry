@@ -23,12 +23,14 @@
 
 								<v-spacer></v-spacer>
 
-								<v-tooltip right>
-									<v-btn flat small icon color="error" slot="activator" @click="">
-										<v-icon>close</v-icon>
-									</v-btn>
-									<span>Delete character</span>
-								</v-tooltip>					
+								<div v-if="deleteEnabled">
+									<v-tooltip right>
+										<v-btn flat small icon color="error" slot="activator" @click="openDeleteDialog(index, item)">
+											<v-icon>close</v-icon>
+										</v-btn>
+										<span>Delete character</span>
+									</v-tooltip>
+								</div>
 							</v-card-title>
 
 							<v-divider></v-divider>
@@ -56,6 +58,24 @@
 				</v-layout>
 			</v-card-text>
 		</v-card>
+		<v-dialog v-model="deleteDialog" width="350">
+			<v-card flat tile>
+				<v-toolbar dense color="primary" dark flat card>
+					<v-toolbar-title>Delete character</v-toolbar-title>
+				</v-toolbar>
+
+				<v-card-text>
+					Are you sure you want to delete {{ currentChar.first_name }} {{ currentChar.last_name }}?
+				</v-card-text>
+
+				<v-divider></v-divider>
+
+				<v-card-actions>
+					<v-btn color="primary darken-1" flat @click="deleteCharacter()">Yes</v-btn>
+					<v-btn color="primary darken-1" flat @click="deleteDialog = false">No</v-btn>
+				</v-card-actions>
+			</v-card>
+		</v-dialog>
 	</v-flex>
 </template>
 
@@ -74,7 +94,13 @@ export default {
 			{ character_id: 3, identifier: "steam:1100001057052a0", first_name: "Shin", last_name: "Wolford", dob: "07/15/1999", timeplayed: 1848985 },
 			{ character_id: 4, identifier: "steam:1100001057052a0", first_name: "Shin", last_name: "Wolford", dob: "07/15/1999", timeplayed: 1848985 },
 		],
+		deleteDialog: false,
+		currentCharIdx: null,
+		currentChar: {},
 	}),
+	props: {
+		deleteEnabled: Boolean,
+	},
 	computed: {
 		currentDate() {
 			return new Date();
@@ -90,6 +116,21 @@ export default {
 			}).catch((error) => {
 				console.log(error);
 			});
+		},
+		deleteCharacter() {
+			this.deleteDialog = false;
+			this.characters.splice(this.currentCharIdx, 1);
+			fetch("http://" + this.resourceName + "/delete", {
+				method: "post",
+				body: JSON.stringify(this.currentChar.character_id),
+			}).catch((error) => {
+				console.log(error);
+			});
+		},
+		openDeleteDialog(idx, item) {
+			this.deleteDialog = true;
+			this.currentCharIndex = idx;
+			this.currentChar = item;
 		},
 		},
 		calculateAge(dob) {
