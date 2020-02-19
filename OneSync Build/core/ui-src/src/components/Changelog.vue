@@ -6,8 +6,13 @@
 					<v-spacer></v-spacer>
 
 					<v-tooltip right>
-						<v-btn flat icon slot="activator" @click="refreshChangelog">
+						<v-btn flat icon slot="activator" :loading="loading" :disabled="loading" @click="refreshChangelog">
 							<v-icon>refresh</v-icon>
+							<template v-slot:loader>
+								<span class="cl-loader">
+									<v-icon light>refresh</v-icon>
+								</span>
+							</template>
 						</v-btn>
 						<span>Refresh</span>
 					</v-tooltip>
@@ -25,15 +30,19 @@ export default {
 	data: () => ({
 		listener: null,
 		changelog: "# Beep boop beep",
+		loading: false,
 	}),
 	props: {
 		resourceName: String,
 	},
 	methods: {
 		SetChangelog(payload) {
+			this.loading = false;
 			this.changelog = payload;
 		},
 		refreshChangelog() {
+			this.loading = true;
+
 			fetch("http://" + this.resourceName + "/refresh", {
 				method: "post",
 			}).catch((error) => {
@@ -59,5 +68,46 @@ export default {
 		min-height: 555px;
 		max-height: 555px;
 		overflow-y: auto;
+	}
+
+	.cl-loader {
+		animation: loader 1s infinite;
+		display: flex;
+	}
+
+	@-moz-keyframes loader {
+		from {
+			transform: rotate(0);
+		}
+		to {
+			transform: rotate(360deg);
+		}
+	}
+
+	@-webkit-keyframes loader {
+		from {
+			transform: rotate(0);
+		}
+		to {
+			transform: rotate(360deg);
+		}
+	}
+
+	@-o-keyframes loader {
+		from {
+			transform: rotate(0);
+		}
+		to {
+			transform: rotate(360deg);
+		}
+	}
+	
+	@keyframes loader {
+		from {
+			transform: rotate(0);
+		}
+		to {
+			transform: rotate(360deg);
+		}
 	}
 </style>
