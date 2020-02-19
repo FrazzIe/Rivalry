@@ -14,7 +14,7 @@
     "moment": "^2.24.0",
     "moment-duration-format": "^2.3.2",
     "roboto-fontface": "^0.10.0",
-    "vee-validate": "^3.2.5",
+    "vee-validate": "^2.2.10",
     "vue": "^2.6.10",
     "vuetify": "^1.5.17"
   },
