@@ -13,6 +13,48 @@
 						<span>New character</span>
 					</v-tooltip>
 			</v-toolbar>
+
+			<v-card-text>
+				<v-layout row wrap>
+					<v-flex xs12 v-for="(item, index) in characters" :key="index">
+						<v-card class="elevation-6" color="grey lighten-5">
+							<v-card-title>
+								<span class="title">{{ item.first_name }} {{ item.last_name }} ({{ calculateAge(item.dob) }})</span>
+
+								<v-spacer></v-spacer>
+
+								<v-tooltip right>
+									<v-btn flat small icon color="error" slot="activator" @click="">
+										<v-icon>close</v-icon>
+									</v-btn>
+									<span>Delete character</span>
+								</v-tooltip>					
+							</v-card-title>
+
+							<v-divider></v-divider>
+
+							<div v-if="item.background">
+								<v-card-text class="bg-content" v-html="md(item.background)">
+
+								</v-card-text>
+
+								<v-divider></v-divider>
+							</div>
+
+							<v-card-actions>
+								<v-tooltip right>
+									<v-btn color="primary" slot="activator" @click="">Play</v-btn>
+									<span>Select character</span>
+								</v-tooltip>
+
+								<v-spacer></v-spacer>
+								
+								<span class="caption">{{ formatDuration(item.timeplayed, "seconds", "h [hours], m [minutes], s [seconds]", { largest: 1 }) }} <span v-if="item.timeplayed != 0">played</span></span>
+							</v-card-actions>
+						</v-card>
+					</v-flex>
+				</v-layout>
+			</v-card-text>
 		</v-card>
 	</v-flex>
 </template>
@@ -64,6 +106,11 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+	.bg-content {
+		max-height: 300px;
+		overflow-y: auto;
+		overflow-x: hidden;
+		word-wrap: break-word;
+	}
 </style>
