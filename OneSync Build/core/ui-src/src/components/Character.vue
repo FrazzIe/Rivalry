@@ -6,12 +6,14 @@
 
 					<v-spacer></v-spacer>
 
-					<v-tooltip right>
-						<v-btn flat icon slot="activator" @click="">
-							<v-icon>add</v-icon>
-						</v-btn>
-						<span>New character</span>
-					</v-tooltip>
+					<div v-if="characters.length < characterLimit">
+						<v-tooltip right>
+							<v-btn flat icon slot="activator" @click="createDialog = true">
+								<v-icon>add</v-icon>
+							</v-btn>
+							<span>New character</span>
+						</v-tooltip>
+					</div>
 			</v-toolbar>
 
 			<v-card-text class="css-content scroll-bar">
@@ -100,6 +102,7 @@ export default {
 	}),
 	props: {
 		deleteEnabled: Boolean,
+		characterLimit: Number,
 	},
 	computed: {
 		currentDate() {

@@ -5,7 +5,7 @@
 				<v-layout align-center justify-center>
 					<v-flex xs7 sm10 md10 lg10 xl7>
 						<v-layout>
-							<Character :deleteEnabled="charRemoval"/>
+							<Character :deleteEnabled="charRemoval" :characterLimit="charLimit"/>
 							<Changelog/>
 						</v-layout>
 					</v-flex>
@@ -29,6 +29,7 @@ export default {
 		listener: null,
 		visible: true,
 		charRemoval: false,
+		charLimit: 5,
 	}),
 	methods: {
 		SetVisible(payload) {
@@ -36,7 +37,12 @@ export default {
 		},
 		EnableCharRemoval(payload) {
 			this.charRemoval = payload === true;
-		} 
+		},
+		SetCharLimit(payload) {
+			if (!isNaN(payload)) { 
+				this.charLimit = payload;
+			}
+		}
 	},
 	mounted() {
 		this.listener = window.addEventListener("message", (event) => {
