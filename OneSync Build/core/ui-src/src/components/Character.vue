@@ -18,6 +18,10 @@
 </template>
 
 <script>
+import moment from 'moment';
+import momentDuration from 'moment-duration-format';
+import marked from 'marked';
+
 export default {
 	data: () => ({
 		listener: null,
