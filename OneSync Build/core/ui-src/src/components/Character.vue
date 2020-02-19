@@ -60,6 +60,7 @@
 				</v-layout>
 			</v-card-text>
 		</v-card>
+
 		<v-dialog v-model="deleteDialog" width="350">
 			<v-card flat tile>
 				<v-toolbar dense color="primary" dark flat card>
@@ -76,6 +77,63 @@
 					<v-btn color="primary darken-1" flat @click="deleteCharacter()">Yes</v-btn>
 					<v-btn color="primary darken-1" flat @click="deleteDialog = false">No</v-btn>
 				</v-card-actions>
+			</v-card>
+		</v-dialog>
+
+		<v-dialog v-model="createDialog" width="600">
+			<v-card flat tile>
+				<v-toolbar dense color="primary" dark flat card>
+					<v-toolbar-title>New character</v-toolbar-title>
+				</v-toolbar>
+
+				<v-stepper v-model="characterStepper">
+					<v-stepper-header>
+						<v-stepper-step :complete="characterStepper > 1" step="1" :rules="[() => !errors.has('charForm1.firstName') && !errors.has('charForm1.lastName') && !errors.has('charForm1.sex') && !errors.has('charForm1.dob')]">
+							Basic Details
+						</v-stepper-step>
+
+						<v-divider></v-divider>
+
+						<v-stepper-step :complete="characterStepper > 2" step="2" :rules="[() => !errors.has('charForm2.background')]">
+							Background
+						</v-stepper-step>
+					</v-stepper-header>
+
+					<v-stepper-content step="1">
+						<v-form data-vv-scope="charForm1" @submit.prevent="createCharacter('charForm1')">
+							<v-text-field v-model="firstName" label="First name" data-vv-name="firstName" data-vv-as="First name" v-validate="{ required: true, regex: /^[a-z,'-]+$/i, min: 3, max: 21 }" :error-messages="errors.collect('charForm1.firstName')"></v-text-field>
+
+							<v-text-field v-model="lastName" label="Last name" data-vv-name="lastName" data-vv-as="Last name" v-validate="{ required: true, regex: /^[a-z,'-]+$/i, min: 3, max: 21 }" :error-messages="errors.collect('charForm1.lastName')"></v-text-field>
+
+							<v-select v-model="sex" label="Sex" :items="sexItems" item-text="state" item-value="value" data-vv-name="sex" data-vv-as="Sex" v-validate="{ required: true }" :error-messages="errors.collect('charForm1.sex')"></v-select>
+
+							<v-menu ref="birthdayMenu" v-model="birthdayMenu" :close-on-content-click="false" :nudge-right="40" lazy transition="scale-transition" offset-y full-width min-width="290px">
+								<v-text-field v-model="formattedDate" label="Date of birth" readonly slot="activator" data-vv-name="dob" data-vv-as="Date of birth" v-validate="{ required: true }" :error-messages="errors.collect('charForm1.dob')"></v-text-field>
+								<v-date-picker ref="birthdayPicker" v-model="birthDate" :max="new Date().toISOString().substr(0, 10)" min="1950-01-01" @change="saveBirthdate"></v-date-picker>
+							</v-menu>
+
+							<v-btn color="primary" type="submit">
+								Continue
+							</v-btn>
+
+							<v-btn flat @click="addCharDialog = false">Cancel</v-btn>
+						</v-form>
+					</v-stepper-content>
+
+					<v-stepper-content step="2">
+						<v-form data-vv-scope="charForm2" @submit.prevent="createCharacter('charForm2')">
+							<v-textarea  v-model="background" label="Tell us about the character you will be playing and what makes it unique" prepend-icon="create" counter no-resize rows="12" data-vv-name="background" data-vv-as="Background" v-validate="{ required: true, min: 50, max: 900}" :error-messages="errors.collect('charForm2.background')"></v-textarea>
+
+							<v-btn color="primary" type="submit">
+								Continue
+							</v-btn>
+
+							<v-btn flat @click="characterStepper = 1">Back</v-btn>
+
+							<v-btn flat @click="addCharDialog = false">Cancel</v-btn>
+						</v-form>
+					</v-stepper-content>
+				</v-stepper>
 			</v-card>
 		</v-dialog>
 	</v-flex>
@@ -99,6 +157,18 @@ export default {
 		deleteDialog: false,
 		currentCharIdx: null,
 		currentChar: {},
+		createDialog: false,
+		characterStepper: 0,
+		sexItems: [
+			{ state: "Male", value: 0 },
+			{ state: "Female", value: 1 },
+		],
+		firstName: "",
+		lastName: "",
+		sex: { state: "Male", value: 0 },
+		birthdayMenu: false,
+		birthDate: null,
+		background: "",
 	}),
 	props: {
 		deleteEnabled: Boolean,
@@ -107,11 +177,15 @@ export default {
 	computed: {
 		currentDate() {
 			return new Date();
+		},
+		formattedDate(date) {
+			return this.formatDate(this.birthDate);
 		}
 	},
 	methods: {
 		SetCharacters(payload) {
 			this.characters = payload;
+		},
 		selectCharacter(id) {
 			fetch("http://" + this.resourceName + "/select", {
 				method: "post",
@@ -135,6 +209,36 @@ export default {
 			this.currentCharIndex = idx;
 			this.currentChar = item;
 		},
+		createCharacter(scope) {
+			this.$validator.validateAll(scope).then((valid) => {
+				if (valid) {
+					if (this.characterStepper != 2) {
+						this.characterStepper++;
+					} else {
+						this.createDialog = false;
+						this.characterStepper = 1;
+
+						fetch("http://rivalry-selection/create", {
+							method: "post",
+							body: JSON.stringify({
+								firstName: this.firstName,
+								lastName: this.lastName,
+								sex: this.sex.value,
+								birthDate: this.formattedDate,
+								background: this.background,
+							})
+						}).then((resp) => {
+							this.firstName = "";
+							this.lastName = "";
+							this.sex = { state: "Male", value: 0 };
+							this.birthDate = null;
+							this.background = "";
+						}).catch((error) => {
+							console.log(error);
+						});
+					}
+				}
+			});
 		},
 		calculateAge(dob) {
 			var birthDate = new Date(dob);
@@ -152,6 +256,15 @@ export default {
 		},
 		md(t) {
 			return marked(t);
+		},
+		saveBirthdate(date) {
+			this.$refs.birthdayMenu.save(date);
+		},
+		formatDate(date) {
+			if (!date) return null;
+
+			const [year, month, day] = date.split('-');
+			return `${month}/${day}/${year}`;
 		}
 	},
 	mounted() {
