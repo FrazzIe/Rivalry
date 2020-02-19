@@ -12,16 +12,27 @@
 						<span>Refresh</span>
 					</v-tooltip>
 			</v-toolbar>
+
+			<v-card-text class="cl-content scroll-bar" v-html="md(changelog)">
+			</v-card-text>
 		</v-card>
 	</v-flex>
 </template>
 
 <script>
+import marked from 'marked';
 export default {
 	data: () => ({
 		listener: null,
+		changelog: "# Beep boop beep",
 	}),
 	methods: {
+		SetChangelog(payload) {
+			this.changelog = payload;
+		},
+		md(t) {
+			return marked(t);
+		},
 	},
 	mounted() {
 		this.listener = window.addEventListener("message", (event) => {
@@ -32,6 +43,10 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+	.cl-content {
+		min-height: 555px;
+		max-height: 555px;
+		overflow-y: auto;
+	}
 </style>
