@@ -25,8 +25,13 @@ import marked from 'marked';
 export default {
 	data: () => ({
 		listener: null,
+		characters: [
+		],
 	}),
 	methods: {
+		SetCharacters(payload) {
+			this.characters = payload;
+		},
 	},
 	mounted() {
 		this.listener = window.addEventListener("message", (event) => {
