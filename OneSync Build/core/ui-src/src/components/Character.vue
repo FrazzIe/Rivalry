@@ -43,7 +43,7 @@
 
 							<v-card-actions>
 								<v-tooltip right>
-									<v-btn color="primary" slot="activator" @click="">Play</v-btn>
+									<v-btn color="primary" slot="activator" @click="selectCharacter(item.character_id)">Play</v-btn>
 									<span>Select character</span>
 								</v-tooltip>
 
@@ -66,6 +66,7 @@ import marked from 'marked';
 
 export default {
 	data: () => ({
+		resourceName: "",
 		listener: null,
 		characters: [
 			{ character_id: 1, identifier: "steam:1100001057052a0", first_name: "Shin", last_name: "Wolford", dob: "07/15/1999", timeplayed: 1848985 },
@@ -82,6 +83,14 @@ export default {
 	methods: {
 		SetCharacters(payload) {
 			this.characters = payload;
+		selectCharacter(id) {
+			fetch("http://" + this.resourceName + "/select", {
+				method: "post",
+				body: JSON.stringify(id),
+			}).catch((error) => {
+				console.log(error);
+			});
+		},
 		},
 		calculateAge(dob) {
 			var birthDate = new Date(dob);
@@ -106,6 +115,7 @@ export default {
 			const item = event.data || event.detail;
 			if (this[item.type] != null && item.payload != null) this[item.type](item.payload);
 		});
+		//this.resourceName = GetParentResourceName();
 	}	
 }
 </script>
