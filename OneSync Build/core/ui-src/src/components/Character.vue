@@ -34,8 +34,8 @@
 							<v-divider></v-divider>
 
 							<div v-if="item.background">
-								<v-card-text class="bg-content" v-html="md(item.background)">
-
+								<v-card-text class="bg-content">
+									{{ item.background }}
 								</v-card-text>
 
 								<v-divider></v-divider>
@@ -69,7 +69,7 @@ export default {
 		listener: null,
 		characters: [
 			{ character_id: 1, identifier: "steam:1100001057052a0", first_name: "Shin", last_name: "Wolford", dob: "07/15/1999", timeplayed: 1848985 },
-			{ character_id: 2, identifier: "steam:1100001057052a0", first_name: "Danny", last_name: "Phantom", dob: "07/15/1999", timeplayed: 1848985, background: "Yesn't" },
+			{ character_id: 2, identifier: "steam:1100001057052a0", first_name: "Danny", last_name: "Phantom", dob: "07/15/1999", timeplayed: 1848985, background: "Is a shit cop who is corrupt as fuck..." },
 		],
 	}),
 	computed: {
