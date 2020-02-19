@@ -48,6 +48,12 @@ export default {
 
 			return age;
 		},
+		formatDuration(time, type, format, args) {
+			return moment.duration(time, type).format(format, args);
+		},
+		md(t) {
+			return marked(t);
+		}
 	},
 	mounted() {
 		this.listener = window.addEventListener("message", (event) => {
