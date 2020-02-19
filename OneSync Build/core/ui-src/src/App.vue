@@ -12,6 +12,15 @@
 				</v-layout>
 			</v-container>
 		</v-content>
+    <!-- Loader -->
+    <v-dialog v-model="loader" persistent :width="300">
+      <v-card>
+        <v-card-text class="text-xs-center">
+          {{ loaderMessage }}
+          <v-progress-linear indeterminate color="primary" class="mb-0"></v-progress-linear>
+        </v-card-text>
+      </v-card>
+    </v-dialog>
 	</v-app>
 </template>
 
@@ -30,7 +39,7 @@ export default {
 		listener: null,
 	}),
 	computed: {
-		...mapState(["visible"]),
+		...mapState(["visible", "loader", "loaderMessage"]),
 	},
 	methods: {
 		...mapMutations(["SetVisible", "EnableCharRemoval", "SetCharLimit", "SetCharacters", "SetChangelog"]),
@@ -42,7 +51,7 @@ export default {
 			//this.resourceName = GetParentResourceName();
 		});
 	}
-}
+}    
 </script>
 
 <style>

@@ -16,6 +16,8 @@ export default new Vuex.Store({
 			{ character_id: 4, identifier: "steam:1100001057052a0", first_name: "Shin", last_name: "Wolford", dob: "07/15/1999", timeplayed: 1848985 },
     ],
     changelog: "# Beep boop beep",
+    loader: false,
+    loaderMessage: "Loading..",
   },
   mutations: {
 		SetVisible(_, payload) {
@@ -34,7 +36,13 @@ export default new Vuex.Store({
     },
 		SetChangelog(payload) {
 			this.state.changelog = payload;
-		},
+    },
+    ShowLoader(_, value) {
+      this.state.loader = value;
+    },
+    SetLoaderMessage(_, value) {
+      this.state.loaderMessage = value;
+    }
   },
   actions: {
 

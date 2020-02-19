@@ -47,7 +47,7 @@
 
 							<v-card-actions>
 								<v-tooltip right>
-									<v-btn color="primary" slot="activator" @click="selectCharacter(item.character_id)">Play</v-btn>
+									<v-btn color="primary" slot="activator" @click="selectCharacter(item)">Play</v-btn>
 									<span>Select character</span>
 								</v-tooltip>
 
@@ -173,10 +173,15 @@ export default {
 		}
 	},
 	methods: {
-		selectCharacter(id) {
+		...mapMutations(["ShowLoader", "SetLoaderMessage"]),
+		selectCharacter(item) {
+			this.SetLoaderMessage("Fetching " + item.first_name + " " + item.last_name + "...");
+			this.ShowLoader(true);
+			
+			let self = this;
 			fetch("http://" + this.resourceName + "/select", {
 				method: "post",
-				body: JSON.stringify(id),
+				body: JSON.stringify(item.id),
 			}).catch((error) => {
 				console.log(error);
 			});
