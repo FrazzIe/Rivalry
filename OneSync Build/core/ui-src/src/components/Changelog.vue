@@ -25,21 +25,17 @@
 </template>
 
 <script>
+import { mapState, mapMutations } from 'vuex';
 import marked from 'marked';
 export default {
 	data: () => ({
 		listener: null,
-		changelog: "# Beep boop beep",
 		loading: false,
 	}),
-	props: {
-		resourceName: String,
+	computed: {
+		...mapState(["resourceName", "changelog"]),
 	},
 	methods: {
-		SetChangelog(payload) {
-			this.loading = false;
-			this.changelog = payload;
-		},
 		refreshChangelog() {
 			this.loading = true;
 

@@ -5,8 +5,8 @@
 				<v-layout align-center justify-center>
 					<v-flex xs7 sm10 md10 lg10 xl7>
 						<v-layout>
-							<Character :deleteEnabled="charRemoval" :characterLimit="charLimit" :resourceName="resourceName"/>
-							<Changelog :resourceName="resourceName"/>
+							<Character/>
+							<Changelog/>
 						</v-layout>
 					</v-flex>
 				</v-layout>
@@ -16,6 +16,7 @@
 </template>
 
 <script>
+import { mapState, mapMutations } from 'vuex';
 import Character from './components/Character.vue'
 import Changelog from './components/Changelog.vue'
 
@@ -27,23 +28,12 @@ export default {
 	},
 	data: () => ({
 		listener: null,
-		visible: true,
-		charRemoval: false,
-		charLimit: 5,
-		resourceName: "",
 	}),
+	computed: {
+		...mapState(["visible"]),
+	},
 	methods: {
-		SetVisible(payload) {
-			this.visible = payload === true;
-		},
-		EnableCharRemoval(payload) {
-			this.charRemoval = payload === true;
-		},
-		SetCharLimit(payload) {
-			if (!isNaN(payload)) { 
-				this.charLimit = payload;
-			}
-		}
+		...mapMutations([""]),
 	},
 	mounted() {
 		this.listener = window.addEventListener("message", (event) => {

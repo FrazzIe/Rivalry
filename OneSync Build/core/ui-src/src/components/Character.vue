@@ -6,7 +6,7 @@
 
 					<v-spacer></v-spacer>
 
-					<div v-if="characters.length < characterLimit">
+					<div v-if="characters.length < charLimit">
 						<v-tooltip right>
 							<v-btn flat icon slot="activator" @click="createDialog = true">
 								<v-icon>add</v-icon>
@@ -25,7 +25,7 @@
 
 								<v-spacer></v-spacer>
 
-								<div v-if="deleteEnabled">
+								<div v-if="charRemoval">
 									<v-tooltip right>
 										<v-btn flat small icon color="error" slot="activator" @click="openDeleteDialog(index, item)">
 											<v-icon>close</v-icon>
@@ -140,19 +140,13 @@
 </template>
 
 <script>
+import { mapState, mapMutations } from 'vuex';
 import moment from 'moment';
 import momentDuration from 'moment-duration-format';
 import marked from 'marked';
 
 export default {
 	data: () => ({
-		listener: null,
-		characters: [
-			{ character_id: 1, identifier: "steam:1100001057052a0", first_name: "Shin", last_name: "Wolford", dob: "07/15/1999", timeplayed: 1848985 },
-			{ character_id: 2, identifier: "steam:1100001057052a0", first_name: "Danny", last_name: "Phantom", dob: "07/15/1999", timeplayed: 1848985, background: "Is a shit cop who is corrupt as fuck..." },
-			{ character_id: 3, identifier: "steam:1100001057052a0", first_name: "Shin", last_name: "Wolford", dob: "07/15/1999", timeplayed: 1848985 },
-			{ character_id: 4, identifier: "steam:1100001057052a0", first_name: "Shin", last_name: "Wolford", dob: "07/15/1999", timeplayed: 1848985 },
-		],
 		deleteDialog: false,
 		currentCharIdx: null,
 		currentChar: {},
@@ -169,12 +163,8 @@ export default {
 		birthDate: null,
 		background: "",
 	}),
-	props: {
-		deleteEnabled: Boolean,
-		characterLimit: Number,
-		resourceName: String,
-	},
 	computed: {
+		...mapState(["visible", "resourceName", "characters", "charRemoval", "charLimit"]),
 		currentDate() {
 			return new Date();
 		},
@@ -183,9 +173,6 @@ export default {
 		}
 	},
 	methods: {
-		SetCharacters(payload) {
-			this.characters = payload;
-		},
 		selectCharacter(id) {
 			fetch("http://" + this.resourceName + "/select", {
 				method: "post",
@@ -266,14 +253,7 @@ export default {
 			const [year, month, day] = date.split('-');
 			return `${month}/${day}/${year}`;
 		}
-	},
-	mounted() {
-		this.listener = window.addEventListener("message", (event) => {
-			const item = event.data || event.detail;
-			if (this[item.type] != null && item.payload != null) this[item.type](item.payload);
-		});
-		//this.resourceName = GetParentResourceName();
-	}	
+	}
 }
 </script>
 
