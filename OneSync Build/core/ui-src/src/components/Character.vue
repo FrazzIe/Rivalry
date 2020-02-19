@@ -116,13 +116,13 @@
 								Continue
 							</v-btn>
 
-							<v-btn flat @click="addCharDialog = false">Cancel</v-btn>
+							<v-btn flat @click="createDialog = false">Cancel</v-btn>
 						</v-form>
 					</v-stepper-content>
 
 					<v-stepper-content step="2">
 						<v-form data-vv-scope="charForm2" @submit.prevent="createCharacter('charForm2')">
-							<v-textarea  v-model="background" label="Tell us about the character you will be playing and what makes it unique" prepend-icon="create" counter no-resize rows="12" data-vv-name="background" data-vv-as="Background" v-validate="{ required: true, min: 50, max: 900}" :error-messages="errors.collect('charForm2.background')"></v-textarea>
+							<v-textarea  v-model="background" label="Tell us about the character you will be playing and what makes it unique" prepend-icon="create" counter no-resize rows="12" data-vv-name="background" data-vv-as="Background" v-validate="{ required: true, min: 50, max: 900 }" :error-messages="errors.collect('charForm2.background')"></v-textarea>
 
 							<v-btn color="primary" type="submit">
 								Continue
@@ -130,7 +130,7 @@
 
 							<v-btn flat @click="characterStepper = 1">Back</v-btn>
 
-							<v-btn flat @click="addCharDialog = false">Cancel</v-btn>
+							<v-btn flat @click="createDialog = false">Cancel</v-btn>
 						</v-form>
 					</v-stepper-content>
 				</v-stepper>
