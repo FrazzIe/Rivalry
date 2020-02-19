@@ -5,8 +5,8 @@
 				<v-layout align-center justify-center>
 					<v-flex xs7 sm10 md10 lg10 xl7>
 						<v-layout>
-							<Character :deleteEnabled="charRemoval" :characterLimit="charLimit"/>
-							<Changelog/>
+							<Character :deleteEnabled="charRemoval" :characterLimit="charLimit" :resourceName="resourceName"/>
+							<Changelog :resourceName="resourceName"/>
 						</v-layout>
 					</v-flex>
 				</v-layout>
@@ -30,6 +30,7 @@ export default {
 		visible: true,
 		charRemoval: false,
 		charLimit: 5,
+		resourceName: "",
 	}),
 	methods: {
 		SetVisible(payload) {
@@ -48,6 +49,7 @@ export default {
 		this.listener = window.addEventListener("message", (event) => {
 			const item = event.data || event.detail;
 			if (this[item.type] != null && item.payload != null) this[item.type](item.payload);
+			//this.resourceName = GetParentResourceName();
 		});
 	}
 }
