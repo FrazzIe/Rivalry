@@ -25,6 +25,41 @@ local timeout = 0
 local time = -1
 local selected = false
 
+local function freezePlayer(id, freeze)
+    local player = id
+    SetPlayerControl(player, not freeze, false)
+
+    local ped = GetPlayerPed(player)
+
+    if not freeze then
+        if not IsEntityVisible(ped) then
+            SetEntityVisible(ped, true)
+        end
+
+        if not IsPedInAnyVehicle(ped) then
+            SetEntityCollision(ped, true)
+        end
+
+        FreezeEntityPosition(ped, false)
+        --SetCharNeverTargetted(ped, false)
+        SetPlayerInvincible(player, false)
+    else
+        if IsEntityVisible(ped) then
+            SetEntityVisible(ped, false)
+        end
+
+        SetEntityCollision(ped, false)
+        FreezeEntityPosition(ped, true)
+        --SetCharNeverTargetted(ped, true)
+        SetPlayerInvincible(player, true)
+        --RemovePtfxFromPed(ped)
+
+        if not IsPedFatallyInjured(ped) then
+            ClearPedTasksImmediately(ped)
+        end
+    end
+end
+
 function ToggleSelectionScreen(val)
 	SetPlayerControl(PlayerId(), val and 0 or 1, 0)
 	SetNuiFocus(val, val)
@@ -216,15 +251,39 @@ AddEventHandler("core:login", function(coords, _timeplayed)
 	
 	ToggleSelectionScreen(false)
 
-	FreezeEntityPosition(PlayerPedId(), false)
+	freezePlayer(PlayerId(), true)
 
 	SwitchOutPlayer(PlayerPedId(), 0, 1)
 
 	Citizen.Wait(1000)
 
 	local _, GroundZ = GetGroundZFor_3dCoord(coords.x + 0.0, coords.y + 0.0, coords.z + 0.0, Citizen.ReturnResultAnyway())	
-	SetEntityCoords(PlayerPedId(), coords.x, coords.y, GroundZ)
-		
+
+	local ped = PlayerPedId()
+
+	RequestCollisionAtCoord(coords.x, coords.y, GroundZ)
+
+	SetEntityCoordsNoOffset(ped, coords.x, coords.y, GroundZ, false, false, false, true)
+
+	ClearPedBloodDamage(ped)
+	
+    TriggerEvent('mythic_hospital:client:RemoveBleed')
+	TriggerEvent('mythic_hospital:client:ResetLimbs')
+	
+	NetworkResurrectLocalPlayer(coords.x, coords.y, GroundZ, 90.0, true, true, false)
+
+	ped = PlayerPedId()
+
+	ClearPedTasksImmediately(ped)
+
+	local time = GetGameTimer()
+
+	while (not HasCollisionLoadedAroundEntity(ped) and (GetGameTimer() - time) < 5000) do
+		Citizen.Wait(0)
+	end
+
+	freezePlayer(PlayerId(), false)
+	
 	N_0xd8295af639fd9cb8(PlayerPedId())
 
 	loggedIn = true
