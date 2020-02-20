@@ -49,13 +49,6 @@ export default {
 			return marked(t);
 		},
 	},
-	mounted() {
-		this.listener = window.addEventListener("message", (event) => {
-			const item = event.data || event.detail;
-			if (this[item.type] != null && item.payload != null) this[item.type](item.payload);
-		});
-		//this.resourceName = GetParentResourceName();
-	}	
 }
 </script>
 
