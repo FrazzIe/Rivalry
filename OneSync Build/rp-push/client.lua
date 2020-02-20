@@ -64,12 +64,6 @@ Citizen.CreateThread(function()
         if not isDead and not isCuffed and not isInJail then
             if (closestVehicle ~= nil and closestVehicle ~= 0) and (currentVehicle == 0 or currentVehicle == nil) then
                 if #(playerPosition - GetEntityCoords(closestVehicle, false)) < minDistance and not IsPedSittingInAnyVehicle(playerPed) then
-
-                    if (closestVehicle ~= nil and closestVehicle ~= 0) then
-                        local pos = GetEntityCoords(closestVehicle, false)
-                        DrawLine(pos.x, pos.y, pos.z, pos.x, pos.y, pos.z + 5.0, 255, 0, 0, 255)
-                    end
-
                     if not GetIsVehicleEngineRunning(closestVehicle) and IsVehicleSeatFree(closestVehicle, -1) and not HasEntityCollidedWithAnything(closestVehicle) and GetVehicleEngineHealth(closestVehicle) > 0 and not IsAnyPlayerAttachedToEntity(closestVehicle) then
                         if IsControlPressed(0, 21) then
                             if IsControlJustPressed(1, 51) then
