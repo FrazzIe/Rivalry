@@ -247,7 +247,7 @@ export default {
 
 						let self = this;
 
-						fetch("http://rivalry-selection/create", {
+						fetch("http://" + this.resourceName + "/create", {
 							method: "post",
 							body: JSON.stringify({
 								firstName: this.firstName,
