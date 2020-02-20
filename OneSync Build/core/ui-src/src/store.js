@@ -33,10 +33,10 @@ export default new Vuex.Store({
 				this.state.charLimit = payload;
 			}
     },
-		SetCharacters(payload) {
+		SetCharacters(_, payload) {
 			this.state.characters = payload;
     },
-		SetChangelog(payload) {
+		SetChangelog(_, payload) {
 			this.state.changelog = payload;
     },
     ShowLoader(_, value) {
