@@ -39,6 +39,7 @@ export default {
 
 			fetch("http://" + this.resourceName + "/refresh", {
 				method: "post",
+				body: JSON.stringify({}),
 			}).then((resp) => {
 				return resp.json();
 			}).then((data) => {

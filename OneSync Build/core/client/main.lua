@@ -284,10 +284,13 @@ end)
 RegisterNetEvent("core:setChangelog")
 AddEventHandler("core:setChangelog", function(changelog)
 	if refreshCallback ~= nil then
-		refreshCallback()
+		refreshCallback("ok")
 		refreshCallback = nil
 	end
-	SendNUIMessage({ type = "SetChangelog", payload = changelog })
+
+	if changelog ~= nil and changelog ~= "" then
+		SendNUIMessage({ type = "SetChangelog", payload = changelog })
+	end
 end)
 
 RegisterNetEvent("core:pvp")

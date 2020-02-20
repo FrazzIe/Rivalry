@@ -109,8 +109,6 @@ end)
 RegisterServerEvent("core:refreshChangelog")
 AddEventHandler("core:refreshChangelog", function()
     PerformHttpRequest("https://rivalryrp.com/changelog.md", function(err, text, headers) 
-        if text ~= nil then
-            TriggerClientEvent("core:setChangelog", -1, text)
-        end
+        TriggerClientEvent("core:setChangelog", -1, text)
     end)
 end)
