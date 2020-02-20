@@ -6,7 +6,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     visible: true,
-    resourceName: "",
+    resourceName: GetParentResourceName(),
     charRemoval: false,
     charLimit: 5,
 		characters: [
