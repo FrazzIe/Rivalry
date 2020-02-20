@@ -183,9 +183,9 @@ export default {
 			fetch("http://" + this.resourceName + "/select", {
 				method: "post",
 				body: JSON.stringify(item.id),
-			}).resp((resp) => {
+			}).then((resp) => {
 				return resp.json();
-			}).data((data) => {
+			}).then((data) => {
 				if (data != null) {
 					let success = data == "ok"
 
@@ -210,9 +210,9 @@ export default {
 			fetch("http://" + this.resourceName + "/delete", {
 				method: "post",
 				body: JSON.stringify(this.currentChar.character_id),
-			}).resp((resp) => {
+			}).then((resp) => {
 				return resp.json();
-			}).data((data) => {
+			}).then((data) => {
 				if (data != null) {
 					let success = data.characters != null
 
@@ -256,9 +256,9 @@ export default {
 								birthDate: this.formattedDate,
 								background: this.background,
 							})
-						}).resp((resp) => {
+						}).then((resp) => {
 							return resp.json();
-						}).data((data) => {
+						}).then((data) => {
 							if (data != null) {
 								let success = data.characters != null
 
