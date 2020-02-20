@@ -18,6 +18,8 @@ export default new Vuex.Store({
     changelog: "# Beep boop beep",
     loader: false,
     loaderMessage: "Loading..",
+    snackColour: "error",
+    snackMessage: "",
   },
   mutations: {
 		SetVisible(_, payload) {
@@ -42,7 +44,23 @@ export default new Vuex.Store({
     },
     SetLoaderMessage(_, value) {
       this.state.loaderMessage = value;
-    }
+    },
+    SetSnackColour(_, value) {
+      switch(value) {
+        case "success":
+        case "info":
+        case "warning":
+        case "error":
+            this.state.snackColour = value;
+          break;
+        default:
+            this.state.snackColour = "info";
+          break;
+      }
+    },
+    SetSnackMessage(_, value) {
+      this.state.snackMessage = value;
+    },
   },
   actions: {
 

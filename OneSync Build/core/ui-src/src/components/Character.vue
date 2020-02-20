@@ -164,7 +164,7 @@ export default {
 		background: "",
 	}),
 	computed: {
-		...mapState(["visible", "resourceName", "characters", "charRemoval", "charLimit"]),
+		...mapState(["resourceName", "characters", "charRemoval", "charLimit"]),
 		currentDate() {
 			return new Date();
 		},
@@ -173,7 +173,7 @@ export default {
 		}
 	},
 	methods: {
-		...mapMutations(["ShowLoader", "SetLoaderMessage"]),
+		...mapMutations(["SetVisible", "SetCharacters", "ShowLoader", "SetLoaderMessage", "SetSnackColour", "SetSnackMessage"]),
 		selectCharacter(item) {
 			this.SetLoaderMessage("Fetching " + item.first_name + " " + item.last_name + "...");
 			this.ShowLoader(true);
