@@ -251,7 +251,7 @@ end)
 
 RegisterNetEvent("core:deleteCharacter")
 AddEventHandler("core:deleteCharacter", function(_Characters)
-	deleteCallback(_Characters)
+	deleteCallback({ characters = _Characters })
 	deleteCallback = nil
 end)
 
@@ -262,7 +262,7 @@ end)
 
 RegisterNetEvent("core:createCharacter")
 AddEventHandler("core:createCharacter", function(_Characters)
-	createCallback(_Characters)
+	createCallback({ characters = _Characters })
 	createCallback = nil
 end)
 
