@@ -200,6 +200,7 @@ end)
 local selectCallback = nil
 local deleteCallback = nil
 local createCallback = nil
+local refreshCallback = nil
 
 RegisterNUICallback("select", function(data, cb)
 	selectCallback = cb
@@ -266,6 +267,7 @@ AddEventHandler("core:createCharacter", function(_Characters)
 end)
 
 RegisterNUICallback("refresh", function(data, cb)
+	refreshCallback = cb
 	TriggerServerEvent("core:refreshChangelog")
 end)
 
@@ -281,6 +283,10 @@ end)
 
 RegisterNetEvent("core:setChangelog")
 AddEventHandler("core:setChangelog", function(changelog)
+	if refreshCallback ~= nil then
+		refreshCallback()
+		refreshCallback = nil
+	end
 	SendNUIMessage({ type = "SetChangelog", payload = changelog })
 end)
 

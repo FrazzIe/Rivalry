@@ -6,13 +6,8 @@
 					<v-spacer></v-spacer>
 
 					<v-tooltip right>
-						<v-btn flat icon slot="activator" :loading="loading" :disabled="loading" @click="refreshChangelog">
+						<v-btn flat icon slot="activator" :loading="loader" :disabled="loader" @click="refreshChangelog">
 							<v-icon>refresh</v-icon>
-							<template v-slot:loader>
-								<span class="cl-loader">
-									<v-icon light>refresh</v-icon>
-								</span>
-							</template>
 						</v-btn>
 						<span>Refresh</span>
 					</v-tooltip>
@@ -30,17 +25,26 @@ import marked from 'marked';
 export default {
 	data: () => ({
 		listener: null,
-		loading: false,
 	}),
 	computed: {
-		...mapState(["resourceName", "changelog"]),
+		...mapState(["resourceName", "changelog", "loader"]),
 	},
 	methods: {
+		...mapMutations(["ShowLoader", "SetLoaderMessage", "SetSnackColour", "SetSnackMessage"]),
 		refreshChangelog() {
-			this.loading = true;
+			this.SetLoaderMessage("Fetching latest changelog...");
+			this.ShowLoader(true);
+
+			let self = this;
 
 			fetch("http://" + this.resourceName + "/refresh", {
 				method: "post",
+			}).then((resp) => {
+				return resp.json();
+			}).then((data) => {
+				self.ShowLoader(false);
+				self.SetSnackColour("success");
+				self.SetSnackMessage("Changelog refreshed!");
 			}).catch((error) => {
 				console.log(error);
 			});
@@ -57,46 +61,5 @@ export default {
 		min-height: 555px;
 		max-height: 555px;
 		overflow-y: auto;
-	}
-
-	.cl-loader {
-		animation: loader 1s infinite;
-		display: flex;
-	}
-
-	@-moz-keyframes loader {
-		from {
-			transform: rotate(0);
-		}
-		to {
-			transform: rotate(360deg);
-		}
-	}
-
-	@-webkit-keyframes loader {
-		from {
-			transform: rotate(0);
-		}
-		to {
-			transform: rotate(360deg);
-		}
-	}
-
-	@-o-keyframes loader {
-		from {
-			transform: rotate(0);
-		}
-		to {
-			transform: rotate(360deg);
-		}
-	}
-	
-	@keyframes loader {
-		from {
-			transform: rotate(0);
-		}
-		to {
-			transform: rotate(360deg);
-		}
 	}
 </style>
