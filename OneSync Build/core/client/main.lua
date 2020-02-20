@@ -190,8 +190,27 @@ AddEventHandler("core:switchCharacter", function()
 	end
 end)
 
+RegisterNetEvent("core:loadCharacters")
+AddEventHandler("core:loadCharacters", function(_Characters)
+	ToggleSelectionScreen(true)
+
+	SendNUIMessage({ type = "SetCharacters", payload = _Characters })
+end)
+
+local selectCallback = nil
+local deleteCallback = nil
+local createCallback = nil
+
+RegisterNUICallback("select", function(data, cb)
+	selectCallback = cb
+	TriggerServerEvent("core:selectCharacter", data)
+end)
+
 RegisterNetEvent("core:login")
 AddEventHandler("core:login", function(coords, _timeplayed)
+	selectCallback("ok")
+	selectCallback = nil
+
 	timeplayed = _timeplayed
 	
 	ToggleSelectionScreen(false)
@@ -224,32 +243,30 @@ AddEventHandler("core:login", function(coords, _timeplayed)
 	TriggerServerEvent("core:loggedin")
 end)
 
-RegisterNetEvent("core:loadCharacters")
-AddEventHandler("core:loadCharacters", function(_Characters)
-	ToggleSelectionScreen(true)
-
-	SendNUIMessage({ type = "SetCharacters", payload = _Characters })
-end)
-
-RegisterNUICallback("select", function(data, cb)
-	TriggerServerEvent("core:selectCharacter", data)
-end)
-
 RegisterNUICallback("delete", function(data, cb)
+	deleteCallback = cb
 	TriggerServerEvent("core:deleteCharacter", data)
 end)
 
+RegisterNetEvent("core:deleteCharacter")
+AddEventHandler("core:deleteCharacter", function(_Characters)
+	deleteCallback(_Characters)
+	deleteCallback = nil
+end)
+
 RegisterNUICallback("create", function(data, cb)
+	createCallback = cb
 	TriggerServerEvent("core:createCharacter", data)
 end)
 
-RegisterNUICallback("refresh", function(data, cb)
-	TriggerServerEvent("core:refeshChangelog")
+RegisterNetEvent("core:createCharacter")
+AddEventHandler("core:createCharacter", function(_Characters)
+	createCallback(_Characters)
+	createCallback = nil
 end)
 
-RegisterNetEvent("core:refreshChangelog")
-AddEventHandler("core:refreshChangelog", function(changelog)
-	SendNUIMessage({ type = "SetChangelog", payload = changelog })
+RegisterNUICallback("refresh", function(data, cb)
+	TriggerServerEvent("core:refreshChangelog")
 end)
 
 RegisterNetEvent("core:enableDeletion")
@@ -262,9 +279,9 @@ AddEventHandler("core:setCharLimit", function(val)
 	SendNUIMessage({ type = "SetCharLimit", payload = val })
 end)
 
-RegisterNetEvent("core:createCharacter")
-AddEventHandler("core:createCharacter", function(_Characters)
-	SendNUIMessage({ type = "SetCharacters", payload = _Characters })
+RegisterNetEvent("core:setChangelog")
+AddEventHandler("core:setChangelog", function(changelog)
+	SendNUIMessage({ type = "SetChangelog", payload = changelog })
 end)
 
 RegisterNetEvent("core:pvp")

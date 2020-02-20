@@ -40,6 +40,10 @@ Config = {
             ["Male"] = {"a_m_m_afriamer_01","a_m_m_beach_01","a_m_m_beach_02","a_m_m_bevhills_01","a_m_m_bevhills_02","a_m_m_business_01","a_m_m_eastsa_01","a_m_m_eastsa_02"},
             ["Female"] = {"a_f_m_beach_01","a_f_m_bevhills_01","a_f_m_bevhills_02","a_f_m_bodybuild_01","a_f_m_business_02","a_f_m_downtown_01","a_f_m_eastsa_01"},
         },
+    },
+    ["CSS"] = {
+        ["Delete"] = false,
+        ["Limit"] = 5,
     }
 }
 
@@ -100,4 +104,13 @@ AddEventHandler("playerDropped", function(reason)
     if MDTCharacters[source] then
         MDTCharacters[source] = nil
     end
+end)
+
+RegisterServerEvent("core:refreshChangelog")
+AddEventHandler("core:refreshChangelog", function()
+    PerformHttpRequest("https://rivalryrp.com/changelog.md", function(err, text, headers) 
+        if text ~= nil then
+            TriggerClientEvent("core:setChangelog", -1, text)
+        end
+    end)
 end)

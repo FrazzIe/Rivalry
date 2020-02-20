@@ -312,31 +312,6 @@ AddEventHandler("core:deleteCharacter", function(character_id)
     exports["GHMattiMySQL"]:Query("UPDATE characters SET dead = 1 WHERE character_id=@character_id", {["@character_id"] = character_id})
 end)
 
-RegisterServerEvent("core:editCharacter")
-AddEventHandler("core:editCharacter", function(data)
-    local source = source
-
-    exports["GHMattiMySQL"]:QueryAsync("UPDATE characters SET first_name=@first_name, last_name=@last_name, dob=@dob, gender=@gender WHERE character_id=@character_id", {
-        ["@character_id"] = data.character.character_id,
-        ["@first_name"] = data.forename, 
-        ["@last_name"] = data.surname, 
-        ["@dob"] = data.dob,
-        ["@gender"] = data.gender,
-    })
-    for _, Character in pairs(_Characters[source]) do
-        if Character.character_id then
-            if Character.character_id == data.character.character_id then
-                Character.first_name = data.forename
-                Character.last_name = data.surname
-                Character.dob = data.dob
-                Character.gender = data.gender
-                break
-            end
-        end
-    end
-    TriggerClientEvent("core:editCharacter", source, _Characters[source])
-end)
-
 RegisterServerEvent("core:createCharacter")
 AddEventHandler("core:createCharacter", function(data)
     local source = source
