@@ -28212,40 +28212,14 @@ vue_runtime_esm["default"].use(vuex_esm["a" /* default */]);
 /* harmony default export */ var store = (new vuex_esm["a" /* default */].Store({
   state: {
     visible: true,
-    resourceName: "",
-    //GetParentResourceName(),
+    resourceName: GetParentResourceName(),
     charRemoval: false,
     charLimit: 5,
-    characters: [{
-      character_id: 1,
-      identifier: "steam:1100001057052a0",
-      first_name: "Shin",
-      last_name: "Wolford",
-      dob: "07/15/1999",
-      timeplayed: 1848985
-    }, {
-      character_id: 2,
-      identifier: "steam:1100001057052a0",
-      first_name: "Danny",
-      last_name: "Phantom",
-      dob: "07/15/1999",
-      timeplayed: 1848985,
-      background: "Is a shit cop who is corrupt as fuck..."
-    }, {
-      character_id: 3,
-      identifier: "steam:1100001057052a0",
-      first_name: "Shin",
-      last_name: "Wolford",
-      dob: "07/15/1999",
-      timeplayed: 1848985
-    }, {
-      character_id: 4,
-      identifier: "steam:1100001057052a0",
-      first_name: "Shin",
-      last_name: "Wolford",
-      dob: "07/15/1999",
-      timeplayed: 1848985
-    }],
+    characters: [//{ character_id: 1, identifier: "steam:1100001057052a0", first_name: "Shin", last_name: "Wolford", dob: "07/15/1999", timeplayed: 1848985 },
+      //{ character_id: 2, identifier: "steam:1100001057052a0", first_name: "Danny", last_name: "Phantom", dob: "07/15/1999", timeplayed: 1848985, background: "Is a shit cop who is corrupt as fuck..." },
+      //{ character_id: 3, identifier: "steam:1100001057052a0", first_name: "Shin", last_name: "Wolford", dob: "07/15/1999", timeplayed: 1848985 },
+      //{ character_id: 4, identifier: "steam:1100001057052a0", first_name: "Shin", last_name: "Wolford", dob: "07/15/1999", timeplayed: 1848985 },
+    ],
     changelog: "# Beep boop beep",
     loader: false,
     loaderMessage: "Loading..",
@@ -28296,12 +28270,12 @@ vue_runtime_esm["default"].use(vuex_esm["a" /* default */]);
   },
   actions: {}
 }));
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"6e12c587-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/App.vue?vue&type=template&id=353d083b&
-var Appvue_type_template_id_353d083b_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('v-app',{directives:[{name:"show",rawName:"v-show",value:(_vm.visible),expression:"visible"}]},[_c('v-content',[_c('v-container',{attrs:{"fluid":"","fill-height":"","grid-list-xl":""}},[_c('v-layout',{attrs:{"align-center":"","justify-center":""}},[_c('v-flex',{attrs:{"xs7":"","sm10":"","md10":"","lg10":"","xl7":""}},[_c('v-layout',[_c('Character'),_vm._v(" "),_c('Changelog')],1)],1)],1)],1)],1),_vm._v(" "),_c('v-snackbar',{attrs:{"color":_vm.snackColour,"bottom":"","right":"","timeout":6000},model:{value:(_vm.snack),callback:function ($$v) {_vm.snack=$$v},expression:"snack"}},[_vm._v("\n\t\t"+_vm._s(_vm.snackMsg)+"\n\n\t\t"),_c('v-btn',{attrs:{"icon":""},on:{"click":function($event){_vm.snack = false;}}},[_c('v-icon',[_vm._v("close")])],1)],1),_vm._v(" "),_c('v-dialog',{attrs:{"persistent":"","width":300},model:{value:(_vm.loader),callback:function ($$v) {_vm.loader=$$v},expression:"loader"}},[_c('v-card',[_c('v-card-text',{staticClass:"text-xs-center"},[_vm._v("\n\t\t\t\t"+_vm._s(_vm.loaderMessage)+"\n\t\t\t\t"),_c('v-progress-linear',{staticClass:"mb-0",attrs:{"indeterminate":"","color":"primary"}})],1)],1)],1)],1)}
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"6e12c587-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/App.vue?vue&type=template&id=57e2d2ae&
+var Appvue_type_template_id_57e2d2ae_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('v-app',{directives:[{name:"show",rawName:"v-show",value:(_vm.visible),expression:"visible"}]},[_c('v-content',[_c('v-container',{attrs:{"fluid":"","fill-height":"","grid-list-xl":""}},[_c('v-layout',{attrs:{"align-center":"","justify-center":""}},[_c('v-flex',{attrs:{"xs7":"","sm10":"","md10":"","lg10":"","xl7":""}},[_c('v-layout',[_c('Character'),_vm._v(" "),_c('Changelog')],1)],1)],1)],1)],1),_vm._v(" "),_c('v-snackbar',{attrs:{"color":_vm.snackColour,"bottom":"","right":"","timeout":6000},model:{value:(_vm.snack),callback:function ($$v) {_vm.snack=$$v},expression:"snack"}},[_vm._v("\n\t\t"+_vm._s(_vm.snackMsg)+"\n\n\t\t"),_c('v-btn',{attrs:{"icon":""},on:{"click":function($event){_vm.snack = false;}}},[_c('v-icon',[_vm._v("close")])],1)],1),_vm._v(" "),_c('v-dialog',{attrs:{"persistent":"","width":300},model:{value:(_vm.loader),callback:function ($$v) {_vm.loader=$$v},expression:"loader"}},[_c('v-card',[_c('v-card-text',{staticClass:"text-xs-center"},[_vm._v("\n\t\t\t\t"+_vm._s(_vm.loaderMessage)+"\n\t\t\t\t"),_c('v-progress-linear',{staticClass:"mb-0",attrs:{"indeterminate":"","color":"primary"}})],1)],1)],1)],1)}
 var staticRenderFns = []
 
 
-// CONCATENATED MODULE: ./src/App.vue?vue&type=template&id=353d083b&
+// CONCATENATED MODULE: ./src/App.vue?vue&type=template&id=57e2d2ae&
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.symbol.js
 var es_symbol = __webpack_require__("a4d3");
@@ -29113,7 +29087,7 @@ var Appvue_type_style_index_0_lang_css_ = __webpack_require__("034f");
 
 var App_component = normalizeComponent(
   src_Appvue_type_script_lang_js_,
-  Appvue_type_template_id_353d083b_render,
+  Appvue_type_template_id_57e2d2ae_render,
   staticRenderFns,
   false,
   null,
