@@ -1,6 +1,7 @@
 <template>
 	<v-flex xs8>
 		<v-card class="elevation-12 main-content" tile>
+			<!-- Toolbar / Header -->
 			<v-toolbar dense color="primary" dark flat card height="45">
 				<v-toolbar-title>Character selection</v-toolbar-title>
 
@@ -15,9 +16,11 @@
 						</v-tooltip>
 					</div>
 			</v-toolbar>
-
+			
+			<!-- Main Body -->
 			<v-card-text class="css-content scroll-bar">
 				<v-layout row wrap>
+					<!-- Character List -->
 					<v-flex xs12 v-for="(item, index) in characters" :key="index">
 						<v-card class="elevation-6" color="grey lighten-5">
 							<v-card-title>
@@ -60,7 +63,7 @@
 				</v-layout>
 			</v-card-text>
 		</v-card>
-
+		<!-- Character remove dialog -->
 		<v-dialog v-model="deleteDialog" width="350">
 			<v-card flat tile>
 				<v-toolbar dense color="primary" dark flat card>
@@ -79,7 +82,7 @@
 				</v-card-actions>
 			</v-card>
 		</v-dialog>
-
+		<!-- Character create dialog form -->
 		<v-dialog v-model="createDialog" width="600">
 			<v-card flat tile>
 				<v-toolbar dense color="primary" dark flat card>

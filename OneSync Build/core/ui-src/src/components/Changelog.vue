@@ -1,6 +1,7 @@
 <template>
 	<v-flex xs4>
 		<v-card class="elevation-12 main-content" tile>
+			<!-- Toolbar / Header -->
 			<v-toolbar dense color="primary" dark flat card height="45">
 				<v-toolbar-title>Changelog</v-toolbar-title>
 					<v-spacer></v-spacer>
@@ -12,7 +13,7 @@
 						<span>Refresh</span>
 					</v-tooltip>
 			</v-toolbar>
-
+			<!-- Main Body -->
 			<v-card-text class="cl-content scroll-bar" v-html="md(changelog)">
 			</v-card-text>
 		</v-card>
