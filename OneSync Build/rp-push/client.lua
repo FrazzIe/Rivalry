@@ -16,6 +16,15 @@ local blacklist = {
     [`coach`] = true,
     [`tourbus`] = true,
     [`taco`] = true,
+    [`boxville`] = true,
+    [`boxville2`] = true,
+    [`boxville3`] = true,
+    [`boxville4`] = true,
+    [`burrito`] = true,
+    [`burrito2`] = true,
+    [`burrito3`] = true,
+    [`burrito4`] = true,
+    [`burrito5`] = true,
 }
 
 function DisplayHelpText(label)
@@ -62,68 +71,69 @@ Citizen.CreateThread(function()
                     end
 
                     if not GetIsVehicleEngineRunning(closestVehicle) and IsVehicleSeatFree(closestVehicle, -1) and not HasEntityCollidedWithAnything(closestVehicle) and GetVehicleEngineHealth(closestVehicle) > 0 and not IsAnyPlayerAttachedToEntity(closestVehicle) then
-                        DisplayHelpText(messageAttach)
-                        if IsControlJustPressed(1, 51) then
-                            currentVehicle = closestVehicle
-                            exports["core_modules"]:StanceAllowed(false)
+                        if IsControlPressed(0, 21) then
+                            if IsControlJustPressed(1, 51) then
+                                currentVehicle = closestVehicle
+                                exports["core_modules"]:StanceAllowed(false)
 
-                            local vehicleHeading = GetEntityHeading(currentVehicle)
-                            local model = GetEntityModel(currentVehicle)
-                            local minDim, maxDim = GetModelDimensions(model)
-                            local size = (maxDim - minDim)
+                                local vehicleHeading = GetEntityHeading(currentVehicle)
+                                local model = GetEntityModel(currentVehicle)
+                                local minDim, maxDim = GetModelDimensions(model)
+                                local size = (maxDim - minDim)
 
-                            local backPos = GetOffsetFromEntityInWorldCoords(currentVehicle, 0, -(size.y / 2), 0)
-                            local backDist = #(playerPosition - backPos)
-                            local frontPos = GetOffsetFromEntityInWorldCoords(currentVehicle, 0, (size.y / 2), 0)
-                            local frontDist = #(playerPosition - frontPos)
-                            
-                            local closestPos = nil
-                            local closestDist = nil
+                                local backPos = GetOffsetFromEntityInWorldCoords(currentVehicle, 0, -(size.y / 2), 0)
+                                local backDist = #(playerPosition - backPos)
+                                local frontPos = GetOffsetFromEntityInWorldCoords(currentVehicle, 0, (size.y / 2), 0)
+                                local frontDist = #(playerPosition - frontPos)
+                                
+                                local closestPos = nil
+                                local closestDist = nil
 
-                            if backDist < frontDist then
-                                pushForward = true
-                                closestPos = backPos
-                                closestDist = backDist
-                            else
-                                pushForward = false
-                                closestPos = frontPos
-                                closestDist = frontDist
-                            end
+                                if backDist < frontDist then
+                                    pushForward = true
+                                    closestPos = backPos
+                                    closestDist = backDist
+                                else
+                                    pushForward = false
+                                    closestPos = frontPos
+                                    closestDist = frontDist
+                                end
 
-                            if closestDist > 1.0 then
-                                TaskGoStraightToCoord(playerPed, closestPos.x, closestPos.y, closestPos.z, 1.0, -1, vehicleHeading, 0.0)
+                                if closestDist > 1.0 then
+                                    TaskGoStraightToCoord(playerPed, closestPos.x, closestPos.y, closestPos.z, 1.0, -1, vehicleHeading, 0.0)
+
+                                    local time = GetGameTimer() + 5000
+
+                                    while #(GetEntityCoords(playerPed, false) - closestPos) > 1.0 and GetGameTimer() < time do
+                                        Citizen.Wait(100)
+                                    end
+                                end
 
                                 local time = GetGameTimer() + 5000
 
-                                while #(GetEntityCoords(playerPed, false) - closestPos) > 1.0 and GetGameTimer() < time do
+                                NetworkRequestControlOfEntity(currentVehicle)
+                                        
+                                while not NetworkHasControlOfEntity(currentVehicle) and (time + 5000) > GetGameTimer() do
+                                    Citizen.Wait(0)
+                                end
+                                
+                                RequestAnimDict(pushDict)
+
+                                while not HasAnimDictLoaded(pushDict) do
                                     Citizen.Wait(100)
                                 end
+
+                                if pushForward then
+                                    AttachEntityToEntity(playerPed, currentVehicle, pushBoneIdx, 0.0, -(size.y / 2), minDim.z + 1.0, 0.0, 0.0, 0.0, 0.0, false, false, true, false, true)
+                                else
+                                    AttachEntityToEntity(playerPed, currentVehicle, pushBoneIdx, 0.0, (size.y / 2), minDim.z + 1.0, 0.0, 0.0, 180.0, 0.0, false, false, true, false, true)
+                                end
+
+                                TaskPlayAnim(playerPed, pushDict, pushAnim, 2.0, -8.0, -1, 35, 0, 0, 0, 0)
+
+                                SetCurrentPedWeapon(playerPed, `WEAPON_UNARMED`, true)
+                                SetEnableHandcuffs(playerPed, true)
                             end
-
-                            local time = GetGameTimer() + 5000
-
-                            NetworkRequestControlOfEntity(currentVehicle)
-                                    
-                            while not NetworkHasControlOfEntity(currentVehicle) and (time + 5000) > GetGameTimer() do
-                                Citizen.Wait(0)
-                            end
-                            
-                            RequestAnimDict(pushDict)
-
-                            while not HasAnimDictLoaded(pushDict) do
-                                Citizen.Wait(100)
-                            end
-
-                            if pushForward then
-                                AttachEntityToEntity(playerPed, currentVehicle, pushBoneIdx, 0.0, -(size.y / 2), minDim.z + 1.0, 0.0, 0.0, 0.0, 0.0, false, false, true, false, true)
-                            else
-                                AttachEntityToEntity(playerPed, currentVehicle, pushBoneIdx, 0.0, (size.y / 2), minDim.z + 1.0, 0.0, 0.0, 180.0, 0.0, false, false, true, false, true)
-                            end
-
-                            TaskPlayAnim(playerPed, pushDict, pushAnim, 2.0, -8.0, -1, 35, 0, 0, 0, 0)
-
-                            SetCurrentPedWeapon(playerPed, `WEAPON_UNARMED`, true)
-                            SetEnableHandcuffs(playerPed, true)
                         end
                     end
                 end
@@ -139,6 +149,14 @@ Citizen.CreateThread(function()
                     SetVehicleForwardSpeed(currentVehicle, pushForward and 1.0 or -1.0)
 
                     DisplayHelpText(messageDetach)
+
+                    if IsControlPressed(0, 34) then
+                        TaskVehicleTempAction(playerPed, currentVehicle, 11, 1000)
+                    end
+
+                    if IsControlPressed(0, 35) then
+                        TaskVehicleTempAction(playerPed, currentVehicle, 10, 1000)
+                    end
 
                     if IsControlJustPressed(1, 51) then
                         SetEnableHandcuffs(playerPed, false)
