@@ -182,7 +182,7 @@ export default {
 
 			fetch("http://" + this.resourceName + "/select", {
 				method: "post",
-				body: JSON.stringify(item.id),
+				body: JSON.stringify(item.character_id),
 			}).then((resp) => {
 				return resp.json();
 			}).then((data) => {
