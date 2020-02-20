@@ -61,13 +61,12 @@ export default {
 		...mapState(["visible", "loader", "loaderMessage", "snackColour", "snackMessage"]),
 	},
 	methods: {
-		...mapMutations(["SetVisible", "EnableCharRemoval", "SetCharLimit", "SetCharacters", "SetChangelog"]),
+		...mapMutations(["SetVisible", "EnableCharRemoval", "SetCharLimit", "SetCharacters", "SetChangelog", "SetSnackMessage"]),
 	},
 	mounted() {
 		this.listener = window.addEventListener("message", (event) => {
 			const item = event.data || event.detail;
 			if (this[item.type] != null && item.payload != null) this[item.type](item.payload);
-			//this.resourceName = GetParentResourceName();
 		});
 	}
 }    
