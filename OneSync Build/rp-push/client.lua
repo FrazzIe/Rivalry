@@ -26,6 +26,8 @@ local blacklist = {
     [`burrito4`] = true,
     [`burrito5`] = true,
 }
+local isCuffed = false
+local isInJail = false
 
 function DisplayHelpText(label)
 	BeginTextCommandDisplayHelp("STRING")
@@ -58,8 +60,6 @@ Citizen.CreateThread(function()
         local playerPed = PlayerPedId()
         local playerPosition = GetEntityCoords(playerPed, false)
         local isDead = IsEntityDead(playerPed)
-        local isCuffed = exports.policejob:getIsCuffed() or exports["core_modules"]:isCuffed() -- move this
-        local isInJail = exports["core_modules"]:IsInJail() -- move this
 
         if not isDead and not isCuffed and not isInJail then
             if (closestVehicle ~= nil and closestVehicle ~= 0) and (currentVehicle == 0 or currentVehicle == nil) then
@@ -234,5 +234,13 @@ Citizen.CreateThread(function()
             closestVehiclePosition = nil
             closestVehicleDistance = nil
         end
+    end
+end)
+
+Citizen.CreateThread(function()
+    while true do
+        Citizen.Wait(500)
+        isCuffed = exports.policejob:getIsCuffed() or exports["core_modules"]:isCuffed()
+        isInJail = exports["core_modules"]:IsInJail()
     end
 end)
