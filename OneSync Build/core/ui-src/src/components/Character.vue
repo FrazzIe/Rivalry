@@ -179,19 +179,51 @@ export default {
 			this.ShowLoader(true);
 			
 			let self = this;
+
 			fetch("http://" + this.resourceName + "/select", {
 				method: "post",
 				body: JSON.stringify(item.id),
+			}).resp((resp) => {
+				return resp.json();
+			}).data((data) => {
+				if (data != null) {
+					let success = data == "ok"
+
+					self.ShowLoader(false);
+					self.SetSnackColour(success ? "success" : "error");
+					self.SetSnackMessage(success ? "Character loaded!" : "There was an issueloading your character!");
+					
+					if (success) self.SetVisible(false);
+				}
 			}).catch((error) => {
 				console.log(error);
 			});
 		},
 		deleteCharacter() {
 			this.deleteDialog = false;
+			this.SetLoaderMessage("Removing " + this.currentChar.first_name + " " + this.currentChar.last_name + "...");
+			this.ShowLoader(true);				
 			this.characters.splice(this.currentCharIdx, 1);
+
+			let self = this;
+
 			fetch("http://" + this.resourceName + "/delete", {
 				method: "post",
 				body: JSON.stringify(this.currentChar.character_id),
+			}).resp((resp) => {
+				return resp.json();
+			}).data((data) => {
+				if (data != null) {
+					let success = data.characters != null
+
+					if (success) {
+						self.SetCharacters(data.characters);
+					}
+
+					self.ShowLoader(false);
+					self.SetSnackColour(success ? "success" : "error");
+					self.SetSnackMessage(success ? self.currentChar.first_name + " " + self.currentChar.last_name + " was deleted!" : "There was an issue deleting " + self.currentChar.first_name + " " + self.currentChar.last_name + "!");
+				}
 			}).catch((error) => {
 				console.log(error);
 			});
@@ -210,6 +242,11 @@ export default {
 						this.createDialog = false;
 						this.characterStepper = 1;
 
+						this.SetLoaderMessage("Creating " + this.firstName + " " + this.lastName + "...");
+						this.ShowLoader(true);
+
+						let self = this;
+
 						fetch("http://rivalry-selection/create", {
 							method: "post",
 							body: JSON.stringify({
@@ -219,12 +256,26 @@ export default {
 								birthDate: this.formattedDate,
 								background: this.background,
 							})
-						}).then((resp) => {
-							this.firstName = "";
-							this.lastName = "";
-							this.sex = { state: "Male", value: 0 };
-							this.birthDate = null;
-							this.background = "";
+						}).resp((resp) => {
+							return resp.json();
+						}).data((data) => {
+							if (data != null) {
+								let success = data.characters != null
+
+								if (success) {
+									self.SetCharacters(data.characters);
+								}
+
+								self.ShowLoader(false);
+								self.SetSnackColour(success ? "success" : "error");
+								self.SetSnackMessage(success ? self.firstName + " " + self.lastName + " was created!" : "There was an issue creating " + self.firstName + " " + self.lastName + "!");
+
+								self.firstName = "";
+								self.lastName = "";
+								self.sex = { state: "Male", value: 0 };
+								self.birthDate = null;
+								self.background = "";
+							}
 						}).catch((error) => {
 							console.log(error);
 						});
