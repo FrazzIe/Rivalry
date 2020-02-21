@@ -152,7 +152,8 @@ itemlist = {
 	[130] = {name = "Gold Watch", item_id = 130, canuse = 0, illegal = false},
 	[131] = {name = "Diamond Stud", item_id = 131, canuse = 0, illegal = false},
 	[132] = {name = "Hairpin", item_id = 132, canuse = 0, illegal = false},
-	[133] = {name = "Choker", item_id = 133, canuse = 0, illegal = false},
+    [133] = {name = "Choker", item_id = 133, canuse = 0, illegal = false},
+    [134] = {name = "Stolen Jewelry", item_id = 134, canuse = 0, illegal = true},
 }
 
 -- Debug

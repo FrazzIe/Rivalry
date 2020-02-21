@@ -168,6 +168,7 @@ server_script 'gunstash/server.lua'
 export 'GetItemQuantity'
 export 'isFull'
 export 'removeQty'
+export 'addQty'
 --Hunger bars
 export 'getBars'
 --Jobs/Towing
