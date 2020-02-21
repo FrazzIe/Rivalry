@@ -170,7 +170,7 @@ AddEventHandler("onServerResourceStart", function(resource)
 			for k,v in pairs(houses_normal_weapons) do
 				if v then
 					if v.property_id then
-						table.insert(properties["businesses"]["normal"][v.property_id]["storage"]["current"]["weapons"], v)
+						table.insert(properties["houses"]["normal"][v.property_id]["storage"]["current"]["weapons"], v)
 					end
 				end
 			end
