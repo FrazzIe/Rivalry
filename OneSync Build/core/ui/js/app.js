@@ -28211,7 +28211,7 @@ var vuex_esm = __webpack_require__("2f62");
 vue_runtime_esm["default"].use(vuex_esm["a" /* default */]);
 /* harmony default export */ var store = (new vuex_esm["a" /* default */].Store({
   state: {
-    visible: true,
+    visible: false,
     resourceName: GetParentResourceName(),
     charRemoval: false,
     charLimit: 5,
