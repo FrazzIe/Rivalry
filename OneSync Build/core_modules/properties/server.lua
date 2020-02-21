@@ -298,7 +298,7 @@ Citizen.CreateThread(function()
 									properties["businesses"]["enterable"][businesses_enterable[Index].id]["overdue"] = str_to_bool(businesses_enterable[Index]["overdue"])
 									properties["businesses"]["enterable"][businesses_enterable[Index].id]["locked"] = str_to_bool(businesses_enterable[Index]["locked"])
 									properties["businesses"]["enterable"][businesses_enterable[Index].id]["storage"]["locked"] = str_to_bool(businesses_enterable[Index].vault_locked)
-									properties["businesses"]["normal"][businesses_enterable[Index].id]["overdue"] = str_to_bool(businesses_enterable[Index]["overdue"])
+									properties["businesses"]["enterable"][businesses_enterable[Index].id]["overdue"] = str_to_bool(businesses_enterable[Index]["overdue"])
 								end
 								if properties["businesses"]["enterable"][businesses_enterable[Index].id]["owner"]["identifier"] ~= "no" then
 									local amount_lost = 0
