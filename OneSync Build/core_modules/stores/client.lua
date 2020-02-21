@@ -32,7 +32,12 @@ Store = {
 		{Name = "Dog Biscuit", Id = 52, Cost = 3, Max = 10},
 		{Name = "Sushi", Id = 109, Cost = 60, Max = 10},
 		{Name = "Banana", Id = 110, Cost = 8, Max = 10},
-		{Name = "Bubble Gum", Id = 111, Cost = 2, Max = 10},
+		{Name = "Bubble Gum", Id = 111, Cost = 10, Max = 10},
+		{Name = "Cannoli", Id = 135, Cost = 10, Max = 10},
+		{Name = "Tortellini", Id = 136, Cost = 10, Max = 10},
+		{Name = "Spaghetti", Id = 137, Cost = 10, Max = 10},
+		{Name = "Pasta Fasul", Id = 138, Cost = 10, Max = 10},
+		{Name = "Ravioli", Id = 139, Cost = 10, Max = 10},
     }},
     {Category = "Beverage", Items = {
         {Name = "Water", Id = 6, Cost = 3, Max = 10},
