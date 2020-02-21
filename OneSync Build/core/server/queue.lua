@@ -2,82 +2,72 @@ local Config = {}
 ----------------------------------------------------------------------------------------------------------------------
 -- Priority list can be any identifier. (hex steamid, steamid32, ip) Integer = power over other priorities
 Config.Priority = {
---[Management]--
-    ["steam:110000117ace560"] = 9001, -- Frazzle (Founder)
-    ["steam:1100001057052a0"] = 9000, -- Frazzle (Founder)
-    ["steam:110000101599554"] = 1337, -- Noonab (Founder)
-    ["steam:110000111c7701f"] = 1007, -- Brody (Staff)
-    ["steam:110000102d4d1e7"] = 1006, -- Sammy-Sana (Staff)
-    ["steam:110000102437861"] = 1005, -- Sully (Staff)
-    ["steam:110000100809b63"] = 1004, -- Drew (Staff)
-    ["steam:1100001074e86ec"] = 1003, -- RoundishKungFu (Admin)
-    ["steam:11000010a408fb4"] = 1002, -- grace (Admin)
-    ["steam:11000010515be32"] = 1001, -- Meaty (Admin)
-    ["steam:1100001003ab893"] = 1000, -- Kara (Admin)
---[Developer]--
-    ["steam:110000106e0c14b"] = 902, -- Kole
-    ["steam:1100001190ac6b0"] = 901, -- coldsoul
---[Founders Ticket]--
-    ["steam:1100001000a7d12"] = 710, -- Marco Sandborn (Noonab)
-    ["steam:110000105ac8a6f"] = 707, -- StanleyRP (Frazzle) 
-    ["steam:1100001177e13bd"] = 706, -- Captain Boom (Noonab)
-    ["steam:1100001045138b3"] = 705, -- Carbine (Noonab)
-    ["steam:11000010298765a"] = 704, -- Daren (Noonab)
-    ["steam:1100001086dec91"] = 703, -- TenderQWERTY (Noonab)
-    ["steam:11000011601baf6"] = 702, -- MysticModding (Noonab)
-    ["steam:110000105e2219c"] = 701, -- Daquan (Noonab)
-    ["steam:110000111703144"] = 700, -- Ziggy (Noonab)
---[Platinum Ticket]--
-    ["steam:110000106be52a0"] = 407, -- Jamiie (PD High Command)
-    ["steam:11000010467c91d"] = 406, -- Mason Preacher (PD Command)
-    ["steam:1100001149faec8"] = 405, -- Ronald Simmons (PD Command)
-    ["steam:1100001115d9238"] = 404, -- Oopsimdrunk (PD Command)
-    ["steam:1100001073361de"] = 403, -- Clint Curtis (PD Command)
-    ["steam:110000101a254a7"] = 402, -- William Harde (PD Command)
-    ["steam:11000010c8be241"] = 401, -- Bradley Jones (PD Command)
-    ["steam:110000119f99126"] = 400, -- GentleRP (EMS High Command)
---[Golden Ticket]--
-    ["steam:1100001032aa2a1"] = 321, -- Austin James (Mech Boss)
-    ["steam:1100001047e1d3d"] = 311, -- HankRP
-    ["steam:110000104c5b700"] = 305, -- DarkLaiX
---[Silver Ticket]--
-    ["steam:11000010bf7bb73"] = 136, -- AfriicanSnowball (streamer)
-    ["steam:110000106d04419"] = 135, -- Cool_Kid (streamer)
-    ["steam:110000106e043cc"] = 134, -- TheGhostman (streamer)
-    ["steam:1100001005489bf"] = 133, -- GamezJohn (streamer)
-    ["steam:110000108039c08"] = 132, -- DatVoiceGuy (streamer)
-    ["steam:11000010aa72879"] = 131, -- SchmoeTV (streamer)
-    ["steam:110000108fdcf76"] = 130, -- Patricia (streamer)
-    ["steam:110000139fb527b"] = 129, -- BrinnieTV (streamer)
-    ["steam:11000010327eb4d"] = 128, -- WombatsPlayGames (streamer)
-    ["steam:1100001029cb44c"] = 127, -- Roach (streamer)
-    ["steam:11000010a2bcf7e"] = 126, -- Ming (streamer)
-    ["steam:11000010a89612b"] = 125, -- ZombieBarricades (streamer)
-    ["steam:110000109da40b2"] = 124, -- GeeFamous92 (streamer)
-    ["steam:11000010af28db3"] = 123, -- BlockByBlock (streamer)
-    ["steam:1100001001300d7"] = 122, -- Summit1G (streamer)
-    ["steam:11000010044e856"] = 121, -- Shroud (streamer)
-    ["steam:11000010bd74dbb"] = 120, -- Andy Milonakis (streamer)
-    ["steam:110000107200988"] = 119, -- Pandagirl (streamer)
-    ["steam:110000115115a30"] = 118, -- RastaRafikii (streamer)
-    ["steam:1100001012bb9c2"] = 117, -- Jobless Garrett (streamer)
-    ["steam:11000010216be28"] = 116, -- TheChief (streamer)
-    ["steam:110000101d2c301"] = 115, -- AbdulHD (streamer)
-    ["steam:11000010390c424"] = 114, -- Vinny (streamer)
-    ["steam:110000104e491d1"] = 113, -- VaderRP (streamer)
-    ["steam:110000100a775e1"] = 112, -- Kyle (streamer)
-    ["steam:11000010536f0ff"] = 111, -- LordKebun (streamer)
-    ["steam:11000010caf515a"] = 110, -- Taco (streamer)
-    ["steam:1100001043fe250"] = 109, -- CurtisRyan_ (streamer)
-    ["steam:11000010c0e84cc"] = 108, -- Shotz (streamer)
-    ["steam:1100001069ff6bf"] = 107, -- Rated (streamer)
-    ["steam:11000010501b537"] = 106, -- Ramee (streamer)
-    ["steam:110000101cbce66"] = 105, -- Spaceboy (streamer)
-    ["steam:110000108defef3"] = 104, -- Sur Lee (streamer)
-    ["steam:110000101dcfaa6"] = 103, -- FortyOne (streamer)
-    ["steam:11000010977a78e"] = 102, -- brak1n (streamer)
-    ["steam:1100001041eedde"] = 101, -- Rusty (streamer)
-    ["steam:1100001066dbf26"] = 100, -- KenshinRP (streamer)
+    --[Management]--
+    ["steam:1100001057052a0"] = 9002, -- Frazzle
+	["steam:110000117ace560"] = 9001, -- Frazzle
+	["steam:110000101599554"] = 9000, -- Chef Noonab
+	["steam:110000106e0c14b"] = 2005, -- Ructar
+	["steam:110000103309186"] = 2004, -- James
+	["steam:110000102437861"] = 2003, -- Sully
+	["steam:110000100809b63"] = 2002, -- Drew
+	["steam:110000111c7701f"] = 2001, -- Brody
+	["steam:11000010a408fb4"] = 2000, -- grace
+	["steam:1100001003ab893"] = 1999, -- Kara Black
+	["steam:1100001074e86ec"] = 1998, -- RoundishKungFu/Kelly Price
+	["steam:11000010515be32"] = 1997, -- Johnny
+	["steam:11000010467c91d"] = 1996, -- Mason Preacher
+	--[People Noonab Likes]--
+	["steam:1100001045138b3"] = 1000, -- Carbine
+	--[Streamers]--
+	["steam:110000105e56c72"] = 999, -- Red
+	["steam:110000106d04419"] = 998, -- Cool Kid
+	["steam:110000106e043cc"] = 997, -- Bobby Smeagol
+	["steam:110000111703144"] = 996, -- Ziggy  
+	--[PD, EMS, DOJ]--
+	["steam:110000106be52a0"] = 901, -- Donovan Ford (Sheriff)
+	["steam:110000119f99126"] = 900, -- Tony Hallmarks (EMS Ass Chief)
+	["steam:1100001064b7795"] = 899, -- Natasha Clarckson (Judge)
+	["steam:1100001099c8a44"] = 898, -- Rick Mongo (DA)      
+	["steam:1100001149faec8"] = 897, -- Ronald Simmons (SALE LT)
+	["steam:1100001115d9238"] = 896, -- James Falcone (SALE LT)
+	["steam:11000010633404f"] = 895, -- Aya Hallmarks (LSFD LT)
+	["steam:11000010a4f1ddf"] = 894, -- Jasper Ayers (SALE SGT)
+	["steam:11000010c8be241"] = 893, -- Bradley Jones (SALE SGT)
+	["steam:11000010371b8ed"] = 892, -- Gill Dunley (SALE SGT_
+	["steam:110000106daffaf"] = 891, -- Clyde Mcfarlan (LSFD LT)
+	["steam:1100001027b1b6d"] = 890, -- Aldin Trunley (SALE)
+	["steam:1100001047aafc5"] = 889, -- Tim BradFord (SALE)
+	["steam:11000010764ab62"] = 888, -- Ibby Red (SALE)
+	["steam:11000011c290bfe"] = 887, -- Sam Gardner (SALE)
+	["steam:1100001073361de"] = 886, -- Clint Curtis (SALE)
+	["steam:11000010b420b88"] = 885, -- Jordan Armstrong (SALE)
+	["steam:1100001064a4cbc"] = 884, -- Victor Phoenix (LSFD)
+	["steam:11000010b42da8c"] = 883, -- Robert Grimes (LSFD)
+	["steam:110000104def6dc"] = 882, -- Kenny Kona (SALE)
+	["steam:1100001065db99c"] = 881, -- Ed Banger (SALE)
+	["steam:110000117a01722"] = 880, -- Barry Frontbottom (SALE)
+	["steam:11000010c984e67"] = 879, -- Mac Mcfly (SALE)
+	["steam:1100001047e1d3d"] = 878, -- Buck Ryan (SALE)
+	["steam:110000110bc964a"] = 877, -- Otis Mcdonal Aka Daniel (SALE)
+	["steam:11000013a48d658"] = 876, -- Sofia Walton (LSFD)
+	["steam:110000104a4dcd4"] = 875, -- Paul Nguyen (LSFD)
+	["steam:110000104c0d8b2"] = 874, -- Doctor Patel (LSFD)
+	["steam:110000107f47567"] = 873, -- Jacob Rose (Lawyer)
+	["steam:110000102ad64cb"] = 872, -- Summer Fable (ADA)
+	["steam:11000010aefd19d"] = 871, -- Jessica Taylor (Lawyer)
+	["steam:110000101a254a7"] = 870, -- William Harde (SALE)
+	["steam:110000103f25066"] = 869, -- Ricky Snartstarf (SALE)
+	--[Mechanics ]--
+	["steam:1100001032aa2a1"] = 799, -- Austin James
+	["steam:110000105c211ee"] = 798, -- Lexlyn Frost
+	["steam:110000101faf8f7"] = 797, -- Harper Beckett
+	["steam:110000104c5b700"] = 796, -- Medina Spiros
+	["steam:1100001039c49eb"] = 795, -- Tiffany Savage
+	["steam:11000011aa1bc62"] = 794, -- Tyrone Williams
+	["steam:11000011c81014d"] = 793, -- Dimarie Martin
+	["steam:1100001054d27db"] = 792, -- Claytone Swope
+	--[Special People]--
+	["steam:11000010757ae89"] = 699, -- SpockDaddy
 }
 
 Config.RequireSteam = true

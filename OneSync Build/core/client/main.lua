@@ -25,16 +25,45 @@ local timeout = 0
 local time = -1
 local selected = false
 
-local function open(_characters)
-	SetPlayerControl(PlayerId(), 0, 0)
-	SetNuiFocus(true, true)
-	SendNUIMessage({open = true, characters = _characters})
+local function freezePlayer(id, freeze)
+    local player = id
+    SetPlayerControl(player, not freeze, false)
+
+    local ped = GetPlayerPed(player)
+
+    if not freeze then
+        if not IsEntityVisible(ped) then
+            SetEntityVisible(ped, true)
+        end
+
+        if not IsPedInAnyVehicle(ped) then
+            SetEntityCollision(ped, true)
+        end
+
+        FreezeEntityPosition(ped, false)
+        --SetCharNeverTargetted(ped, false)
+        SetPlayerInvincible(player, false)
+    else
+        if IsEntityVisible(ped) then
+            SetEntityVisible(ped, false)
+        end
+
+        SetEntityCollision(ped, false)
+        FreezeEntityPosition(ped, true)
+        --SetCharNeverTargetted(ped, true)
+        SetPlayerInvincible(player, true)
+        --RemovePtfxFromPed(ped)
+
+        if not IsPedFatallyInjured(ped) then
+            ClearPedTasksImmediately(ped)
+        end
+    end
 end
 
-local function close()
-	SetNuiFocus(false, false)
-	SendNUIMessage({open = false})
-	SetPlayerControl(PlayerId(), 1, 0)
+function ToggleSelectionScreen(val)
+	SetPlayerControl(PlayerId(), val and 0 or 1, 0)
+	SetNuiFocus(val, val)
+	SendNUIMessage({ type = "SetVisible", payload = val })
 end
 
 local function drawTimedMissionScaleform(heading, desc)
@@ -196,19 +225,65 @@ AddEventHandler("core:switchCharacter", function()
 	end
 end)
 
+RegisterNetEvent("core:loadCharacters")
+AddEventHandler("core:loadCharacters", function(_Characters)
+	ToggleSelectionScreen(true)
+
+	SendNUIMessage({ type = "SetCharacters", payload = _Characters })
+end)
+
+local selectCallback = nil
+local deleteCallback = nil
+local createCallback = nil
+local refreshCallback = nil
+
+RegisterNUICallback("select", function(data, cb)
+	selectCallback = cb
+	TriggerServerEvent("core:selectCharacter", data)
+end)
+
 RegisterNetEvent("core:login")
 AddEventHandler("core:login", function(coords, _timeplayed)
+	selectCallback("ok")
+	selectCallback = nil
+
 	timeplayed = _timeplayed
-	close()
-	FreezeEntityPosition(PlayerPedId(), false)
+	
+	ToggleSelectionScreen(false)
+
+	freezePlayer(PlayerId(), true)
 
 	SwitchOutPlayer(PlayerPedId(), 0, 1)
 
 	Citizen.Wait(1000)
 
 	local _, GroundZ = GetGroundZFor_3dCoord(coords.x + 0.0, coords.y + 0.0, coords.z + 0.0, Citizen.ReturnResultAnyway())	
-	SetEntityCoords(PlayerPedId(), coords.x, coords.y, GroundZ)
-		
+
+	local ped = PlayerPedId()
+
+	RequestCollisionAtCoord(coords.x, coords.y, GroundZ)
+
+	SetEntityCoordsNoOffset(ped, coords.x, coords.y, GroundZ, false, false, false, true)
+
+	ClearPedBloodDamage(ped)
+	
+    TriggerEvent('mythic_hospital:client:RemoveBleed')
+	TriggerEvent('mythic_hospital:client:ResetLimbs')
+	
+	NetworkResurrectLocalPlayer(coords.x, coords.y, GroundZ, 90.0, true, true, false)
+
+	ped = PlayerPedId()
+
+	ClearPedTasksImmediately(ped)
+
+	local time = GetGameTimer()
+
+	while (not HasCollisionLoadedAroundEntity(ped) and (GetGameTimer() - time) < 5000) do
+		Citizen.Wait(0)
+	end
+
+	freezePlayer(PlayerId(), false)
+	
 	N_0xd8295af639fd9cb8(PlayerPedId())
 
 	loggedIn = true
@@ -228,24 +303,53 @@ AddEventHandler("core:login", function(coords, _timeplayed)
 	TriggerServerEvent("core:loggedin")
 end)
 
-RegisterNetEvent("core:loadCharacters")
-AddEventHandler("core:loadCharacters", function(_Characters)
-	open(_Characters)
+RegisterNUICallback("delete", function(data, cb)
+	deleteCallback = cb
+	TriggerServerEvent("core:deleteCharacter", data)
 end)
 
 RegisterNetEvent("core:deleteCharacter")
 AddEventHandler("core:deleteCharacter", function(_Characters)
-	open(_Characters)
+	deleteCallback({ characters = _Characters })
+	deleteCallback = nil
 end)
 
-RegisterNetEvent("core:editCharacter")
-AddEventHandler("core:editCharacter", function(_Characters)
-	open(_Characters)
+RegisterNUICallback("create", function(data, cb)
+	createCallback = cb
+	TriggerServerEvent("core:createCharacter", data)
 end)
 
 RegisterNetEvent("core:createCharacter")
 AddEventHandler("core:createCharacter", function(_Characters)
-	open(_Characters)
+	createCallback({ characters = _Characters })
+	createCallback = nil
+end)
+
+RegisterNUICallback("refresh", function(data, cb)
+	refreshCallback = cb
+	TriggerServerEvent("core:refreshChangelog")
+end)
+
+RegisterNetEvent("core:enableDeletion")
+AddEventHandler("core:enableDeletion", function(val)
+	SendNUIMessage({ type = "EnableCharRemoval", payload = val })
+end)
+
+RegisterNetEvent("core:setCharLimit")
+AddEventHandler("core:setCharLimit", function(val)
+	SendNUIMessage({ type = "SetCharLimit", payload = val })
+end)
+
+RegisterNetEvent("core:setChangelog")
+AddEventHandler("core:setChangelog", function(changelog)
+	if refreshCallback ~= nil then
+		refreshCallback("ok")
+		refreshCallback = nil
+	end
+
+	if changelog ~= nil and changelog ~= "" then
+		SendNUIMessage({ type = "SetChangelog", payload = changelog })
+	end
 end)
 
 RegisterNetEvent("core:pvp")
@@ -265,32 +369,6 @@ end)
 RegisterNetEvent("core:kickall")
 AddEventHandler("core:kickall", function(reason)
 	TriggerServerEvent("core:kickall", reason)
-end)
-
-RegisterNUICallback("create_character", function(data, cb)
-	local split_dob = stringsplit(data.dob, "-")
-	if #split_dob == 3 then
-		data.dob = split_dob[2].."/"..split_dob[3].."/"..split_dob[1]
-	end
-
-	TriggerServerEvent("core:createCharacter", data)
-end)
-
-RegisterNUICallback("edit_character", function(data, cb)
-	local split_dob = stringsplit(data.dob, "-")
-	if #split_dob == 3 then
-		data.dob = split_dob[2].."/"..split_dob[3].."/"..split_dob[1]
-	end
-
-	TriggerServerEvent("core:editCharacter", data)
-end)
-
-RegisterNUICallback("select_character", function(data, cb)
-	TriggerServerEvent("core:selectCharacter", data.character)
-end)
-
-RegisterNUICallback("delete_character", function(data, cb)
-	TriggerServerEvent("core:deleteCharacter", data.character)
 end)
 
 --[[	Time Played	   ]]--

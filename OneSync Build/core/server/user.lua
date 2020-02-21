@@ -86,5 +86,14 @@ AddEventHandler("core:initalise", function()
 
         TriggerEvent("core:ready", source, Users[source], UPower[source], UGroup[source])
         TriggerClientEvent("core:ready", source, Users[source], UPower[source], UGroup[source])
+        
+        PerformHttpRequest("https://rivalryrp.com/changelog.md", function(err, text, headers) 
+            if text ~= nil then
+                TriggerClientEvent("core:setChangelog", -1, text)
+            end
+        end)
+
+        TriggerClientEvent("core:enableDeletion", source, Config.CSS.Delete)
+        TriggerClientEvent("core:setCharLimit", source, Config.CSS.Limit)
     end
 end)

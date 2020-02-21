@@ -59,10 +59,6 @@ server_script 'stores/server.lua'
 client_script 'jail/client.lua'
 server_script 'jail/server.lua'
 
---Chop Shop
-client_script 'others/chopshop/client.lua'
-server_script 'others/chopshop/server.lua'
-
 --Jobs
 
 client_script 'jobs/trucking/client.lua'
@@ -213,3 +209,4 @@ export 'DestroyVehicle'
 export 'DestroyObject'
 
 export 'SetSeatbeltStatus'
+export 'GetVehiclesTable'
