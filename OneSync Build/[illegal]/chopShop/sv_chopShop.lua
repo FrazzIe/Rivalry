@@ -70,7 +70,6 @@ AddEventHandler("chopShop:chopVehicle", function(index)
 
 	-- Chop the car.
 	TriggerEvent("police:getCops", function(cops)
-		cops = 2
 		if tonumber(cops) >= Config.Cops.Min then
 			local price = car.BasePrice * math.min(1.0 + (cops - Config.Cops.Min) / (Config.Cops.Max - Config.Cops.Min), Config.Cops.MaxRate)
 			TriggerEvent("core:getuser", source, function(user)
