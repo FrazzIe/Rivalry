@@ -208,3 +208,4 @@ export 'DestroyVehicle'
 export 'DestroyObject'
 
 export 'SetSeatbeltStatus'
+export 'GetVehiclesTable'

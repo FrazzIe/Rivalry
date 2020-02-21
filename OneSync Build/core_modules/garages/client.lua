@@ -1484,3 +1484,7 @@ end
 end
 
 reload()]]
+
+function GetVehiclesTable()
+    return user_vehicles
+end
