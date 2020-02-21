@@ -5,7 +5,7 @@ Config = {
 	Zones = {
 		--[[ Chop Zones ]]--
 		-- Hayes Auto.
-		{ Type = 0, Visibility = 10.0, Radius = 3.0, Chance = 100, Coords = vector3(494.64892578125, -1328.0593261719, 29.339990615845) },
+		{ Type = 0, Visibility = 10.0, Radius = 3.0, Chance = 100, Coords = vector3(481.17077636719, -1317.1510009766, 29.202482223511) },
 
 		-- Boneyard
 		{ Type = 0, Visibility = 10.0, Radius = 3.0, Chance = 100, Coords = vector3(2342.3835449219, 3052.4152832031, 48.151817321777) },
