@@ -7,8 +7,8 @@ local Rivalry = {
 	Teleporters = {
 		Italian = {
 			[1] = {
-				OutsideDoor = vector3(-44.018558502197,-2519.8591308594,7.3945479393005),
-				OutsideDoorHeading = 236.03332519531,
+				OutsideDoor = vector3(-1487.8212890625, -207.55168151855, 50.857467651367),
+				OutsideDoorHeading = 46.768543243408,
 			},
 			[2] = {
 				InsideDoor = vector3(1087.3448486328,-3099.4184570313,-38.999961853027),
