@@ -156,12 +156,14 @@ Citizen.CreateThread(function()
                         SetEnableHandcuffs(playerPed, false)
                         DetachEntity(playerPed, false, false)
                         StopAnimTask(playerPed, pushDict, pushAnim, 2.0)
+                        exports["core_modules"]:StanceAllowed(true)
                         currentVehicle = nil
                     end
                 else
                     SetEnableHandcuffs(playerPed, false)
                     DetachEntity(playerPed, false, false)
                     StopAnimTask(playerPed, pushDict, pushAnim, 2.0)
+                    exports["core_modules"]:StanceAllowed(true)
                     currentVehicle = nil
                 end
             end
@@ -173,6 +175,7 @@ Citizen.CreateThread(function()
 
                 DetachEntity(playerPed, false, false)
                 StopAnimTask(playerPed, pushDict, pushAnim, 2.0)
+                exports["core_modules"]:StanceAllowed(true)
                 currentVehicle = nil
             end
         end
