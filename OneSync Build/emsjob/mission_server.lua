@@ -445,3 +445,11 @@ function activateMissionSystem()
 end
 
 activateMissionSystem()
+
+RegisterServerEvent("emsjob:payforservices")
+AddEventHandler("emsjob:payforservices", function(Price)
+    local Source = source
+    TriggerEvent('core:getuser', Source, function(User)
+        User.removeBank(Price)
+    end)
+end)
