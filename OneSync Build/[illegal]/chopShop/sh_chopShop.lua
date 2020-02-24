@@ -9,23 +9,24 @@ function GetList()
 		if math.random() * 100.0 <= v.Chance then
 			pool[#pool + 1] = k
 		end
+		math.randomseed(GetGameTimer())
 	end
 
 	table.sort(pool, function(a, b)
 		math.randomseed(Seed + a + b)
+		local rand = math.random()
+		math.randomseed(GetGameTimer())
+
 		if b > a then
-			return math.random() >= 0.5
+			return rand >= 0.5
 		else
-			return math.random() < 0.5
+			return rand < 0.5
 		end
 	end)
 	
 	for i = 1, count do
-		math.randomseed(Seed + i)
 		list[i] = { index = pool[i], car = Config.Cars[pool[i]] }
 	end
-
-	math.randomseed(GetGameTimer())
 
 	-- list[1] = { index = 1, car = Config.Cars[1] } -- DEBUG
 	-- list[2] = { index = 13, car = Config.Cars[13] } -- DEBUG

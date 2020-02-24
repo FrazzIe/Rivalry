@@ -68,6 +68,7 @@ Citizen.CreateThread(function()
 							math.randomseed(Seed + k)
 							local zonePed = zone.Peds[math.random(1, #zone.Peds)]
 							local model = GetHashKey(zonePed.Model)
+							math.randomseed(GetGameTimer())
 	
 							while not HasModelLoaded(model) do RequestModel(model) Citizen.Wait(1) end
 							while not HasAnimDictLoaded(Config.Anim.Dict) do RequestAnimDict(Config.Anim.Dict) Citizen.Wait(1) end
@@ -97,7 +98,6 @@ Citizen.CreateThread(function()
 							end
 	
 							Peds[k] = { ped = ped, prop = prop }
-							math.randomseed(GetGameTimer())
 						end)
 					end
 
