@@ -72,6 +72,7 @@ Citizen.CreateThread(function()
                     	end
                         if WarMenu.IsMenuOpened("armoury_menu") then
                             if WarMenu.Button("Add Attachments to current weapon") then
+                                TriggerServerEvent("police:payforservices", 100)
                                 local hasWeapon, currentWeapon = GetCurrentPedWeapon(PlayerPed, 1)
                                 if currentWeapon ~= nil then
                                     if IsPedArmed(PlayerPed, 7) then
@@ -104,6 +105,7 @@ Citizen.CreateThread(function()
                                 end) then
                                     if selectedItemIndex[k] == 1 then
                                         GiveWeaponToPed(PlayerPed, GetHashKey(v.model), 250, 0, false)
+                                        TriggerServerEvent("police:payforservices", 100)
                                     elseif selectedItemIndex[k] == 2 then
                                         RemoveWeaponFromPed(PlayerPed, GetHashKey(v.model))
                                     end
@@ -114,7 +116,8 @@ Citizen.CreateThread(function()
                                 selectedItemIndex[#selectedItemIndex] = selectedIndex
                             end) then
                                 if selectedItemIndex[#selectedItemIndex] == 1 then
-                                    SetPedArmour(PlayerPed, 100)
+                                    SetPedArmour(PlayerPed, 300)
+                                    TriggerServerEvent("police:payforservices", 150)
                                 elseif selectedItemIndex[#selectedItemIndex] == 2 then
                                     SetPedArmour(PlayerPed, 0)
                                 end
