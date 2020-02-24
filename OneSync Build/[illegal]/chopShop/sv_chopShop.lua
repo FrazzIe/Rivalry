@@ -10,14 +10,16 @@ Citizen.CreateThread(function()
 		Seed = os.time()
 		math.randomseed(Seed)
 
-		local delay = math.random(Config.ListDuration.Min, Config.ListDuration.Max) * 60000
+		local delay = math.random(Config.ListDuration.Min, Config.ListDuration.Max)
 		LastListTime = os.time()
-		NextListTime = os.time() + delay
+		NextListTime = os.time() + delay * 60
 		List = GetList(Seed)
 		
+		math.randomseed(GetGameTimer())
+
 		TriggerClientEvent("chopShop:updateSeed", -1, Seed)
 
-		Citizen.Wait(delay)
+		Citizen.Wait(delay * 60000)
 	end
 end)
 
@@ -41,12 +43,11 @@ end)
 
 RegisterNetEvent("chopShop:requestTime")
 AddEventHandler("chopShop:requestTime", function()
-	local message = "I wrote the list down for you. You have "..math.ceil((NextListTime - os.time()) / 60000).." minutes before the list changes."
-	TriggerClientEvent("pNotify:SendNotification", source, { text = message, type = "error", queue = "left", timeout = 6000, layout = "centerRight" })
+	TriggerClientEvent("chopShop:receiveTime", source, NextListTime - os.time())
 end)
 
 RegisterNetEvent("chopShop:chopVehicle")
-AddEventHandler("chopShop:chopVehicle", function(index)
+AddEventHandler("chopShop:chopVehicle", function(index, modifier)
 	local source = source
 
 	-- Cooldown to prevent spam.
@@ -57,21 +58,24 @@ AddEventHandler("chopShop:chopVehicle", function(index)
 
 	Cooldowns[source] = true
 	Citizen.CreateThread(function()
-		Citizen.Wait(30000)
+		Citizen.Wait(10000)
 		Cooldowns[source] = nil
 	end)
 
 	-- Find car from index.
 	local car = FindCar(index, List)
 	if not car then
-		TriggerClientEvent("chopShop:chopResult", source, 2)
+		TriggerClientEvent("chopShop:chopResult", source, 3)
 		return
 	end
 
+	modifier = math.min(math.max(modifier, 0.0), 1.0)
+
 	-- Chop the car.
 	TriggerEvent("police:getCops", function(cops)
+		-- cops = 2 -- DEBUG
 		if tonumber(cops) >= Config.Cops.Min then
-			local price = car.BasePrice * math.min(1.0 + (cops - Config.Cops.Min) / (Config.Cops.Max - Config.Cops.Min), Config.Cops.MaxRate)
+			local price = car.BasePrice * math.min(1.0 + (cops - Config.Cops.Min) / (Config.Cops.Max - Config.Cops.Min), Config.Cops.MaxRate) * modifier
 			TriggerEvent("core:getuser", source, function(user)
 				user.addWallet(price)
 			end)

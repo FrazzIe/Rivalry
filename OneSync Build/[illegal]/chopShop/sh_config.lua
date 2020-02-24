@@ -1,14 +1,35 @@
 Config = {
-	CarsPerList = { Min = 7, Max = 10 },
-	ListDuration = { Min = 25, Max = 35 },
+	CarsPerList = { Min = 15, Max = 20 },
+	ListDuration = { Min = 30, Max = 40 },
 	Cops = { Min = 2, Max = 10, MaxRate = 2.0 },
+	Components = {
+		{ Name = "engine", Type = -1, Index = 0, Offset = vector3(0, 0, -0.5) },
+		{ Name = "door_dside_f", Type = 0, Index = 0, Offset = vector3(0.5, 0.5, 0) },
+		{ Name = "door_dside_r", Type = 0, Index = 2, Offset = vector3(0.5, 0.5, 0) },
+		{ Name = "door_pside_f", Type = 0, Index = 1, Offset = vector3(-0.5, 0.5, 0) },
+		{ Name = "door_pside_r", Type = 0, Index = 3, Offset = vector3(-0.5, 0.5, 0) },
+		{ Name = "bonnet", Type = 0, Index = 4, Offset = vector3(0, -1.5, 0) },
+		{ Name = "boot", Type = 0, Index = 5, Offset = vector3(0, 1.0, 0) },
+		{ Name = "wheel_lf", Type = 1, Index = 0, Offset = vector3(0.5, 0, 0) },
+		{ Name = "wheel_lr", Type = 1, Index = 4, Offset = vector3(0.5, 0, 0) },
+		{ Name = "wheel_rf", Type = 1, Index = 1, Offset = vector3(-0.5, 0, 0) },
+		{ Name = "wheel_rr", Type = 1, Index = 5, Offset = vector3(-0.5, 0, 0) },
+		-- { Name = "wheel_lm1", Type = 1, Index = 0 },
+		-- { Name = "wheel_lm2", Type = 1, Index = 0 },
+		-- { Name = "wheel_lm3", Type = 1, Index = 0 },
+		-- { Name = "wheel_rm1", Type = 1, Index = 0 },
+		-- { Name = "wheel_rm2", Type = 1, Index = 0 },
+		-- { Name = "wheel_rm3", Type = 1, Index = 0 },
+	},
+	ComponentRange = 1.5,
 	Zones = {
 		--[[ Chop Zones ]]--
 		-- Hayes Auto.
-		{ Type = 0, Visibility = 10.0, Radius = 3.0, Chance = 100, Coords = vector3(481.17077636719, -1317.1510009766, 29.202482223511) },
+		{ Type = 0, Visibility = 10.0, Radius = 5.0, Chance = 100, Coords = vector3(481.17077636719, -1317.1510009766, 29.202482223511) },
+		-- { Type = 0, Visibility = 10.0, Radius = 5.0, Chance = 100, Coords = vector3(493.9108581543, -1333.1116943359, 29.333877563477) }, -- DEBUG
 
 		-- Boneyard
-		{ Type = 0, Visibility = 10.0, Radius = 3.0, Chance = 100, Coords = vector3(2342.3835449219, 3052.4152832031, 48.151817321777) },
+		{ Type = 0, Visibility = 10.0, Radius = 5.0, Chance = 100, Coords = vector3(2342.3835449219, 3052.4152832031, 48.151817321777) },
 
 		--[[ Informants ]]--
 		-- Hayes Auto.

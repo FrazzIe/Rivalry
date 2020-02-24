@@ -24,7 +24,12 @@ function GetList()
 		math.randomseed(Seed + i)
 		list[i] = { index = pool[i], car = Config.Cars[pool[i]] }
 	end
-	-- list[1] = { index = 1, car = Config.Cars[1] } -- DEBUG: adds first car to list
+
+	math.randomseed(GetGameTimer())
+
+	-- list[1] = { index = 1, car = Config.Cars[1] } -- DEBUG
+	-- list[2] = { index = 13, car = Config.Cars[13] } -- DEBUG
+	-- list[3] = { index = 11, car = Config.Cars[11] } -- DEBUG
 
 	return list
 end
