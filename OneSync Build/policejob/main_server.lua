@@ -426,3 +426,11 @@ AddEventHandler("police:iscop", function(user, cb)
 		cb(false)
 	end
 end)
+
+RegisterServerEvent("police:payforservices")
+AddEventHandler("police:payforservices", function(Price)
+	local Source = source
+	TriggerEvent("core:getuser", Source, function(User)
+		User.removeBank(Price)
+	end)
+end)
