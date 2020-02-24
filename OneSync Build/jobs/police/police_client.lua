@@ -217,23 +217,23 @@ function DrawMissionText2(m_text, showtime)
 	DrawSubtitleTimed(showtime, 1)
 end
 
-Citizen.CreateThread(function()
-    while true do
-    Citizen.Wait(0)
-        if IsPedInAnyPoliceVehicle(GetPlayerPed(PlayerId())) then
-            local veh = GetVehiclePedIsUsing(GetPlayerPed(PlayerId()), false)
-            if (GetPedInVehicleSeat(veh, -1) == GetPlayerPed(PlayerId())) then
-                if isCopInService == false and exports.emergency:getIsInService() == true then
-                elseif isCopInService == true and exports.emergency:getIsInService() == false then
-                elseif isCopInService == true and exports.emergency:getIsInService() == true then
-                elseif isCopInService == false and exports.emergency:getIsInService() == false then
-                    drawTxt("~r~It's against the rules for civilians to drive these vehicles!",0,1,0.5,0.8,0.6,255,255,255,255)           
-                    SetVehicleUndriveable(veh, true)
-                end
-            end
-        end
-    end
-end)
+-- Citizen.CreateThread(function()
+--     while true do
+--     Citizen.Wait(0)
+--         if IsPedInAnyPoliceVehicle(GetPlayerPed(PlayerId())) then
+--             local veh = GetVehiclePedIsUsing(GetPlayerPed(PlayerId()), false)
+--             if (GetPedInVehicleSeat(veh, -1) == GetPlayerPed(PlayerId())) then
+--                 if isCopInService == false and exports.emergency:getIsInService() == true then
+--                 elseif isCopInService == true and exports.emergency:getIsInService() == false then
+--                 elseif isCopInService == true and exports.emergency:getIsInService() == true then
+--                 elseif isCopInService == false and exports.emergency:getIsInService() == false then
+--                     drawTxt("~r~It's against the rules for civilians to drive these vehicles!",0,1,0.5,0.8,0.6,255,255,255,255)           
+--                     SetVehicleUndriveable(veh, true)
+--                 end
+--             end
+--         end
+--     end
+-- end)
 
 
 function spikes()
