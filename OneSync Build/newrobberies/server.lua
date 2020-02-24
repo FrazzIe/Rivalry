@@ -562,3 +562,17 @@ AddEventHandler("Rivalry.EnableCameras", function()
 		Notify("You cannot reset the camera system yet as there is an active robbery in progress!", 2500, Source)
 	end
 end)
+
+RegisterServerEvent("Rivalry.Disable.Jewelry.Cameras")
+AddEventHandler("Rivalry.Disable.Jewelry.Cameras", function()
+	local Source = source
+	Notify("You have just tripped an antitampering system! Better be quick!", 2500, Source)
+	TriggerClientEvent("Rivalry.Disable.Jewelry.Cameras", -1)
+end)
+
+RegisterServerEvent("Rivalry.EnableJewelryCameras")
+AddEventHandler("Rivalry.EnableJewelryCameras", function()
+	local Source = source
+	Notify("You have successfully reset the camera system for the Jewelry Store.", 2500, Source)
+	TriggerClientEvent("Rivalry.EnableJewelryCameras", -1)
+end)

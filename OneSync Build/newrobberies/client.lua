@@ -180,7 +180,7 @@ Citizen.CreateThread(function()
 				DisplayHelpText("Press ~INPUT_CONTEXT~ to disable cameras!")
 				if IsControlJustPressed(1, 51) then
 					TriggerEvent("Rivalry.HackCameras", 1, 6)
-					TriggerServerEvent("dispatch:cameras")
+					TriggerServerEvent("dispatch:cameras", 1)
 					TriggerClientEvent('customNotification', Source, "You have just tripped an antitampering system! Better be quick!")
 				end
 			end
@@ -633,6 +633,27 @@ AddEventHandler("Rivalry.Lockpick", function(Door)
 	Rivalry.Robberies.Banks.Pacific.Doors[Door].Locked = false
 end)
 
+RegisterNetEvent("Rivalry.LockpickJewelry")
+AddEventHandler("Rivalry.LockpickJewelry", function()
+	OpenLockpickGui3()
+end)
+
+-- Jewelry Lockpicking
+function OpenLockpickGui3()
+	if exports.core_modules:GetItemQuantity(36) > 0 then
+		SetPlayerControl(PlayerId(), 0, 0)
+		SetNuiFocus(true, true)
+		SendNUIMessage({pins = exports.core_modules:GetItemQuantity(36), doorlock = true, lockpick = false})
+		RequestAnimDict("mini@safe_cracking")
+		while not HasAnimDictLoaded("mini@safe_cracking") do
+			Wait(0)
+		end
+		TaskPlayAnim(PlayerPedId(), "mini@safe_cracking", "dial_turn_clock_fast", 4.0, -4, -1, 1, 0, false, false, false)
+	else
+		Notify("You do not have any lockpicks!", 2500)
+	end
+end
+
 function OpenLockPickGui2(Door)
 	if exports.core_modules:GetItemQuantity(36) > 0 then
 		SetPlayerControl(PlayerId(), 0, 0)
@@ -695,6 +716,18 @@ AddEventHandler("Rivalry.EnableCameras", function()
 	CurrentCamera = 1
 end)
 
+RegisterNetEvent("Rivalry.Disable.Jewelry.Cameras")
+AddEventHandler("Rivalry.Disable.Jewelry.Cameras", function()
+	Rivalry.Cameras[33].Online = false
+	CurrentCamera = 1
+end)
+
+RegisterNetEvent("Rivalry.EnableJewelryCameras")
+AddEventHandler("Rivalry.EnableJewelryCameras", function()
+	Rivalry.Cameras[33].Online = true
+	CurrentCamera = 1
+end)
+
 RegisterNetEvent("Rivalry.SetRobbing")
 AddEventHandler("Rivalry.SetRobbing", function(Bank, BankNumber)
 	if Bank == "Pacific" then
@@ -749,10 +782,16 @@ RegisterNUICallback('lockpickwin2', function(data, cb)
 	end
 	CloseLockPickGui()
 	ClearPedTasks(PlayerPedId())
-	if not IsEntityDead(PlayerPedId()) then
-		TriggerServerEvent("Rivalry.Lockpick", CurrentLockpicked)
+	if CurrentLockpicked > 0 then
+		if not IsEntityDead(PlayerPedId()) then
+			TriggerServerEvent("Rivalry.Lockpick", CurrentLockpicked)
+		end
+		CurrentLockpicked = 0
+	else
+		if not IsEntityDead(PlayerPedId()) then
+			TriggerServerEvent("Rivalry.LockpickJewelry")
+		end
 	end
-	CurrentLockpicked = 0
 end)
 
 RegisterNUICallback('lockclick', function(data, cb)
@@ -779,85 +818,41 @@ RegisterNetEvent("Set.Current.Camera")
 AddEventHandler("Set.Current.Camera", function(CurrentCam)
 	local Player = PlayerPedId()
 	local PlayerPosition = GetEntityCoords(Player, false)
-	if Rivalry.Cameras[25].Online then
-		CurrentCamera = CurrentCam
-		if exports.policejob:getIsInService() then
-        	if IsPedOnFoot(Player) then
-        		for Computer = 1, #Rivalry.Computers do
-        			if #(PlayerPosition - Rivalry.Computers[Computer]) <= 1.0 then
-	                    SetFocusArea(Rivalry.Cameras[CurrentCamera].Coords.x, Rivalry.Cameras[CurrentCamera].Coords.y, Rivalry.Cameras[CurrentCamera].Coords.z, Rivalry.Cameras[CurrentCamera].Coords.x, Rivalry.Cameras[CurrentCamera].Coords.y, Rivalry.Cameras[CurrentCamera].Coords.z)
-	                    ChangeSecurityCamera(Rivalry.Cameras[CurrentCamera].Coords.x, Rivalry.Cameras[CurrentCamera].Coords.y, Rivalry.Cameras[CurrentCamera].Coords.z, Rivalry.Cameras[CurrentCamera].Heading)
-	                    SendNUIMessage({
-	                        type = "enablecam",
-	                        label = Rivalry.Cameras[CurrentCamera].Label,
-	                        box = Rivalry.Cameras[CurrentCamera].Title,
-	                    })
-	                    FreezeEntityPosition(Player, true)
-	                    TriggerEvent('interaction:hud:cameras')
-		            end
-	            end
-            else
-            	VehicleHandle = GetVehiclePedIsIn(Player, false)
-            	if GetVehicleClass(VehicleHandle) == 18 then
-    				if IsVehicleStopped(VehicleHandle) then
-            			SetFocusArea(Rivalry.Cameras[CurrentCamera].Coords.x, Rivalry.Cameras[CurrentCamera].Coords.y, Rivalry.Cameras[CurrentCamera].Coords.z, Rivalry.Cameras[CurrentCamera].Coords.x, Rivalry.Cameras[CurrentCamera].Coords.y, Rivalry.Cameras[CurrentCamera].Coords.z)
-	                    ChangeSecurityCamera(Rivalry.Cameras[CurrentCamera].Coords.x, Rivalry.Cameras[CurrentCamera].Coords.y, Rivalry.Cameras[CurrentCamera].Coords.z, Rivalry.Cameras[CurrentCamera].Heading)
-	                    SendNUIMessage({
-	                        type = "enablecam",
-	                        label = Rivalry.Cameras[CurrentCamera].Label,
-	                        box = Rivalry.Cameras[CurrentCamera].Title,
-	                    })
-	                    FreezeEntityPosition(VehicleHandle, true)
-	                    FreezeEntityPosition(Player, true)
-	                    DisplayRadar(false)
-	                    TriggerEvent('interaction:hud:cameras')
-	                else
-	                	Notify("You cannot use the cameras while the vehicle is moving!", 3300)
-	                end
-            	end
-            end
-        end
-	else
-		if CurrentCam >= 25 then
-			Notify("Pacific Standard Camera's are Offline!")
+	CurrentCamera = CurrentCam
+	if exports.policejob:getIsInService() then
+		if IsPedOnFoot(Player) then
+			for Computer = 1, #Rivalry.Computers do
+				if #(PlayerPosition - Rivalry.Computers[Computer]) <= 1.0 then
+					SetFocusArea(Rivalry.Cameras[CurrentCamera].Coords.x, Rivalry.Cameras[CurrentCamera].Coords.y, Rivalry.Cameras[CurrentCamera].Coords.z, Rivalry.Cameras[CurrentCamera].Coords.x, Rivalry.Cameras[CurrentCamera].Coords.y, Rivalry.Cameras[CurrentCamera].Coords.z)
+					ChangeSecurityCamera(Rivalry.Cameras[CurrentCamera].Coords.x, Rivalry.Cameras[CurrentCamera].Coords.y, Rivalry.Cameras[CurrentCamera].Coords.z, Rivalry.Cameras[CurrentCamera].Heading)
+					SendNUIMessage({
+						type = "enablecam",
+						label = Rivalry.Cameras[CurrentCamera].Label,
+						box = Rivalry.Cameras[CurrentCamera].Title,
+					})
+					FreezeEntityPosition(Player, true)
+					TriggerEvent('interaction:hud:cameras')
+				end
+			end
 		else
-			CurrentCamera = CurrentCam
-			if exports.policejob:getIsInService() then
-	        	if IsPedOnFoot(Player) then
-	        		for Computer = 1, #Rivalry.Computers do
-	        			if #(PlayerPosition - Rivalry.Computers[Computer]) <= 1.0 then
-		                    SetFocusArea(Rivalry.Cameras[CurrentCamera].Coords.x, Rivalry.Cameras[CurrentCamera].Coords.y, Rivalry.Cameras[CurrentCamera].Coords.z, Rivalry.Cameras[CurrentCamera].Coords.x, Rivalry.Cameras[CurrentCamera].Coords.y, Rivalry.Cameras[CurrentCamera].Coords.z)
-		                    ChangeSecurityCamera(Rivalry.Cameras[CurrentCamera].Coords.x, Rivalry.Cameras[CurrentCamera].Coords.y, Rivalry.Cameras[CurrentCamera].Coords.z, Rivalry.Cameras[CurrentCamera].Heading)
-		                    SendNUIMessage({
-		                        type = "enablecam",
-		                        label = Rivalry.Cameras[CurrentCamera].Label,
-		                        box = Rivalry.Cameras[CurrentCamera].Title,
-		                    })
-		                    FreezeEntityPosition(Player, true)
-		                    TriggerEvent('interaction:hud:cameras')
-			            end
-		            end
-	            else
-	            	VehicleHandle = GetVehiclePedIsIn(Player, false)
-	            	if GetVehicleClass(VehicleHandle) == 18 then
-	    				if IsVehicleStopped(VehicleHandle) then
-	            			SetFocusArea(Rivalry.Cameras[CurrentCamera].Coords.x, Rivalry.Cameras[CurrentCamera].Coords.y, Rivalry.Cameras[CurrentCamera].Coords.z, Rivalry.Cameras[CurrentCamera].Coords.x, Rivalry.Cameras[CurrentCamera].Coords.y, Rivalry.Cameras[CurrentCamera].Coords.z)
-		                    ChangeSecurityCamera(Rivalry.Cameras[CurrentCamera].Coords.x, Rivalry.Cameras[CurrentCamera].Coords.y, Rivalry.Cameras[CurrentCamera].Coords.z, Rivalry.Cameras[CurrentCamera].Heading)
-		                    SendNUIMessage({
-		                        type = "enablecam",
-		                        label = Rivalry.Cameras[CurrentCamera].Label,
-		                        box = Rivalry.Cameras[CurrentCamera].Title,
-		                    })
-		                    FreezeEntityPosition(VehicleHandle, true)
-		                    FreezeEntityPosition(Player, true)
-		                    DisplayRadar(false)
-		                    TriggerEvent('interaction:hud:cameras')
-		                else
-		                	Notify("You cannot use the cameras while the vehicle is moving!", 3300)
-		                end
-	            	end
-	            end
-	        end
+			VehicleHandle = GetVehiclePedIsIn(Player, false)
+			if GetVehicleClass(VehicleHandle) == 18 then
+				if IsVehicleStopped(VehicleHandle) then
+					SetFocusArea(Rivalry.Cameras[CurrentCamera].Coords.x, Rivalry.Cameras[CurrentCamera].Coords.y, Rivalry.Cameras[CurrentCamera].Coords.z, Rivalry.Cameras[CurrentCamera].Coords.x, Rivalry.Cameras[CurrentCamera].Coords.y, Rivalry.Cameras[CurrentCamera].Coords.z)
+					ChangeSecurityCamera(Rivalry.Cameras[CurrentCamera].Coords.x, Rivalry.Cameras[CurrentCamera].Coords.y, Rivalry.Cameras[CurrentCamera].Coords.z, Rivalry.Cameras[CurrentCamera].Heading)
+					SendNUIMessage({
+						type = "enablecam",
+						label = Rivalry.Cameras[CurrentCamera].Label,
+						box = Rivalry.Cameras[CurrentCamera].Title,
+					})
+					FreezeEntityPosition(VehicleHandle, true)
+					FreezeEntityPosition(Player, true)
+					DisplayRadar(false)
+					TriggerEvent('interaction:hud:cameras')
+				else
+					Notify("You cannot use the cameras while the vehicle is moving!", 3300)
+				end
+			end
 		end
 	end
 end)
@@ -876,17 +871,27 @@ Citizen.CreateThread(function()
         if CreatedCamera ~= 0 then
             local Instructions = CreateInstuctionScaleform("instructional_buttons")
             DrawScaleformMovieFullscreen(Instructions, 255, 255, 255, 255, 0)
-            if CurrentCamera > 24 then
+            if CurrentCamera > 24 and CurrentCamera < 33 then
 	            if Rivalry.Cameras[25].Online then
 	            	SetTimecycleModifier("scanline_cam_cheap")
 	            	SetTimecycleModifierStrength(2.0)
 	            else
 	            	SetTimecycleModifier("CAMERA_secuirity_FUZZ")
-	            	SetTimecycleModifierStrength(11.0)
-	            end
-	        else
-	            SetTimecycleModifier("scanline_cam_cheap")
-	            SetTimecycleModifierStrength(2.0)
+					SetTimecycleModifierStrength(11.0)
+				end
+			else
+				if CurrentCamera >= 33 then
+					if Rivalry.Cameras[33].Online then
+						SetTimecycleModifier("scanline_cam_cheap")
+						SetTimecycleModifierStrength(2.0)
+					else
+						SetTimecycleModifier("CAMERA_secuirity_FUZZ")
+						SetTimecycleModifierStrength(11.0)
+					end
+				else
+					etTimecycleModifier("scanline_cam_cheap")
+	            	SetTimecycleModifierStrength(2.0)
+				end
 	        end
 
             -- CLOSE CAMERAS
