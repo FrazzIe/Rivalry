@@ -14,24 +14,24 @@
 --==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--
 --==============================================================================================================================--
 --Make ems cars undrivable for civs
-Citizen.CreateThread(function()
-    while true do
-        Citizen.Wait(0)
-        if not isParamedic then
-            if IsPedSittingInAnyVehicle(PlayerPedId()) then
-                local vehicle = GetVehiclePedIsUsing(PlayerPedId(), false)
-                if GetPedInVehicleSeat(vehicle, -1) == PlayerPedId() then
-                    for k,v in pairs(cars) do
-                        if GetHashKey(v.model) == GetEntityModel(vehicle) then
-                            drawText("~r~It's against the rules for civilians to drive these vehicles!", 6, 0.45 , 0.5, 0.5, 255, 255, 255, 255, false, true)
-                            SetVehicleUndriveable(vehicle, true)
-                        end
-                    end
-                end
-            end
-        end
-    end
-end)
+-- Citizen.CreateThread(function()
+--     while true do
+--         Citizen.Wait(0)
+--         if not isParamedic then
+--             if IsPedSittingInAnyVehicle(PlayerPedId()) then
+--                 local vehicle = GetVehiclePedIsUsing(PlayerPedId(), false)
+--                 if GetPedInVehicleSeat(vehicle, -1) == PlayerPedId() then
+--                     for k,v in pairs(cars) do
+--                         if GetHashKey(v.model) == GetEntityModel(vehicle) then
+--                             drawText("~r~It's against the rules for civilians to drive these vehicles!", 6, 0.45 , 0.5, 0.5, 255, 255, 255, 255, false, true)
+--                             SetVehicleUndriveable(vehicle, true)
+--                         end
+--                     end
+--                 end
+--             end
+--         end
+--     end
+-- end)
 --==============================================================================================================================--
 --Dragging
 drag = false
