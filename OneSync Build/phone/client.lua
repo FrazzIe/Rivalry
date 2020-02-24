@@ -404,6 +404,13 @@ RegisterNUICallback("requestWeapons", function(data, cb)
 
 end)
 
+RegisterNUICallback("requestJewelry", function(data, cb)
+	Citizen.Trace("requestJewelry callback: " .. json.encode(data))
+
+	TriggerEvent("Create.Jewelry.Meeting")
+
+end)
+
 RegisterNUICallback("cancelTaxi", function(data, cb)
 	Citizen.Trace("cancelTaxi callback: " .. json.encode(data))
 
@@ -448,6 +455,13 @@ RegisterNUICallback("cancelWeapons", function(data, cb)
 
 	TriggerEvent("Cancel.Public.Market.Meeting")
 
+end)
+
+RegisterNUICallback("cancelJewelry", function(data, cb)
+	Citizen.Trace("cancelJewelry callback: " .. json.encode(data))
+
+	TriggerEvent("Cancel.Jewelry.Meeting")
+	
 end)
 
 RegisterNUICallback("close", function(data, cb)
