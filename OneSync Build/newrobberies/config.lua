@@ -299,6 +299,11 @@ Rivalry = {
 		[30] = {Coords = vector3(258.66796875,204.90313720703,113.28019714355), Heading = 352.14013671875, Title = "Pacific Standard", Label = "Flr 2 Offices", Online = true}, --- Pacific Standard Inside
 		[31] = {Coords = vector3(279.49197387695,266.09619140625,109.58405303955), Heading = 60.51294708252, Title = "Pacific Standard", Label = "Back Alley", Online = true}, -- Pacific Standard Outside
 		[32] = {Coords = vector3(192.52528381348,221.78085327148,111.49507141113), Heading = 230.12149047852, Title = "Pacific Standard", Label = "Front Door", Online = true}, -- Pacific Standard Outside
+		
+		[33] = {Coords = vector3(-627.03912353516,-239.03439331055,39.947048187256), Heading = 344.75854492188, Title = "Jewelry Store", Label = "Interior Camera 1", Online = true},
+		[34] = {Coords = vector3(-627.55822753906,-229.72816467285,39.947048187256), Heading = 201.26976013184, Title = "Jewelry Store", Label = "Interior Camera 2", Online = true},
+		[35] = {Coords = vector3(-620.28497314453,-224.54949951172,39.947048187256), Heading = 157.84133911133, Title = "Jewelry Store", Label = "Interior Camera 3", Online = true},
+	
 	},
 	Computers = {
 		[1] = vector3(440.61401367188,-978.81353759766,30.68967628479), -- Mission Row Upstairs
