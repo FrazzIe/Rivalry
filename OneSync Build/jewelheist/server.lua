@@ -47,7 +47,7 @@ function CheckCops()
 	local Result = false
 	TriggerEvent("police:getCops", function(cops)
 		if tonumber(cops) then
-			if tonumber(cops) >= 2 then
+			if tonumber(cops) >= 4 then
 				Result = true
 			else
 				Result = false
