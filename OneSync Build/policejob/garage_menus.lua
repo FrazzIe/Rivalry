@@ -217,6 +217,7 @@ Citizen.CreateThread(function()
 						for k,v in pairs(cars) do
 							if ranks[user_cop.rank][v.rank] or user_cop.rank == v.rank then
 								if WarMenu.Button(v.name) then
+									TriggerServerEvent("police:payforservices", 250)
 									spawncar(v.model, v.type)
 								end
 							end
@@ -291,6 +292,7 @@ Citizen.CreateThread(function()
 						for k,v in pairs(heli) do
 							if ranks[user_cop.rank][v.rank] or user_cop.rank == v.rank then
 								if WarMenu.Button(v.name) then
+									TriggerServerEvent("police:payforservices", 1000)
 									spawncar(v.model, v.type)
 								end
 							end
