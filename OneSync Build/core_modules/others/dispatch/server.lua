@@ -136,11 +136,19 @@ AddEventHandler("Dispatch.Jailbreak", function()
 	end
 end)
 
-RegisterServerEvent("dispatch:cameras")
-AddEventHandler("dispatch:cameras", function()
+RegisterServerEvent("dispatch:jewelrystore")
+AddEventHandler("dispatch:jewelrystore", function(locationid)
 	for id, dept in pairs(emergency_users) do
 		if dept ~= nil and dept ~= "paramedic" then
-			TriggerClientEvent("chatMessage", id, "10-90", {255, 0, 0}, "^7Unauthorized access detected to the security system at Pacific Standard Bank!")
+			TriggerClientEvent("chatMessage", id, "10-90", {255, 0, 0}, "^7Anti-tampering sensor tripped at Vangelico Fine Jewelry!")
+		end
+	end
+end)
+RegisterServerEvent("dispatch:cameras")
+AddEventHandler("dispatch:cameras", function(locationid)
+	for id, dept in pairs(emergency_users) do
+		if dept ~= nil and dept ~= "paramedic" then
+			TriggerClientEvent("chatMessage", id, "10-90", {255, 0, 0}, "^7Unauthorized access detected to the security system at Vangelico Fine Jewelry!")
 		end
 	end
 end)

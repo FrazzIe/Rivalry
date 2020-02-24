@@ -889,7 +889,7 @@ Citizen.CreateThread(function()
 						SetTimecycleModifierStrength(11.0)
 					end
 				else
-					etTimecycleModifier("scanline_cam_cheap")
+					SetTimecycleModifier("scanline_cam_cheap")
 	            	SetTimecycleModifierStrength(2.0)
 				end
 	        end

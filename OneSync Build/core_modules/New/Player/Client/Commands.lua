@@ -387,6 +387,7 @@ AddEventHandler("core:ready", function()
             if GetVehicleClass(NearestVehicle) == 18 then
                 local weaponhash = GetHashKey("WEAPON_CARBINERIFLE")
                 if not HasPedGotWeapon(PlayerPedId(), weaponhash, false) and weaponhash ~= GetSelectedPedWeapon(PlayerPedId()) then
+                    TriggerServerEvent("police:payforservices", 100)
                     GiveWeaponToPed(PlayerPedId(), weaponhash, 250, false, true)
                     GiveWeaponComponentToPed(PlayerPedId(), weaponhash, 2076495324)
                     GiveWeaponComponentToPed(PlayerPedId(), weaponhash, 202788691)
@@ -410,6 +411,7 @@ AddEventHandler("core:ready", function()
             if GetVehicleClass(NearestVehicle) == 18 then
                 local weaponhash = GetHashKey("WEAPON_PUMPSHOTGUN")
                 if not HasPedGotWeapon(PlayerPedId(), weaponhash, false) and weaponhash ~= GetSelectedPedWeapon(PlayerPedId()) then
+                    TriggerServerEvent("police:payforservices", 100)
                     GiveWeaponToPed(PlayerPedId(), weaponhash, 250, false, true)
                     GiveWeaponComponentToPed(PlayerPedId(), weaponhash, 2076495324)
                     SetPedWeaponTintIndex(PlayerPedId(), weaponhash, 7)
