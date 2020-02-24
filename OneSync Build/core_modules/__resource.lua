@@ -165,6 +165,7 @@ export 'GetItemQuantity'
 export 'isFull'
 export 'removeQty'
 export 'addQty'
+export 'getQuantity'
 --Hunger bars
 export 'getBars'
 --Jobs/Towing
