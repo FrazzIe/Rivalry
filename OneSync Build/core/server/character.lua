@@ -356,7 +356,7 @@ AddEventHandler("core:createCharacter", function(data)
             ["gender"] = (data.sex == 0) and "male" or "female",
             ["wallet"] = Config["Character"]["Wallet"],
             ["bank"] = Config["Character"]["Bank"],
-            ["chips"] = Config["Character"]["Chips"]
+            ["chips"] = Config["Character"]["Chips"],
             ["dirty_cash"] = Config["Character"]["Dirty"],
             ["timeplayed"] = Config["Character"]["Timeplayed"],
             ["position_x"] = Config["Character"]["Spawn"]["X"],
