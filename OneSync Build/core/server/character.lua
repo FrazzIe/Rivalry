@@ -39,6 +39,7 @@ function setupCharacter(source, data)
     self["wallet"] = data["wallet"]
     self["bank"] = data["bank"]
     self["dirty"] = data["dirty_cash"]
+    self["chips"] = data["chips"]
 
     self["job"] = jobs[data["job_id"]]
     self["weapon_license"] = data["weapon_license"]
@@ -74,12 +75,13 @@ function setupCharacter(source, data)
 
     method["update"] = function()
         self["lastcoords"] = self["coords"]
-        exports["GHMattiMySQL"]:QueryAsync("UPDATE characters SET wallet=@wallet, bank=@bank, dirty_cash=@dirty_cash, timeplayed=@timeplayed, position_x=@position_x, position_y=@position_y, position_z=@position_z, weapon_license=@weapon_license, jail_time=@jail_time, dateofjail=@dateofjail, job_id=@job_id, drivers_license=@drivers_license, fishing_license=@fishing_license, radio=@radio, ad_text=@ad_text WHERE (identifier=@identifier) AND (character_id=@character_id)", {
+        exports["GHMattiMySQL"]:QueryAsync("UPDATE characters SET wallet=@wallet, bank=@bank, dirty_cash=@dirty_cash, chips=@chips, timeplayed=@timeplayed, position_x=@position_x, position_y=@position_y, position_z=@position_z, weapon_license=@weapon_license, jail_time=@jail_time, dateofjail=@dateofjail, job_id=@job_id, drivers_license=@drivers_license, fishing_license=@fishing_license, radio=@radio, ad_text=@ad_text WHERE (identifier=@identifier) AND (character_id=@character_id)", {
             ["@identifier"] = self["steam"],
             ["@character_id"] = self["characterID"],
             ["@wallet"] = self["wallet"],
             ["@bank"] = self["bank"],
             ["@dirty_cash"] = self["dirty"],
+            ["@chips"] = self["chips"],
             ["@timeplayed"] = self["timeplayed"],
             ["@position_x"] = self["lastcoords"]["x"],
             ["@position_y"] = self["lastcoords"]["y"],
@@ -183,6 +185,34 @@ function setupCharacter(source, data)
             end
             update("characters", "dirty_cash='"..self["dirty"].."'", self["characterID"])
             TriggerClientEvent("core:updateMoney", self["source"], self["dirty"], "dirty", "remove", math.floor(tonumber(value)))
+        end
+    end
+
+    --[[ Chips Stuff ]]--
+    method["chips"] = function(value)
+        if tonumber(value) ~= nil then
+            self["chips"] = math.floor(tonumber(value))
+            update("characters", "chips='"..self["chips"].."'", self["characterID"])
+            TriggerClientEvent("core:updateMoney", self["source"], self["chips"], "chips", "set", math.floor(tonumber(value)))
+        end
+    end
+
+    method["addChips"] = function(value)
+        if tonumber(value) ~= nil then
+            self["chips"] = self["chips"] + math.floor(tonumber(value))
+            update("characters", "chips='"..self["chips"].."'", self["characterID"])
+            TriggerClientEvent("core:updateMoney", self["source"], self["chips"], "chips", "add", math.floor(tonumber(value)))
+        end
+    end
+
+    method["removeChips"] = function(value)
+        if tonumber(value) ~= nil then
+            self["chips"] = self["chips"] - math.floor(tonumber(value))
+            if self["chips"] < 0 then
+                self["chips"] = 0
+            end
+            update("characters", "chips='"..self["chips"].."'", self["characterID"])
+            TriggerClientEvent("core:updateMoney", self["source"], self["chips"], "chips", "remove", math.floor(tonumber(value)))
         end
     end
 
@@ -326,6 +356,7 @@ AddEventHandler("core:createCharacter", function(data)
             ["gender"] = (data.sex == 0) and "male" or "female",
             ["wallet"] = Config["Character"]["Wallet"],
             ["bank"] = Config["Character"]["Bank"],
+            ["chips"] = Config["Character"]["Chips"]
             ["dirty_cash"] = Config["Character"]["Dirty"],
             ["timeplayed"] = Config["Character"]["Timeplayed"],
             ["position_x"] = Config["Character"]["Spawn"]["X"],

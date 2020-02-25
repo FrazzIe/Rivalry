@@ -455,6 +455,7 @@ local function Rob(target_id)
 			exports.ui:addOption("Inventory", "interaction:rob_inventory", target_id)
 			exports.ui:addOption("Weapons", "interaction:rob_weapons", target_id)
 			exports.ui:addOption("Money", "interaction:rob_money", target_id)
+			exports.ui:addOption("Chips", "interaction:rob_chips", target_id)
 			exports.ui:addOption("Phone", "interaction:rob_phone", target_id)
 			exports.ui:addOption("Radio", "interaction:rob_radio", target_id)
 			if EmergencyPlayers[target_id] then
@@ -704,6 +705,48 @@ AddEventHandler("interaction:rob_money_destroy", function(target_id)
 	if canRob then
 		if server_weapons[target_id] and inventories[target_id] then
 			TriggerServerEvent("interaction:destroy_money", target_id)
+			TriggerEvent("interaction:rob")
+		end
+	else
+		Notify(error, 3000)
+	end
+end)
+
+AddEventHandler("interaction:rob_chips", function(target_id)
+	exports.ui:reset()
+	exports.ui:open("rob_chips")
+	local _canRob = exports.core_modules:CanRob(target_id)
+	local canRob, error = _canRob[1], _canRob[2]
+	if canRob then
+		if server_weapons[target_id] and inventories[target_id] then
+			exports.ui:addOption("Take ", "interaction:rob_chips_take", target_id)
+			exports.ui:addOption("Destroy ", "interaction:rob_chips_destroy", target_id)    
+		end
+	else
+		Notify(error, 3000)
+	end
+    exports.ui:back([[TriggerEvent("interaction:rob")]])
+end)
+
+AddEventHandler("interaction:rob_chips_take", function(target_id)
+	local _canRob = exports.core_modules:CanRob(target_id)
+	local canRob, error = _canRob[1], _canRob[2]
+	if canRob then
+		if server_weapons[target_id] and inventories[target_id] then
+			TriggerServerEvent("interaction:take_chips", target_id)
+			TriggerEvent("interaction:rob")
+		end
+	else
+		Notify(error, 3000)
+	end
+end)
+
+AddEventHandler("interaction:rob_chips_destroy", function(target_id)
+	local _canRob = exports.core_modules:CanRob(target_id)
+	local canRob, error = _canRob[1], _canRob[2]
+	if canRob then
+		if server_weapons[target_id] and inventories[target_id] then
+			TriggerServerEvent("interaction:destroy_chips", target_id)
 			TriggerEvent("interaction:rob")
 		end
 	else
