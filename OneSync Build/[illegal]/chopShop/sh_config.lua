@@ -1,5 +1,6 @@
 Config = {
 	CarsPerList = { Min = 10, Max = 15 },
+	ChopsPerCar = 1,
 	ListDuration = { Min = 30, Max = 40 },
 	Cops = { Min = 2, Max = 10, MaxRate = 1.5 },
 	Components = {

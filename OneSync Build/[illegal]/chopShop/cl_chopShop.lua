@@ -1,5 +1,6 @@
 Seed = 0
 Peds = {}
+Chopped = {}
 Chopping = nil
 
 --[[ Threads ]]--
@@ -176,6 +177,11 @@ function BeginScrapping(vehicle, zone)
 	if not listedVehicle then
 		error = "That's not on the list!"
 	end
+
+	-- Check the cache.
+	if Chopped[listedVehicle] and Chopped[listedVehicle] >= Config.ChopsPerCar then
+		error = "Slow your roll there, buddy!"
+	end
 	
 	-- Finish checks.
 	if error then
@@ -208,7 +214,7 @@ function BeginScrapping(vehicle, zone)
 			if not DoesEntityExist(vehicle) or #(GetEntityCoords(vehicle) - zone.Coords) > zone.Radius or #(pedPos - zone.Coords) > zone.Radius then
 				break
 			end
-
+			
 			local components = {}
 			
 			-- Components.
@@ -384,14 +390,18 @@ end
 --[[ Events ]]--
 RegisterNetEvent("chopShop:updateSeed")
 AddEventHandler("chopShop:updateSeed", function(seed)
+	if Seed ~= seed then
+		Chopped = {}
+	end
 	Seed = seed
 end)
 
 RegisterNetEvent("chopShop:chopResult")
 AddEventHandler("chopShop:chopResult", function(response)
-	-- local listedVehicle = FindIndex(vehicle)
 	if response == 0 then
 		if Chopping then
+			local listedVehicle = FindIndex(Chopping)
+			Chopped[listedVehicle] = (Chopped[listedVehicle] or 0) + 1
 			DeleteEntity(Chopping)
 		end
 	elseif response == 1 then
