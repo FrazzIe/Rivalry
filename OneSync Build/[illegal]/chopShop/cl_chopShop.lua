@@ -20,6 +20,7 @@ Citizen.CreateThread(function()
 						ClearPed(Peds[k])
 						Peds[k] = nil
 					end
+					math.randomseed(GetGameTimer())
 					goto continue
 				end
 				math.randomseed(GetGameTimer())
