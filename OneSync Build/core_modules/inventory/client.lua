@@ -772,6 +772,14 @@ AddEventHandler("inventory:use",function(data)
         elseif data.canuse == 21 then
             GiveWeaponToPed(PlayerPedId(), GetHashKey("weapon_briefcase_02"), 1, 0, 1)
             addQty(data.item_id, 1)
+        elseif data.canuse == 22 then
+            if not isFull() then
+                local NumberOfJoints = math.random(80, 100)
+                addQty(140, NumberOfJoints)
+                Notify("Recieved "..NumberOfJoints.." Weed from Weed Brick!")
+            else
+                Notify("Please empty your pockets before using this!")
+            end
         end
         removeQty(data.item_id,1)
     elseif data.canuse == -1 then

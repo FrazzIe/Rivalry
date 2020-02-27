@@ -104,6 +104,9 @@ AddEventHandler("JewlryHeist.RemoveRobber", function()
 	if #Data.Robbers <= 0 then
 		Data.Robbers = {}
 		TriggerClientEvent("Rivalry.ResetJewelryStore", -1)
+		for Index = 1, #Data.Cases do
+			Data.Cases[Index] = false
+		end
 		HasDispatched = false
 	end
 end)

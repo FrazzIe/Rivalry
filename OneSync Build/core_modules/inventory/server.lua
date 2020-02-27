@@ -154,11 +154,12 @@ itemlist = {
 	[132] = {name = "Hairpin", item_id = 132, canuse = 0, illegal = false},
     [133] = {name = "Choker", item_id = 133, canuse = 0, illegal = false},
     [134] = {name = "Stolen Jewelry", item_id = 134, canuse = 0, illegal = true},
-    [135] = {name = "Cannoli", item_id = 43, canuse = 2, illegal = false},
-    [136] = {name = "Tortellini", item_id = 43, canuse = 2, illegal = false},
-    [137] = {name = "Spaghetti", item_id = 43, canuse = 2, illegal = false},
-    [138] = {name = "Pasta Fasul", item_id = 43, canuse = 2, illegal = false},
-    [139] = {name = "Pizza slice", item_id = 43, canuse = 2, illegal = false},
+    [135] = {name = "Cannoli", item_id = 135, canuse = 2, illegal = false},
+    [136] = {name = "Tortellini", item_id = 136, canuse = 2, illegal = false},
+    [137] = {name = "Spaghetti", item_id = 137, canuse = 2, illegal = false},
+    [138] = {name = "Pasta Fasul", item_id = 138, canuse = 2, illegal = false},
+    [139] = {name = "Pizza slice", item_id = 139, canuse = 2, illegal = false},
+    [140] = {name = "Weed Brick", item_id = 140, canuse = 22, illegal = true},
 }
 
 -- Debug
