@@ -243,14 +243,24 @@ function BeginScrapping(vehicle, zone)
 						end,
 						callback = function()
 							if component.Type == -1 then
-								status = true
-								local ratio = 0.0
-								for _, component in ipairs(components) do
-									if not component.condition() then
-										ratio = ratio + 1.0 / (#components - 1)
+								if NetworkGetEntityOwner(vehicle) ~= GetPlayerFromServerId(GetPlayerServerId(PlayerId())) then
+									TriggerEvent("pNotify:SendNotification", {
+										text = "I didn't see you roll up in this...",
+										type = "error",
+										queue = "left",
+										timeout = 7000,
+										layout = "centerRight"
+									})
+								else
+									status = true
+									local ratio = 0.0
+									for _, component in ipairs(components) do
+										if not component.condition() then
+											ratio = ratio + 1.0 / (#components - 1)
+										end
 									end
+									TriggerServerEvent("chopShop:chopVehicle", listedVehicle, ratio)
 								end
-								TriggerServerEvent("chopShop:chopVehicle", listedVehicle, ratio)
 							elseif component.Type == 0 then
 								SetVehicleDoorBroken(vehicle, component.Index, true)
 								-- TODO: request to be given scrap metal
