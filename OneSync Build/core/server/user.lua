@@ -10,7 +10,7 @@ function setupUser(source, data, new)
     self["lastplayed"] = tonumber(os.time())
     self["power"] = tonumber(data["power_level"])
     self["group"] = data["group"]
-
+    
     local method = {}
 
     --[[ Set and Get data ]]--

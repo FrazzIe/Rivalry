@@ -4,7 +4,7 @@ jobs = {
     [2] = {id = 2, name = "Police", pay = {on=1000,off=250}},
     [3] = {id = 3, name = "Pharmacist", pay = 100},
     [4] = {id = 4, name = "LSWP", pay = 100},
-    [5] = {id = 5, name = "Lawyer", pay = 1000},
+    [5] = {id = 5, name = "Lawyer", pay = 500},
     [6] = {id = 6, name = "Farmer", pay = 100},
     [7] = {id = 7, name = "Lumberjack", pay = 100},
     [8] = {id = 8, name = "Gang", pay = 50},
@@ -15,7 +15,7 @@ jobs = {
     [13] = {id = 13, name = "Vigneron", pay = 100},
     [14] = {id = 14, name = "Livreur", pay = 100},
     [15] = {id = 15, name = "Emergency", pay = {on = 1000, off = 250}},
-    [16] = {id = 16, name = "Mechanic", pay = 750},
+    [16] = {id = 16, name = "Mechanic", pay = 250},
     [17] = {id = 17, name = "Taxi", pay = 250},
     [18] = {id = 18, name = "FBI", pay = 100},
     [19] = {id = 19, name = "Courier", pay = 100},
@@ -39,6 +39,7 @@ function setupCharacter(source, data)
     self["wallet"] = data["wallet"]
     self["bank"] = data["bank"]
     self["dirty"] = data["dirty_cash"]
+    self["chips"] = data["chips"]
 
     self["job"] = jobs[data["job_id"]]
     self["weapon_license"] = data["weapon_license"]
@@ -74,12 +75,13 @@ function setupCharacter(source, data)
 
     method["update"] = function()
         self["lastcoords"] = self["coords"]
-        exports["GHMattiMySQL"]:QueryAsync("UPDATE characters SET wallet=@wallet, bank=@bank, dirty_cash=@dirty_cash, timeplayed=@timeplayed, position_x=@position_x, position_y=@position_y, position_z=@position_z, weapon_license=@weapon_license, jail_time=@jail_time, dateofjail=@dateofjail, job_id=@job_id, drivers_license=@drivers_license, fishing_license=@fishing_license, radio=@radio, ad_text=@ad_text WHERE (identifier=@identifier) AND (character_id=@character_id)", {
+        exports["GHMattiMySQL"]:QueryAsync("UPDATE characters SET wallet=@wallet, bank=@bank, dirty_cash=@dirty_cash, chips=@chips, timeplayed=@timeplayed, position_x=@position_x, position_y=@position_y, position_z=@position_z, weapon_license=@weapon_license, jail_time=@jail_time, dateofjail=@dateofjail, job_id=@job_id, drivers_license=@drivers_license, fishing_license=@fishing_license, radio=@radio, ad_text=@ad_text WHERE (identifier=@identifier) AND (character_id=@character_id)", {
             ["@identifier"] = self["steam"],
             ["@character_id"] = self["characterID"],
             ["@wallet"] = self["wallet"],
             ["@bank"] = self["bank"],
             ["@dirty_cash"] = self["dirty"],
+            ["@chips"] = self["chips"],
             ["@timeplayed"] = self["timeplayed"],
             ["@position_x"] = self["lastcoords"]["x"],
             ["@position_y"] = self["lastcoords"]["y"],
@@ -183,6 +185,34 @@ function setupCharacter(source, data)
             end
             update("characters", "dirty_cash='"..self["dirty"].."'", self["characterID"])
             TriggerClientEvent("core:updateMoney", self["source"], self["dirty"], "dirty", "remove", math.floor(tonumber(value)))
+        end
+    end
+
+    --[[ Chips Stuff ]]--
+    method["chips"] = function(value)
+        if tonumber(value) ~= nil then
+            self["chips"] = math.floor(tonumber(value))
+            update("characters", "chips='"..self["chips"].."'", self["characterID"])
+            TriggerClientEvent("core:updateMoney", self["source"], self["chips"], "chips", "set", math.floor(tonumber(value)))
+        end
+    end
+
+    method["addChips"] = function(value)
+        if tonumber(value) ~= nil then
+            self["chips"] = self["chips"] + math.floor(tonumber(value))
+            update("characters", "chips='"..self["chips"].."'", self["characterID"])
+            TriggerClientEvent("core:updateMoney", self["source"], self["chips"], "chips", "add", math.floor(tonumber(value)))
+        end
+    end
+
+    method["removeChips"] = function(value)
+        if tonumber(value) ~= nil then
+            self["chips"] = self["chips"] - math.floor(tonumber(value))
+            if self["chips"] < 0 then
+                self["chips"] = 0
+            end
+            update("characters", "chips='"..self["chips"].."'", self["characterID"])
+            TriggerClientEvent("core:updateMoney", self["source"], self["chips"], "chips", "remove", math.floor(tonumber(value)))
         end
     end
 
@@ -326,6 +356,7 @@ AddEventHandler("core:createCharacter", function(data)
             ["gender"] = (data.sex == 0) and "male" or "female",
             ["wallet"] = Config["Character"]["Wallet"],
             ["bank"] = Config["Character"]["Bank"],
+            ["chips"] = Config["Character"]["Chips"],
             ["dirty_cash"] = Config["Character"]["Dirty"],
             ["timeplayed"] = Config["Character"]["Timeplayed"],
             ["position_x"] = Config["Character"]["Spawn"]["X"],

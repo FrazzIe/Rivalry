@@ -23,6 +23,7 @@ Config = {
         ["Wallet"] = 1000,
         ["Dirty"] = 0,
         ["Bank"] = 0,
+        ["Chips"] = 0,
         ["Timeplayed"] = 0,
         ["Spawn"] = {
             ["X"] = -891.9,

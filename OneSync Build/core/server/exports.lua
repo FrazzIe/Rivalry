@@ -48,6 +48,16 @@ exports("GetPlayerDirty", function(Player)
 	end
 end)
 
+exports("GetPlayerChips", function(Player)
+	local Player = tonumber(Player)
+	
+	if Characters[Player] then
+		return Characters[Player].get("chips")
+	else
+		return nil
+	end
+end)
+
 exports("GetPlayerJob", function(Player)
 	local Player = tonumber(Player)
 	
@@ -127,6 +137,30 @@ exports("RemovePlayerDirty", function(Player, Amount)
 	
 	if Characters[Player] then
 		Characters[Player].removeDirty(Amount)
+	end
+end)
+
+exports("SetPlayerChips", function(Player, Amount)
+	local Player = tonumber(Player)
+	
+	if Characters[Player] then
+		Characters[Player].chips(Amount)
+	end
+end)
+
+exports("AddPlayerChips", function(Player, Amount)
+	local Player = tonumber(Player)
+	
+	if Characters[Player] then
+		Characters[Player].addChips(Amount)
+	end
+end)
+
+exports("RemovePlayerChips", function(Player, Amount)
+	local Player = tonumber(Player)
+	
+	if Characters[Player] then
+		Characters[Player].removeChips(Amount)
 	end
 end)
 

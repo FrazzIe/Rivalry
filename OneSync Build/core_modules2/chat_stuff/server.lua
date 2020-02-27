@@ -121,6 +121,11 @@ TriggerEvent('core:addCommand', 'wallet', function(source, args, rawCommand, dat
     TriggerClientEvent('chatMessage', source, "Wallet", {0, 255, 0}, author)
 end, {help = "Returns Cash and Dirty Cash"})
 
+TriggerEvent('core:addCommand', 'chips', function(source, args, rawCommand, data)
+    local author = "You have $"..data.get("chips").." worth of chips."
+    TriggerClientEvent('chatMessage', source, "Chips", {0, 255, 0}, author)
+end, {help = "Returns chip amount"})
+
 -- TriggerEvent("core:addCommand", "ad", function(source, args, rawCommand, data, power, group)
 --     local message = table.concat(args, " ")
 --     TriggerEvent("Phone.Get", source, function(Phone)

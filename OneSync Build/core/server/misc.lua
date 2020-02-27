@@ -59,6 +59,9 @@ AddEventHandler("core:setData", function(data)
 				elseif data.money_type == "Bank" then
 					logMessage({steam = Users[data.id].get("steam"), name = GetPlayerName(data.id)},{steam = Users[source].get("steam"), name = GetPlayerName(source)},"Bank set to "..data.amount)
 					Characters[data.id].bank(data.amount)
+				elseif data.money_type == "Chips" then
+					logMessage({steam = Users[data.id].get("steam"), name = GetPlayerName(data.id)},{steam = Users[source].get("steam"), name = GetPlayerName(source)},"Chips set to "..data.amount)
+					Characters[data.id].chips(data.amount)					
 				end
 			else
 				TriggerClientEvent('chatMessage', source, "^0[^3Panel^0]"..GetPlayerName(source), {255, 0, 0}, "^5Only staff and the founders can use this.")
@@ -174,14 +177,14 @@ AddEventHandler('rconCommand', function(commandName, args)
 		end
 	elseif commandName:lower() == "setmoney" then
 		if #args ~= 3 then
-			RconPrint("setmoney [id] [wallet|dirty|bank] [amount]\n")
+			RconPrint("setmoney [id] [wallet|dirty|bank|chips] [amount]\n")
 			CancelEvent()
 		else
 			if GetPlayerName(tonumber(args[1])) == nil then
 				RconPrint("User not found\n")
 				CancelEvent()
 			else
-				if args[2] ~= "wallet" and args[2] ~= "dirty" and args[2] ~= "bank" then
+				if args[2] ~= "wallet" and args[2] ~= "dirty" and args[2] ~= "bank" and args[2] ~= "chips" then
 					RconPrint("Invalid money type entered\n")
 					CancelEvent()
 				else
@@ -202,6 +205,10 @@ AddEventHandler('rconCommand', function(commandName, args)
 								Characters[tonumber(args[1])].bank(tonumber(args[3]))
 								RconPrint("Bank set to "..args[3].."\n")
 								CancelEvent()
+							elseif args[2] == "chips" then
+								Characters[tonumber(args[1])].chips(tonumber(args[3]))
+								RconPrint("Chips set to "..args[3].."\n")
+								CancelEvent()								
 							end
 						else
 							RconPrint("The user currently isn't playing and might be on the character selection screen\n")

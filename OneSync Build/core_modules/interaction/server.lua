@@ -110,6 +110,34 @@ AddEventHandler("interaction:destroy_money", function(target)
 	Notify(GetIdentity(source).." destroyed all of your cash!", 3000, target)
 end)
 
+RegisterNetEvent("interaction:take_chips")
+AddEventHandler("interaction:take_chips", function(target)
+	local source = source
+	TriggerEvent("core:getuser", target, function(user)
+		local chips = user.get("chips")
+
+		user.chips(0)
+
+		Notify("You stole all of "..user.get("first_name").." "..user.get("last_name").."'s chips!", 3000, source)
+		if chips >= 10000 then
+			logMoney({steam = getID("steam", target), name = GetIdentity(target)},{steam = getID("steam", source), name = GetIdentity(source)},"Stole $" .. math.floor(chips) .. " of chips")
+		end
+		TriggerEvent("core:getuser", source, function(user2)
+			user2.addChips(chips)
+			Notify(user2.get("first_name").." "..user2.get("last_name").." stole all of your chips!", 3000, target)
+		end)            
+	end)
+end)
+
+RegisterNetEvent("interaction:destroy_chips")
+AddEventHandler("interaction:destroy_chips", function(target)
+	local source = source
+	TriggerEvent("core:getuser", target, function(user)
+		user.chips(0)
+		Notify("You destroyed all of "..user.get("first_name").." "..user.get("last_name").."'s chips!", 3000, source)        
+	end)
+	Notify(GetIdentity(source).." destroyed all of your chips!", 3000, target)
+end)
 --[[ Handcuffs ]]--
 handcuffs = {}
 handcuff_keys = {}
