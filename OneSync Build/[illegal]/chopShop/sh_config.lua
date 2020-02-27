@@ -1,7 +1,7 @@
 Config = {
 	CarsPerList = { Min = 15, Max = 20 },
 	ListDuration = { Min = 30, Max = 40 },
-	Cops = { Min = 2, Max = 10, MaxRate = 2.0 },
+	Cops = { Min = 2, Max = 10, MaxRate = 1.5 },
 	Components = {
 		{ Name = "engine", Type = -1, Index = 0, Offset = vector3(0, 0, -0.5) },
 		{ Name = "door_dside_f", Type = 0, Index = 0, Offset = vector3(0.5, 0.5, 0) },
