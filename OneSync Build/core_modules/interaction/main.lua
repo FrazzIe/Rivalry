@@ -15,13 +15,18 @@
 drivers_license = "false"
 fishing_license = "false"
 controller = false
+interactionMenuEnabled = true
+
+function DisableInteractionMenu(val)
+	interactionMenuEnabled = not (val == true)
+end
 
 local seat_cooldown = -1
 Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(0)
 		local PlayerPed = PlayerPedId()
-		if not IsPauseMenuActive() and not exports["PlayerCustomisation"]:IsInstanced() then
+		if not IsPauseMenuActive() and not exports["PlayerCustomisation"]:IsInstanced() and interactionMenuEnabled then
 			if IsControlJustReleased(1, 311) or IsControlJustReleased(1, 19) then
 				if exports.ui:currentmenu() == "" then
 					if not IsPedFalling(PlayerPed) then
@@ -596,3 +601,5 @@ exports("CanRob", function(target_id)
 		return {false, "The target is not vulnerable!"}
 	end
 end)
+
+exports("DisableInteractionMenu", DisableInteractionMenu)
