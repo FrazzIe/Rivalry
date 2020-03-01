@@ -155,9 +155,12 @@ client_script 'interaction/speedcontrol.lua'
 client_script 'interaction/crouch_cuffs.lua'
 client_script 'interaction/head_display_talking.lua'
 
-
 client_script 'gunstash/client.lua'
 server_script 'gunstash/server.lua'
+
+client_script 'weedstash/client.lua'
+server_script 'weedstash/server.lua'
+
 --Exports
 
 --Inventory

@@ -428,6 +428,7 @@ AddEventHandler("core:selectCharacter", function(data)
                 TriggerEvent("Mechanic:Initialise", source, identifier, tonumber(character_id))
                 TriggerEvent("News:Initialise", source, identifier, tonumber(character_id))
                 TriggerEvent("Dealer:Initialise", source, identifier, tonumber(character_id))
+                TriggerEvent("DrugDealer:Initialise", source, identifier, tonumber(character_id))
                 TriggerEvent("CarDealer:Initialise", source, identifier, tonumber(character_id))
 
                 TriggerClientEvent("weapon:set_license", source, Characters[source].get("weapon_license"))

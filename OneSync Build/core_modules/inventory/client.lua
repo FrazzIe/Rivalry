@@ -773,12 +773,20 @@ AddEventHandler("inventory:use",function(data)
             GiveWeaponToPed(PlayerPedId(), GetHashKey("weapon_briefcase_02"), 1, 0, 1)
             addQty(data.item_id, 1)
         elseif data.canuse == 22 then
+            local InventoryQuantity = getQuantity()
             if not isFull() then
-                local NumberOfJoints = math.random(80, 100)
-                addQty(140, NumberOfJoints)
-                Notify("Recieved "..NumberOfJoints.." Weed from Weed Brick!")
+                local MaxWeed = 100-InventoryQuantity
+                local NumberOfWeed = math.random(80, MaxWeed)
+                if MaxWeed < 80 then
+                    Notify("You cannot hold all that!")
+                    addQty(140, 1)
+                else
+                    Notify("You unpacked "..NumberOfWeed.." weed")
+                    addQty(8, NumberOfWeed)
+                end
             else
-                Notify("Please empty your pockets before using this!")
+                Notify("Your inventory is full!")
+                addQty(140, 1)
             end
         end
         removeQty(data.item_id,1)

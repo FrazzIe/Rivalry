@@ -159,7 +159,7 @@ Citizen.CreateThread(function()
 		local PlayerPosition = GetEntityCoords(PlayerPed, false)
 
 		for Index = 1, #Weed.Plants do
-			if #(Weed.Plants[Index].Coordinates - PlayerPosition) < 1 then
+			if #(Weed.Plants[Index].Coordinates - PlayerPosition) < 1.31 then
 				local Growth = Weed:CalculateGrowth(GetCurrentServerTime(), Weed.Plants[Index].Time.Start, Weed.Plants[Index].Time.End)
 				local Message, Amount, Cost = Weed:GetGrowthInformation(Growth)
 
