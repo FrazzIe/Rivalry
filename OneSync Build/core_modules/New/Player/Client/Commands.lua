@@ -885,3 +885,15 @@ AddEventHandler("ResetWalkStyle", function()
 		SetPedMovementClipset(PlayerPedId(), CurrentWalkStyle.Clipset, 1.0)
 	end
 end)
+
+exports("GetIsInTrunk", function()
+    return (ForcedIntoTrunk or IsInTrunk)
+end)
+
+exports("GetIsCarried", function()
+    return IsBeingCarried
+end)
+
+exports("GetIsCarriedOrInTrunk", function()
+    return (ForcedIntoTrunk or IsInTrunk or IsBeingCarried)
+end)
