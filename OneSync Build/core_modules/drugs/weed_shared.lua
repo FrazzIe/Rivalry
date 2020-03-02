@@ -369,7 +369,7 @@ if not IsDuplicityVersion() then
 
 	AddAnimDictionary(Weed.Animation.Dictionary)
 else
-	for Index = 1, 113 do
+	for Index = 1, 112 do
 		Weed.Plants[Index] = {Start = 0, End = 0}
 	end
 end
