@@ -114,15 +114,7 @@ local Map = {
 			"ex_dt1_11_office_03a",	-- Power Broker Ice
 			"ex_dt1_11_office_03b",	-- Power Broker Conservative--]]
 			"ex_dt1_11_office_03c",	-- Power Broker Polished
---[[			"ex_sm_13_office_02b",	-- Executive Rich -- Lom Bank
-			"ex_sm_13_office_02c",	-- Executive Cool
-			"ex_sm_13_office_02a",	-- Executive Contrast
-			"ex_sm_13_office_01a",	-- Old Spice Warm--]]
 			"ex_sm_13_office_01b",	-- Old Spice Classical
-			--[["ex_sm_13_office_01c",	-- Old Spice Vintage
-			"ex_sm_13_office_03a",	-- Power Broker Ice
-			"ex_sm_13_office_03b",	-- Power Broker Conservative
-			"ex_sm_13_office_03c",	-- Power Broker Polished--]]
 			"ex_sm_15_office_02b",	-- Executive Rich -- Maze Bank West
 			--[["ex_sm_15_office_02c",	-- Executive Cool
 			"ex_sm_15_office_02a",	-- Executive Contrast

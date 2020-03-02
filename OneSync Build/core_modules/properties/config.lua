@@ -4469,6 +4469,48 @@ properties = {
 				},
 				expire = 1 --Default (don't touch)
 			},
+			[3] = {
+				property_name = "Lom Bank Offices", -- Name of the property (used as the title of the menu)
+				locked = false, --Default (don't touch)
+				overdue = false,
+				owner =  {
+					identifier = "no", --Default (don't touch)
+					char_id = 0, --Default (don't touch)
+					id = 0, --Default (don't touch)
+				},
+				coordinates = {
+					outside = {x = -1581.3356933594, y = -558.00543212891, z = 34.95316696167, h = 36.511291503906}, -- The marker outside (used for teleporting inside)
+        			inside = {x = -1579.693, y = -564.8981, z = 108.5229, h = 0.0}, -- The marker inside (used for teleporting outside)
+					vault = {x = 0.0, y = 0.0, z = -20.0, h = 91.424942016602}, -- The marker for the vault
+				},
+				rent = 8000, --How much it costs to rent the property (PER DAY)
+				income = 500, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
+				storage = {
+					locked = false, --Default (don't touch)
+					current = {
+						cash = 0, --Default (don't touch)
+						dirty = 0, --Default (don't touch)
+						weapons = {}, --Default (don't touch)
+					},
+					max = {
+						cash = 10000, --Max cash the property can hold
+						dirty = 10000, --Max marked bills the property can hold
+						weapons = 1, --Max weapons the property can hold
+					},
+				},
+				robbing = {
+					cooldown = 2700, --Robbery cooldown time in seconds
+					last_robbed = 0, --Default (don't touch)
+					being_robbed = false, --Default (don't touch)
+					time = 300, --The total time the robber has to hack the vault
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+				},
+				lockpicking = {
+					cooldown = 300, --Colldown between lockpicking attempts
+					last_picked = 0, --Default (don't touch)
+				},
+				expire = 1 --Default (don't touch)
+			},
 		},
 	},
 }
