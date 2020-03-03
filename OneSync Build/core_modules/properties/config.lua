@@ -4201,7 +4201,7 @@ properties = {
 					id = 0, --Default (don't touch)
 				},
 				coordinates = vector3(93.631385803223,-1291.7485351563,29.268758773804), -- The location of the property
-				rent = 1625, --How much it costs to rent the property (PER DAY)
+				rent = 1600, --How much it costs to rent the property (PER DAY)
 				income = 500, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
 				storage = {
 					current = {
@@ -4210,7 +4210,7 @@ properties = {
 						weapons = {}, --Default (don't touch)
 					},
 					max = {
-						cash = 50000, --Max cash the property can hold
+						cash = 25000, --Max cash the property can hold
 						dirty = 50000, --Max marked bills the property can hold
 						weapons = 1, --Max weapons the property can hold
 					},
@@ -4224,6 +4224,39 @@ properties = {
 				},
 				expire = 1 --Default (don't touch)
 			},
+			[2] = {
+				property_name = "The Bean Machine", -- Name of the property (used as the title of the menu)
+				locked = false, --Default (don't touch)
+				overdue = false,
+				owner =  {
+					identifier = "no", --Default (don't touch)
+					char_id = 0, --Default (don't touch)
+					id = 0, --Default (don't touch)
+				},
+				coordinates = vector3(-627.96807861328,223.9681854248,81.881530761719), -- The location of the property
+				rent = 1600, --How much it costs to rent the property (PER DAY)
+				income = 500, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
+				storage = {
+					current = {
+						cash = 0, --Default (don't touch)
+						dirty = 0, --Default (don't touch)
+						weapons = {}, --Default (don't touch)
+					},
+					max = {
+						cash = 25000, --Max cash the property can hold
+						dirty = 25000, --Max marked bills the property can hold
+						weapons = 1, --Max weapons the property can hold
+					},
+				},
+				robbing = {
+					cooldown = 3600, --Robbery cooldown time in seconds
+					last_robbed = 0, --Default (don't touch)
+					being_robbed = false, --Default (don't touch)
+					time = 300, --The total time the robber has to hack the vault
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+				},
+				expire = 1 --Default (don't touch)
+			}
 			--[[[2] = {
 				property_name = "Tequi-la-la", -- Name of the property (used as the title of the menu)
 				locked = false, --Default (don't touch)
@@ -4399,8 +4432,8 @@ properties = {
 					inside = {x = -1387.151, y = -589.4478, z = 30.31952, h = 128.8528}, -- The marker inside (used for teleporting outside)
 					vault = {x = -1375.394, y = -624.3627, z = 30.81958, h = 295.184}, -- The marker for the vault
 				},
-				rent = 8000, --How much it costs to rent the property (PER DAY)
-				income = 250, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
+				rent = 2000, --How much it costs to rent the property (PER DAY)
+				income = 500, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
 				storage = {
 					locked = false, --Default (don't touch)
 					current = {
@@ -4441,7 +4474,7 @@ properties = {
         			inside = {x = -1569.3054199219, y = -3016.9519042969, z = -74.406150817871, h = 2.6814656257629}, -- The marker inside (used for teleporting outside)
 					vault = {x = -1581.7600097656, y = -3018.3195800781, z = -79.005935668945, h = 91.424942016602}, -- The marker for the vault
 				},
-				rent = 8000, --How much it costs to rent the property (PER DAY)
+				rent = 2000, --How much it costs to rent the property (PER DAY)
 				income = 500, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
 				storage = {
 					locked = false, --Default (don't touch)
@@ -4483,7 +4516,7 @@ properties = {
         			inside = {x = -1579.693, y = -564.8981, z = 108.5229, h = 0.0}, -- The marker inside (used for teleporting outside)
 					vault = {x = 0.0, y = 0.0, z = -20.0, h = 91.424942016602}, -- The marker for the vault
 				},
-				rent = 8000, --How much it costs to rent the property (PER DAY)
+				rent = 2000, --How much it costs to rent the property (PER DAY)
 				income = 500, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
 				storage = {
 					locked = false, --Default (don't touch)
