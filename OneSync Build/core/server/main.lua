@@ -44,7 +44,7 @@ Config = {
     },
     ["CSS"] = {
         ["Delete"] = false,
-        ["Limit"] = 5,
+        ["Limit"] = 6,
     }
 }
 
