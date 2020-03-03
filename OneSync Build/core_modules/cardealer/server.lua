@@ -1,5 +1,60 @@
-local DisplayedVehicles = {}
+local displayedVehicles = {
+    ["normal"] = {},
+    ["luxary"] = {},
+    ["import"] = {},
+}
 local CarDealers = {}
+local dealerTypes = {
+    ["normal"] = true,
+    ["luxary"] = true,
+    ["import"] = true,
+}
+local dealerTypeNames = { -- Store name
+    ["normal"] = "PDM",
+    ["luxary"] = "Luxary Autos",
+    ["import"] = "",   
+}
+local dealerBanks = {
+    ["normal"] = 1,
+    ["luxary"] = 2,
+    ["import"] = 3,
+}
+local rankTypes = {
+    ["associate"] = true,
+    ["senior associate"] = true,
+    ["supervisor"] = true,
+    ["manager"] = true,
+}
+
+local function GenerateRankList()
+    local list = ""
+    local count = 1
+
+    for k,v in pairs(rankTypes) do
+        if count == 1 then
+            list = list .. k
+        else
+            list = list .. "," .. k
+        end
+
+        count = count + 1
+    end
+end
+
+local function GenerateDealerTypeList()
+    local list = ""
+    local count = 1
+
+    for k,v in pairs(dealerTypes) do
+        if count == 1 then
+            list = list .. k
+        else
+            list = list .. "," .. k
+        end
+
+        count = count + 1
+    end  
+end
 
 AddEventHandler("CarDealer:Initialise", function(source, identifier, character_id)
 	exports['GHMattiMySQL']:QueryResultAsync("SELECT * FROM cardealer WHERE character_id = @character_id", {["@character_id"] = character_id}, function(result)
@@ -13,134 +68,92 @@ AddEventHandler("CarDealer:Initialise", function(source, identifier, character_i
 end)
 
 TriggerEvent("core:addGroupCommand", "cardealeradd", "command", function(source, args, rawCommand, data, power, group)
-	local source = source
-	if(#args < 1) then
-		TriggerClientEvent('chatMessage', source, 'SYSTEM', {255, 0, 0}, "Usage : /cardealeradd [ID]")	
-	else
-		if GetPlayerName(tonumber(args[1])) ~= nil then
-            TriggerEvent("core:getuser", tonumber(args[1]), function(target)
-                CarDealers[tonumber(args[1])] = nil
-                exports['GHMattiMySQL']:QueryAsync("INSERT INTO cardealer (`character_id`) VALUES (@character_id)", {
-                    ["@character_id"] = target.get("characterID"),
-                })
-                CarDealers[tonumber(args[1])] = { IsDealer = true, OnDuty = false, character_id = target.get("characterID"), rank = "Associate", sold = 0 }
-                Notify("<b style='color:red'>Alert</b> <br><span style='color:lime'>"..target.get("first_name").." "..target.get("last_name").."</span> has been accepted. <br> Congratulations on joining the Car Dealership!", 10000, tonumber(args[1]))
-                TriggerClientEvent("CarDealer:Set", tonumber(args[1]), CarDealers[source], true, true)
-            end)
-		else
-			TriggerClientEvent('chatMessage', source, 'SYSTEM', {255, 0, 0}, "Usage : /cardealer [ID]")
-		end
+    local source = source
+    
+	if #args < 1 then
+		TriggerClientEvent('chatMessage', source, 'SYSTEM', {255, 0, 0}, "Usage : /cardealeradd [id] [rank] [type]")	
+    else
+        local id = tonumber(args[1])
+        local rank = "associate"
+        local type = "normal"
+
+        if args[2] then
+            rank = args[2]:lower()
+        end
+
+        if args[3] then
+            type = args[3]:lower()
+        end
+
+        if rankTypes[rank] then
+            if dealerTypes[type] then
+                if GetPlayerName(id) ~= nil then
+                    TriggerEvent("core:getuser", id, function(target)
+                        CarDealers[id] = nil
+
+                        exports["GHMattiMySQL"]:QueryAsync("INSERT INTO cardealer (`character_id`, `rank`, `type`) VALUES (@character_id, @rank, @type) ON DUPLICATE KEY UPDATE rank=@rank, type=@type", {
+                            ["@character_id"] = target.get("characterID"),
+                            ["@rank"] = rank,
+                            ["@type"] = type,
+                        })
+
+                        CarDealers[id] = { character_id = target.get("characterID"), rank = rank, sold = 0, type = type }
+
+                        Notify("<b style='color:red'>Alert</b> <br><span style='color:lime'>You</span> have been hired! <br> Congratulations on joining the "..dealerTypeNames[type], 10000, id)
+
+                        TriggerClientEvent("CarDealer:Set", id, CarDealers[source], true, true)
+                    end)
+                else
+                    TriggerClientEvent('chatMessage', source, 'SYSTEM', {255, 0, 0}, "Invalid player id!")
+                end
+            else
+                TriggerClientEvent('chatMessage', source, 'SYSTEM', {255, 0, 0}, "Invalid type: " .. GenerateDealerTypeList())
+            end
+        else
+            TriggerClientEvent('chatMessage', source, 'SYSTEM', {255, 0, 0}, "Invalid rank: " .. GenerateRankList())
+        end
 	end
-end, {help = "Add a player to the Whitelisted Car Dealer", params = {{name = "id", help = "The id of the player"}}})
+end, { help = "Add a player to the whitelisted car dealer", params = { {name = "id", help = "The id of the player"}, {name = "type", help = "Dealer type: ".. GenerateDealerTypeList() } } })
 
 TriggerEvent("core:addGroupCommand", "cardealerrem", "command", function(source, args, rawCommand, data, power, group)
 	local source = source
-	if(not args[1]) then
+	if #args < 1 then
 		TriggerClientEvent('chatMessage', source, 'SYSTEM', {255, 0, 0}, "Usage : /cardealerrem [ID]")	
-	else
-		if GetPlayerName(tonumber(args[1])) then
-			if CarDealers[tonumber(args[1])] ~= nil then
-				TriggerEvent("core:getuser", tonumber(args[1]), function(target)
-					CarDealers[tonumber(args[1])] = nil
+    else
+        local id = tonumber(args[1])
+
+		if GetPlayerName(id) then
+			if CarDealers[id] ~= nil then
+				TriggerEvent("core:getuser", id, function(target)
+					CarDealers[id] = nil
 					exports['GHMattiMySQL']:QueryAsync("DELETE FROM cardealer WHERE character_id=@character_id", {["@character_id"] = target.get("characterID")})
 					TriggerClientEvent("CarDealer:Set", source, {}, false, true)
 				end)
 			else
-				Notify("This user is not apart of the Car Dealership", 3000, source)
+				Notify("This user is not apart of any dealerships!", 3000, source)
 			end
 		else
-			Notify("No player with this ID !", 3000, source)
+			Notify("No player with this id!", 3000, source)
 		end
 	end
 end, {help = "Remove a player from the Whitelisted Car Dealer", params = {{name = "id", help = "The id of the player"}}})
 
-TriggerEvent("core:addGroupCommand", "cardealerpromote", "command", function(source, args, rawCommand, data, power, group)
-	local source = source
-	if(#args < 2) then
-		TriggerClientEvent('chatMessage', source, 'SYSTEM', {255, 0, 0}, "Usage : /cardealerpromote [ID] [RANK]")	
-	else
-		if(GetPlayerName(tonumber(args[1])) ~= nil and tostring(args[2]) ~= nil)then
-			local rank = table.concat(args, " ", 2)
-			if CarDealers[source] ~= nil then
-				if CarDealers[tonumber(args[1])] ~= nil then
-					if rank == "Associate" or rank == "Seniro Associate" or rank == "Supervisor" or rank == "Manager" then
-                        if CarDealers[source].rank == "Manager" then
-                            TriggerEvent("core:getuser", tonumber(args[1]), function(target)
-                                exports['GHMattiMySQL']:QueryAsync("UPDATE cardealer SET rank=@rank WHERE character_id=@character_id", {["@character_id"] = target.get("characterID"), ["@rank"] = rank})
-                                CarDealers[tonumber(args[1])].rank = rank
-                                Notify("<b style='color:red'>Alert</b> <br><span style='color:lime'>You have been promoted!</span><br> You are now a "..rank, 10000, tonumber(args[1]))
-                                TriggerClientEvent("CarDealer:Set", tonumber(args[1]), CarDealers[tonumber(args[1])], true, true)
-                            end)
-                        else
-                            Notify("You cannot target this player", 3000, source)
-                        end
-					else
-						Notify("This rank does not exist", 3000, source)
-					end
-				else
-					Notify("This user is not apart of the Car Dealership", 3000, source)
-				end
-			else
-				Notify("You aren't apart of the Car Dealership", 3000, source)
-			end
-		else
-			Notify("Player could not be found", 3000, source)
-		end
-	end
-end, {help = "Promote to Whitelisted Car Dealership", params = {{name = "id", help = "The id of the player"},{name = "rank", help = "Associate | Senior Associate | Supervisor | Manager"}}})
-
-TriggerEvent("core:addGroupCommand", "cardealerdemote", "command", function(source, args, rawCommand, data, power, group)
-	local source = source
-	if(#args < 2) then
-		TriggerClientEvent('chatMessage', source, 'SYSTEM', {255, 0, 0}, "Usage : /cardealerdemote [ID] [RANK]")	
-	else
-		if(GetPlayerName(tonumber(args[1])) ~= nil and tostring(args[2]) ~= nil)then
-			local rank = table.concat(args, " ", 2)
-			if CarDealers[source] ~= nil then
-				if CarDealers[tonumber(args[1])] ~= nil then
-					if rank == "Associate" or rank == "Seniro Associate" or rank == "Supervisor" or rank == "Manager" then
-                        if CarDealers[source].rank == "Manager" then
-                            TriggerEvent("core:getuser", tonumber(args[1]), function(target)
-                                exports['GHMattiMySQL']:QueryAsync("UPDATE cardealer SET rank=@rank WHERE character_id=@character_id", {["@character_id"] = target.get("characterID"), ["@rank"] = rank:lower()})
-                                CarDealers.Players[tonumber(args[1])].rank = rank:lower()
-                                Notify("<b style='color:red'>Alert</b> <br><span style='color:lime'>You have been demoted!</span><br> You are now a "..rank, 10000, tonumber(args[1]))
-                                TriggerClientEvent("CarDealer:Set", tonumber(args[1]), CarDealers[tonumber(args[1])], false, true)
-                            end)
-                        else
-                            Notify("You cannot demote anyone", 3000, source)
-                        end
-					else
-						Notify("This rank does not exist", 3000, source)
-					end
-				else
-					Notify("This user is not apart of the Car Dealership", 3000, source)
-				end
-			else
-				Notify("You aren't apart of the Car Dealership", 3000, source)
-			end
-		else
-			Notify("Player could not be found", 3000, source)
-		end
-	end
-end, {help = "Demote from Whitelisted Car Dealership", params = {{name = "id", help = "The id of the player"},{name = "rank", help = "Associate | Senior Associate | Supervisor | Manager"}}})
-
-
 RegisterServerEvent("Spawn.DisplayVehicle")
-AddEventHandler("Spawn.DisplayVehicle", function(Vehicle)
+AddEventHandler("Spawn.DisplayVehicle", function(Store, Vehicle)
 	local Source = source
-	table.insert(DisplayedVehicles, Vehicle)
-	TriggerClientEvent("DisplayVehicles.Sync", -1, DisplayedVehicles)
+	table.insert(displayedVehicles[Store], Vehicle)
+	TriggerClientEvent("DisplayVehicles.Sync", -1, displayedVehicles)
 end)
 
 RegisterServerEvent("Retrieve.DisplayVehicles")
 AddEventHandler("Retrieve.DisplayVehicles", function(Source)
-	TriggerClientEvent("DisplayVehicles.Sync", Source, DisplayedVehicles)
+	TriggerClientEvent("DisplayVehicles.Sync", Source, displayedVehicles)
 end)
 
 RegisterServerEvent("Change.DisplayVehicle")
-AddEventHandler("Change.DisplayVehicle", function(Vehicle, Index)
-    DisplayedVehicles[Index] = Vehicle
-    TriggerClientEvent("DisplayVehicles.Sync", -1, DisplayedVehicles)
+AddEventHandler("Change.DisplayVehicle", function(Vehicle, Store, Index)
+    displayedVehicles[Store][Index] = Vehicle
+    TriggerClientEvent("DisplayVehicles.Sync", -1, displayedVehicles)
 end)
 
 RegisterServerEvent("Spawn.PoliceCar")
@@ -233,7 +246,7 @@ AddEventHandler("Spawn.PoliceCar", function(DataTable, Vehicle)
                 ["claims"] = data.claims,
                 ["fuel"] = 100,
                 ["weeks"] = 0,
-                ["intrest"] = 0,
+                ["interest"] = 0,
                 ["payedoff"] = 0,
                 ["police"] = 1,
                 ["livery"] = data.livery,
@@ -268,11 +281,11 @@ AddEventHandler("Spawn.PoliceCar", function(DataTable, Vehicle)
 end)
 
 RegisterServerEvent("CarDealer.BuyCar")
-AddEventHandler("CarDealer.BuyCar", function(Type, Index, GarageID, Reduction)
+AddEventHandler("CarDealer.BuyCar", function(Type, Store, Index, GarageID, Reduction)
     local Source = source
     TriggerEvent("core:getuser", Source, function(User)
-        TriggerEvent("core:getuser", DisplayedVehicles[Index].Seller, function(Dealer)
-            local data = DisplayedVehicles[Index].Data
+        TriggerEvent("core:getuser", displayedVehicles[Store][Index].Seller, function(Dealer)
+            local data = displayedVehicles[Store][Index].Data
 
             local _data = {}
 
@@ -281,8 +294,8 @@ AddEventHandler("CarDealer.BuyCar", function(Type, Index, GarageID, Reduction)
             end
             
             if Type == 0 then
-                if tonumber(User.get("wallet")) >= tonumber(DisplayedVehicles[Index].Price) then
-                    User.removeWallet(DisplayedVehicles[Index].Price)
+                if tonumber(User.get("wallet")) >= tonumber(displayedVehicles[Store][Index].Price) then
+                    User.removeWallet(displayedVehicles[Store][Index].Price)
                     exports["GHMattiMySQL"]:Insert("vehicles", {
                         {
                             ["character_id"] = User.get("characterID"),
@@ -291,7 +304,7 @@ AddEventHandler("CarDealer.BuyCar", function(Type, Index, GarageID, Reduction)
                             ["name"] = data.name,
                             ["instance"] = data.instance,
                             ["state"] = data.state,
-                            ["cost"] = DisplayedVehicles[Index].Price,
+                            ["cost"] = displayedVehicles[Store][Index].Price,
                             ["primary_colour"] = data.primary_colour,
                             ["secondary_colour"] = data.secondary_colour,
                             ["pearlescent_colour"] = data.pearlescent_colour,
@@ -360,8 +373,8 @@ AddEventHandler("CarDealer.BuyCar", function(Type, Index, GarageID, Reduction)
                             ["insurance"] = data.insurance,
                             ["claims"] = data.claims,
                             ["fuel"] = data.fuel,
-                            ["weeks"] = DisplayedVehicles[Index].Weeks,
-                            ["intrest"] = DisplayedVehicles[Index].Intrest,
+                            ["weeks"] = displayedVehicles[Store][Index].Weeks,
+                            ["interest"] = displayedVehicles[Store][Index].Interest,
                             ["payedoff"] = 0,
                             ["livery"] = data.livery,
                             ["extra1"] = _data.extra1,
@@ -389,12 +402,12 @@ AddEventHandler("CarDealer.BuyCar", function(Type, Index, GarageID, Reduction)
                         data.plate = string.format("%X", tostring(data.plate))
                         data.plate = strpad(data.plate, 8, "0", "STR_PAD_LEFT")
                         TriggerClientEvent("pNotify:SendNotification", Source, {text = "Vehicle purchased!",type = "error",queue = "left",timeout = 2500,layout = "bottomCenter"})
-                        TriggerClientEvent("carshop:bought", Source, data, DisplayedVehicles[Index].Entity)
-                        TriggerClientEvent("carshop:setplate", -1, data.plate, DisplayedVehicles[Index].Entity)
-                        DealerSoldVehicle(DisplayedVehicles[Index].Seller, 0, DisplayedVehicles[Index].Price)
+                        TriggerClientEvent("carshop:bought", Source, data, displayedVehicles[Store][Index].Entity, Store)
+                        TriggerClientEvent("carshop:setplate", -1, data.plate, displayedVehicles[Store][Index].Entity)
+                        DealerSoldVehicle(displayedVehicles[Store][Index].Seller, 0, displayedVehicles[Store][Index].Price,)
                     end, true)
-                elseif tonumber(User.get("bank")) >= tonumber(DisplayedVehicles[Index].Price) then
-                    User.removeBank(DisplayedVehicles[Index].Price)
+                elseif tonumber(User.get("bank")) >= tonumber(displayedVehicles[Store][Index].Price) then
+                    User.removeBank(displayedVehicles[Store][Index].Price)
                     exports["GHMattiMySQL"]:Insert("vehicles", {
                         {
                             ["character_id"] = User.get("characterID"),
@@ -403,7 +416,7 @@ AddEventHandler("CarDealer.BuyCar", function(Type, Index, GarageID, Reduction)
                             ["name"] = data.name,
                             ["instance"] = data.instance,
                             ["state"] = data.state,
-                            ["cost"] = DisplayedVehicles[Index].Price,
+                            ["cost"] = displayedVehicles[Store][Index].Price,
                             ["primary_colour"] = data.primary_colour,
                             ["secondary_colour"] = data.secondary_colour,
                             ["pearlescent_colour"] = data.pearlescent_colour,
@@ -472,8 +485,8 @@ AddEventHandler("CarDealer.BuyCar", function(Type, Index, GarageID, Reduction)
                             ["insurance"] = data.insurance,
                             ["claims"] = data.claims,
                             ["fuel"] = data.fuel,
-                            ["weeks"] = DisplayedVehicles[Index].Weeks,
-                            ["intrest"] = DisplayedVehicles[Index].Intrest,
+                            ["weeks"] = displayedVehicles[Store][Index].Weeks,
+                            ["interest"] = displayedVehicles[Store][Index].Interest,
                             ["payedoff"] = 0,
                             ["livery"] = data.livery,
                             ["extra1"] = _data.extra1,
@@ -501,9 +514,9 @@ AddEventHandler("CarDealer.BuyCar", function(Type, Index, GarageID, Reduction)
                         data.plate = string.format("%X", tostring(data.plate))
                         data.plate = strpad(data.plate, 8, "0", "STR_PAD_LEFT")
                         TriggerClientEvent("pNotify:SendNotification", Source, {text = "Vehicle purchased!",type = "error",queue = "left",timeout = 2500,layout = "bottomCenter"})
-                        TriggerClientEvent("carshop:bought", Source, data, DisplayedVehicles[Index].Entity)
-                        TriggerClientEvent("carshop:setplate", -1, data.plate, DisplayedVehicles[Index].Entity)
-                        DealerSoldVehicle(DisplayedVehicles[Index].Seller, 0, DisplayedVehicles[Index].Price)
+                        TriggerClientEvent("carshop:bought", Source, data, displayedVehicles[Store][Index].Entity, Store)
+                        TriggerClientEvent("carshop:setplate", -1, data.plate, displayedVehicles[Store][Index].Entity)
+                        DealerSoldVehicle(displayedVehicles[Store][Index].Seller, 0, displayedVehicles[Store][Index].Price, Store)
                     end, true)
                 else
                     TriggerClientEvent("pNotify:SendNotification", Source, {text = "Insufficient funds!",type = "error",queue = "left",timeout = 2500,layout = "bottomCenter"})
@@ -513,22 +526,22 @@ AddEventHandler("CarDealer.BuyCar", function(Type, Index, GarageID, Reduction)
                 if Reduction > 0 then
                     if tonumber(User.get("wallet")) >= Reduction then
                         User.removeWallet(Reduction)
-                        DisplayedVehicles[Index].Price = DisplayedVehicles[Index].Price - Reduction
+                        displayedVehicles[Store][Index].Price = displayedVehicles[Store][Index].Price - Reduction
                         didReduce = true
-                        TriggerClientEvent("DisplayVehicles.Sync", -1, DisplayedVehicles)
+                        TriggerClientEvent("DisplayVehicles.Sync", -1, displayedVehicles)
                     elseif tonumber(User.get("bank")) >= Reduction then
                         User.removeBank(Reduction)
-                        DisplayedVehicles[Index].Price = DisplayedVehicles[Index].Price - Reduction
+                        displayedVehicles[Store][Index].Price = displayedVehicles[Store][Index].Price - Reduction
                         didReduce = true
-                        TriggerClientEvent("DisplayVehicles.Sync", -1, DisplayedVehicles)
+                        TriggerClientEvent("DisplayVehicles.Sync", -1, displayedVehicles)
                     else
                         TriggerClientEvent("pNotify:SendNotification", Source, {text = "Insufficient funds!",type = "error",queue = "left",timeout = 2500,layout = "bottomCenter"})
                     end
                 end
-                local Intrest = ( ( DisplayedVehicles[Index].Price * ( DisplayedVehicles[Index].Intrest / 100) ) * ( ( DisplayedVehicles[Index].Weeks * 7 ) / 360 ) )
-                local MonthlyPayment = ( ( DisplayedVehicles[Index].Price / DisplayedVehicles[Index].Weeks ) + Intrest )
-                if tonumber(User.get("wallet")) >= tonumber(MonthlyPayment + DisplayedVehicles[Index].CashDown) then
-                    User.removeWallet(MonthlyPayment + DisplayedVehicles[Index].CashDown)
+                local Interest = ( ( displayedVehicles[Store][Index].Price * ( displayedVehicles[Store][Index].Interest / 100) ) * ( ( displayedVehicles[Store][Index].Weeks * 7 ) / 360 ) )
+                local MonthlyPayment = ( ( displayedVehicles[Store][Index].Price / displayedVehicles[Store][Index].Weeks ) + Interest )
+                if tonumber(User.get("wallet")) >= tonumber(MonthlyPayment + displayedVehicles[Store][Index].CashDown) then
+                    User.removeWallet(MonthlyPayment + displayedVehicles[Store][Index].CashDown)
                     exports["GHMattiMySQL"]:Insert("vehicles", {
                         {
                             ["character_id"] = User.get("characterID"),
@@ -537,7 +550,7 @@ AddEventHandler("CarDealer.BuyCar", function(Type, Index, GarageID, Reduction)
                             ["name"] = data.name,
                             ["instance"] = data.instance,
                             ["state"] = data.state,
-                            ["cost"] = DisplayedVehicles[Index].Price,
+                            ["cost"] = displayedVehicles[Store][Index].Price,
                             ["primary_colour"] = data.primary_colour,
                             ["secondary_colour"] = data.secondary_colour,
                             ["pearlescent_colour"] = data.pearlescent_colour,
@@ -606,9 +619,9 @@ AddEventHandler("CarDealer.BuyCar", function(Type, Index, GarageID, Reduction)
                             ["insurance"] = data.insurance,
                             ["claims"] = data.claims,
                             ["fuel"] = data.fuel,
-                            ["weeks"] = DisplayedVehicles[Index].Weeks,
-                            ["intrest"] = DisplayedVehicles[Index].Intrest,
-                            ["payedoff"] = ( MonthlyPayment * DisplayedVehicles[Index].Weeks ) - MonthlyPayment,
+                            ["weeks"] = displayedVehicles[Store][Index].Weeks,
+                            ["interest"] = displayedVehicles[Store][Index].Interest,
+                            ["payedoff"] = ( MonthlyPayment * displayedVehicles[Store][Index].Weeks ) - MonthlyPayment,
                             ["lastpayment"] = tostring(os.time()),
                             ["nextpayment"] = tostring(os.time() + 604800),
                             ["livery"] = data.livery,
@@ -638,12 +651,12 @@ AddEventHandler("CarDealer.BuyCar", function(Type, Index, GarageID, Reduction)
                         data.plate = string.format("%X", tostring(data.plate))
                         data.plate = strpad(data.plate, 8, "0", "STR_PAD_LEFT")
                         TriggerClientEvent("pNotify:SendNotification", Source, {text = "Vehicle purchased!",type = "error",queue = "left",timeout = 2500,layout = "bottomCenter"})
-                        TriggerClientEvent("carshop:bought", Source, data, DisplayedVehicles[Index].Entity)
-                        TriggerClientEvent("carshop:setplate", -1, data.plate, DisplayedVehicles[Index].Entity)
-                        DealerSoldVehicle(DisplayedVehicles[Index].Seller, Intrest, DisplayedVehicles[Index].Price)
+                        TriggerClientEvent("carshop:bought", Source, data, displayedVehicles[Store][Index].Entity, Store)
+                        TriggerClientEvent("carshop:setplate", -1, data.plate, displayedVehicles[Store][Index].Entity)
+                        DealerSoldVehicle(displayedVehicles[Store][Index].Seller, Interest, displayedVehicles[Store][Index].Price, Store)
                     end, true)
-                elseif tonumber(User.get("bank")) >= tonumber(MonthlyPayment + DisplayedVehicles[Index].CashDown) then
-                    User.removeBank(MonthlyPayment + DisplayedVehicles[Index].CashDown)
+                elseif tonumber(User.get("bank")) >= tonumber(MonthlyPayment + displayedVehicles[Store][Index].CashDown) then
+                    User.removeBank(MonthlyPayment + displayedVehicles[Store][Index].CashDown)
                     exports["GHMattiMySQL"]:Insert("vehicles", {
                         {
                             ["character_id"] = User.get("characterID"),
@@ -652,7 +665,7 @@ AddEventHandler("CarDealer.BuyCar", function(Type, Index, GarageID, Reduction)
                             ["name"] = data.name,
                             ["instance"] = data.instance,
                             ["state"] = data.state,
-                            ["cost"] = DisplayedVehicles[Index].Price,
+                            ["cost"] = displayedVehicles[Store][Index].Price,
                             ["primary_colour"] = data.primary_colour,
                             ["secondary_colour"] = data.secondary_colour,
                             ["pearlescent_colour"] = data.pearlescent_colour,
@@ -721,9 +734,9 @@ AddEventHandler("CarDealer.BuyCar", function(Type, Index, GarageID, Reduction)
                             ["insurance"] = data.insurance,
                             ["claims"] = data.claims,
                             ["fuel"] = data.fuel,
-                            ["weeks"] = DisplayedVehicles[Index].Weeks,
-                            ["intrest"] = DisplayedVehicles[Index].Intrest,
-                            ["payedoff"] = ( MonthlyPayment * DisplayedVehicles[Index].Weeks ) - MonthlyPayment,
+                            ["weeks"] = displayedVehicles[Store][Index].Weeks,
+                            ["interest"] = displayedVehicles[Store][Index].Interest,
+                            ["payedoff"] = ( MonthlyPayment * displayedVehicles[Store][Index].Weeks ) - MonthlyPayment,
                             ["lastpayment"] = tostring(os.time()),
                             ["nextpayment"] = tostring(os.time() + 604800),
                             ["livery"] = data.livery,
@@ -753,17 +766,17 @@ AddEventHandler("CarDealer.BuyCar", function(Type, Index, GarageID, Reduction)
                         data.plate = string.format("%X", tostring(data.plate))
                         data.plate = strpad(data.plate, 8, "0", "STR_PAD_LEFT")
                         TriggerClientEvent("pNotify:SendNotification", Source, {text = "Vehicle purchased!",type = "error",queue = "left",timeout = 2500,layout = "bottomCenter"})
-                        TriggerClientEvent("carshop:bought", Source, data, DisplayedVehicles[Index].Entity)
-                        TriggerClientEvent("carshop:setplate", -1, data.plate, DisplayedVehicles[Index].Entity)
-                        DealerSoldVehicle(DisplayedVehicles[Index].Seller, Intrest, DisplayedVehicles[Index].Price)
+                        TriggerClientEvent("carshop:bought", Source, data, displayedVehicles[Store][Index].Entity, Store)
+                        TriggerClientEvent("carshop:setplate", -1, data.plate, displayedVehicles[Store][Index].Entity)
+                        DealerSoldVehicle(displayedVehicles[Store][Index].Seller, Interest, displayedVehicles[Store][Index].Price, Store)
                     end, true)
                 else
                     TriggerClientEvent("pNotify:SendNotification", Source, {text = "Insufficient funds!",type = "error",queue = "left",timeout = 2500,layout = "bottomCenter"})
                     if didReduce == true then
                         User.addBank(Reduction)
                         TriggerClientEvent("pNotify:SendNotification", Source, {text = "You have been refunded the money to your bank that you placed down on the vehicle!",type = "error",queue = "left",timeout = 2500,layout = "bottomCenter"})
-                        DisplayedVehicles[Index].Price = DisplayedVehicles[Index].Price + Reduction
-                        TriggerClientEvent("DisplayVehicles.Sync", -1, DisplayedVehicles)
+                        displayedVehicles[Store][Index].Price = displayedVehicles[Store][Index].Price + Reduction
+                        TriggerClientEvent("DisplayVehicles.Sync", -1, displayedVehicles)
                         didReduce = false
                     end
                 end
@@ -771,19 +784,6 @@ AddEventHandler("CarDealer.BuyCar", function(Type, Index, GarageID, Reduction)
                 TriggerEvent("core:anticheat-ban", Source)
             end
         end)
-    end)
-end)
-
-RegisterServerEvent("Dealer.GivePayment")
-AddEventHandler("Dealer.GivePayment", function(Profit)
-    local Source = source
-    TriggerEvent("core:getuser", Source, function(User)
-        if Profit ~= nil then
-            if Profit > 0 then
-                TriggerClientEvent("pNotify:SendNotification", Source, {text = "You've made $"..Profit.." of commission from that sale!",type = "error",queue = "left",timeout = 2500,layout = "bottomCenter"})
-                User.addBank(Profit)
-            end
-        end
     end)
 end)
 
@@ -840,8 +840,8 @@ AddEventHandler("Pay.CarPayment", function(Plate)
             else
                 for k, v in pairs(result) do
                     if tonumber(Plate, 16) == v.plate then
-                        local Intrest = ( ( v.cost * ( v.intrest / 100) ) * ( ( v.weeks * 7 ) / 360 ) )
-                        local MonthlyPayment = math.floor( ( v.cost / v.weeks ) + Intrest )
+                        local Interest = ( ( v.cost * ( v.interest / 100) ) * ( ( v.weeks * 7 ) / 360 ) )
+                        local MonthlyPayment = math.floor( ( v.cost / v.weeks ) + Interest )
                         local WeeksMissed = math.floor( ( os.time() - v.lastpayment)  / 604800 )
                         if WeeksMissed >= 2 then
                             MonthlyPayment = MonthlyPayment * WeeksMissed
@@ -883,12 +883,14 @@ AddEventHandler("Pay.CarPayment", function(Plate)
 end)
 
 RegisterServerEvent("CarDealer.RemoveVehicle")
-AddEventHandler("CarDealer.RemoveVehicle", function(NetworkID)
+AddEventHandler("CarDealer.RemoveVehicle", function(NetworkID, Store)
     local Source = source
-    for Index = 1, #DisplayedVehicles do
-        if NetworkID == DisplayedVehicles[Index].Entity then
-            table.remove(DisplayedVehicles, Index)
-            TriggerClientEvent("DisplayVehicles.Sync", -1, DisplayedVehicles)
+    if displayedVehicles[Store] then
+        for Index = 1, #displayedVehicles[Store] do
+            if NetworkID == displayedVehicles[Store][Index].Entity then
+                table.remove(displayedVehicles[Store], Index)
+                TriggerClientEvent("DisplayVehicles.Sync", -1, displayedVehicles)
+            end
         end
     end
 end)
@@ -902,15 +904,38 @@ end)
 --     end)
 -- end)
 
-function DealerSoldVehicle(Seller, Intrest, Price)
-    TriggerEvent("core:getuser", Seller, function(Dealer)
-        exports["GHMattiMySQL"]:QueryAsync("UPDATE cardealer SET sold = sold + 1 WHERE (character_id = @character_id)", {
-            ["@character_id"] = Dealer.get("characterID"),
-        })
-        exports["GHMattiMySQL"]:QueryAsync("UPDATE carsales SET bank = bank + @intrest WHERE (id = @id)", {
-            ["@intrest"] = Intrest,
-            ["@id"] = 1
-        })
-        TriggerClientEvent("Dealer.SoldVehicle", Seller, Price)
-    end)
+function DealerSoldVehicle(Seller, Interest, Price, Store)
+    local info = CarDealers[Seller]
+    if info ~= nil then
+        local Profit = nil
+
+        info.Sold = info.Sold + 1
+
+        if info.rank == "Associate" then
+            Profit = Price * 0.05
+        elseif info.rank == "Senior Associate" then
+            Profit = Price * 0.05
+        elseif info.rank == "Supervisor" then
+            Profit = Price * 0.05
+        elseif info.rank == "Manager" then
+            Profit = Price * 0.05
+        end
+
+        if Profit ~= nil then
+            if Profit > 0 then
+                TriggerEvent("core:getuser", Seller, function(User)
+                    TriggerClientEvent("pNotify:SendNotification", Seller, {text = "You've made $"..Profit.." of commission from that sale!",type = "error",queue = "left",timeout = 2500,layout = "bottomCenter"})
+                    User.addBank(Profit)
+                    exports["GHMattiMySQL"]:QueryAsync("UPDATE cardealer SET sold = sold + 1 WHERE (character_id = @character_id)", {
+                        ["@character_id"] = User.get("characterID"),
+                    })
+                    exports["GHMattiMySQL"]:QueryAsync("INSERT INTO carsales (`id`, `bank`) VALUES (@id, @interest) ON DUPLICATE KEY UPDATE bank = bank + @interest", {
+                        ["@interest"] = Interest,
+                        ["@id"] = dealerBanks[Store]
+                    })
+                    TriggerClientEvent("Dealer.SoldVehicle", Seller, info.Sold)
+                end)
+            end
+        end
+    end
 end
