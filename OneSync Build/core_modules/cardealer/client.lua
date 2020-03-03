@@ -545,12 +545,14 @@ Citizen.CreateThread(function()
 										CashDown = Price * 0.05
 										CashDown = tonumber(CashDown)
 									end
-									DisplayedVehicles[Index].Price = Price
-									DisplayedVehicles[Index].Weeks = Weeks
-									DisplayedVehicles[Index].Intrest = Intrest
-									DisplayedVehicles[Index].CashDown = CashDown
-									DisplayedVehicles[Index].DealerText = "[E] - Price: $"..DisplayedVehicles[Index].Price.." | Weeks: "..DisplayedVehicles[Index].Weeks.. " | Interest: "..DisplayedVehicles[Index].Intrest.."%".." | Cash Down: $"..DisplayedVehicles[Index].CashDown
-									TriggerServerEvent("Change.DisplayVehicle", DisplayedVehicles[Index], Index)
+									if Price ~= nil and Weeks ~= nil and Intrest ~= nil and CashDown ~= nil then
+										DisplayedVehicles[Index].Price = Price
+										DisplayedVehicles[Index].Weeks = Weeks
+										DisplayedVehicles[Index].Intrest = Intrest
+										DisplayedVehicles[Index].CashDown = CashDown
+										DisplayedVehicles[Index].DealerText = "[E] - Price: $"..DisplayedVehicles[Index].Price.." | Weeks: "..DisplayedVehicles[Index].Weeks.. " | Interest: "..DisplayedVehicles[Index].Intrest.."%".." | Cash Down: $"..DisplayedVehicles[Index].CashDown
+										TriggerServerEvent("Change.DisplayVehicle", DisplayedVehicles[Index], Index)
+									end
 								end
 							end
 						end
