@@ -34,11 +34,13 @@ local function GenerateRankList()
         if count == 1 then
             list = list .. k
         else
-            list = list .. "," .. k
+            list = list .. ", " .. k
         end
 
         count = count + 1
     end
+
+    return list
 end
 
 local function GenerateDealerTypeList()
@@ -49,11 +51,13 @@ local function GenerateDealerTypeList()
         if count == 1 then
             list = list .. k
         else
-            list = list .. "," .. k
+            list = list .. ", " .. k
         end
 
         count = count + 1
-    end  
+    end
+
+    return list
 end
 
 AddEventHandler("CarDealer:Initialise", function(source, identifier, character_id)
@@ -124,7 +128,7 @@ TriggerEvent("core:addGroupCommand", "cardealeradd", "command", function(source,
             TriggerClientEvent('chatMessage', source, 'SYSTEM', {255, 0, 0}, "Invalid rank: " .. GenerateRankList())
         end
 	end
-end, { help = "Add a player to the whitelisted car dealer", params = { {name = "id", help = "The id of the player"}, {name = "type", help = "Dealer type: ".. GenerateDealerTypeList() } } })
+end, { help = "Add a player to the whitelisted car dealer", params = { {name = "id", help = "The id of the player"}, {name = "type", help = "Ranks: ".. GenerateRankList() }, {name = "type", help = "Dealer type: ".. GenerateDealerTypeList() } } })
 
 TriggerEvent("core:addGroupCommand", "cardealerrem", "command", function(source, args, rawCommand, data, power, group)
 	local source = source
@@ -415,7 +419,7 @@ AddEventHandler("CarDealer.BuyCar", function(Type, Store, Index, GarageID, Reduc
                         TriggerClientEvent("pNotify:SendNotification", Source, {text = "Vehicle purchased!",type = "error",queue = "left",timeout = 2500,layout = "bottomCenter"})
                         TriggerClientEvent("carshop:bought", Source, data, displayedVehicles[Store][Index].Entity, Store)
                         TriggerClientEvent("carshop:setplate", -1, data.plate, displayedVehicles[Store][Index].Entity)
-                        DealerSoldVehicle(displayedVehicles[Store][Index].Seller, 0, displayedVehicles[Store][Index].Price,)
+                        DealerSoldVehicle(displayedVehicles[Store][Index].Seller, 0, displayedVehicles[Store][Index].Price, Store)
                     end, true)
                 elseif tonumber(User.get("bank")) >= tonumber(displayedVehicles[Store][Index].Price) then
                     User.removeBank(displayedVehicles[Store][Index].Price)
@@ -920,20 +924,22 @@ function DealerSoldVehicle(Seller, Interest, Price, Store)
     if info ~= nil then
         local Profit = nil
 
-        info.Sold = info.Sold + 1
+        info.sold = info.sold + 1
 
-        if info.rank == "Associate" then
+        if info.rank == "associate" then
             Profit = Price * 0.05
-        elseif info.rank == "Senior Associate" then
+        elseif info.rank == "senior associate" then
             Profit = Price * 0.05
-        elseif info.rank == "Supervisor" then
+        elseif info.rank == "supervisor" then
             Profit = Price * 0.05
-        elseif info.rank == "Manager" then
+        elseif info.rank == "manager" then
             Profit = Price * 0.05
         end
 
         if Profit ~= nil then
             if Profit > 0 then
+                Profit = math.tointeger(Profit)
+                
                 TriggerEvent("core:getuser", Seller, function(User)
                     TriggerClientEvent("pNotify:SendNotification", Seller, {text = "You've made $"..Profit.." of commission from that sale!",type = "error",queue = "left",timeout = 2500,layout = "bottomCenter"})
                     User.addBank(Profit)
