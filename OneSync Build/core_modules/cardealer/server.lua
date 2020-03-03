@@ -91,11 +91,22 @@ TriggerEvent("core:addGroupCommand", "cardealeradd", "command", function(source,
                     TriggerEvent("core:getuser", id, function(target)
                         CarDealers[id] = nil
 
-                        exports["GHMattiMySQL"]:QueryAsync("INSERT INTO cardealer (`character_id`, `rank`, `type`) VALUES (@character_id, @rank, @type) ON DUPLICATE KEY UPDATE rank=@rank, type=@type", {
+                        exports["GHMattiMySQL"]:QueryResultAsync("SELECT * FROM cardealer WHERE character_id=@character_id", {
                             ["@character_id"] = target.get("characterID"),
-                            ["@rank"] = rank,
-                            ["@type"] = type,
-                        })
+                        }, function(result)
+                            local query = ""
+                            if #result > 0 then --update
+                                query = "UPDATE cardealer SET rank=@rank, type=@type WHERE character_id=@character_id"
+                            else
+                                query = "INSERT cardealer (`character_id`, `rank`, `type`) VALUES (@character_id, @rank, @type)"
+                            end
+
+                            exports["GHMattiMySQL"]:QueryAsync(query, {
+                                ["@character_id"] = target.get("characterID"),
+                                ["@rank"] = rank,
+                                ["@type"] = type,
+                            })
+                        end)
 
                         CarDealers[id] = { character_id = target.get("characterID"), rank = rank, sold = 0, type = type }
 
