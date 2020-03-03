@@ -1021,8 +1021,6 @@ AddEventHandler("core:switch", function()
 	end
 end)
 
-
---[===[
 RegisterServerEvent("properties:pay")
 AddEventHandler("properties:pay", function()
 	local source = source
@@ -1136,4 +1134,3 @@ AddEventHandler("properties:pay", function()
 	exports['GHMattiMySQL']:QueryAsync(query, {})
 	TriggerClientEvent("properties:sync", -1, properties)
 end)
---]===]
