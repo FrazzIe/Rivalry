@@ -479,7 +479,7 @@ local function drink(item)
     RequestAnimDict("amb@world_human_drinking@coffee@male@idle_a")
     while (not HasAnimDictLoaded("amb@world_human_drinking@coffee@male@idle_a")) do Citizen.Wait(0) end
     TaskPlayAnim(pid, 'amb@world_human_drinking@coffee@male@idle_a', 'idle_a', 1.0, -1.0, 2000, 0, 1, true, true, true)
-    if item == 25 or item == 27 or item == 41 or (item >= 100 and item <= 106) then
+    if item == 25 or item == 27 or item == 41 or (item >= 100 and item <= 106) or (item >= 177 and item <= 185) or item == 192 or (item >= 194 and item <= 198) then
         TriggerEvent("fm:drink", -5)
         addBAC(0.4)
         drunk = true
@@ -788,6 +788,12 @@ AddEventHandler("inventory:use",function(data)
                 Notify("Your inventory is full!")
                 addQty(140, 1)
             end
+        elseif data.canuse == 23 then
+            local Emote = Emotes.Find("bong")
+            Emotes.Stop()
+            Emote.Playing = true
+            Emote:Play(Emote)
+            table.insert(Emotes.Active, Emote)
         end
         removeQty(data.item_id,1)
     elseif data.canuse == -1 then
