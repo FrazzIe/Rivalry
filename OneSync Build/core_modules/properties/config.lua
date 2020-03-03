@@ -4432,7 +4432,7 @@ properties = {
 					inside = {x = -1387.151, y = -589.4478, z = 30.31952, h = 128.8528}, -- The marker inside (used for teleporting outside)
 					vault = {x = -1375.394, y = -624.3627, z = 30.81958, h = 295.184}, -- The marker for the vault
 				},
-				rent = 2000, --How much it costs to rent the property (PER DAY)
+				rent = 5000, --How much it costs to rent the property (PER DAY)
 				income = 500, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
 				storage = {
 					locked = false, --Default (don't touch)
@@ -4474,7 +4474,7 @@ properties = {
         			inside = {x = -1569.3054199219, y = -3016.9519042969, z = -74.406150817871, h = 2.6814656257629}, -- The marker inside (used for teleporting outside)
 					vault = {x = -1581.7600097656, y = -3018.3195800781, z = -79.005935668945, h = 91.424942016602}, -- The marker for the vault
 				},
-				rent = 2000, --How much it costs to rent the property (PER DAY)
+				rent = 4000, --How much it costs to rent the property (PER DAY)
 				income = 500, --How much money the owner is payed WHILE they are online, they get paid this amount every 15 minutes by default
 				storage = {
 					locked = false, --Default (don't touch)
