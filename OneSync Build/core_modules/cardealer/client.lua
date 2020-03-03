@@ -533,7 +533,7 @@ Citizen.CreateThread(function()
 											
 											--DecorSetBool(Vehicle, "_Is_DealerShip_Car", true)
 											--DecorSetBool(Vehicle, "_Is_CarDealer_Car", true)
-											TriggerServerEvent("Spawn.DisplayVehicle", CarDealer.Type, {Model = j.model, Entity = NetworkGetNetworkIdFromEntity(Vehicle), Data = data, Price = 0, Intrest = 0, Weeks = 0, CashDown = 0, DealerText = "", Seller = GetPlayerServerId(PlayerId())})
+											TriggerServerEvent("Spawn.DisplayVehicle", CarDealer.Type, {Model = j.model, Entity = NetworkGetNetworkIdFromEntity(Vehicle), Data = data, Price = 0, Interest = 0, Weeks = 0, CashDown = 0, DealerText = "", Seller = GetPlayerServerId(PlayerId())})
 											WarMenu.CloseMenu()
 										end
 									end
@@ -564,7 +564,7 @@ Citizen.CreateThread(function()
 													-- Create Inputs here
 													local Price = tonumber(KeyboardInput("Enter Total Price:", "100000", 11))
 													local Weeks = tonumber(KeyboardInput("Enter Total Weeks:", "8", 11))
-													local Interest = tonumber(KeyboardInput("Enter Intrest Rate:", "10", 11))
+													local Interest = tonumber(KeyboardInput("Enter Interest Rate:", "10", 11))
 
 													if Interest > 20 then
 														Interest = 20
@@ -582,7 +582,7 @@ Citizen.CreateThread(function()
 													if Price ~= nil and Weeks ~= nil and Interest ~= nil and CashDown ~= nil then
 														displayVehicle.Price = Price
 														displayVehicle.Weeks = Weeks
-														displayVehicle.Intrest = Interest
+														displayVehicle.Interest = Interest
 														displayVehicle.CashDown = CashDown
 														displayVehicle.DealerText = "[E] - Price: $"..displayVehicle.Price.." | Weeks: "..displayVehicle.Weeks.. " | Interest: "..displayVehicle.Interest.."%".." | Cash Down: $"..displayVehicle.CashDown
 
