@@ -1,4 +1,3 @@
-RequestIpl("ex_sm_13_office_01b")
 local teleports = {
     {
         outside = {x = 235.64042663574, y = -411.31103515625, z = 48.11194229126, h = 157.27725219727},

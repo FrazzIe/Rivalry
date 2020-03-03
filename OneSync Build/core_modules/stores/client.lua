@@ -33,11 +33,6 @@ Store = {
 		{Name = "Sushi", Id = 109, Cost = 60, Max = 10},
 		{Name = "Banana", Id = 110, Cost = 8, Max = 10},
 		{Name = "Bubble Gum", Id = 111, Cost = 10, Max = 10},
-		{Name = "Cannoli", Id = 135, Cost = 10, Max = 10},
-		{Name = "Tortellini", Id = 136, Cost = 10, Max = 10},
-		{Name = "Spaghetti", Id = 137, Cost = 10, Max = 10},
-		{Name = "Pasta Fasul", Id = 138, Cost = 10, Max = 10},
-		{Name = "Ravioli", Id = 139, Cost = 10, Max = 10},
     }},
     {Category = "Beverage", Items = {
         {Name = "Water", Id = 6, Cost = 3, Max = 10},
@@ -110,6 +105,160 @@ ToolMarket = {
 	}},
 }
 
+CustomShops = {
+	[1] = {
+		Name = "The Bean Machine",
+		Coords = vector3(-630.83587646484,224.37104797363,81.881546020508),
+		Items = {
+			{Category = "Drinks", Items = {
+				{Name = "Coffee", Id = 18, Cost = 10, Max = 10},
+				{Name = "Iced Coffee", Id = 141, Cost = 10, Max = 10},
+				{Name = "Frappucinno", Id = 142, Cost = 10, Max = 10},
+				{Name = "Cappucinno", Id = 143, Cost = 10, Max = 10},
+				{Name = "Latte", Id = 144, Cost = 10, Max = 10},
+				{Name = "Macchiato", Id=145, Cost = 10, Max = 10},
+				{Name = "Espresso", Id = 146, Cost = 10, Max = 10},
+			}},
+			{Category = "Foods", Items = {
+				{Name = "Breakfast Sandwhich", Id = 147, Cost = 10, Max = 10},
+				{Name = "Banana Nut Bread", Id = 148, Cost = 10, Max = 10},
+				{Name = "Cheese Danish", Id = 149, Cost = 10, Max = 10},
+				{Name = "Cupcake", Id = 150, Cost = 10, Max = 10},
+				{Name = "Muffin", Id = 151, Cost = 10, Max = 10},
+				{Name = "Bagel", Id=152, Cost = 10, Max = 10},
+			}},
+		}
+	},
+	[2] = {
+		Name = "Ceasars Restraunt",
+		Coords = vector3(145.9222869873,-1059.6462402344,22.960250854492),
+		Items = {
+			{Category = "Appetizers", Items = {
+				{Name = "Rice Balls", Id = 153, Cost = 10, Max = 10},
+				{Name = "Antipasto", Id = 154, Cost = 10, Max = 10},
+				{Name = "Bruschetta", Id = 155, Cost = 10, Max = 10},
+				{Name = "Fritto Misto", Id = 156, Cost = 10, Max = 10},
+				{Name = "Fresh Mozzerella", Id = 157, Cost = 10, Max = 10},
+				{Name = "Ceasar Salad", Id = 158, Cost = 10, Max = 10},
+				{Name = "Caprese Salad", Id = 159, Cost = 10, Max = 10},
+				{Name = "Minestrone", Id = 160, Cost = 10, Max = 10},
+				{Name = "Focaccia Bread", Id = 161, Cost = 10, Max = 10},
+			}},
+			{Category = "Main Courses", Items = {
+				{Name = "Stromboli", Id = 162, Cost = 10, Max = 10},
+				{Name = "Tortellini", Id = 163, Cost = 10, Max = 10},
+				{Name = "Spaghetti", Id = 164, Cost = 10, Max = 10},
+				{Name = "Pasta Fasul", Id = 165, Cost = 10, Max = 10},
+				{Name = "Eggplant Parm", Id = 166, Cost = 10, Max = 10},
+				{Name = "Fettuccine Alfredo", Id = 167, Cost = 10, Max = 10},
+				{Name = "Rigitoni Alla Vodka", Id = 168, Cost = 10, Max = 10},
+				{Name = "Pasta Carbonara", Id = 169, Cost = 10, Max = 10},
+				{Name = "Mushroom Risotto", Id = 170, Cost = 10, Max = 10},
+				{Name = "Pizza Slice", Id = 171, Cost = 10, Max = 10},
+				{Name = "Deep Dish Pizza", Id = 172, Cost = 10, Max = 10},
+				{Name = "Grilled Chicken Panini", Id = 173, Cost = 10, Max = 10},
+				{Name = "The Michelangelo", Id = 193, Cost = 10, Max = 10},
+			}},
+			{Category = "Desserts", Items = {
+				{Name = "Spumoni", Id = 170, Cost = 10, Max = 10},
+				{Name = "Gelato", Id = 171, Cost = 10, Max = 10},
+				{Name = "Tiramisu", Id = 172, Cost = 10, Max = 10},
+				{Name = "Cannoli", Id = 135, Cost = 10, Max = 10},
+			}},
+			{Category = "Drinks", Items = {
+				{Name = "Red Wine", Id = 173, Cost = 10, Max = 10},
+				{Name = "White Wine", Id = 174, Cost = 10, Max = 10},
+				{Name = "Bellini", Id = 175, Cost = 10, Max = 10},
+				{Name = "Sparkling Water", Id = 176, Cost = 10, Max = 10},
+				{Name = "Cappucinno", Id = 143, Cost = 10, Max = 10},
+				{Name = "Macchiato", Id=145, Cost = 10, Max = 10},
+				{Name = "Espresso", Id = 146, Cost = 10, Max = 10},
+			}},
+		},
+	},
+    [3] = {
+		Name = "Galaxy Night Club",
+		Coords = vector3(-1583.4104003906,-3013.7849121094,-76.005065917969),
+		Items = {
+			{Category = "Drinks", Items = {
+				{Name = "Pibwasser", Id = 177, Cost = 10, Max = 10},
+				{Name = "Benedict Light Beer", Id = 178, Cost = 250, Max = 10},
+				{Name = "Blarneys Stout", Id = 179, Cost = 10, Max = 10},
+				{Name = "Logger Light Beer", Id = 180, Cost = 10, Max = 10},
+				{Name = "Jakey's Lager", Id = 181, Cost = 10, Max = 10},
+				{Name = "Whiskey", Id=101, Cost = 10, Max = 10},
+				{Name = "Vodka", Id = 41, Cost = 10, Max = 10},
+				{Name = "Baijiu", Id = 182, Cost = 10, Max = 10},
+				{Name = "JHuangjiu", Id = 183, Cost = 10, Max = 10},
+				{Name = "Kaoliang Wine", Id=184, Cost = 10, Max = 10},
+				{Name = "Choujiu", Id = 185, Cost = 10, Max = 10},
+			}},
+			{Category = "Foods", Items = {
+				{Name = "Pretzels", Id = 186, Cost = 10, Max = 10},
+				{Name = "Nuts", Id = 187, Cost = 10, Max = 10},
+				{Name = "Chicken Fingers", Id = 188, Cost = 10, Max = 10},
+				{Name = "Buffalo Wings", Id = 189, Cost = 10, Max = 10},
+				{Name = "Onion Rings", Id = 190, Cost = 10, Max = 10},
+				{Name = "Sliders", Id=191, Cost = 10, Max = 10},
+			}},
+		},
+    },
+   [4] = {
+		Name = "Tequi-la-la",
+		Coords = vector3(-562.00134277344,289.32244873047,82.176284790039),
+		Items = {
+			{Category = "Drinks", Items = {
+				{Name = "Pibwasser", Id = 177, Cost = 10, Max = 10},
+				{Name = "Benedict Light Beer", Id = 178, Cost = 250, Max = 10},
+				{Name = "Blarneys Stout", Id = 179, Cost = 10, Max = 10},
+				{Name = "Logger Light Beer", Id = 180, Cost = 10, Max = 10},
+				{Name = "Jakey's Lager", Id = 181, Cost = 10, Max = 10},
+				{Name = "Whiskey", Id=101, Cost = 10, Max = 10},
+				{Name = "Vodka", Id = 41, Cost = 10, Max = 10},
+				{Name = "Rum and Coke", Id = 192, Cost = 10, Max = 10},
+		
+			}},
+			{Category = "Foods", Items = {
+				{Name = "Pretzels", Id = 186, Cost = 10, Max = 10},
+				{Name = "Nuts", Id = 187, Cost = 10, Max = 10},
+				{Name = "Chicken Fingers", Id = 188, Cost = 10, Max = 10},
+				{Name = "Buffalo Wings", Id = 189, Cost = 10, Max = 10},
+				{Name = "Onion Rings", Id = 190, Cost = 10, Max = 10},
+				{Name = "Sliders", Id=191, Cost = 10, Max = 10},
+			}},
+		},
+    },
+    [5] = {
+		Name = "Bahama Mamas",
+		Coords = vector3(-1371.9553222656,-625.99481201172,30.819578170776),
+		Items = {
+			{Category = "Drinks", Items = {
+				{Name = "Pibwasser", Id = 177, Cost = 10, Max = 10},
+				{Name = "Benedict Light Beer", Id = 178, Cost = 10, Max = 10},
+				{Name = "Blarneys Stout", Id = 179, Cost = 10, Max = 10},
+				{Name = "Logger Light Beer", Id = 180, Cost = 10, Max = 10},
+				{Name = "Jakey's Lager", Id = 181, Cost = 10, Max = 10},
+				{Name = "Whiskey", Id=101, Cost = 10, Max = 10},
+				{Name = "Vodka", Id = 41, Cost = 10, Max = 10},
+				{Name = "Rum and Coke", Id = 192, Cost = 10, Max = 10},
+				{Name = "The Karuma", Id = 194, Cost = 10, Max = 10},
+				{Name = "The Bahama Mama Cocktail", Id = 196, Cost = 10, Max = 10},
+				{Name = "Strawberry Cosmopolitan", Id = 196, Cost = 10, Max = 10},
+				{Name = "Mudslide", Id = 197, Cost = 10, Max = 10},
+				{Name = "Daiquiri", Id = 198, Cost = 10, Max = 10},
+			}},
+			{Category = "Foods", Items = {
+				{Name = "Pretzels", Id = 186, Cost = 10, Max = 10},
+				{Name = "Nuts", Id = 187, Cost = 10, Max = 10},
+				{Name = "Chicken Fingers", Id = 188, Cost = 10, Max = 10},
+				{Name = "Buffalo Wings", Id = 189, Cost = 10, Max = 10},
+				{Name = "Onion Rings", Id = 190, Cost = 10, Max = 10},
+				{Name = "Sliders", Id=191, Cost = 10, Max = 10},
+			}},
+		},
+	},
+}
+
 EMSMarket = {
     {Category = "Drugs", Items = {
 		{Name = "Ibuprofen", Id = 94, Cost = 25, Max = 10},
@@ -139,6 +288,15 @@ for k,v in pairs(ToolMarket) do
 	for i,j in pairs(v.Items) do
 		j.Quantity = {}
 		for index = 1, j.Max do j.Quantity[#j.Quantity+1] = tostring(index) end
+	end
+end
+
+for Index = 1, #CustomShops do
+	for k, v in pairs(CustomShops[Index].Items) do
+		for i, j in pairs(v.Items) do
+			j.Quantity = {}
+			for index = 1, j.Max do j.Quantity[#j.Quantity+1] = tostring(index) end
+		end
 	end
 end
 
@@ -467,6 +625,111 @@ Citizen.CreateThread(function()
 					end
 				end
 			end
+		end
+	end
+end)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Citizen.CreateThread(function()
+	-- CreateBlip("Davis Mega Mall", 402, 21, Tools[1].x, Tools[1].y, Tools[1].z)
+	-- CreateBlip("You Tool", 402, 21, Tools[2].x, Tools[2].y, Tools[2].z)
+	-- CreateBlip("Nelsons General", 402, 21, Tools[3].x, Tools[3].y, Tools[3].z)
+	-- CreateBlip("Vinewood Strip Mall", 402, 21, Tools[5].x, Tools[5].y, Tools[5].z)
+	-- CreateBlip("Grapeseed Supermarket", 402, 21, Tools[6].x, Tools[6].y, Tools[6].z)
+	while true do
+		Citizen.Wait(0)
+		local PlayerPed = PlayerPedId()
+        local PlayerPosition = GetEntityCoords(PlayerPed, false)
+        for Index = 1, #CustomShops do
+            if #(PlayerPosition - CustomShops[Index].Coords) < 15.0 then
+				RenderMarker(25, CustomShops[Index].Coords.x, CustomShops[Index].Coords.y, CustomShops[Index].Coords.z, 1.5, 1.5, 2.0, 255, 255, 0, 20)
+                if #(PlayerPosition - CustomShops[Index].Coords) < 1.0 then
+                	DisplayHelpText("Press ~INPUT_CONTEXT~ to open the shop!")
+					if IsControlJustPressed(1, 51) then
+						if not WarMenu.IsMenuOpened(CustomShops[Index].Name) then
+							if not WarMenu.DoesMenuExist(CustomShops[Index].Name) then
+								WarMenu.CreateMenu(CustomShops[Index].Name, "Department Store")
+								WarMenu.SetSpriteTitle(CustomShops[Index].Name, "shopui_title_clubhousemod")
+								WarMenu.SetSubTitle(CustomShops[Index].Name, "CATEGORIES")
+								WarMenu.SetMenuX(CustomShops[Index].Name, 0.6)
+								WarMenu.SetMenuY(CustomShops[Index].Name, 0.15)
+								WarMenu.SetTitleBackgroundColor(CustomShops[Index].Name, 0, 107, 87)
+								for k,v in pairs(CustomShops[Index].Items) do
+									WarMenu.CreateSubMenu(v.Category, CustomShops[Index].Name, v.Category.." SECTION")
+									for i,j in pairs(v.Items) do
+										WarMenu.CreateSubMenu(j.Name, v.Category, j.Name)
+									end
+								end
+								WarMenu.OpenMenu(CustomShops[Index].Name)
+							else
+								currentItemIndex = 1
+								WarMenu.OpenMenu(CustomShops[Index].Name)
+							end
+						else
+							WarMenu.CloseMenu()
+						end		
+					end
+					if WarMenu.IsMenuOpened(CustomShops[Index].Name) then
+						for k,v in pairs(CustomShops[Index].Items) do
+							WarMenu.MenuButton(v.Category, v.Category)
+						end
+						if WarMenu.Button("Close") then
+							WarMenu.CloseMenu()
+						end
+						WarMenu.Display()
+					end
+					for k,v in pairs(CustomShops[Index].Items) do
+						if WarMenu.IsMenuOpened(v.Category) then
+							for i,j in pairs(v.Items) do
+								if WarMenu.MenuButton(j.Name, j.Name) then
+									currentItemIndex = 1
+								end
+							end
+							WarMenu.Display()
+						end
+					end
+					for k,v in pairs(CustomShops[Index].Items) do
+						for i,j in pairs(v.Items) do
+							if WarMenu.IsMenuOpened(j.Name) then
+								if WarMenu.Button("Buy "..currentItemIndex.." "..j.Name.."(s)", "$"..j.Cost*currentItemIndex) then
+									TriggerServerEvent("item:buy", j.Id, currentItemIndex)
+								end
+								if WarMenu.ComboBox("Quantity", j.Quantity, currentItemIndex, selectedItemIndex, function(currentIndex, selectedIndex)
+									currentItemIndex = currentIndex
+									selectedItemIndex = selectedIndex
+								end) then
+								end
+								WarMenu.Display()
+							end
+						end
+					end
+                elseif #(PlayerPosition - CustomShops[Index].Coords) > 1.0 then
+                	if WarMenu.IsMenuOpened(CustomShops[Index].Name) then
+                		WarMenu.CloseMenu()
+                	end
+                end
+            end
 		end
 	end
 end)
