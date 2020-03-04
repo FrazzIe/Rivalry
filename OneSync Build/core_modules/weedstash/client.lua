@@ -203,7 +203,7 @@ Citizen.CreateThread(function()
 					if WarMenu.Button("["..v.quantity.."x] "..v.name, "Deposit") then
 						if v.item_id == 140 then
 							if v.quantity <= 1 then	
-								TriggerServerEvent("DrugStash.Deposit", 1)
+								TriggerServerEvent("DrugStash.Deposit", 1, 1)
 							else
 								local PromptedQuantity = tonumber(KeyboardInput("How much:", "1", 4))
 								if PromptedQuantity > 0 and PromptedQuantity ~= nil and v.quantity >= PromptedQuantity then

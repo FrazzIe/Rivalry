@@ -169,16 +169,29 @@ Citizen.CreateThread(function()
 				if IsControlJustPressed(1, 51) then
 					if Growth >= 50 then
 						TriggerServerEvent("Weed.Harvest", Index)
-
+						
 						IsStanceAllowed = false
 
 						TaskStartScenarioInPlace(PlayerPed, Weed.Scenario, 0, false)
 
-						Citizen.Wait(4000)
-
-						ClearPedTasks(PlayerPed)
-
-						IsStanceAllowed = true
+						exports['mythic_progbar']:Progress({
+							name = "pick_action",
+							duration = 4000,
+							label = "Picking Weed",
+							useWhileDead = true,
+							canCancel = true,
+							controlDisables = {
+								disableMovement = true,
+								disableCarMovement = true,
+								disableMouse = false,
+								disableCombat = true,
+							}
+						}, function(status)
+							if not status then
+								ClearPedTasks(PlayerPed)
+								IsStanceAllowed = true
+							end
+						end)
 					end
 				end
 			end
