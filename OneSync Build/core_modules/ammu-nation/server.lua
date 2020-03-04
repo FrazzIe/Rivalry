@@ -839,47 +839,53 @@ local stashLocked = {}
 RegisterServerEvent("policeStash:add")
 AddEventHandler("policeStash:add", function(weap)
     local src = source
-	
-	if not stashLocked[src] then
-		stashLocked[src] = true
+	local charId = exports["core"]:GetCharacterId(src)
 
-		if user_weapons[src] then
-			if user_weapons[src][weap.model] then
-				exports["GHMattiMySQL"]:QueryResultAsync("SELECT * FROM weapons WHERE pd_stash = 1 AND character_id = @character_id", { 
-					["@character_id"] = charId,
-				}, function(stash)
-					if #stash < stashLimit then
-						exports['GHMattiMySQL']:QueryAsync("UPDATE weapons SET pd_stash = 1 WHERE id = @id", {
-							["@id"] = weap.id
-						}, function()
-							user_weapons[src][weap.model] = nil
-							weap.pd_stash = 1
-							TriggerClientEvent("policeStash:add", src, weap)
+	if charId then
+		if not stashLocked[src] then
+			stashLocked[src] = true
+
+			if user_weapons[src] then
+				if user_weapons[src][weap.model] then
+					exports["GHMattiMySQL"]:QueryResultAsync("SELECT * FROM weapons WHERE pd_stash = 1 AND character_id = @character_id", { 
+						["@character_id"] = charId,
+					}, function(stash)
+						if #stash < stashLimit then
+							exports['GHMattiMySQL']:QueryAsync("UPDATE weapons SET pd_stash = 1 WHERE id = @id", {
+								["@id"] = weap.id
+							}, function()
+								user_weapons[src][weap.model] = nil
+								weap.pd_stash = 1
+								TriggerClientEvent("policeStash:add", src, weap)
+								TriggerClientEvent("weapon:set", src, user_weapons[src])
+								TriggerClientEvent("weapon:give", src)
+								TriggerClientEvent("weapon:sync", -1, user_weapons)
+								TriggerEvent("weapon:sync", user_weapons)
+								TriggerClientEvent("mythic_notify:client:SendAlert", src, { type = "success", text = "Weapon stashed!" })
+								stashLocked[src] = false
+							end)
+						else
 							TriggerClientEvent("weapon:set", src, user_weapons[src])
-							TriggerClientEvent("weapon:give", src)
-							TriggerClientEvent("weapon:sync", -1, user_weapons)
-							TriggerEvent("weapon:sync", user_weapons)
-							TriggerClientEvent("mythic_notify:client:SendAlert", src, { type = "success", text = "Weapon stashed!" })
+							TriggerClientEvent("mythic_notify:client:SendAlert", src, { type = "error", text = "The stash is full!" })
 							stashLocked[src] = false
-						end)
-					else
-						TriggerClientEvent("weapon:set", src, user_weapons[src])
-						TriggerClientEvent("mythic_notify:client:SendAlert", src, { type = "error", text = "The stash is full!" })
-						stashLocked[src] = false
-					end
-				end)
+						end
+					end)
+				else
+					TriggerClientEvent("weapon:set", src, user_weapons[src])
+					TriggerClientEvent("mythic_notify:client:SendAlert", src, { type = "error", text = "An error occured!" })
+					stashLocked[src] = false
+				end
 			else
 				TriggerClientEvent("weapon:set", src, user_weapons[src])
 				TriggerClientEvent("mythic_notify:client:SendAlert", src, { type = "error", text = "An error occured!" })
 				stashLocked[src] = false
 			end
 		else
-			TriggerClientEvent("weapon:set", src, user_weapons[src])
-			TriggerClientEvent("mythic_notify:client:SendAlert", src, { type = "error", text = "An error occured!" })
-			stashLocked[src] = false
+			TriggerClientEvent("mythic_notify:client:SendAlert", src, { type = "error", text = "Stop spamming!" })
 		end
 	else
-		TriggerClientEvent("mythic_notify:client:SendAlert", src, { type = "error", text = "Stop spamming!" })
+		TriggerClientEvent("weapon:set", src, user_weapons[src])
+		TriggerClientEvent("mythic_notify:client:SendAlert", src, { type = "error", text = "An error occured!" })
 	end
 end)
 
