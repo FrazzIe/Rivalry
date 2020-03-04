@@ -831,3 +831,96 @@ AddEventHandler("bmitem:buy", function(id, quantity)
 		end
 	end)
 end)
+
+-- This is a horrible implementation
+local stashLimit = 18
+local stashLocked = {}
+
+RegisterServerEvent("policeStash:add")
+AddEventHandler("policeStash:add", function(weap)
+    local src = source
+	
+	if not stashLocked[src] then
+		stashLocked[src] = true
+
+		if user_weapons[src] then
+			if user_weapons[src][weap.model] then
+				exports["GHMattiMySQL"]:QueryResultAsync("SELECT * FROM weapons WHERE pd_stash = 1 AND character_id = @character_id", { 
+					["@character_id"] = charId,
+				}, function(stash)
+					if #stash < stashLimit then
+						exports['GHMattiMySQL']:QueryAsync("UPDATE weapons SET pd_stash = 1 WHERE id = @id", {
+							["@id"] = weap.id
+						}, function()
+							user_weapons[src][weap.model] = nil
+							weap.pd_stash = 1
+							TriggerClientEvent("policeStash:add", src, weap)
+							TriggerClientEvent("weapon:set", src, user_weapons[src])
+							TriggerClientEvent("weapon:give", src)
+							TriggerClientEvent("weapon:sync", -1, user_weapons)
+							TriggerEvent("weapon:sync", user_weapons)
+							TriggerClientEvent("mythic_notify:client:SendAlert", src, { type = "success", text = "Weapon stashed!" })
+							stashLocked[src] = false
+						end)
+					else
+						TriggerClientEvent("weapon:set", src, user_weapons[src])
+						TriggerClientEvent("mythic_notify:client:SendAlert", src, { type = "error", text = "The stash is full!" })
+						stashLocked[src] = false
+					end
+				end)
+			else
+				TriggerClientEvent("weapon:set", src, user_weapons[src])
+				TriggerClientEvent("mythic_notify:client:SendAlert", src, { type = "error", text = "An error occured!" })
+				stashLocked[src] = false
+			end
+		else
+			TriggerClientEvent("weapon:set", src, user_weapons[src])
+			TriggerClientEvent("mythic_notify:client:SendAlert", src, { type = "error", text = "An error occured!" })
+			stashLocked[src] = false
+		end
+	else
+		TriggerClientEvent("mythic_notify:client:SendAlert", src, { type = "error", text = "Stop spamming!" })
+	end
+end)
+
+RegisterServerEvent("policeStash:remove")
+AddEventHandler("policeStash:remove", function(weap, idx)
+	local src = source
+	
+	if not stashLocked[src] then
+		stashLocked[src] = true
+
+		if user_weapons[src] then
+			if tablelength(user_weapons[src]) < max_weapons then
+				if not user_weapons[src][weap.model] then
+					exports['GHMattiMySQL']:QueryAsync("UPDATE weapons SET pd_stash = 0 WHERE id = @id", {
+						["@id"] = weap.id
+					}, function()
+						user_weapons[src][weap.model] = weap
+						user_weapons[src][weap.model].pd_stash = 0
+						TriggerClientEvent("weapon:set", src, user_weapons[src])
+						TriggerClientEvent("weapon:give", src)
+						TriggerClientEvent("weapon:sync", -1, user_weapons)
+						TriggerEvent("weapon:sync", user_weapons)
+						TriggerClientEvent("mythic_notify:client:SendAlert", src, { type = "success", text = "Weapon obtained!" })
+						stashLocked[src] = false
+					end)
+				else
+					TriggerClientEvent("mythic_notify:client:SendAlert", src, { type = "error", text = "You cannot carry a weapon that you are already carrying!" })
+					TriggerClientEvent("policeStash:removeFailed", src, idx)
+					stashLocked[src] = false
+				end
+			else
+				TriggerClientEvent("mythic_notify:client:SendAlert", src, { type = "error", text = "The maximum number of weapons you can carry is ".. max_weapons })
+				TriggerClientEvent("policeStash:removeFailed", src, idx)
+				stashLocked[src] = false
+			end
+		else
+			TriggerClientEvent("mythic_notify:client:SendAlert", src, { type = "error", text = "An error occured!" })
+			TriggerClientEvent("policeStash:removeFailed", src, idx)
+			stashLocked[src] = false
+		end
+	else
+		TriggerClientEvent("mythic_notify:client:SendAlert", src, { type = "error", text = "Stop spamming!" })
+	end
+end)
