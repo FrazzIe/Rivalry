@@ -1,22 +1,22 @@
 local displayedVehicles = {
     ["normal"] = {},
-    ["luxary"] = {},
+    ["luxury"] = {},
     ["import"] = {},
 }
 local CarDealers = {}
 local dealerTypes = {
     ["normal"] = true,
-    ["luxary"] = true,
+    ["luxury"] = true,
     ["import"] = true,
 }
 local dealerTypeNames = { -- Store name
     ["normal"] = "PDM",
-    ["luxary"] = "Luxary Autos",
+    ["luxury"] = "Luxury Autos",
     ["import"] = "",   
 }
 local dealerBanks = {
     ["normal"] = 1,
-    ["luxary"] = 2,
+    ["luxury"] = 2,
     ["import"] = 3,
 }
 local rankTypes = {

@@ -15,7 +15,7 @@ local carDealers = {
 			returnArea = vector3(-18.606876373291, -1101.9809570313, 26.671327590942)
 		},
 	},
-	["luxary"] = {
+	["luxury"] = {
 		{
 			clockIn = vector3(-790.03094482422, -214.66940307617, 37.07967376709),
 			vehicleMenu = vector3(-789.22613525391, -222.05204772949, 37.079666137695),
@@ -30,7 +30,7 @@ local carDealers = {
 
 local displayedVehicles = {
     ["normal"] = {},
-    ["luxary"] = {},
+    ["luxury"] = {},
     ["import"] = {},
 }
 

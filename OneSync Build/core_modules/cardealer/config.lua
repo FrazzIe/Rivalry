@@ -401,7 +401,7 @@ vehicleList = {
             }
         },
     },
-    ["luxary"] = {
+    ["luxury"] = {
         {
             title = "Super", 
             vehicles = {
