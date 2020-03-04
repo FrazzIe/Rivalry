@@ -1,5 +1,7 @@
 local stashes = {
     vector3(0.0, 0.0, 0.0), 
+    vector3(1856.810546875, 3694.0515136719, 34.225002288818), -- SS
+    vector3(-439.88165283203, 5991.8466796875, 31.716167449951), -- PB
 }
 local stashMenu = "pd_stash_"
 local stashItems = {}
