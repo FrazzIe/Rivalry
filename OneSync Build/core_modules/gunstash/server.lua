@@ -35,7 +35,7 @@ AddEventHandler("Stash.Deposit", function(Weapon, Gang)
 	TriggerEvent("core:getuser", Source, function(user)
 		if user_weapons[Source][Weapon.model] then
 			user_weapons[Source][Weapon.model] = nil
-			exports["GHMattiMySQL"]:QueryAsync("DELETE FROM weapons WHERE (character_id=@character_id) AND (model=@model)", {
+			exports["GHMattiMySQL"]:QueryAsync("DELETE FROM weapons WHERE (character_id=@character_id) AND (model=@model) AND (pd_stash = 0)", {
 				["@character_id"] = user.get("characterID"),
 				["@model"] = Weapon.model,
 			})
@@ -55,7 +55,8 @@ AddEventHandler("Stash.Deposit", function(Weapon, Gang)
 			}, function()
 			    TriggerClientEvent("weapon:set", Source, user_weapons[Source])
 			    TriggerClientEvent("weapon:give", Source)
-			    TriggerClientEvent("weapon:sync", -1, user_weapons)
+				TriggerClientEvent("weapon:sync", -1, user_weapons)
+				TriggerEvent("weapon:sync", user_weapons)
 			end, true)
 		end
 	end)
@@ -89,6 +90,7 @@ AddEventHandler("Stash.Withdraw", function(Index, Weapon, Gang)
 				TriggerClientEvent("weapon:set", Source, user_weapons[Source])
 				TriggerClientEvent("weapon:give", Source)
 				TriggerClientEvent("weapon:sync", -1, user_weapons)
+				TriggerEvent("weapon:sync", user_weapons)
 			end, true)
 		else
 			Notify("You cannot carry a weapon that you are already carrying", 3000, Source)

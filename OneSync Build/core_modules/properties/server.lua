@@ -444,7 +444,7 @@ AddEventHandler("properties:deposit", function(property_type, property_variant, 
 								if tablelength(properties[property_type][property_variant][property_id]["storage"]["current"][deposit_type]) < properties[property_type][property_variant][property_id]["storage"]["max"][deposit_type] then
 									if user_weapons[source][_data.model] then
 										user_weapons[source][_data.model] = nil
-										exports["GHMattiMySQL"]:QueryAsync("DELETE FROM weapons WHERE (character_id=@character_id) AND (model=@model)", {
+										exports["GHMattiMySQL"]:QueryAsync("DELETE FROM weapons WHERE (character_id=@character_id) AND (model=@model) AND (pd_stash = 0)", {
 											["@character_id"] = user.get("characterID"),
 											["@model"] = _data.model,
 										})

@@ -339,7 +339,7 @@ Skins = {
 local GunStash_Inventory = {}
 RegisterServerEvent("weapon:initialise")
 AddEventHandler("weapon:initialise",function(source, identifier, character_id)
-	exports["GHMattiMySQL"]:QueryResultAsync("SELECT * from weapons WHERE character_id=@character_id", {["@character_id"] = character_id}, function(weapons)
+	exports["GHMattiMySQL"]:QueryResultAsync("SELECT * from weapons WHERE pd_stash = 0 AND character_id=@character_id", {["@character_id"] = character_id}, function(weapons)
 		if weapons[1] == nil then
 			user_weapons[source] = weapons
 			TriggerClientEvent("weapon:set", source, user_weapons[source])
@@ -498,7 +498,7 @@ AddEventHandler("weapon:buyattachment", function(model, attachment, cost, hash)
 		TriggerEvent("core:getuser", source, function(user)
 			if user.get("wallet") >= cost then
 				user.removeWallet(cost)
-				exports["GHMattiMySQL"]:QueryAsync("UPDATE weapons SET "..attachment.."=@attachment, sellprice=@sellprice WHERE (character_id=@character_id) AND (model=@model)", {
+				exports["GHMattiMySQL"]:QueryAsync("UPDATE weapons SET "..attachment.."=@attachment, sellprice=@sellprice WHERE (character_id=@character_id) AND (model=@model) AND (pd_stash = 0)", {
 					["@character_id"] = user.get("characterID"),
 					["@sellprice"] = user_weapons[source][model].sellprice + math.floor((cost/2)),
 					["@model"] = model,
@@ -512,7 +512,7 @@ AddEventHandler("weapon:buyattachment", function(model, attachment, cost, hash)
 				TriggerEvent("weapon:sync", user_weapons)
 			elseif user.get("bank") >= cost then
 				user.removeBank(cost)
-				exports["GHMattiMySQL"]:QueryAsync("UPDATE weapons SET "..attachment.."=@attachment, sellprice=@sellprice WHERE (character_id=@character_id) AND (model=@model)", {
+				exports["GHMattiMySQL"]:QueryAsync("UPDATE weapons SET "..attachment.."=@attachment, sellprice=@sellprice WHERE (character_id=@character_id) AND (model=@model) AND (pd_stash = 0)", {
 					["@character_id"] = user.get("characterID"),
 					["@sellprice"] = user_weapons[source][model].sellprice + math.floor((cost/2)),
 					["@model"] = model,
@@ -536,7 +536,7 @@ AddEventHandler("weapon:buyammo", function(model)
 		if user.get("wallet") >= Ammo[model].Cost then
 			user.removeWallet(Ammo[model].Cost)
 			user_weapons[source][model].ammo = tonumber(user_weapons[source][model].ammo) + Ammo[model].Amount
-			exports["GHMattiMySQL"]:QueryAsync("UPDATE weapons SET ammo=@ammo WHERE (character_id=@character_id) AND (model=@model)", {
+			exports["GHMattiMySQL"]:QueryAsync("UPDATE weapons SET ammo=@ammo WHERE (character_id=@character_id) AND (model=@model) AND (pd_stash = 0)", {
 				["@character_id"] = user.get("characterID"),
 				["@model"] = model,
 				["@ammo"] = user_weapons[source][model].ammo,
@@ -548,7 +548,7 @@ AddEventHandler("weapon:buyammo", function(model)
 		elseif user.get("bank") >= Ammo[model].Cost then
 			user.removeBank(Ammo[model].Cost)
 			user_weapons[source][model].ammo = tonumber(user_weapons[source][model].ammo) + Ammo[model].Amount
-			exports["GHMattiMySQL"]:QueryAsync("UPDATE weapons SET ammo=@ammo WHERE (character_id=@character_id) AND (model=@model)", {
+			exports["GHMattiMySQL"]:QueryAsync("UPDATE weapons SET ammo=@ammo WHERE (character_id=@character_id) AND (model=@model) AND (pd_stash = 0)", {
 				["@character_id"] = user.get("characterID"),
 				["@model"] = model,
 				["@ammo"] = user_weapons[source][model].ammo,
@@ -566,7 +566,7 @@ AddEventHandler("weapon:refillammo", function(model)
 	local source = source
 	TriggerEvent("core:getuser", source, function(user)
 		user_weapons[source][model].ammo = Ammo[model].Max
-		exports["GHMattiMySQL"]:QueryAsync("UPDATE weapons SET ammo=@ammo WHERE (character_id=@character_id) AND (model=@model)", {
+		exports["GHMattiMySQL"]:QueryAsync("UPDATE weapons SET ammo=@ammo WHERE (character_id=@character_id) AND (model=@model) AND (pd_stash = 0)", {
 			["@character_id"] = user.get("characterID"),
 			["@model"] = model,
 			["@ammo"] = user_weapons[source][model].ammo,
@@ -613,7 +613,7 @@ RegisterServerEvent("weapon:updateammo")
 AddEventHandler("weapon:updateammo", function(model, ammo)
 	local source = source
 	TriggerEvent("core:getuser", source, function(user)
-		exports["GHMattiMySQL"]:QueryAsync("UPDATE weapons SET ammo=@ammo WHERE (character_id=@character_id) AND (model=@model)", {
+		exports["GHMattiMySQL"]:QueryAsync("UPDATE weapons SET ammo=@ammo WHERE (character_id=@character_id) AND (model=@model) AND (pd_stash = 0)", {
 			["@character_id"] = user.get("characterID"),
 			["@model"] = model,
 			["@ammo"] = ammo,
@@ -633,7 +633,7 @@ AddEventHandler("weapon:sell", function(model)
 	local source = source
 	TriggerEvent("core:getuser", source, function(user)
 		user.addWallet(tonumber(user_weapons[source][model].sellprice))
-		exports["GHMattiMySQL"]:QueryAsync("DELETE FROM weapons WHERE (character_id=@character_id) AND (model=@model)", {
+		exports["GHMattiMySQL"]:QueryAsync("DELETE FROM weapons WHERE (character_id=@character_id) AND (model=@model) AND (pd_stash = 0)", {
 			["@character_id"] = user.get("characterID"),
 			["@model"] = model,
 		})
@@ -652,7 +652,7 @@ AddEventHandler("weapon:give", function(model, target)
 		if not user_weapons[target][model] then
 			if tablelength(user_weapons[target]) < max_weapons then
 				TriggerEvent("core:getuser", target, function(user)
-					exports["GHMattiMySQL"]:QueryAsync("UPDATE weapons SET character_id=@new_character_id WHERE (character_id=@character_id) AND (model=@model)", {
+					exports["GHMattiMySQL"]:QueryAsync("UPDATE weapons SET character_id=@new_character_id WHERE (character_id=@character_id) AND (model=@model) AND (pd_stash = 0)", {
 						["@character_id"] = user_weapons[source][model].character_id,
 						["@model"] = user_weapons[source][model].model,
 						["@new_character_id"] = user.get("characterID"),
@@ -686,7 +686,7 @@ AddEventHandler("weapon:take", function(model, target)
 			if not user_weapons[source][model] then
 				if tablelength(user_weapons[source]) < max_weapons then
 					TriggerEvent("core:getuser", source, function(user)
-						exports["GHMattiMySQL"]:QueryAsync("UPDATE weapons SET character_id=@new_character_id WHERE (character_id=@character_id) AND (model=@model)", {
+						exports["GHMattiMySQL"]:QueryAsync("UPDATE weapons SET character_id=@new_character_id WHERE (character_id=@character_id) AND (model=@model) AND (pd_stash = 0)", {
 							["@character_id"] = user_weapons[target][model].character_id,
 							["@model"] = user_weapons[target][model].model,
 							["@new_character_id"] = user.get("characterID"),
@@ -720,7 +720,7 @@ RegisterServerEvent("weapon:destroy_target")
 AddEventHandler("weapon:destroy_target", function(model, target)
 	local source = source
 	TriggerEvent("core:getuser", target, function(user)
-		exports["GHMattiMySQL"]:QueryAsync("DELETE FROM weapons WHERE (character_id=@character_id) AND (model=@model)", {
+		exports["GHMattiMySQL"]:QueryAsync("DELETE FROM weapons WHERE (character_id=@character_id) AND (model=@model) AND (pd_stash = 0)", {
 			["@character_id"] = user.get("characterID"),
 			["@model"] = model,
 		})
@@ -739,7 +739,7 @@ RegisterServerEvent("weapon:destroy")
 AddEventHandler("weapon:destroy", function(model)
 	local source = source
 	TriggerEvent("core:getuser", source, function(user)
-		exports["GHMattiMySQL"]:QueryAsync("DELETE FROM weapons WHERE (character_id=@character_id) AND (model=@model)", {
+		exports["GHMattiMySQL"]:QueryAsync("DELETE FROM weapons WHERE (character_id=@character_id) AND (model=@model) AND (pd_stash = 0)", {
 			["@character_id"] = user.get("characterID"),
 			["@model"] = model,
 		})
@@ -754,7 +754,7 @@ end)
 AddEventHandler("weapon:delete", function(source)
 	local source = source
 	TriggerEvent("core:getuser", source, function(user)
-		exports["GHMattiMySQL"]:QueryAsync("DELETE FROM weapons WHERE (character_id=@character_id)", {
+		exports["GHMattiMySQL"]:QueryAsync("DELETE FROM weapons WHERE (character_id=@character_id) AND (pd_stash = 0)", {
 			["@character_id"] = user.get("characterID"),
 		})
 		user_weapons[source] = {}
