@@ -46,6 +46,11 @@ local function setMenuProperty(id, property, value)
     end
 end
 
+local function getMenuProperty(id, property)
+    if id and menus[id] then
+        return menus[id][property]
+    end
+end
 
 local function isMenuVisible(id)
     if id and menus[id] then
@@ -554,4 +559,12 @@ end
 
 function WarMenu.SetMenuButtonPressedSound(id, name, set)
     setMenuProperty(id, 'buttonPressedSound', { ['name'] = name, ['set'] = set })
+end
+
+function WarMenu.SetMenuCurrentOption(id, idx)
+    setMenuProperty(id, 'currentOption', idx)
+end
+
+function WarMenu.GetMenuProperty(id, property)
+    return getMenuProperty(id, property)
 end

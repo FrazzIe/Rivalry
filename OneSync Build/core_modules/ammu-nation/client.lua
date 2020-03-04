@@ -331,7 +331,7 @@ end)
 weapon_license = "false"
 Citizen.CreateThread(function()
 	local armourOptions = {"Equip", "Remove"}
-	local armourIdx, armourSelectedIdx = 0, 0
+	local armourIdx, armourSelectedIdx = 1, 1
 	for k,v in pairs(ammu_nation.normal) do
 		addBlip(v)
 	end
@@ -655,7 +655,7 @@ Citizen.CreateThread(function()
 									WarMenu.SetSubTitle("Police_Weapons", "WEAPONS")
 									WarMenu.SetMenuX("Police_Weapons", 0.6)
 									WarMenu.SetMenuY("Police_Weapons", 0.15)
-									for k,v in pairs(Weapons) do
+									for k,v in pairs(PoliceWeapons) do
 										WarMenu.CreateSubMenu(v.Category, "Police_Weapons", v.Category)
 										for i,j in pairs(v.Items) do
 											WarMenu.CreateSubMenu(j.Weapon, v.Category, j.Name.." UPGRADES")
@@ -684,7 +684,7 @@ Citizen.CreateThread(function()
 								end
 							end
 		
-							if WarMenu.ComboBox("Armour", armourOptions , armourIdx, armourSelectedIdx, function(currentIndex, selectedIndex)
+							if WarMenu.ComboBox("Armour", armourOptions, armourIdx, armourSelectedIdx, function(currentIndex, selectedIndex)
 								armourIdx, armourSelectedIdx = currentIndex, selectedIndex
 							end) then
 								if armourSelectedIdx == 1 then

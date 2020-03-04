@@ -33,30 +33,32 @@ Citizen.CreateThread(function()
                     DrawMarker(25, stash.x, stash.y, stash.z - 0.95, 0, 0, 0, 0, 0, 0, 1.0, 1.0, 1.5, 255, 255, 0, 50, 0, 0, 2, 0, 0, 0, 0) -- Draw a marker
 
                     if stashDist < 1.5 then
-                        if WarMenu.IsMenuOpened(stashMenu) then
-                            WarMenu.CloseMenu()
-                        else
-                            recievedItems = false
+                        if IsControlJustPressed(1, 51) then
+                            if WarMenu.IsMenuOpened(stashMenu) then
+                                WarMenu.CloseMenu()
+                            else
+                                recievedItems = false
 
-                            local eventHandler = AddEventHandler("policeStash:received", function(items) -- Add temporary handler
-                                stashItems = items
-                                recievedItems = true
-                            end)
+                                local eventHandler = AddEventHandler("policeStash:received", function(items) -- Add temporary handler
+                                    stashItems = items
+                                    recievedItems = true
+                                end)
 
-                            TriggerServerEvent("policeStash:fetch") -- Fetch stash items from db
-                            
-                            BeginTextCommandBusyspinnerOn(spinnerLabel[1]) -- Show loading prompt
-                            EndTextCommandBusyspinnerOn(4)
+                                TriggerServerEvent("policeStash:fetch") -- Fetch stash items from db
+                                
+                                BeginTextCommandBusyspinnerOn(spinnerLabel[1]) -- Show loading prompt
+                                EndTextCommandBusyspinnerOn(4)
 
-                            repeat -- Wait for items
-                                Citizen.Wait(0)
-                            until recievedItems
+                                repeat -- Wait for items
+                                    Citizen.Wait(0)
+                                until recievedItems
 
-                            BusyspinnerOff() -- Remove loading prompt
+                                BusyspinnerOff() -- Remove loading prompt
 
-                            RemoveEventHandler(eventHandler) -- Remove temporary handler
+                                RemoveEventHandler(eventHandler) -- Remove temporary handler
 
-                            WarMenu.OpenMenu(stashMenu) -- Open stash
+                                WarMenu.OpenMenu(stashMenu) -- Open stash
+                            end
                         end
                     else -- If not close enough, close menu
                         if WarMenu.IsMenuOpened(stashMenu) then
@@ -68,16 +70,18 @@ Citizen.CreateThread(function()
 
             if WarMenu.IsMenuOpened(stashMenu) then -- Display main menu
                 if #stashItems < stashLimit then -- If stash isn't full then
-                    WarMenu.MenuButton("Store a weapon", stashMenu)
+                    WarMenu.MenuButton("Store a weapon", stashMenu .. "deposit")
                 end
 
                 for i = 1, #stashItems do
                     local weapon = stashItems[i]
 
                     if not weapon.locked then
-                        if WarMenu.Button(Weapons_names[weapon.model] .. "[" .. weapon.ammo .. "]", "Take") then
+                        if WarMenu.Button(Weapons_names[weapon.model] .. " [" .. weapon.ammo .. "]", "Take") then
                             TriggerServerEvent("policeStash:remove", weapon, i)
                             weapon.locked = true
+                            local newIdx = WarMenu.GetMenuProperty(stashMenu, "currentOption") - 1
+                            WarMenu.SetMenuCurrentOption(stashMenu, (newIdx > 0) and newIdx or 1)
                         end
                     end
                 end
@@ -87,19 +91,22 @@ Citizen.CreateThread(function()
 
             if WarMenu.IsMenuOpened(stashMenu .. "deposit") then -- Display deposit menu
                 if #stashItems < stashLimit then
-                    for i = 1, #playerWeapons do
-                        local weapon = playerWeapons[i]
+                    for k,v in pairs(playerWeapons) do
+                        local weapon = v
 
                         if not weapon.locked then
-                            if WarMenu.Button(Weapons_names[weapon.model] .. "[" .. weapon.ammo .. "]", "Store") then
+                            if WarMenu.Button(Weapons_names[weapon.model] .. " [" .. weapon.ammo .. "]", "Store") then
                                 TriggerServerEvent("policeStash:add", weapon)
                                 weapon.locked = true
+                                local newIdx = WarMenu.GetMenuProperty(stashMenu .. "deposit", "currentOption") - 1
+                                WarMenu.SetMenuCurrentOption(stashMenu .. "deposit", (newIdx > 0) and newIdx or 1)
                             end
                         end
                     end
                 else
                     WarMenu.Button("Stash is full!")
                 end
+
                 WarMenu.Display()
             end
         end
@@ -107,8 +114,8 @@ Citizen.CreateThread(function()
 end)
 
 RegisterNetEvent("weapon:set")
-AddEventHandler("weapon:set", function(tbl)
-    playerWeapons = tbl
+AddEventHandler("weapon:set", function(weapons)
+    playerWeapons = weapons
 end)
 
 RegisterNetEvent("policeStash:remove")

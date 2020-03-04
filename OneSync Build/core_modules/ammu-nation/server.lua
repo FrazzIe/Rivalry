@@ -856,7 +856,8 @@ AddEventHandler("policeStash:add", function(weap)
 							}, function()
 								user_weapons[src][weap.model] = nil
 								weap.pd_stash = 1
-								TriggerClientEvent("policeStash:add", src, weap)
+								stash[#stash + 1] = weap
+								TriggerClientEvent("policeStash:update", src, stash)
 								TriggerClientEvent("weapon:set", src, user_weapons[src])
 								TriggerClientEvent("weapon:give", src)
 								TriggerClientEvent("weapon:sync", -1, user_weapons)
@@ -913,20 +914,21 @@ AddEventHandler("policeStash:remove", function(weap, idx)
 					end)
 				else
 					TriggerClientEvent("mythic_notify:client:SendAlert", src, { type = "error", text = "You cannot carry a weapon that you are already carrying!" })
-					TriggerClientEvent("policeStash:removeFailed", src, idx)
+					TriggerClientEvent("policeStash:remove", src, idx)
 					stashLocked[src] = false
 				end
 			else
 				TriggerClientEvent("mythic_notify:client:SendAlert", src, { type = "error", text = "The maximum number of weapons you can carry is ".. max_weapons })
-				TriggerClientEvent("policeStash:removeFailed", src, idx)
+				TriggerClientEvent("policeStash:remove", src, idx)
 				stashLocked[src] = false
 			end
 		else
 			TriggerClientEvent("mythic_notify:client:SendAlert", src, { type = "error", text = "An error occured!" })
-			TriggerClientEvent("policeStash:removeFailed", src, idx)
+			TriggerClientEvent("policeStash:remove", src, idx)
 			stashLocked[src] = false
 		end
 	else
 		TriggerClientEvent("mythic_notify:client:SendAlert", src, { type = "error", text = "Stop spamming!" })
+		TriggerClientEvent("policeStash:remove", src, idx)
 	end
 end)
