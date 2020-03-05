@@ -34,38 +34,6 @@ local boatGarage = {
 	{name = "Police Boatyard", sprite = 266, colour = 18, x = 1542.1602783203, y = 3911.0981445313, z = 31.58381652832, h = 162.13052368164},
 }
 
-cars = {
-	{name = "Marked Transport", model = "policet", type = "", rank = "cadet"},
-	{name = "Prison Bus", model = "pbus", type = "", rank = "cadet"},
-    {name = "2011 Marked CVPI", model = "pd1", type = "", rank = "recruit"},
-    {name = "2010 Marked Charger", model = "pd9", type = "", rank = "officer i"},
-    {name = "2014 Marked Charger", model = "pd2", type = "", rank = "officer i"},
-    {name = "2014 Marked Charger EXL", model = "statep2", type = "", rank = "officer ii"},
-    {name = "Marked Motorcycle", model = "policebmw", type = "", rank = "officer i"},
-    {name = "2016 Marked Raptor", model = "fraptor", type = "", rank = "officer i"},
-    {name = "2014 Marked Tahoe", model = "pd8", type = "", rank = "officer ii"},
-    {name = "2016 Marked Taurus", model = "pd7", type = "", rank = "officer ii"},
-    {name = "2016 Marked Charger", model = "pd3", type = "", rank = "officer ii"},
-    {name = "2016 Marked Tahoe", model = "pd6", type = "", rank = "officer ii"},
-    {name = "2016 Marked Explorer", model = "pd5", type = "", rank = "officer ii"},
-    {name = "Interceptor Mustang", model = "2015polstang", type = "", rank = "officer ii"},
-    {name = "2011 Slicktop CVPI", model = "pd11", type = "", rank = "detective"},
-    {name = "2014 Slicktop Charger", model = "pd12", type = "", rank = "detective"},
-    {name = "2016 Slicktop Charger", model = "pd13", type = "", rank = "detective"},
-    {name = "2016 Slicktop Explorer", model = "pd15", type = "", rank = "detective"},
-    {name = "Unmarked CVPI", model = "police4", type = "", rank = "detective"},
-    {name = "Unmarked Panto", model = "upanto", type = "", rank = "detective"},
-    {name = "Unmarked Buffalo", model = "fbi", type = "", rank = "detective"},
-    {name = "Unmarked Taxi", model = "uc_taxi", type = "", rank = "detective"},
-    {name = "Unmarked Coquette", model = "uc_coquette", type = "", rank = "detective"},
-    {name = "Unmarked Sultan", model = "uc_sultan", type = "", rank = "detective"},
-    {name = "Unmarked Kuruma", model = "uc_kuruma", type = "", rank = "detective"},
-    {name = "Unmarked 2013 Impala", model = "um1", type = "", rank = "detective"},
-    {name = "Unmarked 2016 Raptor", model = "um6", type = "", rank = "lieutenant"},
-    {name = "Unmarked 2018 Charger", model = "18charger", type = "", rank = "lieutenant"},
-    {name = "Unmarked 2016 Tahoe", model = "um4", type = "", rank = "captain"},
-}
-
 heli = {
 	{name = "LSPD Maverick", model = "polmav", type = "helicopter", rank = "officer ii"},
 	{name = "Sheriff Buzzard", model = "buzzard2", type = "helicopter", rank = "officer ii"},
@@ -80,25 +48,6 @@ function tobool(input)
 		return true
 	else
 		return false
-	end
-end
-
-function isNearStationGarage()
-	for i = 1, #stationGarage do
-		local ply = PlayerPedId()
-		local plyCoords = GetEntityCoords(ply, 0)
-		local distance = GetDistanceBetweenCoords(stationGarage[i].x, stationGarage[i].y, stationGarage[i].z, plyCoords["x"], plyCoords["y"], plyCoords["z"], true)
-		if(distance < 30) then
-			DrawMarker(25, stationGarage[i].x, stationGarage[i].y, stationGarage[i].z-0.9, 0, 0, 0, 0, 0, 0, 2.0, 2.0, 1.5, 0, 0, 255, 155, 0, 0, 2, 0, 0, 0, 0)
-			currentgarage.x, currentgarage.y, currentgarage.z = stationGarage[i].x, stationGarage[i].y, stationGarage[i].z
-			if(distance < 2) then
-				return true
-			elseif distance > 2 then
-				if WarMenu.IsMenuOpened("car_menu") then
-					WarMenu.CloseMenu("car_menu")
-				end
-			end
-		end
 	end
 end
 
@@ -157,108 +106,6 @@ Citizen.CreateThread(function()
 		Citizen.Wait(0)
 		if isCop then
 			if isInService then
-				if isNearStationGarage() then
-					if existingVeh == nil then
-						DisplayHelpText("Press ~INPUT_CONTEXT~ to ~b~collect your cruiser~w~!")
-					else
-						DisplayHelpText("Press ~INPUT_CONTEXT~ to ~b~store your cruiser~w~!\nPress ~INPUT_VEH_HEADLIGHT~ to ~b~modify~w~!")
-					end
-		
-					if IsControlJustPressed(1, 38) then
-						if existingVeh ~= nil then
-							SetEntityAsMissionEntity(existingVeh, true, true)
-							Citizen.InvokeNative(0xEA386986E786A54F, Citizen.PointerValueIntInitialized(existingVeh))
-							existingVeh = nil
-						else
-							if not WarMenu.IsMenuOpened("car_menu") then
-								if not WarMenu.DoesMenuExist("car_menu") then
-									WarMenu.CreateMenu("car_menu", "Vehicles")
-									WarMenu.SetSpriteTitle("car_menu", "shopui_title_ie_modgarage")
-									WarMenu.SetSubTitle("car_menu", "Vehicles")
-									WarMenu.SetMenuX("car_menu", 0.6)
-									WarMenu.SetMenuY("car_menu", 0.15)
-									WarMenu.SetTitleBackgroundColor("car_menu", 0, 128, 255, 255)
-								else
-									WarMenu.OpenMenu("car_menu")
-								end
-							else
-								WarMenu.CloseMenu("car_menu")
-							end
-						end
-					end
-                    if existingVeh ~= nil then
-                        if IsControlJustPressed(1, 74) then
-                            if not WarMenu.IsMenuOpened("car_modify_menu") then
-                                if not WarMenu.DoesMenuExist("car_modify_menu") then
-                                    WarMenu.CreateMenu("car_modify_menu", "Modify vehicle")
-                                    WarMenu.SetSpriteTitle("car_modify_menu", "shopui_title_ie_modgarage")
-                                    WarMenu.SetSubTitle("car_modify_menu", "Modifications")
-                                    WarMenu.SetMenuX("car_modify_menu", 0.6)
-                                    WarMenu.SetMenuY("car_modify_menu", 0.15)
-                                    WarMenu.SetTitleBackgroundColor("car_modify_menu", 0, 128, 255, 255)
-                                    WarMenu.OpenMenu("car_modify_menu")
-                                    currentLiveryIndex = 1
-                                    selectedLiveryIndex = 1
-                                    currentExtraIndex = 1
-                                    selectedExtraIndex = 1
-                                else
-                                    WarMenu.OpenMenu("car_modify_menu")
-                                    currentLiveryIndex = 1
-                                    selectedLiveryIndex = 1
-                                    currentExtraIndex = 1
-                                    selectedExtraIndex = 1
-                                end
-                            else
-                                WarMenu.CloseMenu("car_modify_menu")
-                            end
-                        end
-                    end
-					if WarMenu.IsMenuOpened("car_menu") then
-						for k,v in pairs(cars) do
-							if ranks[user_cop.rank][v.rank] or user_cop.rank == v.rank then
-								if WarMenu.Button(v.name) then
-									TriggerServerEvent("police:payforservices", 150)
-									spawncar(v.model, v.type)
-								end
-							end
-						end
-						WarMenu.Display()
-					end
-                    if WarMenu.IsMenuOpened("car_modify_menu") then
-                        if existingVeh ~= nil then
-                            local liveries = {}
-                            local extras = {}
-
-                            for i = 0, GetVehicleLiveryCount(existingVeh) do 
-                            	table.insert(liveries, i) 
-                            end
-                            
-                            for i = 0, 14 do 
-                            	if DoesExtraExist(existingVeh, i) then 
-                            		table.insert(extras, i) 
-                            	end 
-                            end
-
-                            if WarMenu.ComboBox("Livery", liveries , currentLiveryIndex, selectedLiveryIndex, function(currentIndex, selectedIndex)
-                                currentLiveryIndex = currentIndex
-                                selectedLiveryIndex = selectedIndex
-                            end) then
-                                SetVehicleLivery(existingVeh, liveries[selectedLiveryIndex])
-                            end
-
-                            if WarMenu.ComboBox("Extra", extras, currentExtraIndex, selectedExtraIndex, function(currentIndex, selectedIndex)
-                                currentExtraIndex = currentIndex
-                                selectedExtraIndex = selectedIndex
-                            end) then
-                            	SetVehicleExtra(existingVeh, extras[selectedExtraIndex], tobool(IsVehicleExtraTurnedOn(existingVeh, extras[selectedExtraIndex])))
-                            end
-
-                            WarMenu.Display()
-                        else
-                            WarMenu.CloseMenu("car_modify_menu")
-                        end
-                    end
-				end
 				if isNearStationHeliGarage() then
 					if existingVeh == nil then
 						DisplayHelpText("Press ~INPUT_CONTEXT~ to ~b~collect your chopper~w~!")
@@ -420,9 +267,7 @@ function spawncar(model, type)
 				end 
 			end
 			TaskWarpPedIntoVehicle(ply, existingVeh, -1)
-			if WarMenu.IsMenuOpened("car_menu") then
-				WarMenu.CloseMenu("car_menu")
-			end				
+		
 			if WarMenu.IsMenuOpened("heli_menu") then
 				WarMenu.CloseMenu("heli_menu")
 			end
@@ -459,12 +304,6 @@ end
 
 function IsVehicleExempt(_model)
 	local exempt = false
-	for i = 1, #cars do
-		if GetHashKey(cars[i].model) == _model then
-			exempt = true
-			break
-		end
-	end
 	for i = 1, #heli do
 		if GetHashKey(heli[i].model) == _model then
 			exempt = true
