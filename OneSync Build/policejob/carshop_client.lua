@@ -62,13 +62,14 @@ Citizen.CreateThread(function()
 				local shopDist = #(playerPos - vehicleShop.menu)
 
 				if shopDist < 10 then
-					DrawMarker(25, vehicleShop.menu.x, vehicleShop.menu.y, vehicleShop.menu.z - 0.9, 0, 0, 0, 0, 0, 0, 2.0, 2.0, 1.5, 0, 0, 255, 155, 0, 0, 2, 0, 0, 0, 0)
+					DrawMarker(25, vehicleShop.menu.x, vehicleShop.menu.y, vehicleShop.menu.z - 0.9, 0, 0, 0, 0, 0, 0, 1.0, 1.0, 1.5, 0, 0, 255, 155, 0, 0, 2, 0, 0, 0, 0)
 					if shopDist < 1.5 then
                         if IsControlJustPressed(1, 51) then
                             if not WarMenu.IsMenuOpened(policeVehicleMenu) then
 								playerVehicles = exports["core_modules"]:GetVehiclesTable()
 
 								policeVehicleCount = 0
+                                currentVehicleShop = vehicleShop
 
 								for j = 1, #playerVehicles do
 									local vehicle = playerVehicles[j]
@@ -100,7 +101,7 @@ Citizen.CreateThread(function()
 							if user_cop.rank ~= nil then
 								if ranks[user_cop.rank][vehicle.rank] or user_cop.rank == vehicle.rank then
 									if WarMenu.Button(vehicle.name, "$"..vehicle.price) then
-										TriggerServerEvent("policeVehicle:buy", i, vehicleShop.spawn)
+										TriggerServerEvent("policeVehicle:buy", i, currentVehicleShop.spawn)
 										WarMenu.CloseMenu()
 									end
 								end
