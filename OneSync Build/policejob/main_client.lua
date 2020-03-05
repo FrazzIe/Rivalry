@@ -198,9 +198,13 @@ end)
 function AddPoliceBlips()
 	ArmouryBlips()
 	GarageBlips()
+	addCarShopBlips()
+	addStashBlips()
 end
 
 function RemovePoliceBlips()
 	RemoveArmouryBlips()
 	RemoveGarageBlips()
+	removeCarShopBlips()
+	removeStashBlips()
 end

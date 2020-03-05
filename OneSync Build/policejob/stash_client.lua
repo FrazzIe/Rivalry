@@ -6,6 +6,7 @@ local stashes = {
 local stashMenu = "pd_stash_"
 local stashItems = {}
 local stashLimit = 18
+local stashBlips = {}
 local spinnerLabel = { "FRZL_LOAD_STASH", "Fetching stash contents..." }
 local playerWeapons = {}
 
@@ -133,3 +134,21 @@ RegisterNetEvent("policeStash:update")
 AddEventHandler("policeStash:update", function(stash)
     stashItems = stash
 end)
+
+function addStashBlips()
+    for i = 1, #stashes do
+        local item = { sprite = 470, colour = 18, x = stashes[i].x, y = stashes[i].y, z = stashes[i].z }
+        addBlip(item)
+        stashBlips[#stashBlips + 1] = item
+    end
+end
+
+function removeStashBlips()
+    for i = 1, #stashBlips do
+        if stashBlips[i] then
+            RemoveBlip(stashBlips[i].item)
+        end
+    end
+
+    stashBlips = {}
+end

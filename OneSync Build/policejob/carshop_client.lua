@@ -126,3 +126,17 @@ Citizen.CreateThread(function()
 		end
 	end
 end)
+
+function addCarShopBlips()
+    for i = 1, #policeVehicleShops do
+        local item = { sprite = 225, colour = 18, x = policeVehicleShops[i].menu.x, y = policeVehicleShops[i].menu.y, z = policeVehicleShops[i].menu.z }
+        addBlip(item)
+        policeVehicleShops[i].blip = item
+    end
+end
+
+function removeCarShopBlips()
+    for i = 1, #policeVehicleShops do
+        RemoveBlip(policeVehicleShops[i].blip.blip)
+    end
+end
