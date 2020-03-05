@@ -106,7 +106,9 @@ Citizen.CreateThread(function()
 								end
 							end
 						end
-					end
+                    end
+
+                    WarMenu.Display()
 				else
 					WarMenu.Button("Your garage is full!", policeVehicleCount .. "/" .. policeGarageLimit)
 				end		
