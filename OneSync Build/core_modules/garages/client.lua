@@ -711,7 +711,7 @@ function GetVehicles()
                         end
                     end)
                 end
-            ebd
+            end
         end
     end
 end
@@ -1500,9 +1500,8 @@ function GetVehiclesTable()
     return user_vehicles
 end
 
-
 local policeGarages = {
-    {name = "Police Garage", sprite = 50, colour = 18, coords = vector3(452.115966796875, -1018.10681152344, 28.4786586761475), h = 1.0 }, -- Mission row
+    {name = "Police Garage", sprite = 50, colour = 18, coords = vector3(452.115966796875, -1018.10681152344, 28.4786586761475), h = 96.180526733398 }, -- Mission row
 	{name = "Police Garage", sprite = 50, colour = 18, coords = vector3(-457.88, 6024.79, 31.34), h = 1.0}, -- Paleto Bay
 	{name = "Police Garage", sprite = 50, colour = 18, coords = vector3(1866.84, 3697.15, 33.60), h = 1.0}, -- Sandy Shores
 	{name = "Police Garage", sprite = 50, colour = 18, coords = vector3(-1068.95, -859.73, 4.87), h = 1.0}, -- San Andreas Ave
@@ -1557,19 +1556,21 @@ Citizen.CreateThread(function()
 
                 for i = 1, #user_vehicles do
                     if user_vehicles ~= nil then
-                        if user_vehicles[i].state ~= "~r~Missing" and not string.starts(user_vehicles[i].state, "~b~Impounded") then
-                            if WarMenu.Button(tostring(user_vehicles[i].name), user_vehicles[i].state) then
-                                SpawnVehicle(user_vehicles[i], i)
-                                WarMenu.CloseMenu()
-                            end
-                        elseif user_vehicles[i].state == "~r~Missing" then
-                            if WarMenu.Button(tostring(user_vehicles[i].name), user_vehicles[i].state) then
-                                
-                            end
-                        else
-                            if WarMenu.Button(tostring(user_vehicles[i].name), user_vehicles[i].state) then
-                                TriggerServerEvent("garage:pay_impound", i)
-                                WarMenu.CloseMenu()                      
+                        if user_vehicles[i].police then
+                            if user_vehicles[i].state ~= "~r~Missing" and not string.starts(user_vehicles[i].state, "~b~Impounded") then
+                                if WarMenu.Button(tostring(user_vehicles[i].name), user_vehicles[i].state) then
+                                    SpawnVehicle(user_vehicles[i], i)
+                                    WarMenu.CloseMenu()
+                                end
+                            elseif user_vehicles[i].state == "~r~Missing" then
+                                if WarMenu.Button(tostring(user_vehicles[i].name), user_vehicles[i].state) then
+                                    
+                                end
+                            else
+                                if WarMenu.Button(tostring(user_vehicles[i].name), user_vehicles[i].state) then
+                                    TriggerServerEvent("garage:pay_impound", i)
+                                    WarMenu.CloseMenu()                      
+                                end
                             end
                         end
                     end
@@ -1583,7 +1584,7 @@ end)
 function StorePoliceVehicle()
     Citizen.CreateThread(function()
         Citizen.Wait(0)
-        local veh = GetClosestVehicle(currentgarage.x, currentgarage.y, currentgarage.z, 3.000, 0, 70)
+        local veh = GetNearestVehicle(PlayerPedId(), true, 2.5)
         if GetVehicleEngineHealth(veh) >= 900 then
             if DoesEntityExist(veh) then
                 for i = 1, #out do
@@ -1708,6 +1709,7 @@ function StorePoliceVehicle()
                                 headlight_colour = GetVehicleHeadlightsColour(veh),
                                 dashboard_colour = GetVehicleDashboardColour(veh),
                                 interior_colour = GetVehicleInteriorColour(veh),
+                                police = 1,
                             }
 
                             for i = 0, 8 do
@@ -1732,12 +1734,6 @@ function StorePoliceVehicle()
                                 end
                             end
 
-                            TriggerServerEvent("garage:stored", data)
-                            Citizen.InvokeNative(0xEA386986E786A54F, Citizen.PointerValueIntInitialized(veh))
-                            exports.pNotify:SendNotification({text = "Vehicle stored", type = "success", queue = "left", timeout = 3000, layout = "centerRight"})
-                            garage_menu = false
-                            stored = true
-                            
                             TriggerServerEvent("garage:stored", data)
                             Citizen.InvokeNative(0xEA386986E786A54F, Citizen.PointerValueIntInitialized(veh))
                             exports.pNotify:SendNotification({text = "Vehicle stored", type = "success", queue = "left", timeout = 3000, layout = "centerRight"})
@@ -1774,7 +1770,7 @@ AddEventHandler("policeVehicle:bought", function(data, position)
         local count = #user_vehicles + 1
         user_vehicles[count] = data
         user_vehicles[count].state = "~g~Stored"
-        
+
         if veh ~= nil and veh ~= 0 then
             table.insert(out, veh)
             SetVehicleOnGroundProperly(veh)
@@ -1878,12 +1874,14 @@ AddEventHandler("policeVehicle:bought", function(data, position)
             TaskWarpPedIntoVehicle(GetPlayerPed(-1),veh,-1)
             
             SetEntityInvincible(veh, false)
+            
             if data.fuel == nil then
                 data.fuel = GetVehicleHandlingFloat(veh, "CHandlingData", "fPetrolTankVolume")
             end
+
             DecorSetFloat(veh, "_Fuel_Level", data.fuel)
-            user_vehicles[index].state = "~r~Missing"
-            user_vehicles[index].instance = veh
+            user_vehicles[count].state = "~r~Missing"
+            user_vehicles[count].instance = veh
 
             data.state = "~r~Missing"
             data.instance = veh
