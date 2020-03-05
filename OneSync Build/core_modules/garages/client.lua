@@ -1499,13 +1499,15 @@ reload()]]
 function GetVehiclesTable()
     return user_vehicles
 end
-
+vector4(-570.34527587891, -145.39215087891, 37.769443511963, 204.90679931641),
+vector4(-1068.9499511719, -859.72998046875, 4.8676266670227, 215.37358093262),
+vector4(1866.8569335938, 3697.1413574219, 33.603351593018, 215.37358093262),
 local policeGarages = {
     {name = "Police Garage", sprite = 50, colour = 18, coords = vector3(452.115966796875, -1018.10681152344, 28.4786586761475), h = 96.180526733398 }, -- Mission row
-	{name = "Police Garage", sprite = 50, colour = 18, coords = vector3(-457.88, 6024.79, 31.34), h = 1.0}, -- Paleto Bay
-	{name = "Police Garage", sprite = 50, colour = 18, coords = vector3(1866.84, 3697.15, 33.60), h = 1.0}, -- Sandy Shores
-	{name = "Police Garage", sprite = 50, colour = 18, coords = vector3(-1068.95, -859.73, 4.87), h = 1.0}, -- San Andreas Ave
-	{name = "Police Garage", sprite = 50, colour = 18, coords = vector3(-570.28, -145.50, 37.79), h = 1.0}, -- Rockford Hills
+	{name = "Police Garage", sprite = 50, colour = 18, coords = vector3(-457.88, 6024.79, 31.34), h = 313.40969848633}, -- Paleto Bay
+	{name = "Police Garage", sprite = 50, colour = 18, coords = vector3(1866.84, 3697.15, 33.60), h = 215.37358093262}, -- Sandy Shores
+	{name = "Police Garage", sprite = 50, colour = 18, coords = vector3(-1068.95, -859.73, 4.87), h = 215.37358093262}, -- San Andreas Ave
+	{name = "Police Garage", sprite = 50, colour = 18, coords = vector3(-570.28, -145.50, 37.79), h = 204.90679931641}, -- Rockford Hills
 	{name = "Police Garage", sprite = 50, colour = 18, coords = vector3(367.40277099609, 790.59448242188, 187.22383117676), h = 236.06201171875}, -- Park Ranger Station
 }
 local policeGarageMenu = "pd_garage_"
