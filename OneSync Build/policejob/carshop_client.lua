@@ -2,8 +2,17 @@ local policeVehicleShops = {
 	{
 		menu = vector3(458.59939575195, -1008.0531005859, 28.272630691528),
 		spawn = { vector3(454.99453735352, -1014.9270629883, 28.429304122925), 91.780181884766 }
-	}
+    }, -- MRPD
+	{
+		menu = vector3(-460.69421386719, 6014.8325195313, 31.490106582642),
+		spawn = { vector3(-462.82507324219, 6009.6762695313, 31.340545654297), 90.419441223145 }
+    }, -- Paleto Bay
+	{
+		menu = vector3(1854.2894287109, 3701.1186523438, 34.266407012939),
+		spawn = { vector3(1861.6223144531, 3706.6042480469, 33.364200592041), 34.434898376465 },
+	}, -- Sandy Shores
 }
+
 local policeVehicles = {
 	{name = "Marked Transport", model = "policet", price = 0, rank = "cadet"},
 	{name = "Prison Bus", model = "pbus", price = 0, rank = "cadet"},
