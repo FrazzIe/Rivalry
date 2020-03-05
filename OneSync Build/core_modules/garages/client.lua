@@ -695,21 +695,23 @@ function GetVehicles()
     Menu.Switch("garage_menu","vehicle_list")
     for i = 1,#user_vehicles do
         if (user_vehicles[i] ~= nil) then
-            if user_vehicles[i].garage_id == currentgarage.id then
-                Menu.addOption("vehicle_list", function()
-                    if(Menu.Bool(tostring(user_vehicles[i].name), vehiclebool, tostring(user_vehicles[i].state),tostring(user_vehicles[i].state),function(cb)   vehiclebool = cb end))then
-                        if user_vehicles[i].state ~= "~r~Missing" and not string.starts(user_vehicles[i].state, "~b~Impounded") then
-                            garage_menu = false
-                            SpawnVehicle(user_vehicles[i], i)
-                        elseif string.starts(user_vehicles[i].state, "~b~Impounded") then
-                            TriggerServerEvent("garage:pay_impound", i)
-                            garage_menu = false
-                        else
-                            exports.pNotify:SendNotification({text = "This vehicle is not in the garage", type = "error", queue = "left", timeout = 3000, layout = "centerRight"})
+            if not user_vehicles[i].police then
+                if user_vehicles[i].garage_id == currentgarage.id then
+                    Menu.addOption("vehicle_list", function()
+                        if(Menu.Bool(tostring(user_vehicles[i].name), vehiclebool, tostring(user_vehicles[i].state),tostring(user_vehicles[i].state),function(cb)   vehiclebool = cb end))then
+                            if user_vehicles[i].state ~= "~r~Missing" and not string.starts(user_vehicles[i].state, "~b~Impounded") then
+                                garage_menu = false
+                                SpawnVehicle(user_vehicles[i], i)
+                            elseif string.starts(user_vehicles[i].state, "~b~Impounded") then
+                                TriggerServerEvent("garage:pay_impound", i)
+                                garage_menu = false
+                            else
+                                exports.pNotify:SendNotification({text = "This vehicle is not in the garage", type = "error", queue = "left", timeout = 3000, layout = "centerRight"})
+                            end
                         end
-                    end
-                end)
-            end
+                    end)
+                end
+            ebd
         end
     end
 end
