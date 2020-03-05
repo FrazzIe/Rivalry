@@ -64,6 +64,7 @@ local function GetVehicleData()
 		dashboard_colour = -1,
 		interior_colour = -1,
 		instance = 0,
+		police = 1,
 	}
 	
 	for i = 0, 8 do
