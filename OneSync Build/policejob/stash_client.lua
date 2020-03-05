@@ -36,6 +36,7 @@ Citizen.CreateThread(function()
                     DrawMarker(25, stash.x, stash.y, stash.z - 0.95, 0, 0, 0, 0, 0, 0, 1.0, 1.0, 1.5, 255, 255, 0, 50, 0, 0, 2, 0, 0, 0, 0) -- Draw a marker
 
                     if stashDist < 1.5 then
+                        DisplayHelpText("Press ~INPUT_CONTEXT~ to open locker!")
                         if IsControlJustPressed(1, 51) then
                             if WarMenu.IsMenuOpened(stashMenu) then
                                 WarMenu.CloseMenu()

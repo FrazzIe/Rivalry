@@ -44,6 +44,7 @@ local policeVehicles = {
     {name = "Unmarked 2018 Charger", model = "18charger", price = 0, rank = "lieutenant"},
     {name = "Unmarked 2016 Tahoe", model = "um4", price = 0, rank = "captain"},
 }
+
 local policeVehicleMenu = "pd_veh_shop_"
 local policeGarageLimit = 15
 
@@ -72,7 +73,8 @@ Citizen.CreateThread(function()
 
 				if shopDist < 10 then
 					DrawMarker(25, vehicleShop.menu.x, vehicleShop.menu.y, vehicleShop.menu.z - 0.9, 0, 0, 0, 0, 0, 0, 1.0, 1.0, 1.5, 0, 0, 255, 155, 0, 0, 2, 0, 0, 0, 0)
-					if shopDist < 1.5 then
+                    if shopDist < 1.5 then
+                        DisplayHelpText("Press ~INPUT_CONTEXT~ to open vehicle shop!")
                         if IsControlJustPressed(1, 51) then
                             if not WarMenu.IsMenuOpened(policeVehicleMenu) then
 								playerVehicles = exports["core_modules"]:GetVehiclesTable()
