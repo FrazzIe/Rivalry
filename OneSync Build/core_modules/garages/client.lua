@@ -1274,7 +1274,7 @@ function SpawnVehicle(data, index)
                 SetVehicleLivery(veh, data.livery)
 
                 for i = 1, 15 do
-                    if DoesExtraExist(veh, i-1) and data["extra"..i] then
+                    if DoesExtraExist(veh, i-1) and data["extra"..i] ~= nil then
                         SetVehicleExtra(veh, i-1, not data["extra"..i])
                     end
                 end
@@ -1400,7 +1400,7 @@ function SpawnReplacement(data, index)
             SetVehicleLivery(veh, data.livery)
 
             for i = 1, 15 do
-                if DoesExtraExist(veh, i-1) and data["extra"..i] then
+                if DoesExtraExist(veh, i-1) and data["extra"..i] ~= nil then
                     SetVehicleExtra(veh, i-1, not data["extra"..i])
                 end
             end
