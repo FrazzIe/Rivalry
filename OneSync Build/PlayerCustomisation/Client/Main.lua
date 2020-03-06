@@ -744,7 +744,7 @@ AddEventHandler("PlayerCustomisation.ModelType", function(Type, Coordinates, Nam
 	if PlayerCustomisation.PlayerData.Types[Type] then
 		PlayerCustomisation.PlayerData.Type = Type
 
-		UpdateModel(PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Model)
+		UpdateModel(PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Model, true)
 
 		if PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender ~= "Hybrid" then
 			--SetupTattooMenu(TattooMenu)
