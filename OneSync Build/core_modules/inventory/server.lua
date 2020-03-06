@@ -1301,7 +1301,7 @@ AddEventHandler("inventory:vehicle_weapon_deposit", function(plate, weapon, clas
         if getVehicleWeapons(plate) < vehicle_weapon_max then
             TriggerEvent("core:getuser", source, function(user)
                 if vehicle_weapon_inventory[plate] then
-                    exports["GHMattiMySQL"]:QueryAsync("DELETE FROM weapons WHERE (character_id=@character_id) AND (model=@model) AND (pd_stash = 0)", {
+                    exports["GHMattiMySQL"]:QueryAsync("DELETE FROM weapons WHERE (character_id=@character_id) AND (model=@model)", {
                         ["@character_id"] = user.get("characterID"),
                         ["@model"] = weapon.model,
                     })
@@ -1328,7 +1328,6 @@ AddEventHandler("inventory:vehicle_weapon_deposit", function(plate, weapon, clas
                         TriggerClientEvent("weapon:set", source, user_weapons[source])
                         TriggerClientEvent("weapon:give", source)
                         TriggerClientEvent("weapon:sync", -1, user_weapons)
-                        TriggerEvent("weapon:sync", user_weapons)
                     end, true)
 
                     Notify("Deposited a "..Weapons_names[weapon.model].." with "..weapon.ammo.." bullet(s)", 3000, source)
@@ -1336,7 +1335,7 @@ AddEventHandler("inventory:vehicle_weapon_deposit", function(plate, weapon, clas
                     vehicle_weapon_inventory[plate] = {}
                     vehicle_weapon_inventory[plate].weapons = {}
                     vehicle_weapon_inventory[plate].locked = "true"
-                    exports["GHMattiMySQL"]:QueryAsync("DELETE FROM weapons WHERE (character_id=@character_id) AND (model=@model) AND (pd_stash = 0)", {
+                    exports["GHMattiMySQL"]:QueryAsync("DELETE FROM weapons WHERE (character_id=@character_id) AND (model=@model)", {
                         ["@character_id"] = user.get("characterID"),
                         ["@model"] = weapon.model,
                     })
@@ -1363,7 +1362,6 @@ AddEventHandler("inventory:vehicle_weapon_deposit", function(plate, weapon, clas
                         TriggerClientEvent("weapon:set", source, user_weapons[source])
                         TriggerClientEvent("weapon:give", source)
                         TriggerClientEvent("weapon:sync", -1, user_weapons)
-                        TriggerEvent("weapon:sync", user_weapons)
                     end, true)
 
                     Notify("Deposited a "..Weapons_names[weapon.model].." with "..weapon.ammo.." bullet(s)", 3000, source)
@@ -1411,7 +1409,6 @@ AddEventHandler("inventory:vehicle_weapon_withdraw", function(plate, weapon, wea
                             TriggerClientEvent("weapon:set", source, user_weapons[source])
                             TriggerClientEvent("weapon:give", source)
                             TriggerClientEvent("weapon:sync", -1, user_weapons)
-                            TriggerEvent("weapon:sync", user_weapons)
                             Notify("Withdrew a "..Weapons_names[weapon.model].." with "..weapon.ammo.." bullet(s)", 3000, source)
                         end, true)
                     end)

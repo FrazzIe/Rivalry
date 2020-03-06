@@ -296,7 +296,6 @@ AddEventHandler("PlayerCustomisation.ModelLoaded", function(Type)
         TriggerClientEvent("paramedic:weapons", source)
     elseif Type == "Police" then
         TriggerEvent("blips:set", source, true, 3)
-        TriggerClientEvent("weapon:give", source)
     end
 end)
 
