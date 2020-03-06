@@ -255,21 +255,21 @@ Public_Blackmarket_Weapons = {
 }
 
 PoliceWeapons = {
-	{Category = "Pistols", License = true, Items = {
-		{Weapon = "WEAPON_PISTOL", Name = "Pistol", Cost = 750},
-		{Weapon = "WEAPON_COMBATPISTOL", Name = "Combat Pistol", Cost = 1000},
-		{Weapon = "WEAPON_STUNGUN", Name = "Stungun", Cost = 500},
-	}},
-	{Category = "Melee", License = false, Items = {
-		{Weapon = "WEAPON_FLASHLIGHT", Name = "Flashlight", Cost = 100},
-		{Weapon = "WEAPON_NIGHTSTICK", Name = "Nightstick", Cost = 100},
-	}},
-	{Category = "Assault Rifles", License = true, Items = {
-		{Weapon = "WEAPON_CARBINERIFLE", Name = "Carbine Rifle", Cost = 2500},
-	}},
-	{Category = "Shotguns", License = true, Items = {
-		{Weapon = "WEAPON_PUMPSHOTGUN", Name = "Pump Shotgun", Cost = 1500},
-	}},
+    {Category = "Pistols", License = true, Items = {
+        {Weapon = "WEAPON_PISTOL", Name = "Pistol", Cost = 50},
+        {Weapon = "WEAPON_COMBATPISTOL", Name = "Combat Pistol", Cost = 100},
+        {Weapon = "WEAPON_STUNGUN", Name = "Stungun", Cost = 50},
+    }},
+    {Category = "Melee", License = false, Items = {
+        {Weapon = "WEAPON_FLASHLIGHT", Name = "Flashlight", Cost = 10},
+        {Weapon = "WEAPON_NIGHTSTICK", Name = "Nightstick", Cost = 10},
+    }},
+    {Category = "Assault Rifles", License = true, Items = {
+        {Weapon = "WEAPON_CARBINERIFLE", Name = "Carbine Rifle", Cost = 100},
+    }},
+    {Category = "Shotguns", License = true, Items = {
+        {Weapon = "WEAPON_PUMPSHOTGUN", Name = "Pump Shotgun", Cost = 100},
+    }},
 }
 
 Weapons_names = {
