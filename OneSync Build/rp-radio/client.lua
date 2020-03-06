@@ -386,7 +386,7 @@ Citizen.CreateThread(function()
             end
         else
             -- Play emergency services radio animation
-            if isEmergency then
+            --if isEmergency then
                 if Radio.Has and Radio.On and isBroadcasting and not isPlayingBroadcastAnim then
                     RequestAnimDict(broadcastDictionary)
     
@@ -398,7 +398,7 @@ Citizen.CreateThread(function()
                 elseif not isBroadcasting and isPlayingBroadcastAnim then
                     StopAnimTask(playerPed, broadcastDictionary, broadcastAnimation, -4.0)
                 end
-            end
+            --end
         end
     end
 end)
