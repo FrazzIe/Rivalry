@@ -444,7 +444,7 @@ AddEventHandler("properties:deposit", function(property_type, property_variant, 
 								if tablelength(properties[property_type][property_variant][property_id]["storage"]["current"][deposit_type]) < properties[property_type][property_variant][property_id]["storage"]["max"][deposit_type] then
 									if user_weapons[source][_data.model] then
 										user_weapons[source][_data.model] = nil
-										exports["GHMattiMySQL"]:QueryAsync("DELETE FROM weapons WHERE (character_id=@character_id) AND (model=@model)", {
+										exports["GHMattiMySQL"]:QueryAsync("DELETE FROM weapons WHERE (character_id=@character_id) AND (model=@model) AND (pd_stash = 0)", {
 											["@character_id"] = user.get("characterID"),
 											["@model"] = _data.model,
 										})
@@ -468,7 +468,8 @@ AddEventHandler("properties:deposit", function(property_type, property_variant, 
 										    TriggerClientEvent("properties:sync", -1, properties)
 										    TriggerClientEvent("weapon:set", source, user_weapons[source])
 										    TriggerClientEvent("weapon:give", source)
-										    TriggerClientEvent("weapon:sync", -1, user_weapons)
+											TriggerClientEvent("weapon:sync", -1, user_weapons)
+											TriggerEvent("weapon:sync", user_weapons)
 										end, true)
 									end
 								else
@@ -591,6 +592,7 @@ AddEventHandler("properties:withdraw", function(property_type, property_variant,
 												TriggerClientEvent("weapon:set", source, user_weapons[source])
 												TriggerClientEvent("weapon:give", source)
 												TriggerClientEvent("weapon:sync", -1, user_weapons)
+												TriggerEvent("weapon:sync", user_weapons)
 											end, true)
 										end
 									else

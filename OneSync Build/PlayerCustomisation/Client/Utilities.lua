@@ -175,7 +175,7 @@ function UpdatePlayer()
 	end
 end
 
-function UpdateModel(Skin)
+function UpdateModel(Skin, save)
     local Model = GetHashKey(Skin)
     if IsModelInCdimage(Model) and IsModelValid(Model) then
         RequestModel(Model)
@@ -191,14 +191,16 @@ function UpdateModel(Skin)
         if Skin ~= "mp_f_freemode_01" and Skin ~= "mp_m_freemode_01" then
             SetPedDefaultComponentVariation(PlayerPed)
 
-			for Index = 1, 12 do
-				PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Clothing.Drawable[Index] = GetPedDrawableVariation(PlayerPed, Index - 1)
-				PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Clothing.Texture[Index] = GetPedTextureVariation(PlayerPed,  Index - 1)
-			end
+			if not save then
+				for Index = 1, 12 do
+					PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Clothing.Drawable[Index] = GetPedDrawableVariation(PlayerPed, Index - 1)
+					PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Clothing.Texture[Index] = GetPedTextureVariation(PlayerPed,  Index - 1)
+				end
 
-			for Index = 1, 8 do
-				PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Props.Drawable[Index] = GetPedPropIndex(PlayerPed, Index - 1)
-				PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Props.Texture[Index] = GetPedPropTextureIndex(PlayerPed, Index - 1)
+				for Index = 1, 8 do
+					PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Props.Drawable[Index] = GetPedPropIndex(PlayerPed, Index - 1)
+					PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type][PlayerCustomisation.PlayerData.Types[PlayerCustomisation.PlayerData.Type].Gender].Props.Texture[Index] = GetPedPropTextureIndex(PlayerPed, Index - 1)
+				end
 			end
         else
             SetPedComponentVariation(PlayerPed, 11, 0, 240, 0)

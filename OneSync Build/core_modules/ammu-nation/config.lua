@@ -36,6 +36,14 @@ ammu_nation = {
 	license = {
 		{name="Gun License", colour=5, id=434, x=437.24404907227, y=-994.11242675781, z=30.68959236145},
 	},
+	police = {
+		{name = "Armoury", sprite = 175, colour = 39, x=452.28164672852, y=-980.19580078125, z=30.689605712891}, -- Mission row
+		{name = "Armoury", sprite = 175, colour = 39, x = -437.8244934082, y = 5988.9809570313, z = 31.716171264648},-- Paleto Bay
+		{name = "Armoury", sprite = 175, colour = 39, x = 1861.7764892578, y = 3689.1826171875, z = 34.260852813721}, -- Sandy Shores
+		{name = "Armoury", sprite = 175, colour = 39, x=-1078.54, y=-857.00, z=5.04}, -- San Andreas Ave
+		{name = "Armoury", sprite = 175, colour = 39, x=-566.57, y=-132.83, z=37.96}, -- Rockford Hills
+		{name = "Armoury", sprite = 175, colour = 39, x=389.47625732422, y=798.86975097656, z=187.67149353027}, -- Park Ranger Station
+	}
 }
 Weapons = {
 	{Category = "Pistols", License = true, Items = {
@@ -244,6 +252,24 @@ Public_Blackmarket_Weapons = {
 	{Category = "Gadgets", Items = {
 		{Weapon = "GADGET_PARACHUTE", Name = "Parachute", Cost = 500},
 	}},
+}
+
+PoliceWeapons = {
+    {Category = "Pistols", License = true, Items = {
+        {Weapon = "WEAPON_PISTOL", Name = "Pistol", Cost = 50},
+        {Weapon = "WEAPON_COMBATPISTOL", Name = "Combat Pistol", Cost = 100},
+        {Weapon = "WEAPON_STUNGUN", Name = "Stungun", Cost = 50},
+    }},
+    {Category = "Melee", License = false, Items = {
+        {Weapon = "WEAPON_FLASHLIGHT", Name = "Flashlight", Cost = 10},
+        {Weapon = "WEAPON_NIGHTSTICK", Name = "Nightstick", Cost = 10},
+    }},
+    {Category = "Assault Rifles", License = true, Items = {
+        {Weapon = "WEAPON_CARBINERIFLE", Name = "Carbine Rifle", Cost = 100},
+    }},
+    {Category = "Shotguns", License = true, Items = {
+        {Weapon = "WEAPON_PUMPSHOTGUN", Name = "Pump Shotgun", Cost = 100},
+    }},
 }
 
 Weapons_names = {
