@@ -708,6 +708,15 @@ PlayerCustomisation.Locations = {
 			Marker = {x = -1337.6094970703, y = -1278.38671875, z = 4.8686590194702, h = 104.41195678711},
 			Banner = "shopui_title_movie_masks",
 		},
+		[2] = {
+			Blip = {
+				Name = "Vespucci Movie Masks", 
+				Sprite = 362,
+				Colour = 0,
+			},
+			Marker = {x = -143.76780700684, y = 230.12971496582, z = 94.939735412598, h = 356.40725708008},
+			Banner = "shopui_title_movie_masks",
+		},
 	},
 	Tattoos = {
 		[1] = {
