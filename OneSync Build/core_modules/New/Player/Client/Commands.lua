@@ -379,7 +379,7 @@ AddEventHandler("core:ready", function()
     --         ChatMessage("INFO", "You must be on duty to use this command!", 255, 0, 0, true)
     --     end
     -- end, false, {Help = "EMSONLY: Toggle Components on vehicle!", Params = {}})
-
+    --[[
     Chat.Command({"ar", "rifle"}, function(source, args, rawCommand)
         if exports.policejob:getIsInService() then
             local pos = GetEntityCoords(PlayerPedId(), false)
@@ -425,7 +425,7 @@ AddEventHandler("core:ready", function()
             Chat.Message("INFO", "You must be on duty use this command!", 255, 0, 0, true)
         end
     end, false, {Help = "Toggle shotgun",  Params = {}})
-
+    --]]
     Chat.Command({"bars", "immersion"}, function(source, args, rawCommand)
         DisplayImmersionBars = not DisplayImmersionBars
         TriggerEvent('interaction:hud')
