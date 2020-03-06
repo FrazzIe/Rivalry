@@ -19,7 +19,7 @@ local armoury = {
     {name = "Armoury", sprite = 175, colour = 39, x=-566.57, y=-132.83, z=37.96}, -- Rockford Hills
     {name = "Armoury", sprite = 175, colour = 39, x=389.47625732422, y=798.86975097656, z=187.67149353027}, -- Park Ranger Station
 }
---[[
+
 guns = {
     {name = "9mm Pistol", model = "WEAPON_PISTOL"},
     {name = "45mm Pistol", model = "WEAPON_COMBATPISTOL"},
@@ -141,7 +141,7 @@ Citizen.CreateThread(function()
     	end
     end
 end)
---]]
+
 function ArmouryBlips()
     for _, item in pairs(armoury) do
         addBlip(item)

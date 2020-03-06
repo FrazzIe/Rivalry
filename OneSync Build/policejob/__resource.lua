@@ -26,12 +26,6 @@ server_script 'functions_server.lua'
 server_script 'mission_server.lua'
 --server_script 'new_forensics_server.lua'
 
-client_script "stash_client.lua"
-server_script "stash_server.lua"
-
-client_script "carshop_client.lua"
-server_script "carshop_server.lua"
-
 export 'getIsInService'
 export 'getIsCuffed'
 export 'getPoliceRank'
