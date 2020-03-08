@@ -1,7 +1,7 @@
 local ragdoll_time_source = 1500
 local ragdoll_time_target = 3000
 local ragdoll_time_target_ai = 4000
-local area_of_effect_radius = 1.995
+local area_of_effect_radius = 1.445
 
 function math.pow(x, y)
 	for i = 1, y-1 do
@@ -68,7 +68,7 @@ Citizen.CreateThread(function()
 		Citizen.Wait(0)
 		local ped, position = PlayerPedId(), GetEntityCoords(PlayerPedId(), false)
 		if IsControlJustPressed(1, 51) and not IsPedSittingInAnyVehicle(ped) and GetEntitySpeed(ped) > 4.7 then
-			if exports.policejob:getIsInService() then
+			--if exports.policejob:getIsInService() then
 				local players, peds = GetPlayerTargets(ped, position), GetPedTargets(ped, position)
 				if #players > 0 or #peds > 0 then
 					TaskPlayAnim(ped, "move_jump", "dive_start_run", 8.0, -8.0, -1, 0, 0, false, false, false)
@@ -85,7 +85,7 @@ Citizen.CreateThread(function()
 						end
 					end
 				end
-			end
+			--end
 		end
 	end
 end)
