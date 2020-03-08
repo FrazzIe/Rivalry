@@ -184,6 +184,15 @@ BlackMarket_Weapons = {
 
 	["GADGET_PARACHUTE"] = 500,
 }
+PoliceWeapons = {
+	["WEAPON_PISTOL"] = 50,
+	["WEAPON_COMBATPISTOL"] = 100,
+	["WEAPON_STUNGUN"] = 50,
+	["WEAPON_FLASHLIGHT"] = 10,
+	["WEAPON_NIGHTSTICK"] = 10,
+	["WEAPON_CARBINERIFLE"] = 100,
+	["WEAPON_PUMPSHOTGUN"] = 100,
+}
 Attachments_Cost = {
 	["Suppressor"] = {100, 200},
 	["Flashlight"] = {300, 872},
@@ -366,65 +375,69 @@ AddEventHandler("GunStash.InitialiseInventory", function(Source)
 end)
 
 RegisterServerEvent("weapon:buy")
-AddEventHandler("weapon:buy", function(model)
+AddEventHandler("weapon:buy", function(model, pd)
+	local weap = pd and PoliceWeapons[model] or Weapons[model]
 	local source = source
-	if tablelength(user_weapons[source]) < max_weapons then
-		TriggerEvent("core:getuser", source, function(user)
-			if user.get("wallet") >= Weapons[model] then
-				user.removeWallet(Weapons[model])
-				exports["GHMattiMySQL"]:Insert("weapons", {
-					{
-						["character_id"] = user.get("characterID"),
-						["sellprice"] = Weapons[model]/2,
-						["model"] = model,
-						["ammo"] = 0,
-						["suppressor"] = "false",
-						["flashlight"] = "false",
-						["extended_clip"] = "false",
-						["scope"] = "false",
-						["grip"] = "false",
-						["advanced_scope"] = "false",
-						["skin"] = 0,
-						["owner"] = user.get("characterID"),
-					}
-				}, function(weapon_id)
-					user_weapons[source][model] = { id = weapon_id, character_id = user.get("characterID"), sellprice = Weapons[model]/2, model = model, ammo = 0, suppressor = "false", flashlight = "false", extended_clip = "false", scope = "false", grip = "false", advanced_scope = "false", skin = 0, owner = user.get("characterID")}
-					TriggerClientEvent("weapon:set", source, user_weapons[source])
-					TriggerClientEvent("weapon:give", source)
-					TriggerClientEvent("weapon:sync", -1, user_weapons)
-					TriggerEvent("weapon:sync", user_weapons)
-				end, true)
-			elseif user.get("bank") >= Weapons[model] then
-				user.removeBank(Weapons[model])
-				exports["GHMattiMySQL"]:Insert("weapons", {
-					{
-						["character_id"] = user.get("characterID"),
-						["sellprice"] = Weapons[model]/2,
-						["model"] = model,
-						["ammo"] = 0,
-						["suppressor"] = "false",
-						["flashlight"] = "false",
-						["extended_clip"] = "false",
-						["scope"] = "false",
-						["grip"] = "false",
-						["advanced_scope"] = "false",
-						["skin"] = 0,
-						["owner"] = user.get("characterID"),
-					}
-				}, function(weapon_id)
-					user_weapons[source][model] = { id = weapon_id, character_id = user.get("characterID"), sellprice = Weapons[model]/2, model = model, ammo = 0, suppressor = "false", flashlight = "false", extended_clip = "false", scope = "false", grip = "false", advanced_scope = "false", skin = 0, owner = user.get("characterID")}
-					TriggerClientEvent("weapon:set", source, user_weapons[source])
-					TriggerClientEvent("weapon:give", source)
-					TriggerClientEvent("weapon:sync", -1, user_weapons)
-					TriggerEvent("weapon:sync", user_weapons)
-				end, true)
-			else
-				Notify("Insufficient funds!", 3000, source)
-			end
-		end)
-	else
-		TriggerClientEvent("customNotification", "The maximum number of weapons you can carry is "..max_weapons)
-	end
+
+	if weap ~= nil then
+        if tablelength(user_weapons[source]) < max_weapons then
+            TriggerEvent("core:getuser", source, function(user)
+                if user.get("wallet") >= weap then
+                    user.removeWallet(weap)
+                    exports["GHMattiMySQL"]:Insert("weapons", {
+                        {
+                            ["character_id"] = user.get("characterID"),
+                            ["sellprice"] = weap/2,
+                            ["model"] = model,
+                            ["ammo"] = 0,
+                            ["suppressor"] = "false",
+                            ["flashlight"] = "false",
+                            ["extended_clip"] = "false",
+                            ["scope"] = "false",
+                            ["grip"] = "false",
+                            ["advanced_scope"] = "false",
+                            ["skin"] = 0,
+                            ["owner"] = user.get("characterID"),
+                        }
+                    }, function(weapon_id)
+                        user_weapons[source][model] = { id = weapon_id, character_id = user.get("characterID"), sellprice = weap/2, model = model, ammo = 0, suppressor = "false", flashlight = "false", extended_clip = "false", scope = "false", grip = "false", advanced_scope = "false", skin = 0, owner = user.get("characterID")}
+                        TriggerClientEvent("weapon:set", source, user_weapons[source])
+                        TriggerClientEvent("weapon:give", source)
+                        TriggerClientEvent("weapon:sync", -1, user_weapons)
+                        TriggerEvent("weapon:sync", user_weapons)
+                    end, true)
+                elseif user.get("bank") >= weap then
+                    user.removeBank(weap)
+                    exports["GHMattiMySQL"]:Insert("weapons", {
+                        {
+                            ["character_id"] = user.get("characterID"),
+                            ["sellprice"] = weap/2,
+                            ["model"] = model,
+                            ["ammo"] = 0,
+                            ["suppressor"] = "false",
+                            ["flashlight"] = "false",
+                            ["extended_clip"] = "false",
+                            ["scope"] = "false",
+                            ["grip"] = "false",
+                            ["advanced_scope"] = "false",
+                            ["skin"] = 0,
+                            ["owner"] = user.get("characterID"),
+                        }
+                    }, function(weapon_id)
+                        user_weapons[source][model] = { id = weapon_id, character_id = user.get("characterID"), sellprice = weap/2, model = model, ammo = 0, suppressor = "false", flashlight = "false", extended_clip = "false", scope = "false", grip = "false", advanced_scope = "false", skin = 0, owner = user.get("characterID")}
+                        TriggerClientEvent("weapon:set", source, user_weapons[source])
+                        TriggerClientEvent("weapon:give", source)
+                        TriggerClientEvent("weapon:sync", -1, user_weapons)
+                        TriggerEvent("weapon:sync", user_weapons)
+                    end, true)
+                else
+                    Notify("Insufficient funds!", 3000, source)
+                end
+            end)
+        else
+            TriggerClientEvent("customNotification", "The maximum number of weapons you can carry is "..max_weapons)
+        end
+    end
 end)
 
 RegisterServerEvent("weapon:buy_illegal")

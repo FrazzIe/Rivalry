@@ -714,7 +714,7 @@ Citizen.CreateThread(function()
 										end
 									else
 										if WarMenu.Button(j.Name, "$"..j.Cost) then
-											TriggerServerEvent("weapon:buy", j.Weapon)
+											TriggerServerEvent("weapon:buy", j.Weapon, true)
 										end
 									end
 								end
