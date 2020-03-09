@@ -410,12 +410,8 @@ end)
 RegisterServerEvent("police:tackle")
 AddEventHandler("police:tackle", function(targets)
 	local source = source
-	if cops[source] then
-		for i = 1, #targets do
-			TriggerClientEvent("police:tackle", targets[i], source)
-		end
-	else
-		TriggerEvent("core:anticheat-ban", source)
+	for i = 1, #targets do
+		TriggerClientEvent("police:tackle", targets[i], source)
 	end
 end)
 
