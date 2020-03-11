@@ -1,18 +1,38 @@
-local Data = {
-	Service = vector3(-27.503318786621,-1103.9670410156,26.422353744507),
-	DisplayMenu = vector3(-56.683197021484,-1098.8134765625,26.422353744507),
-	VehicleSpawnArea = vector3(-15.347786903381,-1084.8883056641,26.675786972046),
-	VehicleSpawnAreaHeading = 72.441734313965,
-	ReturnCars = vector3(-18.606876373291, -1101.9809570313, 26.671327590942),
+CarDealer = {
+	IsDealer = false,
+	OnDuty = false,
+	Sold = nil,
+	Rank = nil,
+	Type = nil,
 }
 
-CarDealer = {}
-CarDealer.IsDealer = false
-CarDealer.OnDuty = false
-CarDealer.Sold = nil
-CarDealer.Rank = nil
+local carDealers = {
+	["normal"] = { -- Legion PDM
+		{
+			clockIn = vector3(-27.503318786621, -1103.9670410156, 26.422353744507),
+			vehicleMenu = vector3(-56.683197021484, -1098.8134765625, 26.422353744507),
+			spawnArea = vector4(-15.347786903381, -1084.8883056641, 26.675786972046, 72.441734313965),
+			returnArea = vector3(-18.606876373291, -1101.9809570313, 26.671327590942)
+		},
+	},
+	["luxury"] = {
+		{
+			clockIn = vector3(-790.03094482422, -214.66940307617, 37.07967376709),
+			vehicleMenu = vector3(-789.22613525391, -222.05204772949, 37.079666137695),
+			spawnArea = vector4(-783.73052978516, -223.67184448242, 37.321510314941, 135.8309173584),
+			returnArea = vector3(-774.77813720703, -231.01620483398, 37.079620361328),
+		},
+	},
+	["import"] = {
 
-local DisplayedVehicles = {}
+	}
+}
+
+local displayedVehicles = {
+    ["normal"] = {},
+    ["luxury"] = {},
+    ["import"] = {},
+}
 
 Citizen.CreateThread(function()
 	function CarDealer:SpawnVehicle(model, coords, heading, clearArea)
@@ -88,11 +108,13 @@ AddEventHandler("CarDealer:Set", function(_Data, _CarDealer, first)
 	if not CarDealer.IsDealer then
 		CarDealer.Sold = nil
 		CarDealer.Rank = nil
+		CarDealer.Type = nil
 	else
 		if _Data ~= nil then
 			if _Data.sold ~= nil and _Data.rank ~= nil then
 				CarDealer.Sold = _Data.sold
 				CarDealer.Rank = _Data.rank
+				CarDealer.Type = _Data.type
 			end
 		end
 	end
@@ -100,11 +122,11 @@ end)
 
 RegisterNetEvent("DisplayVehicles.Sync")
 AddEventHandler("DisplayVehicles.Sync", function(Table)
-	DisplayedVehicles = Table
+	displayedVehicles = Table
 end)
 
 RegisterNetEvent("carshop:bought")
-AddEventHandler("carshop:bought",function(data, NetworkID)
+AddEventHandler("carshop:bought",function(data, NetworkID, Store)
     Citizen.CreateThread(function()
         Citizen.Wait(0)
 
@@ -216,28 +238,13 @@ AddEventHandler("carshop:bought",function(data, NetworkID)
             SetVehicleWindowTint(veh, tonumber(data.tint_colour))
         end
 	end)
-	TriggerServerEvent("CarDealer.RemoveVehicle", NetworkID)
+	TriggerServerEvent("CarDealer.RemoveVehicle", NetworkID, Store)
 end)
 
 RegisterNetEvent("Dealer.SoldVehicle")
-AddEventHandler("Dealer.SoldVehicle", function(Price)
+AddEventHandler("Dealer.SoldVehicle", function(Sold)
 	if CarDealer.IsDealer and CarDealer.OnDuty then
-		local Profit = nil
-		CarDealer.Sold = CarDealer.Sold + 1
-		if CarDealer.Rank == "Associate" then
-			Profit = Price * 0.05
-		elseif CarDealer.Rank == "Senior Associate" then
-			Profit = Price * 0.05
-		elseif CarDealer.Rank == "Supervisor" then
-			Profit = Price * 0.05
-		elseif CarDealer.Rank == "Manager" then
-			Profit = Price * 0.05
-		end
-		if Profit ~= nil then
-			if Profit > 0 then
-				TriggerServerEvent("Dealer.GivePayment", Profit)
-			end
-		end
+		CarDealer.sold = Sold
 	end
 end)
 
@@ -266,14 +273,17 @@ function GetGarage()
                 table.insert(available_garages, k)
             end
         end
-    end
+	end
+	
     return available_garages[1]
 end
 
-function IsDealershipCar(NetworkID)
-	for Index = 1, #DisplayedVehicles do
-		if DisplayedVehicles[Index].Entity == NetworkID then
-			return true
+function IsDealershipCar(NetworkID, Store)
+	if displayedVehicles[Store] then
+		for Index = 1, #displayedVehicles[Store] do
+			if displayedVehicles[Store][Index].Entity == NetworkID then
+				return true
+			end
 		end
 	end
 	return false
@@ -282,276 +292,313 @@ end
 Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(0)
+		
 		if CarDealer.IsDealer then
 			local Player = PlayerPedId()
-			local PlayerPosition = GetEntityCoords(Player, false)
-			if #(PlayerPosition - Data.Service) <= 1.0 then
-				if CarDealer.OnDuty then
-					DisplayHelpText("Press ~INPUT_CONTEXT~ to sign off duty!")
-					if IsControlJustPressed(1, 51) then
-						CarDealer.OnDuty = false
-					end
-				else
-					DisplayHelpText("Press ~INPUT_CONTEXT~ to sign on duty!")
-					if IsControlJustPressed(1, 51) then
-						CarDealer.OnDuty = true
-					end
-				end
-			end
-		end
-	end
-end)
-
-Citizen.CreateThread(function()
-	while true do
-		Citizen.Wait(0)
-		if CarDealer.OnDuty and CarDealer.IsDealer then
-			local Player = PlayerPedId()
 			local PlayerPosition = GetEntityCoords(Player)
-			if #(PlayerPosition - Data.DisplayMenu) <= 1.0 then
-				DisplayHelpText("Press ~INPUT_CONTEXT~ to view avaliable display vehicles!")
-				if IsControlJustPressed(1, 51) then
-					if not WarMenu.IsMenuOpened("DisplayedCars") then
-						if not WarMenu.DoesMenuExist("DisplayedCars") then
-							WarMenu.CreateMenu("DisplayedCars", "Vehicle Inventory")
-							WarMenu.SetSpriteTitle("DisplayedCars", "shopui_title_ie_modgarage")
-							WarMenu.SetSubTitle("DisplayedCars", "CATEGORIES")
-							WarMenu.SetMenuX("DisplayedCars", 0.6)
-							WarMenu.SetMenuY("DisplayedCars", 0.15)
-							for k,v in pairs(cars) do
-								WarMenu.CreateSubMenu(v.title, "DisplayedCars", v.title.." SECTION")
-								for i,j in pairs(v.vehicles) do
-									WarMenu.CreateSubMenu(j.name, v.title, j.name)
-								end
-							end
-							WarMenu.OpenMenu("DisplayedCars")
-						else
-							WarMenu.OpenMenu("DisplayedCars")
-						end
-					else
-						WarMenu.CloseMenu("DisplayedCars")
-					end
-				end
-			end
-			if #(PlayerPosition - Data.ReturnCars) <= 11.0 then
-				RenderMarker(25, Data.ReturnCars.x, Data.ReturnCars.y, Data.ReturnCars.z - 0.9, 1.5, 1.5, 2.0, 255, 255, 0, 20)
-				if #(PlayerPosition - Data.ReturnCars) <= 4.0 then
-					DisplayHelpText("Press ~INPUT_CONTEXT~ to return vehicle!")
-					if IsControlJustPressed(1, 51) then
-						if IsPedInAnyVehicle(PlayerPedId(), false) then
-							local Vehicle = GetVehiclePedIsIn(PlayerPedId(), true)
-							local NetworkID = NetworkGetNetworkIdFromEntity(Vehicle)
-							if IsDealershipCar(NetworkID) then
-								TriggerServerEvent("CarDealer.RemoveVehicle", NetworkID)
-								DestroyVehicle(Vehicle)
-							else
-								Notify("This vehicle is not a dealership vehicle!", 3100)
-							end
-						else
-							Notify("You must be in a vehicle!", 3100)
-						end
-					end
-				end
-			end
-			if WarMenu.IsMenuOpened("DisplayedCars") then
-				for k,v in pairs(cars) do
-					if WarMenu.MenuButton(v.title, v.title) then
-						currentCategory = v.vehicles
-					end
-				end
-				WarMenu.Display()
-			end
-			for k,v in pairs(cars) do
-				if WarMenu.IsMenuOpened(v.title) then
-					for i,j in pairs(v.vehicles) do
-						if WarMenu.Button(j.name) then
-							local Vehicle = CarDealer:SpawnVehicle(j.model, { x = Data.VehicleSpawnArea.x, y = Data.VehicleSpawnArea.y, z = Data.VehicleSpawnArea.z }, Data.VehicleSpawnAreaHeading, false)
-							SetVehicleOnGroundProperly(Vehicle)
-							SetPedIntoVehicle(Player, Vehicle, -1)
-							DecorSetBool(Vehicle, "hotwire", true)
-							for i = 0,24 do
-								SetVehicleModKit(Vehicle,0)
-								RemoveVehicleMod(Vehicle,i)
-							end
-							local turbo
-							local tiresmoke
-							local xenon
-							local neon0
-							local neon1
-							local neon2
-							local neon3
-							local bulletproof
-							local custom_wheels
-							local custom_wheels2
-							local plate = GetVehicleNumberPlateText(Vehicle)
-							local colors = table.pack(GetVehicleColours(Vehicle))
-							local extra_colors = table.pack(GetVehicleExtraColours(Vehicle))
-							local neoncolor = table.pack(GetVehicleNeonLightsColour(Vehicle))
-							local smokecolor = table.pack(GetVehicleTyreSmokeColor(Vehicle))
 
-							if IsToggleModOn(Vehicle,18) then
-								turbo = "on"
-							else
-								turbo = "off"
-							end
-
-							if IsToggleModOn(Vehicle,20) then
-								tiresmoke = "on"
-							else
-								tiresmoke = "off"
-							end
-
-							if IsToggleModOn(Vehicle,22) then
-								xenon = "on"
-							else
-								xenon = "off"
-							end
-
-							if IsVehicleNeonLightEnabled(Vehicle,0) then
-								neon0 = "on"
-							else
-								neon0 = "off"
-							end
-
-							if IsVehicleNeonLightEnabled(Vehicle,1) then
-								neon1 = "on"
-							else
-								neon1 = "off"
-							end
-
-							if IsVehicleNeonLightEnabled(Vehicle,2) then
-								neon2 = "on"
-							else
-								neon2 = "off"
-							end
-
-							if IsVehicleNeonLightEnabled(Vehicle,3) then
-								neon3 = "on"
-							else
-								neon3 = "off"
-							end
-
-							if GetVehicleTyresCanBurst(Vehicle) then
-								bulletproof = "off"
-							else
-								bulletproof = "on"
-							end
-
-							if GetVehicleModVariation(Vehicle, 23) then
-								custom_wheels = "on"
-							else
-								custom_wheels = "off"
-							end
-
-							if GetVehicleModVariation(Vehicle, 24) then
-								custom_wheels2 = "on"
-							else
-								custom_wheels2 = "off"
-							end
-
-							local data = {
-								garage_id = nil,
-								model = j.model,
-								name = j.name,
-								instance = Vehicle,
-								plate = GetVehicleNumberPlateText(Vehicle),
-								state = "~r~Missing",
-								primary_colour = colors[1],
-								secondary_colour = colors[2],
-								pearlescent_colour = extra_colors[1],
-								wheel_colour = extra_colors[2],
-								smoke_colour = {smokecolor[1],smokecolor[2],smokecolor[3]},
-								plate_colour = GetVehicleNumberPlateTextIndex(Vehicle),
-								neon_colour = {neoncolor[1],neoncolor[2],neoncolor[3]},
-								tint_colour = GetVehicleWindowTint(Vehicle),
-								tyre_smoke = tiresmoke,
-								xenon_lights = xenon,
-								turbo = turbo,
-								custom_wheels = custom_wheels,
-								custom_wheels2 = custom_wheels2,
-								bulletproof_wheels = bulletproof,
-								wheeltype = GetVehicleWheelType(Vehicle),
-								neon0 = neon0,
-								neon1 = neon1,
-								neon2 = neon2,
-								neon3 = neon3,
-								engine_health = GetVehicleEngineHealth(Vehicle),
-								petrol_health = GetVehiclePetrolTankHealth(Vehicle),
-								body_health = GetVehicleBodyHealth(Vehicle),
-								vehicle_health = GetEntityHealth(Vehicle),
-								insurance = "true",
-								claims = 1,
-								fuel = 100,
-								livery = GetVehicleLivery(Vehicle),
-								headlight_colour = GetVehicleHeadlightsColour(Vehicle),
-                                dashboard_colour = GetVehicleDashboardColour(Vehicle),
-                                interior_colour = GetVehicleInteriorColour(Vehicle),
-							}
-
-							for i = 0, 8 do
-								data["mod"..i] = GetVehicleMod(Vehicle, i)
-							end
-
-							for i = 10, 16 do
-								data["mod"..i] = GetVehicleMod(Vehicle, i)
-							end
-
-							for i = 23, 46 do
-								data["mod"..i] = GetVehicleMod(Vehicle, i)
-							end
-
-							data["mod48"] = GetVehicleMod(Vehicle, 48)
-
-                            for i = 1, 15 do
-                                if DoesExtraExist(Vehicle, i-1) then
-                                    data["extra"..i] = IsVehicleExtraTurnedOn(Vehicle, i-1) and true or false
-                                else
-                                    data["extra"..i] = false
-                                end
-                            end
-							
-							--DecorSetBool(Vehicle, "_Is_DealerShip_Car", true)
-							--DecorSetBool(Vehicle, "_Is_CarDealer_Car", true)
-							TriggerServerEvent("Spawn.DisplayVehicle", {Model = j.model, Entity = NetworkGetNetworkIdFromEntity(Vehicle), Data = data, Price = 0, Intrest = 0, Weeks = 0, CashDown = 0, DealerText = "", Seller = GetPlayerServerId(PlayerId())})
-							WarMenu.CloseMenu()
-						end
-					end
-					WarMenu.Display()
-				end
-			end
-			if #DisplayedVehicles > 0 then
-				for Index = 1, #DisplayedVehicles do
-					if NetworkDoesNetworkIdExist(DisplayedVehicles[Index].Entity) then
-						if GetHashKey(DisplayedVehicles[Index].Model) == GetEntityModel(NetworkGetEntityFromNetworkId(DisplayedVehicles[Index].Entity)) then
-							local VehicleCoords = GetEntityCoords(NetworkGetEntityFromNetworkId(DisplayedVehicles[Index].Entity), false)
-							if #(PlayerPosition - VehicleCoords) <= 2.0 and not IsPedInAnyVehicle(Player) then
-								if DisplayedVehicles[Index].DealerText == "" then
-									Draw3DText(VehicleCoords.x, VehicleCoords.y, VehicleCoords.z, "[E] - Press to set information")
-								else
-									Draw3DText(VehicleCoords.x, VehicleCoords.y, VehicleCoords.z - 0.1, "[E] - Press to set information")
-								end
+			if carDealers[CarDealer.Type] then
+				for i = 1, #carDealers[CarDealer.Type] do
+					local clockInDist = #(PlayerPosition - carDealers[CarDealer.Type][i].clockIn)
+					if clockInDist < 10 then
+						DrawMarker(25, carDealers[CarDealer.Type][i].clockIn.x, carDealers[CarDealer.Type][i].clockIn.y, carDealers[CarDealer.Type][i].clockIn.z - 0.95, 0, 0, 0, 0, 0, 0, 1.0, 1.0, 1.5, 255, 255, 0, 155, 0, 0, 2, 0, 0, 0, 0)
+						
+						if clockInDist <= 1.0 then
+							if CarDealer.OnDuty then
+								DisplayHelpText("Press ~INPUT_CONTEXT~ to sign off duty!")
 								if IsControlJustPressed(1, 51) then
-									-- Create Inputs here
-									local Price = tonumber(KeyboardInput("Enter Total Price:", "100000", 11))
-									local Weeks = tonumber(KeyboardInput("Enter Total Weeks:", "8", 11))
-									local Intrest = tonumber(KeyboardInput("Enter Intrest Rate:", "10", 11))
-									if Intrest > 20 then
-										Intrest = 20
-									elseif Intrest < 5 then
-										Intrest = 5
+									CarDealer.OnDuty = false
+								end
+							else
+								DisplayHelpText("Press ~INPUT_CONTEXT~ to sign on duty!")
+								if IsControlJustPressed(1, 51) then
+									CarDealer.OnDuty = true
+								end
+							end
+						end
+					end
+					
+					if CarDealer.OnDuty and CarDealer.Type then
+						-- Vehicle menu marker
+						local vehicleMenuDist = #(PlayerPosition - carDealers[CarDealer.Type][i].vehicleMenu)
+						if vehicleMenuDist <= 10.0 then
+							DrawMarker(25, carDealers[CarDealer.Type][i].vehicleMenu.x, carDealers[CarDealer.Type][i].vehicleMenu.y, carDealers[CarDealer.Type][i].vehicleMenu.z - 0.95, 0, 0, 0, 0, 0, 0, 1.0, 1.0, 1.5, 255, 255, 0, 155, 0, 0, 2, 0, 0, 0, 0)
+							if vehicleMenuDist <= 1.0 then
+								DisplayHelpText("Press ~INPUT_CONTEXT~ to view avaliable display vehicles!")
+								if IsControlJustPressed(1, 51) then
+									if not WarMenu.IsMenuOpened("DisplayedCars_"..CarDealer.Type) then
+										if not WarMenu.DoesMenuExist("DisplayedCars_"..CarDealer.Type) then
+											WarMenu.CreateMenu("DisplayedCars_"..CarDealer.Type, "Vehicle Inventory")
+											WarMenu.SetSpriteTitle("DisplayedCars_"..CarDealer.Type, "shopui_title_ie_modgarage")
+											WarMenu.SetSubTitle("DisplayedCars_"..CarDealer.Type, "CATEGORIES")
+											WarMenu.SetMenuX("DisplayedCars_"..CarDealer.Type, 0.6)
+											WarMenu.SetMenuY("DisplayedCars_"..CarDealer.Type, 0.15)
+											for k,v in pairs(vehicleList[CarDealer.Type]) do
+												WarMenu.CreateSubMenu(v.title, "DisplayedCars_"..CarDealer.Type, v.title.." SECTION")
+												for i,j in pairs(v.vehicles) do
+													WarMenu.CreateSubMenu(j.name, v.title, j.name)
+												end
+											end
+											WarMenu.OpenMenu("DisplayedCars_"..CarDealer.Type)
+										else
+											WarMenu.OpenMenu("DisplayedCars_"..CarDealer.Type)
+										end
+									else
+										WarMenu.CloseMenu("DisplayedCars_"..CarDealer.Type)
 									end
-									local CashDown = tonumber(KeyboardInput("Enter Cash Down: ", "0", 11))
-									if CashDown > ( Price * 0.05) then
-										CashDown = Price * 0.05
-										CashDown = tonumber(CashDown)
+								end
+							end
+						end
+
+						-- Vehicle return marker
+						local returnAreaDist = #(PlayerPosition - carDealers[CarDealer.Type][i].returnArea)
+						if returnAreaDist <= 11.0 then
+							DrawMarker(25, carDealers[CarDealer.Type][i].returnArea.x, carDealers[CarDealer.Type][i].returnArea.y, carDealers[CarDealer.Type][i].returnArea.z - 0.95, 0, 0, 0, 0, 0, 0, 2.4, 2.4, 1.5, 255, 255, 0, 100, 0, 0, 2, 0, 0, 0, 0)
+							if returnAreaDist <= 4.0 then
+								DisplayHelpText("Press ~INPUT_CONTEXT~ to return vehicle!")
+								if IsControlJustPressed(1, 51) then
+									if IsPedInAnyVehicle(PlayerPedId(), false) then
+										local Vehicle = GetVehiclePedIsIn(PlayerPedId(), true)
+										local NetworkID = NetworkGetNetworkIdFromEntity(Vehicle)
+										if IsDealershipCar(NetworkID, CarDealer.Type) then
+											TriggerServerEvent("CarDealer.RemoveVehicle", NetworkID)
+											DestroyVehicle(Vehicle)
+										else
+											Notify("This vehicle is not a dealership vehicle!", 3100)
+										end
+									else
+										Notify("You must be in a vehicle!", 3100)
 									end
-									if Price ~= nil and Weeks ~= nil and Intrest ~= nil and CashDown ~= nil then
-										DisplayedVehicles[Index].Price = Price
-										DisplayedVehicles[Index].Weeks = Weeks
-										DisplayedVehicles[Index].Intrest = Intrest
-										DisplayedVehicles[Index].CashDown = CashDown
-										DisplayedVehicles[Index].DealerText = "[E] - Price: $"..DisplayedVehicles[Index].Price.." | Weeks: "..DisplayedVehicles[Index].Weeks.. " | Interest: "..DisplayedVehicles[Index].Intrest.."%".." | Cash Down: $"..DisplayedVehicles[Index].CashDown
-										TriggerServerEvent("Change.DisplayVehicle", DisplayedVehicles[Index], Index)
+								end
+							end
+						end
+						-- Vehicle menu [main]
+						if WarMenu.IsMenuOpened("DisplayedCars_"..CarDealer.Type) then
+							if CarDealer.Type then
+								if vehicleList[CarDealer.Type] then
+									for k,v in pairs(vehicleList[CarDealer.Type]) do
+										if WarMenu.MenuButton(v.title, v.title) then
+											currentCategory = v.vehicles
+										end
+									end
+
+									WarMenu.Display()
+								end
+							end
+						end
+						-- Vehicle menu [sub menus]
+						if CarDealer.Type then
+							if vehicleList[CarDealer.Type] then
+								for k,v in pairs(vehicleList[CarDealer.Type]) do
+									if WarMenu.IsMenuOpened(v.title) then
+										for _,j in pairs(v.vehicles) do
+											if WarMenu.Button(j.name) then
+												local Vehicle = CarDealer:SpawnVehicle(j.model, { x = carDealers[CarDealer.Type][i].spawnArea.x, y = carDealers[CarDealer.Type][i].spawnArea.y, z = carDealers[CarDealer.Type][i].spawnArea.z }, carDealers[CarDealer.Type][i].spawnArea.w, false)
+												SetVehicleOnGroundProperly(Vehicle)
+												SetPedIntoVehicle(Player, Vehicle, -1)
+												DecorSetBool(Vehicle, "hotwire", true)
+												for mod = 0,24 do
+													SetVehicleModKit(Vehicle,0)
+													RemoveVehicleMod(Vehicle,mod)
+												end
+												local turbo
+												local tiresmoke
+												local xenon
+												local neon0
+												local neon1
+												local neon2
+												local neon3
+												local bulletproof
+												local custom_wheels
+												local custom_wheels2
+												local plate = GetVehicleNumberPlateText(Vehicle)
+												local colors = table.pack(GetVehicleColours(Vehicle))
+												local extra_colors = table.pack(GetVehicleExtraColours(Vehicle))
+												local neoncolor = table.pack(GetVehicleNeonLightsColour(Vehicle))
+												local smokecolor = table.pack(GetVehicleTyreSmokeColor(Vehicle))
+
+												if IsToggleModOn(Vehicle,18) then
+													turbo = "on"
+												else
+													turbo = "off"
+												end
+
+												if IsToggleModOn(Vehicle,20) then
+													tiresmoke = "on"
+												else
+													tiresmoke = "off"
+												end
+
+												if IsToggleModOn(Vehicle,22) then
+													xenon = "on"
+												else
+													xenon = "off"
+												end
+
+												if IsVehicleNeonLightEnabled(Vehicle,0) then
+													neon0 = "on"
+												else
+													neon0 = "off"
+												end
+
+												if IsVehicleNeonLightEnabled(Vehicle,1) then
+													neon1 = "on"
+												else
+													neon1 = "off"
+												end
+
+												if IsVehicleNeonLightEnabled(Vehicle,2) then
+													neon2 = "on"
+												else
+													neon2 = "off"
+												end
+
+												if IsVehicleNeonLightEnabled(Vehicle,3) then
+													neon3 = "on"
+												else
+													neon3 = "off"
+												end
+
+												if GetVehicleTyresCanBurst(Vehicle) then
+													bulletproof = "off"
+												else
+													bulletproof = "on"
+												end
+
+												if GetVehicleModVariation(Vehicle, 23) then
+													custom_wheels = "on"
+												else
+													custom_wheels = "off"
+												end
+
+												if GetVehicleModVariation(Vehicle, 24) then
+													custom_wheels2 = "on"
+												else
+													custom_wheels2 = "off"
+												end
+
+												local data = {
+													garage_id = nil,
+													model = j.model,
+													name = j.name,
+													instance = Vehicle,
+													plate = GetVehicleNumberPlateText(Vehicle),
+													state = "~r~Missing",
+													primary_colour = colors[1],
+													secondary_colour = colors[2],
+													pearlescent_colour = extra_colors[1],
+													wheel_colour = extra_colors[2],
+													smoke_colour = {smokecolor[1],smokecolor[2],smokecolor[3]},
+													plate_colour = GetVehicleNumberPlateTextIndex(Vehicle),
+													neon_colour = {neoncolor[1],neoncolor[2],neoncolor[3]},
+													tint_colour = GetVehicleWindowTint(Vehicle),
+													tyre_smoke = tiresmoke,
+													xenon_lights = xenon,
+													turbo = turbo,
+													custom_wheels = custom_wheels,
+													custom_wheels2 = custom_wheels2,
+													bulletproof_wheels = bulletproof,
+													wheeltype = GetVehicleWheelType(Vehicle),
+													neon0 = neon0,
+													neon1 = neon1,
+													neon2 = neon2,
+													neon3 = neon3,
+													engine_health = GetVehicleEngineHealth(Vehicle),
+													petrol_health = GetVehiclePetrolTankHealth(Vehicle),
+													body_health = GetVehicleBodyHealth(Vehicle),
+													vehicle_health = GetEntityHealth(Vehicle),
+													insurance = "true",
+													claims = 1,
+													fuel = 100,
+													livery = GetVehicleLivery(Vehicle),
+													headlight_colour = GetVehicleHeadlightsColour(Vehicle),
+													dashboard_colour = GetVehicleDashboardColour(Vehicle),
+													interior_colour = GetVehicleInteriorColour(Vehicle),
+												}
+
+												for mod = 0, 8 do
+													data["mod"..i] = GetVehicleMod(Vehicle, mod)
+												end
+
+												for mod = 10, 16 do
+													data["mod"..i] = GetVehicleMod(Vehicle, mod)
+												end
+
+												for mod = 23, 46 do
+													data["mod"..i] = GetVehicleMod(Vehicle, mod)
+												end
+
+												data["mod48"] = GetVehicleMod(Vehicle, 48)
+
+												for extra = 1, 15 do
+													if DoesExtraExist(Vehicle, extra-1) then
+														data["extra"..extra] = IsVehicleExtraTurnedOn(Vehicle, extra-1) and true or false
+													else
+														data["extra"..extra] = false
+													end
+												end
+												
+												--DecorSetBool(Vehicle, "_Is_DealerShip_Car", true)
+												--DecorSetBool(Vehicle, "_Is_CarDealer_Car", true)
+												TriggerServerEvent("Spawn.DisplayVehicle", CarDealer.Type, {Model = j.model, Entity = NetworkGetNetworkIdFromEntity(Vehicle), Data = data, Price = 0, Interest = 0, Weeks = 0, CashDown = 0, DealerText = "", Seller = GetPlayerServerId(PlayerId())})
+												WarMenu.CloseMenu()
+											end
+										end
+
+										WarMenu.Display()
+									end
+								end
+							end
+						end
+					end
+				end
+			end
+
+			if CarDealer.OnDuty and CarDealer.Type then
+				if displayedVehicles[CarDealer.Type] then
+					if #displayedVehicles[CarDealer.Type] > 0 then
+						for Index = 1, #displayedVehicles[CarDealer.Type] do
+							local displayVehicle = displayedVehicles[CarDealer.Type][Index]
+							if NetworkDoesNetworkIdExist(displayVehicle.Entity) then
+								local displayVehicleEntity = NetworkGetEntityFromNetworkId(displayVehicle.Entity)
+								if GetHashKey(displayVehicle.Model) == GetEntityModel(NetworkGetEntityFromNetworkId(displayVehicle.Entity)) then
+									local VehicleCoords = GetEntityCoords(displayVehicleEntity, false)
+									if #(PlayerPosition - VehicleCoords) <= 2.0 and not IsPedInAnyVehicle(Player) then
+										if displayVehicle.DealerText == "" then
+											Draw3DText(VehicleCoords.x, VehicleCoords.y, VehicleCoords.z, "[E] - Press to set information")
+										else
+											Draw3DText(VehicleCoords.x, VehicleCoords.y, VehicleCoords.z - 0.1, "[E] - Press to set information")
+										end
+
+										if IsControlJustPressed(1, 51) then
+											-- Create Inputs here
+											local Price = tonumber(KeyboardInput("Enter Total Price:", "100000", 11))
+											local Weeks = tonumber(KeyboardInput("Enter Total Weeks:", "8", 11))
+											local Interest = tonumber(KeyboardInput("Enter Interest Rate:", "10", 11))
+
+											if Interest > 20 then
+												Interest = 20
+											elseif Interest < 5 then
+												Interest = 5
+											end
+
+											local CashDown = tonumber(KeyboardInput("Enter Cash Down: ", "0", 11))
+
+											if CashDown > ( Price * 0.05) then
+												CashDown = Price * 0.05
+												CashDown = tonumber(CashDown)
+											end
+
+											if Price ~= nil and Weeks ~= nil and Interest ~= nil and CashDown ~= nil then
+												displayVehicle.Price = Price
+												displayVehicle.Weeks = Weeks
+												displayVehicle.Interest = Interest
+												displayVehicle.CashDown = CashDown
+												displayVehicle.DealerText = "[E] - Price: $"..displayVehicle.Price.." | Weeks: "..displayVehicle.Weeks.. " | Interest: "..displayVehicle.Interest.."%".." | Cash Down: $"..displayVehicle.CashDown
+
+												TriggerServerEvent("Change.DisplayVehicle", displayVehicle, CarDealer.Type, Index)
+											end
+										end
 									end
 								end
 							end
@@ -569,64 +616,70 @@ Citizen.CreateThread(function()
 		local Player = PlayerPedId()
 		local PlayerPosition = GetEntityCoords(Player, false)
 		-- Check For Distance Between Player And DisplayedVehicles To Draw 3D Text
-		if #DisplayedVehicles > 0 then
-			for Index = 1, #DisplayedVehicles do
-				if DisplayedVehicles[Index].Price > 0 and DisplayedVehicles[Index].Price ~= nil and DisplayedVehicles[Index].Weeks > 0 and DisplayedVehicles[Index].Weeks ~= nil and DisplayedVehicles[Index].Intrest > 0 and DisplayedVehicles[Index].Intrest ~= nil then
-					if NetworkDoesNetworkIdExist(DisplayedVehicles[Index].Entity) then
-						if GetHashKey(DisplayedVehicles[Index].Model) == GetEntityModel(NetworkGetEntityFromNetworkId(DisplayedVehicles[Index].Entity)) then
-							local VehicleCoords = GetEntityCoords(NetworkGetEntityFromNetworkId(DisplayedVehicles[Index].Entity), false)
-							if #(PlayerPosition - VehicleCoords) <= 6.0 then
-								Draw3DText(VehicleCoords.x, VehicleCoords.y, VehicleCoords.z, DisplayedVehicles[Index].DealerText)
-								if CarDealer.OnDuty == false then
-									if #(PlayerPosition - VehicleCoords) <= 2.0 and not IsPedInAnyVehicle(Player) then
-										if IsControlJustPressed(1, 51) then
-											local available_garage = GetGarage()
-											if available_garage then
-												if DisplayedVehicles[Index].Price > 0 and DisplayedVehicles[Index].Price ~= nil and DisplayedVehicles[Index].Weeks > 0 and DisplayedVehicles[Index].Weeks ~= nil and DisplayedVehicles[Index].Intrest > 0 and DisplayedVehicles[Index].Intrest ~= nil then
-													Citizen.CreateThread(function()
-														if(lockBuyingCar ~= true) then
-															lockBuyingCar = true
-															local notifReceivedAt = GetGameTimer()
-															local msg = "Press <span style='color:lime'>Y</span> to buy with cash, press <span style='color:white'>L</span> to lease it, or press <span style='color:red'>M</span> to refuse!"
-															exports.pNotify:SendNotification({text = msg,type = "error",timeout = 30000,layout = "centerRight",queue = "left"})
-															while(true) do
-																Wait(0)
-																
-																if (GetTimeDifference(GetGameTimer(), notifReceivedAt) > 30000) then
-																	exports.pNotify:SendNotification({text = "The application for the fine has expired.",type = "error",timeout = 10000,layout = "centerRight",queue = "left"})
-																	lockBuyingCar = false
-																	break
-																end
-																
-																if IsControlPressed(1, 246) then
-																	local msg = "You paid the full price of $"..DisplayedVehicles[Index].Price
-																	exports.pNotify:SendNotification({text = msg,type = "error",timeout = 10000,layout = "centerRight",queue = "left"})
-																	TriggerServerEvent('CarDealer.BuyCar', 0, Index, available_garage, 0)
-																	lockBuyingCar = false
-																	break
-																end
-																
-																if IsControlPressed(1, 182) then
-																	local CashDown = tonumber(KeyboardInput("Would you like to put more cash down? If so enter it now:", "0", 11))
-																	local msg = "You have accepted to finance the car."
-																	exports.pNotify:SendNotification({text = msg,type = "error",timeout = 10000,layout = "centerRight",queue = "left"})
-																	TriggerServerEvent('CarDealer.BuyCar', 1, Index, available_garage, CashDown)
-																	lockBuyingCar = false
-																	break
-																end
 
-																if IsControlPressed(1, 301) then
-																	local msg = "You refused the offer."
-																	exports.pNotify:SendNotification({text = msg,type = "error",timeout = 10000,layout = "centerRight",queue = "left"})
-																	lockBuyingCar = false
-																	break
+		for k,v in pairs(displayedVehicles) do
+			if #v > 0 then
+				for Index = 1, #v do
+					if v[Index].Price > 0 and v[Index].Price ~= nil and v[Index].Weeks > 0 and v[Index].Weeks ~= nil and v[Index].Interest > 0 and v[Index].Interest ~= nil then
+						local displayVehicle = v[Index]
+						if NetworkDoesNetworkIdExist(displayVehicle.Entity) then
+							local displayVehicleEntity = NetworkGetEntityFromNetworkId(displayVehicle.Entity)
+							if GetHashKey(displayVehicle.Model) == GetEntityModel(displayVehicleEntity) then
+								local VehicleCoords = GetEntityCoords(displayVehicleEntity, false)
+								local VehicleDist = #(PlayerPosition - VehicleCoords)
+								if VehicleDist <= 6.0 then
+									Draw3DText(VehicleCoords.x, VehicleCoords.y, VehicleCoords.z, displayVehicle.DealerText)
+									if CarDealer.OnDuty == false then
+										if VehicleDist <= 2.0 and not IsPedInAnyVehicle(Player) then
+											if IsControlJustPressed(1, 51) then
+												local available_garage = GetGarage()
+												if available_garage then
+													if displayVehicle.Price > 0 and displayVehicle.Price ~= nil and displayVehicle.Weeks > 0 and displayVehicle.Weeks ~= nil and displayVehicle.Interest > 0 and displayVehicle.Interest ~= nil then
+														Citizen.CreateThread(function()
+															if lockBuyingCar ~= true then
+																lockBuyingCar = true
+																local notifReceivedAt = GetGameTimer()
+																local msg = "Press <span style='color:lime'>Y</span> to buy with cash, press <span style='color:white'>L</span> to lease it, or press <span style='color:red'>M</span> to refuse!"
+																exports.pNotify:SendNotification({text = msg,type = "error",timeout = 30000,layout = "centerRight",queue = "left"})
+																while(true) do
+																	Wait(0)
+																	
+																	if (GetTimeDifference(GetGameTimer(), notifReceivedAt) > 30000) then
+																		exports.pNotify:SendNotification({text = "The application for the fine has expired.",type = "error",timeout = 10000,layout = "centerRight",queue = "left"})
+																		lockBuyingCar = false
+																		break
+																	end
+																	
+																	if IsControlPressed(1, 246) then
+																		local msg = "You paid the full price of $"..displayVehicle.Price
+																		exports.pNotify:SendNotification({text = msg,type = "error",timeout = 10000,layout = "centerRight",queue = "left"})
+																		TriggerServerEvent('CarDealer.BuyCar', 0, k, Index, available_garage, 0)
+																		lockBuyingCar = false
+																		break
+																	end
+																	
+																	if IsControlPressed(1, 182) then
+																		local CashDown = tonumber(KeyboardInput("Would you like to put more cash down? If so enter it now:", "0", 11))
+																		local msg = "You have accepted to finance the car."
+																		exports.pNotify:SendNotification({text = msg,type = "error",timeout = 10000,layout = "centerRight",queue = "left"})
+																		TriggerServerEvent('CarDealer.BuyCar', 1, k, Index, available_garage, CashDown)
+																		lockBuyingCar = false
+																		break
+																	end
+
+																	if IsControlPressed(1, 301) then
+																		local msg = "You refused the offer."
+																		exports.pNotify:SendNotification({text = msg,type = "error",timeout = 10000,layout = "centerRight",queue = "left"})
+																		lockBuyingCar = false
+																		break
+																	end
 																end
 															end
-														end
-													end)
+														end)
+													end
+												else
+													Notify("You do not have any room in your garage!", 3100)
 												end
-											else
-												Notify("You do not have any room in your garage!", 3100)
 											end
 										end
 									end
