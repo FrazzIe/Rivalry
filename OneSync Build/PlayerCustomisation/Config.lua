@@ -708,6 +708,15 @@ PlayerCustomisation.Locations = {
 			Marker = {x = -1337.6094970703, y = -1278.38671875, z = 4.8686590194702, h = 104.41195678711},
 			Banner = "shopui_title_movie_masks",
 		},
+		[2] = {
+			Blip = {
+				Name = "Vespucci Movie Masks", 
+				Sprite = 362,
+				Colour = 0,
+			},
+			Marker = {x = -143.76780700684, y = 230.12971496582, z = 94.939735412598, h = 356.40725708008},
+			Banner = "shopui_title_movie_masks",
+		},
 	},
 	Tattoos = {
 		[1] = {
@@ -925,25 +934,34 @@ PlayerCustomisation.Locations = {
 				Sprite = 366, 
 				Colour = 0,
 			},
-			Marker = {x = 1856.89453125, y = 3694.2956542969, z = 34.224922180176, h = 210.61024475098},
+			Marker = {x = 1855.6212158203, y = 3691.4108886719, z = 34.224033355713, h = 18.346286773682},
 			Banner = "shopui_title_midfashion",
 		},
-		[18] = { -- Sandy Shores Medical Center
+		[19] = { -- Sandy Shores Medical Center
 			Blip = {
 				Name = "Outfits",
 				Sprite = 366, 
 				Colour = 0,
 			},
-			Marker = {x = 1838.4073486328, y = 3689.4011230469, z = 34.270046234131, h = 205.09393310547},
+			Marker = {x = 1839.0506591797, y = 3689.3781738281, z = 34.27006149292, h = 150.83392333984},
 			Banner = "shopui_title_midfashion",
 		},
-		[18] = { -- Paleto Bay Medical Center
+		[20] = { -- Paleto Bay Medical Center
 			Blip = {
 				Name = "Outfits",
 				Sprite = 366, 
 				Colour = 0,
 			},
 			Marker = {x = -254.04301452637, y = 6313.8842773438, z = 32.436405181885, h = 45.609973907471},
+			Banner = "shopui_title_midfashion",
+		},
+		[21] = { -- Paleto Bay Sheriff Office
+			Blip = {
+				Name = "Outfits",
+				Sprite = 366, 
+				Colour = 0,
+			},
+			Marker = {x = -435.57461547852, y = 6004.6850585938, z = 31.716251373291, h = 33.369319915771},
 			Banner = "shopui_title_midfashion",
 		},
 	},

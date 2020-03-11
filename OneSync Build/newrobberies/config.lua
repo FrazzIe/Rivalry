@@ -70,6 +70,14 @@ Rivalry = {
 					[2] = {Coords = vector3(1698.2836914063,4922.79296875,42.063632965088), Model = 303280717, Robbed = false},
 				}
 			},
+			[10] = {
+				Name = "Vinewood Convience Store",
+				Vault = vector3(373.21697998047, 331.3645324707, 106.09685516357),
+				CashRegisters = {
+					[1] = {Coords = vector3(373.02624511719,326.32592773438,103.6810760498), Model = 303280717, Robbed = false},
+					[2] = {Coords = vector3(373.59536743164,328.58917236328,103.6810760498), Model = 303280717, Robbed = false},
+				}
+			},
 		},
 		Banks = {
 			Blaine = {
@@ -303,7 +311,8 @@ Rivalry = {
 		[33] = {Coords = vector3(-627.03912353516,-239.03439331055,39.947048187256), Heading = 344.75854492188, Title = "Jewelry Store", Label = "Interior Camera 1", Online = true},
 		[34] = {Coords = vector3(-627.55822753906,-229.72816467285,39.947048187256), Heading = 201.26976013184, Title = "Jewelry Store", Label = "Interior Camera 2", Online = true},
 		[35] = {Coords = vector3(-620.28497314453,-224.54949951172,39.947048187256), Heading = 157.84133911133, Title = "Jewelry Store", Label = "Interior Camera 3", Online = true},
-	
+		
+		[36] = {Coords = vector3(373.40188598633, 331.18695068359, 105.26745605469), Heading = 217.37455749512, Title = "Downtown Vinewood", Label = "Interior Camera 1", Online = true},
 	},
 	Computers = {
 		[1] = vector3(440.61401367188,-978.81353759766,30.68967628479), -- Mission Row Upstairs
