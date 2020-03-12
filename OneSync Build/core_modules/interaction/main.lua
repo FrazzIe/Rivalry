@@ -37,7 +37,7 @@ Citizen.CreateThread(function()
 				end
 			end
 
-			if IsControlJustPressed(1, 182) and IsInputDisabled(2) and not controller and not exports.policejob:getIsInService() then
+			if IsControlJustPressed(1, 182) and IsInputDisabled(2) and not controller then
 				TriggerEvent("keys:toggle")
 			end
 
