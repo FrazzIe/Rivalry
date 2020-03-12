@@ -545,17 +545,7 @@ Citizen.CreateThread(function()
 		local PlayerPed = PlayerPedId()
 
 		if not isCop then
-			if IsPedSittingInAnyVehicle(PlayerPed) then
-				local PlayerVehicle = GetVehiclePedIsUsing(PlayerPed, false)
-				if GetPedInVehicleSeat(PlayerVehicle, -1) == PlayerPed then
-					local PlayerVehicleModel = GetEntityModel(PlayerVehicle)
-					for k,v in pairs(cars) do
-						if GetHashKey(v.model) == PlayerVehicleModel then
-							SetVehicleUndriveable(PlayerVehicle, true)
-						end
-					end
-				end
-			end
+
 		else
 			if not IsEntityDead(PlayerPed) and not IsPauseMenuActive() then
 				if isInService then
