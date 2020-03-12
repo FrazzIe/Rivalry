@@ -737,7 +737,7 @@ Citizen.CreateThread(function()
 			if IsPedSittingInAnyVehicle(ped) then
 				local veh = GetVehiclePedIsUsing(ped)
 				--If the vehicle exist, player is in driver seat and if this vehicle is a car or bike then we are good to go
-				if DoesEntityExist(veh) and GetPedInVehicleSeat(veh, -1) == ped and (IsThisModelACar(GetEntityModel(veh)) or IsThisModelABike(GetEntityModel(veh)))  then
+				if DoesEntityExist(veh) and GetPedInVehicleSeat(veh, -1) == ped and (IsThisModelACar(GetEntityModel(veh)) or IsThisModelABike(GetEntityModel(veh)) or IsThisModelAQuadbike(GetEntityModel(veh)))  then
 					--So lets go through every garage
 					for i,pos in ipairs(garages) do
 						--Lets take the outside coords of garage
