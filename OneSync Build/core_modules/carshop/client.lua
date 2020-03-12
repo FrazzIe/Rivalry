@@ -153,7 +153,7 @@ cars = {
         {name = "Retinue", price = 21000, model = "retinue"},
         {name = "Roosevelt", price = 122500, model = "btype"},
         {name = "Roosevelt Valor", price = 24500, model = "btype3"},
-        {name = "Savestra", price = 58000, model = "savestra"},
+        -- {name = "Savestra", price = 58000, model = "savestra"},
         {name = "Stinger", price = 327000, model = "stinger"},
         {name = "Stinger GT", price = 318000, model = "stingergt"},
         {name = "Stirling GT", price = 328500, model = "feltzer3"},

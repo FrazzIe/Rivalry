@@ -114,7 +114,7 @@ vehicleList = {
                 {name = "Retinue", model = "retinue"},
                 {name = "Roosevelt", model = "btype"},
                 {name = "Roosevelt Valor", model = "btype3"},
-                {name = "Savestra", model = "savestra"},
+                -- {name = "Savestra", model = "savestra"},
                 {name = "Stinger GT", model = "stingergt"},
                 {name = "Torero", model = "torero"},
                 {name = "Tornado", model = "tornado"},
