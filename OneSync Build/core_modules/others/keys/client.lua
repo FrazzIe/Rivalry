@@ -189,12 +189,28 @@ Citizen.CreateThread(function()
 		local ped = PlayerPedId()
 		if not isCarshopOpen and not isCarRentalOpen and not isBoatRentalOpen and not isBikeRentalOpen and IsPedSittingInAnyVehicle(ped) then
 			local vehicle = GetVehiclePedIsIn(ped, false)
+			local vehClass = GetVehicleClass(vehicle)
 			local plate = GetVehicleNumberPlateText(vehicle)
 			local model = GetEntityModel(vehicle)
+			local isOwned = IsVehicleOwned(GetVehicleNumberPlateText(vehicle))
+
 			if GetPedInVehicleSeat(vehicle, -1) == ped and not exports.policejob:IsVehicleExempt(model) and not exports.emsjob:IsVehicleExempt(model) then
-				if keys_users[GetPlayerServerId(PlayerId())][plate] or DecorExistOn(vehicle, "hotwire") then
+				local serverId = GetPlayerServerId(PlayerId())
+
+				if keys_users[serverId][plate] or DecorExistOn(vehicle, "hotwire") then
 					if vehicle ~= lastvehicle then
 						lastvehicle = vehicle
+						SetVehicleEngineOn(vehicle, true, true, false)
+						SetVehicleUndriveable(vehicle, true)
+					end
+				elseif vehClass == 18 and IsOnDutyPolice then -- any cop can drive another cops car w/o keys?
+					if vehicle ~= lastvehicle then
+						lastvehicle = vehicle
+
+						if not keys_vehicles[plate] and isOwned then
+							TriggerServerEvent("keys:get", vehicle, plate) -- 
+						end
+
 						SetVehicleEngineOn(vehicle, true, true, false)
 						SetVehicleUndriveable(vehicle, true)
 					end
@@ -203,7 +219,7 @@ Citizen.CreateThread(function()
 					SetVehicleUndriveable(vehicle, true)
 					if vehicle ~= lastvehicle then
 						lastvehicle = vehicle
-						if IsVehicleOwned(GetVehicleNumberPlateText(vehicle)) then
+						if isOwned then
 							TriggerServerEvent("keys:get", vehicle, plate)
 						else
 							Notify("You do not have the keys to this vehicle!")
