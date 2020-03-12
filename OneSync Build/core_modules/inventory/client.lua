@@ -284,10 +284,10 @@ AddEventHandler("inventory:vehicle_weapon_open", function()
         local plate = GetVehicleNumberPlateText(vehicleHandle)
         local class = GetVehicleClass(vehicleHandle)
         if vehicle_weapon_inventory[plate] then
-            if keys_users[GetPlayerServerId(PlayerId())][plate] or vehicle_weapon_inventory[plate].locked == "false" then
+            if keys_users[GetPlayerServerId(PlayerId())][plate] or vehicle_weapon_inventory[plate].locked == "false" or (class == 18 and IsOnDutyPolice) then
                 exports.ui:reset()
                 exports.ui:open("vehicle_weapon_inventory")
-                if keys_users[GetPlayerServerId(PlayerId())][plate] then
+                if keys_users[GetPlayerServerId(PlayerId())][plate] or (class == 18 and IsOnDutyPolice) then
                     if vehicle_weapon_inventory[plate].locked == "true" then
                         exports.ui:addOption("Unlock weapon container", "inventory:vehicle_weapon_lock", plate)
                     else
@@ -310,7 +310,7 @@ AddEventHandler("inventory:vehicle_weapon_open", function()
                 Notify("The weapon container is locked!", 2500)
             end
         else
-            if keys_users[GetPlayerServerId(PlayerId())][plate] then
+            if keys_users[GetPlayerServerId(PlayerId())][plate] or (class == 18 and IsOnDutyPolice) then
                 exports.ui:reset()
                 exports.ui:open("vehicle_inventory")
                 exports.ui:addOption("Deposit", "inventory:vehicle_weapon_deposit", {plate = plate, class = class})
@@ -332,10 +332,10 @@ AddEventHandler("inventory:vehicle_weapon_open", function()
                 local plate = GetVehicleNumberPlateText(vehicleHandle)
                 local class = GetVehicleClass(vehicleHandle)
                 if vehicle_weapon_inventory[plate] then
-                    if keys_users[GetPlayerServerId(PlayerId())][plate] or vehicle_weapon_inventory[plate].locked == "false" then
+                    if keys_users[GetPlayerServerId(PlayerId())][plate] or vehicle_weapon_inventory[plate].locked == "false" or (class == 18 and IsOnDutyPolice) then
                         exports.ui:reset()
                         exports.ui:open("vehicle_inventory")
-                        if keys_users[GetPlayerServerId(PlayerId())][plate] then
+                        if keys_users[GetPlayerServerId(PlayerId())][plate] or (class == 18 and IsOnDutyPolice) then
                             if vehicle_weapon_inventory[plate].locked == "true" then
                                 exports.ui:addOption("Unlock weapon container", "inventory:vehicle_weapon_lock", plate)
                             else
@@ -358,7 +358,7 @@ AddEventHandler("inventory:vehicle_weapon_open", function()
                         Notify("The weapon container is locked!", 2500)
                     end
                 else
-                    if keys_users[GetPlayerServerId(PlayerId())][plate] then
+                    if keys_users[GetPlayerServerId(PlayerId())][plate] or (class == 18 and IsOnDutyPolice) then
                         exports.ui:reset()
                         exports.ui:open("vehicle_inventory")
                         exports.ui:addOption("Deposit", "inventory:vehicle_weapon_deposit", {plate = plate, class = class})
