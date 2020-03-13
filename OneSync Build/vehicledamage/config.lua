@@ -52,7 +52,7 @@ cfg = {
 	-- Class Damagefactor Multiplier
 	-- The damageFactor for engine, body and Petroltank will be multiplied by this value, depending on vehicle class
 	-- Use it to increase or decrease damage for each class
-
+--[[
 	classDamageMultiplier = {
 		[0] = 	0.3,		--	0: Compacts
 				1.0,		--	1: Sedans
@@ -75,6 +75,31 @@ cfg = {
 				0.50,		--	18: Emergency
 				0.25,		--	19: Military
 				0.25,		--	20: Commercial
+				1.0			--	21: Trains
+	}
+--]]
+	classDamageMultiplier = {
+		[0] = 	0.5,		--	0: Compacts
+				0.4,		--	1: Sedans
+				0.3,		--	2: SUVs
+				0.4,		--	3: Coupes
+				0.4,		--	4: Muscle
+				0.4,		--	5: Sports Classics
+				0.5,		--	6: Sports
+				0.5,		--	7: Super
+				0.6,		--	8: Motorcycles
+				0.4,		--	9: Off-road
+				0.2,		--	10: Industrial
+				0.2,		--	11: Utility
+				0.3,		--	12: Vans
+				1.0,		--	13: Cycles
+				0.8,		--	14: Boats
+				1.0,		--	15: Helicopters
+				1.0,		--	16: Planes
+				1.0,		--	17: Service
+				0.3,		--	18: Emergency
+				0.5,		--	19: Military
+				0.2,		--	20: Commercial
 				1.0			--	21: Trains
 	}
 }
