@@ -217,7 +217,7 @@ local Map = {
 		Remove = {},
 	},
 	Interior = {
-		[1] = { -- Simeons Dealership
+		{ -- Simeons Dealership
 			Coordinates = {
 				{x = -51.763286590576, y = -1093.8712158203, z = 26.422357559204},
 			},
@@ -231,7 +231,7 @@ local Map = {
 			},
 			Colours = {},
 		},
-		[2] = { -- Meth lab
+		{ -- Meth lab
 			Coordinates = {
 				{x = 1009.5, y = -3196.6, z = -38.99682},
 			},
@@ -245,7 +245,7 @@ local Map = {
 			},
 			Colours = {},
 		},
-		[3] = { -- Weed lab
+		{ -- Weed lab
 			Coordinates = {
 				{x = 1051.491, y = -3196.536, z = -39.14842},
 			},
@@ -316,7 +316,7 @@ local Map = {
 			},
 			Colours = {},
 		},
-		[4] = { -- Cocaine lab
+		{ -- Cocaine lab
 			Coordinates = {
 				{x = 1093.6, y = -3196.6, z = -38.99841},
 			},
@@ -340,7 +340,7 @@ local Map = {
 			},
 			Colours = {},
 		},
-		[5] = { -- Bunkers
+		{ -- Bunkers
 			Coordinates = {
 				{x = 899.5518, y = -3246.038, z = -98.04907},
 			},
@@ -362,7 +362,7 @@ local Map = {
 			},
 			Colours = {},
 		},
-		[6] = { -- FIB Lobby
+		{ -- FIB Lobby
 			Coordinates = {
 				{x = 110.4, y = -744.2, z = 45.7496}
 			},
@@ -374,7 +374,7 @@ local Map = {
 			},
 			Colours = {},
 		},
-		[7] = { -- Counterfiet Cash Factory
+		{ -- Counterfiet Cash Factory
 			Coordinates = {
 				{x = 1121.897, y = -3195.338, z = -40.4025},
 			},
@@ -415,7 +415,7 @@ local Map = {
 			},
 			Colours = {},
 		},
-		[8] = { -- Clubhouse one
+		{ -- Clubhouse one
 			Coordinates = {
 				{x = 1107.04, y = -3157.399, z = -37.51859},
 			},
@@ -460,7 +460,7 @@ local Map = {
 			},
 			Colours = {},
 		},
-		[9] = { -- Clubhouse two
+		{ -- Clubhouse two
 			Coordinates = {
 				{x = 998.4809, y = -3164.711, z = -38.90733},
 			},
@@ -497,7 +497,7 @@ local Map = {
 			},
 			Colours = {},
 		},
-		[10] = { -- Import/Export Garages
+		{ -- Import/Export Garages
 			Coordinates = {
 				{x = 994.5925, y = -3002.594, z = -39.64699},
 			},
@@ -569,7 +569,7 @@ local Map = {
 			},
 			Colours = {},
 		},
-		[11] = { -- CEO Offices
+		{ -- CEO Offices
 			Coordinates = {
 				{x = -141.1987, y = -620.913, z = 168.8205},
 				{x = -141.5429, y = -620.9524, z = 168.8204},
@@ -680,7 +680,7 @@ local Map = {
 			},
 			Colours = {},
 		},
-		-- [12] = { -- CEO Garages
+		--{ -- CEO Garages
 		-- 	Coordinates = {
 		-- 		{x = 795.75439453125, y = -2997.3317871094, z = -22.960731506348},
 		-- 	},
@@ -729,7 +729,7 @@ local Map = {
 		-- 	},
 		-- 	Colours = {},
 		-- },
-		-- [13] = { -- CEO Vehicle Shops
+		-- { -- CEO Vehicle Shops
 		-- 	Coordinates = {
 		-- 		{x = 730.63916015625, y = -2993.2373046875, z = -38.999904632568},
 		-- 	},
@@ -756,7 +756,7 @@ local Map = {
 		-- 	},
 		-- 	Colours = {},
 		-- },
-		[14] = { -- Bikers Document Forgery Office
+		{ -- Bikers Document Forgery Office
 			Coordinates = {
 				{x = 1163.842, y = -3195.7, z = -39.008},
 			},
@@ -780,7 +780,7 @@ local Map = {
 			},
 			Colours = {},
 		},
-		[15] = { -- Doomsday Facility
+		{ -- Doomsday Facility
 			Coordinates = {
 				{x = 483.2, y = 4810.5, z = -58.9},
 			},
@@ -812,7 +812,7 @@ local Map = {
 				["set_Int_02_outfit_serverfarm"] = 1,
 			},
 		},
-		[16] = { -- Smugglers Run Hangar
+		{ -- Smugglers Run Hangar
 			Coordinates = {
 				{x = -1266.0, y = -3014.0, z = -47.0},
 			},
@@ -839,7 +839,7 @@ local Map = {
 				["set_floor_decal_1"] = 1,
 			},
 		},
-		[17] = { -- Nightclub DLC
+		{ -- Nightclub DLC
 			Coordinates = {
 				{x = -1604.664, y = -3012.583, z = -78.000},
 			},
@@ -887,7 +887,7 @@ local Map = {
 				["Int01_ba_trophy01"] = 2,
 			},
 		},
-		[18] = { -- 3 New Apartments
+		{ -- 3 New Apartments
 			Coordinates = {
 				{ x = -787.78050000, y = 334.92320000, z = 215.83840000},
 				{ x = -773.22580000, y = 322.82520000, z = 194.88620000},
@@ -903,7 +903,7 @@ local Map = {
 			},
 			Colours = {},
 		},
-		[19] = { -- Lamars PD Interior
+		{ -- Lamars PD Interior
 			Coordinates = {
 				{x = 442.78, y = -984.02, z = 30.68},
 			},
