@@ -2,7 +2,7 @@ local Config = {}
 ----------------------------------------------------------------------------------------------------------------------
 -- Priority list can be any identifier. (hex steamid, steamid32, ip) Integer = power over other priorities
 Config.Priority = {
-    --[Management]--
+    --[Staff/Devs]--
     ["steam:1100001057052a0"] = 9002, -- Frazzle
 	["steam:110000117ace560"] = 9001, -- Frazzle
 	["steam:110000101599554"] = 9000, -- Chef Noonab
@@ -13,16 +13,17 @@ Config.Priority = {
 	["steam:110000111c7701f"] = 2001, -- Brody
 	["steam:11000010a408fb4"] = 2000, -- grace
 	["steam:1100001003ab893"] = 1999, -- Kara Black
-	["steam:1100001074e86ec"] = 1998, -- RoundishKungFu/Kelly Price
+	["steam:1100001074e86ec"] = 1998, -- Kelly Price
 	["steam:11000010515be32"] = 1997, -- Johnny
 	["steam:11000010467c91d"] = 1996, -- Mason Preacher
-	--[People Noonab Likes]--
-	["steam:1100001045138b3"] = 1000, -- Carbine
-	--[Streamers]--
-	["steam:110000105e56c72"] = 999, -- Red
-	["steam:110000106d04419"] = 998, -- Cool Kid
-	["steam:110000106e043cc"] = 997, -- Bobby Smeagol
-	["steam:110000111703144"] = 996, -- Ziggy  
+	["steam:110000103f25066"] = 1995, -- Williepicket
+	--[VIP]--
+	["steam:1100001045138b3"] = 999, -- Carbine
+	["steam:110000105e56c72"] = 998, -- Red
+	["steam:110000106d04419"] = 997, -- Cool Kid
+	["steam:110000106e043cc"] = 996, -- Bobby Smeagol
+	["steam:110000111703144"] = 995, -- Ziggy
+    ["steam:110000107ea851e"] = 994, -- Chiito	
 	--[PD, EMS, DOJ]--
 	["steam:110000106be52a0"] = 901, -- Donovan Ford (Sheriff)
 	["steam:110000119f99126"] = 900, -- Tony Hallmarks (EMS Ass Chief)
@@ -56,7 +57,6 @@ Config.Priority = {
 	["steam:110000102ad64cb"] = 872, -- Summer Fable (ADA)
 	["steam:11000010aefd19d"] = 871, -- Jessica Taylor (Lawyer)
 	["steam:110000101a254a7"] = 870, -- William Harde (SALE)
-	["steam:110000103f25066"] = 869, -- Ricky Snartstarf (SALE)
 	--[Mechanics ]--
 	["steam:1100001032aa2a1"] = 799, -- Austin James
 	["steam:110000105c211ee"] = 798, -- Lexlyn Frost
@@ -66,7 +66,7 @@ Config.Priority = {
 	["steam:11000011aa1bc62"] = 794, -- Tyrone Williams
 	["steam:11000011c81014d"] = 793, -- Dimarie Martin
 	["steam:1100001054d27db"] = 792, -- Claytone Swope
-	--[Special People]--
+	--[Gun Dealers]--
 	["steam:11000010757ae89"] = 699, -- SpockDaddy
 }
 
