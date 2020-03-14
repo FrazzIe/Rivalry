@@ -942,24 +942,26 @@ function transferVehicle(garage)
     for i = 1, #user_vehicles do
         if not user_vehicles[i].police then
             Menu.addOption("vehicletransfer_menu", function()
-                if(Menu.TransferBool(user_vehicles[i].name, vehiclebool, emplacement_garage[user_vehicles[i].garage_id].gname, emplacement_garage[user_vehicles[i].garage_id].gname, function(cb)   vehiclebool = cb end))then
-                    local count = 0
-                    for a = 1, #user_vehicles do
-                        if user_vehicles[a].garage_id == garage.garage_id then
-                            count = count + 1
+                if emplacement_garage[user_vehicles[i].garage_id] ~= nil then
+                    if(Menu.TransferBool(user_vehicles[i].name, vehiclebool, emplacement_garage[user_vehicles[i].garage_id].gname, emplacement_garage[user_vehicles[i].garage_id].gname, function(cb)   vehiclebool = cb end))then
+                        local count = 0
+                        for a = 1, #user_vehicles do
+                            if user_vehicles[a].garage_id == garage.garage_id then
+                                count = count + 1
+                            end
                         end
-                    end
-                    local actualslots = garage.slots
-                    if count <= actualslots and user_vehicles[i].garage_id == garage.garage_id then
-                        exports.pNotify:SendNotification({text = "You cannot transfer a vehicle to the same garage", type = "error", queue = "left", timeout = 3000, layout = "centerRight"})
-                    elseif count < actualslots and user_vehicles[i].garage_id ~= garage.garage_id then
-                        if user_vehicles[i].state == "~g~Stored" then
-                            TriggerServerEvent("garage:transfer", user_vehicles[i].plate, garage.garage_id)
+                        local actualslots = garage.slots
+                        if count <= actualslots and user_vehicles[i].garage_id == garage.garage_id then
+                            exports.pNotify:SendNotification({text = "You cannot transfer a vehicle to the same garage", type = "error", queue = "left", timeout = 3000, layout = "centerRight"})
+                        elseif count < actualslots and user_vehicles[i].garage_id ~= garage.garage_id then
+                            if user_vehicles[i].state == "~g~Stored" then
+                                TriggerServerEvent("garage:transfer", user_vehicles[i].plate, garage.garage_id)
+                            else
+                                exports.pNotify:SendNotification({text = "Your car must be stored to transfer it!", type = "error", queue = "left", timeout = 3000, layout = "centerRight"})
+                            end
                         else
-                            exports.pNotify:SendNotification({text = "Your car must be stored to transfer it!", type = "error", queue = "left", timeout = 3000, layout = "centerRight"})
+                            exports.pNotify:SendNotification({text = "This garage is full!", type = "error", queue = "left", timeout = 3000, layout = "centerRight"})
                         end
-                    else
-                        exports.pNotify:SendNotification({text = "This garage is full!", type = "error", queue = "left", timeout = 3000, layout = "centerRight"})
                     end
                 end
             end)
