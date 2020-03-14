@@ -12,7 +12,7 @@
 	Copy, re-release, re-distribute it without my written permission.
 --]]
 local license_cost = 10000
-max_weapons = 4
+max_weapons = 6
 user_weapons = {}
 Weapons = {
 	["WEAPON_PISTOL"] = 750,
