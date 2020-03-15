@@ -17,6 +17,7 @@ Config.Priority = {
 	["steam:11000010515be32"] = 1997, -- Johnny
 	["steam:11000010467c91d"] = 1996, -- Mason Preacher
 	["steam:110000103f25066"] = 1995, -- Williepicket
+	["steam:11000010ff454ec"] = 1994, -- Ripperoni
 	--[VIP]--
 	["steam:1100001045138b3"] = 999, -- Carbine
 	["steam:110000105e56c72"] = 998, -- Red
