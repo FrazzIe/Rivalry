@@ -372,8 +372,9 @@ Citizen.CreateThread(function()
 
                             Citizen.Wait(500)
                             
+                            input = tonumber(input)
+                            
                             if input ~= nil then
-                                input = tonumber(input)
                                 if input >= minFrequency and input <= Radio.Frequency.Max and input == math.floor(input) then
                                     Radio.Frequency.Current = input
                                 end
