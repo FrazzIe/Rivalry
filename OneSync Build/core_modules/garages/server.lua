@@ -567,11 +567,11 @@ RegisterServerEvent("garage:pay_impound")
 AddEventHandler("garage:pay_impound", function(index)
     local source = tonumber(source)
     TriggerEvent('core:getuser', source, function(user)
-        if user.get("wallet") >= 3000 then
-            user.removeWallet(3000)
+        if user.get("wallet") >= 1500 then
+            user.removeWallet(1500)
             TriggerClientEvent("garage:pay_impound", source, index)
-        elseif user.get("bank") >= 3000 then
-            user.removeBank(3000)
+        elseif user.get("bank") >= 1500 then
+            user.removeBank(1500)
             TriggerClientEvent("garage:pay_impound", source, index)
         else
             GNotify(source,"Insufficient funds")
