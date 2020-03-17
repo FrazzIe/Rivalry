@@ -363,7 +363,7 @@ AddEventHandler('police:impound', function(plate, amount)
 		local hexPlate = tonumber(plate, 16)
 
 		if hexPlate ~= nil then
-			exports['GHMattiMySQL']:QueryAsync("UPDATE vehicles SET state=@state WHERE plate=@plate", {["@state"] = "~b~Impounded", ["@plate"] = hexPlate})
+			exports['GHMattiMySQL']:QueryAsync("UPDATE vehicles SET state=@state WHERE plate=@plate", {["@state"] = ((amount > 0) and "~b~Impounded" or "~g~Stored"), ["@plate"] = hexPlate})
 			exports['GHMattiMySQL']:QueryResultAsync("SELECT characters.identifier FROM vehicles INNER JOIN characters ON vehicles.character_id = characters.character_id WHERE plate=@plate", {["@plate"] = hexPlate}, function(identifier)
 				if identifier[1] == nil then
 				else
