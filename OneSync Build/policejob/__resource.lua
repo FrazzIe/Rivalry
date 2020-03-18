@@ -19,6 +19,7 @@ client_script 'armoury_menu.lua'
 client_script 'mission_client.lua'
 client_script 'police_doors.lua'
 client_script 'commands.lua'
+client_script 'barrier.lua'
 --client_script 'new_forensics_client.lua'
 
 server_script 'main_server.lua'
