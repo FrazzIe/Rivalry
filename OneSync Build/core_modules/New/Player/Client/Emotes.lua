@@ -315,53 +315,8 @@ Emote.Add("notepad", "Notepad", "Job", {"anim@amb@business@bgen@bgen_inspecting@
     TaskPlayAnim(PlayerPedId(), self.Dictionaries[1], self.Animations[1], -4.0, 4.0, -1, 49, 0, false, false, false)
 end)
 
-Emote.Add("ticket", "Ticket", "Job", {"veh@busted_std"}, {"issue_ticket_cop"}, {}, {}, function(self)
-	local Model = GetHashKey("p_notepad_01_s")
-    local Model2 = GetHashKey("prop_pencil_01")
-	
-    RequestModel(Model)
-    RequestModel(Model2)
-	while not HasModelLoaded(Model) and HasModelLoaded(Model2) do
-		Citizen.Wait(250)
-	end
-
-    local object = CreateObject(Model, 0.01, 0, 0, true, false, false)
-    local object2 = CreateObject(Model2, 0.01, 0, 0, true, false, false)
-
-    self:Object(object)
-    self:Object(object2)
-
-    AttachEntityToEntity(object, PlayerPedId(), GetPedBoneIndex(PlayerPedId(), 4090), .06, -0.001, 0.022, 130.0, 125.0, 200.0, true, true, false, true, 1, true)
-    AttachEntityToEntity(object2, PlayerPedId(), GetPedBoneIndex(PlayerPedId(), 64017), 0.010, 0.003, 0.014, 45.0, 75.0, 235.0, true, true, false, true, 1, true)
-
-    SetModelAsNoLongerNeeded(Model)
-    SetModelAsNoLongerNeeded(Model2)
-    
-    TaskPlayAnim(PlayerPedId(), self.Dictionaries[1], self.Animations[1], 2.0, 2.0, -1, 48, 0, false, false, false)
-end)
-
 Emote.Add("notepad2", "Notepad 2", "Job", {}, {}, {"CODE_HUMAN_MEDIC_TIME_OF_DEATH"}, {}, function(self)
 	TaskStartScenarioInPlace(PlayerPedId(), self.Scenarios[1], 0, false)
-end)
-
-Emote.Add("badge", "Badge", "Job", {"paper_1_rcm_alt1-9"}, {"player_one_dual-9"}, {}, {}, function(self)
-    if exports.policejob:getIsCop() then
-        local Model = GetHashKey("prop_fib_badge")
-        RequestModel(Model)
-        while not HasModelLoaded(Model) do
-            Citizen.Wait(150)
-        end
-
-        local object = CreateObject(Model, 0.01, 0, 0, true, false, false)
-
-        self:Object(object)
-
-        AttachEntityToEntity(object, PlayerPedId(), GetPedBoneIndex(PlayerPedId(), 28422), 0.12, 0.0042, -0.04, 90.0, 90.0, 45.0, 1, 1, 0, 0, 2, 1)
-
-        SetModelAsNoLongerNeeded(Model)
-
-        TaskPlayAnim(PlayerPedId(), self.Dictionaries[1], self.Animations[1], 2.0, 2.0, -1, 48, 0, false, false, false)
-    end
 end)
 
 Emote.Add("clipboard", "Clipboard", "Job", {"amb@world_human_clipboard@male@base"}, {"base"}, {}, {}, function(self)
@@ -430,6 +385,38 @@ Emote.Add("lapdance", "Stripper", "Dances", {"mp_am_stripper"}, {"lap_dance_girl
     TaskPlayAnim(PlayerPedId(), self.Dictionaries[1], self.Animations[1], 2.0, 2.0, -1, 1, 0, false, false, false)
 end) 
 
+Emote.Add("newdance", "armdance", "Dances", {"anim@amb@nightclub@dancers@podium_dancers@"}, {"hi_dance_facedj_17_v2_male^5"}, {}, {}, function(self)
+    TaskPlayAnim(PlayerPedId(), self.Dictionaries[1], self.Animations[1], 2.0, 2.0, -1, 1, 0, false, false, false)
+end) 
+
+Emote.Add("newdance2", "armdance2", "Dances", {"anim@amb@nightclub@mini@dance@dance_solo@male@var_b@"}, {"high_center_down"}, {}, {}, function(self)
+    TaskPlayAnim(PlayerPedId(), self.Dictionaries[1], self.Animations[1], 2.0, 2.0, -1, 1, 0, false, false, false)
+end) 
+
+Emote.Add("newdance3", "armdance2", "Dances", {"anim@amb@nightclub@mini@dance@dance_solo@female@var_a@"}, {"med_center_up"}, {}, {}, function(self)
+    TaskPlayAnim(PlayerPedId(), self.Dictionaries[1], self.Animations[1], 2.0, 2.0, -1, 1, 0, false, false, false)
+end) 
+
+Emote.Add("newdance4", "armdance2", "Dances", {"anim@amb@nightclub@dancers@solomun_entourage@"}, {"mi_dance_facedj_17_v1_female^1"}, {}, {}, function(self)
+    TaskPlayAnim(PlayerPedId(), self.Dictionaries[1], self.Animations[1], 2.0, 2.0, -1, 1, 0, false, false, false)
+end) 
+
+Emote.Add("newdance5", "armdance2", "Dances", {"anim@amb@nightclub@mini@dance@dance_solo@female@var_a@"}, {"high_center"}, {}, {}, function(self)
+    TaskPlayAnim(PlayerPedId(), self.Dictionaries[1], self.Animations[1], 2.0, 2.0, -1, 1, 0, false, false, false)
+end) 
+
+Emote.Add("newdance6", "armdance2", "Dances", {"anim@amb@nightclub@mini@dance@dance_solo@female@var_a@"}, {"high_center_up"}, {}, {}, function(self)
+    TaskPlayAnim(PlayerPedId(), self.Dictionaries[1], self.Animations[1], 2.0, 2.0, -1, 1, 0, false, false, false)
+end) 
+
+Emote.Add("newdance7", "armdance2", "Dances", {"anim@amb@nightclub@dancers@crowddance_facedj@hi_intensity"}, {"hi_dance_facedj_09_v2_female^1"}, {}, {}, function(self)
+    TaskPlayAnim(PlayerPedId(), self.Dictionaries[1], self.Animations[1], 2.0, 2.0, -1, 1, 0, false, false, false)
+end) 
+
+Emote.Add("newdance8", "armdance2", "Dances", {"anim@amb@nightclub@dancers@crowddance_facedj@hi_intensity"}, {"hi_dance_facedj_09_v2_female^3"}, {}, {}, function(self)
+    TaskPlayAnim(PlayerPedId(), self.Dictionaries[1], self.Animations[1], 2.0, 2.0, -1, 1, 0, false, false, false)
+end) 
+
 Emote.Add("poledance", "Pole dance", "Dances", {"mini@strip_club@pole_dance@pole_dance1"}, {"pd_dance_01"}, {}, {}, function(self)
     TaskPlayAnim(PlayerPedId(), self.Dictionaries[1], self.Animations[1], 2.0, 2.0, -1, 1, 0, false, false, false)
 end)
@@ -447,6 +434,38 @@ Emote.Add("clowndance", "Clown", "Dances", {"move_clown@p_m_two_idles@"}, {"fidg
 end)
 
 Emote.Add("sillydance", "Silly", "Dances", {"misschinese2_crystalmazemcs1_cs"}, {"dance_loop_tao"}, {}, {}, function(self)
+    TaskPlayAnim(PlayerPedId(), self.Dictionaries[1], self.Animations[1], 2.0, 2.0, -1, 49, 0, false, false, false)
+end)
+
+Emote.Add("sillydance2", "Silly2", "Dances", {"anim@amb@nightclub@lazlow@hi_podium@"}, {"danceidle_hi_11_buttwiggle_b_laz"}, {}, {}, function(self)
+    TaskPlayAnim(PlayerPedId(), self.Dictionaries[1], self.Animations[1], 2.0, 2.0, -1, 49, 0, false, false, false)
+end)
+
+Emote.Add("sillydance3", "Silly3", "Dances", {"timetable@tracy@ig_8@idle_b"}, {"idle_d"}, {}, {}, function(self)
+    TaskPlayAnim(PlayerPedId(), self.Dictionaries[1], self.Animations[1], 2.0, 2.0, -1, 49, 0, false, false, false)
+end)
+
+Emote.Add("sillydance4", "Silly4", "Dances", {"anim@amb@casino@mini@dance@dance_solo@female@var_b@"}, {"high_center"}, {}, {}, function(self)
+    TaskPlayAnim(PlayerPedId(), self.Dictionaries[1], self.Animations[1], 2.0, 2.0, -1, 49, 0, false, false, false)
+end)
+
+Emote.Add("sillydance5", "Silly5", "Dances", {"anim@amb@nightclub@mini@dance@dance_solo@female@var_a@"}, {"med_center_up"}, {}, {}, function(self)
+    TaskPlayAnim(PlayerPedId(), self.Dictionaries[1], self.Animations[1], 2.0, 2.0, -1, 49, 0, false, false, false)
+end)
+
+Emote.Add("slowdance", "slowdance", "Dances", {"anim@amb@nightclub@mini@dance@dance_solo@male@var_b@"}, {"low_center"}, {}, {}, function(self)
+    TaskPlayAnim(PlayerPedId(), self.Dictionaries[1], self.Animations[1], 2.0, 2.0, -1, 49, 0, false, false, false)
+end)
+
+Emote.Add("slowdance2", "slowdance2", "Dances", {"anim@amb@nightclub@mini@dance@dance_solo@female@var_a@"}, {"low_center"}, {}, {}, function(self)
+    TaskPlayAnim(PlayerPedId(), self.Dictionaries[1], self.Animations[1], 2.0, 2.0, -1, 49, 0, false, false, false)
+end)
+
+Emote.Add("slowdance3", "slowdance3", "Dances", {"anim@amb@nightclub@mini@dance@dance_solo@female@var_a@"}, {"low_center_down"}, {}, {}, function(self)
+    TaskPlayAnim(PlayerPedId(), self.Dictionaries[1], self.Animations[1], 2.0, 2.0, -1, 49, 0, false, false, false)
+end)
+
+Emote.Add("slowdance4", "slowdance4", "Dances", {"anim@amb@nightclub@mini@dance@dance_solo@female@var_b@"}, {"low_center"}, {}, {}, function(self)
     TaskPlayAnim(PlayerPedId(), self.Dictionaries[1], self.Animations[1], 2.0, 2.0, -1, 49, 0, false, false, false)
 end)
 
@@ -1005,12 +1024,6 @@ end)
 
 Emote.Add("kc", "Knucklecrunch", "Gesture", {"anim@mp_player_intcelebrationfemale@knuckle_crunch"}, {"knuckle_crunch"}, {}, {}, function(self)
     TaskPlayAnim(PlayerPedId(), self.Dictionaries[1], self.Animations[1], 2.0, 2.0, -1, 48, 0, false, false, false)
-end)
-
-Emote.Add("frisk", "Frisk", "Job", {"car_steal_3_mcs_3-4"}, {"player_two_dual-4"}, {}, {}, function(self)
-    PlayerPosition = GetEntityCoords(PlayerPedId())
-    PlayerRotation = GetEntityRotation(PlayerPedId())
-    TaskPlayAnimAdvanced(PlayerPedId(), self.Dictionaries[1], self.Animations[1], PlayerPosition.x, PlayerPosition.y, PlayerPosition.z, PlayerRotation.x, PlayerRotation.y, PlayerRotation.z, 2.0, 2.0, -1, 48, 0.7, false, false, false)
 end)
 
 Emote.Add("slowclap2", "Slow Clap 2", "Cheers", {"anim@mp_player_intcelebrationfemale@slow_clap"}, {"slow_clap"}, {}, {}, function(self)
@@ -1933,10 +1946,6 @@ Emote.Add("search", "Search the Ground", "Misc", {"clothingshoes"}, {"check_out_
     TaskPlayAnim(PlayerPedId(), self.Dictionaries[1], self.Animations[1], 2.0, 2.0, -1, 129, 0, false, false, false)
 end)
 
-Emote.Add("whistle", "Whistle", "Misc", {"rcmnigel1c"}, {"hailing_whistle_waive_a"}, {}, {}, function(self)
-    TaskPlayAnim(PlayerPedId(), self.Dictionaries[1], self.Animations[1], 2.0, 2.0, -1, 48, 0, false, false, false)
-end)
-
 Emote.Add("whocares", "Who cares?", "Misc", {"anim@mp_celebration@draw@female"}, {"draw_react_female_b"}, {}, {}, function(self)
     TaskPlayAnim(PlayerPedId(), self.Dictionaries[1], self.Animations[1], 2.0, 2.0, -1, 128, 0, false, false, false)
 end)
@@ -2011,6 +2020,102 @@ end)
 
 Emote.Add("mime", "Miming", "Job", {"special_ped@mime"}, {"idle_c"}, {}, {}, function(self)
     TaskPlayAnim(PlayerPedId(), self.Dictionaries[1], self.Animations[1], 2.0, 2.0, -1, 128, 0, false, false, false)
+end)
+
+Emote.Add("spiderman", "spider-man", "Misc", {"missexile3"}, {"ex03_train_roof_idle"}, {}, {}, function(self)
+    TaskPlayAnim(PlayerPedId(), self.Dictionaries[1], self.Animations[1], 2.0, 2.0, -1, 48, 0, false, false, false)
+end)
+
+Emote.Add("bird", "bird", "Misc", {"random@peyote@bird"}, {"wakeup"}, {}, {}, function(self)
+    TaskPlayAnim(PlayerPedId(), self.Dictionaries[1], self.Animations[1], 2.0, 2.0, -1, 48, 0, false, false, false)
+end)
+
+Emote.Add("celebrate", "celebrate", "Misc", {"rcmfanatic1celebrate"}, {"celebrate"}, {}, {}, function(self)
+    TaskPlayAnim(PlayerPedId(), self.Dictionaries[1], self.Animations[1], 2.0, 2.0, -1, 48, 0, false, false, false)
+end)
+
+Emote.Add("chicken", "cluckcluck", "Misc", {"random@peyte@chickeno"}, {"wakeup"}, {}, {}, function(self)
+    TaskPlayAnim(PlayerPedId(), self.Dictionaries[1], self.Animations[1], 2.0, 2.0, -1, 48, 0, false, false, false)
+end)
+
+Emote.Add("crawl", "crawl injured", "Misc", {"move_injured_ground"}, {"front_loop"}, {}, {}, function(self)
+    TaskPlayAnim(PlayerPedId(), self.Dictionaries[1], self.Animations[1], 2.0, 2.0, -1, 129, 0, false, false, false)
+end)
+
+Emote.Add("cutthroat", "cut throat", "Misc", {"anim@mp_player_intcelebrationfemale@cut_throat"}, {"cut_throat"}, {}, {}, function(self)
+    TaskPlayAnim(PlayerPedId(), self.Dictionaries[1], self.Animations[1], 2.0, 2.0, -1, 129, 0, false, false, false)
+end)
+
+Emote.Add("fallasleep", "fall asleep", "Misc", {"mp_sleep"}, {"sleep_loop"}, {}, {}, function(self)
+    TaskPlayAnim(PlayerPedId(), self.Dictionaries[1], self.Animations[1], 2.0, 2.0, -1, 48, 0, false, false, false)
+end)
+
+Emote.Add("fallover", "fall over", "Misc", {"random@drunk_driver_1"}, {"drunk_fall_over"}, {}, {}, function(self)
+    TaskPlayAnim(PlayerPedId(), self.Dictionaries[1], self.Animations[1], 2.0, 2.0, -1, 129, 0, false, false, false)
+end)
+
+Emote.Add("flip", "flip", "Misc", {"anim@arena@celeb@flat@solo@no_props@"}, {"flip_a_player_a"}, {}, {}, function(self)
+    TaskPlayAnim(PlayerPedId(), self.Dictionaries[1], self.Animations[1], 2.0, 2.0, -1, 129, 0, false, false, false)
+end)
+
+Emote.Add("golfswing", "golf", "Misc", {"rcmnigel1d"}, {"swing_a_mark"}, {}, {}, function(self)
+    TaskPlayAnim(PlayerPedId(), self.Dictionaries[1], self.Animations[1], 2.0, 2.0, -1, 129, 0, false, false, false)
+end)
+
+Emote.Add("headbutt", "head butt", "Misc", {"melee@unarmed@streamed_variations"}, {"plyr_takedown_front_headbutt"}, {}, {}, function(self)
+    TaskPlayAnim(PlayerPedId(), self.Dictionaries[1], self.Animations[1], 2.0, 2.0, -1, 48, 0, false, false, false)
+end)
+
+Emote.Add("karate", "karate", "Misc", {"anim@mp_player_intcelebrationfemale@karate_chops"}, {"karate_chops"}, {}, {}, function(self)
+    TaskPlayAnim(PlayerPedId(), self.Dictionaries[1], self.Animations[1], 2.0, 2.0, -1, 48, 0, false, false, false)
+end)
+
+Emote.Add("karate2", "karate", "Misc", {"anim@mp_player_intcelebrationmale@karate_chops"}, {"karate_chops"}, {}, {}, function(self)
+    TaskPlayAnim(PlayerPedId(), self.Dictionaries[1], self.Animations[1], 2.0, 2.0, -1, 48, 0, false, false, false)
+end)
+
+Emote.Add("knockdoor", "knock door", "Misc", {"missheistfbi3b_ig7"}, {"lift_fibagent_loop"}, {}, {}, function(self)
+    TaskPlayAnim(PlayerPedId(), self.Dictionaries[1], self.Animations[1], 2.0, 2.0, -1, 48, 0, false, false, false)
+end)
+
+Emote.Add("leanflirt", "lean flirt", "Misc", {"random@street_race"}, {"_car_a_flirt_girl"}, {}, {}, function(self)
+    TaskPlayAnim(PlayerPedId(), self.Dictionaries[1], self.Animations[1], 2.0, 2.0, -1, 48, 0, false, false, false)
+end)
+
+Emote.Add("ledge", "ledge hanging", "Misc", {"missfbi1"}, {"ledge_loop"}, {}, {}, function(self)
+    TaskPlayAnim(PlayerPedId(), self.Dictionaries[1], self.Animations[1], 2.0, 2.0, -1, 129, 0, false, false, false)
+end)
+
+Emote.Add("lol", "laughing", "Misc", {"anim@arena@celeb@flat@paired@no_props"}, {"laugh_a_player_b"}, {}, {}, function(self)
+    TaskPlayAnim(PlayerPedId(), self.Dictionaries[1], self.Animations[1], 2.0, 2.0, -1, 48, 0, false, false, false)
+end)
+
+Emote.Add("mechfix7", "fix tire", "Misc", {"anim@amb@clubhouse@tutorial@bkr_tut_ig3@"}, {"machinic_loop_mechandplayer"}, {}, {}, function(self)
+    TaskPlayAnim(PlayerPedId(), self.Dictionaries[1], self.Animations[1], 2.0, 2.0, -1, 129, 0, false, false, false)
+end)
+
+Emote.Add("passout", "pass out", "Misc", {"missarmenian2"}, {"drunk_loop"}, {}, {}, function(self)
+    TaskPlayAnim(PlayerPedId(), self.Dictionaries[1], self.Animations[1], 2.0, 2.0, -1, 129, 0, false, false, false)
+end)
+
+Emote.Add("passout2", "pass out", "Misc", {"random@mugging4"}, {"flee_backward_loop_shopkeeper"}, {}, {}, function(self)
+    TaskPlayAnim(PlayerPedId(), self.Dictionaries[1], self.Animations[1], 2.0, 2.0, -1, 129, 0, false, false, false)
+end)
+
+Emote.Add("peek", "peek wall", "Misc", {"random@paparazzi@peek"}, {"left_peek_a"}, {}, {}, function(self)
+    TaskPlayAnim(PlayerPedId(), self.Dictionaries[1], self.Animations[1], 2.0, 2.0, -1, 129, 0, false, false, false)
+end)
+
+Emote.Add("shot", "shot on floor", "Misc", {"random@dealgonewrong"}, {"idle_a"}, {}, {}, function(self)
+    TaskPlayAnim(PlayerPedId(), self.Dictionaries[1], self.Animations[1], 2.0, 2.0, -1, 129, 0, false, false, false)
+end)
+
+Emote.Add("superhero", "superherp  ", "Misc", {"rcmbarry"}, {"base"}, {}, {}, function(self)
+    TaskPlayAnim(PlayerPedId(), self.Dictionaries[1], self.Animations[1], 2.0, 2.0, -1, 129, 0, false, false, false)
+end)
+
+Emote.Add("twerk", "twerking  ", "Misc", {"switch@trevor@mocks_lapdance"}, {"001443_01_trvs_28_idle_stripper"}, {}, {}, function(self)
+    TaskPlayAnim(PlayerPedId(), self.Dictionaries[1], self.Animations[1], 2.0, 2.0, -1, 129, 0, false, false, false)
 end)
 
 Emote.Add("clipboard2", "Clipboard 2", "Idle", {"amb@world_human_clipboard@male@idle_a"}, {"idle_c"}, {}, {}, function(self)
