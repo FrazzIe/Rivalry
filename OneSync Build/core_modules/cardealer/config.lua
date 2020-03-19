@@ -6,7 +6,8 @@ vehicleList = {
                 {name = "Taxi", model = "taxi"},
                 {name = "Taco Truck", model = "taco"},
                 {name = "Tour Bus", model = "tourbus"},
-            }
+				{name = "Caddy", model = "caddy"},
+			}
         },
         {
             title = "Compacts", 
