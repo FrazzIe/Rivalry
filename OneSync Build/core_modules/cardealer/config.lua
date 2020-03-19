@@ -442,7 +442,10 @@ vehicleList = {
                 {name = "X80 Proto", model = "prototipo"},
                 {name = "Zentorno", model = "zentorno"},
                 {name = "Zorrusso", model = "zorrusso"},
-            }
+				{name = "ETR1", model = "sheava"},
+				{name = "S80RR", model = "s80"},
+				{name = "Tyrus", model = "tyrus"},
+			}
         },
         {
             title = "Sedans", 
