@@ -475,10 +475,10 @@ Citizen.CreateThread(function()
 	    	return nil
 	    end
 
-	    if not CanRegisterMissionVehicles(1) then
-	    	Citizen.Trace("[Export]:SpawnVehicle -> Unable to register mission vehicles")
-	        return nil
-	    end
+	    -- if not CanRegisterMissionVehicles(1) then
+	    -- 	Citizen.Trace("[Export]:SpawnVehicle -> Unable to register mission vehicles")
+	    --     return nil
+	    -- end
 
 	    RequestModel(modelHash)
 
