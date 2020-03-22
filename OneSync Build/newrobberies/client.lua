@@ -81,6 +81,7 @@ Citizen.CreateThread(function()
 		if #(PlayerPosition - Rivalry.Robberies.Banks.Blaine.Vault) < 20 then
 			if not HasBlaineBeenReset then
 				TriggerServerEvent("Rivalry.CheckBankStatus", "Blaine", 0)
+				Citizen.Wait(1000)
 			end
 			if not exports.policejob:getIsInService() then
 				if not Rivalry.Robberies.Banks.Blaine.Locked then
@@ -111,6 +112,7 @@ Citizen.CreateThread(function()
 			if #(PlayerPosition - Rivalry.Robberies.Banks.Fleeca[Index].Vault) < 10.0 then
 				if not HasFleecaBeenReset then
 					TriggerServerEvent("Rivalry.CheckBankStatus", "Fleeca", Index)
+					Citizen.Wait(1000)
 				end
 				if not exports.policejob:getIsInService() then
 					if not Rivalry.Robberies.Banks.Fleeca[Index].Locked then
@@ -147,6 +149,7 @@ Citizen.CreateThread(function()
 		if #(PlayerPosition - Rivalry.Robberies.Banks.Pacific.Vault) < 20 then
 			if not HasPacificBeenReset then
 				TriggerServerEvent("Rivalry.CheckBankStatus", "Pacific", 0)
+				Citizen.Wait(1000)
 			end
 			if not exports.policejob:getIsInService() then
 				if not Rivalry.Robberies.Banks.Pacific.Locked then
