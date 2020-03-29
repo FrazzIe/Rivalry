@@ -226,7 +226,7 @@ Citizen.CreateThread(function()
         local isFalling = IsPedFalling(playerPed)
         local isDead = IsEntityDead(playerPed)
         local minFrequency = Radio.Frequency.Min + (isEmergency and 1 or 5)
-        local broadcastType = 3 + (isEmergency and 1 or 0) + ((Radio.Open and isEmergency) and -1 or 0) 
+        local broadcastType = 4 + (Radio.Open and -1 or 0) 
         local broadcastDictionary = Radio.Dictionary[broadcastType]
         local broadcastAnimation = Radio.Animation[broadcastType]
         local isBroadcasting = IsControlPressed(0, Radio.Controls.Broadcast)

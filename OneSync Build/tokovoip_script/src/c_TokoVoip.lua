@@ -142,7 +142,7 @@ function TokoVoip.initialize(self)
 			end
 
 
-			if (IsControlPressed(0, self.radioKey) and self.plugin_data.radioChannel ~= -1 and exports["rp-radio"]:CanRadioBeUsed() and (exports["rp-radio"]:IsRadioOpen() or (exports["policejob"]:getIsInService() or exports["emsjob"]:getIsInService()))) then -- Talk on radio
+			if (IsControlPressed(0, self.radioKey) and self.plugin_data.radioChannel ~= -1 and exports["rp-radio"]:CanRadioBeUsed() and exports["rp-radio"]:IsRadioOpen()) then -- Talk on radio
 				if not self.plugin_data.radioTalking then
 					self.plugin_data.radioTalking = true;
 					self:updateTokoVoipInfo();
