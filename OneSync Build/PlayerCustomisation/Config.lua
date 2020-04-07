@@ -614,13 +614,13 @@ PlayerCustomisation.Locations = {
 			Marker = {x = 454.44635009766, y = -988.86938476563, z = 30.689607620239, h = 172.5439453125},
 			Banner = "shopui_title_midfashion",
 		},
-		[16] = { -- Pillbox Hospital
+		[16] = { -- Gibz Pillbox Hospital
 			Blip = {
 				Name = "Clothing store",
 				Sprite = 73, 
 				Colour = 0,
 			},
-			Marker = {x = 336.98593139648, y = -581.65216064453, z = 28.791465759277, h = 68.848915100098},
+			Marker = {x = 301.619140625, y = -599.30426025391, z = 43.284030914307, h = 337.89410400391},
 			Banner = "shopui_title_midfashion",
 		},
 		[17] = { -- Sandy Shores
@@ -919,13 +919,13 @@ PlayerCustomisation.Locations = {
 			Marker = {x = 451.21685791016, y = -991.98986816406, z = 30.689580917358, h = 313.52288818359},
 			Banner = "shopui_title_midfashion",
 		},
-		[17] = { -- Pillbox Hospital
+		[17] = { -- Gibz Pillbox Hospital
 			Blip = {
 				Name = "Outfits",
 				Sprite = 366, 
 				Colour = 0,
 			},
-			Marker = {x = 337.25042724609, y = -580.20056152344, z = 28.791465759277, h = 165.14468383789},
+			Marker = {x = 298.92181396484, y = -598.46520996094, z = 43.284030914307, h = 340.56304931641},
 			Banner = "shopui_title_midfashion",
 		},
 		[18] = { -- Sandy Shores PD
