@@ -57,19 +57,22 @@ end
 
 local doors = {
 	single = {
-		{coords = vector3(272.21752929688, -1361.5660400391, 24.551530838013), model = 1653893025, heading = 320.00003051758, locked = true}, -- Morgue, reception door
-		{coords = vector3(265.06137084961, -1363.3120117188, 24.551530838013), model = 1653893025, heading = 230.00003051758, locked = true}, -- Morgue, reception door 2
-		{coords = vector3(256.56033325195, -1377.4182128906, 39.737594604492), model = 374758529, heading = 4.9999651908875, locked = true}, -- Computing room, 3rd floor, door 1
-		{coords = vector3(261.21139526367, -1380.8220214844, 39.737594604492), model = 374758529, heading = 320.00003051758, locked = true}, -- Computing room, 3rd floor, door 2
-		{coords = vector3(236.77729797363, -1367.3142089844, 39.679546356201), model = 1859711902, heading = 95.08666229248, locked = true}, -- Medical office, 3rd floor
-		-- LOWER PILLBOX NEW INTERIOR
-		{coords = vector3(337.22735595703, -584.046875, 28.81494140625), model = 1653893025, heading = 250.0055847168, locked = true}, -- Lower Pillbox Locker Room
-		{coords = vector3(352.73638916016, -574.73425292969, 28.811931610107), model = 1653893025, heading = 69.991722106934, locked = true}, -- Lookout Room
-		{coords = vector3(361.26593017578, -567.70306396484, 28.819242477417), model = 1653893025, heading = 69.991722106934, locked = true}, -- Infirmary Room
-		{coords = vector3(334.15838623047, -577.46087646484, 28.820701599121), model = 1653893025, heading = 339.98083496094, locked = true}, -- Operation Side
-		{coords = vector3(330.17877197266, -576.01202392578, 28.820701599121), model = 1653893025, heading = 159.99555969238, locked = true}, -- Operation 2
-		{coords = vector3(323.71957397461, -590.71240234375, 28.938451766968), model = 1859711902, heading = 159.85054016113, locked = true}, -- Chief Examiner
-		{coords = vector3(332.70712280273, -587.72082519531, 28.809652328491), model = 1653893025, heading = 159.99555969238, locked = true}, -- Lower Pillbox Locker Side
+		-- Gibz Pillbox
+		{coords = vector3(339.89434814453, -586.47802734375, 43.284065246582), model = 1653893025, heading = 185.40148925781, locked = true},
+		{coords = vector3(326.52206420898, -579.4091796875, 43.284049987793), model = 1653893025, heading = 64.32706451416, locked = true},
+		{coords = vector3(324.40243530273, -576.35919189453, 43.284065246582), model = 1653893025, heading = 346.73965454102, locked = true},
+		{coords = vector3(318.86959838867, -574.14691162109, 43.302772521973), model = 1653893025, heading = 160.67063903809, locked = true},
+		{coords = vector3(313.03244018555, -572.16491699219, 43.28406524658), model = 1653893025, heading = 328.20544433594, locked = true},
+		{coords = vector3(307.84359741211, -570.31097412109, 43.284065246582), model = 1653893025, heading = 343.85919189453, locked = true},
+		{coords = vector3(308.33557128906, -597.05810546875, 43.284065246582), model = 1653893025, heading = 163.37902832031, locked = true},
+		{coords = vector3(327.32177734375, -593.91131591797, 43.284065246582), model = 1653893025, heading = 249.45266723633, locked = true},
+		{coords = vector3(325.17391967773, -589.88824462891, 43.284076690674), model = 1653893025, heading = 350.64340209961, locked = true},
+		{coords = vector3(347.31259155273, -592.73492431641, 43.284072875977), model = 1653893025, heading = 64.424926757813, locked = true},
+		{coords = vector3(350.12319946289, -598.87091064453, 43.284061431885), model = 1653893025, heading = 251.04223632813, locked = true},
+		{coords = vector3(356.83480834961, -580.03039550781, 43.284069061279), model = 1653893025, heading = 224.53964233398, locked = true},
+		{coords = vector3(355.41946411133, -583.92779541016, 43.284069061279), model = 1653893025, heading = 240.02548217773, locked = true},
+		{coords = vector3(348.44921875, -587.44653320313, 43.284072875977), model = 1653893025, heading = 295.59777832031, locked = true},
+		{coords = vector3(341.60543823242, -582.099609375, 43.284065246582), model = 1653893025, heading = 338.75845336914, locked = true},
 		-- Sandy Shores
 		{ coords = vector3(1841.9404296875, 3683.4755859375, 34.362609863281), heading = 209.79792785645, model = -1320876379, locked = true}, -- Locker Room
 		{ coords = vector3(1838.6497802734, 3686.3188476563, 34.362609863281), heading = 299.70166015625, model = -1320876379, locked = true}, -- Desk Entrance
@@ -77,78 +80,40 @@ local doors = {
 	},
 	double = {
 		{
-			["left"] = {coords = vector3(325.05090332031, -588.92846679688, 43.344619750977), model = -770740285, heading = 160.00001525879, locked = false},
-			["right"] = {coords = vector3(327.2121887207, -589.71508789063, 43.344619750977), model = -770740285, heading = 340.00003051758, locked = false},
-		}, -- Inner Pillbox hospital doors
-		{
-			["left"] = {coords = vector3(249.54711914063, -1383.7418212891, 39.744342803955), model = 374758529, heading = 49.99995803833, locked = false},
-			["right"] = {coords = vector3(247.88844299316, -1385.7186279297, 39.744342803955), model = 374758529, heading = 229.99996948242, locked = false},
-		}, -- Computing room, 3rd floor, double doors
-		{
-			["left"] = {coords = vector3(239.21530151367, -1363.4578857422, 39.737594604492), model = 374758529, heading = 229.62672424316, locked = false},
-			["right"] = {coords = vector3(240.8713684082, -1361.4842529297, 39.737594604492), model = 374758529, heading = 49.889072418213, locked = false},
-		}, -- Documents room, 3rd floor
-		{
-			["left"] = {coords = vector3(250.10475158691, -1370.2286376953, 39.737594604492), model = 374758529, heading = 320.25872802734, locked = false},
-			["right"] = {coords = vector3(248.12802124023, -1368.5699462891, 39.737594604492), model = 374758529, heading = 140.00001525879, locked = false},
-		}, -- Forensics Lab, 3rd floor Middle doors
-		{
-			["left"] = {coords = vector3(245.19139099121, -1383.4554443359, 39.743377685547), model = 374758529, heading = 229.73471069336, locked = false},
-			["right"] = {coords = vector3(246.85006713867, -1381.4786376953, 39.743377685547), model = 374758529, heading = 50.25090026855, locked = false},
-		}, -- Forensics Lab, 3rd floor Left doors
-		{
-			["left"] = {coords = vector3(237.6615447998, -1373.7686767578, 39.744342803955), model = 374758529, heading = 50.000022888184, locked = false},
-			["right"] = {coords = vector3(236.00286865234, -1375.7454833984, 39.744342803955), model = 374758529, heading = 230.00003051758, locked = false},
-		}, -- Forensics Lab, 3rd floor Right doors
-
-		-- LOWER PILLBOX NEW INTERIOR
-		{
-			["left"] = {coords = vector3(346.8180847168, -572.02557373047, 28.797302246094), model = -770740285, heading = 69.991722106934, locked = true}, -- Lookout Room
-			["right"] = {coords = vector3(346.0309753418, -574.18878173828, 28.797302246094), model = -770740285, heading = 250.0055847168, locked = true},
-		},
-		{ 
-			["left"] = {coords = vector3(345.05859375, -567.96478271484, 28.820510864258), model = -770740285, heading = 159.99555969238, locked = false}, -- Infirmary
-			["right"] = {coords = vector3(347.22665405273, -568.73327636719, 28.820510864258), model = -770740285, heading = 339.98083496094, locked = false},
+			["left"] = {coords = vector3(302.80307006836, -581.42456054688, 43.433910369873), model = -434783486, heading = 340.00003051758, locked = false},
+			["right"] = {coords = vector3(305.22186279297, -582.30560302734, 43.433910369873), model = -1700911976, heading = 339.79483032227, locked = false},
 		},
 		{
-			["left"] = {coords = vector3(341.39196777344, -572.50708007813, 28.818971633911), model = -770740285, heading = 250.0055847168, locked = true}, -- Hall Entrance
-			["right"] = {coords = vector3(342.17840576172, -570.34729003906, 28.818971633911), model = -770740285, heading = 69.991722106934, locked = true},
+			["left"] = {coords = vector3(328.1364440918, -592.77606201172, 43.433910369873), model = -434783486, heading = 249.98272705078, locked = true},
+			["right"] = {coords = vector3(305.22186279297, -582.30560302734, 43.433910369873), model = -1700911976, heading = 249.98272705078, locked = true},
 		},
 		{
-			["left"] = {coords = vector3(333.78845214844, -593.40551757813, 28.802772521973), model = -770740285, heading = 250.0055847168, locked = true}, -- Paramedic Entrance
-			["right"] = {coords = vector3(334.57537841797, -591.24450683594, 28.802772521973), model = -770740285, heading = 69.991729736328, locked = true},
+			["left"] = {coords = vector3(324.23602294922, -589.22619628906, 43.433910369873), model = -434783486, heading = 340.00003051758, locked = true},
+			["right"] = {coords = vector3(326.6549987793, -590.10662841797, 43.433910369873) , model = -1700911976, heading = 340.00003051758, locked = true},
 		},
 		{
-			["left"] = {coords = vector3(337.99127197266, -572.20837402344, 28.9397315979), model = 580361003, heading = 339.98083496094, locked = true}, -- Operation Table
-			["right"] = {coords = vector3(335.56884765625, -571.33117675781, 28.9397315979), model = 1415151278, heading = 339.98083496094, locked = true},
+			["left"] = {coords = vector3(312.00512695313, -571.34118652344, 43.433910369873), model = -434783486, heading = 340.00003051758, locked = true},
+			["right"] = {coords = vector3(305.22186279297, -582.30560302734, 43.433910369873), model = -1700911976, heading = 340.00003051758, locked = true},
 		},
 		{
-			["left"] = {coords = vector3(331.38259887695, -569.80816650391, 28.9397315979), model = 580361003, heading = 340.17709350586, locked = true}, -- Opperation 2
-			["right"] = {coords = vector3(328.95724487305, -568.92449951172, 28.9397315979), model = 1415151278, heading = 339.98083496094, locked = true},
+			["left"] = {coords = vector3(317.84255981445, -573.46588134766, 43.433910369873), model = -434783486, heading = 340.00003051758, locked = true},
+			["right"] = {coords = vector3(320.26153564453, -574.34631347656, 43.433910369873), model = -1700911976, heading = 340.00003051758, locked = true},
 		},
 		{
-			["left"] = {coords = vector3(323.12307739258, -566.95922851563, 28.82303237915), model = -770740285, heading = 339.98083496094, locked = true}, -- Morgue Entrance
-			["right"] = {coords = vector3(320.95690917969, -566.17059326172, 28.82303237915), model = -770740285, heading = 159.99555969238, locked = true},
+			["left"] = {coords = vector3(323.23754882813, -575.42944335938, 43.433910369873), model = -434783486, heading = 340.00003051758, locked = true},
+			["right"] = {coords = vector3(325.6565246582, -576.30993652344, 43.433910369873), model = -1700911976, heading = 340.00003051758, locked = true},
 		},
 		{
-			["left"] = {coords = vector3(318.76770019531, -561.01983642578, 28.880311965942), model = -1920147247, heading = 206.43293762207, locked = true}, -- Back Exit
-			["right"] = {coords = vector3(321.0087890625, -559.96087646484, 28.880311965942), model = -1920147247, heading = 26.040521621704, locked = true},
+			["left"] = {coords = vector3(325.66946411133, -580.45959472656, 43.433910369873), model = -434783486, heading = 249.98272705078, locked = true},
+			["right"] = {coords = vector3(326.54989624023, -578.04064941406, 43.433910369873), model = -1700911976, heading = 250.04809570313, locked = true},
 		},
 		{
-			["left"] = {coords = vector3(318.76806640625, -574.02288818359, 28.937282562256), model = 1415151278, heading = 250.0055847168, locked = true}, -- Autopsy One
-			["right"] = {coords = vector3(317.88784790039, -576.44207763672, 28.937282562256), model = 580361003, heading = 249.77551269531, locked = true},
+			["left"] = {coords = vector3(348.4333190918, -588.74499511719, 43.433910369873), model = -434783486, heading = 249.93737792969, locked = true},
+			["right"] = {coords = vector3(349.3137512207, -586.32598876953, 43.433910369873), model = -1700911976, heading = 250.00057983398, locked = true},
 		},
 		{
-			["left"] = {coords = vector3(313.5016784668, -574.84906005859, 28.935340881348), model = 580361003, heading = 249.70288085938, locked = true}, -- Morgue Doorway
-			["right"] = {coords = vector3(314.38244628906, -572.42840576172, 28.935340881348), model = 1415151278, heading = 249.72265625, locked = true},
-		},
-		{
-			["left"] = {coords = vector3(314.88363647461, -581.20758056641, 28.819841384888), model = -770740285, heading = 339.98083496094, locked = true}, -- Paramedic Hall
-			["right"] = {coords = vector3(312.72149658203, -580.42041015625, 28.819841384888), model = -770740285, heading = 159.99555969238, locked = true},
-		},
-		{
-			["left"] = {coords = vector3(318.94046020508, -588.97814941406, 28.983642578125), model = 374758529, heading = 339.93426513672, locked = true}, --Classroom Door
-			["right"] = {coords = vector3(316.51669311523, -588.09576416016, 28.983652114868), model = 374758529, heading = 160.16090393066, locked = true},
+			["left"] = {coords = vector3(318.48468017578, -579.22814941406, 43.433910369873), model = -434783486, heading = 160.00001525879, locked = false},
+			["right"] = {coords = vector3(316.0657043457, -578.34771728516, 43.433910369873), model = -1700911976, heading = 160.00001525879, locked = false},
 		},
 	}
 }
