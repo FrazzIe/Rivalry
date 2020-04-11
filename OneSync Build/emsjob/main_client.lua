@@ -20,13 +20,12 @@ user_paramedic = {}
 local takingService = {
 	{name = "Hospital", sprite = 61, colour = 2, x = 1155.26, y = -1520.82, z = 34.84},
 	{name = "Hospital", sprite = 61, colour = 2, x = 295.411, y = -1446.88, z = 29.9666},
-	{name = "Hospital", sprite = 61, colour = 2, x = 309.70840454102, y = -602.83959960938, z = 43.28405380249}, -- Gibz Pillbox
+	{name = "Hospital", sprite = 61, colour = 2, x = 309.70840454102, y = -602.83959960938, z = 43.28405380249}, -- Gabz Pillbox
 	{name = "Hospital", sprite = 61, colour = 2, x = -449.639, y = -340.586, z = 34.5018},
 	{name = "Hospital", sprite = 61, colour = 2, x = -874.467, y = -307.896, z = 39.5699},
 	{name = "Hospital", sprite = 61, colour = 2, x = -677.135, y = 310.275, z = 83.0842},
 	{name = "Hospital", sprite = 61, colour = 2, x = 1840.4024658203, y = 3685.2512207031, z = 34.270053863525}, -- Sandy Shores
 	{name = "Hospital", sprite = 61, colour = 2, x = -264.64517211914, y = 6313.8935546875, z = 32.436405181885}, -- Paleto bay
-	{name = "Hospital", sprite = 61, colour = 2, x = 337.56130981445, y = -576.15032958984, z = 43.328758239746},
 }
 
 RegisterNetEvent("paramedic:setranks")
