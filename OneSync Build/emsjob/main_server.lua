@@ -16,19 +16,19 @@ ranks = {}
 user_models = {}
 local doors = {
 	single = {
-		true, -- Morgue, reception door
-		true, -- Morgue, reception door 2
-		true, -- Computing room, 3rd floor, door 1
-		true, -- Computing room, 3rd floor, door 2
-		true, -- Medical office, 3rd floor
-		-- LOWER PILLBOX NEW INTERIOR
+		-- Gabz
+		false,
 		true,
 		true,
-		true,
-		true,
-		true,
-		true,
-		true,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false,
+		-- Sandy Shores
 		true,
 		true,
 		true,
@@ -37,75 +37,14 @@ local doors = {
 		{
 			["left"] = false,
 			["right"] = false,
-		}, -- Inner Pillbox hospital doors
-		{
-			["left"] = false,
-			["right"] = false,
-		}, -- Computing room, 3rd floor, double doors
-		{
-			["left"] = false,
-			["right"] = false,
-		}, -- Documents room, 3rd floor
-		{
-			["left"] = false,
-			["right"] = false,
-		}, -- Forensics Lab, 3rd floor Middle doors
-		{
-			["left"] = false,
-			["right"] = false,
-		}, -- Forensics Lab, 3rd floor Left doors
-		{
-			["left"] = false,
-			["right"] = false,
-		}, -- Forensics Lab, 3rd floor Right doors
-		-- LOWER PILLBOX NEW INTERIOR
-		{
-			["left"] = true,
-			["right"] = true,
 		},
 		{
 			["left"] = false,
 			["right"] = false,
 		},
 		{
-			["left"] = true,
-			["right"] = true,
-		},
-		{
-			["left"] = true,
-			["right"] = true,
-		},
-		{
-			["left"] = true,
-			["right"] = true,
-		},
-		{
-			["left"] = true,
-			["right"] = true,
-		},
-		{
-			["left"] = true,
-			["right"] = true,
-		},
-		{
-			["left"] = true,
-			["right"] = true,
-		},
-		{
-			["left"] = true,
-			["right"] = true,
-		},
-		{
-			["left"] = true,
-			["right"] = true,
-		},
-		{
-			["left"] = true,
-			["right"] = true,
-		},
-		{
-			["left"] = true,
-			["right"] = true,
+			["left"] = false,
+			["right"] = false,
 		},
 	}
 }
