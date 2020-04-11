@@ -1,20 +1,23 @@
-local IsRobbingStoreVault = false
 local TotalLocks = 0
 local TotalComboLocks = 0
 local NumberOfPins = 0
+local CurrentLockpicked = 0
+
+local IsRobbingStoreVault = false
 local isRobbing = false
 local isStillRobbingBlaine = false
 local isStillRobbingPacific = false
 local isStillRobbingFleeca = false
 local isStillRobbingStore = false
-local whichFleeca = nil
-local whichStore = nil
-local VehicleHandle = nil
 local HasBlaineBeenReset = false
 local HasPacificBeenReset = false
 local HasFleecaBeenReset = false
-local CurrentLockpicked = 0
+local IsJewlery = false
+
 local WhichBank = nil
+local whichFleeca = nil
+local whichStore = nil
+local VehicleHandle = nil
 
 function DisplayHelpText(Str)
 	BeginTextCommandDisplayHelp("STRING")
@@ -79,14 +82,10 @@ Citizen.CreateThread(function()
 		local PlayerPed = PlayerPedId()
 		local PlayerPosition = GetEntityCoords(PlayerPed, false)
 		if #(PlayerPosition - Rivalry.Robberies.Banks.Blaine.Vault) < 20 then
-			if not HasBlaineBeenReset then
-				TriggerServerEvent("Rivalry.CheckBankStatus", "Blaine", 0)
-				Citizen.Wait(1000)
-			end
 			if not exports.policejob:getIsInService() then
 				if not Rivalry.Robberies.Banks.Blaine.Locked then
 					for Index = 1, #Rivalry.Robberies.Banks.Blaine.LockedBoxes do
-						if #(PlayerPosition - Rivalry.Robberies.Banks.Blaine.LockedBoxes[Index]) < 1 then
+						if #(PlayerPosition - Rivalry.Robberies.Banks.Blaine.LockedBoxes[Index]) < 1.1 then
 							DisplayHelpText("Press ~INPUT_CONTEXT~ to lockpick safe box!")
 							if IsControlJustPressed(1, 51) then
 								if exports.core_modules:GetItemQuantity(36) > 0 then
@@ -110,14 +109,10 @@ Citizen.CreateThread(function()
 		local PlayerPosition = GetEntityCoords(PlayerPed, false)
 		for Index = 1, #Rivalry.Robberies.Banks.Fleeca do
 			if #(PlayerPosition - Rivalry.Robberies.Banks.Fleeca[Index].Vault) < 10.0 then
-				if not HasFleecaBeenReset then
-					TriggerServerEvent("Rivalry.CheckBankStatus", "Fleeca", Index)
-					Citizen.Wait(1000)
-				end
 				if not exports.policejob:getIsInService() then
 					if not Rivalry.Robberies.Banks.Fleeca[Index].Locked then
 						for BoxNumber = 1, #Rivalry.Robberies.Banks.Fleeca[Index].LockedBoxes do
-							if #(PlayerPosition - Rivalry.Robberies.Banks.Fleeca[Index].LockedBoxes[BoxNumber]) < 1 then
+							if #(PlayerPosition - Rivalry.Robberies.Banks.Fleeca[Index].LockedBoxes[BoxNumber]) < 1.1 then
 								DisplayHelpText("Press ~INPUT_CONTEXT~ to lockpick safe box!")
 								if IsControlJustPressed(1, 51) then
 									if exports.core_modules:GetItemQuantity(36) > 0 then
@@ -147,15 +142,11 @@ Citizen.CreateThread(function()
 		local PlayerPed = PlayerPedId()
 		local PlayerPosition = GetEntityCoords(PlayerPed, false)
 		if #(PlayerPosition - Rivalry.Robberies.Banks.Pacific.Vault) < 20 then
-			if not HasPacificBeenReset then
-				TriggerServerEvent("Rivalry.CheckBankStatus", "Pacific", 0)
-				Citizen.Wait(1000)
-			end
 			if not exports.policejob:getIsInService() then
 				if not Rivalry.Robberies.Banks.Pacific.Locked then
 					for Index = 1, #Rivalry.Robberies.Banks.Pacific.LockedBoxes do
 						if not Rivalry.Robberies.Banks.Pacific.Locked4 then
-							if #(PlayerPosition - Rivalry.Robberies.Banks.Pacific.LockedBoxes[Index]) < 1 then
+							if #(PlayerPosition - Rivalry.Robberies.Banks.Pacific.LockedBoxes[Index]) < 1.1 then
 								DisplayHelpText("Press ~INPUT_CONTEXT~ to lockpick safe box!")
 								if IsControlJustPressed(1, 51) then
 									if exports.core_modules:GetItemQuantity(36) > 0 then
@@ -513,6 +504,10 @@ Citizen.CreateThread(function()
 		local Player = PlayerPedId()
 		local PlayerPosition = GetEntityCoords(Player, false)
 		if #(Rivalry.Robberies.Banks.Blaine.Keypad - PlayerPosition) <= 20.0 then
+			if not HasBlaineBeenReset then
+				TriggerServerEvent("Rivalry.CheckBankStatus", "Blaine", 0)
+				Citizen.Wait(1000)
+			end
 			RenderMarker(25, Rivalry.Robberies.Banks.Blaine.Keypad.x, Rivalry.Robberies.Banks.Blaine.Keypad.y, Rivalry.Robberies.Banks.Blaine.Keypad.z, 1.5, 1.5, 2.0, 255, 255, 0, 20)
 			if #(Rivalry.Robberies.Banks.Blaine.Keypad - PlayerPosition) <= 1.0 then
 				DisplayHelpText("Press ~INPUT_CONTEXT~ to hack vault security lock!")
@@ -522,6 +517,10 @@ Citizen.CreateThread(function()
 			end
 		end 
 		if #(Rivalry.Robberies.Banks.Pacific.Keypad - PlayerPosition) <= 30.0 then
+			if not HasPacificBeenReset then
+				TriggerServerEvent("Rivalry.CheckBankStatus", "Pacific", 0)
+				Citizen.Wait(1000)
+			end
 			RenderMarker(25, Rivalry.Robberies.Banks.Pacific.Keypad.x, Rivalry.Robberies.Banks.Pacific.Keypad.y, Rivalry.Robberies.Banks.Pacific.Keypad.z, 1.5, 1.5, 2.0, 255, 255, 0, 20)
 			if #(Rivalry.Robberies.Banks.Pacific.Keypad - PlayerPosition) <= 1.0 then
 				DisplayHelpText("Press ~INPUT_CONTEXT~ to hack vault security lock!")
@@ -582,6 +581,10 @@ Citizen.CreateThread(function()
 		end
 		for Index = 1, #Rivalry.Robberies.Banks.Fleeca do
 			if #(Rivalry.Robberies.Banks.Fleeca[Index].Keypad - PlayerPosition) <= 20.0 then
+				if not HasFleecaBeenReset then
+					TriggerServerEvent("Rivalry.CheckBankStatus", "Fleeca", Index)
+					Citizen.Wait(1000)
+				end
 				RenderMarker(25, Rivalry.Robberies.Banks.Fleeca[Index].Keypad.x, Rivalry.Robberies.Banks.Fleeca[Index].Keypad.y, Rivalry.Robberies.Banks.Fleeca[Index].Keypad.z, 1.5, 1.5, 2.0, 255, 255, 0, 20)
 				if #(Rivalry.Robberies.Banks.Fleeca[Index].Keypad - PlayerPosition) <= 1.0 then
 					DisplayHelpText("Press ~INPUT_CONTEXT~ to hack vault security lock!")
@@ -639,6 +642,7 @@ end)
 RegisterNetEvent("Rivalry.LockpickJewelry")
 AddEventHandler("Rivalry.LockpickJewelry", function()
 	OpenLockpickGui3()
+	IsJewlery = true
 end)
 
 -- Jewelry Lockpicking
@@ -790,10 +794,12 @@ RegisterNUICallback('lockpickwin2', function(data, cb)
 			TriggerServerEvent("Rivalry.Lockpick", CurrentLockpicked)
 		end
 		CurrentLockpicked = 0
-	else
+	end
+	if IsJewlery then
 		if not IsEntityDead(PlayerPedId()) then
 			TriggerServerEvent("Rivalry.LockpickJewelry")
 		end
+		IsJewlery = false
 	end
 end)
 
