@@ -13,7 +13,7 @@
 --]]
 local isDead = false
 local isKO = false
-local spawnlocation = {x = 298.88720703125, y = -598.99700927734, z = 43.292072296143, h = 340.80422973633},
+local spawnlocation = {x = 352.54373168945, y = -599.32861328125, z = 43.284065246582, h = 69.074485778809}
 DecorRegister("isDead", 2)
 DecorSetBool(GetPlayerPed(-1), "isDead", false) 
 
