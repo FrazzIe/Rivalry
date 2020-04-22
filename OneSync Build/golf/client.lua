@@ -46,9 +46,10 @@ Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(1)
 		local playerLoc = GetEntityCoords(GetPlayerPed(-1))
-		local distance = GetDistanceBetweenCoords(-1351.09,133.52,55.3, playerLoc.x,playerLoc.y,playerLoc.z, false)
+		local distance = GetDistanceBetweenCoords(-1348.8784179688,142.28103637695,55.264143218994, playerLoc.x,playerLoc.y,playerLoc.z, false)
 		--if distance < 30.0 then
-		DrawMarker(27,-1351.09,133.52,55.3, 0, 0, 0, 0, 0, 0, 1.5, 1.5, 10.3, 0, 519, 0, 105, 0, 0, 2, 0, 0, 0, 0)
+		DrawMarker(27,-1348.8784179688,142.28103637695,55.264143218994, 0, 0, 0, 0, 0, 0, 1.5, 1.5, 10.3, 0, 519, 0, 105, 0, 0, 2, 0, 0, 0, 0) -- Start Game
+		DrawMarker(27,-1357.0737304688,136.8741607666,55.264143218994, 0, 0, 0, 0, 0, 0, 1.5, 1.5, 10.3, 519, 0, 0, 105, 0, 0, 2, 0, 0, 0, 0) -- Delete Caddy
 		--end
 
 		if distance > 500 and golfplaying then
@@ -57,9 +58,9 @@ Citizen.CreateThread(function()
 		if distance < 1.5 then
 
 			if golfplaying then
-				DisplayHelpText("Press ~g~~INPUT_CONTEXT~~s~ to end golf.")
+				DisplayHelpText("Press ~g~~INPUT_CONTEXT~~s~ to end golf. Please return golf cart")
 			else
-				DisplayHelpText("Press ~g~~INPUT_CONTEXT~~s~ to start golf ($100).")
+				DisplayHelpText("Press ~g~~INPUT_CONTEXT~~s~ to start golf.") -- Currently Free
 			end
 			if (IsControlJustReleased(1, 38)) then
 
@@ -88,12 +89,10 @@ function spawnCart()
 	while not HasModelLoaded(vehicle) do
 		Citizen.Wait(0)
 	end
-	local spawned_car = CreateVehicle(vehicle, -1351.09,133.52,55.3, 180, true, false)
+	local spawned_car = CreateVehicle(vehicle, -1359.9876708984,152.60052490234,55.989974975586, 180, true, false)
 	SetVehicleOnGroundProperly(spawned_car)
 	SetPedIntoVehicle(GetPlayerPed(-1), spawned_car, - 1)
 	SetModelAsNoLongerNeeded(vehicle)
-	DecorSetBool(spawned_car, "hotwire", true)
-	DecorSetFloat(spawned_car, "_Fuel_Level", 100)
 	plate = GetVehicleNumberPlateText(spawned_car)
 end
 
@@ -176,15 +175,38 @@ function createBall(x,y,z)
 	SetEntityHeading(mygolfball, curHeading)
 end
 
+Citizen.CreateThread(function()
+	while true do
+		Citizen.Wait(1)
+		deleteCaddy()
+	end
+end)
+
+function deleteCaddy()
+	local caddy = GetVehiclePedIsIn(GetPlayerPed(-1), true)
+	local caddyLoc = GetEntityCoords(caddy)
+	local distance = GetDistanceBetweenCoords(-1357.0737304688,136.8741607666,55.264143218994, caddyLoc.x,caddyLoc.y,caddyLoc.z, false)
+	if distance < 1.5 and IsVehicleModel(caddy, GetHashKey('caddy')) then
+		DisplayHelpText("Press ~g~~INPUT_CONTEXT~~s~ to return cart")
+		if IsControlJustReleased(1, 38) then
+			DeleteEntity(caddy)
+		end
+	elseif distance < 1.5 then
+		DisplayHelpText("This is not a caddy")
+	end
+end
+
 function endgame()
 	TriggerEvent("destroyProp")
 	if startblip ~= nil then
 		RemoveBlip(startblip)
 		RemoveBlip(endblip)
 	end
+
 	if ballBlip ~= nil then
 		RemoveBlip(ballBlip)
 	end
+
 	removeAttachedProp()
 	DeleteObject(mygolfball)
 	Citizen.Trace("Ending Game")
@@ -841,4 +863,3 @@ RegisterNetEvent('attachItem')
 AddEventHandler('attachItem', function(item)
 	TriggerEvent("attachProp",attachPropList[item]["model"], attachPropList[item]["bone"], attachPropList[item]["x"], attachPropList[item]["y"], attachPropList[item]["z"], attachPropList[item]["xR"], attachPropList[item]["yR"], attachPropList[item]["zR"])
 end)
-
