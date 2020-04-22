@@ -2,7 +2,7 @@ RegisterServerEvent('job:success')
 AddEventHandler('job:success', function(amount)
     TriggerEvent('core:getuser', source, function(user)
         local pooltotal = amount
-        if pooltotal > 150 then pooltotal = 150 end
+        if pooltotal > 400 then pooltotal = 400 end
         total = math.random(50,math.floor(pooltotal))
         user.addWallet(total)
     end)
