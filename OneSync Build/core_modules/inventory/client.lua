@@ -521,7 +521,20 @@ local function RepairVehicle(id)
         local rayHandle = CastRayPointToPoint(pos.x, pos.y, pos.z, entityWorld.x, entityWorld.y, entityWorld.z, 10, PlayerPedId(), 0)
         local _, _, _, _, vehicleHandle = GetRaycastResult(rayHandle)
         if DoesEntityExist(vehicleHandle) then
-            --if IsVehicleDoorFullyOpen(vehicleHandle, 4) or IsVehicleDoorDamaged(vehicleHandle, 4) then
+            if DoesVehicleHaveDoor(vehicleHandle, 4)
+                if GetVehicleDoorAngleRatio(vehicleHandle, 4) == 0 or GetVehicleDoorAngleRatio(vehicleHandle, 5) == 0 then
+                    local ped = PlayerPedId()
+                    TaskPlayAnim(PlayerPedId(), "mini@repair","fixing_a_player", 8.0, 0.0, -1, 1, 0, 0, 0, 0)  
+                    Citizen.Wait(20000)
+                    TriggerEvent('iens:repair', vehicleHandle)
+                    ClearPedTasks(ped)
+                    ClearPedTasksImmediately(ped)
+                    TriggerEvent("inventory:open")
+                else
+                    Notify("How are you going to repair the engine without opening the hood?", 2500)
+                    addQty(tonumber(id),1)
+                end
+            else
                 local ped = PlayerPedId()
                 TaskPlayAnim(PlayerPedId(), "mini@repair","fixing_a_player", 8.0, 0.0, -1, 1, 0, 0, 0, 0)  
                 Citizen.Wait(20000)
@@ -529,10 +542,7 @@ local function RepairVehicle(id)
                 ClearPedTasks(ped)
                 ClearPedTasksImmediately(ped)
                 TriggerEvent("inventory:open")
-           -- else
-                --Notify("You open up the hood!", 2500)
-                --addQty(tonumber(id),1)
-            --end
+            end
         else
             addQty(tonumber(id),1)
             Notify("Couldn't find a vehicle!", 2500)
