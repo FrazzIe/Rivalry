@@ -52,7 +52,7 @@ function IsAnyPlayerAttachedToEntity(entity)
 end
 
 Citizen.CreateThread(function()
-    AddTextEntry(messageDetach, "Press ~INPUT_CONTEXT~ to ~r~stop ~w~pushing.")
+    AddTextEntry(messageDetach, "Press ~INPUT_MP_TEXT_CHAT_ALL~ to ~r~stop ~w~pushing.")
 
     while true do
         Citizen.Wait(0)
@@ -66,7 +66,7 @@ Citizen.CreateThread(function()
                 if #(playerPosition - GetEntityCoords(closestVehicle, false)) < minDistance and not IsPedSittingInAnyVehicle(playerPed) then
                     if not GetIsVehicleEngineRunning(closestVehicle) and IsVehicleSeatFree(closestVehicle, -1) and not HasEntityCollidedWithAnything(closestVehicle) and GetVehicleEngineHealth(closestVehicle) > 0 and not IsAnyPlayerAttachedToEntity(closestVehicle) then
                         if IsControlPressed(0, 21) then
-                            if IsControlJustPressed(1, 51) then
+                            if IsControlJustPressed(1, 245) then
                                 currentVehicle = closestVehicle
                                 exports["core_modules"]:StanceAllowed(false)
 
@@ -152,7 +152,7 @@ Citizen.CreateThread(function()
                         TaskVehicleTempAction(playerPed, currentVehicle, 10, 1000)
                     end
 
-                    if IsControlJustPressed(1, 51) then
+                    if IsControlJustPressed(1, 245) then
                         SetEnableHandcuffs(playerPed, false)
                         DetachEntity(playerPed, false, false)
                         StopAnimTask(playerPed, pushDict, pushAnim, 2.0)
