@@ -1,7 +1,7 @@
 RegisterServerEvent('Garbage.Success')
 AddEventHandler('Garbage.Success', function()
 	TriggerEvent("core:getuser", source, function(user)
-		user.addWallet(150)
+		user.addWallet(300)
 	end)
 end)
 
