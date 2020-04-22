@@ -586,6 +586,15 @@ AddEventHandler("core:ready", function()
     --         Notify("You can't sell cars while restrained!", 2500)
     --     end
     -- end, false, {Help = "Car Dealers: Check Client History", Params = {{name = "id", help = "number"}}})
+
+    Chat.Command({"hu", "hangup"}, function(source, args, rawCommand)
+        TriggerEvent("Phone.HangUp")
+    end, false, {Help = "Hang up current phone call",  Params = {}})
+
+    Chat.Command({"pu", "pickup"}, function(source, args, rawCommand)
+        TriggerEvent("Phone.PickUp")
+    end, false, {Help = "Pick up incoming phone call",  Params = {}})
+
 end)
 
 Citizen.CreateThread(function()

@@ -535,6 +535,22 @@ RegisterNUICallback("endCall", function(data, cb)
 	Phone.Call.Status = ""	
 end)
 
+RegisterNetEvent("Phone.HangUp", function()
+	TriggerServerEvent("Phone.Call.End", Phone.Call.Number, Phone.Call.Channel)
+	Phone.Call.Number = nil
+	Phone.Call.Answered = false
+	Phone.Call.Status = ""	
+end)
+
+RegisterNetEvent("Phone.PickUp", function()
+	if not Phone.Call.Answered then
+		Phone.Call.Answered = true
+		Phone.Call.Status = "Active"
+
+		TriggerServerEvent("Phone.Call.Answer", Phone.Call.Number)
+	end	
+end)
+
 RegisterNUICallback("saveSettings", function(data, cb)
 	Citizen.Trace("saveSettings callback: " .. json.encode(data))
 
