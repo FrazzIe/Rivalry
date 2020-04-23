@@ -493,19 +493,31 @@ end
 local function heal()
     Citizen.CreateThread(function()
         if not IsEntityDead(PlayerPedId()) then
-            TriggerEvent('mythic_hospital:client:FieldTreatBleed')
-            Citizen.Wait(200)
             TaskPlayAnim(PlayerPedId(), armour_anim_dict, "002334_02_fras_v2_11_getting_dressed_exit", 4.0, -4, -1, 1, 0, false, false, false)
-            Citizen.Wait(500)
-			if GetEntityHealth(PlayerPedId()) + 25 <= GetPedMaxHealth(PlayerPedId()) then
-				SetEntityHealth(PlayerPedId(), GetEntityHealth(PlayerPedId()) + 25)
-			else
-				SetEntityHealth(PlayerPedId(), GetPedMaxHealth(PlayerPedId()))
-			end
-            Citizen.Wait(1700)
-            ClearPedTasks(PlayerPedId())
-            exports.pNotify:SendNotification({text = "Bandage used!",type = "error",queue = "left",timeout = 3000,layout = "centerRight"})
-            --TriggerEvent("inventory:open")
+            exports['mythic_progbar']:Progress({
+                name = "bandage_action",
+                duration = 2300,
+                label = "Bandaging",
+                useWhileDead = true,
+                canCancel = true,
+                controlDisables = {
+                    disableMovement = true,
+                    disableCarMovement = true,
+                    disableMouse = false,
+                    disableCombat = true,
+                }
+            }, function(status)
+                if not status then
+                    TriggerEvent('mythic_hospital:client:FieldTreatBleed')
+                    if GetEntityHealth(PlayerPedId()) + 25 <= GetPedMaxHealth(PlayerPedId()) then
+                        SetEntityHealth(PlayerPedId(), GetEntityHealth(PlayerPedId()) + 25)
+                    else
+                        SetEntityHealth(PlayerPedId(), GetPedMaxHealth(PlayerPedId()))
+                    end
+                    ClearPedTasks(PlayerPedId())
+                    exports.pNotify:SendNotification({text = "Bandage used!",type = "error",queue = "left",timeout = 3000,layout = "centerRight"})
+                end
+            end)
         end
     end)
 end
@@ -604,16 +616,29 @@ local function armour()
     Citizen.CreateThread(function()
         Citizen.Wait(200)
         if GetPedArmour(PlayerPedId()) < 50 then
-
-            SetPedArmour(PlayerPedId(), 100)
             TaskPlayAnim(PlayerPedId(), armour_anim_dict, "002334_02_fras_v2_11_getting_dressed_exit", 4.0, -4, -1, 1, 0, false, false, false)
-            Citizen.Wait(500)
-            if GetPedDrawableVariation(PlayerPedId(), 9) == 0 then
-                SetPedComponentVariation(PlayerPedId(), 9, 1, 1, 0)
-            end
-            Citizen.Wait(1700)
-            ClearPedTasks(PlayerPedId())
-            exports.pNotify:SendNotification({text = "Body armour equipped!",type = "error",queue = "left",timeout = 3000,layout = "centerRight"}) 
+            exports['mythic_progbar']:Progress({
+                name = "bodyarmor_action",
+                duration = 2300,
+                label = "Applying Body Armor",
+                useWhileDead = true,
+                canCancel = true,
+                controlDisables = {
+                    disableMovement = true,
+                    disableCarMovement = true,
+                    disableMouse = false,
+                    disableCombat = true,
+                }
+            }, function(status)
+                if not status then
+                    SetPedArmour(PlayerPedId(), 100)
+                    if GetPedDrawableVariation(PlayerPedId(), 9) == 0 then
+                        SetPedComponentVariation(PlayerPedId(), 9, 1, 1, 0)
+                    end
+                    ClearPedTasks(PlayerPedId())
+                    exports.pNotify:SendNotification({text = "Body armour equipped!",type = "error",queue = "left",timeout = 3000,layout = "centerRight"})
+                end
+            end) 
         else
             exports.pNotify:SendNotification({text = "You already have body armour equipped!",type = "error",queue = "left",timeout = 3000,layout = "centerRight"})
             addQty(39,1)
