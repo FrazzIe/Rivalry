@@ -535,14 +535,16 @@ RegisterNUICallback("endCall", function(data, cb)
 	Phone.Call.Status = ""	
 end)
 
-RegisterNetEvent("Phone.HangUp", function()
+RegisterNetEvent("Phone.HangUp")
+AddEventHandler("Phone.HangUp", function()
 	TriggerServerEvent("Phone.Call.End", Phone.Call.Number, Phone.Call.Channel)
 	Phone.Call.Number = nil
 	Phone.Call.Answered = false
 	Phone.Call.Status = ""	
 end)
 
-RegisterNetEvent("Phone.PickUp", function()
+RegisterNetEvent("Phone.PickUp")
+AddEventHandler("Phone.PickUp", function()
 	if not Phone.Call.Answered then
 		Phone.Call.Answered = true
 		Phone.Call.Status = "Active"
