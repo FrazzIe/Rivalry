@@ -361,6 +361,7 @@ AddEventHandler("core:pvp", function()
 			for _, player in ipairs(GetActivePlayers()) do
 				SetCanAttackFriendly(GetPlayerPed(player), true, true)
 				NetworkSetFriendlyFireOption(true)
+				DisablePlayerVehicleRewards(player)
 			end
 		end
 	end)
