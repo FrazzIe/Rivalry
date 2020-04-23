@@ -33,7 +33,8 @@ Phone = {
 		Open = "cellphone_text_in",
 		Close = "cellphone_text_out",
 		Call = "cellphone_call_listen_a",
-	}
+	},
+	ToggleTwitterNotifications = false,
 }
 
 local newContactCallback = nil
@@ -699,12 +700,21 @@ AddEventHandler("Phone.Call.Answer", function(Channel)
 	SendNUIMessage({type = "setCallStatus", payload = "Active"})
 end)
 
+RegisterNetEvent("Toggle.Twitter.Notifications")
+AddEventHandler("Toggle.Twitter.Notifications", function()
+	Phone.ToggleTwitterNotifications = not Phone.ToggleTwitterNotifications
+end)
+
 RegisterNetEvent("Twitter.Set.Messages")
 AddEventHandler("Twitter.Set.Messages", function(Data)
 	if Phone.Data.Has then
-		local CharacterName = "@"..string.gsub(exports.core:GetCharacterName(GetPlayerServerId(PlayerId())), "%s", "")
-		if string.match(Data.Message:lower(), CharacterName:lower()) then
-			Notify("Twitter Notification: You have been mentioned!", 3100)
+		if not Phone.ToggleTwitterNotifications then
+			local CharacterName = "@"..string.gsub(exports.core:GetCharacterName(GetPlayerServerId(PlayerId())), "%s", "")
+			if string.match(Data.Message:lower(), CharacterName:lower()) then
+				Notify("Twitter Notification: You have been mentioned!", 3100)
+			else
+				Notify("Twitter Notification: New Tweet Posted!", 3100)
+			end
 		end
 	end
 	SendNUIMessage({type = "setTwitter", payload = Data})
