@@ -521,7 +521,7 @@ local function RepairVehicle(id)
         local rayHandle = CastRayPointToPoint(pos.x, pos.y, pos.z, entityWorld.x, entityWorld.y, entityWorld.z, 10, PlayerPedId(), 0)
         local _, _, _, _, vehicleHandle = GetRaycastResult(rayHandle)
         if DoesEntityExist(vehicleHandle) then
-            if DoesVehicleHaveDoor(vehicleHandle, 4)
+            if DoesVehicleHaveDoor(vehicleHandle, 4) then
                 if GetVehicleDoorAngleRatio(vehicleHandle, 4) == 0 or GetVehicleDoorAngleRatio(vehicleHandle, 5) == 0 then
                     local ped = PlayerPedId()
                     TaskPlayAnim(PlayerPedId(), "mini@repair","fixing_a_player", 8.0, 0.0, -1, 1, 0, 0, 0, 0)  
