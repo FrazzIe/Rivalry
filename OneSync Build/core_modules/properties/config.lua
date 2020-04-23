@@ -3637,6 +3637,37 @@ properties = {
 				},
 				expire = 1 --Default (don't touch)
 			},
+			[118] = {
+				property_name = "10500 Americano Way", -- Name of the property (used as the title of the menu)
+				locked = false, --Default (don't touch)
+				owner =  {
+					identifier = "no", --Default (don't touch)
+					char_id = 0, --Default (don't touch)
+					id = 0, --Default (don't touch)
+				},
+              			coordinates = vector3(-9.0505838394165,6652.876953125,31.114051818848), -- The location of the property
+				rent = 2000, --How much it costs to rent the property (PER DAY)
+				storage = {
+					current = {
+						cash = 0, --Default (don't touch)
+						dirty = 0, --Default (don't touch)
+						weapons = {}, --Default (don't touch)
+					},
+					max = {
+						cash = 10000, --Max cash the property can hold
+						dirty = 50000, --Max marked bills the property can hold
+						weapons = 16, --Max weapons the property can hold
+					},
+				},
+				robbing = {
+					cooldown = 2700, --Robbery cooldown time in seconds
+					last_robbed = 0, --Default (don't touch)
+					being_robbed = false, --Default (don't touch)
+					time = 300, --The total time the robber has to hack the vault
+					max_phases = 6, --How many levels of security the property has, basically how much times the minigame is replayed (the time is used here, per phase the time gets split, time/max_phases)
+				},
+				expire = 1 --Default (don't touch)
+			},
 		},
 		enterable = {
 			[1] = {
