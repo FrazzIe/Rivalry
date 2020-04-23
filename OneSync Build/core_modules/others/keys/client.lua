@@ -108,11 +108,27 @@ AddEventHandler("keys:hotwire", function(ped, id)
 		local vehicle_class = GetVehicleClass(vehicle)
 		if GetPedInVehicleSeat(vehicle, -1) == ped then
 			TaskPlayAnim(ped,"mini@repair","fixing_a_player", 8.0, 0.0, -1, 1, 0, 0, 0, 0)
-			TriggerEvent("dispatch:lockpick")
-			Citizen.Wait(30000)
-			ClearPedTasks(PlayerPedId())
-			Notify("Successfully hotwired!")
-			DecorSetBool(vehicle, "hotwire", true)
+			exports['mythic_progbar']:Progress({
+                name = "hotwire_kit_action",
+                duration = 30000,
+                label = "Hotwiring Vehicle",
+                useWhileDead = true,
+                canCancel = true,
+                controlDisables = {
+                    disableMovement = true,
+                    disableCarMovement = true,
+                    disableMouse = false,
+                    disableCombat = true,
+                }
+            }, function(status)
+                if not status then
+                    TriggerEvent("dispatch:lockpick")
+					Citizen.Wait(30000)
+					ClearPedTasks(PlayerPedId())
+					Notify("Successfully hotwired!")
+					DecorSetBool(vehicle, "hotwire", true)
+                end
+            end)
 		else
 			Notify("You must be in the drivers seat to hotwire!")
 			addQty(tonumber(id), 1)
@@ -147,15 +163,31 @@ AddEventHandler("Hotwire.Car", function(Player)
 		local VehicleClass = GetVehicleClass(Vehicle)
 		if not DecorExistOn(vehicle, "hotwire") and GetPedInVehicleSeat(Vehicle, -1) == Player then
 			TaskPlayAnim(Player,"mini@repair","fixing_a_player", 8.0, 0.0, -1, 1, 0, 0, 0, 0)
-			TriggerEvent("dispatch:lockpick")
-			Citizen.Wait(60000)
-			ClearPedTasks(PlayerPedId())
-			if GetRandomIntInRange(1, 101) >= 100 - ((hotwire_rates[VehicleClass] or 60)) then
-				Notify("Successfully hotwired!", 3100)
-				DecorSetBool(Vehicle, "hotwire", true)
-			else
-				Notify("Hotwiring failed!", 3100)
-			end
+			exports['mythic_progbar']:Progress({
+                name = "hotwire_action",
+                duration = 60000,
+                label = "Hotwiring Vehicle",
+                useWhileDead = true,
+                canCancel = true,
+                controlDisables = {
+                    disableMovement = true,
+                    disableCarMovement = true,
+                    disableMouse = false,
+                    disableCombat = true,
+                }
+            }, function(status)
+                if not status then
+					TriggerEvent("dispatch:lockpick")
+					Citizen.Wait(60000)
+					ClearPedTasks(PlayerPedId())
+					if GetRandomIntInRange(1, 101) >= 100 - ((hotwire_rates[VehicleClass] or 60)) then
+						Notify("Successfully hotwired!", 3100)
+						DecorSetBool(Vehicle, "hotwire", true)
+					else
+						Notify("Hotwiring failed!", 3100)
+					end
+                end
+            end)
 		end
 	end
 end)
