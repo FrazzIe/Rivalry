@@ -506,7 +506,6 @@ Citizen.CreateThread(function()
 		if #(Rivalry.Robberies.Banks.Blaine.Keypad - PlayerPosition) <= 20.0 then
 			if not HasBlaineBeenReset then
 				TriggerServerEvent("Rivalry.CheckBankStatus", "Blaine", 0)
-				Citizen.Wait(1000)
 			end
 			RenderMarker(25, Rivalry.Robberies.Banks.Blaine.Keypad.x, Rivalry.Robberies.Banks.Blaine.Keypad.y, Rivalry.Robberies.Banks.Blaine.Keypad.z, 1.5, 1.5, 2.0, 255, 255, 0, 20)
 			if #(Rivalry.Robberies.Banks.Blaine.Keypad - PlayerPosition) <= 1.0 then
@@ -519,7 +518,6 @@ Citizen.CreateThread(function()
 		if #(Rivalry.Robberies.Banks.Pacific.Keypad - PlayerPosition) <= 30.0 then
 			if not HasPacificBeenReset then
 				TriggerServerEvent("Rivalry.CheckBankStatus", "Pacific", 0)
-				Citizen.Wait(1000)
 			end
 			RenderMarker(25, Rivalry.Robberies.Banks.Pacific.Keypad.x, Rivalry.Robberies.Banks.Pacific.Keypad.y, Rivalry.Robberies.Banks.Pacific.Keypad.z, 1.5, 1.5, 2.0, 255, 255, 0, 20)
 			if #(Rivalry.Robberies.Banks.Pacific.Keypad - PlayerPosition) <= 1.0 then
@@ -583,7 +581,6 @@ Citizen.CreateThread(function()
 			if #(Rivalry.Robberies.Banks.Fleeca[Index].Keypad - PlayerPosition) <= 20.0 then
 				if not HasFleecaBeenReset then
 					TriggerServerEvent("Rivalry.CheckBankStatus", "Fleeca", Index)
-					Citizen.Wait(1000)
 				end
 				RenderMarker(25, Rivalry.Robberies.Banks.Fleeca[Index].Keypad.x, Rivalry.Robberies.Banks.Fleeca[Index].Keypad.y, Rivalry.Robberies.Banks.Fleeca[Index].Keypad.z, 1.5, 1.5, 2.0, 255, 255, 0, 20)
 				if #(Rivalry.Robberies.Banks.Fleeca[Index].Keypad - PlayerPosition) <= 1.0 then
