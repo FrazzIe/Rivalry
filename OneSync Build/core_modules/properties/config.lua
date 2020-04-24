@@ -3645,7 +3645,7 @@ properties = {
 					char_id = 0, --Default (don't touch)
 					id = 0, --Default (don't touch)
 				},
-              			coordinates = vector3(-9.0505838394165,6652.876953125,31.114051818848), -- The location of the property
+              			coordinates = vector3(-1629.6062011719,36.828025817871,62.936130523682), -- The location of the property
 				rent = 2000, --How much it costs to rent the property (PER DAY)
 				storage = {
 					current = {

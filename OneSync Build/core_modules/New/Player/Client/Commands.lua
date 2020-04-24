@@ -597,7 +597,7 @@ AddEventHandler("core:ready", function()
 
     Chat.Command("toggletweets", function(source, args, rawCommand)
         TriggerEvent("Toggle.Twitter.Notifications")
-    end, false, {Help = "Pick up incoming phone call",  Params = {}})
+    end, false, {Help = "Toggle Twitter Notifications",  Params = {}})
 
 end)
 
