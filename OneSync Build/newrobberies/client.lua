@@ -710,25 +710,25 @@ end)
 
 RegisterNetEvent("Rivalry.Disable.Pacific.Cameras")
 AddEventHandler("Rivalry.Disable.Pacific.Cameras", function()
-	Rivalry.Cameras[25].Online = false
+	Rivalry.Cameras[33].Online = false
 	CurrentCamera = 1
 end)
 
 RegisterNetEvent("Rivalry.EnableCameras")
 AddEventHandler("Rivalry.EnableCameras", function()
-	Rivalry.Cameras[25].Online = true
+	Rivalry.Cameras[33].Online = true
 	CurrentCamera = 1
 end)
 
 RegisterNetEvent("Rivalry.Disable.Jewelry.Cameras")
 AddEventHandler("Rivalry.Disable.Jewelry.Cameras", function()
-	Rivalry.Cameras[33].Online = false
+	Rivalry.Cameras[41].Online = false
 	CurrentCamera = 1
 end)
 
 RegisterNetEvent("Rivalry.EnableJewelryCameras")
 AddEventHandler("Rivalry.EnableJewelryCameras", function()
-	Rivalry.Cameras[33].Online = true
+	Rivalry.Cameras[41].Online = true
 	CurrentCamera = 1
 end)
 
@@ -877,8 +877,8 @@ Citizen.CreateThread(function()
         if CreatedCamera ~= 0 then
             local Instructions = CreateInstuctionScaleform("instructional_buttons")
             DrawScaleformMovieFullscreen(Instructions, 255, 255, 255, 255, 0)
-            if CurrentCamera > 24 and CurrentCamera < 33 then
-	            if Rivalry.Cameras[25].Online then
+            if CurrentCamera > 32 and CurrentCamera < 41 then
+	            if Rivalry.Cameras[33].Online then
 	            	SetTimecycleModifier("scanline_cam_cheap")
 	            	SetTimecycleModifierStrength(2.0)
 	            else
@@ -886,8 +886,8 @@ Citizen.CreateThread(function()
 					SetTimecycleModifierStrength(11.0)
 				end
 			else
-				if CurrentCamera >= 33 then
-					if Rivalry.Cameras[33].Online then
+				if CurrentCamera >= 41 then
+					if Rivalry.Cameras[41].Online then
 						SetTimecycleModifier("scanline_cam_cheap")
 						SetTimecycleModifierStrength(2.0)
 					else

@@ -88,6 +88,46 @@ Rivalry = {
 				LastRobbed = 0,
 				Robber = nil
 			},
+			[10] = {
+				Name = "Vinewood Convience Store",
+				Vault = 0,
+				CashRegisters = {
+					[1] = 0,
+					[2] = 0,
+				},
+				LastRobbed = 0,
+				Robber = nil
+			},
+			[11] = {
+				Name = "Banham Canyon Convience Store",
+				Vault = 0,
+				CashRegisters = {
+					[1] = 0,
+					[2] = 0,
+				},
+				LastRobbed = 0,
+				Robber = nil
+			},
+			[12] = {
+				Name = "Harmony Convience Store",
+				Vault = 0,
+				CashRegisters = {
+					[1] = 0,
+					[2] = 0,
+				},
+				LastRobbed = 0,
+				Robber = nil
+			},
+			[13] = {
+				Name = "Senora Freeway Convience Store",
+				Vault = 0,
+				CashRegisters = {
+					[1] = 0,
+					[2] = 0,
+				},
+				LastRobbed = 0,
+				Robber = nil
+			},
 		},
 		Banks = {
 			SoftCooldown = 0,
