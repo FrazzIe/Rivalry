@@ -380,7 +380,8 @@ stores2 = {
 	    {name="Convenience store", sprite=52, x=374.208, y=328.134, z=103.566 },
 	    {name="Convenience store", sprite=52, x=2676.99, y=3281.37, z=55.2412 },
 	    {name="Convenience store", sprite=52, x=-2967.86, y=391.037, z=15.0433 },
-	    {name="Convenience store", sprite=52, x = 302.80307006836, y = -581.42456054688, z = 43.433910369873}, -- Gabz Pillbox
+		{name="Convenience store", sprite=52, x = 302.80307006836, y = -581.42456054688, z = 43.433910369873}, -- Gabz Pillbox
+		{name="Convenience store", sprite=52, x = 1163.2102050781, y = -324.0576171875, z = 69.205154418945},
 	},
 }
 
@@ -469,6 +470,7 @@ Citizen.CreateThread(function()
 	CreateBlip("Davis Mega Mall", 402, 21, Tools[1].x, Tools[1].y, Tools[1].z)
 	CreateBlip("You Tool", 402, 21, Tools[2].x, Tools[2].y, Tools[2].z)
 	CreateBlip("Nelsons General", 402, 21, Tools[3].x, Tools[3].y, Tools[3].z)
+	CreateBlip("Paleto Hardware", 402, 21, Tools[4].x, Tools[4].y, Tools[4].z)
 	CreateBlip("Vinewood Strip Mall", 402, 21, Tools[5].x, Tools[5].y, Tools[5].z)
 	CreateBlip("Grapeseed Supermarket", 402, 21, Tools[6].x, Tools[6].y, Tools[6].z)
 	while true do
