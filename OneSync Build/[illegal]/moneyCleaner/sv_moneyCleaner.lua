@@ -7,8 +7,8 @@ local function SyncMachines(source)
 	end
 
 	if source == -1 then
-		for k, v in ipairs(users) do
-			TriggerClientEvent("moneyCleaner:sync", v, "machines", machines)
+		for user, _ in pairs(users) do
+			TriggerClientEvent("moneyCleaner:sync", user, "machines", machines)
 		end
 	else
 		TriggerClientEvent("moneyCleaner:sync", source, "machines", machines)
@@ -26,10 +26,10 @@ end)
 RegisterNetEvent("moneyCleaner:requestMachines")
 AddEventHandler("moneyCleaner:requestMachines", function(toggle)
 	if toggle then
-		table.insert(users, source)
+		users[source] = true
 		SyncMachines(source)
 	else
-		table.remove(users, source)
+		users[source] = nil
 	end
 end)
 
