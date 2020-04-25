@@ -425,6 +425,9 @@ function RemoveParamedicBlips()
 end
 
 function IsVehicleExempt(_model)
+	if not isParamedic then
+		return false
+	end
     local exempt = false
     for i = 1, #cars do
         if GetHashKey(cars[i].model) == _model then
