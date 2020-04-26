@@ -32,6 +32,15 @@ local helicam = false
 local polmav_hash = GetHashKey("polmav")
 local fov = (fov_max+fov_min)*0.5
 local vision_state = 0 -- 0 is normal, 1 is nightmode, 2 is thermal vision
+local validVehicles = {
+	[GetHashKey("polmav")] = true,
+	[GetHashKey("buzzard")] = true,
+	[GetHashKey("buzzard2")] = true,
+	[GetHashKey("maverick")] = true,
+	[GetHashKey("frogger")] = true,
+	[GetHashKey("frogger2")] = true,
+	[GetHashKey("akula")] = true,
+}
 
 Citizen.CreateThread(function() -- Register ped decorators used to pass some variables from heli pilot to other players (variable settings: 1=false, 2=true)
 	while true do
@@ -49,7 +58,7 @@ end)
 Citizen.CreateThread(function()
 	while true do
         Citizen.Wait(0)
-		if IsPlayerInPolmav() then
+		if IsVehicleValid() then
 			local lPed = GetPlayerPed(-1)
 			local heli = GetVehiclePedIsIn(lPed)
 			
@@ -289,7 +298,7 @@ Citizen.CreateThread(function()
 			SetSeethrough(false)
 		end
 
-		if IsPlayerInPolmav() and target_vehicle and not helicam and vehicle_display ~=2 then
+		if IsVehicleValid() and target_vehicle and not helicam and vehicle_display ~=2 then
 			RenderVehicleInfo(target_vehicle)
 		end
 	end
@@ -430,10 +439,10 @@ AddEventHandler('heli:radius.down', function(serverID)
 	end
 end)
 
-function IsPlayerInPolmav()
-	local lPed = GetPlayerPed(-1)
-	local vehicle = GetVehiclePedIsIn(lPed)
-	return IsVehicleModel(vehicle, polmav_hash)
+function IsVehicleValid()
+	local vehicle = GetVehiclePedIsIn(PlayerPedId())
+	local model = GetEntityModel(vehicle)
+	return validVehicles[model] == true
 end
 
 function IsHeliHighEnough(heli)
