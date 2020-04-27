@@ -82,7 +82,7 @@ Rivalry = {
 				Name = "Banham Canyon Convience Store",
 				Vault = vector3(-3047.7724609375,585.53448486328,7.9089274406433),
 				CashRegisters = {
-					[1] = {Coords = vector3(-3038.9860839844,584.54278564453,7.9089288711548, Model = 303280717, Robbed = false},
+					[1] = {Coords = vector3(-3038.9860839844,584.54278564453,7.9089288711548), Model = 303280717, Robbed = false},
 					[2] = {Coords = vector3(-3041.2023925781,583.77673339844,7.9089288711548), Model = 303280717, Robbed = false},
 				}
 			},
@@ -317,8 +317,8 @@ Rivalry = {
 		[19] = {Coords = vector3(-3040.8754882813,593.61956787109,9.546932220459), Heading = 164.794921875, Title = "Banham Canyon", Label = "Interior Camera", Online = true}, -- Banham Canyon Inside
 		[20] = {Coords = vector3(-3036.3012695313,584.74328613281,10.262362480164), Heading = 317.04357910156, Title = "Banham Canyon", Label = "Exterior Camera", Online = true}, -- Banham Canyon Outside
 
-		[21] = {Coords = vector3(539.72308349609,2671.0908203125,43.248485565186), Heading = 246.72857666016, Title = "Harmony", Label = "Interior Camera", Online = true}, -- Harmony Inside
-		[22] = {Coords = vector3(548.78491210938,2675.3359375,43.748668670654), Heading = 44.240348815918, Title = "Harmony", Label = "Exterior Camera", Online = true}, -- Harmony Outside
+		[21] = {Coords = vector3(539.25390625,2671.2458496094,43.794525146484), Heading = 247.54486083984, Title = "Harmony", Label = "Interior Camera", Online = true}, -- Harmony Inside
+		[22] = {Coords = vector3(549.23950195313,2674.2211914063,43.962886810303), Heading = 66.453750610352, Title = "Harmony", Label = "Exterior Camera", Online = true}, -- Harmony Outside
 
 		[23] = {Coords = vector3(2682.8012695313,3286.6921386719,56.87914276123), Heading = 121.22560882568, Title = "Senora Fwy", Label = "Interior Camera", Online = true}, -- Senora Fwy Inside
 		[24] = {Coords = vector3(2679.2622070313,3275.6921386719,58.683513641357), Heading = 276.18609619141, Title = "Senora Fwy", Label = "Exterior Camera", Online = true}, -- Senora Fwy Outside
