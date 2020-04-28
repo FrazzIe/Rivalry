@@ -107,6 +107,12 @@ AddEventHandler("keys:hotwire", function(ped, id)
 		local vehicle = GetVehiclePedIsIn(ped, false)
 		local vehicle_class = GetVehicleClass(vehicle)
 		if GetPedInVehicleSeat(vehicle, -1) == ped then
+			local report = math.random(1, 4)
+			
+			if report == 3 then
+				TriggerEvent("dispatch:lockpick")
+			end
+
 			TaskPlayAnim(ped,"mini@repair","fixing_a_player", 8.0, 0.0, -1, 1, 0, 0, 0, 0)
 			exports['mythic_progbar']:Progress({
                 name = "hotwire_kit_action",
@@ -122,8 +128,6 @@ AddEventHandler("keys:hotwire", function(ped, id)
                 }
             }, function(status)
                 if not status then
-                    TriggerEvent("dispatch:lockpick")
-					Citizen.Wait(30000)
 					ClearPedTasks(PlayerPedId())
 					Notify("Successfully hotwired!")
 					DecorSetBool(vehicle, "hotwire", true)
