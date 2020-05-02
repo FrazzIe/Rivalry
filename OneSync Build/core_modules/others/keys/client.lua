@@ -207,7 +207,8 @@ Citizen.CreateThread(function()
 		local Player = PlayerPedId()
 		if IsPedSittingInAnyVehicle(Player) then
 			local Vehicle = GetVehiclePedIsIn(Player, false)
-			if not DecorGetBool(Vehicle, "hotwire") and GetPedInVehicleSeat(Vehicle, -1) == Player and not IsVehicleOwned(GetVehicleNumberPlateText(Vehicle)) and GetVehicleClass(Vehicle) ~= 13 and not keys_users[GetPlayerServerId(PlayerId())][GetVehicleNumberPlateText(Vehicle)] and string.sub(GetVehicleNumberPlateText(Vehicle), 1, 2) ~= "RR" then
+			local model = GetEntityModel(Vehicle)
+			if not DecorGetBool(Vehicle, "hotwire") and GetPedInVehicleSeat(Vehicle, -1) == Player and not IsVehicleOwned(GetVehicleNumberPlateText(Vehicle)) and GetVehicleClass(Vehicle) ~= 13 and not keys_users[GetPlayerServerId(PlayerId())][GetVehicleNumberPlateText(Vehicle)] and string.sub(GetVehicleNumberPlateText(Vehicle), 1, 2) ~= "RR" and not exports.policejob:IsVehicleExempt(model) and not exports.emsjob:IsVehicleExempt(model) then
 				DisplayHelpText("Press ~INPUT_CONTEXT~ to try and hotwire this vehicle, or use a hotwire kit from your inventory!")
 				if IsControlJustPressed(1, 51) then
 					TriggerEvent("Hotwire.Car", Player)
