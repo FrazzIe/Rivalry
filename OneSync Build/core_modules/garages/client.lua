@@ -1345,7 +1345,8 @@ function SpawnVehicle(data, index)
                 SetVehicleDashboardColour(veh, data.dashboard_colour)
                 SetVehicleInteriorColour(veh, data.interior_colour)
                 SetVehicleWindowTint(veh, tonumber(data.tint_colour))
-                SetVehicleDirtLevel(veh, 0)
+				SetVehicleDirtLevel(veh, 0)
+				NetworkRegisterEntityAsNetworked(veh)
 
                 TaskWarpPedIntoVehicle(GetPlayerPed(-1),veh,-1)
                 
