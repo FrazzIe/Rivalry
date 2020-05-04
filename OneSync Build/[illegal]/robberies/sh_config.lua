@@ -2,6 +2,7 @@ Config = {
 	--[[
 		Most times are converted to seconds or minutes.
 	]]--
+	Debug = true,
 	DefaultCops = 4,
 	DispatchCooldown = 90,
 	StatusErrors = {

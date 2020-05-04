@@ -4,7 +4,7 @@ Subscribers = {}
 
 Citizen.CreateThread(function()
 	while true do
-		Citizen.Wait(1000)
+		Citizen.Wait(30000)
 
 		for k, v in pairs(Robberies) do
 			for _k, robbable in pairs(v.robbables) do
@@ -13,8 +13,8 @@ Citizen.CreateThread(function()
 				end
 			end
 			local robberyConfig = Config.Robberies[k]
+			
 			if os.time() - (v.time or 0.0) > (robberyConfig.Cooldown or 10) * 60 then
-				print("RESET")
 				Robberies[k].robbables = {}
 			end
 			::continue::
@@ -172,9 +172,13 @@ function CheckRobbery(robbery, coords)
 	local status = 1
 	local robberyConfig = Config.Robberies[robbery]
 	
-	TriggerEvent("police:getCops", function(cops)
-		if (robberyConfig.Cops or Config.DefaultCops) > cops then
-			status = -1
+	if not Config.Debug then
+		TriggerEvent("police:getCops", function(cops)
+			if (robberyConfig.Cops or Config.DefaultCops) > cops then
+				status = -1
+			end
+		end)
+	end
 		end
 	end)
 
