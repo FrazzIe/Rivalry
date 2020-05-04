@@ -143,7 +143,7 @@ AddEventHandler("robberies:finish", function(status)
 
 	-- Update the time.
 	robberyCache.time = os.time()
-	
+
 	-- Increment the stage.
 	if robbableConfig.Stages == nil or robbableCache.stage >= #robbableConfig.Stages then
 		robbableCache.stage = -2
@@ -179,8 +179,17 @@ function CheckRobbery(robbery, coords)
 			end
 		end)
 	end
+
+	for k, v in pairs(Robberies) do
+		if k ~= robbery then
+			local _robberyConfig = Config.Robberies[k]
+			if _robberyConfig.Size == robberyConfig.Size then
+				if os.time() - v.time < Config.GlobalCooldowns[robberyConfig.Size] * 60 then
+					return -1
+				end
+			end
 		end
-	end)
+	end
 
 	local robbable = GetRobbable(robbery, coords)
 	
