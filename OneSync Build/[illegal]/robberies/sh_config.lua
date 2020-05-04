@@ -430,6 +430,20 @@ Config = {
 				}}
 			},
 		},
+		{
+			Name = "Route 68",
+			Type = "Liquor",
+			Size = "Small",
+			Cops = 2,
+			Cooldown = 30,
+			Coords = vector3(1166.4122314453, 2710.94140625, 38.157699584961),
+			Robbables = {
+				"Register",
+				{ Id = "Safe", Coords = {
+					vector4(1169.1762695313, 2717.88671875, 37.157646179199, 266.54766845703),
+				}}
+			},
+		},
 		--[[ Banks ]]--
 		-- {
 		-- 	Name = "Pacific Standard",
