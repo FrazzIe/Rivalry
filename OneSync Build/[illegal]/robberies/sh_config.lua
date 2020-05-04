@@ -2,7 +2,7 @@ Config = {
 	--[[
 		Most times are converted to seconds or minutes.
 	]]--
-	DefaultCops = 1,
+	DefaultCops = 4,
 	DispatchCooldown = 90,
 	StatusErrors = {
 		[-1] = "There's an increase in security right now...",
@@ -175,6 +175,7 @@ Config = {
 		{
 			Name = "Downtown Vinewood",
 			Type = "Convenience",
+			Cops = 3,
 			Cooldown = 30,
 			Coords = vector3(377.9775390625, 326.87213134766, 103.56639099121),
 			Robbables = {
@@ -187,6 +188,7 @@ Config = {
 		{
 			Name = "Chiliad",
 			Type = "Convenience",
+			Cops = 3,
 			Cooldown = 30,
 			Coords = vector3(1733.0947265625, 6415.427734375, 35.162433624268),
 			Robbables = {
@@ -199,6 +201,7 @@ Config = {
 		{
 			Name = "Banham Canyon",
 			Type = "Convenience",
+			Cops = 3,
 			Cooldown = 30,
 			Coords = vector3(-3043.2700195313, 588.60424804688, 7.9089293479919),
 			Robbables = {
@@ -211,6 +214,7 @@ Config = {
 		{
 			Name = "Grapeseed",
 			Type = "Convenience",
+			Cops = 3,
 			Cooldown = 30,
 			Coords = vector3(1702.4029541016, 4926.0805664063, 42.063629150391),
 			Robbables = {
@@ -223,6 +227,7 @@ Config = {
 		{
 			Name = "Sandy Shores",
 			Type = "Convenience",
+			Cops = 3,
 			Cooldown = 30,
 			Coords = vector3(1963.2877197266, 3744.7551269531, 32.343738555908),
 			Robbables = {
@@ -235,6 +240,7 @@ Config = {
 		{
 			Name = "Harmony",
 			Type = "Convenience",
+			Cops = 3,
 			Cooldown = 30,
 			Coords = vector3(544.38342285156, 2668.4165039063, 42.156490325928),
 			Robbables = {
@@ -247,6 +253,7 @@ Config = {
 		{
 			Name = "Senora Fwy",
 			Type = "Convenience",
+			Cops = 3,
 			Cooldown = 30,
 			Coords = vector3(2678.2565917969, 3285.1193847656, 55.241123199463),
 			Robbables = {
@@ -259,6 +266,7 @@ Config = {
 		{
 			Name = "Palomino Fwy",
 			Type = "Convenience",
+			Cops = 3,
 			Cooldown = 30,
 			Coords = vector3(2555.1096191406, 386.06909179688, 108.62293243408),
 			Robbables = {
@@ -271,6 +279,7 @@ Config = {
 		{
 			Name = "Palomino Fwy",
 			Type = "Convenience",
+			Cops = 3,
 			Cooldown = 30,
 			Coords = vector3(2555.1096191406, 386.06909179688, 108.62293243408),
 			Robbables = {
@@ -283,6 +292,7 @@ Config = {
 		{
 			Name = "Richman Glen",
 			Type = "Convenience",
+			Cops = 3,
 			Cooldown = 30,
 			Coords = vector3(-1825.4011230469, 792.63500976563, 138.19227600098),
 			Robbables = {
@@ -295,6 +305,7 @@ Config = {
 		{
 			Name = "Mirror Park",
 			Type = "Convenience",
+			Cops = 3,
 			Cooldown = 30,
 			Coords = vector3(1159.365234375, -321.47192382813, 69.205047607422),
 			Robbables = {
@@ -307,6 +318,7 @@ Config = {
 		{
 			Name = "Grove Street",
 			Type = "Convenience",
+			Cops = 3,
 			Cooldown = 30,
 			Coords = vector3(-48.604434967041, -1753.2189941406, 29.421014785767),
 			Robbables = {
@@ -319,6 +331,7 @@ Config = {
 		{
 			Name = "Little Seoul",
 			Type = "Convenience",
+			Cops = 3,
 			Cooldown = 30,
 			Coords = vector3(-711.10052490234, -911.84265136719, 19.215585708618),
 			Robbables = {
@@ -331,6 +344,7 @@ Config = {
 		{
 			Name = "Innocence Blvd",
 			Type = "Convenience",
+			Cops = 3,
 			Cooldown = 30,
 			Coords = vector3(29.453075408936, -1344.6448974609, 29.497024536133),
 			Robbables = {
@@ -344,6 +358,7 @@ Config = {
 		{
 			Name = "Prosperity",
 			Type = "Liquor",
+			Cops = 2,
 			Cooldown = 30,
 			Coords = vector3(-1483.0372314453, -376.53033447266, 40.163425445557),
 			Robbables = {
@@ -356,6 +371,7 @@ Config = {
 		{
 			Name = "Great Ocean Highway",
 			Type = "Liquor",
+			Cops = 2,
 			Cooldown = 30,
 			Coords = vector3(-2966.4519042969, 390.80426025391, 15.043314933777),
 			Robbables = {
@@ -368,6 +384,7 @@ Config = {
 		{
 			Name = "El Rancho Blvd",
 			Type = "Liquor",
+			Cops = 2,
 			Cooldown = 30,
 			Coords = vector3(1134.2449951172, -982.60424804688, 46.415798187256),
 			Robbables = {
@@ -380,6 +397,7 @@ Config = {
 		{
 			Name = "Vespucci Canals",
 			Type = "Liquor",
+			Cops = 2,
 			Cooldown = 30,
 			Coords = vector3(-1222.0015869141, -908.29229736328, 12.326356887817),
 			Robbables = {
