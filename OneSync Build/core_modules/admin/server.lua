@@ -104,6 +104,20 @@ TriggerEvent("core:addGroupCommand", "revive", "admin", function(source, args, r
 	end
 end, {help = "Revive someone", params = {{name = "id", help = "Server id of the player"}}})
 
+TriggerEvent("core:addGroupCommand", "spawnitem", "owner", function(source, args, rawCommand, data, power, group)
+	if tonumber(args[1]) == nil then
+		TriggerClientEvent('chatMessage', source, "^0[^1SYSTEM^0]", {255, 0, 0}, "^3/spawnitem [ID] (Amount)")
+	else
+		logCommand("spawnitem", {
+			{
+				name = GetPlayerName(source).." spawned item "..tostring(args[1]),
+				value = "`"..getID("steam", source).."`",
+			},
+		})
+		TriggerClientEvent("inventory:addQty", source, args[1], tonumber(args[2]) or 1)
+	end
+end, {help = "Spawn items", params = {{name = "id", help = "Item id"},{name = "amount", help = "Amount of the item"}}})
+
 TriggerEvent("core:addGroupCommand", "goblin", "staff", function(source, args, rawCommand, data, power, group)
     local source = source
         TriggerClientEvent("command:goblin", source)
