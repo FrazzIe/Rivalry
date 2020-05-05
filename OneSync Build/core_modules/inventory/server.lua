@@ -220,6 +220,14 @@ itemlist = {
     [196] = {name = "Strawberry Cosmopolitan", item_id = 196, canuse = 1, illegal = false},
     [197] = {name = "Mudslide", item_id = 197, canuse = 1, illegal = false},
     [198] = {name = "Daiquiri", item_id = 198, canuse = 1, illegal = false},
+	-- Robbery Stuff
+	[199] = {name = "Green Keycard", item_id=199, canuse = 0, illegal = true}, -- Fleeca
+	[200] = {name = "Red Keycard", item_id=200, canuse = 0, illegal = true}, -- PSB
+	[201] = {name = "Gold Keycard", item_id=201, canuse = 0, illegal = true}, -- Union Depository
+	[202] = {name = "Black Keycard", item_id=202, canuse = 0, illegal = true}, -- Humane Labs
+	[203] = {name = "Diamond Key", item_id=203, canuse = 0, illegal = true}, -- Jewelry
+	[204] = {name = "Drill (Missing Tip)", item_id=204, canuse = 0, illegal = true},
+	[205] = {name = "Drill (Diamond Tip)", item_id=205, canuse = 0, illegal = true}, -- Vaults
 }
 
 -- Debug
