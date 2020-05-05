@@ -1,10 +1,15 @@
+LastRobbery = nil
 CurrentRobbable = nil
+CurrentRobbableInfo = {}
 NearestRobbery = nil
 NearestObjects = {}
 NearestRobbables = {}
+LockPosition = nil
 Doors = {}
+States = { doors = {} }
 -- States = {
--- 	["Blaine County Savings"] = { {coords=vector3(-104.60489654541, 6473.4438476563, 31.795324325562),unlocked=false,opened=false} }
+-- 	{coords=vector3(-104.60489654541, 6473.4438476563, 31.795324325562),unlocked=true,opened=true},
+-- 	{coords=vector3(255.22825622559, 223.97601318359, 102.39321899414),unlocked=true,opened=true},
 -- }
 
 Citizen.CreateThread(function()
@@ -13,38 +18,63 @@ Citizen.CreateThread(function()
 
 		local ped = PlayerPedId()
 		local pedPos = GetEntityCoords(ped)
+		local nearestDist = 0
 
 		NearestRobbery = nil
 
-		for k, robbery in pairs(Config.Robberies) do
-			local robberyPos = robbery.Coords
-			local dist = #(robberyPos - pedPos)
-
-			if dist < (robbery.Dist or 20.0) then
-				NearestRobbery = k
-				NearestObjects = exports.utils:GetObjects()
-				NearestRobbables = {}
-				
-				for _k, v in pairs(robbery.Robbables) do
-					local robbable = GetRobbable(v)
-
-					if robbable.ModelCache ~= nil then
-						for _, object in ipairs(NearestObjects) do
-							local objectModel = GetEntityModel(object)
-							local modelCache = robbable.ModelCache[objectModel]
+		if ViewingCams ~= nil then
+			NearestRobbery = ViewingCams
+		else
+			for k, robbery in pairs(Config.Robberies) do
+				local robberyPos = robbery.Coords
+				local dist = #(robberyPos - pedPos)
 	
-							if modelCache ~= nil then
-								NearestRobbables[object] = { key = _k, id = v }
-							end
-						end
-					else
-						NearestRobbables[robbable.Id] = { key = _k, coords = v.Coords}
-					end
+				if dist < (robbery.Dist or 20.0) and (NearestRobbery == nil or dist < nearestDist) then
+					nearestDist = dist
+					NearestRobbery = k
 				end
-
-				break
 			end
 		end
+
+		if NearestRobbery ~= nil then
+			local robbery = Config.Robberies[NearestRobbery]
+			NearestObjects = exports.utils:GetObjects()
+			NearestRobbables = {}
+			
+			for _k, v in pairs(robbery.Robbables) do
+				local robbable = GetRobbable(v)
+
+				if robbable.ModelCache ~= nil then
+					for _, object in ipairs(NearestObjects) do
+						local objectModel = GetEntityModel(object)
+						local modelCache = robbable.ModelCache[objectModel]
+
+						if modelCache ~= nil then
+							NearestRobbables[object] = { key = _k, id = v }
+						end
+					end
+				else
+					local nearestRobbable = { key = _k, coords = v.Coords}
+
+					if NearestRobbables[robbable.Id] == nil then
+						NearestRobbables[robbable.Id] = { nearestRobbable }
+					else
+						table.insert(NearestRobbables[robbable.Id], nearestRobbable)
+					end
+				end
+			end
+		end
+
+		if LastRobbery ~= NearestRobbery then
+			if LastRobbery ~= nil then
+				TriggerServerEvent("robberies:subscribe", LastRobbery, false)
+			end
+			if NearestRobbery ~= nil then
+				TriggerServerEvent("robberies:subscribe", NearestRobbery, true)
+			end
+		end
+
+		LastRobbery = NearestRobbery
 	end
 end)
 
@@ -61,53 +91,92 @@ Citizen.CreateThread(function()
 
 		local robbery = Config.Robberies[NearestRobbery]
 
-		-- ProcessDoors(robbery)
+		ProcessDoors(robbery)
 		
-		local nearestIndex = nil
-		local nearestRobbableIndex = nil
-		local nearestRobbable, nearestDist = GetNearest(NearestRobbables, function(key, value)
-			if value.coords ~= nil then
-				local index, dist = GetNearest(value.coords, function(_key, _value)
-					return _value
-				end)
+		local nearestRobbable = nil
+		local nearestDist = 0
+		for k, v in pairs(NearestRobbables) do
+			if type(k) == "string" then
+				for _k, _v in pairs(v) do
+					for __k, __v in pairs(_v.coords) do
+						if type(__v) == "vector4" then
+							__v = vector3(__v.x, __v.y, __v.z)
+						end
 
-				if index ~= nil then
-					nearestRobbableIndex = index
+						local dist = #(__v - pedPos)
+
+						if nearestRobbable == nil or dist < nearestDist then
+							nearestRobbable = {k, _k, __k}
+							nearestDist = dist
+						end
+					end
 				end
-
-				return value.coords[index]
-			end
-
-			local offset = Config.Robbables[value.id].Offset
-
-			if offset == nil then
-				return GetEntityCoords(key)
 			else
-				return GetOffsetFromEntityInWorldCoords(key, offset.x, offset.y, offset.z)
-			end
-		end)
+				local pos = nil
+				-- local offset = Config.Robbables[v.id].Offset
 
-		if nearestRobbable ~= nil then
+				-- local model = GetEntityModel(nearestRobbable)
+				-- local modelCache = robbableConfig.Models[robbableConfig.ModelCache[model]]
+
+				-- if modelCache then
+				-- 	if modelCache.Flipped then
+				-- 		offset = offset * -1
+				-- 	end
+				-- 	-- TODO?
+				-- end
+				
+				-- if offset == nil then
+				-- else
+				-- 	pos = GetOffsetFromEntityInWorldCoords(k, offset.x, offset.y, offset.z)
+				-- end
+				pos = GetEntityCoords(k)
+
+				local dist = #(pos - pedPos)
+				
+				if nearestRobbable == nil or dist < nearestDist then
+					nearestRobbable = k
+					nearestDist = dist
+				end
+			end
+		end
+
+		if nearestRobbable ~= nil and nearestDist < 1.5 then
 			local pos = nil
+			local robbableKey = 0
 			local offset = vector3(0.0, 0.0, 0.0)
-			local isProp = type(nearestRobbable) ~= "string"
+			local isProp = type(nearestRobbable) ~= "table"
 
 			local robbable = nil
 			local robbableConfig = nil
+
+			local canRob = 1
+			local itemId = nil
+			local items = nil
 			
 			if not isProp then
-				robbable = nearestRobbable
+				robbable = nearestRobbable[1]
+				local nearestRobbableInfo = NearestRobbables[robbable][nearestRobbable[2]]
+
+				robbableKey = nearestRobbableInfo.key
 				robbableConfig = Config.Robbables[robbable]
-				pos = robbery.Robbables[NearestRobbables[robbable].key].Coords[nearestRobbableIndex]
+				pos = nearestRobbableInfo.coords[nearestRobbable[3]]
+
+				LockPosition = pos
+
+				local _robbableConfig = robbery.Robbables[nearestRobbableInfo.key]
+
+				if _robbableConfig ~= nil then
+					items = _robbableConfig.Items
+				end
 
 				if type(pos) == "vector4" then
 					pos = vector3(pos.x, pos.y, pos.z)
 				end
 			else
-				
+				robbableKey = NearestRobbables[nearestRobbable].key
 				robbable = NearestRobbables[nearestRobbable].id
 				robbableConfig = Config.Robbables[robbable]
-				local offset = robbableConfig.Offset
+				local _offset = robbableConfig.Offset
 
 				if robbableConfig.Models then
 					local model = GetEntityModel(nearestRobbable)
@@ -116,40 +185,55 @@ Citizen.CreateThread(function()
 					if modelCache.Hide then
 						goto hide
 					end
+
+					if modelCache.Flipped then
+						_offset = _offset * -1
+					end
 				end
 				
-				if offset == nil then
-					pos = GetEntityCoords(nearestRobbable)
-				else
-					pos = GetOffsetFromEntityInWorldCoords(nearestRobbable, offset.x, offset.y, offset.z)
+				pos = GetEntityCoords(nearestRobbable)
+
+				if _offset ~= nil then
+					offset = pos - GetOffsetFromEntityInWorldCoords(nearestRobbable, _offset.x, _offset.y, _offset.z)
 				end
+
+				LockPosition = vector4(pos.x - offset.x, pos.y - offset.y, pos.z - offset.x, GetEntityHeading(nearestRobbable))
 			end
 
-			local canRob = 1
+			if robbableConfig.LockTo == false then
+				LockPosition = nil
+			end
 
-			if robbableConfig.Items ~= nil then
-				for _, item in ipairs(robbableConfig.Items) do
-					if exports.core_modules:GetItemQuantity(item) <= 0 then
-						canRob = 2
+			items = items or robbableConfig.Items
+
+			if items ~= nil then
+				for _, item in ipairs(items) do
+					if exports.core_modules:GetItemQuantity(item) > 0 then
+						itemId = item
 						break
 					end
 				end
+				if itemId == nil then
+					canRob = 2
+				end
 			end
 
+			CurrentRobbableInfo.itemId = itemId
+			
 			if robbableConfig.Armed and not IsPedArmed(ped, 5) then
 				canRob = 2
 			end
 
 			-- local model = robbableConfig.Models[]
-
-			if exports.utils:DrawContext(robbableConfig.Text or "Rob", pos + offset, canRob) and canRob == 1 then
+			
+			if exports.utils:DrawContext(robbableConfig.Text or "Rob", pos - offset, canRob) and canRob == 1 then
 				if not isProp then
-					pos = nearestRobbableIndex
+					pos = nearestRobbable[3]
 				end
-
+				
 				CurrentRobbable = robbable
 				
-				TriggerServerEvent("robberies:attempt", NearestRobbery, NearestRobbables[nearestRobbable].key, pos)
+				TriggerServerEvent("robberies:attempt", NearestRobbery, robbableKey, pos)
 			end
 
 			::hide::
@@ -180,6 +264,39 @@ function BeginRobbing(robbable, stage)
 		config = config.Stages[stage]
 	end
 
+	-- Take item.
+	if CurrentRobbableInfo.itemId ~= nil then
+		exports.core_modules:removeQty(CurrentRobbableInfo.itemId, 1)
+	end
+
+	-- Positioning.
+	if LockPosition ~= nil then
+		local ped = PlayerPedId()
+		local hasGround, groundZ = GetGroundZFor_3dCoord(LockPosition.x, LockPosition.y, LockPosition.z)
+		if hasGround then
+			SetEntityCoords(ped, LockPosition.x, LockPosition.y, groundZ, true, true, true, false)
+			SetEntityHeading(ped, LockPosition.w)
+		end
+	end
+
+	-- Safes.
+	if stage == 2 and robbable == "Safe" then
+		Citizen.CreateThread(function()
+			local pedPos = GetEntityCoords(PlayerPedId())
+			local door = nil
+			for _, object in ipairs(NearestObjects) do
+				if GetEntityModel(object) == -1375589668 and #(GetEntityCoords(object) - pedPos) < 2.0 then
+					door = object
+					break
+				end
+			end
+
+			if door == nil then return end
+			SetEntityHeading(door, GetEntityHeading(door) + 90)
+		end)
+	end
+
+	-- Minigames.
 	local minigame = config.Minigame
 	
 	if minigame ~= nil then
@@ -190,10 +307,15 @@ function BeginRobbing(robbable, stage)
 		end
 	end
 
+	-- Progress bars.
+	if config.Anim ~= nil and config.Anim.flag == nil then
+		config.Anim.flag = 1
+	end
+
 	exports.mythic_progbar:Progress({
 		name = "robbing",
 		duration = (config.Duration or 1) * 1000,
-		label = config.Text or "Robbing",
+		label = config.Label or "Robbing",
 		useWhileDead = false,
 		canCancel = true,
 		controlDisables = {
@@ -202,11 +324,7 @@ function BeginRobbing(robbable, stage)
 			disableMouse = false,
 			disableCombat = true,
 		},
-		animation = {
-			animDict = config.Anim.Dict,
-			anim = config.Anim.Name,
-			flags = config.Anim.Flag or 1,
-		},
+		animation = config.Anim or {},
 	}, function(status)
 		FinishRobbing(robbable, status)
 	end)
@@ -224,35 +342,7 @@ function GetRobbable(robbable)
 	return robbable
 end
 
-function GetNearest(data, posFunc)
-	local pedPos = GetEntityCoords(PlayerPedId())
-	local nearestKey = nil
-	local nearestDist = 0
-
-	for k, v in pairs(data) do
-		local pos = posFunc(k, v)
-		
-		if pos ~= nil then
-			-- DrawLine(pos.x, pos.y, pos.z, pedPos.x, pedPos.y, pedPos.z, 255, 255, 255, 255)
-
-			if type(pos) == "vector4" then
-				pos = vector3(pos.x, pos.y, pos.z)
-			end
-
-			local dist = #(pos - pedPos)
-		
-			if dist < 1.2 and (nearestKey == nil or dist < nearestDist) then
-				nearestKey = k
-				nearestDist = dist
-			end
-		end
-	end
-
-	return nearestKey, nearestDist
-end
-
 function ProcessDoors(robbery)
-	local states = States[robbery.Name] or {}
 	for _, object in ipairs(NearestObjects) do
 		local config = Config.Robbables.Doors.ModelCache[GetEntityModel(object)]
 		if config ~= nil then
@@ -268,31 +358,49 @@ function ProcessDoors(robbery)
 				door = { heading = config.closed or heading }
 				Doors[object] = door
 			end
+
+			-- Delete door lol
+			if #(pos - vector3(-104.60489654541, 6473.4438476563, 31.795324325562)) < 0.5 and GetEntityModel(object) == 1622278560 then
+				NearestObjects[object] = nil
+				SetEntityAsMissionEntity(object, true)
+				DeleteEntity(object)
+				goto continue
+			end
 			
 			local locked = true
-			local opened = false
-			for __, doorState in ipairs(states) do
-				if #(doorState.coords - pos) < 0.01 then
+			local opened = nil
+			for __, doorState in ipairs(States.doors) do
+				if #(doorState.coords - pos) < 0.1 then
 					locked = doorState.unlocked ~= true
 					opened = doorState.opened
 					break
 				end
 			end
 
-			if opened then
-				local targetHeading = config.opened or (config.closed + 90)
+			if opened ~= nil then
+				local targetHeading = heading
+
+				if opened then
+					targetHeading = config.opened or ((config.closed or door.heading) + 90)
+				else
+					targetHeading = config.closed or door.heading
+				end
 
 				if targetHeading > heading then
-					heading = math.min(heading + 1, targetHeading)
+					heading = math.min(heading + 0.4, targetHeading)
 				else
-					heading = math.max(heading - 1, targetHeading)
+					heading = math.max(heading - 0.4, targetHeading)
 				end
 
 				SetEntityHeading(object, heading)
 			elseif locked then
 				SetEntityHeading(object, door.heading)
+				FreezeEntityPosition(object, true)
+			else
+				FreezeEntityPosition(object, false)
 			end
 		end
+		::continue::
 	end
 end
 
@@ -306,4 +414,21 @@ AddEventHandler("robberies:response", function(status)
 
 	local message = Config.StatusErrors[status] or "Hmm..."
 	TriggerEvent("pNotify:SendNotification", { text = message, type = "error", queue = "left", timeout = 10000, layout = "centerRight" })
+end)
+
+RegisterNetEvent("robberies:sync")
+AddEventHandler("robberies:sync", function(states)
+	States = states
+end)
+
+RegisterNetEvent("robberies:unlock")
+AddEventHandler("robberies:unlock", function(coords, unlocked, opened)
+	for __, doorState in ipairs(States.doors) do
+		if #(doorState.coords - coords) < 0.1 then
+			doorState.unlocked = unlocked
+			doorState.opened = opened
+		end
+	end
+
+	table.insert(States.doors, { coords = coords, unlocked = unlocked, opened = opened })
 end)

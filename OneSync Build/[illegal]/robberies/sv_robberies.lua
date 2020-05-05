@@ -1,6 +1,5 @@
 Robberies = {}
 Players = {}
-Subscribers = {}
 
 Citizen.CreateThread(function()
 	while true do
@@ -12,10 +11,13 @@ Citizen.CreateThread(function()
 					goto continue
 				end
 			end
+
 			local robberyConfig = Config.Robberies[k]
-			
 			if os.time() - (v.time or 0.0) > (robberyConfig.Cooldown or 10) * 60 then
-				Robberies[k].robbables = {}
+				local robbery = Robberies[k]
+				robbery.robbables = {}
+				robbery.doors = {}
+				robbery.cams = {}
 			end
 			::continue::
 		end
@@ -44,7 +46,7 @@ AddEventHandler("robberies:attempt", function(robbery, robbable, coords)
 	end
 
 	if not coords or type(coords) ~= "vector3" then print("Robberies -> No coords") return end
-	local status = CheckRobbery(robbery, coords)
+	local status = CheckRobbery(robbery, robbable, coords)
 	
 	if status > 0 then
 		local robberyCache = Robberies[robbery]
@@ -58,7 +60,7 @@ AddEventHandler("robberies:attempt", function(robbery, robbable, coords)
 		local robbableCache = GetRobbable(robbery, coords)
 
 		if robbableCache == nil then
-			robbableCache = { coords = coords, time = os.time(), stage = 1, robbing = true }
+			robbableCache = { coords = coords, time = os.time(), stage = 1, robbing = true, key = robbable }
 			table.insert(robberyCache.robbables, robbableCache)
 		else
 			robbableCache.robbing = true
@@ -66,7 +68,7 @@ AddEventHandler("robberies:attempt", function(robbery, robbable, coords)
 		end
 
 		-- Cache the player.
-		Players[source] = { robbery = robbery, robbable = robbableInfo, coords = coords }
+		Players[source] = { robbery = robbery, robbable = robbableInfo, robbableIndex = robbable, coords = coords }
 
 		-- Dispatch police.
 		if not robberyCache.dispatched or os.time() - robberyCache.dispatched > Config.DispatchCooldown then
@@ -78,7 +80,7 @@ AddEventHandler("robberies:attempt", function(robbery, robbable, coords)
 				suffix = robberyConfig.Type.." Store"
 			end
 
-			TriggerEvent("dispatch:ten-ninety", robberyConfig.Coords, ("%s %s"):format(robberyConfig.Name, suffix))
+			TriggerEvent("dispatch:ten-ninety", robberyConfig.Coords, ("%s %s (%s)"):format(robberyConfig.Name, suffix, robbery))
 		end
 
 		-- Interval based payouts.
@@ -115,7 +117,7 @@ AddEventHandler("robberies:finish", function(status)
 	-- Cache the robbery.
 	local robberyCache = Robberies[cache.robbery]
 	if robberyCache == nil then
-		Robberies[cache.robbery] = { robbables = {}, players = { [source] = true } }
+		Robberies[cache.robbery] = { robbables = {}, doors = {}, cams = {}, players = { [source] = true } }
 		robberyCache = Robberies[cache.robbery]
 	end
 
@@ -124,6 +126,7 @@ AddEventHandler("robberies:finish", function(status)
 	if robbableCache ~= nil then
 		robbableCache.robbing = false
 	end
+
 	-- Get the robbable stage.
 	local robbableConfig = Config.Robbables[cache.robbable]
 	local robbableStage = robbableConfig
@@ -138,8 +141,46 @@ AddEventHandler("robberies:finish", function(status)
 		return
 	end
 
+	-- Config.
+	local robberyConfig = Config.Robberies[cache.robbery]
+	local robbableInfo = robberyConfig.Robbables[cache.robbableIndex]
+	
+	-- Doors.
+	if robbableConfig.IsDoor then
+		SetDoorUnlocked(cache.robbery, cache.coords, true)
+	end
+
+	if robbableInfo.Unlocks ~= nil then
+		for k, v in ipairs(robbableInfo.Unlocks) do
+			SetDoorUnlocked(cache.robbery, v, true, robbableInfo.Opens)
+		end
+	end
+
 	-- Payouts.
 	GivePayout(source, cache.robbable, robbableCache.stage)
+
+	-- Item payouts.
+	if robbableStage.PayoutItems ~= nil then
+		local foundSomething = false
+		for k, v in ipairs(robbableStage.PayoutItems) do
+			local item = v[1]
+			local amount = v[2]
+			local chance = v[3]
+			local random = math.random()
+
+			if type(amount) == "table" then
+				amount = math.random(amount[1], amount[2] + 1)
+			end
+
+			if chance > random then
+				foundSomething = true
+				TriggerClientEvent("inventory:addQty", source, item, amount)
+			end
+		end
+		if foundSomething then
+			TriggerClientEvent("pNotify:SendNotification", source, { text = "You found something!", type = "error", queue = "left", timeout = 10000, layout = "centerRight" })
+		end
+	end
 
 	-- Update the time.
 	robberyCache.time = os.time()
@@ -157,21 +198,72 @@ end)
 
 RegisterNetEvent("robberies:subscribe")
 AddEventHandler("robberies:subscribe", function(robbery, subscribe)
+	if not robbery then return end
+	
 	local source = source
-	local subscribedTo = Subscribers[source]
-	if subscribedTo == nil then
-		Subscribers[source] = robbery
-	elseif Robberies[subscribedTo] ~= nil then
-		Robberies[subscribedTo].players[source] = nil
+	local robberyCache = Robberies[robbery]
+
+	if not subscribe then
+		subscribe = nil
 	end
 
-	--TODO
+	if robberyCache == nil then
+		if Config.Robberies[robbery] == nil then return end
+
+		robberyCache = { robbables = {}, doors = {}, cams = {}, players = { [source] = true } }
+		Robberies[robbery] = robberyCache
+	else
+		robberyCache.players[source] = subscribe
+	end
+
+	if subscribe then
+		TriggerClientEvent("robberies:sync", source, { doors = robberyCache.doors, cams = robberyCache.cams })
+	end
 end)
 
-function CheckRobbery(robbery, coords)
-	local status = 1
-	local robberyConfig = Config.Robberies[robbery]
+RegisterNetEvent("robberies:destroyCam")
+AddEventHandler("robberies:destroyCam", function(robbery, coords)
+	local robberyCache = Robberies[robbery]
+	if robberyCache == nil then return end
+
+	for k, v in ipairs(robberyCache.cams) do
+		if #(v - coords) < 1.0 then return end
+	end
+
+	table.insert(robberyCache.cams, coords)
 	
+	for player, _ in pairs(robberyCache.players) do
+		TriggerClientEvent("robberies:destroyCam", player, coords)
+	end
+end)
+
+function SetDoorUnlocked(robbery, coords, unlocked, opened)
+	local robberyCache = Robberies[robbery]
+	local exists = false
+	for k, v in ipairs(robberyCache.doors) do
+		if #(v.coords - coords) < 0.1 then
+			v.unlocked = unlocked
+			v.opened = opened
+			exists = true
+			break
+		end
+	end
+	if not exists then
+		table.insert(robberyCache.doors, { coords = coords, unlocked = unlocked, opened = opened })
+	end
+
+	for player, _ in pairs(robberyCache.players) do
+		TriggerClientEvent("robberies:unlock", player, coords, unlocked, opened)
+	end
+end
+
+function CheckRobbery(robbery, robbable, coords)
+	local status = 1
+	local robberyCache = Robberies[robbery]
+	local robberyConfig = Config.Robberies[robbery]
+	-- local robbableConfig = robberyConfig.robbables[robbable]
+	
+	-- Cop check.
 	if not Config.Debug then
 		TriggerEvent("police:getCops", function(cops)
 			if (robberyConfig.Cops or Config.DefaultCops) > cops then
@@ -180,12 +272,31 @@ function CheckRobbery(robbery, coords)
 		end)
 	end
 
+	-- Global cooldown.
 	for k, v in pairs(Robberies) do
 		if k ~= robbery then
 			local _robberyConfig = Config.Robberies[k]
 			if _robberyConfig.Size == robberyConfig.Size then
-				if os.time() - v.time < Config.GlobalCooldowns[robberyConfig.Size] * 60 then
-					return -1
+				if os.time() - (v.time or 0) < Config.GlobalCooldowns[robberyConfig.Size] * 60 then
+					return -5
+				end
+			end
+		end
+	end
+
+	-- Check previous to avoid exploiting.
+	if robberyConfig.EssentialOrder then
+		for k, v in ipairs(robberyConfig.Robbables) do
+			if type(v) == "table" and k < robbable then
+				local hasRobbable = false
+				for _k, _v in ipairs(robberyCache.robbables) do
+					if _v.key == k and _v.stage < 0 then
+						hasRobbable = true
+						break
+					end
+				end
+				if not hasRobbable then
+					return -4
 				end
 			end
 		end
@@ -194,6 +305,7 @@ function CheckRobbery(robbery, coords)
 	local robbable = GetRobbable(robbery, coords)
 	
 	if robbable ~= nil then
+		-- It's being robbed.
 		if robbable.robbing then
 			return -3
 		end
@@ -230,18 +342,26 @@ function GivePayout(source, robbable, stage)
 	math.randomseed(os.time())
 
 	local payout = stage.Payouts or 0
+	local dirty = stage.Dirty or 0.0
 
+	if type(dirty) == "table" then
+		dirty = math.random(math.floor(dirty[1] * 100), math.floor(dirty[2] * 100)) / 100.0
+	end
+	
 	if type(payout) == "table" then
 		payout = math.random(math.floor(payout[1]), math.floor(payout[2]) + 1)
 	end
-
+	
 	if payout ~= 0 then
+		dirty = payout * dirty
+		payout = payout - dirty
+
 		TriggerEvent("core:getuser", source, function(user)
 			user.addWallet(payout)
+
+			if dirty ~= 0 then
+				user.addDirty(dirty)
+			end
 		end)
 	end
-end
-
-function SyncDoors(robbery)
-
 end
