@@ -266,12 +266,11 @@ AddEventHandler("core:ready", function()
 
     Chat.Command("cams", function(source, args, rawCommand)
         if exports.policejob:getIsInService() then
-            DisplayCameras = not DisplayCameras
+			exports.robberies:ViewCams(args[1])
         else
-            DisplayCameras = false
             Chat.Message("INFO", "You must be on duty use this command!", 255, 0, 0, true)
         end
-    end, false, {Help = "Toggle camera list",  Params = {}})
+    end, false, {Help = "Open camera",  Params = {{name = "ID", help = "ID for the store/bank to view cameras for"}}})
 
     Chat.Command("hood", function(source, args, fullCommand)
         local pos = GetEntityCoords(PlayerPedId(), false)
