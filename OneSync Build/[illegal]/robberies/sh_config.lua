@@ -10,7 +10,19 @@ Config = {
 			Coords = vector4(707.3759765625, -966.97192382813, 30.41284942627, 175.78880310059),
 			Items = { {134,500} },
 			Text = "Sell Jewelery",
-			Label = "Placing The Order",
+			Label = "Placing Order",
+			Duration = 60,
+			Anim = {
+				animDict = "anim@amb@warehouse@laptop@",
+				anim = "idle_a",
+				flags = 17,
+			},
+		},
+		{
+			Coords = vector4(569.47454833984, -3126.8127441406, 18.768585205078, 180.95831298828),
+			Items = { {211,75000} },
+			Text = "Sell Vial",
+			Label = "Placing Order",
 			Duration = 60,
 			Anim = {
 				animDict = "anim@amb@warehouse@laptop@",
@@ -49,6 +61,7 @@ Config = {
 	},
 	GlobalCooldowns = {
 		["Small"] = 20,
+		["Medium"] = 30,
 		["Large"] = 40,
 	},
 	Robbables = {
@@ -164,7 +177,7 @@ Config = {
 					},
 					Payouts = {6000/90*5,8000/90*5},
 					PayoutInterval = 5.0,
-					PayoutItems = { {199, 1, 0.02}, {203, 1, 0.15}, {206, 1, 0.3}, {200, 1, 0.02}, {41, 1, 0.1} },
+					PayoutItems = { {199, 1, 0.02}, {203, 1, 0.2}, {206, 1, 0.4}, {200, 1, 0.02}, {41, 1, 0.1} },
 					Dirty = {0.0,0.5},
 					CooldownOnCancel = true,
 				},
@@ -172,7 +185,6 @@ Config = {
 		},
 		["KeypadCard"] = {
 			Text = "Swipe Keycard",
-			Duration = 2,
 			Minigame = {
 				Type = "Hacking",
 				Phases = 10,
@@ -186,7 +198,6 @@ Config = {
 		},
 		["Keypad"] = {
 			Text = "Hack",
-			Duration = 2,
 			Minigame = {
 				Type = "Hacking",
 				Phases = 10,
@@ -198,16 +209,60 @@ Config = {
 				anim = "hack_loop",
 			},
 		},
+		["WireBox"] = {
+			Text = "Tamper",
+			Label = "Blowtorching",
+			Duration = 30,
+			Anim = {
+				task = "WORLD_HUMAN_WELDING",
+			},
+			Items = { 82 },
+		},
+		["WireBox2"] = {
+			Text = "Tamper",
+			Label = "Cutting Wires",
+			Duration = 30,
+			Anim = {
+				task = "WORLD_HUMAN_WELDING",
+			},
+			Items = { 208 },
+		},
+		["Locker"] = {
+			Text = "Lockpick",
+			Label = "Lockpicking",
+			Duration = 60,
+			Anim = {
+				animDict = "mini@safe_cracking",
+				anim = "dial_turn_clock_fast",
+			},
+			Payouts = {0,750},
+			PayoutItems = { {208, {1,2}, 0.8}, {39, {1,2}, 0.5}, {34, {1,4}, 0.5} },
+			Dirty = {0.0,1.0},
+			Items = { 36 },
+		},
 		["Lockbox"] = {
 			Text = "Lockpick",
 			Label = "Lockpicking",
-			Duration = 30,
+			Duration = 60,
 			Anim = {
 				animDict = "mini@safe_cracking",
 				anim = "dial_turn_clock_fast",
 			},
 			Payouts = {9000,11000},
-			PayoutItems = { {200, 1, 0.06}, {202, 1, 0.001} },
+			PayoutItems = { {200, 1, 0.065}, {202, 1, 0.001} },
+			Dirty = {1.0,1.0},
+			Items = { 36 },
+		},
+		["Lockbox2"] = {
+			Text = "Lockpick",
+			Label = "Lockpicking",
+			Duration = 60,
+			Anim = {
+				animDict = "mini@safe_cracking",
+				anim = "dial_turn_clock_fast",
+			},
+			Payouts = {9000,11000},
+			PayoutItems = { {200, 1, 0.007}, {202, 1, 0.065} },
 			Dirty = {1.0,1.0},
 			Items = { 36 },
 		},
@@ -231,7 +286,7 @@ Config = {
 						animDict = "oddjobs@shop_robbery@rob_till",
 						anim = "loop",
 					},
-					PayoutItems = { {131, 1, 0.001}, {134, {6,8}, 1.0} },
+					PayoutItems = { {134, {6,8}, 1.0} },
 				}
 			},
 			Models = {
@@ -261,15 +316,66 @@ Config = {
 				flags = 16,
 			},
 		},
+		["LaptopHack"] = {
+			Text = "Connect Laptop",
+			Minigame = {
+				Type = "Hacking",
+				Phases = 10,
+				Length = 6,
+				Duration = 30,
+			},
+			Anim = {
+				animDict = "anim@amb@warehouse@laptop@",
+				anim = "idle_a",
+			},
+			Items = { 209 },
+			PayoutItems = { {210,1,1} },
+		},
+		["LaptopUse"] = {
+			Text = "Decrypt Data",
+			Minigame = {
+				Type = "Hacking",
+				Phases = 10,
+				Length = 6,
+				Duration = 30,
+			},
+			Anim = {
+				animDict = "anim@amb@warehouse@laptop@",
+				anim = "idle_a",
+			},
+			Items = { 209 },
+			PayoutItems = { {210,1,1} },
+		},
+		["Vials"] = {
+			Text = "Fill Vials",
+			Label = "Filling Vials",
+			Duration = 120,
+			Anim = {
+				animDict = "anim@gangops@morgue@table@",
+				anim = "player_search",
+				flags = 17,
+			},
+			PayoutItems = { {211, 1, 1} },
+		},
 		["Doors"] = {
 			Text = "Blowtorch",
 			Label = "Blowtorching",
-			Duration = 15,
+			Duration = 45,
 			IsDoor = true,
 			LockTo = false,
 			Items = { 82 },
 			Offset = vector3(1.2, 0.0, 0.0),
 			Models = {
+				-- ["v_ilev_door_orangesolid"] = { Flipped = true  },
+				-- ["v_ilev_gtdoor02"] = {},
+				-- ["v_ilev_bl_shutter1"] = { Hide = true },
+				-- ["v_ilev_bl_shutter2"] = { Hide = true },
+				["v_ilev_serv_door01"] = {},
+				["v_ilev_bl_doorsl_l"] = { Hide = true, Size = 2.5 },
+				["v_ilev_bl_doorsl_r"] = { Hide = true, Size = 2.5 },
+				["v_ilev_bl_door_l"] = { Hide = true },
+				["v_ilev_bl_door_r"] = { Hide = true },
+				["v_ilev_bl_doorpool"] = {},
 				["v_ilev_gb_vaubar"] = {},
 				["v_ilev_cbankvaulgate01"] = { Flipped = true },
 				["v_ilev_cbankvaulgate02"] = {},
@@ -279,6 +385,14 @@ Config = {
 				["hei_v_ilev_bk_gate2_pris"] = { Hide = true },
 				["p_jewel_door_r1"] = { Hide = true },
 				["p_jewel_door_l"] = { Hide = true },
+
+				-- ["v_ilev_fin_vaultdoor"] = {
+				-- 	Hide = true
+				-- 	IsVault = true,
+				-- 	Banks = {
+				-- 		["Union Depository"] = { closed = 0.0, opened = 0.0 }
+				-- 	}
+				-- },
 
 				["v_ilev_gb_vauldr"] = {
 					Hide = true,
@@ -340,7 +454,7 @@ Config = {
 		--[[ Convenience ]]--
 		{
 			Name = "Downtown Vinewood",
-			Type = "Convenience",
+			Type = "Convenience Store",
 			Size = "Small",
 			Cooldown = 30,
 			Coords = vector3(377.9775390625, 326.87213134766, 103.56639099121),
@@ -354,7 +468,7 @@ Config = {
 		},
 		{
 			Name = "Chiliad",
-			Type = "Convenience",
+			Type = "Convenience Store",
 			Size = "Small",
 			Cooldown = 30,
 			Coords = vector3(1733.0947265625, 6415.427734375, 35.162433624268),
@@ -368,7 +482,7 @@ Config = {
 		},
 		{
 			Name = "Banham Canyon",
-			Type = "Convenience",
+			Type = "Convenience Store",
 			Size = "Small",
 			Cooldown = 30,
 			Coords = vector3(-3043.2700195313, 588.60424804688, 7.9089293479919),
@@ -382,7 +496,7 @@ Config = {
 		},
 		{
 			Name = "Grapeseed",
-			Type = "Convenience",
+			Type = "Convenience Store",
 			Size = "Small",
 			Cooldown = 30,
 			Coords = vector3(1702.4029541016, 4926.0805664063, 42.063629150391),
@@ -396,7 +510,7 @@ Config = {
 		},
 		{
 			Name = "Sandy Shores",
-			Type = "Convenience",
+			Type = "Convenience Store",
 			Size = "Small",
 			Cooldown = 30,
 			Coords = vector3(1963.2877197266, 3744.7551269531, 32.343738555908),
@@ -410,7 +524,7 @@ Config = {
 		},
 		{
 			Name = "Harmony",
-			Type = "Convenience",
+			Type = "Convenience Store",
 			Size = "Small",
 			Cooldown = 30,
 			Coords = vector3(544.38342285156, 2668.4165039063, 42.156490325928),
@@ -424,7 +538,7 @@ Config = {
 		},
 		{
 			Name = "Senora Fwy",
-			Type = "Convenience",
+			Type = "Convenience Store",
 			Size = "Small",
 			Cooldown = 30,
 			Coords = vector3(2678.2565917969, 3285.1193847656, 55.241123199463),
@@ -438,7 +552,7 @@ Config = {
 		},
 		{
 			Name = "Palomino Fwy",
-			Type = "Convenience",
+			Type = "Convenience Store",
 			Size = "Small",
 			Cooldown = 30,
 			Coords = vector3(2555.1096191406, 386.06909179688, 108.62293243408),
@@ -452,7 +566,7 @@ Config = {
 		},
 		{
 			Name = "Palomino Fwy",
-			Type = "Convenience",
+			Type = "Convenience Store",
 			Size = "Small",
 			Cooldown = 30,
 			Coords = vector3(2555.1096191406, 386.06909179688, 108.62293243408),
@@ -466,7 +580,7 @@ Config = {
 		},
 		{
 			Name = "Richman Glen",
-			Type = "Convenience",
+			Type = "Convenience Store",
 			Size = "Small",
 			Cooldown = 30,
 			Coords = vector3(-1825.4011230469, 792.63500976563, 138.19227600098),
@@ -480,7 +594,7 @@ Config = {
 		},
 		{
 			Name = "Mirror Park",
-			Type = "Convenience",
+			Type = "Convenience Store",
 			Size = "Small",
 			Cooldown = 30,
 			Coords = vector3(1159.365234375, -321.47192382813, 69.205047607422),
@@ -494,7 +608,7 @@ Config = {
 		},
 		{
 			Name = "Grove Street",
-			Type = "Convenience",
+			Type = "Convenience Store",
 			Size = "Small",
 			Cooldown = 30,
 			Coords = vector3(-48.604434967041, -1753.2189941406, 29.421014785767),
@@ -508,7 +622,7 @@ Config = {
 		},
 		{
 			Name = "Little Seoul",
-			Type = "Convenience",
+			Type = "Convenience Store",
 			Size = "Small",
 			Cooldown = 30,
 			Coords = vector3(-711.10052490234, -911.84265136719, 19.215585708618),
@@ -522,7 +636,7 @@ Config = {
 		},
 		{
 			Name = "Innocence Blvd",
-			Type = "Convenience",
+			Type = "Convenience Store",
 			Size = "Small",
 			Cooldown = 30,
 			Coords = vector3(29.453075408936, -1344.6448974609, 29.497024536133),
@@ -536,7 +650,7 @@ Config = {
 		},
 		{
 			Name = "Chumash",
-			Type = "Convenience",
+			Type = "Convenience Store",
 			Size = "Small",
 			Cooldown = 30,
 			Coords = vector3(-3244.5666503906, 1004.6326904297, 12.830706596375),
@@ -551,7 +665,7 @@ Config = {
 		--[[ Liquor Store ]]--
 		{
 			Name = "Prosperity",
-			Type = "Liquor",
+			Type = "Liquor Store",
 			Size = "Small",
 			Cooldown = 30,
 			Coords = vector3(-1483.0372314453, -376.53033447266, 40.163425445557),
@@ -565,7 +679,7 @@ Config = {
 		},
 		{
 			Name = "Great Ocean Highway",
-			Type = "Liquor",
+			Type = "Liquor Store",
 			Size = "Small",
 			Cooldown = 30,
 			Coords = vector3(-2966.4519042969, 390.80426025391, 15.043314933777),
@@ -579,7 +693,7 @@ Config = {
 		},
 		{
 			Name = "El Rancho Blvd",
-			Type = "Liquor",
+			Type = "Liquor Store",
 			Size = "Small",
 			Cooldown = 30,
 			Coords = vector3(1134.2449951172, -982.60424804688, 46.415798187256),
@@ -593,7 +707,7 @@ Config = {
 		},
 		{
 			Name = "Vespucci Canals",
-			Type = "Liquor",
+			Type = "Liquor Store",
 			Size = "Small",
 			Cooldown = 30,
 			Coords = vector3(-1222.0015869141, -908.29229736328, 12.326356887817),
@@ -607,7 +721,7 @@ Config = {
 		},
 		{
 			Name = "Route 68",
-			Type = "Liquor",
+			Type = "Liquor Store",
 			Size = "Small",
 			Cooldown = 30,
 			Coords = vector3(1166.4122314453, 2710.94140625, 38.157699584961),
@@ -620,6 +734,20 @@ Config = {
 			},
 		},
 		--[[ Banks ]]--
+		-- {
+		-- 	Name = "Maze Bank Arena",
+		-- 	Type = "",
+		-- 	Size = "Large",
+		-- 	Cooldown = 60,
+		-- 	Coords = vector3(-253.06726074219, -2007.0499267578, 29.872577667236),
+		-- 	Cops = 5,
+		-- 	Dist = 30.0,
+		-- 	EssentialOrder = true,
+		-- 	Robbables = {
+		-- 		"Doors",
+		-- 		{ Id = "LaptopUse", Coords = { vector4(-226.38526916504, -1999.5289306641, 24.685373306274, 345.65093994141) }, Items = { 210 } },
+		-- 	}
+		-- },
 		{
 			Name = "Pacific Standard",
 			Type = "Bank",
@@ -633,8 +761,8 @@ Config = {
 				"Doors",
 				{ Id = "KeypadCard", Coords = { vector4(261.94366455078, 223.14025878906, 106.28412628174, 253.68258666992) }, Unlocks = { vector3(262.19808959961, 222.51879882813, 106.42955780029), vector3(256.31155395508, 220.65785217285, 106.42955780029) }, Items = { 200 } },
 				{ Id = "Keypad", Coords = { vector4(253.24989318848, 228.38319396973, 101.68328094482, 69.527816772461) }, Unlocks = { vector3(255.22825622559, 223.97601318359, 102.39321899414) }, Opens = true },
-				{ Id = "Drill", Coords = { vector4(0,0,0,0) }, Unlocks = {  }, Opens = true, Items = { 205 } },
-				{ Id = "Lockbox", Coords = {
+				-- { Id = "Drill", Coords = { vector4(0,0,0,0) }, Unlocks = {  }, Opens = true, Items = { 205 } },
+				{ Id = "Lockbox2", Coords = {
 					vector4(258.17916870117, 218.10890197754, 101.68346405029, 342.15524291992),
 					vector4(259.59515380859, 217.49711608887, 101.68346405029, 340.09521484375),
 					vector4(261.09252929688, 217.11462402344, 101.68346405029, 349.02883911133),
@@ -664,7 +792,7 @@ Config = {
 			EssentialOrder = true,
 			Robbables = {
 				"Doors",
-				{ Id = "Keypad", Required = true, Coords = { vector4(-105.6590423584, 6471.8740234375, 31.626710891724, 44.672233581543) }, Unlocks = { vector3(-104.60489654541, 6473.4438476563, 31.795324325562) }, Items = { 206 }, Opens = true },
+				{ Id = "KeypadCard", Required = true, Coords = { vector4(-105.6590423584, 6471.8740234375, 31.626710891724, 44.672233581543) }, Unlocks = { vector3(-104.60489654541, 6473.4438476563, 31.795324325562) }, Items = { 206 }, Opens = true },
 				{ Id = "Lockbox", Coords = {
 					vector4(-106.83989715576, 6473.7822265625, 31.62671661377, 129.49356079102),
 					vector4(-107.54365539551, 6475.4375, 31.62671661377, 44.569351196289),
@@ -816,6 +944,133 @@ Config = {
 					vector4(-353.79632568359, -58.557247161865, 49.014835357666, 79.18229675293),
 					vector4(-353.23724365234, -57.21964263916, 49.014820098877, 74.189987182617),
 				}},
+			},
+		},
+		--[[ Ammunations ]]--
+		{
+			Name = "Adam's Apple",
+			Type = "Ammunation",
+			Size = "Medium",
+			Cooldown = 30,
+			Coords = vector3(18.507177352905, -1107.9122314453, 29.797029495239),
+			Cops = 4,
+			Dist = 20.0,
+			EssentialOrder = true,
+			Robbables = {
+				{ Id = "WireBox", Coords = {
+					vector4(5.7877473831177, -1113.8707275391, 28.826890945435, 340.7041015625),
+				}},
+				"Register",
+				{ Id = "Locker", Coords = {
+					vector4(3.9461178779602, -1107.6217041016, 29.797023773193, 70.313499450684),
+					vector4(4.6115851402283, -1105.9359130859, 29.797023773193, 71.242607116699),
+					vector4(4.5173196792603, -1108.9681396484, 29.797023773193, 162.13676452637),
+					vector4(6.2016434669495, -1109.6038818359, 29.797023773193, 162.26623535156),
+				}},
+			},
+		},
+		{
+			Name = "Cypress",
+			Type = "Ammunation",
+			Size = "Medium",
+			Cooldown = 30,
+			Coords = vector3(810.55737304688, -2180.1789550781, 38.313011169434),
+			Cops = 4,
+			Dist = 80.0,
+			EssentialOrder = true,
+			Robbables = {
+				{ Id = "WireBox", Coords = {
+					vector4(826.66644287109, -2230.154296875, 29.977523803711, 351.5364074707),
+				}},
+				"Register",
+				{ Id = "Locker", Coords = {
+					vector4(827.11102294922, -2152.9609375, 29.618993759155, 270.86605834961),
+					vector4(827.01446533203, -2150.8000488281, 29.618993759155, 269.36056518555),
+					vector4(826.23876953125, -2149.6228027344, 29.618993759155, 359.76379394531),
+					vector4(824.10748291016, -2149.4328613281, 29.618993759155, 358.16613769531),
+				}},
+			},
+			
+		},
+		-- Life Invader
+		-- {
+		-- 	Name = "Rockford",
+		-- 	Type = "Life Invader",
+		-- 	Size = "Medium",
+		-- 	Cooldown = 30,
+		-- 	Coords = vector3(-1061.7335205078, -239.6499786377, 41.753101348877),
+		-- 	Cops = 4,
+		-- 	Dist = 20.0,
+		-- 	EssentialOrder = true,
+		-- 	Robbables = {
+		-- 		"Doors",
+		-- 		{ Id = "LaptopHack", Coords = {
+		-- 			vector4(-1054.0523681641, -230.82221984863, 44.020946502686, 210.08010864258),
+		-- 		}},
+		-- 	},
+		-- },
+		-- Humane Labs
+		{
+			Name = "Humane Labs and Research",
+			Type = "",
+			Size = "Large",
+			Cooldown = 60,
+			Coords = vector3(3572.009765625, 3701.9650878906, 32.965393066406),
+			Cops = 6,
+			Dist = 100.0,
+			EssentialOrder = true,
+			Robbables = {
+				"Doors",
+				{ Id = "WireBox2", Coords = {
+					vector4(3637.9357910156, 3747.6203613281, 28.515710830688, 146.64166259766),
+				}, Unlocks = {
+					vector3(3586.2897949219, 3699.4545898438, 28.971439361572),
+					vector3(3584.1589355469, 3700.9465332031, 28.971439361572),
+					vector3(3598.5114746094, 3688.9765625, 28.97162437439),
+					vector3(3596.3806152344, 3690.4685058594, 28.97162437439),
+					vector3(3569.1611328125, 3695.8703613281, 28.271549224854),
+					vector3(3568.7094726563, 3693.3088378906, 28.271549224854),
+					vector3(3544.8068847656, 3643.9963378906, 28.271835327148),
+					vector3(3545.2585449219, 3646.5578613281, 28.271835327148),
+					vector3(3538.7575683594, 3645.0627441406, 28.271831512451),
+					vector3(3539.2092285156, 3647.6242675781, 28.271831512451),
+					vector3(3601.9997558594, 3717.8835449219, 29.839624404907),
+					vector3(3599.8688964844, 3719.3754882813, 29.839624404907),
+				}},
+				{ Id = "KeypadCard", Coords = {
+					vector4(3620.5144042969, 3743.7275390625, 28.69010925293, 323.8662109375),
+				}, Unlocks = {
+					vector3(3567.63671875, 3684.2880859375, 27.120679855347),
+					vector3(3565.072265625, 3684.7416992188, 27.118797302246),
+					vector3(3551.5769042969, 3658.3388671875, 27.117881774902),
+					vector3(3549.0119628906, 3658.7897949219, 27.117881774902),
+				}, Items = { 199 }},
+				{ Id = "KeypadCard", Coords = {
+					vector4(3611.25390625, 3728.4438476563, 29.689393997192, 325.65466308594),
+				}, Unlocks = {
+					vector3(3555.4370117188, 3664.8020019531, 27.117881774902),
+					vector3(3552.8723144531, 3665.25390625, 27.117881774902),
+					vector3(3558.3088378906, 3681.0891113281, 27.117883682251),
+					vector3(3555.7438964844, 3681.5397949219, 27.117881774902),
+					vector3(3532.9724121094, 3665.8679199219, 27.121780395508),
+					vector3(3532.5209960938, 3663.3071289063, 27.121778488159),
+				}, Items = { 200 }},
+				{ Id = "KeypadCard", Coords = {
+					vector4(3536.259765625, 3659.3645019531, 28.12188911438, 164.63688659668),
+				}, Unlocks = {
+					vector3(3557.5532226563, 3669.1940917969, 27.12158203125),
+				}, Items = { 202 }},
+				{ Id = "Vials", Coords ={
+					vector4(3561.2355957031, 3676.0603027344, 28.12188911438, 351.76058959961),
+					vector4(3562.0476074219, 3675.98828125, 28.12188911438, 349.01019287109),
+					vector4(3562.955078125, 3671.9992675781, 28.12188911438, 252.67050170898),
+				}},
+				{ Id = "KeypadCard", Coords = {
+					vector4(3536.9155273438, 3668.5712890625, 28.12188911438, 353.07238769531),
+				}, Unlocks = {
+					vector3(3530.5322265625, 3671.064453125, 27.121238708496),
+					vector3(3533.0930175781, 3670.6127929688, 27.121242523193),
+				}, Items = { 206 }},
 			},
 		},
 	},

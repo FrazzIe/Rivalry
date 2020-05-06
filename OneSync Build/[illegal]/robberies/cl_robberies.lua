@@ -360,7 +360,8 @@ function ProcessDoors(robbery)
 			end
 
 			-- Delete door lol
-			if #(pos - vector3(-104.60489654541, 6473.4438476563, 31.795324325562)) < 0.5 and GetEntityModel(object) == 1622278560 then
+			local model = GetEntityModel(object)
+			if #(pos - vector3(-104.60489654541, 6473.4438476563, 31.795324325562)) < 0.5 and model == 1622278560 then
 				NearestObjects[object] = nil
 				SetEntityAsMissionEntity(object, true)
 				DeleteEntity(object)
@@ -370,7 +371,7 @@ function ProcessDoors(robbery)
 			local locked = true
 			local opened = nil
 			for __, doorState in ipairs(States.doors) do
-				if #(doorState.coords - pos) < 0.1 then
+				if #(doorState.coords - pos) < (config.Size or 0.1) then
 					locked = doorState.unlocked ~= true
 					opened = doorState.opened
 					break
@@ -393,6 +394,7 @@ function ProcessDoors(robbery)
 				end
 
 				SetEntityHeading(object, heading)
+				FreezeEntityPosition(object, false)
 			elseif locked then
 				SetEntityHeading(object, door.heading)
 				FreezeEntityPosition(object, true)

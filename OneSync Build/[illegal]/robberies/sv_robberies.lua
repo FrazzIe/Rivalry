@@ -74,11 +74,7 @@ AddEventHandler("robberies:attempt", function(robbery, robbable, coords)
 		if not robberyCache.dispatched or os.time() - robberyCache.dispatched > Config.DispatchCooldown then
 			robberyCache.dispatched = os.time()
 			local suffix = ""
-			if robberyConfig.Type == "Bank" then
-				suffix = "Bank"
-			else
-				suffix = robberyConfig.Type.." Store"
-			end
+			suffix = robberyConfig.Type
 
 			TriggerEvent("dispatch:ten-ninety", robberyConfig.Coords, ("%s %s (%s)"):format(robberyConfig.Name, suffix, robbery))
 		end
@@ -277,7 +273,7 @@ function CheckRobbery(robbery, robbable, coords)
 		if k ~= robbery then
 			local _robberyConfig = Config.Robberies[k]
 			if _robberyConfig.Size == robberyConfig.Size then
-				if os.time() - (v.time or 0) < Config.GlobalCooldowns[robberyConfig.Size] * 60 then
+				if os.time() - (v.time or 0) < Config.GlobalCooldowns[robberyConfig.Size] * 60 or v.robbing then
 					return -5
 				end
 			end
