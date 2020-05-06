@@ -230,6 +230,10 @@ itemlist = {
 	[205] = {name = "Drill (Diamond Tip)", item_id=205, canuse = 0, illegal = true}, -- Vaults
 	[206] = {name = "Red Keycard", item_id=206, canuse = 0, illegal = true}, -- Blaine County
 	[207] = {name = "Goldbar", item_id=207, canuse = 0, illegal = true},
+	[208] = {name = "Wire Cutters", item_id=208, canuse = 0, illegal = true},
+	[209] = {name = "Laptop", item_id=209, canuse = 0, illegal = false},
+	[210] = {name = "Hacked Laptop", item_id=210, canuse = 0, illegal = true},
+	[211] = {name = "Glowing Vial", item_id=211, canuse = 0, illegal = true},
 }
 
 -- Debug
