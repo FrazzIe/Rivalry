@@ -60,7 +60,6 @@ Config = {
 		[-5] = "Temporarily on lockdown...",
 	},
 	GlobalCooldowns = {
-		["Medium"] = 30,
 		["Small"] = 30,
 		["Large"] = 60,
 	},
@@ -950,7 +949,7 @@ Config = {
 		{
 			Name = "Adam's Apple",
 			Type = "Ammunation",
-			Size = "Medium",
+			Size = "Small",
 			Cooldown = 30,
 			Coords = vector3(18.507177352905, -1107.9122314453, 29.797029495239),
 			Cops = 4,
@@ -972,7 +971,7 @@ Config = {
 		{
 			Name = "Cypress",
 			Type = "Ammunation",
-			Size = "Medium",
+			Size = "Small",
 			Cooldown = 30,
 			Coords = vector3(810.55737304688, -2180.1789550781, 38.313011169434),
 			Cops = 4,
@@ -996,7 +995,7 @@ Config = {
 		-- {
 		-- 	Name = "Rockford",
 		-- 	Type = "Life Invader",
-		-- 	Size = "Medium",
+		-- 	Size = "Small",
 		-- 	Cooldown = 30,
 		-- 	Coords = vector3(-1061.7335205078, -239.6499786377, 41.753101348877),
 		-- 	Cops = 4,
