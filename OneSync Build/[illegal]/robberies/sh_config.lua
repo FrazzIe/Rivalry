@@ -60,9 +60,9 @@ Config = {
 		[-5] = "Temporarily on lockdown...",
 	},
 	GlobalCooldowns = {
-		["Small"] = 20,
 		["Medium"] = 30,
-		["Large"] = 40,
+		["Small"] = 30,
+		["Large"] = 60,
 	},
 	Robbables = {
 		["Register"] = {
