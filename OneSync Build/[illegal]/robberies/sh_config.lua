@@ -61,7 +61,7 @@ Config = {
 	},
 	GlobalCooldowns = {
 		["Small"] = 30,
-		["Large"] = 60,
+		["Large"] = 45,
 	},
 	Robbables = {
 		["Register"] = {
