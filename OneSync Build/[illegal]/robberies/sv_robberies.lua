@@ -46,7 +46,7 @@ AddEventHandler("robberies:attempt", function(robbery, robbable, coords)
 	end
 
 	if not coords or type(coords) ~= "vector3" then print("Robberies -> No coords") return end
-	local status = CheckRobbery(robbery, robbable, coords)
+	local status, timeLeft = CheckRobbery(robbery, robbable, coords)
 	
 	if status > 0 then
 		local robberyCache = Robberies[robbery]
@@ -97,7 +97,7 @@ AddEventHandler("robberies:attempt", function(robbery, robbable, coords)
 		end
 	end
 
-	TriggerClientEvent("robberies:response", source, status)
+	TriggerClientEvent("robberies:response", source, status, timeLeft)
 end)
 
 RegisterNetEvent("robberies:finish")

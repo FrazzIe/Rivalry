@@ -407,7 +407,7 @@ function ProcessDoors(robbery)
 end
 
 RegisterNetEvent("robberies:response")
-AddEventHandler("robberies:response", function(status)
+AddEventHandler("robberies:response", function(status, timeLeft)
 	if status > 0 then
 		BeginRobbing(CurrentRobbable, status)
 		
@@ -415,6 +415,11 @@ AddEventHandler("robberies:response", function(status)
 	end
 
 	local message = Config.StatusErrors[status] or "Hmm..."
+
+	if timeLeft ~= nil then
+		message = message.." The timer reads "..timeLeft.." minutes."
+	end
+
 	TriggerEvent("pNotify:SendNotification", { text = message, type = "error", queue = "left", timeout = 10000, layout = "centerRight" })
 end)
 
