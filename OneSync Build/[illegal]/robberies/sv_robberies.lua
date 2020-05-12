@@ -3,18 +3,14 @@ Players = {}
 
 Citizen.CreateThread(function()
 	while true do
-		Citizen.Wait(30000)
+		Citizen.Wait(15000)
 
 		for k, v in pairs(Robberies) do
-			for _k, robbable in pairs(v.robbables) do
-				if robbable.robbing then
-					goto continue
-				end
-			end
-
 			local robberyConfig = Config.Robberies[k]
+
 			if os.time() - (v.time or 0.0) > (robberyConfig.Cooldown or 10) * 60 then
 				local robbery = Robberies[k]
+				robbery.robbing = false
 				robbery.robbables = {}
 				robbery.doors = {}
 				robbery.cams = {}
@@ -53,8 +49,11 @@ AddEventHandler("robberies:attempt", function(robbery, robbable, coords)
 		
 		-- Cache the robbery.
 		if robberyCache == nil then
-			robberyCache = { robbables = {}, time = os.time() }
+			robberyCache = { robbables = {}, time = os.time(), robbing = true }
 			Robberies[robbery] = robberyCache
+		else
+			robberyCache.robbing = true
+			robberyCache.time = os.time()
 		end
 
 		local robbableCache = GetRobbable(robbery, coords)
@@ -273,8 +272,11 @@ function CheckRobbery(robbery, robbable, coords)
 		if k ~= robbery then
 			local _robberyConfig = Config.Robberies[k]
 			if _robberyConfig.Size == robberyConfig.Size then
-				if os.time() - (v.time or 0) < Config.GlobalCooldowns[robberyConfig.Size] * 60 or v.robbing then
-					return -5
+				local cooldownTime = Config.GlobalCooldowns[robberyConfig.Size] * 60
+				local lastTime = os.time() - (v.time or 0)
+				
+				if lastTime < cooldownTime then
+					return -5, math.ceil((cooldownTime - lastTime) / 60)
 				end
 			end
 		end
