@@ -43,7 +43,7 @@ end
 
 
 function logMoney(_target, _source, message)
-    PerformHttpRequest(GetConvar("bank_webhook", "https://discordapp.com/api/webhooks/554205260504236041/yo_CM5QRSHblteui7RwNxtgSLIjAwZPUtbsGga9vaBP2AaDCEWhsVDySzVzzI1kFnfcq"), function(err, text, headers) end, 'POST', json.encode(
+    PerformHttpRequest(GetConvar("bank_webhook", "https://discordapp.com/api/webhooks/711248802639642655/Ch49vb1kn-RAftcy1js1_w8mFQnsda7HoY0s73e8jLvXmG8EaZjtBnLS5Sq5I5wesAdU"), function(err, text, headers) end, 'POST', json.encode(
     {
         username = "Log Bot",
         embeds = {
