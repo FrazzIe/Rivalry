@@ -7,34 +7,6 @@ Citizen.CreateThread(function()
     end
 end)
 
-exports["kgv-blackjack"]:SetSatDownCallback(function()
-	exports["core_modules"]:StanceAllowed(false)
-	exports["core_modules"]:TurnOffHudElements(true)
-	exports["core_modules"]:DisableInteractionMenu(true)
-end)
-
-exports["kgv-blackjack"]:SetStandUpCallback(function()
-	exports["core_modules"]:StanceAllowed(true)
-	exports["core_modules"]:TurnOffHudElements(false)
-	exports["core_modules"]:DisableInteractionMenu(false)
-end)
-
-exports["kgv-blackjack"]:SetLeaveCheckCallback(function()
-	if isBusy then
-		return true
-	else
-		return false
-	end
-end)
-
-exports["kgv-blackjack"]:SetCanSitDownCallback(function()
-	if isBusy then
-		return false
-	else
-		return true
-	end
-end)
-
 AddEventHandler('onResourceStart', function(resourceName)
 	if ("kgv-blackjack" == resourceName) then
 		Citizen.Wait(1000)
